@@ -137,12 +137,14 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                             if(mProgressDialog.isShowing()){
                                 mProgressDialog.dismiss();
                             }
-//
-//                            try {
-//                                if (json.getBoolean("HasErrors")) {
-//                                    displayErrorMessage(json);
-//                                    mProgressDialog.dismiss();
-//                                } else {
+
+                            try {
+                                if (json.getBoolean("HasErrors")) {
+                                    displayErrorMessage(json);
+                                    mProgressDialog.dismiss();
+                                } else {
+                                    showFragment(new ProductReviewThankyouFragment());
+                                }
 //                                    Intent intent = new Intent(
 //                                            getActivity(),
 //                                            RatingPreviewActivity.class);
@@ -163,17 +165,15 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 //                                    mProgressDialog.dismiss();
 //                                    startActivity(intent);
 //                                }
-//                            } catch (JSONException exception) {
-//                                Log.e(TAG, Log.getStackTraceString(exception));
-//                            }
+                            } catch (JSONException exception) {
+                                Log.e(TAG, Log.getStackTraceString(exception));
+                            }
 
                         }
 
                     });
         mProgressDialog.setMessage("Submitting Review...");
         mProgressDialog.show();
-        showFragment(new ProductReviewThankyouFragment());
-
     }
 
     private void setRatingBarUI() {
