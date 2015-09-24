@@ -142,6 +142,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                                 if (json.getBoolean("HasErrors")) {
                                     displayErrorMessage(json);
                                     mProgressDialog.dismiss();
+                                    backstackFragment();
                                 } else {
                                     showFragment(new ProductReviewThankyouFragment());
                                 }
