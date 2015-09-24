@@ -8,7 +8,7 @@
 <string name="InValid_PwdErrorMsg">密碼無效，請選擇其他密碼 </string>
 <string name="InValidFirstName_ErrorMsg"> 名字無效</string>
 <string name="EmptyField_ErrorMsg">欄位不可空白</string>
-<string name="MaxiumCharacters_ErrorMsg">欄位不應超過 200 個字元</string>
+<string name="MaxiumCharacters_ErrorMsg">欄位不應超過 256 個字元</string>
 <string name="NoNetworkConnection">已離線，無法註冊</string>
 <string name="SocialAccountMerger_ErrorMsg">您已用另一 %1$s 帳戶註冊，請登入 %2$s 帳戶。</string>
 <string name="Janrain_Error_Need_Email_Verification">請利用寄到您電子郵件帳戶的啟動連結來驗證您的電子郵件地址</string>
@@ -41,6 +41,8 @@
 <string name="TraditionalSignIn_SignIn_btntxt">登入</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">忘記密碼</string>
 <string name="TraditionalSignIn_Resend_btntxt">重新傳送</string>
+<string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">請放心！您不需要密碼。您先前已透過社交平台登入。</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">很抱歉讓您再按一次。您先前已透過社交平台登入。請回到「登入步驟」，透過您的社交平台登入。</string>
 <string name="SignInSuccess_Welcome_lbltxt">歡迎</string>
 <string name="SignInSuccess_Continue_btntxt">繼續</string>
 <string name="SignInSuccess_SignOut_btntxt">登出</string>
@@ -67,6 +69,13 @@
 <string name="Social_SignIn_Continue_btntxt">繼續</string>
 <string name="Social_SocialSignIn_lbltxt">以 %s 登入</string>
 <string name="Social_ReciveOffers_lbltxt">我想定期收到飛利浦的優惠和最新消息</string>
+<string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">您先前使用 %s 電子郵件地址透過 %s 登入。</string>
+<string name="Social_Merge_Accounts_lbltxt" formatted="false">基於安全性及隱私權，我們必須確認您的真實身分。請透過 %s 登入。之後就都能透過 %s 登入。</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">如果您不要透過 %s 登入，請按下「取消」，並透過 %s 登入，以重新開始註冊。</string>
+<string name="Social_Merge_Cancel_btntxt">取消</string>
+<string name="Social_Merge_lbltxt">合併帳戶</string>
+<string name="AgeLimitText">建立帳戶或登入後，您即認證自己已年滿 %s 歲。\n</string>
+<string name="TermsAndConditionsAcceptanceText">我接受 %s</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s，歡迎</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">您登入的帳戶為：</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
@@ -75,6 +84,7 @@
 <string name="InitialSignedIn_SigninEmailText">您登入的帳戶為：%s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">請驗證您的電子郵件</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">我們已寄送電子郵件至：</string>
+<string name="VerifyEmail_EmailTime_lbltxt">送達電子郵件可能要花一些時間。</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">準備好後，請查看您的電子郵件以啟動帳戶。</string>
 <string name="VerifyEmail_Activated_btntxt">我已啟動帳戶</string>
 <string name="VerifyEmail_Resend_btntxt">重新傳送</string>

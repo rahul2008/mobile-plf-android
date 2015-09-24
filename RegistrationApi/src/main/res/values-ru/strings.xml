@@ -8,7 +8,7 @@
 <string name="InValid_PwdErrorMsg">Некорректный пароль, выберите другой пароль </string>
 <string name="InValidFirstName_ErrorMsg"> Неверное имя</string>
 <string name="EmptyField_ErrorMsg">Необходимо заполнить поле</string>
-<string name="MaxiumCharacters_ErrorMsg">Максимальная длина текста в поле — 200 символов</string>
+<string name="MaxiumCharacters_ErrorMsg">Максимальная длина текста в поле — 256 символов</string>
 <string name="NoNetworkConnection">Регистрация недоступна, так как у вас нет доступа к сети</string>
 <string name="SocialAccountMerger_ErrorMsg">Вы уже зарегистрированы с помощью другой учетной записи %1$s. Войдите в учетную запись %2$s.</string>
 <string name="Janrain_Error_Need_Email_Verification">Подтвердите адрес электронной почты с помощью ссылки активации, отправленной вам на этот адрес</string>
@@ -41,6 +41,8 @@
 <string name="TraditionalSignIn_SignIn_btntxt">Вход</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">Забыли пароль?</string>
 <string name="TraditionalSignIn_Resend_btntxt">Отправить повторно</string>
+<string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">Не беспокойтесь, Вам не понадобится пароль. Вы уже выполняли вход через социальную сеть.</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Приносим свои извинения за неудобства! Вы уже выполняли вход через социальную сеть. Вернитесь к шагу Выполнение входа и войдите через социальную сеть.</string>
 <string name="SignInSuccess_Welcome_lbltxt">Приветствуем Вас</string>
 <string name="SignInSuccess_Continue_btntxt">Продолжить</string>
 <string name="SignInSuccess_SignOut_btntxt">Выход</string>
@@ -67,6 +69,13 @@
 <string name="Social_SignIn_Continue_btntxt">Продолжить</string>
 <string name="Social_SocialSignIn_lbltxt">Войти через %s</string>
 <string name="Social_ReciveOffers_lbltxt">Получать предложения и обновления от Philips</string>
+<string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Вы уже выполняли вход через %s, указав следующий адрес электронной почты: %s.</string>
+<string name="Social_Merge_Accounts_lbltxt" formatted="false">В целях безопасности и конфиденциальности мы хотим убедиться, что это действительно Вы. Выполните вход через %s. Затем Вы сможете всегда выполнять вход через %s.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Если Вы не хотите выполнять вход через %s, нажмите \Отмена\ и повторите регистрацию, войдя в систему через %s.</string>
+<string name="Social_Merge_Cancel_btntxt">Отмена</string>
+<string name="Social_Merge_lbltxt">Объединение учетных записей</string>
+<string name="AgeLimitText">Создавая учетную запись или выполняя вход в систему, Вы подтверждаете, что Вы старше %s лет.\n</string>
+<string name="TermsAndConditionsAcceptanceText">Я принимаю %s</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">Добро пожаловать, %s!</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">Вы выполнили вход через:</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
@@ -75,6 +84,7 @@
 <string name="InitialSignedIn_SigninEmailText">Вы выполнили вход через %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Подтвердите адрес электронной почты</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">Мы отправили сообщение на адрес электронной почты:</string>
+<string name="VerifyEmail_EmailTime_lbltxt">Вы получите электронное письмо. Это может занять некоторое время.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Чтобы активировать учетную запись, проверьте входящие сообщения электронной почты.</string>
 <string name="VerifyEmail_Activated_btntxt">Учетная запись активирована</string>
 <string name="VerifyEmail_Resend_btntxt">Отправить повторно</string>

@@ -8,7 +8,7 @@
 <string name="InValid_PwdErrorMsg">كلمة المرور غير صالحة، يرجى اختيار كلمة مرور أخرى </string>
 <string name="InValidFirstName_ErrorMsg"> الاسم الأول غير صالح</string>
 <string name="EmptyField_ErrorMsg">لا يمكن أن يكون الحقل فارغًا</string>
-<string name="MaxiumCharacters_ErrorMsg">يجب ألا يتجاوز طول الحقل 200 حرف</string>
+<string name="MaxiumCharacters_ErrorMsg">يجب ألا يتجاوز طول الحقل 256 حرف</string>
 <string name="NoNetworkConnection">عملية التسجيل غير متوفرة لأنك غير متصل بالإنترنت</string>
 <string name="SocialAccountMerger_ErrorMsg" formatted="false">سبق أن تسجلتَ باستخدام حساب %s آخر، يرجى تسجيل الدخول إلى حساب %s.</string>
 <string name="Janrain_Error_Need_Email_Verification">يرجى التحقق من عنوان بريدك الإلكتروني من خلال ارتباط التنشيط الذي تم إرساله إلى حساب بريدك الإلكتروني</string>
@@ -41,6 +41,8 @@
 <string name="TraditionalSignIn_SignIn_btntxt">تسجيل الدخول</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">نسيت كلمة المرور</string>
 <string name="TraditionalSignIn_Resend_btntxt">إعادة الإرسال</string>
+<string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">لا تقلق! لست بحاجة إلى كلمة مرور. لقد سبق وسجلت دخولك بواسطة موفر موقع تواصل اجتماعي.</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">عذرًا لأنك اضطررت إلى النقر مرتَين. لقد سبق وسجلت دخولك بواسطة موفر موقع تواصل اجتماعي. يرجى العودة إلى خطوة تسجيل الدخول وتسجيل الدخول بواسطة موفر موقع التواصل الاجتماعي.</string>
 <string name="SignInSuccess_Welcome_lbltxt">الترحيب</string>
 <string name="SignInSuccess_Continue_btntxt">متابعة</string>
 <string name="SignInSuccess_SignOut_btntxt">تسجيل الخروج</string>
@@ -67,6 +69,13 @@
 <string name="Social_SignIn_Continue_btntxt">متابعة</string>
 <string name="Social_SocialSignIn_lbltxt">تسجيل الدخول بواسطة %s</string>
 <string name="Social_ReciveOffers_lbltxt">أودّ تلقّي عروض وتحديثات بشكل منتظم من Philips.</string>
+<string name="Social_Merge_Used_EmailError_lbltxt"  formatted="false">لقد سبق وسجلت دخولك بواسطة %s باستخدام عنوان بريدك الإلكتروني الخاص بحساب %s</string>
+<string name="Social_Merge_Accounts_lbltxt"  formatted="false">للحفاظ على أمنك وخصوصيتك، نودّ التحقق من هويتك. يرجى تسجيل الدخول بواسطة %s. بعد ذلك، ستتمكن من تسجيل الدخول بواسطة %s في المستقبل.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt"  formatted="false">إذا لا تريد تسجيل الدخول بواسطة %s، فاضغط على \إلغاء\ وأعِد عملية التسجيل من خلال تسجيل الدخول بواسطة %s.</string>
+<string name="Social_Merge_Cancel_btntxt">إلغاء</string>
+<string name="Social_Merge_lbltxt">دمج حساباتك</string>
+<string name="AgeLimitText">من خلال إنشاء حساب أو تسجيل الدخول فأنت تقرّ بأنك تبلغ من العمر %s سنة أو أكثر.\n</string>
+<string name="TermsAndConditionsAcceptanceText">أنا أوافق على %s</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">مرحبًا %s</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">لقد سجّلتَ دخولك باستخدام:</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
@@ -75,6 +84,7 @@
 <string name="InitialSignedIn_SigninEmailText">لقد سجّلتَ دخولك باستخدام: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">يرجى التحقق من بريدك الإلكتروني</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">لقد أرسلنا بريدًا إلكترونيًا إلى:</string>
+<string name="VerifyEmail_EmailTime_lbltxt">قد يستغرق البريد الإلكتروني بعض الوقت لتستلمه.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">تحقق من بريدك الإلكتروني عندما تصبح جاهزًا لتنشيط حسابك.</string>
 <string name="VerifyEmail_Activated_btntxt">لقد قمت بتنشيط حسابي</string>
 <string name="VerifyEmail_Resend_btntxt">إعادة الإرسال</string>

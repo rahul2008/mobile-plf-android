@@ -8,7 +8,7 @@
 <string name="InValid_PwdErrorMsg">パスワードが無効です。別のパスワードを選択してください </string>
 <string name="InValidFirstName_ErrorMsg"> 名前（名）が無効です</string>
 <string name="EmptyField_ErrorMsg">入力必須フィールドです</string>
-<string name="MaxiumCharacters_ErrorMsg">200 文字までしか入力できません</string>
+<string name="MaxiumCharacters_ErrorMsg">256 文字までしか入力できません</string>
 <string name="NoNetworkConnection">オフラインのため登録できません</string>
 <string name="SocialAccountMerger_ErrorMsg">別の %1$s アカウントで登録済みです。%2$s アカウントにサインインしてください。</string>
 <string name="Janrain_Error_Need_Email_Verification">お客様のメールアカウントに送信されたアクティベーションリンクを使用して、メールアドレスの照合を行ってください。</string>
@@ -41,6 +41,8 @@
 <string name="TraditionalSignIn_SignIn_btntxt">サインイン</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">パスワードをお忘れの場合</string>
 <string name="TraditionalSignIn_Resend_btntxt">再送</string>
+<string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">ご安心ください。パスワードは不要です。お客様は以前ソーシャルプロバイダーでサインインしています。</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">お手数をおかけして申し訳ありません。お客様は以前ソーシャルプロバイダーでサインインしています。「サインイン手順」に戻って、ソーシャルプロバイダーでサインインしてください。</string>
 <string name="SignInSuccess_Welcome_lbltxt">ようこそ</string>
 <string name="SignInSuccess_Continue_btntxt">続行</string>
 <string name="SignInSuccess_SignOut_btntxt">サインアウト</string>
@@ -67,6 +69,13 @@
 <string name="Social_SignIn_Continue_btntxt">続行</string>
 <string name="Social_SocialSignIn_lbltxt">%s でサインイン</string>
 <string name="Social_ReciveOffers_lbltxt">フィリップスからの特典や最新情報の定期的な受信を希望します</string>
+<string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">お客様は以前 %s に %s メールアドレスでサインインしています。</string>
+<string name="Social_Merge_Accounts_lbltxt" formatted="false">セキュリティおよびプライバシー保護のため、お客様の確認をさせていただきます。%s でサインインしてください。以降は %s でサインインできるようになります。</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">%s でサインインできないようにするには、［キャンセル］を押して %s でサインインし、登録を再開してください。</string>
+<string name="Social_Merge_Cancel_btntxt">キャンセル</string>
+<string name="Social_Merge_lbltxt">アカウントをマージ</string>
+<string name="AgeLimitText">アカウントを作成するかサインインすることにより、%s 歳以上であることを証明することになります。\n</string>
+<string name="TermsAndConditionsAcceptanceText">%s に同意する</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s へようこそ</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">次のアドレスでサインインしています：</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
@@ -75,6 +84,7 @@
 <string name="InitialSignedIn_SigninEmailText">次のアカウントでサインインしています：%s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">メールアドレスの照合を行ってください</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">次のアドレスにメールを送信しています：</string>
+<string name="VerifyEmail_EmailTime_lbltxt">メールが届くまで少々時間がかかることがあります。</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">準備ができたらメールを確認してアカウントをアクティベートしてください。</string>
 <string name="VerifyEmail_Activated_btntxt">アカウントはアクティベート済みです</string>
 <string name="VerifyEmail_Resend_btntxt">再送</string>

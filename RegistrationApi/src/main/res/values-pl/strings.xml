@@ -8,7 +8,7 @@
 <string name="InValid_PwdErrorMsg">Hasło jest nieprawidłowe, wybierz inne </string>
 <string name="InValidFirstName_ErrorMsg"> Nieprawidłowe imię</string>
 <string name="EmptyField_ErrorMsg">Pole nie może być puste</string>
-<string name="MaxiumCharacters_ErrorMsg">Pole nie powinno przekraczać 200 znaków</string>
+<string name="MaxiumCharacters_ErrorMsg">Pole nie powinno przekraczać 256 znaków</string>
 <string name="NoNetworkConnection">Rejestracja nie jest dostępna, ponieważ nie masz połączenia sieciowego</string>
 <string name="SocialAccountMerger_ErrorMsg">Zarejestrowano już inne konto w serwisie %1$s. Zaloguj się do konta %2$s.</string>
 <string name="Janrain_Error_Need_Email_Verification">Zweryfikuj adres e-mail za pomocą łącza aktywacji wysłanego na Twoje konto e-mail</string>
@@ -41,6 +41,8 @@
 <string name="TraditionalSignIn_SignIn_btntxt">Zaloguj się</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">Nie pamiętam hasła</string>
 <string name="TraditionalSignIn_Resend_btntxt">Wyślij ponownie</string>
+<string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">Bez obaw! Nie potrzebujesz hasła. Poprzednio zalogowałeś(-aś) się za pomocą konta w serwisie społecznościowym.</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Wybacz, że zmuszamy Cię do kliknięcia po raz drugi. Poprzednio zalogowałeś(-aś) się za pomocą konta w serwisie społecznościowym. Cofnij się do ekranu logowania i zaloguj się za pośrednictwem konta w serwisie społecznościowym.</string>
 <string name="SignInSuccess_Welcome_lbltxt">Witamy!</string>
 <string name="SignInSuccess_Continue_btntxt">Kontynuuj</string>
 <string name="SignInSuccess_SignOut_btntxt">Wyloguj się</string>
@@ -67,6 +69,13 @@
 <string name="Social_SignIn_Continue_btntxt">Kontynuuj</string>
 <string name="Social_SocialSignIn_lbltxt">Zaloguj się za pomocą konta %s</string>
 <string name="Social_ReciveOffers_lbltxt">Chcę otrzymywać okresowe oferty i aktualizacje od firmy Philips</string>
+<string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Poprzednio zalogowałeś(-aś) się przez %s, używając adresu e-mail %s.</string>
+<string name="Social_Merge_Accounts_lbltxt" formatted="false">Aby zapewnić bezpieczeństwo i prywatność, chcielibyśmy zweryfikować Twoją tożsamość. Zaloguj się przez %s. Po tym uzyskasz możliwość logowania się przez %s w przyszłości.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Jeśli nie chcesz logować się przez %s, naciśnij przycisk \”Anuluj\” i ponownie rozpocznij rejestrację, logując się przez %s.</string>
+<string name="Social_Merge_Cancel_btntxt">Anuluj</string>
+<string name="Social_Merge_lbltxt">Scal swoje konta</string>
+<string name="AgeLimitText">Tworząc konto lub logując się, potwierdzasz, że masz ukończone %s lat.\n</string>
+<string name="TermsAndConditionsAcceptanceText">Akceptuję %s</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">Witaj, %s!</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">Zalogowano przy użyciu adresu:</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
@@ -75,6 +84,7 @@
 <string name="InitialSignedIn_SigninEmailText">Zalogowano przy użyciu konta: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Zweryfikuj swój adres e-mail</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">Wysłaliśmy wiadomość e-mail na adres:</string>
+<string name="VerifyEmail_EmailTime_lbltxt">Dostarczenie wiadomości e-mail może trochę potrwać.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Kiedy będziesz gotowy(-a), sprawdź pocztę e-mail, aby aktywować swoje konto.</string>
 <string name="VerifyEmail_Activated_btntxt">Aktywowałem(-am) swoje konto</string>
 <string name="VerifyEmail_Resend_btntxt">Wyślij ponownie</string>

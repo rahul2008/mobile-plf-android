@@ -8,7 +8,7 @@
 <string name="InValid_PwdErrorMsg">암호가 유효하지 않습니다. 다른 암호를 선택하십시오. </string>
 <string name="InValidFirstName_ErrorMsg"> 잘못된 이름</string>
 <string name="EmptyField_ErrorMsg">필드 입력 필수</string>
-<string name="MaxiumCharacters_ErrorMsg">필드는 200자를 초과할 수 없습니다.</string>
+<string name="MaxiumCharacters_ErrorMsg">필드는 256자를 초과할 수 없습니다.</string>
 <string name="NoNetworkConnection">오프라인 상태이므로 등록할 수 없습니다.</string>
 <string name="SocialAccountMerger_ErrorMsg">다른 %1$s 계정으로 이미 등록했습니다. %2$s 계정으로 로그인하십시오.</string>
 <string name="Janrain_Error_Need_Email_Verification">이메일 계정으로 전송된 활성화 링크를 통해 이메일 주소를 확인하십시오.</string>
@@ -41,6 +41,8 @@
 <string name="TraditionalSignIn_SignIn_btntxt">로그인</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">암호 분실</string>
 <string name="TraditionalSignIn_Resend_btntxt">다시 보내기</string>
+<string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">이전에 소셜 계정으로 로그인한 적이 있으므로 암호가 필요 없습니다.</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">이전에 소셜 계정으로 로그인한 적이 있습니다. ‘로그인 단계’로 돌아가서 소셜 계정으로 로그인하세요.</string>
 <string name="SignInSuccess_Welcome_lbltxt">환영합니다</string>
 <string name="SignInSuccess_Continue_btntxt">계속</string>
 <string name="SignInSuccess_SignOut_btntxt">로그아웃</string>
@@ -67,6 +69,13 @@
 <string name="Social_SignIn_Continue_btntxt">계속</string>
 <string name="Social_SocialSignIn_lbltxt">%s(으)로 로그인</string>
 <string name="Social_ReciveOffers_lbltxt">필립스에서 정기적으로 혜택과 업데이트를 받아 보겠습니다.</string>
+<string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">이전에 %s 이메일 주소를 사용한 %s(으)로 로그인한 적이 있습니다.</string>
+<string name="Social_Merge_Accounts_lbltxt" formatted="false">보안 및 개인정보보호를 위해 본인 확인이 필요합니다. %s(으)로 로그인해 주세요. 다음부터는 %s(으)로 로그인할 수 있습니다.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">%s(으)로 로그인을 하지 않으려면 \”취소\”를 누르고 %s(으)로 로그인하여 등록을 다시 시작하세요.</string>
+<string name="Social_Merge_Cancel_btntxt">취소</string>
+<string name="Social_Merge_lbltxt">계정 병합</string>
+<string name="AgeLimitText">계정을 생성하거나 로그인하여 귀하가 %s세 이상인지 여부를 확인합니다.</string>
+<string name="TermsAndConditionsAcceptanceText">%s에 동의합니다.</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s님 환영합니다</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">다음을 사용하여 로그인했습니다.</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
@@ -75,6 +84,7 @@
 <string name="InitialSignedIn_SigninEmailText">%s을(를) 사용하여 로그인했습니다.</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">이메일을 확인하십시오.</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">다음으로 이메일을 발송했습니다.</string>
+<string name="VerifyEmail_EmailTime_lbltxt">이메일을 받아 보시기까지 약간의 시간이 소요될 수 있습니다.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">준비가 되면 이메일을 확인하여 계정을 활성화하십시오.</string>
 <string name="VerifyEmail_Activated_btntxt">계정을 활성화했습니다.</string>
 <string name="VerifyEmail_Resend_btntxt">다시 보내기</string>

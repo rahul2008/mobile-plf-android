@@ -8,7 +8,7 @@
 <string name="InValid_PwdErrorMsg">密码无效，请选择其他密码 </string>
 <string name="InValidFirstName_ErrorMsg"> 无效名字</string>
 <string name="EmptyField_ErrorMsg">字段不能为空</string>
-<string name="MaxiumCharacters_ErrorMsg">字段不得超过 200 个字符</string>
+<string name="MaxiumCharacters_ErrorMsg">字段不得超过 256 个字符</string>
 <string name="NoNetworkConnection">由于您处于脱机状态，注册不可用</string>
 <string name="SocialAccountMerger_ErrorMsg">您已使用其他 %1$s 帐户注册，请登录 %2$s 帐户。</string>
 <string name="Janrain_Error_Need_Email_Verification">请通过发送到您的电子邮件帐户的激活链接验证您的电子邮件地址</string>
@@ -41,6 +41,8 @@
 <string name="TraditionalSignIn_SignIn_btntxt">登录</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">忘记密码</string>
 <string name="TraditionalSignIn_Resend_btntxt">重新发送</string>
+<string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">别担心！您无需使用密码。您之前曾用社交媒体帐号登录过。</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">很抱歉，让您点击两次。您之前已经用社交媒体帐号登录过。请返回“Sign in-step”（登录步骤），用社交媒体帐号登录。</string>
 <string name="SignInSuccess_Welcome_lbltxt">欢迎</string>
 <string name="SignInSuccess_Continue_btntxt">继续</string>
 <string name="SignInSuccess_SignOut_btntxt">注销</string>
@@ -67,6 +69,13 @@
 <string name="Social_SignIn_Continue_btntxt">继续</string>
 <string name="Social_SocialSignIn_lbltxt">使用 %s 登录</string>
 <string name="Social_ReciveOffers_lbltxt">我希望接收飞利浦的定期优惠信息和更新</string>
+<string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">您之前曾用 %s（使用 %s 电子邮件地址）登录过。</string>
+<string name="Social_Merge_Accounts_lbltxt" formatted="false">为了您的安全和隐私，我们想确认是否是您本人在登录。请使用 %s 登录。此后，您便可以一直用 %s 登录。</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">如果您不想用 %s 登录，请按 \”取消\”，然后用 %s 登录，重新开始注册。</string>
+<string name="Social_Merge_Cancel_btntxt">取消</string>
+<string name="Social_Merge_lbltxt">合并您的帐户</string>
+<string name="AgeLimitText">通过创建帐户或登录，您证明自己已年满 %s。\n</string>
+<string name="TermsAndConditionsAcceptanceText">我接受 %s</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">欢迎使用 %s</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">您已使用以下地址登录：</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
@@ -75,6 +84,7 @@
 <string name="InitialSignedIn_SigninEmailText">您已通过以下方式登录：%s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">请确认电子邮件</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">我们已向以下地址发送电子邮件：</string>
+<string name="VerifyEmail_EmailTime_lbltxt">电子邮件到达可能需要一段时间。</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">准备好后，请查看您的电子邮件以激活您的帐户。</string>
 <string name="VerifyEmail_Activated_btntxt">我已激活自己的帐户</string>
 <string name="VerifyEmail_Resend_btntxt">重新发送</string>

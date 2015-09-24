@@ -8,7 +8,7 @@
 <string name="InValid_PwdErrorMsg">A palavra-passe não é válida, seleccione outra palavra-passe </string>
 <string name="InValidFirstName_ErrorMsg"> Primeiro nome inválido</string>
 <string name="EmptyField_ErrorMsg">O campo é de preenchimento obrigatório</string>
-<string name="MaxiumCharacters_ErrorMsg">O campo não deve exceder os 200 caracteres</string>
+<string name="MaxiumCharacters_ErrorMsg">O campo não deve exceder os 256 caracteres</string>
 <string name="NoNetworkConnection">O registo não está disponível porque se encontra offline</string>
 <string name="SocialAccountMerger_ErrorMsg">Já se registou com outra conta %1$s, inicie sessão na conta %2$s.</string>
 <string name="Janrain_Error_Need_Email_Verification">Verifique o seu endereço de correio electrónico através da ligação de activação enviada para a sua conta de correio electrónico</string>
@@ -41,6 +41,8 @@
 <string name="TraditionalSignIn_SignIn_btntxt">Iniciar sessão</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">Esqueceu-se da palavra-passe</string>
 <string name="TraditionalSignIn_Resend_btntxt">Reenviar</string>
+<string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">Sem qualquer preocupação! Não necessita de palavra-passe. Iniciou sessão com uma rede social anteriormente.</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Lamentamos a necessidade de clicar duas vezes. Anteriormente, iniciou sessão com uma rede social. Volte ao passo de início de sessão e inicie sessão com a sua rede social.</string>
 <string name="SignInSuccess_Welcome_lbltxt">Bem-vindo</string>
 <string name="SignInSuccess_Continue_btntxt">Continuar</string>
 <string name="SignInSuccess_SignOut_btntxt">Terminar sessão</string>
@@ -67,6 +69,13 @@
 <string name="Social_SignIn_Continue_btntxt">Continuar</string>
 <string name="Social_SocialSignIn_lbltxt">Inicie sessão com %s</string>
 <string name="Social_ReciveOffers_lbltxt">Gostaria de receber ofertas e actualizações periódicas da Philips</string>
+<string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Anteriormente, iniciou sessão com %s utilizando o endereço de correio electrónico %s.</string>
+<string name="Social_Merge_Accounts_lbltxt" formatted="false">Por questões de segurança e privacidade, gostaríamos de verificar se estas credenciais são realmente suas. Inicie sessão com %s. Após este passo, poderá iniciar sempre a sessão com %s.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Caso não pretenda iniciar sessão com %s, prima em \”cancelar\” e volte a iniciar o registo iniciando sessão com %s.</string>
+<string name="Social_Merge_Cancel_btntxt">Cancelar</string>
+<string name="Social_Merge_lbltxt">Ligue as suas contas</string>
+<string name="AgeLimitText">Ao criar uma conta ou iniciar sessão, está a garantir de que tem idade igual ou superior a %s anos.\n</string>
+<string name="TermsAndConditionsAcceptanceText">Aceito os %s</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">Bem-vindo %s</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">Iniciou sessão através de:</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
@@ -75,6 +84,7 @@
 <string name="InitialSignedIn_SigninEmailText">Iniciou sessão através de: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Verifique o seu correio electrónico</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">Enviámos uma mensagem de correio electrónico para:</string>
+<string name="VerifyEmail_EmailTime_lbltxt">Poderá ter de aguardar algum tempo pela mensagem de correio electrónico.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Quando estiver pronto, verifique o seu correio electrónico para activar a sua conta.</string>
 <string name="VerifyEmail_Activated_btntxt">Activei a minha conta</string>
 <string name="VerifyEmail_Resend_btntxt">Reenviar</string>
