@@ -17,10 +17,6 @@ public abstract class IconsAdaptor extends FragmentPagerAdapter implements IconP
     }
 
     @Override
-    public abstract Fragment getItem(int position);
-
-
-    @Override
     public int getIconResId(final int index) {
         return ICONS[index % ICONS.length];
     }
