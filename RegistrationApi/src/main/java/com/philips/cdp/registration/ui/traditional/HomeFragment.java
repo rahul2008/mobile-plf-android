@@ -318,6 +318,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void callSocialProvider(String providerName) {
         RLog.d("HomeFragment", "callSocialProvider method provider name :" + providerName);
+        getView().findViewById(R.id.sv_root_layout).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.ll_root_layout).setVisibility(View.VISIBLE);
         mProvider = providerName;
         if (null == mUser)
             return;
@@ -514,6 +516,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void hideProviderProgress() {
+        getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
         if (null != getView().findViewWithTag(mProvider)) {
             XProviderButton providerButton = (XProviderButton) getView().findViewWithTag(mProvider);
             providerButton.hideProgressBar();
