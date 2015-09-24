@@ -66,6 +66,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
 
         mOkButton.setOnClickListener(this);
+        mCancelButton.setOnClickListener(this);
         setRatingBarUI();
     }
 
@@ -110,6 +111,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
         if (v.getId() == (R.id.your_product_review_send_button))
             submitReview();
+        else if (v.getId() == R.id.your_product_review_cancel_button)
+            backstackFragment();
     }
 
 

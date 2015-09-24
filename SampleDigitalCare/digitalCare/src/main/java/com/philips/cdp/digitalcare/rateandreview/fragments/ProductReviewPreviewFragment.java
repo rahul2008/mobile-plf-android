@@ -1,9 +1,7 @@
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
@@ -27,8 +25,6 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * This class is responsible for showing the UI for showing the preview of the end user information.
@@ -66,7 +62,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
         // This Bundle value will contain BazaarReviewModel values, entered in previous screen.
         Bundle bundle = getArguments();
-        mBazaarReviewModel= (BazaarReviewModel) bundle.getSerializable("productReviewModel");
+        mBazaarReviewModel = (BazaarReviewModel) bundle.getSerializable("productReviewModel");
 
         mProgressDialog = new ProgressDialog(getActivity());
         mRatingBar = (RatingBar) getActivity().findViewById(R.id.your_product_review_rating_ratingbar);
@@ -77,8 +73,9 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         mNickName = (DigitalCareFontTextView) getActivity().findViewById(R.id.your_product_review_nickname_header_text_value);
         mEmail = (DigitalCareFontTextView) getActivity().findViewById(R.id.your_product_review_email_header_text_value);
         mOkButton.setOnClickListener(this);
+        mCancelButton.setOnClickListener(this);
 
-        mRatingBar.setRating((float)mBazaarReviewModel.getRating());
+        mRatingBar.setRating((float) mBazaarReviewModel.getRating());
         mRatingBar.setEnabled(false);
         mReviewSummaryHeader.setText(mBazaarReviewModel.getSummary());
         mReviewDescription.setText(mBazaarReviewModel.getReview());
@@ -112,7 +109,10 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         String productId = "1000001";
         mBazaarReviewModel.setUserId("test1");
 
-        if (v.getId() == (R.id.your_product_review_preview_send_button))
+
+        if (v.getId() == (R.id.your_product_review_preview_cancel_button))
+            backstackFragment();
+        else if (v.getId() == (R.id.your_product_review_preview_send_button))
 
             //set to preview for easier testing, intention here is to submit
             BazaarVoiceWrapper.previewReview(productId, mBazaarReviewModel,
@@ -126,7 +126,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                                             + message
                                             + "\n"
                                             + Log.getStackTraceString(exception));
-                            if(mProgressDialog.isShowing()){
+                            if (mProgressDialog.isShowing()) {
                                 mProgressDialog.dismiss();
                             }
                         }
@@ -134,7 +134,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                         @Override
                         public void onResponse(String url, JSONObject json) {
                             Log.i(TAG, "Response = \n" + json);
-                            if(mProgressDialog.isShowing()){
+                            if (mProgressDialog.isShowing()) {
                                 mProgressDialog.dismiss();
                             }
 
