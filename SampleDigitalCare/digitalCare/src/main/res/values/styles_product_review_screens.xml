@@ -44,7 +44,7 @@
         <item name="android:textColor">@color/text_header_color</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">@dimen/title_text_size_large</item>
-        <item name="android:text">Is everything correct?</item>
+        <item name="android:text">@string/bazzarvoice_productreview_preview_header_text</item>
     </style>
 
 
@@ -143,7 +143,7 @@
         <item name="android:textColor">@color/text_header_color</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">@dimen/title_text_size_large</item>
-        <item name="android:text">Nice! We received your review!</item>
+        <item name="android:text">@string/bazzarvoice_productreview_thankyou_headertitle</item>
     </style>
 
 

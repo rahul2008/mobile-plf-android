@@ -58,7 +58,7 @@
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     android:id="@+id/your_product_review_rating_header_text"
                     style="@style/your_product_review_rating_text"
-                    android:text="Rating: " />
+                    android:text="@string/bazzarvoice_productreview_preview_rating_text" />
 
                 <RatingBar
                     android:id="@+id/your_product_review_rating_ratingbar"
@@ -76,7 +76,7 @@
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     android:id="@+id/your_product_review_summary_header_text"
                     style="@style/your_product_review_rating_text"
-                    android:text="Review summary:" />
+                    android:text="@string/bazzarvoice_productreview_preview_review_summary_text" />
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     android:id="@+id/your_product_review_summary_header_text_value"
@@ -89,7 +89,7 @@
                     style="@style/your_product_review_rating_text"
                     android:layout_below="@+id/your_product_review_summary_header_text_value"
                     android:layout_marginTop="20dp"
-                    android:text="Review:" />
+                    android:text="@string/bazzarvoice_productreview_preview_review_summary_review_text" />
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     android:id="@+id/your_product_review__header_text_value"
@@ -101,7 +101,7 @@
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     android:id="@+id/your_product_review_nickname_header_text"
                     style="@style/your_product_review_rating_text"
-                    android:text="Nickname:" />
+                    android:text="@string/bazzarvoice_productreview_preview_nickname_text" />
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     android:id="@+id/your_product_review_nickname_header_text_value"
@@ -112,7 +112,7 @@
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     android:id="@+id/your_product_review_email_header_text"
                     style="@style/your_product_review_rating_text"
-                    android:text="Email" />
+                    android:text="@string/bazzarvoice_productreview_preview_email_text" />
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                     android:id="@+id/your_product_review_email_header_text_value"
@@ -161,7 +161,7 @@
                 style="@style/fontButton"
                 android:layout_marginLeft="@dimen/marginTopButton"
                 android:layout_weight="1"
-                android:text="Submit my review" />
+                android:text="@string/bazzarvoice_productreview_preview_submitmyreview_text" />
         </LinearLayout>
 
     </RelativeLayout>

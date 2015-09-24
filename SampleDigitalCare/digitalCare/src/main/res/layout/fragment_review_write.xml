@@ -54,7 +54,7 @@
 
                 android:id="@+id/review_write_rate_product_header"
                 style="@style/write_product_review_header_styles"
-                android:text="Please rate this product:"
+                android:text="@string/bazzarvoice_productreview_writescreen_ratethisproduct_text"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
 
             </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
@@ -72,14 +72,14 @@
 
             android:id="@+id/review_write_rate_product_header"
             style="@style/write_product_review_header_styles"
-            android:text="Your review:"
+            android:text="@string/bazzarvoice_productreview_writescreen_yourreview_text"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <EditText
             android:id="@+id/review_write_rate_product_header_summary"
             style="@style/write_product_review_edittext"
             android:layout_marginTop="10dp"
-            android:hint="Review Summary"
+            android:hint="@string/bazzarvoice_productreview_writescreen_Summary_hint"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <EditText
@@ -87,7 +87,7 @@
             style="@style/write_product_review_edittext"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
-            android:hint="Write your review here"
+            android:hint="@string/bazzarvoice_productreview_writescreen_descriptionhint"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
 
@@ -95,28 +95,28 @@
 
             android:id="@+id/review_write_rate_product_nickname_header"
             style="@style/write_product_review_header_styles"
-            android:text="Pick a nickname:"
+            android:text="@string/bazzarvoice_productreview_writescreen_pickname_text"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <EditText
             android:id="@+id/review_write_rate_product_nickname_header_value"
             style="@style/write_product_review_edittext"
             android:layout_marginTop="10dp"
-            android:hint="Not your real name"
+            android:hint="@string/bazzarvoice_productreview_writescreen_pickname_hint_text"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
 
             android:id="@+id/review_write_rate_product_email_header"
             style="@style/write_product_review_header_styles"
-            android:text="Your eamil"
+            android:text="@string/bazzarvoice_productreview_writescreen_email_header_text"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <EditText
             android:id="@+id/review_write_rate_product_email_header_value"
             style="@style/write_product_review_edittext"
             android:layout_marginTop="10dp"
-            android:hint="Make sure you have access"
+            android:hint="@string/bazzarvoice_productreview_writescreen_email_hint_text"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
 
@@ -142,7 +142,7 @@
                 style="@style/write_product_review_header_styles"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1.0"
-                android:text="I have read and agree to the Terms and Conditions"
+                android:text="@string/bazzarvoice_productreview_writescreen_termsandconditions_text"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
 
             </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
@@ -193,7 +193,7 @@
                 style="@style/fontButton"
                 android:layout_marginLeft="@dimen/marginTopButton"
                 android:layout_weight="1"
-                android:text="Preview"
+                android:text="@string/bazzarvoice_productreview_writescreen_previewButtonText"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </LinearLayout>
 

@@ -51,8 +51,8 @@
                 android:id="@+id/your_product_review_thankyou_description"
                 style="@style/your_product_review_thankyou_description"
                 android:layout_below="@+id/your_product_review_thankyou_devider"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf"
-                android:text="Thank you for taking the time to write this review! We will review it and let you knwo once it's online!" />
+                android:text="@string/bazzarvoice_productreview_thankyou_description_title"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
 
             <RelativeLayout
@@ -65,7 +65,7 @@
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/your_product_review_thankyou_button"
                     style="@style/fontButton"
-                    android:text="Back to support" />
+                    android:text="@string/bazzarvoice_productreview_thankyou_button_text" />
             </RelativeLayout>
 
             <View
