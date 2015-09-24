@@ -100,7 +100,6 @@
     <!-- null   it_IT -->
 
     <!-- null   Italian -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> Scrivi una recensione </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> Prima di iniziare, leggi le nostre linee guida: </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> Vogliamo pubblicare la recensione, dunque attieniti a queste linee guida: </string>
@@ -109,7 +108,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> Evita di menzionare prodotti della concorrenza o il prezzo specifico che hai pagato. </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> Non includere informazioni di identificazione personale, ad esempio nome e cognome. </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> Ok, ricevuto! </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Scrivi una recensione </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Valuta questo prodotto: </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> La tua recensione: </string>
@@ -125,7 +123,6 @@
     <!-- null   it_IT -->
 
     <!-- null   Italian -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> La tua recensione </string>
     <string name="bazzarvoice_productreview_preview_header_text"> È tutto corretto? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Voto: </string>
@@ -134,7 +131,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> Nome utente: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Invia la mia recensione </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Grazie! </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> Abbiamo ricevuto la tua recensione! </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> Grazie del tempo dedicato alla stesura della recensione, la esamineremo e ti avviseremo una volta pubblicata! </string>

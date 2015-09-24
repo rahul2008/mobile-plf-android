@@ -98,7 +98,6 @@
     <!-- null   nb -->
 
     <!-- null   Norwegian -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> Skriv en anmeldelse </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> Før du begynner, må du lese retningslinjene. </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> Vi ønsker å publisere anmeldelsen din, så følg retningslinjene nedenfor: </string>
@@ -107,7 +106,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> Avstå fra å nevne konkurrenter eller den spesifikke prisen du betalte for produktet. </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> Ikke ta med noen personlig identifiserbar informasjon, som fullt navn. </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, jeg forstår. </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Skriv en anmeldelse </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Vurder dette produktet: </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Din anmeldelse: </string>

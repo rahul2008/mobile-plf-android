@@ -98,7 +98,6 @@
     <!-- null   fi -->
 
     <!-- null   Finnish -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> Kirjoita arvostelu </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> Ennen kuin aloitat, lue ohjeemme: </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> Haluamme julkaista arvostelusi, joten noudata seuraavia ohjeita: </string>
@@ -107,7 +106,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> Älä mainitse kilpailijoita tai tuotteen ostohintaa. </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> Älä mainitse henkilötietoja, kuten nimiä. </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> Selvä! </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Kirjoita arvostelu </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Arvostele tämä tuote: </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Arvostelusi: </string>
@@ -123,7 +121,6 @@
     <!-- null   fi -->
 
     <!-- null   Finnish -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> Arvostelusi </string>
     <string name="bazzarvoice_productreview_preview_header_text"> Ovatko tiedot oikein? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Arvosana: </string>
@@ -132,7 +129,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> Lempinimi: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> Sähköposti </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Lähetä tuotearvosteluni </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Kiitos! </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> Olemme vastaanottaneet arvostelusi. </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> Kiitos arvostelustasi. Luemme sen ja ilmoitamme sinulle, kun se on luettavissa verkossa. </string>
