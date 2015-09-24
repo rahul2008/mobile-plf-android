@@ -98,7 +98,6 @@
     <!-- null   sv -->
 
     <!-- null   Swedish -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> Skriv en recension </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> Läs våra riktlinjer innan vi sätter igång: </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> Vi vill publicera din recension, så följ dessa riktlinjer: </string>
@@ -107,7 +106,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> Avstå från att nämna konkurrenter vid namn eller det pris du betalade för produkten </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> Inkludera inte någon information som kan identifiera dig personligen, såsom fullständiga namn. </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, jag förstår! </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Skriv en recension </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Betygsätt gärna denna produkt: </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Din recension: </string>
@@ -123,7 +121,6 @@
     <!-- null   sv -->
 
     <!-- null   Swedish -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> Din recension </string>
     <string name="bazzarvoice_productreview_preview_header_text"> Är allt korrekt? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Betyg: </string>
@@ -132,7 +129,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> Kortnamn: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> E-post </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Skicka in min recension </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Tack! </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> Fint Vi fick din recension! </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> Tack för att du tog dig tid att skriva denna recension. Vi kommer att granska den och låta dig veta när den är utlagd på nätet! </string>

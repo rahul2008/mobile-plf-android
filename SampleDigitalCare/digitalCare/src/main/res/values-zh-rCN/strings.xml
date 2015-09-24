@@ -100,7 +100,6 @@
     <!-- null   zh_CN -->
 
     <!-- null   Simplified Chinese -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> 写一则评论 </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> 开始之前，请先阅读指南： </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> 我们想要发表您的评论，因此请遵循这些指南： </string>
@@ -109,7 +108,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> 请避免提及竞争对手或您为本产品所支付的具体价格。 </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> 请不要包含任何可识别个人身份的信息，例如全名。 </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> 好了，明白了！ </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> 写一则评论 </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> 请为本产品评分： </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> 您的评论： </string>
@@ -125,7 +123,6 @@
     <!-- null   zh_CN -->
 
     <!-- null   Simplified Chinese -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> 您的评论 </string>
     <string name="bazzarvoice_productreview_preview_header_text"> 所有事项均正确无误？ </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> 评级： </string>
@@ -134,7 +131,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> 昵称： </string>
     <string name="bazzarvoice_productreview_preview_email_text"> 电子邮件 </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 提交我的评论 </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> 谢谢！ </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> 很好！我们已收到您的评论！ </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> 感谢您花时间写下此评论。我们会认真审核，一旦发布，即会通知您！ </string>

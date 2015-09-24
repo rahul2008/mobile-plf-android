@@ -101,7 +101,6 @@
     <!-- null   ko -->
 
     <!-- null   Korea -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> 리뷰 작성 </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> 시작하기 전에 당사의 지침을 읽어 주십시오. </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> 리뷰가 게시될 수 있도록 다음 지침에 유의해 주시기 바랍니다. </string>
@@ -110,7 +109,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> 경쟁업체나 제품에 지불한 구체적인 가격은 언급하지 마십시오. </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> 고객님의 전체 이름과 같이 신원 확인이 가능한 정보는 포함하지 마십시오. </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> 네, 알겠습니다. </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> 리뷰 작성 </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> 제품을 평가해 주십시오. </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> 리뷰: </string>
@@ -126,7 +124,6 @@
     <!-- null   ko -->
 
     <!-- null   Korea -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> 리뷰 </string>
     <string name="bazzarvoice_productreview_preview_header_text"> 모든 내용이 정확합니까? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> 평가: </string>
@@ -135,7 +132,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> 닉네임: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> 이메일 </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 리뷰 제출 </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> 감사합니다! </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> 리뷰가 접수되었습니다. </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> 리뷰를 작성해 주셔서 감사합니다. 검토 후 리뷰를 온라인에서 게시되면 알려드리겠습니다. </string>

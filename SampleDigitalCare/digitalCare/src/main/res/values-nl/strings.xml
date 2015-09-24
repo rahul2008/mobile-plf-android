@@ -101,7 +101,6 @@
     <!-- null   nl -->
 
     <!-- null   Dutch -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> Schrijf een beoordeling </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> Lees onze richtlijnen voordat u begint: </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> Wij willen uw beoordeling publiceren, dus volg deze richtlijnen: </string>
@@ -110,7 +109,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> Vermeld geen concurrenten en noem de prijs die u voor het product hebt betaald niet. </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> Vermeld geen herleidbare persoonlijke gegevens, zoals uw volledige naam. </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> Ik snap het! </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Schrijf een beoordeling </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Beoordeel dit product: </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Uw beoordeling: </string>
@@ -126,7 +124,6 @@
     <!-- null   nl -->
 
     <!-- null   Dutch -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> Uw beoordeling </string>
     <string name="bazzarvoice_productreview_preview_header_text"> Is alles correct? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Waardering: </string>
@@ -135,7 +132,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> Alias: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Mijn beoordeling verzenden </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Hartelijk bedankt! </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> We hebben uw beoordeling ontvangen! </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> Bedankt voor uw beoordeling. We zullen de beoordeling bekijken en laten het u weten wanneer deze online staat! </string>

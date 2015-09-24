@@ -123,7 +123,6 @@
     <!-- null   nb -->
 
     <!-- null   Norwegian -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> Din anmeldelse </string>
     <string name="bazzarvoice_productreview_preview_header_text"> Er alt riktig? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Vurdering: </string>
@@ -132,7 +131,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> Kallenavn: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> E-post </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Send inn anmeldelsen min </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Tusen takk! </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> Takk, vi har mottatt anmeldelsen din! </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> Takk for at du sender inn denne anmeldelsen. Vi vil vurdere den og gi deg beskjed når den ligger ute på nettet. </string>

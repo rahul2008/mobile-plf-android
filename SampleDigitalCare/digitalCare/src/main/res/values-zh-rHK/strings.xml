@@ -101,7 +101,6 @@
     <!-- null   zh_HK -->
 
     <!-- null   Chinese HongKong -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> 撰寫評論 </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> 開始前，請細讀指南： </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> 我們希發表您的評論，所以請依照下列指示： </string>
@@ -110,7 +109,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> 同時亦請不要提及我們的競爭對手，或透露您購買產品時的價格 </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> 您的評論不應包含任何個人識別資訊，如您的全名。 </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> 好我明白了！ </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> 撰寫評論 </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> 為這件產品評分。 </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> 您的評論： </string>
@@ -126,7 +124,6 @@
     <!-- null   zh_HK -->
 
     <!-- null   Chinese HongKong -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> 您的評論 </string>
     <string name="bazzarvoice_productreview_preview_header_text"> 所有資料是否正確？ </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> 評分 </string>
@@ -135,7 +132,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> 暱稱 </string>
     <string name="bazzarvoice_productreview_preview_email_text"> 電郵 </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 交產品評論 </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> 感謝您！ </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> 太好了！我們已收到您的評論！ </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> 感謝您抽空撰寫評論，我們會認真閱讀您的評論，並在上線時向您回覆。 </string>

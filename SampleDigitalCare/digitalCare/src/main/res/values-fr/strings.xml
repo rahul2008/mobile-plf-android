@@ -129,7 +129,7 @@
     <string name="bazzarvoice_productreview_preview_actionbar_title"> Votre avis </string>
     <string name="bazzarvoice_productreview_preview_header_text"> Tout est bien correct ? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Note : </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_text"> Résumé de l&#039;avis : </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Résumé de l\'avis : </string>
     <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Avis </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> Pseudo : </string>
     <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
@@ -137,6 +137,6 @@
     <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Merci ! </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> Nous avons bien reçu votre avis ! </string>
-    <string name="bazzarvoice_productreview_thankyou_description_title"> Merci d&#039;avoir pris le temps d&#039;écrire cet avis. Nous vous préviendrons lorsque nous le publierons. </string>
-    <string name="bazzarvoice_productreview_thankyou_button_text"> Retour à l&#039;assistance </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Merci d\';avoir pris le temps d\'écrire cet avis. Nous vous préviendrons lorsque nous le publierons. </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Retour à l\'assistance </string>
 </resources>

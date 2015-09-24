@@ -101,7 +101,6 @@
     <!-- null   ja -->
 
     <!-- null   Japanese -->
-    <string name="Guidelines Screen"> null </string>
     <string name="bazzarvoice_productreview_guidline_actionbar_title"> レビューを入力する </string>
     <string name="bazzarvoice_productreview_guidline_header_text"> 初めにガイドラインをお読みください： </string>
     <string name="bazzarvoice_productreview_guidline_subheader_text"> レビューを送信される場合は、以下のガイドラインに従ってください： </string>
@@ -110,7 +109,6 @@
     <string name="bazzarvoice_productreview_guidline_thirdguide"> 競合他社・製品や購入金額については言及しないでください。 </string>
     <string name="bazzarvoice_productreview_guidline_fourthguide"> お名前など、個人を特定できる情報は含めないようにしてください。 </string>
     <string name="bazzarvoice_productreview_guidline_okbuttontext"> 確認しました </string>
-    <string name="WiteScreen"> null </string>
     <string name="bazzarvoice_productreview_writescreen_actionbar_title"> レビューを入力する </string>
     <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> この製品を評価してください： </string>
     <string name="bazzarvoice_productreview_writescreen_yourreview_text"> お客様のレビュー： </string>
@@ -126,7 +124,6 @@
     <!-- null   ja -->
 
     <!-- null   Japanese -->
-    <string name="Preview Screen"> null </string>
     <string name="bazzarvoice_productreview_preview_actionbar_title"> お客様のレビュー </string>
     <string name="bazzarvoice_productreview_preview_header_text"> 内容は正しいですか？ </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> 評価： </string>
@@ -135,7 +132,6 @@
     <string name="bazzarvoice_productreview_preview_nickname_text"> ニックネーム： </string>
     <string name="bazzarvoice_productreview_preview_email_text"> メール </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> レビューを送信 </string>
-    <string name="ThankyouScreen"> null </string>
     <string name="bazzarvoice_productreview_thankyou_actionbar_title"> ありがとうございました </string>
     <string name="bazzarvoice_productreview_thankyou_headertitle"> お客様のレビューを受信しました </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> レビューを送信いただきありがとうございました。内容を確認させていただき、公開する際にはご連絡差し上げます。 </string>
