@@ -5,11 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.activity.CatalogActivity;
 import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.IconsAdaptor;
 import com.viewpagerindicator.PageIndicator;
 
-public class ImageNavigationActivity extends AppCompatActivity {
+public class ImageNavigationActivity extends CatalogActivity {
 
     private IconsAdaptor adaptor;
     private ViewPager pager;
