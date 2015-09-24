@@ -22,7 +22,6 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
-import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewThankyouFragment;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -189,11 +188,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         int id = view.getId();
         if (id == R.id.tellus_PhilipsReviewButton) {
             if (isConnectionAvailable())
-                rateProductReview();
+                //rateProductReview();
+                showFragment(new ProductReviewGuideFragment());
         } else if (id == R.id.tellus_PlayStoreReviewButton) {
             if (isConnectionAvailable())
-                showFragment(new ProductReviewGuideFragment());
-            // rateThisApp();
+                rateThisApp();
         }
     }
 
