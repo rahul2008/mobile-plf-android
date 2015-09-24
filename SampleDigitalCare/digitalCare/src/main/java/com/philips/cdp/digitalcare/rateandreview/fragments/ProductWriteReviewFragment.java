@@ -142,7 +142,10 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         } else if (mEmailEditText.getText().toString().equals("")) {
             Toast.makeText(getActivity(), "You must enter a email.",
                     Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (!mSwitch.isChecked()){
+            Toast.makeText(getActivity(), "You must agree the term and conditions.",
+                    Toast.LENGTH_SHORT).show();
+        }else {
 
             BazaarReviewModel reviewModel = new BazaarReviewModel();
             reviewModel.setRating((float) mRatingBar.getRating());
