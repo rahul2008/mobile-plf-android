@@ -60,7 +60,7 @@ public class RateThisAppFragmentTest extends
      * Adding testCases Scenario's,
      */
 
-    @SmallTest
+   /* @SmallTest
     public void testProductImageAvailablity() {
 
     }
@@ -148,6 +148,6 @@ public class RateThisAppFragmentTest extends
     @SmallTest
     public void textCheckBoxBooleanValue() {
 
-    }
+    }*/
 
 }

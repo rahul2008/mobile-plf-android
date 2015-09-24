@@ -93,7 +93,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return null;
+        return getResources().getString(R.string.bazzarvoice_productreview_preview_actionbar_title);
     }
 
     @Override

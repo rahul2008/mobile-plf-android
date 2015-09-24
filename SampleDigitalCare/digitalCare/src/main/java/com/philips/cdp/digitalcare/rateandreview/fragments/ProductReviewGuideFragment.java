@@ -111,7 +111,7 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
 
     @Override
     public String getActionbarTitle() {
-        return "Write a review";
+        return getResources().getString(R.string.bazzarvoice_productreview_writescreen_actionbar_title);
     }
 
     @Override
