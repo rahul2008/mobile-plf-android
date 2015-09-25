@@ -115,13 +115,12 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
     @Override
     public void onClick(View v) {
 
-        String productId = "1000001";
-        mBazaarReviewModel.setUserId("test1");
-
-
-        if (v.getId() == (R.id.your_product_review_preview_cancel_button))
+        if (v.getId() == (R.id.your_product_review_preview_cancel_button)) {
             backstackFragment();
-        else if (v.getId() == (R.id.your_product_review_preview_send_button))
+            return;
+        } else if (v.getId() == (R.id.your_product_review_preview_send_button)) {
+            String productId = "1000001";
+            mBazaarReviewModel.setUserId("test1");
 
             //set to preview for easier testing, intention here is to submit
             BazaarVoiceWrapper.previewReview(productId, mBazaarReviewModel,
@@ -178,12 +177,11 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                             } catch (JSONException exception) {
                                 Log.e(TAG, Log.getStackTraceString(exception));
                             }
-
                         }
-
                     });
-        mProgressDialog.setMessage("Submitting Review...");
-        mProgressDialog.show();
+            mProgressDialog.setMessage("Submitting Review...");
+            mProgressDialog.show();
+        }
     }
 
     private void setRatingBarUI() {
