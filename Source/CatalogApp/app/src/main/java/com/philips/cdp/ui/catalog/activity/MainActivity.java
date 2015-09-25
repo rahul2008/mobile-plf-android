@@ -57,7 +57,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, DotNavigationActivity.class));
                 break;
             case 5:
-                startActivity(new Intent(this, ActionBarTestActivity.class));
+                startActivity(new Intent(this, ImageNavigationActivity.class));
                 break;
             default:
                 break;
