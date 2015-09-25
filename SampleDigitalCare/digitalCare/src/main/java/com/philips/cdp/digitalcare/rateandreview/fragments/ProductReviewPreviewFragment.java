@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bazaarvoice.OnBazaarResponse;
@@ -39,6 +41,8 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
 
     private static final String TAG = ProductReviewPreviewFragment.class.getSimpleName();
+    private LinearLayout mParentLayout, mParentLayout1, mParentLayout2 = null;
+    private LinearLayout.LayoutParams mLayoutParams, mLayoutParams1, mLayoutParams2 = null;
     private DigitalCareFontButton mOkButton, mCancelButton = null;
     private RatingBar mRatingBar = null;
     private DigitalCareFontTextView mReviewSummaryHeader = null;
@@ -65,7 +69,16 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         // This Bundle value will contain BazaarReviewModel values, entered in previous screen.
         Bundle bundle = getArguments();
         mBazaarReviewModel = (BazaarReviewModel) bundle.getSerializable("productReviewModel");
-
+        mParentLayout = (LinearLayout) getActivity().findViewById(R.id.product_preview_container_three);
+        mLayoutParams = (LinearLayout.LayoutParams) mParentLayout
+                .getLayoutParams();
+        mParentLayout1 = (LinearLayout) getActivity().findViewById(R.id.product_preview_container_one);
+        mLayoutParams1 = (LinearLayout.LayoutParams) mParentLayout
+                .getLayoutParams();
+        mParentLayout2 = (LinearLayout) getActivity().findViewById(R.id.product_preview_container_two);
+        mLayoutParams2 = (LinearLayout.LayoutParams) mParentLayout
+                .getLayoutParams();
+        Configuration config = getResources().getConfiguration();
         mProgressDialog = new ProgressDialog(getActivity());
         mRatingBar = (RatingBar) getActivity().findViewById(R.id.your_product_review_rating_ratingbar);
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_preview_send_button);
@@ -90,11 +103,43 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         } catch (Exception e) {
             DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
+        setViewParams(config);
+        float density = getResources().getDisplayMetrics().density;
+        //setButtonParams(density);
+    }
+
+    private void setButtonParams(float density) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+        //mCancelButton.setLayoutParams(params);
+        mOkButton.setLayoutParams(params);
+
     }
 
     @Override
     public void setViewParams(Configuration config) {
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginPort;
+            mLayoutParams1.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginPort;
+            mLayoutParams2.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginPort;
+        } else {
+            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginLand;
+            mLayoutParams1.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginLand;
+            mLayoutParams2.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginLand;
+        }
+        mParentLayout.setLayoutParams(mLayoutParams);
+        mParentLayout1.setLayoutParams(mLayoutParams);
+        mParentLayout2.setLayoutParams(mLayoutParams);
+    }
 
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setViewParams(newConfig);
     }
 
     @Override
