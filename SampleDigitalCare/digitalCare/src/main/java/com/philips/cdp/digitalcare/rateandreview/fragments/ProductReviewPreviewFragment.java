@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.bazaarvoice.OnBazaarResponse;
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -50,9 +52,9 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
-        View mView = inflater.inflate(R.layout.fragment_review_your, container,
+        View view = inflater.inflate(R.layout.fragment_review_your, container,
                 false);
-        return mView;
+        return view;
     }
 
     @Override
@@ -81,6 +83,13 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         mReviewDescription.setText(mBazaarReviewModel.getReview());
         mNickName.setText(mBazaarReviewModel.getNickname());
         mEmail.setText(mBazaarReviewModel.getEmail());
+
+        try {
+            AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_REVIEW__PREVIEW,
+                    getPreviousName());
+        } catch (Exception e) {
+            DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
+        }
     }
 
     @Override
@@ -95,7 +104,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return null;
+        return AnalyticsConstants.PAGE_REVIEW__PREVIEW;
     }
 
     /**
@@ -211,12 +220,14 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                         String name = errorNames.getString(0);
                         JSONObject error = fieldErrors.getJSONObject(name);
                         String message = error.getString("Message");
+                        tagUserError(message);
                         Toast.makeText(getActivity(), message,
                                 Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getActivity(),
                                 "An error has occurred", Toast.LENGTH_LONG)
                                 .show();
+                        tagTechnicalError("Unable to submit to BazaarVoice server");
                     }
                 } catch (JSONException exception) {
                     Log.e(TAG, Log.getStackTraceString(exception));
@@ -224,5 +235,15 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
             }
 
         });
+    }
+
+    private void tagUserError(String error) {
+        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_USER_ERROR,
+                error);
+    }
+
+    private void tagTechnicalError(String error) {
+        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+                error);
     }
 }

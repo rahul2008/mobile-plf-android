@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -37,9 +39,9 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
-        View mView = inflater.inflate(R.layout.fragment_productreview, container,
+        View view = inflater.inflate(R.layout.fragment_productreview, container,
                 false);
-        return mView;
+        return view;
     }
 
     @Override
@@ -78,6 +80,13 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
+
+        try {
+            AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_REVIEW_GUIDE_LINE,
+                    getPreviousName());
+        } catch (Exception e) {
+            DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
+        }
     }
 
 
@@ -116,7 +125,7 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return null;
+        return AnalyticsConstants.PAGE_REVIEW_GUIDE_LINE;
     }
 
     /**
@@ -129,5 +138,5 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
 
         if (v.getId() == (R.id.fragment_product_review_ok_button))
             showFragment(new ProductWriteReviewFragment());
-         }
+    }
 }
