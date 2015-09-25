@@ -35,4 +35,6 @@
     <dimen name="chatnowhelptext_padding_right">80dp</dimen>
     <dimen name="chatnowhelptext_padding_right_land">150dp</dimen>
 
+    <dimen name="bazzarvoice_guidlines_icon_size">25px</dimen>
+
 </resources>
