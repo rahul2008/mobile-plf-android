@@ -25,6 +25,7 @@
         <item>Finnish (fi)</item>
         <item>Norwegien (nb)</item>
         <item>Swedish (sv)</item>
+        <item>Turkish (tr)</item>
     </string-array>
 
 
@@ -51,6 +52,7 @@
         <item>fi</item>
         <item>nb</item>
         <item>sv</item>
+        <item>tr</item>
     </string-array>
 
 
@@ -77,6 +79,7 @@
         <item>Finland (FI)</item>
         <item>Norway (NO)</item>
         <item>Sweden (SE)</item>
+        <item>Turkey (TR)</item>
     </string-array>
 
     <!-- country code -->
@@ -102,6 +105,7 @@
         <item>FI</item>
         <item>NO</item>
         <item>SE</item>
+        <item>TR</item>
     </string-array>
 
     <string name="dummytext">Dummy View</string>
