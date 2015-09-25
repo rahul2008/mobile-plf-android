@@ -239,7 +239,7 @@
             android:layout_marginBottom="@dimen/actionbar_height"
             android:orientation="horizontal"
             android:visibility="visible"
-            android:weightSum="">
+            android:weightSum="2">
 
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontButton

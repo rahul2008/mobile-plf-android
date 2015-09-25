@@ -73,8 +73,8 @@
 
                     <ImageView
                         android:id="@+id/productreview_first_expandableimage"
-                        android:layout_width="30px"
-                        android:layout_height="30px"
+                        android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
+                        android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
                         android:src="@drawable/productreview_green" />
 
@@ -98,8 +98,8 @@
 
                     <ImageView
                         android:id="@+id/productreview_second_expandableimage"
-                        android:layout_width="30px"
-                        android:layout_height="30px"
+                        android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
+                        android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
                         android:src="@drawable/product_review_red" />
 
@@ -123,8 +123,8 @@
 
                     <ImageView
                         android:id="@+id/productreview_third_expandableimage"
-                        android:layout_width="30px"
-                        android:layout_height="30px"
+                        android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
+                        android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
                         android:src="@drawable/product_review_red" />
 
@@ -147,8 +147,8 @@
 
                     <ImageView
                         android:id="@+id/productreview_fourth_expandableimage"
-                        android:layout_width="30px"
-                        android:layout_height="30px"
+                        android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
+                        android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
                         android:src="@drawable/product_review_red" />
 
