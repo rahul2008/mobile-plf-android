@@ -16,8 +16,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
-import static com.philips.cdp.ui.catalog.IsTextColorAsExpectedMatcher.isTextColorSimilar;
-import static com.philips.cdp.ui.catalog.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
 import static com.philips.cdp.ui.catalog.IsTextStyleAsExpectedMatcher.isTextStyleSimilar;
 
@@ -80,7 +78,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_minus_mdpi);
         onView(withId(R.id.miscBtnSquareMinus))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
+                .check(matches(IsDimensionBitmapAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
     }
 
     public void testAButtonSquarePlusIsPixelPerfect() {
@@ -105,7 +103,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_plus_mdpi);
         onView(withId(R.id.miscBtnCirclePlus))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
+                .check(matches(IsDimensionBitmapAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
         onView(withId(R.id.miscBtnCirclePlus))
                 .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
     }

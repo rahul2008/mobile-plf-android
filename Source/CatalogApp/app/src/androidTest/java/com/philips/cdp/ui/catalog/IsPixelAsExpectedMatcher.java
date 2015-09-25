@@ -6,6 +6,8 @@ import android.support.test.espresso.matcher.BoundedMatcher;
 import android.util.Log;
 import android.view.View;
 
+import com.viewpagerindicator.CirclePageIndicator;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 

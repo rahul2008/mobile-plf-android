@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 
+import com.viewpagerindicator.CirclePageIndicator;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
@@ -30,6 +32,7 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
 
     @Override
     public boolean matchesSafely(View view) {
+
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
