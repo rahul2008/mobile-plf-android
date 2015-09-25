@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bazaarvoice.OnBazaarResponse;
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
@@ -29,6 +30,9 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is responsible for showing the UI for showing the preview of the end user information.
@@ -164,7 +168,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
             backstackFragment();
             return;
         } else if (v.getId() == (R.id.your_product_review_preview_send_button)) {
-            String productId = "1000001";
+            String productId = DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCtn();
 
             //set to preview for easier testing, intention here is to submit
             BazaarVoiceWrapper.previewReview(productId, mBazaarReviewModel,
@@ -193,31 +197,21 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                             try {
                                 if (json.getBoolean("HasErrors")) {
                                     displayErrorMessage(json);
-                                    mProgressDialog.dismiss();
                                     backstackFragment();
                                 } else {
+
+                                    /* TODO: Name and email ID can have legal terms associated while tagging.
+                                            As per joost suggestion, we are commenting two attributes.*/
+
+                                    Map<String, Object> contextData = new HashMap<String, Object>();
+                                    contextData.put(AnalyticsConstants.ACTION_KEY_REVIEWER_STAR_RATING, mBazaarReviewModel.getRating());
+//                                    contextData.put(AnalyticsConstants.ACTION_KEY_REVIEWER_NAME, mBazaarReviewModel.getNickname());
+                                    contextData.put(AnalyticsConstants.ACTION_KEY_REVIEWER_SUMMARY, mBazaarReviewModel.getSummary());
+//                                    contextData.put(AnalyticsConstants.ACTION_KEY_REVIEWER_EMAIL, mBazaarReviewModel.getEmail());
+                                    AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA, contextData);
+
                                     showFragment(new ProductReviewThankyouFragment());
                                 }
-//                                    Intent intent = new Intent(
-//                                            getActivity(),
-//                                            RatingPreviewActivity.class);
-//                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                                    displayImage.compress(
-//                                            Bitmap.CompressFormat.PNG, 100,
-//                                            stream);
-//                                    byte[] byteArray = stream.toByteArray();
-//                                    intent.putExtra("displayImage", byteArray);
-//                                    intent.putExtra("reviewTitle",
-//                                            reviewModel.getTitle());
-//                                    intent.putExtra("reviewText",
-//                                            reviewModel.getReviewText());
-//                                    intent.putExtra("reviewNickname",
-//                                            reviewModel.getNickname());
-//                                    intent.putExtra("reviewRating",
-//                                            reviewModel.getRating());
-//                                    mProgressDialog.dismiss();
-//                                    startActivity(intent);
-//                                }
                             } catch (JSONException exception) {
                                 Log.e(TAG, Log.getStackTraceString(exception));
                             }
@@ -258,18 +252,21 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                             .getJSONArray("FieldErrorsOrder");
                     JSONObject fieldErrors = formErrors
                             .getJSONObject("FieldErrors");
+                    String name = errorNames.getString(0);
+                    JSONObject error = fieldErrors.getJSONObject(name);
+                    String code = error.getString("Code");
+                    String message = error.getString("Message");
+                    tagTechnicalError(code);
+
                     if (!errorNames.optString(0).equals("")) {
-                        String name = errorNames.getString(0);
-                        JSONObject error = fieldErrors.getJSONObject(name);
-                        String message = error.getString("Message");
-                        tagUserError(message);
                         Toast.makeText(getActivity(), message,
                                 Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getActivity(),
-                                "An error has occurred", Toast.LENGTH_LONG)
+                                "An error has occurred" + message, Toast.LENGTH_LONG)
                                 .show();
-                        tagTechnicalError("Unable to submit to BazaarVoice server");
+                        Toast.makeText(getActivity(), code,
+                                Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException exception) {
                     Log.e(TAG, Log.getStackTraceString(exception));
@@ -277,11 +274,6 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
             }
 
         });
-    }
-
-    private void tagUserError(String error) {
-        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_USER_ERROR,
-                error);
     }
 
     private void tagTechnicalError(String error) {

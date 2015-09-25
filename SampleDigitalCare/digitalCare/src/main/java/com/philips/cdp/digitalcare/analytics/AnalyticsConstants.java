@@ -73,6 +73,12 @@ public class AnalyticsConstants {
     public static final String ACTION_KEY_LOCATE_PHILIPS_LOCATION_VIEW = "locationView";
 //	public static final String ACTION_KEY_LOCATE_PHILIPS_SPECIAL_EVENTS = "specialEvents";
 
+    /*  Action keys */
+    public static final String ACTION_KEY_REVIEWER_STAR_RATING = "starRating";
+    public static final String ACTION_KEY_REVIEWER_NAME = "reviewerName";
+    public static final String ACTION_KEY_REVIEWER_SUMMARY = "reviewSummary";
+    public static final String ACTION_KEY_REVIEWER_EMAIL = "reviewerEmail";
+
     /*****************
      * Action Values
      **************/
