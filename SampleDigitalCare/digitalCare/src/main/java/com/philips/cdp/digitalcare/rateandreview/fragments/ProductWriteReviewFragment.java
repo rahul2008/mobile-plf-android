@@ -40,7 +40,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     private ImageView mProductImage = null;
     private DigitalCareFontTextView mProductTitle = null;
     private DigitalCareFontTextView mProductCtn = null;
-    private RatingBar mRatingBar = null;
+    private RatingBar mRatingBarVerticle, mRatingBarHorizontal = null;
     private Switch mSwitch = null;
     private EditText mSummaryHeaderEditText, mSummaryDescriptionEditText, mNicknameEditText, mEmailEditText = null;
 
@@ -66,7 +66,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mProductImage = (ImageView) getActivity().findViewById(R.id.review_write_rate_productimage);
         mProductTitle = (DigitalCareFontTextView) getActivity().findViewById(R.id.review_write_rate_name);
         mProductCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.review_write_rate_variant);
-        mRatingBar = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
+        mRatingBarVerticle = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
+        mRatingBarHorizontal = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar_horizontal);
         mSwitch = (Switch) getActivity().findViewById(R.id.review_write_rate_product_terms_switch);
         mSummaryDescriptionEditText = (EditText) getActivity().findViewById(R.id.review_write_rate_product_header_description);
         mSummaryHeaderEditText = (EditText) getActivity().findViewById(R.id.review_write_rate_product_header_summary);
@@ -101,6 +102,10 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mSummaryHeaderEditText.setLayoutParams(params);
         mNicknameEditText.setLayoutParams(params);
         mEmailEditText.setLayoutParams(params);
+
+    /*   mRatingBarHorizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.
+                LayoutParams.WRAP_CONTENT));*/
+
     }
 
     @Override
@@ -121,11 +126,33 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     }
 
     private void setRatingBarUI() {
-        mRatingBar = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
-        mRatingBar.setNumStars(5);
-        mRatingBar.setMax(5);
-        mRatingBar.setStepSize(1f);
-        LayerDrawable stars = (LayerDrawable) mRatingBar
+        mRatingBarVerticle = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
+        mRatingBarVerticle.setNumStars(5);
+        mRatingBarVerticle.setMax(5);
+        mRatingBarVerticle.setStepSize(1f);
+        setRatingBarLayers(mRatingBarVerticle);
+        /*LayerDrawable stars = (LayerDrawable) mRatingBarVerticle
+                .getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#528E18"),
+                PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.parseColor("#528E18"),
+                PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(0).setColorFilter(Color.parseColor("#CCD9BE"),
+                PorterDuff.Mode.SRC_ATOP);*/
+
+        mRatingBarHorizontal = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
+        mRatingBarHorizontal.setNumStars(5);
+        mRatingBarHorizontal.setMax(5);
+        mRatingBarHorizontal.setStepSize(1f);
+   //     mRatingBarHorizontal.set
+        setRatingBarLayers(mRatingBarHorizontal);
+
+
+    }
+
+
+    protected void setRatingBarLayers(RatingBar ratingbar) {
+        LayerDrawable stars = (LayerDrawable) ratingbar
                 .getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.parseColor("#528E18"),
                 PorterDuff.Mode.SRC_ATOP);
@@ -133,7 +160,6 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
                 PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(0).setColorFilter(Color.parseColor("#CCD9BE"),
                 PorterDuff.Mode.SRC_ATOP);
-
     }
 
     @Override
@@ -171,7 +197,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
      * "Uploading Photo..." dialog.
      */
     protected void submitReview() {
-        if (mRatingBar.getRating() == 0) {
+        if (mRatingBarVerticle.getRating() == 0) {
             Toast.makeText(getActivity(),
                     "You must give a rating between 1 and 5.",
                     Toast.LENGTH_SHORT).show();
@@ -193,7 +219,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         } else {
 
             BazaarReviewModel reviewModel = new BazaarReviewModel();
-            reviewModel.setRating((float) mRatingBar.getRating());
+            reviewModel.setRating((float) mRatingBarVerticle.getRating());
             reviewModel.setSummary(mSummaryHeaderEditText.getText().toString());
             reviewModel.setReview(mSummaryDescriptionEditText.getText().toString());
             reviewModel.setNickname(mNicknameEditText.getText().toString());

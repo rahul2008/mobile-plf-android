@@ -88,6 +88,7 @@
         <item name="android:textSize">@dimen/title_text_size_medium</item>
     </style>
 
+
     <style name="write_product_review_edittext">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/support_btn_height</item>

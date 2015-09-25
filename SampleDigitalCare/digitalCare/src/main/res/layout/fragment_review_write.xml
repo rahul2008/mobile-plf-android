@@ -46,9 +46,11 @@
 
 
         <LinearLayout
+            android:id="@+id/review_write_rate_product_ratingview_verticle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
 
@@ -67,6 +69,33 @@
                 android:layout_gravity="center" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/review_write_rate_product_ratingview_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="2">
+
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+
+                android:id="@+id/review_write_rate_product_header_horizontal"
+                style="@style/write_product_review_header_styles"
+                android:layout_width="160dp"
+                android:text="@string/bazzarvoice_productreview_writescreen_ratethisproduct_text"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
+
+            </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+
+            <RatingBar
+                android:id="@+id/review_write_rate_product_ratingBar_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fitsSystemWindows="true" />
+        </LinearLayout>
+
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
 
@@ -82,13 +111,49 @@
             android:hint="@string/bazzarvoice_productreview_writescreen_Summary_hint"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
-        <EditText
-            android:id="@+id/review_write_rate_product_header_description"
-            style="@style/write_product_review_edittext"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/bazzarvoice_productreview_writescreen_descriptionhint"
-            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/review_write_rate_product_header_description"
+                style="@style/write_product_review_edittext"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/bazzarvoice_productreview_writescreen_descriptionhint"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom|right"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                android:id="@+id/write_textcount_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/write_textcount_minmum"
+                android:text="0"
+                android:textColor="@color/text_header_color"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                android:id="@+id/write_textcount_minmum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="/50+"
+                android:textColor="#cccccc"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+        </RelativeLayout>
 
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
@@ -126,8 +191,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/your_product_review_parent_one"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
             android:background="#cccccc" />
 
 
@@ -174,7 +239,7 @@
             android:layout_marginBottom="@dimen/actionbar_height"
             android:orientation="horizontal"
             android:visibility="visible"
-            android:weightSum="2">
+            android:weightSum="">
 
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
