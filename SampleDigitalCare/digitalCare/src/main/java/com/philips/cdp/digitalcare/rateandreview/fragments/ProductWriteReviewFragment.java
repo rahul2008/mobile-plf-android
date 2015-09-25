@@ -18,6 +18,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -79,6 +81,13 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mCancelButton.setOnClickListener(this);
         setRatingBarUI();
 
+		try {
+            AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_REVIEW_WRITING,
+                    getPreviousName());
+        } catch (Exception e) {
+            DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
+        }
+		
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
@@ -169,7 +178,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return null;
+        return AnalyticsConstants.PAGE_REVIEW_WRITING;
     }
 
     /**
