@@ -33,7 +33,11 @@
         <activity android:name=".SplashActivityLogoCenterTitleTop" />
         <activity android:name=".SplashActivityLogoCenterTitleBottom" />
         <activity android:name=".SplashLauncher" />
-        <activity android:name=".image_navigation.ImageNavigationActivity"/>
+        <activity android:name=".image_navigation.ImageNavigationActivity" />
+        <activity
+            android:name=".activity.ActionBarTestActivity"
+            android:label="@string/title_activity_action_bar_test" android:theme="@style/MyActionBar">
+        </activity>
     </application>
 
 </manifest>

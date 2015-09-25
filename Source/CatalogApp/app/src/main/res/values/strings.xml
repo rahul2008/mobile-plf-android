@@ -24,4 +24,5 @@
     <string name="orange_theme">Orange Theme</string>
     <string name="misc_shadow_message">Miscellaneous Buttons with Shadow</string>
     <string name="title_activity_image_navigation">ImageNavigationActivity</string>
+    <string name="title_activity_action_bar_test">ActionBarTestActivity</string>
 </resources>
