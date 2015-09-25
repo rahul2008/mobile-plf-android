@@ -120,7 +120,6 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
             return;
         } else if (v.getId() == (R.id.your_product_review_preview_send_button)) {
             String productId = "1000001";
-            mBazaarReviewModel.setUserId("test1");
 
             //set to preview for easier testing, intention here is to submit
             BazaarVoiceWrapper.previewReview(productId, mBazaarReviewModel,

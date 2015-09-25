@@ -40,7 +40,8 @@ import java.io.File;
 public class BazaarVoiceWrapper {
 
     private static final String TAG = "BazaarFunctions";
-    private static final String API_URL = "reviews.apitestcustomer.bazaarvoice.com/bvstaging";
+    private static final String API_URL = "stg.api.bazaarvoice.com"; //Staging server
+//    private static final String API_URL = "api.bazaarvoice.com"; //Production Server
     private static final String API_KEY = "2cpdrhohmgmwfz8vqyo48f52g";
     private static final ApiVersion API_VERSION = ApiVersion.FIVE_FOUR;
     private static final int MIN_IMAGE_DIMENSIONS = 600;
@@ -104,7 +105,7 @@ public class BazaarVoiceWrapper {
         else
             params.setUserId("Anonymous");
 
-        BazaarRequest submission = new BazaarRequest("clientname", API_KEY, BazaarEnvironment.staging, API_VERSION);
+        BazaarRequest submission = new BazaarRequest(API_URL, API_KEY, BazaarEnvironment.staging, API_VERSION);
         submission.postSubmission(RequestType.REVIEWS, params, listener);
     }
 }
