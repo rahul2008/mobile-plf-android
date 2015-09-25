@@ -85,7 +85,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_header_color</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">@dimen/title_text_size_medium</item>
     </style>
 

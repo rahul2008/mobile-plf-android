@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -31,6 +34,8 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
+    private LinearLayout mParentLayout = null;
+    private FrameLayout.LayoutParams mLayoutParams = null;
     private DigitalCareFontButton mOkButton, mCancelButton = null;
     private ImageView mProductImage = null;
     private DigitalCareFontTextView mProductTitle = null;
@@ -52,6 +57,10 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+        mParentLayout = (LinearLayout) getActivity().findViewById(R.id.write_product_review_include_container);
+        mLayoutParams = (FrameLayout.LayoutParams) mParentLayout
+                .getLayoutParams();
+        Configuration config = getResources().getConfiguration();
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_send_button);
         mCancelButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_cancel_button);
         mProductImage = (ImageView) getActivity().findViewById(R.id.review_write_rate_productimage);
@@ -68,11 +77,47 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mOkButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
         setRatingBarUI();
+
+        setViewParams(config);
+        float density = getResources().getDisplayMetrics().density;
+        setButtonParams(density);
+    }
+
+
+    private void setButtonParams(float density) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+        RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+        params.weight = 1;
+        param.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+
+        mCancelButton.setLayoutParams(params);
+        mOkButton.setLayoutParams(params);
+        mSummaryHeaderEditText.setLayoutParams(params);
+        mNicknameEditText.setLayoutParams(params);
+        mEmailEditText.setLayoutParams(params);
     }
 
     @Override
     public void setViewParams(Configuration config) {
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginPort;
+        } else {
+            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginLand;
+        }
+        mParentLayout.setLayoutParams(mLayoutParams);
+    }
 
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setViewParams(newConfig);
     }
 
     private void setRatingBarUI() {
@@ -142,10 +187,10 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         } else if (mEmailEditText.getText().toString().equals("")) {
             Toast.makeText(getActivity(), "You must enter a email.",
                     Toast.LENGTH_SHORT).show();
-        } else if (!mSwitch.isChecked()){
+        } else if (!mSwitch.isChecked()) {
             Toast.makeText(getActivity(), "You must agree the term and conditions.",
                     Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
 
             BazaarReviewModel reviewModel = new BazaarReviewModel();
             reviewModel.setRating((float) mRatingBar.getRating());

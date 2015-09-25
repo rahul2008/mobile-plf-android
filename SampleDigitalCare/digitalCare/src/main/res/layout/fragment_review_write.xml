@@ -95,6 +95,7 @@
 
             android:id="@+id/review_write_rate_product_nickname_header"
             style="@style/write_product_review_header_styles"
+            android:layout_marginTop="20dp"
             android:text="@string/bazzarvoice_productreview_writescreen_pickname_text"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
@@ -141,6 +142,7 @@
                 android:id="@+id/review_write_rate_product_terms"
                 style="@style/write_product_review_header_styles"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1.0"
                 android:text="@string/bazzarvoice_productreview_writescreen_termsandconditions_text"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
@@ -152,8 +154,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/title_text_size_medium"
                 android:layout_gravity="center"
-                android:layout_weight="3.0"
-                android:paddingLeft="5dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_weight="3.0" />
         </LinearLayout>
 
 
@@ -170,30 +172,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/actionbar_height"
+            android:orientation="horizontal"
             android:visibility="visible"
             android:weightSum="2">
 
-            <RelativeLayout
-                style="@style/fontButton"
-                android:layout_weight="1"
-                android:padding="2dp">
 
-                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
-                    android:id="@+id/your_product_review_cancel_button"
-                    style="@style/fontButton"
-                    android:layout_marginTop="0dp"
-                    android:background="@drawable/selector_no_thanks_button_bg"
-                    android:text="@string/cancel"
-                    android:textColor="@color/button_background"
-                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
-            </RelativeLayout>
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/your_product_review_cancel_button"
+                style="@style/fontButton"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_no_thanks_button_bg"
+                android:text="@string/cancel"
+                android:textAlignment="center"
+                android:textColor="@color/button_background"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/your_product_review_send_button"
                 style="@style/fontButton"
                 android:layout_marginLeft="@dimen/marginTopButton"
+                android:layout_marginTop="0dp"
                 android:layout_weight="1"
                 android:text="@string/bazzarvoice_productreview_writescreen_previewButtonText"
+                android:textAlignment="center"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </LinearLayout>
 
