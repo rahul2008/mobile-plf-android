@@ -111,6 +111,11 @@ public class CirclePageIndicator extends View implements PageIndicator {
         invalidate();
     }
 
+
+    public int getColorUnselected() {
+        return mPaintUnselectedFill.getColor();
+    }
+
     public boolean isCentered() {
         return mCentered;
     }
@@ -122,6 +127,10 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
     public int getPageColor() {
         return mPaintPageFill.getColor();
+    }
+
+    public Paint getUnselectedPaintFill() {
+        return mPaintUnselectedFill;
     }
 
     public void setFillColor(int fillColor) {
