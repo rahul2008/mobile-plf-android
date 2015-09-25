@@ -12,21 +12,25 @@
     <style name="CirclePageIndicator.White">
         <item name="fillColor">@android:color/white</item>
         <item name="strokeColor">@android:color/white</item>
+        <item name="snap">true</item>
     </style>
 
     <style name="CirclePageIndicator.DarkBlue">
         <item name="fillColor">@color/philips_dark_blue</item>
         <item name="strokeColor">@color/philips_dark_blue</item>
+        <item name="snap">true</item>
     </style>
 
     <style name="CirclePageIndicator.BrightOrange">
         <item name="fillColor">@color/philips_bright_orange</item>
         <item name="strokeColor">@color/philips_bright_orange</item>
+        <item name="snap">true</item>
     </style>
 
     <style name="CirclePageIndicator.BrightAqua">
         <item name="fillColor">@color/philips_bright_aqua</item>
         <item name="strokeColor">@color/philips_bright_aqua</item>
+        <item name="snap">true</item>
     </style>
 
     <style name="CirclePageIndicator.DarkBlue.Gradient">
