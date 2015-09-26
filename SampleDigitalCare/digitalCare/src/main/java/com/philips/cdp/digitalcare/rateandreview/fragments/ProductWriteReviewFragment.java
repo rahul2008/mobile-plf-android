@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
@@ -196,6 +197,38 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     }
 
 
+    public String getCtn(){
+        return DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCtn();
+    }
+
+    public String getProductTitle(){
+        return DigitalCareConfigManager.getInstance().getConsumerProductInfo().getProductTitle();
+    }
+
+    public String getNickNameValue(EditText editTextView){
+        return editTextView.getText().toString();
+    }
+
+    public String getEmailValue(EditText editTextView){
+        return editTextView.getText().toString();
+    }
+
+    public String getReviewSummaryValue(EditText editTextView){
+        return editTextView.getText().toString();
+    }
+
+    public String getReviewDescriptionValue(EditText editTextView){
+        return editTextView.getText().toString();
+    }
+
+    public float getRatingValue(RatingBar ratingBarView){
+        return ratingBarView.getRating();
+    }
+
+    public boolean getLegalTermValue(Switch switchView){
+        return switchView.isChecked();
+    }
+
     /**
      * Does some client-side validation before calling the necessary
      * BazaarFunctions function to submit a review (only previews to facilitate
@@ -205,24 +238,24 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
      * If the photo has not uploaded yet, we put off submitting and show an
      * "Uploading Photo..." dialog.
      */
-    protected void submitReview() {
-        if (mRatingBarVerticle.getRating() == 0) {
+    private void submitReview() {
+        if (getRatingValue(mRatingBarVerticle) == 0) {
             Toast.makeText(getActivity(),
                     "You must give a rating between 1 and 5.",
                     Toast.LENGTH_SHORT).show();
-        } else if (mSummaryHeaderEditText.getText().toString().equals("")) {
+        } else if (getReviewSummaryValue(mSummaryHeaderEditText).equals("")) {
             Toast.makeText(getActivity(), "You must enter a summary.",
                     Toast.LENGTH_SHORT).show();
-        } else if (mSummaryDescriptionEditText.getText().toString().equals("")) {
+        } else if (getReviewDescriptionValue(mSummaryDescriptionEditText).equals("")) {
             Toast.makeText(getActivity(), "You must enter a description.",
                     Toast.LENGTH_SHORT).show();
-        } else if (mNicknameEditText.getText().toString().equals("")) {
+        } else if (getNickNameValue(mNicknameEditText).equals("")) {
             Toast.makeText(getActivity(), "You must enter a nick name.",
                     Toast.LENGTH_SHORT).show();
-        } else if (mEmailEditText.getText().toString().equals("")) {
+        } else if (getEmailValue(mEmailEditText).equals("")) {
             Toast.makeText(getActivity(), "You must enter a email.",
                     Toast.LENGTH_SHORT).show();
-        } else if (!mSwitch.isChecked()) {
+        } else if (!getLegalTermValue(mSwitch)) {
             Toast.makeText(getActivity(), "You must agree the term and conditions.",
                     Toast.LENGTH_SHORT).show();
         } else {
