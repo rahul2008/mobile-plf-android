@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
@@ -59,6 +60,7 @@ public class NetworkAlertView {
         mLayoutContainer.addView(mWebView);
 
         Dialog mDialog = new Dialog(activity);
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(mLayoutContainer);
         WebView mView = (WebView) mDialog.findViewById(ID);
         mView.getSettings().setJavaScriptEnabled(true);
