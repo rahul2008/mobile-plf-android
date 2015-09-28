@@ -9,10 +9,11 @@
         <item name="actionButtonBgColor">@color/philips_dark_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
         <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="android:editTextStyle">@style/InputStyle.DarkBlue</item>
     </style>
 
-    <style name="TextAppearance" parent="android:TextAppearance">
-        <item name="fontPath">fonts/centralesansbold.ttf</item>
+    <style name="TextAppearance" parent="TextAppearance.AppCompat">
+        <item name="fontPath">fonts/centralesans_book.ttf</item>
     </style>
 
 </resources>

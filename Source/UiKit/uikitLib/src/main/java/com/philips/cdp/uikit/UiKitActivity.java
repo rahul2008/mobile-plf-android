@@ -24,7 +24,7 @@ public class UiKitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState, persistentState);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/centralesansbook.ttf")
+                        .setDefaultFontPath("fonts/centralesans_book.ttf")
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Enrichers -->
     <color name="white">#FFFFFF</color>
+    <color name="enricher4">#B9B9B9</color>
+
 
     <!-- Blue theme -->
     <color name="philips_blue">#7ba4d9</color>
