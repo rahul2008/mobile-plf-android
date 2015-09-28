@@ -25,13 +25,13 @@
     <dimen name="about_screen_apptitle_size">24dp</dimen>
     <dimen name="about_screen_version_copyright_size">16dp</dimen>
     <dimen name="about_screen_terms_privacy_content_size">14dp</dimen>
-    <dimen name="about_screen_version_margin">18dp</dimen>
+    <dimen name="about_screen_version_margin">14dp</dimen>
     <dimen name="about_screen_copyright_margin">12dp</dimen>
     <dimen name="about_screen_terms_margin">28dp</dimen>
     <dimen name="about_screen_privacy_margin">28dp</dimen>
-    <dimen name="about_screen_content_top_margin">32dp</dimen>
+    <dimen name="about_screen_content_top_margin">29dp</dimen>
     <dimen name="about_screen_content_right_margin">32dp</dimen>
-    <dimen name="about_screen_layout_top_margin">34dp</dimen>
+    <dimen name="about_screen_layout_top_margin">53dp</dimen>
     <dimen name="about_screen_layout_left_margin">32dp</dimen>
     <dimen name="about_screen_logo_margin">53dp</dimen>
     <dimen name="about_screen_logo_width">67dp</dimen>
