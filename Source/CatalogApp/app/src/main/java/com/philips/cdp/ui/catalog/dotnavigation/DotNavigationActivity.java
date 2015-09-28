@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog.dot_navigation;
+package com.philips.cdp.ui.catalog.dotnavigation;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
