@@ -110,6 +110,7 @@ public class SHNCentral {
     public enum State {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
     }
+
     public interface SHNCentralListener {
         void onStateUpdated(SHNCentral shnCentral);
     }
@@ -129,11 +130,11 @@ public class SHNCentral {
                     case BluetoothAdapter.STATE_TURNING_OFF:
                     case BluetoothAdapter.STATE_TURNING_ON:
                         bluetoothAdapterEnabled = false;
-                        shnCentralState = State.SHNCentralStateNotReady;
+                        setState(State.SHNCentralStateNotReady);
                         break;
                     case BluetoothAdapter.STATE_ON:
                         bluetoothAdapterEnabled = true;
-                        shnCentralState = State.SHNCentralStateReady;
+                        setState(State.SHNCentralStateReady);
                         break;
                 }
             }
@@ -165,8 +166,8 @@ public class SHNCentral {
         // Check that the adapter is enabled.
         if (!(bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled())) {
             BleUtilities.startEnableBluetoothActivity();
-        }else{
-            shnCentralState = State.SHNCentralStateReady;
+        } else {
+            setState(State.SHNCentralStateReady);
         }
 
         // Register a broadcast receiver listening for BluetoothAdapter state changes
@@ -193,8 +194,20 @@ public class SHNCentral {
         SHNServiceRegistry.getInstance().add(new ShinePreferenceWrapper(applicationContext));
     }
 
+    private void setState(final State state) {
+        internalHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                SHNCentral.this.shnCentralState = state;
+                if (shnCentralListener != null) {
+                    shnCentralListener.onStateUpdated(SHNCentral.this);
+                }
+            }
+        });
+    }
 
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
+
     public interface SHNBondStatusListener {
         void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
     }
@@ -213,7 +226,7 @@ public class SHNCentral {
         BroadcastReceiver searchDevices = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Bundle bundle  = intent.getExtras();
+                Bundle bundle = intent.getExtras();
                 BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
                 int bondState = bundle.getInt(BluetoothDevice.EXTRA_BOND_STATE);
                 int previousBondState = bundle.getInt(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE);
@@ -258,7 +271,9 @@ public class SHNCentral {
         return bluetoothAdapterEnabled;
     }
 
-    public String getVersion() { throw new UnsupportedOperationException(); }
+    public String getVersion() {
+        throw new UnsupportedOperationException();
+    }
 
     public boolean registerDeviceDefinition(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         return shnDeviceDefinitions.add(shnDeviceDefinitionInfo);
@@ -305,6 +320,7 @@ public class SHNCentral {
     }
 
     private Map<String, SHNDevice> createdDevices = new HashMap<>();
+
     /* package */ SHNDevice createSHNDeviceForAddressAndDefinition(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
