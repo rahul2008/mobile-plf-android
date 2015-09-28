@@ -4,11 +4,18 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.view.View;
 import android.view.Window;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+
+import com.philips.cdp.digitalcare.R;
 
 /**
  * @author naveen@philips.com
@@ -20,6 +27,8 @@ import android.widget.LinearLayout;
 public class NetworkAlertView {
 
     AlertDialog mAlertDialog = null;
+    private ProgressDialog mProgressDialog = null;
+    private Activity mActivity = null;
 
     /**
      * @param title      : String
@@ -51,7 +60,7 @@ public class NetworkAlertView {
         LinearLayout mLayoutContainer = new LinearLayout(activity);
         mLayoutContainer.setOrientation(LinearLayout.VERTICAL);
         mLayoutContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
+        mActivity = activity;
         int ID = 10;
         WebView mWebView = new WebView(activity);
         mWebView.setId(ID);
@@ -59,15 +68,80 @@ public class NetworkAlertView {
 
         mLayoutContainer.addView(mWebView);
 
-        Dialog mDialog = new Dialog(activity);
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(activity);
+
+
+        final Dialog mDialog = new Dialog(activity);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(mLayoutContainer);
         WebView mView = (WebView) mDialog.findViewById(ID);
         mView.getSettings().setJavaScriptEnabled(true);
+        if (Build.VERSION.SDK_INT >= 19) {
+            mView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        } else {
+            mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        mView.getSettings().setAppCacheEnabled(true);
+        mView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mView.loadUrl(url);
-        mView.setWebViewClient(new WebViewClient());
+        mView.setWebViewClient(new DigitalCareWebViewClient());
         mDialog.setCancelable(true);
         mDialog.show();
+
+        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mDialog.cancel();
+            }
+        });
+    }
+
+
+    private class DigitalCareWebViewClient extends WebViewClient {
+       /* @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+
+            if (!mProgressDialog.isShowing()) {
+                mProgressDialog.setMessage("Shaata");
+                mProgressDialog.show();
+            }
+
+            return true;
+        }*/
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            if (mProgressDialog == null)
+                mProgressDialog = new ProgressDialog(mActivity);
+            mProgressDialog.setMessage(mActivity.getResources().getString(R.string.loading));
+
+            if (!(mActivity.isFinishing())) {
+                mProgressDialog.show();
+            }
+        }
+
+
+        @Override
+        public void onLoadResource(WebView view, String url) {
+
+            if (view.getProgress() >= 70) {
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                    mProgressDialog.cancel();
+                    mProgressDialog = null;
+                }
+            }
+        }
+/*
+      @Override
+        public void onPageFinished(WebView view, String url) {
+            if (mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+            }
+        }*/
     }
 
 	/*
