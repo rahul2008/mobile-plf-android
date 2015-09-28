@@ -28,6 +28,9 @@
         <activity android:name=".activity.ButtonsActivity"/>
         <activity android:name=".activity.SplashActivityGradient"/>
         <activity android:name=".dot_navigation.DotNavigationActivity"/>        <activity android:name=".SplashActivityLogoTop"/>
+        <activity android:name=".activity.AboutScreenLauncher"/>
+        <activity android:name=".activity.AboutScreenPhilips"/>
+        <activity android:name=".activity.AboutScreenMM"/>
         <activity android:name=".SplashActivityLogoBottom"/>
         <activity android:name=".SplashActivityLogoCenterTitleTop"/>
         <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
