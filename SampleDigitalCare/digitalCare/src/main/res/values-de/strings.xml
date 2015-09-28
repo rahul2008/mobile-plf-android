@@ -117,7 +117,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Nicht der richtige Name </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> E-Mail-Adresse </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Sie müssen Zugriff haben </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Ich habe die allgemeinen Nutzungsbedingungen gelesen und akzeptiere sie </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Ich habe die allgemeinen Nutzungsbedingungen gelesen </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">und akzeptiere sie </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Vorschau </string>
 
     <!-- null   de -->

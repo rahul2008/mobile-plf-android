@@ -118,7 +118,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Niet uw echte naam </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> Uw e-mailadres </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Controleer of u toegang hebt </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Ik heb de algemene voorwaarden gelezen en ga akkoord </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Ik heb de algemene voorwaarden </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">gelezen en ga akkoord </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Voorbeeld </string>
 
     <!-- null   nl -->

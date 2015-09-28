@@ -116,7 +116,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> نام واقعی شما نباشد </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> ایمیل شما </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> از دسترسی خود مطمئن شوید </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> من شرایط و ضوابط را خوانده و می‌پذیرم </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> وابط را خوانده و می‌پذیرم </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">من شرایط و ض </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> پیش‌نمایش </string>
 
     <!-- null   fa -->

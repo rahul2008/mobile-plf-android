@@ -117,7 +117,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 并非您的真实姓名 </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> 您的电子邮件 </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> 确保您具备访问权限 </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 我已阅读并同意条款和条件 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 我已阅读并同意条款 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">和条件 </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> 预览 </string>
 
     <!-- null   zh_CN -->

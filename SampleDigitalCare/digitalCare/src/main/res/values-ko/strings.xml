@@ -118,7 +118,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 실제 이름 아님 </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> 이메일 </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> 액세스 권한이 있는지 확인하십시오. </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 이용 약관을 읽었으며 이에 동의합니다. </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 이용 약관을 읽었으며 이에 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">동의합니다. </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> 미리보기 </string>
 
     <!-- null   ko -->

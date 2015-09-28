@@ -115,7 +115,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ei oikeaa nimeäsi </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> Sähköpostiosoite </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Varmista, että käyttäminen onnistuu </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Olen tutustunut käyttöehtoihin ja hyväksyn ne </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Olen tutustunut käyttöehtoihin </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">ja hyväksyn ne </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Esikatselu </string>
 
     <!-- null   fi -->

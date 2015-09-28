@@ -117,7 +117,8 @@
 <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Gerçek adınızı değil </string>
 <string name="bazzarvoice_productreview_writescreen_email_header_text"> E-posta adresiniz </string>
 <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Erişiminiz olduğundan emin olun </string>
-<string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Şartlar ve Koşulları okudum ve kabul ediyorum </string>
+<string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Şartlar ve Koşulları okudum ve </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">kabul ediyorum </string>
 <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Önizleme </string>
 
 <!-- null   null -->

@@ -117,7 +117,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Não seu nome verdadeiro </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> Seu email </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Verifique se há acesso </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Li e concordo com os Termos e Condições </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Li e concordo com os </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">Termos e Condições </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Pré-visualizar </string>
 
     <!-- null   pt_br -->

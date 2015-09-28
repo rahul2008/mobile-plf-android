@@ -115,7 +115,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ej ditt riktiga namn </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> Din e-postadress </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Kontrollera att du har åtkomst </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Jag har läst och godkänt villkoren </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Jag har läst och godkänt </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">villkoren </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Förhandsgranska </string>
 
     <!-- null   sv -->

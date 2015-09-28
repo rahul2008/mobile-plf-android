@@ -118,7 +118,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 不是真實姓名 </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> 您的電郵 </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> 確保您有存取權 </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 我已閱讀並同意條款及條件 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 我已閱讀並同意條款 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">及條件 </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> 預覽 </string>
 
     <!-- null   zh_HK -->

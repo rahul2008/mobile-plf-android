@@ -118,7 +118,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Придумайте имя </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> Электронный адрес </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Проверьте доступность </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Подтверждаю ознакомление и согласие с Условиями и положениями </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Подтверждаю ознакомление и согласие с </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">Условиями и положениями </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Предпросмотр </string>
 
     <!-- null   ru -->

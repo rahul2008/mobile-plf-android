@@ -118,7 +118,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 本名は入力しないでください </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> メールアドレス </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> アクセスできることを確認してください </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 利用条件を読み、同意しました </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 利用条件を読み、同意 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">しました </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> プレビュー </string>
 
     <!-- null   ja -->

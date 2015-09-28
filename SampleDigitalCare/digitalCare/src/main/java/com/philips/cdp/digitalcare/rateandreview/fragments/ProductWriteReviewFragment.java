@@ -43,6 +43,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     private ImageView mProductImage = null;
     private DigitalCareFontTextView mProductTitle = null;
     private DigitalCareFontTextView mProductCtn = null;
+    private DigitalCareFontTextView mTermsText = null;
     private RatingBar mRatingBarVerticle, mRatingBarHorizontal = null;
     private Switch mSwitch = null;
     private EditText mSummaryHeaderEditText, mSummaryDescriptionEditText, mNicknameEditText, mEmailEditText = null;
@@ -69,6 +70,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mProductImage = (ImageView) getActivity().findViewById(R.id.review_write_rate_productimage);
         mProductTitle = (DigitalCareFontTextView) getActivity().findViewById(R.id.review_write_rate_name);
         mProductCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.review_write_rate_variant);
+        mTermsText = (DigitalCareFontTextView) getActivity().findViewById(R.id.review_write_rate_product_terms_termstext);
         mRatingBarVerticle = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
         mRatingBarHorizontal = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar_horizontal);
         mSwitch = (Switch) getActivity().findViewById(R.id.review_write_rate_product_terms_switch);
@@ -80,15 +82,16 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
         mOkButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
+        mTermsText.setOnClickListener(this);
         setRatingBarUI();
 
-		try {
+        try {
             AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_REVIEW_WRITING,
                     getPreviousName());
         } catch (Exception e) {
             DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
-		
+
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
@@ -154,7 +157,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mRatingBarHorizontal.setNumStars(5);
         mRatingBarHorizontal.setMax(5);
         mRatingBarHorizontal.setStepSize(1f);
-   //     mRatingBarHorizontal.set
+        //     mRatingBarHorizontal.set
         setRatingBarLayers(mRatingBarHorizontal);
 
 
@@ -192,40 +195,42 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
         if (v.getId() == (R.id.your_product_review_send_button))
             submitReview();
+        if (v.getId() == (R.id.review_write_rate_product_terms_termstext))
+            showEULAAlert("http://www.google.com");
         else if (v.getId() == R.id.your_product_review_cancel_button)
             backstackFragment();
     }
 
 
-    public String getCtn(){
+    public String getCtn() {
         return DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCtn();
     }
 
-    public String getProductTitle(){
+    public String getProductTitle() {
         return DigitalCareConfigManager.getInstance().getConsumerProductInfo().getProductTitle();
     }
 
-    public String getNickNameValue(EditText editTextView){
+    public String getNickNameValue(EditText editTextView) {
         return editTextView.getText().toString();
     }
 
-    public String getEmailValue(EditText editTextView){
+    public String getEmailValue(EditText editTextView) {
         return editTextView.getText().toString();
     }
 
-    public String getReviewSummaryValue(EditText editTextView){
+    public String getReviewSummaryValue(EditText editTextView) {
         return editTextView.getText().toString();
     }
 
-    public String getReviewDescriptionValue(EditText editTextView){
+    public String getReviewDescriptionValue(EditText editTextView) {
         return editTextView.getText().toString();
     }
 
-    public float getRatingValue(RatingBar ratingBarView){
+    public float getRatingValue(RatingBar ratingBarView) {
         return ratingBarView.getRating();
     }
 
-    public boolean getLegalTermValue(Switch switchView){
+    public boolean getLegalTermValue(Switch switchView) {
         return switchView.isChecked();
     }
 

@@ -118,7 +118,8 @@
     <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> No uses tu nombre real </string>
     <string name="bazzarvoice_productreview_writescreen_email_header_text"> Correo electrónico </string>
     <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Comprueba que tienes acceso </string>
-    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> He leído y acepto los términos y condiciones </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> He leído y acepto los </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">términos y condiciones </string>
     <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Vista previa </string>
 
     <!-- null   es -->
