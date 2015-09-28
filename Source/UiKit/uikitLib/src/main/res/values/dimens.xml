@@ -36,4 +36,6 @@
     <dimen name="about_screen_logo_margin">53dp</dimen>
     <dimen name="about_screen_logo_width">67dp</dimen>
     <dimen name="about_screen_logo_height">85dp</dimen>
-    <dimen name="dot_navigation_unselected_radius">4dp</dimen></resources>
+    <dimen name="dot_navigation_selected_radius">6dp</dimen>
+    <dimen name="dot_navigation_unselected_radius">4dp</dimen>
+    </resources>
