@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.UiKitActivity;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class AboutScreenLauncher extends UiKitActivity{
+public class AboutScreenLauncher extends CatalogActivity{
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

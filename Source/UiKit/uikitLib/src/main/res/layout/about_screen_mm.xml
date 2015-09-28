@@ -22,6 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/about_screen_apptitle_size"
+                android:textColor="@color/philips_very_dark_blue"
                 fontPath="fonts/centralesansbold.ttf"
                 android:text="@string/about_screen_apptitle"/>
 
@@ -32,6 +33,7 @@
                 android:layout_below="@id/about_title"
                 android:layout_marginTop="@dimen/about_screen_version_margin"
                 android:textSize="@dimen/about_screen_version_copyright_size"
+                android:textColor="@color/philips_very_dark_blue"
                 fontPath="fonts/centralesans_book.ttf"
                 android:text="@string/about_screen_version"/>
 
@@ -42,6 +44,7 @@
                 android:layout_below="@id/about_version"
                 android:layout_marginTop="@dimen/about_screen_copyright_margin"
                 android:textSize="@dimen/about_screen_version_copyright_size"
+                android:textColor="@color/philips_very_dark_blue"
                 fontPath="fonts/centralesans_book.ttf"
                 android:text="@string/about_screen_copyright"/>
 
@@ -57,6 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/about_screen_terms_privacy_content_size"
+                    android:textColor="@color/philips_very_dark_blue"
                     fontPath="fonts/centralesans_book.ttf"
                     android:text="@string/about_screen_terms"/>
 
@@ -65,6 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/about_screen_privacy_margin"
+                    android:textColor="@color/philips_very_dark_blue"
                     android:textSize="@dimen/about_screen_terms_privacy_content_size"
                     fontPath="fonts/centralesans_book.ttf"
                     android:text="Privacy Policy &gt;"/>
@@ -78,10 +83,12 @@
                 android:layout_below="@id/about_termsandpolicy"
                 android:layout_marginRight="@dimen/about_screen_content_right_margin"
                 android:layout_marginTop="@dimen/about_screen_content_top_margin"
+                android:textColor="@color/philips_very_dark_blue"
                 android:textSize="@dimen/about_screen_terms_privacy_content_size"
                 android:text="@string/about_screen_content"/>
         </RelativeLayout>
         <ImageView
+            android:id="@+id/about_screen_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
