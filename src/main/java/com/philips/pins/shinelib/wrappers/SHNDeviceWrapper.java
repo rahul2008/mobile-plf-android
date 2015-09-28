@@ -6,6 +6,7 @@ import android.util.Log;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +29,23 @@ public class SHNDeviceWrapper implements SHNDevice {
         @Override
         public void onStateUpdated(SHNDevice shnDevice) {
             assert (SHNDeviceWrapper.this.shnDevice == shnDevice);
-            synchronized (shnDeviceListeners) {
-                for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
-                    if (shnDeviceListener != null) {
-                        if (LOGGING) Log.i(TAG, "posting onStateUpdated() to the user");
-                        userHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this);
-                            }
-                        });
-                    }
+            notifyListeners(new Runnable() {
+                @Override
+                public void run() {
+                    shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this);
                 }
-            }
+            });
+        }
+
+        @Override
+        public void onFailedToConnect(SHNDevice shnDevice, final SHNResult result) {
+            assert (SHNDeviceWrapper.this.shnDevice == shnDevice);
+            notifyListeners(new Runnable() {
+                @Override
+                public void run() {
+                    shnDeviceListener.onFailedToConnect(SHNDeviceWrapper.this, result);
+                }
+            });
         }
     };
 
@@ -125,5 +130,16 @@ public class SHNDeviceWrapper implements SHNDevice {
     @Override
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
         return shnDevice.getCapabilityForType(type);
+    }
+
+    private void notifyListeners(Runnable runnable) {
+        synchronized (shnDeviceListeners) {
+            for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
+                if (shnDeviceListener != null) {
+                    if (LOGGING) Log.i(TAG, "posting onStateUpdated() to the user");
+                    userHandler.post(runnable);
+                }
+            }
+        }
     }
 }

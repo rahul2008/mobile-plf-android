@@ -26,11 +26,12 @@ public interface SHNDevice {
 
     SHNCapability getCapabilityForType(SHNCapabilityType type);
 
-    public enum State {
+    enum State {
         Disconnected, Disconnecting, Connecting, Connected
     }
 
-    public interface SHNDeviceListener {
+    interface SHNDeviceListener {
         void onStateUpdated(SHNDevice shnDevice);
+        void onFailedToConnect(SHNDevice shnDevice, SHNResult result);
     }
 }
