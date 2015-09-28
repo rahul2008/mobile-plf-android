@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/about_screen_terms_privacy_content_size"
                     android:textColor="#fff"
-                    fontPath="fonts/centralesans_book.ttf"
+                    fontPath="fonts/centralesanslight.ttf"
                     android:text="@string/about_screen_terms"/>
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:layout_marginLeft="@dimen/about_screen_privacy_margin"
                     android:textSize="@dimen/about_screen_terms_privacy_content_size"
                     android:textColor="#fff"
-                    fontPath="fonts/centralesans_book.ttf"
+                    fontPath="fonts/centralesanslight.ttf"
                     android:text="Privacy Policy &gt;"/>
 
             </LinearLayout>
@@ -85,6 +85,7 @@
                 android:layout_marginTop="@dimen/about_screen_content_top_margin"
                 android:textSize="@dimen/about_screen_terms_privacy_content_size"
                 android:textColor="#fff"
+                fontPath="fonts/centralesanslight.ttf"
                 android:text="@string/about_screen_content"/>
         </RelativeLayout>
         <com.philips.cdp.uikit.costumviews.AppCompactImageView
