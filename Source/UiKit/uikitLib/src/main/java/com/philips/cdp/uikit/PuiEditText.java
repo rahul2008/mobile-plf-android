@@ -50,7 +50,7 @@ public class PuiEditText extends RelativeLayout {
         errorImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View view) {
-               showError(false);
+                setErrorMessageVisibilty(View.GONE);
             }
         });
 
@@ -60,32 +60,34 @@ public class PuiEditText extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    private void showError(boolean show) {
+    private void showErrorAndChangeEditTextStyle(boolean show) {
         if(show) {
             setErrorMessageVisibilty(View.VISIBLE);
             setErrorTextStyle();
         } else {
             setErrorMessageVisibilty(View.GONE);
             editText.setTextColor(getResources().getColor(R.color.philips_dark_blue));
-            editText.setBackground(themeDrawable);
+            editText.setBackground(themeDrawable); //Use deprecated method???
         }
     }
 
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
         @Override
         public void onFocusChange(final View view, final boolean hasFocus) {
-            //If out of focus, validate the entered text
-            //If (!validate) change border and text colour to bright orange
-            //else apply theme colours
             if(!hasFocus) {
-                if(validator == null || validator.validate(editText.getText().toString())) {
-                    showError(false);
-                } else {
-                    showError(true);
-                }
+//                changeEditTextStyle();
+                showErrorAndChangeEditTextStyle(!(validator == null || validator.validate(editText.getText().toString())));
             }
         }
     };
+
+    private void changeEditTextStyle() {
+        if(validator == null || validator.validate(editText.getText().toString())) {
+            showErrorAndChangeEditTextStyle(false);
+        } else {
+            showErrorAndChangeEditTextStyle(true);
+        }
+    }
 
     public void setValidator(Validator validator) {
         this.validator = validator;

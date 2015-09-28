@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        inputText:hintText="@string/hello_world"
+        inputText:hintText="@string/enter_text_here"
         inputText:errorText="@string/hello_world"
         android:animateLayoutChanges="true"/>
 
@@ -24,7 +24,7 @@
         android:layout_below="@+id/input_field_1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        inputText:hintText="Explanation here"
+        inputText:hintText="@string/enter_text_here"
         inputText:errorText="Invalid password format"
         android:animateLayoutChanges="true"/>
 </RelativeLayout>

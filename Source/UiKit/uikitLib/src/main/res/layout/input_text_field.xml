@@ -9,8 +9,8 @@
 
     <View
         android:id="@+id/space"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -19,11 +19,11 @@
 
     <ImageView
         android:id="@+id/error_image"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/space"
         android:layout_alignLeft="@+id/edit_text"
-        android:src="@drawable/cross"
+        android:src="@drawable/error_cross"
         android:visibility="gone"
         />
     <TextView
@@ -32,9 +32,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/space"
         android:layout_toRightOf="@+id/error_image"
+        android:layout_alignTop="@+id/error_image"
+        android:layout_marginTop="-4dp"
         android:layout_marginLeft="10dp"
         android:textColor="@color/philips_bright_orange"
         android:visibility="gone"
+        android:textSize="16sp"
         fontPath="fonts/centralesans_book.ttf"
         />
 </merge>
