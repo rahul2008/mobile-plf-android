@@ -89,9 +89,9 @@ public class SHNDeviceAssociation {
 
     private void initAssociatedDevicesList(SHNCentral shnCentral) {
         List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos =
-            SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class).readAssociatedDeviceInfos();
+                SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class).readAssociatedDeviceInfos();
         associatedDevices = new ArrayList<>();
-        for (ShinePreferenceWrapper.AssociatedDeviceInfo associatedDeviceInfo: associatedDeviceInfos) {
+        for (ShinePreferenceWrapper.AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
             SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(associatedDeviceInfo.macAddress,
                     shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(associatedDeviceInfo.deviceTypeName));
             if (shnDevice != null) {
@@ -113,28 +113,28 @@ public class SHNDeviceAssociation {
             @Override
             public void run() {
                 if (shnAssociationProcedure == null) {
-                    SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
-                    associationDeviceTypeName = deviceTypeName;
-                    if (shnDeviceDefinitionInfo != null) {
-                        shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
-                        if (shnAssociationProcedure.getShouldScan()) {
-                            startScanning(shnDeviceDefinitionInfo);
-                        }
-                        SHNResult result = shnAssociationProcedure.start();
-                        if (result == SHNResult.SHNOk) {
-                            shnCentral.getUserHandler().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
-                                }
-                            });
+                    SHNResult result;
+                    if (shnCentral.getShnCentralState() == SHNCentral.State.SHNCentralStateReady) {
+
+                        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
+                        associationDeviceTypeName = deviceTypeName;
+                        if (shnDeviceDefinitionInfo != null) {
+                            SHNAssociationProcedure shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
+                            if (shnAssociationProcedure.getShouldScan()) {
+                                startScanning(shnDeviceDefinitionInfo);
+                            }
+                            result = shnAssociationProcedure.start();
+                            if (result == SHNResult.SHNOk) {
+                                reportAssociationStarted(shnAssociationProcedure);
+                                return;
+                            }
                         } else {
-                            shnAssociationProcedure = null;
-                            reportFailure(result);
+                            result = SHNResult.SHNUnknownDeviceTypeError;
                         }
                     } else {
-                        reportFailure(SHNResult.SHNUnknownDeviceTypeError);
+                        result = SHNResult.SHNBluetoothDisabledError;
                     }
+                    reportFailure(result);
                 } else {
                     Log.w(TAG, "startAssociationForDeviceType: association not started: it is already running!");
                 }
@@ -155,7 +155,7 @@ public class SHNDeviceAssociation {
 
     private boolean removeAssociatedDeviceFromList(SHNDevice shnDeviceToRemove) {
         SHNDevice matchedSHNDevice = null;
-        for (SHNDevice shnDevice: associatedDevices) {
+        for (SHNDevice shnDevice : associatedDevices) {
             if (shnDevice.getAddress().equals(shnDeviceToRemove.getAddress())) {
                 matchedSHNDevice = shnDevice;
             }
@@ -174,6 +174,16 @@ public class SHNDeviceAssociation {
                 if (shnDeviceAssociationListener != null) {
                     shnDeviceAssociationListener.onAssociationFailed(result);
                 }
+            }
+        });
+    }
+
+    private void reportAssociationStarted(final SHNAssociationProcedure shnAssociationProcedure) {
+        this.shnAssociationProcedure = shnAssociationProcedure;
+        shnCentral.getUserHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
             }
         });
     }
@@ -205,7 +215,7 @@ public class SHNDeviceAssociation {
 
     private void persistAssociatedDeviceList() {
         List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();
-        for (SHNDevice shnDevice: associatedDevices) {
+        for (SHNDevice shnDevice : associatedDevices) {
             associatedDeviceInfos.add(new ShinePreferenceWrapper.AssociatedDeviceInfo(shnDevice.getAddress(), shnDevice.getDeviceTypeName()));
         }
         SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class).storeAssociatedDeviceInfos(associatedDeviceInfos);

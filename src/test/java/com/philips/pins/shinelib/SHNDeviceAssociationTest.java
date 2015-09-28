@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -99,6 +98,7 @@ public class SHNDeviceAssociationTest {
         List<SHNDeviceDefinitionInfo> shnDeviceDefinitionInfos = new ArrayList<>();
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
+        doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
         doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
         SHNServiceRegistry.getInstance().add(mockedShinePreferenceWrapper, ShinePreferenceWrapper.class);
         doNothing().when(mockedSHNCentral).stopScanning();
@@ -160,6 +160,7 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         verify(mockedSHNDeviceAssociationListener).onAssociationStarted(mockedSHNAssociationProcedure);
+        verify(mockedSHNDeviceAssociationListener, never()).onAssociationFailed(any(SHNResult.class));
     }
 
     @Test
@@ -321,5 +322,36 @@ public class SHNDeviceAssociationTest {
         assertFalse(shnDeviceAssociation.getAssociatedDevices().isEmpty());
         assertEquals(1, shnDeviceAssociation.getAssociatedDevices().size());
         assertEquals(macAddress, shnDeviceAssociation.getAssociatedDevices().get(0).getAddress());
+    }
+
+    @Test
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedWhenAssociationOnAssociationFailedIsCalled() {
+        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
+
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNBluetoothDisabledError);
+        verify(mockedSHNDeviceAssociationListener, never()).onAssociationStarted(any(SHNAssociationProcedure.class));
+    }
+
+    @Test
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedForUnknownTypeWhenAssociationOnAssociationFailedIsCalled() {
+        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
+
+        shnDeviceAssociation.startAssociationForDeviceType("UnknownType");
+
+        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNBluetoothDisabledError);
+    }
+
+    @Test
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedAgainWhenAssociationIsNotStarted() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        reset(mockedSHNDeviceAssociationListener);
+        when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        verify(mockedSHNDeviceAssociationListener, never()).onAssociationFailed(any(SHNResult.class));
+        verify(mockedSHNDeviceAssociationListener, never()).onAssociationStarted(any(SHNAssociationProcedure.class));
     }
 }
