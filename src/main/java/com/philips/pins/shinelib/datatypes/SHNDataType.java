@@ -26,6 +26,6 @@ public enum SHNDataType {
     SubjectiveDataMoonshine,
     ResetSourceMoonshine,
     EventMoonshine,
-    DebugString,
+    DebugStringMoonshine,
     FatPercentage
 }
