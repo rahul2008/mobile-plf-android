@@ -3,52 +3,73 @@ package com.philips.cdp.digitalcare.customview;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
 /**
- * 
  * @author naveen@philips.com
  * @description Network Notification view used during Connection not available
- *              in application component wise announcement.
+ * in application component wise announcement.
  * @Since Apr 7, 2015
  */
 @SuppressLint("NewApi")
 public class NetworkAlertView {
 
-	AlertDialog mAlertDialog = null;
+    AlertDialog mAlertDialog = null;
 
-	/**
-	 * 
-	 * @param title
-	 *            : String
-	 * @param message
-	 *            : String
-	 * @param buttontext
-	 *            : String
-	 */
-	public void showAlertBox(Activity activity, String title, String message,
-			String buttontext) {
+    /**
+     * @param title      : String
+     * @param message    : String
+     * @param buttontext : String
+     */
+    public void showAlertBox(Activity activity, String title, String message,
+                             String buttontext) {
 
-		if (mAlertDialog == null) {
+        if (mAlertDialog == null) {
 
-			mAlertDialog = new AlertDialog.Builder(activity)
-					.setTitle(title)
-					.setMessage(message)
-					.setPositiveButton(android.R.string.yes,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-									mAlertDialog.dismiss();
+            mAlertDialog = new AlertDialog.Builder(activity)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.yes,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    mAlertDialog.dismiss();
 
-								}
-							}).show();
+                                }
+                            }).show();
 
-		}
+        }
 
-	}
+    }
+
+    public void showEULAAlertBox(Activity activity, String url) {
+        LinearLayout mLayoutContainer = new LinearLayout(activity);
+        mLayoutContainer.setOrientation(LinearLayout.VERTICAL);
+        mLayoutContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        int ID = 10;
+        WebView mWebView = new WebView(activity);
+        mWebView.setId(ID);
+        mWebView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        mLayoutContainer.addView(mWebView);
+
+        Dialog mDialog = new Dialog(activity);
+        mDialog.setContentView(mLayoutContainer);
+        WebView mView = (WebView) mDialog.findViewById(ID);
+        mView.getSettings().setJavaScriptEnabled(true);
+        mView.loadUrl(url);
+        mView.setWebViewClient(new WebViewClient());
+        mDialog.setCancelable(true);
+        mDialog.show();
+    }
 
 	/*
-	 * public void showNetworkAlert(final Activity mContext) {
+     * public void showNetworkAlert(final Activity mContext) {
 	 * 
 	 * float mAlertbackGroundHeight = mContext.getResources().getDimension(
 	 * R.dimen.support_btn_height); RelativeLayout mParent = new
