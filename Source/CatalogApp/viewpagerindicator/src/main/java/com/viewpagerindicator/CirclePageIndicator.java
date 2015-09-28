@@ -91,7 +91,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
         mRadius = a.getDimension(R.styleable.CirclePageIndicator_radius, defaultRadius);
         unSelectedRadius = a.getDimension(R.styleable.CirclePageIndicator_unSelectedRadius, mRadius);
         mSnap = a.getBoolean(R.styleable.CirclePageIndicator_snap, defaultSnap);
-        enableStrokeBackground = a.getBoolean(R.styleable.CirclePageIndicator_enableStroke, defaultSnap);
+        enableStrokeBackground = a.getBoolean(R.styleable.CirclePageIndicator_enableStroke, false);
 
         distanceBetweenCircles = getResources().getDimensionPixelSize(R.dimen.dot_navigation_circle_space);
         Drawable background = a.getDrawable(R.styleable.CirclePageIndicator_android_background);
@@ -248,7 +248,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
         //Draw stroked circles
         for (int iLoop = 0; iLoop < count; iLoop++) {
-            float drawLong = startX + iLoop * (distanceBetweenCircles + 2 * mRadius);
+            float drawLong = startX + iLoop * (distanceBetweenCircles + 2 * mRadius) - (mRadius - unSelectedRadius);
 
             if (mOrientation == HORIZONTAL) {
                 dX = drawLong;
