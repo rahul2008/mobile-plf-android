@@ -96,8 +96,10 @@ import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -140,7 +142,7 @@ public class SHNCentral {
             }
         }
     };
-    private SHNCentralListener shnCentralListener;
+    private List<SHNCentralListener> registeredShnCentralListeners;
     private SHNDeviceScanner shnDeviceScanner;
     private SHNDeviceAssociation shnDeviceAssociation;
     private State shnCentralState = State.SHNCentralStateNotReady;
@@ -200,8 +202,10 @@ public class SHNCentral {
             @Override
             public void run() {
                 SHNCentral.this.shnCentralState = state;
-                if (shnCentralListener != null) {
-                    shnCentralListener.onStateUpdated(SHNCentral.this);
+                if (registeredShnCentralListeners != null) {
+                    for (SHNCentralListener shnCentralListener : registeredShnCentralListeners) {
+                        shnCentralListener.onStateUpdated(SHNCentral.this);
+                    }
                 }
             }
         });
@@ -284,13 +288,11 @@ public class SHNCentral {
         return shnDeviceDefinitions;
     }
 
-    // Getters and setters
-    public SHNCentralListener getShnCentralListener() {
-        return shnCentralListener;
-    }
-
-    public void setShnCentralListener(SHNCentralListener shnCentralListener) {
-        this.shnCentralListener = shnCentralListener;
+    public void registerShnCentralListener(SHNCentralListener shnCentralListener) {
+        if (registeredShnCentralListeners == null) {
+            registeredShnCentralListeners = new ArrayList<>();
+        }
+        registeredShnCentralListeners.add(shnCentralListener);
     }
 
     public SHNDeviceScanner getShnDeviceScanner() {
