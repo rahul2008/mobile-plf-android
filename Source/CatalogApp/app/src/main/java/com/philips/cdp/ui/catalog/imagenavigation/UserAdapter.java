@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog.image_navigation;
+package com.philips.cdp.ui.catalog.imagenavigation;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

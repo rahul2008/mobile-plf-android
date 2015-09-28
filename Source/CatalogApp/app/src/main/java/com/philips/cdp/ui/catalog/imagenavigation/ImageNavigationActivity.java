@@ -1,8 +1,7 @@
-package com.philips.cdp.ui.catalog.image_navigation;
+package com.philips.cdp.ui.catalog.imagenavigation;
 
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;

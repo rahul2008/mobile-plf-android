@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog.dot_navigation;
+package com.philips.cdp.ui.catalog.dotnavigation;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
