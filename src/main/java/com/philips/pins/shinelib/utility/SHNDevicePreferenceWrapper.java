@@ -13,7 +13,11 @@ public class SHNDevicePreferenceWrapper {
 
     private final SharedPreferences sharedPreferences;
 
-    public SHNDevicePreferenceWrapper(Context context, String address) {
+    public static SHNDevicePreferenceWrapper createNewSHNDevicePreferenceWrapper(Context context, String address) {
+        return new SHNDevicePreferenceWrapper(context, address);
+    }
+
+    private SHNDevicePreferenceWrapper(Context context, String address) {
         sharedPreferences = context.getSharedPreferences(address + SHN_DEVICE_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
     }
 

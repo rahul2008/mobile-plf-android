@@ -91,7 +91,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.framework.Timer;
-import com.philips.pins.shinelib.utility.SHNDevicePreferenceWrapper;
+import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
@@ -144,7 +144,6 @@ public class SHNCentral {
     private BTAdapter btAdapter;
     private Handler internalHandler;
     private SHNDeviceDefinitions shnDeviceDefinitions;
-    private ShinePreferenceWrapper shinePreferenceWrapper;
 
     public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
@@ -187,7 +186,7 @@ public class SHNCentral {
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
-        shinePreferenceWrapper = new ShinePreferenceWrapper(applicationContext);
+        SHNServiceRegistry.getInstance().add(new ShinePreferenceWrapper(applicationContext));
     }
 
 
@@ -293,10 +292,6 @@ public class SHNCentral {
         return btAdapter.getRemoteDevice(address);
     }
 
-    public ShinePreferenceWrapper getShinePreferenceWrapper() {
-        return shinePreferenceWrapper;
-    }
-
     public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
         return shnDeviceScanner.startScanning(shnDeviceScannerListener, scannerSettingDuplicates, 90000l);
     }
@@ -305,13 +300,16 @@ public class SHNCentral {
         shnDeviceScanner.stopScanning();
     }
 
-    public SHNDevice createSHNDeviceForAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
-        SHNDevice shnDevice = shnDeviceDefinitionInfo.getSHNDeviceDefinition().createDeviceFromDeviceAddress(deviceAddress, shnDeviceDefinitionInfo, this);
+    private Map<String, SHNDevice> createdDevices = new HashMap<>();
+    /* package */ SHNDevice createSHNDeviceForAddressAndDefinition(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
+        String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
+        SHNDevice shnDevice = createdDevices.get(key);
+        if (shnDevice == null) {
+            shnDevice = shnDeviceDefinitionInfo.getSHNDeviceDefinition().createDeviceFromDeviceAddress(deviceAddress, shnDeviceDefinitionInfo, this);
+            if (shnDevice != null) {
+                createdDevices.put(key, shnDevice);
+            }
+        }
         return shnDevice;
     }
-
-    public SHNDevicePreferenceWrapper getShnDevicePreferenceWrapper(String macAddress) {
-        return new SHNDevicePreferenceWrapper(applicationContext, macAddress);
-    }
-
 }

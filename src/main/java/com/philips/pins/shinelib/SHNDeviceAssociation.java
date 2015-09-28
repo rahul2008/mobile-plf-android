@@ -2,8 +2,11 @@ package com.philips.pins.shinelib;
 
 import android.util.Log;
 
+import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,8 +15,8 @@ import java.util.List;
 public class SHNDeviceAssociation {
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
     private static final boolean LOGGING = false;
+    private List<SHNDevice> associatedDevices;
     private SHNAssociationProcedure shnAssociationProcedure;
-    private final List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos;
 
     public enum State {
         Idle, Associating
@@ -26,7 +29,9 @@ public class SHNDeviceAssociation {
 
         void onAssociationSucceeded(SHNDevice shnDevice);
 
-        void onAssociationFailed(SHNResult shnError); // The iOS version uses NSError
+        void onAssociationFailed(SHNResult shnError);
+
+        void onAssociatedDevicesUpdated();
     }
 
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
@@ -63,7 +68,7 @@ public class SHNDeviceAssociation {
     private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
-            SHNDevice shnDevice = shnCentral.createSHNDeviceForAddress(shnDeviceFoundInfo.deviceAddress, shnDeviceFoundInfo.shnDeviceDefinitionInfo);
+            SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(shnDeviceFoundInfo.getDeviceAddress(), shnDeviceFoundInfo.getShnDeviceDefinitionInfo());
             if (shnAssociationProcedure != null) {
                 shnAssociationProcedure.deviceDiscovered(shnDevice, shnDeviceFoundInfo);
             }
@@ -79,7 +84,20 @@ public class SHNDeviceAssociation {
 
     public SHNDeviceAssociation(SHNCentral shnCentral) {
         this.shnCentral = shnCentral;
-        associatedDeviceInfos = shnCentral.getShinePreferenceWrapper().readAssociatedDeviceInfos();
+        initAssociatedDevicesList(shnCentral);
+    }
+
+    private void initAssociatedDevicesList(SHNCentral shnCentral) {
+        List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos =
+            SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class).readAssociatedDeviceInfos();
+        associatedDevices = new ArrayList<>();
+        for (ShinePreferenceWrapper.AssociatedDeviceInfo associatedDeviceInfo: associatedDeviceInfos) {
+            SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(associatedDeviceInfo.macAddress,
+                    shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(associatedDeviceInfo.deviceTypeName));
+            if (shnDevice != null) {
+                associatedDevices.add(shnDevice);
+            }
+        }
     }
 
     public State getState() {
@@ -124,14 +142,29 @@ public class SHNDeviceAssociation {
         });
     }
 
-    public void removeAssociatedDevice(SHNDevice shnDevice) {
-        for (ShinePreferenceWrapper.AssociatedDeviceInfo deviceInfo : associatedDeviceInfos) {
-            if (shnDevice.getAddress().equals(deviceInfo.macAddress)) {
-                associatedDeviceInfos.remove(deviceInfo);
-                shnCentral.getShinePreferenceWrapper().storeAssociatedDeviceInfos(associatedDeviceInfos);
-                return;
+    public List<SHNDevice> getAssociatedDevices() {
+        return Collections.unmodifiableList(associatedDevices);
+    }
+
+    public void removeAssociatedDevice(SHNDevice shnDeviceToRemove) {
+        boolean removed = removeAssociatedDeviceFromList(shnDeviceToRemove);
+        if (removed) {
+            persistAssociatedDeviceList();
+        }
+    }
+
+    private boolean removeAssociatedDeviceFromList(SHNDevice shnDeviceToRemove) {
+        SHNDevice matchedSHNDevice = null;
+        for (SHNDevice shnDevice: associatedDevices) {
+            if (shnDevice.getAddress().equals(shnDeviceToRemove.getAddress())) {
+                matchedSHNDevice = shnDevice;
             }
         }
+        boolean removed = false;
+        if (matchedSHNDevice != null) {
+            removed = associatedDevices.remove(matchedSHNDevice);
+        }
+        return removed;
     }
 
     private void reportFailure(final SHNResult result) {
@@ -165,8 +198,17 @@ public class SHNDeviceAssociation {
     }
 
     private void addAssociatedDevice(SHNDevice shnDevice) {
-        associatedDeviceInfos.add(new ShinePreferenceWrapper.AssociatedDeviceInfo(shnDevice.getAddress(), shnDevice.getDeviceTypeName()));
-        shnCentral.getShinePreferenceWrapper().storeAssociatedDeviceInfos(associatedDeviceInfos);
+        removeAssociatedDeviceFromList(shnDevice);
+        associatedDevices.add(shnDevice);
+        persistAssociatedDeviceList();
+    }
+
+    private void persistAssociatedDeviceList() {
+        List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();
+        for (SHNDevice shnDevice: associatedDevices) {
+            associatedDeviceInfos.add(new ShinePreferenceWrapper.AssociatedDeviceInfo(shnDevice.getAddress(), shnDevice.getDeviceTypeName()));
+        }
+        SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class).storeAssociatedDeviceInfos(associatedDeviceInfos);
     }
 
     private void handleStopAssociation() {

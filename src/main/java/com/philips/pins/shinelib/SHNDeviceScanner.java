@@ -19,6 +19,7 @@ import java.util.UUID;
 public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private static final String TAG = SHNDeviceScanner.class.getSimpleName();
     private static final boolean LOGGING = false;
+    private static final int SCANNING_RESTART_INTERVAL_MS = 3000;
     private ScannerSettingDuplicates scannerSettingDuplicates;
 
     public enum ScannerSettingDuplicates {
@@ -31,6 +32,7 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private boolean scanning = false;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
     private Runnable scanningTimer;
+    private Runnable scanningRestartTimer;
     private final SHNCentral shnCentral;
 
     public interface SHNDeviceScannerListener {
@@ -39,6 +41,7 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     }
 
     public SHNDeviceScanner(SHNCentral shnCentral, List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
+        SHNDeviceFoundInfo.setSHNCentral(shnCentral);
         this.shnCentral = shnCentral;
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
     }
@@ -61,14 +64,30 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
         };
         shnCentral.getInternalHandler().postDelayed(scanningTimer, stopScanningAfterMS);
 
+        startScanningRestartTimer();
+
         return true;
+    }
+
+    private void startScanningRestartTimer() {
+        scanningRestartTimer = new Runnable() {
+            @Override
+            public void run() {
+                leScanCallbackProxy.stopLeScan(SHNDeviceScanner.this);
+                startScanningRestartTimer();
+                leScanCallbackProxy.startLeScan(SHNDeviceScanner.this, null);
+            }
+        };
+        shnCentral.getInternalHandler().postDelayed(scanningRestartTimer, SCANNING_RESTART_INTERVAL_MS);
     }
 
     public void stopScanning() {
         if (scanning) {
             scanning = false;
             shnCentral.getInternalHandler().removeCallbacks(scanningTimer);
+            shnCentral.getInternalHandler().removeCallbacks(scanningRestartTimer);
             scanningTimer = null;
+            scanningRestartTimer = null;
             leScanCallbackProxy.stopLeScan(this);
             leScanCallbackProxy = null;
             shnDeviceScannerListener.scanStopped(this);
@@ -133,7 +152,7 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
             if (len == 0)
                 break;
 
-            int type = advertisedData[offset++];
+            int type = advertisedData[offset++] & 0xFF;
             switch (type) {
                 case 0x02: // Partial list of 16-bit UUIDs
                 case 0x03: // Complete list of 16-bit UUIDs

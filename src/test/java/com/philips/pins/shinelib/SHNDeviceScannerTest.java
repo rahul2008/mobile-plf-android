@@ -26,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -37,6 +38,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 public class SHNDeviceScannerTest {
     private static final long STOP_SCANNING_AFTER_10_SECONDS = 10000l;
     private SHNDeviceScanner shnDeviceScanner;
+    private SHNDevice mockedSHNDevice;
     private SHNCentral mockedSHNCentral;
     private Context mockedContext;
     private BluetoothManager mockedBluetoothManager;
@@ -50,6 +52,7 @@ public class SHNDeviceScannerTest {
         mockedBluetoothManager = (BluetoothManager) Utility.makeThrowingMock(BluetoothManager.class);
         mockedBluetoothAdapter = (BluetoothAdapter) Utility.makeThrowingMock(BluetoothAdapter.class);
         mockedSHNCentral = (SHNCentral) Utility.makeThrowingMock(SHNCentral.class);
+        mockedSHNDevice = Utility.makeThrowingMock(SHNDevice.class);
         mockedHandler = new MockedHandler();
 
         doReturn(mockedHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
@@ -60,6 +63,7 @@ public class SHNDeviceScannerTest {
                 return null;
             }
         }).when(mockedSHNCentral).runOnUserHandlerThread(any(Runnable.class));
+        doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
         doReturn(mockedBluetoothManager).when(mockedContext).getSystemService(Context.BLUETOOTH_SERVICE);
         doReturn(mockedBluetoothAdapter).when(mockedBluetoothManager).getAdapter();
         doReturn(true).when(mockedBluetoothAdapter).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
@@ -137,7 +141,11 @@ public class SHNDeviceScannerTest {
         assertTrue(shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
         verify(mockedBluetoothAdapter).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
 
-        mockedHandler.executeFirstScheduledExecution(); // Assumes that no other timers are running...
+        // The scanner has a timer runnung to restart scanning. Some Androids don't report a device multiple times.
+        mockedHandler.executeFirstScheduledExecution(); // first scan restart after 3 seconds
+        mockedHandler.executeFirstScheduledExecution(); // second scan restart after 3 seconds
+        mockedHandler.executeFirstScheduledExecution(); // third scan restart after 3 seconds
+        mockedHandler.executeFirstScheduledExecution(); // Now it's a scanning timeout (10 secs)
         verify(mockedSHNDeviceScannerListener).scanStopped(shnDeviceScanner);
     }
 

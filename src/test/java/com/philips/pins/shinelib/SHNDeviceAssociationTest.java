@@ -5,17 +5,20 @@ import android.util.Log;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
+import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,10 +62,10 @@ public class SHNDeviceAssociationTest {
     private MockedHandler mockedInternalHandler;
     private MockedHandler mockedUserHandler;
 
-    private List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos;
-
     @Before
     public void setUp() {
+        SHNServiceRegistry.releaseInstance();
+
         mockStatic(Log.class);
         mockedSHNDeviceAssociationListener = (SHNDeviceAssociation.SHNDeviceAssociationListener) Utility.makeThrowingMock(SHNDeviceAssociation.SHNDeviceAssociationListener.class);
         mockedSHNAssociationProcedure = (SHNAssociationProcedure) Utility.makeThrowingMock(SHNAssociationProcedure.class);
@@ -90,17 +93,19 @@ public class SHNDeviceAssociationTest {
         Set<UUID> primaryServiceUUIDs = new HashSet<>();
         primaryServiceUUIDs.add(mockedPrimaryServiceUUID);
         doReturn(primaryServiceUUIDs).when(mockedSHNDeviceDefinitionInfo).getPrimaryServiceUUIDs();
+        doReturn(mockedSHNDeviceDefinition).when(mockedSHNDeviceDefinitionInfo).getSHNDeviceDefinition();
 
         // mockedSHNCentral
         List<SHNDeviceDefinitionInfo> shnDeviceDefinitionInfos = new ArrayList<>();
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
-        doReturn(mockedShinePreferenceWrapper).when(mockedSHNCentral).getShinePreferenceWrapper();
+        SHNServiceRegistry.getInstance().add(mockedShinePreferenceWrapper, ShinePreferenceWrapper.class);
         doNothing().when(mockedSHNCentral).stopScanning();
-        doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddress(anyString(), any(SHNDeviceDefinitionInfo.class));
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
+        doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
+        SHNDeviceFoundInfo.setSHNCentral(mockedSHNCentral);
 
         // mockedSHNAssociationProcedure
         doReturn(true).when(mockedSHNAssociationProcedure).getShouldScan();
@@ -112,8 +117,9 @@ public class SHNDeviceAssociationTest {
         doReturn(null).when(mockedSHNDeviceDefinitions).getSHNDeviceDefinitionInfoForDeviceTypeName(anyString());
         doReturn(mockedSHNDeviceDefinitionInfo).when(mockedSHNDeviceDefinitions).getSHNDeviceDefinitionInfoForDeviceTypeName(DEVICE_TYPE_NAME);
 
-        associatedDeviceInfos = new ArrayList<>();
-        doReturn(associatedDeviceInfos).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
+        doReturn(mockedSHNDevice).when(mockedSHNDeviceDefinition).createDeviceFromDeviceAddress(anyString(), any(SHNDeviceDefinitionInfo.class), any(SHNCentral.class));
+
+        doReturn(Collections.emptyList()).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
         doNothing().when(mockedShinePreferenceWrapper).storeAssociatedDeviceInfos(anyList());
 
         shnDeviceAssociation = new SHNDeviceAssociation(mockedSHNCentral);
@@ -243,8 +249,8 @@ public class SHNDeviceAssociationTest {
 
         assertNotNull(shnDeviceFoundInfoArgumentCaptor.getValue());
         assertEquals(shnDeviceFoundInfo, shnDeviceFoundInfoArgumentCaptor.getValue());
-        assertEquals("11:22:33:44:55:66", shnDeviceFoundInfoArgumentCaptor.getValue().deviceAddress);
-        assertEquals("MoonshineTest", shnDeviceFoundInfoArgumentCaptor.getValue().deviceName);
+        assertEquals("11:22:33:44:55:66", shnDeviceFoundInfoArgumentCaptor.getValue().getDeviceAddress());
+        assertEquals("MoonshineTest", shnDeviceFoundInfoArgumentCaptor.getValue().getDeviceName());
 
         assertEquals(mockedSHNDevice, shnDeviceArgumentCaptor.getValue());
     }
@@ -266,10 +272,10 @@ public class SHNDeviceAssociationTest {
         SHNDevice shnDevice = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
 
-        assertFalse(associatedDeviceInfos.isEmpty());
-        assertEquals(1, associatedDeviceInfos.size());
-        assertEquals(macAddress, associatedDeviceInfos.get(0).macAddress);
-        assertEquals(DEVICE_TYPE_NAME, associatedDeviceInfos.get(0).deviceTypeName);
+        assertNotNull(shnDeviceAssociation.getAssociatedDevices());
+        assertEquals(1, shnDeviceAssociation.getAssociatedDevices().size());
+        assertEquals(macAddress, shnDeviceAssociation.getAssociatedDevices().get(0).getAddress());
+        assertEquals(DEVICE_TYPE_NAME, shnDeviceAssociation.getAssociatedDevices().get(0).getDeviceTypeName());
     }
 
     @Test
@@ -280,7 +286,7 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
 
-        assertTrue(associatedDeviceInfos.isEmpty());
+        assertTrue(shnDeviceAssociation.getAssociatedDevices().isEmpty());
     }
 
     @Test
@@ -295,9 +301,9 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
 
-        assertFalse(associatedDeviceInfos.isEmpty());
-        assertEquals(1, associatedDeviceInfos.size());
-        assertEquals(macAddress2, associatedDeviceInfos.get(0).macAddress);
+        assertFalse(shnDeviceAssociation.getAssociatedDevices().isEmpty());
+        assertEquals(1, shnDeviceAssociation.getAssociatedDevices().size());
+        assertEquals(macAddress2, shnDeviceAssociation.getAssociatedDevices().get(0).getAddress());
     }
 
     @Test
@@ -312,8 +318,8 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice2);
 
-        assertFalse(associatedDeviceInfos.isEmpty());
-        assertEquals(1, associatedDeviceInfos.size());
-        assertEquals(macAddress, associatedDeviceInfos.get(0).macAddress);
+        assertFalse(shnDeviceAssociation.getAssociatedDevices().isEmpty());
+        assertEquals(1, shnDeviceAssociation.getAssociatedDevices().size());
+        assertEquals(macAddress, shnDeviceAssociation.getAssociatedDevices().get(0).getAddress());
     }
 }

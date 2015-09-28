@@ -70,6 +70,9 @@ public class MockedHandler {
         if (!scheduledExecutions.isEmpty()) {
             Collections.sort(scheduledExecutions);
             ScheduledExecution scheduledExecution = scheduledExecutions.remove(0);
+            for (ScheduledExecution se: scheduledExecutions) {
+                se.delay -= scheduledExecution.delay;
+            }
             scheduledExecution.runnable.run();
         }
     }
@@ -80,7 +83,7 @@ public class MockedHandler {
 
     private static class ScheduledExecution implements Comparable<ScheduledExecution> {
         private final Runnable runnable;
-        private final long delay;
+        private long delay;
 
         public ScheduledExecution(Runnable runnable, long delay) {
             this.runnable = runnable;

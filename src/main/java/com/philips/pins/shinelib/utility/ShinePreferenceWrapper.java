@@ -3,6 +3,8 @@ package com.philips.pins.shinelib.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.philips.pins.shinelib.SHNDevice;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -49,11 +51,34 @@ public class ShinePreferenceWrapper {
         }
         for (AssociatedDeviceInfo oldAssociatedDeviceInfo : oldAssociatedDeviceInfos) {
             if (!newMacAddressKeys.contains(oldAssociatedDeviceInfo.macAddress)) {
-                editor.remove(oldAssociatedDeviceInfo.macAddress);// use createKeyFromMacAddress(associatedDeviceInfo.macAddress) instead of just macAddress?
+                editor.remove(createKeyFromMacAddress(oldAssociatedDeviceInfo.macAddress));
             }
         }
         editor.commit();
     }
+
+//    public synchronized void storeAssociatedDevices(List<SHNDevice> associatedDevices) {
+//        // Get the current Associated devices
+//        List<AssociatedDeviceInfo> oldAssociatedDeviceInfos = readAssociatedDeviceInfos();
+//
+//        // Create the list of new macAddressKeys
+//        Set<String> newMacAddressKeys = new HashSet<>();
+//        for (SHNDevice associatedDevice : associatedDevices) {
+//            newMacAddressKeys.add(createKeyFromMacAddress(associatedDevice.getAddress()));
+//        }
+//
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putStringSet(ASSOCIATED_DEVICES, newMacAddressKeys);
+//        for (SHNDevice associatedDevice : associatedDevices) {
+//            editor.putString(createKeyFromMacAddress(associatedDevice.getAddress()), associatedDevice.getDeviceTypeName());
+//        }
+//        for (AssociatedDeviceInfo oldAssociatedDeviceInfo : oldAssociatedDeviceInfos) {
+//            if (!newMacAddressKeys.contains(oldAssociatedDeviceInfo.macAddress)) {
+//                editor.remove(createKeyFromMacAddress(oldAssociatedDeviceInfo.macAddress));
+//            }
+//        }
+//        editor.commit();
+//    }
 
     public synchronized List<AssociatedDeviceInfo> readAssociatedDeviceInfos() {
         List<AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();
