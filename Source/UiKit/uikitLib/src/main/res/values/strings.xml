@@ -10,4 +10,12 @@
     <!-- Splash screen title-->
     <string name="splash_title">Hello World</string>
 
+    <!-- About Screen -->
+    <string name="about_screen_apptitle">Mobile App</string>
+    <string name="about_screen_version">Version 1.0.1</string>
+    <string name="about_screen_copyright">Copyright \u00A9 2015 Philips</string>
+    <string name="about_screen_terms">Terms &amp; conditions &gt;</string>
+    <string name="about_screen_privacy">Privacy policy &gt;</string>
+    <string name="about_screen_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce cursus varius sodales. Pellentesque sodales sit amet diam quis feugiat. Curabitur quis venenatis tortor, ut varius dolor. Integer at nisl libero. Praesent hendrerit tortor ac nisi convallis fermentum in id dui. Proin pellentesque elit vitae lacinia blandit. Praesent id risus tortor. Nam eu sem mattis, vestibulum lacus sed, finibus leo. Vestibulum semper viverra odio vel dapibus. Nullam tincidunt ipsum non ipsum finibus, congue maximus ligula tempor. Vestibulum ullamcorper at orci eu pharetra.</string>
+
 </resources>
