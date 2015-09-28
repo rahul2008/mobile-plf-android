@@ -248,7 +248,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
         //Draw stroked circles
         for (int iLoop = 0; iLoop < count; iLoop++) {
-            float drawLong = startX + iLoop * (distanceBetweenCircles + 2 * mRadius) - (mRadius - unSelectedRadius);
+            float drawLong = startX + iLoop * (distanceBetweenCircles + 2 * mRadius);
 
             if (mOrientation == HORIZONTAL) {
                 dX = drawLong;
