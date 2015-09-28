@@ -126,7 +126,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> Ovatko tiedot oikein? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Arvosana: </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> Arvostelujen yhteenveto: </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Arvio </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Arvio: </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> Lempinimi: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> Sähköposti </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Lähetä tuotearvosteluni </string>

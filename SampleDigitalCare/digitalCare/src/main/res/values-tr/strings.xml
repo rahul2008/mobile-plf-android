@@ -128,7 +128,7 @@
 <string name="bazzarvoice_productreview_preview_header_text"> Tüm bilgiler doğru mu? </string>
 <string name="bazzarvoice_productreview_preview_rating_text"> Puan: </string>
 <string name="bazzarvoice_productreview_preview_review_summary_text"> Değerlendirme Özeti: </string>
-<string name="bazzarvoice_productreview_preview_review_summary_review_text"> Değerlendirme </string>
+<string name="bazzarvoice_productreview_preview_review_summary_review_text"> Değerlendirme: </string>
 <string name="bazzarvoice_productreview_preview_nickname_text"> Takma Ad: </string>
 <string name="bazzarvoice_productreview_preview_email_text"> E-posta </string>
 <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Değerlendirmemi gönder </string>

@@ -129,7 +129,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> 모든 내용이 정확합니까? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> 평가: </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> 리뷰 요약 </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> 리뷰 </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> 리뷰: </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> 닉네임: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> 이메일 </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 리뷰 제출 </string>

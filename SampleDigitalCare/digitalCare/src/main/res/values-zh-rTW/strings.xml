@@ -128,7 +128,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> 全部正確？ </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> 評分： </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> 評論摘要： </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> 評論 </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> 評論: </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> 暱稱： </string>
     <string name="bazzarvoice_productreview_preview_email_text"> 電子郵件 </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 提交我的評論 </string>

@@ -126,7 +126,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> Är allt korrekt? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Betyg: </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> Sammanfattning av recensionen: </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Recension </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Recension: </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> Kortnamn: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> E-post </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Skicka in min recension </string>

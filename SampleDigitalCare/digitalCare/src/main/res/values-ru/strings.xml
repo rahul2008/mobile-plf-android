@@ -129,7 +129,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> Все верно? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Оценка: </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> Краткое изложение: </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Отзыв </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Отзыв: </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> Псевдоним: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> Электронная почта </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Отправить отзыв </string>

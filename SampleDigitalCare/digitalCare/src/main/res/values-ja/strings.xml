@@ -129,7 +129,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> 内容は正しいですか？ </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> 評価： </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> レビューサマリー： </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> レビュー </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> レビュー: </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> ニックネーム： </string>
     <string name="bazzarvoice_productreview_preview_email_text"> メール </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> レビューを送信 </string>

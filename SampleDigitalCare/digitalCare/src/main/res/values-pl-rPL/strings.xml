@@ -128,7 +128,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> Czy wszystkie dane są poprawne? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Ocena: </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> Podsumowanie ocen: </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Recenzja </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Recenzja: </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> Nick: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Prześlij recenzję </string>

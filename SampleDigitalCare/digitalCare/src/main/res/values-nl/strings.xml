@@ -129,7 +129,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> Is alles correct? </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> Waardering: </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> Samenvatting beoordeling: </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Beoordeling </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Beoordeling: </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> Alias: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Mijn beoordeling verzenden </string>
