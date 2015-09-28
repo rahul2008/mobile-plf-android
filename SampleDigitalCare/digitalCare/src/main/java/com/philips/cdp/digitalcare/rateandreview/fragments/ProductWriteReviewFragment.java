@@ -6,6 +6,8 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,11 +98,76 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         } catch (Exception e) {
             DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
+        setListeners();
 
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
     }
+
+    protected void setListeners() {
+        mSummaryDescriptionEditText.addTextChangedListener(mReviewDescriptionWatcher);
+        mSummaryHeaderEditText.addTextChangedListener(mReviewHeaderWatcher);
+        mEmailEditText.addTextChangedListener(mEmailWatcher);
+    }
+
+    protected final TextWatcher mEmailWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if (s.toString().contains("@"))
+                Toast.makeText(getActivity(), "Email is valid", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
+
+    protected final TextWatcher mReviewHeaderWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if ((s.toString() != null) && (s.toString() != ""))
+                Toast.makeText(getActivity(), "Header is not null", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
+    protected final TextWatcher mReviewDescriptionWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if ((s.toString() != null) && (s.toString().length() > 49))
+                Toast.makeText(getActivity(), "Now the Description is successfullt Exceded 50 characters", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
 
     private void setButtonParams(float density) {
