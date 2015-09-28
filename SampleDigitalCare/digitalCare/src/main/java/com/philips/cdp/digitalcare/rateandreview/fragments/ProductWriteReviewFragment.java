@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,11 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+
+import java.util.Locale;
 
 /**
  * This class is responsible for showing the UI for getting the end user information before submiting the
@@ -37,6 +41,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
+    private static final String PRODUCT_TERMS_DIALOG_URL = "http://%s/content/7543b-%s/termsandconditions.htm";
     private LinearLayout mParentLayout = null;
     private FrameLayout.LayoutParams mLayoutParams = null;
     private DigitalCareFontButton mOkButton, mCancelButton = null;
@@ -196,9 +201,19 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         if (v.getId() == (R.id.your_product_review_send_button))
             submitReview();
         if (v.getId() == (R.id.review_write_rate_product_terms_termstext))
-            showEULAAlert("http://www.google.com");
+            showEULAAlert(getTermsAndConditionsPage().toString());
         else if (v.getId() == R.id.your_product_review_cancel_button)
             backstackFragment();
+    }
+
+    protected Uri getTermsAndConditionsPage() {
+
+        Locale info = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+        String locale = info.toString();
+        String countryFallbackUrl = LocaleMatchHandler.getPRXUrl(locale);
+        String termsAndConditionsUrl = countryFallbackUrl.replace("www.", "brand-reviews.");
+
+        return Uri.parse(String.format(PRODUCT_TERMS_DIALOG_URL, termsAndConditionsUrl, locale));
     }
 
 

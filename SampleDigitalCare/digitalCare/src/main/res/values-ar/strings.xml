@@ -128,7 +128,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> هل كل المعلومات صحيحة؟ </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> تصنيف: </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> ملخّص عن الرأي: </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> رأي <:/string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> رأي </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> اللقب: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> البريد الإلكتروني </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> إرسال رأيي </string>

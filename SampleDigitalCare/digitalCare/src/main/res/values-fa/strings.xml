@@ -127,7 +127,7 @@
     <string name="bazzarvoice_productreview_preview_header_text"> همه چیز صحیح است؟ </string>
     <string name="bazzarvoice_productreview_preview_rating_text"> رتبه: </string>
     <string name="bazzarvoice_productreview_preview_review_summary_text"> خلاصه نظرات: </string>
-    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> نظر <:/string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> نظر </string>
     <string name="bazzarvoice_productreview_preview_nickname_text"> نام مستعار: </string>
     <string name="bazzarvoice_productreview_preview_email_text"> ایمیل </string>
     <string name="bazzarvoice_productreview_preview_submitmyreview_text"> نظر من ارسال شود </string>
