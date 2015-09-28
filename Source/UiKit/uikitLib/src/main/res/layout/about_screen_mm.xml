@@ -85,6 +85,7 @@
                 android:layout_marginTop="@dimen/about_screen_content_top_margin"
                 android:textColor="@color/philips_very_dark_blue"
                 android:textSize="@dimen/about_screen_terms_privacy_content_size"
+                fontPath="fonts/centralesans_book.ttf"
                 android:text="@string/about_screen_content"/>
         </RelativeLayout>
         <ImageView
