@@ -107,7 +107,7 @@ import java.util.UUID;
 public class SHNCentral {
     private static final String TAG = SHNCentral.class.getSimpleName();
 
-    public enum SHNCentralState {
+    public enum State {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
     }
     public interface SHNCentralListener {
@@ -129,9 +129,11 @@ public class SHNCentral {
                     case BluetoothAdapter.STATE_TURNING_OFF:
                     case BluetoothAdapter.STATE_TURNING_ON:
                         bluetoothAdapterEnabled = false;
+                        shnCentralState = State.SHNCentralStateNotReady;
                         break;
                     case BluetoothAdapter.STATE_ON:
                         bluetoothAdapterEnabled = true;
+                        shnCentralState = State.SHNCentralStateReady;
                         break;
                 }
             }
@@ -140,7 +142,7 @@ public class SHNCentral {
     private SHNCentralListener shnCentralListener;
     private SHNDeviceScanner shnDeviceScanner;
     private SHNDeviceAssociation shnDeviceAssociation;
-    private SHNCentralState shnCentralState = SHNCentralState.SHNCentralStateError;
+    private State shnCentralState = State.SHNCentralStateNotReady;
     private BTAdapter btAdapter;
     private Handler internalHandler;
     private SHNDeviceDefinitions shnDeviceDefinitions;
@@ -163,6 +165,8 @@ public class SHNCentral {
         // Check that the adapter is enabled.
         if (!(bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled())) {
             BleUtilities.startEnableBluetoothActivity();
+        }else{
+            shnCentralState = State.SHNCentralStateReady;
         }
 
         // Register a broadcast receiver listening for BluetoothAdapter state changes
@@ -284,7 +288,7 @@ public class SHNCentral {
         return shnDeviceAssociation;
     }
 
-    public SHNCentralState getShnCentralState() {
+    public State getShnCentralState() {
         return shnCentralState;
     }
 
