@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -196,6 +197,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         }
 
         if (isfromBegining) {
+            FrameLayout frameLayout= (FrameLayout) view.findViewById(R.id.fl_reg_logout);
+            frameLayout.setVisibility(View.GONE);
             mBtnSignOut.setVisibility(View.GONE);
             mTvEmailDetails.setVisibility(View.GONE);
             mBtnContinue.setText(getResources().getString(R.string.SignInSuccess_SignOut_btntxt));
@@ -214,14 +217,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         email = String.format(email, userProfile.getEmail());
         mTvSignInEmail.setText(email);
 
-        Button btnFetchConsent = (Button) view.findViewById(R.id.btn_resend_consent);
-
-        if (RegistrationHelper.getInstance().isCoppaFlow()) {
-            btnFetchConsent.setVisibility(View.GONE);
-            btnFetchConsent.setOnClickListener(this);
-        } else {
-            btnFetchConsent.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -229,19 +224,18 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         int id = v.getId();
         if (id == R.id.btn_reg_sign_out) {
             RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
-            trackPage(AppTaggingPages.HOME);
+            showLogoutSpinner();
             handleLogout();
         } else if (id == R.id.btn_reg_continue) {
             if (isfromBegining) {
                 RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
+                showLogoutFromBeginSpinner();
                 handleLogout();
             } else {
                 RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
                 RegistrationHelper.getInstance().getUserRegistrationListener()
                         .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());
             }
-        } else if (id == R.id.btn_resend_consent) {
-            resendCoppaMail();
         }
     }
 
@@ -251,36 +245,23 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         if (RegistrationHelper.getInstance().isHsdpFlow())  {
             HsdpUser hsdpUser = new HsdpUser(mContext);
             if(null!=hsdpUser.getHsdpUserRecord()){
-                showLogoutSpinner();
+                if(mBtnContinue.getVisibility()== View.VISIBLE){
+                    mBtnContinue.setEnabled(false);
+                    mBtnContinue.setClickable(false);
+                }
                 mUser.logoutHsdp(this);
             }else{
+                trackPage(AppTaggingPages.HOME);
                 mUser.logout();
                 getRegistrationFragment().replaceWithHomeFragment();
             }
         } else {
+            trackPage(AppTaggingPages.HOME);
             mUser.logout();
             getRegistrationFragment().replaceWithHomeFragment();
         }
     }
 
-    private void resendCoppaMail() {
-        CoppaExtension coppaExtension = new CoppaExtension();
-        coppaExtension.resendCoppaEmailConsentForUserEmail(userProfile.getEmail(),
-                new ResendCoppaEmailConsentHandler() {
-
-                    @Override
-                    public void didResendCoppaEmailConsentSucess() {
-
-                    }
-
-                    @Override
-                    public void didResendCoppaEmailConsentFailedWithError(
-                            CoppaResendError coppaResendError) {
-
-                    }
-                });
-
-    }
 
     @Override
     public void onCheckedChanged(
@@ -353,6 +334,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     @Override
     public void onHsdpLogoutSuccess() {
+        trackPage(AppTaggingPages.HOME);
         mUser.logout();
         if (isfromBegining) {
             hideLogoutFromBeginSpinner();
@@ -365,8 +347,13 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     @Override
     public void onHsdpLogoutFailure(int responseCode, final String message) {
+        if(mBtnContinue.getVisibility()== View.VISIBLE){
+            mBtnContinue.setEnabled(true);
+            mBtnContinue.setClickable(true);
+        }
         if (isfromBegining) {
             hideLogoutFromBeginSpinner();
+            mRegError.setError(message);
         }else{
             hideLogoutSpinner();
             mRegError.setError(message);

@@ -51,7 +51,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
         }
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationHelper.getInstance().isHsdpFlow()) {
+        if (RegistrationHelper.getInstance().isHsdpFlow()&& user.getEmailVerificationStatus(mContext)) {
 
                     HsdpUser login = new HsdpUser(mContext);
                     login.hsdpLogin(mEmail, mPassword, new LoginHandler() {

@@ -25,7 +25,7 @@ public class RegistrationApplication extends Application {
 
 		mRegistrationHelper = RegistrationHelper.getInstance();
 		mRegistrationHelper.setCoppaFlow(false);
-		mRegistrationHelper.setIsHsdpFlow(true);
+		mRegistrationHelper.setIsHsdpFlow(false);
 		AppTagging.enableAppTagging(true);
 		AppTagging.setTrackingIdentifier("integratingApplicationAppsId");
 		AppTagging.setLaunchingPageName("demoapp:home");

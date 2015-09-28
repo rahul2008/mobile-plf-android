@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
@@ -118,10 +117,11 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/fl_reg_forgot_password"
+                    android:id="@+id/fl_reg_logout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/reg_btn_height"
-                    android:layout_below="@+id/fl_reg_sign_in">
+                    android:layout_below="@+id/fl_reg_sign_in"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom">
 
                     <com.philips.cdp.registration.ui.customviews.XButton
                         android:id="@+id/btn_reg_sign_out"
@@ -140,12 +140,6 @@
                         android:visibility="gone" />
                 </FrameLayout>
 
-                <Button
-                    android:id="@+id/btn_resend_consent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Resend Consent"
-                    android:visibility="gone" />
 
                 <View
                     android:layout_width="wrap_content"

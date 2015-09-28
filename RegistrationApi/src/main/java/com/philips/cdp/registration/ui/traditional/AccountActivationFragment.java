@@ -282,7 +282,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onRefreshUserSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        if (mUser.getEmailVerificationStatus(mContext) && RegistrationHelper.getInstance().isHsdpFlow() && null!=hsdpUser.getHsdpUserRecord()) {
+        if (mUser.getEmailVerificationStatus(mContext) && RegistrationHelper.getInstance().isHsdpFlow()) {
             hsdpUser.hsdpLogin(mEmailId, RegUtility.getTraditionalPassword(mContext), new LoginHandler() {
                 @Override
                 public void onHsdpLoginSuccess() {

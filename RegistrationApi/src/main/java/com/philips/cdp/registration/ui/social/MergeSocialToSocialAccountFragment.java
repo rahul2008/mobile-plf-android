@@ -37,7 +37,6 @@ import org.json.JSONObject;
 public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment implements EventListener,
 		onUpdateListener, NetworStateListener,SocialProviderLoginHandler,OnClickListener {
 
-	private TextView mTvAccountMergeSignIn;
 
 	private LinearLayout mLlUsedEMailAddressContainer;
 
@@ -163,7 +162,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
 		mBtnCancel = (XButton) view.findViewById(R.id.btn_reg_cancel);
 		mBtnCancel.setOnClickListener(this);
-		mTvAccountMergeSignIn = (TextView) view.findViewById(R.id.tv_reg_account_merge_sign_in);
 		mLlUsedEMailAddressContainer = (LinearLayout) view
 				.findViewById(R.id.ll_reg_account_merge_container);
 
@@ -287,7 +285,6 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
 	@Override
 	public void setViewParams(Configuration config) {
-		applyParams(config, mTvAccountMergeSignIn);
 		applyParams(config, mLlUsedEMailAddressContainer);
 		applyParams(config, mRlSingInOptions);
 		applyParams(config, mRegError);
