@@ -3,8 +3,6 @@ package com.philips.pins.shinelib.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.philips.pins.shinelib.SHNDevice;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -50,8 +48,9 @@ public class ShinePreferenceWrapper {
             editor.putString(createKeyFromMacAddress(associatedDeviceInfo.macAddress), associatedDeviceInfo.deviceTypeName);
         }
         for (AssociatedDeviceInfo oldAssociatedDeviceInfo : oldAssociatedDeviceInfos) {
-            if (!newMacAddressKeys.contains(oldAssociatedDeviceInfo.macAddress)) {
-                editor.remove(createKeyFromMacAddress(oldAssociatedDeviceInfo.macAddress));
+            String oldKey = createKeyFromMacAddress(oldAssociatedDeviceInfo.macAddress);
+            if (!newMacAddressKeys.contains(oldKey)) {
+                editor.remove(oldKey);
             }
         }
         editor.commit();
