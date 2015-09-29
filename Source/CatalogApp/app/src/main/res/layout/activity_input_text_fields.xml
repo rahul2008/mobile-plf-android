@@ -25,6 +25,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         inputText:hintText="@string/enter_text_here"
-        inputText:errorText="@string/invalid_pwd_format"
+        inputText:errorText="@string/invalid_email_format"
+        android:animateLayoutChanges="true"/>
+
+    <com.philips.cdp.uikit.PuiEditText
+        android:id="@+id/input_field_disabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_field_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        inputText:disabled="true"
+        inputText:hintText="@string/enter_text_here"
         android:animateLayoutChanges="true"/>
 </RelativeLayout>

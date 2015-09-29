@@ -25,6 +25,7 @@
     <declare-styleable name="InputTextField">
         <attr name="hintText" format="string"/>
         <attr name="errorText" format="string"/>
+        <attr name="disabled" format="boolean"/>
     </declare-styleable>
 
 </resources>

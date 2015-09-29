@@ -37,10 +37,13 @@ public class PuiEditText extends RelativeLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
         String editTextHint = a.getString(R.styleable.InputTextField_hintText);
         String errorText = a.getString(R.styleable.InputTextField_errorText);
+        boolean disabled = a.getBoolean(R.styleable.InputTextField_disabled, false);
         a.recycle();
 
         editText = (EditText) getChildAt(0);
         editText.setHint(editTextHint);
+        editText.setFocusable(!disabled);
+        editText.setEnabled(!disabled);
         themeDrawable = editText.getBackground();
         editText.setOnFocusChangeListener(onFocusChangeListener);
         errorImage = (ImageView) getChildAt(2);
@@ -58,6 +61,15 @@ public class PuiEditText extends RelativeLayout {
 
     public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void setValidator(Validator validator) {
+        this.validator = validator;
+    }
+
+    public void setEditTextEnabled(boolean enabled) {
+        editText.setFocusable(enabled);
+        editText.setEnabled(enabled);
     }
 
     private void showErrorAndChangeEditTextStyle(boolean show) {
@@ -79,10 +91,6 @@ public class PuiEditText extends RelativeLayout {
             }
         }
     };
-
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
 
     private void setErrorTextStyle() {
         editText.setBackgroundResource(R.drawable.edittext_error_bg);
