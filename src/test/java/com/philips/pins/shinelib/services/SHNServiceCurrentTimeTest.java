@@ -126,7 +126,7 @@ public class SHNServiceCurrentTimeTest {
         shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
 
         verify(mockedSHNObjectResultListener).onActionCompleted(anyObject(), shnResultArgumentCaptor.capture());
-        assertEquals(SHNResult.SHNServiceUnavailableError, shnResultArgumentCaptor.getValue());
+        assertEquals(SHNResult.SHNErrorServiceUnavailable, shnResultArgumentCaptor.getValue());
     }
 
     @Test
@@ -212,10 +212,10 @@ public class SHNServiceCurrentTimeTest {
 
         shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
         verify(mockedSHNCharacteristicCurrentTime).read(shnCommandResultReporterArgumentCaptor.capture()); // Just to capture the ResultReporter
-        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNLostConnectionError, null);
+        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNErrorConnectionLost, null);
 
         verify(mockedSHNObjectResultListener).onActionCompleted(shnObjectResultListenerArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
-        assertEquals(SHNResult.SHNLostConnectionError, shnResultArgumentCaptor.getValue());
+        assertEquals(SHNResult.SHNErrorConnectionLost, shnResultArgumentCaptor.getValue());
         assertNull(shnObjectResultListenerArgumentCaptor.getValue());
     }
 }

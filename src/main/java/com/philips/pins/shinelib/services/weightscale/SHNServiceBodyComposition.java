@@ -80,7 +80,7 @@ public class SHNServiceBodyComposition implements SHNService.SHNServiceListener,
         if (SHNService.State.Available == shnService.getState()) {
             readFeatures(listener);
         } else {
-            listener.onActionCompleted(null, SHNResult.SHNServiceUnavailableError);
+            listener.onActionCompleted(null, SHNResult.SHNErrorServiceUnavailable);
         }
     }
 

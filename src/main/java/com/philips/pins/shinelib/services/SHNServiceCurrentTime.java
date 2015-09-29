@@ -79,7 +79,7 @@ public class SHNServiceCurrentTime {
         if (SHNService.State.Available == shnService.getState()) {
             readCurrentTimeFromCharacteristic(shnObjectResultListener);
         } else {
-            shnObjectResultListener.onActionCompleted(null, SHNResult.SHNServiceUnavailableError);
+            shnObjectResultListener.onActionCompleted(null, SHNResult.SHNErrorServiceUnavailable);
         }
     }
 

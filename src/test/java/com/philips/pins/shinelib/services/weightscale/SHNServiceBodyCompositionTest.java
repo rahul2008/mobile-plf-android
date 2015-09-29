@@ -236,6 +236,6 @@ public class SHNServiceBodyCompositionTest {
         SHNObjectResultListener mockedShnResultListener = mock(SHNObjectResultListener.class);
         shnServiceBodyComposition.getFeatures(mockedShnResultListener);
 
-        verify(mockedShnResultListener).onActionCompleted(null, SHNResult.SHNServiceUnavailableError);
+        verify(mockedShnResultListener).onActionCompleted(null, SHNResult.SHNErrorServiceUnavailable);
     }
 }

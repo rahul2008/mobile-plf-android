@@ -236,6 +236,6 @@ public class SHNServiceWeightScaleTest {
         SHNObjectResultListener mockedShnResultListener = mock(SHNObjectResultListener.class);
         shnServiceWeightScale.getFeatures(mockedShnResultListener);
 
-        verify(mockedShnResultListener).onActionCompleted(null, SHNResult.SHNServiceUnavailableError);
+        verify(mockedShnResultListener).onActionCompleted(null, SHNResult.SHNErrorServiceUnavailable);
     }
 }
