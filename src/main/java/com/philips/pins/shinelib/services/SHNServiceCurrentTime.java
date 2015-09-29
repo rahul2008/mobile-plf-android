@@ -101,7 +101,7 @@ public class SHNServiceCurrentTime {
                 byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
                 exactTime256WithAdjustReason = new ExactTime256WithAdjustReason(byteBuffer);
             } catch (BufferUnderflowException e) {
-                shnResult = SHNResult.SHNResponseIncompleteError;
+                shnResult = SHNResult.SHNErrorResponseIncomplete;
             } catch (IllegalArgumentException e) {
                 shnResult = SHNResult.SHNErrorWhileParsing;
             }

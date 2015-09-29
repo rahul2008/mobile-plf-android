@@ -906,10 +906,10 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
             if (byteBuffer.get() == OP_CODE_RESPONSE) {
                 matchWithCommand(command, byteBuffer);
             } else {
-                command.notifyListeners(SHNResult.SHNInvalidResponseError);
+                command.notifyListeners(SHNResult.SHNIErrorInvalidResponse);
             }
         } catch (BufferUnderflowException ex) {
-            command.notifyListeners(SHNResult.SHNResponseIncompleteError);
+            command.notifyListeners(SHNResult.SHNErrorResponseIncomplete);
         }
     }
 
@@ -921,7 +921,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         } else if (command.getType() == SHNUserDataCommand.Command.DELETE && byteBuffer.get() == OP_CODE_DELETE_USER_DATA) {
             extractResultAndNotifyListener(byteBuffer, command);
         } else {
-            command.notifyListeners(SHNResult.SHNInvalidResponseError);
+            command.notifyListeners(SHNResult.SHNIErrorInvalidResponse);
         }
     }
 
@@ -952,7 +952,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
             case RESPONSE_CODE_USER_NOT_AUTHORIZED:
                 return SHNResult.SHNUserNotAuthorized;
             default:
-                return SHNResult.SHNInvalidResponseError;
+                return SHNResult.SHNIErrorInvalidResponse;
         }
     }
 

@@ -208,7 +208,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE + 1, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x14};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidResponseError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNIErrorInvalidResponse);
     }
 
     @Test
@@ -216,7 +216,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER + 1, RESPONSE_CODE_SUCCESS, 0x14};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidResponseError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNIErrorInvalidResponse);
     }
 
     @Test
@@ -224,7 +224,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, 0x14};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidResponseError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNIErrorInvalidResponse);
     }
 
     @Test
@@ -232,7 +232,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNResponseIncompleteError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorResponseIncomplete);
     }
 
     @Test
@@ -240,7 +240,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNResponseIncompleteError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorResponseIncomplete);
     }
 
     @Test
@@ -248,7 +248,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNResponseIncompleteError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorResponseIncomplete);
     }
 
     @Test
@@ -470,7 +470,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS};
         setUpConsentExistingUserStage3(10, 999, SHNResult.SHNOk, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNInvalidResponseError);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNIErrorInvalidResponse);
     }
 
     @Test
@@ -494,7 +494,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE + 1, OP_CODE_CONSENT, RESPONSE_CODE_SUCCESS};
         setUpConsentExistingUserStage3(10, 999, SHNResult.SHNOk, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNInvalidResponseError);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNIErrorInvalidResponse);
     }
 
     @Test
@@ -631,7 +631,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_CONSENT, RESPONSE_CODE_SUCCESS};
         setUpDeleteUserStage3(SHNResult.SHNOk, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNInvalidResponseError);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNIErrorInvalidResponse);
     }
 
     @Test
@@ -647,7 +647,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {};
         setUpDeleteUserStage3(SHNResult.SHNOk, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNResponseIncompleteError);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorResponseIncomplete);
     }
 
     @Test
@@ -655,7 +655,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE + 1, OP_CODE_DELETE_USER_DATA, RESPONSE_CODE_SUCCESS};
         setUpDeleteUserStage3(SHNResult.SHNOk, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNInvalidResponseError);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNIErrorInvalidResponse);
     }
 
     @Test

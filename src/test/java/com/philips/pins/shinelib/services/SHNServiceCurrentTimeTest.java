@@ -180,7 +180,7 @@ public class SHNServiceCurrentTimeTest {
         });
 
         verify(mockedSHNObjectResultListener).onActionCompleted(shnObjectResultListenerArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
-        assertEquals(SHNResult.SHNResponseIncompleteError, shnResultArgumentCaptor.getValue());
+        assertEquals(SHNResult.SHNErrorResponseIncomplete, shnResultArgumentCaptor.getValue());
         assertNull(shnObjectResultListenerArgumentCaptor.getValue());
     }
 
