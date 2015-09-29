@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,6 +109,27 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     private RatingBar mRatingBarVerticle, mRatingBarHorizontal = null;
     private Switch mSwitch = null;
     private EditText mSummaryHeaderEditText, mSummaryDescriptionEditText, mNicknameEditText, mEmailEditText = null;
+    private DigitalCareFontTextView mSummaryErrorButton = null;
+//    private DigitalCareFontTextView mDescErrorButton = null;
+    private DigitalCareFontTextView mNameErrorButton = null;
+    private DigitalCareFontTextView mEmailErrorButton = null;
+    private RelativeLayout mSummaryVerifiedField = null;
+//    private RelativeLayout mDescVerifiedField = null;
+    private RelativeLayout mNameVerifiedField = null;
+    private RelativeLayout mEmailVerifiedField = null;
+
+    private ImageView mReviewSummaryIconInvalid = null;
+    private ImageView mReviewSummaryIconValid = null;
+
+    private ImageView mReviewNameIconInvalid = null;
+    private ImageView mReviewNameIconValid = null;
+
+    private ImageView mReviewEmailIconInvalid = null;
+    private ImageView mReviewEmailIconValid = null;
+
+    private ImageView mSummaryArrow = null;
+    private ImageView mNameArrow = null;
+    private ImageView mEmailArrow = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,6 +150,16 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         Configuration config = getResources().getConfiguration();
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_send_button);
         mCancelButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_cancel_button);
+        mSummaryErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_summary);
+//        mDescErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_desc);
+        mNameErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_name);
+        mEmailErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_email);
+
+        mSummaryVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.summary_verified_field);
+//        mDescVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.desc_verified_field);
+        mNameVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.name_verified_field);
+        mEmailVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.email_verified_field);
+
         mProductImage = (ImageView) getActivity().findViewById(R.id.review_write_rate_productimage);
         mProductTitle = (DigitalCareFontTextView) getActivity().findViewById(R.id.review_write_rate_name);
         mProductCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.review_write_rate_variant);
@@ -140,6 +172,26 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mNicknameEditText = (EditText) getActivity().findViewById(R.id.review_write_rate_product_nickname_header_value);
         mEmailEditText = (EditText) getActivity().findViewById(R.id.review_write_rate_product_email_header_value);
 
+        mReviewSummaryIconInvalid = (ImageView) getActivity().findViewById(R.id.reviewSummaryIconInvalid);
+        mReviewSummaryIconValid = (ImageView) getActivity().findViewById(R.id.reviewSummaryIconValid);
+
+        mReviewNameIconInvalid = (ImageView) getActivity().findViewById(R.id.reviewNameIconInvalid);
+        mReviewNameIconValid = (ImageView) getActivity().findViewById(R.id.reviewNameIconValid);
+
+        mReviewEmailIconInvalid = (ImageView) getActivity().findViewById(R.id.reviewEmailIconInvalid);
+        mReviewEmailIconValid = (ImageView) getActivity().findViewById(R.id.reviewEmailIconValid);
+
+        mSummaryArrow = (ImageView) getActivity().findViewById(R.id.iv_up_arrow_summary);
+        mNameArrow = (ImageView) getActivity().findViewById(R.id.iv_up_arrow_name);
+        mEmailArrow = (ImageView) getActivity().findViewById(R.id.iv_up_arrow_email);
+
+        mReviewSummaryIconInvalid.setOnClickListener(this);
+        mReviewEmailIconInvalid.setOnClickListener(this);
+        mReviewNameIconInvalid.setOnClickListener(this);
+
+        mSummaryHeaderEditText.addTextChangedListener(mTextWatcherSummary);
+        mNicknameEditText.addTextChangedListener(mTextWatcherName);
+        mEmailEditText.addTextChangedListener(mTextWatcherEmail);
 
         mOkButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
@@ -167,7 +219,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private void setButtonParams(float density) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                LinearLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
         RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
@@ -177,16 +229,168 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         params.weight = 1;
         param.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
 
+        RelativeLayout.LayoutParams paramErrorLabel = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        RelativeLayout.LayoutParams paramErrorDescLabel = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        RelativeLayout.LayoutParams paramIcon = (RelativeLayout.LayoutParams) mReviewSummaryIconInvalid.getLayoutParams();
+        paramIcon.topMargin = (int) (getActivity().getResources().getDimension(R.dimen.marginTopButton) + 10);
+
+        paramErrorLabel.topMargin = (int) (getActivity().getResources().getDimension(R.dimen.marginTopButton) *
+                getActivity().getResources().getDimension(R.dimen.err_edit_fields_margin_top));
+        paramErrorDescLabel.topMargin = (int) ((getActivity().getResources().getDimension(R.dimen.marginTopButton) *
+                getActivity().getResources().getDimension(R.dimen.err_edit_fields_desc_margin_top)) + 10);
+
+        RelativeLayout.LayoutParams verifiedFieldParams = (RelativeLayout.LayoutParams) mSummaryVerifiedField.getLayoutParams();
+        verifiedFieldParams.height = (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density);
+
+        mSummaryVerifiedField.setLayoutParams(verifiedFieldParams);
+//        mDescVerifiedField.setLayoutParams(verifiedFieldParams);
+        mNameVerifiedField.setLayoutParams(verifiedFieldParams);
+        mEmailVerifiedField.setLayoutParams(verifiedFieldParams);
+
+
+        mReviewSummaryIconInvalid.setLayoutParams(paramIcon);
+        mReviewSummaryIconValid.setLayoutParams(paramIcon);
+
+        mReviewNameIconInvalid.setLayoutParams(paramIcon);
+        mReviewNameIconValid.setLayoutParams(paramIcon);
+
+        mReviewEmailIconInvalid.setLayoutParams(paramIcon);
+        mReviewEmailIconValid.setLayoutParams(paramIcon);
+
         mCancelButton.setLayoutParams(params);
         mOkButton.setLayoutParams(params);
-        mSummaryHeaderEditText.setLayoutParams(params);
-        mNicknameEditText.setLayoutParams(params);
-        mEmailEditText.setLayoutParams(params);
+
+        mSummaryHeaderEditText.setLayoutParams(param);
+        mNicknameEditText.setLayoutParams(param);
+        mEmailEditText.setLayoutParams(param);
+
+        mSummaryErrorButton.setLayoutParams(paramErrorLabel);
+//        mDescErrorButton.setLayoutParams(paramErrorDescLabel);
+        mNameErrorButton.setLayoutParams(paramErrorLabel);
+        mEmailErrorButton.setLayoutParams(paramErrorLabel);
 
     /*   mRatingBarHorizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.
                 LayoutParams.WRAP_CONTENT));*/
-
     }
+
+    private final TextWatcher mTextWatcherSummary = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (s.length() > 0) {
+                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            Log.i("testing", "onTextChanged  s : " + s.toString() + s.length());
+            Log.i("testing", "onTextChanged   count : " + count);
+
+            if (s.length() > 0) {
+                mReviewSummaryIconInvalid.setVisibility(View.GONE);
+                mReviewSummaryIconValid.setVisibility(View.VISIBLE);
+                mSummaryErrorButton.setVisibility(View.GONE);
+                mSummaryArrow.setVisibility(View.GONE);
+            } else {
+                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
+                mReviewSummaryIconValid.setVisibility(View.GONE);
+            }
+        }
+
+        public void afterTextChanged(Editable s) {
+            Log.i("testing", "afterTextChanged   s editable  : " + s.toString());
+            if (s.length() > 0) {
+                mReviewSummaryIconInvalid.setVisibility(View.GONE);
+                mReviewSummaryIconValid.setVisibility(View.VISIBLE);
+                mSummaryErrorButton.setVisibility(View.GONE);
+                mSummaryArrow.setVisibility(View.GONE);
+            } else {
+                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
+                mReviewSummaryIconValid.setVisibility(View.GONE);
+            }
+        }
+    };
+
+    private final TextWatcher mTextWatcherName = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (s.length() > 0) {
+                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            Log.i("testing", "onTextChanged  s : " + s.toString() + s.length());
+            Log.i("testing", "onTextChanged   count : " + count);
+
+            if (s.length() > 0) {
+                mReviewNameIconInvalid.setVisibility(View.GONE);
+                mReviewNameIconValid.setVisibility(View.VISIBLE);
+                mNameErrorButton.setVisibility(View.GONE);
+                mNameArrow.setVisibility(View.GONE);
+            } else {
+                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
+                mReviewNameIconValid.setVisibility(View.GONE);
+            }
+        }
+
+        public void afterTextChanged(Editable s) {
+            Log.i("testing", "afterTextChanged   s editable  : " + s.toString());
+            if (s.length() > 0) {
+                mReviewNameIconInvalid.setVisibility(View.GONE);
+                mReviewNameIconValid.setVisibility(View.VISIBLE);
+                mNameErrorButton.setVisibility(View.GONE);
+                mNameArrow.setVisibility(View.GONE);
+            } else {
+                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
+                mReviewNameIconValid.setVisibility(View.GONE);
+            }
+        }
+    };
+
+    private final TextWatcher mTextWatcherEmail = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (s.length() > 0) {
+                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            Log.i("testing", "onTextChanged  s : " + s.toString() + s.length());
+            Log.i("testing", "onTextChanged   count : " + count);
+
+            if (s.length() > 0) {
+                mReviewEmailIconInvalid.setVisibility(View.GONE);
+                mReviewEmailIconValid.setVisibility(View.VISIBLE);
+                mEmailErrorButton.setVisibility(View.GONE);
+                mEmailArrow.setVisibility(View.GONE);
+            } else {
+                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
+                mReviewEmailIconValid.setVisibility(View.GONE);
+            }
+        }
+
+        public void afterTextChanged(Editable s) {
+            Log.i("testing", "afterTextChanged   s editable  : " + s.toString());
+            if (s.length() > 0) {
+                mReviewEmailIconInvalid.setVisibility(View.GONE);
+                mReviewEmailIconValid.setVisibility(View.VISIBLE);
+                mEmailErrorButton.setVisibility(View.GONE);
+                mEmailArrow.setVisibility(View.GONE);
+            } else {
+                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
+                mReviewEmailIconValid.setVisibility(View.GONE);
+            }
+        }
+    };
+
 
     @Override
     public void setViewParams(Configuration config) {
@@ -259,13 +463,22 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
      */
     @Override
     public void onClick(View v) {
-
-        if (v.getId() == (R.id.your_product_review_send_button))
+        if(v.getId() == R.id.reviewSummaryIconInvalid){
+            mSummaryErrorButton.setVisibility(View.VISIBLE);
+            mSummaryArrow.setVisibility(View.VISIBLE);
+        }
+        else if(v.getId() == R.id.reviewNameIconInvalid){
+            mNameErrorButton.setVisibility(View.VISIBLE);
+            mNameArrow.setVisibility(View.VISIBLE);
+        }
+        else if(v.getId() == R.id.reviewEmailIconInvalid){
+            mEmailErrorButton.setVisibility(View.VISIBLE);
+            mEmailArrow.setVisibility(View.VISIBLE);
+        }
+        else if (v.getId() == (R.id.your_product_review_send_button)) {
             submitReview();
-        if (v.getId() == (R.id.review_write_rate_product_terms_termstext)) {
-            if (isConnectionAvailable())
-                showEULAAlert(getTermsAndConditionsPage().toString());
-        } else if (v.getId() == R.id.your_product_review_cancel_button)
+        }
+        else if (v.getId() == R.id.your_product_review_cancel_button) {
             backstackFragment();
     }
 

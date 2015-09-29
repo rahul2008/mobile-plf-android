@@ -13,6 +13,7 @@
          <color name="actionbar_bg_start_color">#003478</color>
     <color name="actionbar_bg_end_color">#0066A1</color>
     -->
+    <color name="error_box_color">#E88200</color>
     <color name="chat_can_we_help_you_title">@color/actionbar_title_color</color>
     <color name="NetworkAlertView_background_color">#b2b2b2</color>
     <color name="NetworkAlertView_text_color">#ffffff</color>
