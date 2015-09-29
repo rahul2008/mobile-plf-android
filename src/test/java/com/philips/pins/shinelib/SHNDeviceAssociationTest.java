@@ -330,7 +330,7 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
-        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNBluetoothDisabledError);
+        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNErrorBluetoothDisabled);
         verify(mockedSHNDeviceAssociationListener, never()).onAssociationStarted(any(SHNAssociationProcedure.class));
     }
 
@@ -340,7 +340,7 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.startAssociationForDeviceType("UnknownType");
 
-        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNBluetoothDisabledError);
+        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNErrorBluetoothDisabled);
     }
 
     @Test

@@ -19,7 +19,7 @@ public enum SHNResult {
     SHNLogSyncBufferFormatError,
     SHNUnknownLogSyncRecordType,
     SHNUnknownDeviceTypeError,
-    SHNBluetoothDisabledError,
+    SHNErrorBluetoothDisabled,
     SHNUnsupportedOperation,
     SHNOperationFailed,
     SHNUserNotAuthorized,

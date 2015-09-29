@@ -167,7 +167,7 @@ public class SHNCapabilityLogSyncBaseTest {
 
     @Test
     public void whenStartSynchronizationIsCalledWithResultNotOkThenStateIsIdle() {
-        startCapabilityWithResult(SHNResult.SHNBluetoothDisabledError);
+        startCapabilityWithResult(SHNResult.SHNErrorBluetoothDisabled);
 
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, testSHNCapabilityLogSyncBase.getState());
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, times(2)).onStateUpdated(testSHNCapabilityLogSyncBase);
@@ -175,14 +175,14 @@ public class SHNCapabilityLogSyncBaseTest {
 
     @Test
     public void whenStartSynchronizationIsCalledWithResultNotOkThenTimerIsStopped() {
-        startCapabilityWithResult(SHNResult.SHNBluetoothDisabledError);
+        startCapabilityWithResult(SHNResult.SHNErrorBluetoothDisabled);
 
         verify(mockedTimeoutTimer).stop();
     }
 
     @Test
     public void whenStartSynchronizationIsCalledWithResultNotOkThenTimerIsNotRestarted() {
-        startCapabilityWithResult(SHNResult.SHNBluetoothDisabledError);
+        startCapabilityWithResult(SHNResult.SHNErrorBluetoothDisabled);
 
         InOrder inOrder = inOrder(mockedTimeoutTimer);
         inOrder.verify(mockedTimeoutTimer).restart();

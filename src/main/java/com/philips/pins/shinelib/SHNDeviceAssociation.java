@@ -165,7 +165,7 @@ public class SHNDeviceAssociation {
                 reportFailure(SHNResult.SHNUnknownDeviceTypeError);
             }
         } else {
-            reportFailure(SHNResult.SHNBluetoothDisabledError);
+            reportFailure(SHNResult.SHNErrorBluetoothDisabled);
         }
     }
 
