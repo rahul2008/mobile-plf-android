@@ -4,6 +4,7 @@
 
     <!-- Language -->
     <string-array name="Language">
+        <item>Dutch (nl)</item>
         <item>India (en)</item>
         <item>English (en)</item>
         <item>French (fr)</item>
@@ -11,7 +12,6 @@
         <item>German (de)</item>
         <item>japanese (ja)</item>
         <item>Korean (ko)</item>
-        <item>Dutch (nl)</item>
         <item>portuguese (pt)</item>
         <item>Russian (ru)</item>
         <item>Traditional Chinese (zh)</item>
@@ -31,6 +31,7 @@
 
     <!-- Language code -->
     <string-array name="Language_code">
+        <item>nl</item>
         <item>en</item>
         <item>en</item>
         <item>fr</item>
@@ -38,7 +39,6 @@
         <item>de</item>
         <item>ja</item>
         <item>ko</item>
-        <item>nl</item>
         <item>pt</item>
         <item>ru</item>
         <item>zh</item>
@@ -58,6 +58,7 @@
 
     <!-- Country -->
     <string-array name="country">
+        <item>Dutch(NL)</item>
         <item>India (in)</item>
         <item>United States(US)</item>
         <item>France(FR)</item>
@@ -65,7 +66,6 @@
         <item>Germany(DE)</item>
         <item>Japan(JP)</item>
         <item>Korea(KR)</item>
-        <item>Dutch(NL)</item>
         <item>BRAZIL(BR)</item>
         <item>Russia(RU)</item>
         <item>China(TW)</item>
@@ -84,6 +84,7 @@
 
     <!-- country code -->
     <string-array name="country_code">
+        <item>NL</item>
         <item>IN</item>
         <item>US</item>
         <item>FR</item>
@@ -91,7 +92,6 @@
         <item>DE</item>
         <item>JP</item>
         <item>KR</item>
-        <item>NL</item>
         <item>BR</item>
         <item>RU</item>
         <item>TW</item>
