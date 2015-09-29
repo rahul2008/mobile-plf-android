@@ -77,6 +77,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     private ImageView mNameArrow = null;
     private ImageView mEmailArrow = null;
 
+    private DigitalCareFontTextView mDescTextCount = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,6 +102,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 //        mDescErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_desc);
         mNameErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_name);
         mEmailErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_email);
+
+        mDescTextCount = (DigitalCareFontTextView) getActivity().findViewById(R.id.textcount_count);
 
         mSummaryVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.summary_verified_field);
 //        mDescVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.desc_verified_field);
@@ -138,6 +142,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mSummaryHeaderEditText.addTextChangedListener(mTextWatcherSummary);
         mNicknameEditText.addTextChangedListener(mTextWatcherName);
         mEmailEditText.addTextChangedListener(mTextWatcherEmail);
+        mSummaryDescriptionEditText.addTextChangedListener(mTextWatcherDesc);
 
         mOkButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
@@ -291,6 +296,20 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             }
         }
     };
+
+    private final TextWatcher mTextWatcherDesc = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mDescTextCount.setText(count+"");
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
 
     private final TextWatcher mTextWatcherEmail = new TextWatcher() {
 

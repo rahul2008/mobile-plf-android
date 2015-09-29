@@ -100,42 +100,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp">
 
-<!--
-            <RelativeLayout
-                android:id="@+id/summary_verified_field"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/support_btn_height">
-
-                <RelativeLayout
-                    android:id="@+id/reviewSummaryIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right|center_vertical"
-                    android:layout_alignParentRight="true"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="4dp"
-                    android:paddingTop="2dp">
-
-                    <ImageView
-                        android:id="@+id/reviewSummaryIconInvalid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_error_alert" />
-
-                    <ImageView
-                        android:id="@+id/reviewSummaryIconValid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_valid_alert" />
-                </RelativeLayout>
-            </RelativeLayout>
--->
-
             <EditText
                 android:id="@+id/review_write_rate_product_header_summary"
                 style="@style/write_product_review_edittext"
@@ -204,39 +168,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--<RelativeLayout
-                android:id="@+id/desc_verified_field"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/support_btn_height">
-
-                <RelativeLayout
-                    android:id="@+id/reviewDescIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right|center_vertical"
-                    android:layout_alignParentRight="true"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="4dp"
-                    android:paddingTop="2dp">
-
-                    <ImageView
-                        android:id="@+id/incorrect_icon_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/product_name"
-                        android:src="@drawable/dc_error_alert" />
-
-                    <ImageView
-                        android:id="@+id/correct_icon_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/product_name"
-                        android:src="@drawable/dc_valid_alert" />
-                </RelativeLayout>
-
-            </RelativeLayout>
--->
             <RelativeLayout
                 android:id="@+id/desc_edit_text"
                 android:layout_width="match_parent"
@@ -245,6 +176,7 @@
                 <EditText
                     android:id="@+id/review_write_rate_product_header_description"
                     style="@style/write_product_review_edittext"
+                    android:gravity="left"
                     android:layout_height="100dp"
                     android:hint="@string/bazzarvoice_productreview_writescreen_descriptionhint"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
@@ -283,17 +215,17 @@
 
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
-                    android:id="@+id/write_textcount_view"
+                    android:id="@+id/textcount_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_toLeftOf="@+id/write_textcount_minmum"
+                    android:layout_toLeftOf="@+id/textcount_minmum"
                     android:text="0"
                     android:textColor="@color/text_header_color"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
-                    android:id="@+id/write_textcount_minmum"
+                    android:id="@+id/textcount_minmum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -468,43 +400,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp">
 
-<!--
-            <RelativeLayout
-                android:id="@+id/email_verified_field"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/support_btn_height">
-
-                <RelativeLayout
-                    android:id="@+id/reviewEmailIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right|center_vertical"
-                    android:layout_alignParentRight="true"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="4dp"
-                    android:paddingTop="2dp">
-
-                    <ImageView
-                        android:id="@+id/reviewEmailIconInvalid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_error_alert" />
-
-                    <ImageView
-                        android:id="@+id/reviewEmailIconValid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_valid_alert" />
-                </RelativeLayout>
-
-            </RelativeLayout>
--->
-
             <EditText
                 android:id="@+id/review_write_rate_product_email_header_value"
                 style="@style/write_product_review_edittext"
@@ -562,7 +457,7 @@
                 android:layout_below="@+id/iv_up_arrow_email"
                 android:layout_marginTop="@dimen/err_edit_fields_margin_top"
                 android:background="@drawable/error_rect"
-                android:text="@string/EmptyField_ErrorMsg"
+                android:text="@string/kemailFieldErrorText"
                 android:visibility="gone"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </RelativeLayout>

@@ -6,6 +6,7 @@
     <string name="no_internet">No internet connection. Please check if your connection is working in your phone’s wifi settings or data settings</string>
     <string name="locate_philips_popup_legal">When you make use of the ‘Find Philips near you’ functionality on the Support Page, you are requested to share your location data with Philips. Based on your location data you will be directed towards a store near you, or to the consumer care contact details of your country</string>
     <string name="EmptyField_ErrorMsg">Field cannot be empty</string>
+    <string name="kemailFieldErrorText">Please enter valid email address.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">How can we help?</string>
