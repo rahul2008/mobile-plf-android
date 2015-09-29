@@ -292,7 +292,13 @@ public class SHNCentral {
         if (registeredShnCentralListeners == null) {
             registeredShnCentralListeners = new ArrayList<>();
         }
-        registeredShnCentralListeners.add(shnCentralListener);
+        if(!registeredShnCentralListeners.contains(shnCentralListener)) {
+            registeredShnCentralListeners.add(shnCentralListener);
+        }
+    }
+
+    public void unregisterShnCentralListener(SHNCentralListener shnCentralListener) {
+        registeredShnCentralListeners.remove(shnCentralListener);
     }
 
     public SHNDeviceScanner getShnDeviceScanner() {
