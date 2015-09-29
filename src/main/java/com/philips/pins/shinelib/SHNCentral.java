@@ -203,7 +203,8 @@ public class SHNCentral {
             public void run() {
                 SHNCentral.this.shnCentralState = state;
                 if (registeredShnCentralListeners != null) {
-                    for (WeakReference<SHNCentralListener> shnCentralListener : registeredShnCentralListeners) {
+                    ArrayList<WeakReference> copy = new ArrayList<WeakReference>(registeredShnCentralListeners);
+                    for (WeakReference<SHNCentralListener> shnCentralListener : copy) {
                         if (shnCentralListener.get() != null) {
                             shnCentralListener.get().onStateUpdated(SHNCentral.this);
                         }
