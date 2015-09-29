@@ -15,7 +15,7 @@ public enum SHNResult {
     SHNErrorWhileParsing,
     SHNTimeoutError,
     SHNErrorInvalidState,
-    SHNIErrorInvalidResponse,
+    SHNErrorInvalidResponse,
     SHNErrorResponseIncomplete,
     SHNServiceUnavailableError,
     SHNLostConnectionError,
