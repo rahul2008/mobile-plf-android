@@ -821,7 +821,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
     private void registerNewUserImpl(int consentCode, final SHNIntegerResultListener listener) {
         if (consentCode > 9999 || consentCode < 0) {
-            listener.onActionCompleted(UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidParameterError);
+            listener.onActionCompleted(UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorInvalidParameter);
         } else {
             ByteBuffer buffer = ByteBuffer.allocate(3);
             buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -836,7 +836,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
     private void consentExistingUserImpl(int userId, int consentCode, final SHNResultListener listener) {
         if (consentCode > 9999 || consentCode < 0 || userId < 0 || userId > 254) {
-            listener.onActionCompleted(SHNResult.SHNInvalidParameterError);
+            listener.onActionCompleted(SHNResult.SHNErrorInvalidParameter);
         } else {
             ByteBuffer buffer = ByteBuffer.allocate(4);
             buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -946,7 +946,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
             case RESPONSE_CODE_OP_CODE_NOT_SUPPORTED:
                 return SHNResult.SHNUnsupportedOperation;
             case RESPONSE_CODE_INVALID_PARAMETER:
-                return SHNResult.SHNInvalidParameterError;
+                return SHNResult.SHNErrorInvalidParameter;
             case RESPONSE_CODE_OPERATION_FAILED:
                 return SHNResult.SHNOperationFailed;
             case RESPONSE_CODE_USER_NOT_AUTHORIZED:

@@ -148,11 +148,11 @@ public class SHNDeviceAssociationTest {
 
     @Test
     public void whenStartReturnsAnErrorThenAssociationFailedIsCalled() {
-        doReturn(SHNResult.SHNInvalidParameterError).when(mockedSHNAssociationProcedure).start();
+        doReturn(SHNResult.SHNErrorInvalidParameter).when(mockedSHNAssociationProcedure).start();
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
-        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNInvalidParameterError);
+        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNErrorInvalidParameter);
     }
 
     @Test

@@ -11,9 +11,8 @@ public enum SHNResult {
     SHNOperationFailed,
     SHNUserNotAuthorized,
     // error codes
-    SHNInvalidParameterError,
+    SHNErrorInvalidParameter,
     SHNErrorWhileParsing,
-    SHNUnexpectedMessageError,
     SHNTimeoutError,
     SHNInvalidStateError,
     SHNInvalidResponseError,

@@ -137,7 +137,7 @@ public class SHNServiceUserDataTest extends TestCase {
     public void whenRegisterNewUserIsCalledWithIllegalConsentCodeThenResponseIsError() {
         setUpRegisterNewUserStage1(10000);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidParameterError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorInvalidParameter);
     }
 
     @Test
@@ -166,9 +166,9 @@ public class SHNServiceUserDataTest extends TestCase {
 
     @Test
     public void whenRegisterNewUserIsCalledWithLegalConsentCodeAndResultIsNotOkThenResponseIsSent() {
-        setUpRegisterNewUserStage2(999, SHNResult.SHNInvalidParameterError);
+        setUpRegisterNewUserStage2(999, SHNResult.SHNErrorInvalidParameter);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidParameterError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorInvalidParameter);
     }
 
     @Test
@@ -200,7 +200,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_INVALID_PARAMETER};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidParameterError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorInvalidParameter);
     }
 
     @Test
@@ -454,7 +454,7 @@ public class SHNServiceUserDataTest extends TestCase {
     public void whenConsentExistingUserIsCalledWithIllegalConsentCodeThenResponseIsError() {
         setUpConsentExistingUserStage1(256, 999);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNInvalidParameterError);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorInvalidParameter);
     }
 
     @Test
