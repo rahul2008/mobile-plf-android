@@ -24,7 +24,6 @@ import java.util.Locale;
  */
 public class LocaleMatchHandler implements LocaleMatchListener {
 
-    private static DigitalCareConfigManager mConfigManager = null;
     private static HashMap<String, String> mPRXMap = null;
     private final String TAG = LocaleMatchHandler.class.getSimpleName();
     private Context mContext = null;
@@ -38,7 +37,6 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         mContext = context;
         mPLocaleManager = new PILLocaleManager();
         mPLocaleManager.init(mContext, this);
-        mConfigManager = DigitalCareConfigManager.getInstance();
         DigiCareLogger.v(TAG, "Contructor..");
     }
 
@@ -128,22 +126,25 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     @Override
     public void onErrorOccurredForLocaleMatch(LocaleMatchError arg0) {
         DigiCareLogger.v(LocaleMatchHandler.class.getSimpleName(),
-                "piLocale received on ErrorLIstener");
+                "piLocale received on ErrorListener");
         DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
+        DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
     }
 
     @Override
     public void onLocaleMatchRefreshed(String arg0) {
-        if (mConfigManager == null && mConfigManager.getConsumerProductInfo() == null &&
-                mConfigManager.getConsumerProductInfo().getSector() == null) {
+        if (DigitalCareConfigManager.getInstance() == null || DigitalCareConfigManager.getInstance().getConsumerProductInfo() == null ||
+                DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector() == null) {
+            DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
+            DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
             return;
         }
 
         PILLocaleManager pilLocaleManager = new PILLocaleManager();
         DigiCareLogger.v(TAG, "onLocaleMatchRefreshed(), Sector from Config : "
-                + mConfigManager.getConsumerProductInfo().getSector());
+                + DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
 
-        String mSector = mConfigManager.getConsumerProductInfo().getSector();
+        String mSector = DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector();
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
         if (mSectorValue != 0) {
 
