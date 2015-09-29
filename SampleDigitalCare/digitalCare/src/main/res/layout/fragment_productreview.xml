@@ -76,7 +76,7 @@
                         android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
                         android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/productreview_green" />
+                        android:src="@drawable/productreview_tick" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_first_expandableimage_text"
@@ -101,7 +101,7 @@
                         android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
                         android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/product_review_red" />
+                        android:src="@drawable/productreview_cross" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_second_expandableimage_text"
@@ -126,7 +126,7 @@
                         android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
                         android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/product_review_red" />
+                        android:src="@drawable/productreview_cross" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_third_expandableimage_text"
@@ -150,7 +150,7 @@
                         android:layout_width="@dimen/bazzarvoice_guidlines_icon_size"
                         android:layout_height="@dimen/bazzarvoice_guidlines_icon_size"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/product_review_red" />
+                        android:src="@drawable/productreview_cross" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_fourth_expandableimage_text"
