@@ -22,20 +22,19 @@
             android:name=".activity.ActionButtonsActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity
-            android:name=".activity.ThemesActivity"
-            android:label="@string/app_name" />
-        <activity android:name=".activity.ButtonsActivity" />
-        <activity android:name=".dot_navigation.DotNavigationActivity" />
-        <activity android:name=".activity.SplashActivityGradient" />
-        <activity android:name=".SplashActivityLogoTop" />
-        <activity android:name=".SplashActivityLogoBottom" />
-        <activity android:name=".SplashActivityLogoCenterTitleTop" />
-        <activity android:name=".SplashActivityLogoCenterTitleBottom" />
-        <activity android:name=".SplashLauncher" />
-        <activity android:name=".image_navigation.ImageNavigationActivity" />
+        <activity android:name=".activity.ThemesActivity"
+                  android:label="@string/app_name"></activity>
+        <activity android:name=".activity.ButtonsActivity"/>
+        <activity android:name=".dotnavigation.DotNavigationActivity"/>
+ 		<activity android:name=".image_navigation.ImageNavigationActivity" />
         <activity android:name=".activity.ActionBarTestActivity" android:theme="@style/MyActionBar" >
-        </activity>
+        <activity android:name=".activity.SplashActivityGradient"/>
+        <activity android:name=".SplashActivityLogoTop"/>
+        <activity android:name=".SplashActivityLogoBottom"/>
+        <activity android:name=".SplashActivityLogoCenterTitleTop"/>
+        <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
+        <activity android:name=".SplashLauncher"/>
+
     </application>
 
 </manifest>
