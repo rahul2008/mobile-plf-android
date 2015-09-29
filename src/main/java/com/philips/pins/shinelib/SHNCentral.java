@@ -142,7 +142,7 @@ public class SHNCentral {
             }
         }
     };
-    private List<SHNCentralListener> registeredShnCentralListeners;
+    private List<CentralWeakReference<SHNCentralListener>> registeredShnCentralListeners;
     private SHNDeviceScanner shnDeviceScanner;
     private SHNDeviceAssociation shnDeviceAssociation;
     private State shnCentralState = State.SHNCentralStateNotReady;
@@ -203,8 +203,10 @@ public class SHNCentral {
             public void run() {
                 SHNCentral.this.shnCentralState = state;
                 if (registeredShnCentralListeners != null) {
-                    for (SHNCentralListener shnCentralListener : registeredShnCentralListeners) {
-                        shnCentralListener.onStateUpdated(SHNCentral.this);
+                    for (WeakReference<SHNCentralListener> shnCentralListener : registeredShnCentralListeners) {
+                        if (shnCentralListener.get() != null) {
+                            shnCentralListener.get().onStateUpdated(SHNCentral.this);
+                        }
                     }
                 }
             }
@@ -292,13 +294,15 @@ public class SHNCentral {
         if (registeredShnCentralListeners == null) {
             registeredShnCentralListeners = new ArrayList<>();
         }
-        if(!registeredShnCentralListeners.contains(shnCentralListener)) {
-            registeredShnCentralListeners.add(shnCentralListener);
+        CentralWeakReference<SHNCentralListener> softListener = new CentralWeakReference(shnCentralListener);
+        if (!registeredShnCentralListeners.contains(softListener)) {
+            registeredShnCentralListeners.add(softListener);
         }
     }
 
     public void unregisterShnCentralListener(SHNCentralListener shnCentralListener) {
-        registeredShnCentralListeners.remove(shnCentralListener);
+        CentralWeakReference<SHNCentralListener> softListener = new CentralWeakReference(shnCentralListener);
+        registeredShnCentralListeners.remove(softListener);
     }
 
     public SHNDeviceScanner getShnDeviceScanner() {
@@ -340,5 +344,26 @@ public class SHNCentral {
             }
         }
         return shnDevice;
+    }
+
+    private class CentralWeakReference<T> extends WeakReference<T> {
+
+        public CentralWeakReference(T r) {
+            super(r);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof CentralWeakReference) {
+                CentralWeakReference compareTo = (CentralWeakReference) obj;
+                return this.get().equals(compareTo.get());
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return this.get().hashCode();
+        }
     }
 }
