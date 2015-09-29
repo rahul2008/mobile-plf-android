@@ -113,28 +113,7 @@ public class SHNDeviceAssociation {
             @Override
             public void run() {
                 if (shnAssociationProcedure == null) {
-                    SHNResult result;
-                    if (shnCentral.getShnCentralState() == SHNCentral.State.SHNCentralStateReady) {
-
-                        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
-                        associationDeviceTypeName = deviceTypeName;
-                        if (shnDeviceDefinitionInfo != null) {
-                            SHNAssociationProcedure shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
-                            if (shnAssociationProcedure.getShouldScan()) {
-                                startScanning(shnDeviceDefinitionInfo);
-                            }
-                            result = shnAssociationProcedure.start();
-                            if (result == SHNResult.SHNOk) {
-                                reportAssociationStarted(shnAssociationProcedure);
-                                return;
-                            }
-                        } else {
-                            result = SHNResult.SHNUnknownDeviceTypeError;
-                        }
-                    } else {
-                        result = SHNResult.SHNBluetoothDisabledError;
-                    }
-                    reportFailure(result);
+                    startAssociation(deviceTypeName);
                 } else {
                     Log.w(TAG, "startAssociationForDeviceType: association not started: it is already running!");
                 }
@@ -165,6 +144,29 @@ public class SHNDeviceAssociation {
             removed = associatedDevices.remove(matchedSHNDevice);
         }
         return removed;
+    }
+
+    private void startAssociation(String deviceTypeName) {
+        if (shnCentral.getShnCentralState() == SHNCentral.State.SHNCentralStateReady) {
+            SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
+            associationDeviceTypeName = deviceTypeName;
+            if (shnDeviceDefinitionInfo != null) {
+                SHNAssociationProcedure shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
+                if (shnAssociationProcedure.getShouldScan()) {
+                    startScanning(shnDeviceDefinitionInfo);
+                }
+                SHNResult result = shnAssociationProcedure.start();
+                if (result == SHNResult.SHNOk) {
+                    reportAssociationStarted(shnAssociationProcedure);
+                } else {
+                    reportFailure(result);
+                }
+            } else {
+                reportFailure(SHNResult.SHNUnknownDeviceTypeError);
+            }
+        } else {
+            reportFailure(SHNResult.SHNBluetoothDisabledError);
+        }
     }
 
     private void reportFailure(final SHNResult result) {

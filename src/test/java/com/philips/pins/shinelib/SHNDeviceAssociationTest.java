@@ -308,7 +308,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenDeviceIsNotAssociatedAndRemovedIsCalledThen() {
+    public void whenDeviceIsNotAssociatedAndRemovedIsCalledThenAssociationDeviceListDoesNotChange() {
         String macAddress = "11:22:33:44:55:66";
         SHNDevice shnDevice = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
@@ -325,7 +325,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedWhenAssociationOnAssociationFailedIsCalled() {
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedThenAssociationOnAssociationFailedIsCalled() {
         when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
@@ -335,7 +335,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedForUnknownTypeWhenAssociationOnAssociationFailedIsCalled() {
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedForUnknownTypeThenAssociationOnAssociationFailedIsCalled() {
         when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
 
         shnDeviceAssociation.startAssociationForDeviceType("UnknownType");
@@ -344,7 +344,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedAgainWhenAssociationIsNotStarted() {
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedAgainThenTheSecondStartIsSilentlyIgnored() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         reset(mockedSHNDeviceAssociationListener);
