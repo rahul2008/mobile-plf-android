@@ -75,7 +75,7 @@ public class BleScanRecordParser {
                         }
                     }
                     break;
-                case 0xff:
+                case 0xff:// Manufacturer specific data. No defined format, just an array of bytes.
                     manufacturerSpecificData = Arrays.copyOfRange(advertisedData, offset, offset + len - 1);
                     offset += (len - 1);
                     break;
