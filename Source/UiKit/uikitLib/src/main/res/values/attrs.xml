@@ -13,12 +13,18 @@
         <attr name="actionButtonBgColorPressed" format="color"/>
         <attr name="actionButtonImageDrawable" format="reference"/>
         <attr name="actionButtonStyleRef" format="reference"/>
+        <attr name="actionButtonShadow" format="boolean"/>
     </declare-styleable>
 
-    <attr name="splashTitleStyle" format="reference"/>
+    <attr name="splashTitleStyle" format="reference" />
+
+    <declare-styleable name="AppCompactImageView">
+        <attr name="vectorsrc" format="reference"/>
+    </declare-styleable>
 
     <declare-styleable name="InputTextField">
         <attr name="hintText" format="string"/>
         <attr name="errorText" format="string"/>
     </declare-styleable>
+
 </resources>

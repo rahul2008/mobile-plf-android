@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="splash_title_text_size">50dp</dimen>
+    <dimen name="splash_title_text_size">53dp</dimen>
     <dimen name="splash_logo_height">223dp</dimen>
     <dimen name="splash_logo_width">175dp</dimen>
+
+    <dimen name="splash_logo_margin_top">85dp</dimen>
+    <dimen name="splash_title_margin_bottom">86dp</dimen>
+
+    <dimen name="splash_logo_margin_bottom">88dp</dimen>
+    <dimen name="splash_title_margin_top">85dp</dimen>
 </resources>

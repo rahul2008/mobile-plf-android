@@ -75,19 +75,10 @@ public class PuiEditText extends RelativeLayout {
         @Override
         public void onFocusChange(final View view, final boolean hasFocus) {
             if(!hasFocus) {
-//                changeEditTextStyle();
                 showErrorAndChangeEditTextStyle(!(validator == null || validator.validate(editText.getText().toString())));
             }
         }
     };
-
-    private void changeEditTextStyle() {
-        if(validator == null || validator.validate(editText.getText().toString())) {
-            showErrorAndChangeEditTextStyle(false);
-        } else {
-            showErrorAndChangeEditTextStyle(true);
-        }
-    }
 
     public void setValidator(Validator validator) {
         this.validator = validator;

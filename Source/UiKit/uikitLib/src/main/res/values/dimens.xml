@@ -4,14 +4,15 @@
     <dimen name="philips_button_square_corner_radius">4.5dp</dimen>
     <dimen name="philips_action_button_text_size">9dp</dimen>
     <dimen name="philips_action_button_padding">2dp</dimen>
+    <dimen name="action_button_shadow_radius">6dp</dimen>
 
     <!-- Dimensions for margins of the Splash Screen -->
-    <dimen name="splash_logo_margin_top">35dp</dimen>
-    <dimen name="splash_logo_margin_bottom">35dp</dimen>
+    <dimen name="splash_logo_margin_top">85dp</dimen>
+    <dimen name="splash_logo_margin_bottom">53dp</dimen>
     <dimen name="splash_logo_height">139dp</dimen>
     <dimen name="splash_logo_width">109dp</dimen>
-    <dimen name="splash_title_margin_top">35dp</dimen>
-    <dimen name="splash_title_margin_bottom">35dp</dimen>
+    <dimen name="splash_title_margin_top">76dp</dimen>
+    <dimen name="splash_title_margin_bottom">48dp</dimen>
     <dimen name="splash_title_text_size">38dp</dimen>
 
     <dimen name="button_corner_rounding">2dp</dimen>
@@ -19,5 +20,8 @@
     <dimen name="button_height">44dp</dimen>
     <dimen name="button_padding_sides">20dp</dimen>
     <dimen name="button_text_size">14sp</dimen>
+
+    <dimen name="dot_navigation_selected_radius">6dp</dimen>
+    <dimen name="dot_navigation_unselected_radius">4dp</dimen>
 
 </resources>

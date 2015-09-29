@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
+import com.philips.cdp.ui.catalog.dotnavigation.DotNavigationActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
@@ -52,6 +53,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, ButtonsActivity.class));
                 break;
             case 4:
+                startActivity(new Intent(this, DotNavigationActivity.class));
+                break;
+            case 5:
                 startActivity(new Intent(this, InputTextFieldsActivity.class));
                 break;
             default:
