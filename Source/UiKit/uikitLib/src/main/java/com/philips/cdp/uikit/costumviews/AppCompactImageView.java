@@ -42,7 +42,7 @@ public class AppCompactImageView extends ImageView {
         setImageDrawable(v);
     }
 
-    private int getResourceID(String resName, Class<?> resourceClass) {
+    public static int getResourceID(String resName, Class<?> resourceClass) {
         Field target = null;
         int resourceID = -1;
         try {

@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
-import com.philips.cdp.ui.catalog.dot_navigation.DotNavigationActivity;
+import com.philips.cdp.ui.catalog.dotnavigation.DotNavigationActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
