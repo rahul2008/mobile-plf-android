@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
-import com.philips.cdp.ui.catalog.image_navigation.ImageNavigationActivity;
+import com.philips.cdp.ui.catalog.imagenavigation.ImageNavigationActivity;
 import com.philips.cdp.ui.catalog.dotnavigation.DotNavigationActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
