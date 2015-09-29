@@ -3,5 +3,6 @@
     <style name="SplashTitle">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/splash_title_text_size</item>
+        <item name="fontPath">fonts/centralesanslight.ttf</item>
     </style>
 </resources>

@@ -10,12 +10,11 @@
         <item>Change Theme</item>
         <item>Buttons</item>
         <item>Dot Navigation</item>
-        <item>About Screen</item>
-    </string-array>
+        <item>About Screen</item>        <item>Image Navigation</item>    </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
     <string name="change_theme">Change theme</string>
     <string name="previous_theme">Previous theme</string>
-    <string name="splash_title">@string/app_name</string>
+    <string name="splash_title">Mobile App</string>
     <string name="color_background">Use Color Background</string>
     <string name="solid">solid</string>
     <string name="gradient">gradient</string>
@@ -23,4 +22,6 @@
     <string name="blue_theme">Blue Theme</string>
     <string name="orange_theme">Orange Theme</string>
     <string name="misc_shadow_message">Miscellaneous Buttons with Shadow</string>
+    <string name="title_activity_image_navigation">ImageNavigationActivity</string>
+    <string name="title_activity_action_bar_test">ActionBarTestActivity</string>
 </resources>
