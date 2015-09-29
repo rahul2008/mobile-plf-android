@@ -44,6 +44,60 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
     private static final String PRODUCT_TERMS_DIALOG_URL = "http://%s/content/7543b-%s/termsandconditions.htm";
+    protected final TextWatcher mEmailWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if (s.toString().contains("@"))
+                Toast.makeText(getActivity(), "Email is valid", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+    protected final TextWatcher mReviewHeaderWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if ((s.toString() != null) && (s.toString() != ""))
+                Toast.makeText(getActivity(), "Header is not null", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+    protected final TextWatcher mReviewDescriptionWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if ((s.toString() != null) && (s.toString().length() > 49))
+                Toast.makeText(getActivity(), "Now the Description is successfullt Exceded 50 characters", Toast.LENGTH_SHORT).show();
+
+        }
+    };
     private LinearLayout mParentLayout = null;
     private FrameLayout.LayoutParams mLayoutParams = null;
     private DigitalCareFontButton mOkButton, mCancelButton = null;
@@ -110,65 +164,6 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mSummaryHeaderEditText.addTextChangedListener(mReviewHeaderWatcher);
         mEmailEditText.addTextChangedListener(mEmailWatcher);
     }
-
-    protected final TextWatcher mEmailWatcher = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-            if (s.toString().contains("@"))
-                Toast.makeText(getActivity(), "Email is valid", Toast.LENGTH_SHORT).show();
-
-        }
-    };
-
-
-    protected final TextWatcher mReviewHeaderWatcher = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-            if ((s.toString() != null) && (s.toString() != ""))
-                Toast.makeText(getActivity(), "Header is not null", Toast.LENGTH_SHORT).show();
-
-        }
-    };
-
-    protected final TextWatcher mReviewDescriptionWatcher = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-            if ((s.toString() != null) && (s.toString().length() > 49))
-                Toast.makeText(getActivity(), "Now the Description is successfullt Exceded 50 characters", Toast.LENGTH_SHORT).show();
-
-        }
-    };
-
 
     private void setButtonParams(float density) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -267,9 +262,10 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
         if (v.getId() == (R.id.your_product_review_send_button))
             submitReview();
-        if (v.getId() == (R.id.review_write_rate_product_terms_termstext))
-            showEULAAlert(getTermsAndConditionsPage().toString());
-        else if (v.getId() == R.id.your_product_review_cancel_button)
+        if (v.getId() == (R.id.review_write_rate_product_terms_termstext)) {
+            if (isConnectionAvailable())
+                showEULAAlert(getTermsAndConditionsPage().toString());
+        } else if (v.getId() == R.id.your_product_review_cancel_button)
             backstackFragment();
     }
 
