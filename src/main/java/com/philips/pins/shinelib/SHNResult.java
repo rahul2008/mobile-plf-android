@@ -5,6 +5,12 @@ package com.philips.pins.shinelib;
  */
 public enum SHNResult {
     SHNOk,
+    SHNUnknownLogSyncRecordType,
+    SHNAborted,
+    SHNUnsupportedOperation,
+    SHNOperationFailed,
+    SHNUserNotAuthorized,
+    // error codes
     SHNInvalidParameterError,
     SHNErrorWhileParsing,
     SHNUnexpectedMessageError,
@@ -17,15 +23,11 @@ public enum SHNResult {
     SHNUnsupportedDataTypeError,
     SHNAssociationError,
     SHNLogSyncBufferFormatError,
-    SHNUnknownLogSyncRecordType,
     SHNUnknownDeviceTypeError,
+
     SHNErrorBluetoothDisabled,
-    SHNUnsupportedOperation,
-    SHNOperationFailed,
-    SHNUserNotAuthorized,
-    SHNAborted,
-    SHNIncompleteUserConfigurationError,
-    SHNInvalidUserConfigurationError,
+    SHNErrorUserConfigurationIncomplete,
+    SHNErrorUserConfigurationInvalid,
     SHNErrorProcedureAlreadyInProgress,
     SHNErrorReceptionInterrupted
 }
