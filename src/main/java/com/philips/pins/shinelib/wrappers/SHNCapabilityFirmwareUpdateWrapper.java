@@ -5,10 +5,7 @@ import android.os.Handler;
 import com.philips.pins.shinelib.SHNFirmwareInfo;
 import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
 import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.SHNResultListener;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
-import com.philips.pins.shinelib.datatypes.SHNDataType;
 
 /**
  * Created by code1_310170470 on 27/07/15.

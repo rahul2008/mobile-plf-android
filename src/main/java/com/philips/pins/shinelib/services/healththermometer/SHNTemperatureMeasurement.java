@@ -1,7 +1,5 @@
 package com.philips.pins.shinelib.services.healththermometer;
 
-import com.philips.pins.shinelib.datatypes.SHNData;
-import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNTemperatureType;
 import com.philips.pins.shinelib.datatypes.SHNTemperatureUnit;
 import com.philips.pins.shinelib.utility.SHNBluetoothDataConverter;
