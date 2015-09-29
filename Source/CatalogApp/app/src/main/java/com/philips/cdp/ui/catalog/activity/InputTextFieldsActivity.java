@@ -4,13 +4,12 @@ import android.os.Bundle;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.PuiEditText;
-import com.philips.cdp.uikit.UiKitActivity;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class InputTextFieldsActivity extends UiKitActivity {
+public class InputTextFieldsActivity extends CatalogActivity {
 
     PuiEditText puiEditText1;
     PuiEditText puiEditText2;
