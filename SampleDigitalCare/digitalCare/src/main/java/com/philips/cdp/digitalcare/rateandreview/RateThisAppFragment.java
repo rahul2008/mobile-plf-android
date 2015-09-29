@@ -1,6 +1,8 @@
 package com.philips.cdp.digitalcare.rateandreview;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -22,6 +24,7 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
+import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageListener;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -31,7 +34,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @author: naveen@philips.com
  * @since: Jan 11, 2015
  */
-public class RateThisAppFragment extends DigitalCareBaseFragment {
+public class RateThisAppFragment extends DigitalCareBaseFragment implements ProductPageListener {
 
     private static final String PRODUCT_REVIEW_URL = "http://%s%s/%s";
     private static String TAG = RateThisAppFragment.class.getSimpleName();
@@ -48,6 +51,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private FrameLayout.LayoutParams mLayoutParams = null;
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
+    private ProgressDialog mProgressDialog = null;
 
 
     @Override
@@ -56,7 +60,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         DigiCareLogger.d(TAG, "onCreateView");
         View mView = inflater.inflate(R.layout.fragment_tellus, container,
                 false);
-        //new ProductPageParser(this).execute();
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
@@ -90,12 +93,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent
                 .getLayoutParams();
         Configuration config = getResources().getConfiguration();
-        if (ProductPageParser.PRX_PRODUCT_URL != null) {
+        /*if (ProductPageParser.PRX_PRODUCT_URL != null) {
             showProductReviewView();
             mProductReviewPage = ProductPageParser.PRX_PRODUCT_URL;
-        } else {
-            hideProductReviewView();
-        }
+        } else {*/
+        // }
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
@@ -114,6 +116,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mProductReviewView.setVisibility(View.VISIBLE);
         mDividerView.setVisibility(View.VISIBLE);
     }
+
 
     /**
      * Product Review URL Page
@@ -175,6 +178,22 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onResume() {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+        hideProductReviewView();
+        initProductPRX();
+    }
+
+    private void initProductPRX() {
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(getActivity());
+
+        new ProductPageParser(this).execute();
+
+        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mProgressDialog.cancel();
+            }
+        });
     }
 
     private void tagExitLisk(String url) {
@@ -229,15 +248,17 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mRatePhilipsBtn.setLayoutParams(params);
     }
 
-    /*@Override
+    @Override
     public void onPRXProductPageReceived(String productlink) {
+        if (mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.cancel();
         if (productlink == null)
             hideProductReviewView();
         else {
             mProductReviewPage = productlink;
             showProductReviewView();
         }
-    }*/
+    }
 
 
     /*protected String getLocalizedReviewUrl(String countryUrl) {

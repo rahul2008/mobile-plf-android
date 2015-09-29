@@ -26,12 +26,12 @@ public class ProductPageParser implements ResponseCallback {
     private final String PRX_JSON_SUCCESS = "success";
     private final String PRX_JSON_PRODUCTURL = "productURL";
     private final String PRX_URL = "http://%s/prx/product/%s/%s/CONSUMER/products/%s.summary";
-    // private ProductPageListener mProductPageListener = null;
+    private ProductPageListener mProductPageListener = null;
 
 
-    public ProductPageParser() {
+    public ProductPageParser(ProductPageListener listener) {
         DigiCareLogger.i(TAG, "ProductPageParser Constructor");
-        //this.mProductPageListener = listener;
+        this.mProductPageListener = listener;
     }
 
 
@@ -65,8 +65,8 @@ public class ProductPageParser implements ResponseCallback {
     public void onResponseReceived(String response) {
         DigiCareLogger.i(TAG, "Json Parsed ? : " + getProductUrl(response));
         //if (mProductPageListener != null)
-        PRX_PRODUCT_URL = getProductUrl(response);
-        //  mProductPageListener.onPRXProductPageReceived(getProductUrl(response));
+        //  PRX_PRODUCT_URL = getProductUrl(response);
+        mProductPageListener.onPRXProductPageReceived(getProductUrl(response));
     }
 
     private String getProductUrl(String response) {

@@ -343,7 +343,7 @@ public class DigitalCareConfigManager {
 
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
-       new ProductPageParser().execute();
+       //new ProductPageParser().execute();
     }
 
 
