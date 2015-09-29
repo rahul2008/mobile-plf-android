@@ -63,7 +63,7 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
         if (LOGGING) Log.i(TAG, "readDeviceInformation");
         final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(shnDeviceInformationType));
         if (shnCharacteristic == null) {
-            shnStringResultListener.onActionCompleted(null, SHNResult.SHNUnsupportedOperation);
+            shnStringResultListener.onActionCompleted(null, SHNResult.SHNErrorUnsupportedOperation);
         } else {
             SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
                 @Override

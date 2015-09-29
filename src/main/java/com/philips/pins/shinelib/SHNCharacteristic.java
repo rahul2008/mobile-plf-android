@@ -148,7 +148,7 @@ public class SHNCharacteristic {
             if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
                 BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
                 if(descriptor==null){
-                    resultReporter.reportResult(SHNResult.SHNUnsupportedOperation, null);
+                    resultReporter.reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
                     return false;
                 }
                 btGatt.writeDescriptor(descriptor, value);

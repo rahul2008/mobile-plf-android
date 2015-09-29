@@ -944,13 +944,13 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
             case RESPONSE_CODE_SUCCESS:
                 return SHNResult.SHNOk;
             case RESPONSE_CODE_OP_CODE_NOT_SUPPORTED:
-                return SHNResult.SHNUnsupportedOperation;
+                return SHNResult.SHNErrorUnsupportedOperation;
             case RESPONSE_CODE_INVALID_PARAMETER:
                 return SHNResult.SHNErrorInvalidParameter;
             case RESPONSE_CODE_OPERATION_FAILED:
-                return SHNResult.SHNOperationFailed;
+                return SHNResult.SHNErrorOperationFailed;
             case RESPONSE_CODE_USER_NOT_AUTHORIZED:
-                return SHNResult.SHNUserNotAuthorized;
+                return SHNResult.SHNErrorUserNotAuthorized;
             default:
                 return SHNResult.SHNErrorInvalidResponse;
         }

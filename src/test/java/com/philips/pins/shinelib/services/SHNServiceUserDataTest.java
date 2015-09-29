@@ -184,7 +184,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_OP_CODE_NOT_SUPPORTED};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNUnsupportedOperation);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorUnsupportedOperation);
     }
 
     @Test
@@ -192,7 +192,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_OPERATION_FAILED};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNOperationFailed);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorOperationFailed);
     }
 
     @Test
@@ -445,9 +445,9 @@ public class SHNServiceUserDataTest extends TestCase {
 
     @Test
     public void whenConsentExistingUserIsCalledWithLegalConsentCodeAndResultIsNotOkThenListenerIsNotified() {
-        setUpConsentExistingUserStage2(10, 999, SHNResult.SHNUnsupportedOperation);
+        setUpConsentExistingUserStage2(10, 999, SHNResult.SHNErrorUnsupportedOperation);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNUnsupportedOperation);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorUnsupportedOperation);
     }
 
     @Test
@@ -478,7 +478,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_CONSENT, RESPONSE_CODE_OPERATION_FAILED};
         setUpConsentExistingUserStage3(10, 999, SHNResult.SHNOk, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNOperationFailed);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorOperationFailed);
     }
 
     @Test
@@ -486,7 +486,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_CONSENT, RESPONSE_CODE_USER_NOT_AUTHORIZED};
         setUpConsentExistingUserStage3(10, 999, SHNResult.SHNOk, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNUserNotAuthorized);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorUserNotAuthorized);
     }
 
     @Test
@@ -606,9 +606,9 @@ public class SHNServiceUserDataTest extends TestCase {
 
     @Test
     public void whenDeleteUserIsCalledWithLegalConsentCodeAndResultIsNotOkThenResponseIsSent() {
-        setUpDeleteUserStage2(SHNResult.SHNUnsupportedOperation);
+        setUpDeleteUserStage2(SHNResult.SHNErrorUnsupportedOperation);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNUnsupportedOperation);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorUnsupportedOperation);
     }
 
     @Test
@@ -639,7 +639,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_DELETE_USER_DATA, RESPONSE_CODE_OPERATION_FAILED};
         setUpDeleteUserStage3(SHNResult.SHNOk, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNOperationFailed);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorOperationFailed);
     }
 
     @Test
