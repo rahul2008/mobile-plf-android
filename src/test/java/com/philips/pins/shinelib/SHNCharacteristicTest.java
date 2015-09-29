@@ -269,7 +269,7 @@ public class SHNCharacteristicTest {
         assertTrue(shnCharacteristic.setNotification(true, mockedSHNCommandResultReporter));
 
         shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_FAILURE);
-        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNUnknownDeviceTypeError, null);
+        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNErrorUnknownDeviceType, null);
     }
 
     @Test
@@ -285,7 +285,7 @@ public class SHNCharacteristicTest {
         assertTrue(shnCharacteristic.setNotification(true, null));
 
         shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_FAILURE);
-//        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNUnknownDeviceTypeError, null);
+//        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNErrorUnknownDeviceType, null);
     }
 
     // Helper functions

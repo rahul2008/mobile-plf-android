@@ -143,7 +143,7 @@ public class SHNDeviceAssociationTest {
     public void whenCallingStartAssociationForAnUnregisteredDeviceTypeWhenAssociationNotInProcessThenOnAssociationFailedIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType("UnknownDeviceType");
 
-        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNUnknownDeviceTypeError);
+        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNErrorUnknownDeviceType);
     }
 
     @Test

@@ -131,7 +131,7 @@ public class SHNCharacteristic {
     }
 
     private SHNResult translateGATTResultToSHNResult(int status) {
-        SHNResult shnResult = SHNResult.SHNUnknownDeviceTypeError;
+        SHNResult shnResult = SHNResult.SHNErrorUnknownDeviceType;
         if (status == BluetoothGatt.GATT_SUCCESS) {
             shnResult = SHNResult.SHNOk;
         }
