@@ -165,20 +165,11 @@ public class SHNCentral {
             throw new SHNBluetoothHardwareUnavailableException();
         }
 
-        HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
-        thread.start();
-        try {
-            internalHandler = new Handler(thread.getLooper());
-            Timer.setHandler(internalHandler);
-        } catch (RuntimeException e) {
-            // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
-        }
-
         // Check that the adapter is enabled.
         if (!(bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled())) {
             BleUtilities.startEnableBluetoothActivity();
         } else {
-            setState(State.SHNCentralStateReady);
+            shnCentralState = State.SHNCentralStateReady;
         }
 
         // Register a broadcast receiver listening for BluetoothAdapter state changes
@@ -189,6 +180,15 @@ public class SHNCentral {
 
         shnDeviceDefinitions = new SHNDeviceDefinitions();
         shnDeviceScanner = new SHNDeviceScanner(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
+
+        HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
+        thread.start();
+        try {
+            internalHandler = new Handler(thread.getLooper());
+            Timer.setHandler(internalHandler);
+        } catch (RuntimeException e) {
+            // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
+        }
 
         SHNDeviceWrapper.setHandlers(internalHandler, userHandler);
 
