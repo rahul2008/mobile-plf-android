@@ -108,7 +108,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
         for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
             iterationTimeoutTimerRunnable.getValue().run();
         }
-        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNAssociationError);
+        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
         verify(mockedSHNAssociationProcedureListener, never()).onAssociationSuccess(any(SHNDevice.class));
     }
 
@@ -119,7 +119,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
             discoverMockedDevice(i % 4);
             iterationTimeoutTimerRunnable.getValue().run();
         }
-        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNAssociationError);
+        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
         verify(mockedSHNAssociationProcedureListener, never()).onAssociationSuccess(any(SHNDevice.class));
     }
 
@@ -130,7 +130,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
             discoverMockedDevice(0);
             iterationTimeoutTimerRunnable.getValue().run();
         }
-        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNAssociationError);
+        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
         verify(mockedSHNAssociationProcedureListener, never()).onAssociationSuccess(any(SHNDevice.class));
     }
 

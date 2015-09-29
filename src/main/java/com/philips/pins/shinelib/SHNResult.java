@@ -19,7 +19,7 @@ public enum SHNResult {
     SHNErrorResponseIncomplete,
     SHNErrorServiceUnavailable,
     SHNErrorConnectionLost,
-    SHNAssociationError,
+    SHNErrorAssociationFailed,
     SHNErrorLogSyncBufferFormat,
     SHNErrorUnknownDeviceType,
 

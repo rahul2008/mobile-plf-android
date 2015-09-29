@@ -66,7 +66,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
             nearestDeviceIterationTimer.restart();
         } else {
             if (LOGGING) Log.i(TAG, "!! No device consistently deemed nearest; association failed");
-            listener.onAssociationFailed(null, SHNResult.SHNAssociationError);
+            listener.onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
         }
     }
 
