@@ -95,9 +95,9 @@ public class SHNServiceBatteryTest {
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
         verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
         SHNCommandResultReporter shnCommandResultReporter = shnCommandResultReporterArgumentCaptor.getValue();
-        shnCommandResultReporter.reportResult(SHNResult.SHNTimeoutError, null);
+        shnCommandResultReporter.reportResult(SHNResult.SHNErrorTimeout, null);
 
-        verify(mockedShnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNTimeoutError);
+        verify(mockedShnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNErrorTimeout);
     }
 
 

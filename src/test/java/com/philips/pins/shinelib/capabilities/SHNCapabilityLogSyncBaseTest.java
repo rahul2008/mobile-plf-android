@@ -258,9 +258,9 @@ public class SHNCapabilityLogSyncBaseTest {
 
     @Test
     public void whenSynchronizationStartReturnsResultNotOkayAndLogIsEmptyThenFailedIsReported() {
-        startCapabilityWithResult(SHNResult.SHNTimeoutError);
+        startCapabilityWithResult(SHNResult.SHNErrorTimeout);
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronizationFailed(testSHNCapabilityLogSyncBase, SHNResult.SHNTimeoutError);
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronizationFailed(testSHNCapabilityLogSyncBase, SHNResult.SHNErrorTimeout);
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, testSHNCapabilityLogSyncBase.getState());
     }
 

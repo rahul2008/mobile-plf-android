@@ -106,6 +106,6 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     @Override
     public void scannerTimeout() {
         nearestDeviceIterationTimer.stop();
-        listener.onAssociationFailed(null, SHNResult.SHNTimeoutError);
+        listener.onAssociationFailed(null, SHNResult.SHNErrorTimeout);
     }
 }

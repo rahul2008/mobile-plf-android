@@ -172,7 +172,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
         associationProcedure.scannerTimeout();
 
         verify(mockedIterationTimeoutTimer).stop();
-        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNTimeoutError);
+        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNErrorTimeout);
         verify(mockedSHNAssociationProcedureListener, never()).onAssociationSuccess(any(SHNDevice.class));
     }
 }

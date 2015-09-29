@@ -227,8 +227,8 @@ public class SHNServiceWeightScaleTest {
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
         verify(mockedSHNCharacteristicWeightScaleFeature).read(shnCommandResultReporterArgumentCaptor.capture());
 
-        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNTimeoutError, null);
-        verify(mockedShnResultListener).onActionCompleted(null, SHNResult.SHNTimeoutError);
+        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNErrorTimeout, null);
+        verify(mockedShnResultListener).onActionCompleted(null, SHNResult.SHNErrorTimeout);
     }
 
     @Test

@@ -161,7 +161,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     public void whenSetCurrentUserIsNotOkThanUserConfigurationIncrementsAreRed() {
         int consentCode = 34;
         int userIndex = 1;
-        consentUserWithResult(userIndex, consentCode, SHNResult.SHNTimeoutError);
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNErrorTimeout);
 
         verify(mockedShnDevicePreferenceWrapper, never()).getInt(UC_DATABASE_INCREMENT);
         verify(mockedShnUserConfiguration, never()).getIncrementIndex();
@@ -386,7 +386,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         int index = 1;
         int consentCode = 336;
-        SHNResult result = SHNResult.SHNTimeoutError;
+        SHNResult result = SHNResult.SHNErrorTimeout;
         autoConsentUserWithResult(index, consentCode, result);
         verify(mockedShnCapabilityUserControlPointListener).onAutoConsentFailed(index, consentCode, result);
     }
@@ -712,11 +712,11 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int receivedIncrement = 10;
         ArgumentCaptor<SHNIntegerResultListener> shnIntegerResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNIntegerResultListener.class);
         verify(mockedShnServiceUserData).getDatabaseIncrement(shnIntegerResultListenerArgumentCaptor.capture());
-        shnIntegerResultListenerArgumentCaptor.getValue().onActionCompleted(receivedIncrement, SHNResult.SHNTimeoutError);
+        shnIntegerResultListenerArgumentCaptor.getValue().onActionCompleted(receivedIncrement, SHNResult.SHNErrorTimeout);
 
         verify(mockedShnServiceUserData, never()).setDatabaseIncrement(anyInt(), any(SHNResultListener.class));
 
-        verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNTimeoutError);
+        verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNErrorTimeout);
     }
 
     @Test
@@ -761,9 +761,9 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
 
         verify(mockedShnServiceUserData).setAge(integerArgumentCaptor.capture(), shnResultListenerArgumentCaptor.capture());
-        shnResultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNTimeoutError);
+        shnResultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNErrorTimeout);
 
-        mockedShnResultListener.onActionCompleted(SHNResult.SHNTimeoutError);
+        mockedShnResultListener.onActionCompleted(SHNResult.SHNErrorTimeout);
     }
 
     @Test
@@ -786,9 +786,9 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
 
         verify(mockedShnServiceUserData).setRestingHeartRate(integerArgumentCaptor.capture(), shnResultListenerArgumentCaptor.capture());
-        shnResultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNTimeoutError);
+        shnResultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNErrorTimeout);
 
         verify(mockedShnServiceUserData, never()).setDatabaseIncrement(anyInt(), any(SHNResultListener.class));
-        mockedShnResultListener.onActionCompleted(SHNResult.SHNTimeoutError);
+        mockedShnResultListener.onActionCompleted(SHNResult.SHNErrorTimeout);
     }
 }

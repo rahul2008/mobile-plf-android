@@ -13,7 +13,7 @@ public enum SHNResult {
     // error codes
     SHNErrorInvalidParameter,
     SHNErrorWhileParsing,
-    SHNTimeoutError,
+    SHNErrorTimeout,
     SHNErrorInvalidState,
     SHNErrorInvalidResponse,
     SHNErrorResponseIncomplete,

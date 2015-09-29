@@ -254,9 +254,9 @@ public class SHNServiceUserDataTest extends TestCase {
     @Test
     public void whenNewUserIsRegisteredWithResponseNotOkAndNotificationIsReceivedThenErrorIsReported() {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x14};
-        setUpRegisterNewUserStage3(999, SHNResult.SHNTimeoutError, response);
+        setUpRegisterNewUserStage3(999, SHNResult.SHNErrorTimeout, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNTimeoutError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorTimeout);
     }
 
     private void setUpRegisterNewUserStage1(int consentCode) {
@@ -328,9 +328,9 @@ public class SHNServiceUserDataTest extends TestCase {
 
     @Test
     public void whenNewUserIsRegisteredWithResultNotOkThanListenerNotNotified() {
-        setUpRegisterNewUserStage2(999, SHNResult.SHNTimeoutError);
+        setUpRegisterNewUserStage2(999, SHNResult.SHNErrorTimeout);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNTimeoutError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorTimeout);
     }
 
     @Test
@@ -343,9 +343,9 @@ public class SHNServiceUserDataTest extends TestCase {
 
     @Test
     public void whenNewUserIsRegisteredWithResultErrorThanListenerIsNotified() {
-        setUpRegisterNewUserStage2(999, SHNResult.SHNTimeoutError);
+        setUpRegisterNewUserStage2(999, SHNResult.SHNErrorTimeout);
 
-        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNTimeoutError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNErrorTimeout);
     }
 
     @Test
@@ -500,9 +500,9 @@ public class SHNServiceUserDataTest extends TestCase {
     @Test
     public void whenNewConsentExistingUserIsCalledWithResponseNotOkAndNotificationIsReceivedThenErrorIsReported() {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_CONSENT, RESPONSE_CODE_SUCCESS};
-        setUpConsentExistingUserStage3(10, 999, SHNResult.SHNTimeoutError, response);
+        setUpConsentExistingUserStage3(10, 999, SHNResult.SHNErrorTimeout, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNTimeoutError);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorTimeout);
     }
 
     @Test
@@ -515,7 +515,7 @@ public class SHNServiceUserDataTest extends TestCase {
 
     @Test
     public void whenNewConsentExistingUserIsCalledWithResultNotOkThanCommandIsFinishedAfterResponse() {
-        setUpConsentExistingUserStage2(10, 999, SHNResult.SHNTimeoutError);
+        setUpConsentExistingUserStage2(10, 999, SHNResult.SHNErrorTimeout);
 
         assertUserControlPointWriteOnceWithCode(OP_CODE_CONSENT);
     }
@@ -661,9 +661,9 @@ public class SHNServiceUserDataTest extends TestCase {
     @Test
     public void whenNewDeleteUserIsCalledWithResponseNotOkAndNotificationIsReceivedThenErrorIsReported() {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_DELETE_USER_DATA, RESPONSE_CODE_SUCCESS};
-        setUpDeleteUserStage3(SHNResult.SHNTimeoutError, response);
+        setUpDeleteUserStage3(SHNResult.SHNErrorTimeout, response);
 
-        verify(shnResultListener).onActionCompleted(SHNResult.SHNTimeoutError);
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorTimeout);
     }
 
     @Test
