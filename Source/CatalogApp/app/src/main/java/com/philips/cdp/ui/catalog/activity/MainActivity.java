@@ -61,8 +61,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 6:
                 startActivity(new Intent(this, AboutScreenLauncher.class));
-                break;
-            default:
+                break;            case 7:
+                startActivity(new Intent(this, InputTextFieldsActivity.class));
+                break;            default:
                 break;
         }
     }

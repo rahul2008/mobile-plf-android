@@ -10,7 +10,10 @@
         <item>Change Theme</item>
         <item>Buttons</item>
         <item>Dot Navigation</item>
-        <item>About Screen</item>        <item>Image Navigation</item>    </string-array>
+        <item>About Screen</item>
+        <item>Image Navigation</item>
+        <item>Input Text Fields</item>
+    </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
     <string name="change_theme">Change theme</string>
     <string name="previous_theme">Previous theme</string>
@@ -22,6 +25,10 @@
     <string name="blue_theme">Blue Theme</string>
     <string name="orange_theme">Orange Theme</string>
     <string name="misc_shadow_message">Miscellaneous Buttons with Shadow</string>
+
+    <string name="enter_text_here">Enter text here</string>
+    <string name="invalid_email_format">Invalid email format</string>
+    <string name="invalid_pwd_format">Invalid password format</string>
     <string name="title_activity_image_navigation">ImageNavigationActivity</string>
     <string name="title_activity_action_bar_test">ActionBarTestActivity</string>
 </resources>
