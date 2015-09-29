@@ -463,23 +463,20 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
      */
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.reviewSummaryIconInvalid){
+        if (v.getId() == R.id.reviewSummaryIconInvalid) {
             mSummaryErrorButton.setVisibility(View.VISIBLE);
             mSummaryArrow.setVisibility(View.VISIBLE);
-        }
-        else if(v.getId() == R.id.reviewNameIconInvalid){
+        } else if (v.getId() == R.id.reviewNameIconInvalid) {
             mNameErrorButton.setVisibility(View.VISIBLE);
             mNameArrow.setVisibility(View.VISIBLE);
-        }
-        else if(v.getId() == R.id.reviewEmailIconInvalid){
+        } else if (v.getId() == R.id.reviewEmailIconInvalid) {
             mEmailErrorButton.setVisibility(View.VISIBLE);
             mEmailArrow.setVisibility(View.VISIBLE);
-        }
-        else if (v.getId() == (R.id.your_product_review_send_button)) {
+        } else if (v.getId() == (R.id.your_product_review_send_button)) {
             submitReview();
-        }
-        else if (v.getId() == R.id.your_product_review_cancel_button) {
+        } else if (v.getId() == R.id.your_product_review_cancel_button) {
             backstackFragment();
+        }
     }
 
     protected Uri getTermsAndConditionsPage() {
