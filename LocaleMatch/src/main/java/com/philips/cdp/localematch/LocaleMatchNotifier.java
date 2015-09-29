@@ -5,11 +5,14 @@ import com.philips.cdp.localematch.enums.LocaleMatchError;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public final class LocaleMatchNotifier {
 
-    private Set<LocaleMatchListener> mLocaleMatchListeners = Collections.synchronizedSet(new HashSet<LocaleMatchListener>());
+    private Set<LocaleMatchListener> mLocaleMatchListeners = Collections.newSetFromMap(new ConcurrentHashMap<LocaleMatchListener, Boolean>());
 
     private static LocaleMatchNotifier mNotifier = null;
 
@@ -40,14 +43,14 @@ public final class LocaleMatchNotifier {
 
     public void notifyLocaleMatchChange(String locale) {
         synchronized (mLocaleMatchListeners) {
-            Iterator localeMatchListenerIterator = mLocaleMatchListeners.iterator();
-            while (localeMatchListenerIterator.hasNext()) {
-                Object iteratorObj = localeMatchListenerIterator.next();
+            for (Iterator<LocaleMatchListener> iterator = mLocaleMatchListeners.iterator(); iterator.hasNext(); ) {
+                Object iteratorObj = iterator.next();
                 if (iteratorObj != null) {
                     LocaleMatchListener listener = (LocaleMatchListener) iteratorObj;
                     listener.onLocaleMatchRefreshed(locale);
-                    localeMatchListenerIterator.remove();
+                    iterator.remove();
                 }
+
             }
         }
     }
@@ -58,7 +61,6 @@ public final class LocaleMatchNotifier {
 
     public void notifyLocaleMatchError(LocaleMatchError error) {
         synchronized (mLocaleMatchListeners) {
-            //Iterator localeMatchListenerIterator = mLocaleMatchListeners.iterator();
             for (Iterator<LocaleMatchListener> iterator = mLocaleMatchListeners.iterator(); iterator.hasNext(); ) {
                 Object iteratorObj = iterator.next();
                 if (iteratorObj != null) {
@@ -68,15 +70,6 @@ public final class LocaleMatchNotifier {
                 }
 
             }
-
-            /*while (localeMatchListenerIterator.hasNext()) {
-                Object iteratorObj = localeMatchListenerIterator.next();
-                if (iteratorObj != null) {
-                    LocaleMatchListener listener = (LocaleMatchListener) iteratorObj;
-                    listener.onErrorOccurredForLocaleMatch(error);
-                    localeMatchListenerIterator.remove();
-                }
-            }*/
         }
     }
 
