@@ -47,60 +47,6 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
     private static final String PRODUCT_TERMS_DIALOG_URL = "http://%s/content/7543b-%s/termsandconditions.htm";
-    protected final TextWatcher mEmailWatcher = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-            if (s.toString().contains("@"))
-                Toast.makeText(getActivity(), "Email is valid", Toast.LENGTH_SHORT).show();
-
-        }
-    };
-    protected final TextWatcher mReviewHeaderWatcher = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-            if ((s.toString() != null) && (s.toString() != ""))
-                Toast.makeText(getActivity(), "Header is not null", Toast.LENGTH_SHORT).show();
-
-        }
-    };
-    protected final TextWatcher mReviewDescriptionWatcher = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-            if ((s.toString() != null) && (s.toString().length() > 49))
-                Toast.makeText(getActivity(), "Now the Description is successfullt Exceded 50 characters", Toast.LENGTH_SHORT).show();
-
-        }
-    };
     private LinearLayout mParentLayout = null;
     private FrameLayout.LayoutParams mLayoutParams = null;
     private DigitalCareFontButton mOkButton, mCancelButton = null;
@@ -240,6 +186,19 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             }
         }
     };
+    private DigitalCareFontTextView mDescTextCount = null;
+    private final TextWatcher mTextWatcherDesc = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mDescTextCount.setText(count + "");
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -264,6 +223,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 //        mDescErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_desc);
         mNameErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_name);
         mEmailErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_email);
+
+        mDescTextCount = (DigitalCareFontTextView) getActivity().findViewById(R.id.textcount_count);
 
         mSummaryVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.summary_verified_field);
 //        mDescVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.desc_verified_field);
@@ -302,6 +263,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mSummaryHeaderEditText.addTextChangedListener(mTextWatcherSummary);
         mNicknameEditText.addTextChangedListener(mTextWatcherName);
         mEmailEditText.addTextChangedListener(mTextWatcherEmail);
+        mSummaryDescriptionEditText.addTextChangedListener(mTextWatcherDesc);
 
         mProductTitle.setText(RateThisAppFragment.mProductReviewProductName);
         mProductCtn.setText(RateThisAppFragment.mProductReviewProductCtn);
@@ -309,6 +271,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             new ProductImageLoader(RateThisAppFragment.mProductReviewProductImage, mProductImage).execute();
 
         }
+
         mOkButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
         mTermsText.setOnClickListener(this);
@@ -320,17 +283,10 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         } catch (Exception e) {
             DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
-        setListeners();
 
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
-    }
-
-    protected void setListeners() {
-        mSummaryDescriptionEditText.addTextChangedListener(mReviewDescriptionWatcher);
-        mSummaryHeaderEditText.addTextChangedListener(mReviewHeaderWatcher);
-        mEmailEditText.addTextChangedListener(mEmailWatcher);
     }
 
     private void setButtonParams(float density) {
@@ -349,17 +305,16 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
                 RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
 
-        RelativeLayout.LayoutParams paramErrorDescLabel = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
-                .getDimension(R.dimen.support_btn_height) * density));
-
         RelativeLayout.LayoutParams paramIcon = (RelativeLayout.LayoutParams) mReviewSummaryIconInvalid.getLayoutParams();
-        paramIcon.topMargin = (int) (getActivity().getResources().getDimension(R.dimen.marginTopButton) + 10);
+        paramIcon.topMargin = (int) (getActivity().getResources().getDimension(R.dimen.marginTopButton) +
+                (getActivity().getResources().getDimension(R.dimen.icon_top_margin_right)));
+        paramIcon.width = (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density);
+        paramIcon.height = (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density);
 
         paramErrorLabel.topMargin = (int) (getActivity().getResources().getDimension(R.dimen.marginTopButton) *
                 getActivity().getResources().getDimension(R.dimen.err_edit_fields_margin_top));
-        paramErrorDescLabel.topMargin = (int) ((getActivity().getResources().getDimension(R.dimen.marginTopButton) *
-                getActivity().getResources().getDimension(R.dimen.err_edit_fields_desc_margin_top)) + 10);
 
         RelativeLayout.LayoutParams verifiedFieldParams = (RelativeLayout.LayoutParams) mSummaryVerifiedField.getLayoutParams();
         verifiedFieldParams.height = (int) (getActivity().getResources()
@@ -480,6 +435,9 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             submitReview();
         } else if (v.getId() == R.id.your_product_review_cancel_button) {
             backstackFragment();
+        } else if (v.getId() == (R.id.review_write_rate_product_terms_termstext)) {
+            if (isConnectionAvailable())
+                showEULAAlert(getTermsAndConditionsPage().toString());
         }
     }
 

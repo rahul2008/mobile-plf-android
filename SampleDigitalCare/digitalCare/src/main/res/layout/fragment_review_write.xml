@@ -24,8 +24,7 @@
             <ImageView
                 android:id="@+id/review_write_rate_productimage"
                 style="@style/write_product_review_ProdImage"
-                android:contentDescription="@string/product_name"
-                android:src="@color/activity_background_color" />
+                android:contentDescription="@string/product_name" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/review_write_rate_name"
