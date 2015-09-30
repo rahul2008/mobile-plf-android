@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bazaarvoice.OnBazaarResponse;
@@ -96,6 +95,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
         mRatingBar.setRating((float) mBazaarReviewModel.getRating());
         mRatingBar.setEnabled(false);
+        setRatingBarUI();
         mReviewSummaryHeader.setText(mBazaarReviewModel.getSummary());
         mReviewDescription.setText(mBazaarReviewModel.getReview());
         mNickName.setText(mBazaarReviewModel.getNickname());
@@ -109,17 +109,22 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         }
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
-        //setButtonParams(density);
+        setButtonParams(density);
     }
 
     private void setButtonParams(float density) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                LinearLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
 
         params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
-        //mCancelButton.setLayoutParams(params);
+        params.weight = 1;
+
+        mCancelButton.setLayoutParams(params);
+        params.leftMargin = (int)((getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density) / 3);
         mOkButton.setLayoutParams(params);
+
 
     }
 

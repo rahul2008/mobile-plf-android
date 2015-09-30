@@ -84,7 +84,11 @@
 
                     <RatingBar
                         android:id="@+id/your_product_review_rating_ratingbar"
-                        style="@style/your_product_review_rating_ratingbar" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fitsSystemWindows="true"
+                        android:layout_below="@+id/your_product_review_rating_header_text"/>
                 </RelativeLayout>
 
 
@@ -93,6 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/your_product_review_rating_container"
+                    android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
@@ -160,15 +165,14 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/your_product_review_parent_two"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:background="#cccccc" />
 
         <LinearLayout
             android:id="@+id/product_preview_container_three"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTopButton"
             android:orientation="vertical"
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin">
@@ -176,9 +180,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/actionbar_height"
                 android:orientation="horizontal"
                 android:visibility="visible"
+                android:layout_marginBottom="@dimen/marginTopButton"
                 android:weightSum="2">
 
 
