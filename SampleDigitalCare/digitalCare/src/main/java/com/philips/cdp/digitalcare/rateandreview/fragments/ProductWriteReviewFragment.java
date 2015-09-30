@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
+import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;
 import com.philips.cdp.digitalcare.rateandreview.productreview.ProductImageLoader;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -47,6 +47,115 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
     private static final String PRODUCT_TERMS_DIALOG_URL = "http://%s/content/7543b-%s/termsandconditions.htm";
+    private final TextWatcher mTextWatcherSummary = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (s.length() > 0) {
+                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() > 0) {
+                mReviewSummaryIconInvalid.setVisibility(View.GONE);
+                mReviewSummaryIconValid.setVisibility(View.VISIBLE);
+                mSummaryErrorButton.setVisibility(View.GONE);
+                mSummaryArrow.setVisibility(View.GONE);
+            } else {
+                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
+                mReviewSummaryIconValid.setVisibility(View.GONE);
+            }
+        }
+
+        public void afterTextChanged(Editable s) {
+            if (s.length() > 0) {
+                mReviewSummaryIconInvalid.setVisibility(View.GONE);
+                mReviewSummaryIconValid.setVisibility(View.VISIBLE);
+                mSummaryErrorButton.setVisibility(View.GONE);
+                mSummaryArrow.setVisibility(View.GONE);
+            } else {
+                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
+                mReviewSummaryIconValid.setVisibility(View.GONE);
+            }
+        }
+    };
+    private final TextWatcher mTextWatcherName = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (s.length() > 0) {
+                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() > 0) {
+                mReviewNameIconInvalid.setVisibility(View.GONE);
+                mReviewNameIconValid.setVisibility(View.VISIBLE);
+                mNameErrorButton.setVisibility(View.GONE);
+                mNameArrow.setVisibility(View.GONE);
+            } else {
+                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
+                mReviewNameIconValid.setVisibility(View.GONE);
+            }
+        }
+
+        public void afterTextChanged(Editable s) {
+            if (s.length() > 0) {
+                mReviewNameIconInvalid.setVisibility(View.GONE);
+                mReviewNameIconValid.setVisibility(View.VISIBLE);
+                mNameErrorButton.setVisibility(View.GONE);
+                mNameArrow.setVisibility(View.GONE);
+            } else {
+                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
+                mReviewNameIconValid.setVisibility(View.GONE);
+            }
+        }
+    };
+    private final TextWatcher mTextWatcherEmail = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (s.length() > 0) {
+                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            if (s.length() > 0 && BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
+                mReviewEmailIconInvalid.setVisibility(View.GONE);
+                mReviewEmailIconValid.setVisibility(View.VISIBLE);
+                mEmailErrorButton.setVisibility(View.GONE);
+                mEmailArrow.setVisibility(View.GONE);
+            } else {
+                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
+                mReviewEmailIconValid.setVisibility(View.GONE);
+            }
+        }
+
+        public void afterTextChanged(Editable s) {
+            if (s.length() > 0 && BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
+                mReviewEmailIconInvalid.setVisibility(View.GONE);
+                mReviewEmailIconValid.setVisibility(View.VISIBLE);
+                mEmailErrorButton.setVisibility(View.GONE);
+                mEmailArrow.setVisibility(View.GONE);
+            } else {
+                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
+                mReviewEmailIconValid.setVisibility(View.GONE);
+            }
+        }
+    };
+    private final TextWatcher mTextWatcherDesc = new TextWatcher() {
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mDescTextCount.setText(String.valueOf(s.length()) + "");
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
     private LinearLayout mParentLayout = null;
     private FrameLayout.LayoutParams mLayoutParams = null;
     private DigitalCareFontButton mOkButton, mCancelButton = null;
@@ -65,140 +174,16 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     //    private RelativeLayout mDescVerifiedField = null;
     private RelativeLayout mNameVerifiedField = null;
     private RelativeLayout mEmailVerifiedField = null;
-
     private ImageView mReviewSummaryIconInvalid = null;
     private ImageView mReviewSummaryIconValid = null;
-
     private ImageView mReviewNameIconInvalid = null;
     private ImageView mReviewNameIconValid = null;
-
     private ImageView mReviewEmailIconInvalid = null;
     private ImageView mReviewEmailIconValid = null;
-
     private ImageView mSummaryArrow = null;
-    private final TextWatcher mTextWatcherSummary = new TextWatcher() {
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (s.length() > 0) {
-                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
-            }
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            Log.i("testing", "onTextChanged  s : " + s.toString() + s.length());
-            Log.i("testing", "onTextChanged   count : " + count);
-
-            if (s.length() > 0) {
-                mReviewSummaryIconInvalid.setVisibility(View.GONE);
-                mReviewSummaryIconValid.setVisibility(View.VISIBLE);
-                mSummaryErrorButton.setVisibility(View.GONE);
-                mSummaryArrow.setVisibility(View.GONE);
-            } else {
-                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
-                mReviewSummaryIconValid.setVisibility(View.GONE);
-            }
-        }
-
-        public void afterTextChanged(Editable s) {
-            Log.i("testing", "afterTextChanged   s editable  : " + s.toString());
-            if (s.length() > 0) {
-                mReviewSummaryIconInvalid.setVisibility(View.GONE);
-                mReviewSummaryIconValid.setVisibility(View.VISIBLE);
-                mSummaryErrorButton.setVisibility(View.GONE);
-                mSummaryArrow.setVisibility(View.GONE);
-            } else {
-                mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
-                mReviewSummaryIconValid.setVisibility(View.GONE);
-            }
-        }
-    };
     private ImageView mNameArrow = null;
-    private final TextWatcher mTextWatcherName = new TextWatcher() {
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (s.length() > 0) {
-                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
-            }
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            Log.i("testing", "onTextChanged  s : " + s.toString() + s.length());
-            Log.i("testing", "onTextChanged   count : " + count);
-
-            if (s.length() > 0) {
-                mReviewNameIconInvalid.setVisibility(View.GONE);
-                mReviewNameIconValid.setVisibility(View.VISIBLE);
-                mNameErrorButton.setVisibility(View.GONE);
-                mNameArrow.setVisibility(View.GONE);
-            } else {
-                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
-                mReviewNameIconValid.setVisibility(View.GONE);
-            }
-        }
-
-        public void afterTextChanged(Editable s) {
-            Log.i("testing", "afterTextChanged   s editable  : " + s.toString());
-            if (s.length() > 0) {
-                mReviewNameIconInvalid.setVisibility(View.GONE);
-                mReviewNameIconValid.setVisibility(View.VISIBLE);
-                mNameErrorButton.setVisibility(View.GONE);
-                mNameArrow.setVisibility(View.GONE);
-            } else {
-                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
-                mReviewNameIconValid.setVisibility(View.GONE);
-            }
-        }
-    };
     private ImageView mEmailArrow = null;
-    private final TextWatcher mTextWatcherEmail = new TextWatcher() {
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (s.length() > 0) {
-                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
-            }
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            Log.i("testing", "onTextChanged  s : " + s.toString() + s.length());
-            Log.i("testing", "onTextChanged   count : " + count);
-
-            if (s.length() > 0) {
-                mReviewEmailIconInvalid.setVisibility(View.GONE);
-                mReviewEmailIconValid.setVisibility(View.VISIBLE);
-                mEmailErrorButton.setVisibility(View.GONE);
-                mEmailArrow.setVisibility(View.GONE);
-            } else {
-                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
-                mReviewEmailIconValid.setVisibility(View.GONE);
-            }
-        }
-
-        public void afterTextChanged(Editable s) {
-            Log.i("testing", "afterTextChanged   s editable  : " + s.toString());
-            if (s.length() > 0) {
-                mReviewEmailIconInvalid.setVisibility(View.GONE);
-                mReviewEmailIconValid.setVisibility(View.VISIBLE);
-                mEmailErrorButton.setVisibility(View.GONE);
-                mEmailArrow.setVisibility(View.GONE);
-            } else {
-                mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
-                mReviewEmailIconValid.setVisibility(View.GONE);
-            }
-        }
-    };
     private DigitalCareFontTextView mDescTextCount = null;
-    private final TextWatcher mTextWatcherDesc = new TextWatcher() {
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mDescTextCount.setText(count + "");
-        }
-
-        public void afterTextChanged(Editable s) {
-        }
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -507,8 +492,9 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         } else if (getNickNameValue(mNicknameEditText).equals("")) {
             Toast.makeText(getActivity(), "You must enter a nick name.",
                     Toast.LENGTH_SHORT).show();
-        } else if (getEmailValue(mEmailEditText).equals("")) {
-            Toast.makeText(getActivity(), "You must enter a email.",
+        } else if (getEmailValue(mEmailEditText).equals("") ||
+                !BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
+            Toast.makeText(getActivity(), "You must enter proper email.",
                     Toast.LENGTH_SHORT).show();
         } else if (!getLegalTermValue(mSwitch)) {
             Toast.makeText(getActivity(), "You must agree the term and conditions.",
