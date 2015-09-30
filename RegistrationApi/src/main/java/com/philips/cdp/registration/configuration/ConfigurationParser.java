@@ -158,27 +158,28 @@ public class ConfigurationParser {
     }
 
     private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
-        HSDPConfiguration configuration = new HSDPConfiguration();
-        Development developmentId = new Development();
-
-        if (!hsdpConfiguartion.isNull(HSDP_APPLICATION_NAME)) {
-            configuration.setApplicationName(hsdpConfiguartion.getString(HSDP_APPLICATION_NAME));
+        HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
+        HashMap<String, HSDPClientId> hsdpClientIds = new HashMap<>();
+        Iterator<String> iterator = hsdpConfiguartion.keys();
+        while (iterator.hasNext()) {
+            String registrationEnv = iterator.next();
+            if (registrationEnv.equals(HSDP_APPLICATION_NAME)) {
+                hsdpConfiguration.setApplicationName(hsdpConfiguartion.getString(HSDP_APPLICATION_NAME));
+            } else {
+                HSDPClientId hsdpClientId = new HSDPClientId();
+                JSONObject hsdpConfiguartionJSONObject = hsdpConfiguartion.getJSONObject(registrationEnv);
+                Iterator<String> hsdpIdIterator = hsdpConfiguartionJSONObject.keys();
+                HashMap<String, String> hsdpIds = new HashMap<String, String>();
+                while (hsdpIdIterator.hasNext()) {
+                    String key = hsdpIdIterator.next();
+                    hsdpIds.put(key, hsdpConfiguartionJSONObject.getString(key));
+                }
+                hsdpClientId.setIds(hsdpIds);
+                hsdpClientIds.put(registrationEnv, hsdpClientId);
+            }
         }
-
-        if (!hsdpConfiguartion.isNull(HSDP_ENVIRONMENT_EVAL)) {
-            JSONObject hsdpId = hsdpConfiguartion.getJSONObject(HSDP_ENVIRONMENT_EVAL);
-            if (!hsdpId.isNull(SHARED)) {
-                developmentId.setSharedKey(hsdpId.getString(SHARED));
-            }
-            if (!hsdpId.isNull(SECRET)) {
-                developmentId.setSecretKey(hsdpId.getString(SECRET));
-            }
-            if (!hsdpId.isNull(BASE_URL)) {
-                developmentId.setBaseURL(hsdpId.getString(BASE_URL));
-            }
-        }
-        configuration.setDevelopmentIds(developmentId);
-        return configuration;
+        hsdpConfiguration.setHsdpClientIds(hsdpClientIds);
+        return hsdpConfiguration;
     }
 
     private JanRainConfiguration parseJanRainConfiguration(JSONObject janRainConfiguration)

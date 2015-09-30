@@ -171,8 +171,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_reg_sign_in) {
-           /* mEtEmail.setOnUpdateListener(null);
-            mEtPassword.setOnUpdateListener(null);*/
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {

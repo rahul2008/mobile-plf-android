@@ -24,12 +24,11 @@ public class RegistrationApplication extends Application {
 		                + Locale.getDefault());
 
 		mRegistrationHelper = RegistrationHelper.getInstance();
-		mRegistrationHelper.setCoppaFlow(false);
-		mRegistrationHelper.setIsHsdpFlow(false);
 		AppTagging.enableAppTagging(true);
 		AppTagging.setTrackingIdentifier("integratingApplicationAppsId");
 		AppTagging.setLaunchingPageName("demoapp:home");
 		mRegistrationHelper.intializeRegistrationSettings(this,
 				Locale.getDefault());
+
 	}
 }

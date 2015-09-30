@@ -93,7 +93,9 @@ public class DhpApiClient {
 
             return response;
         } catch (Exception e) {
-            throw new DhpCommunicationException(e);
+            e.printStackTrace();
+            return null;
+            //throw new DhpCommunicationException(e);
         } finally {
             long requestEnd = System.currentTimeMillis();
             long requestDuration = (requestEnd - requestStart);

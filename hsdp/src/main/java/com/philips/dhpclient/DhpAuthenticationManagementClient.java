@@ -38,6 +38,10 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
 
         DhpResponse dhpResponse = sendSignedRequest("POST", apiEndpoint, queryParams, headers, request);
 
+        if(dhpResponse == null){
+            return null;
+        }
+
         if (!"200".equals(dhpResponse.responseCode))
             return new DhpAuthenticationResponse(dhpResponse.rawResponse);
 
@@ -56,6 +60,10 @@ public class DhpAuthenticationManagementClient extends DhpApiClient {
 
         RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
         DhpResponse dhpResponse = sendSignedRequest("PUT", apiEndpoint, queryParams, headers, request);
+
+        if(dhpResponse == null){
+            return null;
+        }
 
         if (!"200".equals(dhpResponse.responseCode))
             return new DhpAuthenticationResponse(dhpResponse.rawResponse);

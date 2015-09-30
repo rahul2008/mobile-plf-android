@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -375,6 +376,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
             enableControls(false);
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
+            if(null!=getView()){
+                final ScrollView sv = (ScrollView) getView().findViewById(R.id.sv_root_layout);
+                sv.post(new Runnable() {
+                    public void run() {
+                        sv.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
+            }
         }
     }
 

@@ -137,6 +137,7 @@ public class RegistrationHelper {
         if (null == AppTagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
         }
+
         Locale mlocale = locale;
         if (isCoppaFlow()) {
             mlocale = new Locale("en_US");

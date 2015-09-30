@@ -14,7 +14,19 @@
   "Flow": {
     "EmailVerificationRequired": "true"
   },
-
+  "HSDPConfiguration": {
+    "ApplicationName": "uGrowApplication",
+    "Evaluation": {
+      "Shared": "2eaec11e-1a2e-11e5-b60b-1697f925ec7b",
+      "Secret": "2eaec60a-1a2e-11e5-b60b-1697f925ec7b",
+      "BaseURL": "http://ugrowuserregistration.cloud.pcftest.com/"
+    },
+    "Production": {
+      "Shared": "2eaec11e-1a2e-11e5-b60b-1697f925ec7b",
+      "Secret": "2eaec60a-1a2e-11e5-b60b-1697f925ec7b",
+      "BaseURL": "http://ugrowuserregistration.cloud.pcftest.com/"
+    }
+  },
   "SigninProviders": {
     "NL": [
       "googleplus",

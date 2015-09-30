@@ -13,6 +13,26 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
         android:text="Registration Test" />
+
+    <Button
+        android:layout_below="@+id/btn_registration"
+        android:id="@+id/btn_refresh_token"
+        android:layout_width="fill_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:text="HSDP Refresh access token Test" />
+
+    <Button
+        android:layout_below="@+id/btn_refresh_token"
+        android:id="@+id/btn_resend_coppa_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:text="Resend Coppa Mail" />
 
 </RelativeLayout>

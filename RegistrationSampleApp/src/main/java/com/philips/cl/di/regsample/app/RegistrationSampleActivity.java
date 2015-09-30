@@ -2,15 +2,26 @@
 package com.philips.cl.di.regsample.app;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.adobe.mobile.Config;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.coppa.CoppaExtension;
+import com.philips.cdp.registration.coppa.CoppaResendError;
+import com.philips.cdp.registration.coppa.ResendCoppaEmailConsentHandler;
+import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.hsdp.handler.RefreshHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -21,21 +32,37 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
-        UserRegistrationListener {
-
+        UserRegistrationListener, RefreshHandler, ResendCoppaEmailConsentHandler {
 
     private Button mBtnRegistration;
+    private Button mBtnHsdpRefreshAccessToken;
+    private Button mBtnResendCoppaMail;
+    private Context mContext;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        mContext = getApplicationContext();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onCreate");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
         setContentView(R.layout.activity_main);
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         mBtnRegistration = (Button) findViewById(R.id.btn_registration);
         mBtnRegistration.setOnClickListener(this);
+        mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
+        mBtnHsdpRefreshAccessToken.setOnClickListener(this);
+        mBtnResendCoppaMail = (Button) findViewById(R.id.btn_resend_coppa_email);
+        mBtnResendCoppaMail.setOnClickListener(this);
+        mProgressDialog = new ProgressDialog(RegistrationSampleActivity.this);
+        mProgressDialog.setCancelable(false);
+        if (RegistrationHelper.getInstance().isHsdpFlow()) {
+            mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
+        }
+        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+            mBtnResendCoppaMail.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -89,6 +116,29 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 RegistrationLaunchHelper.launchRegistrationActivity(this);
                 break;
 
+            case R.id.btn_refresh_token:
+                if (RegistrationHelper.getInstance().isHsdpFlow()) {
+                    HsdpUser hsdpUser = new HsdpUser(mContext);
+                    if (hsdpUser.getHsdpUserRecord() == null) {
+                        Toast.makeText(this, "Please login b4 going to refresh", Toast.LENGTH_LONG).show();
+                    } else {
+                        mProgressDialog.setMessage("Refreshing...");
+                        mProgressDialog.show();
+                        hsdpUser.hsdpRefreshToken(this);
+                    }
+                }
+                break;
+            case R.id.btn_resend_coppa_email:
+                User user = new User(mContext);
+                DIUserProfile userProfile = user.getUserInstance(mContext);
+                CoppaExtension coppaExtension = new CoppaExtension();
+                if (null != userProfile) {
+                    mProgressDialog.setMessage("sending...");
+                    mProgressDialog.show();
+                    coppaExtension.resendCoppaEmailConsentForUserEmail(userProfile.getEmail(), this);
+                } else {
+                    Toast.makeText(this, "Please login b4 going to resend coppa mail", Toast.LENGTH_LONG).show();
+                }
             default:
                 break;
         }
@@ -115,5 +165,48 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
                 com.philips.cdp.registration.R.string.PrivacyPolicyURL)));
         activity.startActivity(browserIntent);
+    }
+
+    @Override
+    public void onHsdpRefreshSuccess() {
+        dimissDialog();
+        showToast("Success to refresh hsdp access token");
+        //RLog.d(RLog.HSDP, "onHsdpRefreshSuccess RegistrationSampleActivity : Success");
+    }
+
+    @Override
+    public void onHsdpRefreshFailure(int responseCode, String message) {
+        dimissDialog();
+        showToast("Failed to refresh hsdp access token");
+        //RLog.d(RLog.HSDP, "onHsdpRefreshFailure RegistrationSampleActivity : Failure");
+    }
+
+    @Override
+    public void didResendCoppaEmailConsentSucess() {
+        dimissDialog();
+        showToast("Success to resend coppa mail");
+        RLog.d(RLog.HSDP, "didResendCoppaEmailConsentSucess RegistratikonSampleActivity : Success");
+    }
+
+    @Override
+    public void didResendCoppaEmailConsentFailedWithError(CoppaResendError coppaResendError) {
+        dimissDialog();
+        showToast("Failed to resend coppa mail");
+        RLog.d(RLog.HSDP, "didResendCoppaEmailConsentFailedWithError RegistrationSampleActivity : failure");
+    }
+
+    private void dimissDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+    final Handler handler = new Handler();
+    private void showToast(final String msg) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(RegistrationSampleActivity.this, msg, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
