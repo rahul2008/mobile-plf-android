@@ -5,6 +5,8 @@
     <string name="img_description">beskrivning</string>
     <string name="no_internet">Internet-anslutning saknas. Kontrollera om anslutningen fungerar i din telefons WiFi-inställningar eller datainställningar</string>
     <string name="locate_philips_popup_legal">När du använder funktionen "Hitta Philips nära dig" på supportsidan uppmanas du att dela platsdata med Philips. Baserat på dina platsdata styrs du till en butik i närheten eller information om kundtjänsten i ditt land</string>
+    <string name="EmptyField_ErrorMsg">Fältet får inte vara tomt</string>
+    <string name="kemailFieldErrorText">Ange giltig e-postadress.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Hur kan vi hjälpa dig?</string>

@@ -5,6 +5,8 @@
     <string name="img_description">شرح</string>
     <string name="no_internet">اتصال اینترنت وجود ندارد. لطفاً اینترنت را در تنظیمات wifi یا تنظیمات داده تلفن خود بررسی کنید</string>
     <string name="locate_philips_popup_legal">هنگام استفاده از عملکرد ‎‘Find Philips near you’‎ در صفحه پشتیبانی، از شما خواسته می‌شود اطلاعات مکان خود را با Philips به اشتراک بگذارید. بر اساس اطلاعات مکان، به نزدیکترین فروشگاه هدایت می‌شوید یا اطلاعات تماس با پشتیبانی مشتری در کشورتان به شما ارائه می‌شود</string>
+    <string name="EmptyField_ErrorMsg">درست است نمی تواند خالی باشد</string>
+    <string name="kemailFieldErrorText">لطفا آدرس ایمیل معتبر وارد کنید.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">چطور می‌توانیم کمک کنیم؟</string>

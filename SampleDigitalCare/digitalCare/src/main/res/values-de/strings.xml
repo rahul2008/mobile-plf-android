@@ -7,6 +7,8 @@
     <string name="img_description">Beschreibung</string>
     <string name="no_internet">Keine Internetverbindung. Überprüfen Sie in den WiFi-Einstellungen oder Dateneinstellungen Ihres Telefons, ob Ihre Verbindung funktioniert.</string>
     <string name="locate_philips_popup_legal">Wenn Sie die Funktion "Finden Sie einen Philips Händler in Ihrer Nähe" auf der Support-Website nutzen, werden Sie aufgefordert, Ihre Standortdaten für Philips freizugeben. Basierend auf Ihren Standortdaten wird Ihnen ein Händler in Ihrer Nähe angezeigt, oder Sie erhalten die Kontaktdaten des Kundendienstes für Ihr Land.</string>
+    <string name="EmptyField_ErrorMsg">Feld darf nicht leer sein</string>
+    <string name="kemailFieldErrorText">Bitte geben Sie eine gültige E-Mail-Adresse ein.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Wie können wir Ihnen helfen?</string>

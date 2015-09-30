@@ -7,6 +7,8 @@
     <string name="img_description">описание</string>
     <string name="no_internet">Интернет-соединение отсутствует. Проверьте настройки WiFi или сотовых данных на телефоне</string>
     <string name="locate_philips_popup_legal">При поиске ближайшего центра Philips на странице поддержки вас попросят предоставить Philips данные о вашем местоположении. В зависимости от местоположения вам будут предложены контактные данные ближайшей торговой организации или центра поддержки потребителей</string>
+    <string name="EmptyField_ErrorMsg">Необходимо заполнить поле</string>
+    <string name="kemailFieldErrorText">Укажите действующий адрес электронной почты.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Как Вам помочь?</string>

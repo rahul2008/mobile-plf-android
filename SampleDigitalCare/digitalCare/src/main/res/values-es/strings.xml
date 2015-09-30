@@ -7,6 +7,8 @@
     <string name="img_description">Descripción</string>
     <string name="no_internet">No hay conexión a Internet. Comprueba que tienes Internet en los ajustes de Wi-Fi o en los ajustes de datos teléfono.</string>
     <string name="locate_philips_popup_legal">Al acceder a la página de asistencia y usar la función de búsqueda "Philips en tu zona", verás un mensaje que te solicita compartir con Philips la información sobre tu ubicación actual. En función del lugar en el que te encuentres, el sistema te indicará la tienda más cercana o la información de contacto del servicio de atención al cliente de tu país.</string>
+    <string name="EmptyField_ErrorMsg">Este campo no puede estar vacío.</string>
+    <string name="kemailFieldErrorText">Introduce una dirección de correo electrónico válida.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">¿Cómo podemos ayudarte?</string>

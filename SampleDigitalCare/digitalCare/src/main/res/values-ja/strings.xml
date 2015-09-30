@@ -7,6 +7,8 @@
     <string name="img_description">説明</string>
     <string name="no_internet">インターネットに接続されていません。携帯電話の Wi-Fi 設定またはデータ設定で接続が機能していることを確認してください</string>
     <string name="locate_philips_popup_legal">サポートページの「お近くのフィリップス」機能を使用する場合は、お客様の位置データのフィリップスへのシェアをお願いしています。お客様の位置データに基づいて、お近くのフィリップス拠点やお住まいの国のお問い合わせ先詳細をお知らせするためです。</string>
+    <string name="EmptyField_ErrorMsg">入力必須フィールドです</string>
+    <string name="kemailFieldErrorText">有効なメールアドレスを入力してください.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">お問い合わせ／サポート</string>

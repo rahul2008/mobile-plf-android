@@ -5,6 +5,8 @@
     <string name="img_description">kuvaus</string>
     <string name="no_internet">Ei internet-yhteyttä. Tarkista yhteys puhelimen Wi-Fi-asetuksissa tai datayhteysasetuksissa</string>
     <string name="locate_philips_popup_legal">Kun käytät tukisivun ”Lähin Philips-jälleenmyyjä” ‑toimintoa, sinua pyydetään jakamaan sijaintitietosi Philipsin kanssa. Sijaintitietojesi perusteella sinut ohjataan sinua lähimpänä sijaitsevaan liikkeeseen tai maasi asiakaspalveluun.</string>
+    <string name="EmptyField_ErrorMsg">Kenttä ei voi olla tyhjä</string>
+    <string name="kemailFieldErrorText">Kirjoita voimassa oleva sähköpostiosoite .</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Miten voimme auttaa?</string>

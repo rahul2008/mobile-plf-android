@@ -7,6 +7,8 @@
     <string name="img_description">描述</string>
     <string name="no_internet">沒有網際網路連線。請檢查您手機 wifi 設定或數據 設定是否運作正常</string>
     <string name="locate_philips_popup_legal">使用支援網頁的「Find Philips near you」(尋找附近的飛利浦服務中心) 功能時，系統會要求您與飛利浦分享您的位置資料。根據您的位置資料，您將被導向附近商店，或是您所在國家/地區的客戶服務中心詳細聯絡資訊</string>
+    <string name="EmptyField_ErrorMsg">欄位不可空白</string>
+    <string name="kemailFieldErrorText">請輸入有效的電子郵件地址.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">需要什麼協助？</string>

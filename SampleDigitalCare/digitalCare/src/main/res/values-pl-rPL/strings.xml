@@ -7,6 +7,8 @@
     <string name="img_description">opis</string>
     <string name="no_internet">Brak połączenia internetowego. Sprawdź połączenie w ustawieniach Wi-Fi lub ustawieniach przesyłu danych telefonu.</string>
     <string name="locate_philips_popup_legal">W przypadku korzystania z funkcji „Znajdź najbliższe centrum serwisowe firmy Philips” na stronie pomocy technicznej użytkownik zostanie poproszony o udostępnienie firmie Philips danych lokalizacji. Na ich podstawie zostanie przekierowany do najbliższego punktu lub do danych kontaktowych centrum obsługi klienta w danym kraju.</string>
+    <string name="EmptyField_ErrorMsg">Pole nie może być puste</string>
+    <string name="kemailFieldErrorText">Wprowadź prawidłowy adres e-mail.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Jak możemy pomóc?</string>

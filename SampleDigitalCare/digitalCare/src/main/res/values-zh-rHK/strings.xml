@@ -7,7 +7,9 @@
     <string name="img_description">說明</string>
     <string name="no_internet">並無網絡連接，請於Wi-Fi 設定 或數據設定中檢查您電話的連接狀態。</string>
     <string name="locate_philips_popup_legal">使用「支援網頁」上的「尋找附近的 Philips 零售店」功能，即代表您接受與 Philips 分享您的位置資料。系統會根據提供的位置資料指出附近的零售店，或顯示您所在國家/地區的顧客支援聯絡資料。</string>
-
+    <string name="EmptyField_ErrorMsg">字段不能为空</string>
+    <string name="kemailFieldErrorText">请输入有效的电子邮件地址.</string>
+    
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">我們應該怎樣為您提供幫助？</string>
     <string name="contact_us">與我們聯絡</string>

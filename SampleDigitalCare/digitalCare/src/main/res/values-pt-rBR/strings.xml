@@ -7,6 +7,8 @@
     <string name="img_description">descrição</string>
     <string name="no_internet">Não há conexão com a Internet. Verifique se sua conexão está funcionando nas configurações do Wi-Fi ou configurações de dados do telefone</string>
     <string name="locate_philips_popup_legal">Ao utilizar a funcionalidade ‘Encontre uma Philips perto de você’ na página de suporte, será necessário compartilhar dados de localização com a Philips. Dependendo desses dados, você será redirecionado à loja mais próxima ou terá acesso aos detalhes de contato de atendimento ao cliente de seu país</string>
+    <string name="EmptyField_ErrorMsg">O campo é de preenchimento obrigatório</string>
+    <string name="kemailFieldErrorText">Introduza um endereço de correio electrónico válido.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Como podemos ajudar?</string>

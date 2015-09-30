@@ -7,6 +7,9 @@
 <string name="img_description"> açıklama </string>
 <string name="no_internet"> İnternet bağlantısı yok. Lütfen telefonunuzun wifi ayarları veya veri ayarlarından bağlantınızı kontrol edin </string>
 <string name="locate_philips_popup_legal"> Destek Sayfasında &quot;Size en yakın Philips&#039;i bulun&quot; işlevini kullandığınızda konum verilerinizi Philips ile paylaşmanız istenir. Konum verilerinize göre yakınınızda bulunan bir mağazaya veya ülkenizdeki müşteri desteği iletişim bilgilerine yönlendirilirsiniz </string>
+<string name="EmptyField_ErrorMsg">Alan boş olamaz</string>
+<string name="kemailFieldErrorText">Geçerli e-posta adresinizi girin.</string>
+
 
 <!-- values for Support Home Screen    null -->
 <string name="how_can_we_help"> açıklama </string>

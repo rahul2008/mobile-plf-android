@@ -7,6 +7,8 @@
     <string name="img_description">描述</string>
     <string name="no_internet">无互联网连接。请检查连接在手机 wifi 设置或数据设置中是否可用</string>
     <string name="locate_philips_popup_legal">当您使用支持页面上的“查找您附近的飞利浦”功能时，系统将要求您与飞利浦共享位置数据。根据您的位置数据，系统将您指引到您附近的商店，或提供您所在国家/地区的客户服务联系人详细信息。</string>
+    <string name="EmptyField_ErrorMsg">字段不能为空</string>
+    <string name="kemailFieldErrorText">请输入有效的电子邮件地址.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">如何才能帮助您？</string>
