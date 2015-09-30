@@ -68,7 +68,6 @@ public class PuiEditText extends RelativeLayout {
     }
 
     public void setEditTextEnabled(boolean enabled) {
-        editText.setFocusable(enabled);
         editText.setEnabled(enabled);
     }
 
@@ -78,7 +77,7 @@ public class PuiEditText extends RelativeLayout {
             setErrorTextStyle();
         } else {
             setErrorMessageVisibilty(View.GONE);
-            editText.setTextColor(getResources().getColor(R.color.philips_dark_blue));
+            editText.setTextColor(getResources().getColor(R.color.philips_very_dark_blue));
             editText.setBackground(themeDrawable); //Use deprecated method???
         }
     }
@@ -88,6 +87,8 @@ public class PuiEditText extends RelativeLayout {
         public void onFocusChange(final View view, final boolean hasFocus) {
             if(!hasFocus) {
                 showErrorAndChangeEditTextStyle(!(validator == null || validator.validate(editText.getText().toString())));
+            } else {
+                editText.setTextColor(getResources().getColor(R.color.philips_very_dark_blue));
             }
         }
     };
