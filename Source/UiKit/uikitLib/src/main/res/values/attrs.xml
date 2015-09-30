@@ -17,7 +17,6 @@
     </declare-styleable>
 
     <attr name="splashTitleStyle" format="reference" />
-    <attr name="gradientBackground" format="reference" />
 
     <declare-styleable name="AppCompactImageView">
         <attr name="vectorsrc" format="reference"/>
