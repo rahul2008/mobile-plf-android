@@ -18,7 +18,7 @@ import org.json.JSONObject;
  */
 public class PILLocaleManager {
 
-    private LocaleMatchListener mLocaleMatchListener;
+    private LocaleMatchNotifier mLocaleMatchNotifier = null;
 
     private static final String PREF_INPUT_LOCALE = "input_locale";
 
@@ -48,25 +48,24 @@ public class PILLocaleManager {
 
     private static final String LOG_TAG = "PILLocaleManager";
 
-    public synchronized void init(Context context, LocaleMatchListener listener) {
+    public void init(Context context, LocaleMatchListener listener) {
         Log.i(LOG_TAG, "LocaleMatch init()");
-        LocaleMatchNotifier notifier = LocaleMatchNotifier.getIntance();
-        notifier.registerForLocaleMatchChange(listener);
-        mLocaleMatchListener = listener;
+        mLocaleMatchNotifier = new LocaleMatchNotifier(listener);
     }
 
-    public synchronized void refresh(Context context, String languageCode, String countryCode) {
+    public void refresh(Context context, String languageCode, String countryCode) {
         Log.i(LOG_TAG, "LocaleMatch refresh(), lang = "
                 + languageCode + "country code = " + countryCode);
         String inputLocale = languageCode + "_" + countryCode;
         boolean refreshNeeded = IsForceRefreshNeeded(context, inputLocale);
         Log.i(LOG_TAG, "refresh(), refreshNeeded = "
                 + refreshNeeded);
+
         if (refreshNeeded) {
             setInputLocale(context, languageCode, countryCode);
             forceRefresh(context, languageCode, countryCode);
         } else {
-            mLocaleMatchListener.onLocaleMatchRefreshed(inputLocale);
+            mLocaleMatchNotifier.notifyLocaleMatchSuccess(inputLocale);
         }
     }
 
@@ -126,7 +125,7 @@ public class PILLocaleManager {
     private void forceRefresh(Context context, String languageCode,
                               String countryCode) {
         Log.i(LOG_TAG, "LocaleMatch forcerefresh()");
-        LocaleMatchThreadManager threadManager = new LocaleMatchThreadManager();
+        LocaleMatchThreadManager threadManager = new LocaleMatchThreadManager(mLocaleMatchNotifier);
         threadManager.processRequest(languageCode, countryCode);
     }
 

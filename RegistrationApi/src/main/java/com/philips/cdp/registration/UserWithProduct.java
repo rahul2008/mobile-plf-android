@@ -1,14 +1,6 @@
 
 package com.philips.cdp.registration;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -18,7 +10,6 @@ import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.LocaleMatchNotifier;
 import com.philips.cdp.localematch.PILLocale;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.LocaleMatchError;
@@ -28,6 +19,14 @@ import com.philips.cdp.registration.handlers.ProductRegistrationHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserWithProduct extends User implements LocaleMatchListener {
 
@@ -274,7 +273,6 @@ public class UserWithProduct extends User implements LocaleMatchListener {
 
     @Override
     public void onLocaleMatchRefreshed(String locale) {
-        unRegisterLocaleMatchListener();
         PILLocaleManager manager = new PILLocaleManager();
         PILLocale pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(locale,
                 Platform.PRX, mProdInfo.getSector(), mProdInfo.getCatalog());
@@ -297,15 +295,10 @@ public class UserWithProduct extends User implements LocaleMatchListener {
     @Override
     public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
         Log.i(LOG_TAG, "UserWithProductRegistration, onErrorOccurredForLocaleMatch");
-        unRegisterLocaleMatchListener();
         String[] inputLocaleArr = mInputLocale.split("_");
         startProdRegAsyncTask(inputLocaleArr[0].toLowerCase() + "_"
                 + inputLocaleArr[1].toUpperCase());
 
     }
 
-    private void unRegisterLocaleMatchListener() {
-        LocaleMatchNotifier notifier = LocaleMatchNotifier.getIntance();
-        notifier.unRegisterLocaleMatchChange(this);
-    }
 }

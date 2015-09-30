@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.LocaleMatchNotifier;
 import com.philips.cdp.localematch.PILLocale;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -64,25 +63,15 @@ public class LocaleMatchHelper implements LocaleMatchListener {
 			mHelper.getRegistrationSettings().initialiseConfigParameters(verifiedLocale);
 		}
 
-		unRegisterLocaleMatchListener();
-
 	}
 
 	@Override
 	public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-
 		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
-		unRegisterLocaleMatchListener();
 		String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
-
 		mHelper.getRegistrationSettings().initialiseConfigParameters(verifiedLocale);
-
 	}
 
-	private void unRegisterLocaleMatchListener() {
-		LocaleMatchNotifier notifier = LocaleMatchNotifier.getIntance();
-		notifier.unRegisterLocaleMatchChange(this);
-	}
 
 	private String verifyInputLocale(String locale) {
 		CheckLocale checkLocale = new CheckLocale();

@@ -1,6 +1,11 @@
 
 package com.philips.cdp.localematch;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
+
+import com.philips.cdp.localematch.enums.LocaleMatchError;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,9 +14,6 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Locale;
-import android.annotation.SuppressLint;
-import android.util.Log;
-import com.philips.cdp.localematch.enums.LocaleMatchError;
 
 
 public class LocaleMatchThreadManager {
@@ -33,8 +35,12 @@ public class LocaleMatchThreadManager {
 	public static final String URL ="http://www.philips.co.uk/prx/i18n/matchLocale/";	
 	
 	private static final String LOG_TAG ="LocaleMatchThreadManager";
+
+	private LocaleMatchNotifier mLocaleMatchNotifier = null;
 	
-	
+	public LocaleMatchThreadManager(LocaleMatchNotifier notifier){
+		mLocaleMatchNotifier = notifier;
+	}
 	public void processRequest(String languageCode,
 	        String countryCode) {
 		mLanguageCode = languageCode;
@@ -66,8 +72,7 @@ public class LocaleMatchThreadManager {
 				String urlStr = URL
 				        + mCountryCode.toUpperCase(Locale.getDefault()) + "/"
 				        + mLanguageCode.toLowerCase(Locale.getDefault())+".json";
-				Log.i(LOG_TAG,
-				        "LocaleMatchThreadManager, performHttpRequest(), URL = "
+				Log.d(LOG_TAG,"LocaleMatchThreadManager, performHttpRequest(), URL = "
 				                + urlStr);
 				URL url = new URL(urlStr);
 				connection = (HttpURLConnection) url.openConnection();
@@ -76,7 +81,7 @@ public class LocaleMatchThreadManager {
 				connection.setReadTimeout(READ_TIMEOUT);
 				connection.connect();
 				int responseCode = connection.getResponseCode();
-				Log.i(LOG_TAG,
+				Log.d(LOG_TAG,
 				        "LocaleMatchThreadManager, performHttpRequest(), responseCode"
 				                + responseCode);
 				InputStream ipStream = new BufferedInputStream(
@@ -127,16 +132,14 @@ public class LocaleMatchThreadManager {
 		}
 
 		private void sendCallback(boolean isError, LocaleMatchError error) {
-			Log.i(LOG_TAG, "sendCallback(), isError = "
-			        + isError);
+			Log.i(LOG_TAG, "sendCallback,isError = "+ isError);
 			if (mThreadList != null && mThreadList.contains(mInputLocale)) {
 				mThreadList.remove(mInputLocale);
 			}
-			LocaleMatchNotifier notifier = LocaleMatchNotifier.getIntance();
 			if (isError) {
-				notifier.notifyLocaleMatchError(error);
+				mLocaleMatchNotifier.notifyLocaleMatchError(error);
 			} else {
-				notifier.notifyLocaleMatchChange(mInputLocale);
+				mLocaleMatchNotifier.notifyLocaleMatchSuccess(mInputLocale);
 			}
 		}
 		

@@ -19,3 +19,11 @@ UIRepo.iml
 /hsdp/hsdp.iml
 Jump/jump.iml
 *.iml
+Jump/bin/
+RegistrationApi/bin/
+LocaleMatch/bin/
+RegistrationApiTest/gen/
+RegistrationApiTest/bin/
+Jump/gen/
+LocaleMatch/gen/
+RegistrationApi/gen/
