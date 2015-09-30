@@ -25,7 +25,6 @@
         <activity android:name=".activity.ThemesActivity" />
         <activity android:name=".activity.ButtonsActivity" />
         <activity android:name=".dotnavigation.DotNavigationActivity" />
-        <activity android:name=".imagenavigation.ImageNavigationActivity" />
         <activity android:name=".activity.SplashActivityGradient" />
         <activity android:name=".SplashActivityLogoTop" />
         <activity android:name=".SplashActivityLogoBottom" />
