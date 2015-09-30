@@ -247,7 +247,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             public void run() {
                 new NetworkAlertView().showEULAAlertBox(
                         getActivity(),
-                       // null,
+                        // null,
                         message);
                      /*    getActivity().getResources().getString(
                                 android.R.string.yes));
@@ -402,6 +402,18 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         fragmentManager.popBackStack();
         // removeCurrentFragment();
         // }
+        return false;
+    }
+
+    protected boolean backstackToSupportFragment() {
+        if (fragmentManager == null && mActivityContext != null) {
+            fragmentManager = mActivityContext.getSupportFragmentManager();
+        } else if (fragmentManager == null) {
+            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+        }
+        for (int i = 0; i < 5; i++) {
+            fragmentManager.popBackStack();
+        }
         return false;
     }
 

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
@@ -112,7 +111,7 @@ public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
     public void onClick(View v) {
 
         if (v.getId() == (R.id.your_product_review_thankyou_button))
-            Toast.makeText(getActivity(), "Pressed ?", Toast.LENGTH_SHORT).show();
+            backstackToSupportFragment();
 
     }
 
