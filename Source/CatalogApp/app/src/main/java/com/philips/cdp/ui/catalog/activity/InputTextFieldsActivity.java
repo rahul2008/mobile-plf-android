@@ -1,6 +1,8 @@
 package com.philips.cdp.ui.catalog.activity;
 
+import android.animation.LayoutTransition;
 import android.os.Bundle;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.PuiEditText;
@@ -22,6 +24,8 @@ public class InputTextFieldsActivity extends CatalogActivity {
 
         setContentView(R.layout.activity_input_text_fields);
 
+        RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.input_field_container);
+
         puiEditText1 = (PuiEditText) findViewById(R.id.input_field_1);
         puiEditText1.setValidator(new PuiEditText.Validator() {
             @Override
@@ -37,6 +41,9 @@ public class InputTextFieldsActivity extends CatalogActivity {
                 return validateEmail(inputToBeValidated);
             }
         });
+
+        LayoutTransition transition = relativeLayout.getLayoutTransition();
+        transition.enableTransitionType(LayoutTransition.CHANGING);
     }
 
     private  static final String EMAIL_PATTERN =
