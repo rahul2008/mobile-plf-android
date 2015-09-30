@@ -1,39 +1,28 @@
 package com.philips.cdp.digitalcare.rateandreview.productreview;
 
 
-import android.graphics.Bitmap;
-import android.util.Log;
-
 import com.bazaarvoice.BazaarEnvironment;
-import com.bazaarvoice.types.*;
 import com.bazaarvoice.BazaarRequest;
 import com.bazaarvoice.OnBazaarResponse;
-import com.bazaarvoice.SubmissionMediaParams;
 import com.bazaarvoice.SubmissionParams;
+import com.bazaarvoice.types.Action;
 import com.bazaarvoice.types.ApiVersion;
+import com.bazaarvoice.types.RequestType;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
 
 /**
  * BazaarFunctions.java <br>
  * ReviewSubmissionExample<br>
-
+ * <p/>
  * BazaarVoiceWrapper class is used as utility class. This is interface between BazaarVoice library and
  * GUI.
-
+ * <p/>
  * This is a suite of functions that leverage the BazaarvoiceSDK. This class
  * consolidates the usage of these functions for easier understanding of how to
  * use the SDK.
  * <p/>
- * Copyright (c) 2012 BazaarVoice. All rights reserved.
-
  *
  * @author : Ritesh.jha@philips.com
- *
  * @since : 11 Sep 2015
  */
 
@@ -41,10 +30,9 @@ public class BazaarVoiceWrapper {
 
     private static final String TAG = "BazaarFunctions";
     private static final String API_URL = "stg.api.bazaarvoice.com"; //Staging server
-//    private static final String API_URL = "api.bazaarvoice.com"; //Production Server
+    //    private static final String API_URL = "api.bazaarvoice.com"; //Production Server
     private static final String API_KEY = "2cpdrhohmgmwfz8vqyo48f52g";
     private static final ApiVersion API_VERSION = ApiVersion.FIVE_FOUR;
-    private static final int MIN_IMAGE_DIMENSIONS = 600;
 
     /**
      * Submits the given review for the given product as a preview. This means
@@ -92,7 +80,7 @@ public class BazaarVoiceWrapper {
             params.setAction(Action.PREVIEW);
 
         params.setProductId(prodId);
-        params.setRating((int)review.getRating());
+        params.setRating((int) review.getRating());
         params.setTitle(review.getSummary());
         params.setReviewText(review.getReview());
         params.setUserNickname(review.getNickname());
