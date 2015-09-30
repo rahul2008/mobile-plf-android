@@ -202,6 +202,9 @@
                     style="@style/fontButton"
                     android:layout_marginLeft="@dimen/marginTopButton"
                     android:layout_weight="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
                     android:text="@string/bazzarvoice_productreview_preview_submitmyreview_text"
                     android:textAlignment="center"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />

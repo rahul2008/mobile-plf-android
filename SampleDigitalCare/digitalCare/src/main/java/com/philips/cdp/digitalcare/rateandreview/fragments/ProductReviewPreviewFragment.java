@@ -76,10 +76,10 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         mLayoutParams = (LinearLayout.LayoutParams) mParentLayout
                 .getLayoutParams();
         mParentLayout1 = (LinearLayout) getActivity().findViewById(R.id.product_preview_container_one);
-        mLayoutParams1 = (LinearLayout.LayoutParams) mParentLayout
+        mLayoutParams1 = (LinearLayout.LayoutParams) mParentLayout1
                 .getLayoutParams();
         mParentLayout2 = (LinearLayout) getActivity().findViewById(R.id.product_preview_container_two);
-        mLayoutParams2 = (LinearLayout.LayoutParams) mParentLayout
+        mLayoutParams2 = (LinearLayout.LayoutParams) mParentLayout2
                 .getLayoutParams();
         Configuration config = getResources().getConfiguration();
         mProgressDialog = new ProgressDialog(getActivity());
@@ -121,7 +121,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         params.weight = 1;
 
         mCancelButton.setLayoutParams(params);
-        params.leftMargin = (int)((getActivity().getResources()
+        params.leftMargin = (int) ((getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density) / 3);
         mOkButton.setLayoutParams(params);
 
