@@ -61,10 +61,10 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
     public void testInputFieldUnfocusedWithoutEntry() {
         onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
-                .perform(click());
-//        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
-//                .check(matches(isOutlineColorSimilar("#b9b9b9")));
+/*        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .perform(click());*/
+/*        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+           .check(matches(isOutlineColorSimilar("#b9b9b9")));
 
 //        onView(withId(R.id.input_field_2))
 //                .check(matches(isOutlineColorSimilar("#b9b9b9")));
@@ -72,10 +72,10 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
 //                .check(matches(isBackgroundColorSimilar("#ffffff")));
 //        onView(withId(R.id.input_field_2))
 //                .check(matches(isTextColorSimilar("#b9b9b9")));
-/*
-        onView(withId(R.id.input_field_2))
+*//**/
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
-*/
+
 
 
     }
