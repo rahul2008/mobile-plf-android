@@ -29,6 +29,7 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
+import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;
 import com.philips.cdp.digitalcare.rateandreview.productreview.ProductImageLoader;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -120,7 +121,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            if (s.length() > 0) {
+            if (s.length() > 0 && BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
                 mReviewEmailIconInvalid.setVisibility(View.GONE);
                 mReviewEmailIconValid.setVisibility(View.VISIBLE);
                 mEmailErrorButton.setVisibility(View.GONE);
@@ -132,7 +133,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         }
 
         public void afterTextChanged(Editable s) {
-            if (s.length() > 0) {
+            if (s.length() > 0 && BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
                 mReviewEmailIconInvalid.setVisibility(View.GONE);
                 mReviewEmailIconValid.setVisibility(View.VISIBLE);
                 mEmailErrorButton.setVisibility(View.GONE);
@@ -149,7 +150,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mDescTextCount.setText(count + "");
+            mDescTextCount.setText(String.valueOf(s.length()) + "");
         }
 
         public void afterTextChanged(Editable s) {
@@ -491,8 +492,9 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         } else if (getNickNameValue(mNicknameEditText).equals("")) {
             Toast.makeText(getActivity(), "You must enter a nick name.",
                     Toast.LENGTH_SHORT).show();
-        } else if (getEmailValue(mEmailEditText).equals("")) {
-            Toast.makeText(getActivity(), "You must enter a email.",
+        } else if (getEmailValue(mEmailEditText).equals("") ||
+                !BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
+            Toast.makeText(getActivity(), "You must enter proper email.",
                     Toast.LENGTH_SHORT).show();
         } else if (!getLegalTermValue(mSwitch)) {
             Toast.makeText(getActivity(), "You must agree the term and conditions.",

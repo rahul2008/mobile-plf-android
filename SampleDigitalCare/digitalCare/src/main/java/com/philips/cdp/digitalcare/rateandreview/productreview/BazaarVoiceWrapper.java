@@ -10,6 +10,9 @@ import com.bazaarvoice.types.ApiVersion;
 import com.bazaarvoice.types.RequestType;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * BazaarFunctions.java <br>
  * ReviewSubmissionExample<br>
@@ -96,4 +99,16 @@ public class BazaarVoiceWrapper {
         BazaarRequest submission = new BazaarRequest(API_URL, API_KEY, BazaarEnvironment.staging, API_VERSION);
         submission.postSubmission(RequestType.REVIEWS, params, listener);
     }
+
+    public static boolean isValidEmail(String email) {
+        if (email == null)
+            return false;
+        if (email.length() == 0)
+            return false;
+        String emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+        Pattern pattern = Pattern.compile(emailPattern);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
 }
