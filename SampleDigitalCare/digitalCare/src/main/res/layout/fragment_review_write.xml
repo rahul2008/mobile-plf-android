@@ -25,19 +25,17 @@
                 android:id="@+id/review_write_rate_productimage"
                 style="@style/write_product_review_ProdImage"
                 android:contentDescription="@string/product_name"
-                android:src="@drawable/viewproduct_productimage" />
+                android:src="@color/activity_background_color" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/review_write_rate_name"
                 style="@style/write_product_review_Product_Header"
                 android:layout_alignTop="@id/review_write_rate_productimage"
-                android:text="Norelco Shaver 9700 Series 9000 wet and dry electric shaver"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/review_write_rate_variant"
                 style="@style/write_product_review_Product_Variant"
-                android:text="S9721"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </RelativeLayout>
 
@@ -115,9 +113,9 @@
                     android:id="@+id/reviewSummaryIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right|center_vertical"
-
                     android:layout_alignParentRight="true"
+
+                    android:gravity="right|center_vertical"
                     android:paddingBottom="2dp"
                     android:paddingLeft="3dp"
                     android:paddingRight="4dp"
@@ -128,16 +126,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_error_alert" />
+                        android:src="@drawable/dc_error_alert"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/reviewSummaryIconValid"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_valid_alert" />
+                        android:src="@drawable/dc_valid_alert"
+                        android:visibility="gone" />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -149,8 +147,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/review_write_rate_product_header_summary"
                 android:layout_marginRight="@dimen/err_top_arrow_margin_right"
-                android:visibility="gone"
-                android:src="@drawable/dc_arrow_up" />
+                android:src="@drawable/dc_arrow_up"
+                android:visibility="gone" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/tv_summary"
@@ -176,42 +174,42 @@
                 <EditText
                     android:id="@+id/review_write_rate_product_header_description"
                     style="@style/write_product_review_edittext"
-                    android:gravity="left"
                     android:layout_height="100dp"
+                    android:gravity="left"
                     android:hint="@string/bazzarvoice_productreview_writescreen_descriptionhint"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
-<!--
-                <RelativeLayout
-                    android:id="@+id/desc_verified_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/support_btn_height">
+                <!--
+                                <RelativeLayout
+                                    android:id="@+id/desc_verified_field"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/support_btn_height">
 
-                    <RelativeLayout
-                        android:id="@+id/reviewDescIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right|center_vertical"
-                        android:layout_alignParentRight="true"
-                        android:paddingBottom="2dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="4dp"
-                        android:paddingTop="2dp">
+                                    <RelativeLayout
+                                        android:id="@+id/reviewDescIcon"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="right|center_vertical"
+                                        android:layout_alignParentRight="true"
+                                        android:paddingBottom="2dp"
+                                        android:paddingLeft="3dp"
+                                        android:paddingRight="4dp"
+                                        android:paddingTop="2dp">
 
-                        <ImageView
-                            android:id="@+id/incorrect_icon_desc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:contentDescription="@string/product_name"
-                            android:src="@drawable/dc_error_alert" />
+                                        <ImageView
+                                            android:id="@+id/incorrect_icon_desc"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="match_parent"
+                                            android:contentDescription="@string/product_name"
+                                            android:src="@drawable/dc_error_alert" />
 
-                        <ImageView
-                            android:id="@+id/correct_icon_desc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:contentDescription="@string/product_name"
-                            android:src="@drawable/dc_valid_alert" />
-                    </RelativeLayout>
-                </RelativeLayout>-->
+                                        <ImageView
+                                            android:id="@+id/correct_icon_desc"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="match_parent"
+                                            android:contentDescription="@string/product_name"
+                                            android:src="@drawable/dc_valid_alert" />
+                                    </RelativeLayout>
+                                </RelativeLayout>-->
 
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
@@ -235,49 +233,34 @@
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
             </RelativeLayout>
-<!--
-            <ImageView
-                android:id="@+id/iv_up_arrow_desc"
-                android:layout_width="@dimen/err_alert_width"
-                android:layout_height="@dimen/err_alert_width"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/desc_edit_text"
-                android:layout_marginRight="@dimen/err_top_arrow_margin_right"
-                android:src="@drawable/dc_arrow_up" />
+            <!--
+                        <ImageView
+                            android:id="@+id/iv_up_arrow_desc"
+                            android:layout_width="@dimen/err_alert_width"
+                            android:layout_height="@dimen/err_alert_width"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/desc_edit_text"
+                            android:layout_marginRight="@dimen/err_top_arrow_margin_right"
+                            android:src="@drawable/dc_arrow_up" />
 
-            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
-                android:id="@+id/tv_desc"
-                style="@style/write_product_review_edittext"
-                android:layout_below="@+id/iv_up_arrow_desc"
-                android:layout_marginTop="@dimen/err_edit_fields_margin_top"
-                android:background="@drawable/error_rect"
-                android:text="@string/EmptyField_ErrorMsg"
-                android:visibility="gone"
-                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />-->
+                        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                            android:id="@+id/tv_desc"
+                            style="@style/write_product_review_edittext"
+                            android:layout_below="@+id/iv_up_arrow_desc"
+                            android:layout_marginTop="@dimen/err_edit_fields_margin_top"
+                            android:background="@drawable/error_rect"
+                            android:text="@string/EmptyField_ErrorMsg"
+                            android:visibility="gone"
+                            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />-->
         </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
 
             android:id="@+id/review_write_rate_product_nickname_header"
             style="@style/write_product_review_header_styles"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/bazzarvoice_productreview_writescreen_pickname_text"
             custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
@@ -288,42 +271,42 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp">
 
-<!--
-            <RelativeLayout
-                android:id="@+id/name_verified_field"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/support_btn_height">
+            <!--
+                        <RelativeLayout
+                            android:id="@+id/name_verified_field"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/support_btn_height">
 
-                <RelativeLayout
-                    android:id="@+id/reviewNameIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right|center_vertical"
-                    android:layout_alignParentRight="true"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="4dp"
-                    android:paddingTop="2dp">
+                            <RelativeLayout
+                                android:id="@+id/reviewNameIcon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right|center_vertical"
+                                android:layout_alignParentRight="true"
+                                android:paddingBottom="2dp"
+                                android:paddingLeft="3dp"
+                                android:paddingRight="4dp"
+                                android:paddingTop="2dp">
 
-                    <ImageView
-                        android:id="@+id/reviewNameIconInvalid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_error_alert" />
+                                <ImageView
+                                    android:id="@+id/reviewNameIconInvalid"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/product_name"
+                                    android:visibility="gone"
+                                    android:src="@drawable/dc_error_alert" />
 
-                    <ImageView
-                        android:id="@+id/reviewNameIconValid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_valid_alert" />
-                </RelativeLayout>
+                                <ImageView
+                                    android:id="@+id/reviewNameIconValid"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/product_name"
+                                    android:visibility="gone"
+                                    android:src="@drawable/dc_valid_alert" />
+                            </RelativeLayout>
 
-            </RelativeLayout>
--->
+                        </RelativeLayout>
+            -->
 
             <EditText
                 android:id="@+id/review_write_rate_product_nickname_header_value"
@@ -340,8 +323,8 @@
                     android:id="@+id/reviewNameIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right|center_vertical"
                     android:layout_alignParentRight="true"
+                    android:gravity="right|center_vertical"
                     android:paddingBottom="2dp"
                     android:paddingLeft="3dp"
                     android:paddingRight="4dp"
@@ -352,16 +335,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_error_alert" />
+                        android:src="@drawable/dc_error_alert"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/reviewNameIconValid"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_valid_alert" />
+                        android:src="@drawable/dc_valid_alert"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -373,8 +356,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/review_write_rate_product_nickname_header_value"
                 android:layout_marginRight="@dimen/err_top_arrow_margin_right"
-                android:visibility="gone"
-                android:src="@drawable/dc_arrow_up" />
+                android:src="@drawable/dc_arrow_up"
+                android:visibility="gone" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/tv_name"
@@ -415,8 +398,8 @@
                     android:id="@+id/reviewEmailIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right|center_vertical"
                     android:layout_alignParentRight="true"
+                    android:gravity="right|center_vertical"
                     android:paddingBottom="2dp"
                     android:paddingLeft="3dp"
                     android:paddingRight="4dp"
@@ -427,16 +410,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_error_alert" />
+                        android:src="@drawable/dc_error_alert"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/reviewEmailIconValid"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/product_name"
-                        android:visibility="gone"
-                        android:src="@drawable/dc_valid_alert" />
+                        android:src="@drawable/dc_valid_alert"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -448,8 +431,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/review_write_rate_product_email_header_value"
                 android:layout_marginRight="@dimen/err_top_arrow_margin_right"
-                android:visibility="gone"
-                android:src="@drawable/dc_arrow_up" />
+                android:src="@drawable/dc_arrow_up"
+                android:visibility="gone" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/tv_email"

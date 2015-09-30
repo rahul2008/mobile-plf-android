@@ -26,6 +26,7 @@ import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageListener;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
+import com.philips.cdp.digitalcare.rateandreview.productreview.model.PRXProductModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -37,6 +38,9 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 public class RateThisAppFragment extends DigitalCareBaseFragment implements ProductPageListener {
 
     private static final String PRODUCT_REVIEW_URL = "http://%s%s/%s";
+    public static String mProductReviewProductImage = null;
+    public static String mProductReviewProductName = null;
+    public static String mProductReviewProductCtn = null;
     private static String TAG = RateThisAppFragment.class.getSimpleName();
     private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
     private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
@@ -249,7 +253,12 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
     }
 
     @Override
-    public void onPRXProductPageReceived(String productlink) {
+    public void onPRXProductPageReceived(PRXProductModel data) {
+
+        String productlink = data.getmReviewPageUrl();
+        mProductReviewProductImage = data.getmProductImageUrl();
+        mProductReviewProductName = data.getmProductName();
+        mProductReviewProductCtn = data.getmProductCtn();
         if (mProgressDialog != null && mProgressDialog.isShowing())
             mProgressDialog.cancel();
         if (productlink == null)
