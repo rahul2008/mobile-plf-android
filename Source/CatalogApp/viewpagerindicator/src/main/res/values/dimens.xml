@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="dot_navigation_circle_space">8dp</dimen>
+    <dimen name="image_navigation_divider_space">8dp</dimen>
+    
 </resources>

@@ -2,8 +2,8 @@
 
     <!-- Placeholder to start PhilipsTheme definition -->
     <style name="Theme.Philips" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar.Solid</item>
-        <item name="colorPrimary">?attr/actionBarBackground</item>
+        <item name="actionBarStyle">@style/HoloActionBar</item>
+        <item name="actionBarBackground">@drawable/grad_dark_blue_background</item>
         <item name="splashTitleStyle">@style/SplashTitle</item>
         <item name="actionButtonStyleRef">@style/Philips.ActionButton</item>
         <item name="actionButtonBgColor">@color/philips_dark_blue</item>
@@ -16,4 +16,7 @@
         <item name="fontPath">fonts/centralesans_book.ttf</item>
     </style>
 
+    <style name="HoloActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="background">?attr/actionBarBackground</item>
+    </style>
 </resources>

@@ -5,11 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.philips.cdp.uikit.UiKitActivity;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SplashActivityLogoCenterTitleBottom extends AppCompatActivity {
+public class SplashActivityLogoCenterTitleBottom extends UiKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

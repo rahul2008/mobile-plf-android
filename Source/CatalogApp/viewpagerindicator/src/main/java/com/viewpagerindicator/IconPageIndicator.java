@@ -25,8 +25,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
@@ -50,7 +52,7 @@ public class IconPageIndicator extends HorizontalScrollView implements PageIndic
         setHorizontalScrollBarEnabled(false);
 
         mIconsLayout = new IcsLinearLayout(context, R.attr.vpiIconPageIndicatorStyle);
-        addView(mIconsLayout, new LayoutParams(WRAP_CONTENT, FILL_PARENT, Gravity.CENTER));
+        addView(mIconsLayout, new LayoutParams(WRAP_CONTENT, MATCH_PARENT, Gravity.CENTER));
     }
 
     private void animateToIcon(final int position) {
@@ -130,6 +132,10 @@ public class IconPageIndicator extends HorizontalScrollView implements PageIndic
         int count = iconAdapter.getCount();
         for (int i = 0; i < count; i++) {
             ImageView view = new ImageView(getContext(), null, R.attr.vpiIconPageIndicatorStyle);
+            if ( i != (count - 1)) {
+                LinearLayout.LayoutParams lp = setMargins();
+                view.setLayoutParams(lp);
+            }
             view.setImageResource(iconAdapter.getIconResId(i));
             mIconsLayout.addView(view);
         }
@@ -138,6 +144,12 @@ public class IconPageIndicator extends HorizontalScrollView implements PageIndic
         }
         setCurrentItem(mSelectedIndex);
         requestLayout();
+    }
+
+    private LinearLayout.LayoutParams setMargins() {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0 , 0, (int) getContext().getResources().getDimension(R.dimen.image_navigation_divider_space), 0 );
+        return lp;
     }
 
     @Override
