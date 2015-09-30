@@ -9,6 +9,7 @@
         <item>Change Theme</item>
         <item>Buttons</item>
         <item>Dot Navigation</item>
+        <item>About Screen</item>
     </string-array>
     <string name="change_theme">Change theme</string>
     <string name="previous_theme">Previous theme</string>
