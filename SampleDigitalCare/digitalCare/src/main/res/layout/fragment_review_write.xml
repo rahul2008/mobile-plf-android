@@ -216,9 +216,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="2dp"
                     android:layout_toLeftOf="@+id/textcount_minmum"
                     android:text="0"
                     android:textColor="@color/text_header_color"
+                    android:textSize="@dimen/title_text_size_small"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
@@ -227,8 +229,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="2dp"
                     android:text="/50+"
-                    android:textColor="#cccccc"
+                    android:textColor="@color/text_bazzarvoice_edittext_color"
+                    android:textSize="@dimen/title_text_size_small"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
             </RelativeLayout>
