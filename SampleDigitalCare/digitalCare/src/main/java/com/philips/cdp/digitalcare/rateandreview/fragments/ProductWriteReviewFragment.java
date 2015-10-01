@@ -501,7 +501,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             disablePreviewButton = true;
             mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
         }
-        if (getReviewDescriptionValue(mSummaryDescriptionEditText).equals("")) {
+        if (getReviewDescriptionValue(mSummaryDescriptionEditText).equals("") ||
+                getReviewDescriptionValue(mSummaryDescriptionEditText).length() < 50) {
             disablePreviewButton = true;
             String descAlert = getActivity().getString(R.string.bazzarvoice_description_alert);
             alertStringBuilder.append("- " + descAlert + "\n");
