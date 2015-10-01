@@ -479,28 +479,36 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
      * "Uploading Photo..." dialog.
      */
     private void submitReview() {
-        if (getRatingValue(mRatingBarVerticle) == 0) {
-            Toast.makeText(getActivity(),
-                    "You must give a rating between 1 and 5.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (getReviewSummaryValue(mSummaryHeaderEditText).equals("")) {
-            Toast.makeText(getActivity(), "You must enter a summary.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (getReviewDescriptionValue(mSummaryDescriptionEditText).equals("")) {
-            Toast.makeText(getActivity(), "You must enter a description.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (getNickNameValue(mNicknameEditText).equals("")) {
-            Toast.makeText(getActivity(), "You must enter a nick name.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (getEmailValue(mEmailEditText).equals("") ||
-                !BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
-            Toast.makeText(getActivity(), "You must enter proper email.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (!getLegalTermValue(mSwitch)) {
-            Toast.makeText(getActivity(), "You must agree the term and conditions.",
-                    Toast.LENGTH_SHORT).show();
-        } else {
+        boolean disablePreviewButton = false;
 
+        if (getRatingValue(mRatingBarVerticle) == 0) {
+            disablePreviewButton = true;
+//            Toast.makeText(getActivity(),
+//                    "You must give a rating between 1 and 5.",
+//                    Toast.LENGTH_SHORT).show();
+        }
+        if (getReviewSummaryValue(mSummaryHeaderEditText).equals("")) {
+            disablePreviewButton = true;
+            mReviewSummaryIconInvalid.setVisibility(View.VISIBLE);
+        }
+        if (getReviewDescriptionValue(mSummaryDescriptionEditText).equals("")) {
+            disablePreviewButton = true;
+        }
+        if (getNickNameValue(mNicknameEditText).equals("")) {
+            disablePreviewButton = true;
+            mReviewNameIconInvalid.setVisibility(View.VISIBLE);
+        }
+        if (getEmailValue(mEmailEditText).equals("") ||
+                !BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
+            disablePreviewButton = true;
+            mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
+        }
+        if (!getLegalTermValue(mSwitch)) {
+            disablePreviewButton = true;
+//            Toast.makeText(getActivity(), "You must agree the term and conditions.",
+//                    Toast.LENGTH_SHORT).show();
+        }
+        if (!disablePreviewButton) {
             BazaarReviewModel reviewModel = new BazaarReviewModel();
             reviewModel.setRating((float) mRatingBarVerticle.getRating());
             reviewModel.setSummary(mSummaryHeaderEditText.getText().toString());
