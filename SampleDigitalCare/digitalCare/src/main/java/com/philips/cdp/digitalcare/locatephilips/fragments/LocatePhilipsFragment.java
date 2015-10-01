@@ -813,7 +813,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void callPhilips() {
-        Intent myintent = new Intent(Intent.ACTION_CALL);
+        Intent myintent = new Intent(Intent.ACTION_DIAL);
         myintent.setData(Uri.parse("tel:" + mPhoneNumber));
         myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         DigiCareLogger.d(TAG, "Contact Number : " + mPhoneNumber);
