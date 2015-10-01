@@ -285,7 +285,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
             SampleConsumerProductInfo.setSubCategory(mSubCategory_AutoText.getText().toString());
             SampleConsumerProductInfo.setCtn(mCtn_AutoText.getText().toString());
             SampleConsumerProductInfo.setProductTitle(mProductTitle_AutoText.getText().toString());
-            SampleConsumerProductInfo.setProductReviewUrl(mProductReview_AutoText.getText().toString());
             return true;
         } else {
             return false;

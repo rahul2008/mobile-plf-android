@@ -217,6 +217,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete|textAutoCorrect"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="gone"
                 android:textSize="18sp"></AutoCompleteTextView>
 
         </GridLayout>
