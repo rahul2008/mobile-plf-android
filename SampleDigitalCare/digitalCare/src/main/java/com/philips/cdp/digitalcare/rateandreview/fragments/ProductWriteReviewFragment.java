@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -47,6 +46,31 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
     private static final String PRODUCT_TERMS_DIALOG_URL = "http://%s/content/7543b-%s/termsandconditions.htm";
+    private LinearLayout mParentLayout = null;
+    private FrameLayout.LayoutParams mLayoutParams = null;
+    private DigitalCareFontButton mOkButton, mCancelButton = null;
+    private ImageView mProductImage = null;
+    private DigitalCareFontTextView mProductTitle = null;
+    private DigitalCareFontTextView mProductCtn = null;
+    private DigitalCareFontTextView mTermsText = null;
+    private RatingBar mRatingBarVerticle, mRatingBarHorizontal = null;
+    private Switch mSwitch = null;
+    private EditText mSummaryHeaderEditText, mSummaryDescriptionEditText, mNicknameEditText, mEmailEditText = null;
+    private DigitalCareFontTextView mSummaryErrorButton = null;
+    //    private DigitalCareFontTextView mDescErrorButton = null;
+    private DigitalCareFontTextView mNameErrorButton = null;
+    private DigitalCareFontTextView mEmailErrorButton = null;
+    private RelativeLayout mSummaryVerifiedField = null;
+    //    private RelativeLayout mDescVerifiedField = null;
+    private RelativeLayout mNameVerifiedField = null;
+    private RelativeLayout mEmailVerifiedField = null;
+    private ImageView mReviewSummaryIconInvalid = null;
+    private ImageView mReviewSummaryIconValid = null;
+    private ImageView mReviewNameIconInvalid = null;
+    private ImageView mReviewNameIconValid = null;
+    private ImageView mReviewEmailIconInvalid = null;
+    private ImageView mReviewEmailIconValid = null;
+    private ImageView mSummaryArrow = null;
     private final TextWatcher mTextWatcherSummary = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -79,6 +103,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             }
         }
     };
+    private ImageView mNameArrow = null;
     private final TextWatcher mTextWatcherName = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,6 +136,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             }
         }
     };
+    private ImageView mEmailArrow = null;
     private final TextWatcher mTextWatcherEmail = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -144,6 +170,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             }
         }
     };
+    private DigitalCareFontTextView mDescTextCount, mDescRequiredTextCount = null;
     private final TextWatcher mTextWatcherDesc = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -154,36 +181,12 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         }
 
         public void afterTextChanged(Editable s) {
+            if (s.length() > 49)
+                mDescRequiredTextCount.setTextColor(getResources().getColor(R.color.text_header_color));
+            else
+                mDescRequiredTextCount.setTextColor(getResources().getColor(R.color.text_bazzarvoice_edittext_color));
         }
     };
-    private LinearLayout mParentLayout = null;
-    private FrameLayout.LayoutParams mLayoutParams = null;
-    private DigitalCareFontButton mOkButton, mCancelButton = null;
-    private ImageView mProductImage = null;
-    private DigitalCareFontTextView mProductTitle = null;
-    private DigitalCareFontTextView mProductCtn = null;
-    private DigitalCareFontTextView mTermsText = null;
-    private RatingBar mRatingBarVerticle, mRatingBarHorizontal = null;
-    private Switch mSwitch = null;
-    private EditText mSummaryHeaderEditText, mSummaryDescriptionEditText, mNicknameEditText, mEmailEditText = null;
-    private DigitalCareFontTextView mSummaryErrorButton = null;
-    //    private DigitalCareFontTextView mDescErrorButton = null;
-    private DigitalCareFontTextView mNameErrorButton = null;
-    private DigitalCareFontTextView mEmailErrorButton = null;
-    private RelativeLayout mSummaryVerifiedField = null;
-    //    private RelativeLayout mDescVerifiedField = null;
-    private RelativeLayout mNameVerifiedField = null;
-    private RelativeLayout mEmailVerifiedField = null;
-    private ImageView mReviewSummaryIconInvalid = null;
-    private ImageView mReviewSummaryIconValid = null;
-    private ImageView mReviewNameIconInvalid = null;
-    private ImageView mReviewNameIconValid = null;
-    private ImageView mReviewEmailIconInvalid = null;
-    private ImageView mReviewEmailIconValid = null;
-    private ImageView mSummaryArrow = null;
-    private ImageView mNameArrow = null;
-    private ImageView mEmailArrow = null;
-    private DigitalCareFontTextView mDescTextCount = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -210,7 +213,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mEmailErrorButton = (DigitalCareFontTextView) getActivity().findViewById(R.id.tv_email);
 
         mDescTextCount = (DigitalCareFontTextView) getActivity().findViewById(R.id.textcount_count);
-
+        mDescRequiredTextCount =
+                (DigitalCareFontTextView) getActivity().findViewById(R.id.textcount_minmum);
         mSummaryVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.summary_verified_field);
 //        mDescVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.desc_verified_field);
         mNameVerifiedField = (RelativeLayout) getActivity().findViewById(R.id.name_verified_field);
