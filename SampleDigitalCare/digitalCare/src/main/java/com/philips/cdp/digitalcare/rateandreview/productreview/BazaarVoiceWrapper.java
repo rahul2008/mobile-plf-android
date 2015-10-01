@@ -8,6 +8,7 @@ import com.bazaarvoice.SubmissionParams;
 import com.bazaarvoice.types.Action;
 import com.bazaarvoice.types.ApiVersion;
 import com.bazaarvoice.types.RequestType;
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 
 import java.util.regex.Matcher;
@@ -32,8 +33,9 @@ import java.util.regex.Pattern;
 public class BazaarVoiceWrapper {
 
     private static final String TAG = "BazaarFunctions";
-    private static final String API_URL = "stg.api.bazaarvoice.com"; //Staging server
-    //    private static final String API_URL = "api.bazaarvoice.com"; //Production Server
+    private static final String API_URL_STAGING = "stg.api.bazaarvoice.com"; //Staging server
+    private static final String API_URL_PRODCUTION = "api.bazaarvoice.com"; //Production Server
+    private static String API_URL_ENVIRONMENT = null;
     private static final String API_KEY = "2cpdrhohmgmwfz8vqyo48f52g";
     private static final ApiVersion API_VERSION = ApiVersion.FIVE_FOUR;
 
@@ -96,7 +98,14 @@ public class BazaarVoiceWrapper {
         else
             params.setUserId("Anonymous");
 
-        BazaarRequest submission = new BazaarRequest(API_URL, API_KEY, BazaarEnvironment.staging, API_VERSION);
+        if(DigitalCareConfigManager.getInstance().isProductionEnvironment()){
+            API_URL_ENVIRONMENT = API_URL_PRODCUTION;
+        }
+        else{
+            API_URL_ENVIRONMENT = API_URL_STAGING;
+        }
+
+        BazaarRequest submission = new BazaarRequest(API_URL_ENVIRONMENT, API_KEY, BazaarEnvironment.staging, API_VERSION);
         submission.postSubmission(RequestType.REVIEWS, params, listener);
     }
 

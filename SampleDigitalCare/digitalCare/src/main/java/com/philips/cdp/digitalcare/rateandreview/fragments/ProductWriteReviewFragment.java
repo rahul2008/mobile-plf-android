@@ -527,7 +527,11 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 //                    Toast.LENGTH_SHORT).show();
         }
 //        Toast.makeText(getActivity(), alertStringBuilder, Toast.LENGTH_LONG).show();
-        showAlert(alertStringBuilder.toString());
+
+        if(alertStringBuilder.length() > 0) {
+            showAlert(alertStringBuilder.toString());
+        }
+
         if (!disablePreviewButton) {
             BazaarReviewModel reviewModel = new BazaarReviewModel();
             reviewModel.setRating((float) mRatingBarVerticle.getRating());

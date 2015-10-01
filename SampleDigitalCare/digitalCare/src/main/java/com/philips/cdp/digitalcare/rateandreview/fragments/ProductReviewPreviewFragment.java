@@ -222,7 +222,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                             }
                         }
                     });
-            mProgressDialog.setMessage("Submitting Review...");
+//            mProgressDialog.setMessage("Submitting Review...");
             mProgressDialog.show();
         }
     }

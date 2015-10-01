@@ -424,7 +424,7 @@ public class DigitalCareConfigManager {
         return false;
     }
 
-    private boolean isProductionEnvironment(){
+    public boolean isProductionEnvironment(){
         if(mContext!=null) {
             return mContext.getResources().getBoolean(R.bool.production_environment);
         }
