@@ -26,5 +26,10 @@ public enum SHNDataType {
     ResetSourceMoonshine,
     EventMoonshine,
     DebugStringMoonshine,
-    HeartBeatsMoonshine, FatPercentage
+    HeartBeatsMoonshine,
+    ActivityCounts,
+    ActivityCountsDebug,
+    StepsDebug,
+    EnergyExpenditureDebug,
+    FatPercentage
 }
