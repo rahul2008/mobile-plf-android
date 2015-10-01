@@ -417,7 +417,7 @@ public class DigitalCareConfigManager {
         return mBazaarVoiceApiKeysMap;
     }
 
-    private boolean isBazaarVoiceRequired(){
+    public boolean isBazaarVoiceRequired(){
         if(mContext!=null) {
             return mContext.getResources().getBoolean(R.bool.productreview_required);
         }

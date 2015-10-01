@@ -265,7 +265,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
             hideProductReviewView();
         else {
             mProductReviewPage = productlink;
-            showProductReviewView();
+            if (DigitalCareConfigManager.getInstance().isBazaarVoiceRequired())
+                showProductReviewView();
         }
     }
 
