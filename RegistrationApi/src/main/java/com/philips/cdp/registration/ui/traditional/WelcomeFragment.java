@@ -22,9 +22,6 @@ import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.AppTagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.coppa.CoppaExtension;
-import com.philips.cdp.registration.coppa.CoppaResendError;
-import com.philips.cdp.registration.coppa.ResendCoppaEmailConsentHandler;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
@@ -198,7 +195,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
         if (isfromBegining) {
             FrameLayout frameLayout= (FrameLayout) view.findViewById(R.id.fl_reg_logout);
-            frameLayout.setVisibility(View.GONE);
+            //frameLayout.setVisibility(View.GONE);
             mBtnSignOut.setVisibility(View.GONE);
             mTvEmailDetails.setVisibility(View.GONE);
             mBtnContinue.setText(getResources().getString(R.string.SignInSuccess_SignOut_btntxt));

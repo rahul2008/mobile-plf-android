@@ -110,7 +110,7 @@
                     <ProgressBar
                         android:id="@+id/pb_reg_log_out_from_begin"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:padding="@dimen/reg_pb_padding"
                         android:visibility="gone" />
