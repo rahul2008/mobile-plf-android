@@ -325,6 +325,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mReviewEmailIconValid.setLayoutParams(paramIcon);
 
         mCancelButton.setLayoutParams(params);
+        params.leftMargin = (int) ((getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density) / 3);
         mOkButton.setLayoutParams(params);
 
         mSummaryHeaderEditText.setLayoutParams(param);
