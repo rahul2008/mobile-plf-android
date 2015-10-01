@@ -263,16 +263,14 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                     String message = error.getString("Message");
                     tagTechnicalError(code);
 
-                    if (!errorNames.optString(0).equals("")) {
-                        Toast.makeText(getActivity(), message,
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getActivity(),
-                                "An error has occurred" + message, Toast.LENGTH_LONG)
-                                .show();
-                        Toast.makeText(getActivity(), code,
-                                Toast.LENGTH_LONG).show();
-                    }
+//                    if (!errorNames.optString(0).equals("")) {
+//                        Toast.makeText(getActivity(), message,
+//                                Toast.LENGTH_LONG).show();
+//                    } else {
+                    Toast.makeText(getActivity(),
+                            getActivity().getString(R.string.social_post_failed), Toast.LENGTH_SHORT)
+                            .show();
+//                    }
                 } catch (JSONException exception) {
                     Log.e(TAG, Log.getStackTraceString(exception));
                 }
