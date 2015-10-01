@@ -3,16 +3,23 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.0"
 
     defaultConfig {
         applicationId "com.philips.cl.di.regsample.app"
         minSdkVersion 10
-        targetSdkVersion 21
+        targetSdkVersion 23
         testApplicationId "com.philips.cl.di.regsample.app.test"
         testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
     }
+
+
+
+    lintOptions {
+        abortOnError false
+    }
+
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -25,17 +32,6 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-    }
-
-    lintOptions {
-        abortOnError false
-    }
-
-
-    project.gradle.taskGraph.whenReady {
-        connectedAndroidTestSimulatorDebug {
-            ignoreFailures = true
-        }
     }
 
     buildTypes {
@@ -70,7 +66,7 @@ dependencies {
     androidTestCompile files('libs/dexmaker-1.0.jar')
     androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
     androidTestCompile files('libs/mockito-all-1.10.8.jar')
-    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:appcompat-v7:23+'
     compile files('libs/HockeySDK-3.0.2.jar')
 
 }
