@@ -12,10 +12,10 @@ import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
-import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -45,6 +45,7 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver=null;
+    private HashMap<String,String> mBazaarVoiceApiKeysMap = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -119,11 +120,17 @@ public class DigitalCareConfigManager {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
+
         if (mTaggingEnabled) {
             if (mAppID == null || mAppID.equals("")) {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
         }
+
+        if(isBazaarVoiceRequired() && isProductionEnvironment() && (mBazaarVoiceApiKeysMap==null)){
+            throw new RuntimeException("Please make sure to set the API keys to use Bazaar voice feature");
+        }
+
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         SupportHomeFragment supportFrag = new SupportHomeFragment();
@@ -149,6 +156,11 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
         }
+
+        if(isBazaarVoiceRequired() && isProductionEnvironment() && (mBazaarVoiceApiKeysMap==null)){
+            throw new RuntimeException("Please make sure to set the API keys to use Bazaar voice feature");
+        }
+
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
@@ -390,6 +402,33 @@ public class DigitalCareConfigManager {
         private int getOrientationValue() {
             return value;
         }
+    }
+
+    /**
+     * This method allows to set the Bazaar voice API keys to use product review feature.
+     * It throws runtime exception when you set product review required as true and production environment as true.
+     * @param apiKeysMap Bazaar voice API keys
+     */
+    public void setBazaarVoiceAPIKeys(HashMap<String, String> apiKeysMap){
+        mBazaarVoiceApiKeysMap = apiKeysMap;
+    }
+
+    public HashMap<String,String> getBazaarVoiceKeys(){
+        return mBazaarVoiceApiKeysMap;
+    }
+
+    private boolean isBazaarVoiceRequired(){
+        if(mContext!=null) {
+            return mContext.getResources().getBoolean(R.bool.productreview_required);
+        }
+        return false;
+    }
+
+    private boolean isProductionEnvironment(){
+        if(mContext!=null) {
+            return mContext.getResources().getBoolean(R.bool.production_environment);
+        }
+        return false;
     }
 
 }
