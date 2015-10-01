@@ -367,7 +367,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                         mCbTerms.isChecked(), this, mRegistrationToken);
             } else {
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
-                        mEtEmail.getEmailId(), true, mCbTerms.isChecked(), this, mRegistrationToken);
+                        mEtEmail.getEmailId().toString().trim(), true, mCbTerms.isChecked(), this, mRegistrationToken);
             }
         }
     }

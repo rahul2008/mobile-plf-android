@@ -85,7 +85,6 @@
                 android:id="@+id/reg_view_line"
                 style="@style/reg_line" />
 
-
             <RelativeLayout
                 android:id="@+id/rl_reg_continue_id"
                 android:layout_width="fill_parent"
@@ -105,6 +104,7 @@
                         style="@style/reg_style_btn"
                         android:enabled="true"
                         android:text="@string/SignInSuccess_Continue_btntxt"
+                        android:layout_height="@dimen/reg_btn_height"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
@@ -120,8 +120,7 @@
                     android:id="@+id/fl_reg_logout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/reg_btn_height"
-                    android:layout_below="@+id/fl_reg_sign_in"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom">
+                    android:layout_below="@+id/fl_reg_sign_in">
 
                     <com.philips.cdp.registration.ui.customviews.XButton
                         android:id="@+id/btn_reg_sign_out"
@@ -140,17 +139,13 @@
                         android:visibility="gone" />
                 </FrameLayout>
 
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/reg_scroll_margin" />
-
             </RelativeLayout>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
                 android:visibility="gone" />
