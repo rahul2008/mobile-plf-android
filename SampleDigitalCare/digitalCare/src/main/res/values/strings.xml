@@ -124,5 +124,7 @@
     <string name="bazzarvoice_productreview_thankyou_headertitle"> Nice! We received your review! </string>
     <string name="bazzarvoice_productreview_thankyou_description_title"> Thank you for taking the time to write this review. We’ll review it and let you know once it’s online! </string>
     <string name="bazzarvoice_productreview_thankyou_button_text"> Back to support </string>
-
+    <string name="bazzarvoice_rating_alert">You must enter a value for rating. </string>
+    <string name="bazzarvoice_terms_conditions_alert">You must agree to the terms and conditions. </string>
+    <string name="bazzarvoice_description_alert">You must write at least 50 characters for review. </string>
 </resources>

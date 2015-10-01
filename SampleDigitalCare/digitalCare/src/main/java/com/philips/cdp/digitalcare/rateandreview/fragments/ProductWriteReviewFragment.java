@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -46,31 +47,6 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
     private static final String PRODUCT_TERMS_DIALOG_URL = "http://%s/content/7543b-%s/termsandconditions.htm";
-    private LinearLayout mParentLayout = null;
-    private FrameLayout.LayoutParams mLayoutParams = null;
-    private DigitalCareFontButton mOkButton, mCancelButton = null;
-    private ImageView mProductImage = null;
-    private DigitalCareFontTextView mProductTitle = null;
-    private DigitalCareFontTextView mProductCtn = null;
-    private DigitalCareFontTextView mTermsText = null;
-    private RatingBar mRatingBarVerticle, mRatingBarHorizontal = null;
-    private Switch mSwitch = null;
-    private EditText mSummaryHeaderEditText, mSummaryDescriptionEditText, mNicknameEditText, mEmailEditText = null;
-    private DigitalCareFontTextView mSummaryErrorButton = null;
-    //    private DigitalCareFontTextView mDescErrorButton = null;
-    private DigitalCareFontTextView mNameErrorButton = null;
-    private DigitalCareFontTextView mEmailErrorButton = null;
-    private RelativeLayout mSummaryVerifiedField = null;
-    //    private RelativeLayout mDescVerifiedField = null;
-    private RelativeLayout mNameVerifiedField = null;
-    private RelativeLayout mEmailVerifiedField = null;
-    private ImageView mReviewSummaryIconInvalid = null;
-    private ImageView mReviewSummaryIconValid = null;
-    private ImageView mReviewNameIconInvalid = null;
-    private ImageView mReviewNameIconValid = null;
-    private ImageView mReviewEmailIconInvalid = null;
-    private ImageView mReviewEmailIconValid = null;
-    private ImageView mSummaryArrow = null;
     private final TextWatcher mTextWatcherSummary = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -103,7 +79,6 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             }
         }
     };
-    private ImageView mNameArrow = null;
     private final TextWatcher mTextWatcherName = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -136,7 +111,6 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             }
         }
     };
-    private ImageView mEmailArrow = null;
     private final TextWatcher mTextWatcherEmail = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -170,7 +144,6 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             }
         }
     };
-    private DigitalCareFontTextView mDescTextCount, mDescRequiredTextCount = null;
     private final TextWatcher mTextWatcherDesc = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -187,6 +160,34 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
                 mDescRequiredTextCount.setTextColor(getResources().getColor(R.color.text_bazzarvoice_edittext_color));
         }
     };
+    private LinearLayout mParentLayout = null;
+    private FrameLayout.LayoutParams mLayoutParams = null;
+    private DigitalCareFontButton mOkButton, mCancelButton = null;
+    private ImageView mProductImage = null;
+    private DigitalCareFontTextView mProductTitle = null;
+    private DigitalCareFontTextView mProductCtn = null;
+    private DigitalCareFontTextView mTermsText = null;
+    private RatingBar mRatingBarVerticle, mRatingBarHorizontal = null;
+    private Switch mSwitch = null;
+    private EditText mSummaryHeaderEditText, mSummaryDescriptionEditText, mNicknameEditText, mEmailEditText = null;
+    private DigitalCareFontTextView mSummaryErrorButton = null;
+    //    private DigitalCareFontTextView mDescErrorButton = null;
+    private DigitalCareFontTextView mNameErrorButton = null;
+    private DigitalCareFontTextView mEmailErrorButton = null;
+    private RelativeLayout mSummaryVerifiedField = null;
+    //    private RelativeLayout mDescVerifiedField = null;
+    private RelativeLayout mNameVerifiedField = null;
+    private RelativeLayout mEmailVerifiedField = null;
+    private ImageView mReviewSummaryIconInvalid = null;
+    private ImageView mReviewSummaryIconValid = null;
+    private ImageView mReviewNameIconInvalid = null;
+    private ImageView mReviewNameIconValid = null;
+    private ImageView mReviewEmailIconInvalid = null;
+    private ImageView mReviewEmailIconValid = null;
+    private ImageView mSummaryArrow = null;
+    private ImageView mNameArrow = null;
+    private ImageView mEmailArrow = null;
+    private DigitalCareFontTextView mDescTextCount, mDescRequiredTextCount = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -486,11 +487,14 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
      */
     private void submitReview() {
         boolean disablePreviewButton = false;
+        StringBuilder alertStringBuilder = new StringBuilder();
 
         if (getRatingValue(mRatingBarVerticle) == 0) {
             disablePreviewButton = true;
+            String ratingAlert = getActivity().getString(R.string.bazzarvoice_rating_alert);
+            alertStringBuilder.append("- " + ratingAlert + "\n");
 //            Toast.makeText(getActivity(),
-//                    "You must give a rating between 1 and 5.",
+//                    ratingAlert,
 //                    Toast.LENGTH_SHORT).show();
         }
         if (getReviewSummaryValue(mSummaryHeaderEditText).equals("")) {
@@ -499,6 +503,11 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         }
         if (getReviewDescriptionValue(mSummaryDescriptionEditText).equals("")) {
             disablePreviewButton = true;
+            String descAlert = getActivity().getString(R.string.bazzarvoice_description_alert);
+            alertStringBuilder.append("- " + descAlert + "\n");
+//            Toast.makeText(getActivity(),
+//                    descAlert,
+//                    Toast.LENGTH_SHORT).show();
         }
         if (getNickNameValue(mNicknameEditText).equals("")) {
             disablePreviewButton = true;
@@ -511,9 +520,14 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         }
         if (!getLegalTermValue(mSwitch)) {
             disablePreviewButton = true;
-//            Toast.makeText(getActivity(), "You must agree the term and conditions.",
+            String legalTermsAlert = getActivity().getString(R.string.bazzarvoice_terms_conditions_alert);
+            alertStringBuilder.append("- " + legalTermsAlert + "\n");
+//            Toast.makeText(getActivity(),
+//                    legalTermsAlert,
 //                    Toast.LENGTH_SHORT).show();
         }
+//        Toast.makeText(getActivity(), alertStringBuilder, Toast.LENGTH_LONG).show();
+        showAlert(alertStringBuilder.toString());
         if (!disablePreviewButton) {
             BazaarReviewModel reviewModel = new BazaarReviewModel();
             reviewModel.setRating((float) mRatingBarVerticle.getRating());
