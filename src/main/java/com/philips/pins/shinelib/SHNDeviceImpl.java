@@ -88,9 +88,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     @Override
     public void disconnect() {
         if (LOGGING) Log.e(TAG, "disconnect");
-        updateShnDeviceState(State.Disconnecting);
-        if (btGatt != null) {
-            btGatt.disconnect();
+        if (getState() == State.Connected || getState() == State.Connecting) {
+            updateShnDeviceState(State.Disconnecting);
+            if (btGatt != null) {
+                btGatt.disconnect();
+            }
         }
     }
 

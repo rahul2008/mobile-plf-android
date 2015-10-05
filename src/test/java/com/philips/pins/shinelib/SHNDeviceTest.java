@@ -157,6 +157,12 @@ public class SHNDeviceTest {
     }
 
     @Test
+    public void whenInStateDisconnectedTheDisconnectMethodIsCalledThenThenStateIsDisconnected() {
+        shnDevice.disconnect();
+        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
+    }
+
+    @Test
     public void whenInStateDisconnectedTheConnectMethodIsCalledThenTheActualConnectIsExecutedOnTheInternalHandlerThread() {
         shnDevice.connect();
         assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
@@ -266,6 +272,16 @@ public class SHNDeviceTest {
         shnDevice.disconnect();
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
         verify(mockedSHNService).disconnectFromBLELayer();
+    }
+
+    @Test
+    public void whenInStateDisconnectingTheDisconnectMethodIsCalledThenThenStateIsDisconnecting() {
+        shnDevice.connect();
+        shnDevice.disconnect();
+
+        shnDevice.disconnect();
+
+        assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
     }
 
     // Test the timeouts during connecting
