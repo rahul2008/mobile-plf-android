@@ -11,6 +11,8 @@ import com.bazaarvoice.types.RequestType;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +38,9 @@ public class BazaarVoiceWrapper {
     private static final String API_URL_STAGING = "stg.api.bazaarvoice.com"; //Staging server
     private static final String API_URL_PRODCUTION = "api.bazaarvoice.com"; //Production Server
     private static String API_URL_ENVIRONMENT = null;
-    private static final String API_KEY = "2cpdrhohmgmwfz8vqyo48f52g";
+    private static String API_KEY = null;
+    private static final String API_KEY_TEST = "2cpdrhohmgmwfz8vqyo48f52g";
+    private static HashMap<String, String> mApiKeyProduction = null;
     private static final ApiVersion API_VERSION = ApiVersion.FIVE_FOUR;
 
     /**
@@ -98,8 +102,19 @@ public class BazaarVoiceWrapper {
         else
             params.setUserId("Anonymous");
 
+        API_KEY = API_KEY_TEST;
+
         if(DigitalCareConfigManager.getInstance().isProductionEnvironment()){
             API_URL_ENVIRONMENT = API_URL_PRODCUTION;
+            Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+            String localeValue = null;
+            Boolean keyAvailable = false;
+
+            if(locale != null){
+                localeValue = locale.toString();
+                keyAvailable = DigitalCareConfigManager.getInstance().getBazaarVoiceKeys().containsKey(localeValue);
+                API_KEY = DigitalCareConfigManager.getInstance().getBazaarVoiceKeys().get(localeValue);
+            }
         }
         else{
             API_URL_ENVIRONMENT = API_URL_STAGING;

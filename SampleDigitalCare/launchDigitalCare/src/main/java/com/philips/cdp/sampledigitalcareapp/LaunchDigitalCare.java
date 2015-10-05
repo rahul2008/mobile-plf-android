@@ -22,6 +22,7 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class LaunchDigitalCare extends FragmentActivity implements OnClickListener,
         MainMenuListener, ProductMenuListener, SocialProviderListener {
@@ -41,6 +42,8 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
     private SampleConsumerProductInfo mConsumerProductInfo = null;
+
+    private HashMap<String, String> mHashMapKey = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +118,15 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
         // Digital care initialization
         initializeDigitalCareLibrary();
+        initializeBazaarVoiceKeys();
 
 //        registerHockeyApp();
+    }
+
+    private void initializeBazaarVoiceKeys() {
+        //Set of 42 keys(or all available are required here.
+        mHashMapKey.put("en_N", "abc201");
+        mHashMapKey.put("en_US", "xyz101");
     }
 
     @Override
@@ -218,6 +228,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
         DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
         setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        DigitalCareConfigManager.getInstance().setBazaarVoiceAPIKeys(mHashMapKey);
 
         switch (view.getId()) {
             case R.id.launchDigitalCare:
@@ -290,5 +301,4 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
             return false;
         }
     }
-
 }
