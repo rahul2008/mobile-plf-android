@@ -421,10 +421,6 @@ public class DigitalCareConfigManager {
      * If its bazaar voice is used for production and key is available then only pass the value otherwise it null.
     */
     public String getBazaarVoiceKey(){
-        if(!getInstance().isProductionEnvironment()){
-            return null;
-        }
-
         Locale locale = getInstance().getLocaleMatchResponseWithCountryFallBack();
         if(locale != null) {
             String localeValue = locale.toString();

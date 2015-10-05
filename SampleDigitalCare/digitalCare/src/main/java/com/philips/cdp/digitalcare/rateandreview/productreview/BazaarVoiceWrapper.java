@@ -89,7 +89,9 @@ public class BazaarVoiceWrapper {
             params.setUserId("Anonymous");
 
         String keyAvailable = DigitalCareConfigManager.getInstance().getBazaarVoiceKey();
-        if (keyAvailable != null) {
+        boolean isProduction = DigitalCareConfigManager.getInstance().isProductionEnvironment();
+
+        if (isProduction && keyAvailable != null) {
             API_KEY = keyAvailable;
             ENVIRONMENT = BazaarEnvironment.production;
             CLIENT_URL = API_URL_PRODCUTION;

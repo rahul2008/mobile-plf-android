@@ -263,16 +263,21 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
             mProgressDialog.cancel();
 
         String keyAvailable = DigitalCareConfigManager.getInstance().getBazaarVoiceKey();
+        boolean isProduction = DigitalCareConfigManager.getInstance().isProductionEnvironment();
+        boolean reviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
 
-        if (productlink == null || keyAvailable == null)
-            hideProductReviewView();
-        else {
-            mProductReviewPage = productlink;
-            if (DigitalCareConfigManager.getInstance().isBazaarVoiceRequired())
+        if (isProduction) {
+            if (productlink != null && keyAvailable != null && reviewRequired){
                 showProductReviewView();
+            }
+            else{
+                hideProductReviewView();
+            }
         }
+        else if (productlink != null && reviewRequired) {
+                showProductReviewView();
+            }
     }
-
 
     /*protected String getLocalizedReviewUrl(String countryUrl) {
 
