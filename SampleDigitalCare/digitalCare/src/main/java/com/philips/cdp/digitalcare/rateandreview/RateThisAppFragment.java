@@ -261,7 +261,10 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         mProductReviewProductCtn = data.getmProductCtn();
         if (mProgressDialog != null && mProgressDialog.isShowing())
             mProgressDialog.cancel();
-        if (productlink == null)
+
+        String keyAvailable = DigitalCareConfigManager.getInstance().getBazaarVoiceKey();
+
+        if (productlink == null || keyAvailable == null)
             hideProductReviewView();
         else {
             mProductReviewPage = productlink;

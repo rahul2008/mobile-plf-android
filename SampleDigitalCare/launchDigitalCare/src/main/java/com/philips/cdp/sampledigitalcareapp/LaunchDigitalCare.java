@@ -24,6 +24,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/*
+    This is sample class which will try to simulate, "how to use APIs and integrate digitalcare.
+
+    @author: ritesh.jha@philips.com
+ */
+
 public class LaunchDigitalCare extends FragmentActivity implements OnClickListener,
         MainMenuListener, ProductMenuListener, SocialProviderListener {
 
@@ -119,14 +125,18 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         // Digital care initialization
         initializeDigitalCareLibrary();
         initializeBazaarVoiceKeys();
-
 //        registerHockeyApp();
     }
 
     private void initializeBazaarVoiceKeys() {
-        //Set of 42 keys(or all available are required here.
-        mHashMapKey.put("en_N", "abc201");
-        mHashMapKey.put("en_US", "xyz101");
+        /*For reference purpose we are puttign only few sample keys.
+        Vertical app has to set all keys. Otherwise Product Review feature will not be available*/
+
+        mHashMapKey.put("en_IN", "7zenwkp83bznukam73ut6vta");
+        mHashMapKey.put("en_US", "szdfpyru9ux2bshb5w9eemy3");
+        mHashMapKey.put("nl_NL", "6paazzqbsby4s82rhsg8uhd4");
+
+        DigitalCareConfigManager.getInstance().setBazaarVoiceAPIKeys(mHashMapKey);
     }
 
     @Override
@@ -228,7 +238,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
         DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
         setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-        DigitalCareConfigManager.getInstance().setBazaarVoiceAPIKeys(mHashMapKey);
 
         switch (view.getId()) {
             case R.id.launchDigitalCare:
