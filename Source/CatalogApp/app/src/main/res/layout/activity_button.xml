@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Sample button"
         android:id="@+id/inverted_very_light_orange_button"
-        style="@style/Button.InvertedBrightOrange"
+        style="@style/Button.TransparentBrightOrange"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/theme_button"/>
