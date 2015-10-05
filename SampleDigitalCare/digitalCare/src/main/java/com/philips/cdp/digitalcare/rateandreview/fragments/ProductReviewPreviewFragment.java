@@ -194,7 +194,6 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
                         @Override
                         public void onResponse(String url, JSONObject json) {
-                            Log.i(TAG, "Response = \n" + json);
                             if (mProgressDialog.isShowing()) {
                                 mProgressDialog.dismiss();
                             }
@@ -204,6 +203,13 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                                     displayErrorMessage(json);
                                     backstackFragment();
                                 } else {
+
+                                    JSONObject reviewObject = json.getJSONObject("Review");
+
+                                    if(reviewObject != null) {
+                                        String response =reviewObject.toString();
+                                        Log.d(TAG, "BV response " + response);
+                                    }
 
                                     /* TODO: Name and email ID can have legal terms associated while tagging.
                                             As per joost suggestion, we are commenting two attributes.*/
