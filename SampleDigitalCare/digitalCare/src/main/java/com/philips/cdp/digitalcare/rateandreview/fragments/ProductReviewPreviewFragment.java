@@ -176,7 +176,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
             String productId = DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCtn();
 
             //set to preview for easier testing, intention here is to submit
-            BazaarVoiceWrapper.previewReview(productId, mBazaarReviewModel,
+            BazaarVoiceWrapper.submitReview(productId, mBazaarReviewModel,
                     new OnBazaarResponse() {
 
                         @Override

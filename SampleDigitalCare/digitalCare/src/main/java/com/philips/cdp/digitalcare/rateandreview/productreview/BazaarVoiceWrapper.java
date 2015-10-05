@@ -12,7 +12,6 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,25 +36,12 @@ public class BazaarVoiceWrapper {
     private static final String TAG = "BazaarFunctions";
     private static final String API_URL_STAGING = "stg.api.bazaarvoice.com"; //Staging server
     private static final String API_URL_PRODCUTION = "api.bazaarvoice.com"; //Production Server
-    private static String API_URL_ENVIRONMENT = null;
-    private static String API_KEY = null;
     private static final String API_KEY_TEST = "2cpdrhohmgmwfz8vqyo48f52g";
-    private static HashMap<String, String> mApiKeyProduction = null;
     private static final ApiVersion API_VERSION = ApiVersion.FIVE_FOUR;
-
-    /**
-     * Submits the given review for the given product as a preview. This means
-     * that it will not actually be submitted but will be tested against the API
-     * and any errors will be reported.
-     *
-     * @param prodId   the product ID
-     * @param review   the full review
-     * @param listener the callback function for handling the response
-     */
-    public static void previewReview(String prodId, BazaarReviewModel review,
-                                     OnBazaarResponse listener) {
-        reviewAction(prodId, review, listener, false);
-    }
+    private static String CLIENT_URL = API_URL_STAGING;
+    private static String API_KEY = API_KEY_TEST;
+    private static HashMap<String, String> mApiKeyProduction = null;
+    private static BazaarEnvironment ENVIRONMENT = BazaarEnvironment.staging;
 
     /**
      * Submits the given review for the given product as a submission. This
@@ -102,25 +88,13 @@ public class BazaarVoiceWrapper {
         else
             params.setUserId("Anonymous");
 
-        API_KEY = API_KEY_TEST;
-
-        if(DigitalCareConfigManager.getInstance().isProductionEnvironment()){
-            API_URL_ENVIRONMENT = API_URL_PRODCUTION;
-            Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
-            String localeValue = null;
-            Boolean keyAvailable = false;
-
-            if(locale != null){
-                localeValue = locale.toString();
-                keyAvailable = DigitalCareConfigManager.getInstance().getBazaarVoiceKeys().containsKey(localeValue);
-                API_KEY = DigitalCareConfigManager.getInstance().getBazaarVoiceKeys().get(localeValue);
-            }
+        String keyAvailable = DigitalCareConfigManager.getInstance().getBazaarVoiceKey();
+        if (keyAvailable != null) {
+            API_KEY = keyAvailable;
+            ENVIRONMENT = BazaarEnvironment.production;
+            CLIENT_URL = API_URL_PRODCUTION;
         }
-        else{
-            API_URL_ENVIRONMENT = API_URL_STAGING;
-        }
-
-        BazaarRequest submission = new BazaarRequest(API_URL_ENVIRONMENT, API_KEY, BazaarEnvironment.staging, API_VERSION);
+        BazaarRequest submission = new BazaarRequest(CLIENT_URL, API_KEY, ENVIRONMENT , API_VERSION);
         submission.postSubmission(RequestType.REVIEWS, params, listener);
     }
 
@@ -134,5 +108,4 @@ public class BazaarVoiceWrapper {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-
 }

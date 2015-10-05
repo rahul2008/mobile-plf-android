@@ -417,6 +417,25 @@ public class DigitalCareConfigManager {
         return mBazaarVoiceApiKeysMap;
     }
 
+    /*
+     * If its bazaar voice is used for production and key is available then only pass the value otherwise it null.
+    */
+    public String getBazaarVoiceKey(){
+        if(!getInstance().isProductionEnvironment()){
+            return null;
+        }
+
+        Locale locale = getInstance().getLocaleMatchResponseWithCountryFallBack();
+        if(locale != null) {
+            String localeValue = locale.toString();
+            boolean keyAvailable = getInstance().getBazaarVoiceKeys().containsKey(localeValue);
+            if(keyAvailable){
+                return getInstance().getBazaarVoiceKeys().get(localeValue);
+            }
+        }
+        return null;
+    }
+
     public boolean isBazaarVoiceRequired(){
         if(mContext!=null) {
             return mContext.getResources().getBoolean(R.bool.productreview_required);
