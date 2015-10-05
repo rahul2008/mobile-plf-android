@@ -4,16 +4,16 @@ package com.philips.pins.shinelib.datatypes;
  * Created by 310188215 on 07/05/15.
  */
 public class SHNDataRestingHeartRate extends SHNData {
-    private final int restingHeartRate;
+    private final int restingHeartRateBpm;
     private final boolean valid;
 
-    public SHNDataRestingHeartRate(int restingHeartRate, boolean valid) {
-        this.restingHeartRate = restingHeartRate;
+    public SHNDataRestingHeartRate(int restingHeartRateBpm, boolean valid) {
+        this.restingHeartRateBpm = restingHeartRateBpm;
         this.valid = valid;
     }
 
-    public int getRestingHeartRate() {
-        return restingHeartRate;
+    public int getRestingHeartRateBpm() {
+        return restingHeartRateBpm;
     }
 
     public boolean isValid() {
