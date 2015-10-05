@@ -77,7 +77,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
         holder.txtAddress.setText(addressModel.getAddress1() + "\n"
                 + addressModel.getCityState());
         if ((addressModel.getPhone() == null) || (addressModel.getPhone() == ""))
-            holder.txtPhone.setVisibility(View.INVISIBLE);
+            holder.txtPhone.setVisibility(View.GONE);
         else
             holder.txtPhone.setText(addressModel.getPhone());
         return convertView;
