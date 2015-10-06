@@ -20,9 +20,6 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
-import com.philips.cdp.registration.hsdp.handler.LoginHandler;
-import com.philips.cdp.registration.hsdp.handler.LogoutHandler;
-import com.philips.cdp.registration.hsdp.handler.RefreshHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -60,11 +57,6 @@ public class RegistrationHelper {
 
     private boolean isHsdpFlow;
 
-    private LoginHandler mHsdpLoginHandler;
-
-    private LogoutHandler mHsdpLogoutHandler;
-
-    private RefreshHandler mHsdpRefreshHandler;
 
     private interface RegistrationEnvironment {
 
@@ -156,6 +148,11 @@ public class RegistrationHelper {
             public void run() {
 
                 parseConfigurationJson(mContext);
+                if (null != RegistrationConfiguration.getInstance().getHsdpConfiguration()) {
+                    isHsdpFlow = true;
+                }
+
+
                 EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
 
                 IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);

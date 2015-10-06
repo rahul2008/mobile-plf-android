@@ -350,10 +350,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		trackActionLoginError(userRegistrationFailureInfo.getError().code);
 	}
 
-	@Override
-	public void onHsdpLoginFailure(int responseCode, String message) {
-
-	}
 
 	@Override
 	public void onSendForgotPasswordSuccess() {

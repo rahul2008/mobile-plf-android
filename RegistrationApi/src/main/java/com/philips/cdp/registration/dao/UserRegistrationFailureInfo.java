@@ -5,92 +5,90 @@ import com.janrain.android.capture.CaptureApiError;
 
 public class UserRegistrationFailureInfo {
 
-	private int errorCode;
+    private int errorCode;
 
-	private String errorDescription;
+    private String errorDescription;
 
-	private String hsdpErrorDescription;
 
-	private String firstNameErrorMessage;
+    private String firstNameErrorMessage;
 
-	private String emailErrorMessage;
+    private String emailErrorMessage;
 
-	private String passwordErrorMessage;
+    private String passwordErrorMessage;
 
-	private String socialOnlyError;
+    private String socialOnlyError;
 
-	private String displayNameErrorMessage;
+    private String displayNameErrorMessage;
 
-	public String getDisplayNameErrorMessage() {
-		return displayNameErrorMessage;
-	}
+    public String getDisplayNameErrorMessage() {
+        return displayNameErrorMessage;
+    }
 
-	public void setDisplayNameErrorMessage(String displayNameErrorMessage) {
-		this.displayNameErrorMessage = displayNameErrorMessage;
-	}
+    public void setDisplayNameErrorMessage(String displayNameErrorMessage) {
+        this.displayNameErrorMessage = displayNameErrorMessage;
+    }
 
-	public String getSocialOnlyError() {
-		return socialOnlyError;
-	}
+    public String getSocialOnlyError() {
+        return socialOnlyError;
+    }
 
-	public void setSocialOnlyError(String socialOnlyError) {
-		this.socialOnlyError = socialOnlyError;
-	}
+    public void setSocialOnlyError(String socialOnlyError) {
+        this.socialOnlyError = socialOnlyError;
+    }
 
-	private CaptureApiError error;
+    private CaptureApiError error;
 
-	public String getErrorDescription() {
-		if (null != error) {
-			return error.error_description;
-		}
-		return null;
-	}
+    public String getErrorDescription() {
+        if (null != error) {
+            return error.error_description;
+        } else {
+            return errorDescription;
+        }
+    }
 
-	public int getErrorCode() {
-		return errorCode;
-	}
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
+    }
 
-	public void setErrorCode(int errorCode) {
-		this.errorCode = errorCode;
-	}
+    public int getErrorCode() {
+        return errorCode;
+    }
 
-	public String getFirstNameErrorMessage() {
-		return firstNameErrorMessage;
-	}
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+    }
 
-	public void setFirstNameErrorMessage(String firstNameErrorMessage) {
-		this.firstNameErrorMessage = firstNameErrorMessage;
-	}
+    public String getFirstNameErrorMessage() {
+        return firstNameErrorMessage;
+    }
 
-	public String getEmailErrorMessage() {
-		return emailErrorMessage;
-	}
+    public void setFirstNameErrorMessage(String firstNameErrorMessage) {
+        this.firstNameErrorMessage = firstNameErrorMessage;
+    }
 
-	public void setEmailErrorMessage(String emailErrorMessage) {
-		this.emailErrorMessage = emailErrorMessage;
-	}
+    public String getEmailErrorMessage() {
+        return emailErrorMessage;
+    }
 
-	public String getPasswordErrorMessage() {
-		return passwordErrorMessage;
-	}
+    public void setEmailErrorMessage(String emailErrorMessage) {
+        this.emailErrorMessage = emailErrorMessage;
+    }
 
-	public void setPasswordErrorMessage(String passwordErrorMessage) {
-		this.passwordErrorMessage = passwordErrorMessage;
-	}
+    public String getPasswordErrorMessage() {
+        return passwordErrorMessage;
+    }
 
-	public CaptureApiError getError() {
-		return error;
-	}
+    public void setPasswordErrorMessage(String passwordErrorMessage) {
+        this.passwordErrorMessage = passwordErrorMessage;
+    }
 
-	public void setError(CaptureApiError error) {
-		this.error = error;
-	}
+    public CaptureApiError getError() {
+        return error;
+    }
 
-	public String getHsdpErrorDescription() {
-		return hsdpErrorDescription;
-	}
+    public void setError(CaptureApiError error) {
+        this.error = error;
+    }
 
-	public void setHsdpErrorDescription(String hsdpErrorDescription) {
-		this.hsdpErrorDescription = hsdpErrorDescription;
-	}
+
 }

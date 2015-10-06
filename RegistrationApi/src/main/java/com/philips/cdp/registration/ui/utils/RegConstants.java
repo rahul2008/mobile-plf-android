@@ -112,4 +112,6 @@ public class RegConstants {
 
     public static final String HOCKEY_APPID = "db53413f9a0e675c40520bf48ce12e6c";
 
+    public static final int HSDP_LOWER_ERROR_BOUND = 7000;
+
 }

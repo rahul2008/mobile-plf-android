@@ -12,7 +12,6 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.hsdp.handler.LoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
@@ -21,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
+
 
     private Context mContext;
 
@@ -51,21 +51,22 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
         }
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationHelper.getInstance().isHsdpFlow()&& user.getEmailVerificationStatus(mContext)) {
+        if (RegistrationHelper.getInstance().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
 
-                    HsdpUser login = new HsdpUser(mContext);
-                    login.hsdpLogin(mEmail, mPassword, new LoginHandler() {
+            HsdpUser login = new HsdpUser(mContext);
+            login.login(mEmail, mPassword, new TraditionalLoginHandler() {
+                @Override
+                public void onLoginSuccess() {
+                    mTraditionalLoginHandler.onLoginSuccess();
+                }
 
-                        @Override
-                        public void onHsdpLoginSuccess() {
-                            mTraditionalLoginHandler.onLoginSuccess();
-                        }
+                @Override
+                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                }
+            });
 
-                        @Override
-                        public void onHsdpLoginFailure(int responseCode, String message) {
-                            mTraditionalLoginHandler.onHsdpLoginFailure(responseCode, message);
-                        }
-                    });
+
         } else {
             mTraditionalLoginHandler.onLoginSuccess();
         }

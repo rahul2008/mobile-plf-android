@@ -40,7 +40,7 @@ public class HsdpUserRecord implements Serializable {
         return mProfile;
     }
 
-    class AccessCredential implements Serializable{
+    public class AccessCredential implements Serializable{
 
         private String refreshToken;
         private String accessToken;

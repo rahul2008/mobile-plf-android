@@ -9,5 +9,4 @@ public interface TraditionalLoginHandler {
 
 	void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
 
-	void onHsdpLoginFailure(int responseCode, String message);
 }

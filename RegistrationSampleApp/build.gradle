@@ -50,12 +50,12 @@ android {
         simulator {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.1.6"
+            versionName "2.1.9"
         }
         device {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.1.6"
+            versionName "2.1.9"
         }
     }
 }

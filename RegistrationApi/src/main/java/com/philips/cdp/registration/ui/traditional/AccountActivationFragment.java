@@ -24,8 +24,8 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
+import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.hsdp.handler.LoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -33,7 +33,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
-        RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener {
+        RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener,TraditionalLoginHandler {
 
     private Button mBtnActivate;
 
@@ -281,23 +281,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
-        HsdpUser hsdpUser = new HsdpUser(mContext);
-        if (mUser.getEmailVerificationStatus(mContext) && RegistrationHelper.getInstance().isHsdpFlow()) {
-            hsdpUser.hsdpLogin(mEmailId, RegUtility.getTraditionalPassword(mContext), new LoginHandler() {
-                @Override
-                public void onHsdpLoginSuccess() {
-                    updateActivationUIState();
-                }
-
-                @Override
-                public void onHsdpLoginFailure(int responseCode, String message) {
-                    mEMailVerifiedError.setError(message);
-                    hideActivateSpinner();
-                    mBtnActivate.setEnabled(true);
-                    mBtnResend.setEnabled(true);
-                }
-            });
-
+        if (mUser.getEmailVerificationStatus(mContext)) {
+            mUser.loginUsingTraditional(mEmailId,RegUtility.getTraditionalPassword(mContext),this);
         }else {
             updateActivationUIState();
         }
@@ -341,5 +326,18 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         RLog.i(RLog.NETWORK_STATE, "AccountActivationFragment :onNetWorkStateReceived state :"
                 + isOnline);
         handleUiState();
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        updateActivationUIState();
+    }
+
+    @Override
+    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        mEMailVerifiedError.setError(userRegistrationFailureInfo.getErrorDescription());
+        hideActivateSpinner();
+        mBtnActivate.setEnabled(true);
+        mBtnResend.setEnabled(true);
     }
 }

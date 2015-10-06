@@ -18,9 +18,30 @@ public class DIUserProfile {
     private String janrainUUID;
 
     private String languageCode;
+
     private String countryCode;
 
     private boolean isReceiveMarketingEmail;
+
+    private String hsdpUUID;
+    
+    private String hsdpAccessToken;
+
+    public String getHsdpUUID() {
+        return hsdpUUID;
+    }
+
+    public void setHsdpUUID(String hsdpUUID) {
+        this.hsdpUUID = hsdpUUID;
+    }
+
+    public String getHsdpAccessToken() {
+        return hsdpAccessToken;
+    }
+
+    public void setHsdpAccessToken(String hsdpAccessToken) {
+        this.hsdpAccessToken = hsdpAccessToken;
+    }
 
 
     public String getLanguageCode() {
@@ -38,7 +59,6 @@ public class DIUserProfile {
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
-
 
 
     public DIUserProfile() {
@@ -116,5 +136,6 @@ public class DIUserProfile {
     public void setJanrainUUID(String janrainUUID) {
         this.janrainUUID = janrainUUID;
     }
+
 
 }

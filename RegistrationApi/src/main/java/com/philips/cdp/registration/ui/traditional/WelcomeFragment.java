@@ -24,9 +24,8 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.hsdp.handler.LogoutHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.FontLoader;
@@ -194,7 +193,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         }
 
         if (isfromBegining) {
-            FrameLayout frameLayout= (FrameLayout) view.findViewById(R.id.fl_reg_logout);
+            FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.fl_reg_logout);
             //frameLayout.setVisibility(View.GONE);
             mBtnSignOut.setVisibility(View.GONE);
             mTvEmailDetails.setVisibility(View.GONE);
@@ -239,24 +238,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     private void handleLogout() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SIGN_OUT);
-        if (RegistrationHelper.getInstance().isHsdpFlow())  {
-            HsdpUser hsdpUser = new HsdpUser(mContext);
-            if(null!=hsdpUser.getHsdpUserRecord()){
-                if(mBtnContinue.getVisibility()== View.VISIBLE){
-                    mBtnContinue.setEnabled(false);
-                    mBtnContinue.setClickable(false);
-                }
-                mUser.logoutHsdp(this);
-            }else{
-                trackPage(AppTaggingPages.HOME);
-                mUser.logout();
-                getRegistrationFragment().replaceWithHomeFragment();
-            }
-        } else {
-            trackPage(AppTaggingPages.HOME);
-            mUser.logout();
-            getRegistrationFragment().replaceWithHomeFragment();
-        }
+        trackPage(AppTaggingPages.HOME);
+        mUser.logout(this);
     }
 
 
@@ -330,28 +313,27 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     }
 
     @Override
-    public void onHsdpLogoutSuccess() {
+    public void onLogoutSuccess() {
         trackPage(AppTaggingPages.HOME);
-        mUser.logout();
         if (isfromBegining) {
             hideLogoutFromBeginSpinner();
             getRegistrationFragment().replaceWithHomeFragment();
-        }else{
+        } else {
             hideLogoutSpinner();
             getRegistrationFragment().replaceWithHomeFragment();
         }
     }
 
     @Override
-    public void onHsdpLogoutFailure(int responseCode, final String message) {
-        if(mBtnContinue.getVisibility()== View.VISIBLE){
+    public void onLogoutFailure(int responseCode, final String message) {
+        if (mBtnContinue.getVisibility() == View.VISIBLE) {
             mBtnContinue.setEnabled(true);
             mBtnContinue.setClickable(true);
         }
         if (isfromBegining) {
             hideLogoutFromBeginSpinner();
             mRegError.setError(message);
-        }else{
+        } else {
             hideLogoutSpinner();
             mRegError.setError(message);
         }

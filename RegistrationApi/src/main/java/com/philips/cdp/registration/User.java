@@ -25,6 +25,7 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
@@ -34,7 +35,8 @@ import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.hsdp.handler.LogoutHandler;
+import com.philips.cdp.registration.hsdp.HsdpUserRecord;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
@@ -97,19 +99,37 @@ public class User {
 
     // For Traditional SignIn
     public void loginUsingTraditional(String emailAddress, String password,
-                                      TraditionalLoginHandler traditionalLoginHandler) {
+                                      final TraditionalLoginHandler traditionalLoginHandler) {
+        if (traditionalLoginHandler == null && emailAddress == null && password == null) {
+            throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
+        }
 
-        if (emailAddress != null && password != null) {
+        if (isUserSignIn(mContext) && RegistrationHelper.getInstance().isHsdpFlow()) {
+            HsdpUser hsdpUser = new HsdpUser(mContext);
+            HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+            if (hsdpUserRecord == null && getEmailVerificationStatus(mContext)) {
+                hsdpUser.login(emailAddress, password, new TraditionalLoginHandler() {
+                    @Override
+                    public void onLoginSuccess() {
+                        traditionalLoginHandler.onLoginSuccess();
+
+                    }
+
+                    @Override
+                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                        traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    }
+                });
+            }
+        } else {
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
                     traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
                     password);
             Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
                     null);
-        } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-            traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+
         }
+
     }
 
     // For Social SignIn Using Provider
@@ -189,14 +209,43 @@ public class User {
     }
 
     // For Refresh login Session
-    public void refreshLoginSession(RefreshLoginSessionHandler refreshLoginSessionHandler, Context context) {
+    public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler, final Context context) {
         CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
         if (captureRecord == null) {
             return;
         }
-        RefreshLoginSession refreshLoginhandler = new RefreshLoginSession(
-                refreshLoginSessionHandler);
-        captureRecord.refreshAccessToken(refreshLoginhandler, context);
+        captureRecord.refreshAccessToken(new RefreshLoginSession(new RefreshLoginSessionHandler() {
+            @Override
+            public void onRefreshLoginSessionSuccess() {
+                if (!RegistrationHelper.getInstance().isHsdpFlow()) {
+                    refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+                    return;
+                }
+                refreshHsdpAccessToken(context, refreshLoginSessionHandler);
+            }
+
+            @Override
+            public void onRefreshLoginSessionFailedWithError(int error) {
+                refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
+
+            }
+        }), context);
+    }
+
+    private void refreshHsdpAccessToken(Context context, final RefreshLoginSessionHandler refreshLoginSessionHandler) {
+        HsdpUser hsdpUser = new HsdpUser(context);
+        hsdpUser.refreshToken(new RefreshLoginSessionHandler() {
+            @Override
+            public void onRefreshLoginSessionSuccess() {
+                refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+            }
+
+            @Override
+            public void onRefreshLoginSessionFailedWithError(int error) {
+                refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
+            }
+        });
+       
     }
 
     // For Resend verification emails
@@ -293,11 +342,11 @@ public class User {
     // For getting values from Captured and Saved Json object
     public DIUserProfile getUserInstance(Context context) {
 
-         String CONSUMER_COUNTRY = "country";
+        String CONSUMER_COUNTRY = "country";
 
-         String CONSUMER_PREFERED_LANGUAGE = "preferredLanguage";
+        String CONSUMER_PREFERED_LANGUAGE = "preferredLanguage";
 
-         String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
+        String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
         DIUserProfile diUserProfile = new DIUserProfile();
         CaptureRecord captured = CaptureRecord.loadFromDisk(context);
 
@@ -316,6 +365,14 @@ public class User {
             JSONObject userAddress = new JSONObject(mObject.getString(CONSUMER_PRIMARY_ADDRESS));
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(mObject.getString(CONSUMER_PREFERED_LANGUAGE));
+            if (RegistrationHelper.getInstance().isHsdpFlow()) {
+                HsdpUser hsdpUser = new HsdpUser(mContext);
+                HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+                if (hsdpUserRecord != null) {
+                    diUserProfile.setHsdpUUID(hsdpUserRecord.getUserUUID());
+                    diUserProfile.setHsdpAccessToken(hsdpUserRecord.getAccessCredential().getAccessToken());
+                }
+            }
 
 
         } catch (JSONException e) {
@@ -343,6 +400,14 @@ public class User {
             Log.e(LOG_TAG, "On getEmailVerificationStatus,Caught JSON Exception");
         }
         return mEmailVerified;
+    }
+
+    public boolean isUserSignIn(Context context) {
+        CaptureRecord captured = CaptureRecord.loadFromDisk(context);
+        if (captured == null) {
+            return false;
+        }
+        return true;
     }
 
     // check merge flow error for capture
@@ -447,10 +512,15 @@ public class User {
     }
 
     // For Log out
-    public void logout() {
-        CoppaConfiguration.clearConfiguration();
-        Jump.signOutCaptureUser(mContext);
-        CaptureRecord.deleteFromDisk(mContext);
+    public void logout(LogoutHandler logoutHandler) {
+        if (RegistrationHelper.getInstance().isHsdpFlow() && null != logoutHandler) {
+            logoutHsdp(logoutHandler);
+        } else {
+            CoppaConfiguration.clearConfiguration();
+            Jump.signOutCaptureUser(mContext);
+            CaptureRecord.deleteFromDisk(mContext);
+            logoutHandler.onLogoutSuccess();
+        }
     }
 
     // For getting access token
@@ -497,22 +567,21 @@ public class User {
         }
     }
 
-    public void logoutHsdp(final LogoutHandler logoutHandler) {
-
+    private void logoutHsdp(final LogoutHandler logoutHandler) {
         final HsdpUser hsdpUser = new HsdpUser(mContext);
-        hsdpUser.hsdpLogOut(new LogoutHandler() {
+        hsdpUser.logOut(new LogoutHandler() {
             @Override
-            public void onHsdpLogoutSuccess() {
+            public void onLogoutSuccess() {
                 CoppaConfiguration.clearConfiguration();
                 Jump.signOutCaptureUser(mContext);
                 CaptureRecord.deleteFromDisk(mContext);
                 hsdpUser.deleteFromDisk();
-                logoutHandler.onHsdpLogoutSuccess();
+                logoutHandler.onLogoutSuccess();
             }
 
             @Override
-            public void onHsdpLogoutFailure(int responseCode, String message) {
-                logoutHandler.onHsdpLogoutFailure(responseCode, message);
+            public void onLogoutFailure(int responseCode, String message) {
+                logoutHandler.onLogoutFailure(responseCode, message);
             }
         });
 

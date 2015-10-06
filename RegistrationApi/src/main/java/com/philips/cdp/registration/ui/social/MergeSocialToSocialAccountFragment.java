@@ -222,7 +222,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 			trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
 					AppTagingConstants.SIGN_OUT);
 			trackPage(AppTaggingPages.HOME);
-			mUser.logout();
+			mUser.logout(null);
 			getFragmentManager().popBackStack();
 		}
 	}

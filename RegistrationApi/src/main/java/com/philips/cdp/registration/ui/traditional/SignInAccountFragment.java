@@ -273,25 +273,18 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         hideSignInSpinner();
 
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            /*mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-			mEtEmail.showInvalidAlert();*/
-        }
 
-        if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-			/*mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
-			mEtPassword.showInvalidAlert();*/
-        }
         trackActionLoginError(userRegistrationFailureInfo.getError().code);
         mBtnSignInAccount.setEnabled(false);
-        mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+        if(userRegistrationFailureInfo.getErrorCode()>= RegConstants.HSDP_LOWER_ERROR_BOUND){
+            //HSDP related error description
+            mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+        }else{
+            //Need to show password errors only
+            mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+        }
     }
 
-    @Override
-    public void onHsdpLoginFailure(int responseCode, String message) {
-        hideSignInSpinner();
-        mRegError.setError(message);
-    }
 
     @Override
     public void onSendForgotPasswordSuccess() {
