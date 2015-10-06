@@ -13,6 +13,7 @@
         <item>Input Text Fields</item>
         <item>About Screen</item>
     </string-array>
+
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
     <string name="change_theme">Change theme</string>
     <string name="previous_theme">Previous theme</string>
@@ -27,4 +28,5 @@
     <string name="enter_text_here">Enter text here</string>
     <string name="invalid_email_format">Invalid email format</string>
     <string name="invalid_pwd_format">Invalid password format</string>
+    <string name="sample_button">Sample button</string>
 </resources>

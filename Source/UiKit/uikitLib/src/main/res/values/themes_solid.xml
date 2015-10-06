@@ -8,6 +8,7 @@
         <item name="actionButtonBgColor">@color/philips_dark_blue</item>
 		<item name="actionButtonBgColorPressed">@color/philips_very_dark_blue</item>
         <item name="buttonStyle">@style/Button.Normal.DarkBlue</item>
+        <item name="outlinedButtonStyle">@style/Button.InvertedDarkBlue</item>
 		<item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.DarkBlue</item>
     </style>
@@ -19,6 +20,7 @@
         <item name="actionButtonBgColor">@color/philips_bright_orange</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_orange</item>
         <item name="buttonStyle">@style/Button.Normal.BrightOrange</item>
+        <item name="outlinedButtonStyle">@style/Button.InvertedBrightOrange</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.BrightOrange</item>
     </style>

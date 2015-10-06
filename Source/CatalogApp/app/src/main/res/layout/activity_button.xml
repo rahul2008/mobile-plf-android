@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample button"
+        android:text="@string/sample_button"
         android:id="@+id/theme_button"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -22,9 +22,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample button"
+        android:text="@string/sample_button"
         android:id="@+id/inverted_very_light_orange_button"
-        style="@style/Button.TransparentBrightOrange"
+        style="?attr/outlinedButtonStyle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/theme_button"/>
@@ -32,7 +32,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample button"
+        android:text="@string/sample_button"
         android:id="@+id/inverted_very_light_blue_button"
         style="@style/Button.InvertedDarkBlue"
         android:layout_below="@+id/inverted_very_light_orange_button"
