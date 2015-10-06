@@ -39,5 +39,10 @@ public enum SHNDataType {
     UserConfigChangedEventHeight,
     UserConfigChangedEventWeight,
     UserConfigChangedEventSex,
+    UserConfigChangedEventBirthDay,
+    UserConfigChangedEventBMR,
+    UserConfigChangedEventHRZones,
+    UserConfigChangedEventHandedness,
+    UserConfigChangedEventSensingPosition,
     FatPercentage
 }
