@@ -13,14 +13,6 @@ public class SHNDataActivityType extends SHNData {
         SHNCM3ActivityTypeCycleOutdoor
     }
 
-    public enum SHNActivityType {
-        SHNActivityTypeUnspecified,
-        SHNActivityTypeCycle,
-        SHNActivityTypeRun,
-        SHNActivityTypeWalk,
-        SHNActivityTypeSleep
-    }
-
     private final SHNActivityType wearableActivityType;
     private final SHNActivityType manualActivityType;
     private final SHNCM3ActivityType cm3ActivityType;

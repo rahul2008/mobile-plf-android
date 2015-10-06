@@ -44,5 +44,7 @@ public enum SHNDataType {
     UserConfigChangedEventHRZones,
     UserConfigChangedEventHandedness,
     UserConfigChangedEventSensingPosition,
+    UserConfigChangedEventLanguage,
+    ActivitySession,
     FatPercentage
 }
