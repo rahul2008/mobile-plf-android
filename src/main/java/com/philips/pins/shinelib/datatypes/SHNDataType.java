@@ -33,5 +33,11 @@ public enum SHNDataType {
     EnergyExpenditureDebug,
     CardioFitnessIndex,
     Vo2Max,
-    LightSensorData, FatPercentage
+    LightSensorData,
+    RespirationRate,
+    RespirationRateDebug,
+    UserConfigChangedEventHeight,
+    UserConfigChangedEventWeight,
+    UserConfigChangedEventSex,
+    FatPercentage
 }
