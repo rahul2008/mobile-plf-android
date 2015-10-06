@@ -46,5 +46,7 @@ public enum SHNDataType {
     UserConfigChangedEventSensingPosition,
     UserConfigChangedEventLanguage,
     ActivitySession,
-    FatPercentage
+    DayTotals,
+    Battery,
+    UserConfigChangedEventTargets, FatPercentage
 }
