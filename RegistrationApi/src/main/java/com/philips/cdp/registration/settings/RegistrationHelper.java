@@ -15,6 +15,8 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.ConfigurationParser;
+import com.philips.cdp.registration.configuration.HSDPClientInfo;
+import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -147,7 +149,7 @@ public class RegistrationHelper {
             @Override
             public void run() {
                 parseConfigurationJson(mContext);
-                if (isHsdpAvailable()){
+                if (isHsdpAvailable()) {
                     isHsdpFlow = true;
                 }
 
@@ -213,12 +215,22 @@ public class RegistrationHelper {
     }
 
     private boolean isHsdpAvailable() {
-        return null != RegistrationConfiguration.getInstance().getHsdpConfiguration().getApplicationName() && null != RegistrationConfiguration.getInstance().getHsdpConfiguration().
-                getHSDPClientId(RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()).getSharedId() &&
-                null != RegistrationConfiguration.getInstance().getHsdpConfiguration().
-                getHSDPClientId(RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()).getSecretId()
-                && null != RegistrationConfiguration.getInstance().getHsdpConfiguration().
-                getHSDPClientId(RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()).getBaseUrl();
+        HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
+        if (hsdpConfiguration == null) {
+            return false;
+        }
+        String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        if (environment == null) {
+            return false;
+        }
+
+        HSDPClientInfo hsdpClientInfo = hsdpConfiguration.getHSDPClientInfo(environment);
+        if (hsdpClientInfo == null) {
+            return false;
+        }
+        return (null != hsdpClientInfo.getApplicationName() && null != hsdpClientInfo.getSharedId()
+                && null != hsdpClientInfo.getSecretId()
+                && null != hsdpClientInfo.getBaseUrl());
     }
 
     private void parseConfigurationJson(Context context) {
