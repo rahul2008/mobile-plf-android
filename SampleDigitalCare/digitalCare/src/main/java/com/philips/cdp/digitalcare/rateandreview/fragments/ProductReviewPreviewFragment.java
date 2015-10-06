@@ -81,7 +81,8 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         mLayoutParams2 = (LinearLayout.LayoutParams) mParentLayout2
                 .getLayoutParams();
         Configuration config = getResources().getConfiguration();
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new ProgressDialog(getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mRatingBar = (RatingBar) getActivity().findViewById(R.id.your_product_review_rating_ratingbar);
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_preview_send_button);
         mCancelButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_preview_cancel_button);
@@ -207,8 +208,8 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
                                     JSONObject reviewObject = json.getJSONObject("Review");
 
-                                    if(reviewObject != null) {
-                                        String response =reviewObject.toString();
+                                    if (reviewObject != null) {
+                                        String response = reviewObject.toString();
                                         DigiCareLogger.d(TAG, "BV response " + response);
                                     }
 

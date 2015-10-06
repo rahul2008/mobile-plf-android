@@ -180,5 +180,6 @@
     <color name="transparent_white">#CAFFFFFF</color>
     <color name="ratingbar_secondary">#CCD9BE</color>
     <color name="ratingbar_primary">#528E18</color>
+    <color name="transparent">#00000000</color>
 
 </resources>
