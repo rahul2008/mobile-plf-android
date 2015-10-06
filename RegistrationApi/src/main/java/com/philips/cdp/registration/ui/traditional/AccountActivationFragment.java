@@ -15,25 +15,23 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.AppTagging.AppTagingConstants;
-import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
-import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
-        RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener,TraditionalLoginHandler {
+        RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener, TraditionalLoginHandler {
 
     private Button mBtnActivate;
 
@@ -281,24 +279,21 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
-
-            updateActivationUIState();
-
-
-    }
-
-    @Override
-    public void onRefreshUserFailed ( int error){
-            RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
         updateActivationUIState();
     }
 
     @Override
-    public void onResendVerificationEmailSuccess () {
-            RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
-            updateResendUIState();
-            trackActionStatus(AppTagingConstants.SEND_DATA,
-                    AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+    public void onRefreshUserFailed(int error) {
+        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
+        updateActivationUIState();
+    }
+
+    @Override
+    public void onResendVerificationEmailSuccess() {
+        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
+        updateResendUIState();
+        trackActionStatus(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
     }
 
     private void updateResendUIState() {

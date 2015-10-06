@@ -37,7 +37,6 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
@@ -549,13 +548,10 @@ public class User {
 
     // For Log out
     public void logout(LogoutHandler logoutHandler) {
-        if (RegistrationHelper.getInstance().isHsdpFlow() && null != logoutHandler) {
+        if (RegistrationHelper.getInstance().isHsdpFlow()) {
             logoutHsdp(logoutHandler);
         } else {
-            deleteDIUserProfileFromDisk();
-            CoppaConfiguration.clearConfiguration();
-            Jump.signOutCaptureUser(mContext);
-            CaptureRecord.deleteFromDisk(mContext);
+            logoutJanrainUser();
             logoutHandler.onLogoutSuccess();
         }
     }
@@ -588,17 +584,16 @@ public class User {
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(context);
                 buildCoppaConfiguration();
-                if(!RegistrationHelper.getInstance().isHsdpFlow()){
+                if (!RegistrationHelper.getInstance().isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     return;
                 }
 
                 if (getEmailVerificationStatus(context)) {
                     DIUserProfile userProfile = getDIUserProfileFromDisk();
-                    RLog.i(RLog.APPLICATION," email : "+userProfile.getEmail()+" password :" +userProfile.getPassword());
                     HsdpUser hsdpUser = new HsdpUser(context);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-                    if(userProfile!=null&& null!= userProfile.getEmail() && null != userProfile.getPassword()&& hsdpUserRecord!= null ){
+                    if (userProfile != null && null != userProfile.getEmail() && null != userProfile.getPassword() && hsdpUserRecord == null) {
                         loginIntoHsdp(userProfile.getEmail(), userProfile.getPassword(), new TraditionalLoginHandler() {
                             @Override
                             public void onLoginSuccess() {
@@ -610,10 +605,10 @@ public class User {
                                 handler.onRefreshUserFailed(0);
                             }
                         });
-                    }else{
+                    } else {
                         handler.onRefreshUserSuccess();
                     }
-                }else{
+                } else {
                     handler.onRefreshUserSuccess();
                 }
             }
@@ -636,10 +631,7 @@ public class User {
         hsdpUser.logOut(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
-                deleteDIUserProfileFromDisk();
-                CoppaConfiguration.clearConfiguration();
-                Jump.signOutCaptureUser(mContext);
-                CaptureRecord.deleteFromDisk(mContext);
+                logoutJanrainUser();
                 hsdpUser.deleteFromDisk();
                 logoutHandler.onLogoutSuccess();
             }
@@ -650,6 +642,13 @@ public class User {
             }
         });
 
+    }
+
+    private void logoutJanrainUser() {
+        deleteDIUserProfileFromDisk();
+        CoppaConfiguration.clearConfiguration();
+        Jump.signOutCaptureUser(mContext);
+        CaptureRecord.deleteFromDisk(mContext);
     }
 
     private final String DI_PROFILE_FILE = "diProfile";

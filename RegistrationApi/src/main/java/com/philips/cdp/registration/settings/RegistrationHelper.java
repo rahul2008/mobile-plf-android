@@ -146,12 +146,10 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-
                 parseConfigurationJson(mContext);
-                if (null != RegistrationConfiguration.getInstance().getHsdpConfiguration()) {
+                if (isHsdpAvailable()){
                     isHsdpFlow = true;
                 }
-
 
                 EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
 
@@ -212,6 +210,15 @@ public class RegistrationHelper {
                 }
             }
         }).start();
+    }
+
+    private boolean isHsdpAvailable() {
+        return null != RegistrationConfiguration.getInstance().getHsdpConfiguration().getApplicationName() && null != RegistrationConfiguration.getInstance().getHsdpConfiguration().
+                getHSDPClientId(RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()).getSharedId() &&
+                null != RegistrationConfiguration.getInstance().getHsdpConfiguration().
+                getHSDPClientId(RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()).getSecretId()
+                && null != RegistrationConfiguration.getInstance().getHsdpConfiguration().
+                getHSDPClientId(RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()).getBaseUrl();
     }
 
     private void parseConfigurationJson(Context context) {
@@ -351,6 +358,4 @@ public class RegistrationHelper {
     public void setIsHsdpFlow(boolean isHsdpFlow) {
         this.isHsdpFlow = isHsdpFlow;
     }
-
-
 }
