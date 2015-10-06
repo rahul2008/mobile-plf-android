@@ -44,7 +44,6 @@ public class ConfigurationParser {
 
     private final String HSDP_CONFIGURATION = "HSDPConfiguration";
 
-    private final String HSDP_APPLICATION_NAME = "ApplicationName";
 
     private final String HSDP_ENVIRONMENT_EVAL = "Evaluation";
 
@@ -131,17 +130,12 @@ public class ConfigurationParser {
         Flow configuration = new Flow();
         configuration.setEmailVerificationRequired(true);
         if (!flowConfiguration.isNull(EMAIL_VERIFICATION_REQUIRED)) {
-            if (!flowConfiguration.getString(EMAIL_VERIFICATION_REQUIRED).equals("null")) {
-                configuration.setEmailVerificationRequired(Boolean.parseBoolean(flowConfiguration
-                        .getString(EMAIL_VERIFICATION_REQUIRED).toLowerCase(Locale.getDefault())));
-            }
+            configuration.setEmailVerificationRequired(flowConfiguration.getBoolean(EMAIL_VERIFICATION_REQUIRED));
         }
 
         if (!flowConfiguration.isNull(TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED)) {
-            if (!flowConfiguration.getString(TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED).equals("null")) {
-                configuration.setTermsAndConditionsAcceptanceRequired(Boolean.parseBoolean(flowConfiguration
-                        .getString(TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED).toLowerCase(Locale.getDefault())));
-            }
+            configuration.setTermsAndConditionsAcceptanceRequired(flowConfiguration
+                    .getBoolean(TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED));
         }
 
         if (!flowConfiguration.isNull(MINIMUM_AGE_LIMIT)) {
@@ -159,26 +153,24 @@ public class ConfigurationParser {
 
     private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
         HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
-        HashMap<String, HSDPClientId> hsdpClientIds = new HashMap<>();
+        HashMap<String, HSDPClientInfo> hsdpClientInfos = new HashMap<>();
         Iterator<String> iterator = hsdpConfiguartion.keys();
         while (iterator.hasNext()) {
             String registrationEnv = iterator.next();
-            if (registrationEnv.equals(HSDP_APPLICATION_NAME)) {
-                hsdpConfiguration.setApplicationName(hsdpConfiguartion.getString(HSDP_APPLICATION_NAME));
-            } else {
-                HSDPClientId hsdpClientId = new HSDPClientId();
-                JSONObject hsdpConfiguartionJSONObject = hsdpConfiguartion.getJSONObject(registrationEnv);
-                Iterator<String> hsdpIdIterator = hsdpConfiguartionJSONObject.keys();
-                HashMap<String, String> hsdpIds = new HashMap<String, String>();
-                while (hsdpIdIterator.hasNext()) {
-                    String key = hsdpIdIterator.next();
-                    hsdpIds.put(key, hsdpConfiguartionJSONObject.getString(key));
-                }
-                hsdpClientId.setIds(hsdpIds);
-                hsdpClientIds.put(registrationEnv, hsdpClientId);
+
+            HSDPClientInfo hsdpClientInfo = new HSDPClientInfo();
+            JSONObject hsdpConfiguartionJSONObject = hsdpConfiguartion.getJSONObject(registrationEnv);
+            Iterator<String> hsdpIdIterator = hsdpConfiguartionJSONObject.keys();
+            HashMap<String, String> hsdpInfos = new HashMap<String, String>();
+            while (hsdpIdIterator.hasNext()) {
+                String key = hsdpIdIterator.next();
+                hsdpInfos.put(key, hsdpConfiguartionJSONObject.getString(key));
             }
+            hsdpClientInfo.setInfos(hsdpInfos);
+            hsdpClientInfos.put(registrationEnv, hsdpClientInfo);
+
         }
-        hsdpConfiguration.setHsdpClientIds(hsdpClientIds);
+        hsdpConfiguration.setHsdpClientInfos(hsdpClientInfos);
         return hsdpConfiguration;
     }
 

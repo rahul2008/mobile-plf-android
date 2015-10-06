@@ -7,28 +7,16 @@ import java.util.HashMap;
  */
 public class HSDPConfiguration {
 
-    private String applicationName;
+    private HashMap<String, HSDPClientInfo> hsdpClientInfos;
 
-    private HashMap<String, HSDPClientId> hsdpClientIds;
-
-
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
+    public void setHsdpClientInfos(HashMap<String, HSDPClientInfo> hsdpClientInfos) {
+        this.hsdpClientInfos = hsdpClientInfos;
     }
 
-    public String getApplicationName() {
-        return applicationName;
-    }
-
-
-    public void setHsdpClientIds(HashMap<String, HSDPClientId> hsdpClientIds) {
-        this.hsdpClientIds = hsdpClientIds;
-    }
-
-    public HSDPClientId getHSDPClientId(String environmentType) {
-        if (hsdpClientIds == null) {
+    public HSDPClientInfo getHSDPClientInfo(String environmentType) {
+        if (hsdpClientInfos == null) {
             return null;
         }
-        return hsdpClientIds.get(environmentType);
+        return hsdpClientInfos.get(environmentType);
     }
 }
