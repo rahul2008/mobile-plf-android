@@ -7,6 +7,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.philips.cdp.ui.catalog.activity.InputTextFieldsActivity;
 import com.philips.cdp.ui.catalog.activity.MainActivity;
 
 import org.hamcrest.Matchers;
@@ -40,8 +41,6 @@ import static org.hamcrest.Matchers.allOf;
 
 */
 
-
-
 public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Resources testResources;
@@ -61,23 +60,14 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
     public void testInputFieldUnfocusedWithoutEntry() {
         onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-/*        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
-                .perform(click());*/
-/*        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
-           .check(matches(isOutlineColorSimilar("#b9b9b9")));
-
-//        onView(withId(R.id.input_field_2))
-//                .check(matches(isOutlineColorSimilar("#b9b9b9")));
-//        onView(withId(R.id.input_field_2))
-//                .check(matches(isBackgroundColorSimilar("#ffffff")));
-//        onView(withId(R.id.input_field_2))
-//                .check(matches(isTextColorSimilar("#b9b9b9")));
-*//**/
-        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .check(matches(isOutlineColorSimilar("#b9b9b9")));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .check(matches(isBackgroundColorSimilar("#ffffff")));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .check(matches(isTextColorSimilar("#b9b9b9")));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
-
-
-
     }
 
     public void testDBThemeInputFieldFocusedWithEntry() {
@@ -87,18 +77,23 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
         pressBack();
 
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Verify the UI parameters
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isOutlineColorSimilar("#03478")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .check(matches(isOutlineColorSimilar("#03478")));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextColorSimilar("#0f204b")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isBackgroundColorSimilar("#ffffff")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
     }
 
@@ -109,100 +104,115 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
         pressBack();
 
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Verify the UI parameters
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isOutlineColorSimilar("#e9830")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextColorSimilar("#0f204b")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isBackgroundColorSimilar("#ffffff")));
     }
 
-    public void testInputFieldUnFocusedWithEntry(){
+    public void testInputFieldUnFocusedWithEntry() {
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("test@test.com"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("test@test.com"));
 
         //Make the input field unfocused
-        onView(withId(R.id.input_field_2)).perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .perform(click());
 
         //Verify UI parameters for input field 1
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isOutlineColorSimilar("#b9b9b9")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextColorSimilar("#0f204b")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isBackgroundColorSimilar("#ffffff")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
     }
 
-    public void testDBThemeInputFieldWithIncorrectEntry(){
+    public void testDBThemeInputFieldWithIncorrectEntry() {
         // Apply Dark blue theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
         pressBack();
 
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Make the input field unfocused
-        onView(withId(R.id.input_field_2)).perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .perform(click());
 
         //Verify UI parameters for input field 1 with incorrect entry
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isOutlineColorSimilar("#e9830")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextColorSimilar("#e9830")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isBackgroundColorSimilar("#ffffff")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
-
     }
 
-    public void testBOThemeInputFieldWithIncorrectEntry(){
+    public void testBOThemeInputFieldWithIncorrectEntry() {
         // Apply Bright Orange theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
 
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Make the input field unfocused
-        onView(withId(R.id.input_field_2)).perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .perform(click());
 
         //Verify UI parameters for input field 1 with incorrect entry
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isOutlineColorSimilar("#cd202c")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextColorSimilar("#cd202c")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isBackgroundColorSimilar("#ffffff")));
     }
 
-    public void testDisableInputField(){
-    //Verifying disabled field color codes
-        onView(withId(R.id.input_field_disabled))
+    public void testDisableInputField() {
+        //Verifying disabled field color codes
+        onView(withText("Image Navigation")).perform(swipeUp());
+        onView(withText("Input Text Fields")).perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_disabled))))
                 .check(matches(isOutlineColorSimilar("#b9b9b9")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_disabled))))
                 .check(matches(isTextColorSimilar("#b9b9b9")));
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_disabled))))
                 .check(matches(isBackgroundColorSimilar("#888888"))); // Reinoud has to get back on this
-
     }
 
-    public void testWarningIconDBTheme(){
+    public void testWarningIconDBTheme() {
         // Apply Dark Blue theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
@@ -211,104 +221,122 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.incorrect_icon_dbtheme);
 
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Make the input field unfocused
-        onView(withId(R.id.input_field_2)).perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+        .perform(click());
 
         //Verifying whether incorrect icon is pixel perfect
-        onView(withId(R.id.error_image))
+        onView(allOf(withId(R.id.error_image), withParent(withId(R.id.input_field_1))))
                 .check(matches(isImageSimilar(expectedBitmap)));
-
     }
 
-    public void testWarningIconBOTheme(){
+    public void testWarningIconBOTheme() {
         // Apply Bright Orange theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
 
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Make the input field unfocused
-        onView(withId(R.id.input_field_2)).perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .perform(click());
 
         //Verifying background color of incorrect icon
-        onView(withId(R.id.error_image))
+        onView(allOf(withId(R.id.error_image), withParent(withId(R.id.input_field_1))))
                 .check(matches(isOutlineColorSimilar("#cd202c")));
-
     }
 
-    public void testWarningMessageDBTheme(){
+    public void testWarningMessageDBTheme() {
         // Apply Dark Blue theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
         pressBack();
 
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Make the input field unfocused
-        onView(withId(R.id.input_field_2)).perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .perform(click());
 
         //Verify warning text
-        onView(withId(R.id.error_image))
+        onView(allOf(withId(R.id.error_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextColorSimilar("#e9830")));
-        onView(withId(R.id.error_image))
+        onView(allOf(withId(R.id.error_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
-
-
     }
 
-    public void testWarningMessageBOTheme(){
+    public void testWarningMessageBOTheme() {
         // Apply Bright orange theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
 
         //Enter text in focused input field
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Make the input field unfocused
-        onView(withId(R.id.input_field_2)).perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .perform(click());
 
         //Verify warning text
-        onView(withId(R.id.error_image))
+        onView(allOf(withId(R.id.error_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextColorSimilar("#cd202c")));
-        //fontsize to be updated
+        onView(allOf(withId(R.id.error_text), withParent(withId(R.id.input_field_1))))
+                .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
     }
 
     public void testHeightInputFields() {
+        onView(withText("Image Navigation")).perform(swipeUp());
+        onView(withText("Input Text Fields")).perform(click());
 
-        onView(withId(R.id.input_field_1))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isHeightSimilar(44)));
-        onView(withId(R.id.input_field_2))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
                 .check(matches(isHeightSimilar(44)));
-        onView(withId(R.id.input_field_disabled))
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_disabled))))
                 .check(matches(isHeightSimilar(44)));
-
     }
 
-    public void testIncorrectMessagePushesContentDown(){
+    public void testIncorrectMessagePushesContentDown() {
+        onView(withText("Image Navigation")).perform(swipeUp());
         onView(withText("Input Text Fields")).perform(click());
-        onView(withId(R.id.input_field_1)).perform(click());
-        onView(withId(R.id.input_field_1)).perform(typeText("Hello There"));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(click());
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
+                .perform(typeText("Hello There"));
 
         //Make the input field unfocused
-        onView(withId(R.id.input_field_2)).perform(click());
-        onView(withId(R.id.error_image)).check(isAbove(withId(R.id.input_field_2)));
+        onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
+                .perform(click());
+        onView(allOf(withId(R.id.error_image), withParent(withId(R.id.input_field_1))))
+                .check(isAbove(withId(R.id.input_field_2)));
     }
-
-    }
+}
 
 // Fonttype to be verified manually
 //correct disabled field tests
