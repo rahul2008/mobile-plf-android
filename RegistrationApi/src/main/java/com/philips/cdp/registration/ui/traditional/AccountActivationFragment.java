@@ -281,11 +281,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
-        if (mUser.getEmailVerificationStatus(mContext)) {
-            mUser.loginUsingTraditional(mEmailId,RegUtility.getTraditionalPassword(mContext),this);
-        }else {
+
             updateActivationUIState();
-        }
+
 
     }
 

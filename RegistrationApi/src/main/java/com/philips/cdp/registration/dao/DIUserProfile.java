@@ -1,7 +1,9 @@
 
 package com.philips.cdp.registration.dao;
 
-public class DIUserProfile {
+import java.io.Serializable;
+
+public class DIUserProfile implements Serializable{
 
     private String email;
 

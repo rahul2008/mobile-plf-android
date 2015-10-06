@@ -37,15 +37,21 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 public class User {
 
-    public String mEmail, mGivenName, mPassword, mDisplayName;
+    private String mEmail, mGivenName, mPassword, mDisplayName;
 
     private boolean mOlderThanAgeLimit, mReceiveMarketingEmails, mEmailVerified;
 
@@ -98,12 +104,38 @@ public class User {
     }
 
     // For Traditional SignIn
-    public void loginUsingTraditional(String emailAddress, String password,
+    public void loginUsingTraditional(String emailAddress, final String password,
                                       final TraditionalLoginHandler traditionalLoginHandler) {
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
             throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
         }
 
+
+        loginIntoHsdp(emailAddress, password, traditionalLoginHandler);
+
+        LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
+                new TraditionalLoginHandler() {
+                    @Override
+                    public void onLoginSuccess() {
+                        DIUserProfile diUserProfile = getUserInstance(mContext);
+                        diUserProfile.setPassword(password);
+                        saveDIUserProfileToDisk(diUserProfile);
+                        traditionalLoginHandler.onLoginSuccess();
+                    }
+
+                    @Override
+                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                        traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    }
+                }, mContext, mUpdateUserRecordHandler, emailAddress,
+                password);
+        Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
+                null);
+
+
+    }
+
+    private void loginIntoHsdp(String emailAddress, String password, final TraditionalLoginHandler traditionalLoginHandler) {
         if (isUserSignIn(mContext) && RegistrationHelper.getInstance().isHsdpFlow()) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
             HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
@@ -121,15 +153,7 @@ public class User {
                     }
                 });
             }
-        } else {
-            LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
-                    traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
-                    password);
-            Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
-                    null);
-
         }
-
     }
 
     // For Social SignIn Using Provider
@@ -150,16 +174,27 @@ public class User {
     // framework.
     public void registerUserInfoForTraditional(String mGivenName, String mUserEmail,
                                                String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
-                                               TraditionalRegistrationHandler traditionalRegisterHandler) {
+                                               final TraditionalRegistrationHandler traditionalRegisterHandler) {
 
-        DIUserProfile profile = new DIUserProfile();
+        final DIUserProfile profile = new DIUserProfile();
         profile.setGivenName(mGivenName);
         profile.setEmail(mUserEmail);
         profile.setPassword(password);
         profile.setOlderThanAgeLimit(olderThanAgeLimit);
         profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
 
-        registerNewUserUsingTraditional(profile, traditionalRegisterHandler);
+        registerNewUserUsingTraditional(profile, new TraditionalRegistrationHandler() {
+            @Override
+            public void onRegisterSuccess() {
+                saveDIUserProfileToDisk(profile);
+                traditionalRegisterHandler.onRegisterSuccess();
+            }
+
+            @Override
+            public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                traditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
+            }
+        });
 
     }
 
@@ -186,6 +221,7 @@ public class User {
             }
             RegisterTraditional traditionalRegisterResultHandler = new RegisterTraditional(
                     traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
+
             Jump.registerNewUser(newUser, null, traditionalRegisterResultHandler);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
@@ -245,7 +281,7 @@ public class User {
                 refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
             }
         });
-       
+
     }
 
     // For Resend verification emails
@@ -516,6 +552,7 @@ public class User {
         if (RegistrationHelper.getInstance().isHsdpFlow() && null != logoutHandler) {
             logoutHsdp(logoutHandler);
         } else {
+            deleteDIUserProfileFromDisk();
             CoppaConfiguration.clearConfiguration();
             Jump.signOutCaptureUser(mContext);
             CaptureRecord.deleteFromDisk(mContext);
@@ -551,7 +588,34 @@ public class User {
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(context);
                 buildCoppaConfiguration();
-                handler.onRefreshUserSuccess();
+                if(!RegistrationHelper.getInstance().isHsdpFlow()){
+                    handler.onRefreshUserSuccess();
+                    return;
+                }
+
+                if (getEmailVerificationStatus(context)) {
+                    DIUserProfile userProfile = getDIUserProfileFromDisk();
+                    RLog.i(RLog.APPLICATION," email : "+userProfile.getEmail()+" password :" +userProfile.getPassword());
+                    HsdpUser hsdpUser = new HsdpUser(context);
+                    HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+                    if(userProfile!=null&& null!= userProfile.getEmail() && null != userProfile.getPassword()&& hsdpUserRecord!= null ){
+                        loginIntoHsdp(userProfile.getEmail(), userProfile.getPassword(), new TraditionalLoginHandler() {
+                            @Override
+                            public void onLoginSuccess() {
+                                handler.onRefreshUserSuccess();
+                            }
+
+                            @Override
+                            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                                handler.onRefreshUserFailed(0);
+                            }
+                        });
+                    }else{
+                        handler.onRefreshUserSuccess();
+                    }
+                }else{
+                    handler.onRefreshUserSuccess();
+                }
             }
 
             @Override
@@ -572,6 +636,7 @@ public class User {
         hsdpUser.logOut(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
+                deleteDIUserProfileFromDisk();
                 CoppaConfiguration.clearConfiguration();
                 Jump.signOutCaptureUser(mContext);
                 CaptureRecord.deleteFromDisk(mContext);
@@ -586,4 +651,37 @@ public class User {
         });
 
     }
+
+    private final String DI_PROFILE_FILE = "diProfile";
+
+    private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
+        try {
+            FileOutputStream fos = mContext.openFileOutput(DI_PROFILE_FILE, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(diUserProfile);
+            oos.close();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private DIUserProfile getDIUserProfileFromDisk() {
+        DIUserProfile diUserProfile = null;
+        try {
+            FileInputStream fis = mContext.openFileInput(DI_PROFILE_FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            diUserProfile = (DIUserProfile) ois.readObject();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return diUserProfile;
+    }
+
+    private void deleteDIUserProfileFromDisk() {
+        mContext.deleteFile(DI_PROFILE_FILE);
+    }
+
 }
