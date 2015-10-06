@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,11 +181,13 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                         @Override
                         public void onException(String message,
                                                 Throwable exception) {
-                            Log.e(TAG,
+                            DigiCareLogger.e(TAG,
                                     "Error = "
                                             + message
-                                            + "\n"
-                                            + Log.getStackTraceString(exception));
+                                            + "\n");
+
+                            exception.printStackTrace();
+
                             if (mProgressDialog.isShowing()) {
                                 mProgressDialog.dismiss();
                             }
@@ -208,7 +209,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
                                     if(reviewObject != null) {
                                         String response =reviewObject.toString();
-                                        Log.d(TAG, "BV response " + response);
+                                        DigiCareLogger.d(TAG, "BV response " + response);
                                     }
 
                                     /* TODO: Name and email ID can have legal terms associated while tagging.
@@ -224,7 +225,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                                     showFragment(new ProductReviewThankyouFragment());
                                 }
                             } catch (JSONException exception) {
-                                Log.e(TAG, Log.getStackTraceString(exception));
+                                exception.printStackTrace();
                             }
                         }
                     });
@@ -278,7 +279,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                             .show();
 //                    }
                 } catch (JSONException exception) {
-                    Log.e(TAG, Log.getStackTraceString(exception));
+                    exception.printStackTrace();
                 }
             }
 

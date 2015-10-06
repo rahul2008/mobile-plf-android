@@ -10,8 +10,8 @@ import com.bazaarvoice.types.ApiVersion;
 import com.bazaarvoice.types.RequestType;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,14 +33,13 @@ import java.util.regex.Pattern;
 
 public class BazaarVoiceWrapper {
 
-    private static final String TAG = "BazaarFunctions";
+    private static final String TAG = BazaarVoiceWrapper.class.getSimpleName();
     private static final String API_URL_STAGING = "stg.api.bazaarvoice.com"; //Staging server
     private static final String API_URL_PRODCUTION = "api.bazaarvoice.com"; //Production Server
     private static final String API_KEY_TEST = "2cpdrhohmgmwfz8vqyo48f52g";
     private static final ApiVersion API_VERSION = ApiVersion.FIVE_FOUR;
     private static String CLIENT_URL = API_URL_STAGING;
     private static String API_KEY = API_KEY_TEST;
-    private static HashMap<String, String> mApiKeyProduction = null;
     private static BazaarEnvironment ENVIRONMENT = BazaarEnvironment.staging;
 
     /**
@@ -92,6 +91,7 @@ public class BazaarVoiceWrapper {
         boolean isProduction = DigitalCareConfigManager.getInstance().isProductionEnvironment();
 
         if (isProduction && keyAvailable != null) {
+            DigiCareLogger.d(TAG,"Environment is production and key is available");
             API_KEY = keyAvailable;
             ENVIRONMENT = BazaarEnvironment.production;
             CLIENT_URL = API_URL_PRODCUTION;
