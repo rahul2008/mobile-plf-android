@@ -52,5 +52,6 @@ public enum SHNDataType {
     ActivityDayTotals,
     UserConfigChangedEventSedentaryPeriod,
     UserConfigChangedEventSedentaryNotification,
+    AccelerometerData,
     FatPercentage
 }
