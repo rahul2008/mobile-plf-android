@@ -53,5 +53,7 @@ public enum SHNDataType {
     UserConfigChangedEventSedentaryPeriod,
     UserConfigChangedEventSedentaryNotification,
     AccelerometerData,
+    CM3HeartRate,
+    UserConfigChangedEventEnergyIntake,
     FatPercentage
 }
