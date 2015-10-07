@@ -48,5 +48,7 @@ public enum SHNDataType {
     ActivitySession,
     DayTotals,
     Battery,
-    UserConfigChangedEventTargets, FatPercentage
+    UserConfigChangedEventTargets,
+    ActivityDayTotals,
+    FatPercentage
 }
