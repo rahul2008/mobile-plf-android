@@ -10,34 +10,34 @@
         <item name="android:paddingLeft">@dimen/button_padding_sides</item>
     </style>
 
-    <style name="Button.Normal">
+    <style name="Button.Solid">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Button.Normal.DarkBlue">
+    <style name="Button.Solid.DarkBlue">
         <item name="android:background">@drawable/dark_blue_selector</item>
     </style>
 
-    <style name="Button.Normal.BrightOrange">
+    <style name="Button.Solid.BrightOrange">
         <item name="android:background">@drawable/bright_orange_selector</item>
     </style>
 
-    <style name="Button.Normal.BrightAqua">
+    <style name="Button.Solid.BrightAqua">
         <item name="android:background">@drawable/bright_aqua_selector</item>
     </style>
 
-    <style name="Button.InvertedDarkBlue">
+    <style name="Button.OutlinedDarkBlue">
         <item name="android:textColor">@drawable/dark_blue_inverted_text_selector</item>
         <item name="android:background">@drawable/dark_blue_inverted_selector</item>
     </style>
 
-    <style name="Button.InvertedBrightOrange">
+    <style name="Button.OutlinedBrightOrange">
         <item name="android:textColor">@drawable/bright_orange_inverted_text_selector</item>
         <item name="android:background">@drawable/bright_orange_inverted_selector</item>
     </style>
 
-    <style name="Button.InvertedBrightAqua">
-        <item name="android:textColor">@drawable/inverted_bright_aqua_text_selector</item>
+    <style name="Button.OutlinedBrightAqua">
+        <item name="android:textColor">@drawable/bright_aqua_inverted_text_selector</item>
         <item name="android:background">@drawable/bright_aqua_inverted_selector</item>
     </style>
 
@@ -49,6 +49,11 @@
     <style name="Button.TransparentBrightOrange">
         <item name="android:textColor">@drawable/bright_orange_inverted_text_selector</item>
         <item name="android:background">@drawable/bright_orange_transparent_selector</item>
+    </style>
+
+    <style name="Button.TransparentBrightAqua">
+        <item name="android:textColor">@drawable/bright_aqua_inverted_text_selector</item>
+        <item name="android:background">@drawable/bright_aqua_transparent_selector</item>
     </style>
 
 </resources>

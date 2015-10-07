@@ -7,8 +7,8 @@
         <item name="android:colorBackground">@color/philips_very_light_blue</item>
         <item name="actionButtonBgColor">@color/philips_dark_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_very_dark_blue</item>
-        <item name="buttonStyle">@style/Button.Normal.DarkBlue</item>
-        <item name="outlinedButtonStyle">@style/Button.InvertedDarkBlue</item>
+        <item name="buttonStyle">@style/Button.Solid.DarkBlue</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedDarkBlue</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentDarkBlue</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.DarkBlue</item>
@@ -20,8 +20,8 @@
         <item name="android:colorBackground">@color/philips_very_light_orange</item>
         <item name="actionButtonBgColor">@color/philips_bright_orange</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_orange</item>
-        <item name="buttonStyle">@style/Button.Normal.BrightOrange</item>
-        <item name="outlinedButtonStyle">@style/Button.InvertedBrightOrange</item>
+        <item name="buttonStyle">@style/Button.Solid.BrightOrange</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedBrightOrange</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBrightOrange</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.BrightOrange</item>
@@ -33,8 +33,9 @@
         <item name="android:colorBackground">@color/philips_very_light_aqua</item>
         <item name="actionButtonBgColor">@color/philips_bright_aqua</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_aqua</item>
-        <item name="buttonStyle">@style/Button.Normal.BrightAqua</item>
-        <item name="outlinedButtonStyle">@style/Button.InvertedBrightAqua</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBrightAqua</item>
+        <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
     </style>
 
