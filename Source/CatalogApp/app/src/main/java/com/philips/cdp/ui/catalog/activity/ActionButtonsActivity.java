@@ -9,7 +9,7 @@ public class ActionButtonsActivity extends CatalogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_misc_buttons);
+        setContentView(R.layout.activity_action_buttons);
     }
 
 }
