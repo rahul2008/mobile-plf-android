@@ -4,7 +4,7 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="list_items">
-        <item>Miscellaneous Buttons</item>
+        <item>Action Buttons</item>
         <item>Splash Screen</item>
         <item>Change Theme</item>
         <item>Buttons</item>
