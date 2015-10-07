@@ -2,6 +2,10 @@
 <resources>
     <declare-styleable name="PhilipsUIKit">
         <attr name="actionBarBackground" format="reference|color"/>
+        <attr name="outlinedButtonStyle" format="reference" />
+        <attr name="baseColor" format="reference|color"/>
+        <attr name="gradBackground" format="reference|color"/>
+        <attr name="outlinedButtonTransparentStyle" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ActionButton">

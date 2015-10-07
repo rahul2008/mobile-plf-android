@@ -2,21 +2,21 @@
 <resources>
 
     <style name="Theme.Philips.DarkBlue.Gradient">
-        <item name="actionBarBackground">@color/philips_bright_blue</item>
+        <item name="actionBarBackground">@drawable/grad_dark_blue_background</item>
         <item name="android:windowBackground">@color/philips_very_light_blue</item>
         <item name="android:colorBackground">@color/philips_bright_blue</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.Gradient">
-        <item name="actionBarBackground">@color/philips_bright_orange</item>
+        <item name="actionBarBackground">@drawable/grad_orange_background</item>
         <item name="android:windowBackground">@color/philips_very_light_orange</item>
         <item name="android:colorBackground">@color/philips_bright_orange</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.Gradient">
-        <item name="actionBarBackground">@color/philips_bright_aqua</item>
+        <item name="actionBarBackground">@drawable/grad_aqua_background</item>
         <item name="android:windowBackground">@color/philips_very_light_aqua</item>
         <item name="android:colorBackground">@color/philips_bright_aqua</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>

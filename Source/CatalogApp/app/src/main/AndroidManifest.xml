@@ -18,20 +18,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ActionButtonsActivity" />
-        <activity android:name=".activity.ThemesActivity" />
-        <activity android:name=".activity.ButtonsActivity" />
-        <activity android:name=".dotnavigation.DotNavigationActivity" />
-        <activity android:name=".imagenavigation.ImageNavigationActivity" />
-        <activity android:name=".activity.SplashActivityGradient" />
-        <activity android:name=".SplashActivityLogoTop" />
-        <activity android:name=".SplashActivityLogoBottom" />
-        <activity android:name=".SplashActivityLogoCenterTitleTop" />
-        <activity android:name=".SplashActivityLogoCenterTitleBottom" />
-        <activity android:name=".SplashLauncher" />
-		<activity android:name=".activity.AboutScreenLauncher"/>
+        <activity
+            android:name=".activity.ActionButtonsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name=".activity.ThemesActivity"
+                  android:label="@string/app_name"></activity>
+        <activity android:name=".activity.ButtonsActivity"/>
+        <activity android:name=".dotnavigation.DotNavigationActivity"/>
+        <activity android:name=".imagenavigation.ImageNavigationActivity"/>
+        <activity android:name=".SplashActivityLogoTop"/>
+        <activity android:name=".activity.AboutScreenLauncher"/>
         <activity android:name=".activity.AboutScreenPhilips"/>
         <activity android:name=".activity.AboutScreenMM"/>
+        <activity android:name=".SplashActivityLogoBottom"/>
+        <activity android:name=".SplashActivityLogoCenterTitleTop"/>
+        <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
+        <activity android:name=".SplashLauncher"/>
+        <activity android:name=".activity.InputTextFieldsActivity"/>
+
     </application>
 
 </manifest>

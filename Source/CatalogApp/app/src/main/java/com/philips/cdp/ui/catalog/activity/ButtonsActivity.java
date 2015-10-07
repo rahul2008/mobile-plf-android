@@ -9,17 +9,10 @@ import com.philips.cdp.ui.catalog.R;
 
 public class ButtonsActivity extends CatalogActivity {
 
-//    Button button;
-//    Button button2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_button);
-//        button = (Button) findViewById(R.id.button);
-//        button.setText("Changed Text");
-//
-//        button2 = (Button) findViewById(R.id.button2);
-//        button2.setText("Changed Text");
     }
 
     @Override
