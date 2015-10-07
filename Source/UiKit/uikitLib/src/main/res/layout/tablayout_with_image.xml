@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TabLayout
+        android:id="@+id/tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_layout_height_with_image"
+        app:tabGravity="center"
+        app:tabMode="scrollable"/>
+</merge>
