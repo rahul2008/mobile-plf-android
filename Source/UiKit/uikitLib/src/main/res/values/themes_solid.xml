@@ -2,6 +2,8 @@
 <resources>
 
     <style name="Theme.Philips.DarkBlue">
+        <item name="baseColor">@color/philips_dark_blue</item>
+        <item name="gradBackground">@drawable/grad_dark_blue_background</item>
         <item name="actionBarBackground">@color/philips_dark_blue</item>
         <item name="android:windowBackground">@color/philips_very_light_blue</item>
         <item name="android:colorBackground">@color/philips_very_light_blue</item>
@@ -15,6 +17,8 @@
     </style>
 
     <style name="Theme.Philips.BrightOrange">
+        <item name="baseColor">@color/philips_bright_orange</item>
+        <item name="gradBackground">@drawable/grad_orange_background</item>
         <item name="actionBarBackground">@color/philips_bright_orange</item>
         <item name="android:windowBackground">@color/philips_very_light_orange</item>
         <item name="android:colorBackground">@color/philips_very_light_orange</item>
@@ -28,6 +32,8 @@
     </style>
 
     <style name="Theme.Philips.BrightAqua">
+        <item name="baseColor">@color/philips_bright_aqua</item>
+        <item name="gradBackground">@drawable/grad_aqua_background</item>
         <item name="actionBarBackground">@color/philips_bright_aqua</item>
         <item name="android:windowBackground">@color/philips_very_light_aqua</item>
         <item name="android:colorBackground">@color/philips_very_light_aqua</item>
