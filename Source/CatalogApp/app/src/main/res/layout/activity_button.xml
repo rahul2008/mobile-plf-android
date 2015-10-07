@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="@string/sample_button"
         android:id="@+id/inverted_very_light_blue_button"
-        style="@style/Button.InvertedDarkBlue"
+        style="?attr/outlinedButtonTransparentStyle"
         android:layout_below="@+id/inverted_very_light_orange_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>
