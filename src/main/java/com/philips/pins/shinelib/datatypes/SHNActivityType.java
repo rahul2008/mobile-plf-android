@@ -9,22 +9,5 @@ public enum SHNActivityType {
     Run,
     Walk,
     Sleep,
-    NotWorn;
-
-    public static SHNActivityType valueToActivityType(int activityTypeValue) {
-        switch(activityTypeValue) {
-            case 0:
-                return SHNActivityType.Cycle;
-            case 1:
-                return SHNActivityType.Run;
-            case 2:
-                return SHNActivityType.Walk;
-            case 3:
-                return SHNActivityType.Sleep;
-            case 4:
-                return SHNActivityType.NotWorn;
-            default:
-                return SHNActivityType.Unspecified;
-        }
-    }
+    NotWorn
 }
