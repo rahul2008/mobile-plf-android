@@ -137,5 +137,7 @@
     <string name="Social_provider_merge_account">You can only use %s if you merge your accounts.</string>
     <string name="Merge_your_Account">Merge your accounts</string>
     <string name="Btn_Merge_Account">Merge</string>
+    <string name="send_email_to_reset_password">We will send you an email to reset your password </string>
+    <string name="forgot_password">Forgot password?</string>
 
 </resources>

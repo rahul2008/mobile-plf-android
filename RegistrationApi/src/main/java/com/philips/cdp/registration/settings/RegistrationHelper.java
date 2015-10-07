@@ -226,8 +226,45 @@ public class RegistrationHelper {
 
         HSDPClientInfo hsdpClientInfo = hsdpConfiguration.getHSDPClientInfo(environment);
         if (hsdpClientInfo == null) {
-            return false;
+            throw new RuntimeException("HSDP configuration is not configured for "+RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()+" environment ");
         }
+        if (null != hsdpConfiguration && null != hsdpClientInfo) {
+
+            String exception = null;
+
+            if (hsdpClientInfo.getApplicationName() == null) {
+                exception += "Application Name";
+            }
+
+            if (hsdpClientInfo.getSharedId() == null) {
+                if(null!=exception){
+                    exception += ",shared key ";
+                }else {
+                    exception += "shared key ";
+                }
+            }
+            if (hsdpClientInfo.getSecretId() == null) {
+                if(null!=exception){
+                    exception += ",Secret key ";
+                }else {
+                    exception += "Secret key ";
+                }
+            }
+
+            if (hsdpClientInfo.getBaseUrl() == null) {
+                if(null!=exception){
+                    exception += ",Base Url ";
+                }else {
+                    exception += "Base Url ";
+                }
+            }
+
+            if(null!=exception){
+                throw new RuntimeException("HSDP configuration is not configured for "+RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()+" environment for "+exception.toString().substring(4));
+            }
+        }
+
+
         return (null != hsdpClientInfo.getApplicationName() && null != hsdpClientInfo.getSharedId()
                 && null != hsdpClientInfo.getSecretId()
                 && null != hsdpClientInfo.getBaseUrl());
