@@ -56,4 +56,9 @@
         <item name="android:background">@drawable/bright_aqua_transparent_selector</item>
     </style>
 
+    <style name="Button.TransparentWhite">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/white_transparent_selector</item>
+    </style>
+
 </resources>
