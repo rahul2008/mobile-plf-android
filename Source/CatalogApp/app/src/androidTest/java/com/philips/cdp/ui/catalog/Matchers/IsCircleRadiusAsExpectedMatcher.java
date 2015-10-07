@@ -1,9 +1,8 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.Matchers;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.test.espresso.matcher.BoundedMatcher;
-import android.util.Log;
 import android.view.View;
 
 import com.viewpagerindicator.CirclePageIndicator;

@@ -12,9 +12,9 @@ import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.IsCircleRadiusAsExpectedMatcher.isCircleRadiusSimilar;
-import static com.philips.cdp.ui.catalog.IsCircleBackgroundColorAsExpectedMatcher.isCircleColorSimilar;
-import static com.philips.cdp.ui.catalog.IsOpacityAsExpectedMatcher.isOpacitySimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsCircleRadiusAsExpectedMatcher.isCircleRadiusSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsCircleBackgroundColorAsExpectedMatcher.isCircleColorSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsOpacityAsExpectedMatcher.isOpacitySimilar;
 
 
 /**

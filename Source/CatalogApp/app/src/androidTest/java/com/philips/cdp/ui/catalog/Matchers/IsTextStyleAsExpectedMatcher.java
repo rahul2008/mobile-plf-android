@@ -1,7 +1,6 @@
 
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.Matchers;
 
-import android.graphics.Typeface;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 import android.widget.TextView;

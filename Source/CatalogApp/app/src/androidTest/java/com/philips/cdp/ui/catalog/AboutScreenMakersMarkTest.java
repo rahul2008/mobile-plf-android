@@ -1,8 +1,6 @@
 package com.philips.cdp.ui.catalog;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.ui.catalog.activity.MainActivity;
@@ -14,9 +12,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
-import static com.philips.cdp.ui.catalog.IsTextColorAsExpectedMatcher.isTextColorSimilar;
-import static com.philips.cdp.ui.catalog.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
 import static android.support.test.espresso.assertion.PositionAssertions.isLeftAlignedWith;
 
 /**

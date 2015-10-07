@@ -1,12 +1,10 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.Matchers;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
-
-import com.viewpagerindicator.CirclePageIndicator;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

@@ -11,13 +11,12 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.PositionAssertions.isAbove;
 import static android.support.test.espresso.assertion.PositionAssertions.isBelow;
-import static android.support.test.espresso.assertion.PositionAssertions.isTopAlignedWith;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.IsDimensionBitmapAsExpectedMatcher.isDimensionSimilar;
-import static com.philips.cdp.ui.catalog.IsTextColorAsExpectedMatcher.isTextColorSimilar;
-import static com.philips.cdp.ui.catalog.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsDimensionBitmapAsExpectedMatcher.isDimensionSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -71,8 +70,5 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withId(R.id.splash_logo)).check(isBelow(withId(R.id.splash_title)));
 
     }
-
-
-
 
 }
