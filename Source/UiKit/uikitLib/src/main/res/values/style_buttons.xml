@@ -57,6 +57,11 @@
         <item name="android:background">@drawable/bright_orange_inverted_selector</item>
     </style>
 
+    <style name="Button.InvertedBrightAqua">
+        <item name="android:textColor">@drawable/inverted_bright_aqua_text_selector</item>
+        <item name="android:background">@drawable/bright_aqua_inverted_selector</item>
+    </style>
+
     <style name="Button.TransparentDarkBlue">
         <item name="android:textColor">@drawable/dark_blue_inverted_text_selector</item>
         <item name="android:background">@drawable/dark_blue_transparent_selector</item>
