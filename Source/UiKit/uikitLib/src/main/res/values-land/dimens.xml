@@ -6,5 +6,5 @@
     <dimen name="splash_logo_height">86dp</dimen>
     <dimen name="splash_logo_width">67dp</dimen>
     <dimen name="splash_title_margin_top">44dp</dimen>
-    <dimen name="splash_title_margin_bottom">49dp</dimen>
+    <dimen name="splash_title_margin_bottom">53dp</dimen>
 </resources>
