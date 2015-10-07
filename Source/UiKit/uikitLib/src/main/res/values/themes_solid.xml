@@ -34,6 +34,7 @@
         <item name="actionButtonBgColor">@color/philips_bright_aqua</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_aqua</item>
         <item name="buttonStyle">@style/Button.Normal.BrightAqua</item>
+        <item name="outlinedButtonStyle">@style/Button.InvertedBrightAqua</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
     </style>
 
