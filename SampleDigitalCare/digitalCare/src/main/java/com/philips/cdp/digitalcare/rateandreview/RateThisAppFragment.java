@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.bazaarvoice.BazaarEnvironment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
@@ -26,6 +27,7 @@ import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageListener;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
+import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;
 import com.philips.cdp.digitalcare.rateandreview.productreview.model.PRXProductModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -56,7 +58,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
     private ProgressDialog mProgressDialog = null;
-
+    private boolean reviewRequired = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +69,19 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
+
+        boolean isProduction = DigitalCareConfigManager.getInstance().isProductionEnvironment();
+        reviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
+
+        if(reviewRequired){
+            if(isProduction){
+                BazaarVoiceWrapper.initializeKeys(BazaarEnvironment.production);
+            }
+            else{
+                BazaarVoiceWrapper.initializeKeys(BazaarEnvironment.staging);
+            }
+        }
+
         return mView;
     }
 
@@ -263,20 +278,18 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
             mProgressDialog.cancel();
 
         String keyAvailable = DigitalCareConfigManager.getInstance().getBazaarVoiceKey();
-        boolean isProduction = DigitalCareConfigManager.getInstance().isProductionEnvironment();
-        boolean reviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
 
-        if (isProduction) {
+//        if (isProduction) {
             if (productlink != null && keyAvailable != null && reviewRequired){
                 showProductReviewView();
             }
             else{
                 hideProductReviewView();
             }
-        }
-        else if (productlink != null && reviewRequired) {
-                showProductReviewView();
-            }
+//        }
+//        else if (productlink != null && reviewRequired) {
+//                showProductReviewView();
+//            }
     }
 
     /*protected String getLocalizedReviewUrl(String countryUrl) {

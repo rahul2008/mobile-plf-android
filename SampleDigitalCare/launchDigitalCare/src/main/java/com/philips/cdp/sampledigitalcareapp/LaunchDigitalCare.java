@@ -22,7 +22,6 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 /*
     This is sample class which will try to simulate, "how to use APIs and integrate digitalcare.
@@ -48,8 +47,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
     private SampleConsumerProductInfo mConsumerProductInfo = null;
-
-    private HashMap<String, String> mHashMapKey = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,19 +121,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
         // Digital care initialization
         initializeDigitalCareLibrary();
-        initializeBazaarVoiceKeys();
 //        registerHockeyApp();
-    }
-
-    private void initializeBazaarVoiceKeys() {
-        /*For reference purpose we are puttign only few sample keys.
-        Vertical app has to set all keys. Otherwise Product Review feature will not be available*/
-
-        mHashMapKey.put("en_IN", "7zenwkp83bznukam73ut6vta");
-        mHashMapKey.put("en_US", "szdfpyru9ux2bshb5w9eemy3");
-        mHashMapKey.put("nl_NL", "6paazzqbsby4s82rhsg8uhd4");
-
-        DigitalCareConfigManager.getInstance().setBazaarVoiceAPIKeys(mHashMapKey);
     }
 
     @Override

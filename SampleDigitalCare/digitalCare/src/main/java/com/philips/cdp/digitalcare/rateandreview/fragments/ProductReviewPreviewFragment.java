@@ -255,6 +255,10 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
      * @param json the response to the BazaarRequest
      */
     protected void displayErrorMessage(final JSONObject json) {
+
+        if (getActivity() == null) {
+            return;
+        }
         getActivity().runOnUiThread(new Runnable() {
 
             @Override
