@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sample_button"
-        android:id="@+id/inverted_very_light_orange_button"
+        android:id="@+id/outlined_button"
         style="?attr/outlinedButtonStyle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
@@ -33,9 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sample_button"
-        android:id="@+id/inverted_very_light_blue_button"
+        android:id="@+id/outlined_transparent_button"
         style="?attr/outlinedButtonTransparentStyle"
-        android:layout_below="@+id/inverted_very_light_orange_button"
+        android:layout_below="@+id/outlined_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>
 
