@@ -83,13 +83,13 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     private final TextWatcher mTextWatcherName = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (s.length() > 0) {
-                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
-            }
+//            if (s.length() > 0) {
+//                mReviewNameIconInvalid.setVisibility(View.VISIBLE);
+//            }
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.length() > 0) {
+            if (s.length() > 3) {
                 mReviewNameIconInvalid.setVisibility(View.GONE);
                 mReviewNameIconValid.setVisibility(View.VISIBLE);
                 mNameErrorButton.setVisibility(View.GONE);
@@ -101,7 +101,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         }
 
         public void afterTextChanged(Editable s) {
-            if (s.length() > 0) {
+            if (s.length() > 3) {
                 mReviewNameIconInvalid.setVisibility(View.GONE);
                 mReviewNameIconValid.setVisibility(View.VISIBLE);
                 mNameErrorButton.setVisibility(View.GONE);
@@ -383,8 +383,6 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mRatingBarHorizontal.setStepSize(1f);
         //     mRatingBarHorizontal.set
         setRatingBarLayers(mRatingBarHorizontal);
-
-
     }
 
 
@@ -512,7 +510,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 //                    descAlert,
 //                    Toast.LENGTH_SHORT).show();
         }
-        if (getNickNameValue(mNicknameEditText).equals("")) {
+        if (getNickNameValue(mNicknameEditText).equals("") || getNickNameValue(mNicknameEditText).length() < 4) {
             disablePreviewButton = true;
             mReviewNameIconInvalid.setVisibility(View.VISIBLE);
         }
