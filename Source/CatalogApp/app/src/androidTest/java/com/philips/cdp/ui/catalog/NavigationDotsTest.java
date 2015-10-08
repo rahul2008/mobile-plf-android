@@ -39,7 +39,7 @@ public class NavigationDotsTest extends ActivityInstrumentationTestCase2<MainAct
     public void testNDotFocusedUnfocusedRadiusAsExpected() {
         onView(withText("Dot Navigation")).perform(click());
         onView(withId(R.id.indicator))
-                .check(matches(isCircleRadiusSimilar(6,4)));
+                .check(matches(isCircleRadiusSimilar(6, 4)));
     }
 
     public void testNavigationDotSwipeFocusedRadiusAsExpected() {
@@ -47,7 +47,7 @@ public class NavigationDotsTest extends ActivityInstrumentationTestCase2<MainAct
         onView(withId(R.id.indicator)).perform(swipeLeft());
         onView(withId(R.id.indicator)).perform(swipeLeft());
         onView(withId(R.id.indicator))
-                .check(matches(isCircleRadiusSimilar(6,4)));
+                .check(matches(isCircleRadiusSimilar(6, 4)));
     }
 
     public void testDBThemeFocusedBGColorAsExpected(){

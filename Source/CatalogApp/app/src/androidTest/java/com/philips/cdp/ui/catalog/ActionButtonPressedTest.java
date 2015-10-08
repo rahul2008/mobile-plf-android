@@ -51,7 +51,7 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         onView(withText("Blue Theme")).perform(click());
         pressBack();
         Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
-        onView(withText("Miscellaneous Buttons")).perform(click());
+        onView(withText("Action Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.miscBtnCircleArrow, true);
         matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#f204b" );
@@ -62,7 +62,7 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         onView(withText("Orange Theme")).perform(click());
         pressBack();
         Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
-        onView(withText("Miscellaneous Buttons")).perform(click());
+        onView(withText("Action Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.miscBtnCircleArrow, true);
         matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#983222");

@@ -200,7 +200,7 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
         onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_disabled))))
                 .check(matches(isTextColorSimilar("#b9b9b9")));
         onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_disabled))))
-                .check(matches(isBackgroundColorSimilar("#888888"))); // Reinoud has to get back on this
+                .check(matches(isBackgroundColorSimilar("#efefef")));
     }
 
     public void testWarningIconDBTheme() {
