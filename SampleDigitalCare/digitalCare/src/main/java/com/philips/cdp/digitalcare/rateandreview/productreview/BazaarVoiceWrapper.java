@@ -42,7 +42,7 @@ public class BazaarVoiceWrapper {
     private static String API_KEY;
     private static final ApiVersion API_VERSION = ApiVersion.FIVE_FOUR;
     private static BazaarEnvironment ENVIRONMENT = BazaarEnvironment.staging;
-    private static HashMap<String, String> mBazaarVoiceApiKeysHashMap = new HashMap<>();
+    private static HashMap<String, String> mBazaarVoiceApiKeysHashMap = new HashMap<String, String>();
 
     public void initializeKeys() {
        if(DigitalCareConfigManager.getInstance().isProductionEnvironment()) {
@@ -191,13 +191,8 @@ public class BazaarVoiceWrapper {
         params.setReviewText(review.getReview());
         params.setUserNickname(review.getNickname());
         params.setUserEmail(review.getEmail());
-
-        if (!review.getEmail().equals("null"))
-            params.setUserId(review.getEmail());
-        else if (!(review.getNickname().equals("null") || "".equals(review.getNickname().trim())))
-            params.setUserId(review.getNickname());
-        else
-            params.setUserId("Anonymous");
+        params.setAgreedToTermsAndConditions(review.getTermsAndConditionStatus());
+        params.setUserId(review.getEmail());
 
         boolean isProduction = DigitalCareConfigManager.getInstance().isProductionEnvironment();
 

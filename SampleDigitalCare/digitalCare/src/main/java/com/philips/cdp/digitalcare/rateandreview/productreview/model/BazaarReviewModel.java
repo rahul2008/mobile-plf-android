@@ -40,6 +40,7 @@ public class BazaarReviewModel implements Serializable{
     private String mSummary;
     private String mReview;
     private String mUserId;
+    private boolean mTermAndConditionAccepted = false;
 
     /**
 	 * Sets all variables to 0, null, or "null"
@@ -152,6 +153,8 @@ public class BazaarReviewModel implements Serializable{
 		return month + " " + day + ", " + year;
 
 	}
+
+
 	/**
 	 * @return the rating
 	 */
@@ -319,5 +322,13 @@ public class BazaarReviewModel implements Serializable{
 		else
 			return userNickname;
 	}
+
+    public boolean getTermsAndConditionStatus(){
+        return mTermAndConditionAccepted;
+    }
+
+    public void setTermsAndConditionAccepted(boolean termAndCond){
+        mTermAndConditionAccepted = termAndCond;
+    }
 
 }
