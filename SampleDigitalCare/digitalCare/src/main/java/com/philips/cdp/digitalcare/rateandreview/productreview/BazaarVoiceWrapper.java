@@ -100,7 +100,6 @@ public class BazaarVoiceWrapper {
         mBazaarVoiceApiKeysHashMap.put("sv_SE", "r4udhywuqw3asdxhzbkszkae");
         mBazaarVoiceApiKeysHashMap.put("th_TH", "xcdwx7nmm5dhzmztv2g27myv");
         mBazaarVoiceApiKeysHashMap.put("tr_TR", "jctmhj58yng9dfrazvdvzdjk");
-
     }
 
     /*
@@ -109,49 +108,48 @@ public class BazaarVoiceWrapper {
     private void initializeBazaarVoiceProductionKeys() {
         mBazaarVoiceApiKeysHashMap.clear();
         DigiCareLogger.d(TAG, "Initializing Production Keys");
-        mBazaarVoiceApiKeysHashMap.put("bg_BG", "");
-        mBazaarVoiceApiKeysHashMap.put("cs_CZ", "");
-        mBazaarVoiceApiKeysHashMap.put("da_DK", "");
-        mBazaarVoiceApiKeysHashMap.put("de_AT", "");
-        mBazaarVoiceApiKeysHashMap.put("de_CH", "");
-        mBazaarVoiceApiKeysHashMap.put("de_DE", "");
-        mBazaarVoiceApiKeysHashMap.put("en_AU", "");
-        mBazaarVoiceApiKeysHashMap.put("en_CA", "");
-        mBazaarVoiceApiKeysHashMap.put("es_CO", "");
-        mBazaarVoiceApiKeysHashMap.put("en_GB", "");
-        mBazaarVoiceApiKeysHashMap.put("en_ID", "");
-        mBazaarVoiceApiKeysHashMap.put("en_IN", "");
-        mBazaarVoiceApiKeysHashMap.put("en_MY", "");
-        mBazaarVoiceApiKeysHashMap.put("en_NZ", "");
-        mBazaarVoiceApiKeysHashMap.put("en_PH", "");
-        mBazaarVoiceApiKeysHashMap.put("en_SG", "");
-        mBazaarVoiceApiKeysHashMap.put("en_US", "");
-        mBazaarVoiceApiKeysHashMap.put("es_AR", "");
-        mBazaarVoiceApiKeysHashMap.put("es_CL", "");
-        mBazaarVoiceApiKeysHashMap.put("es_ES", "");
-        mBazaarVoiceApiKeysHashMap.put("es_PA", "");
-        mBazaarVoiceApiKeysHashMap.put("es_PE", "");
-        mBazaarVoiceApiKeysHashMap.put("et_EE", "");
-        mBazaarVoiceApiKeysHashMap.put("fi_FI", "");
-        mBazaarVoiceApiKeysHashMap.put("fr_FR", "");
-        mBazaarVoiceApiKeysHashMap.put("fr_BE", "");
-        mBazaarVoiceApiKeysHashMap.put("fr_CA", "");
-        mBazaarVoiceApiKeysHashMap.put("fr_CH", "");
-        mBazaarVoiceApiKeysHashMap.put("it_IT", "");
-        mBazaarVoiceApiKeysHashMap.put("ko_KR", "");
-        mBazaarVoiceApiKeysHashMap.put("lt_LT", "");
-        mBazaarVoiceApiKeysHashMap.put("lv_LV", "");
-        mBazaarVoiceApiKeysHashMap.put("nl_BE", "");
-        mBazaarVoiceApiKeysHashMap.put("nl_NL", "");
-        mBazaarVoiceApiKeysHashMap.put("no-NO", "");
-        mBazaarVoiceApiKeysHashMap.put("pl_PL", "");
-        mBazaarVoiceApiKeysHashMap.put("pt_BR", "");
-        mBazaarVoiceApiKeysHashMap.put("ro_RO", "");
-        mBazaarVoiceApiKeysHashMap.put("ru_RU", "");
-        mBazaarVoiceApiKeysHashMap.put("sv_SE", "");
-        mBazaarVoiceApiKeysHashMap.put("th_TH", "");
-        mBazaarVoiceApiKeysHashMap.put("tr_TR", "");
-
+        mBazaarVoiceApiKeysHashMap.put("bg_BG", "79kyglphnlxmmfb0k62xsgms1");
+        mBazaarVoiceApiKeysHashMap.put("cs_CZ", "3eostk96e0y81z894gavtbm3r");
+        mBazaarVoiceApiKeysHashMap.put("da_DK", "2uz77cf939urqvi1ia3b8b4x6");
+        mBazaarVoiceApiKeysHashMap.put("de_AT", "akwjl5bu5gun21267e2tk8qyn");
+        mBazaarVoiceApiKeysHashMap.put("de_CH", "78g0603hk1q9qnhjsl1wp1cid");
+        mBazaarVoiceApiKeysHashMap.put("de_DE", "6i4a0j1u2l4ov63mdauydfltn");
+        mBazaarVoiceApiKeysHashMap.put("en_AU", "7bxjh53yegkw8nb122jt899m6");
+        mBazaarVoiceApiKeysHashMap.put("en_CA", "35uakw46zjt1kpz0ljnru83lm");
+        mBazaarVoiceApiKeysHashMap.put("es_CO", "ap5kaq1ino9vkroxp396dq96n");
+        mBazaarVoiceApiKeysHashMap.put("en_GB", "ik3dq1v3om4jgi8p86wo8tvce");
+        mBazaarVoiceApiKeysHashMap.put("en_ID", "tjooqwbsibnpqutnwb83ejpvp");
+        mBazaarVoiceApiKeysHashMap.put("en_IN", "75s787hudjw08pz8usvnh2x2l");
+        mBazaarVoiceApiKeysHashMap.put("en_MY", "lsdk7a4oglwbk83466kltqyhm");
+        mBazaarVoiceApiKeysHashMap.put("en_NZ", "d9qaydvu9a7dn73c3otn4qxbb");
+        mBazaarVoiceApiKeysHashMap.put("en_PH", "77b4b1fj9a6r0btajgh3urxkj");
+        mBazaarVoiceApiKeysHashMap.put("en_SG", "qdm1wscox3j7g9os2bizfu6bn");
+        mBazaarVoiceApiKeysHashMap.put("en_US", "dqhezzbxtoyqhwhwklresdx2d");
+        mBazaarVoiceApiKeysHashMap.put("es_AR", "perlcjm8ivoxqb2qkir7jkec4");
+        mBazaarVoiceApiKeysHashMap.put("es_CL", "p1j4ug2e205gb2wdo75rdptls");
+        mBazaarVoiceApiKeysHashMap.put("es_ES", "6acq9jab62kaopsver7xvk7b6");
+        mBazaarVoiceApiKeysHashMap.put("es_PA", "oukplejlf4lc2hvnp1fpfbwrw");
+        mBazaarVoiceApiKeysHashMap.put("es_PE", "u0ueovoeywq7r5fdj4p3wmzbs");
+        mBazaarVoiceApiKeysHashMap.put("et_EE", "m4qnctyecx124v36464ridpim");
+        mBazaarVoiceApiKeysHashMap.put("fi_FI", "pvi4lh9tsg6t1jxu9opge1oz2");
+        mBazaarVoiceApiKeysHashMap.put("fr_FR", "pibolowazo6xuu8c0dxovofgu");
+        mBazaarVoiceApiKeysHashMap.put("fr_BE", "sregyv0ys4x1cu9flx1th1sfm");
+        mBazaarVoiceApiKeysHashMap.put("fr_CA", "trm136kc36ubpsg80e6okyd0a");
+        mBazaarVoiceApiKeysHashMap.put("fr_CH", "toer2gu2qdryzbfj78yffmv0l");
+        mBazaarVoiceApiKeysHashMap.put("it_IT", "ted5hn0ym69d0x9skw59sksc3");
+        mBazaarVoiceApiKeysHashMap.put("ko_KR", "b5jqz2k64mbb23uqjeu1cadfc");
+        mBazaarVoiceApiKeysHashMap.put("lt_LT", "72wuo0w4g4mpzh1th90omk3xp");
+        mBazaarVoiceApiKeysHashMap.put("lv_LV", "onlsi2ejnaria9353apb10kge");
+        mBazaarVoiceApiKeysHashMap.put("nl_BE", "dctijol3zzei69bmrlbdhcq6g");
+        mBazaarVoiceApiKeysHashMap.put("nl_NL", "dgsjw6vam4ug27pcfb0ocp3l2");
+        mBazaarVoiceApiKeysHashMap.put("no-NO", "72panbv25dzjuqn3jb8hkkldw");
+        mBazaarVoiceApiKeysHashMap.put("pl_PL", "3ec776varb3lzvtkcv2cpmbh2");
+        mBazaarVoiceApiKeysHashMap.put("pt_BR", "orl7xi3y20y1dprqnn7yhnnlq");
+        mBazaarVoiceApiKeysHashMap.put("ro_RO", "texm9bkb32pdehtx459k2cc9j");
+        mBazaarVoiceApiKeysHashMap.put("ru_RU", "lq91u0evljhubp2ctzk076yv5");
+        mBazaarVoiceApiKeysHashMap.put("sv_SE", "38uhs2w5xfr7mx1mf89ub7ebc");
+        mBazaarVoiceApiKeysHashMap.put("th_TH", "ao9ugx1wdjkqf1jhuiw333ore");
+        mBazaarVoiceApiKeysHashMap.put("tr_TR", "e0nui2ukl14qjeh90es6q39lu");
     }
 
     /**
