@@ -15,7 +15,6 @@ import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
-import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -45,7 +44,6 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver=null;
-    private HashMap<String,String> mBazaarVoiceApiKeysMap = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -127,10 +125,6 @@ public class DigitalCareConfigManager {
             }
         }
 
-        if(isBazaarVoiceRequired() && isProductionEnvironment() && (mBazaarVoiceApiKeysMap==null)){
-            throw new RuntimeException("Please make sure to set the API keys to use Bazaar voice feature");
-        }
-
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         SupportHomeFragment supportFrag = new SupportHomeFragment();
@@ -155,10 +149,6 @@ public class DigitalCareConfigManager {
             if (mAppID == null || mAppID.equals("")) {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
-        }
-
-        if(isBazaarVoiceRequired() && isProductionEnvironment() && (mBazaarVoiceApiKeysMap==null)){
-            throw new RuntimeException("Please make sure to set the API keys to use Bazaar voice feature");
         }
 
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
@@ -402,34 +392,6 @@ public class DigitalCareConfigManager {
         private int getOrientationValue() {
             return value;
         }
-    }
-
-    /**
-     * This method allows to set the Bazaar voice API keys to use product review feature.
-     * It throws runtime exception when you set product review required as true and production environment as true.
-     * @param apiKeysMap Bazaar voice API keys
-     */
-    public void setBazaarVoiceAPIKeys(HashMap<String, String> apiKeysMap){
-        mBazaarVoiceApiKeysMap = apiKeysMap;
-    }
-
-    public HashMap<String,String> getBazaarVoiceKeys(){
-        return mBazaarVoiceApiKeysMap;
-    }
-
-    /*
-     * If its bazaar voice is used for production and key is available then only pass the value otherwise it null.
-    */
-    public String getBazaarVoiceKey(){
-        Locale locale = getInstance().getLocaleMatchResponseWithCountryFallBack();
-        if(locale != null) {
-            String localeValue = locale.toString();
-            boolean keyAvailable = getInstance().getBazaarVoiceKeys().containsKey(localeValue);
-            if(keyAvailable){
-                return getInstance().getBazaarVoiceKeys().get(localeValue);
-            }
-        }
-        return null;
     }
 
     public boolean isBazaarVoiceRequired(){

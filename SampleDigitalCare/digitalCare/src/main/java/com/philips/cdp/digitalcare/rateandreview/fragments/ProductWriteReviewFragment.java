@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -47,6 +46,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
     private static final String PRODUCT_TERMS_DIALOG_URL = "http://%s/content/7543b-%s/termsandconditions.htm";
+    private BazaarVoiceWrapper mBazaarVoiceWrapper;
+
     private final TextWatcher mTextWatcherSummary = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,7 +122,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            if (s.length() > 0 && BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
+            if (s.length() > 0 && mBazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
                 mReviewEmailIconInvalid.setVisibility(View.GONE);
                 mReviewEmailIconValid.setVisibility(View.VISIBLE);
                 mEmailErrorButton.setVisibility(View.GONE);
@@ -133,7 +134,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         }
 
         public void afterTextChanged(Editable s) {
-            if (s.length() > 0 && BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
+            if (s.length() > 0 && mBazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
                 mReviewEmailIconInvalid.setVisibility(View.GONE);
                 mReviewEmailIconValid.setVisibility(View.VISIBLE);
                 mEmailErrorButton.setVisibility(View.GONE);
@@ -193,6 +194,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
+        mBazaarVoiceWrapper = new BazaarVoiceWrapper();
         View view = inflater.inflate(R.layout.fragment_review_write, container,
                 false);
         return view;
@@ -515,7 +517,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             mReviewNameIconInvalid.setVisibility(View.VISIBLE);
         }
         if (getEmailValue(mEmailEditText).equals("") ||
-                !BazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
+                !mBazaarVoiceWrapper.isValidEmail(mEmailEditText.getText().toString())) {
             disablePreviewButton = true;
             mReviewEmailIconInvalid.setVisibility(View.VISIBLE);
         }

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.bazaarvoice.BazaarEnvironment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
@@ -58,7 +57,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
     private ProgressDialog mProgressDialog = null;
-    private boolean reviewRequired = false;
+    private boolean mBazaarVoiceReviewRequired = false;
+    private BazaarVoiceWrapper mBazaarVoiceWrapper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,17 +69,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
+        mBazaarVoiceWrapper = new BazaarVoiceWrapper();
+       mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
 
-        boolean isProduction = DigitalCareConfigManager.getInstance().isProductionEnvironment();
-        reviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
-
-        if(reviewRequired){
-            if(isProduction){
-                BazaarVoiceWrapper.initializeKeys(BazaarEnvironment.production);
-            }
-            else{
-                BazaarVoiceWrapper.initializeKeys(BazaarEnvironment.staging);
-            }
+        if(mBazaarVoiceReviewRequired){
+            mBazaarVoiceWrapper.initializeKeys();
         }
 
         return mView;
@@ -112,11 +106,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent
                 .getLayoutParams();
         Configuration config = getResources().getConfiguration();
-        /*if (ProductPageParser.PRX_PRODUCT_URL != null) {
-            showProductReviewView();
-            mProductReviewPage = ProductPageParser.PRX_PRODUCT_URL;
-        } else {*/
-        // }
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
@@ -277,19 +266,15 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         if (mProgressDialog != null && mProgressDialog.isShowing())
             mProgressDialog.cancel();
 
-        String keyAvailable = DigitalCareConfigManager.getInstance().getBazaarVoiceKey();
-
-//        if (isProduction) {
-            if (productlink != null && keyAvailable != null && reviewRequired){
+        DigiCareLogger.d(TAG,"Show product review()"+ mBazaarVoiceWrapper.getBazaarVoiceKey()+ "Bzaarvoice Reqd = "+mBazaarVoiceReviewRequired);
+            if (productlink != null && mBazaarVoiceWrapper.getBazaarVoiceKey() != null && mBazaarVoiceReviewRequired){
+                DigiCareLogger.d(TAG,"Show product review()");
                 showProductReviewView();
             }
             else{
+                DigiCareLogger.d(TAG,"Hide product review()");
                 hideProductReviewView();
             }
-//        }
-//        else if (productlink != null && reviewRequired) {
-//                showProductReviewView();
-//            }
     }
 
     /*protected String getLocalizedReviewUrl(String countryUrl) {

@@ -53,11 +53,13 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
     private DigitalCareFontTextView mEmail = null;
     private ProgressDialog mProgressDialog = null;
     private BazaarReviewModel mBazaarReviewModel = null;
+    private BazaarVoiceWrapper mBazaarVoiceWrapper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
+        mBazaarVoiceWrapper = new BazaarVoiceWrapper();
         View view = inflater.inflate(R.layout.fragment_review_your, container,
                 false);
         return view;
@@ -176,7 +178,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
             String productId = DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCtn();
 
             //set to preview for easier testing, intention here is to submit
-            BazaarVoiceWrapper.submitReview(productId, mBazaarReviewModel,
+            mBazaarVoiceWrapper.submitReview(productId, mBazaarReviewModel,
                     new OnBazaarResponse() {
 
                         @Override
