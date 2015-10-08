@@ -42,7 +42,7 @@ public class BazaarVoiceWrapper {
     private static String API_KEY;
     private static final ApiVersion API_VERSION = ApiVersion.FIVE_FOUR;
     private static BazaarEnvironment ENVIRONMENT = BazaarEnvironment.staging;
-    private static HashMap<String, String> mBazaarVoiceApiKeysHashMap = new HashMap<>();
+    private static HashMap<String, String> mBazaarVoiceApiKeysHashMap = new HashMap<String, String>();
 
     public void initializeKeys() {
        if(DigitalCareConfigManager.getInstance().isProductionEnvironment()) {
