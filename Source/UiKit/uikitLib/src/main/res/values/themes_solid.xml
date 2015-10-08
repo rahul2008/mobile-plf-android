@@ -43,6 +43,7 @@
         <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
+        <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
     </style>
 
 </resources>

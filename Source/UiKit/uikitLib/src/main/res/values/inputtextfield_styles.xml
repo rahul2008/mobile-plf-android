@@ -20,4 +20,8 @@
         <item name="android:background">@drawable/inputtext_bright_orange_selector</item>
     </style>
 
+    <style name="InputStyle.BrightAqua">
+        <item name="android:background">@drawable/inputtext_bright_aqua_selector</item>
+    </style>
+
 </resources>
