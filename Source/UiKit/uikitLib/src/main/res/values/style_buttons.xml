@@ -27,32 +27,32 @@
     </style>
 
     <style name="Button.OutlinedDarkBlue">
-        <item name="android:textColor">@drawable/dark_blue_inverted_text_selector</item>
-        <item name="android:background">@drawable/dark_blue_inverted_selector</item>
+        <item name="android:textColor">@drawable/dark_blue_outlined_text_selector</item>
+        <item name="android:background">@drawable/dark_blue_outlined_selector</item>
     </style>
 
     <style name="Button.OutlinedBrightOrange">
-        <item name="android:textColor">@drawable/bright_orange_inverted_text_selector</item>
-        <item name="android:background">@drawable/bright_orange_inverted_selector</item>
+        <item name="android:textColor">@drawable/bright_orange_outlined_text_selector</item>
+        <item name="android:background">@drawable/bright_orange_outlined_selector</item>
     </style>
 
     <style name="Button.OutlinedBrightAqua">
-        <item name="android:textColor">@drawable/bright_aqua_inverted_text_selector</item>
-        <item name="android:background">@drawable/bright_aqua_inverted_selector</item>
+        <item name="android:textColor">@drawable/bright_aqua_outlined_text_selector</item>
+        <item name="android:background">@drawable/bright_aqua_outlined_selector</item>
     </style>
 
     <style name="Button.TransparentDarkBlue">
-        <item name="android:textColor">@drawable/dark_blue_inverted_text_selector</item>
+        <item name="android:textColor">@drawable/dark_blue_outlined_text_selector</item>
         <item name="android:background">@drawable/dark_blue_transparent_selector</item>
     </style>
 
     <style name="Button.TransparentBrightOrange">
-        <item name="android:textColor">@drawable/bright_orange_inverted_text_selector</item>
+        <item name="android:textColor">@drawable/bright_orange_outlined_text_selector</item>
         <item name="android:background">@drawable/bright_orange_transparent_selector</item>
     </style>
 
     <style name="Button.TransparentBrightAqua">
-        <item name="android:textColor">@drawable/bright_aqua_inverted_text_selector</item>
+        <item name="android:textColor">@drawable/bright_aqua_outlined_text_selector</item>
         <item name="android:background">@drawable/bright_aqua_transparent_selector</item>
     </style>
 
