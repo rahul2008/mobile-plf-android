@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -255,10 +256,19 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mReviewEmailIconInvalid.setOnClickListener(this);
         mReviewNameIconInvalid.setOnClickListener(this);
 
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(),"digitalcarefonts/CentraleSans-Book.otf");
+
         mSummaryHeaderEditText.addTextChangedListener(mTextWatcherSummary);
         mNicknameEditText.addTextChangedListener(mTextWatcherName);
         mEmailEditText.addTextChangedListener(mTextWatcherEmail);
         mSummaryDescriptionEditText.addTextChangedListener(mTextWatcherDesc);
+
+
+        mSummaryHeaderEditText.setTypeface(typeface);
+        mNicknameEditText.setTypeface(typeface);
+        mEmailEditText.setTypeface(typeface);
+        mSummaryDescriptionEditText.setTypeface(typeface);
+
 
         mProductTitle.setText(RateThisAppFragment.mProductReviewProductName);
         mProductCtn.setText(RateThisAppFragment.mProductReviewProductCtn);
