@@ -7,7 +7,6 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_layout_height_without_image"
-        app:tabGravity="center"
-        app:tabMode="scrollable"/>
+        style="@style/PTablayout"
+        android:layout_height="@dimen/tab_layout_height_without_image"/>
 </LinearLayout>

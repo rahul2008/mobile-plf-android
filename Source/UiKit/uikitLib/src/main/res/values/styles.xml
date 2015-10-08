@@ -5,4 +5,11 @@
         <item name="android:textSize">@dimen/splash_title_text_size</item>
         <item name="fontPath">fonts/centralesanslight.ttf</item>
     </style>
+
+    <style name="PTablayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@null</item>
+        <item name="android:background">?attr/gradBackground</item>
+        <item name="tabGravity">center</item>
+        <item name="tabMode">scrollable</item>
+    </style>
 </resources>
