@@ -55,5 +55,6 @@ public enum SHNDataType {
     AccelerometerData,
     CM3HeartRate,
     UserConfigChangedEventEnergyIntake,
+    ChangeTime,
     FatPercentage
 }
