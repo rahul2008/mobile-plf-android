@@ -542,6 +542,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             reviewModel.setReview(mSummaryDescriptionEditText.getText().toString());
             reviewModel.setNickname(mNicknameEditText.getText().toString());
             reviewModel.setEmail(mEmailEditText.getText().toString());
+            reviewModel.setTermsAndConditionAccepted(getLegalTermValue(mSwitch));
 
             ProductReviewPreviewFragment productReviewPreviewFragment = new ProductReviewPreviewFragment();
             Bundle bundle = new Bundle();

@@ -191,13 +191,8 @@ public class BazaarVoiceWrapper {
         params.setReviewText(review.getReview());
         params.setUserNickname(review.getNickname());
         params.setUserEmail(review.getEmail());
-
-        if (!review.getEmail().equals("null"))
-            params.setUserId(review.getEmail());
-        else if (!(review.getNickname().equals("null") || "".equals(review.getNickname().trim())))
-            params.setUserId(review.getNickname());
-        else
-            params.setUserId("Anonymous");
+        params.setAgreedToTermsAndConditions(review.getTermsAndConditionStatus());
+        params.setUserId(review.getEmail());
 
         boolean isProduction = DigitalCareConfigManager.getInstance().isProductionEnvironment();
 
