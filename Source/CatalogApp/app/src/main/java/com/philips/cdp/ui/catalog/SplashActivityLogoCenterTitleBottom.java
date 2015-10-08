@@ -1,17 +1,16 @@
 package com.philips.cdp.ui.catalog;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.ui.catalog.activity.CatalogActivity;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SplashActivityLogoCenterTitleBottom extends UiKitActivity {
+public class SplashActivityLogoCenterTitleBottom extends CatalogActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
