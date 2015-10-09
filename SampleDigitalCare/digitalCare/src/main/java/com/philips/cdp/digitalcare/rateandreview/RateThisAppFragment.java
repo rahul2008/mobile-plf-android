@@ -70,9 +70,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
         mBazaarVoiceWrapper = new BazaarVoiceWrapper();
-       mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
+        mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
 
-        if(mBazaarVoiceReviewRequired){
+        if (mBazaarVoiceReviewRequired) {
             mBazaarVoiceWrapper.initializeKeys();
         }
 
@@ -192,7 +192,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
 
     private void initProductPRX() {
         if (mProgressDialog == null)
-            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.show();
 
         new ProductPageParser(this).execute();
 
@@ -266,15 +268,14 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         if (mProgressDialog != null && mProgressDialog.isShowing())
             mProgressDialog.cancel();
 
-        DigiCareLogger.d(TAG,"Show product review()"+ mBazaarVoiceWrapper.getBazaarVoiceKey()+ "Bzaarvoice Reqd = "+mBazaarVoiceReviewRequired);
-            if (productlink != null && mBazaarVoiceWrapper.getBazaarVoiceKey() != null && mBazaarVoiceReviewRequired){
-                DigiCareLogger.d(TAG,"Show product review()");
-                showProductReviewView();
-            }
-            else{
-                DigiCareLogger.d(TAG,"Hide product review()");
-                hideProductReviewView();
-            }
+        DigiCareLogger.d(TAG, "Show product review()" + mBazaarVoiceWrapper.getBazaarVoiceKey() + "Bzaarvoice Reqd = " + mBazaarVoiceReviewRequired);
+        if (productlink != null && mBazaarVoiceWrapper.getBazaarVoiceKey() != null && mBazaarVoiceReviewRequired) {
+            DigiCareLogger.d(TAG, "Show product review()");
+            showProductReviewView();
+        } else {
+            DigiCareLogger.d(TAG, "Hide product review()");
+            hideProductReviewView();
+        }
     }
 
     /*protected String getLocalizedReviewUrl(String countryUrl) {
