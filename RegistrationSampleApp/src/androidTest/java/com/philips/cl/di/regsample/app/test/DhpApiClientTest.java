@@ -38,6 +38,6 @@ public class DhpApiClientTest extends ActivityInstrumentationTestCase2<Registrat
 
     public void testCLientTest() {
         System.out.println("******************** authenticate : "+authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
-        assertNotNull(authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
+        assertNull(authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
     }
 }
