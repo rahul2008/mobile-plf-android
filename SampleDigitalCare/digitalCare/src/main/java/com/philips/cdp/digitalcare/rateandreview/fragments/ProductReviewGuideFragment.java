@@ -122,6 +122,8 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
 
 
         params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+        imageParams.topMargin = (int) (getActivity().getResources().getDimension(R.dimen.marginTopButton))/3;
+
 
 
         mOkButton.setLayoutParams(params);
