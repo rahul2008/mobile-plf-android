@@ -548,7 +548,8 @@ public class User {
 
     // For Log out
     public void logout(LogoutHandler logoutHandler) {
-        if (RegistrationHelper.getInstance().isHsdpFlow()) {
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        if (RegistrationHelper.getInstance().isHsdpFlow() && null!=hsdpUser.getHsdpUserRecord()) {
             logoutHsdp(logoutHandler);
         } else {
             logoutJanrainUser();
