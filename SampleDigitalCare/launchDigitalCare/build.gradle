@@ -36,12 +36,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
             versionCode 126
-            versionName "2.0.12"
+            versionName "2.0.13"
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
             versionCode 126
-            versionName "2.0.12"
+            versionName "2.0.13"
         }
     }
 }
