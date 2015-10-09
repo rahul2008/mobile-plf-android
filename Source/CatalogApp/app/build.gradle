@@ -52,3 +52,26 @@ dependencies {
 configurations.all {
     resolutionStrategy.force 'com.android.support:support-annotations:22.2.1'
 }
+
+
+spoon {
+    // for debug output
+    debug = true
+
+    // To run a single test class
+//    className = 'com.philips.cdp.ui.catalog.RegularButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.RegularButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.OutlineButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.OutlineButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.TransparentButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.TransparentButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.TransparentWhiteButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.TransparentWhiteButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.ActionButtonTest'
+//    className = 'com.philips.cdp.ui.catalog.ActionButtonPressedTest'
+//    className = 'com.philips.cdp.ui.catalog.SplashScreenMobileTest'
+//    className = 'com.philips.cdp.ui.catalog.SplashScreenTabletTest'
+
+    // To run a single method in TestCase
+//    methodName = 'testAButtonSquareCrossIsPixelPerfect'
+}

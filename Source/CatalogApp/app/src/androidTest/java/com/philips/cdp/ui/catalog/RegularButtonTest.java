@@ -16,7 +16,6 @@ import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMat
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsTextStyleAsExpectedMatcher.isTextStyleSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -37,7 +36,7 @@ public class RegularButtonTest extends ActivityInstrumentationTestCase2<MainActi
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testRButtonIsPixelPerfect() {
+    public void testRButtonIsHeightAsExpected() {
         onView(withText("Buttons")).perform(click());
         onView(withId(R.id.theme_button))
                 .check(matches(isHeightSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.button_size))));
@@ -61,6 +60,15 @@ public class RegularButtonTest extends ActivityInstrumentationTestCase2<MainActi
                 .check(matches(isBackgroundColorSimilar("#e9830")));
     }
 
+    public void testBAThemeRButtonColourAsExpected() {
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Aqua Theme")).perform(click());
+        pressBack();
+        onView(withText("Buttons")).perform(click());
+        onView(withId(R.id.theme_button))
+                .check(matches(isBackgroundColorSimilar("#1e9d8b")));
+    }
+
     public void testDBThemeRButtonTextColor() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
@@ -79,18 +87,22 @@ public class RegularButtonTest extends ActivityInstrumentationTestCase2<MainActi
                 .check(matches(isTextColorSimilar("#ffffff")));
     }
 
+    public void testBAThemeRButtonTextColor() {
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Aqua Theme")).perform(click());
+        pressBack();
+        onView(withText("Buttons")).perform(click());
+        onView(withId(R.id.theme_button))
+                .check(matches(isTextColorSimilar("#ffffff")));
+    }
+
+
 
 
     public void testActionSampleButtonTextSize() {
         onView(withText("Buttons")).perform(click());
         onView(withId(R.id.theme_button))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.theme_button_text_size))));
-    }
-
-    public void testActionSampleButtonTextType() {
-        onView(withText("Buttons")).perform(click());
-//        onView(withId(R.id.inverted_very_light_orange_button))
-//                .check(matches(isTextStyleSimilar(Typeface.NORMAL)));
     }
 
 

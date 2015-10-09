@@ -15,12 +15,12 @@ import org.hamcrest.Matcher;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class IsOpacityAsExpectedMatcher extends BoundedMatcher<View, View> {
+public class IsDotOpacityAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     public static final String TAG = "IsOpacityAsExpected";
     private int expectedAlpha;
 
-    public IsOpacityAsExpectedMatcher(final Class<? extends View> expectedType, int expectedAlpha) {
+    public IsDotOpacityAsExpectedMatcher(final Class<? extends View> expectedType, int expectedAlpha) {
         super(expectedType);
         this.expectedAlpha = expectedAlpha;
           }
@@ -49,7 +49,7 @@ public class IsOpacityAsExpectedMatcher extends BoundedMatcher<View, View> {
 
 
     public static Matcher<View> isOpacitySimilar(final int expectedAlpha) {
-        return new IsOpacityAsExpectedMatcher(View.class,expectedAlpha );
+        return new IsDotOpacityAsExpectedMatcher(View.class,expectedAlpha );
     }
 
 }

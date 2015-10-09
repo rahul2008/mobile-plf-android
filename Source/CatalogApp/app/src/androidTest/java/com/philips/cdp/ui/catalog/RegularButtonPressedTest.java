@@ -19,6 +19,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -49,7 +50,7 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
-        matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_darkblue_pressed_mdpi,"#0f204b" );
+        matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_darkblue_pressed_mdpi,"#f204b" );
     }
 
     public void testBOThemeRButtonPressedColourAsExpected() {
@@ -61,6 +62,28 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
         matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_brightorange_pressed_mdpi,"#983222" );
+    }
+
+    public void testBAThemeRButtonPressedColourAsExpected() {
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Aqua Theme")).perform(click());
+        pressBack();
+        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+        onView(withText("Buttons")).perform(click());
+        setTargetActivity(monitor);
+        setPressed(R.id.theme_button, true);
+        matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_brightorange_pressed_mdpi,"#156570" );
+    }
+
+    public void testBAThemeRButtonPressedTextColourAsExpected() {
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Aqua Theme")).perform(click());
+        pressBack();
+        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+        onView(withText("Buttons")).perform(click());
+        setTargetActivity(monitor);
+        setPressed(R.id.theme_button, true);
+        matchPressedTextColor(R.id.theme_button,"#ffffff" );
     }
 
     private void setPressed(final int buttonID, boolean state) {
@@ -81,6 +104,13 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
                 .check(matches(isBackgroundColorSimilar(expectedColor)));
         release();
         expectedBitmap.recycle();
+    }
+
+    private void matchPressedTextColor(int buttonID, String expectedColor) {
+        acquire();
+        onView(withId(R.id.theme_button))
+                .check(matches(isTextColorSimilar(expectedColor)));
+        release();
     }
 
     private Instrumentation.ActivityMonitor setTargetMonitor(Class<?> targetClass) {
