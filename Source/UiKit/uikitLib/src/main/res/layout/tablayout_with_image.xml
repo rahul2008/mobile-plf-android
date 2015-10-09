@@ -8,5 +8,6 @@
         android:id="@+id/tab_bar"
         style="@style/PTablayout"
         android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
         android:layout_height="@dimen/tab_layout_height_with_image"/>
 </LinearLayout>

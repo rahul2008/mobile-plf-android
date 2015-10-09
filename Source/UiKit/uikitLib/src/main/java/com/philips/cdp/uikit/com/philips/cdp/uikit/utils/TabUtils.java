@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
@@ -20,7 +23,33 @@ import com.philips.cdp.uikit.R;
  */
 public class TabUtils {
 
-    public static TabLayout.Tab newTab(Context context, TabLayout tabLayout, int titleResID, int imageDrawable, final int badgeCount) {
+    private int selectedColor;
+    private Context context;
+    private TabLayout tabLayout;
+
+    public static class TabIconConfig {
+        int drawableResID = -1;
+        Drawable srcDrawable;
+        boolean useThemeSelector = false;
+
+        TabIconConfig(int drawableResID, boolean useThemeSelector) {
+            this.drawableResID = drawableResID;
+            this.useThemeSelector = useThemeSelector;
+        }
+
+        TabIconConfig(Drawable srcDrawable, boolean useThemeSelector) {
+            this.srcDrawable = srcDrawable;
+            this.useThemeSelector = useThemeSelector;
+        }
+    }
+
+    public TabUtils(Context context, TabLayout tabLayout) {
+        this.context = context;
+        this.tabLayout = tabLayout;
+        selectedColor = getSelectedColor();
+    }
+
+    public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
         TabLayout.Tab newTab = tabLayout.newTab();
         View customView = null;
         if (imageDrawable > 0) {
@@ -28,8 +57,7 @@ public class TabUtils {
             newTab.setCustomView(customView);
             //Set icon for the tab
             ImageView iconView = (ImageView) customView.findViewById(R.id.tab_icon);
-            Drawable image = ResourcesCompat.getDrawable(context.getResources(), imageDrawable, null);
-            iconView.setImageDrawable(image);
+            iconView.setImageDrawable(getTabIconSelector(selectedColor, imageDrawable));
         } else {
             customView = LayoutInflater.from(context).inflate(R.layout.tab_textonly, null);
         }
@@ -40,21 +68,36 @@ public class TabUtils {
             title.setVisibility(View.GONE);
         } else {
             title.setText(titleResID);
-            title.setTextColor(getTextSelector(context));
+            title.setTextColor(getTextSelector());
         }
         return newTab;
     }
 
-    private static ColorStateList getTextSelector(Context context) {
-        int[][] states = {{android.R.attr.state_selected}, {android.R.attr.state_enabled}};
-        int[] colors = {getSelectedColor(context),Color.WHITE};
+    private ColorStateList getTextSelector() {
+        int[][] states = {{android.R.attr.state_selected}, {}};
+        int[] colors = {selectedColor, Color.WHITE};
         return new ColorStateList(states, colors);
     }
+
     //Focussed color is the base color of the current theme.
-    private static int getSelectedColor(Context context) {
+    private int getSelectedColor() {
         TypedArray array = context.obtainStyledAttributes(R.styleable.PhilipsUIKit);
-        int color = array.getColor(R.styleable.PhilipsUIKit_baseColor,0);
+        int color = array.getColor(R.styleable.PhilipsUIKit_baseColor, 0);
         array.recycle();
         return color;
+    }
+
+    private Drawable getTabIconSelector(int color, int resID) {
+        Drawable enabled = ResourcesCompat.getDrawable(context.getResources(), resID, null);
+        //We need to mutate if we want as a differnet drawable
+        Drawable selected = ResourcesCompat.getDrawable(context.getResources(), resID, null).mutate();
+        ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        ColorFilterStateListDrawable selector = new ColorFilterStateListDrawable();
+
+        selector.addState(new int[]{android.R.attr.state_selected}, selected, filter);
+        selector.addState(new int[]{}, enabled);
+
+        return selector;
     }
 }
