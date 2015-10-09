@@ -93,6 +93,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         View view = inflater.inflate(R.layout.fragment_sign_in_account, null);
+        handleOrientation(view);
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         initUI(view);
@@ -156,15 +157,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onConfigurationChanged");
-        setViewParams(config);
     }
 
     @Override
-    public void setViewParams(Configuration config) {
-        applyParams(config, mLlCreateAccountFields);
-        applyParams(config, mRlSignInBtnContainer);
-        applyParams(config, mRegError);
-        applyParams(config, mTvResendDetails);
+    public void setViewParams(Configuration config,int width) {
+        applyParams(config, mLlCreateAccountFields,width);
+        applyParams(config, mRlSignInBtnContainer,width);
+        applyParams(config, mRegError,width);
+        applyParams(config, mTvResendDetails,width);
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+        handleOrientationOnView(view);
     }
 
     @Override
@@ -214,7 +219,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mLlattentionBox = (LinearLayout) view.findViewById(R.id.ll_reg_attention_box);
         mViewAttentionBoxLine = view.findViewById(R.id.view_reg_attention_box_line);
         mTvResendDetails = (TextView) view.findViewById(R.id.tv_reg_resend_details);
-        setViewParams(getResources().getConfiguration());
         handleUiState();
 
         mUser = new User(mContext);

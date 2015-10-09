@@ -79,6 +79,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworStateListener");
         mUser = new User(mContext);
         View view = inflater.inflate(R.layout.fragment_account_activation, null);
+        handleOrientation(view);
         initUI(view);
         return view;
     }
@@ -137,7 +138,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onConfigurationChanged");
-        setViewParams(config);
     }
 
     @Override
@@ -197,7 +197,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEMailVerifiedError = (XRegError) view.findViewById(R.id.reg_email_verified_error);
-        setViewParams(getResources().getConfiguration());
         handleUiState();
     }
 
@@ -263,12 +262,17 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     @Override
-    public void setViewParams(Configuration config) {
-        applyParams(config, mTvVerifyEmail);
-        applyParams(config, mLlWelcomeContainer);
-        applyParams(config, mTvResendDetails);
-        applyParams(config, mRlSingInOptions);
-        applyParams(config, mRegError);
+    public void setViewParams(Configuration config,int width) {
+        applyParams(config, mTvVerifyEmail,width);
+        applyParams(config, mLlWelcomeContainer,width);
+        applyParams(config, mTvResendDetails,width);
+        applyParams(config, mRlSingInOptions,width);
+        applyParams(config, mRegError,width);
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+        handleOrientationOnView(view);
     }
 
     @Override

@@ -92,6 +92,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         }
 
         View view = inflater.inflate(R.layout.fragment_welcome, null);
+        handleOrientation(view);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
         init(view);
@@ -151,17 +152,22 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onConfigurationChanged");
-        setViewParams(config);
     }
 
     @Override
-    public void setViewParams(Configuration config) {
-        applyParams(config, mTvWelcome);
-        applyParams(config, mTvEmailDetails);
-        applyParams(config, mLlContinueBtnContainer);
-        applyParams(config, mCbTerms);
-        applyParams(config, mRegError);
-        applyParams(config, mTvSignInEmail);
+    public void setViewParams(Configuration config,int width) {
+        applyParams(config, mTvWelcome,width);
+        applyParams(config, mTvEmailDetails,width);
+        applyParams(config, mLlContinueBtnContainer,width);
+        applyParams(config, mCbTerms,width);
+        applyParams(config, mRegError,width);
+        applyParams(config, mTvSignInEmail,width);
+    }
+
+
+    @Override
+    protected void handleOrientation(View view) {
+        handleOrientationOnView(view);
     }
 
     private void init(View view) {
@@ -177,7 +183,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mPbLogoutFromBegin = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_from_begin);
         mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
-        setViewParams(getResources().getConfiguration());
         mBtnSignOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
         mBtnSignOut.setOnClickListener(this);
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);

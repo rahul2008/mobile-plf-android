@@ -73,6 +73,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private Context mContext;
 
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
@@ -98,6 +99,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RLog.i(RLog.EVENT_LISTENERS,
                 "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        handleOrientation(view);
         initUI(view);
         return view;
     }
@@ -226,7 +228,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onConfigurationChanged");
-        setViewParams(config);
     }
 
     private void initUI(View view) {
@@ -269,7 +270,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 
         mUser = new User(mContext);
-        setViewParams(getResources().getConfiguration());
         linkifyTermAndPolicy(mTvWelcomeDesc);
 
         handleJanrainInitPb();
@@ -332,12 +332,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     @Override
-    public void setViewParams(Configuration config) {
-        applyParams(config, mTvWelcome);
-        applyParams(config, mTvWelcomeDesc);
-        applyParams(config, mLlCreateBtnContainer);
-        applyParams(config, mLlLoginBtnContainer);
-        applyParams(config, mTvTermsAndConditionDesc);
+    public void setViewParams(Configuration config, int width) {
+        applyParams(config, mTvWelcome, width);
+        applyParams(config, mTvWelcomeDesc, width);
+        applyParams(config, mLlCreateBtnContainer, width);
+        applyParams(config, mLlLoginBtnContainer, width);
+        applyParams(config, mTvTermsAndConditionDesc, width);
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+        handleOrientationOnView(view);
     }
 
     @Override
@@ -376,7 +381,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
             enableControls(false);
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
-            if(null!=getView()){
+            if (null != getView()) {
                 final ScrollView sv = (ScrollView) getView().findViewById(R.id.sv_root_layout);
                 sv.post(new Runnable() {
                     public void run() {
@@ -579,7 +584,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         } else {
             mProvider = existingProvider;
             Bundle bundle = new Bundle();
-            bundle.putString(RegConstants.SOCIAL_PROVIDER,conflictingIdentityProvider);
+            bundle.putString(RegConstants.SOCIAL_PROVIDER, conflictingIdentityProvider);
             bundle.putString(RegConstants.CONFLICTING_SOCIAL_PROVIDER, existingProvider);
             bundle.putString(RegConstants.SOCIAL_MERGE_TOKEN, mergeToken);
             bundle.putString(RegConstants.SOCIAL_MERGE_EMAIL, emailId);

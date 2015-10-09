@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.app.Activity;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,14 +11,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.philips.cdp.registration.AppTagging.AppTagingConstants;
 import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.AppTagging.AppTaggingErrors;
-import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,11 +30,17 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     protected int mLeftRightMarginLand;
 
-    public abstract void setViewParams(Configuration config);
+    protected abstract void setViewParams(Configuration config, int width);
+
+    protected abstract void handleOrientation(final View view);
 
     public abstract int getTitleResourceId();
 
     private int mPrevTitleResourceId = -99;
+
+    protected int mWidth = 0;
+
+    private final int JELLY_BEAN = 16;
 
     @Override
     public void onAttach(Activity activity) {
@@ -163,19 +171,21 @@ public abstract class RegistrationBaseFragment extends Fragment {
         });
     }
 
-    protected void applyParams(Configuration config, View view) {
+
+    protected void applyParams(Configuration config, View view, int width) {
+
         LinearLayout.LayoutParams mParams = (LayoutParams) view.getLayoutParams();
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (getResources().getBoolean(R.bool.isTablet)) {
-                mParams.leftMargin = mParams.rightMargin = (getResources().getDisplayMetrics().widthPixels) / 5;
+                mParams.leftMargin = mParams.rightMargin = width / 5;
             } else {
                 mParams.leftMargin = mParams.rightMargin = 0;
             }
         } else {
             if (getResources().getBoolean(R.bool.isTablet)) {
-                mParams.leftMargin = mParams.rightMargin = (int)(((getResources().getDisplayMetrics().widthPixels / 6)*(1.75)));
+                mParams.leftMargin = mParams.rightMargin = (int) (((width / 6) * (1.75)));
             } else {
-                mParams.leftMargin = mParams.rightMargin = (int)((getResources().getDisplayMetrics().widthPixels) / 6);
+                mParams.leftMargin = mParams.rightMargin = (int) ((width) / 6);
             }
         }
         view.setLayoutParams(mParams);
@@ -221,6 +231,28 @@ public abstract class RegistrationBaseFragment extends Fragment {
         map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.LOGIN_START);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
+    }
+
+    protected void handleOrientationOnView(final View view) {
+        if (null == view) {
+            return;
+        }
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int currentWidth = view.getWidth();
+                if (mWidth != currentWidth) {
+                    mWidth = currentWidth;
+                    if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    } else {
+                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                    setViewParams(getResources().getConfiguration(), mWidth);
+                    view.getViewTreeObserver().addOnGlobalLayoutListener(this);
+                }
+            }
+        });
     }
 
 }

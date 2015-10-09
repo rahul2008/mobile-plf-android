@@ -92,6 +92,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 				.registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
 		View view = inflater.inflate(R.layout.fragment_social_merge_account, container, false);
+		handleOrientation(view);
 		RLog.i(RLog.EVENT_LISTENERS,
 				"MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		mUser = new User(mContext);
@@ -157,7 +158,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onConfigurationChanged");
-		setViewParams(config);
 	}
 
 	private void initUI(View view) {
@@ -194,7 +194,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mTvUsedEmail = (TextView)view.findViewById(R.id.tv_reg_used_email);
 
 		mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
-		setViewParams(getResources().getConfiguration());
 
 		mTvPasswordMege = (TextView) view.findViewById(R.id.tv_reg_conflict_provider);
 
@@ -306,12 +305,17 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	}
 
 	@Override
-	public void setViewParams(Configuration config) {
-		applyParams(config, mTvAccountMergeSignIn);
-		applyParams(config, mLlUsedEMailAddressContainer);
-		applyParams(config, mLlCreateAccountFields);
-		applyParams(config, mRlSingInOptions);
-		applyParams(config, mRegError);
+	public void setViewParams(Configuration config,int width) {
+		applyParams(config, mTvAccountMergeSignIn,width);
+		applyParams(config, mLlUsedEMailAddressContainer,width);
+		applyParams(config, mLlCreateAccountFields,width);
+		applyParams(config, mRlSingInOptions,width);
+		applyParams(config, mRegError,width);
+	}
+
+	@Override
+	protected void handleOrientation(View view) {
+		handleOrientationOnView(view);
 	}
 
 	@Override

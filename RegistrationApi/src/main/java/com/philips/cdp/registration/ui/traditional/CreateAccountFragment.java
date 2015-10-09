@@ -101,6 +101,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		View view = inflater.inflate(R.layout.fragment_create_account, container, false);
+		handleOrientation(view);
 		initUI(view);
 		return view;
 	}
@@ -164,18 +165,22 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	public void onConfigurationChanged(Configuration config) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
 		super.onConfigurationChanged(config);
-		setViewParams(config);
 	}
 
 	@Override
-	public void setViewParams(Configuration config) {
-		applyParams(config, mLlCreateAccountFields);
-		applyParams(config, mTvpasswordDetails);
-		applyParams(config, mLlCreateAccountContainer);
-		applyParams(config, mRlCreateActtBtnContainer);
-		applyParams(config, mRegError);
-		applyParams(config, mRegAccptTermsError);
-		applyParams(config, mLlAcceptTermsContainer);
+	public void setViewParams(Configuration config,int width) {
+		applyParams(config, mLlCreateAccountFields,width);
+		applyParams(config, mTvpasswordDetails,width);
+		applyParams(config, mLlCreateAccountContainer,width);
+		applyParams(config, mRlCreateActtBtnContainer,width);
+		applyParams(config, mRegError,width);
+		applyParams(config, mRegAccptTermsError,width);
+		applyParams(config, mLlAcceptTermsContainer,width);
+	}
+
+	@Override
+	protected void handleOrientation(View view) {
+		handleOrientationOnView(view);
 	}
 
 	@Override
@@ -230,8 +235,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mViewLine = (View) view.findViewById(R.id.reg_accept_terms_line);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
-		setViewParams(getResources().getConfiguration());
-
 		handleUiAcceptTerms();
 		handleUiState();
 		mUser = new User(mContext);

@@ -110,6 +110,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         RLog.i(RLog.EVENT_LISTENERS,
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.fragment_social_almost_done, container, false);
+        handleOrientation(view);
         initUI(view);
         handleUiState();
         return view;
@@ -172,18 +173,22 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onConfigurationChanged");
-        setViewParams(config);
     }
 
     @Override
-    public void setViewParams(Configuration config) {
-        applyParams(config, mTvSignInWith);
-        applyParams(config, mLlAlmostDoneContainer);
-        applyParams(config, mLlPeriodicOffersCheck);
-        applyParams(config, mRlContinueBtnContainer);
-        applyParams(config, mRegError);
-        applyParams(config, mRegAccptTermsError);
-        applyParams(config, mLlAcceptTermsContainer);
+    public void setViewParams(Configuration config,int width) {
+        applyParams(config, mTvSignInWith,width);
+        applyParams(config, mLlAlmostDoneContainer,width);
+        applyParams(config, mLlPeriodicOffersCheck,width);
+        applyParams(config, mRlContinueBtnContainer,width);
+        applyParams(config, mRegError,width);
+        applyParams(config, mRegAccptTermsError,width);
+        applyParams(config, mLlAcceptTermsContainer,width);
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+        handleOrientationOnView(view);
     }
 
     private void parseRegistrationInfo() {
@@ -271,7 +276,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
         mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
-        setViewParams(getResources().getConfiguration());
         mTvSignInWith.setText(getResources().getString(R.string.RegSignWith_Lbltxt) + " "
                 + mProvider);
 
