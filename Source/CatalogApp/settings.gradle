@@ -1,7 +1,8 @@
-include ':app',':viewpagerindicator'
+include ':app'
 
-def localLibDir = '../UiKit/uikitLib'
+def localLibDir = '../UiKit'
 if (new File(localLibDir).exists()) {
-    include ':uikitLib'
-    project(':uikitLib').projectDir = new File(localLibDir)
+    include ':uikitLib',':viewpagerindicator'
+    project(':uikitLib').projectDir = new File(localLibDir+'/uikitLib')
+    project(':viewpagerindicator').projectDir = new File(localLibDir+'/viewpagerindicator')
 }
