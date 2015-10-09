@@ -40,7 +40,7 @@ public class RegularButtonTest extends ActivityInstrumentationTestCase2<MainActi
     public void testRButtonIsPixelPerfect() {
         onView(withText("Buttons")).perform(click());
         onView(withId(R.id.theme_button))
-                .check(matches(isHeightSimilar(44)));
+                .check(matches(isHeightSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.button_size))));
     }
 
     public void testDBThemeRButtonColourAsExpected() {

@@ -57,7 +57,7 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#f204b" );
     }
 
-    public void testBrightOrangeThemeActionButtonPressedColourAsExpected() {
+    public void testBOThemeActionButtonPressedColourAsExpected() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
@@ -67,6 +67,18 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         setPressed(R.id.miscBtnCircleArrow, true);
         matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#983222");
     }
+
+    public void testBAThemeActionButtonPressedColourAsExpected() {
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Aqua Theme")).perform(click());
+        pressBack();
+        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
+        onView(withText("Action Buttons")).perform(click());
+        setTargetActivity(monitor);
+        setPressed(R.id.miscBtnCircleArrow, true);
+        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#156570");
+    }
+
 
     private void setPressed(final int buttonID, boolean state) {
         acquire();

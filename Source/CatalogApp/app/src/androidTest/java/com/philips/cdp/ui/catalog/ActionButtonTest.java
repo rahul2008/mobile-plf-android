@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.ui.catalog.Matchers.IsDimensionBitmapAsExpectedMatcher;
+
 import com.philips.cdp.ui.catalog.activity.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -42,8 +42,10 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Action Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_cross_mdpi) ;
+        float width = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_width);
+        float height = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_height);
         onView(withId(R.id.miscBtnSquareCrossMark))
-                .check(matches(isDimensionSimilar(33,33)));
+                .check(matches(isDimensionSimilar((int)width,(int)height)));
         onView(withId(R.id.miscBtnSquareCrossMark))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -52,8 +54,10 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Action Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_minus_mdpi);
+        float width = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_width);
+        float height = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_height);
         onView(withId(R.id.miscBtnSquareMinus))
-                .check(matches(isDimensionSimilar(33,33)));
+                .check(matches(isDimensionSimilar((int)width,(int)height)));
         onView(withId(R.id.miscBtnSquareMinus))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -63,8 +67,10 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Action Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_plus_mdpi);
+        float width = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_width);
+        float height = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_height);
         onView(withId(R.id.miscBtnSquarePlus))
-                .check(matches(isDimensionSimilar(33,33)));
+                .check(matches(isDimensionSimilar((int)width,(int)height)));
         onView(withId(R.id.miscBtnSquarePlus))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -73,8 +79,10 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Action Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_right_mdpi);
+        float width = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_width);
+        float height = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_height);
         onView(withId(R.id.miscBtnSquareArrow))
-                .check(matches(isDimensionSimilar(33,33)));
+                .check(matches(isDimensionSimilar((int)width,(int)height)));
         onView(withId(R.id.miscBtnSquareArrow))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -83,8 +91,10 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Action Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_plus_mdpi);
+        float width = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_width);
+        float height = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_height);
         onView(withId(R.id.miscBtnCirclePlus))
-                .check(matches(isDimensionSimilar(33, 33)));
+                .check(matches(isDimensionSimilar((int)width,(int)height)));
         onView(withId(R.id.miscBtnCirclePlus))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -93,8 +103,10 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Action Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_minus_mdpi);
+        float width = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_width);
+        float height = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_height);
         onView(withId(R.id.miscBtnCircleMinus))
-                .check(matches(isDimensionSimilar(33, 33)));
+                .check(matches(isDimensionSimilar((int)width,(int)height)));
         onView(withId(R.id.miscBtnCircleMinus))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -103,17 +115,21 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Action Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi);
+        float width = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_width);
+        float height = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_height);
         onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(isDimensionSimilar(33, 33)));
+                .check(matches(isDimensionSimilar((int)width,(int)height)));
         onView(withId(R.id.miscBtnCircleArrow))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
 
     // Not verifying for pixel perfectness as the design for question mark is a text instead of image
     public void testActionButtonCircleQuestionAsExpected() {
-        onView(withText("Miscellaneous Buttons")).perform(click());
-        onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(isDimensionSimilar(33, 33)));
+        onView(withText("Action Buttons")).perform(click());
+        float width = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_width);
+        float height = testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_height);
+        onView(withId(R.id.miscBtnCircleQuestionMark))
+                .check(matches(isDimensionSimilar((int)width,(int)height)));
     }
 
 
@@ -133,6 +149,15 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Action Buttons")).perform(click());
         onView(withId(R.id.miscBtnCircleArrow))
                 .check(matches(isBackgroundColorSimilar("#e9830")));
+    }
+
+    public void testBAThemeActionButtonColourAsExpected() {
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Aqua Theme")).perform(click());
+        pressBack();
+        onView(withText("Action Buttons")).perform(click());
+        onView(withId(R.id.miscBtnCircleArrow))
+                .check(matches(isBackgroundColorSimilar("#1e9d8b")));
     }
 
 

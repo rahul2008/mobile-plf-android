@@ -17,7 +17,7 @@ public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     public static final String TAG = "IsPixelAsExpected";
     private static final int RELAXED_BOUNDARY_PIXELS = 2;
-    private static final int PASS_PERCENTAGE = 10;
+    private static final int PASS_PERCENTAGE = 7;
     private Bitmap expectedBitmap;
 
     public IsPixelAsExpectedMatcher(final Class<? extends View> expectedType, Bitmap expectedBitmap) {
