@@ -55,5 +55,5 @@ dependencies {
     androidTestCompile files('libs/dexmaker-1.0.jar')
     androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
     androidTestCompile files('libs/mockito-all-1.10.8.jar')
-    testCompile 'junit:junit:4.12'
+
 }
