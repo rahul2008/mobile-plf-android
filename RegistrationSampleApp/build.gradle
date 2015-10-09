@@ -4,7 +4,7 @@ apply plugin: 'pmd'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.1"
 
 
     defaultConfig {
@@ -97,7 +97,7 @@ task pmd(type: Pmd) {
     group 'verification'
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('RegistrationApi/src/main/java/com')
+    source = fileTree('Registry4ationApi/src/main/java/com')
 
     reports {
         xml.enabled = true
