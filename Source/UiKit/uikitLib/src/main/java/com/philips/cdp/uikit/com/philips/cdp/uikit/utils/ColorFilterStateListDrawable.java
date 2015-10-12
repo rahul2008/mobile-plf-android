@@ -41,16 +41,13 @@ public class ColorFilterStateListDrawable extends StateListDrawable {
 
     @Override
     public boolean selectDrawable(int idx) {
-        if (isPreLollipop) {
-            if (selectedIndex != idx) {
-
+        if (isPreLollipop && selectedIndex != idx) {
                 selectedIndex = idx;
                 if (filterArray != null && filterArray.indexOfKey(idx) >= 0) {
                     setColorFilter(filterArray.get(idx));
                 } else {
                     clearColorFilter();
                 }
-            }
         }
         return super.selectDrawable(idx);
     }

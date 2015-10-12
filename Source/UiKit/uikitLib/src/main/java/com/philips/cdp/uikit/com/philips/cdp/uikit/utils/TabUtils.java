@@ -3,12 +3,12 @@ package com.philips.cdp.uikit.com.philips.cdp.uikit.utils;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,40 +24,37 @@ import com.philips.cdp.uikit.R;
 public class TabUtils {
 
     private int selectedColor;
+    //Provide theeming facility for text color.
+    private int enabledColor;
     private Context context;
     private TabLayout tabLayout;
+    private View customView;
+    ColorFilter enabledFilter;
+    ColorFilter selectedFilter;
 
-    public static class TabIconConfig {
-        int drawableResID = -1;
-        Drawable srcDrawable;
-        boolean useThemeSelector = false;
-
-        TabIconConfig(int drawableResID, boolean useThemeSelector) {
-            this.drawableResID = drawableResID;
-            this.useThemeSelector = useThemeSelector;
-        }
-
-        TabIconConfig(Drawable srcDrawable, boolean useThemeSelector) {
-            this.srcDrawable = srcDrawable;
-            this.useThemeSelector = useThemeSelector;
-        }
-    }
-
-    public TabUtils(Context context, TabLayout tabLayout) {
+    public TabUtils(Context context, TabLayout tabLayout, boolean withIcon) {
         this.context = context;
         this.tabLayout = tabLayout;
-        selectedColor = getSelectedColor();
+        initSelectionColors();
+        initIconColorFilters();
+        int resID = withIcon ? R.layout.tab_with_image : R.layout.tab_textonly;
+        customView = LayoutInflater.from(context).inflate(resID, null);
+    }
+
+    public TabLayout.Tab newTab(TabLayout tabLayout) {
+        return tabLayout.newTab();
     }
 
     public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
         TabLayout.Tab newTab = tabLayout.newTab();
-        View customView = null;
         if (imageDrawable > 0) {
             customView = LayoutInflater.from(context).inflate(R.layout.tab_with_image, null);
             newTab.setCustomView(customView);
             //Set icon for the tab
             ImageView iconView = (ImageView) customView.findViewById(R.id.tab_icon);
-            iconView.setImageDrawable(getTabIconSelector(selectedColor, imageDrawable));
+            Drawable d = ResourcesCompat.getDrawable(context.getResources(), imageDrawable, null);
+            iconView.setImageDrawable(getTabIconSelector(d));
+            iconView.setVisibility(View.VISIBLE);
         } else {
             customView = LayoutInflater.from(context).inflate(R.layout.tab_textonly, null);
         }
@@ -73,30 +70,51 @@ public class TabUtils {
         return newTab;
     }
 
+    public void seticon(TabLayout.Tab tab, Drawable drawable, boolean useTheme) {
+        ImageView iconView = (ImageView) customView.findViewById(R.id.tab_icon);
+        Drawable target = useTheme ? getTabIconSelector(drawable) : drawable;
+        iconView.setImageDrawable(target);
+        iconView.setVisibility(View.VISIBLE);
+    }
+
+    public void setTitle(TabLayout.Tab tab, String title) {
+        TextView titleView = (TextView) customView.findViewById(R.id.tab_title);
+        titleView.setText(title);
+        titleView.setVisibility(View.VISIBLE);
+    }
+
+    public void setTitle(TabLayout.Tab tab, int resID) {
+        TextView titleView = (TextView) customView.findViewById(R.id.tab_title);
+        titleView.setText(resID);
+        titleView.setVisibility(View.VISIBLE);
+    }
+
     private ColorStateList getTextSelector() {
         int[][] states = {{android.R.attr.state_selected}, {}};
-        int[] colors = {selectedColor, Color.WHITE};
+        int[] colors = {selectedColor, enabledColor};
         return new ColorStateList(states, colors);
     }
 
     //Focussed color is the base color of the current theme.
-    private int getSelectedColor() {
+    private void initSelectionColors() {
+        enabledColor = ContextCompat.getColor(context, R.color.tab_text_enabled_color);
+        //Selected Color
         TypedArray array = context.obtainStyledAttributes(R.styleable.PhilipsUIKit);
-        int color = array.getColor(R.styleable.PhilipsUIKit_baseColor, 0);
+        selectedColor = array.getColor(R.styleable.PhilipsUIKit_baseColor, 0);
         array.recycle();
-        return color;
     }
 
-    private Drawable getTabIconSelector(int color, int resID) {
-        Drawable enabled = ResourcesCompat.getDrawable(context.getResources(), resID, null);
-        //We need to mutate if we want as a differnet drawable
-        Drawable selected = ResourcesCompat.getDrawable(context.getResources(), resID, null).mutate();
-        ColorFilter filter = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    private void initIconColorFilters() {
+        enabledFilter = new PorterDuffColorFilter(enabledColor, PorterDuff.Mode.SRC_ATOP);
+        selectedFilter = new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.SRC_ATOP);
+    }
+    private Drawable getTabIconSelector(Drawable drawable) {
+        Drawable enabled = drawable.getConstantState().newDrawable().mutate();
+        Drawable selected = drawable.getConstantState().newDrawable().mutate();
 
         ColorFilterStateListDrawable selector = new ColorFilterStateListDrawable();
-
-        selector.addState(new int[]{android.R.attr.state_selected}, selected, filter);
-        selector.addState(new int[]{}, enabled);
+        selector.addState(new int[]{android.R.attr.state_selected}, selected, selectedFilter);
+        selector.addState(new int[]{}, enabled, enabledFilter);
 
         return selector;
     }
