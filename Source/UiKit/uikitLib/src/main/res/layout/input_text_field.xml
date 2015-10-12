@@ -5,7 +5,7 @@
         android:id="@+id/edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"/>
+        android:textSize="16sp"/>
 
     <View
         android:id="@+id/space"
@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/space"
         android:layout_alignLeft="@+id/edit_text"
-        android:src="@drawable/error_cross"
         android:visibility="gone"
         />
     <TextView
@@ -35,7 +34,6 @@
         android:layout_alignTop="@+id/error_image"
         android:layout_marginTop="-4dp"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/philips_bright_orange"
         android:visibility="gone"
         android:textSize="16sp"
         fontPath="fonts/centralesans_book.ttf"

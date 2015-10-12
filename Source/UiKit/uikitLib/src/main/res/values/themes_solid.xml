@@ -14,6 +14,9 @@
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentDarkBlue</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.DarkBlue</item>
+        <item name="errorTextColor">@color/philips_bright_orange</item>
+        <item name="errorIcon">@drawable/error_cross_orange</item>
+        <item name="errorBackground">@drawable/edittext_error_bg</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange">
@@ -29,6 +32,9 @@
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBrightOrange</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.BrightOrange</item>
+        <item name="errorTextColor">@color/enricher_red</item>
+        <item name="errorIcon">@drawable/error_cross_red</item>
+        <item name="errorBackground">@drawable/edittext_error_bg_red</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
@@ -44,6 +50,9 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
         <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
+        <item name="errorTextColor">@color/philips_bright_orange</item>
+        <item name="errorIcon">@drawable/error_cross_orange</item>
+        <item name="errorBackground">@drawable/edittext_error_bg</item>
     </style>
 
 </resources>

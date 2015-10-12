@@ -30,6 +30,9 @@
         <attr name="hintText" format="string"/>
         <attr name="errorText" format="string"/>
         <attr name="disabled" format="boolean"/>
+        <attr name="errorTextColor" format="color"/>
+        <attr name="errorIcon" format="integer"/>
+        <attr name="errorBackground" format="reference"/>
     </declare-styleable>
 
 </resources>
