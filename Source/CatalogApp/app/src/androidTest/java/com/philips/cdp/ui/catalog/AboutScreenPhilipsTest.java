@@ -8,6 +8,7 @@ import com.philips.cdp.ui.catalog.activity.MainActivity;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -58,6 +59,7 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
             }
 
     public void testCopyright(){
+
         onView(withText("About Screen")).perform(click());
         onView(withText("Philips")).perform(click());
         onView(withId(R.id.about_copyright)).check(matches(isTextColorSimilar("#ffffff")));
@@ -102,13 +104,9 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
         onView(withId(com.philips.cdp.uikit.R.id.about_screen_logo))
                 .check(matches(isImageSimilar(expectedBitmap)));
 */
-
-        // verify philips logo color
-        onView(withId(R.id.about_screen_logo)).check(matches(isBackgroundColorSimilar("#ffffff")));
-
-        // Verify height of philips logo
+       // Verify height of philips logo
         onView(withId(R.id.about_screen_logo))
-                .check(matches(isHeightSimilar(85)));
+                .check(matches(isHeightSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_screen_philips_logo_height))));
     }
 
     public void testChangeThemeBGColorTextColor(){
