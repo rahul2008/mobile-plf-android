@@ -28,7 +28,6 @@ public class TabUtils {
     private int enabledColor;
     private Context context;
     private TabLayout tabLayout;
-    private View customView;
     ColorFilter enabledFilter;
     ColorFilter selectedFilter;
 
@@ -37,8 +36,6 @@ public class TabUtils {
         this.tabLayout = tabLayout;
         initSelectionColors();
         initIconColorFilters();
-        int resID = withIcon ? R.layout.tab_with_image : R.layout.tab_textonly;
-        customView = LayoutInflater.from(context).inflate(resID, null);
     }
 
     public TabLayout.Tab newTab(TabLayout tabLayout) {
@@ -47,9 +44,9 @@ public class TabUtils {
 
     public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
         TabLayout.Tab newTab = tabLayout.newTab();
+        View customView;
         if (imageDrawable > 0) {
             customView = LayoutInflater.from(context).inflate(R.layout.tab_with_image, null);
-            newTab.setCustomView(customView);
             //Set icon for the tab
             ImageView iconView = (ImageView) customView.findViewById(R.id.tab_icon);
             Drawable d = ResourcesCompat.getDrawable(context.getResources(), imageDrawable, null);
@@ -67,24 +64,25 @@ public class TabUtils {
             title.setText(titleResID);
             title.setTextColor(getTextSelector());
         }
+        newTab.setCustomView(customView);
         return newTab;
     }
 
-    public void seticon(TabLayout.Tab tab, Drawable drawable, boolean useTheme) {
-        ImageView iconView = (ImageView) customView.findViewById(R.id.tab_icon);
+    public void setIcon(TabLayout.Tab tab, Drawable drawable, boolean useTheme) {
+        ImageView iconView = (ImageView) tab.getCustomView().findViewById(R.id.tab_icon);
         Drawable target = useTheme ? getTabIconSelector(drawable) : drawable;
         iconView.setImageDrawable(target);
         iconView.setVisibility(View.VISIBLE);
     }
 
     public void setTitle(TabLayout.Tab tab, String title) {
-        TextView titleView = (TextView) customView.findViewById(R.id.tab_title);
+        TextView titleView = (TextView) tab.getCustomView().findViewById(R.id.tab_title);
         titleView.setText(title);
         titleView.setVisibility(View.VISIBLE);
     }
 
     public void setTitle(TabLayout.Tab tab, int resID) {
-        TextView titleView = (TextView) customView.findViewById(R.id.tab_title);
+        TextView titleView = (TextView) tab.getCustomView().findViewById(R.id.tab_title);
         titleView.setText(resID);
         titleView.setVisibility(View.VISIBLE);
     }

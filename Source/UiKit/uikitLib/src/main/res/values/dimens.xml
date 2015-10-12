@@ -52,5 +52,6 @@
     <dimen name="tab_text_size_with_image">12dp</dimen>
     <dimen name="tab_text_size_without_image">14dp</dimen>
     <color name="tab_text_enabled_color">#fff</color>
+    <dimen name="tabPadding">0dp</dimen>
 
 </resources>
