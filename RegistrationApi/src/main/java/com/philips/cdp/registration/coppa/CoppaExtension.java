@@ -228,14 +228,12 @@ public class CoppaExtension implements CoppaExtensionHandler {
 			if (!consent.getGiven().equalsIgnoreCase(null)
 			        && Boolean.parseBoolean(consent.getGiven())) {
 				coppaStatus = CoppaStatus.kDICOPPAConsentGiven;
-				if (null != consent.getConfirmationGiven()) {
-					if (!consent.getConfirmationGiven().equalsIgnoreCase(NULL)) {
+				if (null != consent.getConfirmationGiven() && !consent.getConfirmationGiven().equalsIgnoreCase(NULL)) {
 						if (Boolean.parseBoolean(consent.getConfirmationGiven())) {
 							coppaStatus = CoppaStatus.kDICOPPAConfirmationGiven;
 						} else {
 							coppaStatus = CoppaStatus.kDICOPPAConfirmationNotGiven;
 						}
-					}
 				} else if (null != consent.getConfirmationCommunicationSentAt()
 				        && consent.getConfirmationCommunicationSentAt().length() > 0) {
 					coppaStatus = coppaStatus.kDICOPPAConfirmationPending;

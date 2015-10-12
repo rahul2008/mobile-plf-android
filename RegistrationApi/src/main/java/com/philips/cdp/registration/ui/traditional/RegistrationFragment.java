@@ -27,6 +27,7 @@ import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.dhpclient.BuildConfig;
 
 import org.json.JSONObject;
 
@@ -50,6 +51,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "Jump Version :" + Jump.getJumpVersion());
         RLog.i(RLog.VERSION, "LocaleMatch Version :" + PILLocaleManager.getLacaleMatchVersion());
         RLog.i(RLog.VERSION, "Registration Version :" + RegistrationHelper.getRegistrationApiVersion());
+        RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
         AppTagging.setComponentVersionKey(REGISTRATION_VERSION_TAG);
         AppTagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
         super.onCreate(savedInstanceState);
