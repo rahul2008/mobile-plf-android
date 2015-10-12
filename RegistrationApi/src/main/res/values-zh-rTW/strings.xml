@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="ForgotPwdEmailResendMsg">重設飛利浦帳戶密碼的連結已傳送至您的電子郵件</string>
+<string name="ForgotPwdEmailResendMsg">我們已寄送電子郵件至您的電子郵件地址。請點選該封電子郵件中的連結以重設您飛利浦帳戶的密碼。送達電子郵件可能要花一些時間。</string>
 <string name="ForgotPwdEmailResendMsg_Title">重設密碼</string>
 <string name="Continue_Btntxt">繼續</string>
 <string name="InvalidEmailAdddress_ErrorMsg">電子郵件地址無效</string>
-<string name="InValid_PwdErrorMsg">密碼無效，請選擇其他密碼 </string>
+<string name="InValid_PwdErrorMsg">密碼不符合下方的密碼準則。請選擇其他密碼。</string>
 <string name="InValidFirstName_ErrorMsg"> 名字無效</string>
 <string name="EmptyField_ErrorMsg">欄位不可空白</string>
 <string name="MaxiumCharacters_ErrorMsg">欄位不應超過 256 個字元</string>
 <string name="NoNetworkConnection">已離線，無法註冊</string>
-<string name="SocialAccountMerger_ErrorMsg">您已用另一 %1$s 帳戶註冊，請登入 %2$s 帳戶。</string>
+<string name="SocialAccountMerger_ErrorMsg" formatted="false">您已用另一 %s 帳戶註冊，請登入 %s 帳戶。</string>
 <string name="Janrain_Error_Need_Email_Verification">請利用寄到您電子郵件帳戶的啟動連結來驗證您的電子郵件地址</string>
 <string name="JanRain_Invalid_Input">輸入無效，請檢查並輸入正確內容。</string>
 <string name="JanRain_Invalid_Credentials">您所輸入的電子郵件或密碼不正確。</string>
@@ -26,12 +26,12 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">電子郵件地址已有人使用</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">該電子郵件地址已有人用於 MyPhilips 或社交媒體帳戶。\n 請重新登入，或使用其他電子郵件地址。</string>
 <string name="RegWelcomeView_NavTitleTxt">登入</string>
-<string name="LegalNoticeText">建立帳戶或登入後，您即認證自己已年滿 16 歲，並同意我們的%1$s及%2$s。</string>
+<string name="LegalNoticeText" formatted="false">建立帳戶或登入後，您即認證自己已年滿 16 歲，並同意我們的%s及%s。</string>
 <string name="PrivacyPolicyText">隱私權政策</string>
 <string name="TermsAndConditionsText">條款與條件</string>
 <string name="RegVerifyEmailView_NavTitleTxt">登入</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">您的帳戶尚未驗證。請查看您的電子郵件，點按連結以啟動帳戶。</string>
-<string name="RegVerifyEmailView_VerificationEmailText">我們已寄送電子郵件至：%s</string>
+<string name="RegVerifyEmailView_VerificationEmailText">我們已寄送電子郵件至：。送達電子郵件可能要花一些時間。</string>
 <string name="RegSignWith_Lbltxt">使用以下帳戶登入：</string>
 <string name="RegMerge_MergeLbltxt">請輸入 %s 的 MyPhilips 密碼以合併帳戶</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">以 MyPhilips 登入</string>
@@ -54,14 +54,14 @@
 <string name="Create_Account_ChoosePwd_PlaceHolder_txtField">選擇密碼</string>
 <string name="Create_Account_CreateMyPhilips_btntxt">建立 MyPhilips 帳戶</string>
 <string name="Create_Account_FirstName__Placeholder_txtFiled">輸入名字</string>
-<string name="Create_Account_Hint_Password_lbltxt">您的密碼可包含：\n  -  最少 8 個字元\n  -  3 種字元中至少使用 2 種：字母 (a-z) 或 (A-Z)，數字 (0-9) 或符號 (_ . @ $)</string>
+<string name="Create_Account_Hint_Password_lbltxt">請選擇強式密碼以保護您的影私權。\n您的密碼需包含：\n  -  最少 8 個字元\n  -  3 種字元中至少使用 2 種：字母 (a-z) 或 (A-Z)，數字 (0-9) 或符號 (_ . @ $)</string>
 <string name="Create_Account_PeridicOffers_lbltxt">我想定期收到飛利浦的優惠和最新消息</string>
 <string name="Create_Account_ForgotPwd_btntxt">忘記密碼</string>
 <string name="Account_Merge_SignIn_lbltxt">以 %s 登入</string>
-<string name="Account_Merge_UsedEmail_Error_lbltxt">您已在建立 MyPhilips 帳戶時使用該電子郵件。</string>
+<string name="Account_Merge_UsedEmail_Error_lbltxt">您已在建立 MyPhilips 帳戶時用過 %s。</string>
 <string name="Account_Merge_EnterPassword_lbltxt">請輸入您的 MyPhilips 密碼以合併帳戶。</string>
 <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">輸入電子郵件地址</string>
-<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">輸入密碼</string>
+<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">輸入 MyPhilips 密碼</string>
 <string name="Account_Merge_ForgotPassword_btntxt">忘記密碼</string>
 <string name="Account_Merge_Merge_btntxt">合併</string>
 <string name="Social_SignIn_Email_PlaceHolder_txtFiled">請輸入電子郵件</string>
@@ -85,11 +85,11 @@
 <string name="VerifyEmail_VerifyEmail_lbltxt">請驗證您的電子郵件</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">我們已寄送電子郵件至：</string>
 <string name="VerifyEmail_EmailTime_lbltxt">送達電子郵件可能要花一些時間。</string>
-<string name="VerifyEmail_ActivateInfo_lbltxt">準備好後，請查看您的電子郵件以啟動帳戶。</string>
+<string name="VerifyEmail_ActivateInfo_lbltxt">請查看您的電子郵件以啟動帳戶。</string>
 <string name="VerifyEmail_Activated_btntxt">我已啟動帳戶</string>
 <string name="VerifyEmail_Resend_btntxt">重新傳送</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">如未收到電子郵件，請按「重新傳送」按鈕。</string>
-<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\n電子郵件已寄送。\n\n準備好後，請查看您的電子郵件以啟動帳戶。\n\n同時即可使用應用程式。</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">如未收到驗證電子郵件，請按「重新傳送」按鈕。送達電子郵件可能要花一些時間。</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\n我們已寄送電子郵件。送達電子郵件可能要花一些時間。\n\n請查看您的電子郵件以啟動帳戶。\n\n同時即可使用應用程式。</string>
 <string name="Welcome_myphilips_btntxt">MyPhilips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>

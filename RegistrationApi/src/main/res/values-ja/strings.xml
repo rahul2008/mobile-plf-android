@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="ForgotPwdEmailResendMsg">フィリップスアカウントのパスワードをリセットするためのメールを送信します。</string>
+<string name="ForgotPwdEmailResendMsg">お客様のアドレスにメールを送信しました。メール内のリンクをクリックして、フィリップスアカウントのパスワードをリセットしてください。メール受信まで少々時間がかかる場合があります。</string>
 <string name="ForgotPwdEmailResendMsg_Title">パスワードをリセット</string>
 <string name="Continue_Btntxt">続行</string>
 <string name="InvalidEmailAdddress_ErrorMsg">メールアドレスが無効です</string>
-<string name="InValid_PwdErrorMsg">パスワードが無効です。別のパスワードを選択してください </string>
+<string name="InValid_PwdErrorMsg">パスワードが以下の条件に合っていません。別のパスワードを指定してください。</string>
 <string name="InValidFirstName_ErrorMsg"> 名前（名）が無効です</string>
 <string name="EmptyField_ErrorMsg">入力必須フィールドです</string>
 <string name="MaxiumCharacters_ErrorMsg">256 文字までしか入力できません</string>
 <string name="NoNetworkConnection">オフラインのため登録できません</string>
-<string name="SocialAccountMerger_ErrorMsg">別の %1$s アカウントで登録済みです。%2$s アカウントにサインインしてください。</string>
+<string name="SocialAccountMerger_ErrorMsg" formatted="false">別の %s アカウントで登録済みです。%s アカウントにサインインしてください。</string>
 <string name="Janrain_Error_Need_Email_Verification">お客様のメールアカウントに送信されたアクティベーションリンクを使用して、メールアドレスの照合を行ってください。</string>
 <string name="JanRain_Invalid_Input">入力が無効です。正しい詳細を確認、入力してください。</string>
 <string name="JanRain_Invalid_Credentials">入力されたメールアドレスまたはパスワードが間違っています。</string>
@@ -26,12 +26,12 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">メールアドレスは既に使用されています</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">このメールアドレスは、My Philips またはソーシャルメディアアカウントで既に使用されています。\n戻ってサインインするか、別のメールアドレスを使用してください。</string>
 <string name="RegWelcomeView_NavTitleTxt">サインイン</string>
-<string name="LegalNoticeText">アカウントを作成するかサインインすることにより、16 歳以上であることを証明し、当社の%1$sおよび%2$sに同意したものとみなされます。</string>
+<string name="LegalNoticeText" formatted="false">アカウントを作成するかサインインすることにより、16 歳以上であることを証明し、当社の%sおよび%sに同意したものとみなされます。</string>
 <string name="PrivacyPolicyText">プライバシーポリシー</string>
 <string name="TermsAndConditionsText">諸条件</string>
 <string name="RegVerifyEmailView_NavTitleTxt">サインイン</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">アカウントの照合が完了していません。メールを確認し、リンクをクリックしてアカウントの照合を行ってください。</string>
-<string name="RegVerifyEmailView_VerificationEmailText">次のアドレスにメールが送信されています：%s</string>
+<string name="RegVerifyEmailView_VerificationEmailText">次のアドレスにメールを送信しました：%s。メール受信まで少々時間がかかる場合があります。</string>
 <string name="RegSignWith_Lbltxt">サインイン</string>
 <string name="RegMerge_MergeLbltxt">アカウントをマージするには、%s の MyPhilips パスワードを入力してください</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">My Philips でサインイン</string>
@@ -54,14 +54,14 @@
 <string name="Create_Account_ChoosePwd_PlaceHolder_txtField">パスワードを選択する</string>
 <string name="Create_Account_CreateMyPhilips_btntxt">MyPhilips アカウントを作成</string>
 <string name="Create_Account_FirstName__Placeholder_txtFiled">名前（名）を入力</string>
-<string name="Create_Account_Hint_Password_lbltxt">パスワードの条件は次のとおりです：\n－8 文字以上\n  －3 種類の文字のうち、2 種類以上を使用する：アルファベット（a～z または A～Z）、数字（0～9）、記号： _ . @ $</string>
+<string name="Create_Account_Hint_Password_lbltxt">お客様のプライバシーを保護するために、強度の高いパスワードを設定してください。\nパスワードに使用できる文字は次のとおりです：\n- 8 文字以上\n  - 次の 3 種類のうち、2 種類以上：アルファベット（a～z または A～Z）、数字（0～9）、記号（_ . @ $）</string>
 <string name="Create_Account_PeridicOffers_lbltxt">フィリップスからの特典や最新情報の定期的な受信を希望します</string>
 <string name="Create_Account_ForgotPwd_btntxt">パスワードをお忘れの場合</string>
 <string name="Account_Merge_SignIn_lbltxt">%s でサインイン</string>
-<string name="Account_Merge_UsedEmail_Error_lbltxt">このメールアドレスは、以前 MyPhilips アカウントの作成に使用されています。</string>
+<string name="Account_Merge_UsedEmail_Error_lbltxt">%s は、以前 MyPhilips アカウントの作成に使用されています。</string>
 <string name="Account_Merge_EnterPassword_lbltxt">アカウントをマージするには、MyPhilips パスワードを入力してください。</string>
 <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">メールアドレスを入力</string>
-<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">パスワードを入力</string>
+<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">MyPhilips パスワードを入力</string>
 <string name="Account_Merge_ForgotPassword_btntxt">パスワードをお忘れの場合</string>
 <string name="Account_Merge_Merge_btntxt">マージ</string>
 <string name="Social_SignIn_Email_PlaceHolder_txtFiled">メールアドレスを入力してください</string>
@@ -85,11 +85,11 @@
 <string name="VerifyEmail_VerifyEmail_lbltxt">メールアドレスの照合を行ってください</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">次のアドレスにメールを送信しています：</string>
 <string name="VerifyEmail_EmailTime_lbltxt">メールが届くまで少々時間がかかることがあります。</string>
-<string name="VerifyEmail_ActivateInfo_lbltxt">準備ができたらメールを確認してアカウントをアクティベートしてください。</string>
+<string name="VerifyEmail_ActivateInfo_lbltxt">メールを確認してアカウントをアクティベートしてください。</string>
 <string name="VerifyEmail_Activated_btntxt">アカウントはアクティベート済みです</string>
 <string name="VerifyEmail_Resend_btntxt">再送</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">メールを受信していない場合は［再送］ボタンを押してください。</string>
-<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nメールを送信しました。\n\n準備ができたらメールを確認してアカウントをアクティベートしてください。\n\nそれまでの間アプリは使用できます。</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">メールを受信していない場合は［再送］ボタンを押してください。メール受信まで少々時間がかかる場合があります。</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nメールを送信しました。メール受信まで少々時間がかかる場合があります。\n\nメールを確認してアカウントをアクティベートしてください。\n\nそれまでの間はアプリを使用できます。</string>
 <string name="Welcome_myphilips_btntxt">MyPhilips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="ForgotPwdEmailResendMsg">تم إرسال ارتباط إلى بريدك الإلكتروني لإعادة تعيين كلمة المرور لحساب Philips الخاص بك</string>
+<string name="ForgotPwdEmailResendMsg">لقد أرسلنا بريدًا إلكترونيًا إلى عنوان بريدك الإلكتروني. يرجى النقر فوق الارتباط المتوفر في البريد الإلكتروني لإعادة تعيين كلمة المرور لحساب Philips الخاص بك. قد تستغرق عملية استلام البريد الإلكتروني بعض الوقت.</string>
 <string name="ForgotPwdEmailResendMsg_Title">إعادة تعيين كلمة المرور</string>
 <string name="Continue_Btntxt">متابعة</string>
 <string name="InvalidEmailAdddress_ErrorMsg">عنوان البريد الإلكتروني غير صالح</string>
-<string name="InValid_PwdErrorMsg">كلمة المرور غير صالحة، يرجى اختيار كلمة مرور أخرى </string>
+<string name="InValid_PwdErrorMsg">لا تتوافق كلمة المرور مع الإرشادات الخاصة بكلمة المرور أدناه. يرجى اختيار كلمة مرور أخرى.</string>
 <string name="InValidFirstName_ErrorMsg"> الاسم الأول غير صالح</string>
 <string name="EmptyField_ErrorMsg">لا يمكن أن يكون الحقل فارغًا</string>
 <string name="MaxiumCharacters_ErrorMsg">يجب ألا يتجاوز طول الحقل 256 حرف</string>
@@ -31,7 +31,7 @@
 <string name="TermsAndConditionsText">الأحكام والشروط</string>
 <string name="RegVerifyEmailView_NavTitleTxt">تسجيل الدخول</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">لم تتحقق من حسابك بعد. تحقق من بريدك الإلكتروني وانقر فوق الارتباط لتنشيط حسابك.</string>
-<string name="RegVerifyEmailView_VerificationEmailText">لقد أرسلنا بريدًا إلكترونيًا إلى: %s</string>
+<string name="RegVerifyEmailView_VerificationEmailText">لقد أرسلنا بريدًا إلكترونيًا إلى: %s. قد تستغرق عملية استلام البريد الإلكتروني بعض الوقت.</string>
 <string name="RegSignWith_Lbltxt">تسجيل الدخول بواسطة</string>
 <string name="RegMerge_MergeLbltxt">يرجى إدخال كلمة مرور MyPhilips الخاصة بـ %s لدمج حسابك</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">تسجيل الدخول بواسطة My Philips</string>
@@ -54,14 +54,14 @@
 <string name="Create_Account_ChoosePwd_PlaceHolder_txtField">اختر كلمة مرور</string>
 <string name="Create_Account_CreateMyPhilips_btntxt">إنشاء حساب MyPhilips</string>
 <string name="Create_Account_FirstName__Placeholder_txtFiled">أدخِل الاسم الأول</string>
-<string name="Create_Account_Hint_Password_lbltxt">يمكن أن تتضمن كلمة المرور:\n  -  8 أحرف على الأقل\n  -  نوعان من أصل 3 أنواع أحرف على الأقل: أحرف (أ-ي) أو أرقام (0-9) أو رموز (_ . @ $)</string>
+<string name="Create_Account_Hint_Password_lbltxt">حافظ على خصوصيتك عبر اختيار كلمة مرور قوية.\nيمكن لكلمة المرور أن تتألف من:\n  - ‏8 أحرف على الأقل\n  -  اثنَين من أصل ثلاثة أنواع أحرف على الأقل: أحرف أبجدية (أ-ي) أو أرقام (0-9) أو رموز (_ . @ $)</string>
 <string name="Create_Account_PeridicOffers_lbltxt">أودّ تلقّي عروض وتحديثات بشكل منتظم من Philips.</string>
 <string name="Create_Account_ForgotPwd_btntxt">نسيت كلمة المرور</string>
 <string name="Account_Merge_SignIn_lbltxt">تسجيل الدخول بواسطة %s</string>
-<string name="Account_Merge_UsedEmail_Error_lbltxt">لقد استخدمتَ هذا البريد الإلكتروني من قبل لإنشاء حساب MyPhilips.</string>
+<string name="Account_Merge_UsedEmail_Error_lbltxt">لقد سبق واستخدمت %s من قبل لإنشاء حساب MyPhilips.</string>
 <string name="Account_Merge_EnterPassword_lbltxt">يرجى إدخال كلمة مرور MyPhilips لدمج حسابك.</string>
 <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">أدخِل عنوان بريد الإلكتروني</string>
-<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">أدخل كلمة المرور</string>
+<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">أدخِل كلمة مرور حساب MyPhilips</string>
 <string name="Account_Merge_ForgotPassword_btntxt">نسيت كلمة المرور</string>
 <string name="Account_Merge_Merge_btntxt">الدمج</string>
 <string name="Social_SignIn_Email_PlaceHolder_txtFiled">يرجى إدخال البريد الإلكتروني</string>
@@ -69,9 +69,9 @@
 <string name="Social_SignIn_Continue_btntxt">متابعة</string>
 <string name="Social_SocialSignIn_lbltxt">تسجيل الدخول بواسطة %s</string>
 <string name="Social_ReciveOffers_lbltxt">أودّ تلقّي عروض وتحديثات بشكل منتظم من Philips.</string>
-<string name="Social_Merge_Used_EmailError_lbltxt"  formatted="false">لقد سبق وسجلت دخولك بواسطة %s باستخدام عنوان بريدك الإلكتروني الخاص بحساب %s</string>
-<string name="Social_Merge_Accounts_lbltxt"  formatted="false">للحفاظ على أمنك وخصوصيتك، نودّ التحقق من هويتك. يرجى تسجيل الدخول بواسطة %s. بعد ذلك، ستتمكن من تسجيل الدخول بواسطة %s في المستقبل.</string>
-<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt"  formatted="false">إذا لا تريد تسجيل الدخول بواسطة %s، فاضغط على \إلغاء\ وأعِد عملية التسجيل من خلال تسجيل الدخول بواسطة %s.</string>
+<string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">لقد سبق وسجلت دخولك بواسطة %s باستخدام عنوان بريدك الإلكتروني الخاص بحساب %s</string>
+<string name="Social_Merge_Accounts_lbltxt" formatted="false">للحفاظ على أمنك وخصوصيتك، نودّ التحقق من هويتك. يرجى تسجيل الدخول بواسطة %s. بعد ذلك، ستتمكن من تسجيل الدخول بواسطة %s في المستقبل.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">إذا لا تريد تسجيل الدخول بواسطة %s، فاضغط على \إلغاء\ وأعِد عملية التسجيل من خلال تسجيل الدخول بواسطة %s.</string>
 <string name="Social_Merge_Cancel_btntxt">إلغاء</string>
 <string name="Social_Merge_lbltxt">دمج حساباتك</string>
 <string name="AgeLimitText">من خلال إنشاء حساب أو تسجيل الدخول فأنت تقرّ بأنك تبلغ من العمر %s سنة أو أكثر.\n</string>
@@ -85,11 +85,11 @@
 <string name="VerifyEmail_VerifyEmail_lbltxt">يرجى التحقق من بريدك الإلكتروني</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">لقد أرسلنا بريدًا إلكترونيًا إلى:</string>
 <string name="VerifyEmail_EmailTime_lbltxt">قد يستغرق البريد الإلكتروني بعض الوقت لتستلمه.</string>
-<string name="VerifyEmail_ActivateInfo_lbltxt">تحقق من بريدك الإلكتروني عندما تصبح جاهزًا لتنشيط حسابك.</string>
+<string name="VerifyEmail_ActivateInfo_lbltxt">يرجى التحقق من بريدك الإلكتروني لتنشيط حسابك.</string>
 <string name="VerifyEmail_Activated_btntxt">لقد قمت بتنشيط حسابي</string>
 <string name="VerifyEmail_Resend_btntxt">إعادة الإرسال</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">اضغط على زر إعادة الإرسال في حال لم تتلقَ بريدًا إلكترونيًا.</string>
-<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nلقد أرسلنا بريدًا إلكترونيًا.\n\nتحقق من بريدك الإلكتروني عندما تصبح جاهزًا لتنشيط حسابك.\n\nوفي هذا الوقت، يمكنك استخدام التطبيق.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">اضغط على زر إعادة الإرسال إذا لم تستلم بريدًا إلكترونيًا للتحقق من الصحة.</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nلقد أرسلنا بريدًا إلكترونيًا. قد تستغرق عملية استلام البريد الإلكتروني بعض الوقت.\n\nيرجى التحقق من بريدك الإلكتروني لتنشيط حسابك.\n\nيمكنك استخدام التطبيق في هذا الوقت.</string>
 <string name="Welcome_myphilips_btntxt">MyPhilips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>

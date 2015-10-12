@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="ForgotPwdEmailResendMsg">Hemos enviado un enlace a tu correo electrónico para que restablezcas la contraseña de la cuenta de Philips.</string>
+<string name="ForgotPwdEmailResendMsg">Te hemos enviado un mensaje a tu dirección de correo electrónico. Haz clic en el enlace que contiene para restablecer la contraseña de tu cuenta de Philips. Es posible que el correo tarde un poco en llegar.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Restablecer contraseña</string>
 <string name="Continue_Btntxt">Continuar</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Dirección de correo electrónico no válida</string>
-<string name="InValid_PwdErrorMsg">La contraseña no es válida, elige otra. </string>
+<string name="InValid_PwdErrorMsg">La contraseña no cumple los siguientes requisitos. Seleccione una contraseña distinta.</string>
 <string name="InValidFirstName_ErrorMsg"> Nombre no válido</string>
 <string name="EmptyField_ErrorMsg">Este campo no puede estar vacío.</string>
 <string name="MaxiumCharacters_ErrorMsg">Este campo no puede superar los 256 caracteres.</string>
 <string name="NoNetworkConnection">El registro no se puede completar porque no tienes conexión.</string>
-<string name="SocialAccountMerger_ErrorMsg">Si ya te has registrado con otra cuenta %1$s, inicia sesión en la cuenta %2$s.</string>
+<string name="SocialAccountMerger_ErrorMsg" formatted="false">Si ya te has registrado con otra cuenta %s, inicia sesión en la cuenta %s.</string>
 <string name="Janrain_Error_Need_Email_Verification">Verifica tu dirección de correo con el enlace de activación que te hemos enviado.</string>
 <string name="JanRain_Invalid_Input">Entrada no válida. Revísala e introduce la información correcta.</string>
 <string name="JanRain_Invalid_Credentials">El correo electrónico o la contraseña que has introducido son incorrectos.</string>
@@ -26,12 +26,12 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Esta dirección de correo electrónico ya existe.</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Esta dirección de correo electrónico ya existe en MyPhilips o es una cuenta de red social.\nVuelve a iniciar sesión o usa otra dirección.</string>
 <string name="RegWelcomeView_NavTitleTxt">Iniciar sesión</string>
-<string name="LegalNoticeText">Al crear una cuenta o iniciar sesión, certificas que tienes al menos 16 años y que aceptas la %1$s y los %2$s.</string>
+<string name="LegalNoticeText" formatted="false">Al crear una cuenta o iniciar sesión, certificas que tienes al menos 16 años y que aceptas la %s y los %s.</string>
 <string name="PrivacyPolicyText">Política de privacidad</string>
 <string name="TermsAndConditionsText">Términos y condiciones</string>
 <string name="RegVerifyEmailView_NavTitleTxt">Iniciar sesión</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Aún no has verificado tu cuenta. Comprueba tu correo y haz clic en el enlace para activarla.</string>
-<string name="RegVerifyEmailView_VerificationEmailText">Hemos enviado un correo a: %s</string>
+<string name="RegVerifyEmailView_VerificationEmailText">Hemos enviado un correo electrónico a: %s. Es posible que tarde un poco en llegar.</string>
 <string name="RegSignWith_Lbltxt">Iniciar sesión con</string>
 <string name="RegMerge_MergeLbltxt">Introduce tu contraseña de MyPhilips para %s para fusionar la cuenta.</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Iniciar sesión con MyPhilips</string>
@@ -54,14 +54,14 @@
 <string name="Create_Account_ChoosePwd_PlaceHolder_txtField">Elige una contraseña.</string>
 <string name="Create_Account_CreateMyPhilips_btntxt">Crear cuenta de MyPhilips</string>
 <string name="Create_Account_FirstName__Placeholder_txtFiled">Introduce un nombre.</string>
-<string name="Create_Account_Hint_Password_lbltxt">La contraseña debe contener:\n  -  8 caracteres como mínimo\n  -  Al menos 2 de estos 3 tipos de caracteres: letras (a-z o A-Z), dígitos (0-9) o símbolos (_ . @ $)</string>
+<string name="Create_Account_Hint_Password_lbltxt">Protege tu privacidad usando una contraseña segura.\nTu contraseña puede contener:\n  -  Un mínimo de 8 caracteres\n  -  Al menos 2 de los siguientes 3 tipos de caracteres: letras (a-z) o (A-Z), dígitos (0-9) o símbolos (_ . @ $)</string>
 <string name="Create_Account_PeridicOffers_lbltxt">Quiero recibir ofertas y actualizaciones periódicas de Philips.</string>
 <string name="Create_Account_ForgotPwd_btntxt">He olvidado la contraseña.</string>
 <string name="Account_Merge_SignIn_lbltxt">Iniciar sesión con %s</string>
-<string name="Account_Merge_UsedEmail_Error_lbltxt">Ya has usado esta dirección de correo para crear una cuenta de MyPhilips.</string>
+<string name="Account_Merge_UsedEmail_Error_lbltxt">Ya has usado %s anteriormente para crear una cuenta de MyPhilips.</string>
 <string name="Account_Merge_EnterPassword_lbltxt">Introduce tu contraseña de MyPhilips para fusionar la cuenta.</string>
 <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">Introduce la dirección de correo.</string>
-<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">Introduce la contraseña.</string>
+<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">Introduce tu contraseña de MyPhilips</string>
 <string name="Account_Merge_ForgotPassword_btntxt">He olvidado la contraseña.</string>
 <string name="Account_Merge_Merge_btntxt">Fusionar</string>
 <string name="Social_SignIn_Email_PlaceHolder_txtFiled">Introduce una dirección de correo electrónico.</string>
@@ -85,11 +85,11 @@
 <string name="VerifyEmail_VerifyEmail_lbltxt">Verifica tu dirección de correo electrónico.</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">Hemos enviado un correo a:</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Es posible que el correo electrónico tarde un poco en llegar.</string>
-<string name="VerifyEmail_ActivateInfo_lbltxt">Ya puedes consultar tu correo para activar la cuenta.</string>
+<string name="VerifyEmail_ActivateInfo_lbltxt">Comprueba tu correo electrónico para activar tu cuenta.</string>
 <string name="VerifyEmail_Activated_btntxt">He activado mi cuenta.</string>
 <string name="VerifyEmail_Resend_btntxt">Reenviar</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Pulsa el botón Reenviar si no has recibido ningún correo.</string>
-<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nTe hemos enviado un correo electrónico.\n\nPuedes consultar tu correo para activar la cuenta.\n\nPuedes usar la aplicación mientras.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Pulsa el botón Reenviar si aún no has recibido el correo electrónico de verificación. Es posible que tarde un poco en llegar.</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nTe hemos enviado un correo electrónico, es posible que tarde un poco en llegar.\n\nComprueba tu correo electrónico para activar tu cuenta.\n\nMientras puedes usar la aplicación.</string>
 <string name="Welcome_myphilips_btntxt">MyPhilips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="ForgotPwdEmailResendMsg">Na Twój adres e-mail wysłano łącze umożliwiające zresetowanie hasła do konta Philips</string>
+<string name="ForgotPwdEmailResendMsg">Wysłaliśmy wiadomość e-mail na Twój adres e-mail. Kliknij łącze umieszczone w tej wiadomości e-mail, aby zresetować konto Philips. Dostarczenie wiadomości e-mail może trochę potrwać.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Zmień hasło</string>
 <string name="Continue_Btntxt">Kontynuuj</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Błędny adres e-mail</string>
-<string name="InValid_PwdErrorMsg">Hasło jest nieprawidłowe, wybierz inne </string>
+<string name="InValid_PwdErrorMsg">Hasło jest niezgodne z poniższymi instrukcjami. Wybierz inne hasło.</string>
 <string name="InValidFirstName_ErrorMsg"> Nieprawidłowe imię</string>
 <string name="EmptyField_ErrorMsg">Pole nie może być puste</string>
 <string name="MaxiumCharacters_ErrorMsg">Pole nie powinno przekraczać 256 znaków</string>
 <string name="NoNetworkConnection">Rejestracja nie jest dostępna, ponieważ nie masz połączenia sieciowego</string>
-<string name="SocialAccountMerger_ErrorMsg">Zarejestrowano już inne konto w serwisie %1$s. Zaloguj się do konta %2$s.</string>
+<string name="SocialAccountMerger_ErrorMsg" formatted="false">Zarejestrowano już inne konto w serwisie %s. Zaloguj się do konta %s.</string>
 <string name="Janrain_Error_Need_Email_Verification">Zweryfikuj adres e-mail za pomocą łącza aktywacji wysłanego na Twoje konto e-mail</string>
 <string name="JanRain_Invalid_Input">Nieprawidłowe dane. Wprowadź prawidłowe dane.</string>
 <string name="JanRain_Invalid_Credentials">Wprowadzono nieprawidłowy adres e-mail lub hasło.</string>
@@ -26,12 +26,12 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Adres e-mail jest już w użyciu</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ten adres e-mail jest już używany z kontem MyPhilips lub kontem w serwisie społecznościowym.\nCofnij się, aby się zalogować, lub użyj innego adresu e-mail.</string>
 <string name="RegWelcomeView_NavTitleTxt">Zaloguj się</string>
-<string name="LegalNoticeText">Tworząc konto lub logując się, potwierdzasz, że masz ukończone 16 i wyrażasz zgodę na nasze %1$s i %2$s.</string>
+<string name="LegalNoticeText" formatted="false">Tworząc konto lub logując się, potwierdzasz, że masz ukończone 16 i wyrażasz zgodę na nasze %s i %s.</string>
 <string name="PrivacyPolicyText">Zasady poufności</string>
 <string name="TermsAndConditionsText">Warunki</string>
 <string name="RegVerifyEmailView_NavTitleTxt">Zaloguj się</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Konto nie zostało jeszcze zweryfikowane. Sprawdź swoją pocztę e-mail i kliknij łącze, aby aktywować konto.</string>
-<string name="RegVerifyEmailView_VerificationEmailText">Wysłaliśmy wiadomość e-mail do: %s</string>
+<string name="RegVerifyEmailView_VerificationEmailText">Wysłaliśmy wiadomość e-mail na adres %s. Dostarczenie wiadomości e-mail może trochę potrwać.</string>
 <string name="RegSignWith_Lbltxt">Zaloguj się za pomocą konta</string>
 <string name="RegMerge_MergeLbltxt">Wprowadź hasło MyPhilips dla %s, aby scalić swoje konto</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Zaloguj się w serwisie MyPhilips</string>
@@ -54,14 +54,14 @@
 <string name="Create_Account_ChoosePwd_PlaceHolder_txtField">Wybierz hasło</string>
 <string name="Create_Account_CreateMyPhilips_btntxt">Utwórz konto MyPhilips</string>
 <string name="Create_Account_FirstName__Placeholder_txtFiled">Wprowadź imię</string>
-<string name="Create_Account_Hint_Password_lbltxt">Hasło może zawierać:\n - Co najmniej 8 znaków\n - Co najmniej 2 z 3 typów znaków: litery (a–z) lub (A–Z), cyfry (0–9) lub symbole (_ . @ $)</string>
+<string name="Create_Account_Hint_Password_lbltxt">Chroń swoją prywatność, wybierając silne hasło.\nHasło może zawierać:\n  -  Co najmniej 8 znaków\n  -  Co najmniej 2 z 3 typów znaków: litery (a–z) lub (A–Z), cyfry (0–9) bądź symbole (_ . @ $)</string>
 <string name="Create_Account_PeridicOffers_lbltxt">Chcę otrzymywać okresowe oferty i aktualizacje od firmy Philips</string>
 <string name="Create_Account_ForgotPwd_btntxt">Nie pamiętam hasła</string>
 <string name="Account_Merge_SignIn_lbltxt">Zaloguj się za pomocą konta %s</string>
-<string name="Account_Merge_UsedEmail_Error_lbltxt">Ten adres e-mail był używany wcześniej do tworzenia konta MyPhilips.</string>
+<string name="Account_Merge_UsedEmail_Error_lbltxt">Adres %s był używany wcześniej do tworzenia konta MyPhilips.</string>
 <string name="Account_Merge_EnterPassword_lbltxt">Wprowadź hasło MyPhilips, aby scalić swoje konto.</string>
 <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">Podaj adres e-mail</string>
-<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">Wprowadź hasło</string>
+<string name="Account_Merge_EnterPassword_Placeholder_txtFiled">Wprowadź hasło MyPhilips</string>
 <string name="Account_Merge_ForgotPassword_btntxt">Nie pamiętam hasła</string>
 <string name="Account_Merge_Merge_btntxt">Scal</string>
 <string name="Social_SignIn_Email_PlaceHolder_txtFiled">Wprowadź adres e-mail</string>
@@ -85,11 +85,11 @@
 <string name="VerifyEmail_VerifyEmail_lbltxt">Zweryfikuj swój adres e-mail</string>
 <string name="VerifyEmail_EmailSentto_lbltxt">Wysłaliśmy wiadomość e-mail na adres:</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Dostarczenie wiadomości e-mail może trochę potrwać.</string>
-<string name="VerifyEmail_ActivateInfo_lbltxt">Kiedy będziesz gotowy(-a), sprawdź pocztę e-mail, aby aktywować swoje konto.</string>
+<string name="VerifyEmail_ActivateInfo_lbltxt">Sprawdź pocztę e-mail, aby aktywować swoje konto.</string>
 <string name="VerifyEmail_Activated_btntxt">Aktywowałem(-am) swoje konto</string>
 <string name="VerifyEmail_Resend_btntxt">Wyślij ponownie</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">W przypadku nieotrzymania wiadomości e-mail naciśnij przycisk „Wyślij ponownie”.</string>
-<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWysłaliśmy wiadomość e-mail.\n\nKiedy będziesz gotowy(-a), sprawdź pocztę e-mail, aby aktywować swoje konto.n\nW międzyczasie możesz korzystać z aplikacji.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">W przypadku nieotrzymania weryfikacyjnej wiadomości e-mail naciśnij przycisk „Wyślij ponownie”. Dostarczenie wiadomości e-mail może trochę potrwać.</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWysłaliśmy wiadomość e-mail. Dostarczenie wiadomości e-mail może trochę potrwać.\n\nSprawdź pocztę e-mail, aby aktywować swoje konto.\n\nW międzyczasie możesz korzystać z aplikacji.</string>
 <string name="Welcome_myphilips_btntxt">MyPhilips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>
