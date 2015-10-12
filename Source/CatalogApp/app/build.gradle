@@ -70,7 +70,7 @@ spoon {
     debug = true
 
     // To run a single test class
-//    className = 'com.philips.cdp.ui.catalog.RegularButtonTest'
+    className = 'com.philips.cdp.ui.catalog.InputFieldTest'
 //    className = 'com.philips.cdp.ui.catalog.RegularButtonPressedTest'
 //    className = 'com.philips.cdp.ui.catalog.OutlineButtonTest'
 //    className = 'com.philips.cdp.ui.catalog.OutlineButtonPressedTest'
@@ -81,7 +81,7 @@ spoon {
 //    className = 'com.philips.cdp.ui.catalog.ActionButtonTest'
 //    className = 'com.philips.cdp.ui.catalog.ActionButtonPressedTest'
 //    className = 'com.philips.cdp.ui.catalog.SplashScreenMobileTest'
-//    className = 'com.philips.cdp.ui.catalog.SplashScreenTabletTest'
+
 
     // To run a single method in TestCase
 //    methodName = 'testAButtonSquareCrossIsPixelPerfect'
