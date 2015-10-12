@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 
 
-def libVersionNumber = '0.1.0'
+def libVersionNumber = '0.2.0'
 
 buildscript {
     repositories {
