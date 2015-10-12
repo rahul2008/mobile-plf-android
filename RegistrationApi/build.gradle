@@ -49,18 +49,7 @@ android {
         }
     }
 
-    productFlavors {
-        simulator {
-            testApplicationId 'com.philips.cdp.registration.test'
-            versionCode 5
-            versionName "2.2.0"
-        }
-        device {
-            testApplicationId 'com.philips.cdp.registration.test'
-            versionCode 5
-            versionName "2.2.0"
-        }
-    }
+
 }
 
 repositories {
