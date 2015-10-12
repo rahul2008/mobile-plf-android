@@ -1,0 +1,14 @@
+<resources>
+    <!-- Text size -->
+    <dimen name="theme_button_text_size">14sp</dimen>
+    <dimen name="input_field_text_size">16sp</dimen>
+    <dimen name="about_title_text_size">24sp</dimen>
+    <dimen name="about_version_text_size">16dp</dimen>
+    <dimen name="about_terms_content_text_size">14sp</dimen>
+    <dimen name="splash_title_text_size">38sp</dimen>
+    <dimen name="splash_title_text_size_tablet">53sp</dimen>
+    <dimen name="button_size">44sp</dimen>
+    <dimen name="action_button_width">33sp</dimen>
+    <dimen name="action_button_height">33sp</dimen>
+
+</resources>

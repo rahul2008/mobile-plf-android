@@ -1,1 +1,1 @@
-include ':uikitLib', ':viewpagerindicator'
+include ':uikitLib'
