@@ -33,8 +33,8 @@ public class VectorDrawableImageView extends ImageView {
 
     private void getVectorDrawable(final Context context, final AttributeSet attrs) {
         final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.AppCompactImageView, 0, 0);
-        String resPath = a.getString(R.styleable.AppCompactImageView_vectorsrc);
+                attrs, R.styleable.VectorDrawableImageView, 0, 0);
+        String resPath = a.getString(R.styleable.VectorDrawableImageView_vectorsrc);
         a.recycle();
         int id = getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
         Drawable v = VectorDrawable.create(getResources(), id);

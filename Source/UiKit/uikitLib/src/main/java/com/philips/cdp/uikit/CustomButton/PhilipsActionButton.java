@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.widget.ImageButton;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.costumviews.AppCompactImageView;
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.wnafee.vector.compat.VectorDrawable;
 
 /**
@@ -68,7 +68,7 @@ public class PhilipsActionButton extends ImageButton {
 
     private int getResID(final TypedArray typedArray) {
         String resPath = typedArray.getString(R.styleable.ActionButton_actionButtonImageDrawable);
-        return AppCompactImageView.getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
+        return VectorDrawableImageView.getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
     }
 
     @SuppressWarnings("deprecation")

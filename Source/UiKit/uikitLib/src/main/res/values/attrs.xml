@@ -22,7 +22,7 @@
 
     <attr name="splashTitleStyle" format="reference" />
 
-    <declare-styleable name="AppCompactImageView">
+    <declare-styleable name="VectorDrawableImageView">
         <attr name="vectorsrc" format="reference"/>
     </declare-styleable>
 

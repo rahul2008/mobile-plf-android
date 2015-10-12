@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/splash_title_margin_top"
         android:layout_centerHorizontal="true"
         style="?attr/splashTitleStyle"/>
-    <com.philips.cdp.uikit.costumviews.AppCompactImageView
+    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
         android:id="@+id/splash_logo"
         android:layout_width="@dimen/splash_logo_width"
         android:layout_height="@dimen/splash_logo_height"

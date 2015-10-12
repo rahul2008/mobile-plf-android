@@ -88,7 +88,7 @@
                 fontPath="fonts/centralesanslight.ttf"
                 android:text="@string/about_screen_content"/>
         </RelativeLayout>
-        <com.philips.cdp.uikit.costumviews.AppCompactImageView
+        <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
             android:id="@+id/about_screen_logo"
             android:layout_width="@dimen/about_screen_logo_width"
             android:layout_height="@dimen/about_screen_logo_height"
