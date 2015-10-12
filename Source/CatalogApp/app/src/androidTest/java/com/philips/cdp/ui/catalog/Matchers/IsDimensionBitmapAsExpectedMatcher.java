@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.Matchers;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,12 +13,12 @@ import org.hamcrest.Matcher;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class IsDimensionAsExpectedMatcher extends BoundedMatcher<View, View> {
+public class IsDimensionBitmapAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     public static final String TAG = "IsDimensionAsExpected";
     private Bitmap expectedBitmap;
 
-    public IsDimensionAsExpectedMatcher(final Class<? extends View> expectedType, Bitmap expectedBitmap) {
+    public IsDimensionBitmapAsExpectedMatcher(final Class<? extends View> expectedType, Bitmap expectedBitmap) {
         super(expectedType);
         this.expectedBitmap = expectedBitmap;
     }
@@ -44,7 +44,7 @@ public class IsDimensionAsExpectedMatcher extends BoundedMatcher<View, View> {
         return true;
     }
         public static Matcher<View> isDimensionSimilar(final Bitmap expectedBitmap){
-          return new IsDimensionAsExpectedMatcher(View.class, expectedBitmap);
+          return new IsDimensionBitmapAsExpectedMatcher(View.class, expectedBitmap);
         }
 
 };

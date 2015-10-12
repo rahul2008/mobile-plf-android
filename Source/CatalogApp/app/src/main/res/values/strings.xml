@@ -24,6 +24,7 @@
     <string name="image">Image</string>
     <string name="blue_theme">Blue Theme</string>
     <string name="orange_theme">Orange Theme</string>
+    <string name="aqua_theme">Aqua Theme</string>
     <string name="misc_shadow_message">Miscellaneous Buttons with Shadow</string>
     <string name="enter_text_here">Enter text here</string>
     <string name="invalid_email_format">Invalid email format</string>

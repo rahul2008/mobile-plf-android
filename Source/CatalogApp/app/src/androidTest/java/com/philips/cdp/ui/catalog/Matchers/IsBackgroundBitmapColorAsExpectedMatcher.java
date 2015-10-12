@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.Matchers;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -29,6 +29,7 @@ public class IsBackgroundBitmapColorAsExpectedMatcher extends BoundedMatcher<Vie
 
     @Override
     public boolean matchesSafely(View view) {
+
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);

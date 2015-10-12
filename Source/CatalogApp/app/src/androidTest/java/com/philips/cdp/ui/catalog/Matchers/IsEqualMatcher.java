@@ -1,17 +1,11 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.Matchers;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.w3c.dom.Text;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.Matchers;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,7 +17,7 @@ public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     public static final String TAG = "IsPixelAsExpected";
     private static final int RELAXED_BOUNDARY_PIXELS = 2;
-    private static final int PASS_PERCENTAGE = 5;
+    private static final int PASS_PERCENTAGE = 10;
     private Bitmap expectedBitmap;
 
     public IsPixelAsExpectedMatcher(final Class<? extends View> expectedType, Bitmap expectedBitmap) {
@@ -35,11 +35,8 @@ public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-//                return expectedBitmap.sameAs(actualBitmap);
         int actualWidth = actualBitmap.getWidth();
-        int expectedWidth = expectedBitmap.getWidth();
         int actualHeight = actualBitmap.getHeight();
-        int expectedHeight = expectedBitmap.getHeight();
 
         long diff = 0;
         //Relaxing the comparison by ignoring 2px from each boundary.

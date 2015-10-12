@@ -27,7 +27,6 @@
     <style name="CirclePageIndicator.BrightAqua">
         <item name="fillColor">@color/philips_bright_aqua</item>
         <item name="strokeColor">@color/philips_bright_aqua</item>
-        <item name="snap">true</item>
     </style>
 
     <style name="CirclePageIndicator.DarkBlue.Gradient">

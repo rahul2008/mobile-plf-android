@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.Matchers;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,12 +13,12 @@ import org.hamcrest.Matcher;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, View> {
+public class IsOutlineColorAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     public static final String TAG = "IsBackgroundColorAsExpectedMatcher";
     private String expectedColor;
 
-    public IsBackgroundColorAsExpectedMatcher(final Class<? extends View> expectedType, String expectedColor) {
+    public IsOutlineColorAsExpectedMatcher(final Class<? extends View> expectedType, String expectedColor) {
         super(expectedType);
         this.expectedColor = expectedColor;
     }
@@ -33,7 +33,7 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int actualRGB = actualBitmap.getPixel(15,15);
+        int actualRGB = actualBitmap.getPixel(0,10);
 
         String actualcolor = "#"  +
                 Integer.toString(Color.red(actualRGB), 16) +
@@ -47,15 +47,7 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
         }
     }
 
-    public static Matcher<View> isBackgroundColorSimilar(final String expectedColor){
-        return new IsBackgroundColorAsExpectedMatcher(View.class, expectedColor);
+    public static Matcher<View> isOutlineColorSimilar(final String expectedColor){
+        return new IsOutlineColorAsExpectedMatcher(View.class, expectedColor);
     }
 }
-
-
-
-
-
-
-
-
