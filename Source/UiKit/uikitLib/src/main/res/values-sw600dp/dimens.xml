@@ -11,7 +11,7 @@
     <dimen name="splash_title_margin_top">85dp</dimen>
 
     <!-- Tab layout -->
-    <dimen name="tab_layout_height_with_image">72dp</dimen>
+    <dimen name="tab_layout_height_with_image">75dp</dimen>
     <dimen name="tab_layout_height_without_image">72dp</dimen>
     <!-- To do items -->
     <dimen name="tab_icon_width">33dp</dimen>

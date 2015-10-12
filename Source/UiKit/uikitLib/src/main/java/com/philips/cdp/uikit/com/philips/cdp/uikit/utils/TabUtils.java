@@ -38,10 +38,6 @@ public class TabUtils {
         initIconColorFilters();
     }
 
-    public TabLayout.Tab newTab(TabLayout tabLayout) {
-        return tabLayout.newTab();
-    }
-
     public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
         TabLayout.Tab newTab = tabLayout.newTab();
         View customView;

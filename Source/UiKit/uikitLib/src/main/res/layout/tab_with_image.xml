@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minWidth="@dimen/tab_minwidth"
+    android:orientation="vertical"
     android:background="@drawable/tab_selector">
     <ImageView
         android:id="@+id/tab_icon"
         android:layout_width="@dimen/tab_icon_width"
         android:layout_height="@dimen/tab_icon_height"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/tab_icon_margin_top"/>
 
     <TextView
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tab_icon"
         android:layout_marginTop="@dimen/tab_text_margin_top"
         android:layout_marginBottom="@dimen/tab_text_margin_bottom"
         android:textSize="@dimen/tab_text_size_with_image"
-        android:gravity="center"
+        android:layout_gravity="center"
         fontPath="fonts/centralesanslight.ttf"/>
 
-</RelativeLayout>
+</LinearLayout>
