@@ -9,10 +9,11 @@ android {
 
 
     defaultConfig {
+
         minSdkVersion 10
         targetSdkVersion 23
         versionName "2.2.0"
-        testApplicationId "com.philips.cdp.registration.ui.utils.test"
+        testApplicationId "com.philips.cdp.registration.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
@@ -45,6 +46,19 @@ android {
         debug {
             debuggable true
             testCoverageEnabled true
+        }
+    }
+
+    productFlavors {
+        simulator {
+            testApplicationId 'com.philips.cdp.registration.test'
+            versionCode 5
+            versionName "2.2.0"
+        }
+        device {
+            testApplicationId 'com.philips.cdp.registration.test'
+            versionCode 5
+            versionName "2.2.0"
         }
     }
 }
