@@ -3,19 +3,6 @@ package com.philips.cdp.ui.catalog.Matchers;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.support.test.espresso.matcher.BoundedMatcher;
-import android.view.View;
-
-import com.viewpagerindicator.CirclePageIndicator;
-
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-
-
-
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 
@@ -37,7 +24,6 @@ public class IsOpacityValueAsExpectedMatcher extends BoundedMatcher<View, View> 
         this.expectedAlpha = expectedAlpha;
     }
 
-
     @Override
     public void describeTo(Description description) {
         description.appendText("Alpha value of actual is not as expected");
@@ -58,11 +44,9 @@ public class IsOpacityValueAsExpectedMatcher extends BoundedMatcher<View, View> 
         return false;
     }
 
-
     public static Matcher<View> isOpacityValueSimilar(final int expectedAlpha) {
-        return new IsOpacityValueAsExpectedMatcher(View.class,expectedAlpha );
+        return new IsOpacityValueAsExpectedMatcher(View.class, expectedAlpha);
     }
-
 }
 
 
