@@ -48,4 +48,13 @@ public class ActionBarThemeColourTest extends ActivityInstrumentationTestCase2<M
                 .check(matches(isBackgroundColorSimilar("#e9830")));
     }
 
+    public void testBrightAquaThemeActionBarColour(){
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Aqua Theme")).perform(click());
+        pressBack();
+        onView(withId(R.id.action_bar_container))
+                .check(matches(isBackgroundColorSimilar("#1e9d8b")));
+    }
+
+
 }

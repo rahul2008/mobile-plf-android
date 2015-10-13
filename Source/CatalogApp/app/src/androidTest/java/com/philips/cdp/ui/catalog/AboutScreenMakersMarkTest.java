@@ -8,6 +8,7 @@ import com.philips.cdp.ui.catalog.activity.MainActivity;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -37,7 +38,7 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
 
     public void testAboutTitle(){
         onView(withText("About Screen")).perform(click());
-        onView(withText("Maker's Mark")).perform(click());
+        onView(withId(R.id.about_screen_mm)).perform(click());
         onView(withText("Mobile app")).check(matches(isDisplayed()));
         onView(withId(R.id.about_title)).check(matches(isTextColorSimilar("#f204b")));
         onView(withId(R.id.about_title))
@@ -91,7 +92,6 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
-
         onView(withText("About Screen")).perform(click());
         onView(withText("Maker's Mark")).perform(click());
         onView(withId(R.id.about_title)).check(matches(isTextColorSimilar("#f204b")));

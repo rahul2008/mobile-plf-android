@@ -10,5 +10,7 @@
     <dimen name="button_size">44sp</dimen>
     <dimen name="action_button_width">33sp</dimen>
     <dimen name="action_button_height">33sp</dimen>
+    <dimen name="about_screen_philips_logo_height">85sp</dimen>
+    <dimen name="input_text_field_height">44sp</dimen>
 
 </resources>
