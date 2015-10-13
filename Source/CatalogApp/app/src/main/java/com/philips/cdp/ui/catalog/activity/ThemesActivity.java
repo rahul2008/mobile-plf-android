@@ -88,6 +88,12 @@ public class ThemesActivity extends CatalogActivity implements RadioGroup.OnChec
                 themeUtils.setThemePreferences(preferences);
                 relaunchActivity();
                 break;
+
+            case R.id.aqua_theme:
+                preferences = "aqua|false|solid|0";
+                themeUtils.setThemePreferences(preferences);
+                relaunchActivity();
+                break;
             default:
                 break;
         }

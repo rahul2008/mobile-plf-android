@@ -12,8 +12,10 @@
         <item name="buttonStyle">@style/Button.Solid.DarkBlue</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedDarkBlue</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentDarkBlue</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.DarkBlue</item>
+        <item name="errorTextColor">@color/philips_bright_orange</item>
+        <item name="errorIcon">@drawable/error_cross_orange</item>
+        <item name="errorBackground">@drawable/edittext_error_bg</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange">
@@ -27,8 +29,10 @@
         <item name="buttonStyle">@style/Button.Solid.BrightOrange</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightOrange</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBrightOrange</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
         <item name="editTextStyle">@style/InputStyle.BrightOrange</item>
+        <item name="errorTextColor">@color/enricher_red</item>
+        <item name="errorIcon">@drawable/error_cross_red</item>
+        <item name="errorBackground">@drawable/edittext_error_bg_red</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
@@ -42,7 +46,10 @@
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBrightAqua</item>
         <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
+        <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
+        <item name="errorTextColor">@color/philips_bright_orange</item>
+        <item name="errorIcon">@drawable/error_cross_orange</item>
+        <item name="errorBackground">@drawable/edittext_error_bg</item>
     </style>
 
 </resources>

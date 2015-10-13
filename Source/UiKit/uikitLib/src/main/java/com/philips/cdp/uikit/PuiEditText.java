@@ -3,6 +3,7 @@ package com.philips.cdp.uikit;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,16 @@ import android.widget.TextView;
  */
 public class PuiEditText extends RelativeLayout {
 
+    public interface Validator {
+        boolean validate(String inputToBeValidated);
+    }
+
     private EditText editText;
     private ImageView errorImage;
     private TextView errorTextView;
+    private int errorTextColor;
+    private Drawable errorIcon;
+    private Drawable errorBackground;
 
     private Drawable themeDrawable;
 
@@ -38,17 +46,25 @@ public class PuiEditText extends RelativeLayout {
         String editTextHint = a.getString(R.styleable.InputTextField_hintText);
         String errorText = a.getString(R.styleable.InputTextField_errorText);
         boolean disabled = a.getBoolean(R.styleable.InputTextField_disabled, false);
+        errorTextColor = a.getColor(R.styleable.InputTextField_errorTextColor, getResources().getColor(R.color.philips_bright_orange));
+        errorIcon = a.getDrawable(R.styleable.InputTextField_errorIcon);
+        errorBackground = a.getDrawable(R.styleable.InputTextField_errorBackground);
         a.recycle();
 
         editText = (EditText) getChildAt(0);
         editText.setHint(editTextHint);
         editText.setFocusable(!disabled);
         editText.setEnabled(!disabled);
-        themeDrawable = editText.getBackground();
         editText.setOnFocusChangeListener(onFocusChangeListener);
+
+        themeDrawable = editText.getBackground();
+
         errorImage = (ImageView) getChildAt(2);
+        errorImage.setImageDrawable(errorIcon);
+
         errorTextView = (TextView) getChildAt(3);
         errorTextView.setText(errorText);
+        errorTextView.setTextColor(errorTextColor);
 
         errorImage.setOnClickListener(new OnClickListener() {
             @Override
@@ -56,7 +72,6 @@ public class PuiEditText extends RelativeLayout {
                 setErrorMessageVisibilty(View.GONE);
             }
         });
-
     }
 
     public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -78,7 +93,7 @@ public class PuiEditText extends RelativeLayout {
         } else {
             setErrorMessageVisibilty(View.GONE);
             editText.setTextColor(getResources().getColor(R.color.philips_very_dark_blue));
-            editText.setBackground(themeDrawable); //Use deprecated method???
+            setBackgroundAsPerAPILevel(themeDrawable);
         }
     }
 
@@ -94,8 +109,8 @@ public class PuiEditText extends RelativeLayout {
     };
 
     private void setErrorTextStyle() {
-        editText.setBackgroundResource(R.drawable.edittext_error_bg);
-        editText.setTextColor(getResources().getColor(R.color.philips_bright_orange));
+        editText.setTextColor(errorTextColor);
+        setBackgroundAsPerAPILevel(errorBackground);
     }
 
     private void setErrorMessageVisibilty(int visibility) {
@@ -103,7 +118,12 @@ public class PuiEditText extends RelativeLayout {
         errorImage.setVisibility((visibility));
     }
 
-    public interface Validator {
-        boolean validate(String inputToBeValidated);
+    private void setBackgroundAsPerAPILevel(final Drawable backgroundDrawable) {
+        int currentApiVersion = Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN) {
+            editText.setBackground(backgroundDrawable);
+        } else {
+            editText.setBackgroundDrawable(backgroundDrawable);
+        }
     }
 }

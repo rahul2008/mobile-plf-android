@@ -5,7 +5,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="?attr/gradBackground">
 
-    <com.philips.cdp.uikit.costumviews.AppCompactImageView
+    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
         android:id="@+id/splash_logo"
         android:layout_width="@dimen/splash_logo_width"
         android:layout_height="@dimen/splash_logo_height"

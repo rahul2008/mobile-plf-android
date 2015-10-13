@@ -25,8 +25,6 @@
         <activity android:name=".activity.ThemesActivity"
                   android:label="@string/app_name"></activity>
         <activity android:name=".activity.ButtonsActivity"/>
-        <activity android:name=".dotnavigation.DotNavigationActivity"/>
-        <activity android:name=".imagenavigation.ImageNavigationActivity"/>
         <activity android:name=".SplashActivityLogoTop"/>
         <activity android:name=".activity.AboutScreenLauncher"/>
         <activity android:name=".activity.AboutScreenPhilips"/>

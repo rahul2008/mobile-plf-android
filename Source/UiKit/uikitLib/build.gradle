@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 
 
-def libVersionNumber = '0.0.1'
+def libVersionNumber = '0.2.0'
 
 buildscript {
     repositories {
@@ -41,9 +41,10 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.wnafee:vector-compat:1.0.5'
     //    compile 'com.philips.cdp:viewpagerindicator:2.4.1'
-    compile project(':viewpagerindicator')
+    //compile project(':viewpagerindicator')
     compile 'com.android.support:design:23.0.1'
 }
+
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
 version = libVersionNumber

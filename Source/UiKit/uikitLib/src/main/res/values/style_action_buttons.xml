@@ -9,14 +9,10 @@
 
     <style name="Philips.ActionButton.Circle">
         <item name="actionButtonShape">circle</item>
-        <item name="android:minWidth">@dimen/philips_action_button_circle_radius</item>
-        <item name="android:minHeight">@dimen/philips_action_button_circle_radius</item>
     </style>
 
     <style name="Philips.ActionButton.Square">
         <item name="actionButtonShape">square</item>
-        <item name="android:minWidth">@dimen/philips_action_button_radius</item>
-        <item name="android:minHeight">@dimen/philips_action_button_radius</item>
     </style>
 
     <style name="Philips.ActionButton.Square.Arrow">

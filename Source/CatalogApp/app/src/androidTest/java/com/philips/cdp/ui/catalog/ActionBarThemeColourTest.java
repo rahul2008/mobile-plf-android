@@ -11,8 +11,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
-import static com.philips.cdp.ui.catalog.R.id.action_bar;
+import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -38,7 +37,7 @@ public class ActionBarThemeColourTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Blue Theme")).perform(click());
         pressBack();
         onView(withId(R.id.action_bar_container))
-                .check(matches(isBackgroundColorSimilar("#b3c8e6")));
+                .check(matches(isBackgroundColorSimilar("#03478")));
     }
 
     public void testBrightOrangeThemeActionBarColour(){
@@ -46,7 +45,16 @@ public class ActionBarThemeColourTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Orange Theme")).perform(click());
         pressBack();
         onView(withId(R.id.action_bar_container))
-                .check(matches(isBackgroundColorSimilar("#e98300")));
+                .check(matches(isBackgroundColorSimilar("#e9830")));
     }
+
+    public void testBrightAquaThemeActionBarColour(){
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Aqua Theme")).perform(click());
+        pressBack();
+        onView(withId(R.id.action_bar_container))
+                .check(matches(isBackgroundColorSimilar("#1e9d8b")));
+    }
+
 
 }
