@@ -5,4 +5,22 @@
         <item name="android:textSize">@dimen/splash_title_text_size</item>
         <item name="fontPath">fonts/centralesanslight.ttf</item>
     </style>
+
+    <style name="PTablayout" parent="Widget.Design.TabLayout">
+        <item name="android:layout_height">@dimen/tab_layout_height_without_image</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="tabIndicatorColor">@null</item>
+        <item name="android:background">?attr/gradBackground</item>
+        <item name="tabGravity">center</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabPaddingBottom">0dp</item>
+        <item name="tabPaddingTop">0dp</item>
+        <item name="tabPadding">0dp</item>
+        <item name="tabIndicatorHeight">0dp</item>
+    </style>
+    <style name="PTablayout.Image" parent="@style/PTablayout">
+        <item name="android:layout_height">@dimen/tab_layout_height_with_image</item>
+    </style>
 </resources>

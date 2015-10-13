@@ -7,14 +7,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_CODE = 10;
+    private HashMap<Integer, String> itemsMap = new HashMap<Integer, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +37,16 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 
     private void createListView() {
         ListView listView = (ListView) findViewById(R.id.listView);
-        String[] listItems = getResources().getStringArray(R.array.list_items);
-        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems));
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getDemoItems().values().toArray(new String[1])));
         listView.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
-        switch (position) {
+        TextView textView = (TextView)view.findViewById(android.R.id.text1);
+        int key = getKeyFromValue((String)textView.getText());
+        //We find the position from the value
+        switch (key) {
             case 0:
                 startActivity(new Intent(this, ActionButtonsActivity.class));
                 break;
@@ -52,10 +60,19 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, ButtonsActivity.class));
                 break;
             case 4:
-                startActivity(new Intent(this, InputTextFieldsActivity.class));
+//                startActivity(new Intent(this, ButtonsActivity.class));
                 break;
             case 5:
+//                startActivity(new Intent(this, ButtonsActivity.class));
+                break;
+            case 6:
+                startActivity(new Intent(this, InputTextFieldsActivity.class));
+                break;
+            case 7:
                 startActivity(new Intent(this, AboutScreenLauncher.class));
+                break;
+            case 8:
+                startActivity(new Intent(this, TabBarDemo.class));
                 break;
             default:
                 break;
@@ -72,5 +89,27 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private int getKeyFromValue(String value) {
+        for(Map.Entry<Integer, String> entry: itemsMap.entrySet()) {
+            if(entry.getValue().equals(value))
+                return entry.getKey();
+        }
+        return 0;
+    }
+
+    private HashMap<Integer, String> getDemoItems() {
+        itemsMap = new LinkedHashMap<Integer, String>();
+        itemsMap.put(0, "Action Buttons");
+        itemsMap.put(1, "Splash Screen");
+        itemsMap.put(2, "Change Theme");
+        itemsMap.put(3, "Buttons");
+//        itemsMap.put(4, "Dot Navigation");
+//        itemsMap.put(5, "Image Navigation");
+        itemsMap.put(6, "Input Text Fields");
+        itemsMap.put(7, "About Screen");
+        itemsMap.put(8, "Tab Bar");
+        return itemsMap;
     }
 }
