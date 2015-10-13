@@ -6,7 +6,6 @@ import android.view.MenuItem;
 
 import com.philips.cdp.ui.catalog.R;
 
-
 public class ButtonsActivity extends CatalogActivity {
 
     @Override

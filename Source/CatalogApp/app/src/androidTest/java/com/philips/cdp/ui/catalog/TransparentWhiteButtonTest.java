@@ -148,5 +148,4 @@ public class TransparentWhiteButtonTest extends ActivityInstrumentationTestCase2
         onView(withId(R.id.outlined_transparent_white_button))
                 .check(matches(isOpacityValueSimilar(0)));
     }
-
 }

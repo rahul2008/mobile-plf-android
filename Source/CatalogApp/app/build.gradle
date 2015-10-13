@@ -32,7 +32,7 @@ android {
         }
     }
 
-    packagingOptions{
+    packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/NOTICE.txt'
@@ -81,7 +81,6 @@ spoon {
 //    className = 'com.philips.cdp.ui.catalog.ActionButtonTest'
 //    className = 'com.philips.cdp.ui.catalog.ActionButtonPressedTest'
 //    className = 'com.philips.cdp.ui.catalog.SplashScreenMobileTest'
-
 
     // To run a single method in TestCase
 //    methodName = 'testAButtonSquareCrossIsPixelPerfect'

@@ -43,8 +43,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
-        TextView textView = (TextView)view.findViewById(android.R.id.text1);
-        int key = getKeyFromValue((String)textView.getText());
+        TextView textView = (TextView) view.findViewById(android.R.id.text1);
+        int key = getKeyFromValue((String) textView.getText());
         //We find the position from the value
         switch (key) {
             case 0:
@@ -92,8 +92,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
     }
 
     private int getKeyFromValue(String value) {
-        for(Map.Entry<Integer, String> entry: itemsMap.entrySet()) {
-            if(entry.getValue().equals(value))
+        for (Map.Entry<Integer, String> entry : itemsMap.entrySet()) {
+            if (entry.getValue().equals(value))
                 return entry.getKey();
         }
         return 0;

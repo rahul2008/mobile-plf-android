@@ -169,7 +169,6 @@ public class TransparentButtonPressedTest extends ActivityInstrumentationTestCas
         });
     }
 
-
     private void matchPressedOpacityValue(int buttonID, int opacityValue) {
         acquire();
         onView(withId(R.id.outlined_transparent_button))

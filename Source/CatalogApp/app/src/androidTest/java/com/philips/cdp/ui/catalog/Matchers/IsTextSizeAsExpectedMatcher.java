@@ -38,7 +38,8 @@ public class IsTextSizeAsExpectedMatcher extends BoundedMatcher<View, View> {
         }
         return false;
     }
-    public static Matcher<View> isTextSizeSimilar(final float expectedSize){
+
+    public static Matcher<View> isTextSizeSimilar(final float expectedSize) {
         return new IsTextSizeAsExpectedMatcher(View.class, expectedSize);
     }
 }

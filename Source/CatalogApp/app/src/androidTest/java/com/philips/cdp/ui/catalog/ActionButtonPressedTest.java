@@ -39,8 +39,6 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         super.setUp();
         getActivity();
         testResources = getInstrumentation().getContext().getResources();
-
-
     }
 
 /*    Pixel perfectness of the Action buttons are verified in ActionButtonTest,
@@ -54,7 +52,7 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         onView(withText("Action Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.miscBtnCircleArrow, true);
-        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#f204b" );
+        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi, "#f204b");
     }
 
     public void testBOThemeActionButtonPressedColourAsExpected() {
@@ -65,7 +63,7 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         onView(withText("Action Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.miscBtnCircleArrow, true);
-        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#983222");
+        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi, "#983222");
     }
 
     public void testBAThemeActionButtonPressedColourAsExpected() {
@@ -76,9 +74,8 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         onView(withText("Action Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.miscBtnCircleArrow, true);
-        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#156570");
+        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi, "#156570");
     }
-
 
     private void setPressed(final int buttonID, boolean state) {
         acquire();

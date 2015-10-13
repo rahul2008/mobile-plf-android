@@ -32,7 +32,7 @@ public class IsTextColorAsExpectedMatcher extends BoundedMatcher<View, View> {
 
         if (view instanceof TextView) {
             TextView actualTextview = (TextView) view;
-            String actualcolor = "#"  +
+            String actualcolor = "#" +
                     Integer.toString(Color.red(actualTextview.getCurrentTextColor()), 16) +
                     Integer.toString(Color.green(actualTextview.getCurrentTextColor()), 16) +
                     Integer.toString(Color.blue(actualTextview.getCurrentTextColor()), 16);
@@ -43,7 +43,8 @@ public class IsTextColorAsExpectedMatcher extends BoundedMatcher<View, View> {
         }
         return false;
     }
-    public static Matcher<View> isTextColorSimilar(final String expectedTextColor){
+
+    public static Matcher<View> isTextColorSimilar(final String expectedTextColor) {
         return new IsTextColorAsExpectedMatcher(View.class, expectedTextColor);
     }
 }

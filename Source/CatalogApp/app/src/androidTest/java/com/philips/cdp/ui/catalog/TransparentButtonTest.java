@@ -3,7 +3,6 @@ package com.philips.cdp.ui.catalog;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.ui.catalog.Matchers.IsOpacityValueAsExpectedMatcher;
 import com.philips.cdp.ui.catalog.activity.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -12,11 +11,10 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsOpacityValueAsExpectedMatcher.isOpacityValueSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsOutlineColorAsExpectedMatcher.isOutlineColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsOpacityValueAsExpectedMatcher.isOpacityValueSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -150,6 +148,5 @@ public class TransparentButtonTest extends ActivityInstrumentationTestCase2<Main
         onView(withId(R.id.outlined_transparent_button))
                 .check(matches(isOpacityValueSimilar(0)));
     }
-
 }
 

@@ -3,7 +3,6 @@ package com.philips.cdp.ui.catalog;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.test.espresso.core.deps.guava.base.Verify;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.ui.catalog.activity.MainActivity;
@@ -12,18 +11,18 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.PositionAssertions.isAbove;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsOutlineColorAsExpectedMatcher.isOutlineColorSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsHintTextColorAsExpectedMatcher.isHintTextColorSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsPixelAsExpectedMatcher.isImageSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsHintTextColorAsExpectedMatcher.isHintTextColorSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsOutlineColorAsExpectedMatcher.isOutlineColorSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsPixelAsExpectedMatcher.isImageSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
-import static android.support.test.espresso.assertion.PositionAssertions.isAbove;
 import static org.hamcrest.Matchers.allOf;
 
 /*
@@ -220,7 +219,7 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
 
         //Make the input field unfocused
         onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
-        .perform(click());
+                .perform(click());
 
         //Verifying whether incorrect icon is pixel perfect
         onView(allOf(withId(R.id.error_image), withParent(withId(R.id.input_field_1))))
@@ -305,11 +304,11 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
         onView(withText("Input Text Fields")).perform(click());
 
         onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
-                .check(matches(isHeightSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_text_field_height))));
+                .check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_text_field_height))));
         onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_2))))
-                .check(matches(isHeightSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_text_field_height))));
+                .check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_text_field_height))));
         onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_disabled))))
-                .check(matches(isHeightSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_text_field_height))));
+                .check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_text_field_height))));
     }
 
     public void testIncorrectMessagePushesContentDown() {

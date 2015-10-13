@@ -2,11 +2,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:width="184dp"
         android:height="235dp"
-		android:viewportWidth="184.3"
+        android:viewportWidth="184.3"
         android:viewportHeight="234.8"
         app:vc_viewportWidth="184"
         app:vc_viewportHeight="234.8"
-	>
+    >
     <group
         android:name="philipsLogo">
         <path

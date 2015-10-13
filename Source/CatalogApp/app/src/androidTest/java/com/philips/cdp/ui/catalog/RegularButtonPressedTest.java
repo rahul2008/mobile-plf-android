@@ -50,7 +50,7 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
-        matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_darkblue_pressed_mdpi,"#f204b" );
+        matchPressedColor(R.id.theme_button, com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_darkblue_pressed_mdpi, "#f204b");
     }
 
     public void testBOThemeRButtonPressedColourAsExpected() {
@@ -61,7 +61,7 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
-        matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_brightorange_pressed_mdpi,"#983222" );
+        matchPressedColor(R.id.theme_button, com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_brightorange_pressed_mdpi, "#983222");
     }
 
     public void testBAThemeRButtonPressedColourAsExpected() {
@@ -72,7 +72,7 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
-        matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_brightorange_pressed_mdpi,"#156570" );
+        matchPressedColor(R.id.theme_button, com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_brightorange_pressed_mdpi, "#156570");
     }
 
     public void testBAThemeRButtonPressedTextColourAsExpected() {
@@ -83,7 +83,7 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
-        matchPressedTextColor(R.id.theme_button,"#ffffff" );
+        matchPressedTextColor(R.id.theme_button, "#ffffff");
     }
 
     private void setPressed(final int buttonID, boolean state) {

@@ -25,9 +25,7 @@ public class SplashActivityLogoBottom extends CatalogActivity {
         getSupportActionBar().hide();
         setContentView(com.philips.cdp.uikit.R.layout.splash_screen_logo_bottom);
 //        findViewById(R.id.splash_layout).setBackground(ResourcesCompat.getDrawable(this, R.drawable.food));
-        ViewGroup group = (ViewGroup)findViewById(R.id.splash_layout);
+        ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
         group.setBackgroundResource(R.drawable.food);
     }
-
-
 }

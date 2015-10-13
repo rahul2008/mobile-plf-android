@@ -40,7 +40,7 @@ public class PhilipsActionButton extends ImageButton {
                 R.style.Philips_ActionButton);
 
         int resID = getResID(typedArray);
-        setImageDrawable(VectorDrawable.create(getResources(),resID));
+        setImageDrawable(VectorDrawable.create(getResources(), resID));
         addStates(getNormalStateDrawable(typedArray, resources), getPressedStateDrawable(typedArray, resources));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -49,7 +49,6 @@ public class PhilipsActionButton extends ImageButton {
         typedArray.recycle();
 
         setScaleType(ScaleType.CENTER);
-
     }
 
     private void setShadowing(Resources resources, TypedArray typedArray) {

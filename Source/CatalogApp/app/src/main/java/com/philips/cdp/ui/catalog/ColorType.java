@@ -11,7 +11,6 @@ public enum ColorType {
     ORANGE(1, "orange"),
     AQUA(2, "aqua");
 
-
     private final int id;
     private final String description;
 

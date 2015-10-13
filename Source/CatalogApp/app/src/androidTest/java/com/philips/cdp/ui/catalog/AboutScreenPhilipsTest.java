@@ -8,16 +8,14 @@ import com.philips.cdp.ui.catalog.activity.MainActivity;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
+import static android.support.test.espresso.assertion.PositionAssertions.isLeftAlignedWith;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
-import static android.support.test.espresso.assertion.PositionAssertions.isLeftAlignedWith;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -39,7 +37,7 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testAboutTitle(){
+    public void testAboutTitle() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Philips")).perform(click());
         onView(withText("Mobile app")).check(matches(isDisplayed()));
@@ -49,16 +47,16 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
         onView(withId(R.id.about_title)).check(isLeftAlignedWith(withId(R.id.about_screen)));
     }
 
-    public void testAboutVersion(){
+    public void testAboutVersion() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Philips")).perform(click());
         onView(withId(R.id.about_version)).check(matches(isTextColorSimilar("#ffffff")));
-       onView(withId(R.id.about_version))
+        onView(withId(R.id.about_version))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_version_text_size))));
         onView(withId(R.id.about_version)).check(isLeftAlignedWith(withId(R.id.about_screen)));
-            }
+    }
 
-    public void testCopyright(){
+    public void testCopyright() {
 
         onView(withText("About Screen")).perform(click());
         onView(withText("Philips")).perform(click());
@@ -68,7 +66,7 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
         onView(withId(R.id.about_copyright)).check(isLeftAlignedWith(withId(R.id.about_screen)));
     }
 
-    public void testTermsAndConditions(){
+    public void testTermsAndConditions() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Philips")).perform(click());
         onView(withId(R.id.about_terms)).check(matches(isTextColorSimilar("#ffffff")));
@@ -77,7 +75,7 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
         onView(withId(R.id.about_terms)).check(isLeftAlignedWith(withId(R.id.about_screen)));
     }
 
-    public void testPrivacyPolicy(){
+    public void testPrivacyPolicy() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Philips")).perform(click());
         onView(withId(R.id.about_policy)).check(matches(isTextColorSimilar("#ffffff")));
@@ -85,7 +83,7 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_terms_content_text_size))));
     }
 
-    public void testContent(){
+    public void testContent() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Philips")).perform(click());
         onView(withId(R.id.about_content)).check(matches(isTextColorSimilar("#ffffff")));
@@ -94,7 +92,7 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
         onView(withId(R.id.about_content)).check(isLeftAlignedWith(withId(R.id.about_screen)));
     }
 
-    public void testPhilipsLogo(){
+    public void testPhilipsLogo() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Philips")).perform(click());
 
@@ -104,12 +102,12 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
         onView(withId(com.philips.cdp.uikit.R.id.about_screen_logo))
                 .check(matches(isImageSimilar(expectedBitmap)));
 */
-       // Verify height of philips logo
+        // Verify height of philips logo
         onView(withId(R.id.about_screen_logo))
-                .check(matches(isHeightSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_screen_philips_logo_height))));
+                .check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_screen_philips_logo_height))));
     }
 
-    public void testChangeThemeBGColorTextColor(){
+    public void testChangeThemeBGColorTextColor() {
         //set the theme to Orange
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
@@ -119,7 +117,5 @@ public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<Mai
         onView(withText("Philips")).perform(click());
         onView(withText("Mobile app")).check(matches(isDisplayed()));
         onView(withId(R.id.about_title)).check(matches(isTextColorSimilar("#ffffff")));
-
     }
-
 }

@@ -18,13 +18,14 @@ public class InputTextFieldsActivity extends CatalogActivity {
 
     PuiEditText puiEditText1;
     PuiEditText puiEditText2;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_input_text_fields);
 
-        RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.input_field_container);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.input_field_container);
 
         puiEditText1 = (PuiEditText) findViewById(R.id.input_field_1);
         puiEditText1.setValidator(new PuiEditText.Validator() {
@@ -46,16 +47,14 @@ public class InputTextFieldsActivity extends CatalogActivity {
         transition.enableTransitionType(LayoutTransition.CHANGING);
     }
 
-    private  static final String EMAIL_PATTERN =
+    private static final String EMAIL_PATTERN =
             "^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]{2,30}+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,5})$";
 
     private boolean validateEmail(final String email) {
-        if(email == null) return false;
+        if (email == null) return false;
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-
-
 }

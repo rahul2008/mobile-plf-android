@@ -36,10 +36,10 @@ public class IsHeightAsExpectedMatcher extends BoundedMatcher<View, View> {
         if (actualHeight == expectedHeight) {
             return true;
         }
-           return false;
-    }
-    public static Matcher<View> isHeightSimilar(final int expectedHeight){
-        return new IsHeightAsExpectedMatcher(View.class, expectedHeight);
+        return false;
     }
 
+    public static Matcher<View> isHeightSimilar(final int expectedHeight) {
+        return new IsHeightAsExpectedMatcher(View.class, expectedHeight);
+    }
 };

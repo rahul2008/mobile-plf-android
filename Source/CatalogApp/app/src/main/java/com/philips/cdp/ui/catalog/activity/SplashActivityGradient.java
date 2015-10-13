@@ -29,6 +29,4 @@ public class SplashActivityGradient extends UiKitActivity {
         ViewGroup parent = (ViewGroup) findViewById(R.id.splash_title).getParent();
         parent.setBackgroundResource(R.drawable.grad_light_blue_background);
     }
-
-
 }

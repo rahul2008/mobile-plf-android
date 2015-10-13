@@ -9,7 +9,7 @@ import com.philips.cdp.uikit.UiKitActivity;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class AboutScreenMM extends UiKitActivity{
+public class AboutScreenMM extends UiKitActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

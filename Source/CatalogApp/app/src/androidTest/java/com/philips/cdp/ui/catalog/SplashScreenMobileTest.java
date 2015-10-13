@@ -63,14 +63,11 @@ public class SplashScreenMobileTest extends ActivityInstrumentationTestCase2<Mai
         onView(withText("Splash Screen")).perform(click());
         onView(withText("Logo Top")).perform(click());
         onView(withId(R.id.splash_logo)).check(isAbove(withId(R.id.splash_title)));
-
     }
 
     public void testSplashScreenLogoBottomAligned() {
         onView(withText("Splash Screen")).perform(click());
         onView(withText("Logo Bottom")).perform(click());
         onView(withId(R.id.splash_logo)).check(isBelow(withId(R.id.splash_title)));
-
     }
-
 }

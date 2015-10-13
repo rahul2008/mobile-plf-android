@@ -10,7 +10,7 @@ import com.philips.cdp.ui.catalog.activity.CatalogActivity;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SplashActivityLogoCenterTitleBottom extends CatalogActivity  {
+public class SplashActivityLogoCenterTitleBottom extends CatalogActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

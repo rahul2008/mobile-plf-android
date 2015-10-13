@@ -169,7 +169,6 @@ public class TransparentWhiteButtonPressedTest extends ActivityInstrumentationTe
         });
     }
 
-
     private void matchPressedOpacityValue(int buttonID, int opacityValue) {
         acquire();
         onView(withId(R.id.outlined_transparent_white_button))

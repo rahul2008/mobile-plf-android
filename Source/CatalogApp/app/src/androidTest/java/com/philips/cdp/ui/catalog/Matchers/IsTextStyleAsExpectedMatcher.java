@@ -1,4 +1,3 @@
-
 package com.philips.cdp.ui.catalog.Matchers;
 
 import android.support.test.espresso.matcher.BoundedMatcher;
@@ -36,7 +35,8 @@ public class IsTextStyleAsExpectedMatcher extends BoundedMatcher<View, View> {
         }
         return false;
     }
-    public static Matcher<View> isTextStyleSimilar(final int expectedStyle){
+
+    public static Matcher<View> isTextStyleSimilar(final int expectedStyle) {
         return new IsTextStyleAsExpectedMatcher(View.class, expectedStyle);
     }
 }

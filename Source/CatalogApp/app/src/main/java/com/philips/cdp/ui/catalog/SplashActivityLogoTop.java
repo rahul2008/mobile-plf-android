@@ -25,7 +25,7 @@ public class SplashActivityLogoTop extends CatalogActivity {
         getSupportActionBar().hide();
 
         setContentView(com.philips.cdp.uikit.R.layout.splash_screen_logo_top);
-        ViewGroup group = (ViewGroup)findViewById(R.id.splash_layout);
+        ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
         group.setBackgroundResource(R.drawable.food);
     }
 }

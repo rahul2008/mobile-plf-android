@@ -11,5 +11,4 @@ public class ActionButtonsActivity extends CatalogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_buttons);
     }
-
 }

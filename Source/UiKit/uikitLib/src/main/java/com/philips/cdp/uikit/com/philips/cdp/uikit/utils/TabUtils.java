@@ -102,6 +102,7 @@ public class TabUtils {
         enabledFilter = new PorterDuffColorFilter(enabledColor, PorterDuff.Mode.SRC_ATOP);
         selectedFilter = new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.SRC_ATOP);
     }
+
     private Drawable getTabIconSelector(Drawable drawable) {
         Drawable enabled = drawable.getConstantState().newDrawable().mutate();
         Drawable selected = drawable.getConstantState().newDrawable().mutate();

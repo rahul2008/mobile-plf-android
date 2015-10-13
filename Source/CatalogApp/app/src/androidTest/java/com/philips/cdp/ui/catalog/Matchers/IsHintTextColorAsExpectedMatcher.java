@@ -33,7 +33,7 @@ public class IsHintTextColorAsExpectedMatcher extends BoundedMatcher<View, View>
 
         if (view instanceof TextView) {
             EditText actualTextview = (EditText) view;
-            String actualcolor = "#"  +
+            String actualcolor = "#" +
                     Integer.toString(Color.red(actualTextview.getCurrentHintTextColor()), 16) +
                     Integer.toString(Color.green(actualTextview.getCurrentHintTextColor()), 16) +
                     Integer.toString(Color.blue(actualTextview.getCurrentHintTextColor()), 16);
@@ -44,7 +44,8 @@ public class IsHintTextColorAsExpectedMatcher extends BoundedMatcher<View, View>
         }
         return false;
     }
-    public static Matcher<View> isHintTextColorSimilar(final String expectedTextColor){
+
+    public static Matcher<View> isHintTextColorSimilar(final String expectedTextColor) {
         return new IsHintTextColorAsExpectedMatcher(View.class, expectedTextColor);
     }
 }

@@ -36,7 +36,7 @@ public class ThemeUtils {
         return COLOR_STRING;
     }
 
-    private void appendThemes(){
+    private void appendThemes() {
         int[] blue_themes = {R.style.Theme_Philips_DarkBlue_WhiteBackground, R.style.Theme_Philips_DarkBlue,
                 R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground,
                 R.style.Theme_Philips_DarkBlue_Gradient};

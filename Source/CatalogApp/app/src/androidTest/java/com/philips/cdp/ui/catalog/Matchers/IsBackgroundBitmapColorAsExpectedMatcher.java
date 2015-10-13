@@ -33,15 +33,16 @@ public class IsBackgroundBitmapColorAsExpectedMatcher extends BoundedMatcher<Vie
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int actualRGB = actualBitmap.getPixel(15,15);
-        int expectedRGB = expectedBitmap.getPixel(15,15);
+        int actualRGB = actualBitmap.getPixel(15, 15);
+        int expectedRGB = expectedBitmap.getPixel(15, 15);
 
         if (actualRGB != expectedRGB) {
             return false;
         }
         return true;
     }
-    public static Matcher<View> isBackgroundBitmapColorSimilar(final Bitmap expectedBitmap){
+
+    public static Matcher<View> isBackgroundBitmapColorSimilar(final Bitmap expectedBitmap) {
         return new IsBackgroundBitmapColorAsExpectedMatcher(View.class, expectedBitmap);
     }
 }

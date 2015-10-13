@@ -1,10 +1,10 @@
 package com.philips.cdp.uikit.com.philips.cdp.uikit.utils;
 
-        import android.graphics.ColorFilter;
-        import android.graphics.drawable.Drawable;
-        import android.graphics.drawable.StateListDrawable;
-        import android.os.Build;
-        import android.util.SparseArray;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
+import android.util.SparseArray;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -42,12 +42,12 @@ public class ColorFilterStateListDrawable extends StateListDrawable {
     @Override
     public boolean selectDrawable(int idx) {
         if (isPreLollipop && selectedIndex != idx) {
-                selectedIndex = idx;
-                if (filterArray != null && filterArray.indexOfKey(idx) >= 0) {
-                    setColorFilter(filterArray.get(idx));
-                } else {
-                    clearColorFilter();
-                }
+            selectedIndex = idx;
+            if (filterArray != null && filterArray.indexOfKey(idx) >= 0) {
+                setColorFilter(filterArray.get(idx));
+            } else {
+                clearColorFilter();
+            }
         }
         return super.selectDrawable(idx);
     }

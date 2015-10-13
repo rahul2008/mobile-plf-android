@@ -40,17 +40,17 @@ public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
 
         long diff = 0;
         //Relaxing the comparison by ignoring 2px from each boundary.
-        int rowCount = actualHeight- RELAXED_BOUNDARY_PIXELS;
-        int columnCount = actualWidth- RELAXED_BOUNDARY_PIXELS;
+        int rowCount = actualHeight - RELAXED_BOUNDARY_PIXELS;
+        int columnCount = actualWidth - RELAXED_BOUNDARY_PIXELS;
         //Start comparing by relaxing 2px from starting points
         for (int row = RELAXED_BOUNDARY_PIXELS; row < rowCount; row++) {
             for (int column = RELAXED_BOUNDARY_PIXELS; column < columnCount; column++) {
-                if(actualBitmap.getPixel(row, column) != expectedBitmap.getPixel(row, column)) {
+                if (actualBitmap.getPixel(row, column) != expectedBitmap.getPixel(row, column)) {
                     diff++;
                 }
             }
         }
-        float mismatchPercentage = (diff/((float) actualBitmap.getHeight()* actualBitmap.getWidth()))*100;
+        float mismatchPercentage = (diff / ((float) actualBitmap.getHeight() * actualBitmap.getWidth())) * 100;
 
         Log.d(TAG, "mismatchPercentage:" + mismatchPercentage + "% count=" + diff);
 

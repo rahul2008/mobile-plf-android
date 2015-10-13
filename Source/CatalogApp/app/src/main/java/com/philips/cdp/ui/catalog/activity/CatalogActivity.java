@@ -1,10 +1,7 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
@@ -21,5 +18,4 @@ public class CatalogActivity extends UiKitActivity {
         setTheme(new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name), Context.MODE_PRIVATE)).getTheme());
         super.onCreate(savedInstanceState);
     }
-
 }

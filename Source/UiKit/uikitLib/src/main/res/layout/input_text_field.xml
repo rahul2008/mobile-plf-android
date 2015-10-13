@@ -25,6 +25,7 @@
         android:layout_alignLeft="@+id/edit_text"
         android:visibility="gone"
         />
+
     <TextView
         android:id="@+id/error_text"
         android:layout_width="wrap_content"

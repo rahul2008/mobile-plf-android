@@ -8,18 +8,18 @@ import com.philips.cdp.ui.catalog.activity.MainActivity;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
+import static android.support.test.espresso.assertion.PositionAssertions.isLeftAlignedWith;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
-import static android.support.test.espresso.assertion.PositionAssertions.isLeftAlignedWith;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.*/
+ * All rights reserved.
+ */
 
 public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -36,7 +36,7 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testAboutTitle(){
+    public void testAboutTitle() {
         onView(withText("About Screen")).perform(click());
         onView(withId(R.id.about_screen_mm)).perform(click());
         onView(withText("Mobile app")).check(matches(isDisplayed()));
@@ -44,10 +44,9 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.about_title))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_title_text_size))));
         onView(withId(R.id.about_title)).check(isLeftAlignedWith(withId(R.id.about_screen)));
-
     }
 
-    public void testAboutVersion(){
+    public void testAboutVersion() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Maker's Mark")).perform(click());
         onView(withId(R.id.about_version)).check(matches(isTextColorSimilar("#f204b")));
@@ -55,7 +54,7 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_version_text_size))));
     }
 
-    public void testCopyright(){
+    public void testCopyright() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Maker's Mark")).perform(click());
         onView(withId(R.id.about_copyright)).check(matches(isTextColorSimilar("#f204b")));
@@ -63,7 +62,7 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_version_text_size))));
     }
 
-    public void testTermsAndConditions(){
+    public void testTermsAndConditions() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Maker's Mark")).perform(click());
         onView(withId(R.id.about_terms)).check(matches(isTextColorSimilar("#f204b")));
@@ -71,7 +70,7 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_terms_content_text_size))));
     }
 
-    public void testPrivacyPolicy(){
+    public void testPrivacyPolicy() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Maker's Mark")).perform(click());
         onView(withId(R.id.about_policy)).check(matches(isTextColorSimilar("#f204b")));
@@ -79,7 +78,7 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_terms_content_text_size))));
     }
 
-    public void testContent(){
+    public void testContent() {
         onView(withText("About Screen")).perform(click());
         onView(withText("Maker's Mark")).perform(click());
         onView(withId(R.id.about_content)).check(matches(isTextColorSimilar("#f204b")));
@@ -87,7 +86,7 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.about_terms_content_text_size))));
     }
 
-    public void testChangeThemeAndTestTextColor(){
+    public void testChangeThemeAndTestTextColor() {
         //set the theme to Orange
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
@@ -95,8 +94,5 @@ public class AboutScreenMakersMarkTest extends ActivityInstrumentationTestCase2<
         onView(withText("About Screen")).perform(click());
         onView(withText("Maker's Mark")).perform(click());
         onView(withId(R.id.about_title)).check(matches(isTextColorSimilar("#f204b")));
-
     }
-
-
 }

@@ -17,8 +17,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsOutlineColorAsExpectedMatcher.isOutlineColorSimilar;
+import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -159,7 +159,6 @@ public class OutlineButtonPressedTest extends ActivityInstrumentationTestCase2<M
             }
         });
     }
-
 
     private void matchPressedOpacityValue(int buttonID, int opacityValue) {
         acquire();

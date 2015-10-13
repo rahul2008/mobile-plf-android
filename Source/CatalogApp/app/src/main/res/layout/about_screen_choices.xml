@@ -11,7 +11,7 @@
         android:onClick="launchAboutScreen"
         android:layout_gravity="center_horizontal"
         android:textAllCaps="false"
-        android:text="Philips" />
+        android:text="Philips"/>
 
     <Button
         android:id="@+id/about_screen_mm"
@@ -20,8 +20,7 @@
         android:onClick="launchAboutScreen"
         android:layout_gravity="center_horizontal"
         android:textAllCaps="false"
-        android:text="Maker's Mark" />
-
+        android:text="Maker's Mark"/>
 
 
 </LinearLayout>

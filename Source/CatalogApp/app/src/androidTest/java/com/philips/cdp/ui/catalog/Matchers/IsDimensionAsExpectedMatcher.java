@@ -36,14 +36,14 @@ public class IsDimensionAsExpectedMatcher extends BoundedMatcher<View, View> {
         view.draw(actualCanvas);
         int actualHeight = actualBitmap.getHeight();
         int actualWidth = actualBitmap.getWidth();
-        if ((actualHeight == expectedHeight)||(actualWidth == expectedWidth)) {
+        if ((actualHeight == expectedHeight) || (actualWidth == expectedWidth)) {
             return true;
         }
         return false;
     }
-    public static Matcher<View> isDimensionSimilar(final int expectedHeight,final int expectedWidth){
+
+    public static Matcher<View> isDimensionSimilar(final int expectedHeight, final int expectedWidth) {
         return new IsDimensionAsExpectedMatcher(View.class, expectedHeight, expectedWidth);
     }
-
 };
 

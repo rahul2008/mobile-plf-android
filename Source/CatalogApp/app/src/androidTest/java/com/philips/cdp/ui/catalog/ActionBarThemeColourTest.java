@@ -32,7 +32,7 @@ public class ActionBarThemeColourTest extends ActivityInstrumentationTestCase2<M
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testDarkBlueThemeActionBarColour(){
+    public void testDarkBlueThemeActionBarColour() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
         pressBack();
@@ -40,7 +40,7 @@ public class ActionBarThemeColourTest extends ActivityInstrumentationTestCase2<M
                 .check(matches(isBackgroundColorSimilar("#03478")));
     }
 
-    public void testBrightOrangeThemeActionBarColour(){
+    public void testBrightOrangeThemeActionBarColour() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
@@ -48,13 +48,11 @@ public class ActionBarThemeColourTest extends ActivityInstrumentationTestCase2<M
                 .check(matches(isBackgroundColorSimilar("#e9830")));
     }
 
-    public void testBrightAquaThemeActionBarColour(){
+    public void testBrightAquaThemeActionBarColour() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Aqua Theme")).perform(click());
         pressBack();
         onView(withId(R.id.action_bar_container))
                 .check(matches(isBackgroundColorSimilar("#1e9d8b")));
     }
-
-
 }
