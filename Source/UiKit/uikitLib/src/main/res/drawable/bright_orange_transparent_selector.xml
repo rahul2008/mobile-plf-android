@@ -7,7 +7,7 @@
             <stroke android:width="@dimen/button_stroke_width" android:color="@color/philips_dark_orange"/>
             <corners android:radius="@dimen/button_corner_rounding"/>
 
-            <solid android:color="#1A156570"/>
+            <solid android:color="#1A983222"/>
         </shape>
     </item>
     <!-- pressed -->
