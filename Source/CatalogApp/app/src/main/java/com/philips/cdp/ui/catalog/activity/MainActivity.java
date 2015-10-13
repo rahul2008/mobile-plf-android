@@ -14,6 +14,8 @@ import com.philips.cdp.ui.catalog.dotnavigation.DotNavigationActivity;
 import com.philips.cdp.ui.catalog.imagenavigation.ImageNavigationActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
+import java.util.ArrayList;
+
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_CODE = 10;
@@ -33,8 +35,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 
     private void createListView() {
         ListView listView = (ListView) findViewById(R.id.listView);
-        String[] listItems = getResources().getStringArray(R.array.list_items);
-        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems));
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getDemoItems().toArray(new String[1])));
         listView.setOnItemClickListener(this);
     }
 
@@ -65,6 +66,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 7:
                 startActivity(new Intent(this, AboutScreenLauncher.class));
                 break;
+            case 8:
+                startActivity(new Intent(this, TabBarDemo.class));
+                break;
             default:
                 break;
         }
@@ -80,5 +84,20 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private ArrayList<String> getDemoItems() {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(0, "Action Buttons");
+        list.add(1, "Splash Screen");
+        list.add(2, "Change Theme");
+        list.add(3, "Buttons");
+        list.add(4, "Dot Navigation");
+        list.add(5, "Image Navigation");
+        list.add(6, "Input Text Fields");
+        list.add(7, "About Screen");
+        list.add(8, "Tab Bar");
+
+        return list;
     }
 }

@@ -32,10 +32,10 @@
         <activity android:name=".activity.AboutScreenPhilips"/>
         <activity android:name=".activity.AboutScreenMM"/>
         <activity android:name=".SplashActivityLogoBottom"/>
-        <activity android:name=".SplashActivityLogoCenterTitleTop"/>
         <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
         <activity android:name=".SplashLauncher"/>
         <activity android:name=".activity.InputTextFieldsActivity"/>
+        <activity android:name=".activity.TabBarDemo"/>
 
     </application>
 

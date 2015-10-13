@@ -2,18 +2,6 @@
     <string name="app_name">Catalog App</string>
 
     <string name="action_settings">Settings</string>
-
-    <string-array name="list_items">
-        <item>Action Buttons</item>
-        <item>Splash Screen</item>
-        <item>Change Theme</item>
-        <item>Buttons</item>
-        <item>Dot Navigation</item>
-        <item>Image Navigation</item>
-        <item>Input Text Fields</item>
-        <item>About Screen</item>
-    </string-array>
-
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
     <string name="change_theme">Change theme</string>
     <string name="previous_theme">Previous theme</string>
