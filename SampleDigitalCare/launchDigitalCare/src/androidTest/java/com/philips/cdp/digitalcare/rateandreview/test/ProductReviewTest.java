@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Switch;
@@ -135,7 +136,7 @@ public class ProductReviewTest extends
     @SmallTest
     public void testLegalPolicyAcceptance() {
         boolean valid = false;
-        Switch LegalTermSwitchView = new Switch(mContext);
+        CheckBox LegalTermSwitchView = new CheckBox(mContext);
         LegalTermSwitchView.setChecked(true);
         valid = mProductWriteReviewFragment.getLegalTermValue(LegalTermSwitchView);
         assertTrue(valid);
