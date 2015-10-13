@@ -25,7 +25,7 @@
     <string name="aqua_theme">Aqua Theme</string>
     <string name="misc_shadow_message">Miscellaneous Buttons with Shadow</string>
     <string name="enter_text_here">Enter text here</string>
-    <string name="invalid_email_format">Invalid email format</string>
+    <string name="invalid_email_format">Invalid email</string>
     <string name="invalid_pwd_format">Invalid password format</string>
     <string name="sample_button">Sample button</string>
 </resources>
