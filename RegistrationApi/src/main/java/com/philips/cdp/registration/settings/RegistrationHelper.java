@@ -148,7 +148,7 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-                parseConfigurationJson(mContext);
+                parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
                 if (isHsdpAvailable()) {
                     isHsdpFlow = true;
                 }
@@ -270,11 +270,11 @@ public class RegistrationHelper {
                 && null != hsdpClientInfo.getBaseUrl());
     }
 
-    private void parseConfigurationJson(Context context) {
+    private void parseConfigurationJson(Context context, String path) {
         AssetManager assetManager = context.getAssets();
         try {
             JSONObject configurationJson = new JSONObject(
-                    convertStreamToString(assetManager.open(RegConstants.CONFIGURATION_JSON_PATH)));
+                    convertStreamToString(assetManager.open(path)));
             ConfigurationParser configurationParser = new ConfigurationParser();
             configurationParser.parse(configurationJson);
 
