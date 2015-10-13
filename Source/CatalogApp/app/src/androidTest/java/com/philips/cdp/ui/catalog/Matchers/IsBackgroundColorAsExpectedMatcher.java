@@ -34,7 +34,7 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int actualRGB = actualBitmap.getPixel(15,15);
+        int actualRGB = actualBitmap.getPixel(30,30);
 
         String actualcolor = "#"  +
                 Integer.toString(Color.red(actualRGB), 16) +

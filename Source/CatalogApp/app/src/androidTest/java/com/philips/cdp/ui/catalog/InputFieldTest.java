@@ -11,7 +11,6 @@ import com.philips.cdp.ui.catalog.activity.MainActivity;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -164,7 +163,7 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
     }
 
-    /*public void testBOThemeInputFieldWithIncorrectEntry() {
+    public void testBOThemeInputFieldWithIncorrectEntry() {
         // Apply Bright Orange theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
@@ -189,7 +188,7 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
                 .check(matches(isTextColorSimilar("#cd202c")));
         onView(allOf(withId(R.id.edit_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isBackgroundColorSimilar("#ffffff")));
-    }*/
+    }
 
     public void testDisableInputField() {
         //Verifying disabled field color codes
@@ -228,7 +227,7 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
 
-    /*public void testWarningIconBOTheme() {
+/*    public void testWarningIconBOTheme() {
         // Apply Bright Orange theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
@@ -248,7 +247,7 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
 
         //Verifying background color of incorrect icon
         onView(allOf(withId(R.id.error_image), withParent(withId(R.id.input_field_1))))
-                .check(matches(isOutlineColorSimilar("#cd202c")));
+                .check(matches(isBackgroundColorSimilar("#cd202c")));
     }*/
 
     public void testWarningMessageDBTheme() {
@@ -276,8 +275,8 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
     }
 
-   /* public void testWarningMessageBOTheme() {
-         Apply Bright orange theme
+    public void testWarningMessageBOTheme() {
+//         Apply Bright orange theme
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
@@ -299,7 +298,7 @@ public class InputFieldTest extends ActivityInstrumentationTestCase2<MainActivit
                 .check(matches(isTextColorSimilar("#cd202c")));
         onView(allOf(withId(R.id.error_text), withParent(withId(R.id.input_field_1))))
                 .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.input_field_text_size))));
-    }*/
+    }
 
     public void testHeightInputFields() {
 
