@@ -58,8 +58,8 @@ public class TabUtils {
             title.setVisibility(View.GONE);
         } else {
             title.setText(titleResID);
-            title.setTextColor(getTextSelector());
         }
+        title.setTextColor(getTextSelector());
         newTab.setCustomView(customView);
         return newTab;
     }
