@@ -87,7 +87,7 @@ public class PuiEditText extends RelativeLayout {
     }
 
     private void showErrorAndChangeEditTextStyle(boolean show) {
-        if(show) {
+        if (show) {
             setErrorMessageVisibilty(View.VISIBLE);
             setErrorTextStyle();
         } else {
@@ -100,7 +100,7 @@ public class PuiEditText extends RelativeLayout {
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
         @Override
         public void onFocusChange(final View view, final boolean hasFocus) {
-            if(!hasFocus) {
+            if (!hasFocus) {
                 showErrorAndChangeEditTextStyle(!(validator == null || validator.validate(editText.getText().toString())));
             } else {
                 editText.setTextColor(getResources().getColor(R.color.philips_very_dark_blue));
