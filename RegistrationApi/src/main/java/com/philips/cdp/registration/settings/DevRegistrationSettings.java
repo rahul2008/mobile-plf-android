@@ -124,8 +124,7 @@ public class DevRegistrationSettings extends RegistrationSettings {
             jumpConfig.captureRedirectUri = DEV_REGISTER_ACTIVATION_URL;
         }
 
-        jumpConfig.captureRecoverUri = DEV_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode
-                + "&catalogType=CONSUMER&language=" + langCode;
+        jumpConfig.captureRecoverUri = DEV_REGISTER_FORGOT_MAIL_URL +"&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;

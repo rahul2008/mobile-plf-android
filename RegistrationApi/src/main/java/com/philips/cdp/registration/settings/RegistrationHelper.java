@@ -51,6 +51,8 @@ public class RegistrationHelper {
 
     private TestingRegistrationSettings mTestingRegistrationSettings;
 
+    private StaginglRegistrationSettings mStagingRegistrationSettings;
+
     private RegistrationSettings mRegistrationSettings;
 
     private String countryCode;
@@ -58,18 +60,6 @@ public class RegistrationHelper {
     private boolean isCoppaFlow = false;
 
     private boolean isHsdpFlow;
-
-
-    private interface RegistrationEnvironment {
-
-        String EVAL = "Evaluation";
-
-        String DEV = "Development";
-
-        String PROD = "Production";
-
-        String TESTING = "Testing";
-    }
 
     public boolean isJanrainIntialized() {
         return mJanrainIntialized;
@@ -175,39 +165,54 @@ public class RegistrationHelper {
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
 
-                    if (RegistrationEnvironment.EVAL.equalsIgnoreCase(mRegistrationType)) {
+                    if (RegistrationEnvironmentConstants.EVAL.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
                                 .getClientIds().getEvaluationId());
                         initEvalSettings(mContext, RegistrationConfiguration.getInstance()
                                         .getJanRainConfiguration().getClientIds().getEvaluationId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
+                        return;
                     }
-                    if (RegistrationEnvironment.PROD.equalsIgnoreCase(mRegistrationType)) {
+                    if (RegistrationEnvironmentConstants.PROD.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
                                 .getClientIds().getProductionId());
                         initProdSettings(mContext, RegistrationConfiguration.getInstance()
                                         .getJanRainConfiguration().getClientIds().getProductionId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
+                        return;
 
                     }
-                    if (RegistrationEnvironment.DEV.equalsIgnoreCase(mRegistrationType)) {
+                    if (RegistrationEnvironmentConstants.DEV.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
                                 .getClientIds().getDevelopmentId());
                         initDevSettings(mContext, RegistrationConfiguration.getInstance()
                                         .getJanRainConfiguration().getClientIds().getDevelopmentId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
+                        return;
                     }
 
-                    if (RegistrationEnvironment.TESTING.equalsIgnoreCase(mRegistrationType)) {
+                    if (RegistrationEnvironmentConstants.TESTING.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
                                 .getClientIds().getTestingId());
                         initTesting(mContext, RegistrationConfiguration.getInstance()
                                         .getJanRainConfiguration().getClientIds().getTestingId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
+                        return;
+                    }
+
+
+                    if (RegistrationEnvironmentConstants.STAGING.equalsIgnoreCase(mRegistrationType)) {
+                        RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+                                + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+                                .getClientIds().getStagingId());
+                        initStaging(mContext, RegistrationConfiguration.getInstance()
+                                        .getJanRainConfiguration().getClientIds().getStagingId(),
+                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
+                        return;
                     }
                 }
             }
@@ -226,7 +231,7 @@ public class RegistrationHelper {
 
         HSDPClientInfo hsdpClientInfo = hsdpConfiguration.getHSDPClientInfo(environment);
         if (hsdpClientInfo == null) {
-            throw new RuntimeException("HSDP configuration is not configured for "+RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()+" environment ");
+            throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment ");
         }
         if (null != hsdpConfiguration && null != hsdpClientInfo) {
 
@@ -237,30 +242,30 @@ public class RegistrationHelper {
             }
 
             if (hsdpClientInfo.getSharedId() == null) {
-                if(null!=exception){
+                if (null != exception) {
                     exception += ",shared key ";
-                }else {
+                } else {
                     exception += "shared key ";
                 }
             }
             if (hsdpClientInfo.getSecretId() == null) {
-                if(null!=exception){
+                if (null != exception) {
                     exception += ",Secret key ";
-                }else {
+                } else {
                     exception += "Secret key ";
                 }
             }
 
             if (hsdpClientInfo.getBaseUrl() == null) {
-                if(null!=exception){
+                if (null != exception) {
                     exception += ",Base Url ";
-                }else {
+                } else {
                     exception += "Base Url ";
                 }
             }
 
-            if(null!=exception){
-                throw new RuntimeException("HSDP configuration is not configured for "+RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()+" environment for "+exception.toString().substring(4));
+            if (null != exception) {
+                throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment for " + exception.toString().substring(4));
             }
         }
 
@@ -328,6 +333,16 @@ public class RegistrationHelper {
         mTestingRegistrationSettings = new TestingRegistrationSettings();
         mRegistrationSettings = mTestingRegistrationSettings;
         mTestingRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
+                microSiteId, registrationType, isintialize, locale);
+    }
+
+
+    private void initStaging(Context context, String captureClientId, String microSiteId,
+                             String registrationType, boolean isintialize, String locale) {
+
+        mStagingRegistrationSettings = new StaginglRegistrationSettings();
+        mRegistrationSettings = mStagingRegistrationSettings;
+        mStagingRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
                 microSiteId, registrationType, isintialize, locale);
     }
 

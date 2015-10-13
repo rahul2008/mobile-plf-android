@@ -1,6 +1,8 @@
 
 package com.philips.cdp.registration.configuration;
 
+import com.philips.cdp.registration.settings.RegistrationEnvironmentConstants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,14 +13,6 @@ import java.util.Iterator;
 import java.util.Locale;
 
 public class ConfigurationParser {
-
-    private final String TESTING = "Testing";
-
-    private final String PRODUCTION = "Production";
-
-    private final String EVALUATION = "Evaluation";
-
-    private final String DEVELOPMENT = "Development";
 
     private final String REGISTRATION_CLIENT_ID = "RegistrationClientID";
 
@@ -43,15 +37,6 @@ public class ConfigurationParser {
     private final String TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED = "TermsAndConditionsAcceptanceRequired";
 
     private final String HSDP_CONFIGURATION = "HSDPConfiguration";
-
-
-    private final String HSDP_ENVIRONMENT_EVAL = "Evaluation";
-
-    private final String SHARED = "Shared";
-
-    private final String SECRET = "Secret";
-
-    private final String BASE_URL = "BaseURL";
 
 
     public void parse(JSONObject configurationJson) {
@@ -179,18 +164,23 @@ public class ConfigurationParser {
         JanRainConfiguration configuration = new JanRainConfiguration();
         RegistrationClientId registrationClientId = new RegistrationClientId();
         JSONObject regIds = janRainConfiguration.getJSONObject(REGISTRATION_CLIENT_ID);
-        if (!regIds.isNull(DEVELOPMENT)) {
-            registrationClientId.setDevelopmentId(regIds.getString(DEVELOPMENT));
+        if (!regIds.isNull(RegistrationEnvironmentConstants.DEV)) {
+            registrationClientId.setDevelopmentId(regIds.getString(RegistrationEnvironmentConstants.DEV));
         }
-        if (!regIds.isNull(EVALUATION)) {
-            registrationClientId.setEvaluationId(regIds.getString(EVALUATION));
+        if (!regIds.isNull(RegistrationEnvironmentConstants.EVAL)) {
+            registrationClientId.setEvaluationId(regIds.getString(RegistrationEnvironmentConstants.EVAL));
         }
-        if (!regIds.isNull(PRODUCTION)) {
-            registrationClientId.setProductionId(regIds.getString(PRODUCTION));
+        if (!regIds.isNull(RegistrationEnvironmentConstants.PROD)) {
+            registrationClientId.setProductionId(regIds.getString(RegistrationEnvironmentConstants.PROD));
         }
-        if (!regIds.isNull(TESTING)) {
-            registrationClientId.setTestingId(regIds.getString(TESTING));
+        if (!regIds.isNull(RegistrationEnvironmentConstants.TESTING)) {
+            registrationClientId.setTestingId(regIds.getString(RegistrationEnvironmentConstants.TESTING));
         }
+
+        if (!regIds.isNull(RegistrationEnvironmentConstants.STAGING)) {
+            registrationClientId.setStagingId(regIds.getString(RegistrationEnvironmentConstants.STAGING));
+        }
+
         configuration.setClientIds(registrationClientId);
         return configuration;
     }

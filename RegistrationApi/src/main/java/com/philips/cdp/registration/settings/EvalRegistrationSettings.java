@@ -50,10 +50,8 @@ public class EvalRegistrationSettings extends RegistrationSettings {
     private String EVAL_REGISTER_ACTIVATION_URL = "https://acc.philips.com/ps/verify-account";
 
 
-    /**
-     * Forgot Password URL
-     */
-    private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://www.qat1.consumer.philips.com/myphilips/resetPassword.jsp";
+    private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://acc.philips.com/ps/reset-password?cl=mob";
+
 
     @Override
     public void intializeRegistrationSettings(Context context, String captureClientId,
@@ -131,8 +129,7 @@ public class EvalRegistrationSettings extends RegistrationSettings {
             jumpConfig.captureRedirectUri = EVAL_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = EVAL_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode
-                + "&catalogType=CONSUMER&language=" + langCode;
+        jumpConfig.captureRecoverUri = EVAL_REGISTER_FORGOT_MAIL_URL +"&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;

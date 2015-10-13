@@ -24,7 +24,7 @@ public class ProdRegistrationSettings extends RegistrationSettings {
 
     private String PROD_REGISTER_ACTIVATION_URL = "https://secure.philips.com/ps/verify-account";
 
-    private String PROD_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
+    private String PROD_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.com/ps/reset-password?cl=mob";
 
     private static String PROD_PRX_RESEND_CONSENT_URL = "https://www.usa.philips.com/prx/registration/resendConsentMail";
 
@@ -125,8 +125,7 @@ public class ProdRegistrationSettings extends RegistrationSettings {
             jumpConfig.captureRedirectUri = PROD_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = PROD_REGISTER_FORGOT_MAIL_URL + "?country="
-                + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+        jumpConfig.captureRecoverUri = PROD_REGISTER_FORGOT_MAIL_URL +"&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;

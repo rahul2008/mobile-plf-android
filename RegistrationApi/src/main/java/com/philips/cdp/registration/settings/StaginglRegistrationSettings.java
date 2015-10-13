@@ -9,7 +9,7 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 
-public class TestingRegistrationSettings extends RegistrationSettings {
+public class StaginglRegistrationSettings extends RegistrationSettings {
 
     private String mCountryCode;
 
@@ -25,31 +25,29 @@ public class TestingRegistrationSettings extends RegistrationSettings {
 
     private String LOG_TAG = "RegistrationAPI";
 
-    private static String TEST_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
+    private  String STAGE_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
-    private static String TEST_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
+    private  String STAGE_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
-    private static String TEST_PRX_RESEND_CONSENT_URL = "https://tst.usa.philips.com/prx/registration/resendConsentMail";
+    private  String STAGE_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
 
-    private static String TEST_REGISTER_COPPA_ACTIVATION_URL = "https://tst.philips.com/ps/user-registration/consent.html";
+    private  String STAGE_REGISTER_COPPA_ACTIVATION_URL = "https://acc.philips.com/ps/user-registration/consent.html";
 
-    private String TEST_ENGAGE_APP_ID = "fhbmobeahciagddgfidm";
+    private String STAGE_ENGAGE_APP_ID = "jgehpoggnhbagolnihge";
 
-    private String TEST_CAPTURE_DOMAIN = "philips-test.dev.janraincapture.com";
+    private String STAGE_CAPTURE_DOMAIN = "philips.eval.janraincapture.com";
 
-    private String TEST_BASE_CAPTURE_URL = "https://philips-test.dev.janraincapture.com";
+    private String STAGE_BASE_CAPTURE_URL = "https://philips.eval.janraincapture.com";
 
-    private String TEST_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
+    private String STAGE_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
 
-    private String TEST_CAPTURE_APP_ID = "x7nftvwfz8e8vcutz49p8eknqp";
+    private String STAGE_CAPTURE_APP_ID = "nt5dqhp6uck5mcu57snuy8uk6c";
 
-    /**
-     * Activation Account URL
-     */
 
-    private String TEST_REGISTER_ACTIVATION_URL = "http://tst.philips.com/ps/verify-account";
+    private String STAGE_REGISTER_ACTIVATION_URL = "https://dev.philips.com/ps/verify-account";
 
-    private String TEST_REGISTER_FORGOT_MAIL_URL = "https://tst.philips.com/ps/reset-password?cl=mob";
+    private String STAGE_REGISTER_FORGOT_MAIL_URL = "https://dev.philips.com/ps/reset-password?cl=mob";
+
 
 
 
@@ -98,18 +96,17 @@ public class TestingRegistrationSettings extends RegistrationSettings {
         jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
         jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
 
-        jumpConfig.engageAppId = TEST_ENGAGE_APP_ID;
-        jumpConfig.captureDomain = TEST_CAPTURE_DOMAIN;
-        jumpConfig.captureFlowVersion = TEST_CAPTURE_FLOW_VERSION;
-        jumpConfig.captureAppId = TEST_CAPTURE_APP_ID;
+        jumpConfig.engageAppId = STAGE_ENGAGE_APP_ID;
+        jumpConfig.captureDomain = STAGE_CAPTURE_DOMAIN;
+        jumpConfig.captureFlowVersion = STAGE_CAPTURE_FLOW_VERSION;
+        jumpConfig.captureAppId = STAGE_CAPTURE_APP_ID;
 
-        mProductRegisterUrl = TEST_PRODUCT_REGISTER_URL;
-        mProductRegisterListUrl = TEST_PRODUCT_REGISTER_LIST_URL;
+        mProductRegisterUrl = STAGE_PRODUCT_REGISTER_URL;
+        mProductRegisterListUrl = STAGE_PRODUCT_REGISTER_LIST_URL;
 
-        mResendConsentUrl = TEST_PRX_RESEND_CONSENT_URL;
-        mRegisterCoppaActivationUrl = TEST_REGISTER_COPPA_ACTIVATION_URL;
-
-        mRegisterBaseCaptureUrl = TEST_BASE_CAPTURE_URL;
+        mResendConsentUrl = STAGE_PRX_RESEND_CONSENT_URL;
+        mRegisterCoppaActivationUrl = STAGE_REGISTER_COPPA_ACTIVATION_URL;
+        mRegisterBaseCaptureUrl = STAGE_BASE_CAPTURE_URL;
 
         String localeArr[] = locale.split("-");
         String langCode = null;
@@ -124,12 +121,13 @@ public class TestingRegistrationSettings extends RegistrationSettings {
         }
 
         if (RegistrationHelper.getInstance().isCoppaFlow()) {
-            jumpConfig.captureRedirectUri = TEST_REGISTER_COPPA_ACTIVATION_URL;
+            jumpConfig.captureRedirectUri = STAGE_REGISTER_COPPA_ACTIVATION_URL;
         } else {
-            jumpConfig.captureRedirectUri = TEST_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
+            jumpConfig.captureRedirectUri = STAGE_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = TEST_REGISTER_FORGOT_MAIL_URL +"&loc=" + langCode + "_" + countryCode;
+        jumpConfig.captureRecoverUri = STAGE_REGISTER_FORGOT_MAIL_URL +"&loc=" + langCode + "_" + countryCode;
+
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;
@@ -147,4 +145,5 @@ public class TestingRegistrationSettings extends RegistrationSettings {
         }
 
     }
+
 }
