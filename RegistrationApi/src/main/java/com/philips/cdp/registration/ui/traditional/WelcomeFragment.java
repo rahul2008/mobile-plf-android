@@ -243,7 +243,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     private void handleLogout() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SIGN_OUT);
-        trackPage(AppTaggingPages.HOME);
         mUser.logout(this);
     }
 
