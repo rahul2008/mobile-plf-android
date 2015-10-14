@@ -5,7 +5,7 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
+import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.Utility.test.Log;
@@ -17,10 +17,10 @@ import com.philips.cdp.digitalcare.Utility.test.Log;
  * @Since Mar 10, 2015
  */
 public class DigitalCareApplicationTest extends
-		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
+		ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
 	public DigitalCareApplicationTest() {
-		super(LaunchDigitalCare.class);
+		super(DigitalCareActivity.class);
 	}
 
 	private Context mContext = null;

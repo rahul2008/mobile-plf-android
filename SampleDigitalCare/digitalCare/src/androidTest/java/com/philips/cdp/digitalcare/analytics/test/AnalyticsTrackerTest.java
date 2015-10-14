@@ -4,14 +4,14 @@ import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
 
 public class AnalyticsTrackerTest extends
-		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
+		ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
 	public AnalyticsTrackerTest() {
-		super(LaunchDigitalCare.class);
+		super(DigitalCareActivity.class);
 	}
 	
 	private AnalyticsTracker mAnalyticsTrackerClass = null;

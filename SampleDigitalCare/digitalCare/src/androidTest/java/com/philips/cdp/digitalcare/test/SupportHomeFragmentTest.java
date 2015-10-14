@@ -9,17 +9,17 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
 import com.philips.cdp.digitalcare.Utility.test.Log;
+import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
-import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
 
 public class SupportHomeFragmentTest extends
-		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
+		ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
 	private final String TAG = SupportHomeFragmentTest.class.getSimpleName();
 	private SupportHomeFragment mHomeFragment = null;
 
 	public SupportHomeFragmentTest() {
-		super(LaunchDigitalCare.class);
+		super(DigitalCareActivity.class);
 	}
 
 	private SupportHomeFragment mSupportHomeFragment = null;

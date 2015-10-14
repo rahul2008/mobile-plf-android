@@ -5,13 +5,13 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
+import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 
 public class DigitalCareConfigManagerTest extends
-		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
+		ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
 	public DigitalCareConfigManagerTest() {
-		super(LaunchDigitalCare.class);
+		super(DigitalCareActivity.class);
 	}
 
 	private DigitalCareConfigManager mConfigManager = null;
