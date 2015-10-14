@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('dexmaker-1.0.jar'))

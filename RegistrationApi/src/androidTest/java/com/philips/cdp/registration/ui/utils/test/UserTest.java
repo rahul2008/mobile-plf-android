@@ -1,4 +1,4 @@
-package com.philips.cl.di.regsample.app.test;
+package com.philips.cdp.registration.ui.utils.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -10,18 +10,18 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cl.di.regsample.app.RegistrationSampleActivity;
+import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.mock;
 
-public class UserTest extends ActivityInstrumentationTestCase2<RegistrationSampleActivity> {
+public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
 
 	UserTest mUserTest = null;
 
 	public UserTest() {
-		super(RegistrationSampleActivity.class);
+		super(RegistrationActivity.class);
 	}
 
 	@Override
