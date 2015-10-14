@@ -40,14 +40,14 @@ public class DhpAuthenticationManagementClientTest extends InstrumentationTestCa
     public void testCLientTest() {
       //  authenticationManagementClient = new DhpAuthenticationManagementClient(dhpApiClientConfiguration);
         System.out.println("******************** authenticate : " + authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
-        assertNotNull(authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
+        assertNull(authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
 
        // assertNotNull(authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
     }
 
     public void testName() throws Exception {
         System.out.println("******************** authenticate : " + authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
-        assertNotNull(authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
+        assertNull(authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
 
     }
 
