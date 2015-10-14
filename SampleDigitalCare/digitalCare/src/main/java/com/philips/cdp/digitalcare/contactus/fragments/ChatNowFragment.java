@@ -49,8 +49,8 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT);
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT,
+		contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.PAGE_CONTACTUS_CHATNOW);
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_CHATNOW,
 				getPreviousName(), contextData);
 		initView();
 
@@ -114,7 +114,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String setPreviousPageName() {
-		return AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT;
+		return AnalyticsConstants.PAGE_CONTACTUS_CHATNOW;
 	}
 
 	@Override

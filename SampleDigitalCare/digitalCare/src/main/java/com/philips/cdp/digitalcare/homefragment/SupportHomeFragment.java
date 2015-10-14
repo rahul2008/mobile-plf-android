@@ -64,10 +64,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         RegisterButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopRegisterButton);
         createMainMenu();
         try {
-            if(DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging()!=null) {
+            if (DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging() != null && getPreviousName() == null) {
                 AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
                         DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging());
-            }else{
+            } else {
                 AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
                         getPreviousName());
             }

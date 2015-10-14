@@ -75,14 +75,14 @@ public class AnalyticsTracker {
     public static void trackPage(String pageName, String previousPageName) {
         if (!mTaggingEnabled)
             return;
-        DigiCareLogger.i(TAG, "Track page :" + pageName + "previousPageName = "+previousPageName);
+        DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);
         Analytics.trackState(pageName, addPageContextData(previousPageName));
     }
 
     public static void trackPage(String pageName, String previousPageName, Map<String, Object> contextData) {
         if (!mTaggingEnabled)
             return;
-        DigiCareLogger.i(TAG, "Track page :" + pageName + "previousPageName = "+previousPageName);
+        DigiCareLogger.i(TAG, "previousPageName = "+previousPageName + " -- Track page :" + pageName);
         Analytics.trackState(pageName, addPageContextData(previousPageName, contextData));
     }
 
