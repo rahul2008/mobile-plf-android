@@ -18,4 +18,19 @@
     <string name="about_screen_privacy">Privacy policy &gt;</string>
     <string name="about_screen_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce cursus varius sodales. Pellentesque sodales sit amet diam quis feugiat. Curabitur quis venenatis tortor, ut varius dolor. Integer at nisl libero. Praesent hendrerit tortor ac nisi convallis fermentum in id dui. Proin pellentesque elit vitae lacinia blandit. Praesent id risus tortor. Nam eu sem mattis, vestibulum lacus sed, finibus leo. Vestibulum semper viverra odio vel dapibus. Nullam tincidunt ipsum non ipsum finibus, congue maximus ligula tempor. Vestibulum ullamcorper at orci eu pharetra.</string>
 
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item >Home</item>
+        <item >Find People</item>
+        <item >Photos</item>
+        <item >Communities</item>
+        <item >Pages</item>
+        <item >What\'s Hot</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
 </resources>

@@ -13,7 +13,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:contentDescription="@string/desc_list_item_icon"
-        android:src="@drawable/ic_home"/>
+        />
 
     <TextView
         android:id="@+id/title"
@@ -24,7 +24,7 @@
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:paddingRight="40dp"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:textColor="@color/list_item_title"/>
+        />
 
     <TextView
         android:id="@+id/counter"
@@ -33,7 +33,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
-        android:background="@drawable/counter_bg"
-        android:textColor="@color/counter_text_color"/>
+        />
 
 </RelativeLayout>

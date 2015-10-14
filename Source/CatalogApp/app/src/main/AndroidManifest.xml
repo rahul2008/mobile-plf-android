@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.philips.cdp.ui.catalog">
+<manifest package="com.philips.cdp.ui.catalog"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -35,6 +35,7 @@
         <activity android:name=".SplashLauncher"/>
         <activity android:name=".activity.InputTextFieldsActivity"/>
         <activity android:name=".activity.TabBarDemo"/>
+        <activity android:name=".activity.HamburgerMenuDemo"/>
 
     </application>
 
