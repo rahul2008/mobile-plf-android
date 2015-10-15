@@ -16,6 +16,7 @@
         <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
+        <item name="themeSwitch">@style/SwitchDarkBlue</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange">
@@ -33,6 +34,7 @@
         <item name="errorTextColor">@color/uikit_enricher_red</item>
         <item name="errorIcon">@drawable/uikit_error_cross_red</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg_red</item>
+        <item name="themeSwitch">@style/SwitchBrightOrange</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
@@ -50,6 +52,7 @@
         <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
+        <item name="themeSwitch">@style/SwitchBrightAqua</item>
     </style>
 
 </resources>

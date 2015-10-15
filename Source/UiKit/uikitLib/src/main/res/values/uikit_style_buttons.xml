@@ -11,7 +11,7 @@
     </style>
 
     <style name="Button.Solid">
-        <item name="android:textColor">@color/uikit_white</item>
+        <item name="android:textColor">@drawable/uikit_solid_button_text_selector</item>
     </style>
 
     <style name="Button.Solid.DarkBlue">

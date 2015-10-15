@@ -4,8 +4,8 @@
         <item name="fontPath">fonts/centralesans_book.ttf</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:minHeight">44dp</item>
-        <item name="android:paddingRight">20dp</item>
-        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingLeft">12dp</item>
         <item name="android:textColorHint">@color/uikit_enricher4</item>
         <item name="android:textColor">@color/uikit_philips_very_dark_blue</item>
         <item name="android:textCursorDrawable">@null</item>
