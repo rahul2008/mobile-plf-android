@@ -67,6 +67,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         actionBarTitle = (TextView) findViewById(R.id.title);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.list_slidingmenu);
+//        mDrawerList.setse
         setActionBarSettings(actionBar);
         /*scrollView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -110,7 +111,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     private void setActionBarSettings(final ActionBar actionBar) {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.arrow);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
     }
 
     private void setDrawerAdaptor() {

@@ -24,4 +24,8 @@
     <style name="PTablayout.Image" parent="@style/PTablayout">
         <item name="android:layout_height">@dimen/tab_layout_height_with_image</item>
     </style>
+
+    <style name="hamburger">
+        <item name="android:background">?attr/actionBarBackground</item>
+    </style>
 </resources>
