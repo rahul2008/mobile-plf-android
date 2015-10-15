@@ -28,7 +28,7 @@ public class DigitalCareApplicationTest extends
 	private DigitalCareConfigManager mApplication = null;
 	public static int[] mTestValues = { 2, 5, 6 };
 
-	@Override
+	/*@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "setUp launched");
@@ -62,7 +62,7 @@ public class DigitalCareApplicationTest extends
 				R.array.main_menu_title);
 		mAvailable = (mOptions.length > 0) ? true : false;
 		assertTrue(mAvailable);
-	}
+	}*/
 
 	/*@SmallTest
 	public void testFeaturesAvailable() {

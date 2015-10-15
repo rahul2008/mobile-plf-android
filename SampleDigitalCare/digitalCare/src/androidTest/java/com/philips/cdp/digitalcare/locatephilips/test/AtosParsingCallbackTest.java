@@ -21,7 +21,7 @@ public class AtosParsingCallbackTest extends InstrumentationTestCase {
 
 	}
 
-	@SmallTest
+	/*@SmallTest
 	public void testonAtosParsingComplete() {
 
 		AtosParsingCallback mockparsercallback = Mockito
@@ -36,6 +36,6 @@ public class AtosParsingCallbackTest extends InstrumentationTestCase {
 		Mockito.verify(mockparsercallback).onAtosParsingComplete(
 				Mockito.isA(AtosResponseModel.class));
 
-	}
+	}*/
 
 }

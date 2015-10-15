@@ -25,7 +25,7 @@ public class SupportHomeFragmentTest extends
 	private SupportHomeFragment mSupportHomeFragment = null;
 	private Context mContext = null;
 
-	@Override
+	/*@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
@@ -42,7 +42,7 @@ public class SupportHomeFragmentTest extends
 		if (received.equalsIgnoreCase("SupportHomeFragment_Proxy"))
 			validate = true;
 		assertTrue(validate);
-	}
+	}*/
 
 	/*@SmallTest
 	public void testFragmentViewContainer() {
@@ -56,6 +56,7 @@ public class SupportHomeFragmentTest extends
 		assertNotNull(mReceivedView);
 	}*/
 
+/*
 	@SmallTest
 	public void testFragmentCreation() {
 		Bundle mBundle = new Bundle();
@@ -73,5 +74,6 @@ public class SupportHomeFragmentTest extends
 		Log.d(TAG, "ActionaBAr Title is : "+ mReceived);
 		assertNull(mReceived);
 	}
+*/
 
 }
