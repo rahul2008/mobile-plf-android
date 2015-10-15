@@ -15,7 +15,7 @@ public class CatalogActivity extends UiKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name), Context.MODE_PRIVATE)).getTheme());
+        setTheme(new ThemeUtils(this.getSharedPreferences(this.getString(R.string.uikit_app_name), Context.MODE_PRIVATE)).getTheme());
         super.onCreate(savedInstanceState);
     }
 }

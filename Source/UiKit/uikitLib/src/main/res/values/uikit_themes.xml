@@ -1,0 +1,23 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Placeholder to start PhilipsTheme definition -->
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/HoloActionBar</item>
+        <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
+        <item name="splashTitleStyle">@style/SplashTitle</item>
+        <item name="actionButtonStyleRef">@style/Philips.ActionButton</item>
+        <item name="actionButtonBgColor">@color/uikit_philips_dark_blue</item>
+        <item name="actionButtonBgColorPressed">@color/uikit_philips_light_blue</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="baseColor">@color/uikit_philips_dark_blue</item>
+        <item name="gradBackground">@drawable/uikit_grad_dark_blue_background</item>
+    </style>
+
+    <style name="TextAppearance" parent="android:TextAppearance">
+        <item name="fontPath">fonts/centralesans_book.ttf</item>
+    </style>
+
+    <style name="HoloActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="background">?attr/actionBarBackground</item>
+    </style>
+</resources>

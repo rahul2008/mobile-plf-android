@@ -14,6 +14,6 @@ public class AboutScreenMM extends UiKitActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.about_screen_mm);
+        setContentView(R.layout.uikit_about_screen_mm);
     }
 }

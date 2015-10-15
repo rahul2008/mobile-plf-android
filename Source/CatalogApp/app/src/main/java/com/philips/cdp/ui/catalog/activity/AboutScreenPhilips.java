@@ -14,6 +14,6 @@ public class AboutScreenPhilips extends UiKitActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.about_screen);
+        setContentView(R.layout.uikit_about_screen);
     }
 }

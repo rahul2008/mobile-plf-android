@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minWidth="@dimen/uikit_tab_minwidth"
+                android:background="@drawable/uikit_tab_selector">
+
+    <TextView
+        android:id="@+id/tab_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/uikit_tab_text_size_with_image"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        fontPath="fonts/centralesanslight.ttf"/>
+
+</RelativeLayout>

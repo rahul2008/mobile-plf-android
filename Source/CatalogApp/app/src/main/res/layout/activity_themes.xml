@@ -69,8 +69,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/colorSwitch"
-                android:track="@drawable/switch_track"
-                android:thumb="@drawable/thumb"
+                android:track="@drawable/uikit_switch_track"
+                android:thumb="@drawable/uikit_thumb"
                 android:switchMinWidth="64dp"/>
 
         </LinearLayout>

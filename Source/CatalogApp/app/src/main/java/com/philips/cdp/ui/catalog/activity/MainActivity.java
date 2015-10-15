@@ -32,7 +32,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
     @Override
     protected void onStart() {
         super.onStart();
-        setTheme(new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name), Context.MODE_PRIVATE)).getTheme());
+        setTheme(new ThemeUtils(this.getSharedPreferences(this.getString(R.string.uikit_app_name), Context.MODE_PRIVATE)).getTheme());
     }
 
     private void createListView() {

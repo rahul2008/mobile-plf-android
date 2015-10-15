@@ -21,19 +21,19 @@ public class TabBarDemo extends CatalogActivity {
         TabLayout view = (TabLayout) findViewById(R.id.tab_bar);
         TabUtils utils = new TabUtils(this, view, true);
 
-        TabLayout.Tab tab = utils.newTab(R.string.splash_title, R.drawable.alarm, 0);
+        TabLayout.Tab tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
         utils.setTitle(tab, "Alarm");
         view.addTab(tab);
 
-        tab = utils.newTab(R.string.splash_title, R.drawable.apple, 0);
+        tab = utils.newTab(R.string.uikit_splash_title, R.drawable.apple, 0);
         utils.setTitle(tab, "Wellness");
         view.addTab(tab);
 
-        tab = utils.newTab(R.string.splash_title, R.drawable.barchart, 0);
+        tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 0);
         utils.setTitle(tab, "Statistics");
         view.addTab(tab);
 
-        tab = utils.newTab(R.string.splash_title, R.drawable.gear, 0);
+        tab = utils.newTab(R.string.uikit_splash_title, R.drawable.gear, 0);
         utils.setTitle(tab, "Settings");
         view.addTab(tab);
     }

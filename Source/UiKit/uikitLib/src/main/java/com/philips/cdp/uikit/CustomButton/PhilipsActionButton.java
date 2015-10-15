@@ -55,7 +55,7 @@ public class PhilipsActionButton extends ImageButton {
         float shadowValue = 0;
 
         if (typedArray.getBoolean(R.styleable.ActionButton_actionButtonShadow, false))
-            shadowValue = resources.getDimension(R.dimen.action_button_shadow_radius);
+            shadowValue = resources.getDimension(R.dimen.uikit_action_button_shadow_radius);
 
         setShadow(shadowValue);
     }
@@ -77,13 +77,13 @@ public class PhilipsActionButton extends ImageButton {
         int shapeValue = typedArray.getInt(R.styleable.ActionButton_actionButtonShape, SQUARE);
         switch (shapeValue) {
             case SQUARE:
-                gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.square);
+                gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.uikit_square);
                 break;
             case CIRCLE:
-                gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.circle);
+                gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.uikit_circle);
                 break;
             default:
-                gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.square);
+                gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.uikit_square);
                 break;
         }
         return gradientDrawable;
@@ -91,7 +91,7 @@ public class PhilipsActionButton extends ImageButton {
 
     private GradientDrawable getNormalStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
-        int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColor, resources.getColor(R.color.philips_bright_blue));
+        int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColor, resources.getColor(R.color.uikit_philips_bright_blue));
         gradientDrawable.setColor(color);
         gradientDrawable.mutate();
         return gradientDrawable;
@@ -99,7 +99,7 @@ public class PhilipsActionButton extends ImageButton {
 
     private GradientDrawable getPressedStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
-        int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColorPressed, resources.getColor(R.color.philips_dark_blue));
+        int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColorPressed, resources.getColor(R.color.uikit_philips_dark_blue));
         gradientDrawable.setColor(color);
         gradientDrawable.mutate();
         return gradientDrawable;

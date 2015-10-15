@@ -27,7 +27,7 @@ public class ThemesActivity extends CatalogActivity implements RadioGroup.OnChec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_themes);
         themeUtils = new ThemeUtils(this.getSharedPreferences(
-                this.getString(R.string.app_name), Context.MODE_PRIVATE));
+                this.getString(R.string.uikit_app_name), Context.MODE_PRIVATE));
         declareViews();
         setViewState();
         setListeners();
