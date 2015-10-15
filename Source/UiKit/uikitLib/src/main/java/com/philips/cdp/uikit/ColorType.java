@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.uikit;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -17,14 +17,6 @@ public enum ColorType {
     ColorType(final int id, final String description) {
         this.id = id;
         this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public static ColorType fromId(final int id) {
@@ -49,5 +41,13 @@ public enum ColorType {
         }
 
         return UNKNOWN;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

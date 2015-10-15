@@ -1,9 +1,9 @@
-package com.philips.cdp.ui.catalog.themeutils;
+package com.philips.cdp.uikit.themeutils;
 
 import android.content.SharedPreferences;
 
-import com.philips.cdp.ui.catalog.ColorType;
-import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.ColorType;
+import com.philips.cdp.uikit.R;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -15,25 +15,30 @@ import java.util.TreeMap;
  */
 public class ThemeUtils {
 
-    private final int DEFAULT_THEME = 0;
     public static final String DELIMITER = "|";
-    private TreeMap<String, int[]> themesMap = new TreeMap<>();
+    private final int DEFAULT_THEME = 0;
     private final String CURRENT_THEME_STATE = "current_theme_state";
     private final String DEFAULT_THEME_STATE = "blue|false|solid|0";
+    private TreeMap<String, int[]> themesMap = new TreeMap<>();
     private String COLOR_STRING = ColorType.BLUE.getDescription();
     private SharedPreferences sharedPreferences;
+    private int[] themes = {
+            R.style.Theme_Philips_DarkBlue_WhiteBackground,
+            R.style.Theme_Philips_BrightOrange_WhiteBackground,
+            R.style.Theme_Philips_BrightAqua_WhiteBackground
+    };
 
     public ThemeUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
         appendThemes();
     }
 
-    public void setColorString(String COLOR_STRING) {
-        this.COLOR_STRING = COLOR_STRING;
-    }
-
     public String getColorString() {
         return COLOR_STRING;
+    }
+
+    public void setColorString(String COLOR_STRING) {
+        this.COLOR_STRING = COLOR_STRING;
     }
 
     private void appendThemes() {
@@ -50,12 +55,6 @@ public class ThemeUtils {
         themesMap.put(ColorType.ORANGE.getDescription(), orange_themes);
         themesMap.put(ColorType.AQUA.getDescription(), aqua_themes);
     }
-
-    private int[] themes = {
-            R.style.Theme_Philips_DarkBlue_WhiteBackground,
-            R.style.Theme_Philips_BrightOrange_WhiteBackground,
-            R.style.Theme_Philips_BrightAqua_WhiteBackground
-    };
 
     public void setThemePreferences(boolean previous) {
         int theme = getThemeIndex(previous);

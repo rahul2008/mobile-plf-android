@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
-import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
+import com.philips.cdp.uikit.themeutils.ThemeUtils;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
+import com.philips.cdp.uikit.themeutils.ThemeUtils;
 
 import java.util.ArrayList;
 

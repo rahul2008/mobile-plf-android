@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Framelayout to display Fragments -->
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="240dp"
+                            android:layout_height="match_parent"
+                            android:background="?attr/actionBarBackground"
+                            android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/list_slidingmenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/image"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="start"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="1dp"
+                    android:listSelector="@drawable/hamburger_list_selector">
+
+                </ListView>
+
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/philips_logo"/>
+
+            </RelativeLayout>
+        </ScrollView>
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>
