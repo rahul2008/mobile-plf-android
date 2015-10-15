@@ -33,7 +33,7 @@
 <string name="RegEmailNotVerified_AlertPopupErrorText">アカウントの照合が完了していません。メールを確認し、リンクをクリックしてアカウントの照合を行ってください。</string>
 <string name="RegVerifyEmailView_VerificationEmailText">次のアドレスにメールを送信しました：%s。メール受信まで少々時間がかかる場合があります。</string>
 <string name="RegSignWith_Lbltxt">サインイン</string>
-<string name="RegMerge_MergeLbltxt">アカウントをマージするには、%s の MyPhilips パスワードを入力してください</string>
+<string name="RegMerge_MergeLbltxt">アカウントをマージするには、MyPhilips パスワードを入力してください。</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">My Philips でサインイン</string>
 <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">メールアドレスを入力</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">パスワードを入力</string>

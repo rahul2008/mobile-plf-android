@@ -1,10 +1,13 @@
 package com.philips.cdp.registration.settings.test;
 
+import android.app.Activity;
 import android.content.res.AssetManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.configuration.ConfigurationParser;
+import com.philips.cdp.registration.events.UserRegistrationHelper;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -100,6 +103,39 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
         String code = mRegistrationHelper.getCountryCode();
         assertNotNull(code);
     }
+
+    public void testLocale(){
+        Locale locale = mRegistrationHelper.getLocale();
+        assertNotNull(locale);
+    }
+
+    public void testUserRegistrationListener(){
+
+        mRegistrationHelper.registerUserRegistrationListener(new UserRegistrationListener() {
+            @Override
+            public void onUserRegistrationComplete(Activity activity) {
+
+            }
+
+            @Override
+            public void onPrivacyPolicyClick(Activity activity) {
+
+            }
+
+            @Override
+            public void onTermsAndConditionClick(Activity activity) {
+
+            }
+        });
+
+        UserRegistrationHelper url = mRegistrationHelper.getUserRegistrationListener();
+        assertNotNull(url);
+
+    }
+
+
+
+
 
 
 }

@@ -33,7 +33,7 @@
 <string name="RegEmailNotVerified_AlertPopupErrorText">You have not verified your account yet . Check your email and click the link to activate your account.</string>
 <string name="RegVerifyEmailView_VerificationEmailText">We have sent an email to: %s. It may take some time for the email to arrive.</string>
 <string name="RegSignWith_Lbltxt">Sign in with</string>
-<string name="RegMerge_MergeLbltxt">Please enter your MyPhilips password to merge your account</string>
+<string name="RegMerge_MergeLbltxt">Please enter your MyPhilips password to merge your account.</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Sign with My Philips</string>
 <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">Enter email address</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Enter password</string>

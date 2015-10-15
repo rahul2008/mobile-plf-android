@@ -33,7 +33,7 @@
 <string name="RegEmailNotVerified_AlertPopupErrorText">Sie haben Ihr Konto noch nicht verifiziert. Überprüfen Sie Ihre E-Mails, und klicken Sie auf den Link zur Aktivierung Ihres Kontos.</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Wir haben eine E-Mail an folgende Adresse gesendet: %s. Es kann einige Zeit dauern, bis die E-Mail bei Ihnen ankommt.</string>
 <string name="RegSignWith_Lbltxt">Anmelden mit</string>
-<string name="RegMerge_MergeLbltxt">Geben Sie Ihr MyPhilips Passwort für %s ein, um Ihr Konto zu verknüpfen.</string>
+<string name="RegMerge_MergeLbltxt">Geben Sie Ihr MyPhilips Passwort ein, um Ihr Konto zu verknüpfen.</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Mit MyPhilips anmelden</string>
 <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">E-Mail-Adresse eingeben</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Passwort eingeben</string>

@@ -33,7 +33,7 @@
 <string name="RegEmailNotVerified_AlertPopupErrorText">Вы еще не подтвердили данные учетной записи. Проверьте входящие сообщения и перейдите по ссылке, чтобы активировать учетную запись.</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Письмо было отправлено на адрес: %s. Это может занять некоторое время.</string>
 <string name="RegSignWith_Lbltxt">Войти через</string>
-<string name="RegMerge_MergeLbltxt">Введите пароль MyPhilips для %s, чтобы объединить учетные записи</string>
+<string name="RegMerge_MergeLbltxt">Введите пароль MyPhilips, чтобы объединить учетные записи.</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Вход через MyPhilips</string>
 <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">Введите адрес эл. почты</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Введите пароль</string>

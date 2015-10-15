@@ -33,7 +33,7 @@
 <string name="RegEmailNotVerified_AlertPopupErrorText">لم تتحقق من حسابك بعد. تحقق من بريدك الإلكتروني وانقر فوق الارتباط لتنشيط حسابك.</string>
 <string name="RegVerifyEmailView_VerificationEmailText">لقد أرسلنا بريدًا إلكترونيًا إلى: %s. قد تستغرق عملية استلام البريد الإلكتروني بعض الوقت.</string>
 <string name="RegSignWith_Lbltxt">تسجيل الدخول بواسطة</string>
-<string name="RegMerge_MergeLbltxt">يرجى إدخال كلمة مرور MyPhilips الخاصة بـ %s لدمج حسابك</string>
+<string name="RegMerge_MergeLbltxt">يرجى إدخال كلمة مرور MyPhilips لدمج حسابك.</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">تسجيل الدخول بواسطة My Philips</string>
 <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">أدخِل عنوان بريد الإلكتروني</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">أدخل كلمة المرور</string>

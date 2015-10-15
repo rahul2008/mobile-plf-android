@@ -33,7 +33,7 @@
 <string name="RegEmailNotVerified_AlertPopupErrorText">您尚未验证自己的帐户。请查看电子邮件并单击链接以激活您的帐户。</string>
 <string name="RegVerifyEmailView_VerificationEmailText">我们已向以下地址发送电子邮件：%s。电子邮件到达可能需要一段时间。</string>
 <string name="RegSignWith_Lbltxt">登录方式</string>
-<string name="RegMerge_MergeLbltxt">请输入 %s 的 MyPhilips 密码，以合并您的帐户</string>
+<string name="RegMerge_MergeLbltxt">请输入您的 MyPhilips 密码，以合并您的帐户。</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">使用 MyPhilips 登录</string>
 <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">输入电子邮件地址</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">输入密码</string>

@@ -33,7 +33,7 @@
 <string name="RegEmailNotVerified_AlertPopupErrorText">U hebt uw account nog niet geverifieerd. Controleer uw e-mail en klik op de link om uw account te activeren.</string>
 <string name="RegVerifyEmailView_VerificationEmailText">We hebben een e-mail gestuurd naar: %s. Het kan enige tijd duren voordat de e-mail aankomt.</string>
 <string name="RegSignWith_Lbltxt">Aanmelden met</string>
-<string name="RegMerge_MergeLbltxt">Geef uw Mijn Philips-wachtwoord op voor %s om uw account samen te voegen</string>
+<string name="RegMerge_MergeLbltxt">Geef uw Mijn Philips-wachtwoord op om uw account samen te voegen.</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Aanmelden met Mijn Philips</string>
 <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">Geef uw e-mailadres op</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Geef uw wachtwoord op</string>
