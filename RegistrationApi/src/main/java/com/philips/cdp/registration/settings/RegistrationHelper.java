@@ -139,6 +139,7 @@ public class RegistrationHelper {
             @Override
             public void run() {
                 parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
+
                 if (isHsdpAvailable()) {
                     isHsdpFlow = true;
                 }
@@ -419,7 +420,5 @@ public class RegistrationHelper {
         return isHsdpFlow;
     }
 
-    public void setIsHsdpFlow(boolean isHsdpFlow) {
-        this.isHsdpFlow = isHsdpFlow;
-    }
+
 }

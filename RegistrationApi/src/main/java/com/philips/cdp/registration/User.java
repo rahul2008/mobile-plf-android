@@ -109,9 +109,6 @@ public class User {
             throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
         }
 
-
-        loginIntoHsdp(emailAddress, password, traditionalLoginHandler);
-
         LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
                 new TraditionalLoginHandler() {
                     @Override
@@ -135,7 +132,7 @@ public class User {
     }
 
     private void loginIntoHsdp(String emailAddress, String password, final TraditionalLoginHandler traditionalLoginHandler) {
-        if (isUserSignIn(mContext) && RegistrationHelper.getInstance().isHsdpFlow()) {
+        if (RegistrationHelper.getInstance().isHsdpFlow() && isUserSignIn(mContext)) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
             HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
             if (hsdpUserRecord == null && getEmailVerificationStatus(mContext)) {
