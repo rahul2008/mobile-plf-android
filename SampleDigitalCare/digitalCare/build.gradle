@@ -9,6 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 10
         versionName "2.0.14"
+        multiDexEnabled true
 
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -28,6 +29,7 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support:multidex:1.0.0'
     compile 'com.google.android.gms:play-services:+'
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile project(':adobeMobileLibrary')
