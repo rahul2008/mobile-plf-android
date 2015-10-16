@@ -41,23 +41,23 @@
         <item name="android:background">@drawable/uikit_bright_aqua_outlined_selector</item>
     </style>
 
-    <style name="Button.TransparentDarkBlue">
-        <item name="android:textColor">@drawable/uikit_dark_blue_outlined_text_selector</item>
-        <item name="android:background">@drawable/uikit_dark_blue_transparent_selector</item>
+    <style name="Button.TransparentBlue">
+        <item name="android:textColor">@drawable/uikit_blue_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_blue_transparent_selector</item>
     </style>
 
-    <style name="Button.TransparentBrightOrange">
-        <item name="android:textColor">@drawable/uikit_bright_orange_outlined_text_selector</item>
-        <item name="android:background">@drawable/uikit_bright_orange_transparent_selector</item>
+    <style name="Button.TransparentOrange">
+        <item name="android:textColor">@drawable/uikit_orange_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_orange_transparent_selector</item>
     </style>
 
-    <style name="Button.TransparentBrightAqua">
-        <item name="android:textColor">@drawable/uikit_bright_aqua_outlined_text_selector</item>
-        <item name="android:background">@drawable/uikit_bright_aqua_transparent_selector</item>
+    <style name="Button.TransparentAqua">
+        <item name="android:textColor">@drawable/uikit_aqua_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_aqua_transparent_selector</item>
     </style>
 
     <style name="Button.TransparentWhite">
-        <item name="android:textColor">@color/uikit_white</item>
+        <item name="android:textColor">@drawable/uikit_white_transparent_text_selector</item>
         <item name="android:background">@drawable/uikit_white_transparent_selector</item>
     </style>
 

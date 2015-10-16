@@ -11,7 +11,7 @@
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_blue</item>
         <item name="buttonStyle">@style/Button.Solid.DarkBlue</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedDarkBlue</item>
-        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentDarkBlue</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBlue</item>
         <item name="editTextStyle">@style/InputStyle.DarkBlue</item>
         <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
@@ -29,7 +29,7 @@
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_orange</item>
         <item name="buttonStyle">@style/Button.Solid.BrightOrange</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightOrange</item>
-        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBrightOrange</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
         <item name="editTextStyle">@style/InputStyle.BrightOrange</item>
         <item name="errorTextColor">@color/uikit_enricher_red</item>
         <item name="errorIcon">@drawable/uikit_error_cross_red</item>
@@ -45,9 +45,9 @@
         <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColor">@color/uikit_philips_bright_aqua</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_aqua</item>
-        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBrightAqua</item>
-        <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
+        <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
         <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
         <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
