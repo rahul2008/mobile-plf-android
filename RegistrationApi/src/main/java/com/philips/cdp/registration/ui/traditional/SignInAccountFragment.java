@@ -278,14 +278,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         hideSignInSpinner();
 
 
-        trackActionLoginError(userRegistrationFailureInfo.getError().code);
         mBtnSignInAccount.setEnabled(false);
         if(userRegistrationFailureInfo.getErrorCode()>= RegConstants.HSDP_LOWER_ERROR_BOUND){
             //HSDP related error description
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+            trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
         }else{
             //Need to show password errors only
             mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
+            trackActionLoginError(userRegistrationFailureInfo.getError().code);
         }
     }
 

@@ -52,10 +52,16 @@ public class HsdpUser {
                     DhpAuthenticationManagementClient authenticationManagementClient = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
                     final DhpAuthenticationResponse dhpAuthenticationResponse = authenticationManagementClient.authenticate(email, password);
                     if (dhpAuthenticationResponse == null) {
-                        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                        userRegistrationFailureInfo.setErrorCode(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND);
-                        userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                        loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                 UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+                                userRegistrationFailureInfo.setErrorCode(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND);
+                                userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+                                loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                            }
+                        });
+                        return;
                     }
 
                     if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
