@@ -550,7 +550,9 @@ public class User {
             logoutHsdp(logoutHandler);
         } else {
             logoutJanrainUser();
-            logoutHandler.onLogoutSuccess();
+            if(logoutHandler!=null){
+               logoutHandler.onLogoutSuccess();
+            }
         }
     }
 
@@ -572,6 +574,7 @@ public class User {
      * @param handler Callback handler
      */
     public void refreshUser(final Context context, final RefreshUserHandler handler) {
+
         if (Jump.getSignedInUser() == null) {
             handler.onRefreshUserFailed(0);
             return;
@@ -631,12 +634,16 @@ public class User {
             public void onLogoutSuccess() {
                 logoutJanrainUser();
                 hsdpUser.deleteFromDisk();
-                logoutHandler.onLogoutSuccess();
+                if(logoutHandler!=null){
+                   logoutHandler.onLogoutSuccess();
+                }
             }
 
             @Override
             public void onLogoutFailure(int responseCode, String message) {
-                logoutHandler.onLogoutFailure(responseCode, message);
+                if(logoutHandler!=null){
+                  logoutHandler.onLogoutFailure(responseCode, message);
+                }
             }
         });
 
