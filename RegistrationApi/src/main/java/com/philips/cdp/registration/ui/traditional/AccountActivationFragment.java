@@ -29,6 +29,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
         RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener, TraditionalLoginHandler {
@@ -248,7 +249,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             launchWelcomeFragment();
 
         } else {
-
             mEMailVerifiedError.setVisibility(View.VISIBLE);
             mEMailVerifiedError.setError(getResources().getString(
                     R.string.RegEmailNotVerified_AlertPopupErrorText));
@@ -266,8 +266,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         applyParams(config, mTvVerifyEmail,width);
         applyParams(config, mLlWelcomeContainer,width);
         applyParams(config, mTvResendDetails,width);
-        applyParams(config, mRlSingInOptions,width);
-        applyParams(config, mRegError,width);
+        applyParams(config, mRlSingInOptions, width);
+        applyParams(config, mRegError, width);
     }
 
     @Override
@@ -289,7 +289,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserFailed(int error) {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
-        updateActivationUIState();
+        if(error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED){
+            mEMailVerifiedError.setError(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+            hideActivateSpinner();
+            mBtnActivate.setEnabled(true);
+        }else{
+            updateActivationUIState();
+        }
     }
 
     @Override

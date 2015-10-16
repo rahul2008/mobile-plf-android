@@ -603,7 +603,7 @@ public class User {
 
                             @Override
                             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                                handler.onRefreshUserFailed(0);
+                                handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
                             }
                         });
                     } else {

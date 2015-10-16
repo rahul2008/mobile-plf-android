@@ -114,4 +114,6 @@ public class RegConstants {
 
     public static final int HSDP_LOWER_ERROR_BOUND = 7000;
 
+    public static final int HSDP_ACTIVATE_ACCOUNT_FAILED = 10000;
+
 }
