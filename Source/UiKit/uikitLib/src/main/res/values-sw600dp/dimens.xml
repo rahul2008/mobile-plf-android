@@ -22,4 +22,7 @@
     <!-- To do items -->
     <dimen name="uikit_tab_text_size_with_image">14dp</dimen>
     <dimen name="uikit_tab_text_size_without_image">14dp</dimen>
+
+    <!-- variable to hold info for tablet or phone -->
+    <bool name="uikit_istablet">true</bool>
 </resources>

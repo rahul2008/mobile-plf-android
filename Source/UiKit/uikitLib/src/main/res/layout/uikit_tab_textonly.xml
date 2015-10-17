@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minWidth="@dimen/uikit_tab_minwidth"
                 android:background="@drawable/uikit_tab_selector">
 
     <TextView
@@ -13,5 +12,11 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         fontPath="fonts/centralesanslight.ttf"/>
-
+    <View
+        android:id="@+id/tab_divider"
+        android:layout_width="@dimen/uikit_tab_divider_width"
+        android:layout_height="match_parent"
+        android:background="?attr/veryLightColor"
+        android:alpha="0.3"
+        android:layout_alignParentLeft="true"/>
 </RelativeLayout>

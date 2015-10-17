@@ -7,6 +7,7 @@
         <attr name="gradBackground" format="reference|color"/>
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
         <attr name="themeSwitch" format="reference"/>
+        <attr name="veryLightColor" format="color"></attr>
     </declare-styleable>
 
     <declare-styleable name="ActionButton">

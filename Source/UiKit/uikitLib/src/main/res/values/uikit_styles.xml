@@ -18,6 +18,7 @@
         <item name="tabPaddingBottom">0dp</item>
         <item name="tabPaddingTop">0dp</item>
         <item name="tabPadding">0dp</item>
+        <item name="tabMinWidth">@dimen/uikit_tab_minwidth</item>
         <item name="tabIndicatorHeight">0dp</item>
     </style>
 
