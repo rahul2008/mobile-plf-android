@@ -74,7 +74,7 @@
                     android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size"
                     android:textColor="#fff"
                     fontPath="fonts/centralesanslight.ttf"
-                    android:text="Privacy Policy &gt;"/>
+                    android:text="@string/uikit_about_screen_privacy"/>
 
             </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/uikit_about_screen_logo_margin"
-            android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin"
+            android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin_bottom"
             app:vectorsrc="@drawable/uikit_philips_logo"/>
     </LinearLayout>
 

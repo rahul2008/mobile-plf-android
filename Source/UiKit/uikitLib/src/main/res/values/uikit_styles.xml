@@ -24,4 +24,22 @@
     <style name="PTablayout.Image" parent="@style/PTablayout">
         <item name="android:layout_height">@dimen/uikit_tab_layout_height_with_image</item>
     </style>
+
+    <style name="AboutScreenTheme" parent="Theme.Philips.DarkBlue">
+        <item name="actionBarStyle">@style/ASActionBar</item>
+    </style>
+    <style name="AboutScreenTheme.MM" parent="Theme.Philips.DarkBlue">
+        <item name="actionBarStyle">@style/ASActionBar.MM</item>
+    </style>
+    <style name="ASActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+        <item name="customNavigationLayout">@layout/uikit_about_screen_actionbar</item>
+        <item name="background">@color/uikit_philips_very_dark_blue</item>
+        <item name="height">48dp</item>
+    </style>
+    <style name="ASActionBar.MM">
+        <item name="background">@android:color/white</item>
+        <item name="customNavigationLayout">@layout/uikit_about_screen_actionbar_mm</item>
+    </style>
 </resources>

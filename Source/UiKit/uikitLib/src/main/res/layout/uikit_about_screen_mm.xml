@@ -73,7 +73,7 @@
                     android:textColor="@color/uikit_philips_very_dark_blue"
                     android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size"
                     fontPath="fonts/centralesans_book.ttf"
-                    android:text="Privacy Policy &gt;"/>
+                    android:text="@string/uikit_about_screen_privacy"/>
 
             </LinearLayout>
 
@@ -93,12 +93,12 @@
         <ImageView
             android:id="@+id/about_screen_logo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/uikit_about_screen_mm_logo_height"
             android:layout_gravity="center_horizontal"
 
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/uikit_about_screen_logo_margin"
-            android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin"
+            android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin_bottom"
             android:src="@drawable/uikit_makers_logo"/>
     </LinearLayout>
 
