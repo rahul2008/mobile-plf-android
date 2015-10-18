@@ -107,20 +107,13 @@ public class TabUtils {
                 int windowWidth = metrics.widthPixels;
 
                 boolean isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
-                if (isTablet) {
-                    if (tabLayoutWidth <= windowWidth) {
-                        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-                        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-                    }
-                    return;
-                }
-
-                //Proceed only for phones
                 if (tabLayoutWidth <= windowWidth) {
                     tabLayout.setTabMode(TabLayout.MODE_FIXED);
-                    tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+                    int gravity = isTablet ? TabLayout.GRAVITY_CENTER : TabLayout.GRAVITY_FILL;
+                    tabLayout.setTabGravity(gravity);
                 } else {
-                    tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                    if (tabLayout.getTabMode() != TabLayout.MODE_SCROLLABLE)
+                        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
                 }
             }
         });
