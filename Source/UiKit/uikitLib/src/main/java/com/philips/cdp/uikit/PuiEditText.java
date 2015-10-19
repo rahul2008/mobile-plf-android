@@ -40,13 +40,13 @@ public class PuiEditText extends RelativeLayout {
     public PuiEditText(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.input_text_field, this, true);
+        inflater.inflate(R.layout.uikit_input_text_field, this, true);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
         String editTextHint = a.getString(R.styleable.InputTextField_hintText);
         String errorText = a.getString(R.styleable.InputTextField_errorText);
         boolean disabled = a.getBoolean(R.styleable.InputTextField_disabled, false);
-        errorTextColor = a.getColor(R.styleable.InputTextField_errorTextColor, getResources().getColor(R.color.philips_bright_orange));
+        errorTextColor = a.getColor(R.styleable.InputTextField_errorTextColor, getResources().getColor(R.color.uikit_philips_bright_orange));
         errorIcon = a.getDrawable(R.styleable.InputTextField_errorIcon);
         errorBackground = a.getDrawable(R.styleable.InputTextField_errorBackground);
         a.recycle();
@@ -92,7 +92,7 @@ public class PuiEditText extends RelativeLayout {
             setErrorTextStyle();
         } else {
             setErrorMessageVisibilty(View.GONE);
-            editText.setTextColor(getResources().getColor(R.color.philips_very_dark_blue));
+            editText.setTextColor(getResources().getColor(R.color.uikit_philips_very_dark_blue));
             setBackgroundAsPerAPILevel(themeDrawable);
         }
     }
@@ -103,7 +103,7 @@ public class PuiEditText extends RelativeLayout {
             if (!hasFocus) {
                 showErrorAndChangeEditTextStyle(!(validator == null || validator.validate(editText.getText().toString())));
             } else {
-                editText.setTextColor(getResources().getColor(R.color.philips_very_dark_blue));
+                editText.setTextColor(getResources().getColor(R.color.uikit_philips_very_dark_blue));
             }
         }
     };

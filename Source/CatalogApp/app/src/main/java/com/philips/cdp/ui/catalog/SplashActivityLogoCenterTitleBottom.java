@@ -22,6 +22,6 @@ public class SplashActivityLogoCenterTitleBottom extends CatalogActivity {
 
         //Hide the Action bar
         getSupportActionBar().hide();
-        setContentView(com.philips.cdp.uikit.R.layout.splash_screen_logo_center_tb);
+        setContentView(com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_center_tb);
     }
 }

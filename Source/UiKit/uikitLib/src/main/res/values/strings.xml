@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">UiKit</string>
-    <string name="question_mark">\?</string>
-    <string name="plus">\+</string>
-    <string name="minus">-</string>
-    <string name="greater">&gt;</string>
-    <string name="cross_mark">X</string>
+    <string name="uikit_question_mark">\?</string>
+    <string name="uikit_plus">\+</string>
+    <string name="uikit_minus">-</string>
+    <string name="uikit_greater">&gt;</string>
+    <string name="uikit_cross_mark">X</string>
 
     <!-- Splash screen title-->
-    <string name="splash_title">Hello World</string>
+    <string name="uikit_splash_title">Hello World</string>
 
     <!-- About Screen -->
-    <string name="about_screen_apptitle">Mobile app</string>
-    <string name="about_screen_version">Version 1.0.1</string>
-    <string name="about_screen_copyright">Copyright \u00A9 2015 Philips</string>
-    <string name="about_screen_terms">Terms &amp; conditions &gt;</string>
-    <string name="about_screen_privacy">Privacy policy &gt;</string>
-    <string name="about_screen_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce cursus varius sodales. Pellentesque sodales sit amet diam quis feugiat. Curabitur quis venenatis tortor, ut varius dolor. Integer at nisl libero. Praesent hendrerit tortor ac nisi convallis fermentum in id dui. Proin pellentesque elit vitae lacinia blandit. Praesent id risus tortor. Nam eu sem mattis, vestibulum lacus sed, finibus leo. Vestibulum semper viverra odio vel dapibus. Nullam tincidunt ipsum non ipsum finibus, congue maximus ligula tempor. Vestibulum ullamcorper at orci eu pharetra.</string>
+    <string name="uikit_about_screen_apptitle">Mobile app</string>
+    <string name="uikit_about_screen_version">Version 1.0.1</string>
+    <string name="uikit_about_screen_copyright">Copyright \u00A9 2015 Philips</string>
+    <string name="uikit_about_screen_terms">Terms &amp; conditions &gt;</string>
+    <string name="uikit_about_screen_privacy">Privacy policy &gt;</string>
+    <string name="uikit_about_screen_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce cursus varius sodales. Pellentesque sodales sit amet diam quis feugiat. Curabitur quis venenatis tortor, ut varius dolor. Integer at nisl libero. Praesent hendrerit tortor ac nisi convallis fermentum in id dui. Proin pellentesque elit vitae lacinia blandit. Praesent id risus tortor. Nam eu sem mattis, vestibulum lacus sed, finibus leo. Vestibulum semper viverra odio vel dapibus. Nullam tincidunt ipsum non ipsum finibus, congue maximus ligula tempor. Vestibulum ullamcorper at orci eu pharetra.</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

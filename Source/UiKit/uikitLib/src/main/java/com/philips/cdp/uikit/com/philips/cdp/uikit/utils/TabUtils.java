@@ -42,14 +42,14 @@ public class TabUtils {
         TabLayout.Tab newTab = tabLayout.newTab();
         View customView;
         if (imageDrawable > 0) {
-            customView = LayoutInflater.from(context).inflate(R.layout.tab_with_image, null);
+            customView = LayoutInflater.from(context).inflate(R.layout.uikit_tab_with_image, null);
             //Set icon for the tab
             ImageView iconView = (ImageView) customView.findViewById(R.id.tab_icon);
             Drawable d = ResourcesCompat.getDrawable(context.getResources(), imageDrawable, null);
             iconView.setImageDrawable(getTabIconSelector(d));
             iconView.setVisibility(View.VISIBLE);
         } else {
-            customView = LayoutInflater.from(context).inflate(R.layout.tab_textonly, null);
+            customView = LayoutInflater.from(context).inflate(R.layout.uikit_tab_textonly, null);
         }
 
         //Set title text
@@ -91,7 +91,7 @@ public class TabUtils {
 
     //Focussed color is the base color of the current theme.
     private void initSelectionColors() {
-        enabledColor = ContextCompat.getColor(context, R.color.tab_text_enabled_color);
+        enabledColor = ContextCompat.getColor(context, R.color.uikit_tab_text_enabled_color);
         //Selected Color
         TypedArray array = context.obtainStyledAttributes(R.styleable.PhilipsUIKit);
         selectedColor = array.getColor(R.styleable.PhilipsUIKit_baseColor, 0);

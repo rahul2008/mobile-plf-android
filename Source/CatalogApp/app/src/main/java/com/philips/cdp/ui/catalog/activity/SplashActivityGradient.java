@@ -24,9 +24,9 @@ public class SplashActivityGradient extends UiKitActivity {
 
         //Hide the Action bar
         getSupportActionBar().hide();
-        setContentView(com.philips.cdp.uikit.R.layout.splash_screen_logo_bottom);
+        setContentView(com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_bottom);
 
         ViewGroup parent = (ViewGroup) findViewById(R.id.splash_title).getParent();
-        parent.setBackgroundResource(R.drawable.grad_light_blue_background);
+        parent.setBackgroundResource(R.drawable.uikit_grad_light_blue_background);
     }
 }
