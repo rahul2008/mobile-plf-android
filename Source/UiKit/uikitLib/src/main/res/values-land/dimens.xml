@@ -3,9 +3,9 @@
     <!-- Dimensions for margins of the Splash Screen -->
     <dimen name="uikit_splash_logo_margin_top">53dp</dimen>
     <dimen name="uikit_splash_logo_margin_bottom">53dp</dimen>
-    <dimen name="uikit_splash_logo_height">86dp</dimen>
+    <dimen name="uikit_splash_logo_height">85dp</dimen>
     <dimen name="uikit_splash_logo_width">67dp</dimen>
-    <dimen name="uikit_splash_title_margin_top">44dp</dimen>
+    <dimen name="uikit_splash_title_margin_top">53dp</dimen>
     <dimen name="uikit_splash_title_margin_bottom">53dp</dimen>
 
 </resources>
