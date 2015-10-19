@@ -266,16 +266,18 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
             @Override
             public void run() {
                 try {
-                    JSONObject formErrors = json.getJSONObject("FormErrors");
+                    JSONObject formErrors = json.optJSONObject("FormErrors");
                     JSONArray errorNames = formErrors
-                            .getJSONArray("FieldErrorsOrder");
+                            .optJSONArray("FieldErrorsOrder");
                     JSONObject fieldErrors = formErrors
-                            .getJSONObject("FieldErrors");
-                    String name = errorNames.getString(0);
-                    JSONObject error = fieldErrors.getJSONObject(name);
-                    String code = error.getString("Code");
-                    String message = error.getString("Message");
-                    tagTechnicalError(code);
+                            .optJSONObject("FieldErrors");
+                    if(errorNames != null) {
+                        String name = errorNames.optString(0);
+                        JSONObject error = fieldErrors.optJSONObject(name);
+                        String code = error.optString("Code");
+                        String message = error.optString("Message");
+                        tagTechnicalError(code);
+                    }
 
 //                    if (!errorNames.optString(0).equals("")) {
 //                        Toast.makeText(getActivity(), message,
@@ -285,7 +287,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                             getActivity().getString(R.string.social_post_failed), Toast.LENGTH_SHORT)
                             .show();
 //                    }
-                } catch (JSONException exception) {
+                } catch (NullPointerException exception) {
                     exception.printStackTrace();
                 }
             }
