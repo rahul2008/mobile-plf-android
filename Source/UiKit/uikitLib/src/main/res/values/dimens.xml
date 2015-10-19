@@ -41,12 +41,12 @@
     <dimen name="uikit_dot_navigation_unselected_radius">4dp</dimen>
 
     <!-- Tab layout -->
-    <dimen name="uikit_tab_layout_height_with_image">89dp</dimen>
+    <dimen name="uikit_tab_layout_height_with_image">85dp</dimen>
     <dimen name="uikit_tab_layout_height_without_image">53dp</dimen>
     <dimen name="uikit_tab_icon_width">33dp</dimen>
     <dimen name="uikit_tab_icon_height">33dp</dimen>
     <dimen name="uikit_tab_icon_margin_top">16dp</dimen>
-    <dimen name="uikit_tab_text_margin_top">14dp</dimen>
+    <dimen name="uikit_tab_text_margin_top">10dp</dimen>
     <dimen name="uikit_tab_text_margin_bottom">13dp</dimen>
     <dimen name="uikit_tab_text_size_with_image">12dp</dimen>
     <dimen name="uikit_tab_text_size_without_image">14dp</dimen>

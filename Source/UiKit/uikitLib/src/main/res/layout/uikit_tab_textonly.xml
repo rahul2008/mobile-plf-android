@@ -11,7 +11,7 @@
         android:textSize="@dimen/uikit_tab_text_size_with_image"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        fontPath="fonts/centralesanslight.ttf"/>
+        fontPath="fonts/centralesansbook.ttf"/>
     <View
         android:id="@+id/tab_divider"
         android:layout_width="@dimen/uikit_tab_divider_width"
