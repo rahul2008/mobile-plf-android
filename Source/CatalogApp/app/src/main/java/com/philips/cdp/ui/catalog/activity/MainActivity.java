@@ -77,6 +77,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 9:
                 startActivity(new Intent(this, HamburgerMenuDemo.class));
                 break;
+            case 10:
+                startActivity(new Intent(this, HamburgerMenuExpandableDemo.class));
+                break;
             default:
                 break;
         }
@@ -114,6 +117,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
         itemsMap.put(9, "Hamburger Menu");
+        itemsMap.put(10, "Hamburger Menu Expandable");
         return itemsMap;
     }
 }

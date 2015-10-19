@@ -3,7 +3,6 @@ package com.philips.cdp.uikit.hamburger;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.TypedArray;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -25,18 +25,22 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsHamburgerMenu extends UiKitActivity {
+public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
 
+    ExpandableListAdapter listAdapter;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
+    private ExpandableListView expListView;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -46,20 +50,33 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     private NavDrawerListAdapter adapter;
     private TextView actionBarTitle;
     private ScrollView scrollView;
-    private VectorDrawableImageView footerImage;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hamburger_menu);
+        setContentView(R.layout.hamburger_menu_expandable);
         initializeHamburgerViews();
         setDrawerTitle();
 
         loadSlideMenuItems();
 
-        addDrawerItems();
-        setDrawerAdaptor();
+//        addDrawerItems();
+//        setDrawerAdaptor();
         configureDrawer(savedInstanceState, getSupportActionBar());
+
+        // preparing list data
+        prepareListData();
+
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView arg0, View itemView, int itemPosition, long itemId) {
+//                expListView.expandGroup(itemPosition);
+                return false;
+            }
+        });
     }
 
     private void initializeHamburgerViews() {
@@ -69,10 +86,8 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         actionBar.setCustomView(R.layout.action_bar_title);
         actionBarTitle = (TextView) findViewById(R.id.title);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.list_slidingmenu);
-        footerImage = (VectorDrawableImageView) findViewById(R.id.image);
-
-//        mDrawerList.setse
+        expListView = (ExpandableListView) findViewById(R.id.list_slidingmenu);
+//        expListView.setse
         setActionBarSettings(actionBar);
         /*scrollView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -82,15 +97,15 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
                 return false;
             }
         });*/
-        mDrawerList.setOnTouchListener(new View.OnTouchListener() {
+        expListView.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().requestDisallowInterceptTouchEvent(false);
                 return false;
             }
         });
-//        setListViewHeightBasedOnChildren(mDrawerList);
-        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+//        setListViewHeightBasedOnChildren(expListView);
+        expListView.setOnItemClickListener(new SlideMenuClickListener());
     }
 
     private void configureDrawer(final Bundle savedInstanceState, final ActionBar actionBar) {
@@ -122,14 +137,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     private void setDrawerAdaptor() {
         adapter = new NavDrawerListAdapter(this,
                 navDrawerItems);
-        mDrawerList.setAdapter(adapter);
-        adapter.registerDataSetObserver(new DataSetObserver() {
-            @Override
-            public void onChanged() {
-                super.onChanged();
-                updateSmartFooter();
-            }
-        });
+        expListView.setAdapter(adapter);
     }
 
     private void setDrawerTitle() {
@@ -241,8 +249,8 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
                     .replace(R.id.frame_container, fragment).commit();
 
             // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(position, true);
-            mDrawerList.setSelection(position);
+            expListView.setItemChecked(position, true);
+            expListView.setSelection(position);
             setTitle(navMenuTitles[position]);
             DrawerLayout.LayoutParams layoutParams = new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT);
@@ -280,20 +288,43 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         }
     }
 
-    private void updateSmartFooter() {
-        mDrawerList.post(new Runnable() {
-            @Override
-            public void run() {
-                int numItemsVisible = mDrawerList.getLastVisiblePosition() -
-                        mDrawerList.getFirstVisiblePosition();
-                if (adapter.getCount() - 1 > numItemsVisible) {
-                    // set your footer on the ListView
-                    mDrawerList.addFooterView(footerImage);
-                } else {
-                    footerImage.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+
+        // Adding child data
+        listDataHeader.add("Top 250");
+        listDataHeader.add("Now Showing");
+        listDataHeader.add("Coming Soon..");
+
+        // Adding child data
+        List<String> top250 = new ArrayList<String>();
+        top250.add("The Shawshank Redemption");
+        top250.add("The Godfather");
+        top250.add("The Godfather: Part II");
+        top250.add("Pulp Fiction");
+        top250.add("The Good, the Bad and the Ugly");
+        top250.add("The Dark Knight");
+        top250.add("12 Angry Men");
+
+        List<String> nowShowing = new ArrayList<String>();
+        nowShowing.add("The Conjuring");
+        nowShowing.add("Despicable Me 2");
+        nowShowing.add("Turbo");
+        nowShowing.add("Grown Ups 2");
+        nowShowing.add("Red 2");
+        nowShowing.add("The Wolverine");
+
+        List<String> comingSoon = new ArrayList<String>();
+        comingSoon.add("2 Guns");
+        comingSoon.add("The Smurfs 2");
+        comingSoon.add("The Spectacular Now");
+        comingSoon.add("The Canyons");
+        comingSoon.add("Europa Report");
+
+        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), nowShowing);
+        listDataChild.put(listDataHeader.get(2), comingSoon);
     }
 
     private class SlideMenuClickListener implements

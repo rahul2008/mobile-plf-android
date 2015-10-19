@@ -26,21 +26,23 @@
             <RelativeLayout
                 style="@style/hamburger"
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:layout_width="240dp"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <ListView
+                <ExpandableListView
                     android:id="@+id/list_slidingmenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_above="@+id/image"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="start"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="1dp"
+                    android:groupIndicator="@null"
                     >
 
-                </ListView>
+                </ExpandableListView>
 
 
                 <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
@@ -51,7 +53,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="30dp"
-                    android:visibility="gone"
                     app:vectorsrc="@drawable/philips_logo"/>
 
             </RelativeLayout>
