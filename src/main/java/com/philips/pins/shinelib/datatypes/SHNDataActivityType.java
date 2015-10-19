@@ -10,7 +10,8 @@ public class SHNDataActivityType extends SHNData {
         SHNCM3ActivityTypeWalk,
         SHNCM3ActivityTypeCycleIndoor,
         SHNCM3ActivityTypeRun,
-        SHNCM3ActivityTypeCycleOutdoor
+        SHNCM3ActivityTypeCycleOutdoor,
+        SHNCM3ActivityTypeCycle
     }
 
     private final SHNActivityType wearableActivityType;
