@@ -5,9 +5,9 @@
     <dimen name="uikit_splash_logo_width">175dp</dimen>
 
     <dimen name="uikit_splash_logo_margin_top">85dp</dimen>
-    <dimen name="uikit_splash_title_margin_bottom">86dp</dimen>
+    <dimen name="uikit_splash_title_margin_bottom">85dp</dimen>
 
-    <dimen name="uikit_splash_logo_margin_bottom">88dp</dimen>
+    <dimen name="uikit_splash_logo_margin_bottom">85dp</dimen>
     <dimen name="uikit_splash_title_margin_top">85dp</dimen>
 
     <!-- Tab layout -->
