@@ -7,7 +7,7 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:textColor">@color/text_header_color</item>
         <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textSize">@dimen/title_text_size_large</item>
+        <item name="android:textSize">@dimen/title_text_size_medium</item>
         <item name="android:text">Before we begin, please read our guidlines</item>
     </style>
 
@@ -20,7 +20,7 @@
         <item name="android:layout_marginLeft">7dp</item>
         <item name="android:textColor">@color/text_header_color</item>
         <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textSize">@dimen/title_text_size_medium</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
         <item name="android:text">We want to publish your review, so please follow these guidlines
         </item>
     </style>
@@ -30,10 +30,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingLeft">7dp</item>
         <item name="android:textColor">@color/text_header_color</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textSize">@dimen/title_text_size_medium</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
     </style>
 
 
@@ -45,7 +44,7 @@
         <item name="android:textColor">@color/text_header_color</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">@dimen/title_text_size_large</item>
-        <item name="android:text">Is everything correct?</item>
+        <item name="android:text">@string/bazzarvoice_productreview_preview_header_text</item>
     </style>
 
 
@@ -60,14 +59,35 @@
         <item name="android:textSize">@dimen/title_text_size_large</item>
     </style>
 
+    <style name="your_product_preview_rating_header">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textColor">@color/text_header_color</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">@dimen/title_text_size_medium</item>
+    </style>
+
+    <style name="your_product_preview_rating_header_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textColor">@color/text_header_color</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/title_text_size_review_text</item>
+    </style>
+
     <style name="your_product_review_rating_ratingbar">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_toRightOf">@+id/your_product_review_rating_header_text</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_below">@+id/your_product_review_rating_header_text</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="your_product_review_userdefined_description">
@@ -86,16 +106,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_header_color</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/title_text_size_medium</item>
+        <item name="android:textSize">@dimen/title_text_size_review_text</item>
     </style>
+
 
     <style name="write_product_review_edittext">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/support_btn_height</item>
-        <item name="android:gravity">left|top</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">7dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/hint_color</item>
         <item name="android:background">@drawable/shape_edit_text</item>
@@ -117,6 +138,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left</item>
         <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">3dp</item>
         <item name="android:textColor">@color/button_background</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:textSize">@dimen/title_text_size_small</item>
@@ -131,7 +153,7 @@
         <item name="android:paddingLeft">10dp</item>
         <item name="android:layout_below">@id/review_write_rate_name</item>
         <item name="android:layout_alignLeft">@id/review_write_rate_name</item>
-        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginTop">3dp</item>
         <item name="android:lines">1</item>
         <item name="android:textColor">@color/text_sub_header_color</item>
     </style>
@@ -144,7 +166,7 @@
         <item name="android:textColor">@color/text_header_color</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">@dimen/title_text_size_large</item>
-        <item name="android:text">Nice! We received your review!</item>
+        <item name="android:text">@string/bazzarvoice_productreview_thankyou_headertitle</item>
     </style>
 
 

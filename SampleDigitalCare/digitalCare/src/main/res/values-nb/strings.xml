@@ -5,6 +5,8 @@
     <string name="img_description">beskrivelse</string>
     <string name="no_internet">Ingen Internett-forbindelse. Sjekk forbindelsen på telefonen din i wifi-innstillinger eller data-innstillinger</string>
     <string name="locate_philips_popup_legal">Når du bruker funksjonen Finn en Philips-butikk i nærheten på siden for forbrukerstøtte, blir du bedt om å dele opplysninger om plasseringen din med Philips. Basert på disse opplysningene får du veibeskrivelsen til nærmeste butikk eller kontaktinformasjon om forbrukerstøtten i landet ditt</string>
+    <string name="EmptyField_ErrorMsg">Feltet kan ikke være tomt</string>
+    <string name="kemailFieldErrorText">Geçerli e-posta adresinizi girin.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Trenger du hjelp?</string>
@@ -94,4 +96,46 @@
     <string name="gps_disabled">GPS er deaktivert i enheten din. Vil du aktivere den?</string>
     <string name="servicecenters_not_found">Ingen tilgjengelige servicesentre i landet ditt </string>
     <string name="no_data">Ingen informasjon</string>
+
+    <!-- null   nb -->
+
+    <!-- null   Norwegian -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Skriv en anmeldelse </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Før du begynner, må du lese retningslinjene. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Vi ønsker å publisere anmeldelsen din, så følg retningslinjene nedenfor: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Hold fokus på produktet i anmeldelsen din. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Unngå å skrive om kundeservice. Kontakt oss i stedet dersom du har spørsmål som krever umiddelbar oppmerksomhet. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Avstå fra å nevne konkurrenter eller den spesifikke prisen du betalte for produktet. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Ikke ta med noen personlig identifiserbar informasjon, som fullt navn. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, jeg forstår. </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Skriv en anmeldelse </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Vurder dette produktet: </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Din anmeldelse: </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Sammendrag av anmeldelsen </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Skriv din anmeldelse her </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Velg et kallenavn: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ikke det reelle navnet ditt </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> E-postadresse </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Sørg for at du har tilgang </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Jeg har lest og godtar </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">vilkår og betingelser</string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Forhåndsvisning </string>
+
+    <!-- null   nb -->
+
+    <!-- null   Norwegian -->
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Din anmeldelse </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Er alt riktig? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Vurdering: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Sammendrag av anmeldelsen: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Anmeldelse: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Kallenavn: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-post </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Send inn anmeldelsen min </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Tusen takk! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Takk, vi har mottatt anmeldelsen din! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Takk for at du sender inn denne anmeldelsen. Vi vil vurdere den og gi deg beskjed når den ligger ute på nettet. </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Tilbake til støtte </string>
+
+
 </resources>

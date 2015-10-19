@@ -20,6 +20,4 @@ public abstract class ConsumerProductInfo {
 	public abstract String getCtn();
 
 	public abstract String getProductTitle();
-
-	public abstract String getProductReviewUrl();
 }

@@ -5,6 +5,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.RequestData;
 import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+import com.philips.cdp.digitalcare.rateandreview.productreview.model.PRXProductModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import org.json.JSONException;
@@ -23,15 +24,18 @@ public class ProductPageParser implements ResponseCallback {
     public static String PRX_PRODUCT_URL = null;
     private final String TAG = ProductPageParser.class.getSimpleName();
     private final String PRX_JSON_DATA = "data";
+    private final String PRX_JSON_IMAGE = "imageURL";
+    private final String PRX_JSON_NAME = "productTitle";
+    private final String PRX_JSON_CTN = "ctn";
     private final String PRX_JSON_SUCCESS = "success";
     private final String PRX_JSON_PRODUCTURL = "productURL";
     private final String PRX_URL = "http://%s/prx/product/%s/%s/CONSUMER/products/%s.summary";
-    // private ProductPageListener mProductPageListener = null;
+    private ProductPageListener mProductPageListener = null;
 
 
-    public ProductPageParser() {
+    public ProductPageParser(ProductPageListener listener) {
         DigiCareLogger.i(TAG, "ProductPageParser Constructor");
-        //this.mProductPageListener = listener;
+        this.mProductPageListener = listener;
     }
 
 
@@ -65,28 +69,64 @@ public class ProductPageParser implements ResponseCallback {
     public void onResponseReceived(String response) {
         DigiCareLogger.i(TAG, "Json Parsed ? : " + getProductUrl(response));
         //if (mProductPageListener != null)
-        PRX_PRODUCT_URL = getProductUrl(response);
-        //  mProductPageListener.onPRXProductPageReceived(getProductUrl(response));
+        //  PRX_PRODUCT_URL = getProductUrl(response);
+        mProductPageListener.onPRXProductPageReceived(getProductUrl(response));
     }
 
-    private String getProductUrl(String response) {
+    private PRXProductModel getProductUrl(String response) {
         if (response == null)
             return null;
         else {
 
-            String mUrl = null;
+            PRXProductModel object = new PRXProductModel();
+
+            String url = null;
+            String imageUrl = null;
+            String productname = null;
+            String productctn = null;
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 if (jsonObject.has(PRX_JSON_DATA) && jsonObject.has(PRX_JSON_SUCCESS)) {
                     JSONObject mDataKey = jsonObject.getJSONObject(PRX_JSON_DATA);
                     String mProductPagePath = (mDataKey.has(PRX_JSON_PRODUCTURL)) ? mDataKey.getString(PRX_JSON_PRODUCTURL) : null;
-                    mUrl = mProductPagePath;
-                } else
-                    mUrl = null;
+                    url = mProductPagePath;
+                } else {
+                    url = null;
+                }
+
+                if (jsonObject.has(PRX_JSON_DATA) && jsonObject.has(PRX_JSON_SUCCESS)) {
+                    JSONObject mDataKey = jsonObject.getJSONObject(PRX_JSON_DATA);
+                    String mProductPagePath = (mDataKey.has(PRX_JSON_IMAGE)) ? mDataKey.getString(PRX_JSON_IMAGE) : null;
+                    imageUrl = mProductPagePath;
+                } else {
+                    imageUrl = null;
+                }
+
+                if (jsonObject.has(PRX_JSON_DATA) && jsonObject.has(PRX_JSON_SUCCESS)) {
+                    JSONObject mDataKey = jsonObject.getJSONObject(PRX_JSON_DATA);
+                    String mProductName = (mDataKey.has(PRX_JSON_NAME)) ? mDataKey.getString(PRX_JSON_NAME) : null;
+                    productname = mProductName;
+                } else {
+                    productname = null;
+                }
+
+                if (jsonObject.has(PRX_JSON_DATA) && jsonObject.has(PRX_JSON_SUCCESS)) {
+                    JSONObject mDataKey = jsonObject.getJSONObject(PRX_JSON_DATA);
+                    String mProductCtn = (mDataKey.has(PRX_JSON_CTN)) ? mDataKey.getString(PRX_JSON_CTN) : null;
+                    productctn = mProductCtn;
+                } else {
+                    productctn = null;
+                }
+
             } catch (JSONException exception) {
                 DigiCareLogger.e(TAG, "PRX Json parsing Exception : " + exception);
             } finally {
-                return mUrl;
+                DigiCareLogger.e(TAG, "PRX Image Path : " + imageUrl);
+                object.setmProductImageUrl(imageUrl);
+                object.setmReviewPageUrl(url);
+                object.setmProductName(productname);
+                object.setmProductCtn(productctn);
+                return object;
             }
         }
     }

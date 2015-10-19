@@ -5,6 +5,8 @@
     <string name="img_description">beskrivning</string>
     <string name="no_internet">Internet-anslutning saknas. Kontrollera om anslutningen fungerar i din telefons WiFi-inställningar eller datainställningar</string>
     <string name="locate_philips_popup_legal">När du använder funktionen "Hitta Philips nära dig" på supportsidan uppmanas du att dela platsdata med Philips. Baserat på dina platsdata styrs du till en butik i närheten eller information om kundtjänsten i ditt land</string>
+    <string name="EmptyField_ErrorMsg">Fältet får inte vara tomt</string>
+    <string name="kemailFieldErrorText">Ange giltig e-postadress.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Hur kan vi hjälpa dig?</string>
@@ -94,4 +96,44 @@
     <string name="gps_disabled">GPS är inaktiverat i enheten. Vill du aktivera det?</string>
     <string name="servicecenters_not_found">Det finns inga servicecentra i ditt land\' </string>
     <string name="no_data">Uppgift saknas</string>
+
+    <!-- null   sv -->
+
+    <!-- null   Swedish -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Skriv en recension </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Läs våra riktlinjer innan vi sätter igång: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Vi vill publicera din recension, så följ dessa riktlinjer: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Se till att din recension fokuserar på produkten. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Undvik att skriva om kundservice, kontakta oss istället om du har frågor som kräver vår omedelbara uppmärksamhet. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Avstå från att nämna konkurrenter vid namn eller det pris du betalade för produkten </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Inkludera inte någon information som kan identifiera dig personligen, såsom fullständiga namn. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, jag förstår! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Skriv en recension </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Betygsätt gärna denna produkt: </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Din recension: </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Sammanfattning av recensionen </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Skriv din recension här </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Välj ett kortnamn: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ej ditt riktiga namn </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Din e-postadress </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Kontrollera att du har åtkomst </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Jag har läst och godkänt </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">villkoren </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Förhandsgranska </string>
+
+    <!-- null   sv -->
+
+    <!-- null   Swedish -->
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Din recension </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Är allt korrekt? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Betyg: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Sammanfattning av recensionen: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Recension: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Kortnamn: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-post </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Skicka in min recension </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Tack! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Fint Vi fick din recension! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Tack för att du tog dig tid att skriva denna recension. Vi kommer att granska den och låta dig veta när den är utlagd på nätet! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Tillbaka till supporten </string>
 </resources>

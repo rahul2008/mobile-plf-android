@@ -1,0 +1,85 @@
+def hasAppPlugin = project.plugins.hasPlugin 'com.android.application'
+def hasLibraryPlugin = project.plugins.hasPlugin 'com.android.library'
+
+// Ensure the Android plugin has been added in app or library form, but not both.
+if (!hasAppPlugin) {
+    throw new IllegalStateException("The 'android' plugin is required.")
+} else if (hasLibraryPlugin) {
+    throw new IllegalStateException("Having both 'android' and 'android-library' plugin is not supported.")
+}
+
+def variants = project.android.applicationVariants
+def extension = project.extensions.create("calabash", CalabashExtension)
+
+variants.all { variant ->
+    def buildTypeName = variant.buildType.name.capitalize()
+    def projectFlavorNames = [""]
+    if (hasAppPlugin) {
+        projectFlavorNames = variant.productFlavors.collect { it.name.capitalize() }
+        if (projectFlavorNames.isEmpty()) {
+            projectFlavorNames = [""]
+        }
+    }
+    def projectFlavorName = projectFlavorNames.join()
+    def variationName = "$projectFlavorName$buildTypeName"
+    def signingConfig = variant.getSigningConfig();
+
+    def apkName = ""
+    if (projectFlavorName != "") {
+        apkName = "${project.name}-${projectFlavorName.toLowerCase()}-${buildTypeName.toLowerCase()}-unaligned.apk"
+    } else {
+        apkName = "${project.name}-${buildTypeName.toLowerCase()}-unaligned.apk"
+    }
+    def apkFile = "${project.buildDir}/outputs/apk/${apkName}"
+
+    def calabashTask = project.tasks.create "calabash${variationName.capitalize()}", Exec
+    calabashTask.dependsOn project["assemble${variationName}"]
+    calabashTask.description = "Run Calabash Tests for '${variationName}'."
+    calabashTask.group = JavaBasePlugin.VERIFICATION_GROUP
+    calabashTask.workingDir "${project.rootDir}/${extension.calabashPath}/"
+
+    def settingsFile = new File(project.file("${project.rootDir}/${extension.calabashPath}/"), ".calabash_settings")
+    def outFile = new File(project.file("build/reports/calabash/${variationName}"), "calabash.json")
+    def outFileDir = outFile.parentFile
+    def tags = "--tags  @Android ";
+    if ( project.hasProperty("tag") ) {
+        tags = " --tags " +project.tag
+    }
+    def os = System.getProperty("os.name").toLowerCase()
+    if (os.contains("windows")) {
+        // you start commands in Windows by kicking off a cmd shell
+        calabashTask.commandLine "cmd", "/c", "calabash-android", "run", "${apkFile}", "--format", "json", "--out", outFile.canonicalPath, "-v", tags, "--guess"
+    } else { // assume Linux
+        calabashTask.environment("SCREENSHOT_PATH", "${outFileDir}/")
+        calabashTask.commandLine "calabash-android", "run", "${apkFile}", "--format", "json", "--out", outFile.canonicalPath, "-v", tags, "--guess"
+    }
+
+    calabashTask.doFirst {
+        def settings = new groovy.json.JsonBuilder()
+        settings {
+            keystore_location "${signingConfig.storeFile}"
+            keystore_password "${signingConfig.storePassword}"
+            keystore_alias "${signingConfig.keyAlias}"
+            keystore_alias_password "${signingConfig.keyPassword}"
+        }
+        settingsFile.write(settings.toString())
+
+        if (!outFileDir.exists()) {
+            project.logger.debug "Making dir path $outFileDir.canonicalPath"
+            if (!outFileDir.mkdirs()) {
+                throw new IllegalStateException("Could not create reporting directories")
+            }
+        }
+    }
+
+    calabashTask.doLast {
+        if (settingsFile.exists()) {
+            settingsFile.delete()
+        }
+        println "Calabash Report: file://$outFile.canonicalPath"
+    }
+}
+
+class CalabashExtension {
+    String calabashPath;
+}

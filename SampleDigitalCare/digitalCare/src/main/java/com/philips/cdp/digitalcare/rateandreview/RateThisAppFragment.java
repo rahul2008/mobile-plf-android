@@ -1,6 +1,8 @@
 package com.philips.cdp.digitalcare.rateandreview;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -21,7 +23,11 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
+import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageListener;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
+import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;
+import com.philips.cdp.digitalcare.rateandreview.productreview.model.PRXProductModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -30,9 +36,12 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @author: naveen@philips.com
  * @since: Jan 11, 2015
  */
-public class RateThisAppFragment extends DigitalCareBaseFragment {
+public class RateThisAppFragment extends DigitalCareBaseFragment implements ProductPageListener {
 
     private static final String PRODUCT_REVIEW_URL = "http://%s%s/%s";
+    public static String mProductReviewProductImage = null;
+    public static String mProductReviewProductName = null;
+    public static String mProductReviewProductCtn = null;
     private static String TAG = RateThisAppFragment.class.getSimpleName();
     private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
     private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
@@ -47,7 +56,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private FrameLayout.LayoutParams mLayoutParams = null;
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
-
+    private ProgressDialog mProgressDialog = null;
+    private boolean mBazaarVoiceReviewRequired = false;
+    private BazaarVoiceWrapper mBazaarVoiceWrapper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,10 +66,16 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         DigiCareLogger.d(TAG, "onCreateView");
         View mView = inflater.inflate(R.layout.fragment_tellus, container,
                 false);
-        //new ProductPageParser(this).execute();
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
+        mBazaarVoiceWrapper = new BazaarVoiceWrapper();
+        mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
+
+        if (mBazaarVoiceReviewRequired) {
+            mBazaarVoiceWrapper.initializeKeys();
+        }
+
         return mView;
     }
 
@@ -89,12 +106,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent
                 .getLayoutParams();
         Configuration config = getResources().getConfiguration();
-        if (ProductPageParser.PRX_PRODUCT_URL != null) {
-            showProductReviewView();
-            mProductReviewPage = ProductPageParser.PRX_PRODUCT_URL;
-        } else {
-            hideProductReviewView();
-        }
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
@@ -113,6 +124,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mProductReviewView.setVisibility(View.VISIBLE);
         mDividerView.setVisibility(View.VISIBLE);
     }
+
 
     /**
      * Product Review URL Page
@@ -174,6 +186,24 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onResume() {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+        hideProductReviewView();
+        initProductPRX();
+    }
+
+    private void initProductPRX() {
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(getActivity(), R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.show();
+
+        new ProductPageParser(this).execute();
+
+        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mProgressDialog.cancel();
+            }
+        });
     }
 
     private void tagExitLisk(String url) {
@@ -187,10 +217,10 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         int id = view.getId();
         if (id == R.id.tellus_PhilipsReviewButton) {
             if (isConnectionAvailable())
-                rateProductReview();
+                //rateProductReview();
+                showFragment(new ProductReviewGuideFragment());
         } else if (id == R.id.tellus_PlayStoreReviewButton) {
             if (isConnectionAvailable())
-                // showFragment(new ProductReviewGuideFragment();
                 rateThisApp();
         }
     }
@@ -228,16 +258,25 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mRatePhilipsBtn.setLayoutParams(params);
     }
 
-    /*@Override
-    public void onPRXProductPageReceived(String productlink) {
-        if (productlink == null)
-            hideProductReviewView();
-        else {
-            mProductReviewPage = productlink;
-            showProductReviewView();
-        }
-    }*/
+    @Override
+    public void onPRXProductPageReceived(PRXProductModel data) {
 
+        String productlink = data.getmReviewPageUrl();
+        mProductReviewProductImage = data.getmProductImageUrl();
+        mProductReviewProductName = data.getmProductName();
+        mProductReviewProductCtn = data.getmProductCtn();
+        if (mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.cancel();
+
+        DigiCareLogger.d(TAG, "Show product review()" + mBazaarVoiceWrapper.getBazaarVoiceKey() + "Bzaarvoice Reqd = " + mBazaarVoiceReviewRequired);
+        if (productlink != null && mBazaarVoiceWrapper.getBazaarVoiceKey() != null && mBazaarVoiceReviewRequired) {
+            DigiCareLogger.d(TAG, "Show product review()");
+            showProductReviewView();
+        } else {
+            DigiCareLogger.d(TAG, "Hide product review()");
+            hideProductReviewView();
+        }
+    }
 
     /*protected String getLocalizedReviewUrl(String countryUrl) {
 

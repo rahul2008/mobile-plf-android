@@ -864,8 +864,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 + mAddressModel.getCityState() + "\n" + mAddressModel.getUrl());
         ArrayList<String> phoneNumbers = mAddressModel.getPhoneList();
         mPhoneNumber = phoneNumbers.get(0);
-        mButtonCall.setText(getResources().getString(R.string.call) + " "
-                + mPhoneNumber);
+
+        if (mPhoneNumber != null && mPhoneNumber != "")
+            mButtonCall.setText(getResources().getString(R.string.call) + " "
+                    + mPhoneNumber);
+        else
+            mButtonCall.setVisibility(View.INVISIBLE);
         mListView.setVisibility(View.GONE);
         mLinearLayout.setVisibility(View.VISIBLE);
         if (mSearchIcon.getVisibility() == View.VISIBLE)

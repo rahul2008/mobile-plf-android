@@ -26,6 +26,14 @@
         <item>Norwegien (nb)</item>
         <item>Swedish (sv)</item>
         <item>Turkish (tr)</item>
+        <item>Bulgeria (bg)</item>
+        <item>cs</item>
+        <item>Estonia (et)</item>
+        <item>lt</item>
+        <item>lv</item>
+        <item>no</item>
+        <item>ro</item>
+        <item>th</item>
     </string-array>
 
 
@@ -53,6 +61,14 @@
         <item>nb</item>
         <item>sv</item>
         <item>tr</item>
+        <item>bg</item>
+        <item>cs</item>
+        <item>et</item>
+        <item>lt</item>
+        <item>lv</item>
+        <item>no</item>
+        <item>ro</item>
+        <item>th</item>
     </string-array>
 
 
@@ -80,6 +96,32 @@
         <item>Norway (NO)</item>
         <item>Sweden (SE)</item>
         <item>Turkey (TR)</item>
+
+        <item>BG</item>
+        <item>CZ</item>
+        <item>AT</item>
+        <item>CH</item>
+        <item>AU</item>
+        <item>CA</item>
+        <item>CO</item>
+        <item>GB</item>
+        <item>ID</item>
+        <item>MY</item>
+        <item>PH</item>
+        <item>SG</item>
+        <item>AR</item>
+        <item>CL</item>
+        <item>PA</item>
+        <item>PE</item>
+        <item>EE</item>
+        <item>BE</item>
+        <item>CA</item>
+        <item>CH</item>
+        <item>LT</item>
+        <item>LV</item>
+        <item>BE</item>
+        <item>RO</item>
+        <item>TH</item>
     </string-array>
 
     <!-- country code -->
@@ -106,6 +148,32 @@
         <item>NO</item>
         <item>SE</item>
         <item>TR</item>
+
+        <item>BG</item>
+        <item>CZ</item>
+        <item>AT</item>
+        <item>CH</item>
+        <item>AU</item>
+        <item>CA</item>
+        <item>CO</item>
+        <item>GB</item>
+        <item>ID</item>
+        <item>MY</item>
+        <item>PH</item>
+        <item>SG</item>
+        <item>AR</item>
+        <item>CL</item>
+        <item>PA</item>
+        <item>PE</item>
+        <item>EE</item>
+        <item>BE</item>
+        <item>CA</item>
+        <item>CH</item>
+        <item>LT</item>
+        <item>LV</item>
+        <item>BE</item>
+        <item>RO</item>
+        <item>TH</item>
     </string-array>
 
     <string name="dummytext">Dummy View</string>

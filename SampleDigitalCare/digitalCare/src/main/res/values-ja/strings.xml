@@ -7,6 +7,8 @@
     <string name="img_description">説明</string>
     <string name="no_internet">インターネットに接続されていません。携帯電話の Wi-Fi 設定またはデータ設定で接続が機能していることを確認してください</string>
     <string name="locate_philips_popup_legal">サポートページの「お近くのフィリップス」機能を使用する場合は、お客様の位置データのフィリップスへのシェアをお願いしています。お客様の位置データに基づいて、お近くのフィリップス拠点やお住まいの国のお問い合わせ先詳細をお知らせするためです。</string>
+    <string name="EmptyField_ErrorMsg">入力必須フィールドです</string>
+    <string name="kemailFieldErrorText">有効なメールアドレスを入力してください.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">お問い合わせ／サポート</string>
@@ -96,4 +98,45 @@
     <string name="gps_disabled">お使いのデバイスで GPS が無効になっています。有効にしていただけますか？</string>
     <string name="servicecenters_not_found">お客様がお住まいの国にはサービスセンターがありません </string>
     <string name="no_data">利用可能なデータなし</string>
+
+
+    <!-- null   ja -->
+
+    <!-- null   Japanese -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> レビューを入力する </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> 初めにガイドラインをお読みください： </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> レビューを送信される場合は、以下のガイドラインに従ってください： </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> レビューは製品自体に関する内容にしてください。 </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> カスタマーサービスに関するご意見は、早急に対応させていただくためにも、ここには入力せずに直接ご連絡ください。 </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> 競合他社・製品や購入金額については言及しないでください。 </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> お名前など、個人を特定できる情報は含めないようにしてください。 </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> 確認しました </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> レビューを入力する </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> この製品を評価してください： </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> お客様のレビュー： </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> レビューサマリー </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> お客様のレビューをここに入力してください </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> ニックネームを選んでください： </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 本名は入力しないでください </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> メールアドレス </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> アクセスできることを確認してください </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 利用条件を読み、同意 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">しました </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> プレビュー </string>
+
+    <!-- null   ja -->
+
+    <!-- null   Japanese -->
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> お客様のレビュー </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> 内容は正しいですか？ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> 評価： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> レビューサマリー： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> レビュー: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> ニックネーム： </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> メール </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> レビューを送信 </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> ありがとうございました </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> お客様のレビューを受信しました </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> レビューを送信いただきありがとうございました。内容を確認させていただき、公開する際にはご連絡差し上げます。 </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> サポートに戻る </string>
 </resources>

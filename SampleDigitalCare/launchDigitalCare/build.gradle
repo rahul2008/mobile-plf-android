@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
+apply from: '../extra/calabash.gradle'
 
 
 android {
@@ -12,8 +11,6 @@ android {
         minSdkVersion 15
         targetSdkVersion 21
 
-        testApplicationId "com.philips.cdp.sampledigitalcareapp.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
     lintOptions {
@@ -25,35 +22,30 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
-
-        debug {
-            debuggable true
-            testCoverageEnabled true
-        }
     }
 
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 123
-            versionName "2.0.9"
+            versionCode 129
+            versionName "2.1.0"
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 123
-            versionName "2.0.9"
+            versionCode 129
+            versionName "2.1.0"
         }
     }
+}
+
+calabash {
+    calabashPath "../TestAutomation"
 }
 
 dependencies {
     compile project(':digitalCare')
     compile 'com.google.android.gms:play-services:+'
     compile files('libs/HockeySDK-3.0.2.jar')
-    androidTestCompile files('libs/dexmaker-1.0.jar')
-    androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
-    androidTestCompile files('libs/junit-4.12.jar')
-    androidTestCompile files('libs/mockito-all-1.10.8.jar')
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {

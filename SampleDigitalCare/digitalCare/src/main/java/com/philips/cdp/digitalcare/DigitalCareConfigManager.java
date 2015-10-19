@@ -12,7 +12,6 @@ import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
-import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
@@ -119,11 +118,13 @@ public class DigitalCareConfigManager {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
+
         if (mTaggingEnabled) {
             if (mAppID == null || mAppID.equals("")) {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
         }
+
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         SupportHomeFragment supportFrag = new SupportHomeFragment();
@@ -149,6 +150,7 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
         }
+
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
@@ -343,7 +345,7 @@ public class DigitalCareConfigManager {
 
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
-       new ProductPageParser().execute();
+       //new ProductPageParser().execute();
     }
 
 
@@ -390,6 +392,20 @@ public class DigitalCareConfigManager {
         private int getOrientationValue() {
             return value;
         }
+    }
+
+    public boolean isBazaarVoiceRequired(){
+        if(mContext!=null) {
+            return mContext.getResources().getBoolean(R.bool.productreview_required);
+        }
+        return false;
+    }
+
+    public boolean isProductionEnvironment(){
+        if(mContext!=null) {
+            return mContext.getResources().getBoolean(R.bool.production_environment);
+        }
+        return false;
     }
 
 }

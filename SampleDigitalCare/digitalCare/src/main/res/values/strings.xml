@@ -5,6 +5,9 @@
     <string name="img_description">description</string>
     <string name="no_internet">No internet connection. Please check if your connection is working in your phone’s wifi settings or data settings</string>
     <string name="locate_philips_popup_legal">When you make use of the ‘Find Philips near you’ functionality on the Support Page, you are requested to share your location data with Philips. Based on your location data you will be directed towards a store near you, or to the consumer care contact details of your country</string>
+    <string name="EmptyField_ErrorMsg">Field cannot be empty</string>
+    <string name="kemailFieldErrorText">Please enter valid email address.</string>
+
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">How can we help?</string>
     <string name="contact_us">Contact us</string>
@@ -83,4 +86,45 @@
     <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
     <string name="servicecenters_not_found">No service centers available in your country’ </string>
     <string name="no_data">No data available</string>
+
+
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Write a review </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Before we begin, please read our guidelines: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> We want to publish your review, so please follow these guidelines: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Keep your review focused on the product. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Avoid writing about customer service; contact us instead if you have issues requiring immediate attention. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Refrain from mentioning competitors or the specific price you paid for the product. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Do not include any personally identifiable information, such as full names. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, got it! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Write a review </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Please rate this product: </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Your review: </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Review Summary </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Write your review here </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Pick a nickname: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Not your real name </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Your email </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Make sure you have access </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> I’ve read and agree to the </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">Terms &amp; Conditions </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Preview </string>
+
+    <!-- null   en -->
+
+    <!-- null   English -->
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Your review </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Is everything correct? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Rating: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Review Summary: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Review: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Nickname: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> Email </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Submit my review </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Thank you! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Nice! We received your review! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Thank you for taking the time to write this review. We’ll review it and let you know once it’s online! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Back to support </string>
+    <string name="bazzarvoice_rating_alert">You must enter a value for rating. </string>
+    <string name="bazzarvoice_terms_conditions_alert">You must agree to the terms and conditions. </string>
+    <string name="bazzarvoice_description_alert">You must write at least 50 characters for review. </string>
 </resources>

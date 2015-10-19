@@ -7,6 +7,8 @@
     <string name="img_description">opis</string>
     <string name="no_internet">Brak połączenia internetowego. Sprawdź połączenie w ustawieniach Wi-Fi lub ustawieniach przesyłu danych telefonu.</string>
     <string name="locate_philips_popup_legal">W przypadku korzystania z funkcji „Znajdź najbliższe centrum serwisowe firmy Philips” na stronie pomocy technicznej użytkownik zostanie poproszony o udostępnienie firmie Philips danych lokalizacji. Na ich podstawie zostanie przekierowany do najbliższego punktu lub do danych kontaktowych centrum obsługi klienta w danym kraju.</string>
+    <string name="EmptyField_ErrorMsg">Pole nie może być puste</string>
+    <string name="kemailFieldErrorText">Wprowadź prawidłowy adres e-mail.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Jak możemy pomóc?</string>
@@ -96,4 +98,44 @@
     <string name="gps_disabled">Funkcja GPS jest wyłączona w Twoim urządzeniu. Chcesz ją włączyć?</string>
     <string name="servicecenters_not_found">Brak centrów serwisowych w Twoim kraju </string>
     <string name="no_data">Brak danych</string>
+
+    <!-- null   pl_PL -->
+
+    <!-- null   Polish -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Napisz recenzję </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Zanim zaczniemy, przeczytaj nasze zalecenia: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Chcemy opublikować Twoją recenzję. Postępuj zgodnie z tymi zaleceniami: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Pisząc recenzję, skup się na produkcie. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Staraj się nie pisać o obsłudze klienta — jeśli masz pilne problemy, skontaktuj się bezpośrednio z nami. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Unikaj wzmianek o produktach konkurencji i dokładnej cenie danego produktu. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Nie podawaj swoich danych osobowych, takich jak imię i nazwisko. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, rozumiem. </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Napisz recenzję </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Oceń ten produkt: </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Twoja recenzja: </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Podsumowanie ocen </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Napisz swoją recenzję tutaj </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Wybierz swój nick: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Inny niż imię i nazwisko </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Twój e-mail </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Upewnij się, że masz dostęp </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Znam i akceptuję </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">warunki </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Podgląd </string>
+
+    <!-- null   pl_PL -->
+
+    <!-- null   Polish -->
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Twoja recenzja </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Czy wszystkie dane są poprawne? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Ocena: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Podsumowanie ocen: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Recenzja: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Nick: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Prześlij recenzję </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Dziękujemy! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Otrzymaliśmy Twoją recenzję. </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Dziękujemy za poświęcony czas. Zapoznamy się z Twoją recenzją i powiadomimy Cię, gdy pojawi się online. </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Powrót do pomocy techn. </string>
 </resources>

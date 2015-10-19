@@ -47,11 +47,6 @@ public class SampleConsumerProductInfo extends ConsumerProductInfo {
 		return mProductTitle;
 	}
 
-	@Override
-	public String getProductReviewUrl() {
-		return mProductReviewUrl;
-	}
-
 	public static void setGroup(String mGroup) {
 		SampleConsumerProductInfo.mGroup = mGroup;
 	}
@@ -78,9 +73,5 @@ public class SampleConsumerProductInfo extends ConsumerProductInfo {
 
 	public static void setProductTitle(String mProductTitle) {
 		SampleConsumerProductInfo.mProductTitle = mProductTitle;
-	}
-
-	public static void setProductReviewUrl(String mProductReviewUrl) {
-		SampleConsumerProductInfo.mProductReviewUrl = mProductReviewUrl;
 	}
 }

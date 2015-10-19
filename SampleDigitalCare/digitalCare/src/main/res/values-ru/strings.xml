@@ -7,6 +7,8 @@
     <string name="img_description">описание</string>
     <string name="no_internet">Интернет-соединение отсутствует. Проверьте настройки WiFi или сотовых данных на телефоне</string>
     <string name="locate_philips_popup_legal">При поиске ближайшего центра Philips на странице поддержки вас попросят предоставить Philips данные о вашем местоположении. В зависимости от местоположения вам будут предложены контактные данные ближайшей торговой организации или центра поддержки потребителей</string>
+    <string name="EmptyField_ErrorMsg">Необходимо заполнить поле</string>
+    <string name="kemailFieldErrorText">Укажите действующий адрес электронной почты.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">Как Вам помочь?</string>
@@ -96,4 +98,45 @@
     <string name="gps_disabled">На устройстве отключена функция GPS. Включить ее?</string>
     <string name="servicecenters_not_found">В вашей стране нет сервисного центра</string>
     <string name="no_data">Данные недоступны</string>
+
+
+    <!-- null   ru -->
+
+    <!-- null   Russia -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Написать отзыв </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Прежде всего ознакомьтесь с нашими рекомендациями. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Ознакомьтесь с рекомендациями, чтобы мы могли опубликовать Ваш отзыв. </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Уделяйте внимание описанию изделия. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Не пишите о центре обслуживания клиентов — если проблема требует немедленного решения, обратитесь к нам напрямую. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Не упоминайте названия фирм-конкурентов и не указывайте цену изделия. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Не включайте личные сведения, например полные имена. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> Понятно! </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Написать отзыв </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Оцените это изделие: </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Ваш отзыв: </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Краткое изложение </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Введите текст отзыва </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Выберите псевдоним: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Придумайте имя </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Электронный адрес </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Проверьте доступность </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Подтверждаю ознакомление и согласие с </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">Условиями и положениями </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Предпросмотр </string>
+
+    <!-- null   ru -->
+
+    <!-- null   Russia -->
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Ваш отзыв </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Все верно? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Оценка: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Краткое изложение: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Отзыв: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Псевдоним: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> Электронная почта </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Отправить отзыв </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Спасибо! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Благодарим за отправку отзыва! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Спасибо, что нашли время написать отзыв. Мы ознакомимся с ним и сообщим Вам, когда отзыв появится в сети! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Назад (помощь) </string>
 </resources>

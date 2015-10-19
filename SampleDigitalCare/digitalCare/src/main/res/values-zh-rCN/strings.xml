@@ -7,6 +7,8 @@
     <string name="img_description">描述</string>
     <string name="no_internet">无互联网连接。请检查连接在手机 wifi 设置或数据设置中是否可用</string>
     <string name="locate_philips_popup_legal">当您使用支持页面上的“查找您附近的飞利浦”功能时，系统将要求您与飞利浦共享位置数据。根据您的位置数据，系统将您指引到您附近的商店，或提供您所在国家/地区的客户服务联系人详细信息。</string>
+    <string name="EmptyField_ErrorMsg">字段不能为空</string>
+    <string name="kemailFieldErrorText">请输入有效的电子邮件地址.</string>
 
     <!-- values for Support Home Screen    null -->
     <string name="how_can_we_help">如何才能帮助您？</string>
@@ -96,4 +98,44 @@
     <string name="gps_disabled">您的设备已禁用 GPS。是否启用？</string>
     <string name="servicecenters_not_found">您所在的国家/地区没有服务中心 </string>
     <string name="no_data">无可用数据</string>
+
+    <!-- null   zh_CN -->
+
+    <!-- null   Simplified Chinese -->
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> 写一则评论 </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> 开始之前，请先阅读指南： </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> 我们想要发表您的评论，因此请遵循这些指南： </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> 请主要针对产品进行评论。 </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> 请避免写下关于客户服务的内容；如果您的问题需要我们及时关注，请联系我们。 </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> 请避免提及竞争对手或您为本产品所支付的具体价格。 </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> 请不要包含任何可识别个人身份的信息，例如全名。 </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> 好了，明白了！ </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> 写一则评论 </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> 请为本产品评分： </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> 您的评论： </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> 评论摘要 </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> 请在此处写下您的评论 </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> 选择一个昵称： </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 并非您的真实姓名 </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> 您的电子邮件 </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> 确保您具备访问权限 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 我已阅读并同意条款 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two">和条件 </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> 预览 </string>
+
+    <!-- null   zh_CN -->
+
+    <!-- null   Simplified Chinese -->
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> 您的评论 </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> 所有事项均正确无误？ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> 评级： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> 评论摘要： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> 评论: </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> 昵称： </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> 电子邮件 </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 提交我的评论 </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> 谢谢！ </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> 很好！我们已收到您的评论！ </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> 感谢您花时间写下此评论。我们会认真审核，一旦发布，即会通知您！ </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> 返回到“支持” </string>
 </resources>

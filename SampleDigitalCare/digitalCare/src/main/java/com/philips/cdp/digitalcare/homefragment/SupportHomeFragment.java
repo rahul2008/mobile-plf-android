@@ -41,7 +41,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
     private int RegisterButtonMarginTop = 0;
-
+    private boolean mIsFirstScreenLaunch = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +49,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         View view = inflater.inflate(R.layout.fragment_support, container,
                 false);
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mIsFirstScreenLaunch = true;
     }
 
     @Override
@@ -64,10 +70,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         RegisterButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopRegisterButton);
         createMainMenu();
         try {
-            if(DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging()!=null) {
+            if (DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging() != null && mIsFirstScreenLaunch) {
                 AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
                         DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging());
-            }else{
+                mIsFirstScreenLaunch = false;
+            } else {
                 AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
                         getPreviousName());
             }

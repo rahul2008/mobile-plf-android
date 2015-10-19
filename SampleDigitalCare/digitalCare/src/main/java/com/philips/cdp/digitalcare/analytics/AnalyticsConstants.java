@@ -23,6 +23,11 @@ public class AnalyticsConstants {
     public static final String PAGE_CONTACTUS_LIVECHAT = "digitalcare:contactus:livechat";
     public static final String PAGE_CONTACTUS_EMAIL = "digitalcare:contactus:email";
 
+    public static final String PAGE_REVIEW_GUIDE_LINE = "digitalcare:ratethisapp:guideLines";
+    public static final String PAGE_REVIEW_WRITING = "digitalcare:ratethisapp:guideLines:writeReview";
+    public static final String PAGE_REVIEW__PREVIEW = "digitalcare:ratethisapp:guideLines:writeReview:preview";
+    public static final String PAGE_REVIEW_THANKS = "digitalcare:ratethisapp:guideLines:writeReview:preview:thankYou";
+
 	/* ACTION KEY CONSTANTS */
     /*****************
      * Page Context Data start
@@ -67,6 +72,12 @@ public class AnalyticsConstants {
     public static final String ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS = "numberOfSearchResults";
     public static final String ACTION_KEY_LOCATE_PHILIPS_LOCATION_VIEW = "locationView";
 //	public static final String ACTION_KEY_LOCATE_PHILIPS_SPECIAL_EVENTS = "specialEvents";
+
+    /*  Action keys */
+    public static final String ACTION_KEY_REVIEWER_STAR_RATING = "starRating";
+    public static final String ACTION_KEY_REVIEWER_NAME = "reviewerName";
+    public static final String ACTION_KEY_REVIEWER_SUMMARY = "reviewSummary";
+    public static final String ACTION_KEY_REVIEWER_EMAIL = "reviewerEmail";
 
     /*****************
      * Action Values

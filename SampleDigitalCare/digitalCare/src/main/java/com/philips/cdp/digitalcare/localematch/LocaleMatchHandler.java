@@ -74,7 +74,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         mPRXMap.put("hu_HU", "www.philips.hu");
         mPRXMap.put("nl_NL", "www.philips.nl");
         mPRXMap.put("no_NO", "www.philips.no");
-        mPRXMap.put("de_AT", "www.philps.at");
+        mPRXMap.put("de_AT", "www.philips.at");
         mPRXMap.put("pl_PL", "www.philips.pl");
         mPRXMap.put("pt_PT", "www.philips.pt");
         mPRXMap.put("ro_RO", "www.philips.ro");
