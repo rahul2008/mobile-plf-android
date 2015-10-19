@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ScrollView;
 
 import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.AppTagging.AppTaggingErrors;
@@ -253,6 +254,31 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 }
             }
         });
+    }
+
+    protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
+        //view.requestFocus();
+
+       scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.scrollTo(0, view.getTop());
+            }
+        });
+
+       /* scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.scrollTo(0, view.getTop());
+                    }
+                });
+
+            }
+        });*/
     }
 
 }

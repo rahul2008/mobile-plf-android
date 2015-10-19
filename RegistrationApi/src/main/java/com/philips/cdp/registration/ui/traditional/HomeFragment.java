@@ -73,6 +73,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private Context mContext;
 
+    private ScrollView mSvRootLayout;
 
     @Override
     public void onAttach(Activity activity) {
@@ -100,6 +101,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         handleOrientation(view);
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         return view;
     }
@@ -381,14 +383,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
             enableControls(false);
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
-            if (null != getView()) {
-                final ScrollView sv = (ScrollView) getView().findViewById(R.id.sv_root_layout);
-                sv.post(new Runnable() {
-                    public void run() {
-                        sv.fullScroll(View.FOCUS_DOWN);
-                    }
-                });
-            }
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 

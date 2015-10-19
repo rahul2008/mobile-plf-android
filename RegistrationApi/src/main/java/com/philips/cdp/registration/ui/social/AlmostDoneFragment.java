@@ -46,7 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener,CompoundButton.OnCheckedChangeListener {
+        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private TextView mTvSignInWith;
 
@@ -176,14 +176,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     @Override
-    public void setViewParams(Configuration config,int width) {
-        applyParams(config, mTvSignInWith,width);
-        applyParams(config, mLlAlmostDoneContainer,width);
-        applyParams(config, mLlPeriodicOffersCheck,width);
-        applyParams(config, mRlContinueBtnContainer,width);
-        applyParams(config, mRegError,width);
-        applyParams(config, mRegAccptTermsError,width);
-        applyParams(config, mLlAcceptTermsContainer,width);
+    public void setViewParams(Configuration config, int width) {
+        applyParams(config, mTvSignInWith, width);
+        applyParams(config, mLlAlmostDoneContainer, width);
+        applyParams(config, mLlPeriodicOffersCheck, width);
+        applyParams(config, mRlContinueBtnContainer, width);
+        applyParams(config, mRegError, width);
+        applyParams(config, mRegAccptTermsError, width);
+        applyParams(config, mLlAcceptTermsContainer, width);
     }
 
     @Override
@@ -279,7 +279,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mTvSignInWith.setText(getResources().getString(R.string.RegSignWith_Lbltxt) + " "
                 + mProvider);
 
-
         if (isEmailExist) {
             mEtEmail.setVisibility(View.GONE);
             mBtnContinue.setEnabled(true);
@@ -302,21 +301,31 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
 
-    private void handleUiAcceptTerms(){
-        if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
+    private void handleUiAcceptTerms() {
+        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mLlAcceptTermsContainer.setVisibility(View.GONE);
         }
     }
 
     private void updateUiStatus() {
-        if (NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
-            mBtnContinue.setEnabled(true);
-            mRegError.hideError();
+        if (isEmailExist) {
+            if (NetworkUtility.isNetworkAvailable(mContext)
+                    && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                mBtnContinue.setEnabled(true);
+                mRegError.hideError();
+            } else {
+                mBtnContinue.setEnabled(false);
+            }
         } else {
-            mBtnContinue.setEnabled(false);
+            if (NetworkUtility.isNetworkAvailable(mContext)
+                    && RegistrationHelper.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
+                mBtnContinue.setEnabled(true);
+                mRegError.hideError();
+            } else {
+                mBtnContinue.setEnabled(false);
+            }
         }
     }
 
@@ -348,13 +357,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (v.getId() == R.id.reg_btn_continue) {
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
-            if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
-                if(mCbAcceptTerms.isChecked()){
+            if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+                if (mCbAcceptTerms.isChecked()) {
                     register();
-                }else{
+                } else {
                     mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
                 }
-            }else{
+            } else {
                 register();
             }
         }
@@ -478,7 +487,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
-        }else {
+        } else {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         }
         trackActionRegisterError(userRegistrationFailureInfo.getError().code);
