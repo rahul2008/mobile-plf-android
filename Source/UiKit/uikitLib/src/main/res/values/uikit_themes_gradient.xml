@@ -3,20 +3,21 @@
 
     <style name="Theme.Philips.DarkBlue.Gradient">
         <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
-        <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
+        <item name="android:windowBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="android:colorBackground">@color/uikit_philips_bright_blue</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.Gradient">
         <item name="actionBarBackground">@drawable/uikit_grad_orange_background</item>
-        <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
+        <item name="android:windowBackground">@drawable/uikit_grad_orange_background</item>
         <item name="android:colorBackground">@color/uikit_philips_bright_orange</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.Gradient">
         <item name="actionBarBackground">@drawable/uikit_grad_aqua_background</item>
-        <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
+        <item name="android:windowBackground">@drawable/uikit_grad_aqua_background</item>
         <item name="android:colorBackground">@color/uikit_philips_bright_aqua</item>
     </style>
 
 </resources>
+
