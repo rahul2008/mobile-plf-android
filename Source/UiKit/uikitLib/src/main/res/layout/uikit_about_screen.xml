@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/uikit_philips_bright_blue"
+        android:alpha="0.5"/>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/uikit_grad_verydarkblue_darkblue">
+            android:overScrollMode="never">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,7 +83,7 @@
                     android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size"
                     android:textColor="#fff"
                     fontPath="fonts/centralesanslight.ttf"
-                    android:text="Privacy Policy &gt;"/>
+                    android:text="@string/uikit_about_screen_privacy"/>
 
             </LinearLayout>
 
@@ -98,8 +107,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/uikit_about_screen_logo_margin"
-            android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin"
+            android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin_bottom"
             app:vectorsrc="@drawable/uikit_philips_logo"/>
     </LinearLayout>
 
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

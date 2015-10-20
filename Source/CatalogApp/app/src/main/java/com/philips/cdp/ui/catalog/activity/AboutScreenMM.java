@@ -1,6 +1,7 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -15,5 +16,13 @@ public class AboutScreenMM extends UiKitActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_about_screen_mm);
+        findViewById(R.id.aboutscreen_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                finish();
+            }
+        });
+
+        findViewById(R.id.aboutscreen_back).setVisibility(View.GONE);
     }
 }
