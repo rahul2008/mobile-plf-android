@@ -8,6 +8,9 @@ import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.TabUtils;
 
 public class TabBarDemo extends CatalogActivity {
 
+    TabLayout topLayout;
+    TabLayout bottomLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,44 +20,51 @@ public class TabBarDemo extends CatalogActivity {
         setBottomBar();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TabUtils.adjustTabs(topLayout, this);
+        TabUtils.adjustTabs(bottomLayout,this);
+    }
+
     private void setTopBar() {
-        TabLayout view = (TabLayout) findViewById(R.id.tab_bar);
-        TabUtils utils = new TabUtils(this, view, true);
+        topLayout = (TabLayout) findViewById(R.id.tab_bar);
+        TabUtils utils = new TabUtils(this, topLayout, true);
 
         TabLayout.Tab tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
         utils.setTitle(tab, "Alarm");
-        view.addTab(tab);
+        topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.apple, 0);
         utils.setTitle(tab, "Wellness");
-        view.addTab(tab);
+        topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 0);
         utils.setTitle(tab, "Statistics");
-        view.addTab(tab);
+        topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.gear, 0);
         utils.setTitle(tab, "Settings");
-        view.addTab(tab);
+        topLayout.addTab(tab);
     }
 
     private void setBottomBar() {
-        TabLayout textBar = (TabLayout) findViewById(R.id.tab_bar_text);
-        TabUtils utils = new TabUtils(this, textBar, false);
+        bottomLayout = (TabLayout) findViewById(R.id.tab_bar_text);
+        TabUtils utils = new TabUtils(this, bottomLayout, false);
         TabLayout.Tab tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Alarm");
-        textBar.addTab(tab);
+        bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Wellness");
-        textBar.addTab(tab);
+        bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Statistics");
-        textBar.addTab(tab);
+        bottomLayout.addTab(tab);
 
         tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Settings");
-        textBar.addTab(tab);
+        bottomLayout.addTab(tab);
     }
 }

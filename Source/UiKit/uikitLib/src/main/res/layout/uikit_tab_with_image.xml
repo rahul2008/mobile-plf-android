@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:minWidth="@dimen/uikit_tab_minwidth"
               android:orientation="vertical"
               android:background="@drawable/uikit_tab_selector">
 
     <ImageView
         android:id="@+id/tab_icon"
-        android:layout_width="@dimen/uikit_tab_icon_width"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/uikit_tab_icon_height"
-        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/uikit_tab_icon_margin_top"/>
 
     <TextView
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tab_icon"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/uikit_tab_text_margin_top"
         android:layout_marginBottom="@dimen/uikit_tab_text_margin_bottom"
         android:textSize="@dimen/uikit_tab_text_size_with_image"
         android:layout_gravity="center"
-        fontPath="fonts/centralesanslight.ttf"/>
-
-</LinearLayout>
+        fontPath="fonts/centralesansbook.ttf"/>
+    <View
+        android:id="@+id/tab_divider"
+        android:layout_width="@dimen/uikit_tab_divider_width"
+        android:layout_height="match_parent"
+        android:background="?attr/veryLightColor"
+        android:alpha="0.3"
+        android:layout_alignParentLeft="true"/>
+</RelativeLayout>
