@@ -121,4 +121,9 @@ public class ShinePreferenceWrapper {
     public String getString(String key) {
         return sharedPreferences.getString(key, null);
     }
+
+    public Boolean getBoolean(String key) {
+        return sharedPreferences.getBoolean(key, false);
+    }
+
 }
