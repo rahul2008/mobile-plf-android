@@ -26,7 +26,9 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">إن عنوان البريد الإلكتروني قيد الاستخدام</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">إن عنوان البريد الإلكتروني هذا قيد الاستخدام مع حساب My Philips أو حساب على الوسائط الاجتماعية.\nيرجى العودة لتسجيل الدخول، أو استخدام عنوان بريد إلكتروني آخر.</string>
 <string name="RegWelcomeView_NavTitleTxt">تسجيل الدخول</string>
-<string name="LegalNoticeText" formatted="false">من خلال إنشاء حساب أو تسجيل الدخول، أنت تفيد بأنك تبلغ من العمر 16 عامًا أو أكثر وتوافق على %s و%s.</string>
+<string name="LegalNoticeText" formatted="false">يرجى قراءة %s و%s الخاصة بنا.</string>
+<string name="AgeLimitText">من خلال إنشاء حساب أو تسجيل الدخول فأنت تقرّ بأنك تبلغ من العمر %s سنة أو أكثر.\n</string>
+<string name="TermsAndConditionsAcceptanceText">أنا أوافق على %s</string>
 <string name="PrivacyPolicyText">سياسة الخصوصية</string>
 <string name="TermsAndConditionsText">الأحكام والشروط</string>
 <string name="RegVerifyEmailView_NavTitleTxt">تسجيل الدخول</string>
@@ -62,8 +64,8 @@
 <string name="Account_Merge_EnterPassword_lbltxt">يرجى إدخال كلمة مرور MyPhilips لدمج حسابك.</string>
 <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">أدخِل عنوان بريد الإلكتروني</string>
 <string name="Account_Merge_EnterPassword_Placeholder_txtFiled">أدخِل كلمة مرور حساب MyPhilips</string>
-<string name="Account_Merge_ForgotPassword_btntxt">نسيت كلمة المرور</string>
 <string name="Account_Merge_Merge_btntxt">الدمج</string>
+<string name="Account_Merge_ForgotPassword_btntxt">نسيت كلمة المرور</string>
 <string name="Social_SignIn_Email_PlaceHolder_txtFiled">يرجى إدخال البريد الإلكتروني</string>
 <string name="Social_SignIn_AlmostDone_lbltxt">أوشكت على الانتهاء!</string>
 <string name="Social_SignIn_Continue_btntxt">متابعة</string>
@@ -74,8 +76,6 @@
 <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">إذا لا تريد تسجيل الدخول بواسطة %s، فاضغط على \إلغاء\ وأعِد عملية التسجيل من خلال تسجيل الدخول بواسطة %s.</string>
 <string name="Social_Merge_Cancel_btntxt">إلغاء</string>
 <string name="Social_Merge_lbltxt">دمج حساباتك</string>
-<string name="AgeLimitText">من خلال إنشاء حساب أو تسجيل الدخول فأنت تقرّ بأنك تبلغ من العمر %s سنة أو أكثر.\n</string>
-<string name="TermsAndConditionsAcceptanceText">أنا أوافق على %s</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">مرحبًا %s</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">لقد سجّلتَ دخولك باستخدام:</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
