@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="uikit_philips_action_button_radius">33dp</dimen>
-    <dimen name="uikit_philips_button_square_corner_radius">4.5dp</dimen>
+    <dimen name="uikit_philips_button_square_corner_radius">5.5dp</dimen>
     <dimen name="uikit_philips_action_button_text_size">9dp</dimen>
     <dimen name="uikit_philips_action_button_padding">2dp</dimen>
     <dimen name="uikit_action_button_shadow_radius">6dp</dimen>
@@ -56,4 +56,8 @@
     <dimen name="uikit_tab_text_size_without_image">14dp</dimen>
     <color name="uikit_tab_text_enabled_color">#fff</color>
     <dimen name="uikit_tab_minwidth">90dp</dimen>
+    <dimen name="uikit_tab_divider_width">1dp</dimen>
+
+    <!-- variable to hold info for tablet or phone -->
+    <bool name="uikit_istablet">false</bool>
 </resources>
