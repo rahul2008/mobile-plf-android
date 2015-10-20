@@ -10,7 +10,7 @@
         <item name="android:layout_height">@dimen/uikit_tab_layout_height_without_image</item>
         <item name="android:layout_width">match_parent</item>
         <item name="tabIndicatorColor">@null</item>
-        <item name="android:background">?attr/splashGradient</item>
+        <item name="android:background">?attr/gradBackground</item>
         <item name="tabGravity">center</item>
         <item name="tabMode">scrollable</item>
         <item name="tabPaddingStart">0dp</item>
