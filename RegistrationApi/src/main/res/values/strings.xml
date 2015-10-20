@@ -120,7 +120,6 @@
 <string name="Welcome_wordpress_btntxt">Wordpress</string>
 <string name="Welcome_xing_btntxt">XING</string>
 
-
 <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
     <string name="content_desc">ContentDesc</string>
@@ -130,8 +129,6 @@
     <string name="Activation_explain_value_to_user"></string>
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="TermsAndConditionsAcceptanceText_Error">Please accept the Terms and Conditions</string>
-    <string name="Merge_your_Account">Merge your accounts</string>
     <string name="Btn_Merge_Account">Merge</string>
-    <string name="send_email_to_reset_password">We will send you an email to reset your password </string>
-    <string name="forgot_password">Forgot password?</string>
+
 </resources>
