@@ -10,7 +10,7 @@
     <string name="EmptyField_ErrorMsg">Field cannot be empty</string>
     <string name="MaxiumCharacters_ErrorMsg">Field Should not exceed 256 Characters</string>
     <string name="NoNetworkConnection">Registration is not available because you are offline</string>
-    <string name="SocialAccountMerger_ErrorMsg">You have already registered with another %s account, please sign in to %s account.</string>
+    <string name="SocialAccountMerger_ErrorMsg" formatted="false">You have already registered with another %s account, please sign in to %s account.</string>
     <string name="Janrain_Error_Need_Email_Verification">Please verify your email address through the activation link sent to your email account</string>
     <string name="JanRain_Invalid_Input">Invalid input ,Please check and enter correct details.</string>
     <string name="JanRain_Invalid_Credentials">The email or password you entered is incorrect.</string>
@@ -26,7 +26,7 @@
     <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Email address is already in use</string>
     <string name="EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a My Philips or a social media account.\nPlease go back to sign in, or use an other email address.</string>
     <string name="RegWelcomeView_NavTitleTxt">Sign In</string>
-    <string name="LegalNoticeText">Please read our %s and %s.</string>
+    <string name="LegalNoticeText" formatted="false">Please read our %s and %s.</string>
     <string name="AgeLimitText">By creating an account or signing in you certify that you are %s years or older.\n</string>
     <string name="TermsAndConditionsAcceptanceText">I accept the %s</string>
     <string name="PrivacyPolicyText">Privacy Policy</string>
@@ -71,9 +71,9 @@
     <string name="Social_SignIn_AlmostDone_lbltxt">Almost done !</string>
     <string name="Social_SignIn_Continue_btntxt">Continue</string>
     <string name="Social_ReciveOffers_lbltxt">I would like to receive periodic offers and updates from philips</string>
-    <string name="Social_Merge_Used_EmailError_lbltxt">Previously you signed in with %s using your %s email address.</string>
-    <string name="Social_Merge_Accounts_lbltxt">For your security and privacy we’d like to verify that it’s really you. Please sign in with %s. Afterwards, you will be able to sign in with %s in the future.</string>
-    <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt">If you would not like to be able to sign in with %s, press \”cancel\” and restart the registration by signing in with %s.</string>
+    <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Previously you signed in with %s using your %s email address.</string>
+    <string name="Social_Merge_Accounts_lbltxt" formatted="false">For your security and privacy we’d like to verify that it’s really you. Please sign in with %s. Afterwards, you will be able to sign in with %s in the future.</string>
+    <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">If you would not like to be able to sign in with %s, press \”cancel\” and restart the registration by signing in with %s.</string>
     <string name="Social_Merge_Cancel_btntxt">Cancel</string>
     <string name="Social_Merge_lbltxt">Merge your accounts</string>
     <string name="InitialSignedIn_Welcome_User_lbltxt">Welcome %s</string>

@@ -192,7 +192,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 				if(mCbAcceptTerms.isChecked()){
 					register();
 				}else{
-					mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
+					mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
 				}
 			}else{
 				register();
@@ -392,7 +392,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 			if (isChecked) {
 				mRegAccptTermsError.setVisibility(View.GONE);
 			} else {
-				mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
+				mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
 			}
 		}
 	}
