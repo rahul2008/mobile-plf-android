@@ -26,7 +26,9 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">이미 사용 중인 이메일 주소입니다.</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">이 이메일 주소는 My Philips 또는 소셜 미디어 계정에서 이미 사용 중입니다.\n로그인으로 이동하거나 다른 이메일 주소를 사용하십시오.</string>
 <string name="RegWelcomeView_NavTitleTxt">로그인</string>
-<string name="LegalNoticeText" formatted="false">계정을 만들거나 로그인하면 사용자가 16세 이상인 것을 인증하며 당사의 %s 및 %s에 동의하는 것으로 간주합니다.</string>
+<string name="LegalNoticeText" formatted="false">%s 및 %s을(를) 읽어주시기 바랍니다.</string>
+<string name="AgeLimitText">계정을 생성하거나 로그인하여 귀하가 %s세 이상인지 여부를 확인합니다.</string>
+<string name="TermsAndConditionsAcceptanceText">%s에 동의합니다.</string>
 <string name="PrivacyPolicyText">개인정보 보호정책을 참조해 주십시오.</string>
 <string name="TermsAndConditionsText">이용 약관</string>
 <string name="RegVerifyEmailView_NavTitleTxt">로그인</string>
@@ -62,8 +64,8 @@
 <string name="Account_Merge_EnterPassword_lbltxt">계정을 통합하려면 MyPhilips 암호를 입력하십시오.</string>
 <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">이메일 주소 입력</string>
 <string name="Account_Merge_EnterPassword_Placeholder_txtFiled">MyPhilips 암호 입력</string>
-<string name="Account_Merge_ForgotPassword_btntxt">암호 분실</string>
 <string name="Account_Merge_Merge_btntxt">통합</string>
+<string name="Account_Merge_ForgotPassword_btntxt">암호 분실</string>
 <string name="Social_SignIn_Email_PlaceHolder_txtFiled">이메일을 입력하십시오.</string>
 <string name="Social_SignIn_AlmostDone_lbltxt">거의 다 되었습니다.</string>
 <string name="Social_SignIn_Continue_btntxt">계속</string>
@@ -74,8 +76,6 @@
 <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">%s(으)로 로그인을 하지 않으려면 \”취소\”를 누르고 %s(으)로 로그인하여 등록을 다시 시작하세요.</string>
 <string name="Social_Merge_Cancel_btntxt">취소</string>
 <string name="Social_Merge_lbltxt">계정 병합</string>
-<string name="AgeLimitText">계정을 생성하거나 로그인하여 귀하가 %s세 이상인지 여부를 확인합니다.</string>
-<string name="TermsAndConditionsAcceptanceText">%s에 동의합니다.</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s님 환영합니다</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">다음을 사용하여 로그인했습니다.</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>

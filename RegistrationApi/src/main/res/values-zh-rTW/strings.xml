@@ -26,12 +26,14 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">電子郵件地址已有人使用</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">該電子郵件地址已有人用於 MyPhilips 或社交媒體帳戶。\n 請重新登入，或使用其他電子郵件地址。</string>
 <string name="RegWelcomeView_NavTitleTxt">登入</string>
-<string name="LegalNoticeText" formatted="false">建立帳戶或登入後，您即認證自己已年滿 16 歲，並同意我們的%s及%s。</string>
+<string name="LegalNoticeText" formatted="false">請閱讀我們的 %s 及 %s。</string>
+<string name="AgeLimitText">建立帳戶或登入後，您即認證自己已年滿 %s 歲。\n</string>
+<string name="TermsAndConditionsAcceptanceText">我接受 %s</string>
 <string name="PrivacyPolicyText">隱私權政策</string>
 <string name="TermsAndConditionsText">條款與條件</string>
 <string name="RegVerifyEmailView_NavTitleTxt">登入</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">您的帳戶尚未驗證。請查看您的電子郵件，點按連結以啟動帳戶。</string>
-<string name="RegVerifyEmailView_VerificationEmailText">我們已寄送電子郵件至：。送達電子郵件可能要花一些時間。</string>
+<string name="RegVerifyEmailView_VerificationEmailText">我們已寄送電子郵件至：%s。送達電子郵件可能要花一些時間。</string>
 <string name="RegSignWith_Lbltxt">使用以下帳戶登入：</string>
 <string name="RegMerge_MergeLbltxt">請輸入您的 MyPhilips 密碼以合併帳戶。</string>
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">以 MyPhilips 登入</string>
@@ -54,7 +56,7 @@
 <string name="Create_Account_ChoosePwd_PlaceHolder_txtField">選擇密碼</string>
 <string name="Create_Account_CreateMyPhilips_btntxt">建立 MyPhilips 帳戶</string>
 <string name="Create_Account_FirstName__Placeholder_txtFiled">輸入名字</string>
-<string name="Create_Account_Hint_Password_lbltxt">請選擇強式密碼以保護您的影私權。\n您的密碼需包含：\n  -  最少 8 個字元\n  -  3 種字元中至少使用 2 種：字母 (a-z) 或 (A-Z)，數字 (0-9) 或符號 (_ . @ $)</string>
+<string name="Create_Account_Hint_Password_lbltxt">請選擇強式密碼以保護您的隱私權。\n您的密碼需包含：\n  -  最少 8 個字元\n  -  3 種字元中至少使用 2 種：字母 (a-z) 或 (A-Z)，數字 (0-9) 或符號 (_ . @ $)</string>
 <string name="Create_Account_PeridicOffers_lbltxt">我想定期收到飛利浦的優惠和最新消息</string>
 <string name="Create_Account_ForgotPwd_btntxt">忘記密碼</string>
 <string name="Account_Merge_SignIn_lbltxt">以 %s 登入</string>
@@ -62,8 +64,8 @@
 <string name="Account_Merge_EnterPassword_lbltxt">請輸入您的 MyPhilips 密碼以合併帳戶。</string>
 <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">輸入電子郵件地址</string>
 <string name="Account_Merge_EnterPassword_Placeholder_txtFiled">輸入 MyPhilips 密碼</string>
-<string name="Account_Merge_ForgotPassword_btntxt">忘記密碼</string>
 <string name="Account_Merge_Merge_btntxt">合併</string>
+<string name="Account_Merge_ForgotPassword_btntxt">忘記密碼</string>
 <string name="Social_SignIn_Email_PlaceHolder_txtFiled">請輸入電子郵件</string>
 <string name="Social_SignIn_AlmostDone_lbltxt">快完成了！</string>
 <string name="Social_SignIn_Continue_btntxt">繼續</string>
@@ -74,8 +76,6 @@
 <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">如果您不要透過 %s 登入，請按下「取消」，並透過 %s 登入，以重新開始註冊。</string>
 <string name="Social_Merge_Cancel_btntxt">取消</string>
 <string name="Social_Merge_lbltxt">合併帳戶</string>
-<string name="AgeLimitText">建立帳戶或登入後，您即認證自己已年滿 %s 歲。\n</string>
-<string name="TermsAndConditionsAcceptanceText">我接受 %s</string>
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s，歡迎</string>
 <string name="InitialSignedIn_SignedInUsing_lbltxt">您登入的帳戶為：</string>
 <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
