@@ -2,7 +2,7 @@ package com.philips.pins.shinelib.capabilities;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNResultListener;
-import com.philips.pins.shinelib.datatypes.SHNUserConfiguration;
+import com.philips.pins.shinelib.SHNUserConfiguration;
 
 /**
  * Created by 310188215 on 02/06/15.

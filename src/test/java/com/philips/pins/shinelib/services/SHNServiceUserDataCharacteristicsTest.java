@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.datatypes.SHNSportTypeForThresholds;
-import com.philips.pins.shinelib.datatypes.SHNUserConfiguration;
+import com.philips.pins.shinelib.SHNUserConfiguration;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.utility.ScalarConverters;
 

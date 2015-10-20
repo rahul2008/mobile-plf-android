@@ -6,7 +6,7 @@ import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
-import com.philips.pins.shinelib.datatypes.SHNUserConfiguration;
+import com.philips.pins.shinelib.SHNUserConfiguration;
 import com.philips.pins.shinelib.services.SHNServiceUserData;
 import com.philips.pins.shinelib.utility.SHNDevicePreferenceWrapper;
 

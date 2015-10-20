@@ -1,8 +1,9 @@
-package com.philips.pins.shinelib.datatypes;
+package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import java.util.Calendar;
@@ -36,14 +37,9 @@ public class SHNUserConfiguration {
 
     private int incrementIndex;
 
-    public static SHNUserConfiguration getNewDefaultInstance(ShinePreferenceWrapper shinePreferenceWrapper) {
-        SHNUserConfiguration shnUserConfiguration = new SHNUserConfiguration(shinePreferenceWrapper);
-        shnUserConfiguration.retrieveFromPreferences();
-        return shnUserConfiguration;
-    }
-
-    private SHNUserConfiguration(ShinePreferenceWrapper shinePreferenceWrapper) {
-        this.shinePreferenceWrapper = shinePreferenceWrapper;
+    /* package */ SHNUserConfiguration() {
+        this.shinePreferenceWrapper = SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class);
+        retrieveFromPreferences();
     }
 
     private void incrementIndex() {
