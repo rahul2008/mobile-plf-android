@@ -2,6 +2,10 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.content.Context;
 import android.os.Build;
+import android.view.View;
+import android.widget.RelativeLayout;
+
+import com.philips.cdp.registration.R;
 
 /**
  * Created by 310190722 on 8/6/2015.
@@ -21,5 +25,17 @@ public class RegUtility {
             padding = (int) (10 * scale + 0.5f);
         }
         return padding;
+    }
+
+    public static void invalidalertvisibilitygone(View view){
+        android.widget.RelativeLayout.LayoutParams userNameParam = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        userNameParam.addRule(RelativeLayout.LEFT_OF, R.id.rl_reg_parent_verified_field);
+        view.setLayoutParams(userNameParam);
+    }
+
+    public static void invalidalertvisibilityview(View view){
+        android.widget.RelativeLayout.LayoutParams userNameParam = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        userNameParam.addRule(RelativeLayout.LEFT_OF, R.id.fl_reg_invalid_alert);
+        view.setLayoutParams(userNameParam);
     }
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.EmailValidator;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class XPassword extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
@@ -23,8 +24,6 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 	private Context mContext;
 
 	private ImageView mIvPasswordErrAlert;
-
-	private ImageView mIvValidPasswordAlert;
 
 	private ImageView mIvArrowUpView;
 
@@ -57,14 +56,13 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 		li.inflate(resourceId, this, true);
 		mIvPasswordErrAlert = (ImageView) findViewById(R.id.iv_reg_password_error_alert);
 		mIvPasswordErrAlert.setOnClickListener(this);
-		mIvValidPasswordAlert = (ImageView) findViewById(R.id.iv_reg_valid_password_alert);
 		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
 		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_password_err);
 		mEtPassword = (EditText) findViewById(R.id.et_reg_password);
 		mEtPassword.setOnClickListener(this);
 		mEtPassword.setOnFocusChangeListener(this);
 		mEtPassword.addTextChangedListener(this);
-		mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_password_field_id);
+		mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
 	}
 
 	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
@@ -90,7 +88,6 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 	}
 
 	public void showInvalidAlert() {
-		mIvValidPasswordAlert.setVisibility(View.GONE);
 		mIvPasswordErrAlert.setVisibility(View.VISIBLE);
 	}
 
@@ -107,7 +104,6 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 	}
 
 	public void showJanarainError() {
-		mIvValidPasswordAlert.setVisibility(View.GONE);
 		mIvPasswordErrAlert.setVisibility(View.VISIBLE);
 	}
 
@@ -192,7 +188,6 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 	private void handleValidPasswordWithPattern() {
 		if (validatePassword()) {
 			mIvPasswordErrAlert.setVisibility(View.GONE);
-			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
 		} else {
 			if (mEtPassword.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
@@ -200,20 +195,17 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 				setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
 			}
 			mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-			mIvValidPasswordAlert.setVisibility(View.GONE);
 		}
 	}
 
 	private void handleValidPasswordWithoutPattern() {
 		if (validatePasswordWithoutPattern()) {
-			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
 			mIvPasswordErrAlert.setVisibility(View.GONE);
 		} else {
 			if (mEtPassword.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			}
 			mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-			mIvValidPasswordAlert.setVisibility(View.GONE);
 		}
 	}
 
@@ -221,11 +213,11 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 	public void afterTextChanged(Editable s) {
 		fireUpdateStatusEvent();
 		if (isValidatePassword && validatePassword()) {
-			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
+			RegUtility.invalidalertvisibilitygone(mEtPassword);
 			mIvArrowUpView.setVisibility(View.GONE);
 			mTvErrDescriptionView.setVisibility(View.GONE);
 		} else if (validatePasswordWithoutPattern() && !isValidatePassword) {
-			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
+			RegUtility.invalidalertvisibilityview(mEtPassword);
 			mIvArrowUpView.setVisibility(View.GONE);
 			mTvErrDescriptionView.setVisibility(View.GONE);
 		}
@@ -235,7 +227,4 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 		this.isValidatePassword = isValidatePassword;
 	}
 
-	public void hideValidAlertError(){
-		mIvValidPasswordAlert.setVisibility(View.GONE);
-	}
 }

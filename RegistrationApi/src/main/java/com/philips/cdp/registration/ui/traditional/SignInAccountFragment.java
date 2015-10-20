@@ -233,8 +233,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void signIn() {
-        mEtEmail.hideValidAlertError();
-        mEtPassword.hideValidAlertError();
         ((RegistrationFragment) getParentFragment()).hideKeyBoard();
         mEtEmail.clearFocus();
         mEtPassword.clearFocus();
@@ -366,7 +364,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showInvalidAlert();
         } else {
             if (NetworkUtility.isNetworkAvailable(mContext)) {
-                mEtEmail.hideValidAlertError();
                 if (mUser != null) {
                     showForgotPasswordSpinner();
                     mEtEmail.clearFocus();

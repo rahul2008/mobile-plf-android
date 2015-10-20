@@ -210,7 +210,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_reg_merg) {
 			RLog.d(RLog.ONCLICK, "MergeAccountFragment : Merge");
-			mEtPassword.hideValidAlertError();
 			if (mEtPassword.hasFocus()) {
 				mEtPassword.clearFocus();
 			}

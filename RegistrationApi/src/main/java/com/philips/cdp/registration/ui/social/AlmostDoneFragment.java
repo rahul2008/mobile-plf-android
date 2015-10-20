@@ -361,7 +361,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 if (mCbAcceptTerms.isChecked()) {
                     register();
                 } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
+                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
                 }
             } else {
                 register();
@@ -372,7 +372,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private void register() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             mRegAccptTermsError.setVisibility(View.GONE);
-            mEtEmail.hideValidAlertError();
             User user = new User(mContext);
             showSpinner();
             if (isEmailExist) {
@@ -507,7 +506,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
-                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
             }
         }
     }

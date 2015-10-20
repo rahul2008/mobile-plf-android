@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.EmailValidator;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class XUserName extends RelativeLayout implements TextWatcher, OnFocusChangeListener,
         OnClickListener {
@@ -23,8 +24,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	private Context mContext;
 
 	private ImageView mIvErrAlert;
-
-	private ImageView mIvValidAlert;
 
 	private EditText mEtUserName;
 
@@ -62,8 +61,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 		mIvErrAlert = (ImageView) findViewById(R.id.iv_reg_name_error_alert);
 		mIvErrAlert.setOnClickListener(this);
-		mIvValidAlert = (ImageView) findViewById(R.id.iv_reg_valid_name_alert);
-		mRlEtName = (RelativeLayout) findViewById(R.id.rl_reg_name_verified_field);
+		mRlEtName = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
 
 		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_name_err);
 		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
@@ -105,7 +103,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	}
 
 	public void showInvalidAlert() {
-		mIvValidAlert.setVisibility(View.GONE);
 		mIvErrAlert.setVisibility(View.VISIBLE);
 	}
 
@@ -164,22 +161,20 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		if (validateName()) {
-			mIvValidAlert.setVisibility(View.VISIBLE);
-		}
+
 	}
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		if (validateName()) {
-			mIvValidAlert.setVisibility(View.VISIBLE);
+			RegUtility.invalidalertvisibilitygone(mEtUserName);
 			mIvErrAlert.setVisibility(View.GONE);
 		} else {
+			RegUtility.invalidalertvisibilityview(mEtUserName);
 			if (mEtUserName.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			}
 			mIvErrAlert.setVisibility(View.VISIBLE);
-			mIvValidAlert.setVisibility(View.GONE);
 		}
 
 	}
@@ -187,14 +182,21 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	@Override
 	public void afterTextChanged(Editable s) {
 		if (validateName()) {
-			mIvValidAlert.setVisibility(View.VISIBLE);
 			mTvErrDescriptionView.setVisibility(View.GONE);
 			mIvArrowUpView.setVisibility(View.GONE);
 		}
 		raiseUpdateUIEvent();
 	}
 
-	public void hideValidAlertError(){
-		mIvValidAlert.setVisibility(View.GONE);
+	/*private void inValidAlertVisibilityGone(){
+		android.widget.RelativeLayout.LayoutParams userNameParam = (RelativeLayout.LayoutParams) mEtUserName.getLayoutParams();
+		userNameParam.addRule(RelativeLayout.LEFT_OF, R.id.rl_reg_name_verified_field);
+		mEtUserName.setLayoutParams(userNameParam);
 	}
+
+	private void inValidAlertVisibilityView(){
+		android.widget.RelativeLayout.LayoutParams userNameParam = (RelativeLayout.LayoutParams) mEtUserName.getLayoutParams();
+		userNameParam.addRule(RelativeLayout.LEFT_OF, R.id.fl_reg_align);
+		mEtUserName.setLayoutParams(userNameParam);
+	}*/
 }
