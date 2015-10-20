@@ -9,6 +9,7 @@ import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by 310188215 on 02/06/15.
@@ -55,7 +56,7 @@ public class SHNUserConfiguration {
     private Boolean useMetricSystem;
     private Character decimalSeparator;
 
-    private int incrementIndex;
+    private AtomicInteger incrementIndex;
 
     /* package */ SHNUserConfiguration() {
         this.shinePreferenceWrapper = SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class);
@@ -63,28 +64,28 @@ public class SHNUserConfiguration {
     }
 
     private void incrementIndex() {
-        incrementIndex++;
+        incrementIndex.incrementAndGet();
         saveToPreferences();
     }
 
-    public int getIncrementIndex() {
-        return incrementIndex;
+    public synchronized int getIncrementIndex() {
+        return incrementIndex.get();
     }
 
     private void setIncrementIndex(int incrementIndex) {
-        this.incrementIndex = incrementIndex;
+        this.incrementIndex.set(incrementIndex);
     }
 
-    public Sex getSex() {
+    public synchronized Sex getSex() {
         return sex;
     }
 
-    public void setSex(Sex sex) {
+    public synchronized void setSex(Sex sex) {
         this.sex = sex;
         incrementIndex();
     }
 
-    public Integer getMaxHeartRate() {
+    public synchronized Integer getMaxHeartRate() {
         Integer age = getAge();
         if (maxHeartRate == null && age != null) {
             return (int) (207 - (0.7 * age));
@@ -92,49 +93,49 @@ public class SHNUserConfiguration {
         return maxHeartRate;
     }
 
-    public void setMaxHeartRate(Integer maxHeartRate) {
+    public synchronized void setMaxHeartRate(Integer maxHeartRate) {
         this.maxHeartRate = maxHeartRate;
         incrementIndex();
     }
 
-    public Integer getRestingHeartRate() {
+    public synchronized Integer getRestingHeartRate() {
         return restingHeartRate;
     }
 
-    public void setRestingHeartRate(Integer restingHeartRate) {
+    public synchronized void setRestingHeartRate(Integer restingHeartRate) {
         this.restingHeartRate = restingHeartRate;
         incrementIndex();
     }
 
-    public Integer getHeightInCm() {
+    public synchronized Integer getHeightInCm() {
         return heightInCm;
     }
 
-    public void setHeightInCm(Integer heightInCm) {
+    public synchronized void setHeightInCm(Integer heightInCm) {
         this.heightInCm = heightInCm;
         incrementIndex();
     }
 
-    public Double getWeightInKg() {
+    public synchronized Double getWeightInKg() {
         return weightInKg;
     }
 
-    public void setWeightInKg(Double weightInKg) {
+    public synchronized void setWeightInKg(Double weightInKg) {
         this.weightInKg = weightInKg;
         incrementIndex();
     }
 
-    public Date getDateOfBirth() {
+    public synchronized Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public synchronized void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
         incrementIndex();
     }
 
     /* return null when birthdate not set */
-    public Integer getAge() {
+    public synchronized Integer getAge() {
         if (dateOfBirth == null) {
             return null;
         }
@@ -161,43 +162,43 @@ public class SHNUserConfiguration {
         return now.get(Calendar.DAY_OF_YEAR) < dateOfBirth.get(Calendar.DAY_OF_YEAR);
     }
 
-    public Handedness getHandedness() {
+    public synchronized Handedness getHandedness() {
         return handedness;
     }
 
-    public void setHandedness(Handedness handedness) {
+    public synchronized void setHandedness(Handedness handedness) {
         this.handedness = handedness;
         incrementIndex();
     }
 
-    public String getIsoLanguageCode() {
+    public synchronized String getIsoLanguageCode() {
         return isoLanguageCode;
     }
 
-    public void setIsoLanguageCode(String isoLanguageCode) {
+    public synchronized void setIsoLanguageCode(String isoLanguageCode) {
         this.isoLanguageCode = isoLanguageCode;
         incrementIndex();
     }
 
-    public Boolean getUseMetricSystem() {
+    public synchronized Boolean getUseMetricSystem() {
         return useMetricSystem;
     }
 
-    public void setUseMetricSystem(Boolean useMetricSystem) {
+    public synchronized void setUseMetricSystem(Boolean useMetricSystem) {
         this.useMetricSystem = useMetricSystem;
         incrementIndex();
     }
 
-    public Character getDecimalSeparator() {
+    public synchronized Character getDecimalSeparator() {
         return decimalSeparator;
     }
 
-    public void setDecimalSeparator(Character decimalSeparator) {
+    public synchronized void setDecimalSeparator(Character decimalSeparator) {
         this.decimalSeparator = decimalSeparator;
         incrementIndex();
     }
 
-    public Integer getBaseMetabolicRate() {
+    public synchronized Integer getBaseMetabolicRate() {
         Integer result = null;
         Integer age = getAge();
         if (weightInKg != null && heightInCm != null && age != null && sex != null) {
@@ -296,6 +297,7 @@ public class SHNUserConfiguration {
         setIncrementIndex(index);
     }
 
+    @Nullable
     private Character readCharacterFromPersistentStorage(String key) {
         String value = readStringFromPersistentStorage(key);
         if (value != null && value.length() > 0) {
