@@ -11,14 +11,15 @@
     <dimen name="uikit_splash_title_margin_top">85dp</dimen>
 
     <!-- Tab layout -->
-    <dimen name="uikit_tab_layout_height_with_image">78dp</dimen>
-    <dimen name="uikit_tab_layout_height_without_image">72dp</dimen>
+    <dimen name="uikit_tab_layout_height_with_image">72dp</dimen>
+    <dimen name="uikit_tab_layout_height_without_image">53dp</dimen>
     <!-- To do items -->
     <dimen name="uikit_tab_icon_width">33dp</dimen>
     <dimen name="uikit_tab_icon_height">33dp</dimen>
     <dimen name="uikit_tab_icon_margin_top">11dp</dimen>
-    <dimen name="uikit_tab_text_margin_top">7dp</dimen>
+    <dimen name="uikit_tab_text_margin_top">4dp</dimen>
     <dimen name="uikit_tab_text_margin_bottom">10dp</dimen>
+    <dimen name="uikit_tab_minwidth">100dp</dimen>
     <!-- To do items -->
     <dimen name="uikit_tab_text_size_with_image">14dp</dimen>
     <dimen name="uikit_tab_text_size_without_image">14dp</dimen>
