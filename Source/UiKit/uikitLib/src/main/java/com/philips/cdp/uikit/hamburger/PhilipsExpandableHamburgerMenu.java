@@ -2,6 +2,7 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -20,11 +22,14 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.wnafee.vector.compat.VectorDrawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +55,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     private NavDrawerListAdapter adapter;
     private TextView actionBarTitle;
     private ScrollView scrollView;
+    private VectorDrawableImageView footerImage;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -77,6 +83,8 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
                 return false;
             }
         });
+
+        updateSmartFooter();
     }
 
     private void initializeHamburgerViews() {
@@ -87,6 +95,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         actionBarTitle = (TextView) findViewById(R.id.title);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         expListView = (ExpandableListView) findViewById(R.id.list_slidingmenu);
+        footerImage = (VectorDrawableImageView) findViewById(R.id.image);
 //        expListView.setse
         setActionBarSettings(actionBar);
         /*scrollView.setOnTouchListener(new View.OnTouchListener() {
@@ -320,11 +329,68 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         comingSoon.add("The Smurfs 2");
         comingSoon.add("The Spectacular Now");
         comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
 
         listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
         listDataChild.put(listDataHeader.get(1), nowShowing);
         listDataChild.put(listDataHeader.get(2), comingSoon);
+    }
+
+    private void updateSmartFooter() {
+        expListView.post(new Runnable() {
+            @Override
+            public void run() {
+                int numItemsVisible = expListView.getLastVisiblePosition() -
+                        expListView.getFirstVisiblePosition();
+
+                int childCount = getTotalChildCount();
+
+                if (listAdapter != null && listVisibleRowsForExpandableGroup() > numItemsVisible) {
+                    // set your footer on the ListView
+                    LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View v = vi.inflate(R.layout.footer_view, null);
+                    VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.splash_logo);
+
+                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(0, 50, 0, 50);
+                    lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                    vectorDrawableImageView.setLayoutParams(lp);
+                    expListView.addFooterView(v);
+                    int resID = R.drawable.uikit_philips_logo;
+                    vectorDrawableImageView.setImageDrawable(VectorDrawable.create(getResources(), resID));
+
+                    v.setVisibility(View.VISIBLE);
+                } else {
+                    footerImage.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private int getTotalChildCount() {
+        int j = 0;
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            j += listAdapter.getChildrenCount(i);
+        }
+        return j;
+    }
+
+    public int listVisibleRowsForExpandableGroup() {
+        int firstVis = expListView.getFirstVisiblePosition();
+        int lastVis = expListView.getLastVisiblePosition();
+
+        int count = firstVis;
+
+        while (count <= lastVis) {
+            long longposition = expListView.getExpandableListPosition(count);
+            int type = expListView.getPackedPositionType(longposition);
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                int groupPosition = expListView.getPackedPositionGroup(longposition);
+                int childPosition = expListView.getPackedPositionChild(longposition);
+                Log.d("Test", "group: " + groupPosition + " and child: " + childPosition);
+            }
+            count++;
+        }
+        return count;
     }
 
     private class SlideMenuClickListener implements

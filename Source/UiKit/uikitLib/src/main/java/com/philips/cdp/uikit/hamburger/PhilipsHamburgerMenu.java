@@ -2,8 +2,8 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.res.TypedArray;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
@@ -11,21 +11,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.wnafee.vector.compat.VectorDrawable;
 
 import java.util.ArrayList;
 
@@ -58,8 +59,10 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         loadSlideMenuItems();
 
         addDrawerItems();
+        updateSmartFooter();
         setDrawerAdaptor();
         configureDrawer(savedInstanceState, getSupportActionBar());
+
     }
 
     private void initializeHamburgerViews() {
@@ -123,13 +126,15 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         adapter = new NavDrawerListAdapter(this,
                 navDrawerItems);
         mDrawerList.setAdapter(adapter);
-        adapter.registerDataSetObserver(new DataSetObserver() {
+
+        /*adapter.registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
                 updateSmartFooter();
             }
-        });
+        });*/
+//        adapter.notifyDataSetChanged();
     }
 
     private void setDrawerTitle() {
@@ -165,28 +170,6 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
         navMenuIcons.recycle();
-    }
-
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            if (listItem instanceof ViewGroup) {
-                listItem.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
-            }
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
     }
 
     private void loadSlideMenuItems() {
@@ -286,9 +269,24 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
             public void run() {
                 int numItemsVisible = mDrawerList.getLastVisiblePosition() -
                         mDrawerList.getFirstVisiblePosition();
-                if (adapter.getCount() - 1 > numItemsVisible) {
+                if (navDrawerItems != null && navDrawerItems.size() - 1 > numItemsVisible) {
                     // set your footer on the ListView
-                    mDrawerList.addFooterView(footerImage);
+                  /*  Drawable drawable = getResources().getDrawable(R.drawable.uikit_philips_logo);
+                    mDrawerList.addFooterView(drawable);*/
+                    LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View v = vi.inflate(R.layout.footer_view, null);
+                    VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.splash_logo);
+
+                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(0, 50, 0, 50);
+                    lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                    vectorDrawableImageView.setLayoutParams(lp);
+                    mDrawerList.addFooterView(v);
+                    int resID = R.drawable.uikit_philips_logo;
+                    vectorDrawableImageView.setImageDrawable(VectorDrawable.create(getResources(), resID));
+
+                    v.setVisibility(View.VISIBLE);
+
                 } else {
                     footerImage.setVisibility(View.VISIBLE);
                 }

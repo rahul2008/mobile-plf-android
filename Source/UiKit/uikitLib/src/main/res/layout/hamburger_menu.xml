@@ -52,7 +52,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="30dp"
                     android:visibility="gone"
-                    app:vectorsrc="@drawable/philips_logo"/>
+                    app:vectorsrc="@drawable/uikit_philips_logo"/>
 
             </RelativeLayout>
         </ScrollView>
