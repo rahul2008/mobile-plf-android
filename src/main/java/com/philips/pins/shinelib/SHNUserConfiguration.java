@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Locale;
 
 /**
  * Created by 310188215 on 02/06/15.
@@ -17,17 +17,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SHNUserConfiguration {
     private static final String TAG = SHNUserConfiguration.class.getSimpleName();
 
-    private static final String USER_CONFIG_DATE_OF_BIRTH = "USER_CONFIG_DATE_OF_BIRTH";
-    private static final String USER_CONFIG_MAX_HEART_RATE = "USER_CONFIG_MAX_HEART_RATE";
-    private static final String USER_CONFIG_RESTING_HEART_RATE = "USER_CONFIG_RESTING_HEART_RATE";
-    private static final String USER_CONFIG_WEIGHT_IN_KG = "USER_CONFIG_WEIGHT_IN_KG";
-    private static final String USER_CONFIG_HEIGHT_IN_CM = "USER_CONFIG_HEIGHT_IN_CM";
-    private static final String USER_CONFIG_SEX = "USER_CONFIG_SEX";
-    private static final String USER_CONFIG_HANDEDNESS = "USER_CONFIG_HANDEDNESS";
-    private static final String USER_CONFIG_ISO_LANGUAGE_CODE = "USER_CONFIG_ISO_LANGUAGE_CODE";
-    private static final String USER_CONFIG_USE_METRIC_SYSTEM = "USER_CONFIG_USE_METRIC_SYSTEM";
-    private static final String USER_CONFIG_DECIMAL_SEPARATOR = "USER_CONFIG_DECIMAL_SEPARATOR";
-    private static final String USER_CONFIG_INCREMENT = "USER_CONFIG_INCREMENT";
+    /* package */ static final String USER_CONFIG_DATE_OF_BIRTH = "USER_CONFIG_DATE_OF_BIRTH";
+    /* package */ static final String USER_CONFIG_MAX_HEART_RATE = "USER_CONFIG_MAX_HEART_RATE";
+    /* package */ static final String USER_CONFIG_RESTING_HEART_RATE = "USER_CONFIG_RESTING_HEART_RATE";
+    /* package */ static final String USER_CONFIG_WEIGHT_IN_KG = "USER_CONFIG_WEIGHT_IN_KG";
+    /* package */ static final String USER_CONFIG_HEIGHT_IN_CM = "USER_CONFIG_HEIGHT_IN_CM";
+    /* package */ static final String USER_CONFIG_SEX = "USER_CONFIG_SEX";
+    /* package */ static final String USER_CONFIG_HANDEDNESS = "USER_CONFIG_HANDEDNESS";
+    /* package */ static final String USER_CONFIG_ISO_LANGUAGE_CODE = "USER_CONFIG_ISO_LANGUAGE_CODE";
+    /* package */ static final String USER_CONFIG_USE_METRIC_SYSTEM = "USER_CONFIG_USE_METRIC_SYSTEM";
+    /* package */ static final String USER_CONFIG_DECIMAL_SEPARATOR = "USER_CONFIG_DECIMAL_SEPARATOR";
+    /* package */ static final String USER_CONFIG_INCREMENT = "USER_CONFIG_INCREMENT";
 
     public enum Sex
     {
@@ -45,18 +45,18 @@ public class SHNUserConfiguration {
     }
 
     private final ShinePreferenceWrapper shinePreferenceWrapper;
-    private Sex sex;
+    private Sex sex = Sex.Unspecified;
     private Integer maxHeartRate;
     private Integer restingHeartRate;
     private Integer heightInCm;
     private Double weightInKg;
     private Date dateOfBirth;
-    private Handedness handedness;
+    private Handedness handedness = Handedness.Unknown;
     private String isoLanguageCode;
     private Boolean useMetricSystem;
     private Character decimalSeparator;
 
-    private AtomicInteger incrementIndex;
+    private int changeIncrement;
 
     /* package */ SHNUserConfiguration() {
         this.shinePreferenceWrapper = SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class);
@@ -64,16 +64,16 @@ public class SHNUserConfiguration {
     }
 
     private void incrementIndex() {
-        incrementIndex.incrementAndGet();
+        changeIncrement++;
         saveToPreferences();
     }
 
-    public synchronized int getIncrementIndex() {
-        return incrementIndex.get();
+    public synchronized int getChangeIncrement() {
+        return changeIncrement;
     }
 
-    private void setIncrementIndex(int incrementIndex) {
-        this.incrementIndex.set(incrementIndex);
+    private void setChangeIncrement(int changeIncrement) {
+        this.changeIncrement = changeIncrement;
     }
 
     public synchronized Sex getSex() {
@@ -225,18 +225,28 @@ public class SHNUserConfiguration {
     private synchronized void saveToPreferences() {
         SharedPreferences.Editor edit = shinePreferenceWrapper.edit();
 
-        updatePersistentStorage(edit, USER_CONFIG_DATE_OF_BIRTH, getDateOfBirth().getTime());
+        Date dateOfBirth = getDateOfBirth();
+        updatePersistentStorage(edit, USER_CONFIG_DATE_OF_BIRTH, ((dateOfBirth == null) ? null : dateOfBirth.getTime()));
         updatePersistentStorage(edit, USER_CONFIG_HEIGHT_IN_CM, getHeightInCm());
         updatePersistentStorage(edit, USER_CONFIG_MAX_HEART_RATE, getMaxHeartRate());
         updatePersistentStorage(edit, USER_CONFIG_RESTING_HEART_RATE, getRestingHeartRate());
-        updatePersistentStorage(edit, USER_CONFIG_WEIGHT_IN_KG, (float)(double)getWeightInKg());
-        updatePersistentStorage(edit, USER_CONFIG_SEX, getSex().name());
-        updatePersistentStorage(edit, USER_CONFIG_HANDEDNESS, getHandedness().name());
+
+        Double weightInKg = getWeightInKg();
+        updatePersistentStorage(edit, USER_CONFIG_WEIGHT_IN_KG, (weightInKg == null) ? null : (float)(double)getWeightInKg());
+
+        Sex sex = getSex();
+        updatePersistentStorage(edit, USER_CONFIG_SEX, (sex == null) ? null : sex.name());
+
+        Handedness handedness = getHandedness();
+        updatePersistentStorage(edit, USER_CONFIG_HANDEDNESS, (handedness == null) ? null : handedness.name());
+
         updatePersistentStorage(edit, USER_CONFIG_ISO_LANGUAGE_CODE, getIsoLanguageCode());
         updatePersistentStorage(edit, USER_CONFIG_USE_METRIC_SYSTEM, getUseMetricSystem());
-        updatePersistentStorage(edit, USER_CONFIG_DECIMAL_SEPARATOR, getDecimalSeparator().toString());
 
-        edit.putInt(USER_CONFIG_INCREMENT, getIncrementIndex());
+        Character decimalSeparator = getDecimalSeparator();
+        updatePersistentStorage(edit, USER_CONFIG_DECIMAL_SEPARATOR, (decimalSeparator == null) ? null : decimalSeparator.toString());
+
+        edit.putInt(USER_CONFIG_INCREMENT, getChangeIncrement());
 
         edit.commit();
     }
@@ -286,15 +296,27 @@ public class SHNUserConfiguration {
         heightInCm = readIntegerFromPersistentStorage(USER_CONFIG_HEIGHT_IN_CM);
         maxHeartRate = readIntegerFromPersistentStorage(USER_CONFIG_MAX_HEART_RATE);
         restingHeartRate = readIntegerFromPersistentStorage(USER_CONFIG_RESTING_HEART_RATE);
-        weightInKg = (double)(float)readFloatFromPersistentStorage(USER_CONFIG_WEIGHT_IN_KG);
+        weightInKg = readDoubleFromPersistentStorage(USER_CONFIG_WEIGHT_IN_KG);
         sex = readSexFromPersistentStorage(USER_CONFIG_SEX);
         handedness = readHandednessFromPersistentStorage(USER_CONFIG_HANDEDNESS);
         isoLanguageCode = readStringFromPersistentStorage(USER_CONFIG_ISO_LANGUAGE_CODE);
+        if (isoLanguageCode == null) {
+            isoLanguageCode = Locale.getDefault().getLanguage();
+        }
         useMetricSystem = readBooleanFromPersistentStorage(USER_CONFIG_USE_METRIC_SYSTEM);
+        if (useMetricSystem == null) {
+            useMetricSystem = Boolean.FALSE;
+        }
         decimalSeparator = readCharacterFromPersistentStorage(USER_CONFIG_DECIMAL_SEPARATOR);
+        if (decimalSeparator == null) {
+            decimalSeparator = '.';
+        }
 
-        int index = readIntegerFromPersistentStorage(USER_CONFIG_INCREMENT);
-        setIncrementIndex(index);
+        Integer index = readIntegerFromPersistentStorage(USER_CONFIG_INCREMENT);
+        if (index == null) {
+            index = 0;
+        }
+        setChangeIncrement(index);
     }
 
     @Nullable
@@ -312,7 +334,7 @@ public class SHNUserConfiguration {
         if (stringValue != null) {
             return Handedness.valueOf(stringValue);
         }
-        return null;
+        return Handedness.Unknown;
     }
 
     @Nullable
@@ -321,7 +343,7 @@ public class SHNUserConfiguration {
         if (stringValue != null) {
             return Sex.valueOf(stringValue);
         }
-        return null;
+        return Sex.Unspecified;
     }
 
     @Nullable
@@ -343,10 +365,10 @@ public class SHNUserConfiguration {
     }
 
     @Nullable
-    private Float readFloatFromPersistentStorage(String key) {
+    private Double readDoubleFromPersistentStorage(String key) {
         float value = shinePreferenceWrapper.getFloat(key);
         if (!Float.isNaN(value)) {
-            return value;
+            return (double)value;
         }
         return null;
     }

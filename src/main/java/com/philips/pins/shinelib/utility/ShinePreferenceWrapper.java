@@ -123,7 +123,10 @@ public class ShinePreferenceWrapper {
     }
 
     public Boolean getBoolean(String key) {
-        return sharedPreferences.getBoolean(key, false);
+        if (sharedPreferences.contains(key)) {
+            return sharedPreferences.getBoolean(key, false);
+        }
+        return null;
     }
 
 }

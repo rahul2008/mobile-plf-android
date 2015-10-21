@@ -129,7 +129,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
     }
 
     private void checkIncrementMismatch() {
-        if (shnUserConfiguration.getIncrementIndex() != getStoredUserConfigurationIncrement()) {
+        if (shnUserConfiguration.getChangeIncrement() != getStoredUserConfigurationIncrement()) {
             notifyListener();
         } else {
             shnServiceUserData.getDatabaseIncrement(new SHNIntegerResultListener() {
@@ -327,7 +327,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                         if (result == SHNResult.SHNOk) {
                             SharedPreferences.Editor editor = shnDevicePreferenceWrapper.edit();
                             editor.putInt(UDS_DATABASE_INCREMENT, newIndex);
-                            editor.putInt(UC_DATABASE_INCREMENT, userConfiguration.getIncrementIndex());
+                            editor.putInt(UC_DATABASE_INCREMENT, userConfiguration.getChangeIncrement());
                         }
                     }
                 });

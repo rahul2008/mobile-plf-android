@@ -154,7 +154,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
         verify(mockedShnDevicePreferenceWrapper).getInt(UC_DATABASE_INCREMENT);
-        verify(mockedShnUserConfiguration).getIncrementIndex();
+        verify(mockedShnUserConfiguration).getChangeIncrement();
     }
 
     @Test
@@ -164,7 +164,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNErrorTimeout);
 
         verify(mockedShnDevicePreferenceWrapper, never()).getInt(UC_DATABASE_INCREMENT);
-        verify(mockedShnUserConfiguration, never()).getIncrementIndex();
+        verify(mockedShnUserConfiguration, never()).getChangeIncrement();
     }
 
     @Test
@@ -175,7 +175,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
         when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
-        when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(userConfiguration + 1);
+        when(mockedShnUserConfiguration.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
         shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
@@ -239,7 +239,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
         when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
-        when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(userConfiguration + 1);
+        when(mockedShnUserConfiguration.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
@@ -271,7 +271,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
         when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
-        when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(userConfiguration + 1);
+        when(mockedShnUserConfiguration.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
@@ -722,7 +722,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     @Test
     public void whenIncrementIsIncrementedSuccessfullyThanValuesAreSavedToThePreferences() {
         int increment = 12;
-        when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(12);
+        when(mockedShnUserConfiguration.getChangeIncrement()).thenReturn(12);
         setUpEmptyConfiguration();
 
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
