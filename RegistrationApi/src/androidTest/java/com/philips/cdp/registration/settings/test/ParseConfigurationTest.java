@@ -46,6 +46,7 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
         AppTagging.setLaunchingPageName("demoapp:home");
         mRegistrationHelper = RegistrationHelper.getInstance();
         mRegistrationHelper.intializeRegistrationSettings(getInstrumentation().getTargetContext(), locale);
+        mRegistrationHelper.setCoppaFlow(true);
         //mEmailValidator = mock(EmailValidator.class);
     }
 
@@ -92,7 +93,7 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
 
     public void testCoppaFlow(){
 
-        Boolean coppa = RegistrationHelper.getInstance().isCoppaFlow();
+        Boolean coppa = mRegistrationHelper.isCoppaFlow();
 
 
         assertTrue(coppa);
