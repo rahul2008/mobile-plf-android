@@ -188,13 +188,16 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 	private void handleValidPasswordWithPattern() {
 		if (validatePassword()) {
 			mIvPasswordErrAlert.setVisibility(View.GONE);
+			RegUtility.invalidalertvisibilitygone(mEtPassword);
 		} else {
+
 			if (mEtPassword.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			} else {
 				setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
 			}
 			mIvPasswordErrAlert.setVisibility(View.VISIBLE);
+			RegUtility.invalidalertvisibilityview(mEtPassword);
 		}
 	}
 

@@ -169,17 +169,17 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		if (validateEmail()) {
-			RegUtility.invalidalertvisibilitygone(mEtEmail);
 			mIvEmailErrAlert.setVisibility(View.GONE);
 			mValidEmail = true;
+			RegUtility.invalidalertvisibilitygone(mEtEmail);
 		} else {
-			RegUtility.invalidalertvisibilityview(mEtEmail);
 			if (mEtEmail.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			} else {
 				setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
 			}
 			mIvEmailErrAlert.setVisibility(View.VISIBLE);
+			RegUtility.invalidalertvisibilityview(mEtEmail);
 		}
 	}
 

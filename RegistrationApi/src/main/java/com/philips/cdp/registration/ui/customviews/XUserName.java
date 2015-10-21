@@ -167,14 +167,14 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		if (validateName()) {
-			RegUtility.invalidalertvisibilitygone(mEtUserName);
 			mIvErrAlert.setVisibility(View.GONE);
+			RegUtility.invalidalertvisibilitygone(mEtUserName);
 		} else {
-			RegUtility.invalidalertvisibilityview(mEtUserName);
 			if (mEtUserName.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			}
 			mIvErrAlert.setVisibility(View.VISIBLE);
+			RegUtility.invalidalertvisibilityview(mEtUserName);
 		}
 
 	}
