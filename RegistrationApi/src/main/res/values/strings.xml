@@ -129,5 +129,7 @@
     <string name="Activation_explain_value_to_user"></string>
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="TermsAndConditionsAcceptanceText_Error">Please accept the Terms and Conditions</string>
+    <string name="send_email_to_reset_password">We will send you an email to reset your password </string>
+    <string name="forgot_password">Forgot password?</string>
 
 </resources>

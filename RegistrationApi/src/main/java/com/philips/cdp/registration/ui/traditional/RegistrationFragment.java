@@ -311,6 +311,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(mergeAccountFragment);
     }
 
+    public void addResetPasswordFragment(){
+        ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();
+        addFragment(resetPasswordFragment);
+    }
+
+
     public void hideKeyBoard() {
         InputMethodManager imm = (InputMethodManager) mActivity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);

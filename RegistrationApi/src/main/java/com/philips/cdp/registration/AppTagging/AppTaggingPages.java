@@ -21,5 +21,6 @@ public interface AppTaggingPages {
 
 	String MERGE_SOCIAL_ACCOUNT = "registration:mergesocialaccount";
 
+	String RESET_PASSWORD = "registration:forgotpassword";
 
 }

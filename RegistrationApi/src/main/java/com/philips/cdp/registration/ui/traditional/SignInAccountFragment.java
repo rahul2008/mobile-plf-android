@@ -180,14 +180,22 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
-            resetPassword();
-
+            if(mEtEmail.getEmailId().length()==0 ){
+                launchResetPasswordFragment();
+            }else{
+                resetPassword();
+            }
         } else if (id == R.id.btn_reg_resend) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
             mEtEmail.clearFocus();
             mEtPassword.clearFocus();
             lauchAccountActivationFragment();
         }
+    }
+
+    private void launchResetPasswordFragment() {
+        getRegistrationFragment().addResetPasswordFragment();
+        trackPage(AppTaggingPages.RESET_PASSWORD);
     }
 
     private void lauchAccountActivationFragment() {
