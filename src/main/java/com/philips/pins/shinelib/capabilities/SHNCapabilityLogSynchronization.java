@@ -30,6 +30,7 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
         void onProgressUpdate(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, float progress);
         void onLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog, SHNResult shnResult);
         void onLogSynchronizationFailed(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNResult shnResult);
+        void onIntermediateLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog);
     }
 
     void setSHNCapabilityLogSynchronizationListener(SHNCapabilityLogSynchronizationListener SHNCapabilityLogSynchronizationListener);

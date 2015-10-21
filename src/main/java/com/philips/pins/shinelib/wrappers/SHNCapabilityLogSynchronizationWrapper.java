@@ -157,4 +157,17 @@ public class SHNCapabilityLogSynchronizationWrapper implements SHNCapabilityLogS
         };
         userHandler.post(callback);
     }
+
+    @Override
+    public void onIntermediateLogSynchronized(final SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, final SHNLog shnLog) {
+        Runnable callback = new Runnable() {
+            @Override
+            public void run() {
+                if (SHNCapabilityLogSynchronizationListener != null) {
+                    SHNCapabilityLogSynchronizationListener.onIntermediateLogSynchronized(shnCapabilityLogSynchronization, shnLog);
+                }
+            }
+        };
+        userHandler.post(callback);
+    }
 }
