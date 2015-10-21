@@ -16,6 +16,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -69,6 +70,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private DIUserProfile userProfile;
 
+    private ScrollView mSvRootLayout;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onAttach");
@@ -95,6 +98,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         handleOrientation(view);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         init(view);
         return view;
     }
@@ -263,6 +267,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
             mCbTerms.setChecked(!mCbTerms.isChecked());
             mCbTerms.setOnCheckedChangeListener(this);
             mRegError.setError(getString(R.string.NoNetworkConnection));
+            scrollViewAutomatically(mRegError, mSvRootLayout);
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }

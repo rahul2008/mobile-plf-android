@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -62,6 +63,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private int RESEND_ENABLE_BUTTON_INTERVAL = 300000;
 
+    private ScrollView mSvRootLayout;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onAttach");
@@ -83,6 +86,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         mUser = new User(mContext);
         View view = inflater.inflate(R.layout.fragment_account_activation, null);
         handleOrientation(view);
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         return view;
     }
@@ -219,6 +223,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mBtnActivate.setEnabled(false);
             mBtnResend.setEnabled(false);
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -254,6 +259,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mEMailVerifiedError.setError(getResources().getString(
                     R.string.RegEmailNotVerified_AlertPopupErrorText));
             trackActionLoginError(AppTagingConstants.EMAIL_NOT_VERIFIED);
+            scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);
         }
     }
 

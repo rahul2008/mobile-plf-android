@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -88,6 +89,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private Context mContext;
 
+    private ScrollView mSvRootLayout;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onAttach");
@@ -111,6 +114,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.fragment_social_almost_done, container, false);
         handleOrientation(view);
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleUiState();
         return view;
@@ -298,6 +302,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             mRegError.setError(getString(R.string.NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -415,6 +420,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
+            scrollViewAutomatically(mEtEmail, mSvRootLayout);
         }
         trackActionRegisterError(userRegistrationFailureInfo.getError().code);
     }

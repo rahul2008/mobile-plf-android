@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -72,6 +73,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private TextView mTvUsedEmail;
 
+	private ScrollView mSvRootLayout;
+
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onAttach");
@@ -96,6 +99,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		RLog.i(RLog.EVENT_LISTENERS,
 				"MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		mUser = new User(mContext);
+		mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
 		initUI(view);
 		handleUiErrorState();
 		return view;
@@ -279,6 +283,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		} else {
 			mRegError.setError(getString(R.string.NoNetworkConnection));
 			trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
+			scrollViewAutomatically(mRegError, mSvRootLayout);
 		}
 	}
 
@@ -351,6 +356,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 			mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 		}
 		trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		scrollViewAutomatically(mRegError, mSvRootLayout);
 	}
 
 
@@ -376,6 +382,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		}
 		trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+		scrollViewAutomatically(mRegError, mSvRootLayout);
 	}
 
 	@Override

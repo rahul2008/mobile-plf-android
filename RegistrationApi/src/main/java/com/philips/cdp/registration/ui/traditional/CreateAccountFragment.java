@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -78,6 +79,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
 
+	private ScrollView mSvRootLayout;
+
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onAttach");
@@ -102,6 +105,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		View view = inflater.inflate(R.layout.fragment_create_account, container, false);
 		handleOrientation(view);
+		mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
 		initUI(view);
 		return view;
 	}
@@ -278,6 +282,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		} else {
 			mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
 			trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
+			scrollViewAutomatically(mRegError, mSvRootLayout);
 		}
 	}
 
@@ -324,13 +329,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 			mEtEmail.setErrDescription(mContext.getResources().getString(R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
 			mEtEmail.showInvalidAlert();
 			mEtEmail.showErrPopUp();
+			scrollViewAutomatically(mEtEmail, mSvRootLayout);
 		}else{
 			mTvpasswordDetails.setText(getResources().getText(R.string.Create_Account_Hint_Password_lbltxt));
 		}
 		if(userRegistrationFailureInfo.getError().code != EMAIL_ADDRESS_ALREADY_USE_CODE){
 			mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+			scrollViewAutomatically(mRegError, mSvRootLayout);
 		}
-
 		trackActionRegisterError(userRegistrationFailureInfo.getError().code);
 		mPbSpinner.setVisibility(View.INVISIBLE);
 		mBtnCreateAccount.setEnabled(false);

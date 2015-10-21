@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -73,6 +74,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
+    private ScrollView mSvRootLayout;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
@@ -96,6 +99,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleOrientation(view);
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         return view;
     }
@@ -163,8 +167,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void setViewParams(Configuration config,int width) {
         applyParams(config, mLlCreateAccountFields,width);
         applyParams(config, mRlSignInBtnContainer,width);
-        applyParams(config, mRegError,width);
-        applyParams(config, mTvResendDetails,width);
+        applyParams(config, mRegError, width);
+        applyParams(config, mTvResendDetails, width);
     }
 
     @Override
@@ -263,6 +267,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         } else {
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mRegError.setError(getString(R.string.NoNetworkConnection));
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -283,14 +288,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         hideSignInSpinner();
 
-
         mBtnSignInAccount.setEnabled(false);
         if(userRegistrationFailureInfo.getErrorCode()>= RegConstants.HSDP_LOWER_ERROR_BOUND){
             //HSDP related error description
+            scrollViewAutomatically(mRegError, mSvRootLayout);
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }else{
             //Need to show password errors only
+            scrollViewAutomatically(mRegError, mSvRootLayout);
             mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
             trackActionLoginError(userRegistrationFailureInfo.getError().code);
         }

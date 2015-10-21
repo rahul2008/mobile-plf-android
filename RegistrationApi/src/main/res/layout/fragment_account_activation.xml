@@ -6,6 +6,7 @@
     android:background="@color/reg_layout_bg">
 
     <ScrollView
+        android:id="@+id/sv_root_layout"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:background="@android:color/transparent">

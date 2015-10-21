@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -257,16 +258,15 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
-        //view.requestFocus();
-
-       scrollView.post(new Runnable() {
+        view.requestFocus();
+      /* scrollView.post(new Runnable() {
             @Override
             public void run() {
                 scrollView.scrollTo(0, view.getTop());
             }
-        });
+        });*/
 
-       /* scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+       scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @Override
             public void onGlobalLayout() {
@@ -276,9 +276,13 @@ public abstract class RegistrationBaseFragment extends Fragment {
                         scrollView.scrollTo(0, view.getTop());
                     }
                 });
-
+                if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                } else {
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
             }
-        });*/
+        });
     }
 
 }

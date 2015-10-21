@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTagingConstants;
@@ -57,6 +58,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
+    private ScrollView mSvRootLayout;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onAttach");
@@ -81,6 +84,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         View view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
         handleOrientation(view);
         mUser = new User(mContext);
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleUiState();
         return view;
@@ -178,6 +182,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         } else {
             mRegError.setError(getString(R.string.NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -287,7 +292,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         }
-
+        scrollViewAutomatically(mEtEmail, mSvRootLayout);
         trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
     }
 

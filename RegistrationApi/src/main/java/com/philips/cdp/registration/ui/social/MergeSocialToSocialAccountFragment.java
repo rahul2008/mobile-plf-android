@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -64,6 +65,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private String mConflictProvider;
 
+    private ScrollView mSvRootLayout;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeSocialToSocialAccountFragment : onAttach");
@@ -88,6 +91,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         RLog.i(RLog.EVENT_LISTENERS,
                 "MergeSocialToSocialAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mUser = new User(mContext);
+        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleUiErrorState();
         return view;
@@ -232,6 +236,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
             showMergeSpinner();
         } else {
             mRegError.setError(getString(R.string.JanRain_Error_Check_Internet));
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
@@ -257,6 +262,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 mRegError.setError(getString(R.string.NoNetworkConnection));
             }
         } else {
+            scrollViewAutomatically(mRegError, mSvRootLayout);
             mRegError.setError(getString(R.string.NoNetworkConnection));
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
@@ -334,6 +340,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             trackActionLoginError(userRegistrationFailureInfo.getError().code);
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
