@@ -60,6 +60,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private String mEmailId;
 
+    private int RESEND_ENABLE_BUTTON_INTERVAL = 300000;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onAttach");
@@ -239,7 +241,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void updateActivationUIState() {
         hideActivateSpinner();
         mBtnActivate.setEnabled(true);
-        mBtnResend.setEnabled(true);
         if (mUser.getEmailVerificationStatus(mContext)) {
             mBtnResend.setVisibility(View.GONE);
             mEMailVerifiedError.hideError();
@@ -262,10 +263,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     @Override
-    public void setViewParams(Configuration config,int width) {
-        applyParams(config, mTvVerifyEmail,width);
-        applyParams(config, mLlWelcomeContainer,width);
-        applyParams(config, mTvResendDetails,width);
+    public void setViewParams(Configuration config, int width) {
+        applyParams(config, mTvVerifyEmail, width);
+        applyParams(config, mLlWelcomeContainer, width);
+        applyParams(config, mTvResendDetails, width);
         applyParams(config, mRlSingInOptions, width);
         applyParams(config, mRegError, width);
     }
@@ -289,11 +290,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserFailed(int error) {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
-        if(error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED){
+        if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
             mEMailVerifiedError.setError(mContext.getString(R.string.JanRain_Server_Connection_Failed));
             hideActivateSpinner();
             mBtnActivate.setEnabled(true);
-        }else{
+        } else {
             updateActivationUIState();
         }
     }
@@ -302,8 +303,15 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onResendVerificationEmailSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
         updateResendUIState();
+        mBtnResend.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mBtnResend.setEnabled(true);
+            }
+        },RESEND_ENABLE_BUTTON_INTERVAL );
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+
     }
 
     private void updateResendUIState() {
@@ -321,7 +329,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         trackActionResendVerificationFailure(userRegistrationFailureInfo.getError().code);
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
                 + userRegistrationFailureInfo.getEmailErrorMessage());
-
+        mBtnResend.setEnabled(true);
     }
 
     @Override
@@ -341,6 +349,5 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         mEMailVerifiedError.setError(userRegistrationFailureInfo.getErrorDescription());
         hideActivateSpinner();
         mBtnActivate.setEnabled(true);
-        mBtnResend.setEnabled(true);
     }
 }

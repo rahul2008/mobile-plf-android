@@ -114,8 +114,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         }
     }
 
-    private void handleInvalidCredentials(CaptureApiError error,
-                                          UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    private void handleInvalidCredentials(CaptureApiError error,UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (null != error && null != error.error
                 && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
             try {
