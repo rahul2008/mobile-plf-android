@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -43,11 +44,12 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     private TextView actionBarTitle;
     private LinearLayout linearLayout;
     private VectorDrawableImageView footerImage;
+    private FrameLayout mMainContent;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hamburger_menu);
+        super.setContentView(R.layout.hamburger_menu);
         initializeHamburgerViews();
         setDrawerTitle();
 
@@ -56,7 +58,27 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
 
     }
 
+    public void setContentView(int layoutResId) {
+        View view = LayoutInflater.from(this).inflate(layoutResId, null);
+        mMainContent.removeAllViews();
+        mMainContent.addView(view);
+    }
+
+    @Override
+    public void setContentView(final View view) {
+        mMainContent.removeAllViews();
+        mMainContent.addView(view);
+    }
+
+    @Override
+    public void setContentView(final View view, final ViewGroup.LayoutParams params) {
+        mMainContent.removeAllViews();
+        view.setLayoutParams(params);
+        mMainContent.addView(view);
+    }
+
     private void initializeHamburgerViews() {
+        mMainContent = (FrameLayout) findViewById(R.id.frame_container);
         linearLayout = (LinearLayout) findViewById(R.id.list_view_parent);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
