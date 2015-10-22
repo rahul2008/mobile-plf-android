@@ -38,4 +38,29 @@
         <attr name="errorBackground" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="PageIndicator">
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered"/>
+        <!-- Color of the filled circle that represents the current page. -->
+        <attr name="fillColor" format="color"/>
+        <!-- Color of the filled circles that represents pages. -->
+        <attr name="pageColor" format="color"/>
+        <!-- Orientation of the indicator. -->
+        <attr name="android:orientation"/>
+        <!-- Radius of the circles. This is also the spacing between circles. -->
+        <attr name="selectedCircleHeight" format="dimension"/>
+        <attr name="selectedCircleWidth" format="dimension"/>
+        <attr name="unSelectedCircleHeight" format="dimension"/>
+        <attr name="unSelectedCircleWidth" format="dimension"/>
+        <attr name="distanceBetweenCircle" format="dimension"/>
+        <!-- Color of the open circles. -->
+        <attr name="strokeColor" format="color"/>
+        <!-- Width of the stroke used to draw the circles. -->
+        <attr name="strokeWidth"/>
+        <!-- View background -->
+        <attr name="android:background"/>
+        <!-- enable Stroke background -->
+        <attr name="enableStroke" format="boolean"/>
+    </declare-styleable>
+
 </resources>
