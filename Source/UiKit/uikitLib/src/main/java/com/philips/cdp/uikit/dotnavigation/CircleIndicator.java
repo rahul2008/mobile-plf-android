@@ -101,8 +101,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         }
     }
 
-    private void setOnClickListener(final int i, final View view) {
-        final int position = i;
+    private void setOnClickListener(final int position, final View view) {
         view.setClickable(true);
         view.setOnClickListener(new OnClickListener() {
             @Override
