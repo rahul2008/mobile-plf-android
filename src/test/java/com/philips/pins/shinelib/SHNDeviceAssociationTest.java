@@ -85,6 +85,8 @@ public class SHNDeviceAssociationTest {
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationSucceeded(any(SHNDevice.class));
 
         doReturn(SHNResult.SHNOk).when(mockedSHNAssociationProcedure).start();
+        doNothing().when(mockedSHNAssociationProcedure).stop();
+        doNothing().when(mockedSHNAssociationProcedure).setShnAssociationProcedureListener(any(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class));
 
         // mockedSHNDeviceDefinitionInfo
         doReturn(DEVICE_TYPE_NAME).when(mockedSHNDeviceDefinitionInfo).getDeviceTypeName();
@@ -220,10 +222,28 @@ public class SHNDeviceAssociationTest {
     @Test
     public void whenAssociationIsInProgressAndStopAssociationIsCalledThenOnAssociationStopIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
-//        reset(mockedSHNDeviceAssociationListener); // clears the doReturn functions
 
         shnDeviceAssociation.stopAssociation();
+
         verify(mockedSHNDeviceAssociationListener).onAssociationStopped();
+    }
+
+    @Test
+    public void whenAssociationIsInProgressAndStopAssociationIsCalledThenAssociationProcedureStopIsCalled() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        shnDeviceAssociation.stopAssociation();
+
+        verify(mockedSHNAssociationProcedure).stop();
+    }
+
+    @Test
+    public void whenAssociationIsInProgressAndStopAssociationIsCalledThenListenerIsSetToNull() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        shnDeviceAssociation.stopAssociation();
+
+        verify(mockedSHNAssociationProcedure).setShnAssociationProcedureListener(null);
     }
 
     @Test

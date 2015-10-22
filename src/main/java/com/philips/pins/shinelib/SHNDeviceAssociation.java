@@ -36,7 +36,7 @@ public class SHNDeviceAssociation {
 
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
     private final SHNCentral shnCentral;
-    private String associationDeviceTypeName;
+
     private SHNAssociationProcedurePlugin.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedurePlugin.SHNAssociationProcedureListener() {
         @Override
         public void onStopScanRequest() {
@@ -149,7 +149,6 @@ public class SHNDeviceAssociation {
     private void startAssociation(String deviceTypeName) {
         if (shnCentral.getShnCentralState() == SHNCentral.State.SHNCentralStateReady) {
             SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
-            associationDeviceTypeName = deviceTypeName;
             if (shnDeviceDefinitionInfo != null) {
                 SHNAssociationProcedurePlugin shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
                 if (shnAssociationProcedure.getShouldScan()) {
@@ -225,6 +224,8 @@ public class SHNDeviceAssociation {
 
     private void handleStopAssociation() {
         stopScanning();
+        shnAssociationProcedure.stop();
+        shnAssociationProcedure.setShnAssociationProcedureListener(null);
         shnAssociationProcedure = null;
     }
 

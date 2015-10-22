@@ -10,6 +10,7 @@ public interface SHNAssociationProcedurePlugin extends SHNAssociationProcedure{
     boolean getShouldScan();
     void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo);
     void scannerTimeout();
+    void setShnAssociationProcedureListener(SHNAssociationProcedureListener shnAssociationProcedureListener);
 
     interface SHNAssociationProcedureListener {
         void onStopScanRequest();

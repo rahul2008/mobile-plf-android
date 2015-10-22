@@ -21,7 +21,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
 
     private static final String TAG = SHNAssociationProcedureNearestDevice.class.getSimpleName();
     private static final boolean LOGGING = false;
-    private SHNAssociationProcedureListener listener;
+    private SHNAssociationProcedureListener shnAssociationProcedureListener;
     private SortedMap<Integer, SHNDevice> discoveredDevices;
     private Timer nearestDeviceIterationTimer;
     private int nearestDeviceIterationCount;
@@ -29,7 +29,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     private SHNDevice nearestDeviceInPreviousIteration;
 
     public SHNAssociationProcedureNearestDevice(SHNAssociationProcedureListener shnAssociationProcedureListener) {
-        listener = shnAssociationProcedureListener;
+        this.shnAssociationProcedureListener = shnAssociationProcedureListener;
     }
 
     private void associateWithNearestDeviceIfPossible() {
@@ -45,8 +45,10 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
                 Log.i(TAG, "associateWithNearestDeviceIfPossible address matched with previous iteration");
             if (++successivelyNearestDeviceCount == ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT) {
                 nearestDeviceInPreviousIteration = null;
-                listener.onStopScanRequest();
-                listener.onAssociationSuccess(nearestDevice);
+                if (shnAssociationProcedureListener != null) {
+                    shnAssociationProcedureListener.onStopScanRequest();
+                    shnAssociationProcedureListener.onAssociationSuccess(nearestDevice);
+                }
                 finished = true;
             }
         } else {
@@ -66,7 +68,9 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
             nearestDeviceIterationTimer.restart();
         } else {
             if (LOGGING) Log.i(TAG, "!! No device consistently deemed nearest; association failed");
-            listener.onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
+            if (shnAssociationProcedureListener != null) {
+                shnAssociationProcedureListener.onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
+            }
         }
     }
 
@@ -110,6 +114,13 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     @Override
     public void scannerTimeout() {
         nearestDeviceIterationTimer.stop();
-        listener.onAssociationFailed(null, SHNResult.SHNErrorTimeout);
+        if (shnAssociationProcedureListener != null) {
+            shnAssociationProcedureListener.onAssociationFailed(null, SHNResult.SHNErrorTimeout);
+        }
+    }
+
+    @Override
+    public void setShnAssociationProcedureListener(SHNAssociationProcedureListener shnAssociationProcedureListener) {
+        this.shnAssociationProcedureListener = shnAssociationProcedureListener;
     }
 }
