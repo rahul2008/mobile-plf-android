@@ -16,19 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            android:id="@+id/list_view_parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 style="@style/hamburger"
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:layout_width="240dp"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <ListView
                     android:id="@+id/list_slidingmenu"
@@ -55,6 +53,6 @@
                     app:vectorsrc="@drawable/uikit_philips_logo"/>
 
             </RelativeLayout>
-        </ScrollView>
+        </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

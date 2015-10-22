@@ -19,9 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
@@ -52,7 +52,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
     private TextView actionBarTitle;
-    private ScrollView scrollView;
+    private LinearLayout linearLayout;
     private VectorDrawableImageView footerImage;
 
     @Override
@@ -86,7 +86,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     }
 
     private void initializeHamburgerViews() {
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        linearLayout = (LinearLayout) findViewById(R.id.list_view_parent);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(R.layout.action_bar_title);
@@ -193,8 +193,8 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
             setTitle(navMenuTitles[position]);
             DrawerLayout.LayoutParams layoutParams = new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT);
-            mDrawerLayout.updateViewLayout(scrollView, layoutParams);
-            mDrawerLayout.closeDrawer(scrollView);
+            mDrawerLayout.updateViewLayout(linearLayout, layoutParams);
+            mDrawerLayout.closeDrawer(linearLayout);
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
