@@ -194,6 +194,7 @@ public class SHNDeviceAssociation {
             @Override
             public void run() {
                 if (shnAssociationProcedure != null) {
+                    shnAssociationProcedure.stop();
                     handleStopAssociation();
                     shnCentral.getUserHandler().post(new Runnable() {
                         @Override
@@ -224,7 +225,6 @@ public class SHNDeviceAssociation {
 
     private void handleStopAssociation() {
         stopScanning();
-        shnAssociationProcedure.stop();
         shnAssociationProcedure.setShnAssociationProcedureListener(null);
         shnAssociationProcedure = null;
     }
