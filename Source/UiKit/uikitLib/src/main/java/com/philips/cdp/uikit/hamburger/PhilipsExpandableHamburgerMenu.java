@@ -17,10 +17,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -96,16 +94,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         expListView = (ExpandableListView) findViewById(R.id.list_slidingmenu);
         footerImage = (VectorDrawableImageView) findViewById(R.id.image);
-//        expListView.setse
         setActionBarSettings(actionBar);
-        /*scrollView.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.v(getClass()+"","parent touch"+"");
-                findViewById(R.id.scrollView).getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });*/
         expListView.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
@@ -113,7 +102,6 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
                 return false;
             }
         });
-//        setListViewHeightBasedOnChildren(expListView);
         expListView.setOnItemClickListener(new SlideMenuClickListener());
     }
 
@@ -143,68 +131,10 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
     }
 
-    private void setDrawerAdaptor() {
-        adapter = new NavDrawerListAdapter(this,
-                navDrawerItems);
-        expListView.setAdapter(adapter);
-    }
-
     private void setDrawerTitle() {
         mTitle = mDrawerTitle = getTitle();
     }
 
-    private void addDrawerItems() {
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        navMenuIcons.recycle();
-    }
-
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            if (listItem instanceof ViewGroup) {
-                listItem.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
-            }
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-    }
 
     private void loadSlideMenuItems() {
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
@@ -290,8 +220,6 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         }
         // Handle action bar actions click
         switch (item.getItemId()) {
-           /* case R.id.settings:
-                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -374,20 +302,11 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         return j;
     }
 
-    public int listVisibleRowsForExpandableGroup() {
+    private int listVisibleRowsForExpandableGroup() {
         int firstVis = expListView.getFirstVisiblePosition();
         int lastVis = expListView.getLastVisiblePosition();
-
         int count = firstVis;
-
         while (count <= lastVis) {
-            long longposition = expListView.getExpandableListPosition(count);
-            int type = expListView.getPackedPositionType(longposition);
-            if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                int groupPosition = expListView.getPackedPositionGroup(longposition);
-                int childPosition = expListView.getPackedPositionChild(longposition);
-                Log.d("Test", "group: " + groupPosition + " and child: " + childPosition);
-            }
             count++;
         }
         return count;
