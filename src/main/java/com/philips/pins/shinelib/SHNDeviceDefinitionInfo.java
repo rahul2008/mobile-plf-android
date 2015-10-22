@@ -8,17 +8,12 @@ import java.util.UUID;
  */
 public interface SHNDeviceDefinitionInfo {
     interface SHNDeviceDefinition {
-//        Set<SHNCapability> getExposedCapabilities();
         SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral);
-//        void associateWithCompletion(Runnable completion);
-//        Set<UUID> getRequiredServiceUUIDs();
-//        Set<UUID> getRequiredCharacteristicUUIDs(UUID serviceUUID);
-//        Set<UUID> getOptionalCharacteristicUUIDs(UUID serviceUUID);
     }
 
     String getDeviceTypeName();
     Set<UUID> getPrimaryServiceUUIDs();
-    SHNAssociationProcedure createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener);
+    SHNAssociationProcedurePlugin createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedurePlugin.SHNAssociationProcedureListener shnAssociationProcedureListener);
 
     SHNDeviceDefinition getSHNDeviceDefinition(); // no other way to enforce a no arguments constructor
 }

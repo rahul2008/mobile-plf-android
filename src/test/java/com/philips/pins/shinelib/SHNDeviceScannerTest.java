@@ -84,7 +84,7 @@ public class SHNDeviceScannerTest {
             }
 
             @Override
-            public SHNAssociationProcedure createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener) {
+            public SHNAssociationProcedurePlugin createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedurePlugin.SHNAssociationProcedureListener shnAssociationProcedureListener) {
                 return null;
             }
 

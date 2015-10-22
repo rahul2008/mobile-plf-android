@@ -16,7 +16,7 @@ public class SHNDeviceAssociation {
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
     private static final boolean LOGGING = false;
     private List<SHNDevice> associatedDevices;
-    private SHNAssociationProcedure shnAssociationProcedure;
+    private SHNAssociationProcedurePlugin shnAssociationProcedure;
 
     public enum State {
         Idle, Associating
@@ -37,7 +37,7 @@ public class SHNDeviceAssociation {
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
     private final SHNCentral shnCentral;
     private String associationDeviceTypeName;
-    private SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedure.SHNAssociationProcedureListener() {
+    private SHNAssociationProcedurePlugin.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedurePlugin.SHNAssociationProcedureListener() {
         @Override
         public void onStopScanRequest() {
             stopScanning();
@@ -151,7 +151,7 @@ public class SHNDeviceAssociation {
             SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
             associationDeviceTypeName = deviceTypeName;
             if (shnDeviceDefinitionInfo != null) {
-                SHNAssociationProcedure shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
+                SHNAssociationProcedurePlugin shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
                 if (shnAssociationProcedure.getShouldScan()) {
                     startScanning(shnDeviceDefinitionInfo);
                 }
@@ -180,7 +180,7 @@ public class SHNDeviceAssociation {
         });
     }
 
-    private void reportAssociationStarted(final SHNAssociationProcedure shnAssociationProcedure) {
+    private void reportAssociationStarted(final SHNAssociationProcedurePlugin shnAssociationProcedure) {
         this.shnAssociationProcedure = shnAssociationProcedure;
         shnCentral.getUserHandler().post(new Runnable() {
             @Override

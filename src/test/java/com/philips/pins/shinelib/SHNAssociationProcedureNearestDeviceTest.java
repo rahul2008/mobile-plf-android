@@ -33,7 +33,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({Timer.class})
 public class SHNAssociationProcedureNearestDeviceTest {
     private SHNAssociationProcedureNearestDevice associationProcedure;
-    private SHNAssociationProcedure.SHNAssociationProcedureListener mockedSHNAssociationProcedureListener;
+    private SHNAssociationProcedurePlugin.SHNAssociationProcedureListener mockedSHNAssociationProcedureListener;
     private Timer mockedIterationTimeoutTimer;
     private List<AbstractMap.Entry<SHNDevice, Integer>> mockedDevicesAndAssociatedRSSI;
     ArgumentCaptor<Runnable> iterationTimeoutTimerRunnable;
@@ -72,7 +72,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
     @Before
     public void setUp() {
         mockedIterationTimeoutTimer = mock(Timer.class);
-        mockedSHNAssociationProcedureListener = mock(SHNAssociationProcedure.SHNAssociationProcedureListener.class);
+        mockedSHNAssociationProcedureListener = mock(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class);
 
         mockStatic(Timer.class);
         when(Timer.createTimer(any(Runnable.class), eq(SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS))).thenReturn(mockedIterationTimeoutTimer);

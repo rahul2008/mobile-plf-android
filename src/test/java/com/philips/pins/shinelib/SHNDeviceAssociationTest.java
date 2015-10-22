@@ -53,7 +53,7 @@ public class SHNDeviceAssociationTest {
     private SHNCentral mockedSHNCentral;
     private SHNDeviceDefinitionInfo mockedSHNDeviceDefinitionInfo;
     private SHNDeviceDefinitionInfo.SHNDeviceDefinition mockedSHNDeviceDefinition;
-    private SHNAssociationProcedure mockedSHNAssociationProcedure;
+    private SHNAssociationProcedurePlugin mockedSHNAssociationProcedure;
     private UUID mockedPrimaryServiceUUID;
     private SHNDeviceDefinitions mockedSHNDeviceDefinitions;
     private ShinePreferenceWrapper mockedShinePreferenceWrapper;
@@ -66,14 +66,14 @@ public class SHNDeviceAssociationTest {
         SHNServiceRegistry.releaseInstance();
 
         mockStatic(Log.class);
-        mockedSHNDeviceAssociationListener = (SHNDeviceAssociation.SHNDeviceAssociationListener) Utility.makeThrowingMock(SHNDeviceAssociation.SHNDeviceAssociationListener.class);
-        mockedSHNAssociationProcedure = (SHNAssociationProcedure) Utility.makeThrowingMock(SHNAssociationProcedure.class);
-        mockedSHNCentral = (SHNCentral) Utility.makeThrowingMock(SHNCentral.class);
-        mockedSHNDeviceDefinitionInfo = (SHNDeviceDefinitionInfo) Utility.makeThrowingMock(SHNDeviceDefinitionInfo.class);
-        mockedSHNDeviceDefinition = (SHNDeviceDefinitionInfo.SHNDeviceDefinition) Utility.makeThrowingMock(SHNDeviceDefinitionInfo.SHNDeviceDefinition.class);
-        mockedSHNDeviceDefinitions = (SHNDeviceDefinitions) Utility.makeThrowingMock(SHNDeviceDefinitions.class);
-        mockedShinePreferenceWrapper = (ShinePreferenceWrapper) Utility.makeThrowingMock(ShinePreferenceWrapper.class);
-        mockedSHNDevice = (SHNDevice) Utility.makeThrowingMock(SHNDevice.class);
+        mockedSHNDeviceAssociationListener = Utility.makeThrowingMock(SHNDeviceAssociation.SHNDeviceAssociationListener.class);
+        mockedSHNAssociationProcedure = Utility.makeThrowingMock(SHNAssociationProcedurePlugin.class);
+        mockedSHNCentral = Utility.makeThrowingMock(SHNCentral.class);
+        mockedSHNDeviceDefinitionInfo = Utility.makeThrowingMock(SHNDeviceDefinitionInfo.class);
+        mockedSHNDeviceDefinition = Utility.makeThrowingMock(SHNDeviceDefinitionInfo.SHNDeviceDefinition.class);
+        mockedSHNDeviceDefinitions = Utility.makeThrowingMock(SHNDeviceDefinitions.class);
+        mockedShinePreferenceWrapper = Utility.makeThrowingMock(ShinePreferenceWrapper.class);
+        mockedSHNDevice = Utility.makeThrowingMock(SHNDevice.class);
         mockedPrimaryServiceUUID = UUID.randomUUID();
         mockedInternalHandler = new MockedHandler();
         mockedUserHandler = new MockedHandler();
@@ -88,7 +88,7 @@ public class SHNDeviceAssociationTest {
 
         // mockedSHNDeviceDefinitionInfo
         doReturn(DEVICE_TYPE_NAME).when(mockedSHNDeviceDefinitionInfo).getDeviceTypeName();
-        doReturn(mockedSHNAssociationProcedure).when(mockedSHNDeviceDefinitionInfo).createSHNAssociationProcedure(any(SHNCentral.class), any(SHNAssociationProcedure.SHNAssociationProcedureListener.class));
+        doReturn(mockedSHNAssociationProcedure).when(mockedSHNDeviceDefinitionInfo).createSHNAssociationProcedure(any(SHNCentral.class), any(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class));
         Set<UUID> primaryServiceUUIDs = new HashSet<>();
         primaryServiceUUIDs.add(mockedPrimaryServiceUUID);
         doReturn(primaryServiceUUIDs).when(mockedSHNDeviceDefinitionInfo).getPrimaryServiceUUIDs();
@@ -262,7 +262,7 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
-        ArgumentCaptor<SHNAssociationProcedure.SHNAssociationProcedureListener> shnAssociationProcedureListenerArgumentCaptor = ArgumentCaptor.forClass(SHNAssociationProcedure.SHNAssociationProcedureListener.class);
+        ArgumentCaptor<SHNAssociationProcedurePlugin.SHNAssociationProcedureListener> shnAssociationProcedureListenerArgumentCaptor = ArgumentCaptor.forClass(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class);
         verify(mockedSHNDeviceDefinitionInfo, times(number)).createSHNAssociationProcedure(any(SHNCentral.class), shnAssociationProcedureListenerArgumentCaptor.capture());
         shnAssociationProcedureListenerArgumentCaptor.getValue().onAssociationSuccess(shnDevice);
     }

@@ -2,7 +2,7 @@ package com.philips.pins.shinelib.associationprocedures;
 
 import android.util.Log;
 
-import com.philips.pins.shinelib.SHNAssociationProcedure;
+import com.philips.pins.shinelib.SHNAssociationProcedurePlugin;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNResult;
@@ -14,7 +14,7 @@ import java.util.TreeMap;
 /**
  * Created by code1_310170470 on 28/05/15.
  */
-public class SHNAssociationProcedureNearestDevice implements SHNAssociationProcedure {
+public class SHNAssociationProcedureNearestDevice implements SHNAssociationProcedurePlugin {
     public static final long NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS = 10000L;
     public static final int ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT = 3;
     public static final int NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT = 5;
@@ -28,7 +28,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     private int successivelyNearestDeviceCount;
     private SHNDevice nearestDeviceInPreviousIteration;
 
-    public SHNAssociationProcedureNearestDevice(SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener) {
+    public SHNAssociationProcedureNearestDevice(SHNAssociationProcedureListener shnAssociationProcedureListener) {
         listener = shnAssociationProcedureListener;
     }
 
@@ -83,6 +83,10 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
         }, NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS);
         nearestDeviceIterationTimer.restart();
         return SHNResult.SHNOk;
+    }
+
+    @Override
+    public void stop() {
     }
 
     // implements SHNAssociationProcedure
