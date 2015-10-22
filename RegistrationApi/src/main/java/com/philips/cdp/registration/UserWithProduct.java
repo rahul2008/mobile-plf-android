@@ -4,6 +4,7 @@ package com.philips.cdp.registration;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.janrain.android.Jump;
@@ -113,6 +114,11 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         String prodRegUrl = mProdRegBaseUrl + mProdInfo.getSector() + "/" + locale + "/"
                 + mProdInfo.getCatalog() + "/products/" + mProdInfo.getProductModelNumber()
                 + ".register.type.product?";
+        List<Pair<String,String>> params = new ArrayList<>();
+        params.add(new Pair(PRODUCT_SERIAL_NO, mProdInfo
+                .getProductSerialNumber()));
+        params.add(new Pair<String, String>(PRODUCT_PURCHASE_DATE, mProdInfo.getPurchaseDate()));
+        params.add(new Pair<String, String>(PRODUCT_REGISTRATION_CHANNEL, "MS" + MICROSITE_ID));
 
         List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
         nameValuePair.add(new BasicNameValuePair(PRODUCT_SERIAL_NO, mProdInfo
@@ -128,7 +134,8 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         prodRegTask.prodRegInfo = mProdInfo;
         prodRegTask.accessToken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
-        prodRegTask.nameValuePairs = nameValuePair;
+        //prodRegTask.nameValuePairs = nameValuePair;
+        prodRegTask.nameValuePairs = params;
         prodRegTask.execute();
     }
 
@@ -140,8 +147,8 @@ public class UserWithProduct extends User implements LocaleMatchListener {
 
         String url;
 
-        List<NameValuePair> nameValuePairs;
 
+        List<Pair<String,String>> nameValuePairs;
         ProductRegistrationHandler productRegister;
 
         String locale;
@@ -156,7 +163,8 @@ public class UserWithProduct extends User implements LocaleMatchListener {
             Log.i(LOG_TAG, "URL = " + url);
             Log.i(LOG_TAG, "Param = " + nameValuePairs);
             Log.i(LOG_TAG, "AccessToken = " + accessToken);
-            String resultString = httpClient.postData(url, nameValuePairs, accessToken);
+            //String resultString = httpClient.postData(url, nameValuePairs, accessToken);
+            String resultString = httpClient.callPost(url, nameValuePairs, accessToken);
             Log.i(LOG_TAG, "Response = " + resultString);
             return resultString;
         }
@@ -257,7 +265,8 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new HttpClient();
-            String resultString = httpClient.connectWithHttpGet(url, accessToken);
+           // String resultString = httpClient.connectWithHttpGet(url, accessToken);
+            String resultString = httpClient.callGet(url, accessToken);
             return resultString;
         }
 

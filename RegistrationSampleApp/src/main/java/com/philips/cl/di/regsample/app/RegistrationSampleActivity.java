@@ -96,6 +96,10 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     @Override
     protected void onStop() {
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onStop");
+
+        if(mProgressDialog != null){
+            mProgressDialog.dismiss();
+        }
         super.onStop();
     }
 

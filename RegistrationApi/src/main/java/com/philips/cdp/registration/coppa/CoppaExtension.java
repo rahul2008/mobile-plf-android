@@ -11,6 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.support.v4.util.Pair;
+import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.Jump.CaptureApiResultHandler;
@@ -69,7 +71,8 @@ public class CoppaExtension implements CoppaExtensionHandler {
 			public void run() {
 				String url = "https://"+Jump.getCaptureDomain()+"/widget/verify_email.jsonp";
 				HttpClient client = new HttpClient();
-				String response = client.postData(url,getCoppaMailParams(email), null);
+				//String response = client.postData(url,getCoppaMailParams(email), null);
+				String response = client.callPost(url,getCoppaMailParameters(email),null);
 				RLog.i("triggerSendCoppaMailAfterLogin", "triggerSendCoppaMailAfterLogin response : "+response );
 				
 			}
@@ -86,15 +89,22 @@ public class CoppaExtension implements CoppaExtensionHandler {
 		final boolean isConsent = getCosentGivenStatus();
 		String MAIL_TYPE_CONSENT = "consent";
 		String MAIL_TYPE_CONFIRMATION = "confirmation";
+		final String accessToken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
+				.getAccessToken() : null;
+
+		Log.i("COPPA", "Returninge of doInBackground :Coppa acces token" + accessToken);
 		final String mailType = isConsent ? MAIL_TYPE_CONFIRMATION : MAIL_TYPE_CONSENT;
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				HttpClient client = new HttpClient();
-				String response = client.postData(RegistrationHelper.getInstance()
+				/*String response = client.postData(RegistrationHelper.getInstance()
 				        .getRegistrationSettings().getResendConsentUrl(),
-				        geResendMailParams(mailType, email), null);
+				        geResendMailParams(mailType, email), accessToken);*/
+				String response = client.callPost(RegistrationHelper.getInstance()
+								.getRegistrationSettings().getResendConsentUrl(),
+						getResendMailParameters(mailType, email), accessToken);
 				if (response != null) {
 					notifyCoppaResendFailed(0, null, resendCoppaEmailConsentHandler);
 				} else {
@@ -155,7 +165,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
 		resendCoppaEmailConsentHandler.didResendCoppaEmailConsentFailedWithError(coppaResendError);
 	}
 
-	private List<NameValuePair> geResendMailParams(String mailtype, String email) {
+	/*private List<NameValuePair> geResendMailParams(String mailtype, String email) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("locale", "en_US"));
 		params.add(new BasicNameValuePair("campaignId", RegistrationConfiguration.getInstance()
@@ -172,12 +182,34 @@ public class CoppaExtension implements CoppaExtensionHandler {
 		params.add(new BasicNameValuePair("flow_version", Jump.getCaptureFlowVersion()));
 		params.add(new BasicNameValuePair("response_type", "token"));
 		return params;
+	}*/
+
+	private List<Pair<String,String>> getResendMailParameters(String mailtype, String email){
+		List<Pair<String,String>> params = new ArrayList<>();
+		params.add(new Pair("locale","en_US"));
+		Log.e("COPPA", "Returninge of doInBackground :campaign id" + RegistrationConfiguration.getInstance()
+				.getPilConfiguration().getCampaignID());
+		params.add(new Pair("campaignId",RegistrationConfiguration.getInstance()
+				.getPilConfiguration().getCampaignID()));
+		params.add(new Pair("email",email));
+		params.add(new Pair("mailType",mailtype));
+		params.add(new Pair("redirect_uri",RegistrationHelper.getInstance()
+				.getRegistrationSettings().getRegisterCoppaActivationUrl()));
+		params.add(new Pair("flow_name",RegistrationHelper.getInstance()
+				.getRegistrationSettings().getFlowName()));
+		params.add(new Pair("form","resendConsentForm"));
+		params.add(new Pair("emailFieldName","traditionalSignIn_emailAddress"));
+		params.add(new Pair("flow_version",Jump.getCaptureFlowVersion()));
+		params.add(new Pair("response_type","token"));
+
+		return params;
+
 	}
 	
 	private List<NameValuePair> getCoppaMailParams(String email) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("access_token", Jump.getAccessToken()));
-		params.add(new BasicNameValuePair("capture_screen","signIn"));
+		params.add(new BasicNameValuePair("capture_screen", "signIn"));
 		params.add(new BasicNameValuePair("capture_transactionId", getTransactionID()));
 		params.add(new BasicNameValuePair("client_id", Jump.getCaptureClientId()));
 		params.add(new BasicNameValuePair("locale", Jump.getCaptureLocale()));
@@ -189,6 +221,25 @@ public class CoppaExtension implements CoppaExtensionHandler {
 		params.add(new BasicNameValuePair("form", "socialSignInConsentCheckForm"));
 		params.add(new BasicNameValuePair("traditionalSignIn_emailAddress", email));
 		params.add(new BasicNameValuePair("flow_version", Jump.getCaptureFlowVersion()));
+		return params;
+	}
+
+	private List<Pair<String,String>> getCoppaMailParameters(String email) {
+		List<Pair<String, String>> params = new ArrayList<>();
+		params.add(new Pair("access_token", Jump.getAccessToken()));
+
+		params.add(new Pair("capture_screen", "signIn"));
+		params.add(new Pair("capture_transactionId", getTransactionID()));
+		params.add(new Pair("client_id", Jump.getCaptureClientId()));
+		params.add(new Pair("locale", Jump.getCaptureLocale()));
+		params.add(new Pair("response_type","token"));
+		params.add(new Pair("redirect_uri",RegistrationHelper.getInstance()
+				.getRegistrationSettings().getRegisterCoppaActivationUrl()));
+		params.add(new Pair("flow", RegistrationHelper.getInstance()
+				.getRegistrationSettings().getFlowName()));
+		params.add(new Pair("form", "socialSignInConsentCheckForm"));
+		params.add(new Pair("traditionalSignIn_emailAddress", email));
+		params.add(new Pair("flow_version", Jump.getCaptureFlowVersion()));
 		return params;
 	}
 	

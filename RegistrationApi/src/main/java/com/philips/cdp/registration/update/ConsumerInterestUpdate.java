@@ -3,6 +3,7 @@ package com.philips.cdp.registration.update;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.janrain.android.Jump;
@@ -78,18 +79,21 @@ public class ConsumerInterestUpdate {
     private void startUpdateTask(UpdateConsumerInterestHandler updateConsumerInterestHandler, String attributes) {
         String accessToken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
+        List<Pair<String,String>> nameValuePair = new ArrayList<Pair<String,String>>();
 
-        List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+       // List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
         final String ATTRIBUTES = "attributes";
         final String ACCESS_TOKEN = "access_token";
         final String INCLUDE_RECORD = "include_record";
         final String ATTRIBUTE_NAME = "attribute_name";
         final String CONSUMER_INTERESTS = "/consumerInterests";
         final String TRUE_VALUE = "true";
-        nameValuePair.add(new BasicNameValuePair(ATTRIBUTES, attributes));
-        nameValuePair.add(new BasicNameValuePair(ACCESS_TOKEN, accessToken));
-        nameValuePair.add(new BasicNameValuePair(INCLUDE_RECORD, TRUE_VALUE));
-        nameValuePair.add(new BasicNameValuePair(ATTRIBUTE_NAME, CONSUMER_INTERESTS));
+
+        nameValuePair.add(new Pair(ATTRIBUTES, attributes));
+        nameValuePair.add(new Pair(ACCESS_TOKEN, accessToken));
+        nameValuePair.add(new Pair(INCLUDE_RECORD, TRUE_VALUE));
+        nameValuePair.add(new Pair(ATTRIBUTE_NAME, CONSUMER_INTERESTS));
+
         updateConsumerInterestTask prodRegTask = new updateConsumerInterestTask();
         prodRegTask.url = baseUrl;
         prodRegTask.accessToken = accessToken;
@@ -101,7 +105,7 @@ public class ConsumerInterestUpdate {
 
     private class updateConsumerInterestTask extends AsyncTask<Void, Void, String> {
         String url;
-        List<NameValuePair> nameValuePairs;
+        List<Pair<String,String>> nameValuePairs;
         UpdateConsumerInterestHandler updateConsumerInterestHandler;
         String accessToken;
 
@@ -111,7 +115,8 @@ public class ConsumerInterestUpdate {
             Log.d(TAG, "URL = " + url);
             Log.d(TAG, "Param = " + nameValuePairs);
             Log.d(TAG, "AccessToken = " + accessToken);
-            String resultString = httpClient.postData(url, nameValuePairs, accessToken);
+            //String resultString = httpClient.postData(url, nameValuePairs, accessToken);
+            String resultString = httpClient.callPost(url, nameValuePairs, accessToken);
             Log.i(TAG, "Response = " + resultString);
             return resultString;
         }
