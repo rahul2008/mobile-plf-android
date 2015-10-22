@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cdp.uikit.R;
@@ -30,39 +31,33 @@ public class CircleIndicator extends LinearLayout implements PageIndicator {
     private int themeBaseColor;
     private int mCurrentPage;
     private int distanceBetweenCircles;
+    private int mScrollState;
+    private LinearLayout linearLayout;
 
     public CircleIndicator(final Context context, final AttributeSet attrs) {
-        this(context, attrs, R.attr.actionButtonStyleRef);
-    }
-
-    public CircleIndicator(Context context, AttributeSet attrs,
-                           int defStyle) {
-        super(context, attrs, defStyle);
-        processAttributes(context, attrs, defStyle, getResources());
-        invalidate();
-    }
-
-    private void processAttributes(final Context context, final AttributeSet attrs, final int defStyle, final Resources resources) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs,
-                R.styleable.PageIndicator, defStyle,
-                R.style.Philips_dotNavigation);
-        selectedCircleWidth = typedArray.getInt(R.styleable.PageIndicator_selectedCircleWidth, 4);
-        selectedCircleHeight = typedArray.getInt(R.styleable.PageIndicator_selectedCircleHeight, 4);
-        unSelectedCircleWidth = typedArray.getInt(R.styleable.PageIndicator_unSelectedCircleWidth, 4);
-        unSelectedCircleHeight = typedArray.getInt(R.styleable.PageIndicator_unSelectedCircleHeight, 4);
-        distanceBetweenCircles = typedArray.getInt(R.styleable.PageIndicator_distanceBetweenCircle, 4);
-        setBaseColor(context, resources);
-    }
-
-    private void setBaseColor(final Context context, final Resources resources) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(R.style.Theme_Philips, new int[]{R.attr.baseColor});
-        themeBaseColor = a.getColor(0, resources.getColor(R.color.uikit_philips_blue));
-    }
-
-    @Override
-    public void invalidate() {
-        super.invalidate();
+        super(context, attrs);
+        final Resources resources = getResources();
+        processAttributes(context, resources);
         drawCircles();
+    }
+
+    public CircleIndicator(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        final Resources resources = getResources();
+        processAttributes(context, resources);
+        drawCircles();
+//        this.setGravity(Gravity.CENTER_HORIZONTAL);
+    }
+
+    private void processAttributes(final Context context, final Resources resources) {
+        selectedCircleWidth = (int) resources.getDimension(R.dimen.uikit_dot_navigation_selected_width);
+        selectedCircleHeight = (int) resources.getDimension(R.dimen.uikit_dot_navigation_selected_height);
+        unSelectedCircleWidth = (int) resources.getDimension(R.dimen.uikit_dot_navigation_unselected_width);
+        unSelectedCircleHeight = (int) resources.getDimension(R.dimen.uikit_dot_navigation_unselected_height);
+        distanceBetweenCircles = (int) resources.getDimension(R.dimen.uikit_dot_navigation_distance_between_circles);
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.enableStroke});
+        themeBaseColor = a.getColor(0, resources.getColor(R.color.uikit_philips_blue));
+        enableStrokeBackground = a.getBoolean(1, false);
     }
 
     private void drawCircles() {
@@ -81,72 +76,144 @@ public class CircleIndicator extends LinearLayout implements PageIndicator {
             return;
         }
 
-        View view = LayoutInflater.from(context).inflate(
-                R.layout.uikit_circle_indicator, null);
-        this.addView(view);
-        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.uikit_linear);
-        linearLayout.removeAllViews();
+        linearLayout = getLinearLayout(context);
+        drawDots(context, count, linearLayout);
+    }
+
+    private void drawDots(final Context context, final int count, final LinearLayout linearLayout) {
         for (int i = 0; i < count; i++) {
-            ImageView imageView = new ImageView(context);
-            imageView.setBackgroundDrawable(getSelectedShapeDrawable(i));
-            LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(selectedCircleWidth, selectedCircleHeight);
-            vp.setMargins(0, 0, (int) getResources().getDimension(R.dimen.uikit_dot_navigation_distance_between_circles), 0);
-            imageView.setLayoutParams(vp);
+            View imageView = new View(context);
+
+            GradientDrawable gradientDrawable = getShapeDrawable();
+            if (i == mCurrentPage) {
+                applySelectedMetrics(imageView, gradientDrawable);
+            } else {
+                applyUnselectedMetrics(imageView, gradientDrawable);
+                final int position = i;
+                imageView.setClickable(true);
+                imageView.setOnTouchListener(new OnTouchListener() {
+                    @Override
+                    public boolean onTouch(final View v, final MotionEvent event) {
+                        onClickUnSelectedCircle(v, position);
+                        return false;
+                    }
+                });
+            }
+//            imageView.setScaleType(ImageView.ScaleType.CENTER);
             linearLayout.addView(imageView);
         }
     }
 
-    private GradientDrawable getSelectedShapeDrawable(final int i) {
+    private void applyUnselectedMetrics(final View imageView, final GradientDrawable gradientDrawable) {
+        gradientDrawable.setAlpha((int) 178.5);
+        LayoutParams vp = new LayoutParams(unSelectedCircleWidth, unSelectedCircleHeight);
+        vp.setMargins(0, 0, distanceBetweenCircles, 0);
+        if (enableStrokeBackground) {
+            gradientDrawable.setStroke(2, themeBaseColor);
+            gradientDrawable.setColor(getResources().getColor(android.R.color.transparent));
+        }
+        imageView.setLayoutParams(vp);
+        imageView.setBackgroundDrawable(gradientDrawable);
+    }
+
+    private void applySelectedMetrics(final View imageView, final GradientDrawable gradientDrawable) {
+        LayoutParams vp = new LayoutParams(selectedCircleWidth, selectedCircleHeight);
+        vp.setMargins(0, 0, distanceBetweenCircles, 0);
+        imageView.setLayoutParams(vp);
+        imageView.setBackgroundDrawable(gradientDrawable);
+    }
+
+    @NonNull
+    private LinearLayout getLinearLayout(final Context context) {
+        View view = LayoutInflater.from(context).inflate(
+                R.layout.uikit_circle_indicator, null);
+        this.removeAllViews();
+        this.addView(view);
+        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.uikit_linear);
+        linearLayout.removeAllViews();
+        return linearLayout;
+    }
+
+    private GradientDrawable getShapeDrawable() {
         Resources resources = getResources();
         final GradientDrawable gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.uikit_dot_circle);
-//        gradientDrawable.setColor(resources.getColor(android.R.color.transparent));
-//        gradientDrawable.setStroke(2,resources.getColor(R.color.uikit_philips_Red));
-        if (i == 5) {
-            gradientDrawable.setColor(resources.getColor(R.color.uikit_philips_dark_aqua));
-            gradientDrawable.setStroke(0, resources.getColor(android.R.color.transparent));
-        }
+        gradientDrawable.setColor(themeBaseColor);
         gradientDrawable.mutate();
         return gradientDrawable;
     }
 
     @Override
-    public void setViewPager(final ViewPager view) {
-
+    public void setViewPager(ViewPager view) {
+        if (mViewPager == view) {
+            return;
+        }
+        if (mViewPager != null) {
+            mViewPager.setOnPageChangeListener(null);
+        }
+        if (view.getAdapter() == null) {
+            throw new IllegalStateException("ViewPager does not have adapter instance.");
+        }
+        mViewPager = view;
+        mViewPager.setOnPageChangeListener(this);
+        drawCircles();
     }
 
     @Override
-    public void setViewPager(final ViewPager view, final int initialPosition) {
-
+    public void setViewPager(ViewPager view, int initialPosition) {
+        setViewPager(view);
+        setCurrentItem(initialPosition);
     }
 
     @Override
-    public void setCurrentItem(final int item) {
-
-    }
-
-    @Override
-    public void setOnPageChangeListener(final ViewPager.OnPageChangeListener listener) {
-
+    public void setCurrentItem(int item) {
+        if (mViewPager == null) {
+            throw new IllegalStateException("ViewPager has not been bound.");
+        }
+        mViewPager.setCurrentItem(item);
+        mCurrentPage = item;
+        drawCircles();
+//        changeSelectedPosition(item);
     }
 
     @Override
     public void notifyDataSetChanged() {
-
+        drawCircles();
     }
 
     @Override
-    public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+    public void onPageScrollStateChanged(int state) {
+        mScrollState = state;
 
+        if (mListener != null) {
+            mListener.onPageScrollStateChanged(state);
+        }
     }
 
     @Override
-    public void onPageSelected(final int position) {
-
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        mCurrentPage = position;
+        drawCircles();
+//        changeSelectedPosition(position);
+        if (mListener != null) {
+            mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        }
     }
 
     @Override
-    public void onPageScrollStateChanged(final int state) {
+    public void onPageSelected(int position) {
+        if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
+            mCurrentPage = position;
+            drawCircles();
+//            changeSelectedPosition(position);
+        }
+        if (mListener != null) {
+            mListener.onPageSelected(position);
+        }
+    }
 
+    @Override
+    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
+        mListener = listener;
     }
 
     public int getSelectedCircleWidth() {
@@ -180,4 +247,25 @@ public class CircleIndicator extends LinearLayout implements PageIndicator {
     public void setUnSelectedCircleHeight(final int unSelectedCircleHeight) {
         this.unSelectedCircleHeight = unSelectedCircleHeight;
     }
+
+    @Override
+    public void onClickUnSelectedCircle(final View view, final int position) {
+        mViewPager.setCurrentItem(position);
+    }
+
+    private void changeSelectedPosition(int position) {
+        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+            if (i == position) {
+                View view = linearLayout.getChildAt(position);
+                applySelectedMetrics(view, (GradientDrawable) view.getBackground());
+                view.invalidate();
+            } else {
+                View view = linearLayout.getChildAt(position);
+                applyUnselectedMetrics(view, (GradientDrawable) view.getBackground());
+                view.invalidate();
+            }
+        }
+    }
+
+
 }

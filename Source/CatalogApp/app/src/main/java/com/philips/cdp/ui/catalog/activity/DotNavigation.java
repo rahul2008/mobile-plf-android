@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.dotnavigation.ViewPagerAdaptor;
 import com.philips.cdp.uikit.costumviews.CircleIndicator;
 
 /**
@@ -18,7 +19,7 @@ public class DotNavigation extends CatalogActivity {
         setContentView(R.layout.dot_navigation);
 
         final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
-//        mPager.setAdapter(mAdapter);
+        mPager.setAdapter(new ViewPagerAdaptor(getSupportFragmentManager()));
 
         final CircleIndicator mIndicator = (CircleIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
