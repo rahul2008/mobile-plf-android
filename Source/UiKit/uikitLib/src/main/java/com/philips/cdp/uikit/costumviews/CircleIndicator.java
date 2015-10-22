@@ -17,7 +17,7 @@ import com.philips.cdp.uikit.R;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class CircleIndicator extends LinearLayout implements PageIndicator {
+public class CircleIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedDots {
 
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;
@@ -31,6 +31,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator {
     private int mCurrentPage;
     private int distanceBetweenCircles;
     private int mScrollState;
+    private onTouchUnSelectedDots onTouchUnSelectedDots;
 
     public CircleIndicator(final Context context, final AttributeSet attrs) {
         super(context, attrs);
@@ -98,6 +99,9 @@ public class CircleIndicator extends LinearLayout implements PageIndicator {
                     @Override
                     public void onClick(final View v) {
                         onClickUnSelectedCircle(v, position);
+                        if (onTouchUnSelectedDots != null) {
+                            onTouchUnSelectedDots.onClickUnSelectedCircle(v, position);
+                        }
                     }
                 });
             }
@@ -251,4 +255,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator {
         mViewPager.setCurrentItem(position);
     }
 
+    public void setOnTouchUnSelectedDots(onTouchUnSelectedDots onTouchUnSelectedDots) {
+        this.onTouchUnSelectedDots = onTouchUnSelectedDots;
+    }
 }
