@@ -79,14 +79,14 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
                     return;
                 }
 
-                final LinearLayout linearLayout = getLinearLayout(context);
-                drawDots(context, count, linearLayout);
+                final LinearLayout parent = getParentLayout(context);
+                drawDots(context, count, parent);
             }
         });
 
     }
 
-    private void drawDots(final Context context, final int count, final LinearLayout linearLayout) {
+    private void drawDots(final Context context, final int count, final LinearLayout parent) {
         for (int i = 0; i < count; i++) {
             View view = new View(context);
 
@@ -95,20 +95,24 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
                 applySelectedMetrics(view, gradientDrawable);
             } else {
                 applyUnselectedMetrics(view, gradientDrawable);
-                final int position = i;
-                view.setClickable(true);
-                view.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        onClickUnSelectedCircle(v, position);
-                        if (onTouchUnSelectedDots != null) {
-                            onTouchUnSelectedDots.onClickUnSelectedCircle(v, position);
-                        }
-                    }
-                });
+                setOnClickListener(i, view);
             }
-            linearLayout.addView(view);
+            parent.addView(view);
         }
+    }
+
+    private void setOnClickListener(final int i, final View view) {
+        final int position = i;
+        view.setClickable(true);
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onClickUnSelectedCircle(v, position);
+                if (onTouchUnSelectedDots != null) {
+                    onTouchUnSelectedDots.onClickUnSelectedCircle(v, position);
+                }
+            }
+        });
     }
 
     @SuppressWarnings("deprecation")
@@ -135,7 +139,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     }
 
     @NonNull
-    private LinearLayout getLinearLayout(final Context context) {
+    private LinearLayout getParentLayout(final Context context) {
         View view = LayoutInflater.from(context).inflate(
                 R.layout.uikit_circle_indicator, null);
         this.removeAllViews();
