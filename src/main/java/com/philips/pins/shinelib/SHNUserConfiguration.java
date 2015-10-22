@@ -1,11 +1,9 @@
 package com.philips.pins.shinelib;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
-import com.philips.pins.shinelib.utility.SHNServiceRegistry;
-import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +14,7 @@ import java.util.Locale;
  */
 public class SHNUserConfiguration {
     private static final String TAG = SHNUserConfiguration.class.getSimpleName();
+    private static final String SHINELIB_PREFERENCES_FILE_KEY = SHNUserConfiguration.class.getSimpleName() + "_preferences";
 
     /* package */ static final String USER_CONFIG_DATE_OF_BIRTH = "USER_CONFIG_DATE_OF_BIRTH";
     /* package */ static final String USER_CONFIG_MAX_HEART_RATE = "USER_CONFIG_MAX_HEART_RATE";
@@ -44,7 +43,7 @@ public class SHNUserConfiguration {
         MixedHanded
     }
 
-    private final ShinePreferenceWrapper shinePreferenceWrapper;
+    private final SharedPreferences sharedPreferences;
     private Sex sex = Sex.Unspecified;
     private Integer maxHeartRate;
     private Integer restingHeartRate;
@@ -58,9 +57,13 @@ public class SHNUserConfiguration {
 
     private int changeIncrement;
 
-    /* package */ SHNUserConfiguration() {
-        this.shinePreferenceWrapper = SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class);
+    /* package */ SHNUserConfiguration(SharedPreferences sharedPreferences) { // Added for testing only!!
+        this.sharedPreferences = sharedPreferences;
         retrieveFromPreferences();
+    }
+
+    /* package */ SHNUserConfiguration(Context context) {
+        this(context.getSharedPreferences(SHINELIB_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE));
     }
 
     private void incrementIndex() {
@@ -223,7 +226,7 @@ public class SHNUserConfiguration {
     }
 
     private synchronized void saveToPreferences() {
-        SharedPreferences.Editor edit = shinePreferenceWrapper.edit();
+        SharedPreferences.Editor edit = sharedPreferences.edit();
 
         Date dateOfBirth = getDateOfBirth();
         updatePersistentStorage(edit, USER_CONFIG_DATE_OF_BIRTH, ((dateOfBirth == null) ? null : dateOfBirth.getTime()));
@@ -348,7 +351,7 @@ public class SHNUserConfiguration {
 
     @Nullable
     private Date readDateFromPersistentStorage(String key) {
-        long value = shinePreferenceWrapper.getLong(key);
+        long value = sharedPreferences.getLong(key, -1L);
         if (value != -1L) {
             return new Date(value);
         }
@@ -357,7 +360,7 @@ public class SHNUserConfiguration {
 
     @Nullable
     private Integer readIntegerFromPersistentStorage(String key) {
-        int value = shinePreferenceWrapper.getInt(key);
+        int value = sharedPreferences.getInt(key, -1);
         if (value != -1) {
             return value;
         }
@@ -366,7 +369,7 @@ public class SHNUserConfiguration {
 
     @Nullable
     private Double readDoubleFromPersistentStorage(String key) {
-        float value = shinePreferenceWrapper.getFloat(key);
+        float value = sharedPreferences.getFloat(key, Float.NaN);
         if (!Float.isNaN(value)) {
             return (double)value;
         }
@@ -375,11 +378,14 @@ public class SHNUserConfiguration {
 
     @Nullable
     private String readStringFromPersistentStorage(String key) {
-        return shinePreferenceWrapper.getString(key);
+        return sharedPreferences.getString(key, null);
     }
 
     @Nullable
     private Boolean readBooleanFromPersistentStorage(String key) {
-        return shinePreferenceWrapper.getBoolean(key);
+        if (sharedPreferences.contains(key)) {
+            return sharedPreferences.getBoolean(key, false);
+        }
+        return null;
     }
 }

@@ -195,9 +195,9 @@ public class SHNCentral {
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
-        SHNServiceRegistry.getInstance().add(new ShinePreferenceWrapper(applicationContext));
+        shnUserConfiguration = new SHNUserConfiguration(applicationContext);
 
-        shnUserConfiguration = new SHNUserConfiguration();
+        SHNServiceRegistry.getInstance().add(new ShinePreferenceWrapper(applicationContext));
     }
 
     private void setState(final State state) {
