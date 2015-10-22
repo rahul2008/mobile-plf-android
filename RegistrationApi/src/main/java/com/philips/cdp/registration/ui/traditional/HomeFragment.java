@@ -238,7 +238,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mTvTermsAndConditionDesc = (TextView) view.findViewById(R.id.tv_reg_legal_notice);
         int minAgeLimit = RegistrationConfiguration.getInstance().getFlow().
                 getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
-        String termsAndCondition = getString(R.string.TermsAndConditionsAcceptanceText_Error);
+        String termsAndCondition = getString(R.string.AgeLimitText);
         termsAndCondition = String.format(termsAndCondition, minAgeLimit);
 
         mTvTermsAndConditionDesc.setText(termsAndCondition);

@@ -222,6 +222,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
 		mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
+		String termsAndCondition = getString(R.string.TermsAndConditionsText);
+		termsAndCondition = String.format(mCbAcceptTerms.getText().toString(),termsAndCondition);
+		mCbAcceptTerms.setText(termsAndCondition);
+
 		FontLoader.getInstance().setTypeface(mCbAcceptTerms, "CentraleSans-Light.otf");
 		mCbAcceptTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbAcceptTerms.getPaddingTop(), mCbAcceptTerms.getPaddingRight(), mCbAcceptTerms.getPaddingBottom());
 		mCbAcceptTerms.setOnCheckedChangeListener(this);

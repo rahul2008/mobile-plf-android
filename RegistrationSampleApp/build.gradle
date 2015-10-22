@@ -6,7 +6,6 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
-
     defaultConfig {
         applicationId "com.philips.cl.di.regsample.app"
         minSdkVersion 10
@@ -16,14 +15,9 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
-
-
     lintOptions {
         abortOnError false
     }
-
-
-
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -54,12 +48,12 @@ android {
         simulator {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.2.4"
+            versionName "2.2.6"
         }
         device {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.2.4"
+            versionName "2.2.6"
         }
     }
 }
