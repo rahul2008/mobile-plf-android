@@ -47,6 +47,8 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         drawCircles();
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private void processAttributes(final Context context, final Resources resources) {
         selectedCircleWidth = (int) resources.getDimension(R.dimen.uikit_dot_navigation_selected_width);
         selectedCircleHeight = (int) resources.getDimension(R.dimen.uikit_dot_navigation_selected_height);
@@ -109,6 +111,8 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         }
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private void applyUnselectedMetrics(final View view, final GradientDrawable gradientDrawable) {
         gradientDrawable.setAlpha((int) 178.5);
         LayoutParams vp = new LayoutParams(unSelectedCircleWidth, unSelectedCircleHeight);
@@ -121,6 +125,8 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         view.setBackgroundDrawable(gradientDrawable);
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
     private void applySelectedMetrics(final View view, final GradientDrawable gradientDrawable) {
         LayoutParams vp = new LayoutParams(selectedCircleWidth, selectedCircleHeight);
         vp.setMargins(0, 0, distanceBetweenCircles, 0);
@@ -139,6 +145,8 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         return linearLayout;
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
     private GradientDrawable getShapeDrawable() {
         Resources resources = getResources();
         final GradientDrawable gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.uikit_dot_circle);
@@ -147,6 +155,8 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         return gradientDrawable;
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+
     @Override
     public void setViewPager(ViewPager view) {
         if (mViewPager == view) {
