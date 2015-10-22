@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.dotnavigation.ViewPagerAdaptor;
-import com.philips.cdp.uikit.costumviews.CircleIndicator;
+import com.philips.cdp.uikit.dotnavigation.CircleIndicator;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

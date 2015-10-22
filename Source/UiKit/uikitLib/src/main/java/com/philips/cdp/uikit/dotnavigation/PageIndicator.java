@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.costumviews;
+package com.philips.cdp.uikit.dotnavigation;
 
 import android.support.v4.view.ViewPager;
 
