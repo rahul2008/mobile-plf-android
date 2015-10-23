@@ -24,7 +24,6 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.wnafee.vector.compat.VectorDrawable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,7 +36,6 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     protected List<String> listDataHeader;
     protected HashMap<String, List<String>> listDataChild;
     protected ExpandableListView drawerListView;
-    protected ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private CharSequence drawerTitle;
