@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.hamburger;
+package com.philips.cdp.ui.catalog.hamburgerfragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
