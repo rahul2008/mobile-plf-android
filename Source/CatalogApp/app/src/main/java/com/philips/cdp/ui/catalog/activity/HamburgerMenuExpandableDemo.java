@@ -2,7 +2,6 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,17 +30,13 @@ import java.util.List;
  */
 public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu {
 
-    private String[] navMenuTitles;
-    private TypedArray navMenuIcons;
-    private ExpandableListAdapter listAdapter;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hamburger_demo);
-        loadSlideMenuItems();
         prepareListData();
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        final ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         drawerListView.setAdapter(listAdapter);
         if (savedInstanceState == null) {
             displayView(0);
@@ -53,6 +48,7 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
                 return false;
             }
         });
+        setTitle(getResources().getString(R.string.app_name));
     }
 
     @Override
@@ -72,15 +68,6 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void loadSlideMenuItems() {
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-
-        navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
-
-        hamburgerItems = new ArrayList<>();
     }
 
     private void displayView(int position) {
@@ -116,17 +103,16 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
                     .replace(getFragmentContainerID(), fragment).commit();
             drawerListView.setItemChecked(position, true);
             drawerListView.setSelection(position);
-            setTitle(navMenuTitles[position]);
             closeDrawer();
         } else {
             // error in creating fragment
-            Log.e("MainActivity", "Error in creating fragment");
+            Log.e(getClass() + "", "Error in creating fragment");
         }
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
 
         // Adding child data
         listDataHeader.add("Top 250");
@@ -134,7 +120,7 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         listDataHeader.add("Coming Soon..");
 
         // Adding child data
-        List<String> top250 = new ArrayList<String>();
+        List<String> top250 = new ArrayList<>();
         top250.add("The Shawshank Redemption");
         top250.add("The Godfather");
         top250.add("The Godfather: Part II");
@@ -143,7 +129,7 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         top250.add("The Dark Knight");
         top250.add("12 Angry Men");
 
-        List<String> nowShowing = new ArrayList<String>();
+        List<String> nowShowing = new ArrayList<>();
         nowShowing.add("The Conjuring");
         nowShowing.add("Despicable Me 2");
         nowShowing.add("Turbo");
@@ -151,7 +137,7 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         nowShowing.add("Red 2");
         nowShowing.add("The Wolverine");
 
-        List<String> comingSoon = new ArrayList<String>();
+        List<String> comingSoon = new ArrayList<>();
         comingSoon.add("2 Guns");
         comingSoon.add("The Smurfs 2");
         comingSoon.add("The Spectacular Now");
@@ -161,5 +147,4 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         listDataChild.put(listDataHeader.get(1), nowShowing);
         listDataChild.put(listDataHeader.get(2), comingSoon);
     }
-
 }

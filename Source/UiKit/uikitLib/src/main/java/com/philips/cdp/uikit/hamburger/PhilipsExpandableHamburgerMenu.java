@@ -48,7 +48,6 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     private FrameLayout parentView;
     private ExpandableListView.OnChildClickListener onItemClickListener;
 
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,8 +129,6 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         };
 
         drawerLayout.setDrawerListener(drawerToggle);
-
-
     }
 
     private void setActionBarSettings(final ActionBar actionBar) {
@@ -153,7 +150,6 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     protected int getFragmentContainerID() {
         return R.id.frame_container;
     }
-
 
     @Override
     public void onCreate(final Bundle savedInstanceState, final PersistableBundle persistentState) {
@@ -178,7 +174,6 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     private void updateSmartFooter() {
         drawerListView.post(new Runnable() {
