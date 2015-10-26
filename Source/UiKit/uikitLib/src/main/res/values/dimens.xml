@@ -11,8 +11,8 @@
     <dimen name="uikit_splash_logo_margin_bottom">53dp</dimen>
     <dimen name="uikit_splash_logo_height">138dp</dimen>
     <dimen name="uikit_splash_logo_width">109dp</dimen>
-    <dimen name="uikit_splash_title_margin_top">53dp</dimen>
-    <dimen name="uikit_splash_title_margin_bottom">53dp</dimen>
+    <dimen name="uikit_splash_title_margin_top">85dp</dimen>
+    <dimen name="uikit_splash_title_margin_bottom">49dp</dimen>
     <dimen name="uikit_splash_title_text_size">38dp</dimen>
 
     <dimen name="uikit_button_corner_rounding">2dp</dimen>
