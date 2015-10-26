@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,65 @@ public class PuiEditText extends RelativeLayout {
 
     private Validator validator;
 
+    private String textToSave;
+
+    private static int viewId = 10000001;
+
+    static class SavedState extends BaseSavedState {
+
+        String savedText;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            this.savedText = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(final Parcel out, final int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(this.savedText);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(final Parcel source) {
+                        return new SavedState(source);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(final int size) {
+                        return new SavedState[size];
+                    }
+                };
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Parcelable state) {
+        if(!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState savedState = (SavedState)state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        editText.setText(savedState.savedText);
+
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.savedText = editText.getEditableText().toString();
+
+        return savedState;
+    }
+
     public PuiEditText(final Context context) {
         super(context);
     }
@@ -51,20 +112,19 @@ public class PuiEditText extends RelativeLayout {
         errorBackground = a.getDrawable(R.styleable.InputTextField_errorBackground);
         a.recycle();
 
-        editText = (EditText) getChildAt(0);
-        editText.setHint(editTextHint);
-        editText.setFocusable(!disabled);
-        editText.setEnabled(!disabled);
-        editText.setOnFocusChangeListener(onFocusChangeListener);
+        setSaveEnabled(true);
+        initEditText(editTextHint, disabled);
 
         themeDrawable = editText.getBackground();
 
-        errorImage = (ImageView) getChildAt(2);
-        errorImage.setImageDrawable(errorIcon);
+        View view = getChildAt(1);
+        removeView(view);
 
-        errorTextView = (TextView) getChildAt(3);
-        errorTextView.setText(errorText);
-        errorTextView.setTextColor(errorTextColor);
+        
+
+        initErrorIcon();
+
+        initErrorMessage(errorText);
 
         errorImage.setOnClickListener(new OnClickListener() {
             @Override
@@ -72,6 +132,26 @@ public class PuiEditText extends RelativeLayout {
                 setErrorMessageVisibilty(View.GONE);
             }
         });
+    }
+
+    private void initErrorMessage(final String errorText) {
+        errorTextView = (TextView) getChildAt(3);
+        errorTextView.setText(errorText);
+        errorTextView.setTextColor(errorTextColor);
+    }
+
+    private void initErrorIcon() {
+        errorImage = (ImageView) getChildAt(2);
+        errorImage.setImageDrawable(errorIcon);
+    }
+
+    private void initEditText(final String editTextHint, final boolean disabled) {
+        editText = (EditText) getChildAt(0);
+        editText.setId(viewId++);
+        editText.setHint(editTextHint);
+        editText.setFocusable(!disabled);
+        editText.setEnabled(!disabled);
+        editText.setOnFocusChangeListener(onFocusChangeListener);
     }
 
     public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
