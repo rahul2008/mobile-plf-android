@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <SeekBar
-        android:id="@+id/seekbar"
+        android:id="@+id/slider"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/slider_padding"

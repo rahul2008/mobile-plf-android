@@ -11,7 +11,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
-import com.wnafee.vector.compat.VectorDrawable;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -31,8 +30,8 @@ public class UikitSeekbar extends LinearLayout {
         View view = inflater.inflate(R.layout.uikit_slider, null, false);
         addView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-        seekbar = (SeekBar) findViewById(R.id.seekbar);
-        indicatorImage = (ImageView) findViewById(R.id.indicator_image);
+        seekbar = (SeekBar) findViewById(R.id.slider);
+        indicatorImage = (ImageView) findViewById(R.id.slider_indicator);
         sliderFramelayout = (FrameLayout) findViewById(R.id.slider_framelayout);
         indicatorText = (TextView) findViewById(R.id.indicator_text);
         //indicatorImage.setImageDrawable(VectorDrawable.create(getResources(), R.drawable.uikit_bubble));
