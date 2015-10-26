@@ -36,6 +36,8 @@
         <activity android:name=".SplashLauncher"/>
         <activity android:name=".activity.InputTextFieldsActivity"/>
         <activity android:name=".activity.TabBarDemo"/>
+        <activity android:name=".activity.SliderActivity"/>
+        SliderActivity
 
     </application>
 

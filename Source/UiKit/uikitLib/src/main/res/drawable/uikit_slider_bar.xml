@@ -1,0 +1,22 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@android:id/background">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="line" >
+            <stroke
+                android:width="@dimen/slider_bar_width"
+                android:color="@color/uikit_enricher4" />
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape xmlns:android="http://schemas.android.com/apk/res/android"
+                android:shape="line" >
+                <stroke
+                    android:width="@dimen/slider_bar_progress"
+                    android:color="?attr/baseColor" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slider_linearlayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/slider_framelayout"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/indicator_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:lines="1"
+            android:textSize="@dimen/slider_text_size"
+            android:textColor="?attr/baseColor"
+            />
+
+        <ImageView
+            android:id="@+id/indicator_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/uikit_bubble" />
+    </FrameLayout>
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/indicator_image"
+        android:layout_marginLeft="@dimen/slider_padding"
+        android:layout_marginRight="@dimen/slider_padding"
+        android:layout_marginTop="@dimen/slider_indicator_margin"
+        />
+</LinearLayout>
+
+
+
+

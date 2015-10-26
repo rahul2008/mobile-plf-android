@@ -9,6 +9,8 @@
         <attr name="themeSwitch" format="reference"/>
         <attr name="veryLightColor" format="color"></attr>
         <attr name="splashGradient" format="reference"/>
+        <attr name="sliderthumb" format="reference|color"/>
+        <attr name="sliderprogress" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="ActionButton">

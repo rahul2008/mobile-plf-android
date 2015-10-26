@@ -74,6 +74,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 8:
                 startActivity(new Intent(this, TabBarDemo.class));
                 break;
+            case 9:
+                startActivity(new Intent(this, SliderActivity.class));
+                break;
             default:
                 break;
         }

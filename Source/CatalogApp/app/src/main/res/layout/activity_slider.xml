@@ -4,6 +4,16 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/slider_padding"
+        android:layout_marginRight="@dimen/slider_padding"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        />
 </LinearLayout>
 
 
