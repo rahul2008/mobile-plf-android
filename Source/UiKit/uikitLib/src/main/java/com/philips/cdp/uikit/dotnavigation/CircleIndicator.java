@@ -19,8 +19,8 @@ import com.philips.cdp.uikit.R;
  */
 public class CircleIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedDots {
 
-    private ViewPager mViewPager;
-    private ViewPager.OnPageChangeListener mListener;
+    private ViewPager viewPager;
+    private ViewPager.OnPageChangeListener pageChangeListener;
     private boolean enableStrokeBackground;
 
     private int selectedCircleWidth;
@@ -28,9 +28,9 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     private int unSelectedCircleWidth;
     private int unSelectedCircleHeight;
     private int themeBaseColor;
-    private int mCurrentPage;
+    private int currentPage;
     private int distanceBetweenCircles;
-    private int mScrollState;
+    private int scrollState;
     private onTouchUnSelectedDots onTouchUnSelectedDots;
 
     public CircleIndicator(final Context context, final AttributeSet attrs) {
@@ -66,15 +66,15 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
             public void run() {
                 Context context = getContext();
 
-                if (mViewPager == null) {
+                if (viewPager == null) {
                     return;
                 }
-                final int count = mViewPager.getAdapter().getCount();
+                final int count = viewPager.getAdapter().getCount();
                 if (count == 0) {
                     return;
                 }
 
-                if (mCurrentPage >= count) {
+                if (currentPage >= count) {
                     setCurrentItem(count - 1);
                     return;
                 }
@@ -91,7 +91,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
             View view = new View(context);
 
             GradientDrawable gradientDrawable = getShapeDrawable();
-            if (i == mCurrentPage) {
+            if (i == currentPage) {
                 applySelectedMetrics(view, gradientDrawable);
             } else {
                 applyUnselectedMetrics(view, gradientDrawable);
@@ -162,17 +162,17 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     //we need to support API lvl 14+
     @Override
     public void setViewPager(ViewPager view) {
-        if (mViewPager == view) {
+        if (viewPager == view) {
             return;
         }
-        if (mViewPager != null) {
-            mViewPager.setOnPageChangeListener(null);
+        if (viewPager != null) {
+            viewPager.setOnPageChangeListener(null);
         }
         if (view.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
-        mViewPager = view;
-        mViewPager.setOnPageChangeListener(this);
+        viewPager = view;
+        viewPager.setOnPageChangeListener(this);
         drawCircles();
     }
 
@@ -184,11 +184,11 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
 
     @Override
     public void setCurrentItem(int item) {
-        if (mViewPager == null) {
+        if (viewPager == null) {
             throw new IllegalStateException("ViewPager has not been bound.");
         }
-        mViewPager.setCurrentItem(item);
-        mCurrentPage = item;
+        viewPager.setCurrentItem(item);
+        currentPage = item;
         drawCircles();
     }
 
@@ -199,36 +199,36 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        mScrollState = state;
+        scrollState = state;
 
-        if (mListener != null) {
-            mListener.onPageScrollStateChanged(state);
+        if (pageChangeListener != null) {
+            pageChangeListener.onPageScrollStateChanged(state);
         }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        mCurrentPage = position;
+        currentPage = position;
         drawCircles();
-        if (mListener != null) {
-            mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        if (pageChangeListener != null) {
+            pageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
         }
     }
 
     @Override
     public void onPageSelected(int position) {
-        if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
-            mCurrentPage = position;
+        if (scrollState == ViewPager.SCROLL_STATE_IDLE) {
+            currentPage = position;
             drawCircles();
         }
-        if (mListener != null) {
-            mListener.onPageSelected(position);
+        if (pageChangeListener != null) {
+            pageChangeListener.onPageSelected(position);
         }
     }
 
     @Override
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        mListener = listener;
+        pageChangeListener = listener;
     }
 
     public int getSelectedCircleWidth() {
@@ -265,7 +265,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
 
     @Override
     public void onClickUnSelectedCircle(final View view, final int position) {
-        mViewPager.setCurrentItem(position);
+        viewPager.setCurrentItem(position, true);
     }
 
     public void setOnTouchUnSelectedDots(onTouchUnSelectedDots onTouchUnSelectedDots) {
