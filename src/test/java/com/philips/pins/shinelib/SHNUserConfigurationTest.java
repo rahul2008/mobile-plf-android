@@ -30,11 +30,13 @@ public class SHNUserConfigurationTest {
     private SHNUserConfiguration shnUserConfiguration;
     private SharedPreferences mockedSharedPreferences;
     private SharedPreferences.Editor mockedEditor;
+    private SHNUserConfiguration.SHNUserConfigurationChangedListener shnUserConfigurationChangedListener;
 
     @Before
     public void setUp() throws Exception {
         mockedSharedPreferences = mock(SharedPreferences.class);
         mockedEditor = mock(SharedPreferences.Editor.class);
+        shnUserConfigurationChangedListener = mock(SHNUserConfiguration.SHNUserConfigurationChangedListener.class);
 
         when(mockedSharedPreferences.getInt(anyString(), anyInt())).thenReturn(-1);
         when(mockedSharedPreferences.getLong(anyString(), anyLong())).thenReturn(-1L);
@@ -91,6 +93,14 @@ public class SHNUserConfigurationTest {
     }
 
     @Test
+    public void whenSexIsSetThenListenerIsNotified() {
+        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
+        shnUserConfiguration.setSex(SHNUserConfiguration.Sex.Male);
+
+        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+    }
+
+    @Test
     public void whenHandednessIsSetTheWrapperIsCalledWithThePropperValue() {
         shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.LeftHanded);
         verify(mockedSharedPreferences).edit();
@@ -119,6 +129,14 @@ public class SHNUserConfigurationTest {
     }
 
     @Test
+    public void whenHandednessIsSetThenListenerIsNotified() {
+        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
+        shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.LeftHanded);
+
+        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+    }
+
+    @Test
     public void whenMaxHeartRateIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setMaxHeartRate(220);
         verify(mockedSharedPreferences, times(1)).edit();
@@ -129,9 +147,8 @@ public class SHNUserConfigurationTest {
         verify(mockedSharedPreferences, times(2)).edit();
         verify(mockedEditor).remove(SHNUserConfiguration.USER_CONFIG_MAX_HEART_RATE);
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
-
     }
-
+    
     @Test
     public void whenRestingHeartRateIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setRestingHeartRate(60);
@@ -143,9 +160,16 @@ public class SHNUserConfigurationTest {
         verify(mockedSharedPreferences, times(2)).edit();
         verify(mockedEditor).remove(SHNUserConfiguration.USER_CONFIG_RESTING_HEART_RATE);
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
-
     }
 
+    @Test
+    public void whenRestingHeartRateIsSetThenListenerIsNotified() {
+        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
+        shnUserConfiguration.setRestingHeartRate(60);
+
+        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+    }
+    
     @Test
     public void whenHeightInCmIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setHeightInCm(160);
@@ -160,6 +184,14 @@ public class SHNUserConfigurationTest {
     }
 
     @Test
+    public void whenHeightIsSetThenListenerIsNotified() {
+        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
+        shnUserConfiguration.setHeightInCm(171);
+
+        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+    }
+
+    @Test
     public void whenWeightInKgIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setWeightInKg(80.5);
         verify(mockedSharedPreferences, times(1)).edit();
@@ -170,6 +202,14 @@ public class SHNUserConfigurationTest {
         verify(mockedSharedPreferences, times(2)).edit();
         verify(mockedEditor).remove(SHNUserConfiguration.USER_CONFIG_WEIGHT_IN_KG);
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
+    }
+
+    @Test
+    public void whenWeightInKgIsSetThenListenerIsNotified() {
+        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
+        shnUserConfiguration.setWeightInKg(78.7);
+
+        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
     }
 
     @Test
@@ -187,6 +227,15 @@ public class SHNUserConfigurationTest {
     }
 
     @Test
+    public void whenBirthDateInKgIsSetThenListenerIsNotified() {
+        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
+        Date now = new Date();
+        shnUserConfiguration.setDateOfBirth(now);
+
+        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+    }
+
+    @Test
     public void whenLanguageCodeIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setIsoLanguageCode("nl");
         verify(mockedSharedPreferences, times(1)).edit();
@@ -197,6 +246,14 @@ public class SHNUserConfigurationTest {
         verify(mockedSharedPreferences, times(2)).edit();
         verify(mockedEditor).remove(SHNUserConfiguration.USER_CONFIG_ISO_LANGUAGE_CODE);
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
+    }
+
+    @Test
+    public void whenLanguageIsSetThenListenerIsNotified() {
+        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
+        shnUserConfiguration.setIsoLanguageCode("nl");
+
+        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
     }
 
     @Test
@@ -216,7 +273,6 @@ public class SHNUserConfigurationTest {
         verify(mockedEditor).remove(SHNUserConfiguration.USER_CONFIG_USE_METRIC_SYSTEM);
         assertEquals(3, shnUserConfiguration.getChangeIncrement());
     }
-
 
     @Test
     public void whenDecimalSeparatorIsSetTheWrapperIsCalledWithTheProperValue() {
@@ -254,15 +310,15 @@ public class SHNUserConfigurationTest {
 
         shnUserConfiguration = new SHNUserConfiguration(mockedSharedPreferences);
         assertEquals(SHNUserConfiguration.Sex.Male, shnUserConfiguration.getSex());
-        assertEquals((Integer)220, shnUserConfiguration.getMaxHeartRate());
-        assertEquals((Integer)60, shnUserConfiguration.getRestingHeartRate());
-        assertEquals((Integer)160, shnUserConfiguration.getHeightInCm());
-        assertEquals((Double)80.5, shnUserConfiguration.getWeightInKg());
+        assertEquals((Integer) 220, shnUserConfiguration.getMaxHeartRate());
+        assertEquals((Integer) 60, shnUserConfiguration.getRestingHeartRate());
+        assertEquals((Integer) 160, shnUserConfiguration.getHeightInCm());
+        assertEquals((Double) 80.5, shnUserConfiguration.getWeightInKg());
         assertEquals(now.getTime(), shnUserConfiguration.getDateOfBirth().getTime());
         assertEquals(SHNUserConfiguration.Handedness.LeftHanded, shnUserConfiguration.getHandedness());
         assertEquals("nl", shnUserConfiguration.getIsoLanguageCode());
         assertTrue(shnUserConfiguration.getUseMetricSystem());
-        assertEquals((Character)',', shnUserConfiguration.getDecimalSeparator());
+        assertEquals((Character) ',', shnUserConfiguration.getDecimalSeparator());
         assertEquals(3456, shnUserConfiguration.getChangeIncrement());
     }
 }

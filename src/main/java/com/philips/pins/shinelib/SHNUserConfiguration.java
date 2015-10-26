@@ -13,6 +13,11 @@ import java.util.Locale;
  * Created by 310188215 on 02/06/15.
  */
 public class SHNUserConfiguration {
+
+    public interface SHNUserConfigurationChangedListener {
+        void onChangeIncrementModified();
+    }
+
     private static final String TAG = SHNUserConfiguration.class.getSimpleName();
     private static final String SHINELIB_PREFERENCES_FILE_KEY = SHNUserConfiguration.class.getSimpleName() + "_preferences";
 
@@ -43,6 +48,8 @@ public class SHNUserConfiguration {
         MixedHanded
     }
 
+    private SHNUserConfigurationChangedListener shnUserConfigurationChangedListener;
+
     private final SharedPreferences sharedPreferences;
     private Sex sex = Sex.Unspecified;
     private Integer maxHeartRate;
@@ -66,9 +73,8 @@ public class SHNUserConfiguration {
         this(context.getSharedPreferences(SHINELIB_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE));
     }
 
-    private void incrementIndex() {
-        changeIncrement++;
-        saveToPreferences();
+    public void setSHNUserConfigurationChangedListener(SHNUserConfigurationChangedListener shnUserConfigurationChangedListener) {
+        this.shnUserConfigurationChangedListener = shnUserConfigurationChangedListener;
     }
 
     public synchronized int getChangeIncrement() {
@@ -225,6 +231,14 @@ public class SHNUserConfiguration {
         return result;
     }
 
+    private void incrementIndex() {
+        changeIncrement++;
+        saveToPreferences();
+        if (shnUserConfigurationChangedListener != null) {
+            shnUserConfigurationChangedListener.onChangeIncrementModified();
+        }
+    }
+
     private synchronized void saveToPreferences() {
         SharedPreferences.Editor edit = sharedPreferences.edit();
 
@@ -235,7 +249,7 @@ public class SHNUserConfiguration {
         updatePersistentStorage(edit, USER_CONFIG_RESTING_HEART_RATE, getRestingHeartRate());
 
         Double weightInKg = getWeightInKg();
-        updatePersistentStorage(edit, USER_CONFIG_WEIGHT_IN_KG, (weightInKg == null) ? null : (float)(double)getWeightInKg());
+        updatePersistentStorage(edit, USER_CONFIG_WEIGHT_IN_KG, (weightInKg == null) ? null : (float) (double) getWeightInKg());
 
         Sex sex = getSex();
         updatePersistentStorage(edit, USER_CONFIG_SEX, (sex == null) ? null : sex.name());
@@ -371,7 +385,7 @@ public class SHNUserConfiguration {
     private Double readDoubleFromPersistentStorage(String key) {
         float value = sharedPreferences.getFloat(key, Float.NaN);
         if (!Float.isNaN(value)) {
-            return (double)value;
+            return (double) value;
         }
         return null;
     }
