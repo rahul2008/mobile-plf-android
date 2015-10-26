@@ -122,6 +122,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 		});
 	}
 
+	//todo: extra param 'name' should be added
 	public void addSchedule(String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
 		Map<String, Object> dataMap = createDataMap(portName, productId, time, days, enabled, commandMap);
 
@@ -139,6 +140,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 		});
 	}
 
+	//todo: extra param 'name' should be added
 	public void updateSchedule(int scheduleNumber, String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
 		Map<String, Object> dataMap = createDataMap(portName, productId, time, days, enabled, commandMap);
 
@@ -171,9 +173,10 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 		});
 	}
 
+	//todo: add extra param 'name'
 	private Map<String, Object> createDataMap(String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put(KEY_SCHEDULENAME, time);
+		dataMap.put(KEY_SCHEDULENAME, time); //todo: use the name param here
 		dataMap.put(KEY_SCHEDULEENABLED, enabled);
 		dataMap.put(KEY_SCHEDULETIME, time);
 		dataMap.put(KEY_SCHEDULEDAYS, days);
@@ -222,6 +225,8 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 			scheduleListPortInfo.setName(scheduleJson.getString(KEY_SCHEDULENAME)) ;
 			scheduleListPortInfo.setEnabled(scheduleJson.getBoolean(KEY_SCHEDULEENABLED)) ;
 			scheduleListPortInfo.setDays(scheduleJson.getString(KEY_SCHEDULEDAYS)) ;
+
+			//TODO: mode is not defined, command is.. furthermore it should be string not jsonobject
 			scheduleListPortInfo.setMode(scheduleJson.getJSONObject(KEY_SCHEDULECOMMAND).getString("om")) ;
 			scheduleListPortInfo.setScheduleTime(scheduleJson.getString(KEY_SCHEDULETIME)) ;
 		} catch (JSONException e) {
