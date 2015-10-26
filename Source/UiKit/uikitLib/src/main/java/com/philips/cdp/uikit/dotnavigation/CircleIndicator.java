@@ -117,7 +117,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private void applyUnselectedMetrics(final View view, final GradientDrawable gradientDrawable) {
-        gradientDrawable.setAlpha((int) 178.5);
+        gradientDrawable.setAlpha((int) 76.5);
         LayoutParams vp = new LayoutParams(unSelectedCircleWidth, unSelectedCircleHeight);
         vp.setMargins(0, 0, distanceBetweenCircles, 0);
         if (enableStrokeBackground) {
@@ -271,4 +271,9 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     public void setOnTouchUnSelectedDots(onTouchUnSelectedDots onTouchUnSelectedDots) {
         this.onTouchUnSelectedDots = onTouchUnSelectedDots;
     }
+
+    public int getFilledColor() {
+        return themeBaseColor;
+    }
+
 }
