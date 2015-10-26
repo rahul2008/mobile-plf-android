@@ -110,6 +110,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(6, "Input Text Fields");
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
+        itemsMap.put(9, "Sliders");
         return itemsMap;
     }
 }
