@@ -24,75 +24,26 @@ public class PuiEditText extends RelativeLayout {
         boolean validate(String inputToBeValidated);
     }
 
+    private static int viewId = 10000001;
     private EditText editText;
     private ImageView errorImage;
     private TextView errorTextView;
     private int errorTextColor;
     private Drawable errorIcon;
     private Drawable errorBackground;
-
     private Drawable themeDrawable;
-
     private Validator validator;
-
     private String textToSave;
-
-    private static int viewId = 10000001;
-
-    static class SavedState extends BaseSavedState {
-
-        String savedText;
-
-        SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        private SavedState(Parcel in) {
-            super(in);
-            this.savedText = in.readString();
-        }
-
+    private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
         @Override
-        public void writeToParcel(final Parcel out, final int flags) {
-            super.writeToParcel(out, flags);
-            out.writeString(this.savedText);
+        public void onFocusChange(final View view, final boolean hasFocus) {
+            if (!hasFocus) {
+                showErrorAndChangeEditTextStyle(!(validator == null || validator.validate(editText.getText().toString())));
+            } else {
+                editText.setTextColor(getResources().getColor(R.color.uikit_philips_very_dark_blue));
+            }
         }
-
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
-                    @Override
-                    public SavedState createFromParcel(final Parcel source) {
-                        return new SavedState(source);
-                    }
-
-                    @Override
-                    public SavedState[] newArray(final int size) {
-                        return new SavedState[size];
-                    }
-                };
-    }
-
-    @Override
-    protected void onRestoreInstanceState(final Parcelable state) {
-        if(!(state instanceof SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-
-        SavedState savedState = (SavedState)state;
-        super.onRestoreInstanceState(savedState.getSuperState());
-        editText.setText(savedState.savedText);
-
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState savedState = new SavedState(superState);
-        savedState.savedText = editText.getEditableText().toString();
-
-        return savedState;
-    }
+    };
 
     public PuiEditText(final Context context) {
         super(context);
@@ -117,11 +68,6 @@ public class PuiEditText extends RelativeLayout {
 
         themeDrawable = editText.getBackground();
 
-        View view = getChildAt(1);
-        removeView(view);
-
-        
-
         initErrorIcon();
 
         initErrorMessage(errorText);
@@ -132,6 +78,31 @@ public class PuiEditText extends RelativeLayout {
                 setErrorMessageVisibilty(View.GONE);
             }
         });
+    }
+
+    public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        editText.setText(savedState.savedText);
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.savedText = editText.getEditableText().toString();
+
+        return savedState;
     }
 
     private void initErrorMessage(final String errorText) {
@@ -154,10 +125,6 @@ public class PuiEditText extends RelativeLayout {
         editText.setOnFocusChangeListener(onFocusChangeListener);
     }
 
-    public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
@@ -177,17 +144,6 @@ public class PuiEditText extends RelativeLayout {
         }
     }
 
-    private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(final View view, final boolean hasFocus) {
-            if (!hasFocus) {
-                showErrorAndChangeEditTextStyle(!(validator == null || validator.validate(editText.getText().toString())));
-            } else {
-                editText.setTextColor(getResources().getColor(R.color.uikit_philips_very_dark_blue));
-            }
-        }
-    };
-
     private void setErrorTextStyle() {
         editText.setTextColor(errorTextColor);
         setBackgroundAsPerAPILevel(errorBackground);
@@ -204,6 +160,38 @@ public class PuiEditText extends RelativeLayout {
             editText.setBackground(backgroundDrawable);
         } else {
             editText.setBackgroundDrawable(backgroundDrawable);
+        }
+    }
+
+    static class SavedState extends BaseSavedState {
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(final Parcel source) {
+                        return new SavedState(source);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(final int size) {
+                        return new SavedState[size];
+                    }
+                };
+        String savedText;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            this.savedText = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(final Parcel out, final int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(this.savedText);
         }
     }
 }
