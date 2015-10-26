@@ -132,7 +132,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     private void setActionBarSettings(final ActionBar actionBar) {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
+        actionBar.setHomeAsUpIndicator(R.drawable.uikit_hamburger);
     }
 
     private void setDrawerTitle() {
