@@ -19,10 +19,32 @@
         <item name="tabPaddingBottom">0dp</item>
         <item name="tabPaddingTop">0dp</item>
         <item name="tabPadding">0dp</item>
+        <item name="tabMinWidth">@dimen/uikit_tab_minwidth</item>
         <item name="tabIndicatorHeight">0dp</item>
     </style>
 
     <style name="PTablayout.Image" parent="@style/PTablayout">
         <item name="android:layout_height">@dimen/uikit_tab_layout_height_with_image</item>
+    </style>
+
+    <style name="AboutScreenTheme" parent="Theme.Philips.DarkBlue">
+        <item name="actionBarStyle">@style/ASActionBar</item>
+        <item name="android:windowBackground">@drawable/uikit_grad_verydarkblue_darkblue</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+    <style name="AboutScreenTheme.MM">
+        <item name="actionBarStyle">@style/ASActionBar.MM</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="ASActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="background">@android:color/transparent</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+        <item name="customNavigationLayout">@layout/uikit_about_screen_actionbar</item>
+        <item name="height">48dp</item>
+    </style>
+    <style name="ASActionBar.MM">
+        <item name="customNavigationLayout">@layout/uikit_about_screen_actionbar_mm</item>
     </style>
 </resources>

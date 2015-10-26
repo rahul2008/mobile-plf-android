@@ -10,9 +10,13 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
@@ -52,6 +56,8 @@ public class TabUtils {
             customView = LayoutInflater.from(context).inflate(R.layout.uikit_tab_textonly, null);
         }
 
+        //We must do this to get the full tab view width
+        customView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         //Set title text
         TextView title = (TextView) customView.findViewById(R.id.tab_title);
         if (titleResID <= 0) {
@@ -60,6 +66,11 @@ public class TabUtils {
             title.setText(titleResID);
         }
         title.setTextColor(getTextSelector());
+
+        //Hide divider for the first view
+        if (tabLayout.getTabCount() == 0) {
+            customView.findViewById(R.id.tab_divider).setVisibility(View.GONE);
+        }
         newTab.setCustomView(customView);
         return newTab;
     }
@@ -81,6 +92,31 @@ public class TabUtils {
         TextView titleView = (TextView) tab.getCustomView().findViewById(R.id.tab_title);
         titleView.setText(resID);
         titleView.setVisibility(View.VISIBLE);
+    }
+
+    public static void adjustTabs(final TabLayout tabLayout, final Context context) {
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                //Measure width of 1st child. HSView by default has full screen view
+                int tabLayoutWidth = ((ViewGroup) tabLayout.getChildAt(0)).getWidth();
+
+                DisplayMetrics metrics = new DisplayMetrics();
+                WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                windowManager.getDefaultDisplay().getMetrics(metrics);
+                int windowWidth = metrics.widthPixels;
+
+                boolean isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
+                if (tabLayoutWidth <= windowWidth) {
+                    tabLayout.setTabMode(TabLayout.MODE_FIXED);
+                    int gravity = isTablet ? TabLayout.GRAVITY_CENTER : TabLayout.GRAVITY_FILL;
+                    tabLayout.setTabGravity(gravity);
+                } else {
+                    if (tabLayout.getTabMode() != TabLayout.MODE_SCROLLABLE)
+                        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                }
+            }
+        });
     }
 
     private ColorStateList getTextSelector() {
