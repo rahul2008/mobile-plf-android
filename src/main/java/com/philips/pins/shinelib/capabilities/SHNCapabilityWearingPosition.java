@@ -9,8 +9,11 @@ import com.philips.pins.shinelib.SHNWearingPositionResultListener;
  * Created by 310188215 on 10/06/15.
  */
 public interface SHNCapabilityWearingPosition extends SHNCapability {
-    public enum  SHNWearingPosition {
+    enum  SHNWearingPosition {
+        Unknown,
         Wrist,
+        LeftWrist,
+        RightWrist,
         Pocket,
         Keycord,
         Chest,
