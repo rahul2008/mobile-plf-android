@@ -1,15 +1,20 @@
 package com.philips.pins.shinelib.capabilities;
 
 import com.philips.pins.shinelib.SHNCapability;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNSetResultListener;
-import com.philips.pins.shinelib.SHNWearingPositionResultListener;
 
 /**
  * Created by 310188215 on 10/06/15.
  */
-public interface SHNCapabilityWearingPosition extends SHNCapability {
-    enum  SHNWearingPosition {
+public interface SHNCapabilityConfigWearingPosition extends SHNCapability {
+
+    interface SHNWearingPositionResultListener {
+        void onActionCompleted(SHNWearingPosition value, SHNResult result);
+    }
+
+    enum SHNWearingPosition {
         Unknown,
         Wrist,
         LeftWrist,
@@ -17,10 +22,12 @@ public interface SHNCapabilityWearingPosition extends SHNCapability {
         Pocket,
         Keycord,
         Chest,
-        Waist        
+        Waist;
     }
 
     void getSupportedWearingPositions(SHNSetResultListener<SHNWearingPosition> shnSetResultListener);
+
     void setWearingPosition(SHNWearingPosition shnWearingPosition, SHNResultListener shnResultListener);
+
     void getWearingPosition(SHNWearingPositionResultListener shnWearingPositionResultListener);
 }
