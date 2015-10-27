@@ -27,13 +27,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 129
-            versionName "2.1.0"
+            versionCode 130
+            versionName "2.1.1"
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 129
-            versionName "2.1.0"
+            versionCode 130
+            versionName "2.1.1"
         }
     }
 }
