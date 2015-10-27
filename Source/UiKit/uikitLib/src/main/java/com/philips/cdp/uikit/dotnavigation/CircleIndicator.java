@@ -37,14 +37,14 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         super(context, attrs);
         final Resources resources = getResources();
         processAttributes(context, resources);
-        drawCircles();
+        reDrawView();
     }
 
     public CircleIndicator(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         final Resources resources = getResources();
         processAttributes(context, resources);
-        drawCircles();
+        reDrawView();
     }
 
     @SuppressWarnings("deprecation")
@@ -60,7 +60,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         enableStrokeBackground = a.getBoolean(1, false);
     }
 
-    private void drawCircles() {
+    private void reDrawView() {
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -94,7 +94,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
             if (i == currentPage) {
                 applySelectedMetrics(view, gradientDrawable);
             } else {
-                applyUnselectedMetrics(view, gradientDrawable);
+                applyUnselectedMetrics(view, gradientDrawable, context);
                 setOnClickListener(i, view);
             }
             parent.addView(view);
@@ -116,8 +116,8 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
-    private void applyUnselectedMetrics(final View view, final GradientDrawable gradientDrawable) {
-        gradientDrawable.setAlpha((int) 76.5);
+    private void applyUnselectedMetrics(final View view, final GradientDrawable gradientDrawable, Context context) {
+        gradientDrawable.setAlpha(context.getResources().getInteger(R.integer.uikit_dot_navigation_unselected_alpha));
         LayoutParams vp = new LayoutParams(unSelectedCircleWidth, unSelectedCircleHeight);
         vp.setMargins(0, 0, distanceBetweenCircles, 0);
         if (enableStrokeBackground) {
@@ -145,6 +145,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         this.addView(view);
         final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.uikit_linear);
         linearLayout.removeAllViews();
+
         return linearLayout;
     }
 
@@ -173,7 +174,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         }
         viewPager = view;
         viewPager.setOnPageChangeListener(this);
-        drawCircles();
+        reDrawView();
     }
 
     @Override
@@ -189,12 +190,12 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         }
         viewPager.setCurrentItem(item);
         currentPage = item;
-        drawCircles();
+        reDrawView();
     }
 
     @Override
     public void notifyDataSetChanged() {
-        drawCircles();
+        reDrawView();
     }
 
     @Override
@@ -209,7 +210,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         currentPage = position;
-        drawCircles();
+        reDrawView();
         if (pageChangeListener != null) {
             pageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
         }
@@ -219,7 +220,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     public void onPageSelected(int position) {
         if (scrollState == ViewPager.SCROLL_STATE_IDLE) {
             currentPage = position;
-            drawCircles();
+            reDrawView();
         }
         if (pageChangeListener != null) {
             pageChangeListener.onPageSelected(position);
@@ -245,6 +246,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
 
     public void setSelectedCircleHeight(final int selectedCircleHeight) {
         this.selectedCircleHeight = selectedCircleHeight;
+        reDrawView();
     }
 
     public int getUnSelectedCircleWidth() {
@@ -253,6 +255,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
 
     public void setUnSelectedCircleWidth(final int unSelectedCircleWidth) {
         this.unSelectedCircleWidth = unSelectedCircleWidth;
+        reDrawView();
     }
 
     public int getUnSelectedCircleHeight() {
@@ -261,6 +264,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
 
     public void setUnSelectedCircleHeight(final int unSelectedCircleHeight) {
         this.unSelectedCircleHeight = unSelectedCircleHeight;
+        reDrawView();
     }
 
     @Override
