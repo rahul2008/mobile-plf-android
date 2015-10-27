@@ -19,6 +19,7 @@ import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -81,19 +82,21 @@ public class SHNUserConfigurationImplTest {
         verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_SEX, SHNUserConfiguration.Sex.Male.name());
         assertEquals(1, shnUserConfiguration.getChangeIncrement());
 
-        shnUserConfiguration.setSex(SHNUserConfiguration.Sex.Female);
+        shnUserConfiguration.setSex(SHNUserConfiguration.Sex.Unspecified);
         verify(mockedSharedPreferences, times(2)).edit();
-        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_SEX, SHNUserConfiguration.Sex.Female.name());
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_SEX, SHNUserConfiguration.Sex.Unspecified.name());
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
 
-        shnUserConfiguration.setSex(SHNUserConfiguration.Sex.Unspecified);
+        shnUserConfiguration.setSex(SHNUserConfiguration.Sex.Female);
         verify(mockedSharedPreferences, times(3)).edit();
-        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_SEX, SHNUserConfiguration.Sex.Unspecified.name());
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_SEX, SHNUserConfiguration.Sex.Female.name());
         assertEquals(3, shnUserConfiguration.getChangeIncrement());
+
+        reset(mockedEditor);
 
         shnUserConfiguration.setSex(null);
         verify(mockedSharedPreferences, times(4)).edit();
-        verify(mockedEditor).remove(SHNUserConfigurationImpl.USER_CONFIG_SEX);
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_SEX, SHNUserConfiguration.Sex.Unspecified.name());
         assertEquals(4, shnUserConfiguration.getChangeIncrement());
     }
 
@@ -117,19 +120,21 @@ public class SHNUserConfigurationImplTest {
         verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_HANDEDNESS, SHNUserConfiguration.Handedness.RightHanded.name());
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
 
-        shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.MixedHanded);
+        shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.Unknown);
         verify(mockedSharedPreferences, times(3)).edit();
-        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_HANDEDNESS, SHNUserConfiguration.Handedness.MixedHanded.name());
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_HANDEDNESS, SHNUserConfiguration.Handedness.Unknown.name());
         assertEquals(3, shnUserConfiguration.getChangeIncrement());
 
-        shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.Unknown);
+        shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.MixedHanded);
         verify(mockedSharedPreferences, times(4)).edit();
-        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_HANDEDNESS, SHNUserConfiguration.Handedness.Unknown.name());
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_HANDEDNESS, SHNUserConfiguration.Handedness.MixedHanded.name());
         assertEquals(4, shnUserConfiguration.getChangeIncrement());
+
+        reset(mockedEditor);
 
         shnUserConfiguration.setHandedness(null);
         verify(mockedSharedPreferences, times(5)).edit();
-        verify(mockedEditor).remove(SHNUserConfigurationImpl.USER_CONFIG_HANDEDNESS);
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_HANDEDNESS, SHNUserConfiguration.Handedness.Unknown.name());
         assertEquals(5, shnUserConfiguration.getChangeIncrement());
     }
 
@@ -249,7 +254,7 @@ public class SHNUserConfigurationImplTest {
 
         shnUserConfiguration.setIsoLanguageCode(null);
         verify(mockedSharedPreferences, times(2)).edit();
-        verify(mockedEditor).remove(SHNUserConfigurationImpl.USER_CONFIG_ISO_LANGUAGE_CODE);
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_ISO_LANGUAGE_CODE, "en");
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
     }
 
@@ -273,28 +278,34 @@ public class SHNUserConfigurationImplTest {
         verify(mockedEditor).putBoolean(SHNUserConfigurationImpl.USER_CONFIG_USE_METRIC_SYSTEM, Boolean.FALSE);
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
 
+        shnUserConfiguration.setUseMetricSystem(true);
+        reset(mockedEditor);
+
         shnUserConfiguration.setUseMetricSystem(null);
-        verify(mockedSharedPreferences, times(3)).edit();
-        verify(mockedEditor).remove(SHNUserConfigurationImpl.USER_CONFIG_USE_METRIC_SYSTEM);
-        assertEquals(3, shnUserConfiguration.getChangeIncrement());
+        verify(mockedSharedPreferences, times(4)).edit();
+        verify(mockedEditor).putBoolean(SHNUserConfigurationImpl.USER_CONFIG_USE_METRIC_SYSTEM, Boolean.FALSE);
+        assertEquals(4, shnUserConfiguration.getChangeIncrement());
     }
 
     @Test
     public void whenDecimalSeparatorIsSetTheWrapperIsCalledWithTheProperValue() {
-        shnUserConfiguration.setDecimalSeparator('.');
+        shnUserConfiguration.setDecimalSeparator(',');
         verify(mockedSharedPreferences, times(1)).edit();
-        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_DECIMAL_SEPARATOR, ".");
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_DECIMAL_SEPARATOR, ",");
         assertEquals(1, shnUserConfiguration.getChangeIncrement());
 
-        shnUserConfiguration.setDecimalSeparator(',');
+        shnUserConfiguration.setDecimalSeparator('.');
         verify(mockedSharedPreferences, times(2)).edit();
-        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_DECIMAL_SEPARATOR, ",");
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_DECIMAL_SEPARATOR, ".");
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
 
+        reset(mockedEditor);
+        shnUserConfiguration.setDecimalSeparator(',');
+
         shnUserConfiguration.setDecimalSeparator(null);
-        verify(mockedSharedPreferences, times(3)).edit();
-        verify(mockedEditor).remove(SHNUserConfigurationImpl.USER_CONFIG_DECIMAL_SEPARATOR);
-        assertEquals(3, shnUserConfiguration.getChangeIncrement());
+        verify(mockedSharedPreferences, times(4)).edit();
+        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_DECIMAL_SEPARATOR, ".");
+        assertEquals(4, shnUserConfiguration.getChangeIncrement());
     }
 
     @Test

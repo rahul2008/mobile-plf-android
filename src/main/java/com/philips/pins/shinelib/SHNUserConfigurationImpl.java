@@ -16,6 +16,8 @@ import java.util.Locale;
  */
 public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
+    public static final char DEFAULT_DECIMAL_SEPARATOR = '.';
+    public static final Boolean DEFAULT_USE_METRIC_SYSTEM = Boolean.FALSE;
     private final Handler internalHandler;
 
     public interface SHNUserConfigurationChangedListener {
@@ -83,8 +85,13 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setSex(Sex sex) {
-        this.sex = sex;
-        incrementChangeIncrement();
+        if (sex == null) {
+            sex = Sex.Unspecified;
+        }
+        if (this.sex != sex) {
+            this.sex = sex;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -96,10 +103,22 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         return maxHeartRate;
     }
 
+    private boolean isEqualTo(Object object1, Object object2) {
+        if (object1 == null && object2 == null) {
+            return true;
+        }
+        if (object1 == null) {
+            return false;
+        }
+        return object1.equals(object2);
+    }
+
     @Override
     public synchronized void setMaxHeartRate(Integer maxHeartRate) {
-        this.maxHeartRate = maxHeartRate;
-        incrementChangeIncrement();
+        if (!isEqualTo(this.maxHeartRate, maxHeartRate)) {
+            this.maxHeartRate = maxHeartRate;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -109,8 +128,10 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setRestingHeartRate(Integer restingHeartRate) {
-        this.restingHeartRate = restingHeartRate;
-        incrementChangeIncrement();
+        if (!isEqualTo(this.restingHeartRate, restingHeartRate)) {
+            this.restingHeartRate = restingHeartRate;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -120,8 +141,10 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setHeightInCm(Integer heightInCm) {
-        this.heightInCm = heightInCm;
-        incrementChangeIncrement();
+        if (!isEqualTo(this.heightInCm, heightInCm)) {
+            this.heightInCm = heightInCm;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -131,8 +154,10 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setWeightInKg(Double weightInKg) {
-        this.weightInKg = weightInKg;
-        incrementChangeIncrement();
+        if (!isEqualTo(this.weightInKg, weightInKg)) {
+            this.weightInKg = weightInKg;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -142,8 +167,10 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-        incrementChangeIncrement();
+        if (!isEqualTo(this.dateOfBirth, dateOfBirth)) {
+            this.dateOfBirth = dateOfBirth;
+            incrementChangeIncrement();
+        }
     }
 
     /* return null when birthdate not set */
@@ -182,8 +209,13 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setHandedness(Handedness handedness) {
-        this.handedness = handedness;
-        incrementChangeIncrement();
+        if (handedness == null) {
+            handedness = Handedness.Unknown;
+        }
+        if (this.handedness != handedness) {
+            this.handedness = handedness;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -193,8 +225,13 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setIsoLanguageCode(String isoLanguageCode) {
-        this.isoLanguageCode = isoLanguageCode;
-        incrementChangeIncrement();
+        if (isoLanguageCode == null) {
+            isoLanguageCode = getDefaultLanguage();
+        }
+        if (!isEqualTo(this.isoLanguageCode, isoLanguageCode)) {
+            this.isoLanguageCode = isoLanguageCode;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -204,8 +241,13 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setUseMetricSystem(Boolean useMetricSystem) {
-        this.useMetricSystem = useMetricSystem;
-        incrementChangeIncrement();
+        if (useMetricSystem == null) {
+            useMetricSystem = DEFAULT_USE_METRIC_SYSTEM;
+        }
+        if (!isEqualTo(this.useMetricSystem, useMetricSystem)) {
+            this.useMetricSystem = useMetricSystem;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -215,8 +257,13 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     @Override
     public synchronized void setDecimalSeparator(Character decimalSeparator) {
-        this.decimalSeparator = decimalSeparator;
-        incrementChangeIncrement();
+        if (decimalSeparator == null) {
+            decimalSeparator = DEFAULT_DECIMAL_SEPARATOR;
+        }
+        if (!isEqualTo(this.decimalSeparator, decimalSeparator)) {
+            this.decimalSeparator = decimalSeparator;
+            incrementChangeIncrement();
+        }
     }
 
     @Override
@@ -336,15 +383,15 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         handedness = readHandednessFromPersistentStorage(USER_CONFIG_HANDEDNESS);
         isoLanguageCode = readStringFromPersistentStorage(USER_CONFIG_ISO_LANGUAGE_CODE);
         if (isoLanguageCode == null) {
-            isoLanguageCode = Locale.getDefault().getLanguage();
+            isoLanguageCode = getDefaultLanguage();
         }
         useMetricSystem = readBooleanFromPersistentStorage(USER_CONFIG_USE_METRIC_SYSTEM);
         if (useMetricSystem == null) {
-            useMetricSystem = Boolean.FALSE;
+            useMetricSystem = DEFAULT_USE_METRIC_SYSTEM;
         }
         decimalSeparator = readCharacterFromPersistentStorage(USER_CONFIG_DECIMAL_SEPARATOR);
         if (decimalSeparator == null) {
-            decimalSeparator = '.';
+            decimalSeparator = DEFAULT_DECIMAL_SEPARATOR;
         }
 
         Integer index = readIntegerFromPersistentStorage(USER_CONFIG_INCREMENT);
@@ -352,6 +399,10 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
             index = 0;
         }
         setChangeIncrement(index);
+    }
+
+    private String getDefaultLanguage() {
+        return Locale.getDefault().getLanguage();
     }
 
     @Nullable
