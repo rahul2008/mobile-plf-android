@@ -86,11 +86,11 @@
                 android:id="@+id/reg_view_line"
                 style="@style/reg_line" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rl_reg_continue_id"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
@@ -140,7 +140,7 @@
                         android:visibility="gone" />
                 </FrameLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"

@@ -7,17 +7,13 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
-
     defaultConfig {
-
         minSdkVersion 10
         targetSdkVersion 23
-        versionName "2.2.6"
+        versionName "2.2.7"
         testApplicationId "com.philips.cdp.registration.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
-
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -48,10 +44,7 @@ android {
             testCoverageEnabled true
         }
     }
-
-
 }
-
 
 dependencies {
     compile project(':jump')

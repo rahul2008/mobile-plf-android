@@ -32,15 +32,20 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_legal_notice"
                     style="@style/reg_text_description"
-                    android:layout_marginBottom="-20dp"
+                    android:layout_marginBottom="-10dp"
                     android:text="@string/AgeLimitText"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_terms_and_condition"
                     style="@style/reg_text_description"
-                    android:text="@string/AgeLimitText"
+                    android:text="@string/LegalNoticeText"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
+                <!--<com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_welcome_desc"
+                    style="@style/reg_text_description"
+                    android:text="@string/LegalNoticeText"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />-->
             </LinearLayout>
 
             <LinearLayout
