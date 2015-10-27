@@ -3,7 +3,6 @@
        android:shape="rectangle">
     <gradient
         android:angle="@integer/philips_gradient_angle"
-        android:endColor="@color/uikit_philips_bright_aqua"
-        android:startColor="@color/uikit_philips_dark_aqua"/>
-
+        android:endColor="@color/uikit_philips_light_blue"
+        android:startColor="@color/uikit_philips_bright_blue"/>
 </shape>

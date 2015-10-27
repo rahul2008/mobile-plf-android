@@ -64,9 +64,9 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/color_background"/>
 
-            <Switch
+            <com.philips.cdp.uikit.PuiSwitch
                 android:id="@+id/colorSwitch"
-                style="?attr/themeSwitch"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:switchMinWidth="64dp"/>
