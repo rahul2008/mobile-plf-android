@@ -108,7 +108,7 @@ import java.util.UUID;
  */
 public class SHNCentral {
     private static final String TAG = SHNCentral.class.getSimpleName();
-    private SHNUserConfiguration shnUserConfiguration;
+    private SHNUserConfigurationImpl shnUserConfigurationImpl;
 
     public enum State {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
@@ -195,7 +195,7 @@ public class SHNCentral {
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
-        shnUserConfiguration = new SHNUserConfiguration(applicationContext);
+        shnUserConfigurationImpl = new SHNUserConfigurationImpl(getApplicationContext(), getInternalHandler());
 
         SHNServiceRegistry.getInstance().add(new ShinePreferenceWrapper(applicationContext));
     }
@@ -309,7 +309,7 @@ public class SHNCentral {
     }
 
     public SHNUserConfiguration getSHNUserConfiguration() {
-        return shnUserConfiguration;
+        return shnUserConfigurationImpl;
     }
 
     public SHNDeviceScanner getShnDeviceScanner() {
