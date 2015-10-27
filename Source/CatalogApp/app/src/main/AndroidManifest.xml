@@ -35,6 +35,7 @@
         <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
         <activity android:name=".SplashLauncher"/>
         <activity android:name=".activity.InputTextFieldsActivity"/>
+        <activity android:name=".activity.DotNavigation"/>
         <activity android:name=".activity.TabBarDemo"/>
 
     </application>

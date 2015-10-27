@@ -43,4 +43,6 @@
         <attr name="errorBackground" format="reference"/>
     </declare-styleable>
 
+    <attr name="enableStroke" format="boolean"/>
+
 </resources>
