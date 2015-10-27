@@ -97,9 +97,7 @@ public class PuiEditText extends RelativeLayout {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         editText.setText(savedState.savedText);
-        if (View.VISIBLE == savedState.showError) {
-            showErrorAndChangeEditTextStyle(true);
-        }
+        showErrorAndChangeEditTextStyle(View.VISIBLE == savedState.showError);
     }
 
     @Override
