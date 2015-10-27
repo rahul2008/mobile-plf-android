@@ -26,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">إن عنوان البريد الإلكتروني قيد الاستخدام</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">إن عنوان البريد الإلكتروني هذا قيد الاستخدام مع حساب My Philips أو حساب على الوسائط الاجتماعية.\nيرجى العودة لتسجيل الدخول، أو استخدام عنوان بريد إلكتروني آخر.</string>
 <string name="RegWelcomeView_NavTitleTxt">تسجيل الدخول</string>
-<string name="LegalNoticeText" formatted="false">يرجى قراءة %s و%s الخاصة بنا.</string>
+    <string name="LegalNoticeText" formatted="false">من خلال إنشاء حساب أو تسجيل الدخول، أنت تفيد بأنك تبلغ من العمر 16 عامًا أو أكثر وتوافق على %s و%s.</string>
 <string name="AgeLimitText">من خلال إنشاء حساب أو تسجيل الدخول فأنت تقرّ بأنك تبلغ من العمر %s سنة أو أكثر.\n</string>
 <string name="TermsAndConditionsAcceptanceText">أنا أوافق على %s</string>
 <string name="PrivacyPolicyText">سياسة الخصوصية</string>

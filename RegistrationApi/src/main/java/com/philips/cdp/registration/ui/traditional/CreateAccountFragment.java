@@ -324,29 +324,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 		if(userRegistrationFailureInfo.getError().code == EMAIL_ADDRESS_ALREADY_USE_CODE){
 			mTvpasswordDetails.setText(getResources().getText(R.string.EmailAlreadyUsedErrorMsg_LabelTxt));
-		}else{
-			mTvpasswordDetails.setText(getResources().getText(R.string.Create_Account_Hint_Password_lbltxt));
-		}
-		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+			mEtEmail.setErrDescription(mContext.getResources().getString(R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
 			mEtEmail.showInvalidAlert();
 			mEtEmail.showErrPopUp();
-		}
-		if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-			mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
-			mEtPassword.showInvalidAlert();
-		}
-
-		if (null != userRegistrationFailureInfo.getFirstNameErrorMessage()) {
-			mEtName.setErrDescription(userRegistrationFailureInfo.getFirstNameErrorMessage());
-			mEtName.showInvalidAlert();
+		}else{
+			mTvpasswordDetails.setText(getResources().getText(R.string.Create_Account_Hint_Password_lbltxt));
 		}
 		if(userRegistrationFailureInfo.getError().code != EMAIL_ADDRESS_ALREADY_USE_CODE){
 			mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 		}
 
 		trackActionRegisterError(userRegistrationFailureInfo.getError().code);
-		hideSpinner();
+		mPbSpinner.setVisibility(View.INVISIBLE);
+		mBtnCreateAccount.setEnabled(false);
 	}
 
 	@Override

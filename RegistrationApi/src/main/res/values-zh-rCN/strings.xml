@@ -26,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">电子邮件地址已在使用中</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">此电子邮件地址已被 MyPhilips 或社交媒体帐户使用。\n请返回以登录，或使用其他电子邮件地址。</string>
 <string name="RegWelcomeView_NavTitleTxt">登录</string>
-<string name="LegalNoticeText" formatted="false">请阅读我们的 %s 和 %s。</string>
+    <string name="LegalNoticeText" formatted="false">通过创建帐户或登录，您证明自己已年满 16 岁，并且同意我们的%s及%s。</string>
 <string name="AgeLimitText">通过创建帐户或登录，您证明自己已年满 %s。\n</string>
 <string name="TermsAndConditionsAcceptanceText">我接受 %s</string>
 <string name="PrivacyPolicyText">隐私政策</string>

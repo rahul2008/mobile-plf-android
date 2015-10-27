@@ -26,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-mailadres is al in gebruik</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Dit e-mailadres wordt al gebruikt met een Mijn Philips- of social media-account.\nGa terug naar de aanmeldpagina of gebruik een ander e-mailadres.</string>
 <string name="RegWelcomeView_NavTitleTxt">Aanmelden</string>
-<string name="LegalNoticeText" formatted="false">Lees onze %s en onze %s.</string>
+    <string name="LegalNoticeText" formatted="false">Door een account te maken of u aan te melden, verklaart u dat u 16 jaar of ouder bent en dat u akkoord gaat met ons %s en onze %s.</string>
 <string name="AgeLimitText">Door een account te maken of u aan te melden, verklaart u dat u %s jaar of ouder bent.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Ik ga akkoord met de %s</string>
 <string name="PrivacyPolicyText">Privacybeleid</string>

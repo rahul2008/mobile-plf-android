@@ -26,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Adres e-mail jest już w użyciu</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ten adres e-mail jest już używany z kontem MyPhilips lub kontem w serwisie społecznościowym.\nCofnij się, aby się zalogować, lub użyj innego adresu e-mail.</string>
 <string name="RegWelcomeView_NavTitleTxt">Zaloguj się</string>
-<string name="LegalNoticeText" formatted="false">Przeczytaj dokumenty %s i %s.</string>
+    <string name="LegalNoticeText" formatted="false">Tworząc konto lub logując się, potwierdzasz, że masz ukończone 16 i wyrażasz zgodę na nasze %s i %s.</string>
 <string name="AgeLimitText">Tworząc konto lub logując się, potwierdzasz, że masz ukończone %s lat.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Akceptuję %s</string>
 <string name="PrivacyPolicyText">Zasady poufności</string>

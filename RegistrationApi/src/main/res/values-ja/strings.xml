@@ -26,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">メールアドレスは既に使用されています</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">このメールアドレスは、My Philips またはソーシャルメディアアカウントで既に使用されています。\n戻ってサインインするか、別のメールアドレスを使用してください。</string>
 <string name="RegWelcomeView_NavTitleTxt">サインイン</string>
-<string name="LegalNoticeText" formatted="false">当社の %s および %s をお読みください。</string>
+    <string name="LegalNoticeText" formatted="false">アカウントを作成するかサインインすることにより、16 歳以上であることを証明し、当社の%sおよび%sに同意したものとみなされます。</string>
 <string name="AgeLimitText">アカウントを作成するかサインインすることにより、%s 歳以上であることを証明することになります。\n</string>
 <string name="TermsAndConditionsAcceptanceText">%s に同意する</string>
 <string name="PrivacyPolicyText">プライバシーポリシー</string>

@@ -26,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Esta dirección de correo electrónico ya existe.</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Esta dirección de correo electrónico ya existe en MyPhilips o es una cuenta de red social.\nVuelve a iniciar sesión o usa otra dirección.</string>
 <string name="RegWelcomeView_NavTitleTxt">Iniciar sesión</string>
-<string name="LegalNoticeText" formatted="false">Por favor, lee nuestros %s y %s.</string>
+    <string name="LegalNoticeText" formatted="false">Al crear una cuenta o iniciar sesión, certificas que tienes al menos 16 años y que aceptas la %s y los %s.</string>
 <string name="AgeLimitText">Al crear una cuenta o iniciar sesión, confirmas que tienes %s años o más.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Acepto los %s</string>
 <string name="PrivacyPolicyText">Política de privacidad</string>

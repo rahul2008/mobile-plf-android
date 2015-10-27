@@ -22,9 +22,6 @@ android {
         abortOnError false
     }
 
-
-
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -54,12 +51,12 @@ android {
         simulator {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.2.3"
+            versionName "2.2.7"
         }
         device {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.2.3"
+            versionName "2.2.7"
         }
     }
 }

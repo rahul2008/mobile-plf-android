@@ -26,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Cette adresse e-mail est déjà utilisée</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Cette adresse e-mail est déjà utilisée avec un compte My Philips ou un compte d\'un autre réseau social.\nMerci de retourner à la page précédente pour vous connecter ou d\'utiliser une autre adresse e-mail.</string>
 <string name="RegWelcomeView_NavTitleTxt">Se connecter</string>
-<string name="LegalNoticeText" formatted="false">Merci de lire nos %s et %s.</string>
+    <string name="LegalNoticeText" formatted="false">En créant un compte ou en vous connectant, vous certifiez avoir 16 ans ou plus, et vous acceptez nos %s et notre %s.</string>
 <string name="AgeLimitText">En créant un compte ou en vous connectant, vous certifiez avoir %s ans ou plus.\n</string>
 <string name="TermsAndConditionsAcceptanceText">J\'accepte les %s</string>
 <string name="PrivacyPolicyText">Politique de confidentialité</string>

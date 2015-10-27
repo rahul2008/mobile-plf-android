@@ -14,8 +14,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -43,7 +43,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private CheckBox mCbTerms;
 
-    private RelativeLayout mLlContinueBtnContainer;
+    private LinearLayout mLlContinueBtnContainer;
 
     private User mUser;
 
@@ -96,6 +96,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
         init(view);
+        handleUiState();
         return view;
     }
 
@@ -160,8 +161,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         applyParams(config, mTvEmailDetails,width);
         applyParams(config, mLlContinueBtnContainer,width);
         applyParams(config, mCbTerms,width);
-        applyParams(config, mRegError,width);
-        applyParams(config, mTvSignInEmail,width);
+        applyParams(config, mRegError, width);
+        applyParams(config, mTvSignInEmail, width);
     }
 
 
@@ -173,7 +174,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     private void init(View view) {
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
-        mLlContinueBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_continue_id);
+        mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
         mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
         FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
@@ -199,8 +200,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
         if (isfromBegining) {
             FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.fl_reg_logout);
-            //frameLayout.setVisibility(View.GONE);
-            mBtnSignOut.setVisibility(View.GONE);
+            frameLayout.setVisibility(View.GONE);
             mTvEmailDetails.setVisibility(View.GONE);
             mBtnContinue.setText(getResources().getString(R.string.SignInSuccess_SignOut_btntxt));
             mCbTerms.setVisibility(view.VISIBLE);
@@ -217,7 +217,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         String email = getString(R.string.InitialSignedIn_SigninEmailText);
         email = String.format(email, userProfile.getEmail());
         mTvSignInEmail.setText(email);
-
     }
 
     @Override
@@ -303,9 +302,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        if (isOnline) {
-            mRegError.hideError();
-        }
+        handleUiState();
     }
 
     @Override
@@ -362,4 +359,18 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mPbLogoutFromBegin.setVisibility(View.GONE);
         mBtnContinue.setEnabled(true);
     }
+
+    private void handleUiState() {
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
+            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+                mRegError.hideError();
+            } else {
+                mRegError.hideError();
+            }
+        } else {
+            mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
+        }
+    }
+
 }

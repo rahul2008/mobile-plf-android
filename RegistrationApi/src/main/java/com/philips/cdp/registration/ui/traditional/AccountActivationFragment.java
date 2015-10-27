@@ -165,7 +165,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleActivate() {
         showActivateSpinner();
         mBtnActivate.setEnabled(false);
-        mBtnResend.setEnabled(false);
         mUser.refreshUser(mContext, this);
     }
 

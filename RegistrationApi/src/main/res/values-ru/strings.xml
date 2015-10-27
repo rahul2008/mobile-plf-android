@@ -26,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Такой адрес электронной почты уже используется</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Такой адрес электронной почты уже используется для учетной записи MyPhilips или социальной сети.\nПерейдите назад для входа в учетную запись или введите другой адрес электронной почты.</string>
 <string name="RegWelcomeView_NavTitleTxt">Вход</string>
-<string name="LegalNoticeText" formatted="false">Пожалуйста, ознакомьтесь с документами: %s и %s.</string>
+    <string name="LegalNoticeText" formatted="false">Создавая учетную запись или выполняя вход в учетную запись, вы подтверждаете, что вам исполнилось 16 лет, и принимаете %s, а также %s.</string>
 <string name="AgeLimitText">Создавая учетную запись или выполняя вход в систему, Вы подтверждаете, что Вы старше %s лет.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Я принимаю %s</string>
 <string name="PrivacyPolicyText">Политика конфиденциальн.</string>

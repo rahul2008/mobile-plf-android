@@ -5,10 +5,10 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
@@ -114,24 +114,24 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         }
     }
 
-    private void handleInvalidCredentials(CaptureApiError error,
-                                          UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    private void handleInvalidCredentials(CaptureApiError error,UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (null != error && null != error.error
                 && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
             try {
                 JSONObject object = error.raw_response;
                 JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
                 if (jsonObject != null) {
-
                     if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-                        userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-                                .getJSONArray(RegConstants.USER_INFORMATION_FORM)));
+                        userRegistrationFailureInfo.setEmailErrorMessage(mContext.getResources().getString(R.string.JanRain_Invalid_Credentials));
+                        /*userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
+                                .getJSONArray(RegConstants.USER_INFORMATION_FORM)));*/
                     }
 
                     if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-                        userRegistrationFailureInfo
+                        userRegistrationFailureInfo.setPasswordErrorMessage(mContext.getResources().getString(R.string.JanRain_Invalid_Credentials));
+                        /*userRegistrationFailureInfo
                                 .setPasswordErrorMessage(getErrorMessage(jsonObject
-                                        .getJSONArray(RegConstants.USER_INFORMATION_FORM)));
+                                        .getJSONArray(RegConstants.USER_INFORMATION_FORM)));*/
                     }
                 }
             } catch (JSONException e) {
