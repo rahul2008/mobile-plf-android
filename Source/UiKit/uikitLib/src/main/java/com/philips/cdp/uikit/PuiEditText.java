@@ -55,6 +55,9 @@ public class PuiEditText extends RelativeLayout {
         inflater.inflate(R.layout.uikit_input_text_field, this, true);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
+        int editTextWidth = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldWidth, LayoutParams.WRAP_CONTENT);
+        int editTextHeight = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldHeight, LayoutParams.WRAP_CONTENT);
+        boolean singleLine = a.getBoolean(R.styleable.InputTextField_singleLine, true);
         String editTextHint = a.getString(R.styleable.InputTextField_hintText);
         String errorText = a.getString(R.styleable.InputTextField_errorText);
         boolean disabled = a.getBoolean(R.styleable.InputTextField_disabled, false);
@@ -64,7 +67,7 @@ public class PuiEditText extends RelativeLayout {
         a.recycle();
 
         setSaveEnabled(true);
-        initEditText(editTextHint, disabled);
+        initEditText(editTextHint, disabled, editTextWidth, singleLine, editTextHeight);
 
         themeDrawable = editText.getBackground();
 
@@ -94,6 +97,9 @@ public class PuiEditText extends RelativeLayout {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         editText.setText(savedState.savedText);
+        if (View.VISIBLE == savedState.showError) {
+            showErrorAndChangeEditTextStyle(true);
+        }
     }
 
     @Override
@@ -101,6 +107,7 @@ public class PuiEditText extends RelativeLayout {
         Parcelable superState = super.onSaveInstanceState();
         SavedState savedState = new SavedState(superState);
         savedState.savedText = editText.getEditableText().toString();
+        savedState.showError = errorImage.getVisibility();
 
         return savedState;
     }
@@ -116,9 +123,13 @@ public class PuiEditText extends RelativeLayout {
         errorImage.setImageDrawable(errorIcon);
     }
 
-    private void initEditText(final String editTextHint, final boolean disabled) {
+    private void initEditText(final String editTextHint, final boolean disabled, final int editTextWidth, final boolean singleLine, int editTextHeight) {
         editText = (EditText) getChildAt(0);
         editText.setId(viewId++);
+        if (editTextWidth > 0) editText.setWidth(editTextWidth);
+        if (editTextHeight > 0) editText.setHeight(editTextHeight);
+
+        editText.setSingleLine(singleLine);
         editText.setHint(editTextHint);
         editText.setFocusable(!disabled);
         editText.setEnabled(!disabled);
@@ -178,6 +189,7 @@ public class PuiEditText extends RelativeLayout {
                     }
                 };
         String savedText;
+        int showError;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -186,12 +198,14 @@ public class PuiEditText extends RelativeLayout {
         private SavedState(Parcel in) {
             super(in);
             this.savedText = in.readString();
+            this.showError = in.readInt();
         }
 
         @Override
         public void writeToParcel(final Parcel out, final int flags) {
             super.writeToParcel(out, flags);
             out.writeString(this.savedText);
+            out.writeInt(this.showError);
         }
     }
 }
