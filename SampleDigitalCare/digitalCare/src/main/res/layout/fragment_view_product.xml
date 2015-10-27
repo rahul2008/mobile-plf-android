@@ -19,8 +19,7 @@
             <ImageView
                 android:id="@+id/productimage"
                 style="@style/viewProductDetails_ProdImage"
-                android:contentDescription="@string/product_name"
-                android:src="@drawable/viewproduct_productimage" />
+                android:contentDescription="@string/product_name" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/name"
