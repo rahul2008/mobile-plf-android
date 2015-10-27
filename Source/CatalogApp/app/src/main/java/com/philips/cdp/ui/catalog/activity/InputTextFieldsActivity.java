@@ -16,6 +16,9 @@ import java.util.regex.Pattern;
  */
 public class InputTextFieldsActivity extends CatalogActivity {
 
+    private static final String EMAIL_PATTERN =
+            "^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]{2,30}+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,5})$";
     PuiEditText puiEditText1;
     PuiEditText puiEditText2;
 
@@ -46,10 +49,6 @@ public class InputTextFieldsActivity extends CatalogActivity {
         LayoutTransition transition = relativeLayout.getLayoutTransition();
         transition.enableTransitionType(LayoutTransition.CHANGING);
     }
-
-    private static final String EMAIL_PATTERN =
-            "^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]{2,30}+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,5})$";
 
     private boolean validateEmail(final String email) {
         if (email == null) return false;

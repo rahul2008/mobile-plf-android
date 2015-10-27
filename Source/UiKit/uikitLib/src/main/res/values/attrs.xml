@@ -7,7 +7,8 @@
         <attr name="gradBackground" format="reference|color"/>
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
         <attr name="themeSwitch" format="reference"/>
-        <attr name="veryLightColor" format="color"></attr>
+        <attr name="switchOffColor" format="color"/>
+        <attr name="veryLightColor" format="color"/>
         <attr name="splashGradient" format="reference"/>
     </declare-styleable>
 
@@ -30,6 +31,10 @@
     </declare-styleable>
 
     <declare-styleable name="InputTextField">
+        <attr name="inputFieldWidth" format="dimension"/>
+        <attr name="inputFieldHeight" format="dimension"/>
+        <attr name="ellipsize" format="integer"/>
+        <attr name="singleLine" format="boolean"/>
         <attr name="hintText" format="string"/>
         <attr name="errorText" format="string"/>
         <attr name="disabled" format="boolean"/>
