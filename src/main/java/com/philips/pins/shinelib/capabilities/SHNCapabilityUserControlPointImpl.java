@@ -7,6 +7,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNUserConfiguration;
+import com.philips.pins.shinelib.SHNUserConfigurationImpl;
 import com.philips.pins.shinelib.services.SHNServiceUserData;
 import com.philips.pins.shinelib.utility.SHNDevicePreferenceWrapper;
 
@@ -22,7 +23,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     private final SHNServiceUserData shnServiceUserData;
     private final SHNDevicePreferenceWrapper shnDevicePreferenceWrapper;
-    private final SHNUserConfiguration shnUserConfiguration;
+    private final SHNUserConfigurationImpl shnUserConfigurationImpl;
 
     private SHNCapabilityUserControlPointListener shnCapabilityUserControlPointListener;
 
@@ -44,10 +45,10 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
         }
     };
 
-    public SHNCapabilityUserControlPointImpl(SHNServiceUserData shnServiceUserData, SHNUserConfiguration shnUserConfiguration, SHNDevicePreferenceWrapper wrapper) {
+    public SHNCapabilityUserControlPointImpl(SHNServiceUserData shnServiceUserData, SHNUserConfigurationImpl shnUserConfigurationImpl, SHNDevicePreferenceWrapper wrapper) {
         this.shnServiceUserData = shnServiceUserData;
         shnServiceUserData.setShnServiceUserDataListener(shnServiceUserDataListener);
-        this.shnUserConfiguration = shnUserConfiguration;
+        this.shnUserConfigurationImpl = shnUserConfigurationImpl;
         this.shnDevicePreferenceWrapper = wrapper;
     }
 
@@ -95,7 +96,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     @Override
     public void pushUserConfiguration(SHNResultListener shnResultListener) {
-        new Pusher(shnUserConfiguration, shnServiceUserData, shnDevicePreferenceWrapper).start(shnResultListener);
+        new Pusher(shnUserConfigurationImpl, shnServiceUserData, shnDevicePreferenceWrapper).start(shnResultListener);
     }
 
     private void autoConsentUser() {
@@ -129,7 +130,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
     }
 
     private void checkIncrementMismatch() {
-        if (shnUserConfiguration.getChangeIncrement() != getStoredUserConfigurationIncrement()) {
+        if (shnUserConfigurationImpl.getChangeIncrement() != getStoredUserConfigurationIncrement()) {
             notifyListener();
         } else {
             shnServiceUserData.getDatabaseIncrement(new SHNIntegerResultListener() {
@@ -153,7 +154,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                 @Override
                 public void onActionCompleted(int age, SHNResult result) {
                     if (result == SHNResult.SHNOk) {
-                        if (shnUserConfiguration.getAge() != age) {
+                        if (shnUserConfigurationImpl.getAge() != age) {
                             notifyListener();
                         }
                     }
@@ -185,10 +186,10 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
         Queue<Command> commandQueue;
         private SHNResultListener shnEndResultListener;
-        private SHNUserConfiguration userConfiguration;
+        private SHNUserConfigurationImpl userConfiguration;
         private SHNDevicePreferenceWrapper shnDevicePreferenceWrapper;
 
-        private Pusher(SHNUserConfiguration userConfiguration, SHNServiceUserData shnServiceUserData, SHNDevicePreferenceWrapper shnDevicePreferenceWrapper) {
+        private Pusher(SHNUserConfigurationImpl userConfiguration, SHNServiceUserData shnServiceUserData, SHNDevicePreferenceWrapper shnDevicePreferenceWrapper) {
             this.userConfiguration = userConfiguration;
             this.shnDevicePreferenceWrapper = shnDevicePreferenceWrapper;
             commandQueue = new LinkedBlockingQueue<>();

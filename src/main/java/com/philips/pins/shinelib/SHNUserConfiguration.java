@@ -21,49 +21,36 @@ public interface SHNUserConfiguration {
         MixedHanded
     }
 
-    int getChangeIncrement();
-
     Sex getSex();
-
     void setSex(Sex sex);
 
     Integer getMaxHeartRate();
-
     void setMaxHeartRate(Integer maxHeartRate);
 
     Integer getRestingHeartRate();
-
     void setRestingHeartRate(Integer restingHeartRate);
 
     Integer getHeightInCm();
-
     void setHeightInCm(Integer heightInCm);
 
     Double getWeightInKg();
-
     void setWeightInKg(Double weightInKg);
 
     Date getDateOfBirth();
-
     void setDateOfBirth(Date dateOfBirth);
-
     /* return null when birthdate not set */
     Integer getAge();
 
     Handedness getHandedness();
-
     void setHandedness(Handedness handedness);
 
     String getIsoLanguageCode();
-
     void setIsoLanguageCode(String isoLanguageCode);
 
     Boolean getUseMetricSystem();
-
     void setUseMetricSystem(Boolean useMetricSystem);
 
     Character getDecimalSeparator();
-
     void setDecimalSeparator(Character decimalSeparator);
 
     Integer getBaseMetabolicRate();

@@ -70,15 +70,6 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
     }
 
     @Override
-    public synchronized int getChangeIncrement() {
-        return changeIncrement;
-    }
-
-    private void setChangeIncrement(int changeIncrement) {
-        this.changeIncrement = changeIncrement;
-    }
-
-    @Override
     public synchronized Sex getSex() {
         return sex;
     }
@@ -90,7 +81,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         }
         if (this.sex != sex) {
             this.sex = sex;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -103,21 +94,11 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         return maxHeartRate;
     }
 
-    private boolean isEqualTo(Object object1, Object object2) {
-        if (object1 == null && object2 == null) {
-            return true;
-        }
-        if (object1 == null) {
-            return false;
-        }
-        return object1.equals(object2);
-    }
-
     @Override
     public synchronized void setMaxHeartRate(Integer maxHeartRate) {
         if (!isEqualTo(this.maxHeartRate, maxHeartRate)) {
             this.maxHeartRate = maxHeartRate;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -130,7 +111,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
     public synchronized void setRestingHeartRate(Integer restingHeartRate) {
         if (!isEqualTo(this.restingHeartRate, restingHeartRate)) {
             this.restingHeartRate = restingHeartRate;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -143,7 +124,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
     public synchronized void setHeightInCm(Integer heightInCm) {
         if (!isEqualTo(this.heightInCm, heightInCm)) {
             this.heightInCm = heightInCm;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -156,7 +137,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
     public synchronized void setWeightInKg(Double weightInKg) {
         if (!isEqualTo(this.weightInKg, weightInKg)) {
             this.weightInKg = weightInKg;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -169,7 +150,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
     public synchronized void setDateOfBirth(Date dateOfBirth) {
         if (!isEqualTo(this.dateOfBirth, dateOfBirth)) {
             this.dateOfBirth = dateOfBirth;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -214,7 +195,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         }
         if (this.handedness != handedness) {
             this.handedness = handedness;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -230,7 +211,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         }
         if (!isEqualTo(this.isoLanguageCode, isoLanguageCode)) {
             this.isoLanguageCode = isoLanguageCode;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -246,7 +227,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         }
         if (!isEqualTo(this.useMetricSystem, useMetricSystem)) {
             this.useMetricSystem = useMetricSystem;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -262,7 +243,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         }
         if (!isEqualTo(this.decimalSeparator, decimalSeparator)) {
             this.decimalSeparator = decimalSeparator;
-            incrementChangeIncrement();
+            incrementChangeIncrementAndNotifyModifiedListeners();
         }
     }
 
@@ -291,9 +272,31 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
         return result;
     }
 
-    private void incrementChangeIncrement() {
+    private void setChangeIncrement(int changeIncrement) {
+        this.changeIncrement = changeIncrement;
+    }
+    public int getChangeIncrement() {
+        return changeIncrement;
+    }
+
+    private boolean isEqualTo(Object object1, Object object2) {
+        if (object1 == null && object2 == null) {
+            return true;
+        }
+        if (object1 == null) {
+            return false;
+        }
+        return object1.equals(object2);
+    }
+
+    private void incrementChangeIncrementAndNotifyModifiedListeners() {
         changeIncrement++;
-        saveToPreferences();
+        internalHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                saveToPreferences();
+            }
+        });
         if (shnUserConfigurationChangedListener != null && internalHandler != null) {
             internalHandler.post(new Runnable() {
                 @Override

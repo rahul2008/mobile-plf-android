@@ -7,6 +7,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNUserConfiguration;
+import com.philips.pins.shinelib.SHNUserConfigurationImpl;
 import com.philips.pins.shinelib.services.SHNServiceUserData;
 import com.philips.pins.shinelib.utility.SHNDevicePreferenceWrapper;
 
@@ -37,7 +38,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     private SHNCapabilityUserControlPoint shnCapabilityUserControlPoint;
     private SHNServiceUserData mockedShnServiceUserData;
-    private SHNUserConfiguration mockedShnUserConfiguration;
+    private SHNUserConfigurationImpl mockedShnUserConfigurationImpl;
     private SHNDevicePreferenceWrapper mockedShnDevicePreferenceWrapper;
     private SharedPreferences.Editor mockedEditor;
 
@@ -52,19 +53,19 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         mockedShnServiceUserData = mock(SHNServiceUserData.class);
-        mockedShnUserConfiguration = mock(SHNUserConfiguration.class);
+        mockedShnUserConfigurationImpl = mock(SHNUserConfigurationImpl.class);
         mockedShnDevicePreferenceWrapper = mock(SHNDevicePreferenceWrapper.class);
         mockedEditor = mock(SharedPreferences.Editor.class);
         Mockito.when(mockedShnDevicePreferenceWrapper.edit()).thenReturn(mockedEditor);
 
-        shnCapabilityUserControlPoint = new SHNCapabilityUserControlPointImpl(mockedShnServiceUserData, mockedShnUserConfiguration, mockedShnDevicePreferenceWrapper);
+        shnCapabilityUserControlPoint = new SHNCapabilityUserControlPointImpl(mockedShnServiceUserData, mockedShnUserConfigurationImpl, mockedShnDevicePreferenceWrapper);
         SHNServiceUserDataListenerCaptor = ArgumentCaptor.forClass(SHNServiceUserData.SHNServiceUserDataListener.class);
         verify(mockedShnServiceUserData).setShnServiceUserDataListener(SHNServiceUserDataListenerCaptor.capture());
     }
 
     @Test
     public void initTest() {
-        SHNCapabilityUserControlPointImpl shnCapabilityUserControlPoint = new SHNCapabilityUserControlPointImpl(mockedShnServiceUserData, mockedShnUserConfiguration, mockedShnDevicePreferenceWrapper);
+        SHNCapabilityUserControlPointImpl shnCapabilityUserControlPoint = new SHNCapabilityUserControlPointImpl(mockedShnServiceUserData, mockedShnUserConfigurationImpl, mockedShnDevicePreferenceWrapper);
     }
 
     @Test
@@ -154,7 +155,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
         verify(mockedShnDevicePreferenceWrapper).getInt(UC_DATABASE_INCREMENT);
-        verify(mockedShnUserConfiguration).getChangeIncrement();
+        verify(mockedShnUserConfigurationImpl).getChangeIncrement();
     }
 
     @Test
@@ -164,7 +165,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNErrorTimeout);
 
         verify(mockedShnDevicePreferenceWrapper, never()).getInt(UC_DATABASE_INCREMENT);
-        verify(mockedShnUserConfiguration, never()).getChangeIncrement();
+        verify(mockedShnUserConfigurationImpl, never()).getChangeIncrement();
     }
 
     @Test
@@ -175,7 +176,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
         when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
-        when(mockedShnUserConfiguration.getChangeIncrement()).thenReturn(userConfiguration + 1);
+        when(mockedShnUserConfigurationImpl.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
         shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
@@ -239,7 +240,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
         when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
-        when(mockedShnUserConfiguration.getChangeIncrement()).thenReturn(userConfiguration + 1);
+        when(mockedShnUserConfigurationImpl.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
@@ -271,7 +272,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
         when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
-        when(mockedShnUserConfiguration.getChangeIncrement()).thenReturn(userConfiguration + 1);
+        when(mockedShnUserConfigurationImpl.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
@@ -284,7 +285,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int increment = 9;
 
         when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getAge()).thenReturn(localAge);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(localAge);
 
         verifyUserConsentWithUserIndexAndConsentCode(userIndex, consentCode, increment, increment);
 
@@ -447,7 +448,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     public void whenAgesIsPushedThanValueIsRedProperly() {
         Integer age = 33;
         when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getAge()).thenReturn(age);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(age);
 
         verifyPushUserConfiguration(10);
 
@@ -475,7 +476,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         Integer beats = 120;
         when(mockedShnServiceUserData.hasRestingHeartRateCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(beats);
+        when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(beats);
 
         verifyPushUserConfiguration(10);
 
@@ -499,12 +500,12 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     @Test
     public void whenMaxHeartRateIsPushedThanValueIsRedProperly() {
         // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(null);
 
         Integer beats = 127;
         when(mockedShnServiceUserData.hasHeartRateMaxCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(beats);
+        when(mockedShnUserConfigurationImpl.getMaxHeartRate()).thenReturn(beats);
 
         verifyPushUserConfiguration(10);
 
@@ -528,13 +529,13 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     @Test
     public void whenHeightIsPushedThanValueIsRedProperly() {
         // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
-        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getMaxHeartRate()).thenReturn(null);
 
         Integer height = 187;
         when(mockedShnServiceUserData.hasHeightCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(height);
+        when(mockedShnUserConfigurationImpl.getHeightInCm()).thenReturn(height);
 
         verifyPushUserConfiguration(10);
 
@@ -550,7 +551,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     public void whenHeightIsNotSupportedThanGenderIsChecked() {
         SHNUserConfiguration.Sex sex = SHNUserConfiguration.Sex.Male;
         when(mockedShnServiceUserData.hasGenderCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getSex()).thenReturn(sex);
+        when(mockedShnUserConfigurationImpl.getSex()).thenReturn(sex);
 
         when(mockedShnServiceUserData.hasHeightCharacteristic()).thenReturn(false);
 
@@ -562,14 +563,14 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     @Test
     public void whenGenderIsPushedThanValueIsRedProperly() {
         // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
-        when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(null);
-        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getHeightInCm()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getMaxHeartRate()).thenReturn(null);
 
         SHNUserConfiguration.Sex sex = SHNUserConfiguration.Sex.Male;
         when(mockedShnServiceUserData.hasGenderCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getSex()).thenReturn(sex);
+        when(mockedShnUserConfigurationImpl.getSex()).thenReturn(sex);
 
         verifyPushUserConfiguration(10);
 
@@ -594,14 +595,14 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     public void whenWeightIsPushedThanValueIsRedProperly() {
 
         // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
-        when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(null);
-        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getHeightInCm()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getMaxHeartRate()).thenReturn(null);
 
         Double weight = 87.1;
         when(mockedShnServiceUserData.hasWeightCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(weight);
+        when(mockedShnUserConfigurationImpl.getWeightInKg()).thenReturn(weight);
 
         verifyPushUserConfiguration(10);
 
@@ -619,7 +620,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         Date date = new Date(1220L);
         when(mockedShnServiceUserData.hasDateOfBirthCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(date);
+        when(mockedShnUserConfigurationImpl.getDateOfBirth()).thenReturn(date);
 
         verifyPushUserConfiguration(10);
 
@@ -629,15 +630,15 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     @Test
     public void whenDateIsPushedThanValueIsRedProperly() {
         // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
-        when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(null);
-        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
-        when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getHeightInCm()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getMaxHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getWeightInKg()).thenReturn(null);
 
         Date date = new Date(1220L);
         when(mockedShnServiceUserData.hasDateOfBirthCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(date);
+        when(mockedShnUserConfigurationImpl.getDateOfBirth()).thenReturn(date);
 
         verifyPushUserConfiguration(10);
 
@@ -660,13 +661,13 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     private void setUpEmptyConfiguration(){
         // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
-        when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(null);
-        when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(null);
-        when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(null);
-        when(mockedShnUserConfiguration.getSex()).thenReturn(null);
-        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getHeightInCm()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getWeightInKg()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getDateOfBirth()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getSex()).thenReturn(null);
+        when(mockedShnUserConfigurationImpl.getMaxHeartRate()).thenReturn(null);
     }
 
     @Test
@@ -722,7 +723,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     @Test
     public void whenIncrementIsIncrementedSuccessfullyThanValuesAreSavedToThePreferences() {
         int increment = 12;
-        when(mockedShnUserConfiguration.getChangeIncrement()).thenReturn(12);
+        when(mockedShnUserConfigurationImpl.getChangeIncrement()).thenReturn(12);
         setUpEmptyConfiguration();
 
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
@@ -750,7 +751,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         Integer age = 33;
         when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getAge()).thenReturn(age);
+        when(mockedShnUserConfigurationImpl.getAge()).thenReturn(age);
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
 
@@ -775,7 +776,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(false);
 
         when(mockedShnServiceUserData.hasRestingHeartRateCharacteristic()).thenReturn(true);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(beast);
+        when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(beast);
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
 
