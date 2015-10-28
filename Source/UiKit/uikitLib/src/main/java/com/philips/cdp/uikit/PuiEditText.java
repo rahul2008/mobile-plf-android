@@ -34,9 +34,11 @@ public class PuiEditText extends RelativeLayout {
     private Drawable themeDrawable;
     private Validator validator;
     private String textToSave;
+    private boolean focused;
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
         @Override
         public void onFocusChange(final View view, final boolean hasFocus) {
+            focused = hasFocus;
             if (!hasFocus) {
                 showErrorAndChangeEditTextStyle(!(validator == null || validator.validate(editText.getText().toString())));
             } else {
@@ -87,6 +89,10 @@ public class PuiEditText extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
+    public EditText getEditText() {
+        return editText;
+    }
+
     @Override
     protected void onRestoreInstanceState(final Parcelable state) {
         if (!(state instanceof SavedState)) {
@@ -98,6 +104,10 @@ public class PuiEditText extends RelativeLayout {
         super.onRestoreInstanceState(savedState.getSuperState());
         editText.setText(savedState.savedText);
         showErrorAndChangeEditTextStyle(View.VISIBLE == savedState.showError);
+        int focused = savedState.focused;
+        if (focused == 1) {
+            editText.requestFocus();
+        }
     }
 
     @Override
@@ -106,7 +116,11 @@ public class PuiEditText extends RelativeLayout {
         SavedState savedState = new SavedState(superState);
         savedState.savedText = editText.getEditableText().toString();
         savedState.showError = errorImage.getVisibility();
-
+        if (focused) {
+            savedState.focused = 1;
+        } else {
+            savedState.focused = -1;
+        }
         return savedState;
     }
 
@@ -126,7 +140,7 @@ public class PuiEditText extends RelativeLayout {
         editText.setId(viewId++);
         if (editTextWidth > 0) editText.setWidth(editTextWidth);
         if (editTextHeight > 0) editText.setHeight(editTextHeight);
-
+        if (focused) editText.requestFocus();
         editText.setSingleLine(singleLine);
         editText.setHint(editTextHint);
         editText.setFocusable(!disabled);
@@ -188,6 +202,7 @@ public class PuiEditText extends RelativeLayout {
                 };
         String savedText;
         int showError;
+        int focused;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -197,6 +212,7 @@ public class PuiEditText extends RelativeLayout {
             super(in);
             this.savedText = in.readString();
             this.showError = in.readInt();
+            this.focused = in.readInt();
         }
 
         @Override
@@ -204,6 +220,7 @@ public class PuiEditText extends RelativeLayout {
             super.writeToParcel(out, flags);
             out.writeString(this.savedText);
             out.writeInt(this.showError);
+            out.writeInt(this.focused);
         }
     }
 }
