@@ -23,6 +23,8 @@ android {
 
         debug {
             debuggable true
+            minifyEnabled false
+            shrinkResources true
             testCoverageEnabled true
         }
     }
