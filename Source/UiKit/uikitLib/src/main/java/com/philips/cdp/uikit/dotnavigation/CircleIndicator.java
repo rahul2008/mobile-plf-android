@@ -33,6 +33,12 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     private int scrollState;
     private onTouchUnSelectedDots onTouchUnSelectedDots;
 
+    public GradientDrawable getUnSelectedDot() {
+        return unSelectedGradientDrawable;
+    }
+
+    private GradientDrawable unSelectedGradientDrawable;
+
     public CircleIndicator(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         final Resources resources = getResources();
@@ -124,6 +130,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
             gradientDrawable.setStroke(2, themeBaseColor);
             gradientDrawable.setColor(getResources().getColor(android.R.color.transparent));
         }
+        this.unSelectedGradientDrawable = gradientDrawable;
         view.setLayoutParams(vp);
         view.setBackgroundDrawable(gradientDrawable);
     }
