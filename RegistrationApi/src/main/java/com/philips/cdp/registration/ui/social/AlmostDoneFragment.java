@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -264,9 +265,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
+        TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
         mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
-        FontLoader.getInstance().setTypeface(mCbAcceptTerms, "CentraleSans-Light.otf");
-        mCbAcceptTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbAcceptTerms.getPaddingTop(), mCbAcceptTerms.getPaddingRight(), mCbAcceptTerms.getPaddingBottom());
+        RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(),mTermsAndConditionClick);
+
         mCbAcceptTerms.setOnCheckedChangeListener(this);
 
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -291,6 +293,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
         handleUiAcceptTerms();
     }
+
+    private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RegUtility.handleTermsCondition(getRegistrationFragment().getParentActivity());
+        }
+    };
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {

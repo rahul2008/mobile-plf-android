@@ -10,10 +10,16 @@
   },
   "PILConfiguration": {
     "MicrositeID": 77000,
-    "RegistrationEnvironment": "Evaluation"
+    "RegistrationEnvironment": "Staging"
   },
   "Flow": {
-    "EmailVerificationRequired": "true"
+    "EmailVerificationRequired": "true",
+    "TermsAndConditionsAcceptanceRequired": "true",
+    "MinimumAgeLimit": {
+      "NL": 12,
+      "GB": 10,
+      "default": 90
+    }
   },
 
   "SigninProviders": {

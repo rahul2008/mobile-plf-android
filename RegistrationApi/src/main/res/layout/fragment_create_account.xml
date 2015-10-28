@@ -76,9 +76,16 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="10dip"
                     android:paddingRight="0dip"
-                    android:text="@string/TermsAndConditionsAcceptanceText"
                     android:textColor="@color/reg_text_heading_one_color"
                     android:textSize="@dimen/reg_title_text_size_medium" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_accept_terms"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="0dip"
+                    android:gravity="center|left"
+                    android:text="@string/TermsAndConditionsAcceptanceText"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <com.philips.cdp.registration.ui.customviews.XRegError

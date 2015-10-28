@@ -32,7 +32,7 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_legal_notice"
                     style="@style/reg_text_description"
-                    android:layout_marginBottom="-10dp"
+                    android:layout_marginBottom="-20dp"
                     android:text="@string/AgeLimitText"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 

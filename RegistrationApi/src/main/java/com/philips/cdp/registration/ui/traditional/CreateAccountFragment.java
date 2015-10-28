@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -178,8 +179,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		applyParams(config, mLlCreateAccountContainer,width);
 		applyParams(config, mRlCreateActtBtnContainer,width);
 		applyParams(config, mRegError,width);
-		applyParams(config, mRegAccptTermsError,width);
-		applyParams(config, mLlAcceptTermsContainer,width);
+		applyParams(config, mRegAccptTermsError, width);
+		applyParams(config, mLlAcceptTermsContainer, width);
 	}
 
 	@Override
@@ -221,15 +222,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
 		mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
+		TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
 		mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
-		String termsAndCondition = getString(R.string.TermsAndConditionsText);
-		termsAndCondition = String.format(mCbAcceptTerms.getText().toString(),termsAndCondition);
-		mCbAcceptTerms.setText(termsAndCondition);
+		RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
 
-		FontLoader.getInstance().setTypeface(mCbAcceptTerms, "CentraleSans-Light.otf");
-		mCbAcceptTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbAcceptTerms.getPaddingTop(), mCbAcceptTerms.getPaddingRight(), mCbAcceptTerms.getPaddingBottom());
 		mCbAcceptTerms.setOnCheckedChangeListener(this);
-
 		mBtnCreateAccount.setOnClickListener(this);
 		mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
 		mEtName.setOnUpdateListener(this);
@@ -257,6 +254,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
 		        .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
 	}
+
+	private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
+		@Override
+		public void onClick(View widget) {
+			RegUtility.handleTermsCondition(getRegistrationFragment().getParentActivity());
+		}
+	};
+
 
 	private void trackCheckMarketing() {
 		if (mCbTerms.isChecked()) {
