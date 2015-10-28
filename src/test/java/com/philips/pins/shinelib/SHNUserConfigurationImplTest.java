@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.Observer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -33,14 +34,15 @@ public class SHNUserConfigurationImplTest {
     private SHNUserConfigurationImpl shnUserConfiguration;
     private SharedPreferences mockedSharedPreferences;
     private SharedPreferences.Editor mockedEditor;
-    private SHNUserConfigurationImpl.SHNUserConfigurationChangedListener shnUserConfigurationChangedListener;
     private MockedHandler mockedHandler;
+    private Observer mockedObserver;
 
     @Before
     public void setUp() throws Exception {
         mockedSharedPreferences = mock(SharedPreferences.class);
         mockedEditor = mock(SharedPreferences.Editor.class);
-        shnUserConfigurationChangedListener = mock(SHNUserConfigurationImpl.SHNUserConfigurationChangedListener.class);
+        mockedObserver = mock(Observer.class);
+        mockedHandler = new MockedHandler();
 
         when(mockedSharedPreferences.getInt(anyString(), anyInt())).thenReturn(-1);
         when(mockedSharedPreferences.getLong(anyString(), anyLong())).thenReturn(-1L);
@@ -49,9 +51,8 @@ public class SHNUserConfigurationImplTest {
         when(mockedSharedPreferences.getString(anyString(), anyString())).thenReturn(null);
         when(mockedSharedPreferences.edit()).thenReturn(mockedEditor);
 
-        mockedHandler = new MockedHandler();
-
         shnUserConfiguration = new SHNUserConfigurationImpl(mockedSharedPreferences, mockedHandler.getMock());
+        shnUserConfiguration.addObserver(mockedObserver);
     }
 
     @Test
@@ -102,10 +103,9 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenSexIsSetThenListenerIsNotified() {
-        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
         shnUserConfiguration.setSex(SHNUserConfiguration.Sex.Male);
 
-        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+        verify(mockedObserver).update(shnUserConfiguration, null);
     }
 
     @Test
@@ -140,10 +140,9 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenHandednessIsSetThenListenerIsNotified() {
-        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
         shnUserConfiguration.setHandedness(SHNUserConfiguration.Handedness.LeftHanded);
 
-        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+        verify(mockedObserver).update(shnUserConfiguration, null);
     }
 
     @Test
@@ -158,7 +157,7 @@ public class SHNUserConfigurationImplTest {
         verify(mockedEditor).remove(SHNUserConfigurationImpl.USER_CONFIG_MAX_HEART_RATE);
         assertEquals(2, shnUserConfiguration.getChangeIncrement());
     }
-    
+
     @Test
     public void whenRestingHeartRateIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setRestingHeartRate(60);
@@ -174,12 +173,11 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenRestingHeartRateIsSetThenListenerIsNotified() {
-        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
         shnUserConfiguration.setRestingHeartRate(60);
 
-        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+        verify(mockedObserver).update(shnUserConfiguration, null);
     }
-    
+
     @Test
     public void whenHeightInCmIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setHeightInCm(160);
@@ -195,10 +193,9 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenHeightIsSetThenListenerIsNotified() {
-        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
         shnUserConfiguration.setHeightInCm(171);
 
-        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+        verify(mockedObserver).update(shnUserConfiguration, null);
     }
 
     @Test
@@ -216,10 +213,9 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenWeightInKgIsSetThenListenerIsNotified() {
-        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
-        shnUserConfiguration.setWeightInKg(78.7);
+         shnUserConfiguration.setWeightInKg(78.7);
 
-        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+        verify(mockedObserver).update(shnUserConfiguration, null);
     }
 
     @Test
@@ -238,11 +234,10 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenBirthDateInKgIsSetThenListenerIsNotified() {
-        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
         Date now = new Date();
         shnUserConfiguration.setDateOfBirth(now);
 
-        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+        verify(mockedObserver).update(shnUserConfiguration, null);
     }
 
     @Test
@@ -260,10 +255,9 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenLanguageIsSetThenListenerIsNotified() {
-        shnUserConfiguration.setSHNUserConfigurationChangedListener(shnUserConfigurationChangedListener);
         shnUserConfiguration.setIsoLanguageCode("nl");
 
-        verify(shnUserConfigurationChangedListener).onChangeIncrementModified();
+        verify(mockedObserver).update(shnUserConfiguration, null);
     }
 
     @Test

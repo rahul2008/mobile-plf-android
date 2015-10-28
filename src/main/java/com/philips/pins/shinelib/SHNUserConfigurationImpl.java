@@ -9,20 +9,16 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
+import java.util.Observable;
 
 /**
  * Created by 310188215 on 02/06/15.
  */
-public class SHNUserConfigurationImpl implements SHNUserConfiguration {
+public class SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
 
     public static final char DEFAULT_DECIMAL_SEPARATOR = '.';
     public static final Boolean DEFAULT_USE_METRIC_SYSTEM = Boolean.FALSE;
     private final Handler internalHandler;
-
-    public interface SHNUserConfigurationChangedListener {
-        void onChangeIncrementModified();
-    }
 
     private static final String TAG = SHNUserConfigurationImpl.class.getSimpleName();
     private static final String SHINELIB_PREFERENCES_FILE_KEY = SHNUserConfigurationImpl.class.getSimpleName() + "_preferences";
@@ -38,8 +34,6 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
     /* package */ static final String USER_CONFIG_USE_METRIC_SYSTEM = "USER_CONFIG_USE_METRIC_SYSTEM";
     /* package */ static final String USER_CONFIG_DECIMAL_SEPARATOR = "USER_CONFIG_DECIMAL_SEPARATOR";
     /* package */ static final String USER_CONFIG_INCREMENT = "USER_CONFIG_INCREMENT";
-
-    private SHNUserConfigurationChangedListener shnUserConfigurationChangedListener;
 
     private final SharedPreferences sharedPreferences;
     private Sex sex = Sex.Unspecified;
@@ -63,10 +57,6 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
 
     /* package */ SHNUserConfigurationImpl(Context context, Handler internalHandler) {
         this(context.getSharedPreferences(SHINELIB_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE), internalHandler);
-    }
-
-    public void setSHNUserConfigurationChangedListener(SHNUserConfigurationChangedListener shnUserConfigurationChangedListener) {
-        this.shnUserConfigurationChangedListener = shnUserConfigurationChangedListener;
     }
 
     @Override
@@ -275,6 +265,7 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
     private void setChangeIncrement(int changeIncrement) {
         this.changeIncrement = changeIncrement;
     }
+
     public int getChangeIncrement() {
         return changeIncrement;
     }
@@ -297,11 +288,12 @@ public class SHNUserConfigurationImpl implements SHNUserConfiguration {
                 saveToPreferences();
             }
         });
-        if (shnUserConfigurationChangedListener != null && internalHandler != null) {
+        if (internalHandler != null) {
             internalHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    shnUserConfigurationChangedListener.onChangeIncrementModified();
+                    setChanged();
+                    notifyObservers();
                 }
             });
         }
