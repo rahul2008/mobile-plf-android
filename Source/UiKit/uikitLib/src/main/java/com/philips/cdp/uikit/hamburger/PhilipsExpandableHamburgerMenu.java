@@ -49,7 +49,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.hamburger_menu_expandable);
+        super.setContentView(R.layout.uikit_hamburger_menu_expandable);
         initializeHamburgerViews();
         setDrawerTitle();
         configureDrawer(getSupportActionBar());

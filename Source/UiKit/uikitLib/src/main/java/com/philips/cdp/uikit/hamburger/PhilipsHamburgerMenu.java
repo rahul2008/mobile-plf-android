@@ -47,7 +47,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.hamburger_menu);
+        super.setContentView(R.layout.uikit_hamburger_menu);
         initializeHamburgerViews();
         setDrawerTitle();
 
