@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.CommunityFragment;
@@ -54,12 +55,6 @@ public class HamburgerMenuDemo extends PhilipsHamburgerMenu {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
     private void loadSlideMenuItems() {
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
@@ -72,7 +67,7 @@ public class HamburgerMenuDemo extends PhilipsHamburgerMenu {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_reload:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

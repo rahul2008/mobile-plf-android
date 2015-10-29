@@ -139,7 +139,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
         return true;
     }
 
@@ -182,7 +182,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     private void setLogoCenterWithMargins(final VectorDrawableImageView vectorDrawableImageView) {
         Resources resources = getResources();
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
-        lp.setMargins(0, 50, 0, 50);
+        lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         vectorDrawableImageView.setLayoutParams(lp);
     }

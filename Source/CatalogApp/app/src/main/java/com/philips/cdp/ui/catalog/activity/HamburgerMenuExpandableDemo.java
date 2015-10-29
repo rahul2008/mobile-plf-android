@@ -51,15 +51,9 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_reload:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

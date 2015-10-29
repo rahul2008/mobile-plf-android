@@ -170,7 +170,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
         return true;
     }
 
