@@ -208,7 +208,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         signInWith = String.format(signInWith, currentSocialProvider, conflictingproviderName);
         mergeAccountBoxView.setText(signInWith);
 
-        String mergeBtnText = getString(R.string.Account_Merge_SignIn_lbltxt);
+        String mergeBtnText = getString(R.string.SignIn_with_provider_lbltxt);
         mergeBtnText = String.format(mergeBtnText, conflictingproviderName);
         mBtnMerge.setText(mergeBtnText);
     }

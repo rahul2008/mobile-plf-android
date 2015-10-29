@@ -24,7 +24,7 @@
                 android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
-                android:text="@string/Social_Merge_lbltxt"
+                android:text="@string/Account_Merge_lbltxt"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <View style="@style/reg_line" />
@@ -47,7 +47,7 @@
                     android:id="@+id/tv_reg_conflict_provider"
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:text="@string/Account_Merge_EnterPassword_lbltxt"
+                    android:text="@string/RegMerge_MergeLbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 

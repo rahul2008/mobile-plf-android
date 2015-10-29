@@ -20,7 +20,7 @@
             <com.philips.cdp.registration.ui.customviews.XTextView
                 android:id="@+id/tv_reg_welcome"
                 style="@style/reg_titleTextStyle"
-                android:text="@string/RegWelcomeText"
+                android:text="@string/SignInSuccess_Welcome_lbltxt"
                 reglib:fontAssetName="CentraleSans-Light.otf" />
 
             <LinearLayout
@@ -66,7 +66,7 @@
                     android:id="@+id/btn_reg_create_account"
                     style="@style/reg_style_btn"
                     android:enabled="false"
-                    android:text="@string/Welcome_Create_MyPhilips_btntxt"
+                    android:text="@string/Create_Account_CreateMyPhilips_btntxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -109,7 +109,7 @@
                     android:enabled="false"
                     reglib:providerBackground="@drawable/reg_btn_selector"
                     reglib:providerLogo="@drawable/reg_philips_ic"
-                    reglib:providerName="@string/Welcome_myphilips_btntxt"
+                    reglib:providerName="@string/myphilips"
                     reglib:providerTextColor="@drawable/reg_btn_text_selector" />
 
                 <LinearLayout

@@ -90,7 +90,7 @@
                         android:id="@+id/btn_reg_sign_in"
                         style="@style/reg_style_btn"
                         android:enabled="false"
-                        android:text="@string/TraditionalSignIn_SignIn_btntxt"
+                        android:text="@string/SigIn_TitleTxt"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
@@ -132,7 +132,7 @@
                     android:layout_below="@+id/fl_reg_forgot_password"
                     android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:background="@drawable/reg_btn_forgot_selector"
-                    android:text="@string/TraditionalSignIn_Resend_btntxt"
+                    android:text="@string/Resend_btntxt"
                     android:visibility="gone"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </RelativeLayout>

@@ -206,7 +206,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
             FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.fl_reg_logout);
             frameLayout.setVisibility(View.GONE);
             mTvEmailDetails.setVisibility(View.GONE);
-            mBtnContinue.setText(getResources().getString(R.string.SignInSuccess_SignOut_btntxt));
+            mBtnContinue.setText(getResources().getString(R.string.SignOut_btntxt));
             mCbTerms.setVisibility(view.VISIBLE);
             mCbTerms.setChecked(mUser.getUserInstance(mContext).getReceiveMarketingEmail());
             mCbTerms.setOnCheckedChangeListener(this);
@@ -216,7 +216,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
             regLineView.setVisibility(View.GONE);
         }
 
-        mTvWelcome.setText(getString(R.string.RegWelcomeText) + " " + userProfile.getGivenName());
+        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + userProfile.getGivenName());
 
         String email = getString(R.string.InitialSignedIn_SigninEmailText);
         email = String.format(email, userProfile.getEmail());

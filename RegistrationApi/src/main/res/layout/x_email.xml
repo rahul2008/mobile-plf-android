@@ -36,7 +36,7 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:layout_toLeftOf="@+id/fl_reg_invalid_alert"
-            android:hint="@string/TraditionalSignIn_EmailAddPlaceHolder_txtFiled"
+            android:hint="@string/EmailAddPlaceHolder_txtField"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
