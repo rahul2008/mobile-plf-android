@@ -55,7 +55,6 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         configureDrawer(getSupportActionBar());
         drawerListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                Log.i(getClass() + "", " Clicked group");
                 parent.expandGroup(groupPosition);
                 return false;
             }

@@ -36,8 +36,6 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     protected ArrayList<HamburgerItem> hamburgerItems;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private CharSequence drawerTitle;
-    private CharSequence title;
     private TextView actionBarTitle;
     private LinearLayout listViewParentLayout;
     private VectorDrawableImageView footerImage;
@@ -47,12 +45,23 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.uikit_hamburger_menu);
-        initializeHamburgerViews();
-        setDrawerTitle();
-
+        super.setContentView(R.layout.uikit_hamburger_parent);
+        initializeHamburgerParentView();
+        moveDrawerToTop();
+        initActionBar();
         updateSmartFooter();
-        configureDrawer(getSupportActionBar());
+        configureDrawer();
+        setHamburgerItemClickListener();
+    }
+
+    private void initActionBar() {
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.uikit_action_bar_title);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.uikit_hamburger_icon);
+        actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
     }
 
     public void setContentView(int layoutResId) {
@@ -74,18 +83,8 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         parentView.addView(view);
     }
 
-    private void initializeHamburgerViews() {
-        parentView = (FrameLayout) findViewById(R.id.frame_container);
-        listViewParentLayout = (LinearLayout) findViewById(R.id.list_view_parent);
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(R.layout.uikit_action_bar_title);
-        actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerListView = (ListView) findViewById(R.id.list_slidingmenu);
-        footerImage = (VectorDrawableImageView) findViewById(R.id.image);
-        setActionBarSettings(actionBar);
-        setHamburgerItemClickListener();
+    private void initializeHamburgerParentView() {
+        parentView = (FrameLayout) findViewById(R.id.main_content);
     }
 
     private void setHamburgerItemClickListener() {
@@ -103,39 +102,26 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         this.onItemClickListener = onItemClickListener;
     }
 
-    private void configureDrawer(final ActionBar actionBar) {
+    private void configureDrawer() {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name) {
             public void onDrawerClosed(View view) {
-                actionBar.setTitle(title);
-                invalidateOptionsMenu();
+                super.onDrawerClosed(view);
             }
 
             public void onDrawerOpened(View drawerView) {
-                actionBar.setTitle(drawerTitle);
-                invalidateOptionsMenu();
+                super.onDrawerOpened(drawerView);
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
     }
 
-    private void setActionBarSettings(final ActionBar actionBar) {
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.uikit_hamburger_icon);
-    }
-
-    private void setDrawerTitle() {
-        title = drawerTitle = getTitle();
-    }
-
     @Override
     public void setTitle(CharSequence title) {
-        this.title = title;
         actionBarTitle.setText(title);
     }
 
     protected int getFragmentContainerID() {
-        return R.id.frame_container;
+        return R.id.main_content;
     }
 
     protected void closeDrawer() {
@@ -198,6 +184,39 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         lp.setMargins(0, 50, 0, 50);
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         vectorDrawableImageView.setLayoutParams(lp);
+    }
+
+    private void moveDrawerToTop() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu, null);
+        ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+        View child = decor.getChildAt(0);
+        decor.removeView(child);
+        LinearLayout container = (LinearLayout) drawer.findViewById(R.id.frame_container);
+        container.addView(child, 0);
+        initializeDrawerViews(drawer);
+        decor.addView(drawer);
+    }
+
+    private void initializeDrawerViews(final DrawerLayout drawer) {
+        drawer.findViewById(R.id.list_slidingmenu).setPadding(0, getStatusBarHeight(), 0, 0);
+        listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
+        drawerLayout = (DrawerLayout) drawer.findViewById(R.id.drawer_layout);
+        drawerListView = (ListView) drawer.findViewById(R.id.list_slidingmenu);
+        footerImage = (VectorDrawableImageView) drawer.findViewById(R.id.image);
+    }
+
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    public DrawerLayout getDrawerLayout() {
+        return drawerLayout;
     }
 
 }
