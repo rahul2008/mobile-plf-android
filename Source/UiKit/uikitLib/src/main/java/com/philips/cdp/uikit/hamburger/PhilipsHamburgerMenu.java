@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
-import com.wnafee.vector.compat.VectorDrawable;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
@@ -175,7 +175,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
                         drawerListView.getFirstVisiblePosition();
                 if (hamburgerItems != null && hamburgerItems.size() - 1 > numItemsVisible) {
                     LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View v = vi.inflate(R.layout.footer_view, null);
+                    View v = vi.inflate(R.layout.uikit_footer_view, null);
                     VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.splash_logo);
                     setLogoCenterWithMargins(vectorDrawableImageView);
                     drawerListView.addFooterView(v);
@@ -190,7 +190,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
 
     private void setVectorImage(final VectorDrawableImageView vectorDrawableImageView) {
         int resID = R.drawable.uikit_philips_logo;
-        vectorDrawableImageView.setImageDrawable(VectorDrawable.create(getResources(), resID));
+        vectorDrawableImageView.setImageDrawable(VectorDrawable.create(this, resID));
     }
 
     private void setLogoCenterWithMargins(final VectorDrawableImageView vectorDrawableImageView) {
