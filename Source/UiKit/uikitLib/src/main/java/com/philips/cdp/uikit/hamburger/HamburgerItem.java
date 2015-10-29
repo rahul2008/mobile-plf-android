@@ -4,7 +4,7 @@ public class HamburgerItem {
 
     private String title;
     private int icon;
-    private String count = "0";
+    private String count;
 
     public HamburgerItem() {
     }
@@ -43,5 +43,4 @@ public class HamburgerItem {
     public void setCount(String count) {
         this.count = count;
     }
-
 }

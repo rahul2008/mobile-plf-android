@@ -62,7 +62,7 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     private void setTextView(final TextView txtCount, final String count) {
-        if (count != null) {
+        if (count != null && !count.equals("0")) {
             txtCount.setText(count);
         } else {
             txtCount.setVisibility(View.GONE);

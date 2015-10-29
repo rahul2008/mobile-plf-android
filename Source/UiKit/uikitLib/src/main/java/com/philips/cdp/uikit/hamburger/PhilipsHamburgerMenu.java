@@ -160,7 +160,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
             public void run() {
                 int numItemsVisible = drawerListView.getLastVisiblePosition() -
                         drawerListView.getFirstVisiblePosition();
-                if (hamburgerItems != null && hamburgerItems.size() - 1 > numItemsVisible) {
+                if (hamburgerItems != null && hamburgerItems.size() - 1 >= numItemsVisible) {
                     LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View v = vi.inflate(R.layout.uikit_footer_view, null);
                     VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);

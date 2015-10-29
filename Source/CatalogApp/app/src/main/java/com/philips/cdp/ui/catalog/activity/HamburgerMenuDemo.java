@@ -78,30 +78,9 @@ public class HamburgerMenuDemo extends PhilipsHamburgerMenu {
         hamburgerItems.add(new HamburgerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
         hamburgerItems.add(new HamburgerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
         hamburgerItems.add(new HamburgerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
+        hamburgerItems.add(new HamburgerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), "22"));
         hamburgerItems.add(new HamburgerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), "50+"));
         navMenuIcons.recycle();
     }
 
