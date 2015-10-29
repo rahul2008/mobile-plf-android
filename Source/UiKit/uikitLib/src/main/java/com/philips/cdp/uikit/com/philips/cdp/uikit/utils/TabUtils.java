@@ -42,7 +42,7 @@ public class TabUtils {
         initIconColorFilters();
     }
 
-    public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
+    public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount, boolean isLastTab) {
         TabLayout.Tab newTab = tabLayout.newTab();
         View customView;
         if (imageDrawable > 0) {
@@ -67,9 +67,16 @@ public class TabUtils {
         }
         title.setTextColor(getTextSelector());
 
+        boolean isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
+
         //Hide divider for the first view
-        if (tabLayout.getTabCount() == 0) {
+        if (tabLayout.getTabCount() == 0 && !isTablet) {
             customView.findViewById(R.id.tab_divider).setVisibility(View.GONE);
+        }
+
+        //Show last divider for the tablet view.
+        if(isLastTab && isTablet) {
+            customView.findViewById(R.id.tab_divider_last).setVisibility(View.VISIBLE);
         }
         newTab.setCustomView(customView);
         return newTab;
