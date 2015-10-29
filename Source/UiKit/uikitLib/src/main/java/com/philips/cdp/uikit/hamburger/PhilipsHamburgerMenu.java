@@ -1,6 +1,7 @@
 package com.philips.cdp.uikit.hamburger;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
@@ -179,7 +180,8 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     }
 
     private void setLogoCenterWithMargins(final VectorDrawableImageView vectorDrawableImageView) {
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        Resources resources = getResources();
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
         lp.setMargins(0, 50, 0, 50);
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         vectorDrawableImageView.setLayoutParams(lp);
@@ -217,5 +219,4 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     public DrawerLayout getDrawerLayout() {
         return drawerLayout;
     }
-
 }

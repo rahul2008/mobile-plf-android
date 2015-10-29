@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.philips.cdp.ui.catalog"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philips.cdp.ui.catalog" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Philips.DarkBlue">
+        android:theme="@style/Theme.Philips.DarkBlue" >
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.ActionButtonsActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".activity.ThemesActivity"
-            android:label="@string/app_name"></activity>
-        <activity android:name=".activity.ButtonsActivity"/>
-        <activity android:name=".SplashActivityLogoTop"/>
-        <activity android:name=".activity.AboutScreenLauncher"/>
-        <activity android:name=".activity.AboutScreenPhilips" android:theme="@style/AboutScreenTheme"/>
-        <activity android:name=".activity.AboutScreenMM" android:theme="@style/AboutScreenTheme.MM"/>
-        <activity android:name=".SplashActivityLogoBottom"/>
-        <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
-        <activity android:name=".SplashLauncher"/>
-        <activity android:name=".activity.InputTextFieldsActivity"/>
-        <activity android:name=".activity.DotNavigation"/>
-        <activity android:name=".activity.TabBarDemo"/>
-        <activity android:name=".activity.HamburgerMenuDemo"/>
-        <activity android:name=".activity.HamburgerMenuExpandableDemo"/>
-
+            android:label="@string/app_name" />
+        <activity android:name=".activity.ButtonsActivity" />
+        <activity android:name=".SplashActivityLogoTop" />
+        <activity android:name=".activity.AboutScreenLauncher" />
+        <activity
+            android:name=".activity.AboutScreenPhilips"
+            android:theme="@style/AboutScreenTheme" />
+        <activity
+            android:name=".activity.AboutScreenMM"
+            android:theme="@style/AboutScreenTheme.MM" />
+        <activity android:name=".SplashActivityLogoBottom" />
+        <activity android:name=".SplashActivityLogoCenterTitleBottom" />
+        <activity android:name=".SplashLauncher" />
+        <activity android:name=".activity.InputTextFieldsActivity" />
+        <activity android:name=".activity.DotNavigation" />
+        <activity android:name=".activity.TabBarDemo" />
+        <activity android:name=".activity.HamburgerMenuDemo" />
+        <activity android:name=".activity.HamburgerMenuExpandableDemo" />
+        <activity
+            android:name=".activity.HamburgerActivity"
+            android:label="@string/title_activity_hamburger" >
+        </activity>
     </application>
 
 </manifest>

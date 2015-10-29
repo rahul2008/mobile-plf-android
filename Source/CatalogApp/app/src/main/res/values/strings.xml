@@ -18,6 +18,7 @@
     <string name="invalid_email_format">Invalid email</string>
     <string name="invalid_pwd_format">Invalid password format</string>
     <string name="sample_button">Sample button</string>
+    <string name="uikit_hamburger">Hamburger</string>
 
     <string-array name="nav_drawer_items">
         <item>Home</item>

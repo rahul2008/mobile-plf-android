@@ -1,6 +1,7 @@
 package com.philips.cdp.uikit.hamburger;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
@@ -195,21 +196,19 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
                     LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View v = vi.inflate(R.layout.uikit_footer_view, null);
                     VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
-
-                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(0, 50, 0, 50);
-                    lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                    vectorDrawableImageView.setLayoutParams(lp);
+                    setLogoCenterWithMargins(vectorDrawableImageView);
                     drawerListView.addFooterView(v);
-                    int resID = R.drawable.uikit_philips_logo;
-                    vectorDrawableImageView.setImageDrawable(VectorDrawable.create(PhilipsExpandableHamburgerMenu.this, resID));
-
-                    v.setVisibility(View.VISIBLE);
+                    setVectorImage(vectorDrawableImageView);
                 } else {
                     footerImage.setVisibility(View.VISIBLE);
                 }
             }
         });
+    }
+
+    private void setVectorImage(final VectorDrawableImageView vectorDrawableImageView) {
+        int resID = R.drawable.uikit_philips_logo;
+        vectorDrawableImageView.setImageDrawable(VectorDrawable.create(PhilipsExpandableHamburgerMenu.this, resID));
     }
 
     private int listVisibleRowsForExpandableGroup() {
@@ -220,6 +219,14 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
             count++;
         }
         return count;
+    }
+
+    private void setLogoCenterWithMargins(final VectorDrawableImageView vectorDrawableImageView) {
+        Resources resources = getResources();
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
+        lp.setMargins(0, 50, 0, 50);
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        vectorDrawableImageView.setLayoutParams(lp);
     }
 
     protected void closeDrawer() {
