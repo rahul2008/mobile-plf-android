@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
-import com.wnafee.vector.compat.VectorDrawable;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -40,7 +40,7 @@ public class PhilipsActionButton extends ImageButton {
                 R.style.Philips_ActionButton);
 
         int resID = getResID(typedArray);
-        setImageDrawable(VectorDrawable.create(getResources(), resID));
+        setImageDrawable(VectorDrawable.create(context, resID));
         addStates(getNormalStateDrawable(typedArray, resources), getPressedStateDrawable(typedArray, resources));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)

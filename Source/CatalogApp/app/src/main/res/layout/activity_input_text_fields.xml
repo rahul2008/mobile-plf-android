@@ -39,7 +39,7 @@
         android:layout_below="@+id/input_field_2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        inputText:disabled="true"
+        inputText:enabled="false"
         inputText:hintText="@string/enter_text_here"
         inputText:inputFieldWidth="240dp"
         inputText:singleLine="true"/>

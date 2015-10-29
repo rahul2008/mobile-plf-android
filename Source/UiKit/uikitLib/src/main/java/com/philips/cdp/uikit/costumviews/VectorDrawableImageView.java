@@ -7,8 +7,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.philips.cdp.uikit.R;
-import com.wnafee.vector.compat.VectorDrawable;
-
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.lang.reflect.Field;
 
 /**
@@ -37,7 +36,7 @@ public class VectorDrawableImageView extends ImageView {
         String resPath = a.getString(R.styleable.VectorDrawableImageView_vectorsrc);
         a.recycle();
         int id = getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
-        Drawable v = VectorDrawable.create(getResources(), id);
+        Drawable v = VectorDrawable.create(context, id);
         setImageDrawable(v);
     }
 
