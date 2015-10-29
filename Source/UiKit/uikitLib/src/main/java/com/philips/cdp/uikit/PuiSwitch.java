@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.Switch;
 
-import com.wnafee.vector.compat.ResourcesCompat;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -24,7 +24,7 @@ public class PuiSwitch extends Switch{
     public PuiSwitch(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        Drawable switchOff = ResourcesCompat.getDrawable(context, R.drawable.uikit_switch_off);
+        Drawable switchOff = VectorDrawable.create(context, R.drawable.uikit_switch_off);
         switchOff.setColorFilter(getResources().getColor(R.color.uikit_philips_dark_blue), PorterDuff.Mode.SRC_IN);
 
     }

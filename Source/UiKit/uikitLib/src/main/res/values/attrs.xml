@@ -33,16 +33,70 @@
     <declare-styleable name="InputTextField">
         <attr name="inputFieldWidth" format="dimension"/>
         <attr name="inputFieldHeight" format="dimension"/>
-        <attr name="ellipsize" format="integer"/>
         <attr name="singleLine" format="boolean"/>
         <attr name="hintText" format="string"/>
         <attr name="errorText" format="string"/>
-        <attr name="disabled" format="boolean"/>
+        <attr name="enabled" format="boolean"/>
         <attr name="errorTextColor" format="color"/>
         <attr name="errorIcon" format="integer"/>
         <attr name="errorBackground" format="reference"/>
     </declare-styleable>
 
     <attr name="enableStroke" format="boolean"/>
+    <declare-styleable name="VectorCompat">
+        <attr name="vc_tintMode" format="enum">
+            <enum name="src_over" value="3" />
+            <enum name="src_in" value="5" />
+            <enum name="src_atop" value="9" />
+            <enum name="multiply" value="14" />
+            <enum name="screen" value="15" />
+            <enum name="add" value="16" />
+        </attr>
+        <attr name="vc_tint" format="reference|color"/>
+        <attr name="vc_autoMirrored" format="boolean"/>
+        <attr name="android:width" />
+        <attr name="android:height" />
+        <attr name="vc_viewportWidth" format="float"/>
+        <attr name="vc_viewportHeight" format="float"/>
+        <attr name="android:name"/>
+        <attr name="android:alpha"/>
+    </declare-styleable>
+    <declare-styleable name="VectorCompatGroup">
+        <attr name="android:name" />
+        <attr name="android:rotation" />
+        <attr name="android:pivotX" />
+        <attr name="android:pivotY" />
+        <attr name="vc_translateX" format="float"/>
+        <attr name="vc_translateY" format="float"/>
+        <attr name="android:scaleX" />
+        <attr name="android:scaleY" />
+    </declare-styleable>
+    <declare-styleable name="VectorCompatClipPath">
+        <attr name="android:name" />
+        <attr name="vc_pathData"/>
+    </declare-styleable>
 
+    <declare-styleable name="VectorCompatPath">
+        <attr name="android:name" />
+        <attr name="vc_strokeWidth" format="float" />
+        <attr name="vc_strokeColor" format="reference|color" />
+        <attr name="vc_strokeAlpha" format="float" />
+        <attr name="vc_fillColor" format="reference|color" />
+        <attr name="vc_fillAlpha" format="float" />
+        <attr name="vc_pathData" format="string" />
+        <attr name="vc_trimPathStart" format="float" />
+        <attr name="vc_trimPathEnd" format="float" />
+        <attr name="vc_trimPathOffset" format="float" />
+        <attr name="vc_strokeLineCap" format="enum">
+            <enum name="butt" value="0"/>
+            <enum name="round" value="1"/>
+            <enum name="square" value="2"/>
+        </attr>
+        <attr name="vc_strokeLineJoin" format="enum">
+            <enum name="miter" value="0"/>
+            <enum name="round" value="1"/>
+            <enum name="bevel" value="2"/>
+        </attr>
+        <attr name="vc_strokeMiterLimit" format="float"/>
+    </declare-styleable>
 </resources>
