@@ -19,6 +19,9 @@
         <item name="themeSwitch">@style/SwitchDarkBlue</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
+        <item name="sliderthumb">@drawable/uikit_slider_circle_darkblue</item>
+        <item name="sliderprogress">@drawable/uikit_slider_bar_darkblue</item>
+        <item name="indicatorimage">@drawable/uikit_bubble_darkblue</item>
 
     </style>
 
@@ -40,6 +43,9 @@
         <item name="themeSwitch">@style/SwitchBrightOrange</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="splashGradient">@drawable/uikit_grad_orange_bright_to_light</item>
+        <item name="sliderthumb">@drawable/uikit_slider_circle_brightorange</item>
+        <item name="sliderprogress">@drawable/uikit_slider_bar_brightorange</item>
+        <item name="indicatorimage">@drawable/uikit_bubble_brightorange</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
@@ -60,6 +66,9 @@
         <item name="themeSwitch">@style/SwitchBrightAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="splashGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
+        <item name="sliderthumb">@drawable/uikit_slider_circle_brightaqua</item>
+        <item name="sliderprogress">@drawable/uikit_slider_bar_brightaqua</item>
+        <item name="indicatorimage">@drawable/uikit_bubble_brightaqua</item>
     </style>
 
 </resources>

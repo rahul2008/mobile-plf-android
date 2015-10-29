@@ -25,6 +25,7 @@
     <color name="uikit_philips_bright_blue">#0066a1</color>
     <color name="uikit_philips_light_blue">#7ba4d9</color>
     <color name="uikit_philips_very_light_blue">#b3c8e6</color>
+    <color name="uikit_philips_dark_blue_fifty_opacity">#80003478</color>
 
     <!-- Group Blue -->
     <color name="uikit_philips_group_blue_1">#72b5cc</color>
@@ -39,6 +40,7 @@
     <color name="uikit_philips_bright_aqua">#1e9d8b</color>
     <color name="uikit_philips_light_aqua">#5bbbb7</color>
     <color name="uikit_philips_very_light_aqua">#cae3e9</color>
+    <color name="uikit_philips_bright_aqua_fifty_opacity">#801e9d8b</color>
 
     <!-- Green -->
     <color name="uikit_philips_very_dark_green">#024731</color>
@@ -53,6 +55,7 @@
     <color name="uikit_philips_bright_orange">#e98300</color>
     <color name="uikit_philips_light_orange">#eeaf00</color>
     <color name="uikit_philips_very_light_orange">#fbd476</color>
+    <color name="uikit_philips_bright_orange_fifty_opacity">#80e98300</color>
 
     <!-- Pink -->
     <color name="uikit_philips_very_dark_pink">#662046</color>

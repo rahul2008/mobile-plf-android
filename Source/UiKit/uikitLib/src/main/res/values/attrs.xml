@@ -11,6 +11,7 @@
         <attr name="splashGradient" format="reference"/>
         <attr name="sliderthumb" format="reference|color"/>
         <attr name="sliderprogress" format="reference|color"/>
+        <attr name="indicatorimage" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="ActionButton">

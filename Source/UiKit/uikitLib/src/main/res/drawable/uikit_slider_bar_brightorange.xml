@@ -2,7 +2,7 @@
 
     <item android:id="@android:id/background">
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="line" >
+               android:shape="line" >
             <stroke
                 android:width="@dimen/slider_bar_width"
                 android:color="@color/uikit_enricher4" />
@@ -11,10 +11,10 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape xmlns:android="http://schemas.android.com/apk/res/android"
-                android:shape="line" >
+                   android:shape="line" >
                 <stroke
                     android:width="@dimen/slider_bar_progress"
-                    android:color="?attr/baseColor" />
+                    android:color="@color/uikit_philips_bright_orange" />
             </shape>
         </clip>
     </item>
