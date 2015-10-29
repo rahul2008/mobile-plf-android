@@ -43,12 +43,12 @@ public class HamburgerAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.drawer_list_item, null);
+            convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, null);
         }
 
-        ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
-        TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
-        TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
+        ImageView imgIcon = (ImageView) convertView.findViewById(R.id.list_icon);
+        TextView txtTitle = (TextView) convertView.findViewById(R.id.hamburger_title);
+        TextView txtCount = (TextView) convertView.findViewById(R.id.list_counter);
 
         imgIcon.setImageResource(hamburgerItems.get(position).getIcon());
         txtTitle.setText(hamburgerItems.get(position).getTitle());

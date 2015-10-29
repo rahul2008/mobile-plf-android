@@ -79,8 +79,8 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         listViewParentLayout = (LinearLayout) findViewById(R.id.list_view_parent);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(R.layout.action_bar_title);
-        actionBarTitle = (TextView) findViewById(R.id.title);
+        actionBar.setCustomView(R.layout.uikit_action_bar_title);
+        actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerListView = (ListView) findViewById(R.id.list_slidingmenu);
         footerImage = (VectorDrawableImageView) findViewById(R.id.image);
@@ -121,7 +121,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     private void setActionBarSettings(final ActionBar actionBar) {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.uikit_hamburger);
+        actionBar.setHomeAsUpIndicator(R.drawable.uikit_hamburger_icon);
     }
 
     private void setDrawerTitle() {

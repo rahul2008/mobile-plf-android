@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/list_item"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
     >
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/list_icon"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,7 +17,7 @@
         />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/hamburger_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
@@ -25,7 +26,7 @@
         />
 
     <TextView
-        android:id="@+id/counter"
+        android:id="@+id/list_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
