@@ -3,28 +3,15 @@ package com.philips.cdp.ui.catalog.activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.costumviews.UikitSeekbar;
 
 public class SliderActivity extends CatalogActivity {
-
-
-    LinearLayout sliderLinearlayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slider);
-        sliderLinearlayout = (LinearLayout)findViewById(R.id.sliderLinearlayout);
-        UikitSeekbar seekbar = new UikitSeekbar(this);
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(800, 800);
-        seekbar.setLayoutParams(lp);
-        sliderLinearlayout.addView(seekbar);
-
-
     }
 
     @Override

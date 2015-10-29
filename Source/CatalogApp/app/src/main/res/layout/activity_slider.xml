@@ -1,19 +1,23 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sliderLinearlayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <SeekBar
-        android:id="@+id/slider"
+    <com.philips.cdp.uikit.costumviews.UikitSeekbar
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/slider_padding"
-        android:layout_marginRight="@dimen/slider_padding"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        />
+        android:layout_marginTop="10dp">
+    </com.philips.cdp.uikit.costumviews.UikitSeekbar>
+
+    <com.philips.cdp.uikit.costumviews.UikitSeekbar
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:enableBubbleIndictor="true">
+    </com.philips.cdp.uikit.costumviews.UikitSeekbar>
+
 </LinearLayout>
 
 

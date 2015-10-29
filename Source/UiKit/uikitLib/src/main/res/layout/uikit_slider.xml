@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:lines="1"
+            android:text="0"
             android:textSize="@dimen/slider_text_size"
             android:textColor="?attr/baseColor"
             />
@@ -29,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:vectorsrc="?attr/indicatorimage" />
+            app:vectorsrc="@drawable/uikit_slider_bubble" />
     </FrameLayout>
     <SeekBar
         android:id="@+id/slider"
