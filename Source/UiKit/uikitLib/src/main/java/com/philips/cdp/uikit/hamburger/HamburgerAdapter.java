@@ -45,23 +45,36 @@ public class HamburgerAdapter extends BaseAdapter {
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, null);
         }
-
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.list_icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.hamburger_title);
         TextView txtCount = (TextView) convertView.findViewById(R.id.list_counter);
-
-        imgIcon.setImageResource(hamburgerItems.get(position).getIcon());
-        txtTitle.setText(hamburgerItems.get(position).getTitle());
-
-        // displaying count
-        // check whether it set visible or not
-        if (hamburgerItems.get(position).getCounterVisibility()) {
-            txtCount.setText(hamburgerItems.get(position).getCount());
-        } else {
-            // hide the counter view
-            txtCount.setVisibility(View.GONE);
-        }
+        setValuesToViews(position, imgIcon, txtTitle, txtCount);
 
         return convertView;
+    }
+
+    private void setValuesToViews(final int position, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
+        int icon = hamburgerItems.get(position).getIcon();
+        setImageView(imgIcon, icon);
+        txtTitle.setText(hamburgerItems.get(position).getTitle());
+        String count = hamburgerItems.get(position).getCount();
+        setTextView(txtCount, count);
+    }
+
+    private void setTextView(final TextView txtCount, final String count) {
+        if (count != null) {
+            txtCount.setText(count);
+        } else {
+            txtCount.setVisibility(View.GONE);
+        }
+    }
+
+    private void setImageView(final ImageView imgIcon, final int icon) {
+        if (icon != 0) {
+            imgIcon.setImageResource(icon);
+        }
+        else{
+            imgIcon.setVisibility(View.GONE);
+        }
     }
 }

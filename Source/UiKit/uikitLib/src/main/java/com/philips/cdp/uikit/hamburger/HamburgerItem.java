@@ -5,8 +5,6 @@ public class HamburgerItem {
     private String title;
     private int icon;
     private String count = "0";
-    // boolean to set visiblity of the counter
-    private boolean isCounterVisible = false;
 
     public HamburgerItem() {
     }
@@ -16,10 +14,9 @@ public class HamburgerItem {
         this.icon = icon;
     }
 
-    public HamburgerItem(String title, int icon, boolean isCounterVisible, String count) {
+    public HamburgerItem(String title, int icon, String count) {
         this.title = title;
         this.icon = icon;
-        this.isCounterVisible = isCounterVisible;
         this.count = count;
     }
 
@@ -47,11 +44,4 @@ public class HamburgerItem {
         this.count = count;
     }
 
-    public boolean getCounterVisibility() {
-        return this.isCounterVisible;
-    }
-
-    public void setCounterVisibility(boolean isCounterVisible) {
-        this.isCounterVisible = isCounterVisible;
-    }
 }

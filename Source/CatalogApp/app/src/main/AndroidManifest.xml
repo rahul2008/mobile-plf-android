@@ -43,8 +43,7 @@
         <activity android:name=".activity.HamburgerMenuDemo" />
         <activity android:name=".activity.HamburgerMenuExpandableDemo" />
         <activity
-            android:name=".activity.HamburgerActivity"
-            android:label="@string/title_activity_hamburger" >
+            android:name=".activity.HamburgerActivity" >
         </activity>
     </application>
 
