@@ -23,6 +23,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.FaqFragment;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
+import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -238,7 +239,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
             if (isConnectionAvailable())
                 showFragment(new ContactUsFragment());
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
-            //showFragment(new ProductDetailsFragment());
+            if (isConnectionAvailable())
+                showFragment(new ProductDetailsFragment());
         } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
             if (isConnectionAvailable())
                 showFragment(new LocatePhilipsFragment());

@@ -182,12 +182,12 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
             startActivity(intent);
             return true;
         }
-        if (mainMenuItem.equals(getStringKey(R.string.view_product_details))) {
+        /*if (mainMenuItem.equals(getStringKey(R.string.view_product_details))) {
             Intent intent = new Intent(LaunchDigitalCare.this,
                     DummyScreen.class);
             startActivity(intent);
             return true;
-        }
+        }*/
         return false;
     }
 

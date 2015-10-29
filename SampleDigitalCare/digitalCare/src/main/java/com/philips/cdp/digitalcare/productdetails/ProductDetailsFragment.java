@@ -22,6 +22,9 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.horizontal.RequestManager;
+import com.philips.cdp.network.listeners.PRXCallback;
+import com.philips.cdp.serviceapi.productinformation.assets.Assets;
 
 /**
  * ProductDetailsFragment will help to show product details.
@@ -72,6 +75,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         createProductDetailsMenu();
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS,
                 getPreviousName());
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                initPRX();
+            }
+        });
     }
 
     private void createProductDetailsMenu() {
@@ -106,6 +116,36 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public void onResume() {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+    }
+
+
+    protected void initPRX() {
+        final String COUNTRY_URL = "www.philips.co.uk";
+        final String SECTOR = "B2C";
+        final String LANGUAGE = "en";
+        final String COUNTRY = "GB";
+        final String CATALOGCODE = "CONSUMER";
+        final String CTN = "RQ1250/17";
+
+        RequestManager mRequestManager = RequestManager.getInstance();
+        mRequestManager.setServerInfo(COUNTRY_URL);
+        mRequestManager.setSectorCode(SECTOR);
+        mRequestManager.setLanguageCode(LANGUAGE);
+        mRequestManager.setCountryCode(COUNTRY);
+        mRequestManager.setCatalogCode(CATALOGCODE);
+        mRequestManager.setCTN(CTN);
+
+        Assets mAssets = new Assets(new PRXCallback() {
+            @Override
+            public void onSuccess() {
+                DigiCareLogger.d(TAG, "Successed Response");
+            }
+
+            @Override
+            public void onFailed(String s) {
+                DigiCareLogger.d(TAG, "Failed : " + s);
+            }
+        });
     }
 
     /**
