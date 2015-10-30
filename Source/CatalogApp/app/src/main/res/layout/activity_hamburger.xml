@@ -1,16 +1,40 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="com.philips.cdp.ui.catalog.activity.HamburgerActivity">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="@dimen/app_top_margin"
+              android:orientation="vertical">
 
     <Button
-        android:layout_width="match_parent"
+        android:id="@+id/hamburger_menu"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/uikit_hamburger"/>
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
+        android:text="Hamburger Menu"/>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/hamburger_menu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
+        android:text="Hamburger Menu with Icons"/>
+
+    <Button
+        android:id="@+id/hamburger_menu_expand_no_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
+        android:text="Hamburger with dividers no icon"/>
+
+    <Button
+        android:id="@+id/hamburger_menu_expand_with_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"
+        android:text="Hamburger with dividers"/>
+
+</LinearLayout>

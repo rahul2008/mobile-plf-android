@@ -21,12 +21,14 @@
     <string name="uikit_hamburger">Hamburger</string>
 
     <string-array name="nav_drawer_items">
-        <item>Home</item>
-        <item>Find People</item>
-        <item>Photos</item>
-        <item>Communities</item>
-        <item>Pages</item>
-        <item>What\'s Hot</item>
+        <item>Quisque</item>
+        <item>Eget Odio</item>
+        <item>Ac Lectus</item>
+        <item>Faucibus</item>
+        <item>Eget In</item>
+        <item>Pellentesque</item>
+        <item>Vestibulum</item>
+        <item>Tortor</item>
     </string-array>
 
     <array name="nav_drawer_icons">

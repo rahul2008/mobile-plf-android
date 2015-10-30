@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/list_item"
+<RelativeLayout android:id="@+id/list_item"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-    >
+                android:layout_height="@dimen/uikit_hamburger_list_item_height" >
 
     <ImageView
-        android:id="@+id/list_icon"
-        android:layout_width="25dp"
+        android:id="@+id/hamburger_list_icon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:contentDescription="@string/desc_list_item_icon"
-        android:src="@drawable/ic_pages"
         />
 
     <TextView
-        android:id="@+id/hamburger_title"
+        android:id="@+id/hamburger_item_text"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/uikit_hamburgur_item_text_size"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/uikit_hamburger_item_text_left_margin"
         android:layout_centerVertical="true"
-        android:gravity="center"
         />
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="@dimen/uikit_hamburger_item_counter_right_margin"
         />
 
 </RelativeLayout>

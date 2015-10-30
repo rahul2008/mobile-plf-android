@@ -28,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="start"
-                android:divider="@android:color/transparent"
                 android:dividerHeight="1dp"
                 >
 

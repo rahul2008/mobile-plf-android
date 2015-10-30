@@ -4,18 +4,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.hamburgerfragments.CommunityFragment;
-import com.philips.cdp.ui.catalog.hamburgerfragments.FindPeopleFragment;
-import com.philips.cdp.ui.catalog.hamburgerfragments.HomeFragment;
-import com.philips.cdp.ui.catalog.hamburgerfragments.PagesFragment;
-import com.philips.cdp.ui.catalog.hamburgerfragments.PhotosFragment;
-import com.philips.cdp.ui.catalog.hamburgerfragments.WhatsHotFragment;
+import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
 import com.philips.cdp.uikit.hamburger.ExpandableListAdapter;
 import com.philips.cdp.uikit.hamburger.PhilipsExpandableHamburgerMenu;
 
@@ -65,25 +59,7 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new HomeFragment();
-                break;
-            case 1:
-                fragment = new FindPeopleFragment();
-                break;
-            case 2:
-                fragment = new PhotosFragment();
-                break;
-            case 3:
-                fragment = new CommunityFragment();
-                break;
-            case 4:
-                fragment = new PagesFragment();
-                break;
-            case 5:
-                fragment = new WhatsHotFragment();
-                break;
-
-            default:
+                fragment = new HamburgerFragment();
                 break;
         }
 

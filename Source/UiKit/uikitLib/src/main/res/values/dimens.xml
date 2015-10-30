@@ -67,6 +67,10 @@
     <dimen name="uikit_hamburger_logo_width">67dp</dimen>
     <dimen name="uikit_hamburger_logo_height">85dp</dimen>
     <dimen name="uikit_tab_divider_width">1dp</dimen>
+    <dimen name="uikit_hamburger_list_item_height">53dp</dimen>
+    <dimen name="uikit_hamburger_item_counter_right_margin">20dp</dimen>
+    <dimen name="uikit_hamburger_item_text_left_margin">46dp</dimen>
+    <dimen name="uikit_hamburgur_item_text_size">16sp</dimen>
 
     <!-- variable to hold info for tablet or phone -->
     <bool name="uikit_istablet">false</bool>
