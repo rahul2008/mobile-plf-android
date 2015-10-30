@@ -40,10 +40,10 @@
     <dimen name="uikit_about_screen_logo_height">85dp</dimen>
     <dimen name="uikit_about_screen_mm_logo_height">63dp</dimen>
 
-    <dimen name="uikit_dot_navigation_selected_width">13dp</dimen>
+    <dimen name="uikit_dot_navigation_selected_width">12dp</dimen>
     <dimen name="uikit_dot_navigation_selected_height">12dp</dimen>
-    <dimen name="uikit_dot_navigation_unselected_width">8dp</dimen>
-    <dimen name="uikit_dot_navigation_unselected_height">8dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_width">7dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_height">7dp</dimen>
     <dimen name="uikit_dot_navigation_distance_between_circles">9dp</dimen>
 
     <!-- Tab layout -->
