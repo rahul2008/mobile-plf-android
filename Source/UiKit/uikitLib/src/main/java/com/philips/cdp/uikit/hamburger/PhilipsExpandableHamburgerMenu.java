@@ -51,11 +51,10 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         initializeHamburgerParentView();
         moveDrawerToTop();
         initActionBar();
-        configureDrawer(getSupportActionBar());
+        configureDrawer();
         drawerListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                parent.expandGroup(groupPosition);
-                return false;
+                return true;
             }
         });
         updateSmartFooter();
@@ -141,7 +140,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         this.onItemClickListener = onItemClickListener;
     }
 
-    private void configureDrawer(final ActionBar actionBar) {
+    private void configureDrawer() {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
