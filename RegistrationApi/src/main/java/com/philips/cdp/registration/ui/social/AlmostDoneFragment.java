@@ -92,6 +92,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private ScrollView mSvRootLayout;
 
+    private Bundle mBundle;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onAttach");
@@ -198,15 +200,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void parseRegistrationInfo() {
 
-        Bundle bundle = getArguments();
-        if (null != bundle) {
+        mBundle = getArguments();
+        if (null != mBundle) {
             try {
                 JSONObject mPreRegJson = null;
-                mPreRegJson = new JSONObject(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
+                mPreRegJson = new JSONObject(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
 
                 if (null != mPreRegJson) {
-                    mProvider = bundle.getString(RegConstants.SOCIAL_PROVIDER);
-                    mRegistrationToken = bundle.getString(RegConstants.SOCIAL_REGISTRATION_TOKEN);
+                    mProvider = mBundle.getString(RegConstants.SOCIAL_PROVIDER);
+                    mRegistrationToken = mBundle.getString(RegConstants.SOCIAL_REGISTRATION_TOKEN);
 
                     if (!mPreRegJson.isNull(RegConstants.REGISTER_GIVEN_NAME)
                             && !RegConstants.SOCIAL_BLANK_CHARACTER.equals(mPreRegJson
@@ -267,7 +269,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
         mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
-        RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(),mTermsAndConditionClick);
+        RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
 
         mCbAcceptTerms.setOnCheckedChangeListener(this);
 
@@ -281,17 +283,24 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mPbSpinner.setEnabled(true);
 
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
-        mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
-        mTvSignInWith.setText(getResources().getString(R.string.RegSignWith_Lbltxt) + " "
-                + mProvider);
+
+        if(null!=mProvider){
+            mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
+        }
 
         if (isEmailExist) {
             mEtEmail.setVisibility(View.GONE);
             mBtnContinue.setEnabled(true);
         } else {
-            mEtEmail.setVisibility(View.VISIBLE);
+            if(mBundle ==null){
+                mBtnContinue.setEnabled(true);
+            }else{
+                View viewLine = (View)view.findViewById(R.id.reg_view_line);
+                viewLine.setVisibility(View.VISIBLE);
+                mEtEmail.setVisibility(View.VISIBLE);
+            }
         }
-        handleUiAcceptTerms();
+        handleUiAcceptTerms(view);
     }
 
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
@@ -315,10 +324,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         }
     }
 
-    private void handleUiAcceptTerms() {
+    private void handleUiAcceptTerms(View view) {
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
         } else {
+            View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
+            acceptTermsLine.setVisibility(View.GONE);
             mLlAcceptTermsContainer.setVisibility(View.GONE);
         }
     }
@@ -371,6 +382,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (v.getId() == R.id.reg_btn_continue) {
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
+            if(mBundle==null){
+                launchWelcomeFragment();
+                return;
+            }
             if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
                 if (mCbAcceptTerms.isChecked()) {
                     register();

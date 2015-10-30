@@ -186,7 +186,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void inflateEachProviderBtn(String provider) {
         try {
-            String providerName = "Welcome_" + provider + "_btntxt";
+            String providerName = provider;
             String providerDrawable = "reg_" + provider + "_ic";
 
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",

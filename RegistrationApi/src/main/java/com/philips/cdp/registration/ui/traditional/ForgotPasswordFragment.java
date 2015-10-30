@@ -259,7 +259,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
-        RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity());
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg_Title),
+                mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg),getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         hideForgotPasswordSpinner();
         mRegError.hideError();
         getFragmentManager().popBackStack();
@@ -295,6 +296,14 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         scrollViewAutomatically(mEtEmail, mSvRootLayout);
         trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
     }
+
+    private View.OnClickListener mContinueBtnClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            RegAlertDialog.dismissDialog();
+        }
+    };
 
     @Override
     protected void handleOrientation(View view) {

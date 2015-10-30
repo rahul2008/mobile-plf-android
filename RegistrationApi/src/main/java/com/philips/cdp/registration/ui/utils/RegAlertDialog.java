@@ -7,29 +7,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.AppTagging.AppTagging;
+import com.philips.cdp.registration.R;
 
 public class RegAlertDialog {
+	private static AlertDialog alertDialogBuilder;
+	public static void showResetPasswordDialog(String title, String content, Activity activity, View.OnClickListener continueBtnClickListener) {
 
-	public static void showResetPasswordDialog(Activity activity) {
-
-		final AlertDialog alertDialogBuilder = new AlertDialog.Builder(activity).create();
+		alertDialogBuilder = new AlertDialog.Builder(activity).create();
 		alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		alertDialogBuilder.setCancelable(true);
-		LayoutInflater myLayoutInflater = activity.getLayoutInflater();
-		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password, null);
-		Button continueBtn = (Button) myView.findViewById(R.id.btn_reg_continue);
-
-		continueBtn.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				alertDialogBuilder.dismiss();
-			}
-		});
-
-		alertDialogBuilder.setView(myView);
+		alertDialogBuilder.setCancelable(false);
+		LayoutInflater layoutInflater = activity.getLayoutInflater();
+		View view = layoutInflater.inflate(R.layout.dialog_reset_password, null);
+		Button continueBtn = (Button) view.findViewById(R.id.btn_reg_continue);
+		TextView titleView = (TextView)view.findViewById(R.id.tv_reg_header_dialog_title);
+		TextView contentView = (TextView)view.findViewById(R.id.tv_reg_dialog_content);
+		titleView.setText(title);
+		contentView.setText(content);
+		continueBtn.setOnClickListener(continueBtnClickListener);
+		alertDialogBuilder.setView(view);
 		alertDialogBuilder.show();
 	}
 
@@ -38,4 +36,12 @@ public class RegAlertDialog {
 		AppTagging.trackAction(state, statusNotification, continueStatus);
     }
 
+	public static void dismissDialog(){
+		if(alertDialogBuilder!=null){
+			alertDialogBuilder.dismiss();
+		}
+
+	}
+
 }
+

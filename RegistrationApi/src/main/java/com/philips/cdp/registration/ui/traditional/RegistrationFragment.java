@@ -295,6 +295,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(socialAlmostDoneFragment);
     }
 
+    public void addPlaneAlmostDoneFragment(){
+        AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
+        addFragment(almostDoneFragment);
+    }
+
     public void addMergeAccountFragment(String registrationToken, String provider, String emailId) {
         MergeAccountFragment mergeAccountFragment = new MergeAccountFragment();
         Bundle mergeFragmentBundle = new Bundle();
@@ -315,7 +320,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();
         addFragment(resetPasswordFragment);
     }
-
 
     public void hideKeyBoard() {
         InputMethodManager imm = (InputMethodManager) mActivity

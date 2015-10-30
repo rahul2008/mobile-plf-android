@@ -310,7 +310,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
-        RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity());
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg_Title),
+                mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg),getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         hideForgotPasswordSpinner();
         mBtnResend.setEnabled(true);
         mRegError.hideError();
@@ -458,4 +459,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mViewAttentionBoxLine.setVisibility(View.INVISIBLE);
         }
     }
+
+    private OnClickListener mContinueBtnClick = new OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            RegAlertDialog.dismissDialog();
+        }
+    };
 }

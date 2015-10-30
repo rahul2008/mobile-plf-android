@@ -30,6 +30,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -267,6 +268,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         trackPage(AppTaggingPages.WELCOME);
     }
 
+    private void launchAlmostFragment() {
+        getRegistrationFragment().addPlaneAlmostDoneFragment();
+        trackPage(AppTaggingPages.ALMOST_DONE);
+    }
+
+
+
     @Override
     public void setViewParams(Configuration config, int width) {
         applyParams(config, mTvVerifyEmail, width);
@@ -308,6 +316,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onResendVerificationEmailSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
         updateResendUIState();
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Verification_email_Title),
+                mContext.getResources().getString(R.string.Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+
         mBtnResend.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -355,4 +366,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         hideActivateSpinner();
         mBtnActivate.setEnabled(true);
     }
+
+    private OnClickListener mContinueBtnClick = new OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            RegAlertDialog.dismissDialog();
+            launchAlmostFragment();
+        }
+    };
 }
