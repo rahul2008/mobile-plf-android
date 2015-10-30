@@ -22,9 +22,9 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.horizontal.RequestManager;
-import com.philips.cdp.network.listeners.PRXCallback;
-import com.philips.cdp.serviceapi.productinformation.assets.Assets;
+/*import com.philips.cdp.horizontal.RequestManager;
+import com.philips.cdp.network.listeners.AssetListener;
+import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
 
 /**
  * ProductDetailsFragment will help to show product details.
@@ -75,14 +75,14 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         createProductDetailsMenu();
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS,
                 getPreviousName());
-
+/*
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 initPRX();
             }
         });
-    }
+  */  }
 
     private void createProductDetailsMenu() {
         TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
@@ -119,7 +119,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
 
-    protected void initPRX() {
+  /*  protected void initPRX() {
         final String COUNTRY_URL = "www.philips.co.uk";
         final String SECTOR = "B2C";
         final String LANGUAGE = "en";
@@ -135,10 +135,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mRequestManager.setCatalogCode(CATALOGCODE);
         mRequestManager.setCTN(CTN);
 
-        Assets mAssets = new Assets(new PRXCallback() {
+        Assets mAssets = new Assets(new AssetListener() {
             @Override
-            public void onSuccess() {
-                DigiCareLogger.d(TAG, "Successed Response");
+            public void onSuccess(Assets assets) {
+                DigiCareLogger.d(TAG, "Passed : " + assets.isSuccess());
             }
 
             @Override
@@ -148,7 +148,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         });
     }
 
-    /**
+   */ /**
      * Create RelativeLayout at runTime. RelativeLayout will have button and
      * image together.
      */
