@@ -21,9 +21,10 @@ Then I should see the "Launch DigitalCare as Fragment" button
 Then I select "English (en)" from "spinner1"
 Then I select "India (in)" from "spinner2"
 Then I wait for 3 seconds
-Then I click on DigitalCare as Activity
+Then I click on DigitalCare 
 Then I should see "Support" option
-Then I should see "How can we help?" option
+Then I wait for 2 seconds
+
 
 @Support2
 Scenario: To check the contents that are present when the app is launched
@@ -180,7 +181,7 @@ Then I wait for 3 seconds
 Then I click on DigitalCare
 Then I should see "Support" option
 Then I should see "View product information" option
-Then I should see "View FAQs" option
+Then I should see "View FAQs" option 
 Then I should see "Contact us" option
 Then I should see "Find Philips near you" option
 Then I should see "Tell us what you think" option
@@ -192,12 +193,12 @@ Then I should see "On Facebook" option
 Then I should see "Live chat" option
 Then I should see "Send email" option
 Then I should see the "Call 1800 102 2929 " button
-Then I touch the "Live chat" button
+Then I wait for 5 seconds
+Then I click on Livechat
 Then I should see "Chat with Philips" option
-Then I should see "Can we help you?" option
-Then I should see the "Chat now " button
-Then I should see the "Cancel " button
-Then I touch the "Chat now" button
+Then I should see the "Chat now" button
+Then I should see the "Cancel" button
+Then I click on Chatnow
 Then I should see "Chat now" option
 
 @NavigatingBack
@@ -225,12 +226,11 @@ Then I should see "Live chat" option
 Then I should see "Send email" option
 Then I should see the "Call 1800 102 2929 " button
 Then I wait for 5 seconds
-Then I touch the "Live chat" button
+Then I click on Livechat
 Then I should see "Chat with Philips" option
-Then I should see "Can we help you?" option
-Then I should see the "Chat now " button
-Then I should see the "Cancel " button
-Then I touch the "Chat now" button
+Then I should see the "Chat now" button
+Then I should see the "Cancel" button
+Then I click on Chatnow
 Then I should see "Chat now" option
 Then I click on back
 
@@ -259,7 +259,7 @@ Then I should see the "Write an app-review" button
 
 @facebook
 
-Scenario:Navigating to the previous screen
+Scenario:Checking the facebook option
 Given I see the text "DigitalCareSample"
 Then I wait for 2 seconds
 Then I should see the "Launch DigitalCare as Activity" button
@@ -286,20 +286,4 @@ Then I wait for 5 seconds
 Then I touch the "On Facebook" button
 Then I should see "Contact us" option
 Then I wait for 5 seconds
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
