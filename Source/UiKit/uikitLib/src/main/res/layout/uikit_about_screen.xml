@@ -34,7 +34,8 @@
                 fontPath="fonts/centralesansbold.ttf"
                 android:text="@string/uikit_about_screen_apptitle"
                 android:layout_marginTop="@dimen/uikit_about_screen_layout_top_margin"
-                android:layout_marginLeft="@dimen/uikit_about_screen_layout_left_margin"/>
+                android:layout_marginLeft="@dimen/uikit_about_screen_layout_left_margin"
+                android:includeFontPadding="false"/>
 
             <TextView
                 android:id="@+id/about_version"
@@ -46,7 +47,8 @@
                 android:textSize="@dimen/uikit_about_screen_version_copyright_size"
                 fontPath="fonts/centralesans_book.ttf"
                 android:text="@string/uikit_about_screen_version"
-                android:layout_marginLeft="@dimen/uikit_about_screen_layout_left_margin"/>
+                android:layout_marginLeft="@dimen/uikit_about_screen_version_copyright_left_margin"
+                android:includeFontPadding="false"/>
 
             <TextView
                 android:id="@+id/about_copyright"
@@ -58,7 +60,8 @@
                 android:textColor="#fff"
                 fontPath="fonts/centralesans_book.ttf"
                 android:text="@string/uikit_about_screen_copyright"
-                android:layout_marginLeft="@dimen/uikit_about_screen_layout_left_margin"/>
+                android:layout_marginLeft="@dimen/uikit_about_screen_version_copyright_left_margin"
+                android:includeFontPadding="false"/>
 
             <LinearLayout
                 android:id="@+id/about_termsandpolicy"
@@ -76,7 +79,8 @@
                     android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size"
                     android:textColor="#fff"
                     fontPath="fonts/centralesanslight.ttf"
-                    android:text="@string/uikit_about_screen_terms"/>
+                    android:text="@string/uikit_about_screen_terms"
+                    android:includeFontPadding="false"/>
 
                 <TextView
                     android:id="@+id/about_policy"
@@ -86,7 +90,8 @@
                     android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size"
                     android:textColor="#fff"
                     fontPath="fonts/centralesanslight.ttf"
-                    android:text="@string/uikit_about_screen_privacy"/>
+                    android:text="@string/uikit_about_screen_privacy"
+                    android:includeFontPadding="false"/>
 
             </LinearLayout>
 
@@ -100,8 +105,9 @@
                 android:layout_marginLeft="@dimen/uikit_about_screen_layout_rest_left_margin"
                 android:textSize="@dimen/uikit_about_screen_terms_privacy_content_size"
                 android:textColor="#fff"
-                android:lineSpacingExtra="8dp"
+                android:lineSpacingExtra="@dimen/uikit_about_screen_content_linespacing"
                 fontPath="fonts/centralesanslight.ttf"
+                android:includeFontPadding="false"
                 android:text="@string/uikit_about_screen_content"/>
         </RelativeLayout>
 
@@ -111,7 +117,6 @@
             android:layout_height="@dimen/uikit_about_screen_logo_height"
             android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/uikit_about_screen_logo_margin"
             android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin_bottom"
             app:vectorsrc="@drawable/uikit_philips_logo"/>
     </LinearLayout>

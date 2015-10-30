@@ -41,6 +41,8 @@
     <dimen name="uikit_about_screen_logo_width">67dp</dimen>
     <dimen name="uikit_about_screen_logo_height">85dp</dimen>
     <dimen name="uikit_about_screen_mm_logo_height">63dp</dimen>
+    <dimen name="uikit_about_screen_content_linespacing">8dp</dimen>
+    <dimen name="uikit_about_screen_version_copyright_left_margin">32dp</dimen>
 
     <dimen name="uikit_dot_navigation_selected_radius">6dp</dimen>
     <dimen name="uikit_dot_navigation_unselected_radius">4dp</dimen>
