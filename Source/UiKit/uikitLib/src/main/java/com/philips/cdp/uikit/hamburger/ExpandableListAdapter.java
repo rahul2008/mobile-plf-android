@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
@@ -21,22 +24,21 @@ import java.util.List;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Context _context;
-    private List<String> _listDataHeader; // header titles
-    // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
+    private Context context;
+    private List<String> listDataHeader;
+    private HashMap<String, List<HamburgerItem>> listDataChild;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
-        this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+                                 HashMap<String, List<HamburgerItem>> listChildData) {
+        this.context = context;
+        this.listDataHeader = listDataHeader;
+        this.listDataChild = listChildData;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+    public Object getChild(int groupPosition, int childPosition) {
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
+                .get(childPosition);
     }
 
     @Override
@@ -48,35 +50,67 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final HamburgerItem hamburgerItem = (HamburgerItem) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item, null);
+            convertView = inflater.inflate(R.layout.uikit_drawer_list_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
+        setLayoutParamsChild(convertView);
 
-        txtListChild.setText(childText);
+        TextView hamburgerItemText = (TextView) convertView
+                .findViewById(R.id.hamburger_item_text);
+
+        ImageView imageView = (ImageView) convertView
+                .findViewById(R.id.hamburger_list_icon);
+
+        TextView hamburgerItemCounter = (TextView) convertView
+                .findViewById(R.id.list_counter);
+
+        setValuesToViews(hamburgerItem, imageView, hamburgerItemText, hamburgerItemCounter);
         return convertView;
+    }
+
+    private void setValuesToViews(final HamburgerItem hamburgerItem, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
+        int icon = hamburgerItem.getIcon();
+        setImageView(imgIcon, icon);
+        txtTitle.setText(hamburgerItem.getTitle());
+        String count = hamburgerItem.getCount();
+        setTextView(txtCount, count);
+    }
+
+    private void setImageView(final ImageView imgIcon, final int icon) {
+        if (icon > 0) {
+            imgIcon.setImageResource(icon);
+        } else {
+            imgIcon.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void setTextView(final TextView txtCount, final String count) {
+        if (count != null && !count.equals("0")) {
+            txtCount.setText(count);
+        } else {
+            txtCount.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this.listDataHeader.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return this.listDataHeader.size();
     }
 
     @Override
@@ -87,20 +121,36 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
+
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) this._context
+            LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_group, null);
+            convertView = inflater.inflate(R.layout.uikit_hamburger_list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        setLayoutParamsGroup(convertView);
+
+
+        TextView hamburgerHeaderTitle = (TextView) convertView
+                .findViewById(R.id.hamburger_header);
+
+        hamburgerHeaderTitle.setText(headerTitle);
         ExpandableListView eLV = (ExpandableListView) parent;
         eLV.expandGroup(groupPosition);
         return convertView;
+    }
+
+    private void setLayoutParamsGroup(final View convertView) {
+        RelativeLayout linearLayoutParent = (RelativeLayout) convertView.findViewById(R.id.hamburger_group_parent);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)context.getResources().getDimension(R.dimen.uikit_hamburger_group_item_height));
+        linearLayoutParent.setLayoutParams(layoutParams);
+    }
+
+    private void setLayoutParamsChild(final View convertView) {
+        RelativeLayout linearLayoutParent = (RelativeLayout) convertView.findViewById(R.id.hamburger_child_parent);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)context.getResources().getDimension(R.dimen.uikit_hamburger_list_item_height));
+        linearLayoutParent.setLayoutParams(layoutParams);
     }
 
     @Override

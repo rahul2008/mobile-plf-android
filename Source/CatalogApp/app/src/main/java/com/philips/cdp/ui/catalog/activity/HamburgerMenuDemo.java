@@ -1,6 +1,5 @@
 package com.philips.cdp.ui.catalog.activity;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -24,9 +23,10 @@ import java.util.ArrayList;
  */
 public class HamburgerMenuDemo extends PhilipsHamburgerMenu {
 
-    private String[] navMenuTitles;
-    private TypedArray navMenuIcons;
+    private String[] hamburgerMenuTitles;
+    private TypedArray hamburgerMenuIcons;
     private HamburgerAdapter adapter;
+    private ArrayList<HamburgerItem> hamburgerItems;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -58,10 +58,10 @@ public class HamburgerMenuDemo extends PhilipsHamburgerMenu {
     }
 
     private void loadSlideMenuItems() {
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+        hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
 
-        navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
+        hamburgerMenuIcons = getResources()
+                .obtainTypedArray(R.array.hamburger_drawer_icons);
 
         hamburgerItems = new ArrayList<>();
     }
@@ -77,33 +77,33 @@ public class HamburgerMenuDemo extends PhilipsHamburgerMenu {
     }
 
     private void addDrawerItems() {
-//        hamburgerItems.add(new HamburgerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), "50+"));
-        for (int i = 0; i < navMenuTitles.length; i++) {
-            hamburgerItems.add(new HamburgerItem(navMenuTitles[i], 0));
+//        hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[5], hamburgerMenuIcons.getResourceId(5, -1), "50+"));
+        for (int i = 0; i < hamburgerMenuTitles.length; i++) {
+            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0));
         }
     }
 
     private void addDrawerItemsWithIcons() {
-        for (int i = 0; i < navMenuTitles.length; i++) {
-            hamburgerItems.add(new HamburgerItem(navMenuTitles[i], navMenuIcons.getResourceId(i, -1)));
+        for (int i = 0; i < hamburgerMenuTitles.length; i++) {
+            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1)));
         }
     }
 
     private void setDrawerAdaptor() {
         adapter = new HamburgerAdapter(this,
                 hamburgerItems);
-        drawerListView.setAdapter(adapter);
+        getDrawerListView().setAdapter(adapter);
     }
 
     private void displayView(int position) {
         final HamburgerFragment fragment = new HamburgerFragment();
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
-            Bundle bundle = getBundle(navMenuTitles[position],navMenuIcons.getResourceId(position,-1));
+            Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction()
                     .replace(getFragmentContainerID(), fragment).commit();
-            setTitle(navMenuTitles[position]);
+            setTitle(hamburgerMenuTitles[position]);
             closeDrawer();
         } else {
             Log.e(getClass()+"", "Error in creating fragment");

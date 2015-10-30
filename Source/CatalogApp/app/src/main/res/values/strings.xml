@@ -20,7 +20,7 @@
     <string name="sample_button">Sample button</string>
     <string name="uikit_hamburger">Hamburger</string>
 
-    <string-array name="nav_drawer_items">
+    <string-array name="hamburger_drawer_items">
         <item>Quisque</item>
         <item>Eget Odio</item>
         <item>Ac Lectus</item>
@@ -31,7 +31,7 @@
         <item>Tortor</item>
     </string-array>
 
-    <array name="nav_drawer_icons">
+    <array name="hamburger_drawer_icons">
         <item>@drawable/ic_home</item>
         <item>@drawable/ic_people</item>
         <item>@drawable/ic_photos</item>

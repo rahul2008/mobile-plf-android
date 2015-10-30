@@ -33,8 +33,7 @@ import java.util.ArrayList;
  */
 public class PhilipsHamburgerMenu extends UiKitActivity {
 
-    protected ListView drawerListView;
-    protected ArrayList<HamburgerItem> hamburgerItems;
+    private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private TextView actionBarTitle;
@@ -160,7 +159,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
             public void run() {
                 int numItemsVisible = drawerListView.getLastVisiblePosition() -
                         drawerListView.getFirstVisiblePosition();
-                if (hamburgerItems != null && hamburgerItems.size() - 1 >= numItemsVisible) {
+                if (drawerListView != null && drawerListView.getCount() - 1 >= numItemsVisible) {
                     LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View v = vi.inflate(R.layout.uikit_footer_view, null);
                     VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
@@ -200,10 +199,10 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     }
 
     private void initializeDrawerViews(final DrawerLayout drawer) {
-        drawer.findViewById(R.id.list_slidingmenu).setPadding(0, getStatusBarHeight(), 0, 0);
+        drawer.findViewById(R.id.hamburger_list).setPadding(0, getStatusBarHeight(), 0, 0);
         listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
         drawerLayout = (DrawerLayout) drawer.findViewById(R.id.drawer_layout);
-        drawerListView = (ListView) drawer.findViewById(R.id.list_slidingmenu);
+        drawerListView = (ListView) drawer.findViewById(R.id.hamburger_list);
         footerImage = (VectorDrawableImageView) drawer.findViewById(R.id.image);
     }
 
@@ -216,7 +215,8 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         return result;
     }
 
-    public DrawerLayout getDrawerLayout() {
-        return drawerLayout;
+    public ListView getDrawerListView() {
+        return drawerListView;
     }
+
 }

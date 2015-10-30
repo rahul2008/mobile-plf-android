@@ -33,8 +33,6 @@ import java.util.List;
  */
 public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
 
-    protected List<String> listDataHeader;
-    protected HashMap<String, List<String>> listDataChild;
     protected ExpandableListView drawerListView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -52,13 +50,17 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         moveDrawerToTop();
         initActionBar();
         configureDrawer();
+        disableGroupCollapse();
+        updateSmartFooter();
+        setHamburgerChildItemClickListener();
+    }
+
+    private void disableGroupCollapse() {
         drawerListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 return true;
             }
         });
-        updateSmartFooter();
-        setHamburgerItemClickListener();
     }
 
     private void initializeHamburgerParentView() {
@@ -78,20 +80,20 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     }
 
     private void initializeDrawerViews(final DrawerLayout drawer) {
-        drawer.findViewById(R.id.list_slidingmenu).setPadding(0, getStatusBarHeight(), 0, 0);
+        drawer.findViewById(R.id.hamburger_list).setPadding(0, getStatusBarHeight(), 0, 0);
         listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
         drawerLayout = (DrawerLayout) drawer.findViewById(R.id.drawer_layout);
-        drawerListView = (ExpandableListView) drawer.findViewById(R.id.list_slidingmenu);
+        drawerListView = (ExpandableListView) drawer.findViewById(R.id.hamburger_list);
         footerImage = (VectorDrawableImageView) drawer.findViewById(R.id.image);
     }
 
     private int getStatusBarHeight() {
-        int result = 0;
+        int height = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
+            height = getResources().getDimensionPixelSize(resourceId);
         }
-        return result;
+        return height;
     }
 
     public void setContentView(int layoutResId) {
@@ -123,7 +125,7 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         parentView.addView(view);
     }
 
-    private void setHamburgerItemClickListener() {
+    private void setHamburgerChildItemClickListener() {
 
         drawerListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -234,4 +236,9 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         drawerLayout.updateViewLayout(listViewParentLayout, layoutParams);
         drawerLayout.closeDrawer(listViewParentLayout);
     }
+
+    public ExpandableListView getDrawerListView() {
+        return drawerListView;
+    }
+
 }

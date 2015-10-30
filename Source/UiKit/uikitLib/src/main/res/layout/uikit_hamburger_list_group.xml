@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/uikit_hamburger_group_item_height"
+              android:id="@+id/hamburger_group_parent"
+              android:background="?attr/baseColor"
+              >
+
+    <TextView
+        android:id="@+id/hamburger_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="@dimen/uikit_hamburger_item_title_left_margin"
+        fontPath="fonts/centralesansbold.ttf"
+        android:textSize="@dimen/uikit_hamburger_item_text_title_size"/>
+
+</RelativeLayout>

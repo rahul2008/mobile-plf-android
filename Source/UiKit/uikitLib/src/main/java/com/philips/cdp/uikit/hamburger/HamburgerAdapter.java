@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
@@ -45,6 +46,7 @@ public class HamburgerAdapter extends BaseAdapter {
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, null);
         }
+        setLayoutParamsChild(convertView);
         ImageView imgIcon = (ImageView) convertView.findViewById(R.id.hamburger_list_icon);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
         TextView txtCount = (TextView) convertView.findViewById(R.id.list_counter);
@@ -70,11 +72,17 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     private void setImageView(final ImageView imgIcon, final int icon) {
-        if (icon != 0) {
+        if (icon > 0) {
             imgIcon.setImageResource(icon);
         }
         else{
             imgIcon.setVisibility(View.GONE);
         }
+    }
+
+    private void setLayoutParamsChild(final View convertView) {
+        RelativeLayout linearLayoutParent = (RelativeLayout) convertView.findViewById(R.id.hamburger_child_parent);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)context.getResources().getDimension(R.dimen.uikit_hamburger_list_item_height));
+        linearLayoutParent.setLayoutParams(layoutParams);
     }
 }

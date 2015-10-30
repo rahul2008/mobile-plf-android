@@ -1,6 +1,5 @@
 package com.philips.cdp.ui.catalog.activity;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.widget.ExpandableListView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
 import com.philips.cdp.uikit.hamburger.ExpandableListAdapter;
+import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsExpandableHamburgerMenu;
 
 import java.util.ArrayList;
@@ -25,8 +25,11 @@ import java.util.List;
  */
 public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu {
 
-    private String[] navMenuTitles;
-    private TypedArray navMenuIcons;
+    private String[] hamburgerMenuTitles;
+    private TypedArray hamburgerMenuIcons;
+    private List<String> listDataHeader;
+    private HashMap<String, List<HamburgerItem>> listDataChild;
+    private ArrayList<HamburgerItem> hamburgerItems;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -34,27 +37,30 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         setContentView(R.layout.hamburger_demo);
         loadSlideMenuItems();
         prepareListData();
-        final ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-        drawerListView.setAdapter(listAdapter);
+        setHamburgerAdaptor();
         if (savedInstanceState == null) {
-            displayView(0);
+            displayView(0, 0);
         }
 
         setOnItemClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(final ExpandableListView parent, final View v, final int groupPosition, final int childPosition, final long id) {
+                displayView(groupPosition, childPosition);
                 return false;
             }
         });
         setTitle(getResources().getString(R.string.app_name));
     }
 
+    private void setHamburgerAdaptor() {
+        final ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        drawerListView.setAdapter(listAdapter);
+    }
+
     private void loadSlideMenuItems() {
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-
-        navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
-
+        hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
+        hamburgerMenuIcons = getResources()
+                .obtainTypedArray(R.array.hamburger_drawer_icons);
     }
 
     @Override
@@ -67,18 +73,18 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         }
     }
 
-    private void displayView(int position) {
+    private void displayView(int groupPosition, final int childPosition) {
         final HamburgerFragment fragment = new HamburgerFragment();
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
-            Bundle bundle = getBundle(navMenuTitles[position], navMenuIcons.getResourceId(position, -1));
+            Bundle bundle = getBundle(hamburgerMenuTitles[groupPosition], hamburgerMenuIcons.getResourceId(groupPosition, -1));
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction()
                     .replace(getFragmentContainerID(), fragment).commit();
-            setTitle(navMenuTitles[position]);
+            setTitle(hamburgerMenuTitles[groupPosition]);
             closeDrawer();
         } else {
-            Log.e(getClass()+"", "Error in creating fragment");
+            Log.e(getClass() + "", "Error in creating fragment");
         }
     }
 
@@ -94,37 +100,35 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 
-        // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
+        listDataHeader.add("Title Long");
+        listDataHeader.add("Title long");
 
-        // Adding child data
-        List<String> top250 = new ArrayList<>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
+        int feature = getIntent().getIntExtra("feature", -1);
 
-        List<String> nowShowing = new ArrayList<>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
 
-        List<String> comingSoon = new ArrayList<>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
+        List<HamburgerItem> Title_Long = new ArrayList<>();
+        List<HamburgerItem> Title_long = new ArrayList<>();
+        if (feature == 1) {
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[0], 0));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], 0));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], 0));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], 0));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], 0));
 
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], 0));
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], 0));
+        } else if (feature == 2) {
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[0], hamburgerMenuIcons.getResourceId(0, -1)));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], hamburgerMenuIcons.getResourceId(1, -1)));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], hamburgerMenuIcons.getResourceId(2, -1)));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], hamburgerMenuIcons.getResourceId(3, -1)));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], hamburgerMenuIcons.getResourceId(4, -1)));
+
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], hamburgerMenuIcons.getResourceId(5, -1)));
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], hamburgerMenuIcons.getResourceId(6, -1)));
+        }
+
+        listDataChild.put(listDataHeader.get(0), Title_Long);
+        listDataChild.put(listDataHeader.get(1), Title_long);
     }
 }
