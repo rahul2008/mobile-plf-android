@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -97,7 +96,6 @@ public class HamburgerMenuDemo extends PhilipsHamburgerMenu {
 
     private void displayView(int position) {
         final HamburgerFragment fragment = new HamburgerFragment();
-        if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
             fragment.setArguments(bundle);
@@ -105,9 +103,6 @@ public class HamburgerMenuDemo extends PhilipsHamburgerMenu {
                     .replace(getFragmentContainerID(), fragment).commit();
             setTitle(hamburgerMenuTitles[position]);
             closeDrawer();
-        } else {
-            Log.e(getClass()+"", "Error in creating fragment");
-        }
     }
 
     @NonNull

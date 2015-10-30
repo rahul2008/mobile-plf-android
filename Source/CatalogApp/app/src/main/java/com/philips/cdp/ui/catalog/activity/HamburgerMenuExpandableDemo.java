@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -29,7 +28,6 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
     private TypedArray hamburgerMenuIcons;
     private List<String> listDataHeader;
     private HashMap<String, List<HamburgerItem>> listDataChild;
-    private ArrayList<HamburgerItem> hamburgerItems;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -75,17 +73,15 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
 
     private void displayView(int groupPosition, final int childPosition) {
         final HamburgerFragment fragment = new HamburgerFragment();
-        if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
-            Bundle bundle = getBundle(hamburgerMenuTitles[groupPosition], hamburgerMenuIcons.getResourceId(groupPosition, -1));
+        List<HamburgerItem> child = listDataChild.get(listDataHeader.get(groupPosition));
+        HamburgerItem hamburgerItem = child.get(childPosition);
+        Bundle bundle = getBundle(hamburgerItem.getTitle(), hamburgerMenuIcons.getResourceId(groupPosition, -1));
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction()
                     .replace(getFragmentContainerID(), fragment).commit();
-            setTitle(hamburgerMenuTitles[groupPosition]);
+        setTitle(hamburgerItem.getTitle());
             closeDrawer();
-        } else {
-            Log.e(getClass() + "", "Error in creating fragment");
-        }
     }
 
     @NonNull
@@ -104,7 +100,6 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         listDataHeader.add("Title long");
 
         int feature = getIntent().getIntExtra("feature", -1);
-
 
         List<HamburgerItem> Title_Long = new ArrayList<>();
         List<HamburgerItem> Title_long = new ArrayList<>();
