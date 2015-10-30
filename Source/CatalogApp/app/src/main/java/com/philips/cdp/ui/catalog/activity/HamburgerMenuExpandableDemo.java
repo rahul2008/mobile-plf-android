@@ -2,7 +2,9 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,11 +25,14 @@ import java.util.List;
  */
 public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu {
 
+    private String[] navMenuTitles;
+    private TypedArray navMenuIcons;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hamburger_demo);
+        loadSlideMenuItems();
         prepareListData();
         final ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         drawerListView.setAdapter(listAdapter);
@@ -44,6 +49,14 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
         setTitle(getResources().getString(R.string.app_name));
     }
 
+    private void loadSlideMenuItems() {
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+
+        navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -55,25 +68,26 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
     }
 
     private void displayView(int position) {
-        // update the main content by replacing fragments
-        Fragment fragment = null;
-        switch (position) {
-            case 0:
-                fragment = new HamburgerFragment();
-                break;
-        }
-
+        final HamburgerFragment fragment = new HamburgerFragment();
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
+            Bundle bundle = getBundle(navMenuTitles[position], navMenuIcons.getResourceId(position, -1));
+            fragment.setArguments(bundle);
             fragmentManager.beginTransaction()
                     .replace(getFragmentContainerID(), fragment).commit();
-            drawerListView.setItemChecked(position, true);
-            drawerListView.setSelection(position);
+            setTitle(navMenuTitles[position]);
             closeDrawer();
         } else {
-            // error in creating fragment
-            Log.e(getClass() + "", "Error in creating fragment");
+            Log.e(getClass()+"", "Error in creating fragment");
         }
+    }
+
+    @NonNull
+    private Bundle getBundle(final String navMenuTitle, final int resourceId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("data", navMenuTitle);
+        bundle.putInt("resId", resourceId);
+        return bundle;
     }
 
     private void prepareListData() {
