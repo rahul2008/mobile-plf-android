@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -186,46 +187,15 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
         }
     }
 
-    private void updateSmartFooter() {
-        drawerListView.post(new Runnable() {
-            @Override
-            public void run() {
-                int numItemsVisible = drawerListView.getLastVisiblePosition() -
-                        drawerListView.getFirstVisiblePosition();
-
-                if (drawerListView.getAdapter() != null && listVisibleRowsForExpandableGroup() > numItemsVisible) {
-                    LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View v = vi.inflate(R.layout.uikit_footer_view, null);
-                    VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
-                    setLogoCenterWithMargins(vectorDrawableImageView);
-                    drawerListView.addFooterView(v);
-                    setVectorImage(vectorDrawableImageView);
-                } else {
-                    footerImage.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-    }
-
     private void setVectorImage(final VectorDrawableImageView vectorDrawableImageView) {
         int resID = R.drawable.uikit_philips_logo;
         vectorDrawableImageView.setImageDrawable(VectorDrawable.create(PhilipsExpandableHamburgerMenu.this, resID));
     }
 
-    private int listVisibleRowsForExpandableGroup() {
-        int firstVis = drawerListView.getFirstVisiblePosition();
-        int lastVis = drawerListView.getLastVisiblePosition();
-        int count = firstVis;
-        while (count <= lastVis) {
-            count++;
-        }
-        return count;
-    }
-
     private void setLogoCenterWithMargins(final VectorDrawableImageView vectorDrawableImageView) {
         Resources resources = getResources();
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
-        lp.setMargins(0, 50, 0, 50);
+        lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         vectorDrawableImageView.setLayoutParams(lp);
     }
@@ -235,6 +205,50 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT);
         drawerLayout.updateViewLayout(listViewParentLayout, layoutParams);
         drawerLayout.closeDrawer(listViewParentLayout);
+    }
+
+    private void updateSmartFooter() {
+        drawerListView.post(new Runnable() {
+            @Override
+            public void run() {
+                int heightPixels = getDeviceHeightPixels();
+                int adaptorTotalHeight = getAdaptorTotalHeight();
+                validateLogoView(heightPixels, adaptorTotalHeight);
+            }
+        });
+    }
+
+    private void validateLogoView(final int heightPixels, final int adaptorTotalHeight) {
+        if (adaptorTotalHeight > heightPixels) {
+            LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = vi.inflate(R.layout.uikit_footer_view, null);
+            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
+            setLogoCenterWithMargins(vectorDrawableImageView);
+            drawerListView.addFooterView(v);
+            setVectorImage(vectorDrawableImageView);
+        } else {
+            footerImage.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private int getDeviceHeightPixels() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        PhilipsExpandableHamburgerMenu.this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
+    }
+
+    private int getAdaptorTotalHeight() {
+        int childCount = drawerListView.getAdapter().getCount();
+        if (drawerListView != null) {
+            int groupCount = getGroupCount();
+            return (int) ((childCount + groupCount) * getResources().getDimension(R.dimen.uikit_hamburger_list_item_height));
+        }
+        return 0;
+    }
+
+    private int getGroupCount() {
+        ExpandableListAdapter expandableListAdapter = (ExpandableListAdapter) drawerListView.getExpandableListAdapter();
+        return expandableListAdapter.getGroupCount();
     }
 
     public ExpandableListView getDrawerListView() {

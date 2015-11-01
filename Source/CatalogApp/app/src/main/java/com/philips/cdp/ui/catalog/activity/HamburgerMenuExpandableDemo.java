@@ -108,7 +108,7 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], 0));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], 0));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], 0));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], 0));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], 0));
 
             Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], 0));
             Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], 0));
@@ -117,7 +117,7 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], hamburgerMenuIcons.getResourceId(1, -1)));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], hamburgerMenuIcons.getResourceId(2, -1)));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], hamburgerMenuIcons.getResourceId(3, -1)));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], hamburgerMenuIcons.getResourceId(4, -1)));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], hamburgerMenuIcons.getResourceId(4, -1)));
 
             Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], hamburgerMenuIcons.getResourceId(5, -1)));
             Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], hamburgerMenuIcons.getResourceId(6, -1)));

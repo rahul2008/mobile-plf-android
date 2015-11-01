@@ -29,6 +29,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="start"
                 android:dividerHeight="1dp"
+                android:scrollbars="none"
                 >
 
             </ListView>

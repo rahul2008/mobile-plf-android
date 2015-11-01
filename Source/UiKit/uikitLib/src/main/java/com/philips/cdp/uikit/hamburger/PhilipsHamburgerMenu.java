@@ -7,12 +7,15 @@ import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -25,6 +28,8 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -157,20 +162,37 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         drawerListView.post(new Runnable() {
             @Override
             public void run() {
-                int numItemsVisible = drawerListView.getLastVisiblePosition() -
-                        drawerListView.getFirstVisiblePosition();
-                if (drawerListView != null && drawerListView.getCount() - 1 >= numItemsVisible) {
-                    LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View v = vi.inflate(R.layout.uikit_footer_view, null);
-                    VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
-                    setLogoCenterWithMargins(vectorDrawableImageView);
-                    drawerListView.addFooterView(v);
-                    setVectorImage(vectorDrawableImageView);
-                } else {
-                    footerImage.setVisibility(View.VISIBLE);
-                }
+                int heightPixels = getDeviceHeightPixels();
+                int adaptorTotalHeight = getAdaptorTotalHeight();
+                validateLogoView(heightPixels, adaptorTotalHeight);
             }
         });
+    }
+
+    private void validateLogoView(final int heightPixels, final int adaptorTotalHeight) {
+        if (adaptorTotalHeight > heightPixels) {
+            LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = vi.inflate(R.layout.uikit_footer_view, null);
+            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
+            setLogoCenterWithMargins(vectorDrawableImageView);
+            drawerListView.addFooterView(v);
+            setVectorImage(vectorDrawableImageView);
+        } else {
+            footerImage.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private int getDeviceHeightPixels() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        PhilipsHamburgerMenu.this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
+    }
+
+    private int getAdaptorTotalHeight() {
+        if (drawerListView != null && drawerListView.getAdapter().getCount() != 0) {
+            return (int) (drawerListView.getAdapter().getCount() * getResources().getDimension(R.dimen.uikit_hamburger_list_item_height));
+        }
+        return 0;
     }
 
     private void setVectorImage(final VectorDrawableImageView vectorDrawableImageView) {
