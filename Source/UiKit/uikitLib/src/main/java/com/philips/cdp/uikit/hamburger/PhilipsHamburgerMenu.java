@@ -186,7 +186,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
             View v = vi.inflate(R.layout.uikit_footer_view, null);
             VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
             setLogoCenterWithMargins(vectorDrawableImageView);
-            drawerListView.addFooterView(v);
+            drawerListView.addFooterView(v, null, false);
             setVectorImage(vectorDrawableImageView);
         } else {
             footerImage.setVisibility(View.VISIBLE);
