@@ -1,12 +1,9 @@
-package horizontal.cdp.prxsample;
+package com.cdp.prx.databuilder;
 
 import horizontal.cdp.prxcomponent.PrxDataBuilder;
 import horizontal.cdp.prxcomponent.ResponseData;
 
-/**
- * Created by 310190678 on 02-Nov-15.
- */
-public class ProductAssetBuilder extends PrxDataBuilder{
+public class ProductAssetBuilder extends PrxDataBuilder {
 
     private String mCtn = null;
     private String mRequestTag = null;

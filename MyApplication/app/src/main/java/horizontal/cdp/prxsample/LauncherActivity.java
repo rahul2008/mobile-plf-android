@@ -2,13 +2,17 @@ package horizontal.cdp.prxsample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import horizontal.cdp.prxcomponent.RequestManager;
-import horizontal.cdp.prxcomponent.ResponseListener;
+import com.cdp.prx.databuilder.ProductAssetBuilder;
 
-public class LauncherActivity extends AppCompatActivity {
+import horizontal.cdp.prxcomponent.RequestManager;
+import horizontal.cdp.prxcomponent.listeners.ResponseHandler;
+import horizontal.cdp.prxcomponent.listeners.ResponseListener;
+
+public class LauncherActivity extends AppCompatActivity{
 
     private static final String TAG = LauncherActivity.class.getSimpleName();
 
@@ -18,6 +22,7 @@ public class LauncherActivity extends AppCompatActivity {
     private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
     private String mRequestTag = null;
+
 
 
     @Override
@@ -32,22 +37,23 @@ public class LauncherActivity extends AppCompatActivity {
         super.onStart();
 
         ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, mRequestTag);
-        mProductAssetBuilder.setmServerInfo("www.philips.co.uk/prx");
+        mProductAssetBuilder.setmServerInfo(mServerInfo);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
         mProductAssetBuilder.setmLocale(mLocale);
         mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setmCtnCode(mCtn);
 
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(getApplicationContext());
         mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
             @Override
             public void onSuccess() {
-
+                Log.d(TAG, "Vertical Side Success Callback");
             }
 
             @Override
             public void onFail() {
-
+                Log.d(TAG, "Vertical Side Fail Callback");
             }
         });
 }
@@ -73,4 +79,6 @@ public class LauncherActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
