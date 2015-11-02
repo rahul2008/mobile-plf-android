@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.AppTagging.AppTagging;
-import com.philips.cdp.registration.AppTagging.AppTaggingPages;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -52,8 +53,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "LocaleMatch Version :" + PILLocaleManager.getLacaleMatchVersion());
         RLog.i(RLog.VERSION, "Registration Version :" + RegistrationHelper.getRegistrationApiVersion());
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
-        AppTagging.setComponentVersionKey(REGISTRATION_VERSION_TAG);
-        AppTagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
+        Tagging.setComponentVersionKey(REGISTRATION_VERSION_TAG);
+        Tagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
         super.onCreate(savedInstanceState);
     }
 

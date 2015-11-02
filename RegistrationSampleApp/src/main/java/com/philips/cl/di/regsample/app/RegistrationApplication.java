@@ -4,7 +4,7 @@ package com.philips.cl.di.regsample.app;
 import android.app.Application;
 
 import com.adobe.mobile.Config;
-import com.philips.cdp.registration.AppTagging.AppTagging;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -24,9 +24,22 @@ public class RegistrationApplication extends Application {
 		                + Locale.getDefault());
 
 		mRegistrationHelper = RegistrationHelper.getInstance();
-		AppTagging.enableAppTagging(true);
-		AppTagging.setTrackingIdentifier("integratingApplicationAppsId");
-		AppTagging.setLaunchingPageName("demoapp:home");
+
+		//Tagging.init(Locale.getDefault(), getApplicationContext());
+		RegistrationHelper.getInstance().setCoppaFlow(true);
+
+		//Tagging.setLaunchingPageName("demoapp:home");
+
+
+		Tagging.enableAppTagging(true);
+		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
+		Tagging.setLaunchingPageName("demoapp:home");
+
+		Locale mlocale = Locale.getDefault();
+		if (RegistrationHelper.getInstance().isCoppaFlow()) {
+			mlocale = new Locale("en_US");
+		}
+		Tagging.init(mlocale, this);
 		mRegistrationHelper.intializeRegistrationSettings(this,
 				Locale.getDefault());
 

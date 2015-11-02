@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.ConfigurationParser;
 import com.philips.cdp.registration.configuration.HSDPClientInfo;
@@ -26,6 +25,7 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.tagging.Tagging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -118,7 +118,7 @@ public class RegistrationHelper {
     public void intializeRegistrationSettings(final Context context,
                                               Locale locale) {
 
-        if (null == AppTagging.getTrackingIdentifer()) {
+        if (null == Tagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
         }
 

@@ -17,9 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 
-import com.philips.cdp.registration.AppTagging.AppTagging;
-import com.philips.cdp.registration.AppTagging.AppTaggingErrors;
-import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTaggingErrors;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RLog;
 

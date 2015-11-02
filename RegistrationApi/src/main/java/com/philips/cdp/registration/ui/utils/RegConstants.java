@@ -102,7 +102,7 @@ public class RegConstants {
 
     public static final String FONT_PATH = "registration/fonts/";
 
-    public static final String CONFIGURATION_JSON_PATH = "registration/configuration/configuration.json";
+    public static final String CONFIGURATION_JSON_PATH = "registration/configuration/configuration_coppa.json";
 
     public static final String REGISTRATION_FRAGMENT_TAG = "Registration_fragment_tag";
 

@@ -49,9 +49,10 @@ android {
 dependencies {
     compile project(':jump')
     compile project(':localeMatch')
-    compile project(':adobeMobileLibrary-4.5.1')
+
     compile project(':hsdp')
     compile project(':org.apache.http.legacy')
+    compile project(':Tagging')
 
     androidTestCompile project(':dexmaker-1.0')
     androidTestCompile project(':dexmaker-mockito-1.0')

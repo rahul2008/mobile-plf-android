@@ -1,6 +1,6 @@
-package com.philips.cdp.registration.apptagging;
+package com.philips.cdp.tagging;
 
-public class AppTagingConstants {
+public class TaggingConstants {
 
 	public static final String DEFAULT_COUNTRY = "global";
 

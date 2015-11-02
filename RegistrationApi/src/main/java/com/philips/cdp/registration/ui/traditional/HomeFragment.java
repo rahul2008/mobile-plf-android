@@ -22,8 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.AppTagging.AppTaggingPages;
-import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;

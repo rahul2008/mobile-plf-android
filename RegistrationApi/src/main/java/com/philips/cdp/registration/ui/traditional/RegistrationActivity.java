@@ -4,7 +4,6 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adobe.mobile.Config;
-import com.philips.cdp.registration.AppTagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;

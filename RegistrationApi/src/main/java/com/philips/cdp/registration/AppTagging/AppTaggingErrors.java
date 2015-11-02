@@ -1,5 +1,7 @@
 
-package com.philips.cdp.registration.AppTagging;
+package com.philips.cdp.registration.apptagging;
+
+
 
 public class AppTaggingErrors {
 

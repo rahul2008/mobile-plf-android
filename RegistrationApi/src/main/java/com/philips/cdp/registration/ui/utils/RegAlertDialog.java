@@ -9,7 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.AppTagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.R;
 
 public class RegAlertDialog {
