@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="uikit_philips_action_button_radius">33dp</dimen>
-    <dimen name="uikit_philips_button_square_corner_radius">5.5dp</dimen>
     <dimen name="uikit_philips_action_button_text_size">9dp</dimen>
     <dimen name="uikit_philips_action_button_padding">2dp</dimen>
     <dimen name="uikit_action_button_shadow_radius">6dp</dimen>
@@ -44,8 +43,11 @@
     <dimen name="uikit_about_screen_content_linespacing">8dp</dimen>
     <dimen name="uikit_about_screen_version_copyright_left_margin">32dp</dimen>
 
-    <dimen name="uikit_dot_navigation_selected_radius">6dp</dimen>
-    <dimen name="uikit_dot_navigation_unselected_radius">4dp</dimen>
+    <dimen name="uikit_dot_navigation_selected_width">12dp</dimen>
+    <dimen name="uikit_dot_navigation_selected_height">12dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_width">7dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_height">7dp</dimen>
+    <dimen name="uikit_dot_navigation_distance_between_circles">9dp</dimen>
 
     <!-- Tab layout -->
     <dimen name="uikit_tab_layout_height_with_image">85dp</dimen>
