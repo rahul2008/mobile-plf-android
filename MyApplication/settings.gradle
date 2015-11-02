@@ -1,1 +1,1 @@
-include ':app', ':prx'
+include ':app', ':prx', ':gson', ':gson-2.2.2'

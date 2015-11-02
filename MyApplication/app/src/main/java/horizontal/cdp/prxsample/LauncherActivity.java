@@ -5,13 +5,52 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import horizontal.cdp.prxcomponent.RequestManager;
+import horizontal.cdp.prxcomponent.ResponseListener;
+
 public class LauncherActivity extends AppCompatActivity {
+
+    private static final String TAG = LauncherActivity.class.getSimpleName();
+
+    private String mCtn = "RQ1250/17";
+    private String mServerInfo = "www.philips.co.uk/prx";
+    private String mSectorCode = "B2C";
+    private String mLocale = "en_GB";
+    private String mCatalogCode = "CONSUMER";
+    private String mRequestTag = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, mRequestTag);
+        mProductAssetBuilder.setmServerInfo("www.philips.co.uk/prx");
+        mProductAssetBuilder.setmSectorCode(mSectorCode);
+        mProductAssetBuilder.setmLocale(mLocale);
+        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+
+        RequestManager mRequestManager = new RequestManager();
+        mRequestManager.init(getApplicationContext());
+        mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
