@@ -40,6 +40,8 @@ dependencies {
     androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
     androidTestCompile files('libs/junit-4.12.jar')
     androidTestCompile files('libs/mockito-all-1.10.8.jar')
+    compile project(':PrxComponent')
+    compile project(':gson')
 }
 
 
