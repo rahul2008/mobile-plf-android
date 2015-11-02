@@ -10,8 +10,8 @@
     <dimen name="uikit_splash_logo_margin_bottom">53dp</dimen>
     <dimen name="uikit_splash_logo_height">138dp</dimen>
     <dimen name="uikit_splash_logo_width">109dp</dimen>
-    <dimen name="uikit_splash_title_margin_top">85dp</dimen>
-    <dimen name="uikit_splash_title_margin_bottom">49dp</dimen>
+    <dimen name="uikit_splash_title_margin_top">53dp</dimen>
+    <dimen name="uikit_splash_title_margin_bottom">53dp</dimen>
     <dimen name="uikit_splash_title_text_size">38dp</dimen>
 
     <dimen name="uikit_button_corner_rounding">2dp</dimen>
@@ -23,27 +23,30 @@
     <!-- About screen -->
     <dimen name="uikit_about_screen_apptitle_size">24dp</dimen>
     <dimen name="uikit_about_screen_actionbar_title_size">20dp</dimen>
-    <dimen name="uikit_about_screen_actionbar_icon_margin">13dp</dimen>
+    <dimen name="uikit_about_screen_actionbar_icon_margin">14dp</dimen>
     <dimen name="uikit_about_screen_version_copyright_size">16dp</dimen>
     <dimen name="uikit_about_screen_terms_privacy_content_size">14dp</dimen>
-    <dimen name="uikit_about_screen_version_margin">14dp</dimen>
-    <dimen name="uikit_about_screen_copyright_margin">12dp</dimen>
-    <dimen name="uikit_about_screen_terms_margin">28dp</dimen>
-    <dimen name="uikit_about_screen_privacy_margin">28dp</dimen>
-    <dimen name="uikit_about_screen_content_top_margin">29dp</dimen>
+    <dimen name="uikit_about_screen_version_margin">14dp</dimen> <!-- 17dp -->
+    <dimen name="uikit_about_screen_copyright_margin">5dp</dimen> <!-- 8dp -->
+    <dimen name="uikit_about_screen_terms_margin">31dp</dimen> <!-- 31dp -->
+    <dimen name="uikit_about_screen_privacy_margin">31dp</dimen>
+    <dimen name="uikit_about_screen_content_top_margin">27dp</dimen><!-- 27dp -->
     <dimen name="uikit_about_screen_content_right_margin">32dp</dimen>
-    <dimen name="uikit_about_screen_layout_top_margin">27dp</dimen>
-    <dimen name="uikit_about_screen_layout_left_margin">32dp</dimen>
+    <dimen name="uikit_about_screen_layout_top_margin">33dp</dimen><!-- 48dp -->
+    <dimen name="uikit_about_screen_layout_left_margin">31dp</dimen><!-- 32dp -->
+    <dimen name="uikit_about_screen_layout_rest_left_margin">32dp</dimen><!-- 31dp-->
     <dimen name="uikit_about_screen_logo_margin">53dp</dimen>
-    <dimen name="uikit_about_screen_logo_margin_bottom">33dp</dimen>
+    <dimen name="uikit_about_screen_logo_margin_bottom">53dp</dimen>
     <dimen name="uikit_about_screen_logo_width">67dp</dimen>
     <dimen name="uikit_about_screen_logo_height">85dp</dimen>
     <dimen name="uikit_about_screen_mm_logo_height">63dp</dimen>
+    <dimen name="uikit_about_screen_content_linespacing">8dp</dimen>
+    <dimen name="uikit_about_screen_version_copyright_left_margin">32dp</dimen>
 
-    <dimen name="uikit_dot_navigation_selected_width">13dp</dimen>
+    <dimen name="uikit_dot_navigation_selected_width">12dp</dimen>
     <dimen name="uikit_dot_navigation_selected_height">12dp</dimen>
-    <dimen name="uikit_dot_navigation_unselected_width">8dp</dimen>
-    <dimen name="uikit_dot_navigation_unselected_height">8dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_width">7dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_height">7dp</dimen>
     <dimen name="uikit_dot_navigation_distance_between_circles">9dp</dimen>
 
     <!-- Tab layout -->

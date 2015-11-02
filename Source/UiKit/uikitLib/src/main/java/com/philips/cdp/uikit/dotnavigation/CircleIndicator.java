@@ -19,6 +19,7 @@ import com.philips.cdp.uikit.R;
  */
 public class CircleIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedDots {
 
+    private final View parentView;
     private ViewPager viewPager;
     private ViewPager.OnPageChangeListener pageChangeListener;
     private boolean enableStrokeBackground;
@@ -33,9 +34,17 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     private int scrollState;
     private onTouchUnSelectedDots onTouchUnSelectedDots;
 
+    public GradientDrawable getUnSelectedDot() {
+        return unSelectedGradientDrawable;
+    }
+
+    private GradientDrawable unSelectedGradientDrawable;
+
     public CircleIndicator(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         final Resources resources = getResources();
+        parentView = LayoutInflater.from(context).inflate(
+                R.layout.uikit_circle_indicator, null);
         processAttributes(context, resources);
         reDrawView();
     }
@@ -43,6 +52,8 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     public CircleIndicator(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         final Resources resources = getResources();
+        parentView = LayoutInflater.from(context).inflate(
+                R.layout.uikit_circle_indicator, null);
         processAttributes(context, resources);
         reDrawView();
     }
@@ -124,6 +135,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
             gradientDrawable.setStroke(2, themeBaseColor);
             gradientDrawable.setColor(getResources().getColor(android.R.color.transparent));
         }
+        this.unSelectedGradientDrawable = gradientDrawable;
         view.setLayoutParams(vp);
         view.setBackgroundDrawable(gradientDrawable);
     }
@@ -139,11 +151,9 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
 
     @NonNull
     private LinearLayout getParentLayout(final Context context) {
-        View view = LayoutInflater.from(context).inflate(
-                R.layout.uikit_circle_indicator, null);
         this.removeAllViews();
-        this.addView(view);
-        final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.uikit_linear);
+        this.addView(parentView);
+        final LinearLayout linearLayout = (LinearLayout) parentView.findViewById(R.id.uikit_linear);
         linearLayout.removeAllViews();
 
         return linearLayout;
