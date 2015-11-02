@@ -19,4 +19,12 @@
         android:background="?attr/veryLightColor"
         android:alpha="0.3"
         android:layout_alignParentLeft="true"/>
+    <View
+        android:id="@+id/tab_divider_last"
+        android:layout_width="@dimen/uikit_tab_divider_width"
+        android:layout_height="match_parent"
+        android:background="?attr/veryLightColor"
+        android:alpha="0.3"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"/>
 </RelativeLayout>
