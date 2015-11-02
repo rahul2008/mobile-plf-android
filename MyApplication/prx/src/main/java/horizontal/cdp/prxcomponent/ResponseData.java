@@ -9,7 +9,9 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 /**
- * Created by 310190678 on 02-Nov-15.
+ * Description : This class provides the URL
+ * Project : PRX Common Component.
+ * Created by naveen@philips.com on 02-Nov-15.
  */
 public class ResponseData {
 

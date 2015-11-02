@@ -9,20 +9,19 @@ import android.view.MenuItem;
 import com.cdp.prx.databuilder.ProductAssetBuilder;
 
 import horizontal.cdp.prxcomponent.RequestManager;
+import horizontal.cdp.prxcomponent.ResponseData;
 import horizontal.cdp.prxcomponent.listeners.ResponseHandler;
 import horizontal.cdp.prxcomponent.listeners.ResponseListener;
 
-public class LauncherActivity extends AppCompatActivity{
+public class LauncherActivity extends AppCompatActivity {
 
     private static final String TAG = LauncherActivity.class.getSimpleName();
 
     private String mCtn = "RQ1250/17";
-    private String mServerInfo = "www.philips.co.uk/prx";
     private String mSectorCode = "B2C";
     private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
     private String mRequestTag = null;
-
 
 
     @Override
@@ -37,7 +36,6 @@ public class LauncherActivity extends AppCompatActivity{
         super.onStart();
 
         ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, mRequestTag);
-        mProductAssetBuilder.setmServerInfo(mServerInfo);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
         mProductAssetBuilder.setmLocale(mLocale);
         mProductAssetBuilder.setmCatalogCode(mCatalogCode);
@@ -47,16 +45,16 @@ public class LauncherActivity extends AppCompatActivity{
         mRequestManager.init(getApplicationContext());
         mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
             @Override
-            public void onSuccess() {
-                Log.d(TAG, "Vertical Side Success Callback");
+            public void onResponseSuccess(ResponseData responseData) {
+                Log.d(TAG, " Positive Response Data : " + responseData.getAssetModel());
             }
 
             @Override
-            public void onFail() {
-                Log.d(TAG, "Vertical Side Fail Callback");
+            public void onResponseError(String error) {
+                Log.d(TAG, "Negative Response Data : " + error);
             }
         });
-}
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,6 +77,4 @@ public class LauncherActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }

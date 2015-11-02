@@ -1,11 +1,13 @@
 package horizontal.cdp.prxcomponent;
 
 /**
- * Created by 310190678 on 02-Nov-15.
+ * Description : This is the URL Builder base class to build all the PRX relevent URL's.
+ * Project : PRX Common Component.
+ * Created by naveen@philips.com on 02-Nov-15.
  */
 public abstract class PrxDataBuilder {
 
-    private String mServerInfo = null;
+    private String mServerInfo = "www.philips.com/prx";
     private String mSectorCode = null;
     private String mLocale = null;
     private String mCatalogCode = null;
@@ -13,10 +15,6 @@ public abstract class PrxDataBuilder {
 
     public String getServerInfo() {
         return mServerInfo;
-    }
-
-    public void setmServerInfo(String mServerInfo) {
-        this.mServerInfo = mServerInfo;
     }
 
     public String getSectorCode() {

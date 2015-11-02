@@ -9,7 +9,9 @@ import horizontal.cdp.prxcomponent.listeners.ResponseHandler;
 import horizontal.cdp.prxcomponent.listeners.ResponseListener;
 
 /**
- * Created by 310190678 on 02-Nov-15.
+ * Description : This is the entry class to start the PRX Request.
+ * Project : PRX Common Component.
+ * Created by naveen@philips.com on 02-Nov-15.
  */
 public class RequestManager {
 
@@ -25,7 +27,5 @@ public class RequestManager {
         new NetworkWrapper(mContext, prxDataBuilder, responseListener).execute();
     }
 
-    public void cancelRequest(String requestTag) {
-
-    }
+    public void cancelRequest(String requestTag) {}
 }

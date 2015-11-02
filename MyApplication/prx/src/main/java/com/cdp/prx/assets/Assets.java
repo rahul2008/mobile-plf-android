@@ -6,7 +6,11 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
+/**
+ * Description :
+ * Project : PRX Common Component.
+ * Created by naveen@philips.com on 02-Nov-15.
+ */
 public class Assets {
 
     @SerializedName("asset")

@@ -1,11 +1,16 @@
 package horizontal.cdp.prxcomponent.listeners;
 
+import horizontal.cdp.prxcomponent.ResponseData;
+
 /**
- * Created by 310190678 on 02-Nov-15.
+ * Description : The Listner interface used by the vertical applications for getting the product,locale,category specific data from
+ * the Philips IT system.
+ * Project : PRX Common Component.
+ * Created by naveen@philips.com on 02-Nov-15.
  */
 public interface ResponseListener {
 
-    void onSuccess();
+    void onResponseSuccess(ResponseData responseData);
 
-    void onFail();
+    void onResponseError(String error);
 }
