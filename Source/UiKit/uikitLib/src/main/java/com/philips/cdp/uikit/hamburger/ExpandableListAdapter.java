@@ -18,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +63,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView hamburgerItemText = (TextView) convertView
                 .findViewById(R.id.hamburger_item_text);
 
-        ImageView imageView = (ImageView) convertView
+        VectorDrawableImageView imageView = (VectorDrawableImageView) convertView
                 .findViewById(R.id.hamburger_list_icon);
 
         TextView hamburgerItemCounter = (TextView) convertView
@@ -71,7 +73,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    private void setValuesToViews(final HamburgerItem hamburgerItem, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
+    private void setValuesToViews(final HamburgerItem hamburgerItem, final VectorDrawableImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
         int icon = hamburgerItem.getIcon();
         setImageView(imgIcon, icon);
         txtTitle.setText(hamburgerItem.getTitle());
@@ -79,9 +81,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         setTextView(txtCount, count);
     }
 
-    private void setImageView(final ImageView imgIcon, final int icon) {
+    private void setImageView(final VectorDrawableImageView imgIcon, final int icon) {
         if (icon > 0) {
-            imgIcon.setImageResource(icon);
+            imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
         } else {
             imgIcon.setVisibility(View.INVISIBLE);
         }

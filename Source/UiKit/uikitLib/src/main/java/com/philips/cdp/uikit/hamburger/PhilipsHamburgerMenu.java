@@ -2,6 +2,9 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
@@ -144,7 +147,15 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_reload);
+        inflateVectorMenu(menuItem);
         return true;
+    }
+
+    private void inflateVectorMenu(MenuItem menuItem) {
+        VectorDrawableImageView vectorDrawableImageView = new VectorDrawableImageView(this);
+        vectorDrawableImageView.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_reload));
+        menuItem.setActionView(vectorDrawableImageView);
     }
 
     @Override

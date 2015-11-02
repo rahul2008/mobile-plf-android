@@ -173,7 +173,15 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_reload);
+        inflateVectorMenu(menuItem);
         return true;
+    }
+
+    private void inflateVectorMenu(MenuItem menuItem) {
+        VectorDrawableImageView vectorDrawableImageView = new VectorDrawableImageView(this);
+        vectorDrawableImageView.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_reload));
+        menuItem.setActionView(vectorDrawableImageView);
     }
 
     @Override
