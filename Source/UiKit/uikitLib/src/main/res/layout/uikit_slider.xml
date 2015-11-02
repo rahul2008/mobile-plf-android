@@ -23,6 +23,7 @@
             android:text="0"
             android:textSize="@dimen/slider_text_size"
             android:textColor="?attr/baseColor"
+            android:layout_marginBottom="@dimen/slider_textview_margin_bottom"
             />
 
         <com.philips.cdp.uikit.costumviews.VectorDrawableImageView

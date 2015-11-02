@@ -75,4 +75,5 @@
     <dimen name="slider_padding">10dp</dimen>
     <dimen name="slider_text_size">14dp</dimen>
     <dimen name="slider_indicator_margin">4dp</dimen>
+    <dimen name="slider_textview_margin_bottom">2dp</dimen>
 </resources>
