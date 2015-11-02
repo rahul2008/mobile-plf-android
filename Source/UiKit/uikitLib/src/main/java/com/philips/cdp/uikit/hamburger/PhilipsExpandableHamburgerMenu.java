@@ -25,9 +25,6 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -229,10 +226,10 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     private void validateLogoView(final int heightPixels, final int adaptorTotalHeight) {
         if (adaptorTotalHeight > heightPixels) {
             LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View v = vi.inflate(R.layout.uikit_footer_view, null);
-            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
+            View view = vi.inflate(R.layout.uikit_footer_view, null);
+            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) view.findViewById(R.id.hamburger_logo);
             setLogoCenterWithMargins(vectorDrawableImageView);
-            drawerListView.addFooterView(v, null, false);
+            drawerListView.addFooterView(view, null, false);
             setVectorImage(vectorDrawableImageView);
         } else {
             footerImage.setVisibility(View.VISIBLE);

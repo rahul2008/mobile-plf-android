@@ -62,7 +62,7 @@
                       <!-- Hamburger Menu -->
     <dimen name="uikit_hamburger_menu_title_text_size">20sp</dimen>
     <dimen name="uikit_hamburger_width">222dp</dimen>
-    <dimen name="uikit_hamburger_menu_logo_top_margin">54dp</dimen>
+    <dimen name="uikit_hamburger_menu_logo_top_margin">45dp</dimen>
     <dimen name="uikit_hamburger_menu_logo_bottom_margin">54dp</dimen>
     <dimen name="uikit_hamburger_logo_width">67dp</dimen>
     <dimen name="uikit_hamburger_logo_height">85dp</dimen>

@@ -2,23 +2,18 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -30,10 +25,6 @@ import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -183,10 +174,10 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
     private void validateLogoView(final int heightPixels, final int adaptorTotalHeight) {
         if (adaptorTotalHeight > heightPixels) {
             LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View v = vi.inflate(R.layout.uikit_footer_view, null);
-            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) v.findViewById(R.id.hamburger_logo);
+            View view = vi.inflate(R.layout.uikit_footer_view, null);
+            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) view.findViewById(R.id.hamburger_logo);
             setLogoCenterWithMargins(vectorDrawableImageView);
-            drawerListView.addFooterView(v, null, false);
+            drawerListView.addFooterView(view, null, false);
             setVectorImage(vectorDrawableImageView);
         } else {
             footerImage.setVisibility(View.VISIBLE);
