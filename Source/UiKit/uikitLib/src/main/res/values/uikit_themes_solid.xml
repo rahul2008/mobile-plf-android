@@ -18,6 +18,7 @@
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="themeSwitch">@style/SwitchDarkBlue</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
+        <item name="brightColor">@color/uikit_philips_bright_blue</item>
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
         <item name="switchOffColor">@color/uikit_philips_dark_blue</item>
     </style>

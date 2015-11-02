@@ -2,6 +2,9 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +54,7 @@ public class HamburgerAdapter extends BaseAdapter {
             viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
             viewHolder.txtCount = (TextView) convertView.findViewById(R.id.list_counter);
             convertView.setTag(viewHolder);
+            addStates(convertView);
         } else {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
@@ -82,6 +86,18 @@ public class HamburgerAdapter extends BaseAdapter {
         else{
             imgIcon.setVisibility(View.GONE);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
+    private void addStates(View convertView) {
+        StateListDrawable states = new StateListDrawable();
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.baseColor});
+        states.addState(new int[]{android.R.attr.state_pressed},
+                new ColorDrawable(typedArray.getColor(0, -1)));
+        states.addState(new int[]{},
+                new ColorDrawable(typedArray.getColor(1, -1)));
+        convertView.setBackgroundDrawable(states);
     }
 
     static class ViewHolderItem {

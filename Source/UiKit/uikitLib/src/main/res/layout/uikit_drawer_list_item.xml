@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/hamburger_child_parent"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/uikit_hamburger_list_item_height">
+    android:layout_height="@dimen/uikit_hamburger_list_item_height"
+    android:background="@drawable/hamburger_list_selector"
+    android:state_pressed="true">
 
     <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
         android:id="@+id/hamburger_list_icon"
@@ -17,14 +19,14 @@
 
     <TextView
         android:id="@+id/hamburger_item_text"
+        fontPath="fonts/centralesansbook.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/uikit_hamburgur_item_text_size"
-        android:textColor="?attr/veryLightColor"
-        fontPath="fonts/centralesansbook.ttf"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/uikit_hamburger_item_text_left_margin"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/uikit_hamburger_item_text_left_margin"
+        android:textColor="?attr/veryLightColor"
+        android:textSize="@dimen/uikit_hamburgur_item_text_size"
         />
 
     <TextView

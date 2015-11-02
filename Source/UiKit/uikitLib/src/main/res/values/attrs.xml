@@ -9,6 +9,7 @@
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
         <attr name="veryLightColor" format="color"/>
+        <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
     </declare-styleable>
 
