@@ -2,6 +2,7 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -55,6 +56,7 @@ public class HamburgerAdapter extends BaseAdapter {
             viewHolder.txtCount = (TextView) convertView.findViewById(R.id.list_counter);
             convertView.setTag(viewHolder);
             addStates(convertView);
+            addStatesToText(viewHolder.txtTitle);
         } else {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
@@ -89,7 +91,7 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     @SuppressWarnings("deprecation")
-    //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
+    //we need to support API lvl 14+, so cannot change to context.setBackgroundDrawable(): sticking with deprecated API for now
     private void addStates(View convertView) {
         StateListDrawable states = new StateListDrawable();
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.baseColor});
@@ -98,6 +100,16 @@ public class HamburgerAdapter extends BaseAdapter {
         states.addState(new int[]{},
                 new ColorDrawable(typedArray.getColor(1, -1)));
         convertView.setBackgroundDrawable(states);
+    }
+
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
+    private void addStatesToText(TextView txtTitle) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor});
+        int[][] states = new int[][]{new int[]{android.R.attr.state_activated}, new int[]{android.R.attr.state_pressed}, new int[]{-android.R.attr.state_activated}};
+        int[] colors = new int[]{context.getResources().getColor(android.R.color.white), context.getResources().getColor(android.R.color.white), typedArray.getColor(0, -1)};
+        ColorStateList colorStateList = new ColorStateList(states, colors);
+        txtTitle.setTextColor(colorStateList);
     }
 
     static class ViewHolderItem {

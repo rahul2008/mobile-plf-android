@@ -6,6 +6,10 @@ package com.philips.cdp.uikit.hamburger;
  */
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +58,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
+            addStates(convertView);
         }
 
         TextView hamburgerItemText = (TextView) convertView
@@ -66,6 +71,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.list_counter);
 
         setValuesToViews(hamburgerItem, imageView, hamburgerItemText, hamburgerItemCounter);
+        addStatesToText(hamburgerItemText);
         return convertView;
     }
 
@@ -142,5 +148,27 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
+    private void addStates(View convertView) {
+        StateListDrawable states = new StateListDrawable();
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.baseColor});
+        states.addState(new int[]{android.R.attr.state_pressed},
+                new ColorDrawable(typedArray.getColor(0, -1)));
+        states.addState(new int[]{},
+                new ColorDrawable(typedArray.getColor(1, -1)));
+        convertView.setBackgroundDrawable(states);
+    }
+
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
+    private void addStatesToText(TextView txtTitle) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor});
+        int[][] states = new int[][]{new int[]{android.R.attr.state_activated}, new int[]{android.R.attr.state_pressed}, new int[]{-android.R.attr.state_activated}};
+        int[] colors = new int[]{context.getResources().getColor(android.R.color.white), context.getResources().getColor(android.R.color.white), typedArray.getColor(0, -1)};
+        ColorStateList colorStateList = new ColorStateList(states, colors);
+        txtTitle.setTextColor(colorStateList);
     }
 }

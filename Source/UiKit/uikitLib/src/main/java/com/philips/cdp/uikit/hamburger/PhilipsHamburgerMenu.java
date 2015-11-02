@@ -59,7 +59,7 @@ public class PhilipsHamburgerMenu extends UiKitActivity {
         actionBar.setCustomView(R.layout.uikit_action_bar_title);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.uikit_hamburger_icon);
+        actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
     }
 
