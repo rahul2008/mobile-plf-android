@@ -32,12 +32,14 @@
     </string-array>
 
     <array name="hamburger_drawer_icons">
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_people</item>
-        <item>@drawable/ic_photos</item>
-        <item>@drawable/ic_communities</item>
-        <item>@drawable/ic_pages</item>
-        <item>@drawable/ic_whats_hot</item>
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_coffee</item>
+        <item>@drawable/uikit_stats</item>
+        <item>@drawable/uikit_recycle_bin</item>
+        <item>@drawable/uikit_radio</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_apple</item>
+        <item>@drawable/uikit_gear</item>
     </array>
 
 

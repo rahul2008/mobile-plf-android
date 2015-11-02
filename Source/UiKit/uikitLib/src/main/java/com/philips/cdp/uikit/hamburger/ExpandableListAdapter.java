@@ -55,10 +55,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.uikit_drawer_list_item, null);
+            convertView = inflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
         }
-
-        setLayoutParamsChild(convertView);
 
         TextView hamburgerItemText = (TextView) convertView
                 .findViewById(R.id.hamburger_item_text);
@@ -126,31 +124,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.uikit_hamburger_list_group, null);
+            convertView = inflater.inflate(R.layout.uikit_hamburger_list_group, parent, false);
         }
-
-        setLayoutParamsGroup(convertView);
-
 
         TextView hamburgerHeaderTitle = (TextView) convertView
                 .findViewById(R.id.hamburger_header);
 
         hamburgerHeaderTitle.setText(headerTitle);
-        ExpandableListView eLV = (ExpandableListView) parent;
-        eLV.expandGroup(groupPosition);
+        ExpandableListView expandableListView = (ExpandableListView) parent;
+        expandableListView.expandGroup(groupPosition);
         return convertView;
-    }
-
-    private void setLayoutParamsGroup(final View convertView) {
-        RelativeLayout linearLayoutParent = (RelativeLayout) convertView.findViewById(R.id.hamburger_group_parent);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)context.getResources().getDimension(R.dimen.uikit_hamburger_group_item_height));
-        linearLayoutParent.setLayoutParams(layoutParams);
-    }
-
-    private void setLayoutParamsChild(final View convertView) {
-        RelativeLayout linearLayoutParent = (RelativeLayout) convertView.findViewById(R.id.hamburger_child_parent);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)context.getResources().getDimension(R.dimen.uikit_hamburger_list_item_height));
-        linearLayoutParent.setLayoutParams(layoutParams);
     }
 
     @Override

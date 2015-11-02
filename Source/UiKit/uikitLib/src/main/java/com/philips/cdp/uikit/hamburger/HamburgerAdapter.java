@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
@@ -41,21 +43,25 @@ public class HamburgerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolderItem viewHolder;
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, null);
+            convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
+            viewHolder = new ViewHolderItem();
+            viewHolder.imgIcon = (VectorDrawableImageView) convertView.findViewById(R.id.hamburger_list_icon);
+            viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
+            viewHolder.txtCount = (TextView) convertView.findViewById(R.id.list_counter);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolderItem) convertView.getTag();
         }
-        setLayoutParamsChild(convertView);
-        ImageView imgIcon = (ImageView) convertView.findViewById(R.id.hamburger_list_icon);
-        TextView txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
-        TextView txtCount = (TextView) convertView.findViewById(R.id.list_counter);
-        setValuesToViews(position, imgIcon, txtTitle, txtCount);
+        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount);
 
         return convertView;
     }
 
-    private void setValuesToViews(final int position, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
+    private void setValuesToViews(final int position, final VectorDrawableImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
         int icon = hamburgerItems.get(position).getIcon();
         setImageView(imgIcon, icon);
         txtTitle.setText(hamburgerItems.get(position).getTitle());
@@ -71,18 +77,19 @@ public class HamburgerAdapter extends BaseAdapter {
         }
     }
 
-    private void setImageView(final ImageView imgIcon, final int icon) {
+    private void setImageView(final VectorDrawableImageView imgIcon, final int icon) {
         if (icon > 0) {
-            imgIcon.setImageResource(icon);
+            imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
         }
         else{
             imgIcon.setVisibility(View.GONE);
         }
     }
 
-    private void setLayoutParamsChild(final View convertView) {
-        RelativeLayout linearLayoutParent = (RelativeLayout) convertView.findViewById(R.id.hamburger_child_parent);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)context.getResources().getDimension(R.dimen.uikit_hamburger_list_item_height));
-        linearLayoutParent.setLayoutParams(layoutParams);
+    static class ViewHolderItem {
+        VectorDrawableImageView imgIcon;
+        TextView txtTitle;
+        TextView txtCount;
     }
+
 }

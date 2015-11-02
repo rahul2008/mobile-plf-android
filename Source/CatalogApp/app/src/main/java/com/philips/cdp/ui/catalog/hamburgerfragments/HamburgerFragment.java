@@ -9,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class HamburgerFragment extends Fragment {
 
     private TextView textView;
-    private ImageView imageView;
+    private VectorDrawableImageView imageView;
 
     public HamburgerFragment() {
     }
@@ -24,7 +26,7 @@ public class HamburgerFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         textView = (TextView)rootView.findViewById(R.id.txtLabel);
-        imageView = (ImageView)rootView.findViewById(R.id.frag_icon);
+        imageView = (VectorDrawableImageView)rootView.findViewById(R.id.frag_icon);
 
         setDateToView();
 
@@ -34,6 +36,6 @@ public class HamburgerFragment extends Fragment {
     private void setDateToView() {
         Bundle bundle= getArguments();
         textView.setText(bundle.getString("data"));
-        imageView.setImageResource(bundle.getInt("resId"));
+        imageView.setImageDrawable(VectorDrawable.create(getActivity().getApplicationContext(), bundle.getInt("resId")));
     }
 }

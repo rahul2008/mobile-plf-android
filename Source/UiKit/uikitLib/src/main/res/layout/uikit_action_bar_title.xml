@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    android:id="@+id/hamburger_title"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:textSize="@dimen/uikit_hamburger_menu_title_text_size"
-    fontPath="fonts/centralesanslight.ttf"
-    android:gravity="center">
 
-</TextView>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:text="50"/>
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/hamburger_title"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:gravity="center"
+        android:textSize="@dimen/uikit_hamburger_menu_title_text_size">
+
+    </TextView>
+
+</RelativeLayout>

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/hamburger_child_parent"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/uikit_hamburger_list_item_height" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/hamburger_child_parent"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/uikit_hamburger_list_item_height">
 
-    <ImageView
+    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
         android:id="@+id/hamburger_list_icon"
-        android:layout_width="25dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
-        android:contentDescription="@string/desc_list_item_icon"
+        app:vectorsrc="@drawable/uikit_apple"
         />
 
     <TextView
