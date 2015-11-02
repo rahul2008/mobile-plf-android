@@ -11,10 +11,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -41,6 +43,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout.LayoutParams mFirstContainerParams = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mProdButtonsParent = null;
+    private LinearLayout mProdVideoContainer = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
 
@@ -62,6 +65,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProdButtonsParent = (LinearLayout) getActivity().findViewById(
                 R.id.prodbuttonsParent);
 
+        mProdVideoContainer = (LinearLayout) getActivity().findViewById(
+                R.id.videoContainer);
+
         mFirstContainerParams = (LinearLayout.LayoutParams) mFirstContainer
                 .getLayoutParams();
         mSecondContainerParams = (LinearLayout.LayoutParams) mProdButtonsParent
@@ -73,6 +79,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         setViewParams(config);
 
         createProductDetailsMenu();
+
+        initView();
+
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS,
                 getPreviousName());
 /*
@@ -83,6 +92,29 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
         });
   */  }
+
+    private void initView(){
+        int count = 4;
+
+        for(int i=0; i< count; i++){
+            addNewVideo(i + "");
+        }
+    }
+
+    private void addNewVideo(String tag){
+        View child = getActivity().getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
+        child.setTag(tag);
+        child.setOnClickListener(videoModel);
+        mProdVideoContainer.addView(child);
+    }
+
+    private View.OnClickListener videoModel = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getActivity(), "Video : " + v.getTag(), Toast.LENGTH_SHORT).show();
+        }
+    };
 
     private void createProductDetailsMenu() {
         TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
