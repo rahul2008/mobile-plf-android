@@ -40,6 +40,7 @@
         <item name="errorBackground">@drawable/uikit_edittext_error_bg_red</item>
         <item name="themeSwitch">@style/SwitchBrightOrange</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
+        <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="splashGradient">@drawable/uikit_grad_orange_bright_to_light</item>
         <item name="switchOffColor">@color/uikit_philips_bright_orange</item>
     </style>
@@ -61,6 +62,7 @@
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="themeSwitch">@style/SwitchBrightAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
+        <item name="brightColor">@color/uikit_philips_light_aqua</item>
         <item name="splashGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
         <item name="switchOffColor">@color/uikit_philips_bright_aqua</item>
     </style>
