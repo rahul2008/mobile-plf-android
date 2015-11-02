@@ -4,7 +4,6 @@
     android:id="@+id/hamburger_child_parent"
     android:layout_width="match_parent"
     android:layout_height="@dimen/uikit_hamburger_list_item_height"
-    android:background="@drawable/hamburger_list_selector"
     android:state_pressed="true">
 
     <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
