@@ -55,10 +55,4 @@
         android:layout_marginTop="20dp"
         android:text="@string/sample_button"/>
 
-    <com.philips.cdp.uikit.PuiPopoverAlert
-        android:id="@+id/popover"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
-
 </RelativeLayout>
