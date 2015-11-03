@@ -65,4 +65,18 @@
 
     <!-- variable to hold info for tablet or phone -->
     <bool name="uikit_istablet">false</bool>
+
+
+    <!--Slider-->
+    <dimen name="slider_thumb_width">20dp</dimen>
+    <dimen name="slider_thumb_height">20dp</dimen>
+    <dimen name="slider_thumb_stroke_width">1dp</dimen>
+    <dimen name="slider_bar_width">2dp</dimen>
+    <dimen name="slider_bar_progress">4dp</dimen>
+    <dimen name="slider_padding_right">0dp</dimen>
+    <dimen name="slider_padding_left">0dp</dimen>
+    <dimen name="slider_padding">10dp</dimen>
+    <dimen name="slider_text_size">14dp</dimen>
+    <dimen name="slider_indicator_margin">5dp</dimen>
+    <dimen name="slider_textview_margin_bottom">2dp</dimen>
 </resources>

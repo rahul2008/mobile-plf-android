@@ -47,4 +47,8 @@
     <style name="ASActionBar.MM">
         <item name="customNavigationLayout">@layout/uikit_about_screen_actionbar_mm</item>
     </style>
+
+    <style name="Slider">
+        <item name="android:thumbOffset">@dimen/slider_padding_left</item>
+    </style>
 </resources>
