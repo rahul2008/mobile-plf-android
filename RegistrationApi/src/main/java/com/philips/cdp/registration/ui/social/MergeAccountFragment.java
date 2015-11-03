@@ -31,7 +31,7 @@ import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.utils.EmailValidator;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
@@ -236,7 +236,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	}
 
 	private void resetPassword() {
-		boolean validatorResult = EmailValidator.isValidEmail(mEmailId);
+		boolean validatorResult = FieldsValidator.isValidEmail(mEmailId);
 		if (!validatorResult) {
 		} else {
 			if (NetworkUtility.isNetworkAvailable(mContext)) {

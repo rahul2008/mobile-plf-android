@@ -26,7 +26,7 @@ import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
-import com.philips.cdp.registration.ui.utils.EmailValidator;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
@@ -221,7 +221,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     private void resetPassword() {
-        boolean validatorResult = EmailValidator.isValidEmail(mEtEmail.getEmailId().toString());
+        boolean validatorResult = FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString());
         if (!validatorResult) {
             mEtEmail.showInvalidAlert();
         } else {

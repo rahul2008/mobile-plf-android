@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.ui.utils.EmailValidator;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class XUserName extends RelativeLayout implements TextWatcher, OnFocusChangeListener,
@@ -107,7 +107,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	}
 
 	private boolean validateName() {
-		if (!EmailValidator.isValidName(mEtUserName.getText().toString().trim())) {
+		if (!FieldsValidator.isValidName(mEtUserName.getText().toString().trim())) {
 			setValidName(false);
 			return false;
 		}

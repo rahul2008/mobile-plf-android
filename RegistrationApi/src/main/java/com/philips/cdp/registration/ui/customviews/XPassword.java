@@ -15,219 +15,212 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.ui.utils.EmailValidator;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class XPassword extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
 
-	private Context mContext;
+    private Context mContext;
 
-	private ImageView mIvPasswordErrAlert;
+    private ImageView mIvPasswordErrAlert;
 
-	private ImageView mIvArrowUpView;
+    private ImageView mIvArrowUpView;
 
-	private TextView mTvErrDescriptionView;
+    private TextView mTvErrDescriptionView;
 
-	private EditText mEtPassword;
+    private EditText mEtPassword;
 
-	private boolean mValidPassword;
+    private boolean mValidPassword;
 
-	private onUpdateListener mUpdateStatusListener;
+    private onUpdateListener mUpdateStatusListener;
 
-	private RelativeLayout mRlEtPassword;
+    private RelativeLayout mRlEtPassword;
 
-	private boolean isValidatePassword = true;
+    private boolean isValidatePassword = true;
 
-	public XPassword(Context context) {
-		super(context);
-		this.mContext = context;
-		initUi(R.layout.x_password);
-	}
+    public XPassword(Context context) {
+        super(context);
+        this.mContext = context;
+        initUi(R.layout.x_password);
+    }
 
-	public XPassword(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		this.mContext = context;
-		initUi(R.layout.x_password);
-	}
+    public XPassword(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.mContext = context;
+        initUi(R.layout.x_password);
+    }
 
-	public final void initUi(int resourceId) {
-		LayoutInflater li = LayoutInflater.from(mContext);
-		li.inflate(resourceId, this, true);
-		mIvPasswordErrAlert = (ImageView) findViewById(R.id.iv_reg_password_error_alert);
-		mIvPasswordErrAlert.setOnClickListener(this);
-		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
-		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_password_err);
-		mEtPassword = (EditText) findViewById(R.id.et_reg_password);
-		mEtPassword.setOnClickListener(this);
-		mEtPassword.setOnFocusChangeListener(this);
-		mEtPassword.addTextChangedListener(this);
-		mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
-	}
+    public final void initUi(int resourceId) {
+        LayoutInflater li = LayoutInflater.from(mContext);
+        li.inflate(resourceId, this, true);
+        mIvPasswordErrAlert = (ImageView) findViewById(R.id.iv_reg_password_error_alert);
+        mIvPasswordErrAlert.setOnClickListener(this);
+        mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
+        mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_password_err);
+        mEtPassword = (EditText) findViewById(R.id.et_reg_password);
+        mEtPassword.setOnClickListener(this);
+        mEtPassword.setOnFocusChangeListener(this);
+        mEtPassword.addTextChangedListener(this);
+        mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
+    }
 
-	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
-		mUpdateStatusListener = updateStatusListener;
-	}
+    public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+        mUpdateStatusListener = updateStatusListener;
+    }
 
-	private void fireUpdateStatusEvent() {
-		if (null != mUpdateStatusListener) {
-			mUpdateStatusListener.onUpadte();
-		}
-	}
+    private void fireUpdateStatusEvent() {
+        if (null != mUpdateStatusListener) {
+            mUpdateStatusListener.onUpadte();
+        }
+    }
 
-	private void handlePassword(boolean hasFocus) {
-		if (!hasFocus) {
-			showPasswordEtFocusDisable();
-			mEtPassword.setFocusable(true);
-			if (mEtPassword.getText().toString().trim().length() == 0) {
-				mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-			}
-		} else {
-			showEtPasswordFocusEnable();
-		}
-	}
+    private void handlePassword(boolean hasFocus) {
+        if (!hasFocus) {
+            showPasswordEtFocusDisable();
+            mEtPassword.setFocusable(true);
+            if (mEtPassword.getText().toString().trim().length() == 0) {
+                mIvPasswordErrAlert.setVisibility(View.VISIBLE);
+            }
+        } else {
+            showEtPasswordFocusEnable();
+        }
+    }
 
-	public void showInvalidAlert() {
-		mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-	}
+    public void showEtPasswordFocusEnable() {
+        mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_enable);
+    }
 
-	public void showEtPasswordFocusEnable() {
-		mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_enable);
-	}
+    public void showPasswordEtFocusDisable() {
+        mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_disable);
+    }
 
-	public void showPasswordEtFocusDisable() {
-		mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_disable);
-	}
+    public void setErrDescription(String mErrDescription) {
+        mTvErrDescriptionView.setText(mErrDescription);
+    }
 
-	public void setErrDescription(String mErrDescription) {
-		mTvErrDescriptionView.setText(mErrDescription);
-	}
 
-	public void showJanarainError() {
-		mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-	}
+    private boolean validatePassword() {
+        if (!FieldsValidator.isValidPassword(mEtPassword.getText().toString().trim())) {
+            setValidPassword(false);
+            return false;
+        }
+        setValidPassword(true);
+        return true;
+    }
 
-	private boolean validatePassword() {
-		if (!EmailValidator.isValidPassword(mEtPassword.getText().toString().trim())) {
-			setValidPassword(false);
-			return false;
-		}
-		setValidPassword(true);
-		return true;
-	}
+    private boolean validatePasswordWithoutPattern() {
+        if (!FieldsValidator.isValidName(mEtPassword.getText().toString().trim())) {
+            setValidPassword(false);
+            return false;
+        }
+        setValidPassword(true);
+        return true;
+    }
 
-	private boolean validatePasswordWithoutPattern() {
-		if (!EmailValidator.isValidName(mEtPassword.getText().toString().trim())) {
-			setValidPassword(false);
-			return false;
-		}
-		setValidPassword(true);
-		return true;
-	}
+    public String getPassword() {
+        return mEtPassword.getText().toString().trim();
+    }
 
-	public String getPassword() {
-		return mEtPassword.getText().toString().trim();
-	}
+    public boolean isValidPassword() {
+        return mValidPassword;
+    }
 
-	public boolean isValidPassword() {
-		return mValidPassword;
-	}
+    public void setValidPassword(boolean mValidPassword) {
+        this.mValidPassword = mValidPassword;
+    }
 
-	public void setValidPassword(boolean mValidPassword) {
-		this.mValidPassword = mValidPassword;
-	}
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (v.getId() == R.id.et_reg_password) {
+            handlePassword(hasFocus);
+            fireUpdateStatusEvent();
+        }
+    }
 
-	@Override
-	public void onFocusChange(View v, boolean hasFocus) {
-		if (v.getId() == R.id.et_reg_password) {
-			handlePassword(hasFocus);
-			fireUpdateStatusEvent();
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.iv_reg_password_error_alert) {
+            handleErrorUi();
+        }
 
-	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.iv_reg_password_error_alert) {
-			handleErrorUi();
-		}
+    }
 
-	}
+    private void handleErrorUi() {
+        if (mTvErrDescriptionView.isShown()) {
+            hideErrPopUp();
+        } else {
+            showErrPopUp();
+        }
+    }
 
-	private void handleErrorUi() {
-		if (mTvErrDescriptionView.isShown()) {
-			hideErrPopUp();
-		} else {
-			showErrPopUp();
-		}
-	}
+    private void showErrPopUp() {
+        mTvErrDescriptionView.setVisibility(View.VISIBLE);
+        mIvArrowUpView.setVisibility(View.VISIBLE);
+    }
 
-	private void showErrPopUp() {
-		mTvErrDescriptionView.setVisibility(View.VISIBLE);
-		mIvArrowUpView.setVisibility(View.VISIBLE);
-	}
+    private void hideErrPopUp() {
+        mTvErrDescriptionView.setVisibility(View.GONE);
+        mIvArrowUpView.setVisibility(View.GONE);
+    }
 
-	private void hideErrPopUp() {
-		mTvErrDescriptionView.setVisibility(View.GONE);
-		mIvArrowUpView.setVisibility(View.GONE);
-	}
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
-	}
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (isValidatePassword) {
+            handleValidPasswordWithPattern();
+        } else {
+            handleValidPasswordWithoutPattern();
+        }
+    }
 
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		if (isValidatePassword) {
-			handleValidPasswordWithPattern();
-		} else {
-			handleValidPasswordWithoutPattern();
-		}
-	}
+    private void handleValidPasswordWithPattern() {
+        if (validatePassword()) {
+            mIvPasswordErrAlert.setVisibility(View.GONE);
+            RegUtility.invalidalertvisibilitygone(mEtPassword);
+        } else {
 
-	private void handleValidPasswordWithPattern() {
-		if (validatePassword()) {
-			mIvPasswordErrAlert.setVisibility(View.GONE);
-			RegUtility.invalidalertvisibilitygone(mEtPassword);
-		} else {
+            if (mEtPassword.getText().toString().trim().length() == 0) {
+                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+            } else {
+                setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
+            }
+            mIvPasswordErrAlert.setVisibility(View.VISIBLE);
+            RegUtility.invalidalertvisibilityview(mEtPassword);
+        }
+    }
 
-			if (mEtPassword.getText().toString().trim().length() == 0) {
-				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
-			} else {
-				setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
-			}
-			mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-			RegUtility.invalidalertvisibilityview(mEtPassword);
-		}
-	}
+    private void handleValidPasswordWithoutPattern() {
+        if (validatePasswordWithoutPattern()) {
+            mIvPasswordErrAlert.setVisibility(View.GONE);
+        } else {
+            if (mEtPassword.getText().toString().trim().length() == 0) {
+                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+            }
+            mIvPasswordErrAlert.setVisibility(View.VISIBLE);
+        }
+    }
 
-	private void handleValidPasswordWithoutPattern() {
-		if (validatePasswordWithoutPattern()) {
-			mIvPasswordErrAlert.setVisibility(View.GONE);
-		} else {
-			if (mEtPassword.getText().toString().trim().length() == 0) {
-				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
-			}
-			mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-		}
-	}
+    @Override
+    public void afterTextChanged(Editable s) {
+        fireUpdateStatusEvent();
+        if (isValidatePassword && validatePassword()) {
+            RegUtility.invalidalertvisibilitygone(mEtPassword);
+            mIvArrowUpView.setVisibility(View.GONE);
+            mTvErrDescriptionView.setVisibility(View.GONE);
+        } else if (validatePasswordWithoutPattern() && !isValidatePassword) {
+            RegUtility.invalidalertvisibilityview(mEtPassword);
+            mIvArrowUpView.setVisibility(View.GONE);
+            mTvErrDescriptionView.setVisibility(View.GONE);
+        }
+    }
 
-	@Override
-	public void afterTextChanged(Editable s) {
-		fireUpdateStatusEvent();
-		if (isValidatePassword && validatePassword()) {
-			RegUtility.invalidalertvisibilitygone(mEtPassword);
-			mIvArrowUpView.setVisibility(View.GONE);
-			mTvErrDescriptionView.setVisibility(View.GONE);
-		} else if (validatePasswordWithoutPattern() && !isValidatePassword) {
-			RegUtility.invalidalertvisibilityview(mEtPassword);
-			mIvArrowUpView.setVisibility(View.GONE);
-			mTvErrDescriptionView.setVisibility(View.GONE);
-		}
-	}
-
-	public void isValidatePassword(boolean isValidatePassword) {
-		this.isValidatePassword = isValidatePassword;
-	}
+    public void isValidatePassword(boolean isValidatePassword) {
+        this.isValidatePassword = isValidatePassword;
+    }
 
 }

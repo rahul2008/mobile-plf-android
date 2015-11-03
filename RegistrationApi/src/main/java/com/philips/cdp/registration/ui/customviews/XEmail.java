@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.ui.utils.EmailValidator;
+import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
@@ -77,7 +77,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	}
 
 	private boolean validateEmail() {
-		if (!EmailValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
+		if (!FieldsValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
 			setValidEmail(false);
 			return false;
 		}

@@ -87,4 +87,9 @@
     <!-- Socila merge UI blocker color -->
     <color name="reg_social_to_social_ui_blocker_bg">@android:color/white</color>
 
+   <!-- Create account password hint correct and incorrect symbol colors-->
+    <color name="reg_password_hint_correct_ic_color">#5B8F22</color>
+    <color name="reg_password_hint_incorrect_ic_color">#C4C4C4</color>
+
+
 </resources>

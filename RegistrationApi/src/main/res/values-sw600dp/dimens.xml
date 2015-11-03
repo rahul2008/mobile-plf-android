@@ -6,15 +6,15 @@
     <dimen name="reg_layout_margin_port">120dp</dimen>
     <dimen name="reg_layout_margin_land">255dp</dimen>
     <dimen name="reg_layout_padding_top">8dp</dimen>
-    
+
     <dimen name="reg_title_text_size_largest">50sp</dimen>
-    
+
     <dimen name="reg_actionbar_title_text_size">21dp</dimen>
     <dimen name="reg_font_button_text_margin_left">75dp</dimen>
     <dimen name="reg_support_btn_height">60dp</dimen>
     <dimen name="reg_prod_reg_btn_height">55dp</dimen>
     <dimen name="reg_actionbar_height">55dp</dimen>
-    
+
     <dimen name="reg_account_margin_bottom">30dp</dimen>
 
     <!-- Header -->
@@ -41,13 +41,18 @@
     <!-- button -->
     <dimen name="reg_btn_height">50dip</dimen>
     <dimen name="btn_reg_text_size">17sp</dimen>
-    
+
     <!-- progress Bar -->
     <dimen name="reg_pb_padding">7dip</dimen>
-    
+
     <!-- error mapping -->
     <dimen name="reg_err_mapping_padding">13dip</dimen>
     <dimen name="reg_left_arrow_margin_right">-7dip</dimen>
     <dimen name="reg_left_arrow_margin_left">-16dip</dimen>
+
+    <dimen name="reg_password_hint_middle_gap">6dip</dimen>
+    <dimen name="reg_password_hint_hor_gap">8dip</dimen>
+    <dimen name="reg_password_hint_correct_text_size">13sp</dimen>
+
 
 </resources>

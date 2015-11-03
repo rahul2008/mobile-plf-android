@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.AppTagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.ConfigurationParser;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -12,17 +12,16 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.tagging.Tagging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 import java.util.Scanner;
-import static org.mockito.Mockito.mock;
 
 /**
  * Created by 310202337 on 10/13/2015.
@@ -41,9 +40,9 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
         Locale locale = new Locale("en","US");
-        AppTagging.enableAppTagging(true);
-        AppTagging.setTrackingIdentifier("integratingApplicationAppsId");
-        AppTagging.setLaunchingPageName("demoapp:home");
+        Tagging.enableAppTagging(true);
+        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
+        Tagging.setLaunchingPageName("demoapp:home");
         mRegistrationHelper = RegistrationHelper.getInstance();
         mRegistrationHelper.intializeRegistrationSettings(getInstrumentation().getTargetContext(), locale);
         mRegistrationHelper.setCoppaFlow(true);
@@ -69,9 +68,9 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
             //Mockito.when(mockNetworkUtility.isNetworkAvailable( getInstrumentation().getTargetContext())).thenReturn(true);
             // ConfigurationParser configurationParser = new ConfigurationParser();
             Locale locale = new Locale("en","US");
-            AppTagging.enableAppTagging(true);
-            AppTagging.setTrackingIdentifier("integratingApplicationAppsId");
-            AppTagging.setLaunchingPageName("demoapp:home");
+            Tagging.enableAppTagging(true);
+            Tagging.setTrackingIdentifier("integratingApplicationAppsId");
+            Tagging.setLaunchingPageName("demoapp:home");
             assertNotNull(RegistrationHelper.getInstance());
             RegistrationHelper.getInstance().intializeRegistrationSettings(getInstrumentation().getTargetContext(), locale);
             configurationParser.parse(conf);
