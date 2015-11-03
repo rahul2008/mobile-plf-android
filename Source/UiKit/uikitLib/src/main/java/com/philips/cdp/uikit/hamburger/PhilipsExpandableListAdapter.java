@@ -24,14 +24,14 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.util.HashMap;
 import java.util.List;
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> listDataHeader;
     private HashMap<String, List<HamburgerItem>> listDataChild;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<HamburgerItem>> listChildData) {
+    public PhilipsExpandableListAdapter(Context context, List<String> listDataHeader,
+                                        HashMap<String, List<HamburgerItem>> listChildData) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;

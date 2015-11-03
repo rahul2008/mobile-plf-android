@@ -10,9 +10,9 @@ import android.widget.ExpandableListView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
-import com.philips.cdp.uikit.hamburger.ExpandableListAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsExpandableHamburgerMenu;
+import com.philips.cdp.uikit.hamburger.PhilipsExpandableListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class HamburgerMenuExpandableDemo extends PhilipsExpandableHamburgerMenu 
     }
 
     private void setHamburgerAdaptor() {
-        final ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        final PhilipsExpandableListAdapter listAdapter = new PhilipsExpandableListAdapter(this, listDataHeader, listDataChild);
         drawerListView.setAdapter(listAdapter);
     }
 

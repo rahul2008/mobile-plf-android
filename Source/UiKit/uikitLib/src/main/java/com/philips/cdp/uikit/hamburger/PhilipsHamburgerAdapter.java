@@ -18,12 +18,12 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
-public class HamburgerAdapter extends BaseAdapter {
+public class PhilipsHamburgerAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
 
-    public HamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
+    public PhilipsHamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
     }

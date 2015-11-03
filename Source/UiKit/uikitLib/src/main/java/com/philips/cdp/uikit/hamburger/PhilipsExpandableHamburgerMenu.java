@@ -2,6 +2,7 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
@@ -80,18 +81,17 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     private void initializeDrawerViews(final DrawerLayout drawer) {
         drawer.findViewById(R.id.hamburger_list).setPadding(0, getStatusBarHeight(), 0, 0);
         listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
-        drawerLayout = (DrawerLayout) drawer.findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) drawer.findViewById(R.id.philips_drawer_layout);
         drawerListView = (ExpandableListView) drawer.findViewById(R.id.hamburger_list);
         footerImage = (VectorDrawableImageView) drawer.findViewById(R.id.image);
     }
 
     private int getStatusBarHeight() {
-        int height = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            height = getResources().getDimensionPixelSize(resourceId);
-        }
-        return height;
+        final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
+                new int[]{android.R.attr.actionBarSize});
+        int actionBarSize = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+        return actionBarSize;
     }
 
     public void setContentView(int layoutResId) {
@@ -252,8 +252,8 @@ public class PhilipsExpandableHamburgerMenu extends UiKitActivity {
     }
 
     private int getGroupCount() {
-        ExpandableListAdapter expandableListAdapter = (ExpandableListAdapter) drawerListView.getExpandableListAdapter();
-        return expandableListAdapter.getGroupCount();
+        PhilipsExpandableListAdapter philipsExpandableListAdapter = (PhilipsExpandableListAdapter) drawerListView.getExpandableListAdapter();
+        return philipsExpandableListAdapter.getGroupCount();
     }
 
     public ExpandableListView getDrawerListView() {
