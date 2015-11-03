@@ -74,6 +74,10 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 8:
                 startActivity(new Intent(this, TabBarDemo.class));
                 break;
+
+            case 10:
+                startActivity(new Intent(this, ActionBarDemo.class));
+                break;
             default:
                 break;
         }
@@ -110,6 +114,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(6, "Input Text Fields");
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
+        itemsMap.put(10, "Action Bar");
         return itemsMap;
     }
 }
