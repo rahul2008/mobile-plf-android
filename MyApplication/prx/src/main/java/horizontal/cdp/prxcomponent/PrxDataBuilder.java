@@ -1,5 +1,7 @@
 package horizontal.cdp.prxcomponent;
 
+import org.json.JSONObject;
+
 /**
  * Description : This is the URL Builder base class to build all the PRX relevent URL's.
  * Project : PRX Common Component.
@@ -49,7 +51,7 @@ public abstract class PrxDataBuilder {
         this.mCtnCode = mCtnCode;
     }
 
-    public abstract ResponseData getResponseData();
+    public abstract ResponseData getResponseData(JSONObject jsonObject);
 
     public abstract String getRequestUrl();
 }

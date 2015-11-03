@@ -1,5 +1,10 @@
 package com.cdp.prx.databuilder;
 
+import com.cdp.prx.assets.AssetModel;
+import com.cdp.prx.summary.SummaryModel;
+
+import org.json.JSONObject;
+
 import horizontal.cdp.prxcomponent.PrxDataBuilder;
 import horizontal.cdp.prxcomponent.ResponseData;
 
@@ -14,9 +19,6 @@ public class ProductSummaryBuilder extends PrxDataBuilder {
     private String mRequestTag = null;
     private static final String PRX_REQUEST_URL = "http://%s/product/%s/%s/%s/products/%s.summary";
 
-
-
-
     public ProductSummaryBuilder(String ctn, String requestTag)
     {
         this.mCtn = ctn;
@@ -24,8 +26,9 @@ public class ProductSummaryBuilder extends PrxDataBuilder {
     }
 
     @Override
-    public ResponseData getResponseData() {
-        return null;
+    public ResponseData getResponseData(JSONObject jsonObject) {
+
+        return new SummaryModel().parseJsonResponseData(jsonObject);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class RequestManager {
     }
 
     public void executeRequest(PrxDataBuilder prxDataBuilder,ResponseListener responseListener) {
-        new NetworkWrapper(mContext, prxDataBuilder, responseListener).executeJsonObjectRequest();
+        new NetworkWrapper(mContext).executeJsonObjectRequest(prxDataBuilder, responseListener);
     }
 
     public void cancelRequest(String requestTag) {}

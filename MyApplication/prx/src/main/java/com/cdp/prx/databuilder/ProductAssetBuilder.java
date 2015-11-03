@@ -1,5 +1,9 @@
 package com.cdp.prx.databuilder;
 
+import com.cdp.prx.assets.AssetModel;
+
+import org.json.JSONObject;
+
 import horizontal.cdp.prxcomponent.PrxDataBuilder;
 import horizontal.cdp.prxcomponent.ResponseData;
 
@@ -21,8 +25,8 @@ public class ProductAssetBuilder extends PrxDataBuilder {
     }
 
     @Override
-    public ResponseData getResponseData() {
-        return null;
+    public ResponseData getResponseData(JSONObject jsonObject) {
+        return new AssetModel().parseJsonResponseData(jsonObject);
     }
 
     @Override

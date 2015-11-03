@@ -43,13 +43,14 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-     /*   ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, mRequestTag);
+   /*   ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, mRequestTag);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
         mProductAssetBuilder.setmLocale(mLocale);
         mProductAssetBuilder.setmCatalogCode(mCatalogCode);
-        mProductAssetBuilder.setmCtnCode(mCtn);*/
+        mProductAssetBuilder.setmCtnCode(mCtn);
 
-       ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
+        */
+        ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
         mProductAssetBuilder.setmLocale(mLocale);
         mProductAssetBuilder.setmCatalogCode(mCatalogCode);
@@ -61,7 +62,11 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
 
-                SummaryModel mAssetModel = (SummaryModel) responseData.getDataModel();
+                SummaryModel mAssetModel = (SummaryModel) responseData;
+
+                Log.d(TAG, "Positive Response Data : " + mAssetModel.isSuccess());
+
+                /*SummaryModel mAssetModel = (SummaryModel) responseData.getDataModel();
                 com.cdp.prx.summary.Data mData = mAssetModel.getData();
 
 
@@ -69,7 +74,7 @@ public class LauncherActivity extends AppCompatActivity {
                 Log.d(TAG, " Positive Response Data : " + mAssetModel.isSuccess());
                 Log.d(TAG, " Positive Response Data : " + mData.getBrand());
                 Log.d(TAG, " Positive Response Data : " + mData.getCtn());
-                Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
+                Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());*/
 
             }
 

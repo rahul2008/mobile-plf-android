@@ -6,11 +6,16 @@ package com.cdp.prx.summary;
  * Created by naveen@philips.com on 02-Nov-15.
  */
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
 
-public class SummaryModel {
+import horizontal.cdp.prxcomponent.ResponseData;
+
+
+public class SummaryModel extends ResponseData {
 
     @SerializedName("success")
     @Expose
@@ -72,4 +77,11 @@ public class SummaryModel {
         this.data = data;
     }
 
+    @Override
+    public ResponseData parseJsonResponseData(JSONObject response) {
+       SummaryModel mSummaryModel = new SummaryModel();
+        mSummaryModel = new Gson().fromJson(response.toString(), SummaryModel.class);
+
+        return mSummaryModel;
+    }
 }

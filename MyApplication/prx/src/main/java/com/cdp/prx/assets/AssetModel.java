@@ -1,18 +1,20 @@
 package com.cdp.prx.assets;
 
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONObject;
+
+import horizontal.cdp.prxcomponent.ResponseData;
 
 /**
  * Description :
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 02-Nov-15.
  */
-public class AssetModel {
-
-    @SerializedName("success")
-    @Expose
+public class AssetModel extends ResponseData {
     private boolean success;
     @SerializedName("data")
     @Expose
@@ -71,4 +73,11 @@ public class AssetModel {
         this.data = data;
     }
 
+    @Override
+    public ResponseData parseJsonResponseData(JSONObject jsonResponse) {
+        AssetModel assetModel = new AssetModel();
+
+        assetModel = new Gson().fromJson(jsonResponse.toString(), AssetModel.class);
+        return assetModel;
+    }
 }
