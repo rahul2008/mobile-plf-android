@@ -32,7 +32,6 @@ public class UiKitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        initActionBar(getSupportActionBar());
     }
 
     @Override
@@ -45,16 +44,6 @@ public class UiKitActivity extends AppCompatActivity {
                         .build()
         );
     }
-
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-        if (validateHamburger()) {
-            actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,19 +68,6 @@ public class UiKitActivity extends AppCompatActivity {
         VectorDrawableImageView vectorDrawableImageView = new VectorDrawableImageView(this);
         vectorDrawableImageView.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_reload));
         menuItem.setActionView(vectorDrawableImageView);
-    }
-
-    private void initActionBar(ActionBar actionBar) {
-        this.actionBar = actionBar;
-        this.actionBar.setDisplayShowCustomEnabled(true);
-        this.actionBar.setCustomView(R.layout.uikit_action_bar_title);
-        actionBarTitle = (TextView) actionBar.getCustomView().findViewById(R.id.hamburger_title);
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        if (actionBarTitle != null)
-            actionBarTitle.setText(title);
     }
 
 }
