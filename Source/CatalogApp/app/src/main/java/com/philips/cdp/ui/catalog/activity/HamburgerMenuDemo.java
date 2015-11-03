@@ -110,7 +110,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction()
                     .replace(R.id.drawer_layout_demo, fragment).commit();
-        setTitle(hamburgerMenuTitles[position]);
+        philipsDrawerLayout.setTitle(hamburgerMenuTitles[position]);
         philipsDrawerLayout.closeDrawer();
     }
 

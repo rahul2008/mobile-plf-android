@@ -22,6 +22,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class UiKitActivity extends AppCompatActivity {
 
     private TextView actionBarTitle;
+    private ActionBar actionBar;
 
     @Override
     protected void attachBaseContext(final Context newBase) {
@@ -31,9 +32,7 @@ public class UiKitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (validateHamburger()) {
-            initActionBar(getSupportActionBar());
-        }
+//        initActionBar(getSupportActionBar());
     }
 
     @Override
@@ -46,6 +45,16 @@ public class UiKitActivity extends AppCompatActivity {
                         .build()
         );
     }
+
+    /*@Override
+    protected void onStart() {
+        super.onStart();
+        if (validateHamburger()) {
+            actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,11 +82,9 @@ public class UiKitActivity extends AppCompatActivity {
     }
 
     private void initActionBar(ActionBar actionBar) {
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(R.layout.uikit_action_bar_title);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
+        this.actionBar = actionBar;
+        this.actionBar.setDisplayShowCustomEnabled(true);
+        this.actionBar.setCustomView(R.layout.uikit_action_bar_title);
         actionBarTitle = (TextView) actionBar.getCustomView().findViewById(R.id.hamburger_title);
     }
 
@@ -85,8 +92,6 @@ public class UiKitActivity extends AppCompatActivity {
     public void setTitle(CharSequence title) {
         if (actionBarTitle != null)
             actionBarTitle.setText(title);
-        else
-            super.setTitle(title);
     }
 
 }

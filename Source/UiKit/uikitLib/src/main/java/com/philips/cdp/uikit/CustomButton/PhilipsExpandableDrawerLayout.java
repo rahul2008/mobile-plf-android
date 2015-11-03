@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -50,6 +51,8 @@ public class PhilipsExpandableDrawerLayout extends LinearLayout {
 
     private void initializeDrawer() {
         context = getContext();
+        AppCompatActivity activity = (AppCompatActivity) context;
+        initActionBar(activity.getSupportActionBar());
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu_expandable, null);
         moveDrawerToTop(drawer);

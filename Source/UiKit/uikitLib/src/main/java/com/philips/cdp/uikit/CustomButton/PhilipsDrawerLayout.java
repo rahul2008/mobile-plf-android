@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -48,6 +49,8 @@ public class PhilipsDrawerLayout extends LinearLayout {
 
     private void initializeDrawer() {
         context = getContext();
+        AppCompatActivity activity = (AppCompatActivity) context;
+        initActionBar(activity.getSupportActionBar());
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu, null);
         moveDrawerToTop(drawer);
@@ -65,10 +68,10 @@ public class PhilipsDrawerLayout extends LinearLayout {
     }
 
     private void initializeDrawerViews(DrawerLayout drawer) {
-        drawer.findViewById(R.id.hamburger_list).setPadding(0, getStatusBarHeight(), 0, 0);
         listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
         drawerLayout = (DrawerLayout) drawer.findViewById(R.id.philips_drawer_layout);
         drawerListView = (ListView) drawer.findViewById(R.id.hamburger_list);
+        drawerListView.setPadding(0, getStatusBarHeight(), 0, 0);
         footerImage = (VectorDrawableImageView) drawer.findViewById(R.id.image);
     }
 
