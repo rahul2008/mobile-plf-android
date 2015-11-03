@@ -3,11 +3,9 @@ package com.philips.cdp.uikit;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -20,9 +18,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * All rights reserved.
  */
 public class UiKitActivity extends AppCompatActivity {
-
-    private TextView actionBarTitle;
-    private ActionBar actionBar;
 
     @Override
     protected void attachBaseContext(final Context newBase) {
