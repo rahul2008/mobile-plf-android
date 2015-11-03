@@ -54,5 +54,9 @@
 
     <style name="hamburger">
         <item name="android:background">?attr/actionBarBackground</item>
+	</style>
+
+    <style name="Slider">
+        <item name="android:thumbOffset">@dimen/slider_padding_left</item>
     </style>
 </resources>

@@ -75,8 +75,11 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, TabBarDemo.class));
                 break;
             case 9:
-                startActivity(new Intent(this, HamburgerActivity.class));
+                startActivity(new Intent(this, SliderActivity.class));
                 break;
+			case 10:
+                startActivity(new Intent(this, HamburgerActivity.class));
+				break;
             default:
                 break;
         }
@@ -113,7 +116,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(6, "Input Text Fields");
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
-        itemsMap.put(9, "Hamburger Menu");
+        itemsMap.put(9, "Sliders");
+        itemsMap.put(10, "Hamburger Menu");
+
         return itemsMap;
     }
 }
