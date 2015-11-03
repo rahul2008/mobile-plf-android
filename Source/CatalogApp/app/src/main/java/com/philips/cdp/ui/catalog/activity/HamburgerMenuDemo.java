@@ -36,7 +36,6 @@ public class HamburgerMenuDemo extends CatalogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hamburger_demo);
         philipsDrawerLayout = (PhilipsDrawerLayout) findViewById(R.id.drawer_layout_demo);
-        philipsDrawerLayout.initActionBar(getSupportActionBar());
         configureDrawer();
         loadSlideMenuItems();
         setHamburgerAdaptor();
@@ -111,7 +110,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction()
                     .replace(R.id.drawer_layout_demo, fragment).commit();
-        philipsDrawerLayout.setTitle(hamburgerMenuTitles[position]);
+        setTitle(hamburgerMenuTitles[position]);
         philipsDrawerLayout.closeDrawer();
     }
 

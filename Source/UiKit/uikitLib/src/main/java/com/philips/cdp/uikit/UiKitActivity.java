@@ -3,9 +3,11 @@ package com.philips.cdp.uikit;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -20,6 +22,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class UiKitActivity extends AppCompatActivity {
 
+    private TextView actionBarTitle;
+
     @Override
     protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -29,6 +33,7 @@ public class UiKitActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         setTheme(new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name), Context.MODE_PRIVATE)).getTheme());
         super.onCreate(savedInstanceState);
+        initActionBar(getSupportActionBar());
     }
 
     @Override
@@ -66,4 +71,19 @@ public class UiKitActivity extends AppCompatActivity {
         vectorDrawableImageView.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_reload));
         menuItem.setActionView(vectorDrawableImageView);
     }
+
+    public void initActionBar(ActionBar actionBar) {
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.uikit_action_bar_title);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
+        actionBarTitle = (TextView) actionBar.getCustomView().findViewById(R.id.hamburger_title);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        actionBarTitle.setText(title);
+    }
+
 }

@@ -11,8 +11,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.R;
@@ -23,37 +23,39 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsDrawerLayout extends LinearLayout {
+public class PhilipsExpandableDrawerLayout extends LinearLayout {
 
     private final View parentView;
-    private ListView drawerListView;
+    private ExpandableListView drawerListView;
     private DrawerLayout drawerLayout;
     private Context context;
     private VectorDrawableImageView footerImage;
     private LinearLayout listViewParentLayout;
 
-    public PhilipsDrawerLayout(Context context, AttributeSet attrs) {
+    public PhilipsExpandableDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         parentView = LayoutInflater.from(context).inflate(
                 R.layout.uikit_hamburger_parent, null, false);
         this.addView(parentView);
         moveDrawerToTop();
         updateSmartFooter();
+        disableGroupCollapse();
     }
 
-    public PhilipsDrawerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PhilipsExpandableDrawerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         parentView = LayoutInflater.from(context).inflate(
                 R.layout.uikit_hamburger_parent, null, false);
         this.addView(parentView);
         moveDrawerToTop();
         updateSmartFooter();
+        disableGroupCollapse();
     }
 
     private void moveDrawerToTop() {
         context = getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu, null);
+        DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu_expandable, null);
         Activity activity = (Activity) context;
         ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
         View child = decor.getChildAt(0);
@@ -68,7 +70,7 @@ public class PhilipsDrawerLayout extends LinearLayout {
         drawer.findViewById(R.id.hamburger_list).setPadding(0, getStatusBarHeight(), 0, 0);
         listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
         drawerLayout = (DrawerLayout) drawer.findViewById(R.id.philips_drawer_layout);
-        drawerListView = (ListView) drawer.findViewById(R.id.hamburger_list);
+        drawerListView = (ExpandableListView) drawer.findViewById(R.id.hamburger_list);
         footerImage = (VectorDrawableImageView) drawer.findViewById(R.id.image);
     }
 
@@ -80,7 +82,7 @@ public class PhilipsDrawerLayout extends LinearLayout {
         return actionBarSize;
     }
 
-    public ListView getDrawerListView() {
+    public ExpandableListView getDrawerListView() {
         return drawerListView;
     }
 
@@ -140,6 +142,14 @@ public class PhilipsDrawerLayout extends LinearLayout {
         lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         vectorDrawableImageView.setLayoutParams(lp);
+    }
+
+    private void disableGroupCollapse() {
+        drawerListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return true;
+            }
+        });
     }
 
     public DrawerLayout getDrawerLayout() {
