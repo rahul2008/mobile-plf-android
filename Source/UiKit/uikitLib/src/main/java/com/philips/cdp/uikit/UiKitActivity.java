@@ -31,7 +31,9 @@ public class UiKitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initActionBar(getSupportActionBar());
+        if (validateHamburger()) {
+            initActionBar(getSupportActionBar());
+        }
     }
 
     @Override
@@ -81,7 +83,10 @@ public class UiKitActivity extends AppCompatActivity {
 
     @Override
     public void setTitle(CharSequence title) {
-        actionBarTitle.setText(title);
+        if (actionBarTitle != null)
+            actionBarTitle.setText(title);
+        else
+            super.setTitle(title);
     }
 
 }
