@@ -172,7 +172,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public void loadFirstFragment() {
         try {
             handleUserLoginStateFragments();
-
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
                     "RegistrationFragment :FragmentTransaction Exception occured in loadFirstFragment  :"
@@ -184,7 +183,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         User mUser = new User(mActivity.getApplicationContext());
         if (mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
             AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
-            replaceWithWelcomeFragment();
+            replaceWithLogoutFragment();
             return;
         }
         AppTagging.trackFirstPage(AppTaggingPages.HOME);
@@ -275,6 +274,19 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             welcomeFragment.setArguments(welcomeFragmentBundle);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
+    }
+
+    private void replaceWithLogoutFragment() {
+        try {
+            LogoutFragment logoutFragment = new LogoutFragment();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, logoutFragment);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
