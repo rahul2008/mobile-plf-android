@@ -51,7 +51,6 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
                 return false;
             }
         });
-        setTitle(getResources().getString(R.string.app_name));
         configureDrawer();
     }
 

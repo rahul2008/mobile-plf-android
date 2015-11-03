@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
@@ -25,42 +27,40 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  */
 public class PhilipsDrawerLayout extends LinearLayout {
 
-    private final View parentView;
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private Context context;
     private VectorDrawableImageView footerImage;
     private LinearLayout listViewParentLayout;
+    private TextView actionBarTitle;
 
     public PhilipsDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        parentView = LayoutInflater.from(context).inflate(
-                R.layout.uikit_hamburger_parent, null, false);
-        this.addView(parentView);
-        moveDrawerToTop();
+        initializeDrawer();
         updateSmartFooter();
     }
 
     public PhilipsDrawerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        parentView = LayoutInflater.from(context).inflate(
-                R.layout.uikit_hamburger_parent, null, false);
-        this.addView(parentView);
-        moveDrawerToTop();
+        initializeDrawer();
         updateSmartFooter();
     }
 
-    private void moveDrawerToTop() {
+    private void initializeDrawer() {
         context = getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu, null);
+        moveDrawerToTop(drawer);
+        initializeDrawerViews(drawer);
+    }
+
+    private void moveDrawerToTop(DrawerLayout drawer) {
         Activity activity = (Activity) context;
         ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
         View child = decor.getChildAt(0);
         decor.removeView(child);
         LinearLayout container = (LinearLayout) drawer.findViewById(R.id.frame_container);
         container.addView(child, 0);
-        initializeDrawerViews(drawer);
         decor.addView(drawer);
     }
 
@@ -144,6 +144,20 @@ public class PhilipsDrawerLayout extends LinearLayout {
 
     public DrawerLayout getDrawerLayout() {
         return drawerLayout;
+    }
+
+    public void initActionBar(ActionBar actionBar) {
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.uikit_action_bar_title);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setHomeAsUpIndicator(VectorDrawable.create(context, R.drawable.uikit_hamburger_icon));
+        actionBarTitle = (TextView) actionBar.getCustomView().findViewById(R.id.hamburger_title);
+    }
+
+    public void setTitle(CharSequence title) {
+        if (actionBarTitle != null)
+            actionBarTitle.setText(title);
     }
 
 }

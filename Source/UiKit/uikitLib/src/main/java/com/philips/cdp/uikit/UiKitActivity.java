@@ -72,7 +72,7 @@ public class UiKitActivity extends AppCompatActivity {
         menuItem.setActionView(vectorDrawableImageView);
     }
 
-    public void initActionBar(ActionBar actionBar) {
+    private void initActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(R.layout.uikit_action_bar_title);
         actionBar.setDisplayHomeAsUpEnabled(true);
