@@ -14,6 +14,12 @@
         android:layout_height = "wrap_content"
         android:layout_centerInParent="true">
 
+        <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+            android:id="@+id/slider_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:vectorsrc="@drawable/uikit_slider_bubble" />
         <TextView
             android:id="@+id/indicator_text"
             android:layout_width="wrap_content"
@@ -22,16 +28,10 @@
             android:lines="1"
             android:text="0"
             android:textSize="@dimen/slider_text_size"
+            fontPath="fonts/centralesansbold.ttf"
             android:textColor="?attr/baseColor"
             android:layout_marginBottom="@dimen/slider_textview_margin_bottom"
             />
-
-        <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
-            android:id="@+id/slider_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:vectorsrc="@drawable/uikit_slider_bubble" />
     </FrameLayout>
     <SeekBar
         android:id="@+id/slider"

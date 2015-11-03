@@ -47,15 +47,16 @@ public class UikitSeekbar extends LinearLayout {
         this(context, attrs, -1);
     }
 
+
+
     public UikitSeekbar(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mcontext = context;
 
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.slider, 0, 0);
         enableBubbleSlider = a.getBoolean(R.styleable.slider_enableBubbleIndictor, false);
         a.recycle();
-
-        mcontext = context;
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.uikit_slider, null, false);
@@ -67,7 +68,6 @@ public class UikitSeekbar extends LinearLayout {
             indicatorImage.setVisibility(View.GONE);
             indicatorText.setVisibility(View.GONE);
         }
-
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
@@ -112,10 +112,12 @@ public class UikitSeekbar extends LinearLayout {
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setIndicatorPosition();
+        if (enableBubbleSlider) {
+            setIndicatorPosition();
+        }
     }
 
-    public void init(Context context) {
+    private void init(Context context) {
         seekbar = (SeekBar) findViewById(R.id.slider);
         indicatorImage = (ImageView) findViewById(R.id.slider_indicator);
         sliderFramelayout = (FrameLayout) findViewById(R.id.slider_framelayout);
@@ -126,7 +128,7 @@ public class UikitSeekbar extends LinearLayout {
         seekbar.setThumbOffset(0);
     }
 
-    public LayerDrawable sliderBar() {
+    private LayerDrawable sliderBar() {
         LayerDrawable slidebar = (LayerDrawable) ContextCompat.getDrawable(mcontext, R.drawable.uikit_slider_bar);
         slidebar.getConstantState().newDrawable().mutate();
         ClipDrawable progressbar = (ClipDrawable) slidebar.findDrawableByLayerId(android.R.id.progress);

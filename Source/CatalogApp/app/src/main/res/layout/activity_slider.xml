@@ -6,13 +6,16 @@
     android:orientation="vertical">
 
     <com.philips.cdp.uikit.costumviews.UikitSeekbar
-        android:layout_width="200dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        app:enableBubbleIndictor="false">
     </com.philips.cdp.uikit.costumviews.UikitSeekbar>
 
     <com.philips.cdp.uikit.costumviews.UikitSeekbar
-        android:layout_width="200dp"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:enableBubbleIndictor="true">
