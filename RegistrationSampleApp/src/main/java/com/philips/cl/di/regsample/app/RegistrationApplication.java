@@ -26,7 +26,7 @@ public class RegistrationApplication extends Application {
 		mRegistrationHelper = RegistrationHelper.getInstance();
 
 		//Tagging.init(Locale.getDefault(), getApplicationContext());
-		RegistrationHelper.getInstance().setCoppaFlow(true);
+		RegistrationHelper.getInstance().setCoppaFlow(false);
 
 		//Tagging.setLaunchingPageName("demoapp:home");
 

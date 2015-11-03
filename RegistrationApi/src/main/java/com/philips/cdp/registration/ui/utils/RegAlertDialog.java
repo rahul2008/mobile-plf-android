@@ -40,8 +40,6 @@ public class RegAlertDialog {
 		if(alertDialogBuilder!=null){
 			alertDialogBuilder.dismiss();
 		}
-
 	}
-
 }
 
