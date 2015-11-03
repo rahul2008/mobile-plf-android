@@ -12,8 +12,6 @@ import java.util.Locale;
 
 public class RegistrationApplication extends Application {
 
-	private RegistrationHelper mRegistrationHelper;
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -22,13 +20,6 @@ public class RegistrationApplication extends Application {
 		RLog.d(RLog.JANRAIN_INITIALIZE,
 		        "RegistrationApplication : Janrain initialization with locale : "
 		                + Locale.getDefault());
-
-		mRegistrationHelper = RegistrationHelper.getInstance();
-
-		//Tagging.init(Locale.getDefault(), getApplicationContext());
-		RegistrationHelper.getInstance().setCoppaFlow(false);
-
-		//Tagging.setLaunchingPageName("demoapp:home");
 
 
 		Tagging.enableAppTagging(true);
@@ -40,7 +31,7 @@ public class RegistrationApplication extends Application {
 			mlocale = new Locale("en_US");
 		}
 		Tagging.init(mlocale, this);
-		mRegistrationHelper.intializeRegistrationSettings(this,
+		RegistrationHelper.getInstance().intializeRegistrationSettings(this,
 				Locale.getDefault());
 
 	}
