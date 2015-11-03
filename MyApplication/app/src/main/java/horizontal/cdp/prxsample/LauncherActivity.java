@@ -6,7 +6,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.cdp.prx.assets.Asset;
+import com.cdp.prx.assets.AssetModel;
+import com.cdp.prx.assets.Assets;
+import com.cdp.prx.assets.Data;
 import com.cdp.prx.databuilder.ProductAssetBuilder;
+import com.cdp.prx.databuilder.ProductSummaryBuilder;
+import com.cdp.prx.summary.SummaryModel;
+
+import java.util.List;
 
 import horizontal.cdp.prxcomponent.RequestManager;
 import horizontal.cdp.prxcomponent.ResponseData;
@@ -35,7 +43,13 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, mRequestTag);
+     /*   ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, mRequestTag);
+        mProductAssetBuilder.setmSectorCode(mSectorCode);
+        mProductAssetBuilder.setmLocale(mLocale);
+        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setmCtnCode(mCtn);*/
+
+       ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
         mProductAssetBuilder.setmLocale(mLocale);
         mProductAssetBuilder.setmCatalogCode(mCatalogCode);
@@ -46,7 +60,17 @@ public class LauncherActivity extends AppCompatActivity {
         mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                Log.d(TAG, " Positive Response Data : " + responseData.getAssetModel());
+
+                SummaryModel mAssetModel = (SummaryModel) responseData.getDataModel();
+                com.cdp.prx.summary.Data mData = mAssetModel.getData();
+
+
+
+                Log.d(TAG, " Positive Response Data : " + mAssetModel.isSuccess());
+                Log.d(TAG, " Positive Response Data : " + mData.getBrand());
+                Log.d(TAG, " Positive Response Data : " + mData.getCtn());
+                Log.d(TAG, " Positive Response Data : " + mData.getProductTitle());
+
             }
 
             @Override

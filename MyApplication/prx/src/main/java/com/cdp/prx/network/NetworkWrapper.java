@@ -37,7 +37,7 @@ public class NetworkWrapper {
         mListener = listener;
     }
 
-    public void execute() {
+    public void executeJsonObjectRequest() {
 
         RequestQueue mVolleyRequest = Volley.newRequestQueue(mContext);
 
@@ -46,7 +46,8 @@ public class NetworkWrapper {
             @Override
             public void onResponse(JSONObject response) {
 
-                mResponseData = new ResponseData(response, mPrxDataBuilder);
+             //   mPrxDataBuilder.set
+                mResponseData = new ResponseData(response, mPrxDataBuilder, mListener);
                 mResponseData.init();
                 Log.d(TAG, "Response : " + response.toString());
             }
