@@ -30,11 +30,14 @@
 
     <TextView
         android:id="@+id/list_counter"
+        style="@style/NotificationLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/uikit_hamburger_item_counter_right_margin"
+        android:text="12345"
+        android:textSize="5dp"
         />
 
 </RelativeLayout>

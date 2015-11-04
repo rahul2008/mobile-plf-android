@@ -59,4 +59,9 @@
     <style name="Slider">
         <item name="android:thumbOffset">@dimen/slider_padding_left</item>
     </style>
+
+    <style name="NotificationLabel">
+        <item name="android:background">@drawable/uikit_notification_label</item>
+    </style>
+
 </resources>

@@ -85,7 +85,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     }
 
     private void addDrawerItems() {
-//        hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[5], hamburgerMenuIcons.getResourceId(5, -1), "50+"));
+        hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[5], hamburgerMenuIcons.getResourceId(5, -1), "50+"));
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
             hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0));
         }
