@@ -344,6 +344,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements P
     @Override
     public void onAssetDataReceived(ViewProductDetailsModel object) {
 
+        DigiCareLogger.d(TAG, "Manual Link : " + object.getmManualLink());
+        DigiCareLogger.d(TAG, "Video's Length : " + object.getmVideoLinks().size());
+
     }
 
 }

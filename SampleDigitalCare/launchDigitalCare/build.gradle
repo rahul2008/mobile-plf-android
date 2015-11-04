@@ -45,6 +45,7 @@ calabash {
 dependencies {
     compile project(':digitalCare')
     compile 'com.google.android.gms:play-services:+'
+
     compile files('libs/HockeySDK-3.0.2.jar')
 }
 

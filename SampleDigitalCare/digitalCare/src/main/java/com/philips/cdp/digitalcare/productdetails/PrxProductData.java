@@ -5,14 +5,20 @@ import android.content.Context;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.productdetails.model.listener.PrxCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
 import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description :
@@ -101,7 +107,23 @@ public class PrxProductData {
 
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
-                    DigiCareLogger.d(TAG, "Asset Data Received ? " + mAssetModel.isSuccess());
+                    com.philips.cdp.prxclient.prxdatamodels.assets.Data data = mAssetModel.getData();
+                    Assets assets = data.getAssets();
+                    List<Asset> asset = assets.getAsset();
+                    List<String> mVideoList = new ArrayList<String>();
+                    for (Asset assetObject : asset) {
+                        String assetDescription = assetObject.getDescription();
+                        String assetResource = assetObject.getAsset();
+                        String assetExtension = assetObject.getExtension();
+                        if (assetDescription.equalsIgnoreCase(DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF))
+                            if (assetResource != null)
+                                mObject.setmManualLink(assetResource);
+                        if (assetExtension.equalsIgnoreCase(DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
+                            if (assetResource != null)
+                                mVideoList.add(assetResource);
+                    }
+                    mObject.setmVideoLinks(mVideoList);
+                    mCallback.onAssetDataReceived(mObject);
                 }
             }
 
