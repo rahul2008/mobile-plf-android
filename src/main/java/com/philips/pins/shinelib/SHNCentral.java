@@ -305,7 +305,9 @@ public class SHNCentral {
     }
 
     public void unregisterShnCentralListener(SHNCentralListener shnCentralListener) {
-        registeredShnCentralListeners.remove(shnCentralListener);
+        if(registeredShnCentralListeners!=null) {
+            registeredShnCentralListeners.remove(shnCentralListener);
+        }
     }
 
     public SHNUserConfiguration getSHNUserConfiguration() {
