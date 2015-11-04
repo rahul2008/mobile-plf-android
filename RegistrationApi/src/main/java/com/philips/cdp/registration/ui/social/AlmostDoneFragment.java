@@ -18,10 +18,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -284,7 +284,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
 
-        if(null!=mProvider){
+        if (null != mProvider) {
             mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
         }
 
@@ -292,10 +292,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.setVisibility(View.GONE);
             mBtnContinue.setEnabled(true);
         } else {
-            if(mBundle ==null){
+            if (mBundle == null) {
                 mBtnContinue.setEnabled(true);
-            }else{
-                View viewLine = (View)view.findViewById(R.id.reg_view_line);
+            } else {
+                View viewLine = (View) view.findViewById(R.id.reg_view_line);
                 viewLine.setVisibility(View.VISIBLE);
                 mEtEmail.setVisibility(View.VISIBLE);
             }
@@ -382,7 +382,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (v.getId() == R.id.reg_btn_continue) {
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
-            if(mBundle==null){
+            if (mBundle == null) {
                 launchWelcomeFragment();
                 return;
             }
@@ -542,8 +542,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     //called on click of back
-    public void clearUserData(){
-        if(!mCbAcceptTerms.isChecked()){
+    public void clearUserData() {
+        if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
             User user = new User(mContext);
             user.logout(null);
         }

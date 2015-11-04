@@ -126,10 +126,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
 
             if (fragment instanceof AlmostDoneFragment) {
-                if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() ){
                    ((AlmostDoneFragment)(fragment)).clearUserData();
-                }
-
             }
             trackHandler();
             mFragmentManager.popBackStack();
