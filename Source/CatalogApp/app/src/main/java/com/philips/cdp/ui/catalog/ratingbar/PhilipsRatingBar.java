@@ -24,6 +24,8 @@ import java.lang.reflect.Method;
 public class PhilipsRatingBar extends RatingBar {
 
     private boolean isBigStar;
+    private int height;
+    private int width;
 
     public PhilipsRatingBar(Context context) {
         super(context);
@@ -34,6 +36,15 @@ public class PhilipsRatingBar extends RatingBar {
         TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RatingBarView, 0, 0);
         isBigStar = a.getBoolean(R.styleable.RatingBarView_isratingbarbig, true);
         a.recycle();
+
+        if (isBigStar) {
+            width = (int) (getContext().getResources().getDimension(R.dimen.star_width));
+            height = (int) (getContext().getResources().getDimension(R.dimen.star_height));
+        } else {
+            width = (int) (getContext().getResources().getDimension(R.dimen.star_width_small));
+            height = (int) (getContext().getResources().getDimension(R.dimen.star_height_small));
+        }
+
         setProgressDrawableCustom();
     }
 
@@ -71,17 +82,9 @@ public class PhilipsRatingBar extends RatingBar {
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width;
-        int height;
 
         if (this != null) {
-            if (isBigStar) {
-                width = (int) (getContext().getResources().getDimension(R.dimen.star_width));
-                height = (int) (getContext().getResources().getDimension(R.dimen.star_height));
-            } else {
-                width = (int) (getContext().getResources().getDimension(R.dimen.star_width_small));
-                height = (int) (getContext().getResources().getDimension(R.dimen.star_height_small));
-            }
+
             setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0),
                     height);
         }
