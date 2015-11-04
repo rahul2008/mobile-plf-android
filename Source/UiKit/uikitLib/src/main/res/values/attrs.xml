@@ -30,6 +30,10 @@
         <attr name="vectorsrc" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="RatingBarView">
+        <attr name="isratingbarbig" format="boolean"/>
+    </declare-styleable>
+
     <declare-styleable name="InputTextField">
         <attr name="inputFieldWidth" format="dimension"/>
         <attr name="inputFieldHeight" format="dimension"/>
@@ -43,6 +47,7 @@
     </declare-styleable>
 
     <attr name="enableStroke" format="boolean"/>
+
     <declare-styleable name="VectorCompat">
         <attr name="vc_tintMode" format="enum">
             <enum name="src_over" value="3" />
@@ -99,4 +104,9 @@
         </attr>
         <attr name="vc_strokeMiterLimit" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="slider">
+        <attr name="enableBubbleIndictor" format="boolean"/>
+    </declare-styleable>
+
 </resources>
