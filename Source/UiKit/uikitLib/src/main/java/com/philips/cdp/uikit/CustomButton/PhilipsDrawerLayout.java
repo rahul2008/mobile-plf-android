@@ -1,26 +1,21 @@
 package com.philips.cdp.uikit.CustomButton;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.hamburger.HamburgerUtil;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -28,6 +23,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  */
 public class PhilipsDrawerLayout extends LinearLayout {
 
+    private HamburgerUtil hamburgerUtil;
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private Context context;
@@ -37,14 +33,16 @@ public class PhilipsDrawerLayout extends LinearLayout {
 
     public PhilipsDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        hamburgerUtil = new HamburgerUtil(getContext());
         initializeDrawer();
-        updateSmartFooter();
+        hamburgerUtil.updateSmartFooter(drawerListView, footerImage);
     }
 
     public PhilipsDrawerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        hamburgerUtil = new HamburgerUtil(getContext());
         initializeDrawer();
-        updateSmartFooter();
+        hamburgerUtil.updateSmartFooter(drawerListView, footerImage);
     }
 
     private void initializeDrawer() {
@@ -53,34 +51,16 @@ public class PhilipsDrawerLayout extends LinearLayout {
         initActionBar(activity.getSupportActionBar());
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu, null);
-        moveDrawerToTop(drawer);
+        hamburgerUtil.moveDrawerToTop(drawer);
         initializeDrawerViews(drawer);
-    }
-
-    private void moveDrawerToTop(DrawerLayout drawer) {
-        Activity activity = (Activity) context;
-        ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
-        View child = decor.getChildAt(0);
-        decor.removeView(child);
-        LinearLayout container = (LinearLayout) drawer.findViewById(R.id.frame_container);
-        container.addView(child, 0);
-        decor.addView(drawer);
     }
 
     private void initializeDrawerViews(DrawerLayout drawer) {
         listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
         drawerLayout = (DrawerLayout) drawer.findViewById(R.id.philips_drawer_layout);
         drawerListView = (ListView) drawer.findViewById(R.id.hamburger_list);
-        drawerListView.setPadding(0, getStatusBarHeight(), 0, 0);
+        drawerListView.setPadding(0, hamburgerUtil.getStatusBarHeight(), 0, 0);
         footerImage = (VectorDrawableImageView) drawer.findViewById(R.id.image);
-    }
-
-    private int getStatusBarHeight() {
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-                new int[]{android.R.attr.actionBarSize});
-        int actionBarSize = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-        return actionBarSize;
     }
 
     public ListView getDrawerListView() {
@@ -92,57 +72,6 @@ public class PhilipsDrawerLayout extends LinearLayout {
                 ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT);
         drawerLayout.updateViewLayout(listViewParentLayout, layoutParams);
         drawerLayout.closeDrawer(listViewParentLayout);
-    }
-
-    private void updateSmartFooter() {
-        drawerListView.post(new Runnable() {
-            @Override
-            public void run() {
-                int heightPixels = getDeviceHeightPixels();
-                int adaptorTotalHeight = getAdaptorTotalHeight();
-                validateLogoView(heightPixels, adaptorTotalHeight);
-            }
-        });
-    }
-
-    private void validateLogoView(final int heightPixels, final int adaptorTotalHeight) {
-        if (adaptorTotalHeight > heightPixels) {
-            LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = vi.inflate(R.layout.uikit_footer_view, null);
-            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) view.findViewById(R.id.hamburger_logo);
-            setLogoCenterWithMargins(vectorDrawableImageView);
-            drawerListView.addFooterView(view, null, false);
-            setVectorImage(vectorDrawableImageView);
-        } else {
-            footerImage.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private int getDeviceHeightPixels() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        Activity activity = (Activity) context;
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        return displayMetrics.heightPixels;
-    }
-
-    private int getAdaptorTotalHeight() {
-        if (drawerListView != null && drawerListView.getAdapter().getCount() != 0) {
-            return (int) (drawerListView.getAdapter().getCount() * getResources().getDimension(R.dimen.uikit_hamburger_list_item_height));
-        }
-        return 0;
-    }
-
-    private void setVectorImage(final VectorDrawableImageView vectorDrawableImageView) {
-        int resID = R.drawable.uikit_philips_logo;
-        vectorDrawableImageView.setImageDrawable(VectorDrawable.create(context, resID));
-    }
-
-    private void setLogoCenterWithMargins(final VectorDrawableImageView vectorDrawableImageView) {
-        Resources resources = getResources();
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
-        lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
-        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        vectorDrawableImageView.setLayoutParams(lp);
     }
 
     public DrawerLayout getDrawerLayout() {
