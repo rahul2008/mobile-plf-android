@@ -540,4 +540,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             }
         }
     }
+
+    //called on click of back
+    public void clearUserData(){
+        if(!mCbAcceptTerms.isChecked()){
+            User user = new User(mContext);
+            user.logout(null);
+        }
+    }
 }

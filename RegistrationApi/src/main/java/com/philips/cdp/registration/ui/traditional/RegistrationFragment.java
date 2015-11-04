@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.registration.apptagging.AppTagging;
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -28,6 +28,7 @@ import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.tagging.Tagging;
 import com.philips.dhpclient.BuildConfig;
 
 import org.json.JSONObject;
@@ -122,6 +123,14 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             navigateToHome();
             trackPage(AppTaggingPages.HOME);
         } else {
+
+
+            if (fragment instanceof AlmostDoneFragment) {
+                if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() ){
+                   ((AlmostDoneFragment)(fragment)).clearUserData();
+                }
+
+            }
             trackHandler();
             mFragmentManager.popBackStack();
         }
@@ -308,7 +317,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(socialAlmostDoneFragment);
     }
 
-    public void addPlaneAlmostDoneFragment(){
+    public void addPlaneAlmostDoneFragment() {
         AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
         addFragment(almostDoneFragment);
     }
@@ -329,7 +338,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(mergeAccountFragment);
     }
 
-    public void addResetPasswordFragment(){
+    public void addResetPasswordFragment() {
         ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();
         addFragment(resetPasswordFragment);
     }
