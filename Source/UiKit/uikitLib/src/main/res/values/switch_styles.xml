@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="SwitchDarkBlue" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:track">@drawable/uikit_switch_darkblue_track_selector</item>
-        <item name="android:thumb">@drawable/uikit_thumb</item>
-    </style>
-
-    <style name="SwitchBrightOrange" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:track">@drawable/uikit_switch_brightorange_track_selector</item>
-        <item name="android:thumb">@drawable/uikit_thumb</item>
-    </style>
-
-    <style name="SwitchBrightAqua" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:track">@drawable/uikit_switch_brightaqua_track_selector</item>
+    <style name="UikitSwitch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:track">@drawable/uikit_switch_track_selector</item>
         <item name="android:thumb">@drawable/uikit_thumb</item>
     </style>
 </resources>

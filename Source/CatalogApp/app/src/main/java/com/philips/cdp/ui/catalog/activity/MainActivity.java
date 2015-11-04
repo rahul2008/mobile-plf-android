@@ -78,6 +78,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, SliderActivity.class));
                 break;
 			case 10:
+                startActivity(new Intent(this, RatingBarLauncher.class));
+                break;
+			case 11:
                 startActivity(new Intent(this, HamburgerActivity.class));
 				break;
             default:
@@ -117,8 +120,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
         itemsMap.put(9, "Sliders");
-        itemsMap.put(10, "Hamburger Menu");
-
+        itemsMap.put(10, "Rating Bar");
+        itemsMap.put(11, "Hamburger Menu");
         return itemsMap;
     }
 }

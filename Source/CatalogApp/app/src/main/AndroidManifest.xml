@@ -35,9 +35,11 @@
         <activity android:name=".activity.DotNavigation"/>
         <activity android:name=".activity.TabBarDemo"/>
         <activity android:name=".activity.SliderActivity"/>
+
 		<activity android:name=".activity.HamburgerMenuDemo" />
         <activity android:name=".activity.HamburgerMenuExpandableDemo" />
         <activity android:name=".activity.HamburgerActivity" />
+        <activity android:name=".activity.RatingBarLauncher"/>
     </application>
 
 </manifest>
