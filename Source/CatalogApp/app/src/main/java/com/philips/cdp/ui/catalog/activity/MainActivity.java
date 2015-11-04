@@ -73,9 +73,11 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 8:
                 startActivity(new Intent(this, TabBarDemo.class));
-                break;
             case 9:
                 startActivity(new Intent(this, SliderActivity.class));
+                break;
+            case 10:
+                startActivity(new Intent(this, RatingBarLauncher.class));
                 break;
             default:
                 break;
@@ -114,6 +116,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
         itemsMap.put(9, "Sliders");
+        itemsMap.put(10, "Rating Bar");
         return itemsMap;
     }
 }
