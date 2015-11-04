@@ -3,6 +3,7 @@ package com.philips.cdp.digitalcare.productdetails;
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -11,18 +12,25 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
+import com.philips.cdp.digitalcare.productdetails.model.listener.PrxCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 /*import com.philips.cdp.horizontal.RequestManager;
 import com.philips.cdp.network.listeners.AssetListener;
@@ -34,7 +42,7 @@ import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
  * @author : Ritesh.jha@philips.com
  * @since : 16 Jan 2015
  */
-public class ProductDetailsFragment extends DigitalCareBaseFragment implements
+public class ProductDetailsFragment extends DigitalCareBaseFragment implements PrxCallback,
         OnClickListener {
 
     private static String TAG = ProductDetailsFragment.class.getSimpleName();
@@ -46,6 +54,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout mProdVideoContainer = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
+    private DigitalCareFontTextView mProductTitle = null;
+    private DigitalCareFontTextView mCtn = null;
+    private ImageView mProductImage = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +71,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+        initPrxRequest();
         mFirstContainer = (RelativeLayout) getActivity().findViewById(
                 R.id.toplayout);
         mProdButtonsParent = (LinearLayout) getActivity().findViewById(
@@ -74,6 +86,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 .getLayoutParams();
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        mProductImage = (ImageView) getActivity().findViewById(R.id.productimage);
+        mProductTitle = (DigitalCareFontTextView) getActivity().findViewById(R.id.name);
+        mCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.variant);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
@@ -91,24 +106,25 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 initPRX();
             }
         });
-  */  }
+  */
+    }
 
-    private void initView(){
+    private void initView() {
         int count = 4;
 
-        for(int i=0; i< count; i++){
+        for (int i = 0; i < count; i++) {
             addNewVideo(i + "");
         }
     }
 
-    private void addNewVideo(String tag){
+    private void addNewVideo(String tag) {
         View child = getActivity().getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
         child.setTag(tag);
         child.setOnClickListener(videoModel);
         mProdVideoContainer.addView(child);
     }
 
-    private View.OnClickListener videoModel = new View.OnClickListener(){
+    private View.OnClickListener videoModel = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -130,6 +146,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         setViewParams(config);
     }
+
+
+    protected void initPrxRequest() {
+        PrxProductData mPrxDataParse = new PrxProductData(getActivity().getApplicationContext(), this);
+    }
+
 
     @Override
     public void setViewParams(Configuration config) {
@@ -180,7 +202,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         });
     }
 
-   */ /**
+   */
+
+    /**
      * Create RelativeLayout at runTime. RelativeLayout will have button and
      * image together.
      */
@@ -289,4 +313,37 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_PRODCUT_DETAILS;
     }
+
+    @Override
+    public void onSummaryDataReceived(ViewProductDetailsModel object) {
+
+        if (object.getmProductName() != null)
+            mProductTitle.setText(object.getmProductName());
+        if (object.getmCtnName() != null)
+            mCtn.setText(object.getmCtnName());
+        if (object.getmProductImage() != null) {
+            ImageRequest request = new ImageRequest(object.getmProductImage(),
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            mProductImage.setImageBitmap(bitmap);
+                        }
+                    }, 0, 0, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            // mProductImage.setImageResource(R.drawable.image_load_error);
+                        }
+                    });
+
+            RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());
+            imageRequestQueue.add(request);
+
+        }
+    }
+
+    @Override
+    public void onAssetDataReceived(ViewProductDetailsModel object) {
+
+    }
+
 }

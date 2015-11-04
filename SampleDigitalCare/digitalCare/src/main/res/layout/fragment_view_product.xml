@@ -19,19 +19,19 @@
             <ImageView
                 android:id="@+id/productimage"
                 style="@style/viewProductDetails_ProdImage"
-                android:contentDescription="@string/product_name" />
+                 />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/name"
                 style="@style/viewProductDetails_Product_Header"
                 android:layout_alignTop="@id/productimage"
-                android:text="@string/product_name"
+
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/variant"
                 style="@style/viewProductDetails_Product_Variant"
-                android:text="@string/product_variant"
+
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </RelativeLayout>
 
