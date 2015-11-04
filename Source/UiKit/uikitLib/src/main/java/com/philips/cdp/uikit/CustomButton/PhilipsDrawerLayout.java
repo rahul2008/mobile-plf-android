@@ -23,7 +23,7 @@ import com.philips.cdp.uikit.hamburger.HamburgerUtil;
  */
 public class PhilipsDrawerLayout extends LinearLayout {
 
-    HamburgerUtil hamburgerUtil;
+    private HamburgerUtil hamburgerUtil;
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private Context context;

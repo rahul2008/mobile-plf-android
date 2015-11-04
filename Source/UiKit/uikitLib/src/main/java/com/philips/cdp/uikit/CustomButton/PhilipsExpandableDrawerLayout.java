@@ -24,7 +24,7 @@ import com.philips.cdp.uikit.hamburger.HamburgerUtil;
  */
 public class PhilipsExpandableDrawerLayout extends LinearLayout {
 
-    private final HamburgerUtil hamburgerUtil;
+    private HamburgerUtil hamburgerUtil;
     private ExpandableListView drawerListView;
     private DrawerLayout drawerLayout;
     private Context context;
@@ -56,7 +56,6 @@ public class PhilipsExpandableDrawerLayout extends LinearLayout {
         DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu_expandable, null);
         hamburgerUtil.moveDrawerToTop(drawer);
         initializeDrawerViews(drawer);
-
     }
 
     private void initializeDrawerViews(DrawerLayout drawer) {
