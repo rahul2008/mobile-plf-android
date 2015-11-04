@@ -18,20 +18,21 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.lang.reflect.Method;
 
 /**
- * Created by 310218660 on 10/30/2015.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
 
-public class PhilipsRatingBar extends RatingBar {
+public class UIKitRatingBar extends RatingBar {
 
     private boolean isBigStar;
     private int height;
     private int width;
 
-    public PhilipsRatingBar(Context context) {
+    public UIKitRatingBar(Context context) {
         super(context);
     }
 
-    public PhilipsRatingBar(Context context, AttributeSet attributeSet) {
+    public UIKitRatingBar(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RatingBarView, 0, 0);
         isBigStar = a.getBoolean(R.styleable.RatingBarView_isratingbarbig, true);
@@ -82,12 +83,7 @@ public class PhilipsRatingBar extends RatingBar {
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        if (this != null) {
-
-            setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0),
-                    height);
-        }
+        setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0), height);
     }
 
 
