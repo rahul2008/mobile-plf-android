@@ -36,7 +36,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/uikit_hamburger_item_counter_right_margin"
-        android:text="12345"
+        android:text="50"
         android:textSize="5dp"
         />
 

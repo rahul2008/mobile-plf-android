@@ -85,21 +85,21 @@ public class HamburgerMenuDemo extends CatalogActivity {
     }
 
     private void addDrawerItems() {
-        hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[5], hamburgerMenuIcons.getResourceId(5, -1), "50+"));
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0));
+            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0, String.valueOf(i + 1)));
         }
     }
 
     private void addDrawerItemsWithIcons() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1)));
+            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1), String.valueOf(i + 1)));
         }
     }
 
     private void setDrawerAdaptor() {
         adapter = new PhilipsHamburgerAdapter(this,
                 hamburgerItems);
+        philipsDrawerLayout.setCounterListener(adapter);
         philipsDrawerLayout.getDrawerListView().setAdapter(adapter);
     }
 

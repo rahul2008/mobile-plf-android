@@ -62,6 +62,12 @@
 
     <style name="NotificationLabel">
         <item name="android:background">@drawable/uikit_notification_label</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:minWidth">45dp</item>
+        <item name="android:minHeight">33dp</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

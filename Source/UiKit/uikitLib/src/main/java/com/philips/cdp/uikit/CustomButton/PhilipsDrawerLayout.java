@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,12 +17,13 @@ import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerUtil;
+import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsDrawerLayout extends LinearLayout {
+public class PhilipsDrawerLayout extends LinearLayout implements OnDataNotified {
 
     private HamburgerUtil hamburgerUtil;
     private ListView drawerListView;
@@ -30,12 +32,14 @@ public class PhilipsDrawerLayout extends LinearLayout {
     private VectorDrawableImageView footerImage;
     private LinearLayout listViewParentLayout;
     private TextView actionBarTitle;
+    private TextView actionBarCount;
 
     public PhilipsDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         hamburgerUtil = new HamburgerUtil(getContext());
         initializeDrawer();
         hamburgerUtil.updateSmartFooter(drawerListView, footerImage);
+
     }
 
     public PhilipsDrawerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -43,6 +47,19 @@ public class PhilipsDrawerLayout extends LinearLayout {
         hamburgerUtil = new HamburgerUtil(getContext());
         initializeDrawer();
         hamburgerUtil.updateSmartFooter(drawerListView, footerImage);
+    }
+
+    @Override
+    public void onDataSetChanged(BaseAdapter adapter, String dataCount) {
+        actionBarCount.setText(dataCount);
+        hamburgerUtil.updateSmartFooter(drawerListView, footerImage);
+    }
+
+    public void setCounterListener(BaseAdapter baseAdapter) {
+        if (baseAdapter != null) {
+            PhilipsHamburgerAdapter philipsHamburgerAdapter = (PhilipsHamburgerAdapter) baseAdapter;
+            philipsHamburgerAdapter.setOnDataNotified(this);
+        }
     }
 
     private void initializeDrawer() {
@@ -85,11 +102,16 @@ public class PhilipsDrawerLayout extends LinearLayout {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setHomeAsUpIndicator(VectorDrawable.create(context, R.drawable.uikit_hamburger_icon));
         actionBarTitle = (TextView) actionBar.getCustomView().findViewById(R.id.hamburger_title);
+        actionBarCount = (TextView) actionBar.getCustomView().findViewById(R.id.hamburger_count);
     }
 
     public void setTitle(CharSequence title) {
         if (actionBarTitle != null)
             actionBarTitle.setText(title);
+    }
+
+    public void setHamburgerCount(String count) {
+        actionBarCount.setText(count);
     }
 
 }

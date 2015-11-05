@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.philips.cdp.uikit.CustomButton.OnDataNotified;
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -22,10 +23,15 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
+    private OnDataNotified onDataNotified;
 
     public PhilipsHamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
+    }
+
+    public void setOnDataNotified(OnDataNotified onDataNotified) {
+        this.onDataNotified = onDataNotified;
     }
 
     @Override
@@ -61,7 +67,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
         setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount);
-
+        notifyCounter();
         return convertView;
     }
 
@@ -112,10 +118,28 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         txtTitle.setTextColor(colorStateList);
     }
 
+    public String getCounter() {
+        int counter = 0;
+        for (HamburgerItem hamburgerItem : hamburgerItems) {
+            counter += Integer.parseInt(hamburgerItem.getCount());
+        }
+        return String.valueOf(counter);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        notifyCounter();
+    }
+
+    private void notifyCounter() {
+        if (onDataNotified != null)
+            onDataNotified.onDataSetChanged(this, getCounter());
+    }
+
     static class ViewHolderItem {
         VectorDrawableImageView imgIcon;
         TextView txtTitle;
         TextView txtCount;
     }
-
 }
