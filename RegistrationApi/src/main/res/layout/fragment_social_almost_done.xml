@@ -95,16 +95,23 @@
                 android:paddingRight="@dimen/reg_layout_margin">
 
                 <CheckBox
-                    android:id="@+id/cb_reg_register_terms"
+                    android:id="@+id/cb_reg_receive_philips_news"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/reg_checkbox_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dip"
                     android:paddingRight="0dip"
-                    android:text="@string/ReciveMarketing_PeridicOffers_lbltxt"
                     android:textColor="@color/reg_text_heading_one_color"
                     android:textSize="@dimen/reg_title_text_size_medium" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_philips_news"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="0dip"
+                    android:gravity="center|left"
+                    android:text="@string/Receive_Philips_News_lbltxt"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <View

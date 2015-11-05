@@ -118,7 +118,7 @@
     <string name="Signin_Success_Hello_lbltxt">Hello</string>
     <string name="Access_More_Account_Setting_lbltxt">Do you want to access more account setting?\nVisit %s via your browser.</string>
     <string name="Philips_URL_txt">www.philips.com</string>
-    <string name="Receive_Philips_News_lbltxt">Receive Philips news</string>
+    <string name="Receive_Philips_News_lbltxt">Receive Philips news %s</string>
     <string name="Receive_Philips_News_Meaning_lbltxt">What does this mean?</string>
     <string name="Philips_News_Title">Philips News</string>
     <string name="Philips_News_Back_btntxt">Back</string>
@@ -127,7 +127,6 @@
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
     <string name="content_desc">ContentDesc</string>
-    <string name="PrivacyPolicyURL">http://www.philips.co.in/</string>
     <string name="Activation_explain_value_to_user"></string>
     <string name="Welcome_needAccountto_lbltxt"></string>
 

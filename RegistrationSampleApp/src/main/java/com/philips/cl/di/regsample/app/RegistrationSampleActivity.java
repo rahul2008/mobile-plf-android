@@ -157,19 +157,18 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
-                com.philips.cdp.registration.R.string.PrivacyPolicyURL)));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://"+getResources().getString(
+                com.philips.cdp.registration.R.string.Philips_URL_txt)));
         activity.startActivity(browserIntent);
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
-                com.philips.cdp.registration.R.string.PrivacyPolicyURL)));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://"+getResources().getString(
+                com.philips.cdp.registration.R.string.Philips_URL_txt)));
         activity.startActivity(browserIntent);
     }
-
 
     @Override
     public void didResendCoppaEmailConsentSucess() {

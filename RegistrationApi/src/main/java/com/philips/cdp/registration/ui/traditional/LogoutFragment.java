@@ -3,8 +3,11 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -61,6 +65,10 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     private DIUserProfile userProfile;
 
     private ScrollView mSvRootLayout;
+
+    private TextView mAccessAccountSettingsLink;
+
+    private FrameLayout mFlReceivePhilipsNewsContainer;
 
     @Override
     public void onAttach(Activity activity) {
@@ -149,9 +157,10 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         applyParams(config, mTvWelcome, width);
         applyParams(config, mTvEmailDetails, width);
         applyParams(config, mLlContinueBtnContainer, width);
-        applyParams(config, mCbTerms, width);
+        applyParams(config, mFlReceivePhilipsNewsContainer, width);
         applyParams(config, mRegError, width);
         applyParams(config, mTvSignInEmail, width);
+        applyParams(config, mAccessAccountSettingsLink, width);
     }
 
 
@@ -164,7 +173,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
-        mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
+        mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
         FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
         mCbTerms.setVisibility(view.VISIBLE);
@@ -177,9 +186,15 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
         mBtnLogOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
         mBtnLogOut.setOnClickListener(this);
+        TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
+        mAccessAccountSettingsLink = (TextView) view.findViewById(R.id.tv_reg_more_account_Setting);
+
+        mFlReceivePhilipsNewsContainer = (FrameLayout) view.findViewById(R.id.fl_reg_receive_philips_news);
+        RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
+        RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
 
         userProfile = mUser.getUserInstance(mContext);
-        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + userProfile.getGivenName());
+        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " + userProfile.getGivenName());
 
         String email = getString(R.string.InitialSignedIn_SigninEmailText);
         email = String.format(email, userProfile.getEmail());
@@ -308,4 +323,20 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         }
     }
 
+    private ClickableSpan mPhilipsSettingLinkClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://"+getResources().getString(
+                    com.philips.cdp.registration.R.string.Philips_URL_txt)));
+            startActivity(browserIntent);
+        }
+    };
+
+    private ClickableSpan mPhilipsNewsLinkClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            System.out.println("What does means");
+        }
+    };
 }

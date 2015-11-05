@@ -263,7 +263,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mRlContinueBtnContainer = (RelativeLayout) view
                 .findViewById(R.id.rl_reg_btn_continue_container);
 
-        mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
+        mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
         FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
@@ -271,8 +271,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
 
-        mCbAcceptTerms.setOnCheckedChangeListener(this);
+        TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
+        RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
 
+        mCbAcceptTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
@@ -307,6 +309,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         @Override
         public void onClick(View widget) {
             RegUtility.handleTermsCondition(getRegistrationFragment().getParentActivity());
+        }
+    };
+
+    private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RegUtility.handlePhilipsNews(getRegistrationFragment().getParentActivity());
         }
     };
 
