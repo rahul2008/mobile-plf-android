@@ -275,7 +275,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
             if (schedulerJsonFromCPP != null) {
                 jsonObject = schedulerJsonFromCPP;
             }
-            
+
             Iterator<String> iterator = jsonObject.keys();
             String key;
             while (iterator.hasNext()) {
