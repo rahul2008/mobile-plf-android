@@ -1,18 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="philips_button_circle_width">33dp</dimen>
-    <dimen name="philips_button_circle_height">33dp</dimen>
-    <dimen name="philips_button_square_width">33dp</dimen>
-    <dimen name="philips_button_square_height">33dp</dimen>
-    <dimen name="philips_button_square_corner_radius">2dp</dimen>
-    <dimen name="philips_msc_button_text_size">9dp</dimen>
-    <dimen name="philips_msc_button_margin">2dp</dimen>
-    <dimen name="philips_msc_button_padding">2dp</dimen>
+    <dimen name="uikit_philips_action_button_radius">33dp</dimen>
+    <dimen name="uikit_philips_action_button_text_size">9dp</dimen>
+    <dimen name="uikit_philips_action_button_padding">2dp</dimen>
+    <dimen name="uikit_action_button_shadow_radius">6dp</dimen>
 
     <!-- Dimensions for margins of the Splash Screen -->
-    <dimen name="splash_logo_margin_top">35dp</dimen>
-    <dimen name="splash_logo_margin_bottom">35dp</dimen>
-    <dimen name="splash_title_margin_top">35dp</dimen>
-    <dimen name="splash_title_margin_bottom">35dp</dimen>
+    <dimen name="uikit_splash_logo_margin_top">53dp</dimen>
+    <dimen name="uikit_splash_logo_margin_bottom">53dp</dimen>
+    <dimen name="uikit_splash_logo_height">138dp</dimen>
+    <dimen name="uikit_splash_logo_width">109dp</dimen>
+    <dimen name="uikit_splash_title_margin_top">53dp</dimen>
+    <dimen name="uikit_splash_title_margin_bottom">53dp</dimen>
+    <dimen name="uikit_splash_title_text_size">38dp</dimen>
 
+    <dimen name="uikit_button_corner_rounding">2dp</dimen>
+    <dimen name="uikit_button_stroke_width">1dp</dimen>
+    <dimen name="uikit_button_height">44dp</dimen>
+    <dimen name="uikit_button_padding_sides">20dp</dimen>
+    <dimen name="uikit_button_text_size">14sp</dimen>
+
+    <!-- About screen -->
+    <dimen name="uikit_about_screen_apptitle_size">24dp</dimen>
+    <dimen name="uikit_about_screen_actionbar_title_size">20dp</dimen>
+    <dimen name="uikit_about_screen_actionbar_icon_margin">14dp</dimen>
+    <dimen name="uikit_about_screen_version_copyright_size">16dp</dimen>
+    <dimen name="uikit_about_screen_terms_privacy_content_size">14dp</dimen>
+    <dimen name="uikit_about_screen_version_margin">14dp</dimen> <!-- 17dp -->
+    <dimen name="uikit_about_screen_copyright_margin">5dp</dimen> <!-- 8dp -->
+    <dimen name="uikit_about_screen_terms_margin">31dp</dimen> <!-- 31dp -->
+    <dimen name="uikit_about_screen_privacy_margin">31dp</dimen>
+    <dimen name="uikit_about_screen_content_top_margin">27dp</dimen><!-- 27dp -->
+    <dimen name="uikit_about_screen_content_right_margin">32dp</dimen>
+    <dimen name="uikit_about_screen_layout_top_margin">33dp</dimen><!-- 48dp -->
+    <dimen name="uikit_about_screen_layout_left_margin">31dp</dimen><!-- 32dp -->
+    <dimen name="uikit_about_screen_layout_rest_left_margin">32dp</dimen><!-- 31dp-->
+    <dimen name="uikit_about_screen_logo_margin">53dp</dimen>
+    <dimen name="uikit_about_screen_logo_margin_bottom">53dp</dimen>
+    <dimen name="uikit_about_screen_logo_width">67dp</dimen>
+    <dimen name="uikit_about_screen_logo_height">85dp</dimen>
+    <dimen name="uikit_about_screen_mm_logo_height">63dp</dimen>
+    <dimen name="uikit_about_screen_content_linespacing">8dp</dimen>
+    <dimen name="uikit_about_screen_version_copyright_left_margin">32dp</dimen>
+
+    <dimen name="uikit_dot_navigation_selected_width">12dp</dimen>
+    <dimen name="uikit_dot_navigation_selected_height">12dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_width">7dp</dimen>
+    <dimen name="uikit_dot_navigation_unselected_height">7dp</dimen>
+    <dimen name="uikit_dot_navigation_distance_between_circles">9dp</dimen>
+
+    <!-- Tab layout -->
+    <dimen name="uikit_tab_layout_height_with_image">85dp</dimen>
+    <dimen name="uikit_tab_layout_height_without_image">53dp</dimen>
+    <dimen name="uikit_tab_icon_width">33dp</dimen>
+    <dimen name="uikit_tab_icon_height">33dp</dimen>
+    <dimen name="uikit_tab_icon_margin_top">16dp</dimen>
+    <dimen name="uikit_tab_text_margin_top">10dp</dimen>
+    <dimen name="uikit_tab_text_margin_bottom">13dp</dimen>
+    <dimen name="uikit_tab_text_size_with_image">12dp</dimen>
+    <dimen name="uikit_tab_text_size_without_image">14dp</dimen>
+    <color name="uikit_tab_text_enabled_color">#fff</color>
+    <dimen name="uikit_tab_minwidth">90dp</dimen>
+    <dimen name="uikit_tab_divider_width">1dp</dimen>
+
+    <!-- variable to hold info for tablet or phone -->
+    <bool name="uikit_istablet">false</bool>
+
+
+    <!--Slider-->
+    <dimen name="slider_thumb_width">20dp</dimen>
+    <dimen name="slider_thumb_height">20dp</dimen>
+    <dimen name="slider_thumb_stroke_width">1dp</dimen>
+    <dimen name="slider_bar_width">2dp</dimen>
+    <dimen name="slider_bar_progress">4dp</dimen>
+    <dimen name="slider_padding_right">0dp</dimen>
+    <dimen name="slider_padding_left">0dp</dimen>
+    <dimen name="slider_padding">10dp</dimen>
+    <dimen name="slider_text_size">14dp</dimen>
+    <dimen name="slider_indicator_margin">2dp</dimen>
+    <dimen name="slider_textview_margin_bottom">2dp</dimen>
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Philips.DarkBlue.Gradient">
+        <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
+        <item name="android:windowBackground">@drawable/uikit_grad_window_blue_background</item>
+        <item name="android:colorBackground">@color/uikit_philips_bright_blue</item>
+    </style>
+
+    <style name="Theme.Philips.BrightOrange.Gradient">
+        <item name="actionBarBackground">@drawable/uikit_grad_orange_background</item>
+        <item name="android:windowBackground">@drawable/uikit_grad_window_orange_background</item>
+        <item name="android:colorBackground">@color/uikit_philips_bright_orange</item>
+    </style>
+
+    <style name="Theme.Philips.BrightAqua.Gradient">
+        <item name="actionBarBackground">@drawable/uikit_grad_aqua_background</item>
+        <item name="android:windowBackground">@drawable/uikit_grad_window_aqua_background</item>
+        <item name="android:colorBackground">@color/uikit_philips_bright_aqua</item>
+    </style>
+
+</resources>
+

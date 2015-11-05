@@ -1,7 +1,7 @@
 include ':app'
 
-def localLibDir = '../UiKit/uikitLib'
+def localLibDir = '../UiKit'
 if (new File(localLibDir).exists()) {
     include ':uikitLib'
-    project(':uikitLib').projectDir = new File(localLibDir)
+    project(':uikitLib').projectDir = new File(localLibDir + '/uikitLib')
 }

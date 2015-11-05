@@ -1,0 +1,26 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="button">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:elevation">5dp</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="button.normal">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <!--<style name="button.normal.light_blue">-->
+        <!--<item name="android:background">@drawable/light_blue_selector</item>-->
+    <!--</style>-->
+
+    <style name="button.inverted_light_blue">
+        <item name="android:textColor">@drawable/light_blue_inverted_text_selector</item>
+        <item name="android:background">@drawable/light_blue_inverted_selector</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+</resources>

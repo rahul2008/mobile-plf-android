@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="@dimen/app_top_margin"
+              android:orientation="horizontal">
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+                android:id="@+id/miscBtnCircleArrow"
+                style="@style/Philips.ActionButton.Circle.Arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+                android:id="@+id/miscBtnCirclePlus"
+                style="@style/Philips.ActionButton.Circle.Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+                android:id="@+id/miscBtnCircleMinus"
+                style="@style/Philips.ActionButton.Circle.Minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+                android:id="@+id/miscBtnCircleQuestionMark"
+                style="@style/Philips.ActionButton.Circle.QuestionMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                />
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+                android:id="@+id/miscBtnSquareArrow"
+                style="@style/Philips.ActionButton.Square.Arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+                android:id="@+id/miscBtnSquarePlus"
+                style="@style/Philips.ActionButton.Square.Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+                android:id="@+id/miscBtnSquareMinus"
+                style="@style/Philips.ActionButton.Square.Minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+                android:id="@+id/miscBtnSquareCrossMark"
+                style="@style/Philips.ActionButton.Square.CrossMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+</LinearLayout>
