@@ -5,6 +5,10 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -122,6 +126,11 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         });
     }
 
+    /**
+     * Use addSchedule(String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) instead.<br><br>
+     * <p/>
+     * This method will insert the time parameter as the name parameter
+     */
     @Deprecated
     public void addSchedule(String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
         addSchedule(portName, productId, time, time, days, enabled, commandMap);
@@ -144,6 +153,11 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         });
     }
 
+    /**
+     * Use addSchedule(String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) instead.<br><br>
+     * <p/>
+     * This method will insert the time parameter as the name parameter
+     */
     @Deprecated
     public void updateSchedule(int scheduleNumber, String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
         updateSchedule(scheduleNumber, portName, productId, time, time, days, enabled, commandMap);
@@ -219,30 +233,31 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     ScheduleListPortInfo parseResponseAsSingleSchedule(String response) {
-        //TODO: DIComm Refactor
-        if (response == null || response.isEmpty()) return null;
-        ScheduleListPortInfo scheduleListPortInfo = new ScheduleListPortInfo();
-        DICommLog.i(DICommLog.SCHEDULELISTPORT, response);
-        try {
-            JSONObject scheduleJson = new JSONObject(response);
-            JSONObject scheduleJsonViaCPP = scheduleJson.optJSONObject("data");
-            if (scheduleJsonViaCPP != null) {
-                scheduleJson = scheduleJsonViaCPP;
-            }
-            scheduleListPortInfo.setName(scheduleJson.getString(KEY_SCHEDULENAME));
-            scheduleListPortInfo.setEnabled(scheduleJson.getBoolean(KEY_SCHEDULEENABLED));
-            scheduleListPortInfo.setDays(scheduleJson.getString(KEY_SCHEDULEDAYS));
-
-            //TODO: mode is not defined, command is.. furthermore it should be string not jsonobject
-            scheduleListPortInfo.setMode(scheduleJson.getJSONObject(KEY_SCHEDULECOMMAND).getString("om"));
-            scheduleListPortInfo.setScheduleTime(scheduleJson.getString(KEY_SCHEDULETIME));
-        } catch (JSONException e) {
-            scheduleListPortInfo = null;
-            DICommLog.w(DICommLog.SCHEDULELISTPORT, "JSONException: " + "Error: " + e.getMessage());
-        } catch (Exception e) {
-            scheduleListPortInfo = null;
-            DICommLog.w(DICommLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
+        if (response == null || response.isEmpty()) {
+            return null;
         }
+        DICommLog.i(DICommLog.SCHEDULELISTPORT, response);
+
+        ScheduleListPortInfo scheduleListPortInfo = null;
+        try {
+            Gson gson = new GsonBuilder().create();
+            ScheduleListPortInfo.ScheduleListPortInfoFromCpp scheduleListPortInfoFromCpp = gson.fromJson(response, ScheduleListPortInfo.ScheduleListPortInfoFromCpp.class);
+            if (scheduleListPortInfoFromCpp.getData() != null) {
+                scheduleListPortInfo = scheduleListPortInfoFromCpp.getData();
+            } else {
+                ScheduleListPortInfo tempPortInfo = gson.fromJson(response, ScheduleListPortInfo.class);
+                if (tempPortInfo.getName() != null) {
+                    scheduleListPortInfo = tempPortInfo;
+                }
+            }
+        } catch (JsonSyntaxException e) {
+            DICommLog.e(DICommLog.SCHEDULELISTPORT, "JsonSyntaxException: " + "Error: " + e.getMessage());
+        } catch (JsonIOException e) {
+            DICommLog.e(DICommLog.SCHEDULELISTPORT, "JsonIOException: " + "Error: " + e.getMessage());
+        } catch (Exception e) {
+            DICommLog.e(DICommLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
+        }
+
         return scheduleListPortInfo;
     }
 

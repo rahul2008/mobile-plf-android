@@ -5,11 +5,14 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
 
     private String time;
     private String days;
-    private String mode; //TODO: should be command not mode
+    private ScheduleListPortInfoMode mode;
+    private String command;
     private int scheduleNumber;
     private String name;
     private boolean enabled;
@@ -46,12 +49,28 @@ public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
         this.days = days;
     }
 
+    /**
+     * According to the specification mode property does not exist. Instead command should be used.
+     */
+    @Deprecated
     public String getMode() {
-        return mode;
+        return mode.getValue();
     }
 
+    /**
+     * According to the specification mode property does not exist. Instead command should be used.
+     */
+    @Deprecated
     public void setMode(String mode) {
-        this.mode = mode;
+        this.mode = new ScheduleListPortInfoMode(mode);
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(final String command) {
+        this.command = command;
     }
 
     public String getName() {
@@ -65,5 +84,33 @@ public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
     @Override
     public int compareTo(ScheduleListPortInfo port) {
         return name.compareTo(port.getName());
+    }
+
+    public static class ScheduleListPortInfoMode {
+
+        @SerializedName("om")
+        private String value;
+
+        public ScheduleListPortInfoMode(final String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    public static class ScheduleListPortInfoFromCpp {
+
+        private int status;
+        private ScheduleListPortInfo data;
+
+        public int getStatus() {
+            return status;
+        }
+
+        public ScheduleListPortInfo getData() {
+            return data;
+        }
     }
 }
