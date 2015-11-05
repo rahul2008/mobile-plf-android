@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.CustomButton;
+package com.philips.cdp.uikit.costumviews;
 
 import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
@@ -14,9 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
+import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.OnDataNotified;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.uikit.hamburger.HamburgerUtil;
 import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
 
 /**

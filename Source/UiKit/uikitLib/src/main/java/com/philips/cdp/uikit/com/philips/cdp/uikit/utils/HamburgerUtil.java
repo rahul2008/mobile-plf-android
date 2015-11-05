@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.hamburger;
+package com.philips.cdp.uikit.com.philips.cdp.uikit.utils;
 
 import android.app.Activity;
 import android.content.Context;

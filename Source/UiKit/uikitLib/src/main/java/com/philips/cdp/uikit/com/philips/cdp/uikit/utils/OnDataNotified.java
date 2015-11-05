@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.CustomButton;
+package com.philips.cdp.uikit.com.philips.cdp.uikit.utils;
 
 import android.widget.BaseAdapter;
 
