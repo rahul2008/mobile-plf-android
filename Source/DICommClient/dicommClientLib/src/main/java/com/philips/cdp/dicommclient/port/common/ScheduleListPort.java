@@ -262,27 +262,28 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
     }
 
     List<ScheduleListPortInfo> parseResponseAsScheduleList(String response) {
-        //TODO: DIComm Refactor
-        if (response == null || response.isEmpty()) return null;
+        if (response == null || response.isEmpty()) {
+            return null;
+        }
         DICommLog.i(DICommLog.SCHEDULELISTPORT, response);
-        List<ScheduleListPortInfo> schedulesList = new ArrayList<ScheduleListPortInfo>();
-        JSONObject jsonObject = null;
+
+        List<ScheduleListPortInfo> schedulesList = new ArrayList<>();
+        JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(response);
             JSONObject schedulerJsonFromCPP = jsonObject.optJSONObject("data");
             if (schedulerJsonFromCPP != null) {
                 jsonObject = schedulerJsonFromCPP;
             }
+            
             Iterator<String> iterator = jsonObject.keys();
-            String key = null;
+            String key;
             while (iterator.hasNext()) {
                 key = iterator.next();
-                ScheduleListPortInfo schedules = new ScheduleListPortInfo();
-                JSONObject schedule;
-                schedule = jsonObject.getJSONObject(key);
-                schedules.setName((String) schedule.get(KEY_SCHEDULENAME));
-                schedules.setScheduleNumber(Integer.parseInt(key));
-                schedulesList.add(schedules);
+                String string = jsonObject.getJSONObject(key).toString();
+                ScheduleListPortInfo portInfo = parseResponseAsSingleSchedule(string);
+                portInfo.setScheduleNumber(Integer.parseInt(key));
+                schedulesList.add(portInfo);
             }
         } catch (JSONException e) {
             schedulesList = null;
