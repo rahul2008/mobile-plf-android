@@ -34,6 +34,6 @@ public class ProductSummaryBuilder extends PrxDataBuilder {
     @Override
     public String getRequestUrl() {
         return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(),getLocale(),
-                getCatalogCode(), getCtnCode());
+                getCatalogCode(), mCtn);
     }
 }

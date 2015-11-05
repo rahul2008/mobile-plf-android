@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
@@ -39,11 +40,12 @@ public class LauncherActivity extends AppCompatActivity {
         mProductAssetBuilder.setmCtnCode(mCtn);
 
         */
+        PrxLogger.enablePrxLogger(true);
+
         ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
         mProductAssetBuilder.setmLocale(mLocale);
         mProductAssetBuilder.setmCatalogCode(mCatalogCode);
-        mProductAssetBuilder.setmCtnCode(mCtn);
 
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(getApplicationContext());
@@ -68,8 +70,8 @@ public class LauncherActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponseError(String error) {
-                Log.d(TAG, "Negative Response Data : " + error);
+            public void onResponseError(String error, int code) {
+                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
             }
         });
     }

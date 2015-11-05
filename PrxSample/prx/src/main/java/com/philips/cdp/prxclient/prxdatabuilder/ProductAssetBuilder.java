@@ -4,7 +4,6 @@ import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
 
 import org.json.JSONObject;
 
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 /**
@@ -18,8 +17,7 @@ public class ProductAssetBuilder extends PrxDataBuilder {
     private String mRequestTag = null;
     private static final String PRX_REQUEST_URL = "http://%s/product/%s/%s/%s/products/%s.assets";
 
-    public ProductAssetBuilder(String ctn, String requestTag)
-    {
+    public ProductAssetBuilder(String ctn, String requestTag) {
         this.mCtn = ctn;
         this.mRequestTag = requestTag;
     }
@@ -31,9 +29,7 @@ public class ProductAssetBuilder extends PrxDataBuilder {
 
     @Override
     public String getRequestUrl() {
-
-
-            return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(),getLocale(),
-                    getCatalogCode(), getCtnCode());
+        return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(), getLocale(),
+                getCatalogCode(), mCtn);
     }
 }

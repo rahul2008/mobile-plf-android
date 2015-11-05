@@ -12,5 +12,5 @@ public interface ResponseListener {
 
     void onResponseSuccess(ResponseData responseData);
 
-    void onResponseError(String error);
+    void onResponseError(String errorMessage, int responseCode);
 }

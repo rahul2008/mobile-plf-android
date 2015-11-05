@@ -1,8 +1,8 @@
 package com.philips.cdp.prxclient.network;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -11,6 +11,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -27,10 +28,9 @@ public class NetworkWrapper {
 
     private Context mContext = null;
 
-    public NetworkWrapper(Context context ) {
+    public NetworkWrapper(Context context) {
         mContext = context;
     }
-
 
 
     public void executeJsonObjectRequest(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
@@ -38,7 +38,7 @@ public class NetworkWrapper {
 
         RequestQueue mVolleyRequest = Volley.newRequestQueue(mContext);
 
-        Log.d(TAG, "Url : " + prxDataBuilder.getRequestUrl());
+        PrxLogger.d(TAG, "Url : " + prxDataBuilder.getRequestUrl());
         JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(0, prxDataBuilder.getRequestUrl(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -47,12 +47,23 @@ public class NetworkWrapper {
                 ResponseData responseData = prxDataBuilder.getResponseData(response);
                 listener.onResponseSuccess(responseData);
 
-                Log.d(TAG, "Response : " + response.toString());
+                PrxLogger.d(TAG, "Response : " + response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                listener.onResponseError(error.toString());
+                if (error != null) {
+                    try
+                    {
+                        listener.onResponseError(error.toString(), error.networkResponse.statusCode);
+                    }catch (Exception e)
+                    {
+                        PrxLogger.e(TAG, "Volley Error : " + e);
+                        listener.onResponseError(error.toString(), 0);
+                    }
+
+
+                }
             }
         });
         mVolleyRequest.add(mJsonObjectRequest);

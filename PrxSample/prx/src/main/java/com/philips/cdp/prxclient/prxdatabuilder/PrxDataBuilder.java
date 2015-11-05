@@ -15,7 +15,6 @@ public abstract class PrxDataBuilder {
     private String mSectorCode = null;
     private String mLocale = null;
     private String mCatalogCode = null;
-    private String mCtnCode = null;
 
     public String getServerInfo() {
         return mServerInfo;
@@ -43,14 +42,6 @@ public abstract class PrxDataBuilder {
 
     public void setmCatalogCode(String mCatalogCode) {
         this.mCatalogCode = mCatalogCode;
-    }
-
-    public String getCtnCode() {
-        return mCtnCode;
-    }
-
-    public void setmCtnCode(String mCtnCode) {
-        this.mCtnCode = mCtnCode;
     }
 
     public abstract ResponseData getResponseData(JSONObject jsonObject);
