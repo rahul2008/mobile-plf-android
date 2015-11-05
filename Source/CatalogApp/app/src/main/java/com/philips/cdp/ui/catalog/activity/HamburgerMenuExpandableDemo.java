@@ -11,7 +11,7 @@ import android.widget.ExpandableListView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
-import com.philips.cdp.uikit.costumviews.PhilipsExpandableDrawerLayout;
+import com.philips.cdp.uikit.costumviews.PhilipsDrawerLayout;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsExpandableListAdapter;
 
@@ -29,14 +29,14 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
     private TypedArray hamburgerMenuIcons;
     private List<String> listDataHeader;
     private HashMap<String, List<HamburgerItem>> listDataChild;
-    private PhilipsExpandableDrawerLayout philipsDrawerLayout;
+    private PhilipsDrawerLayout philipsDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hamburger_expandable_demo);
-        philipsDrawerLayout = (PhilipsExpandableDrawerLayout) findViewById(R.id.drawer_layout_demo);
+        philipsDrawerLayout = (PhilipsDrawerLayout) findViewById(R.id.drawer_layout_demo);
         loadSlideMenuItems();
         prepareListData();
         setHamburgerAdaptor();
@@ -44,7 +44,7 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
             displayView(0, 0);
         }
 
-        philipsDrawerLayout.getDrawerListView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        philipsDrawerLayout.getExpandableDrawerListView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(final ExpandableListView parent, final View v, final int groupPosition, final int childPosition, final long id) {
                 displayView(groupPosition, childPosition);
@@ -56,7 +56,7 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
 
     private void setHamburgerAdaptor() {
         final PhilipsExpandableListAdapter listAdapter = new PhilipsExpandableListAdapter(this, listDataHeader, listDataChild);
-        philipsDrawerLayout.getDrawerListView().setAdapter(listAdapter);
+        philipsDrawerLayout.getExpandableDrawerListView().setAdapter(listAdapter);
     }
 
     private void loadSlideMenuItems() {

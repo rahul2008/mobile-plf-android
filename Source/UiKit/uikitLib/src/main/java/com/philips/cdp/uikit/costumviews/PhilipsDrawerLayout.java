@@ -38,22 +38,28 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
     private LinearLayout listViewParentLayout;
 
 
-    public PhilipsDrawerLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.expandable});
-        isExpandable = typedArray.getBoolean(0, false);
-        initializeDrawer();
-        hamburgerUtil.updateSmartFooter();
+    public PhilipsDrawerLayout(final Context context) {
+        this(context, null);
     }
 
-    public PhilipsDrawerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PhilipsDrawerLayout(final Context context, final AttributeSet attrs) {
+        this(context, attrs, -1);
+    }
+
+    public PhilipsDrawerLayout(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.expandable});
-        isExpandable = typedArray.getBoolean(0, false);
+        validateIsExpandable(context, attrs);
         initializeDrawer();
         hamburgerUtil.updateSmartFooter();
         if (isExpandable)
             disableGroupCollapse();
+    }
+
+    private void validateIsExpandable(Context context, AttributeSet attrs) {
+        final TypedArray a = context.obtainStyledAttributes(
+                attrs, R.styleable.hamburger, 0, 0);
+        isExpandable = a.getBoolean(R.styleable.hamburger_expandable, false);
+        a.recycle();
     }
 
     @Override
