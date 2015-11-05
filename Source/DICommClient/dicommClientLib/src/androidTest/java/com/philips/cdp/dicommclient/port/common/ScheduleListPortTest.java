@@ -4,20 +4,17 @@
  */
 
 package com.philips.cdp.dicommclient.port.common;
+import junit.framework.TestCase;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import com.philips.cdp.dicommclient.port.common.ScheduleListPort;
-import com.philips.cdp.dicommclient.port.common.ScheduleListPortInfo;
-
 public class ScheduleListPortTest extends TestCase {
 
-	private String scheduleDetailJson = "{\"name\":\"16:00\",\"enabled\":true,\"time\":\"16:00\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":{\"om\":\"a\"}}";
+	private String scheduleDetailJson = "{\"name\":\"16:00\",\"enabled\":true,\"name\":\"testName\",\"time\":\"16:00\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":{\"om\":\"a\"}}";
 	private String allScheduleJson = "{\"2\":{\"name\":\"18:45\"},\"3\":{\"name\":\"15:45\"},\"4\":{\"name\":\"20:00\"}}";
 
-	private String scheduleDetailJsonCpp = "{\"status\":0,\"data\":{\"name\":\"12:15\",\"enabled\":true,\"time\":\"12:15\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":{\"om\":\"a\"}}}";
+	private String scheduleDetailJsonCpp = "{\"status\":0,\"data\":{\"name\":\"12:15\",\"enabled\":true,\"name\":\"testName\",\"time\":\"12:15\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":{\"om\":\"a\"}}}";
 	private String allScheduleJsonCpp = "{\"status\":0,\"data\":{\"0\":{\"name\":\"16:14\"},\"1\":{\"name\":\"12:15\"}}}";
 
 	public void testParseSchedulerDtoWithNullParam() {
@@ -139,7 +136,7 @@ public class ScheduleListPortTest extends TestCase {
 
 	public void testParseScheduleDetailsScheduleName() {
 		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJson);
-		assertEquals("16:00", schedulePortInfo.getName());
+		assertEquals("testName", schedulePortInfo.getName());
 	}
 
 	public void testParseScheduleDetailsScheduleTime() {
@@ -179,7 +176,7 @@ public class ScheduleListPortTest extends TestCase {
 
 	public void testParseScheduleDetailsScheduleCppName() {
 		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJsonCpp);
-		assertEquals("12:15", schedulePortInfo.getName());
+		assertEquals("testName", schedulePortInfo.getName());
 	}
 
 	public void testParseScheduleDetailsScheduleCppTime() {

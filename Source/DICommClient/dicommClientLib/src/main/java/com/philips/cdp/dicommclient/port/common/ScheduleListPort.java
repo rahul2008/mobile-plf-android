@@ -122,9 +122,13 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         });
     }
 
-    //todo: extra param 'name' should be added
+    @Deprecated
     public void addSchedule(String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
-        Map<String, Object> dataMap = createDataMap(portName, productId, time, days, enabled, commandMap);
+        addSchedule(portName, productId, time, time, days, enabled, commandMap);
+    }
+
+    public void addSchedule(String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) {
+        Map<String, Object> dataMap = createDataMap(portName, productId, name, time, days, enabled, commandMap);
 
         mCommunicationStrategy.addProperties(dataMap, getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
 
@@ -140,9 +144,13 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         });
     }
 
-    //todo: extra param 'name' should be added
+    @Deprecated
     public void updateSchedule(int scheduleNumber, String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
-        Map<String, Object> dataMap = createDataMap(portName, productId, time, days, enabled, commandMap);
+        updateSchedule(scheduleNumber, portName, productId, time, time, days, enabled, commandMap);
+    }
+
+    public void updateSchedule(int scheduleNumber, String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) {
+        Map<String, Object> dataMap = createDataMap(portName, productId, name, time, days, enabled, commandMap);
 
         mCommunicationStrategy.putProperties(dataMap, getDICommNestedPortName(scheduleNumber), getDICommProductId(), mNetworkNode, new ResponseHandler() {
 
@@ -173,10 +181,9 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         });
     }
 
-    //todo: add extra param 'name'
-    private Map<String, Object> createDataMap(String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
+    private Map<String, Object> createDataMap(String portName, int productId, final String name, String time, String days, boolean enabled, Map<String, Object> commandMap) {
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put(KEY_SCHEDULENAME, time); //todo: use the name param here
+        dataMap.put(KEY_SCHEDULENAME, name);
         dataMap.put(KEY_SCHEDULEENABLED, enabled);
         dataMap.put(KEY_SCHEDULETIME, time);
         dataMap.put(KEY_SCHEDULEDAYS, days);
@@ -231,10 +238,10 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
             scheduleListPortInfo.setScheduleTime(scheduleJson.getString(KEY_SCHEDULETIME));
         } catch (JSONException e) {
             scheduleListPortInfo = null;
-            DICommLog.e(DICommLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
+            DICommLog.w(DICommLog.SCHEDULELISTPORT, "JSONException: " + "Error: " + e.getMessage());
         } catch (Exception e) {
             scheduleListPortInfo = null;
-            DICommLog.e(DICommLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
+            DICommLog.w(DICommLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
         }
         return scheduleListPortInfo;
     }
@@ -264,10 +271,10 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
             }
         } catch (JSONException e) {
             schedulesList = null;
-            DICommLog.e(DICommLog.SCHEDULELISTPORT, "JsonIOException: " + "Error: " + e.getMessage());
+            DICommLog.w(DICommLog.SCHEDULELISTPORT, "JsonIOException: " + "Error: " + e.getMessage());
         } catch (Exception e) {
             schedulesList = null;
-            DICommLog.e(DICommLog.SCHEDULELISTPORT, "JsonIOException : " + "Error: " + e.getMessage());
+            DICommLog.w(DICommLog.SCHEDULELISTPORT, "Exception : " + "Error: " + e.getMessage());
         }
         return schedulesList;
     }

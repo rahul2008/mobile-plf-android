@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclient.port.common;
 
 public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
+
     private String time;
     private String days;
     private String mode; //TODO: should be command not mode
