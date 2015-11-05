@@ -70,4 +70,8 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="HamburgerExpandable">
+        <item name="expandable">true</item>
+    </style>
+
 </resources>

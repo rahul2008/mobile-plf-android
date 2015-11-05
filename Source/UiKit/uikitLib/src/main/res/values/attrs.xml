@@ -110,4 +110,8 @@
         <attr name="enableBubbleIndictor" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="hamburger">
+        <attr name="expandable" format="boolean" />
+    </declare-styleable>
+
 </resources>

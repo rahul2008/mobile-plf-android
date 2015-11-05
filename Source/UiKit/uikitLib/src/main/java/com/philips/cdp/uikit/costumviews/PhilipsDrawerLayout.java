@@ -1,14 +1,17 @@
 package com.philips.cdp.uikit.costumviews;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,36 +26,40 @@ import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsDrawerLayout extends LinearLayout implements OnDataNotified {
+public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified {
 
     private HamburgerUtil hamburgerUtil;
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private Context context;
-    private VectorDrawableImageView footerImage;
-    private LinearLayout listViewParentLayout;
     private TextView actionBarTitle;
     private TextView actionBarCount;
+    private boolean isExpandable = false;
+    private LinearLayout listViewParentLayout;
+
 
     public PhilipsDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        hamburgerUtil = new HamburgerUtil(getContext());
+        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.expandable});
+        isExpandable = typedArray.getBoolean(0, false);
         initializeDrawer();
-        hamburgerUtil.updateSmartFooter(drawerListView, footerImage);
-
+        hamburgerUtil.updateSmartFooter();
     }
 
     public PhilipsDrawerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        hamburgerUtil = new HamburgerUtil(getContext());
+        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.expandable});
+        isExpandable = typedArray.getBoolean(0, false);
         initializeDrawer();
-        hamburgerUtil.updateSmartFooter(drawerListView, footerImage);
+        hamburgerUtil.updateSmartFooter();
+        if (isExpandable)
+            disableGroupCollapse();
     }
 
     @Override
     public void onDataSetChanged(BaseAdapter adapter, String dataCount) {
         actionBarCount.setText(dataCount);
-        hamburgerUtil.updateSmartFooter(drawerListView, footerImage);
+        hamburgerUtil.updateSmartFooter();
     }
 
     public void setCounterListener(BaseAdapter baseAdapter) {
@@ -67,17 +74,22 @@ public class PhilipsDrawerLayout extends LinearLayout implements OnDataNotified 
         AppCompatActivity activity = (AppCompatActivity) context;
         initActionBar(activity.getSupportActionBar());
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.uikit_hamburger_menu, null);
-        hamburgerUtil.moveDrawerToTop(drawer);
+        View drawer;
+        if (isExpandable) {
+            drawer = inflater.inflate(R.layout.uikit_hamburger_menu_expandable, null);
+            drawerListView = (ExpandableListView) drawer.findViewById(R.id.hamburger_list);
+        } else {
+            drawer = inflater.inflate(R.layout.uikit_hamburger_menu, null);
+            drawerListView = (ListView) drawer.findViewById(R.id.hamburger_list);
+        }
         initializeDrawerViews(drawer);
+        hamburgerUtil.moveDrawerToTop(drawer);
     }
 
-    private void initializeDrawerViews(DrawerLayout drawer) {
+    private void initializeDrawerViews(View drawer) {
         listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
         drawerLayout = (DrawerLayout) drawer.findViewById(R.id.philips_drawer_layout);
-        drawerListView = (ListView) drawer.findViewById(R.id.hamburger_list);
-        drawerListView.setPadding(0, hamburgerUtil.getStatusBarHeight(), 0, 0);
-        footerImage = (VectorDrawableImageView) drawer.findViewById(R.id.image);
+        hamburgerUtil = new HamburgerUtil(getContext(), drawerListView);
     }
 
     public ListView getDrawerListView() {
@@ -89,10 +101,6 @@ public class PhilipsDrawerLayout extends LinearLayout implements OnDataNotified 
                 ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT);
         drawerLayout.updateViewLayout(listViewParentLayout, layoutParams);
         drawerLayout.closeDrawer(listViewParentLayout);
-    }
-
-    public DrawerLayout getDrawerLayout() {
-        return drawerLayout;
     }
 
     public void initActionBar(ActionBar actionBar) {
@@ -108,6 +116,23 @@ public class PhilipsDrawerLayout extends LinearLayout implements OnDataNotified 
     public void setTitle(CharSequence title) {
         if (actionBarTitle != null)
             actionBarTitle.setText(title);
+    }
+
+    public ExpandableListView getExpandableDrawerListView() {
+        return (ExpandableListView) drawerListView;
+    }
+
+    private void disableGroupCollapse() {
+        ExpandableListView expandableListView = (ExpandableListView) drawerListView;
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return true;
+            }
+        });
+    }
+
+    public DrawerLayout getDrawerLayout() {
+        return drawerLayout;
     }
 
     public void setHamburgerCount(String count) {
