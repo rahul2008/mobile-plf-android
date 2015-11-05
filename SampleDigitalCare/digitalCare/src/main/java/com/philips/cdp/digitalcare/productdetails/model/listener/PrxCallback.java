@@ -10,7 +10,7 @@ import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
  */
 public interface PrxCallback {
 
-    abstract void onSummaryDataReceived(ViewProductDetailsModel object);
+    void onSummaryDataReceived(ViewProductDetailsModel object);
 
     void onAssetDataReceived(ViewProductDetailsModel object);
 }

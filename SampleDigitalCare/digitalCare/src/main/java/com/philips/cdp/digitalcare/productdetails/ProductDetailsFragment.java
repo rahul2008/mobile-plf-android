@@ -1,10 +1,12 @@
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,6 +34,8 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.productdetails.model.listener.PrxCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+
+import java.util.List;
 /*import com.philips.cdp.horizontal.RequestManager;
 import com.philips.cdp.network.listeners.AssetListener;
 import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
@@ -57,6 +61,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements P
     private DigitalCareFontTextView mProductTitle = null;
     private DigitalCareFontTextView mCtn = null;
     private ImageView mProductImage = null;
+    private String mManualPdf = null;
+    private ImageView mVideoImageView = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,9 +100,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements P
         setViewParams(config);
 
         createProductDetailsMenu();
-
-        initView();
-
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS,
                 getPreviousName());
 /*
@@ -109,28 +112,63 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements P
   */
     }
 
-    private void initView() {
-        int count = 4;
+    private void initView(List<String> mVideoLength) {
 
-        for (int i = 0; i < count; i++) {
-            addNewVideo(i + "");
+        DigiCareLogger.d(TAG, "Video's Length : " + mVideoLength.size());
+        for (int i = 0; i < mVideoLength.size(); i++) {
+            addNewVideo(i + "", mVideoLength.get(i));
         }
     }
 
-    private void addNewVideo(String tag) {
+    protected void loadVideoThumbnail(final ImageView imageView, String imagePath) {
+        String thumbnail = imagePath.replace("/content/", "/image/");
+        ImageRequest request = new ImageRequest(thumbnail,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        // mProductImage.setImageResource(R.drawable.image_load_error);
+                    }
+                });
+
+        RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());
+        imageRequestQueue.add(request);
+
+
+    }
+
+    private void addNewVideo(String tag, final String video) {
         View child = getActivity().getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
+        ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
+        ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
+        loadVideoThumbnail(videoThumbnail, video);
         child.setTag(tag);
-        child.setOnClickListener(videoModel);
+        //    videoPlay.setOnClickListener(videoModel);
+        videoPlay.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(video), "video/mp4");
+                getActivity().startActivity(intent);
+            }
+        });
         mProdVideoContainer.addView(child);
     }
 
-    private View.OnClickListener videoModel = new View.OnClickListener() {
+    /*private View.OnClickListener videoModel = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Video : " + v.getTag(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strMyVideo));
+            intent.setDataAndType(Uri.parse(strMyVideo), "video/mp4");
+            activity.startActivity(intent);
         }
-    };
+    };*/
 
     private void createProductDetailsMenu() {
         TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
@@ -344,8 +382,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements P
     @Override
     public void onAssetDataReceived(ViewProductDetailsModel object) {
 
-        DigiCareLogger.d(TAG, "Manual Link : " + object.getmManualLink());
-        DigiCareLogger.d(TAG, "Video's Length : " + object.getmVideoLinks().size());
+        mManualPdf = object.getmManualLink();
+        DigiCareLogger.d(TAG, "Manual Link : " + mManualPdf);
+        initView(object.getmVideoLinks());
 
     }
 
