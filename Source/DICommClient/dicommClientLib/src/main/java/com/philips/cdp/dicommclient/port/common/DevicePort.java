@@ -27,7 +27,7 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
 
     @Override
     public boolean isResponseForThisPort(String jsonResponse) {
-        return (parseResponse(jsonResponse) == null);
+        return (parseResponse(jsonResponse) != null);
     }
 
     @Override
@@ -71,10 +71,17 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         } catch (Exception e2) {
             DICommLog.e(DICommLog.DEVICEPORT, "Exception");
         }
-        return devicePortInfo;
+
+        if (devicePortInfo != null && (
+                devicePortInfo.getName() == null || devicePortInfo.getType() == null
+                        || devicePortInfo.getModelid() == null || devicePortInfo.getSwversion() == null)) {
+            return null;
+        } else {
+            return devicePortInfo;
+        }
     }
 
-    public void setDeviceName(String name){
+    public void setDeviceName(String name) {
         putProperties(KEY_DEVICENAME, name);
     }
- }
+}
