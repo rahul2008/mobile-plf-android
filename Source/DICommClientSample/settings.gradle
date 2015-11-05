@@ -1,0 +1,7 @@
+include ':sampleApp'
+
+def localDiCommLibDir = '../DICommClient/dicommClientLib'
+if (new File(localDiCommLibDir).exists()) {
+    include ':dicommClientLib'
+    project(':dicommClientLib').projectDir = new File(localDiCommLibDir)
+}

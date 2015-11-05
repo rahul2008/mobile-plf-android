@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SquareView">
+        <attr name="width_weight" format="integer" localization="suggested" />
+        <attr name="height_weight" format="integer" localization="suggested" />
+    </declare-styleable>
+
+</resources>

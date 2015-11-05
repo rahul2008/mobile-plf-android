@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/parent_container"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/about_heading_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/heading" />
+
+    <LinearLayout
+        android:id="@+id/containerLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/about_heading_rl"
+        android:orientation="vertical" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/diagonistic_via_sina"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_item_selector"
+            android:clickable="true"
+            android:drawableLeft="@drawable/share_weibo"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="@string/sina_weibo"
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_large"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/diagonistic_via_mail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_item_selector"
+            android:clickable="true"
+            android:drawableLeft="@drawable/share_email"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="@string/mail"
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_large"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/about_heading_rl"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

@@ -1,0 +1,4 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@drawable/layout_borderbackground"/>
+    <item android:drawable="@drawable/layout_border"/>
+</layer-list>

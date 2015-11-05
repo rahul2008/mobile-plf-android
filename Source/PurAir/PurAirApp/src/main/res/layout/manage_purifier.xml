@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/manage_purifier_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/headRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ews_nav_bar_2x"
+        android:minHeight="40dp" >
+
+       <ImageButton
+          
+            android:id="@+id/manage_purifier_edit_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:contentDescription="@string/img_description"
+            android:clickable="true"
+       
+            android:textColor="@color/blue_title"
+            android:background="@drawable/edit"
+            
+          />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/manage_purifier_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/my_purifiers"
+            android:textColor="@color/blue_title"
+            android:textSize="21sp"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+        <ImageButton
+            android:id="@+id/manage_purifier_info_img_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/image_btn_bg"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/info"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/containLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headRL"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/manage_pur_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@drawable/seperator_line_2x"
+            android:dividerHeight="0dp" >
+        </ListView>
+
+        <ImageView
+            android:id="@+id/manage_pur_separator_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/headRL"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

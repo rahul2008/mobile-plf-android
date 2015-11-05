@@ -1,0 +1,8 @@
+include ':PurAirApp'
+
+def localDiCommLibDir = '../DICommClient/dicommClientLib'
+    include ':dicommClientLib'
+    project(':dicommClientLib').projectDir = new File(localDiCommLibDir)
+
+
+

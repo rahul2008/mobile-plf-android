@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/air_tutorial_dashboard"
+    android:orientation="vertical" >
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/btn_app_navigation"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/tutorial_bubble_1_selector"
+        android:gravity="left"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/dashboard_instruction_1"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/text_size_large"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/btn_air_purifier_controls"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_app_navigation"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/tutorial_bubble_2_selector"
+        android:gravity="right"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/dashboard_instruction_2"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/text_size_large"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/btn_finish_tour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/blue_button_selector"
+        android:paddingBottom="10dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="10dp"
+        android:text="@string/finish_tutorial"
+        android:textColor="#FFF"
+        android:textSize="18sp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/btn_outdoor_aqi_readings"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_finish_tour"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/tutorial_bubble_4_selector"
+        android:gravity="left"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/dashboard_instruction_4"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/text_size_large"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/btn_indoor_air_quality_readings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tutorial_bubble_3_selector"
+        android:gravity="left"
+        android:maxWidth="150dp"
+        android:text="@string/dashboard_instruction_3"
+        android:lineSpacingExtra="2dp"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/text_size_large"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+</RelativeLayout>

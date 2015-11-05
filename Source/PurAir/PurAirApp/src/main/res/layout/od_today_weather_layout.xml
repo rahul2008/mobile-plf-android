@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView 
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odTodyWeatherTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/contain_gray"
+        android:textSize="@dimen/text_size_small_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <ImageView
+        android:id="@+id/odTodyWeatherImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/img_description" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView 
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odTodyWeatherTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/text_size_small_dp"
+        custom:fontAssetName="fonts/centralesansmedium.ttf" />
+
+</LinearLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/headTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ews_nav_bar_2x"
+        android:gravity="center"
+        android:minHeight="40dp"
+        android:text="@string/welcome"
+        android:textColor="@color/blue_title"
+        android:textSize="@dimen/heading_text_size_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <LinearLayout
+        android:id="@+id/containerLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headTV"
+        android:layout_above="@+id/start_flow_bottom_bar_include"
+        android:background="@drawable/intro_indoor_2x"
+        android:orientation="vertical" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/healthy_air_always"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7.5"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <com.philips.cl.di.dev.pa.view.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/start_flow_virgin_btn_connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/philips_blue_btn"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/connect_your_purifier"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <ImageView
+                android:id="@+id/start_flow_virgin_btn_play"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/air_intro_play_2x" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/start_flow_bottom_bar_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/start_flow_bottom_bar" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/headTV"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

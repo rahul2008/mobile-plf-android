@@ -1,0 +1,250 @@
+package com.philips.cl.di.dev.pa.util;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.location.Location;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
+import android.widget.ListView;
+
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+
+public class DashboardUtil {
+
+	public static final long SAVE_FREESPACE_BYTE = 5 * 1024 * 1024;
+
+	public enum Detail {
+		INDOOR, OUTDOOR
+	}
+
+	public static ArrayList<Point> getCircularBoundary(Point imageCenter, int radius, int numOfPoints) {
+		ArrayList<Point> points = new ArrayList<Point>();
+		int angle;
+		for (int i = 0; i < numOfPoints; i++) {
+			angle = i * (360 / numOfPoints);
+			Point boundaryPoint = new Point();
+			boundaryPoint.x = (int) (imageCenter.x + radius	* Math.cos(Math.toRadians(angle)));
+			boundaryPoint.y = (int) (imageCenter.y + radius	* Math.sin(Math.toRadians(angle)));
+			points.add(boundaryPoint);
+		}
+		return points;
+	}
+
+	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
+	public static void setAplha(ImageView ImageView, int alphaInt, float alphaFloat) {
+		if (ImageView != null) {
+			if (isAPILessThanHoneycomb()) {
+				ImageView.setAlpha(alphaInt);
+			} else {
+				ImageView.setAlpha(alphaFloat);
+			}
+		}
+	}
+
+	public static boolean isAPILessThanHoneycomb() {
+		return Build.VERSION.SDK_INT < 11 ? true : false;
+	}
+
+	public static int getRundomNumber(int min, int max) {
+		int num = 450;
+		Random random = new Random();
+		num = random.nextInt(max - min) + 1 + min;
+		return num;
+	}
+
+	@SuppressLint("SimpleDateFormat")
+	public static String getCurrentTime24HrFormat() {
+		SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+		return formatTime.format(new Date());
+	}
+
+	public static boolean isNoPurifierMode(Bundle bundle) {
+		boolean purifierMode = false;
+		GPSLocation.getInstance().requestGPSLocation();
+		if (bundle != null) {
+			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isLocationEnabled()) {
+				//TODO : Show pop-up inviting the user to enable GPS
+			} else {
+				//Add user location to dashboard
+				Location location = GPSLocation.getInstance().getGPSLocation();
+				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
+				if(location != null) {
+					OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
+				}
+			}
+			purifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
+		} else {
+			purifierMode = false;
+		}
+		return purifierMode;
+	}
+
+	public static int getIndoorPageCount() {
+		int countIndoor = 0;
+		//For demo mode
+		if (PurAirApplication.isDemoModeEnable()) {
+			countIndoor = 1;
+		} else if (DiscoveryManager.getInstance().getAddedAppliances().size() > 0) {
+			countIndoor = DiscoveryManager.getInstance().getAddedAppliances().size() ;
+
+			DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(0);
+			if(appliance != null && appliance instanceof AirPurifier) {
+				AirPurifierManager.getInstance().setCurrentAppliance((AirPurifier) appliance);
+			}
+		}
+		return countIndoor;
+	}
+
+	public static int getOutdoorPageCount() {
+		int count = 0;
+		OutdoorManager.getInstance().processDataBaseInfo();
+		List<String> myCityList = OutdoorManager.getInstance().getUsersCitiesList() ;
+		if( myCityList != null ) {
+			count = myCityList.size() ;
+		}
+
+		return count;
+	}
+
+	public static void startCurrentCityAreaIdTask() {
+		String lat = LocationUtils.getCurrentLocationLat();
+		String lon = LocationUtils.getCurrentLocationLon();
+		if (!lat.isEmpty() && !lon.isEmpty()) {
+			try {
+				OutdoorController.getInstance().startGetAreaIDTask(Double.parseDouble(lon), Double.parseDouble(lat));
+			} catch (NumberFormatException e) {
+				ALog.e(ALog.ERROR, "OutdoorLocationFragment$showCurrentCityVisibility: " + "Error: " + e.getMessage());
+			}
+		}
+	}
+
+
+
+	public static boolean isHaveSDCard() {
+		return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+	}
+
+	@SuppressWarnings("deprecation")
+	public static long freeSpaceOnSd_BYTE() {
+		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+		long sdFreeKB = ((long) stat.getAvailableBlocks() * (long) stat.getBlockSize());
+		return (long) sdFreeKB;
+	}
+
+	public static Bitmap captureView(View paramView)
+	{
+		
+		paramView.setDrawingCacheEnabled(true);
+		Bitmap bm = paramView.getDrawingCache();
+		if (bm == null) {
+			return null;
+		}
+		Bitmap resultBitmap = Bitmap.createScaledBitmap(bm, bm.getWidth(), bm.getHeight(), false);
+		Canvas canvas = new Canvas(resultBitmap);
+		canvas.drawColor(Color.WHITE);
+		paramView.draw(canvas);
+		paramView.setDrawingCacheEnabled(false);
+	
+		return resultBitmap;
+
+	}
+
+	    public static AirPortProperties getDefaultAirPortInfo() {
+			AirPortProperties airPortInfo = new AirPortProperties() ;
+		airPortInfo.setActiveFilterStatus(0) ;
+		airPortInfo.setActualFanSpeed("1") ;
+		airPortInfo.setAqiL(0) ;
+		airPortInfo.setAqiThreshold(13) ;
+		airPortInfo.setChildLock(0) ;
+		airPortInfo.setDtrs(0);
+		airPortInfo.setFanSpeed("a") ;
+		airPortInfo.setHepaFilterStatus(1) ;
+		airPortInfo.setIndoorAQI(4) ;
+		airPortInfo.setMachineMode("a") ;
+		airPortInfo.setMulticareFilterStatus(1) ;
+		airPortInfo.setPowerMode("0") ;
+		airPortInfo.setPreFilterStatus(1) ;
+		airPortInfo.setpSensor(1) ;
+		airPortInfo.setReplaceFilter1("n") ;
+		airPortInfo.setReplaceFilter2("n") ;
+		airPortInfo.setReplaceFilter3("n") ;
+		airPortInfo.setReplaceFilter4("n") ;
+		airPortInfo.settFav(1) ;
+		airPortInfo.setValid(true) ;
+		airPortInfo.setTimeStamp(getCurrentTime24HrFormat()) ;
+		return airPortInfo ;
+	}
+
+	//For multiple graph
+	public static int getColorWithRespectToIndex(String areaId, List<String> topThreeCityAreaIds) {
+		int color = GraphConst.PHILIPS_RED_COLOR;
+		if (topThreeCityAreaIds != null ) {
+			switch (topThreeCityAreaIds.indexOf(areaId)) {
+			case 0:
+				color = GraphConst.PHILIPS_DARK_GREEN_COLOR;
+				break;
+			case 1:
+				color = GraphConst.PHILIPS_BRIFHT_BLUE_COLOR;
+				break;
+			case 2:
+				color = GraphConst.BLACK_COLOR;
+				break;
+			default:
+				//NOP
+				break;
+			}
+		}
+		return color;
+	}
+	public static synchronized OnTouchListener getListViewTouchListener(final ListView listView) {
+		//We have ListView inside scrollView, so in some of the device list is not scrolling
+		OnTouchListener listViewTouchListener = new OnTouchListener() {
+			float x, prevX;
+			float differnceX;
+			@SuppressLint("ClickableViewAccessibility")
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				listView.requestDisallowInterceptTouchEvent(true);
+				int action = event.getActionMasked();
+				prevX = x;
+				if (action == MotionEvent.ACTION_MOVE) {
+					x = event.getX();
+					differnceX = Math.abs(prevX - x);
+					if (differnceX > Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 5)) {
+						listView.requestDisallowInterceptTouchEvent(false);
+					}
+				} else if (action == MotionEvent.ACTION_UP) {
+					listView.requestDisallowInterceptTouchEvent(false);
+				}
+				return false;
+			}
+		};
+		return listViewTouchListener;
+	}
+
+}
