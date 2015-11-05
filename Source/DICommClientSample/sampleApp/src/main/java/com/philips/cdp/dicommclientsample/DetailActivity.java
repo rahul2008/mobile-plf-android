@@ -2,8 +2,8 @@ package com.philips.cdp.dicommclientsample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
@@ -19,7 +19,7 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 public class DetailActivity extends Activity implements DICommApplianceListener, CompoundButton.OnCheckedChangeListener {
 
     private TextView purifierNameView;
-    private Switch lightSwitch;
+    private SwitchCompat lightSwitch;
     private AirPurifier currentPurifier;
 
     @Override
@@ -32,7 +32,7 @@ public class DetailActivity extends Activity implements DICommApplianceListener,
         purifierNameView = (TextView) findViewById(R.id.tv_airpurifier_name);
         purifierNameView.setText(currentPurifier.getName());
 
-        lightSwitch = (Switch) findViewById(R.id.sw_light);
+        lightSwitch = (SwitchCompat) findViewById(R.id.switchLight);
         lightSwitch.setOnCheckedChangeListener(this);
         updateLightState(currentPurifier.getAirPort());
     }
