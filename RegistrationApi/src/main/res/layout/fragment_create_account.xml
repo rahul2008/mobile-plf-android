@@ -63,7 +63,7 @@
                     android:paddingRight="@dimen/reg_layout_margin" />
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
-                    android:id="@+id/tv_reg_password_details"
+                    android:id="@+id/tv_reg_email_exist"
                     style="@style/reg_text_description"
                     android:text="@string/EmailAlreadyUsedErrorMsg_LabelTxt"
                     android:visibility="gone"

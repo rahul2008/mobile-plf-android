@@ -280,7 +280,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public int getTitleResourceId() {
-        return R.string.Account_Settings_Title;
+        return R.string.Account_Setting_Titletxt;
     }
 
     @Override

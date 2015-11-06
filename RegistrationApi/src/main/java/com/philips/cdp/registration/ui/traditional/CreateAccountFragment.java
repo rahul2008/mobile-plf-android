@@ -83,6 +83,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private XPasswordHint mPasswordHintView;
 
+    private TextView mTvEmailExist;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onAttach");
@@ -225,6 +227,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
+        mTvEmailExist = (TextView) view.findViewById(R.id.tv_reg_email_exist);
+
         TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
         mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
@@ -243,7 +247,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
         mPbSpinner.setClickable(false);
         mPbSpinner.setEnabled(true);
-        mViewLine =  view.findViewById(R.id.reg_accept_terms_line);
+        mViewLine = view.findViewById(R.id.reg_accept_terms_line);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
 
@@ -352,8 +356,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
             mPasswordHintView.setVisibility(View.GONE);
-            TextView mTvPasswordHint = (TextView) getView().findViewById(R.id.tv_reg_password_details);
-            mTvPasswordHint.setVisibility(View.VISIBLE);
+            mTvEmailExist.setVisibility(View.VISIBLE);
         }
         if (userRegistrationFailureInfo.getError().code != EMAIL_ADDRESS_ALREADY_USE_CODE) {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
@@ -375,6 +378,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void updateUiStatus() {
+        if(mTvEmailExist.getVisibility() == View.VISIBLE){
+            mTvEmailExist.setVisibility(View.GONE);
+        }
+        if (mPasswordHintView.getVisibility() != View.VISIBLE) {
+            mPasswordHintView.setVisibility(View.VISIBLE);
+        }
         mPasswordHintView.updateValidationStatus(mEtPassword.getPassword());
         if (mEtName.isValidName() && mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
                 && NetworkUtility.isNetworkAvailable(mContext)
