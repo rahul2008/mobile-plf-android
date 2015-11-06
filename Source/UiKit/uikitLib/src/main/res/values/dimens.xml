@@ -95,4 +95,11 @@
     <dimen name="slider_text_size">14dp</dimen>
     <dimen name="slider_indicator_margin">2dp</dimen>
     <dimen name="slider_textview_margin_bottom">2dp</dimen>
+
+    <dimen name="uikit_notification_label_square_round_width">45dp</dimen>
+    <dimen name="uikit_notification_label_square_round_height">33dp</dimen>
+    <dimen name="uikit_notification_label_square_round_textSize">20dp</dimen>
+    <dimen name="uikit_notification_label_default_width">33dp</dimen>
+    <dimen name="uikit_notification_label_default_height">33dp</dimen>
+
 </resources>
