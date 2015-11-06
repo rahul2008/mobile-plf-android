@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Philips.BrightOrange">
+        android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name">
@@ -39,6 +39,7 @@
         <activity android:name=".activity.TabBarDemo"/>
         <activity android:name=".activity.SliderActivity"/>
         <activity android:name=".activity.RatingBarLauncher"/>
+        <activity android:name=".activity.ActionBarLauncher"/>
     </application>
 
 </manifest>

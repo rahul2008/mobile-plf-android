@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/ratingtheme"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+        android:id="@+id/arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:vectorsrc="@drawable/uikit_up_arrow"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        />
+
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Settings"
+        android:textColor="#FFFFFF"
+        android:layout_centerInParent="true"
+        fontPath="fonts/centralesanslight.ttf"
+        />
+
+</RelativeLayout>
