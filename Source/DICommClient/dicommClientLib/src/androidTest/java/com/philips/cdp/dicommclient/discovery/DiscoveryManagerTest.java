@@ -5,20 +5,6 @@
 
 package com.philips.cdp.dicommclient.discovery;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-
-import org.mockito.ArgumentCaptor;
-
 import android.os.Handler;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
@@ -32,6 +18,20 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
 import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
 import com.philips.cdp.dicommclient.testutil.TestAppliance;
+
+import org.mockito.ArgumentCaptor;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class DiscoveryManagerTest extends MockitoTestCase {
 
@@ -403,8 +403,6 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	public void testCppDisconnectNotPairedDisconnectedWifi() {
 		TestAppliance appliance1 = createDisconnectedAppliance(false, true);
 		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1520,17 +1518,14 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	private void assertDisconnected(TestAppliance appliance, boolean isCppOnline) {
-		assertEquals(isCppOnline, appliance.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, appliance.getNetworkNode().getConnectionState());
 	}
 
 	private void assertLocal(TestAppliance appliance , boolean isCppOnline) {
-		assertEquals(isCppOnline, appliance.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, appliance.getNetworkNode().getConnectionState());
 	}
 
 	private void assertRemote(TestAppliance appliance) {
-		assertTrue(appliance.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, appliance.getNetworkNode().getConnectionState());
 	}
 
@@ -1542,7 +1537,6 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         networkNode.setName(name);
         networkNode.setConnectionState(connectionState);
         networkNode.setPairedState(isPaired ? PAIRED_STATUS.PAIRED : PAIRED_STATUS.NOT_PAIRED);
-		networkNode.setOnlineViaCpp(isCppOnline);
 
         return new TestAppliance(networkNode);
     }
