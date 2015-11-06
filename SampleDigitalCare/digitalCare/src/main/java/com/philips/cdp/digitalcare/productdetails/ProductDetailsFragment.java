@@ -34,6 +34,7 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 import java.io.File;
 import java.util.List;
@@ -356,7 +357,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
                 if (mFilePath != null) {
                     File sdcard = Environment.getExternalStorageDirectory();
-                    File pdfFilepath = new File(sdcard.getAbsolutePath() + "/" + "Philips_Manual");
+                    File pdfFilepath = new File(sdcard.getAbsolutePath() + "/" + DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF_DOWNLOAD);
                     if (pdfFilepath.exists()) {
                         pdfFilepath.delete();
                         new PdfDownloader(getActivity()).execute(mFilePath);

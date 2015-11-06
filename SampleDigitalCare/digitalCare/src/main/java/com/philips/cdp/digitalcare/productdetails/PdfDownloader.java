@@ -8,6 +8,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 
+import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,7 +40,6 @@ class PdfDownloader extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         mProgressDialog = new ProgressDialog(mContext);
-        mProgressDialog.setMessage("Downloading file..");
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
@@ -57,7 +59,7 @@ class PdfDownloader extends AsyncTask<String, String, String> {
 
             InputStream input = new BufferedInputStream(url.openStream());
             File sdcard = Environment.getExternalStorageDirectory();
-            mManualPath = sdcard.getAbsolutePath() + "/" + "Philips_Manual";
+            mManualPath = sdcard.getAbsolutePath() + "/" + DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF_DOWNLOAD;
             OutputStream output = new FileOutputStream(mManualPath);
 
             byte data[] = new byte[1024];

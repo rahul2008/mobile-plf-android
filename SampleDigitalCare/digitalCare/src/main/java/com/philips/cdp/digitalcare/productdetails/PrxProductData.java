@@ -1,5 +1,6 @@
 package com.philips.cdp.digitalcare.productdetails;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
@@ -128,7 +129,9 @@ public class PrxProductData {
             mSummaryDialog = new ProgressDialog(mContext, R.style.loaderTheme);
         mSummaryDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mSummaryDialog.setCancelable(false);
-        mSummaryDialog.show();
+        Activity activity = (Activity) mContext;
+        if (!(activity.isFinishing()))
+            mSummaryDialog.show();
         mRequestManager.executeRequest(getPrxSummaryData(), new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -162,7 +165,9 @@ public class PrxProductData {
             mAssetDialog = new ProgressDialog(mContext, R.style.loaderTheme);
         mAssetDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mAssetDialog.setCancelable(false);
-        mAssetDialog.show();
+        Activity activity = (Activity) mContext;
+        if (!(activity.isFinishing()))
+            mAssetDialog.show();
         mRequestManager.executeRequest(getPrxAssetData(), new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
