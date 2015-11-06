@@ -2,6 +2,8 @@ package com.philips.cdp.digitalcare.productdetails;
 
 import android.content.Context;
 
+import com.philips.cdp.digitalcare.ConsumerProductInfo;
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.productdetails.model.listener.PrxCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -31,25 +33,44 @@ public class PrxProductData {
 
 
     private Context mContext = null;
-    private String mCtn = "RQ1250/17";
+/*    private String mCtn = "RQ1250/17";
     private String mSectorCode = "B2C";
     private String mLocale = "en_GB";
-    private String mCatalogCode = "CONSUMER";
+    private String mCatalogCode = "CONSUMER";*/
+
+    private String mCtn = null;
+    private String mSectorCode = null;
+    private String mLocale = null;
+    private String mCatalogCode = null;
 
     private SummaryModel mSummaryModel = null;
     private AssetModel mAssetModel = null;
     private ViewProductDetailsModel mObject = null;
     private PrxCallback mCallback = null;
 
+    ConsumerProductInfo mProductInfo = null;
+
 
     public PrxProductData(Context context, PrxCallback callback) {
         this.mContext = context;
         mObject = new ViewProductDetailsModel();
         mCallback = callback;
+        initProductCredentials();
         executeSummaryRequest();
         executeAssetRequest();
     }
 
+    protected void initProductCredentials() {
+        DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
+        mProductInfo = mConfigManager.getConsumerProductInfo();
+        mCtn = mProductInfo.getCtn();
+        mSectorCode = mProductInfo.getSector();
+        mLocale = mConfigManager.getLocale().toString();
+        mCatalogCode = mProductInfo.getCatalog();
+        if((mSectorCode == null) || (mCtn == null) || (mLocale == null) || (mCatalogCode == null))
+            DigiCareLogger.e(TAG, "Please make sure to set SectorCode, CatalogCode, ");
+
+    }
 
     public ProductSummaryBuilder getPrxSummaryData() {
         ProductSummaryBuilder mProductSummaryBuilder = new ProductSummaryBuilder(mCtn, null);

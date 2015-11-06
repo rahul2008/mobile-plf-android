@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,8 +122,15 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements P
         }
     }
 
+    protected int getDisplayWidth() {
+        Display metrics = getActivity().getWindowManager().getDefaultDisplay();
+        return metrics.getWidth();
+
+    }
+
     protected void loadVideoThumbnail(final ImageView imageView, String imagePath) {
-        String thumbnail = imagePath.replace("/content/", "/image/");
+        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
+
         ImageRequest request = new ImageRequest(thumbnail,
                 new Response.Listener<Bitmap>() {
                     @Override
