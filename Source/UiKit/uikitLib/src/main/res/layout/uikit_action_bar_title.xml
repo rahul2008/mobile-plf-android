@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
         android:id="@+id/hamburger_count"
         style="@style/NotificationLabel"
         android:layout_width="wrap_content"
@@ -17,9 +17,8 @@
         android:id="@+id/hamburger_title"
         fontPath="fonts/centralesanslight.ttf"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-
         android:gravity="center"
         android:textSize="@dimen/uikit_hamburger_menu_title_text_size">
 
