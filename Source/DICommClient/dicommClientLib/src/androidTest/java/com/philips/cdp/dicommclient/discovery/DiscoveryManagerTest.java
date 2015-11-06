@@ -9,7 +9,6 @@ import android.os.Handler;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
@@ -48,7 +47,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	private DICommApplianceDatabase<TestAppliance> mMockedApplianceDatabase;
 	private CppDiscoveryHelper mCppDiscoveryHelper;
 	private CppDiscoverEventListener mCppDiscoverEventListener;
-	
+
 	private CppDiscoverEventListener captureCppDiscoverEventListener() {
 		ArgumentCaptor<CppDiscoverEventListener> captor = ArgumentCaptor.forClass(CppDiscoverEventListener.class);
 		verify(mCppDiscoveryHelper, times(1)).setCppDiscoverEventListener(captor.capture());
@@ -68,7 +67,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mCppDiscoveryHelper = spy(new CppDiscoveryHelper(mMockedCppController));
 		mDiscoveryManager = new DiscoveryManager<TestAppliance>(mCppDiscoveryHelper, mTestApplianceFactory, mMockedApplianceDatabase, mMockedNetworkMonitor);
 		mCppDiscoverEventListener = captureCppDiscoverEventListener();
-		
+
 		mListener = mock(DiscoveryEventListener.class);
 
 		mDiscoveryManager.addDiscoveryEventListener(mListener);
@@ -190,8 +189,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 // ***** START TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED *****
 	public void testCppConnectNotPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -199,84 +198,84 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		CppDiscoverEventListener cppDiscoverEventListener = captureCppDiscoverEventListener();
 		cppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
     public void testCppConnectNotPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectNotPairedDisconnectedNone() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectNotPairedLocallyWifi() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectNotPairedLocallyMobile() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectNotPairedLocallyNone() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -289,8 +288,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -303,64 +302,64 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedDisconnectedNone() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedLocallyWifi() {
-		TestAppliance appliance1 = createLocalAppliance(true, false);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedLocallyMobile() {
-		TestAppliance appliance1 = createLocalAppliance(true, false);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedLocallyNone() {
-		TestAppliance appliance1 = createLocalAppliance(true, false);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -373,8 +372,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedRemoteMobile() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -387,8 +386,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedRemoteNone() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -401,218 +400,218 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, true);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, true);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, true);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, true);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedNone() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, true);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, true);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedLocallyWifi() {
-		TestAppliance appliance1 = createLocalAppliance(false, true);
-		TestAppliance appliance2 = createLocalAppliance2(false, true);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedLocallyMobile() {
-		TestAppliance appliance1 = createLocalAppliance(false, true);
-		TestAppliance appliance2 = createLocalAppliance2(false, true);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedLocallyNone() {
-		TestAppliance appliance1 = createLocalAppliance(false, true);
-		TestAppliance appliance2 = createLocalAppliance2(false, true);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, true);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, true);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedDisconnectedNone() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, true);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedLocallyWifi() {
-		TestAppliance appliance1 = createLocalAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedLocallyMobile() {
-		TestAppliance appliance1 = createLocalAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedLocallyNone() {
-		TestAppliance appliance1 = createLocalAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedRemoteMobile() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedRemoteNone() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSingleConnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -620,13 +619,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertRemote(appliance1);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSingleConnectPairedDisconnectedWifi2() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -639,8 +638,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSingleDisconnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -648,13 +647,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertRemote(appliance1);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppInvalidEventReceived() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -667,8 +666,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppEventReceivedDifferentPurifier() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -681,302 +680,302 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectNotPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReaConnectNotPairedDisconnectedNone() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedLocallyWifi() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedLocallyMobile() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedLocallyNone() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
+		assertDisconnected(appliance1);
 		assertRemote(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
+		assertDisconnected(appliance1);
 		assertRemote(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedDisconnectedNone() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedLocallyWifi() {
-		TestAppliance appliance1 = createLocalAppliance(true, false);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedLocallyMobile() {
-		TestAppliance appliance1 = createLocalAppliance(true, false);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedLocallyNone() {
-		TestAppliance appliance1 = createLocalAppliance(true, false);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
+		assertDisconnected(appliance1);
 		assertRemote(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedRemoteMobile() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
+		assertDisconnected(appliance1);
 		assertRemote(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedRemoteNone() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
+		assertDisconnected(appliance1);
 		assertRemote(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedNone() {
-		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyWifi() {
-		TestAppliance appliance1 = createLocalAppliance(false, true);
-		TestAppliance appliance2 = createLocalAppliance2(false, true);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyMobile() {
-		TestAppliance appliance1 = createLocalAppliance(false, true);
-		TestAppliance appliance2 = createLocalAppliance2(false, true);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyNone() {
-		TestAppliance appliance1 = createLocalAppliance(false, true);
-		TestAppliance appliance2 = createLocalAppliance2(false, true);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -984,13 +983,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertRemote(appliance1);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -998,69 +997,69 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertRemote(appliance1);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedNone() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedLocallyWifi() {
-		TestAppliance appliance1 = createLocalAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedLocallyMobile() {
-		TestAppliance appliance1 = createLocalAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedLocallyNone() {
-		TestAppliance appliance1 = createLocalAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertLocal(appliance1, true);
-		assertLocal(appliance2, true);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1068,13 +1067,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertRemote(appliance1);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedRemoteMobile() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1082,13 +1081,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertRemote(appliance1);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppAllConnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1101,22 +1100,22 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppAllDisconnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqInvalidEventReceived() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1129,47 +1128,47 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqEventReceivedDifferentPurifier() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + "eui64notexist" + "\"]}";
 		mCppDiscoverEventListener.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSignonEventReceivedDisconnected() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mCppDiscoverEventListener.onSignedOnViaCpp();
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 	}
 
 	public void testCppSignonEventReceivedRemoteLocal() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mCppDiscoverEventListener.onSignedOnViaCpp();
 
 		assertRemote(appliance1);
-		assertLocal(appliance2, false);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSignoffEventReceivedRemote() {
-		TestAppliance appliance1 = createRemoteAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createRemoteAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1180,15 +1179,15 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSignoffEventReceivedDisconnectedLocal() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mCppDiscoverEventListener.onSignedOffViaCpp();
 
-		assertDisconnected(appliance1, true);
-		assertLocal(appliance2, true);
+		assertDisconnected(appliance1);
+		assertLocal(appliance2);
 		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
@@ -1196,8 +1195,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 // ***** START TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 	public void testLostBackgroundAllAppliancesFound() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1205,13 +1204,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertLocal(appliance1, false);
-		assertLocal(appliance2, false);
+		assertLocal(appliance1);
+		assertLocal(appliance2);
 	}
 
 	public void testLostBackgroundNoAppliancesFound() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1219,13 +1218,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 	}
 
 	public void testLostBackgroundNoAppliancesFoundPaired() {
-		TestAppliance appliance1 = createLocalAppliance(true, false);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1233,13 +1232,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertDisconnected(appliance1, false);
-		assertDisconnected(appliance2, false);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 	}
 
 	public void testLostBackgroundNoAppliancesFoundPairedOnline() {
-		TestAppliance appliance1 = createLocalAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1247,13 +1246,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertDisconnected(appliance1, true);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 	}
 
 	public void testLostBackgroundOneApplianceFound() {
-		TestAppliance appliance1 = createLocalAppliance(false, false);
-		TestAppliance appliance2 = createLocalAppliance2(false, false);
+		TestAppliance appliance1 = createLocalAppliance(false);
+		TestAppliance appliance2 = createLocalAppliance2(false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1261,13 +1260,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertDisconnected(appliance1, false);
-		assertLocal(appliance2, false);
+		assertDisconnected(appliance1);
+		assertLocal(appliance2);
 	}
 
 	public void testLostBackgroundOneApplianceFoundPaired() {
-		TestAppliance appliance1 = createLocalAppliance(true, false);
-		TestAppliance appliance2 = createLocalAppliance2(true, false);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1275,13 +1274,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertDisconnected(appliance1, false);
-		assertLocal(appliance2, false);
+		assertDisconnected(appliance1);
+		assertLocal(appliance2);
 	}
 
 	public void testLostBackgroundOneApplianceFoundPairedOnline() {
-		TestAppliance appliance1 = createLocalAppliance(true, true);
-		TestAppliance appliance2 = createLocalAppliance2(true, true);
+		TestAppliance appliance1 = createLocalAppliance(true);
+		TestAppliance appliance2 = createLocalAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1289,13 +1288,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertDisconnected(appliance1, true);
-		assertLocal(appliance2, true);
+		assertDisconnected(appliance1);
+		assertLocal(appliance2);
 	}
 
 	public void testLostBackgroundOneApplianceFoundOffline() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
-		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1303,13 +1302,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertDisconnected(appliance1, true);
-		assertDisconnected(appliance2, true);
+		assertDisconnected(appliance1);
+		assertDisconnected(appliance2);
 	}
 
 	public void testLostBackgroundOneApplianceFoundRemote() {
-		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
-		TestAppliance appliance2 = createRemoteAppliance2(true, true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true);
+		TestAppliance appliance2 = createRemoteAppliance2(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1317,7 +1316,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(helper);
 		mDiscoveryManager.markLostAppliancesInBackgroundOfflineOrRemote();
 
-		assertDisconnected(appliance1, true);
+		assertDisconnected(appliance1);
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, appliance2.getNetworkNode().getConnectionState());
 	}
 
@@ -1487,41 +1486,41 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	private void triggerOnDiscoveredDevicesListChanged() {
-		TestAppliance localAppliance = createLocalAppliance(false, false);
+		TestAppliance localAppliance = createLocalAppliance(false);
 		setAppliancesList(new TestAppliance[] { localAppliance });
 		NetworkChangedCallback networkChangedCallback = captureNetworkChangedCallback();
 		networkChangedCallback.onNetworkChanged(NetworkState.NONE, null);
 	}
 
-	private TestAppliance createDisconnectedAppliance(boolean isPaired, boolean isCppOnline) {
-		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED, isPaired, isCppOnline);
+	private TestAppliance createDisconnectedAppliance(boolean isPaired) {
+		return createTestAppliance(APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED, isPaired);
 	}
 
-	private TestAppliance createDisconnectedAppliance2(boolean isPaired, boolean isCppOnline) {
-		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED, isPaired, isCppOnline);
+	private TestAppliance createDisconnectedAppliance2(boolean isPaired) {
+		return createTestAppliance(APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED, isPaired);
 	}
 
-	private TestAppliance createLocalAppliance(boolean isPaired, boolean isCppOnline) {
-		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY, isPaired, isCppOnline);
+	private TestAppliance createLocalAppliance(boolean isPaired) {
+		return createTestAppliance(APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY, isPaired);
 	}
 
-	private TestAppliance createLocalAppliance2(boolean isPaired, boolean isCppOnline) {
-		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY, isPaired, isCppOnline);
+	private TestAppliance createLocalAppliance2(boolean isPaired) {
+		return createTestAppliance(APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY, isPaired);
 	}
 
-	private TestAppliance createRemoteAppliance(boolean isPaired, boolean isCppOnline) {
-		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY, isPaired, isCppOnline);
+	private TestAppliance createRemoteAppliance(boolean isPaired) {
+		return createTestAppliance(APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY, isPaired);
 	}
 
-	private TestAppliance createRemoteAppliance2(boolean isPaired, boolean isCppOnline) {
-		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY, isPaired, isCppOnline);
+	private TestAppliance createRemoteAppliance2(boolean isPaired) {
+		return createTestAppliance(APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY, isPaired);
 	}
 
-	private void assertDisconnected(TestAppliance appliance, boolean isCppOnline) {
+	private void assertDisconnected(TestAppliance appliance) {
 		assertEquals(ConnectionState.DISCONNECTED, appliance.getNetworkNode().getConnectionState());
 	}
 
-	private void assertLocal(TestAppliance appliance , boolean isCppOnline) {
+	private void assertLocal(TestAppliance appliance) {
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, appliance.getNetworkNode().getConnectionState());
 	}
 
@@ -1529,7 +1528,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, appliance.getNetworkNode().getConnectionState());
 	}
 
-    private TestAppliance createTestAppliance(CommunicationStrategy communicationStrategy, String cppId, String ip, String name, long bootId, ConnectionState connectionState, boolean isPaired, boolean isCppOnline) {
+    private TestAppliance createTestAppliance(String cppId, String ip, String name, long bootId, ConnectionState connectionState, boolean isPaired) {
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(bootId);
         networkNode.setCppId(cppId);
