@@ -197,14 +197,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     @Override
     public boolean onProductMenuItemClicked(String productMenu) {
-        if (productMenu.equals(getResources().getResourceEntryName(
-                R.string.product_download_manual))) {
-            Intent intent = new Intent(LaunchDigitalCare.this,
-                    DummyScreen.class);
-            startActivity(intent);
-            return true;
-        }
-        return false;
+              return false;
     }
 
     @Override

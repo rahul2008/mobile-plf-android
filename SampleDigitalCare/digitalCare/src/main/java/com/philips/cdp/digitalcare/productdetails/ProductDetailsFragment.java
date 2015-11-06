@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,6 +35,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
+import java.io.File;
 import java.util.List;
 /*import com.philips.cdp.horizontal.RequestManager;
 import com.philips.cdp.network.listeners.AssetListener;
@@ -195,12 +196,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     protected void updateViewsWithData() {
         mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        if(mViewProductDetailsModel != null)
-        {
+        if (mViewProductDetailsModel != null) {
             onUpdateSummaryData();
             onUpdateAssetData();
-        }else
-        {
+        } else {
             showAlert(getResources().getString(R.string.no_data_available));
         }
     }
@@ -351,6 +350,21 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 R.string.product_open_manual))) {
         } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
+
+            if (isConnectionAvailable()) {
+                String mFilePath = mViewProductDetailsModel.getmManualLink();
+
+                if (mFilePath != null) {
+                    File sdcard = Environment.getExternalStorageDirectory();
+                    File pdfFilepath = new File(sdcard.getAbsolutePath() + "/" + "Philips_Manual");
+                    if (pdfFilepath.exists()) {
+                        pdfFilepath.delete();
+                        new PdfDownloader(getActivity()).execute(mFilePath);
+                    } else {
+                        new PdfDownloader(getActivity()).execute(mFilePath);
+                    }
+                }
+            }
         } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_information))) {
         }
@@ -399,8 +413,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mManualPdf = mViewProductDetailsModel.getmManualLink();
         DigiCareLogger.d(TAG, "Manual Link : " + mManualPdf);
         List<String> productVideos = mViewProductDetailsModel.getmVideoLinks();
-        if(productVideos != null)
-         initView(mViewProductDetailsModel.getmVideoLinks());
+        if (productVideos != null)
+            initView(mViewProductDetailsModel.getmVideoLinks());
 
     }
 
