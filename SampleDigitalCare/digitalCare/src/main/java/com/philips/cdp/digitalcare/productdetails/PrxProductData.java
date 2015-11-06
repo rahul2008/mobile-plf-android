@@ -56,7 +56,6 @@ public class PrxProductData {
         mProductSummaryBuilder.setmSectorCode(mSectorCode);
         mProductSummaryBuilder.setmLocale(mLocale);
         mProductSummaryBuilder.setmCatalogCode(mCatalogCode);
-        mProductSummaryBuilder.setmCtnCode(mCtn);
 
         return mProductSummaryBuilder;
     }
@@ -66,7 +65,6 @@ public class PrxProductData {
         mProductAssetBuilder.setmSectorCode(mSectorCode);
         mProductAssetBuilder.setmLocale(mLocale);
         mProductAssetBuilder.setmCatalogCode(mCatalogCode);
-        mProductAssetBuilder.setmCtnCode(mCtn);
 
         return mProductAssetBuilder;
     }
@@ -90,7 +88,7 @@ public class PrxProductData {
             }
 
             @Override
-            public void onResponseError(String error) {
+            public void onResponseError(String error, int statuscode) {
                 DigiCareLogger.d(TAG, "Summary Error Response : " + error);
             }
         });
@@ -128,7 +126,7 @@ public class PrxProductData {
             }
 
             @Override
-            public void onResponseError(String error) {
+            public void onResponseError(String error, int statusCode) {
                 DigiCareLogger.d(TAG, "Asset Error Response : " + error);
             }
         });
