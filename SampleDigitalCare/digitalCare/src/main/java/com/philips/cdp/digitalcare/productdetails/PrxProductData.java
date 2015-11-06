@@ -1,11 +1,14 @@
 package com.philips.cdp.digitalcare.productdetails;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
-import com.philips.cdp.digitalcare.productdetails.model.listener.PrxCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.prxclient.RequestManager;
@@ -45,29 +48,58 @@ public class PrxProductData {
 
     private SummaryModel mSummaryModel = null;
     private AssetModel mAssetModel = null;
-    private ViewProductDetailsModel mObject = null;
-    private PrxCallback mCallback = null;
+    private ViewProductDetailsModel mProductDetailsObject = null;
 
     ConsumerProductInfo mProductInfo = null;
+    DigitalCareConfigManager mConfigManager = null;
+
+    private ProgressDialog mSummaryDialog = null;
+    private ProgressDialog mAssetDialog = null;
+
+    private RequestManager mRequestManager = null;
+    private Thread mUiThread = Looper.getMainLooper().getThread();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
 
-    public PrxProductData(Context context, PrxCallback callback) {
+    public PrxProductData(Context context) {
         this.mContext = context;
-        mObject = new ViewProductDetailsModel();
-        mCallback = callback;
+        mConfigManager = DigitalCareConfigManager.getInstance();
+        mProductDetailsObject = new ViewProductDetailsModel();
+
+
         initProductCredentials();
-        executeSummaryRequest();
-        executeAssetRequest();
+    }
+
+    public void excuteRequests() {
+        updateUI(new Runnable() {
+            @Override
+            public void run() {
+                executeSummaryRequest();
+                executeAssetRequest();
+            }
+        });
+
+    }
+
+    protected final void updateUI(Runnable runnable) {
+        if (Thread.currentThread() != mUiThread) {
+            mHandler.post(runnable);
+        } else {
+            runnable.run();
+        }
     }
 
     protected void initProductCredentials() {
+        if (mRequestManager == null)
+            mRequestManager = new RequestManager();
+        mRequestManager.init(mContext);
         DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();
         mSectorCode = mProductInfo.getSector();
         mLocale = mConfigManager.getLocale().toString();
         mCatalogCode = mProductInfo.getCatalog();
-        if((mSectorCode == null) || (mCtn == null) || (mLocale == null) || (mCatalogCode == null))
+        if ((mSectorCode == null) || (mCtn == null) || (mLocale == null) || (mCatalogCode == null))
             DigiCareLogger.e(TAG, "Please make sure to set SectorCode, CatalogCode, ");
 
     }
@@ -92,8 +124,11 @@ public class PrxProductData {
 
 
     public void executeSummaryRequest() {
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(mContext);
+        if (mSummaryDialog == null)
+            mSummaryDialog = new ProgressDialog(mContext, R.style.loaderTheme);
+        mSummaryDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mSummaryDialog.setCancelable(false);
+        mSummaryDialog.show();
         mRequestManager.executeRequest(getPrxSummaryData(), new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -101,16 +136,21 @@ public class PrxProductData {
                     mSummaryModel = (SummaryModel) responseData;
                     DigiCareLogger.d(TAG, "Summary Data Received ? " + mSummaryModel.isSuccess());
                     Data data = mSummaryModel.getData();
-                    mObject.setmProductName(data.getProductTitle());
-                    mObject.setmCtnName(data.getCtn());
-                    mObject.setmProductImage(data.getImageURL());
-                    mCallback.onSummaryDataReceived(mObject);
+                    mProductDetailsObject.setmProductName(data.getProductTitle());
+                    mProductDetailsObject.setmCtnName(data.getCtn());
+                    mProductDetailsObject.setmProductImage(data.getImageURL());
+                    mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                    if (mSummaryDialog != null && mSummaryDialog.isShowing())
+                        mSummaryDialog.cancel();
                 }
             }
 
             @Override
             public void onResponseError(String error, int statuscode) {
                 DigiCareLogger.d(TAG, "Summary Error Response : " + error);
+                mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                if (mSummaryDialog != null && mSummaryDialog.isShowing())
+                    mSummaryDialog.cancel();
             }
         });
     }
@@ -118,8 +158,11 @@ public class PrxProductData {
 
     public void executeAssetRequest() {
 
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(mContext);
+        if (mAssetDialog == null)
+            mAssetDialog = new ProgressDialog(mContext, R.style.loaderTheme);
+        mAssetDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mAssetDialog.setCancelable(false);
+        mAssetDialog.show();
         mRequestManager.executeRequest(getPrxAssetData(), new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -136,19 +179,25 @@ public class PrxProductData {
                         String assetExtension = assetObject.getExtension();
                         if (assetDescription.equalsIgnoreCase(DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF))
                             if (assetResource != null)
-                                mObject.setmManualLink(assetResource);
+                                mProductDetailsObject.setmManualLink(assetResource);
                         if (assetExtension.equalsIgnoreCase(DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
                             if (assetResource != null)
                                 mVideoList.add(assetResource);
                     }
-                    mObject.setmVideoLinks(mVideoList);
-                    mCallback.onAssetDataReceived(mObject);
+                    mProductDetailsObject.setmVideoLinks(mVideoList);
+                    mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+
+                    if (mAssetDialog != null && mAssetDialog.isShowing())
+                        mAssetDialog.cancel();
                 }
             }
 
             @Override
             public void onResponseError(String error, int statusCode) {
                 DigiCareLogger.d(TAG, "Asset Error Response : " + error);
+                mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                if (mAssetDialog != null && mAssetDialog.isShowing())
+                    mAssetDialog.cancel();
             }
         });
     }

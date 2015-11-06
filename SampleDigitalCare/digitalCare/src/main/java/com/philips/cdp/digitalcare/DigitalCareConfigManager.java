@@ -12,6 +12,8 @@ import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
+import com.philips.cdp.digitalcare.productdetails.PrxProductData;
+import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
@@ -43,7 +45,8 @@ public class DigitalCareConfigManager {
     private String mAppID = null;
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
-    private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver=null;
+    private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
+    private ViewProductDetailsModel mProductDetailsModel = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -88,13 +91,13 @@ public class DigitalCareConfigManager {
         if (mContext == null) {
             DigitalCareConfigManager.mContext = applicationContext;
             mLocaleMatchHandler = new LocaleMatchHandler(mContext);
-            mLocaleMatchHandlerObserver=new LocaleMatchHandlerObserver();
+            mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
             LocaleMatchHandler.initializePRXMap();
             initializeTaggingContext(mContext);
         }
     }
 
-    public LocaleMatchHandlerObserver getObserver(){
+    public LocaleMatchHandlerObserver getObserver() {
         return mLocaleMatchHandlerObserver;
     }
 
@@ -105,11 +108,11 @@ public class DigitalCareConfigManager {
      * <p> 1) Please consider the string "digitalcare" to identify the MainScreen Fragment as a Fragment ID. </p>
      * <p> 2) Please make sure to set the Locale before calling this method.  </p>
      *
-     * @param context Context of the FragmentActivity
-     * @param parentContainerResId Fragment container resource ID
+     * @param context                 Context of the FragmentActivity
+     * @param parentContainerResId    Fragment container resource ID
      * @param actionbarUpdateListener ActionbarUpdateListener instance
-     * @param enterAnim Animation resource ID.
-     * @param exitAnim Animation resource ID.
+     * @param enterAnim               Animation resource ID.
+     * @param exitAnim                Animation resource ID.
      */
     public void invokeDigitalCareAsFragment(FragmentActivity context,
                                             int parentContainerResId,
@@ -137,9 +140,9 @@ public class DigitalCareConfigManager {
      * <p> Invoking DigitalCare Component from the Intent. </p>
      * <b> Note: </b> Please make sure to set the Locale before invoking this method.
      *
-     * @param startAnimation  Animation resource ID.
-     * @param endAnimation Animation Resource ID.
-     * @param orientation {@link com.philips.cdp.digitalcare.DigitalCareConfigManager.ActivityOrientation} flag.
+     * @param startAnimation Animation resource ID.
+     * @param endAnimation   Animation Resource ID.
+     * @param orientation    {@link com.philips.cdp.digitalcare.DigitalCareConfigManager.ActivityOrientation} flag.
      */
     public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
@@ -316,7 +319,7 @@ public class DigitalCareConfigManager {
      * <b>Note: </b>
      * <p>  - This is very important method, So please make sure to call this before invoking the DigitalCare Components</p>
      *
-     * @param langCode LanguageCode
+     * @param langCode    LanguageCode
      * @param countryCode CountryCode
      */
     public void setLocale(String langCode, String countryCode) {
@@ -345,7 +348,8 @@ public class DigitalCareConfigManager {
 
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
-       //new ProductPageParser().execute();
+        new PrxProductData(mContext).excuteRequests();
+        //new ProductPageParser().execute();
     }
 
 
@@ -364,7 +368,7 @@ public class DigitalCareConfigManager {
     /**
      * These are Flags used for setting/controlling screen orientation.
      * <p>This method helps only you are using the DigitalCare component from the Intent</p>
-     *
+     * <p/>
      * <p> <b>Note : </b> The flags are similar to deafult android screen orientation flags</p>
      */
     public enum ActivityOrientation {
@@ -394,18 +398,26 @@ public class DigitalCareConfigManager {
         }
     }
 
-    public boolean isBazaarVoiceRequired(){
-        if(mContext!=null) {
+    public boolean isBazaarVoiceRequired() {
+        if (mContext != null) {
             return mContext.getResources().getBoolean(R.bool.productreview_required);
         }
         return false;
     }
 
-    public boolean isProductionEnvironment(){
-        if(mContext!=null) {
+    public boolean isProductionEnvironment() {
+        if (mContext != null) {
             return mContext.getResources().getBoolean(R.bool.production_environment);
         }
         return false;
+    }
+
+    public void setViewProductDetailsData(ViewProductDetailsModel detailsObject) {
+        mProductDetailsModel = detailsObject;
+    }
+
+    public ViewProductDetailsModel getViewProductDetailsData() {
+        return  mProductDetailsModel;
     }
 
 }
