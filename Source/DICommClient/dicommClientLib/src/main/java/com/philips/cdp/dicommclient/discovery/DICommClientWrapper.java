@@ -5,8 +5,6 @@
 
 package com.philips.cdp.dicommclient.discovery;
 
-import java.util.Random;
-
 import android.content.Context;
 
 import com.philips.cdp.dicommclient.BuildConfig;
@@ -14,6 +12,8 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.cpp.CppController;
+
+import java.util.Random;
 
 public class DICommClientWrapper {
 

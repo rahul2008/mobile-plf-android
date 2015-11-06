@@ -51,7 +51,7 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
             return;
 
         if (!mNetworkNode.getCppId().equals(fromEui64)) {
-            DICommLog.d(DICommLog.REMOTE_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromEui64 == null ? "null" : fromEui64) + ")");
+            DICommLog.d(DICommLog.REMOTE_SUBSCRIPTION, "Ignoring event, not from associated network node (" + fromEui64 + ")");
             return;
         }
 

@@ -5,11 +5,6 @@
 
 package com.philips.cdp.dicommclient.discovery;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +26,11 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 /**
  * Discovery of the appliances is managed by Discovery Manager. It is the main
  * interface to the User Interface. The output of Discovery Manager is the list
@@ -43,589 +43,602 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
  */
 public class DiscoveryManager<T extends DICommAppliance> {
 
-	private static DiscoveryManager<? extends DICommAppliance> mInstance;
+    private static DiscoveryManager<? extends DICommAppliance> mInstance;
 
-	private LinkedHashMap<String, T> mAllAppliancesMap;
-	private List<NetworkNode> mAddedAppliances;
+    private LinkedHashMap<String, T> mAllAppliancesMap;
+    private List<NetworkNode> mAddedAppliances;
 
-	private DICommApplianceFactory<T> mApplianceFactory;
-	private NetworkNodeDatabase mNetworkNodeDatabase;
-	private DICommApplianceDatabase<T> mApplianceDatabase;
+    private DICommApplianceFactory<T> mApplianceFactory;
+    private NetworkNodeDatabase mNetworkNodeDatabase;
+    private DICommApplianceDatabase<T> mApplianceDatabase;
 
-	private static final Object mDiscoveryLock = new Object();
-	private NetworkMonitor mNetwork;
-	private SsdpServiceHelper mSsdpHelper;
-	private CppDiscoveryHelper mCppHelper;
+    private static final Object mDiscoveryLock = new Object();
+    private NetworkMonitor mNetwork;
+    private SsdpServiceHelper mSsdpHelper;
+    private CppDiscoveryHelper mCppHelper;
 
-	private List<DiscoveryEventListener> mDiscoveryEventListenersList;
+    private List<DiscoveryEventListener> mDiscoveryEventListenersList;
 
-	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
-	public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
-	private static final int DISCOVERY_WAITFORLOCAL_TIMEOUT = 10000;
-	private static final int DISCOVERY_SYNCLOCAL_TIMEOUT = 10000;
+    public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
+    public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
+    private static final int DISCOVERY_WAITFORLOCAL_TIMEOUT = 10000;
+    private static final int DISCOVERY_SYNCLOCAL_TIMEOUT = 10000;
 
-	private static Handler mDiscoveryTimeoutHandler = new Handler() {
+    private static Handler mDiscoveryTimeoutHandler = new Handler() {
 
-		@Override
-		public void handleMessage(Message msg) {
-			if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
-				synchronized (mDiscoveryLock) {
-					DiscoveryManager.getInstance().markNonDiscoveredAppliancesRemote();
-				}
-			} else if(msg.what == DISCOVERY_SYNCLOCAL_MESSAGE) {
-				synchronized (mDiscoveryLock) {
-					DiscoveryManager.getInstance().markLostAppliancesInBackgroundOfflineOrRemote();
-				}
-			}
-		}
-	};
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
+                synchronized (mDiscoveryLock) {
+                    DiscoveryManager.getInstance().markNonDiscoveredAppliancesRemote();
+                }
+            } else if (msg.what == DISCOVERY_SYNCLOCAL_MESSAGE) {
+                synchronized (mDiscoveryLock) {
+                    DiscoveryManager.getInstance().markLostAppliancesInBackgroundOfflineOrRemote();
+                }
+            }
+        }
+    };
 
-	static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
-		return createSharedInstance(applicationContext, cppController, applianceFactory, new NullApplianceDatabase<U>());
-	}
+    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
+        return createSharedInstance(applicationContext, cppController, applianceFactory, new NullApplianceDatabase<U>());
+    }
 
-	static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
-		if (mInstance != null) {
-			throw new RuntimeException("DiscoveryManager can only be initialized once");
-		}
+    static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
+        if (mInstance != null) {
+            throw new RuntimeException("DiscoveryManager can only be initialized once");
+        }
 
-		NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
+        NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
 
-		CppDiscoveryHelper cppDiscoveryHelper = null;
-		if (cppController != null) {
-			 cppDiscoveryHelper = new CppDiscoveryHelper(cppController);
-		}
+        CppDiscoveryHelper cppDiscoveryHelper = null;
+        if (cppController != null) {
+            cppDiscoveryHelper = new CppDiscoveryHelper(cppController);
+        }
 
-		DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppDiscoveryHelper, applianceFactory, applianceDatabase, networkMonitor);
-		mInstance = discoveryManager;
-		return discoveryManager;
-	}
+        DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppDiscoveryHelper, applianceFactory, applianceDatabase, networkMonitor);
+        mInstance = discoveryManager;
+        return discoveryManager;
+    }
 
-	public static synchronized DiscoveryManager<? extends DICommAppliance> getInstance() {
-		return mInstance;
-	}
+    public static synchronized DiscoveryManager<? extends DICommAppliance> getInstance() {
+        return mInstance;
+    }
 
-	/* package, for testing */ DiscoveryManager(CppDiscoveryHelper discoveryHelper, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
-		mApplianceFactory = applianceFactory;
-		mApplianceDatabase = applianceDatabase;
-		
-		mNetworkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
-		initializeAppliancesMapFromDataBase();
+    /* package, for testing */ DiscoveryManager(CppDiscoveryHelper discoveryHelper, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
+        mApplianceFactory = applianceFactory;
+        mApplianceDatabase = applianceDatabase;
 
-		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), mHandlerCallback);
+        mNetworkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
+        initializeAppliancesMapFromDataBase();
 
-		mCppHelper = discoveryHelper;
-		if (mCppHelper != null) {
-			mCppHelper.setCppDiscoverEventListener(mCppDiscoverEventListener);
-		}
+        mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), mHandlerCallback);
 
-		mNetwork = networkMonitor;
-		mNetwork.setListener(mNetworkChangedCallback);
-		if (mDiscoveryEventListenersList == null) {
-			mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
-		}
-	}
+        mCppHelper = discoveryHelper;
+        if (mCppHelper != null) {
+            mCppHelper.setCppDiscoverEventListener(mCppDiscoverEventListener);
+        }
 
-	public void addDiscoveryEventListener(DiscoveryEventListener listener) {
-		if (listener != null && !mDiscoveryEventListenersList.contains(listener)) {
-			mDiscoveryEventListenersList.add(listener);
-		}
-	}
+        mNetwork = networkMonitor;
+        mNetwork.setListener(mNetworkChangedCallback);
+        if (mDiscoveryEventListenersList == null) {
+            mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
+        }
+    }
 
-	public void removeDiscoverEventListener(DiscoveryEventListener listener){
-		mDiscoveryEventListenersList.remove(listener);
-	}
+    public void addDiscoveryEventListener(DiscoveryEventListener listener) {
+        if (listener != null && !mDiscoveryEventListenersList.contains(listener)) {
+            mDiscoveryEventListenersList.add(listener);
+        }
+    }
 
-	public void start() {
-		if (mNetwork.getLastKnownNetworkState() == NetworkState.WIFI_WITH_INTERNET) {
-			mSsdpHelper.startDiscoveryAsync();
-			DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
-		}
-		if (mCppHelper != null) {
-			mCppHelper.startDiscoveryViaCpp();
-		}
-		mNetwork.startNetworkChangedReceiver();
-	}
+    public void removeDiscoverEventListener(DiscoveryEventListener listener) {
+        mDiscoveryEventListenersList.remove(listener);
+    }
 
-	public void stop() {
-		mSsdpHelper.stopDiscoveryAsync();
-		DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Stop called");
-		if (mCppHelper != null) {
-			mCppHelper.stopDiscoveryViaCpp();
-		}
-		mNetwork.stopNetworkChangedReceiver();
-		//mDiscoveryEventListenersList = null;
-	}
+    public void start() {
+        if (mNetwork.getLastKnownNetworkState() == NetworkState.WIFI_WITH_INTERNET) {
+            mSsdpHelper.startDiscoveryAsync();
+            DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
+        }
+        if (mCppHelper != null) {
+            mCppHelper.startDiscoveryViaCpp();
+        }
+        mNetwork.startNetworkChangedReceiver();
+    }
 
-	public ArrayList<T> getAllDiscoveredAppliances() {
-		return new ArrayList<T>(mAllAppliancesMap.values());
-	}
+    public void stop() {
+        mSsdpHelper.stopDiscoveryAsync();
+        DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Stop called");
+        if (mCppHelper != null) {
+            mCppHelper.stopDiscoveryViaCpp();
+        }
+        mNetwork.stopNetworkChangedReceiver();
+        //mDiscoveryEventListenersList = null;
+    }
 
-	public List<T> getAddedAppliances() {
-		List<T> appliances = new ArrayList<T>();
-		for (NetworkNode addedAppliance : mAddedAppliances) {
-			appliances.add(mAllAppliancesMap.get(addedAppliance.getCppId()));
-		}
-		return appliances;
-	}
+    public ArrayList<T> getAllDiscoveredAppliances() {
+        return new ArrayList<T>(mAllAppliancesMap.values());
+    }
 
-	// TODO DIComm refactor: this method should be removed completely
-	public List<T> updateAddedAppliances() {
-		mAddedAppliances = mNetworkNodeDatabase.getAll();
-		return getAddedAppliances();
-	}
+    public List<T> getAddedAppliances() {
+        List<T> appliances = new ArrayList<T>();
+        for (NetworkNode addedAppliance : mAddedAppliances) {
+            appliances.add(mAllAppliancesMap.get(addedAppliance.getCppId()));
+        }
+        return appliances;
+    }
 
-	// TODO DIComm refactor: this method should be removed from public interface
-	public void removeFromDiscoveredList(String cppId) {
-		if (cppId == null || cppId.isEmpty()) return;
-		DICommAppliance appliance = mAllAppliancesMap.remove(cppId);
-		if(appliance!=null){
-		    appliance.getNetworkNode().setEncryptionKeyUpdatedListener(null);
-		}
-	}
+    // TODO DIComm refactor: this method should be removed completely
+    public List<T> updateAddedAppliances() {
+        mAddedAppliances = mNetworkNodeDatabase.getAll();
+        return getAddedAppliances();
+    }
 
-	// TODO DIComm refactor: this method should be removed from public interface
-	public void updatePairingStatus(String cppId, NetworkNode.PAIRED_STATUS state) {
-		if (cppId == null || cppId.isEmpty()) return;
-		if (mAllAppliancesMap.containsKey(cppId)) {
-			mAllAppliancesMap.get(cppId).getNetworkNode().setPairedState(state);
-		}
-	}
+    // TODO DIComm refactor: this method should be removed from public interface
+    public void removeFromDiscoveredList(String cppId) {
+        if (cppId == null || cppId.isEmpty()) return;
+        DICommAppliance appliance = mAllAppliancesMap.remove(cppId);
+        if (appliance != null) {
+            appliance.getNetworkNode().setEncryptionKeyUpdatedListener(null);
+        }
+    }
 
-	public List<T> getNewAppliancesDiscovered() {
-		boolean addToNewApplianceList = true ;
-		List<T> discoveredAppliances = getAllDiscoveredAppliances() ;
-		List<T> addedAppliances = getAddedAppliances() ;
-		List<T> newAppliances = new ArrayList<T>() ;
+    // TODO DIComm refactor: this method should be removed from public interface
+    public void updatePairingStatus(String cppId, NetworkNode.PAIRED_STATUS state) {
+        if (cppId == null || cppId.isEmpty()) return;
+        if (mAllAppliancesMap.containsKey(cppId)) {
+            mAllAppliancesMap.get(cppId).getNetworkNode().setPairedState(state);
+        }
+    }
 
-		for (T appliance: discoveredAppliances) {
-			for (T addedAppliance: addedAppliances) {
-				if (appliance.getNetworkNode().getCppId().equals(addedAppliance.getNetworkNode().getCppId())) {
-					addToNewApplianceList = false;
-					break;
-				}
-			}
-			if (addToNewApplianceList) {
-				//Add connected appliance only, ignore disconnected
-				if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) {
-					appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
-					newAppliances.add(appliance) ;
-				}
-			}
-			addToNewApplianceList = true ;
-		}
-		return newAppliances ;
-	}
+    public List<T> getNewAppliancesDiscovered() {
+        boolean addToNewApplianceList = true;
+        List<T> discoveredAppliances = getAllDiscoveredAppliances();
+        List<T> addedAppliances = getAddedAppliances();
+        List<T> newAppliances = new ArrayList<T>();
 
-	public T getApplianceByCppId(String cppId) {
-		if (cppId == null || cppId.isEmpty()) return null;
-		return mAllAppliancesMap.get(cppId);
-	}
+        for (T appliance : discoveredAppliances) {
+            for (T addedAppliance : addedAppliances) {
+                if (appliance.getNetworkNode().getCppId().equals(addedAppliance.getNetworkNode().getCppId())) {
+                    addToNewApplianceList = false;
+                    break;
+                }
+            }
+            if (addToNewApplianceList) {
+                //Add connected appliance only, ignore disconnected
+                if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) {
+                    appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+                    newAppliances.add(appliance);
+                }
+            }
+            addToNewApplianceList = true;
+        }
+        return newAppliances;
+    }
 
-	private NetworkChangedCallback mNetworkChangedCallback = new NetworkChangedCallback() {
+    public T getApplianceByCppId(String cppId) {
+        if (cppId == null || cppId.isEmpty()) return null;
+        return mAllAppliancesMap.get(cppId);
+    }
 
-		@Override
-		public void onNetworkChanged(NetworkState networkState, String networkSsid) {
-			// REMARK: Wifi switch will go through the none state
-			cancelConnectViaCppAfterLocalAttempt();
-			synchronized (mDiscoveryLock) {
-				switch(networkState) {
-				case NONE :
-					markAllAppliancesOffline();
-					mSsdpHelper.stopDiscoveryImmediate();
-					DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Network change (no network)");
-					break;
-				case MOBILE:
-					markAllAppliancesRemote();
-					mSsdpHelper.stopDiscoveryImmediate();;
-					DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Network change (mobile data)");
-					break;
-				case WIFI_WITH_INTERNET:
-					markOtherNetworkAppliancesRemote(networkSsid);
-					connectViaCppAfterLocalAttemptDelayed();
-					mSsdpHelper.startDiscoveryAsync();
-					DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
-					break;
-				default:
-					break;
-				}
-			}
+    private NetworkChangedCallback mNetworkChangedCallback = new NetworkChangedCallback() {
 
-		}
-	};
+        @Override
+        public void onNetworkChanged(NetworkState networkState, String networkSsid) {
+            // REMARK: Wifi switch will go through the none state
+            cancelConnectViaCppAfterLocalAttempt();
+            synchronized (mDiscoveryLock) {
+                switch (networkState) {
+                    case NONE:
+                        markAllAppliancesOffline();
+                        mSsdpHelper.stopDiscoveryImmediate();
+                        DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Network change (no network)");
+                        break;
+                    case MOBILE:
+                        markAllAppliancesRemote();
+                        mSsdpHelper.stopDiscoveryImmediate();
+                        ;
+                        DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Network change (mobile data)");
+                        break;
+                    case WIFI_WITH_INTERNET:
+                        markOtherNetworkAppliancesRemote(networkSsid);
+                        connectViaCppAfterLocalAttemptDelayed();
+                        mSsdpHelper.startDiscoveryAsync();
+                        DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    };
 
-	private CppDiscoverEventListener mCppDiscoverEventListener = new CppDiscoverEventListener() {
+    private CppDiscoverEventListener mCppDiscoverEventListener = new CppDiscoverEventListener() {
 
-		// TODO DIComm Refactor: investigate and fix commented code
-		@Override
-		public void onSignedOnViaCpp() {
-			DICommLog.v(DICommLog.DISCOVERY, "Signed on to CPP - setting all appliances online via cpp");
-			//updateAllAppliancesOnlineViaCpp();
-		}
+        // TODO DIComm Refactor: investigate and fix commented code
+        @Override
+        public void onSignedOnViaCpp() {
+            DICommLog.v(DICommLog.DISCOVERY, "Signed on to CPP - setting all appliances online via cpp");
+            //updateAllAppliancesOnlineViaCpp();
+        }
 
-		// TODO DIComm Refactor: investigate and fix commented code
-		@Override
-		public void onSignedOffViaCpp() {
-			DICommLog.v(DICommLog.DISCOVERY, "Signed on to CPP - setting all appliances offline via cpp");
-	//		updateAllAppliancesOfflineViaCpp();
-		}
+        // TODO DIComm Refactor: investigate and fix commented code
+        @Override
+        public void onSignedOffViaCpp() {
+            DICommLog.v(DICommLog.DISCOVERY, "Signed on to CPP - setting all appliances offline via cpp");
+            //		updateAllAppliancesOfflineViaCpp();
+        }
 
-		@Override
-		public void onDiscoverEventReceived(DiscoverInfo info, boolean isResponseToRequest) {
-			if (info == null) return;
-			DICommLog.v(DICommLog.DISCOVERY, "Received discover event from CPP: " + (isResponseToRequest ? "requested" : "change"));
+        @Override
+        public void onDiscoverEventReceived(DiscoverInfo info, boolean isResponseToRequest) {
+            if (info == null) return;
+            DICommLog.v(DICommLog.DISCOVERY, "Received discover event from CPP: " + (isResponseToRequest ? "requested" : "change"));
 
-			boolean notifyListeners = false;
-			synchronized (mDiscoveryLock) {
-				if (isResponseToRequest) {
-					DICommLog.v(DICommLog.DISCOVERY, "Received connected appliances list via cpp");
-					notifyListeners = updateConnectedStateViaCppAllAppliances(info);
-				} else {
-					DICommLog.v(DICommLog.DISCOVERY, "Received connected appliance update via CPP");
-					notifyListeners = updateConnectedStateViaCppReturnedAppliances(info);
-				}
-			}
+            boolean notifyListeners = false;
+            synchronized (mDiscoveryLock) {
+                if (isResponseToRequest) {
+                    DICommLog.v(DICommLog.DISCOVERY, "Received connected appliances list via cpp");
+                    notifyListeners = updateConnectedStateViaCppAllAppliances(info);
+                } else {
+                    DICommLog.v(DICommLog.DISCOVERY, "Received connected appliance update via CPP");
+                    notifyListeners = updateConnectedStateViaCppReturnedAppliances(info);
+                }
+            }
 
-			if (notifyListeners) {
-				notifyDiscoveryListener();
-			}
-		}
-	};
+            if (notifyListeners) {
+                notifyDiscoveryListener();
+            }
+        }
+    };
 
-	private Handler.Callback mHandlerCallback = new Handler.Callback() {
+    private Handler.Callback mHandlerCallback = new Handler.Callback() {
 
-		@Override
-		public boolean handleMessage(Message msg) {
-			if (msg == null) return false;
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg == null) return false;
 
-			final DiscoveryMessageID messageID = DiscoveryMessageID.getID(msg.what);
-			DeviceModel device = getDeviceModelFromMessage(msg);
-			if (device == null) return false;
+            final DiscoveryMessageID messageID = DiscoveryMessageID.getID(msg.what);
+            DeviceModel device = getDeviceModelFromMessage(msg);
+            if (device == null) return false;
 
-			synchronized (mDiscoveryLock) {
-				switch (messageID) {
-					case DEVICE_DISCOVERED: return onApplianceDiscovered(device);
-					case DEVICE_LOST: return onApplianceLost(device);
-					default: break;
-				}
-			}
-			return false;
-		}
-	};
+            synchronized (mDiscoveryLock) {
+                switch (messageID) {
+                    case DEVICE_DISCOVERED:
+                        return onApplianceDiscovered(device);
+                    case DEVICE_LOST:
+                        return onApplianceLost(device);
+                    default:
+                        break;
+                }
+            }
+            return false;
+        }
+    };
 
-	// ********** START SSDP METHODS ************
-	private boolean onApplianceDiscovered(DeviceModel deviceModel) {
+    // ********** START SSDP METHODS ************
+    private boolean onApplianceDiscovered(DeviceModel deviceModel) {
 
-		NetworkNode networkNode = createNetworkNode(deviceModel);
-		if (networkNode == null) return false;
-		DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + "   modelname: " + networkNode.getModelName());
-		if (mAllAppliancesMap.containsKey(networkNode.getCppId())) {
-			updateExistingAppliance(networkNode);
-		} else {
-			addNewAppliance(networkNode);
-		}
+        NetworkNode networkNode = createNetworkNode(deviceModel);
+        if (networkNode == null) return false;
+        DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + "   modelname: " + networkNode.getModelName());
+        if (mAllAppliancesMap.containsKey(networkNode.getCppId())) {
+            updateExistingAppliance(networkNode);
+        } else {
+            addNewAppliance(networkNode);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	private boolean onApplianceLost(DeviceModel deviceModel) {
-		if (deviceModel == null || deviceModel.getSsdpDevice() == null) return false;
-		String lostApplianceCppId = deviceModel.getSsdpDevice().getCppId();
+    private boolean onApplianceLost(DeviceModel deviceModel) {
+        if (deviceModel == null || deviceModel.getSsdpDevice() == null) return false;
+        String lostApplianceCppId = deviceModel.getSsdpDevice().getCppId();
 
-		ArrayList<T> discoveredAppliances = getAllDiscoveredAppliances();
-		for (T appliance : discoveredAppliances) {
-			if (appliance.getNetworkNode().getCppId().equals(lostApplianceCppId)) {
-				DICommLog.d(DICommLog.DISCOVERY, "Lost appliance - marking as DISCONNECTED: " + appliance);
-				appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
-				notifyDiscoveryListener();
-				return true;
-			}
-		}
-		return false;
-	}
+        ArrayList<T> discoveredAppliances = getAllDiscoveredAppliances();
+        for (T appliance : discoveredAppliances) {
+            if (appliance.getNetworkNode().getCppId().equals(lostApplianceCppId)) {
+                DICommLog.d(DICommLog.DISCOVERY, "Lost appliance - marking as DISCONNECTED: " + appliance);
+                appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+                notifyDiscoveryListener();
+                return true;
+            }
+        }
+        return false;
+    }
 
-	private void updateExistingAppliance(NetworkNode networkNode) {
-		T existingAppliance = mAllAppliancesMap.get(networkNode.getCppId());
-		boolean notifyListeners = true;
+    private void updateExistingAppliance(NetworkNode networkNode) {
+        T existingAppliance = mAllAppliancesMap.get(networkNode.getCppId());
+        boolean notifyListeners = true;
 
-		if (networkNode.getHomeSsid() != null && !networkNode.getHomeSsid().equals(existingAppliance.getNetworkNode().getHomeSsid())) {
-			existingAppliance.getNetworkNode().setHomeSsid(networkNode.getHomeSsid());
-			updateApplianceInDatabase(existingAppliance);
-		}
+        if (networkNode.getHomeSsid() != null && !networkNode.getHomeSsid().equals(existingAppliance.getNetworkNode().getHomeSsid())) {
+            existingAppliance.getNetworkNode().setHomeSsid(networkNode.getHomeSsid());
+            updateApplianceInDatabase(existingAppliance);
+        }
 
-		if (!networkNode.getIpAddress().equals(existingAppliance.getNetworkNode().getIpAddress())) {
-			existingAppliance.getNetworkNode().setIpAddress(networkNode.getIpAddress());
-		}
+        if (!networkNode.getIpAddress().equals(existingAppliance.getNetworkNode().getIpAddress())) {
+            existingAppliance.getNetworkNode().setIpAddress(networkNode.getIpAddress());
+        }
 
-		if (!existingAppliance.getName().equals(networkNode.getName())) {
-			existingAppliance.getNetworkNode().setName(networkNode.getName());
-			updateApplianceInDatabase(existingAppliance);
-			notifyListeners = true;
-		}
+        if (!existingAppliance.getName().equals(networkNode.getName())) {
+            existingAppliance.getNetworkNode().setName(networkNode.getName());
+            updateApplianceInDatabase(existingAppliance);
+            notifyListeners = true;
+        }
 
-		if (existingAppliance.getNetworkNode().getBootId() != networkNode.getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
-			existingAppliance.getNetworkNode().setEncryptionKey(null);
-			existingAppliance.getNetworkNode().setBootId(networkNode.getBootId());
-			existingAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
-			DICommLog.d(DICommLog.PAIRING, "Discovery-Boot id changed pairing set to false");
-		}
+        if (existingAppliance.getNetworkNode().getBootId() != networkNode.getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
+            existingAppliance.getNetworkNode().setEncryptionKey(null);
+            existingAppliance.getNetworkNode().setBootId(networkNode.getBootId());
+            existingAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+            DICommLog.d(DICommLog.PAIRING, "Discovery-Boot id changed pairing set to false");
+        }
 
         if (existingAppliance.getNetworkNode().getConnectionState() != networkNode.getConnectionState()) {
             existingAppliance.getNetworkNode().setConnectionState(networkNode.getConnectionState());
             notifyListeners = true;
         }
 
-		if (notifyListeners) {
-			notifyDiscoveryListener();
-		}
-		DICommLog.d(DICommLog.DISCOVERY, "Successfully updated appliance: " + existingAppliance);
-	}
+        if (notifyListeners) {
+            notifyDiscoveryListener();
+        }
+        DICommLog.d(DICommLog.DISCOVERY, "Successfully updated appliance: " + existingAppliance);
+    }
 
-	/**
-	 * Completely new appliance - never seen before
-	 */
-	private void addNewAppliance(NetworkNode networkNode) {
-		if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
-			DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
-			return;
-		}
-		final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
-		appliance.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
-	    	@Override
-	    	public void onKeyUpdate() {
-	    		updateApplianceInDatabase(appliance);
-	    	}
-		});
+    /**
+     * Completely new appliance - never seen before
+     */
+    private void addNewAppliance(NetworkNode networkNode) {
+        if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
+            DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
+            return;
+        }
+        final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
+        appliance.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+            @Override
+            public void onKeyUpdate() {
+                updateApplianceInDatabase(appliance);
+            }
+        });
 
-		mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
-		DICommLog.d(DICommLog.DISCOVERY, "Successfully added appliance: " + appliance);
-		notifyDiscoveryListener();
-	}
+        mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
+        DICommLog.d(DICommLog.DISCOVERY, "Successfully added appliance: " + appliance);
+        notifyDiscoveryListener();
+    }
 
-	public void markLostAppliancesInBackgroundOfflineOrRemote() {
-		DICommLog.d(DICommLog.DISCOVERY, "Syncing appliances list for lost appliances in background");
-		boolean statusUpdated = false;
+    public void markLostAppliancesInBackgroundOfflineOrRemote() {
+        DICommLog.d(DICommLog.DISCOVERY, "Syncing appliances list for lost appliances in background");
+        boolean statusUpdated = false;
 
-		ArrayList<String> onlineCppIds = mSsdpHelper.getOnlineDevicesCppId();
+        ArrayList<String> onlineCppIds = mSsdpHelper.getOnlineDevicesCppId();
 
-		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
-			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) continue; // must be offline: not discovered
-			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // must be remote: not discovered
-			if (onlineCppIds.contains(appliance.getNetworkNode().getCppId())) continue; // State is correct
+        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+            if (appliance.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
+                continue; // must be offline: not discovered
+            if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY)
+                continue; // must be remote: not discovered
+            if (onlineCppIds.contains(appliance.getNetworkNode().getCppId()))
+                continue; // State is correct
 
-			// Losing an appliance in the background means it is offline
-			appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
-			DICommLog.v(DICommLog.DISCOVERY, "Marked non discovered DISCONNECTED: " + appliance.getName());
+            // Losing an appliance in the background means it is offline
+            appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+            DICommLog.v(DICommLog.DISCOVERY, "Marked non discovered DISCONNECTED: " + appliance.getName());
 
-			statusUpdated = true;
-		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
-	}
-	// ********** END SSDP METHODS ************
+            statusUpdated = true;
+        }
+        if (!statusUpdated) return;
+        notifyDiscoveryListener();
+    }
+    // ********** END SSDP METHODS ************
 
+    // ********** START NETWORK METHODS ************
+    private void markOtherNetworkAppliancesRemote(String ssid) {
+        DICommLog.d(DICommLog.DISCOVERY, "Marking all paired appliances REMOTE that will not appear on network: " + ssid);
+        boolean statusUpdated = false;
+        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+            if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY)
+                continue; // already discovered
+            if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY)
+                continue; // already remote
+            if (appliance.getNetworkNode().getHomeSsid() != null && appliance.getNetworkNode().getHomeSsid().equals(ssid))
+                continue; // will appear local on this network
+            if (appliance.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !appliance.getNetworkNode().isOnlineViaCpp())
+                continue; // not paired or not online
 
-	// ********** START NETWORK METHODS ************
-	private void markOtherNetworkAppliancesRemote(String ssid) {
-		DICommLog.d(DICommLog.DISCOVERY, "Marking all paired appliances REMOTE that will not appear on network: " + ssid);
-		boolean statusUpdated = false;
-		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
-			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
-			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (appliance.getNetworkNode().getHomeSsid() != null && appliance.getNetworkNode().getHomeSsid().equals(ssid)) continue; // will appear local on this network
-			if (appliance.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !appliance.getNetworkNode().isOnlineViaCpp()) continue; // not paired or not online
+            appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+            statusUpdated = true;
+            DICommLog.v(DICommLog.DISCOVERY, "Marked other network REMOTE: " + appliance.getName());
+        }
+        if (!statusUpdated) return;
+        notifyDiscoveryListener();
+    }
 
-			appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-			statusUpdated = true;
-			DICommLog.v(DICommLog.DISCOVERY, "Marked other network REMOTE: " + appliance.getName());
-		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
-	}
+    private void markNonDiscoveredAppliancesRemote() {
+        DICommLog.d(DICommLog.DISCOVERY, "Marking paired appliances that where not discovered locally REMOTE");
+        boolean statusUpdated = false;
+        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+            if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY)
+                continue; // already discovered
+            if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY)
+                continue; // already remote
+            if (appliance.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED)
+                continue;
+            if (!appliance.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
 
-	private void markNonDiscoveredAppliancesRemote() {
-		DICommLog.d(DICommLog.DISCOVERY, "Marking paired appliances that where not discovered locally REMOTE");
-		boolean statusUpdated = false;
-		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
-			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
-			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (appliance.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED) continue;
-			if (!appliance.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
+            appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+            statusUpdated = true;
+            DICommLog.v(DICommLog.DISCOVERY, "Marked non discovered REMOTE: " + appliance.getName());
+        }
+        if (!statusUpdated) return;
+        notifyDiscoveryListener();
+    }
 
-			appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-			statusUpdated = true;
-			DICommLog.v(DICommLog.DISCOVERY, "Marked non discovered REMOTE: " + appliance.getName());
-		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
-	}
+    private void markAllAppliancesRemote() {
+        DICommLog.d(DICommLog.DISCOVERY, "Marking all paired appliances REMOTE");
+        boolean statusUpdated = false;
+        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+            if (appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED && appliance.getNetworkNode().isOnlineViaCpp()) {
+                appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+                statusUpdated = true;
+                DICommLog.v(DICommLog.DISCOVERY, "Marked paired/cpponline REMOTE: " + appliance.getName());
+            } else {
+                appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+                statusUpdated = true;
+                DICommLog.v(DICommLog.DISCOVERY, "Marked non paired/cppoffline DISCONNECTED: " + appliance.getName());
+            }
+        }
+        if (!statusUpdated) return;
+        notifyDiscoveryListener();
+    }
 
-	private void markAllAppliancesRemote() {
-		DICommLog.d(DICommLog.DISCOVERY, "Marking all paired appliances REMOTE");
-		boolean statusUpdated = false;
-		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
-			if (appliance.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.PAIRED && appliance.getNetworkNode().isOnlineViaCpp()) {
-				appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-				statusUpdated = true;
-				DICommLog.v(DICommLog.DISCOVERY, "Marked paired/cpponline REMOTE: " + appliance.getName());
-			} else {
-				appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
-				statusUpdated = true;
-				DICommLog.v(DICommLog.DISCOVERY, "Marked non paired/cppoffline DISCONNECTED: " + appliance.getName());
-			}
-		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
-	}
+    private void markAllAppliancesOffline() {
+        DICommLog.d(DICommLog.DISCOVERY, "Marking all appliances OFFLINE");
+        boolean statusUpdated = false;
+        for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+            if (appliance.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED))
+                continue;
 
-	private void markAllAppliancesOffline() {
-		DICommLog.d(DICommLog.DISCOVERY, "Marking all appliances OFFLINE");
-		boolean statusUpdated = false;
-		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
-			if (appliance.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
+            appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+            statusUpdated = true;
+            DICommLog.v(DICommLog.DISCOVERY, "Marked OFFLINE: " + appliance.getName());
+        }
+        if (!statusUpdated) return;
+        notifyDiscoveryListener();
+    }
+    // ********** END NETWORK METHODS ************
 
-			appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
-			statusUpdated = true;
-			DICommLog.v(DICommLog.DISCOVERY, "Marked OFFLINE: " + appliance.getName());
-		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
-	}
-	// ********** END NETWORK METHODS ************
+    // ********** START CPP METHODS ************
+    public boolean updateConnectedStateViaCppAllAppliances(DiscoverInfo info) {
+        DICommLog.i(DICommLog.DISCOVERY, "updateConnectedState");
+        boolean connected = info.isConnected();
+        boolean notifyListeners = false;
 
+        List<String> cppIds = Arrays.asList(info.getClientIds());
 
-	// ********** START CPP METHODS ************
-	public boolean updateConnectedStateViaCppAllAppliances(DiscoverInfo info) {
-		DICommLog.i(DICommLog.DISCOVERY, "updateConnectedState") ;
-		boolean connected = info.isConnected();
-		boolean notifyListeners = false;
+        DICommLog.i(DICommLog.DISCOVERY, "List: " + cppIds);
 
-		List<String> cppIds = Arrays.asList(info.getClientIds());
+        for (DICommAppliance appliances : getAllDiscoveredAppliances()) {
+            boolean updatedState = false;
+            boolean currentOnlineViaCpp = connected;
+            if (cppIds.isEmpty()) {
+                notifyListeners = updateConnectedStateOfflineViaCpp(appliances);
+                continue;
+            }
+            if (!cppIds.contains(appliances.getNetworkNode().getCppId())) {
+                currentOnlineViaCpp = !connected;
+            }
 
-		DICommLog.i(DICommLog.DISCOVERY, "List: " + cppIds) ;
+            if (currentOnlineViaCpp) {
+                updatedState = updateConnectedStateOnlineViaCpp(appliances);
+            } else {
+                updatedState = updateConnectedStateOfflineViaCpp(appliances);
+            }
+            if (updatedState) {
+                notifyListeners = true;
+            }
+        }
+        return notifyListeners;
+    }
 
-		for (DICommAppliance appliances : getAllDiscoveredAppliances()) {
-			boolean updatedState = false ;
-			boolean currentOnlineViaCpp = connected;
-			if( cppIds.isEmpty() ) {
-				notifyListeners = updateConnectedStateOfflineViaCpp(appliances);
-				continue ;
-			}
-			if (!cppIds.contains(appliances.getNetworkNode().getCppId())) {
-				currentOnlineViaCpp = !connected;
-			}
+    public boolean updateConnectedStateViaCppReturnedAppliances(DiscoverInfo info) {
+        boolean connected = info.isConnected();
+        boolean notifyListeners = false;
 
-			if (currentOnlineViaCpp)
-			{
-				updatedState = updateConnectedStateOnlineViaCpp(appliances);
-			}
-			else
-			{
-				updatedState = updateConnectedStateOfflineViaCpp(appliances);
-			}
-			if( updatedState ) {
-				notifyListeners = true ;
-			}
-		}
-		return notifyListeners;
-	}
+        for (String cppIds : info.getClientIds()) {
+            DICommAppliance appliance = getApplianceByCppId(cppIds);
+            if (appliance == null) {
+                DICommLog.v(DICommLog.DISCOVERY, "Received discover event for unknown appliance: " + cppIds);
+                continue;
+            }
+            boolean isUpdated = false;
+            if (connected) {
+                isUpdated = updateConnectedStateOnlineViaCpp(appliance);
+            } else {
+                isUpdated = updateConnectedStateOfflineViaCpp(appliance);
+            }
+            if (isUpdated) {
+                notifyListeners = true;
+            }
+        }
+        return notifyListeners;
+    }
 
-	public boolean updateConnectedStateViaCppReturnedAppliances(DiscoverInfo info) {
-		boolean connected = info.isConnected();
-		boolean notifyListeners = false;
+    private boolean updateConnectedStateOnlineViaCpp(DICommAppliance appliance) {
+        DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOnlineViaCpp: " + appliance.getName());
+        if (appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.NOT_PAIRED)
+            return false;
+        if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED)
+            return false;
+        if (mNetwork.getLastKnownNetworkState() == NetworkState.NONE) return false;
 
-		for (String cppIds : info.getClientIds()) {
-			DICommAppliance appliance = getApplianceByCppId(cppIds);
-			if (appliance == null) {
-				DICommLog.v(DICommLog.DISCOVERY, "Received discover event for unknown appliance: " + cppIds);
-				continue;
-			}
-			boolean isUpdated = false;
-			if (connected) {
-				isUpdated = updateConnectedStateOnlineViaCpp(appliance) ;
-			} else {
-				isUpdated = updateConnectedStateOfflineViaCpp(appliance) ;
-			}
-			if( isUpdated ) {
-				notifyListeners = true ;
-			}
-		}
-		return notifyListeners;
-	}
+        appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+        appliance.getNetworkNode().setOnlineViaCpp(true);
+        DICommLog.v(DICommLog.DISCOVERY, "Marked Cpp online REMOTE: " + appliance.getName());
+        return true;
+    }
 
-	private boolean updateConnectedStateOnlineViaCpp(DICommAppliance appliance) {
-		DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOnlineViaCpp: " + appliance.getName()) ;
-		if (appliance.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) return false;
-		if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) return false;
-		if (mNetwork.getLastKnownNetworkState() == NetworkState.NONE) return false;
+    private boolean updateConnectedStateOfflineViaCpp(DICommAppliance appliance) {
+        DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOfflineViaCpp: " + appliance.getName());
+        if (appliance.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_REMOTELY)
+            return false;
 
-		appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		appliance.getNetworkNode().setOnlineViaCpp(true);
-		DICommLog.v(DICommLog.DISCOVERY, "Marked Cpp online REMOTE: " + appliance.getName());
-		return true;
-	}
+        appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+        appliance.getNetworkNode().setOnlineViaCpp(false);
+        DICommLog.v(DICommLog.DISCOVERY, "Marked Cpp offline DISCONNECTED: " + appliance.getName());
+        return true;
+    }
 
-	private boolean updateConnectedStateOfflineViaCpp(DICommAppliance appliance) {
-		DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOfflineViaCpp: " + appliance.getName()) ;
-		if (appliance.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_REMOTELY) return false;
+    // ********** END CPP METHODS ************
 
-		appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
-		appliance.getNetworkNode().setOnlineViaCpp(false);
-		DICommLog.v(DICommLog.DISCOVERY, "Marked Cpp offline DISCONNECTED: " + appliance.getName());
-		return true;
-	}
+    // ********** START ASYNC METHODS ************
 
-	// ********** END CPP METHODS ************
+    /**
+     * Only needs to be done after a network change to Wifi network
+     */
+    private void connectViaCppAfterLocalAttemptDelayed() {
+        DICommLog.i(DICommLog.DISCOVERY, "START delayed job to connect via cpp to appliances that did not appear local");
+        mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_WAITFORLOCAL_MESSAGE, DISCOVERY_WAITFORLOCAL_TIMEOUT);
+    }
 
-	// ********** START ASYNC METHODS ************
-	/**
-	 * Only needs to be done after a network change to Wifi network
-	 */
-	private void connectViaCppAfterLocalAttemptDelayed() {
-		DICommLog.i(DICommLog.DISCOVERY, "START delayed job to connect via cpp to appliances that did not appear local");
-		mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_WAITFORLOCAL_MESSAGE, DISCOVERY_WAITFORLOCAL_TIMEOUT);
-	}
+    private void cancelConnectViaCppAfterLocalAttempt() {
+        if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_WAITFORLOCAL_MESSAGE)) {
+            mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_WAITFORLOCAL_MESSAGE);
+            DICommLog.i(DICommLog.DISCOVERY, "CANCEL delayed job to connect via cpp to appliances");
+        }
+    }
 
-	private void cancelConnectViaCppAfterLocalAttempt() {
-		if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_WAITFORLOCAL_MESSAGE)) {
-			mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_WAITFORLOCAL_MESSAGE);
-			DICommLog.i(DICommLog.DISCOVERY, "CANCEL delayed job to connect via cpp to appliances");
-		}
-	}
+    /**
+     * Only needs to be done after the SSDP service has actually stopped.
+     * (appliances could have gone offline during the stopped period)
+     */
+    public void syncLocalAppliancesWithSsdpStackDelayed() {
+        DICommLog.i(DICommLog.DISCOVERY, "START delayed job to mark local appliances offline that did not reappear after ssdp restart");
+        mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_SYNCLOCAL_MESSAGE, DISCOVERY_SYNCLOCAL_TIMEOUT);
+    }
 
-	/**
-	 * Only needs to be done after the SSDP service has actually stopped.
-	 * (appliances could have gone offline during the stopped period)
-	 */
-	public void syncLocalAppliancesWithSsdpStackDelayed() {
-		DICommLog.i(DICommLog.DISCOVERY, "START delayed job to mark local appliances offline that did not reappear after ssdp restart");
-		mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_SYNCLOCAL_MESSAGE, DISCOVERY_SYNCLOCAL_TIMEOUT);
-	}
+    public void cancelSyncLocalAppliancesWithSsdpStack() {
+        if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_SYNCLOCAL_MESSAGE)) {
+            mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_SYNCLOCAL_MESSAGE);
+            DICommLog.i(DICommLog.DISCOVERY, "CANCEL delayed job to mark local appliances offline");
+        }
+    }
+    // ********** END ASYNC METHODS ************
 
-	public void cancelSyncLocalAppliancesWithSsdpStack() {
-		if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_SYNCLOCAL_MESSAGE)) {
-			mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_SYNCLOCAL_MESSAGE);
-			DICommLog.i(DICommLog.DISCOVERY, "CANCEL delayed job to mark local appliances offline");
-		}
-	}
-	// ********** END ASYNC METHODS ************
+    private NetworkNode createNetworkNode(DeviceModel deviceModel) {
+        SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
+        if (ssdpDevice == null) return null;
 
-	private NetworkNode createNetworkNode(DeviceModel deviceModel) {
-		SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
-		if (ssdpDevice == null) return null;
-
-		DICommLog.i(DICommLog.DISCOVERY, "Appliance discovered - name: " + ssdpDevice.getFriendlyName());
-		String cppId = ssdpDevice.getCppId();
-		String ipAddress = deviceModel.getIpAddress();
-		String name = ssdpDevice.getFriendlyName();
-		String modelName = ssdpDevice.getModelName();
-		String networkSsid = mNetwork.getLastKnownNetworkSsid();
-		Long bootId = -1l;
-		try {
-			bootId = Long.parseLong(deviceModel.getBootID());
-		} catch (NumberFormatException e) {
-			// NOP
-		}
+        DICommLog.i(DICommLog.DISCOVERY, "Appliance discovered - name: " + ssdpDevice.getFriendlyName());
+        String cppId = ssdpDevice.getCppId();
+        String ipAddress = deviceModel.getIpAddress();
+        String name = ssdpDevice.getFriendlyName();
+        String modelName = ssdpDevice.getModelName();
+        String networkSsid = mNetwork.getLastKnownNetworkSsid();
+        Long bootId = -1l;
+        try {
+            bootId = Long.parseLong(deviceModel.getBootID());
+        } catch (NumberFormatException e) {
+            // NOP
+        }
 
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(bootId);
@@ -634,175 +647,180 @@ public class DiscoveryManager<T extends DICommAppliance> {
         networkNode.setName(name);
         networkNode.setModelName(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-		networkNode.setHomeSsid(networkSsid);
+        networkNode.setHomeSsid(networkSsid);
 
+        if (!isValidNetworkNode(networkNode)) return null;
 
-		if (!isValidNetworkNode(networkNode)) return null;
+        return networkNode;
+    }
 
-		return networkNode;
-	}
+    private boolean isValidNetworkNode(NetworkNode networkNode) {
+        if (networkNode.getCppId() == null || networkNode.getCppId().isEmpty()) {
+            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - cppId is null");
+            return false;
+        }
+        if (networkNode.getIpAddress() == null || networkNode.getIpAddress().isEmpty()) {
+            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - ipAddress is null");
+            return false;
+        }
+        if (networkNode.getName() == null || networkNode.getName().isEmpty()) {
+            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - name is null");
+            return false;
+        }
+        if (networkNode.getModelName() == null || networkNode.getModelName().isEmpty()) {
+            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - modelName is null");
+            return false;
+        }
+        return true;
+    }
 
-	private boolean isValidNetworkNode(NetworkNode networkNode) {
-		if (networkNode.getCppId() == null || networkNode.getCppId().isEmpty()) {
-			DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - cppId is null");
-			return false;
-		}
-		if (networkNode.getIpAddress() == null || networkNode.getIpAddress().isEmpty()) {
-			DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - ipAddress is null");
-			return false;
-		}
-		if (networkNode.getName() == null || networkNode.getName().isEmpty()) {
-			DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - name is null");
-			return false;
-		}
-		if (networkNode.getModelName() == null || networkNode.getModelName().isEmpty()) {
-			DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - modelName is null");
-			return false;
-		}
-		return true;
-	}
+    private DeviceModel getDeviceModelFromMessage(Message msg) {
+        if (msg == null) return null;
 
-	private DeviceModel getDeviceModelFromMessage(Message msg) {
-		if (msg == null) return null;
+        try {
+            DeviceModel device = (DeviceModel) ((InternalMessage) msg.obj).obj;
+            return device;
+        } catch (Exception e) {
+            DICommLog.d(DICommLog.DISCOVERY, "Invalid appliance detected: " + "Error: " + e.getMessage());
+        }
+        return null;
+    }
 
-		try {
-			DeviceModel device = (DeviceModel) ((InternalMessage) msg.obj).obj;
-			return device;
-		} catch (Exception e) {
-			DICommLog.d(DICommLog.DISCOVERY, "Invalid appliance detected: " + "Error: " + e.getMessage());
-		}
-		return null;
-	}
+    private void initializeAppliancesMapFromDataBase() {
+        DICommLog.i(DICommLog.DISCOVERY, "Initializing appliances from database");
+        mAllAppliancesMap = new LinkedHashMap<String, T>();
 
-	private void initializeAppliancesMapFromDataBase() {
-		DICommLog.i(DICommLog.DISCOVERY, "Initializing appliances from database") ;
-		mAllAppliancesMap = new LinkedHashMap<String, T>();
+        List<T> allAppliances = loadAllAddedAppliancesFromDatabase();
+        List<NetworkNode> addedAppliances = new ArrayList<NetworkNode>();
+        for (T appliance : allAppliances) {
+            mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
+            addedAppliances.add(appliance.getNetworkNode());
+        }
+        mAddedAppliances = addedAppliances;
+    }
 
-		List<T> allAppliances = loadAllAddedAppliancesFromDatabase();
-		List<NetworkNode> addedAppliances = new ArrayList<NetworkNode>();
-		for (T appliance : allAppliances) {
-			mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
-			addedAppliances.add(appliance.getNetworkNode());
-		}
-		mAddedAppliances = addedAppliances;
-	}
+    private void notifyDiscoveryListener() {
+        if (mDiscoveryEventListenersList == null) return;
 
-	private void notifyDiscoveryListener() {
-		if (mDiscoveryEventListenersList == null) return;
+        for (DiscoveryEventListener listener : mDiscoveryEventListenersList) {
+            listener.onDiscoveredAppliancesListChanged();
+        }
 
-		for(DiscoveryEventListener listener: mDiscoveryEventListenersList){
-		    listener.onDiscoveredAppliancesListChanged();
-		}
+        printDiscoveredAppliances(DICommLog.DISCOVERY);
+        DICommLog.v(DICommLog.DISCOVERY, "Notified listener of change event");
+    }
 
-		printDiscoveredAppliances(DICommLog.DISCOVERY);
-		DICommLog.v(DICommLog.DISCOVERY, "Notified listener of change event");
-	}
+    public void printDiscoveredAppliances(String tag) {
+        if (tag == null || tag.isEmpty()) {
+            tag = DICommLog.DISCOVERY;
+        }
 
+        if (mAllAppliancesMap.size() <= 0) {
+            DICommLog.d(tag, "No appliances discovered - map is 0");
+            return;
+        }
 
-	public void printDiscoveredAppliances(String tag) {
-		if (tag == null || tag.isEmpty()) {
-			tag = DICommLog.DISCOVERY;
-		}
+        String offline = "Offline appliances %d: ";
+        String local = "Local appliances %d: ";
+        String cpp = "Cpp appliances %d: ";
+        for (DICommAppliance appliances : mAllAppliancesMap.values()) {
+            switch (appliances.getNetworkNode().getConnectionState()) {
+                case DISCONNECTED:
+                    offline += appliances.getName() + ", ";
+                    break;
+                case CONNECTED_LOCALLY:
+                    local += appliances.getName() + ", ";
+                    break;
+                case CONNECTED_REMOTELY:
+                    cpp += appliances.getName() + ", ";
+                    break;
+            }
+        }
+        DICommLog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
+        DICommLog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
+        DICommLog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
+    }
 
-		if (mAllAppliancesMap.size() <= 0) {
-			DICommLog.d(tag, "No appliances discovered - map is 0");
-			return;
-		}
+    private List<T> loadAllAddedAppliancesFromDatabase() {
+        List<T> result = new ArrayList<T>();
 
-		String offline = "Offline appliances %d: ";
-		String local = "Local appliances %d: ";
-		String cpp = "Cpp appliances %d: ";
-		for (DICommAppliance appliances : mAllAppliancesMap.values()) {
-			switch (appliances.getNetworkNode().getConnectionState()) {
-			case DISCONNECTED: offline += appliances.getName() + ", "; break;
-			case CONNECTED_LOCALLY: local += appliances.getName() + ", "; break;
-			case CONNECTED_REMOTELY: cpp += appliances.getName() + ", "; break;
-			}
-		}
-		DICommLog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
-		DICommLog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
-		DICommLog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
-	}
+        List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
 
-	private List<T> loadAllAddedAppliancesFromDatabase() {
-		List<T> result = new ArrayList<T>();
+        for (NetworkNode networkNode : networkNodes) {
+            if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
+                DICommLog.e(DICommLog.DISCOVERY, "Did not load appliance from database - factory cannot create appliance");
+                continue;
+            }
 
-		List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
+            final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
+            mApplianceDatabase.loadDataForAppliance(appliance);
+            networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+                @Override
+                public void onKeyUpdate() {
+                    updateApplianceInDatabase(appliance);
+                }
+            });
+            result.add(appliance);
+        }
+        return result;
+    }
 
-		for (NetworkNode networkNode : networkNodes) {
-			if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
-				DICommLog.e(DICommLog.DISCOVERY, "Did not load appliance from database - factory cannot create appliance");
-				continue;
-			}
+    // TODO DIComm refactor: improve interface
+    public long insertApplianceToDatabase(T appliance) {
+        long rowId = mNetworkNodeDatabase.save(appliance.getNetworkNode());
+        mApplianceDatabase.save(appliance);
 
-			final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
-			mApplianceDatabase.loadDataForAppliance(appliance);
-			networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
-				@Override
-				public void onKeyUpdate() {
-					updateApplianceInDatabase(appliance);
-				}
-			});
-			result.add(appliance);
-		}
-		return result;
-	}
+        return rowId;
+    }
 
-	// TODO DIComm refactor: improve interface
-	public long insertApplianceToDatabase(T appliance) {
-		long rowId = mNetworkNodeDatabase.save(appliance.getNetworkNode());
-		mApplianceDatabase.save(appliance);
+    // TODO DIComm refactor: improve interface
+    public long updateApplianceInDatabase(T appliance) {
+        if (!mNetworkNodeDatabase.contains(appliance.getNetworkNode())) {
+            DICommLog.d(DICommLog.DISCOVERY, "Not updating NetworkNode database - not yet in database");
+            return -1;
+        }
 
-		return rowId;
-	}
+        long rowId = mNetworkNodeDatabase.save(appliance.getNetworkNode());
+        mApplianceDatabase.save(appliance);
 
-	// TODO DIComm refactor: improve interface
-	public long updateApplianceInDatabase(T appliance) {
-		if (!mNetworkNodeDatabase.contains(appliance.getNetworkNode())) {
-			DICommLog.d(DICommLog.DISCOVERY, "Not updating NetworkNode database - not yet in database");
-			return -1;
-		}
+        return rowId;
+    }
 
-		long rowId = mNetworkNodeDatabase.save(appliance.getNetworkNode());
-		mApplianceDatabase.save(appliance);
+    // TODO DIComm refactor: improve interface
+    public int deleteApplianceFromDatabase(T appliance) {
+        int rowsDeleted = mNetworkNodeDatabase.delete(appliance.getNetworkNode());
+        mApplianceDatabase.delete(appliance);
 
-		return rowId;
-	}
+        return rowsDeleted;
+    }
 
-	// TODO DIComm refactor: improve interface
-	public int deleteApplianceFromDatabase(T appliance) {
-		int rowsDeleted = mNetworkNodeDatabase.delete(appliance.getNetworkNode());
-		mApplianceDatabase.delete(appliance);
+    // ********** START TEST METHODS ************
+    public static void setDummyDiscoveryManagerForTesting(DiscoveryManager<? extends DICommAppliance> dummyManager) {
+        mInstance = dummyManager;
+    }
 
-		return rowsDeleted;
-	}
+    public void setDummyDiscoveryEventListenerForTesting(DiscoveryEventListener dummyListener) {
+        mDiscoveryEventListenersList.add(dummyListener);
+    }
 
-	// ********** START TEST METHODS ************
-	public static void setDummyDiscoveryManagerForTesting(DiscoveryManager<? extends DICommAppliance> dummyManager) {
-		mInstance = dummyManager;
-	}
+    public void setDummyNetworkMonitorForTesting(NetworkMonitor dummyMonitor) {
+        mNetwork = dummyMonitor;
+    }
 
-	public void setDummyDiscoveryEventListenerForTesting(DiscoveryEventListener dummyListener) {
-		mDiscoveryEventListenersList.add(dummyListener);
-	}
+    public void setDummySsdpServiceHelperForTesting(SsdpServiceHelper dummyHelper) {
+        mSsdpHelper = dummyHelper;
+    }
 
-	public void setDummyNetworkMonitorForTesting(NetworkMonitor dummyMonitor) {
-		mNetwork = dummyMonitor;
-	}
+    public void setDummyCppDiscoveryHelperForTesting(CppDiscoveryHelper dummyHelper) {
+        mCppHelper = dummyHelper;
+    }
 
-	public void setDummySsdpServiceHelperForTesting(SsdpServiceHelper dummyHelper) {
-		mSsdpHelper = dummyHelper;
-	}
-	public void setDummyCppDiscoveryHelperForTesting(CppDiscoveryHelper dummyHelper) {
-		mCppHelper = dummyHelper;
-	}
+    public void setAppliancesListForTesting(LinkedHashMap<String, T> testMap) {
+        mAllAppliancesMap = testMap;
+    }
 
-	public void setAppliancesListForTesting(LinkedHashMap<String, T> testMap) {
-		mAllAppliancesMap = testMap;
-	}
-
-	public Handler getDiscoveryTimeoutHandlerForTesting() {
-		return mDiscoveryTimeoutHandler;
-	}
-	// ********** END TEST METHODS ************
+    public Handler getDiscoveryTimeoutHandlerForTesting() {
+        return mDiscoveryTimeoutHandler;
+    }
+    // ********** END TEST METHODS ************
 }

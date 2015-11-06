@@ -13,10 +13,10 @@ public class SampleApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-		DICommApplianceFactory<AirPurifier> applianceFactory = new AirPurifierFactory();
 		CppController cppController = CppController.createSharedInstance(this, new SampleKpsConfigurationInfo());
 
 		// TODO better to create separate methods than to pass null?
+		DICommApplianceFactory<AirPurifier> applianceFactory = new AirPurifierFactory();
 		DICommClientWrapper.initializeDICommLibrary(this,applianceFactory, null, cppController);
 		Log.i("SampleApplication", "DICommClientWrapper.getDICommClientLibVersion() = " + DICommClientWrapper.getDICommClientLibVersion());
 	}
