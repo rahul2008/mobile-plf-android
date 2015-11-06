@@ -36,6 +36,31 @@ rm -R "${ARCHIVEDIR}/CatalogApp/.gradle"
 rm "${ARCHIVEDIR}/CatalogApp/local.properties"
 find . -name .DS_Store | xargs rm
 
+#replace local lib reference with artifactory one
+sed -i "s/include \':uikitLib\'//" "${ARCHIVEDIR}/CatalogApp/settings.gradle"
+sed -i "s/project(\'\:uikitLib\')\.projectDir \= new File(\'\.\.\/UiKit\/uikitLib\')//" "${ARCHIVEDIR}/CatalogApp/settings.gradle"
+
+#add this to CatalogApp/build.gradle
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+    
+    maven {
+    	url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+	}
+}
+
+#replace compile project(':uikitLib') in app/build.gradle with maven dependency
+compile 'com.philips.cdp:uikitLib:0.3.0'
+
+
 #zip/tar the release artifacts
 tar -cvzf "${RELEASEDIR}/PhilipsUIKit-Android-${VERSION_NUMBER}.tar.gz" -C "${ARCHIVEDIR}" . || fatal "Failed to create release archive"
 
