@@ -73,15 +73,11 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         STARTED, STARTING, STOPPED, STOPPING
     }
 
-    ;
-
     // App Requested State
     //This is required if the callback has delay in Starting and Stopping
     private enum APP_REQUESTED_STATE {
         NONE, START, STOP
     }
-
-    ;
 
     private ICP_CLIENT_DCS_STATE mDcsState = ICP_CLIENT_DCS_STATE.STOPPED;
     private APP_REQUESTED_STATE mAppDcsRequestState = APP_REQUESTED_STATE.NONE;
@@ -136,7 +132,6 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     }
 
     public static synchronized CppController getInstance() {
-        if (mKpsConfigurationInfo == null) return null;
         DICommLog.i(DICommLog.ICPCLIENT, "GetInstance: " + mInstance);
         // TODO:DICOMM Refactor, need generic mechanism to update this locale information whenever the language changes.
         setLocale();
@@ -812,7 +807,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
         return mSignon.clientVersion();
     }
 
-    public static final CppController getCppControllerForTesting() {
+    static CppController getCppControllerForTesting() {
         return new CppController();
     }
 
@@ -925,10 +920,10 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
     }
 
     private static void setLocale() {
-        DICommLog.i(DICommLog.CPPCONTROLLER, "setLocale is called, Country = " + mKpsConfigurationInfo.getCountryCode() + "Language = " + mKpsConfigurationInfo.getLanguageCode());
-        if (mSignon == null) return;
-
-        mSignon.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
+        if (mKpsConfigurationInfo != null && mSignon != null) {
+            DICommLog.i(DICommLog.CPPCONTROLLER, "setLocale is called, Country = " + mKpsConfigurationInfo.getCountryCode() + "Language = " + mKpsConfigurationInfo.getLanguageCode());
+            mSignon.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
+        }
     }
 
     public String getAppType() {
