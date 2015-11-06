@@ -85,7 +85,7 @@ public class PhilipsBadgeView extends TextView {
         Resources resources = getContext().getResources();
         int defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width);
         int defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height);
-        if (width != ViewGroup.LayoutParams.WRAP_CONTENT && width != 0 && width > defaultWidth)
+        if (width != ViewGroup.LayoutParams.WRAP_CONTENT && width != 0)
             shapeDrawable.setIntrinsicWidth(width);
         else
             shapeDrawable.setIntrinsicWidth(defaultWidth);
