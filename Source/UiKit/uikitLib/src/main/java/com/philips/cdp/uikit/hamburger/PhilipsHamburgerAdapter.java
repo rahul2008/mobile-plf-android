@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
@@ -72,7 +73,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
 
     private void setValuesToViews(final int position, final VectorDrawableImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
         int icon = hamburgerItems.get(position).getIcon();
-        setImageView(imgIcon, icon);
+        setImageView(imgIcon, icon, txtTitle);
         txtTitle.setText(hamburgerItems.get(position).getTitle());
         String count = hamburgerItems.get(position).getCount();
         setTextView(txtCount, count);
@@ -86,12 +87,14 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         }
     }
 
-    private void setImageView(final VectorDrawableImageView imgIcon, final int icon) {
+    private void setImageView(final VectorDrawableImageView imgIcon, final int icon, TextView txtTitle) {
         if (icon > 0) {
             imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
-        }
-        else{
+        } else {
             imgIcon.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) txtTitle.getLayoutParams();
+            layoutParams.leftMargin = (int) context.getResources().getDimension(R.dimen.uikit_hamburger_item_title_left_margin);
+            txtTitle.setLayoutParams(layoutParams);
         }
     }
 

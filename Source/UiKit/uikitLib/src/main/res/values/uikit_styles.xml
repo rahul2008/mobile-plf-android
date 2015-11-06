@@ -64,6 +64,7 @@
         <item name="android:gravity">center</item>
         <item name="android:minWidth">@dimen/uikit_notification_label_default_width</item>
         <item name="android:minHeight">@dimen/uikit_notification_label_default_height</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:padding">5dp</item>
         <item name="android:textSize">@dimen/uikit_notification_label_square_round_textSize</item>
         <item name="android:textColor">@android:color/white</item>

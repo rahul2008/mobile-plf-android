@@ -8,6 +8,7 @@ package com.philips.cdp.uikit.hamburger;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
@@ -77,17 +79,20 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
 
     private void setValuesToViews(final HamburgerItem hamburgerItem, final VectorDrawableImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
         int icon = hamburgerItem.getIcon();
-        setImageView(imgIcon, icon);
+        setImageView(imgIcon, icon, txtTitle);
         txtTitle.setText(hamburgerItem.getTitle());
         String count = hamburgerItem.getCount();
         setTextView(txtCount, count);
     }
 
-    private void setImageView(final VectorDrawableImageView imgIcon, final int icon) {
+    private void setImageView(final VectorDrawableImageView imgIcon, final int icon, TextView txtTitle) {
         if (icon > 0) {
             imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
         } else {
-            imgIcon.setVisibility(View.INVISIBLE);
+            imgIcon.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) txtTitle.getLayoutParams();
+            layoutParams.leftMargin = (int) context.getResources().getDimension(R.dimen.uikit_hamburger_item_title_left_margin);
+            txtTitle.setLayoutParams(layoutParams);
         }
     }
 
@@ -129,15 +134,22 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.uikit_hamburger_list_group, parent, false);
+            setGroupLayoutAlpha(convertView);
         }
-
         TextView hamburgerHeaderTitle = (TextView) convertView
                 .findViewById(R.id.hamburger_header);
-
         hamburgerHeaderTitle.setText(headerTitle);
         ExpandableListView expandableListView = (ExpandableListView) parent;
         expandableListView.expandGroup(groupPosition);
         return convertView;
+    }
+
+    private void setGroupLayoutAlpha(View convertView) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        int colorPrimary = typedArray.getColor(0, 0);
+        int newColor = Color.argb(context.getResources().getInteger(R.integer.uikit_hamburger_menu_group_layout_alpha), Color.red(colorPrimary), Color.green(colorPrimary), Color.blue(colorPrimary));
+        typedArray.recycle();
+        convertView.setBackgroundColor(newColor);
     }
 
     @Override
