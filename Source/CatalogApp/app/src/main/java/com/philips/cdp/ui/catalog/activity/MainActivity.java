@@ -83,6 +83,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 11:
                 startActivity(new Intent(this, ActionBarLauncher.class));
                 break;
+            case 12:
+                startActivity(new Intent(this, ActionBarDemo.class));
+                break;
             default:
                 break;
         }
@@ -122,6 +125,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(9, "Sliders");
         itemsMap.put(10, "Rating Bar");
         itemsMap.put(11, "Action Bar");
+        itemsMap.put(12, "Action Bar Demo");
         return itemsMap;
     }
 }
