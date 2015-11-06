@@ -67,7 +67,6 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
         setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount);
-//        notifyCounter();
         return convertView;
     }
 
@@ -129,7 +128,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
-//        notifyCounter();
+        notifyCounter();
     }
 
     private void notifyCounter() {

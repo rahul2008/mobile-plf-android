@@ -24,6 +24,7 @@ public class HamburgerUtil {
 
     private Context context;
     private ListView drawerListView;
+    private View footerView;
 
     public HamburgerUtil(Context context, ListView drawerListView) {
         this.context = context;
@@ -62,27 +63,31 @@ public class HamburgerUtil {
     }
 
     private void validateLogoView(final int heightPixels, final int adaptorTotalHeight) {
+        removeFooterViewIfExists();
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = vi.inflate(R.layout.uikit_footer_view, null, false);
-        VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) view.findViewById(R.id.hamburger_logo);
+        footerView = vi.inflate(R.layout.uikit_footer_view, null, false);
+        drawerListView.addFooterView(footerView, null, false);
+        VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) footerView.findViewById(R.id.hamburger_logo);
         setLogoCenterWithMargins(heightPixels, adaptorTotalHeight, vectorDrawableImageView);
-        drawerListView.addFooterView(view, null, false);
         setVectorImage(vectorDrawableImageView);
+    }
+
+    private void removeFooterViewIfExists() {
+        if (footerView != null)
+            drawerListView.removeFooterView(footerView);
     }
 
     private void setLogoCenterWithMargins(int heightPixels, int adaptorTotalHeight, VectorDrawableImageView vectorDrawableImageView) {
         Resources resources = context.getResources();
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) vectorDrawableImageView.getLayoutParams();
         int staticHeight = heightPixels - getLogoHeight();
         int definedTopMargin = (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin);
-
         if (adaptorTotalHeight > staticHeight) {
-            lp.setMargins(0, definedTopMargin, 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
+            lp.topMargin = definedTopMargin;
         } else if (staticHeight - adaptorTotalHeight - getStatusBarHeight() < definedTopMargin)
-            lp.setMargins(0, definedTopMargin, 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
+            lp.topMargin = definedTopMargin;
         else
-            lp.setMargins(0, (staticHeight - adaptorTotalHeight - getStatusBarHeight()), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
-
+            lp.topMargin = (staticHeight - adaptorTotalHeight - getStatusBarHeight());
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         vectorDrawableImageView.setLayoutParams(lp);
     }

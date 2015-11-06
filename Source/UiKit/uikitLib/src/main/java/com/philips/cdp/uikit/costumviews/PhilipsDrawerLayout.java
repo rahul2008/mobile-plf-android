@@ -37,7 +37,6 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
     private boolean isExpandable = false;
     private LinearLayout listViewParentLayout;
 
-
     public PhilipsDrawerLayout(final Context context) {
         this(context, null);
     }
@@ -49,6 +48,19 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
     public PhilipsDrawerLayout(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         validateIsExpandable(context, attrs);
+        processDrawerLayout();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        widthMeasureSpec = MeasureSpec.makeMeasureSpec(
+                MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY);
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                MeasureSpec.getSize(heightMeasureSpec), MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private void processDrawerLayout() {
         initializeDrawer();
         hamburgerUtil.updateSmartFooter();
         if (isExpandable)
@@ -82,10 +94,10 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View drawer;
         if (isExpandable) {
-            drawer = inflater.inflate(R.layout.uikit_hamburger_menu_expandable, null);
+            drawer = inflater.inflate(R.layout.uikit_hamburger_menu_expandable, null, false);
             drawerListView = (ExpandableListView) drawer.findViewById(R.id.hamburger_list);
         } else {
-            drawer = inflater.inflate(R.layout.uikit_hamburger_menu, null);
+            drawer = inflater.inflate(R.layout.uikit_hamburger_menu, null, false);
             drawerListView = (ListView) drawer.findViewById(R.id.hamburger_list);
         }
         initializeDrawerViews(drawer);
