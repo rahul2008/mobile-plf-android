@@ -48,7 +48,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 style="@style/reg_text_background"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
@@ -58,10 +57,17 @@
                     android:id="@+id/view_reg_password_hint"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:paddingLeft="@dimen/reg_layout_margin"
                     android:paddingRight="@dimen/reg_layout_margin" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_password_details"
+                    style="@style/reg_text_description"
+                    android:text="@string/EmailAlreadyUsedErrorMsg_LabelTxt"
+                    android:visibility="gone"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <LinearLayout
@@ -121,9 +127,16 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="10dip"
                     android:paddingRight="0dip"
-                    android:text="@string/ReciveMarketing_PeridicOffers_lbltxt"
                     android:textColor="@color/reg_text_heading_one_color"
                     android:textSize="@dimen/reg_title_text_size_medium" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_philips_news"
+                    style="@style/reg_textStyle"
+                    android:layout_marginBottom="0dip"
+                    android:gravity="center|left"
+                    android:text="@string/Receive_Philips_News_lbltxt"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <View

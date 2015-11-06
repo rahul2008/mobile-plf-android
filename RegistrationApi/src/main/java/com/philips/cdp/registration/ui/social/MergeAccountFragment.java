@@ -69,8 +69,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private Context mContext;
 
-	private TextView mTvPasswordMege;
-
 	private TextView mTvUsedEmail;
 
 	private ScrollView mSvRootLayout;
@@ -198,8 +196,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mTvUsedEmail = (TextView)view.findViewById(R.id.tv_reg_used_email);
 
 		mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
-
-		mTvPasswordMege = (TextView) view.findViewById(R.id.tv_reg_conflict_provider);
 
 		trackActionStatus(AppTagingConstants.SEND_DATA,
 				AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);

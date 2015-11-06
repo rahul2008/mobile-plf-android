@@ -186,31 +186,26 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         String socialProvider = bundle.getString(RegConstants.SOCIAL_PROVIDER);
         String conflictingProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
 
-        String currentSocialProvider = socialProvider.substring(0, 1).toUpperCase()
-                + socialProvider.substring(1).toLowerCase();
+        int currentSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(socialProvider, "string",
+                getRegistrationFragment().getParentActivity().getPackageName());
 
-        String conflictingproviderName = conflictingProvider.substring(0, 1).toUpperCase()
-                + conflictingProvider.substring(1).toLowerCase();
+        int conflictSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(conflictingProvider, "string",
+                getRegistrationFragment().getParentActivity().getPackageName());
 
         TextView currentProviderView = (TextView) view.findViewById(R.id.tv_reg_conflict_provider);
         String currentProvider = getString(R.string.Social_Merge_Accounts_lbltxt);
-        currentProvider = String.format(currentProvider, conflictingproviderName, currentSocialProvider);
+        currentProvider = String.format(currentProvider, mContext.getResources().getString(currentSocialProviderId));
         currentProviderView.setText(currentProvider);
         mConflictProvider = conflictingProvider;
 
         String previousSocialProviderDetails = getString(R.string.Social_Merge_Used_EmailError_lbltxt);
-        previousSocialProviderDetails = String.format(previousSocialProviderDetails, conflictingproviderName, mEmailId);
+        previousSocialProviderDetails = String.format(previousSocialProviderDetails, conflictingProvider,mEmailId,mContext.getResources().getString(currentSocialProviderId));
         mTvCurrentProviderDetails.setText(previousSocialProviderDetails);
-
 
         TextView mergeAccountBoxView = (TextView) view.findViewById(R.id.tv_reg_merge_account_box);
         String signInWith = getString(R.string.Social_Merge_Cancel_And_Restart_Registration_lbltxt);
-        signInWith = String.format(signInWith, currentSocialProvider, conflictingproviderName);
+        signInWith = String.format(signInWith,mContext.getResources().getString(currentSocialProviderId) , mContext.getResources().getString(conflictSocialProviderId));
         mergeAccountBoxView.setText(signInWith);
-
-        String mergeBtnText = getString(R.string.SignIn_with_provider_lbltxt);
-        mergeBtnText = String.format(mergeBtnText, conflictingproviderName);
-        mBtnMerge.setText(mergeBtnText);
     }
 
     @Override

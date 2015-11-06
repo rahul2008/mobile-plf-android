@@ -19,7 +19,7 @@
 
             <com.philips.cdp.registration.ui.customviews.XTextView
                 android:id="@+id/tv_reg_account_merge_sign_in"
-                style="@style/reg_textStyle"
+                style="@style/reg_titleTextStyle"
                 android:layout_marginBottom="0dip"
                 android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:paddingLeft="@dimen/reg_layout_margin"

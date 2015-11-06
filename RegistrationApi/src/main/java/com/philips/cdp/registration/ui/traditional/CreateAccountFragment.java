@@ -229,6 +229,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
 
+        TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
+        RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
+
         mCbAcceptTerms.setOnCheckedChangeListener(this);
         mBtnCreateAccount.setOnClickListener(this);
         mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
@@ -243,8 +246,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mViewLine =  view.findViewById(R.id.reg_accept_terms_line);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
-
-
 
         handleUiAcceptTerms();
         handleUiState();
@@ -268,6 +269,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
     };
 
+    private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RegUtility.handlePhilipsNews(getRegistrationFragment().getParentActivity());
+        }
+    };
 
     private void trackCheckMarketing() {
         if (mCbTerms.isChecked()) {
@@ -344,6 +351,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
             scrollViewAutomatically(mEtEmail, mSvRootLayout);
+            mPasswordHintView.setVisibility(View.GONE);
+            TextView mTvPasswordHint = (TextView) getView().findViewById(R.id.tv_reg_password_details);
+            mTvPasswordHint.setVisibility(View.VISIBLE);
         }
         if (userRegistrationFailureInfo.getError().code != EMAIL_ADDRESS_ALREADY_USE_CODE) {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());

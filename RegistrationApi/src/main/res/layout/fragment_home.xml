@@ -20,7 +20,7 @@
             <com.philips.cdp.registration.ui.customviews.XTextView
                 android:id="@+id/tv_reg_welcome"
                 style="@style/reg_titleTextStyle"
-                android:text="@string/SignInSuccess_Welcome_lbltxt"
+                android:text="@string/Welcome_Welcome_lbltxt"
                 reglib:fontAssetName="CentraleSans-Light.otf" />
 
             <LinearLayout
@@ -41,11 +41,6 @@
                     style="@style/reg_text_description"
                     android:text="@string/LegalNoticeText"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
-                <!--<com.philips.cdp.registration.ui.customviews.XTextView
-                    android:id="@+id/tv_reg_welcome_desc"
-                    style="@style/reg_text_description"
-                    android:text="@string/LegalNoticeText"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />-->
             </LinearLayout>
 
             <LinearLayout

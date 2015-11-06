@@ -78,6 +78,4 @@ public class XPasswordHint extends LinearLayout {
             mCharLength.showInCorrectIcon();
         }
     }
-
-
 }

@@ -55,7 +55,7 @@
     <string name="Social_SignIn_AlmostDone_lbltxt">Almost done!</string>
     <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Previously, you logged in with %s, using %s on a Philips app or website. We will connect %s to your account.</string>
     <string name="Social_Merge_Accounts_lbltxt">To make sure it is really you, please log in with %s once more.</string>
-    <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">If you would not like to connect %s to your account, press \”cancel\” and log in with %s.</string>
+    <string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">If you would not like to connect %s to your account, press ”cancel” and log in with %s.</string>
     <string name="Social_Merge_Cancel_btntxt">Cancel</string>
     <string name="Account_Merge_lbltxt">Merge your accounts</string>
     <string name="Social_Merge_btntxt">Connect</string>

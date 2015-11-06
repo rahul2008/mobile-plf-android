@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.configuration.ConfigurationParser;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
@@ -131,10 +130,5 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
         assertNotNull(url);
 
     }
-
-
-
-
-
 
 }
