@@ -39,7 +39,6 @@
         <activity android:name=".activity.TabBarDemo"/>
         <activity android:name=".activity.SliderActivity"/>
         <activity android:name=".activity.RatingBarLauncher"/>
-        <activity android:name=".activity.ActionBarLauncher"/>
         <activity android:name=".activity.ActionBarDemo" />
 
     </application>
