@@ -85,16 +85,23 @@ public class PhilipsBadgeView extends TextView {
         Resources resources = getContext().getResources();
         int defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width);
         int defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height);
-        if (width != ViewGroup.LayoutParams.WRAP_CONTENT && width != 0)
-            shapeDrawable.setIntrinsicWidth(width);
-        else
+
+        if (width == height) {
             shapeDrawable.setIntrinsicWidth(defaultWidth);
-
-
-        if (height != ViewGroup.LayoutParams.WRAP_CONTENT && height != 0)
-            shapeDrawable.setIntrinsicHeight(height);
-        else
             shapeDrawable.setIntrinsicHeight(defaultHeight);
+        } else {
+
+            if (width != ViewGroup.LayoutParams.WRAP_CONTENT && width != 0)
+                shapeDrawable.setIntrinsicWidth(width);
+            else
+                shapeDrawable.setIntrinsicWidth(defaultWidth);
+
+
+            if (height != ViewGroup.LayoutParams.WRAP_CONTENT && height != 0)
+                shapeDrawable.setIntrinsicHeight(height);
+            else
+                shapeDrawable.setIntrinsicHeight(defaultHeight);
+        }
     }
 
     private ShapeDrawable getCircleBackground() {
@@ -108,17 +115,23 @@ public class PhilipsBadgeView extends TextView {
         width = this.getWidth();
         height = this.getHeight();
         Resources resources = getContext().getResources();
+        int defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_default_width);
+        int defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_default_height);
 
-        if (width != ViewGroup.LayoutParams.WRAP_CONTENT && width != 0)
-            shapeDrawable.setIntrinsicWidth(width);
-        else
-            shapeDrawable.setIntrinsicWidth((int) resources.getDimension(R.dimen.uikit_notification_label_default_width));
+        if (width != height) {
+            shapeDrawable.setIntrinsicWidth(defaultWidth);
+            shapeDrawable.setIntrinsicHeight(defaultHeight);
+        } else {
+            if (width != ViewGroup.LayoutParams.WRAP_CONTENT && width != 0)
+                shapeDrawable.setIntrinsicWidth(width);
+            else
+                shapeDrawable.setIntrinsicWidth((int) resources.getDimension(R.dimen.uikit_notification_label_default_width));
 
-
-        if (height != ViewGroup.LayoutParams.WRAP_CONTENT && height != 0)
-            shapeDrawable.setIntrinsicHeight(height);
-        else
-            shapeDrawable.setIntrinsicHeight((int) resources.getDimension(R.dimen.uikit_notification_label_default_height));
+            if (height != ViewGroup.LayoutParams.WRAP_CONTENT && height != 0)
+                shapeDrawable.setIntrinsicHeight(height);
+            else
+                shapeDrawable.setIntrinsicHeight((int) resources.getDimension(R.dimen.uikit_notification_label_default_height));
+        }
     }
 
     private int dipToPixels(int dip) {
