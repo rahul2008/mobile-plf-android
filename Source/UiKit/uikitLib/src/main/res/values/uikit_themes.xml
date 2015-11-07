@@ -15,6 +15,7 @@
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
         <item name="android:seekBarStyle">@style/Slider</item>
         <item name="enableStroke">false</item>
+        <item name="colorPrimaryDark">?attr/baseColor</item>
     </style>
 
     <style name="TextAppearance" parent="android:TextAppearance">

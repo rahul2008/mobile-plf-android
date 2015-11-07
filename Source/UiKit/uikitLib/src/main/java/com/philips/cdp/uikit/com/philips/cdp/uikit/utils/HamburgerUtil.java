@@ -51,25 +51,41 @@ public class HamburgerUtil {
         return actionBarSize;
     }
 
-    public void updateSmartFooter() {
+    public void updateSmartFooter(final VectorDrawableImageView footerImageView) {
         drawerListView.post(new Runnable() {
             @Override
             public void run() {
                 int heightPixels = getDeviceHeightPixels();
                 int adaptorTotalHeight = getAdaptorTotalHeight();
-                validateLogoView(heightPixels, adaptorTotalHeight);
+                validateLogoView(heightPixels, adaptorTotalHeight, footerImageView);
             }
         });
     }
 
-    private void validateLogoView(final int heightPixels, final int adaptorTotalHeight) {
+    private void validateLogoView(final int deviceHeight, final int adaptorTotalHeight, VectorDrawableImageView footerImageView) {
+        int logoDedicatedHeight = getLogoDedicatedHeight();
+        int remainingHeight = deviceHeight - logoDedicatedHeight;
+        if (adaptorTotalHeight <= remainingHeight) {
+            removeFooterViewIfExists();
+            footerImageView.setVisibility(View.VISIBLE);
+        } else {
+            footerImageView.setVisibility(View.GONE);
+            showListViewFooterView();
+        }
+    }
+
+    private void showListViewFooterView() {
         removeFooterViewIfExists();
+        Resources resources = context.getResources();
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        footerView = vi.inflate(R.layout.uikit_footer_view, null, false);
-        drawerListView.addFooterView(footerView, null, false);
+        footerView = vi.inflate(R.layout.uikit_footer_view, null);
         VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) footerView.findViewById(R.id.hamburger_logo);
-        setLogoCenterWithMargins(heightPixels, adaptorTotalHeight, vectorDrawableImageView);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
+        lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        vectorDrawableImageView.setLayoutParams(lp);
         setVectorImage(vectorDrawableImageView);
+        drawerListView.addFooterView(footerView, null, false);
     }
 
     private void removeFooterViewIfExists() {
@@ -80,8 +96,9 @@ public class HamburgerUtil {
     private void setLogoCenterWithMargins(int heightPixels, int adaptorTotalHeight, VectorDrawableImageView vectorDrawableImageView) {
         Resources resources = context.getResources();
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) vectorDrawableImageView.getLayoutParams();
-        int staticHeight = heightPixels - getLogoHeight();
+        int staticHeight = heightPixels - getLogoDedicatedHeight();
         int definedTopMargin = (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin);
+        lp.bottomMargin = (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin);
         if (adaptorTotalHeight > staticHeight) {
             lp.topMargin = definedTopMargin;
         } else if (staticHeight - adaptorTotalHeight - getStatusBarHeight() < definedTopMargin)
@@ -92,9 +109,10 @@ public class HamburgerUtil {
         vectorDrawableImageView.setLayoutParams(lp);
     }
 
-    private int getLogoHeight() {
+    private int getLogoDedicatedHeight() {
         Resources resources = context.getResources();
-        int logoHeight = (int) (resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin) + resources.getDimension(R.dimen.uikit_hamburger_logo_height));
+        int logoHeight = (int) (resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin) + resources.getDimension(R.dimen.uikit_hamburger_logo_height)
+                + resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin));
         return logoHeight;
     }
 

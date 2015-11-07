@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
@@ -33,16 +33,17 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
     private DrawerLayout drawerLayout;
     private Context context;
     private TextView actionBarTitle;
-    private TextView actionBarCount;
+    private PhilipsBadgeView actionBarCount;
     private boolean isExpandable = false;
-    private LinearLayout listViewParentLayout;
+    private RelativeLayout listViewParentLayout;
+    private VectorDrawableImageView footerImageView;
 
     public PhilipsDrawerLayout(final Context context) {
         this(context, null);
     }
 
     public PhilipsDrawerLayout(final Context context, final AttributeSet attrs) {
-        this(context, attrs, -1);
+        this(context, attrs, 0);
     }
 
     public PhilipsDrawerLayout(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -62,7 +63,7 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
 
     private void processDrawerLayout() {
         initializeDrawer();
-        hamburgerUtil.updateSmartFooter();
+        hamburgerUtil.updateSmartFooter(footerImageView);
         if (isExpandable)
             disableGroupCollapse();
     }
@@ -77,7 +78,7 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
     @Override
     public void onDataSetChanged(BaseAdapter adapter, String dataCount) {
         actionBarCount.setText(dataCount);
-        hamburgerUtil.updateSmartFooter();
+        hamburgerUtil.updateSmartFooter(footerImageView);
     }
 
     public void setCounterListener(BaseAdapter baseAdapter) {
@@ -105,7 +106,8 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
     }
 
     private void initializeDrawerViews(View drawer) {
-        listViewParentLayout = (LinearLayout) drawer.findViewById(R.id.list_view_parent);
+        listViewParentLayout = (RelativeLayout) drawer.findViewById(R.id.list_view_parent);
+        footerImageView = (VectorDrawableImageView) drawer.findViewById(R.id.image);
         drawerLayout = (DrawerLayout) drawer.findViewById(R.id.philips_drawer_layout);
         hamburgerUtil = new HamburgerUtil(getContext(), drawerListView);
     }
@@ -115,7 +117,8 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
     }
 
     public void closeDrawer() {
-        DrawerLayout.LayoutParams layoutParams = new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        int width = (int) getResources().getDimension(R.dimen.uikit_hamburger_width);
+        DrawerLayout.LayoutParams layoutParams = new DrawerLayout.LayoutParams(width,
                 ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT);
         drawerLayout.updateViewLayout(listViewParentLayout, layoutParams);
         drawerLayout.closeDrawer(listViewParentLayout);
@@ -128,7 +131,8 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setHomeAsUpIndicator(VectorDrawable.create(context, R.drawable.uikit_hamburger_icon));
         actionBarTitle = (TextView) actionBar.getCustomView().findViewById(R.id.hamburger_title);
-        actionBarCount = (TextView) actionBar.getCustomView().findViewById(R.id.hamburger_count);
+        actionBarCount = (PhilipsBadgeView) actionBar.getCustomView().findViewById(R.id.hamburger_count);
+        actionBarCount.setText("0");
     }
 
     public void setTitle(CharSequence title) {

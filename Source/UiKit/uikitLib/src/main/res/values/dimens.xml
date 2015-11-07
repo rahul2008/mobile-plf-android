@@ -78,7 +78,7 @@
     <dimen name="uikit_hamburger_item_title_left_margin">12dp</dimen>
     <dimen name="uikit_hamburger_group_item_height">33dp</dimen>
     <dimen name="uikit_hamburger_item_icon_left_margin">12dp</dimen>
-
+    <dimen name="uikit_hamburger_menu_logo_bottom_margin_illegal">103dp</dimen>
     <!-- variable to hold info for tablet or phone -->
     <bool name="uikit_istablet">false</bool>
 
