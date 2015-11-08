@@ -92,23 +92,6 @@ public class HamburgerUtil {
         if (footerView != null)
             drawerListView.removeFooterView(footerView);
     }
-
-    private void setLogoCenterWithMargins(int heightPixels, int adaptorTotalHeight, VectorDrawableImageView vectorDrawableImageView) {
-        Resources resources = context.getResources();
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) vectorDrawableImageView.getLayoutParams();
-        int staticHeight = heightPixels - getLogoDedicatedHeight();
-        int definedTopMargin = (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin);
-        lp.bottomMargin = (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin);
-        if (adaptorTotalHeight > staticHeight) {
-            lp.topMargin = definedTopMargin;
-        } else if (staticHeight - adaptorTotalHeight - getStatusBarHeight() < definedTopMargin)
-            lp.topMargin = definedTopMargin;
-        else
-            lp.topMargin = (staticHeight - adaptorTotalHeight - getStatusBarHeight());
-        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        vectorDrawableImageView.setLayoutParams(lp);
-    }
-
     private int getLogoDedicatedHeight() {
         Resources resources = context.getResources();
         int logoHeight = (int) (resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin) + resources.getDimension(R.dimen.uikit_hamburger_logo_height)

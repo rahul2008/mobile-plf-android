@@ -21,8 +21,7 @@
             android:id="@+id/hamburger_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/image"
-            android:layout_gravity="start"
+            android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/uikit_hamburger_menu_logo_top_margin"
             android:childDivider="?attr/brightColor"
             android:dividerHeight="1dp"
@@ -38,6 +37,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/uikit_hamburger_menu_logo_bottom_margin_illegal"
+            android:layout_marginTop="@dimen/uikit_hamburger_menu_logo_top_margin"
             android:visibility="gone"
             app:vectorsrc="@drawable/uikit_philips_logo" />
 

@@ -1,6 +1,7 @@
 package com.philips.cdp.uikit.costumviews;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -103,6 +104,15 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
         }
         initializeDrawerViews(drawer);
         hamburgerUtil.moveDrawerToTop(drawer);
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            hamburgerUtil.updateSmartFooter(footerImageView);
+        }
     }
 
     private void initializeDrawerViews(View drawer) {
