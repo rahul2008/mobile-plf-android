@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,16 +77,22 @@ public class HamburgerUtil {
 
     private void showListViewFooterView() {
         removeFooterViewIfExists();
-        Resources resources = context.getResources();
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footerView = vi.inflate(R.layout.uikit_footer_view, null);
         VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) footerView.findViewById(R.id.hamburger_logo);
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
-        lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
-        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        RelativeLayout.LayoutParams lp = getLayoutParams();
         vectorDrawableImageView.setLayoutParams(lp);
         setVectorImage(vectorDrawableImageView);
         drawerListView.addFooterView(footerView, null, false);
+    }
+
+    @NonNull
+    private RelativeLayout.LayoutParams getLayoutParams() {
+        Resources resources = context.getResources();
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
+        lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        return lp;
     }
 
     private void removeFooterViewIfExists() {

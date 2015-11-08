@@ -26,8 +26,11 @@ public class PhilipsBadgeView extends TextView {
         this(context, null);
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to setBackgroundDrawable sticking with deprecated API for now
     public PhilipsBadgeView(final Context context, final AttributeSet attrs) {
         this(context, attrs, android.R.attr.textViewStyle);
+        setBackgroundDrawable(getCircleBackground());
     }
 
     @SuppressWarnings("deprecation")
