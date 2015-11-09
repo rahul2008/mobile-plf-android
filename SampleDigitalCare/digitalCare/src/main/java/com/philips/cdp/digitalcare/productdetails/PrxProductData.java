@@ -139,9 +139,10 @@ public class PrxProductData {
                     mSummaryModel = (SummaryModel) responseData;
                     DigiCareLogger.d(TAG, "Summary Data Received ? " + mSummaryModel.isSuccess());
                     Data data = mSummaryModel.getData();
-                    mProductDetailsObject.setmProductName(data.getProductTitle());
-                    mProductDetailsObject.setmCtnName(data.getCtn());
-                    mProductDetailsObject.setmProductImage(data.getImageURL());
+                    mProductDetailsObject.setProductName(data.getProductTitle());
+                    mProductDetailsObject.setCtnName(data.getCtn());
+                    mProductDetailsObject.setProductImage(data.getImageURL());
+                    mProductDetailsObject.setProductInfoLink(data.getProductURL());
                     mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                     if (mSummaryDialog != null && mSummaryDialog.isShowing())
                         mSummaryDialog.cancel();
@@ -184,12 +185,12 @@ public class PrxProductData {
                         String assetExtension = assetObject.getExtension();
                         if (assetDescription.equalsIgnoreCase(DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF))
                             if (assetResource != null)
-                                mProductDetailsObject.setmManualLink(assetResource);
+                                mProductDetailsObject.setManualLink(assetResource);
                         if (assetExtension.equalsIgnoreCase(DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
                             if (assetResource != null)
                                 mVideoList.add(assetResource);
                     }
-                    mProductDetailsObject.setmVideoLinks(mVideoList);
+                    mProductDetailsObject.setVideoLinks(mVideoList);
                     mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
                     if (mAssetDialog != null && mAssetDialog.isShowing())

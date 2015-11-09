@@ -64,6 +64,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private DigitalCareFontTextView mCtn = null;
     private ImageView mProductImage = null;
     private String mManualPdf = null;
+    private String mProductPage = null;
     private ImageView mVideoImageView = null;
     private ViewProductDetailsModel mViewProductDetailsModel = null;
 
@@ -198,7 +199,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     protected void updateViewsWithData() {
         mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         if (mViewProductDetailsModel != null) {
-            if (mViewProductDetailsModel.getmProductName() != null) {
+            if (mViewProductDetailsModel.getProductName() != null) {
                 onUpdateSummaryData();
                 onUpdateAssetData();
             } else
@@ -356,7 +357,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 R.string.product_download_manual))) {
 
             if (isConnectionAvailable()) {
-                String mFilePath = mViewProductDetailsModel.getmManualLink();
+                String mFilePath = mViewProductDetailsModel.getManualLink();
 
                 if (mFilePath != null) {
                     File sdcard = Environment.getExternalStorageDirectory();
@@ -371,6 +372,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             }
         } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_information))) {
+            if (isConnectionAvailable()) {
+                showFragment(new PhilipsPageFragment());
+            }
         }
     }
 
@@ -387,12 +391,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     public void onUpdateSummaryData() {
 
-        if (mViewProductDetailsModel.getmProductName() != null)
-            mProductTitle.setText(mViewProductDetailsModel.getmProductName());
-        if (mViewProductDetailsModel.getmCtnName() != null)
-            mCtn.setText(mViewProductDetailsModel.getmCtnName());
-        if (mViewProductDetailsModel.getmProductImage() != null) {
-            ImageRequest request = new ImageRequest(mViewProductDetailsModel.getmProductImage(),
+        if (mViewProductDetailsModel.getProductName() != null)
+            mProductTitle.setText(mViewProductDetailsModel.getProductName());
+        if (mViewProductDetailsModel.getCtnName() != null)
+            mCtn.setText(mViewProductDetailsModel.getCtnName());
+        if (mViewProductDetailsModel.getProductImage() != null) {
+            ImageRequest request = new ImageRequest(mViewProductDetailsModel.getProductImage(),
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap bitmap) {
@@ -414,11 +418,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     public void onUpdateAssetData() {
 
-        mManualPdf = mViewProductDetailsModel.getmManualLink();
+        mManualPdf = mViewProductDetailsModel.getManualLink();
+        mProductPage = mViewProductDetailsModel.getProductInfoLink();
         DigiCareLogger.d(TAG, "Manual Link : " + mManualPdf);
-        List<String> productVideos = mViewProductDetailsModel.getmVideoLinks();
+        DigiCareLogger.d(TAG, "Philips Page Link : " + mProductPage);
+        List<String> productVideos = mViewProductDetailsModel.getVideoLinks();
         if (productVideos != null)
-            initView(mViewProductDetailsModel.getmVideoLinks());
+            initView(mViewProductDetailsModel.getVideoLinks());
 
     }
 

@@ -33,6 +33,8 @@ class PdfDownloader extends AsyncTask<String, String, String> {
         this.mContext = context;
     }
 
+    private int mProgressCount;
+
 
     ProgressDialog mProgressDialog = null;
 
@@ -83,11 +85,12 @@ class PdfDownloader extends AsyncTask<String, String, String> {
 
     protected void onProgressUpdate(String... progress) {
         mProgressDialog.setProgress(Integer.parseInt(progress[0]));
+        mProgressCount = Integer.parseInt(progress[0]);
     }
 
     @Override
     protected void onPostExecute(String result) {
-        if (mProgressDialog.isShowing()) {
+        if ((mProgressDialog.isShowing()) && (mProgressCount == 100)) {
             Uri path = Uri.fromFile(new File(mManualPath));
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(path, "application/pdf");
@@ -102,6 +105,8 @@ class PdfDownloader extends AsyncTask<String, String, String> {
                 }
             }
             mProgressDialog.dismiss();
-        }
+        } else if ((mProgressDialog.isShowing()))
+            mProgressDialog.dismiss();
+
     }
 }

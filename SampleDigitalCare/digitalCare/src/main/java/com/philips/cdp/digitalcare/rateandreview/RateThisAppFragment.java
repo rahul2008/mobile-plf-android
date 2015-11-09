@@ -1,8 +1,6 @@
 package com.philips.cdp.digitalcare.rateandreview;
 
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -23,11 +21,9 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
-import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageListener;
-import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;
-import com.philips.cdp.digitalcare.rateandreview.productreview.model.PRXProductModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -36,7 +32,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @author: naveen@philips.com
  * @since: Jan 11, 2015
  */
-public class RateThisAppFragment extends DigitalCareBaseFragment implements ProductPageListener {
+public class RateThisAppFragment extends DigitalCareBaseFragment {
 
     private static final String PRODUCT_REVIEW_URL = "http://%s%s/%s";
     public static String mProductReviewProductImage = null;
@@ -56,9 +52,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
     private FrameLayout.LayoutParams mLayoutParams = null;
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
-    private ProgressDialog mProgressDialog = null;
     private boolean mBazaarVoiceReviewRequired = false;
     private BazaarVoiceWrapper mBazaarVoiceWrapper;
+    private ViewProductDetailsModel mProductData = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,6 +105,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
+
+        mProductData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+        if (mProductData != null)
+            onPRXProductPageReceived(mProductData);
+
 
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
                 getPreviousName());
@@ -186,24 +187,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
     public void onResume() {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
-        hideProductReviewView();
-        initProductPRX();
-    }
-
-    private void initProductPRX() {
-        if (mProgressDialog == null)
-            mProgressDialog = new ProgressDialog(getActivity(), R.style.loaderTheme);
-        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        mProgressDialog.show();
-
-        new ProductPageParser(this).execute();
-
-        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                mProgressDialog.cancel();
-            }
-        });
     }
 
     private void tagExitLisk(String url) {
@@ -258,15 +241,13 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         mRatePhilipsBtn.setLayoutParams(params);
     }
 
-    @Override
-    public void onPRXProductPageReceived(PRXProductModel data) {
 
-        String productlink = data.getmReviewPageUrl();
-        mProductReviewProductImage = data.getmProductImageUrl();
-        mProductReviewProductName = data.getmProductName();
-        mProductReviewProductCtn = data.getmProductCtn();
-        if (mProgressDialog != null && mProgressDialog.isShowing())
-            mProgressDialog.cancel();
+    public void onPRXProductPageReceived(ViewProductDetailsModel data) {
+
+        String productlink = data.getProductInfoLink();
+        mProductReviewProductImage = data.getProductImage();
+        mProductReviewProductName = data.getProductName();
+        mProductReviewProductCtn = data.getCtnName();
 
         DigiCareLogger.d(TAG, "Show product review()" + mBazaarVoiceWrapper.getBazaarVoiceKey() + "Bzaarvoice Reqd = " + mBazaarVoiceReviewRequired);
         if (productlink != null && mBazaarVoiceWrapper.getBazaarVoiceKey() != null && mBazaarVoiceReviewRequired) {

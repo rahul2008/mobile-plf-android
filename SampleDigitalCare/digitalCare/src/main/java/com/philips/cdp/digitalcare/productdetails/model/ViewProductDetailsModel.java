@@ -31,51 +31,51 @@ public class ViewProductDetailsModel {
     private String mProductInfoLink = null;
     private List<String> mVideoLinks = null;
 
-    public String getmProductName() {
+    public String getProductName() {
         return mProductName;
     }
 
-    public void setmProductName(String mProductName) {
+    public void setProductName(String mProductName) {
         this.mProductName = mProductName;
     }
 
-    public String getmCtnName() {
+    public String getCtnName() {
         return mCtnName;
     }
 
-    public void setmCtnName(String mCtnName) {
+    public void setCtnName(String mCtnName) {
         this.mCtnName = mCtnName;
     }
 
-    public String getmProductImage() {
+    public String getProductImage() {
         return mProductImage;
     }
 
-    public void setmProductImage(String mProductImage) {
+    public void setProductImage(String mProductImage) {
         this.mProductImage = mProductImage;
     }
 
-    public String getmManualLink() {
+    public String getManualLink() {
         return mManualLink;
     }
 
-    public void setmManualLink(String mManualLink) {
+    public void setManualLink(String mManualLink) {
         this.mManualLink = mManualLink;
     }
 
-    public String getmProductInfoLink() {
+    public String getProductInfoLink() {
         return mProductInfoLink;
     }
 
-    public void setmProductInfoLink(String mProductInfoLink) {
+    public void setProductInfoLink(String mProductInfoLink) {
         this.mProductInfoLink = mProductInfoLink;
     }
 
-    public List<String> getmVideoLinks() {
+    public List<String> getVideoLinks() {
         return mVideoLinks;
     }
 
-    public void setmVideoLinks(List<String> mVideoLinks) {
+    public void setVideoLinks(List<String> mVideoLinks) {
         this.mVideoLinks = mVideoLinks;
     }
 }
