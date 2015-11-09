@@ -8,6 +8,7 @@ import android.util.Log;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,15 +74,15 @@ public class ProductSummaryBuilderTest extends InstrumentationTestCase {
         mProductAssetBuilder = new ProductAssetBuilder("125", "TAGINFO");
         assertNotNull(mProductAssetBuilder);
     }
-/*
 
-    public void testTheAssetJsonData() {
 
+    public void testSummaryResponseSuccess()
+    {
         JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("asset_template_one")));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("summary_template_one.txt")));
 
                 // do reading, usually loop until end of file reading
                 String mLine = reader.readLine();
@@ -96,11 +97,10 @@ public class ProductSummaryBuilderTest extends InstrumentationTestCase {
                 // log the exception
                 e.printStackTrace();
             }
-            Log.d(TAG, "JSON Summary : " + sb.toString());
+            Log.d(TAG, "Parsed Data : " + sb.toString());
             mJsonObject = new JSONObject(sb.toString());
-            assertNull(mJsonObject);
-            Log.d(TAG, "Pass paa");
-
+            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            assertNotNull(mJsonObject);
         } catch (JSONException e) {
             Log.d(TAG, "JSON : " + e);
 
@@ -108,6 +108,38 @@ public class ProductSummaryBuilderTest extends InstrumentationTestCase {
             Log.d(TAG, "IO " + e);
         }
     }
-*/
+
+    public void testSummaryResponseObject()
+    {
+        JSONObject mJsonObject = null;
+        try {
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("summary_template_one.txt")));
+
+                // do reading, usually loop until end of file reading
+                String mLine = reader.readLine();
+                while (mLine != null) {
+                    // process line
+                    sb.append(mLine);
+                    mLine = reader.readLine();
+                }
+
+                reader.close();
+            } catch (IOException e) {
+                // log the exception
+                e.printStackTrace();
+            }
+            Log.d(TAG, "Parsed Data : " + sb.toString());
+            mJsonObject = new JSONObject(sb.toString());
+            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            assertNotNull(mResponseData);
+        } catch (JSONException e) {
+            Log.d(TAG, "JSON : " + e);
+
+        } catch (Exception e) {
+            Log.d(TAG, "IO " + e);
+        }
+    }
 
 }
