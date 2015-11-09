@@ -151,7 +151,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         }
     }
 
-    public void initActionBar(ActionBar actionBar) {
+    private void initActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
         actionBar.setDisplayHomeAsUpEnabled(true);

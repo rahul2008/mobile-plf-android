@@ -4,14 +4,18 @@ import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
-import com.philips.cdp.uikit.costumviews.PhilipsDrawerLayout;
+import com.philips.cdp.uikit.costumviews.PhilipsBadgeView;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsExpandableListAdapter;
 
@@ -29,14 +33,18 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
     private TypedArray hamburgerMenuIcons;
     private List<String> listDataHeader;
     private HashMap<String, List<HamburgerItem>> listDataChild;
-    private PhilipsDrawerLayout philipsDrawerLayout;
+    private DrawerLayout philipsDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private ExpandableListView drawerListView;
+    private TextView actionBarTitle;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hamburger_expandable_demo);
-        philipsDrawerLayout = (PhilipsDrawerLayout) findViewById(R.id.drawer_layout_demo);
+        setContentView(R.layout.uikit_hamburger_menu_expandable_basic);
+        initActionBar(getSupportActionBar());
+        philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
+        drawerListView = (ExpandableListView) findViewById(R.id.hamburger_list);
         loadSlideMenuItems();
         prepareListData();
         setHamburgerAdaptor();
@@ -44,7 +52,7 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
             displayView(0, 0);
         }
 
-        philipsDrawerLayout.getExpandableDrawerListView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        drawerListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(final ExpandableListView parent, final View v, final int groupPosition, final int childPosition, final long id) {
                 displayView(groupPosition, childPosition);
@@ -56,7 +64,7 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
 
     private void setHamburgerAdaptor() {
         final PhilipsExpandableListAdapter listAdapter = new PhilipsExpandableListAdapter(this, listDataHeader, listDataChild);
-        philipsDrawerLayout.getExpandableDrawerListView().setAdapter(listAdapter);
+        drawerListView.setAdapter(listAdapter);
     }
 
     private void loadSlideMenuItems() {
@@ -88,9 +96,9 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
         Bundle bundle = getBundle(hamburgerItem.getTitle(), hamburgerMenuIcons.getResourceId(groupPosition, -1));
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction()
-                    .replace(R.id.drawer_layout_demo, fragment).commit();
-        philipsDrawerLayout.setTitle(hamburgerItem.getTitle());
-        philipsDrawerLayout.closeDrawer();
+                    .replace(R.id.frame_container, fragment).commit();
+        setTitle(hamburgerItem.getTitle());
+        philipsDrawerLayout.closeDrawer(drawerListView);
     }
 
     @NonNull
@@ -137,7 +145,7 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
     }
 
     private void configureDrawer() {
-        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout.getDrawerLayout(), com.philips.cdp.uikit.R.string.app_name, com.philips.cdp.uikit.R.string.app_name) {
+        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, com.philips.cdp.uikit.R.string.app_name, com.philips.cdp.uikit.R.string.app_name) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
             }
@@ -146,6 +154,23 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
                 super.onDrawerOpened(drawerView);
             }
         };
-        philipsDrawerLayout.getDrawerLayout().setDrawerListener(drawerToggle);
+        philipsDrawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    private void initActionBar(ActionBar actionBar) {
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_hamburger_icon));
+        actionBarTitle = (TextView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_title);
+        PhilipsBadgeView actionBarCount = (PhilipsBadgeView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_count);
+        actionBarCount.setText("0");
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        actionBarTitle.setText(title);
     }
 }
