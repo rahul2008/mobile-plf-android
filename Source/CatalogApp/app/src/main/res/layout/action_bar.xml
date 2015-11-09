@@ -1,21 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     android:id="@+id/ratingtheme"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
 
-
-    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
-        android:id="@+id/arrow"
+    <FrameLayout
+        android:id="@+id/UpButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:vectorsrc="@drawable/uikit_up_arrow"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        >
+
+        <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            app:vectorsrc="@drawable/uikit_up_arrow"/>
+    </FrameLayout>
 
 
     <TextView

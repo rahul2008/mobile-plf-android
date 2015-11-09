@@ -6,11 +6,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,7 +26,7 @@ public class ActionBarLauncher extends CatalogActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
+       // requestWindowFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
      //   setContentView(R.layout.action_bar);
 
@@ -41,18 +43,21 @@ public class ActionBarLauncher extends CatalogActivity {
 
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 
-        ImageView imageButton = (ImageView) mCustomView
-                .findViewById(R.id.arrow);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-
+        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View v) {
                 finish();
             }
         });
 
+        ImageView imageButton = (ImageView) mCustomView
+                .findViewById(R.id.arrow);
+
         mActionBar.setCustomView(mCustomView, params);
         mActionBar.setDisplayShowCustomEnabled(true);
 
+        Toolbar parent =(Toolbar) mCustomView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
     }
 }
