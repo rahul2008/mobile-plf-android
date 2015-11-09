@@ -52,10 +52,6 @@
         <item name="customNavigationLayout">@layout/uikit_about_screen_actionbar_mm</item>
     </style>
 
-    <style name="hamburger">
-        <item name="android:background">?attr/actionBarBackground</item>
-	</style>
-
     <style name="Slider">
         <item name="android:thumbOffset">@dimen/slider_padding_left</item>
     </style>
@@ -79,5 +75,19 @@
         <item name="expandable">true</item>
     </style>
 
+    <style name="Toolbar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
 
+    <style name="myAppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/black</item>
+    </style>
 </resources>
