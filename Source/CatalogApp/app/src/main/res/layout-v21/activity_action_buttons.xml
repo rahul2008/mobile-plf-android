@@ -6,12 +6,12 @@
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -19,8 +19,8 @@
                 style="@style/Philips.ActionButton.Circle.Arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -28,24 +28,24 @@
                 style="@style/Philips.ActionButton.Circle.Plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp"/>
 
             <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
                 android:id="@+id/miscBtnCircleMinus"
                 style="@style/Philips.ActionButton.Circle.Minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp"/>
 
             <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
                 android:id="@+id/miscBtnCircleQuestionMark"
                 style="@style/Philips.ActionButton.Circle.QuestionMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp"
                 />
 
             <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -53,8 +53,8 @@
                 style="@style/Philips.ActionButton.Square.Arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -62,16 +62,16 @@
                 style="@style/Philips.ActionButton.Square.Plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp"/>
 
             <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
                 android:id="@+id/miscBtnSquareMinus"
                 style="@style/Philips.ActionButton.Square.Minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -79,8 +79,8 @@
                 style="@style/Philips.ActionButton.Square.CrossMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp"/>
 
         </LinearLayout>
 
@@ -88,8 +88,8 @@
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -100,8 +100,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/misc_shadow_message"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:text="@string/misc_shadow_message"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -114,8 +114,8 @@
                     style="@style/Philips.ActionButton.Circle.Arrow.Shadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                    android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginTop="5dp"/>
 
 
                 <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -123,24 +123,24 @@
                     style="@style/Philips.ActionButton.Circle.Plus.Shadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                    android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginTop="5dp"/>
 
                 <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
                     android:id="@+id/miscBtnCircleMinusShadow"
                     style="@style/Philips.ActionButton.Circle.Minus.Shadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                    android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginTop="5dp"/>
 
                 <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
                     android:id="@+id/miscBtnCircleQuestionMarkShadow"
                     style="@style/Philips.ActionButton.Circle.QuestionMark.Shadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginTop="5dp"
                     />
 
                 <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -148,8 +148,8 @@
                     style="@style/Philips.ActionButton.Square.Arrow.Shadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                    android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginTop="5dp"/>
 
 
                 <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -157,16 +157,16 @@
                     style="@style/Philips.ActionButton.Square.Plus.Shadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                    android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginTop="5dp"/>
 
                 <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
                     android:id="@+id/miscBtnSquareMinusShadow"
                     style="@style/Philips.ActionButton.Square.Minus.Shadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                    android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginTop="5dp"/>
 
 
                 <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
@@ -174,13 +174,19 @@
                     style="@style/Philips.ActionButton.Square.CrossMark.Shadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="@dimen/philips_action_button_margin"/>
+                    android:layout_marginLeft="@dimen/philips_action_button_margin"
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
     </HorizontalScrollView>
+
+    <com.philips.cdp.uikit.PuiSwitch
+        android:id="@+id/uikit_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"/>
 
 </LinearLayout>

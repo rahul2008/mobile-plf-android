@@ -37,7 +37,9 @@
         <activity android:name=".activity.DotNavigation"/>
         <activity android:name=".activity.TabBarDemo"/>
         <activity android:name=".activity.ActionBarDemo" />
-
+        <activity android:name=".activity.SliderActivity"/>
+        <activity android:name=".activity.RatingBarLauncher"/>
+        <activity android:name=".activity.ActionBarLauncher"/>
     </application>
 
 </manifest>

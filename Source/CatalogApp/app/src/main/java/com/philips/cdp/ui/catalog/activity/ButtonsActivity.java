@@ -5,13 +5,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.PuiSwitch;
 
 public class ButtonsActivity extends CatalogActivity {
 
-    private Switch changeButtonState;
+    private PuiSwitch changeButtonState;
 
     private Button themeButton, outlinedButton, transparentButton, whiteTranspararentButton;
 
@@ -20,7 +20,7 @@ public class ButtonsActivity extends CatalogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_button);
 
-        changeButtonState = (Switch) findViewById(R.id.change_button_state);
+        changeButtonState = (PuiSwitch) findViewById(R.id.change_button_state);
         changeButtonState.setChecked(true);
         themeButton = (Button) findViewById(R.id.theme_button);
         outlinedButton = (Button) findViewById(R.id.outlined_button);
