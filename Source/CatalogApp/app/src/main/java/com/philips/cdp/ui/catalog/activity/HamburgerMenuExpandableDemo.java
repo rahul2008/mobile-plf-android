@@ -4,9 +4,11 @@ import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -37,11 +39,14 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
     private ActionBarDrawerToggle drawerToggle;
     private ExpandableListView drawerListView;
     private TextView actionBarTitle;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_hamburger_menu_expandable_basic);
+        initViews();
         initActionBar(getSupportActionBar());
         philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
         drawerListView = (ExpandableListView) findViewById(R.id.hamburger_list);
@@ -60,6 +65,14 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
             }
         });
         configureDrawer();
+    }
+
+    private void initViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
+        drawerListView = (ExpandableListView) findViewById(R.id.hamburger_list);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        setSupportActionBar(toolbar);
     }
 
     private void setHamburgerAdaptor() {
@@ -98,7 +111,7 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_container, fragment).commit();
         setTitle(hamburgerItem.getTitle());
-        philipsDrawerLayout.closeDrawer(drawerListView);
+        philipsDrawerLayout.closeDrawer(navigationView);
     }
 
     @NonNull

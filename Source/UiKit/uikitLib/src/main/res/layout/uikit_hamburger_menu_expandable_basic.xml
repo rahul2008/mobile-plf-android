@@ -2,20 +2,31 @@
     android:id="@+id/philips_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:orientation="vertical">
 
-    <ExpandableListView
-        android:id="@+id/hamburger_list"
+        <include layout="@layout/uikit_toolbar" />
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
         android:layout_width="@dimen/uikit_hamburger_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?attr/actionBarBackground"
+        android:elevation="10dp"
+        android:fitsSystemWindows="true">
+
+    <ExpandableListView
+        android:id="@+id/hamburger_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:childDivider="?attr/brightColor"
         android:dividerHeight="1dp"
         android:footerDividersEnabled="true"
@@ -23,4 +34,5 @@
         android:scrollbars="none"
         android:showDividers="end" />
 
+    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

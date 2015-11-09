@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,31 +37,20 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private DrawerLayout philipsDrawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private ListView drawerListView;
-    private TextView actionBarTitle;
-    private LinearLayout container;
     private NavigationView navigationView;
-//    ScrimInsetsFrameLayout scrimInsetsFrameLayout;
+    private Toolbar toolbar;
+    private TextView actionBarTitle;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_hamburger_menu_basic);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       /* TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.actionBarBackground});
-        toolbar.setBackgroundDrawable(typedArray.getDrawable(0));*/
-        setSupportActionBar(toolbar);
+        initViews();
         initActionBar(getSupportActionBar());
-        philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
-//        scrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
-        container = (LinearLayout) findViewById(R.id.frame_container);
-        drawerListView = (ListView) findViewById(R.id.hamburger_list);
-        navigationView = (NavigationView) findViewById(R.id.scrimInsetsFrameLayout);
-//        ViewCompat.setFitsSystemWindows(philipsDrawerLayout, true);
         configureDrawer();
         loadSlideMenuItems();
         setHamburgerAdaptor();
         setDrawerAdaptor();
-//        moveDrawerToTop(philipsDrawerLayout);
         if (savedInstanceState == null) {
             displayView(0);
         }
@@ -74,6 +62,14 @@ public class HamburgerMenuDemo extends CatalogActivity {
             }
         });
 
+    }
+
+    private void initViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
+        drawerListView = (ListView) findViewById(R.id.hamburger_list);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -168,12 +164,14 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private void initActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
         actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_hamburger_icon));
-        actionBarTitle = (TextView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_title);
-        PhilipsBadgeView actionBarCount = (PhilipsBadgeView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_count);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
+        PhilipsBadgeView actionBarCount = (PhilipsBadgeView) findViewById(R.id.hamburger_count);
         actionBarCount.setText("0");
+        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();//first get parent toolbar of current action bar
+        parent.setContentInsetsAbsolute(0, 0);// set padding programmatically to 0dp
     }
 
 }
