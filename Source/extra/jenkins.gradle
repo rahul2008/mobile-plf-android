@@ -5,7 +5,7 @@ jenkins {
     def branch_name = getWorkingBranch()
     def branch_type = getBranchType(branch_name)
     def escaped_branch_name = branch_name.replace('/', '-')
-    def display_name = escaped_branch_name.replace('feature-', '').replace('-', ' ').replace('_', ' ').capitalize()
+    def display_name = 'Android ShineLib ' + escaped_branch_name.replace('feature-', '').replace('-', ' ').replace('_', ' ').capitalize()
     def flavour = ""
     def xmlConfigType = branch_type
 
@@ -40,7 +40,7 @@ jenkins {
         "build_${branch_name}${flavour}" {
             server servers.philips
             definition {
-                name "${escaped_branch_name}${flavour}"
+                name "Android-ShineLib-${escaped_branch_name}${flavour}"
                 xml templates.build.override { projectXml ->
                     projectXml.description = "Android ${branch_type}${flavour} build from ${display_name} sources"
                     projectXml.displayName = display_name
