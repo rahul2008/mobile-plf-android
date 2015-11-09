@@ -26,7 +26,7 @@ public class ActionBarLauncher extends CatalogActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.action_bar);
+     //   setContentView(R.layout.action_bar);
 
         ActionBar mActionBar = this.getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
