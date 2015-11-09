@@ -198,8 +198,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     protected void updateViewsWithData() {
         mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         if (mViewProductDetailsModel != null) {
-            onUpdateSummaryData();
-            onUpdateAssetData();
+            if (mViewProductDetailsModel.getmProductName() != null) {
+                onUpdateSummaryData();
+                onUpdateAssetData();
+            } else
+                showAlert(getResources().getString(R.string.no_data_available));
         } else {
             showAlert(getResources().getString(R.string.no_data_available));
         }
