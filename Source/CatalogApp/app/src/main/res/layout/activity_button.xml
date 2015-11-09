@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -11,7 +12,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="50dp"/>
 
     <Button
         android:id="@+id/theme_button"
@@ -53,9 +54,21 @@
         android:layout_marginTop="20dp"
         android:text="@string/sample_button"/>
 
+    <Button
+        android:id="@+id/show_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/outlined_transparent_white_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Show notification"/>
+
     <com.philips.cdp.uikit.PuiPopoverAlert
         android:id="@+id/popover_alert"
         android:layout_width="match_parent"
-        android:layout_height="53dp"/>
+        android:layout_height="53dp"
+        app:popover_left_icon="@drawable/info_icon"
+        app:popover_right_icon="@drawable/cross_icon"
+        app:popover_title_text="Uploading settings"/>
 
 </RelativeLayout>
