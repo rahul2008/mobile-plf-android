@@ -2,21 +2,16 @@ apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion _compileSdkVersion
+    buildToolsVersion _buildToolsVersion
 
     defaultConfig {
-
-        minSdkVersion 19
-        targetSdkVersion 21
-        versionCode 1
-        versionName "0.1"
-//        versionText = "<0.1>"
-//        if (project.hasProperty('buildNumber'))
-//            versionName = versionText + "-" + project.property('buildNumber')
-//        else
-//            versionName = versionText// + "-LOCAL"
+        minSdkVersion _minSdkVersion
+        targetSdkVersion _targetSdkVersion
+        versionCode _versionCode
+        versionName getLibVersionName(shineLibVersion)
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -26,52 +21,24 @@ android {
             testCoverageEnabled = true
         }
     }
-//    libraryVariants.all { variant ->
-//        variant.outputs.each { output ->
-//            output.outputFile = new File(
-//                    output.outputFile.parent,
-//                    output.outputFile.name.replace(".aar", "-${versionName}.aar"))
-//        }
-//    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
 
-    //    testCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     testCompile 'junit:junit:4.12'
-    //    testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'
     testCompile 'org.powermock:powermock-api-mockito:1.6.2'
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ["assemble", "test"]) {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports"
+def getLibVersionName(shineLibVersion) {
+    def details = """git rev-parse --short HEAD""".execute().text.trim()
+    def workingBranch = """git rev-parse --abbrev-ref HEAD""".execute().text.trim()
 
-    classDirectories = fileTree(
-            dir: "${buildDir}/intermediates/classes/debug",
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/*Activity.*',
-                       '**/*Fragment.*',
-                       '**/*$ViewInjector*.*',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*']
-    )
-
-    sourceDirectories = files("${buildDir.parent}/src/main/java")
-//    additionalSourceDirs = files([
-//            "${buildDir}/generated/source/buildConfig/debug",
-//            "${buildDir}/generated/source/r/debug"
-//    ])
-    executionData = files("${buildDir}/jacoco/testDebug.exec")
-
-    reports {
-        html.enabled = true
-        xml.enabled = false
-        csv.enabled = false
+    if (!workingBranch.equals('master')) {
+        return "${shineLibVersion} (${details} ${workingBranch})"
     }
-}
 
+    return "${shineLibVersion}"
+}
