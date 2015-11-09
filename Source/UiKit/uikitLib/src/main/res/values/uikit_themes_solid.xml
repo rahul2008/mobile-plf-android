@@ -21,6 +21,11 @@
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
     </style>
 
+    <style name="Theme.Philips.DarkBlue.NoActionBar" parent="@style/NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
         <item name="gradBackground">@drawable/uikit_grad_orange_background</item>

@@ -4,9 +4,11 @@ import android.app.FragmentManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,15 +40,23 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private ListView drawerListView;
     private TextView actionBarTitle;
     private LinearLayout container;
+    private NavigationView navigationView;
+//    ScrimInsetsFrameLayout scrimInsetsFrameLayout;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_hamburger_menu_basic);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       /* TypedArray typedArray = getTheme().obtainStyledAttributes(new int[]{R.attr.actionBarBackground});
+        toolbar.setBackgroundDrawable(typedArray.getDrawable(0));*/
+        setSupportActionBar(toolbar);
         initActionBar(getSupportActionBar());
         philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
+//        scrimInsetsFrameLayout = (ScrimInsetsFrameLayout) findViewById(R.id.scrimInsetsFrameLayout);
         container = (LinearLayout) findViewById(R.id.frame_container);
         drawerListView = (ListView) findViewById(R.id.hamburger_list);
+        navigationView = (NavigationView) findViewById(R.id.scrimInsetsFrameLayout);
 //        ViewCompat.setFitsSystemWindows(philipsDrawerLayout, true);
         configureDrawer();
         loadSlideMenuItems();
@@ -130,7 +140,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_container, fragment).commit();
         setTitle(hamburgerMenuTitles[position]);
-        philipsDrawerLayout.closeDrawer(drawerListView);
+        philipsDrawerLayout.closeDrawer(navigationView);
     }
 
     @NonNull
