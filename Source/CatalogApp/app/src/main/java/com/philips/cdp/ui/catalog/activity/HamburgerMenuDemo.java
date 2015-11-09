@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private ActionBarDrawerToggle drawerToggle;
     private ListView drawerListView;
     private TextView actionBarTitle;
+    private LinearLayout container;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -43,12 +45,14 @@ public class HamburgerMenuDemo extends CatalogActivity {
         setContentView(R.layout.uikit_hamburger_menu_basic);
         initActionBar(getSupportActionBar());
         philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
+        container = (LinearLayout) findViewById(R.id.frame_container);
         drawerListView = (ListView) findViewById(R.id.hamburger_list);
+//        ViewCompat.setFitsSystemWindows(philipsDrawerLayout, true);
         configureDrawer();
         loadSlideMenuItems();
         setHamburgerAdaptor();
         setDrawerAdaptor();
-
+//        moveDrawerToTop(philipsDrawerLayout);
         if (savedInstanceState == null) {
             displayView(0);
         }

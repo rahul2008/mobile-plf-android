@@ -12,7 +12,7 @@
 
     <ExpandableListView
         android:id="@+id/hamburger_list"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/uikit_hamburger_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?attr/actionBarBackground"
