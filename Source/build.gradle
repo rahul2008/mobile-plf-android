@@ -9,6 +9,8 @@ buildscript {
 
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
 
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath('com.terrafolio:gradle-jenkins-plugin:1.2.3') {
             exclude group: 'asm', module: 'asm-tree'
@@ -21,6 +23,7 @@ apply from: 'extra/jenkins.gradle'
 
 allprojects {
 
+    apply plugin: 'android-sdk-manager'
     apply plugin: 'com.github.ben-manes.versions'
     apply plugin: 'jacoco'
 
@@ -33,7 +36,7 @@ allprojects {
     }
 
     ext._compileSdkVersion = 23
-    ext._buildToolsVersion = '23.0.1'
+    ext._buildToolsVersion = '23.0.2'
     ext._minSdkVersion = 19
     ext._targetSdkVersion = 23
     ext._versionCode = 1
