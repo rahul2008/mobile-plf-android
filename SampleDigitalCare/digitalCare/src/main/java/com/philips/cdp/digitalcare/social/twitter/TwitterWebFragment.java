@@ -34,11 +34,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
                              Bundle savedInstanceState) {
 
         try {
-            if (mView != null) {
-                ((ViewGroup) mView.getParent()).removeView(mView);
-            }
             mView = inflater.inflate(R.layout.common_webview, container, false);
-
         } catch (InflateException e) {
         }
         return mView;
