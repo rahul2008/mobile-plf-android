@@ -16,4 +16,19 @@ public class ProductAssetBuilderTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
     }
+
+    public void testAssetBuilderObject()
+    {
+        assertTrue(true);
+    }
+
+    public void testAssetBuildeUrlLogic()
+    {
+        assertTrue(true);
+    }
+
+    public void testAssetBuilderDataResponseLogic()
+    {
+        assertTrue(true);
+    }
 }
