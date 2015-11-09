@@ -8,6 +8,8 @@ import android.util.Log;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,7 +83,7 @@ public class ProductAssetBuilderTest extends InstrumentationTestCase {
         try {
             StringBuilder sb = new StringBuilder();
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("assets/asset_template_one")));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("asset_template_one.txt")));
 
                 // do reading, usually loop until end of file reading
                 String mLine = reader.readLine();
@@ -96,11 +98,76 @@ public class ProductAssetBuilderTest extends InstrumentationTestCase {
                 // log the exception
                 e.printStackTrace();
             }
+            Log.d(TAG, "Parsed Data : " + sb.toString());
+            mJsonObject = new JSONObject(sb.toString());
+            assertNotNull(mJsonObject);
+        } catch (JSONException e) {
+            Log.d(TAG, "JSON : " + e);
 
-            mJsonObject = new JSONObject(mAssetJson);
-            assertNull(mJsonObject);
-            Log.d(TAG, "Pass paa");
+        } catch (Exception e) {
+            Log.d(TAG, "IO " + e);
+        }
+    }
 
+    public void testResponseDataofAsset()
+    {
+        JSONObject mJsonObject = null;
+        try {
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("asset_template_one.txt")));
+
+                // do reading, usually loop until end of file reading
+                String mLine = reader.readLine();
+                while (mLine != null) {
+                    // process line
+                    sb.append(mLine);
+                    mLine = reader.readLine();
+                }
+
+                reader.close();
+            } catch (IOException e) {
+                // log the exception
+                e.printStackTrace();
+            }
+            Log.d(TAG, "Parsed Data : " + sb.toString());
+            mJsonObject = new JSONObject(sb.toString());
+            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            assertNotNull(mResponseData);
+        } catch (JSONException e) {
+            Log.d(TAG, "JSON : " + e);
+
+        } catch (Exception e) {
+            Log.d(TAG, "IO " + e);
+        }
+    }
+
+
+    public void testAssetResponseSuccess()
+    {
+        JSONObject mJsonObject = null;
+        try {
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("asset_template_one.txt")));
+
+                // do reading, usually loop until end of file reading
+                String mLine = reader.readLine();
+                while (mLine != null) {
+                    // process line
+                    sb.append(mLine);
+                    mLine = reader.readLine();
+                }
+
+                reader.close();
+            } catch (IOException e) {
+                // log the exception
+                e.printStackTrace();
+            }
+            Log.d(TAG, "Parsed Data : " + sb.toString());
+            mJsonObject = new JSONObject(sb.toString());
+            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            assertNotNull(mJsonObject);
         } catch (JSONException e) {
             Log.d(TAG, "JSON : " + e);
 
