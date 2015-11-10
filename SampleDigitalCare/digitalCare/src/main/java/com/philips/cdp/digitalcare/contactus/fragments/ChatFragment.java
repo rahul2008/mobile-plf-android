@@ -40,7 +40,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
     private ImageView mChatNowBG = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private ScrollView mchatScrollView = null;
+    private ScrollView mChatScrollView = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +83,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
-        mchatScrollView = (ScrollView) getActivity().findViewById(R.id.chatScrollView);
+        mChatScrollView = (ScrollView) getActivity().findViewById(R.id.chatScrollView);
 
         mChatNow.setOnClickListener(this);
         mChatNowLand.setOnClickListener(this);
@@ -131,15 +131,14 @@ public class ChatFragment extends DigitalCareBaseFragment {
             mChatNowParentPort.setVisibility(View.VISIBLE);
             mChatNowParentLand.setVisibility(View.GONE);
             mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right), 0);
-
         } else {
             mChatNowParentLand.setVisibility(View.VISIBLE);
             mChatNowParentPort.setVisibility(View.GONE);
             mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right_land), 0);
-            mchatScrollView.postDelayed(new Runnable() {
+            mChatScrollView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mchatScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                    mChatScrollView.scrollTo(0, 270);
                 }
             }, 100);
         }
