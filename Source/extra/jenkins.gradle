@@ -45,6 +45,13 @@ jenkins {
                     projectXml.description = "Android ${branch_type}${flavour} build from ${display_name} sources"
                     projectXml.displayName = display_name
                     projectXml.disabled = 'false'
+                    projectXml.scm.extensions.replaceNode { node ->
+                        extensions() {
+                            'hudson.plugins.git.extensions.impl.LocalBranch'() {
+                                localBranch([:], "${escaped_branch_name}")
+                            }
+                        }
+                    }
                     projectXml.scm.branches.replaceNode { node ->
                         branches() {
                             'hudson.plugins.git.BranchSpec'() {
