@@ -26,7 +26,11 @@
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
     <submoduleCfg class="list"/>
-    <extensions/>
+    <extensions>
+      <hudson.plugins.git.extensions.impl.LocalBranch>
+        <localBranch>release</localBranch>
+      </hudson.plugins.git.extensions.impl.LocalBranch>
+    </extensions>
   </scm>
   <assignedNode>android</assignedNode>
   <canRoam>false</canRoam>
