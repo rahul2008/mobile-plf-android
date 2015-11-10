@@ -38,10 +38,14 @@ artifacts {
 
 def getLibVersionName(shineLibVersion) {
     def workingBranch = """git rev-parse --abbrev-ref HEAD""".execute().text.trim()
+    print "!!!!!!!!! workingBranch=${workingBranch} !!!!!!!!!\n"
 
+    def versionName = "${shineLibVersion}"
     if (!workingBranch.equals('master')) {
-        return "${shineLibVersion}.SNAPSHOT"
+        versionName += '.SNAPSHOT'
     }
 
-    return "${shineLibVersion}"
+    print "!!!!!!!!! versionName=${versionName} !!!!!!!!!\n"
+
+    return versionName
 }
