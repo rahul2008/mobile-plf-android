@@ -59,7 +59,7 @@ public class AssetModelTest extends InstrumentationTestCase {
             mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             AssetModel mAssetModel = new AssetModel();
-             ResponseData responseData = mAssetModel.parseJsonResponseData(mJsonObject);
+            ResponseData responseData = mAssetModel.parseJsonResponseData(mJsonObject);
             assertNotNull(responseData);
         } catch (JSONException e) {
             Log.d(TAG, "JSON : " + e);
@@ -68,4 +68,41 @@ public class AssetModelTest extends InstrumentationTestCase {
             Log.d(TAG, "IO " + e);
         }
     }
+
+    public void testAssetDataSuccess() {
+        JSONObject mJsonObject = null;
+        try {
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("asset_template_one.txt")));
+
+                // do reading, usually loop until end of file reading
+                String mLine = reader.readLine();
+                while (mLine != null) {
+                    // process line
+                    sb.append(mLine);
+                    mLine = reader.readLine();
+                }
+
+                reader.close();
+            } catch (IOException e) {
+                // log the exception
+                e.printStackTrace();
+            }
+            Log.d(TAG, "Parsed Data : " + sb.toString());
+            mJsonObject = new JSONObject(sb.toString());
+            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            AssetModel assetModel = new AssetModel();
+            ResponseData responseData = assetModel.parseJsonResponseData(mJsonObject);
+            AssetModel assetModelObject = (AssetModel) responseData;
+            assertEquals( assetModelObject.isSuccess() , true);
+        } catch (JSONException e) {
+            Log.d(TAG, "JSON : " + e);
+
+        } catch (Exception e) {
+            Log.d(TAG, "IO " + e);
+        }
+    }
+
+
 }
