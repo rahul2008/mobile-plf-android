@@ -44,7 +44,7 @@
     <hudson.plugins.gradle.Gradle plugin="gradle@1.24">
       <description>Build, Test and Assemble Release</description>
       <switches></switches>
-      <tasks>testDebug lintDebug assembleRelease</tasks>
+      <tasks>testDebug lintDebug assembleRelease artifactoryPublish</tasks>
       <rootBuildScriptDir>Source/</rootBuildScriptDir>
       <buildFile></buildFile>
       <gradleName>(Default)</gradleName>
