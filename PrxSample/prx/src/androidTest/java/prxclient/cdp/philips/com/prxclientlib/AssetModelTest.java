@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public class AssetModelTest extends InstrumentationTestCase {
     private static final String TAG = AssetModelTest.class.getSimpleName();
     PrxDataBuilder mProductAssetBuilder = null;
     Asset mAssetObject = null;
+    Assets mAssetsObject = null;
 
     String mCode = "RQ1250_17";
     String mDescription = "User manual";
@@ -183,5 +185,28 @@ public class AssetModelTest extends InstrumentationTestCase {
 
         assertNotNull(asset.getLastModified());
     }
+
+
+    public void testAssetsDataModelTest() {
+
+        List<Asset> list = new ArrayList<Asset>();
+        list.add(mAssetObject);
+        list.add(mAssetObject);
+        mAssetsObject = new Assets(list);
+        assertEquals(mAssetsObject.getAsset().size(), 1);
+    }
+
+
+
+    public void testAssetsDataModelTest2() {
+
+        List<Asset> list = new ArrayList<Asset>();
+        list.add(mAssetObject);
+        list.add(mAssetObject);
+        mAssetsObject = new Assets();
+        mAssetsObject.setAsset(list);
+        assertEquals(mAssetsObject.getAsset().size(), 1);
+    }
+
 
 }
