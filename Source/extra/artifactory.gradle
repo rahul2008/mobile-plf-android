@@ -1,0 +1,37 @@
+apply plugin: 'com.jfrog.artifactory-upload'
+
+group = ext.artifactoryGroup
+version = ext.shineLibVersion
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = 'libs-release-local'
+            username = 'admin'
+            password = 'password'
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = false
+
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+artifactoryPublish {
+    dependsOn sourceJar
+}
+
+artifacts {
+    archives sourceJar
+}

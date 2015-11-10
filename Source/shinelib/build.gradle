@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
+apply from: '../extra/artifactory.gradle'
+
 android {
     compileSdkVersion _compileSdkVersion
     buildToolsVersion _buildToolsVersion
@@ -66,40 +68,4 @@ task jacocoTestReport(type:JacocoReport, dependsOn: ["assemble","test"]) {
         xml.enabled = false
         csv.enabled = false
     }
-}
-
-group = 'com.philips.cdp.shine'
-version = ext.shineLibVersion
-
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
-    publish {
-        repository {
-            repoKey = 'libs-release-local'
-            username = 'admin'
-            password = 'password'
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = false
-
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local'
-        }
-    }
-}
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
-}
-
-artifactoryPublish {
-    dependsOn sourceJar
-}
-
-artifacts {
-    archives sourceJar
 }

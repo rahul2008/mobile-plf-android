@@ -32,7 +32,6 @@ allprojects {
     apply plugin: 'android-sdk-manager'
     apply plugin: 'com.github.ben-manes.versions'
     apply plugin: 'jacoco'
-    apply plugin: 'com.jfrog.artifactory-upload'
 
     jacoco {
         toolVersion = '0.7.1.201405082137'
@@ -46,7 +45,8 @@ allprojects {
     ext._buildToolsVersion = '23.0.2'
     ext._minSdkVersion = 19
     ext._targetSdkVersion = 23
-    ext._versionCode = 5
+    ext._versionCode = 1
 
-    ext.shineLibVersion = '0.5'
+    ext.shineLibVersion = '0.1'
+    ext.artifactoryGroup = 'com.philips.cdp.shine'
 }
