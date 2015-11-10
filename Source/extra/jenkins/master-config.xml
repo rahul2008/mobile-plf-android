@@ -42,9 +42,9 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.plugins.gradle.Gradle plugin="gradle@1.24">
-      <description>Build &amp; Test</description>
+      <description>Publish to Artifactory</description>
       <switches></switches>
-      <tasks>assembleRelease uploadArtifactsToArtifactory</tasks>
+      <tasks>artifactoryPublish</tasks>
       <rootBuildScriptDir>Source/</rootBuildScriptDir>
       <buildFile></buildFile>
       <gradleName>(Default)</gradleName>

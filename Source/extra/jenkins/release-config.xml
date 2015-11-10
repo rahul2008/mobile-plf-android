@@ -42,9 +42,9 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.plugins.gradle.Gradle plugin="gradle@1.24">
-      <description>Build, Test and Assemble Release</description>
+      <description>Build, Test and Publish Release Snapshot to Artifactory</description>
       <switches></switches>
-      <tasks>testDebug lintDebug assembleRelease artifactoryPublish</tasks>
+      <tasks>testDebug lintDebug artifactoryPublish</tasks>
       <rootBuildScriptDir>Source/</rootBuildScriptDir>
       <buildFile></buildFile>
       <gradleName>(Default)</gradleName>
