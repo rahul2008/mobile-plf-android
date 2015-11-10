@@ -123,41 +123,15 @@ public class PhilipsBadgeView extends TextView {
             else
                 shapeDrawable.setIntrinsicHeight(defaultHeight);
         }
+        int defaultPadding = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_padding);
+        setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding);
     }
 
     private ShapeDrawable getCircleBackground() {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
         shapeDrawable.getPaint().setColor(DEFAULT_BADGE_COLOR);
-        setCircleBackgroundParams(shapeDrawable);
+        setPadding(0, 0, 0, 0);
         return shapeDrawable;
-    }
-
-    private void setCircleBackgroundParams(ShapeDrawable shapeDrawable) {
-        width = this.getWidth();
-        height = this.getHeight();
-        Resources resources = getContext().getResources();
-
-        int defaultRadius;
-        if (isSmallSize) {
-            defaultRadius = (int) resources.getDimension(R.dimen.uikit_notification_label_small_circle_radius);
-        } else {
-            defaultRadius = (int) resources.getDimension(R.dimen.uikit_notification_label_default_radius);
-        }
-
-        if (width != height) {
-            shapeDrawable.setIntrinsicWidth(defaultRadius);
-            shapeDrawable.setIntrinsicHeight(defaultRadius);
-        } else {
-            if (width != ViewGroup.LayoutParams.WRAP_CONTENT && width != 0)
-                shapeDrawable.setIntrinsicWidth(width);
-            else
-                shapeDrawable.setIntrinsicWidth(defaultRadius);
-
-            if (height != ViewGroup.LayoutParams.WRAP_CONTENT && height != 0)
-                shapeDrawable.setIntrinsicHeight(height);
-            else
-                shapeDrawable.setIntrinsicHeight(defaultRadius);
-        }
     }
 
     private int dipToPixels(int dip) {
