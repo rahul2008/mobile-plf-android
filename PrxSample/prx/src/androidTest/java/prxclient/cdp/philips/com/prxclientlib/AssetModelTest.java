@@ -178,5 +178,10 @@ public class AssetModelTest extends InstrumentationTestCase {
         assertEquals(mAssetObject.getType(), "DFU");
     }
 
+    public void testAssetDataModelWithMultiContructor() {
+        Asset asset = new Asset(mAssetResource, mCode, mDescription, mExtension, mExtent, mLocale, mNumber, mType, mAssetResource);
+
+        assertNotNull(asset.getLastModified());
+    }
 
 }
