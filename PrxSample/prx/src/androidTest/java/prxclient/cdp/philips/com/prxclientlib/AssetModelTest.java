@@ -8,6 +8,7 @@ import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
 import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Data;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
@@ -27,9 +28,10 @@ import java.util.List;
 public class AssetModelTest extends InstrumentationTestCase {
 
     private static final String TAG = AssetModelTest.class.getSimpleName();
-    PrxDataBuilder mProductAssetBuilder = null;
-    Asset mAssetObject = null;
-    Assets mAssetsObject = null;
+    private PrxDataBuilder mProductAssetBuilder = null;
+    private Asset mAssetObject = null;
+    private Assets mAssetsObject = null;
+    private Data mData = null;
 
     String mCode = "RQ1250_17";
     String mDescription = "User manual";
@@ -208,5 +210,13 @@ public class AssetModelTest extends InstrumentationTestCase {
         assertEquals(mAssetsObject.getAsset().size(), 2);
     }
 
+
+
+    private void testDataModelObject()
+    {
+        testAssetsDataModelTest();
+         mData = new Data(mAssetsObject);
+        assertNotNull(mData.getAssets());
+    }
 
 }
