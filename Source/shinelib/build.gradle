@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion _compileSdkVersion
@@ -67,7 +68,7 @@ task jacocoTestReport(type:JacocoReport, dependsOn: ["assemble","test"]) {
     }
 }
 
-group = 'com.philips.cdp'
+group = 'com.philips.cdp.shine'
 version = ext.shineLibVersion
 
 artifactory {
@@ -80,6 +81,7 @@ artifactory {
             publishPom = true
             publishIvy = false
             publishBuildInfo = false
+
         }
     }
     resolve {
