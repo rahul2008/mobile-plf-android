@@ -4,15 +4,19 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RoundRectShape;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
@@ -20,23 +24,31 @@ import com.philips.cdp.uikit.R;
 public class PhilipsBadgeView extends TextView {
 
     private static final int DEFAULT_BADGE_COLOR = Color.parseColor("#CD202C");
-    private int width;
-    private int height;
     private boolean isSmallSize;
 
-    public PhilipsBadgeView(final Context context) {
-        this(context, null);
+    public PhilipsBadgeView(Context context) {
+        this(context, (AttributeSet) null, android.R.attr.textViewStyle);
     }
 
-    @SuppressWarnings("deprecation")
-    //we need to support API lvl 14+, so cannot change to setBackgroundDrawable sticking with deprecated API for now
-    public PhilipsBadgeView(final Context context, final AttributeSet attrs) {
+    public PhilipsBadgeView(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.textViewStyle);
+    }
+
+    public PhilipsBadgeView(Context context, View target) {
+        this(context, null, android.R.attr.textViewStyle, target, 0);
+    }
+
+    public PhilipsBadgeView(Context context, TabWidget target, int index) {
+        this(context, null, android.R.attr.textViewStyle, target, index);
+    }
+
+    public PhilipsBadgeView(Context context, AttributeSet attrs, int defStyle) {
+        this(context, attrs, defStyle, null, 0);
     }
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
-    public PhilipsBadgeView(final Context context, final AttributeSet attrs, final int defStyle) {
+    public PhilipsBadgeView(Context context, AttributeSet attrs, int defStyle, View target, int tabIndex) {
         super(context, attrs, defStyle);
         validateIsSmallView(attrs);
         setBackgroundDrawable(getCircleBackground());
@@ -44,6 +56,14 @@ public class PhilipsBadgeView extends TextView {
         handleTextChangeListener();
         setTextColor(context.getResources().getColor(android.R.color.white));
     }
+
+    private void applyTo(View target, int width, int height) {
+        ViewGroup.LayoutParams lp = target.getLayoutParams();
+        target.setMinimumHeight(height);
+        target.setMinimumWidth(width);
+        target.setLayoutParams(lp);
+    }
+
 
     private void validateIsSmallView(AttributeSet attrs) {
         final TypedArray a = getContext().obtainStyledAttributes(
@@ -86,50 +106,35 @@ public class PhilipsBadgeView extends TextView {
         int r = dipToPixels(15);
         float[] outerR = new float[]{r, r, r, r, r, r, r, r};
         RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
-        ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
-        setSquareRoundParams(shapeDrawable);
-        shapeDrawable.getPaint().setColor(DEFAULT_BADGE_COLOR);
+        Resources resources = getResources();
+        ShapeDrawable shapeDrawable = setSquareParams(roundRectShape, resources);
         return shapeDrawable;
     }
 
-    private void setSquareRoundParams(ShapeDrawable shapeDrawable) {
-        width = this.getWidth();
-        height = this.getHeight();
-        Resources resources = getContext().getResources();
-
-        int defaultRadius;
+    @NonNull
+    private ShapeDrawable setSquareParams(RoundRectShape roundRectShape, Resources resources) {
+        int defaultWidth;
         int defaultHeight;
         if (isSmallSize) {
-            defaultRadius = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width_small);
+            defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width_small);
             defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height_small);
+
         } else {
-            defaultRadius = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width);
+            defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width);
             defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height);
         }
 
-        if (width == height) {
-            shapeDrawable.setIntrinsicWidth(defaultRadius);
-            shapeDrawable.setIntrinsicHeight(defaultHeight);
-        } else {
-
-            if (width != ViewGroup.LayoutParams.WRAP_CONTENT && width != 0)
-                shapeDrawable.setIntrinsicWidth(width);
-            else
-                shapeDrawable.setIntrinsicWidth(defaultRadius);
-
-
-            if (height != ViewGroup.LayoutParams.WRAP_CONTENT && height != 0)
-                shapeDrawable.setIntrinsicHeight(height);
-            else
-                shapeDrawable.setIntrinsicHeight(defaultHeight);
-        }
-        int defaultPadding = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_padding);
-        setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding);
+        ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
+        shapeDrawable.getPaint().setColor(DEFAULT_BADGE_COLOR);
+        applyTo(this, defaultWidth, defaultHeight);
+        return shapeDrawable;
     }
 
     private ShapeDrawable getCircleBackground() {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
-        shapeDrawable.getPaint().setColor(DEFAULT_BADGE_COLOR);
+        final Paint paint = shapeDrawable.getPaint();
+        paint.setColor(DEFAULT_BADGE_COLOR);
+        paint.setAntiAlias(true);
         setPadding(0, 0, 0, 0);
         return shapeDrawable;
     }
