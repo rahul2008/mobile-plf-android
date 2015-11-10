@@ -10,7 +10,6 @@ public class SampleConsumerProductInfo extends ConsumerProductInfo {
 	private static String mSubCategory = "HAIR_STYLERS_SU";
 	private static String mCtn = "HD8967_01";
 	private static String mProductTitle = "Saeco GranBaristo Avanti";
-	private static String mProductReviewUrl = "/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide";
 
 	@Override
 	public String getGroup() {

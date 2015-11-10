@@ -9,13 +9,14 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,10 +64,14 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private DigitalCareFontTextView mProductTitle = null;
     private DigitalCareFontTextView mCtn = null;
     private ImageView mProductImage = null;
+    private HorizontalScrollView mVideoScrollView = null;
     private String mManualPdf = null;
     private String mProductPage = null;
     private ImageView mVideoImageView = null;
     private ViewProductDetailsModel mViewProductDetailsModel = null;
+    private static int mSmallerResolution = 0;
+    private int mBiggerResolution = 0;
+    private static boolean isTablet = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +103,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProductImage = (ImageView) getActivity().findViewById(R.id.productimage);
         mProductTitle = (DigitalCareFontTextView) getActivity().findViewById(R.id.name);
         mCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.variant);
+        mVideoScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.videoScrollView);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
@@ -123,14 +129,32 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
     }
 
-    protected int getDisplayWidth() {
-        Display metrics = getActivity().getWindowManager().getDefaultDisplay();
-        return metrics.getWidth();
+    private int getDisplayWidth() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int widthPixels = metrics.widthPixels;
+        int heightPixels = metrics.heightPixels;
+        float density = metrics.density;
 
+        if (widthPixels > heightPixels) {
+            mSmallerResolution = heightPixels;
+            mBiggerResolution = widthPixels;
+        } else {
+            mSmallerResolution = widthPixels;
+            mBiggerResolution = heightPixels;
+        }
+
+        isTablet = ((float)mSmallerResolution/density > 360);
+
+        if (isTablet) {
+            return (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
+        }
+
+        return (int) mSmallerResolution;
     }
 
     protected void loadVideoThumbnail(final ImageView imageView, String imagePath) {
-        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
+        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" +getDisplayWidth() + "&amp;";
 
         ImageRequest request = new ImageRequest(thumbnail,
                 new Response.Listener<Bitmap>() {
@@ -147,8 +171,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());
         imageRequestQueue.add(request);
-
-
     }
 
     private void addNewVideo(String tag, final String video) {
@@ -214,9 +236,19 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
+            if (isTablet) {
+                mVideoScrollView.setPadding(0, 0, 0, 0);
+            } else {
+                mVideoScrollView.setPadding(0, 0, 0, 0);
+            }
         } else {
             mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginLand;
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginLand;
+            if (isTablet) {
+                mVideoScrollView.setPadding(mLeftRightMarginPort, 0, mLeftRightMarginPort, 0);
+            } else {
+                mVideoScrollView.setPadding(mLeftRightMarginPort, 0, mLeftRightMarginPort, 0);
+            }
         }
         mFirstContainer.setLayoutParams(mFirstContainerParams);
         mProdButtonsParent.setLayoutParams(mSecondContainerParams);
@@ -227,38 +259,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
-
-
-  /*  protected void initPRX() {
-        final String COUNTRY_URL = "www.philips.co.uk";
-        final String SECTOR = "B2C";
-        final String LANGUAGE = "en";
-        final String COUNTRY = "GB";
-        final String CATALOGCODE = "CONSUMER";
-        final String CTN = "RQ1250/17";
-
-        RequestManager mRequestManager = RequestManager.getInstance();
-        mRequestManager.setServerInfo(COUNTRY_URL);
-        mRequestManager.setSectorCode(SECTOR);
-        mRequestManager.setLanguageCode(LANGUAGE);
-        mRequestManager.setCountryCode(COUNTRY);
-        mRequestManager.setCatalogCode(CATALOGCODE);
-        mRequestManager.setCTN(CTN);
-
-        Assets mAssets = new Assets(new AssetListener() {
-            @Override
-            public void onSuccess(Assets assets) {
-                DigiCareLogger.d(TAG, "Passed : " + assets.isSuccess());
-            }
-
-            @Override
-            public void onFailed(String s) {
-                DigiCareLogger.d(TAG, "Failed : " + s);
-            }
-        });
-    }
-
-   */
 
     /**
      * Create RelativeLayout at runTime. RelativeLayout will have button and
@@ -274,7 +274,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 packageName + ":string/" + buttonTitle, null, null);
 
         RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
-        Button button = createButton(density, buttonTitle);
+        Button button = createButton(density, title);
         relativeLayout.addView(button);
         setButtonParams(button);
         mProdButtonsParent.addView(relativeLayout);
@@ -296,7 +296,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         relativeLayout.setLayoutParams(params);
         relativeLayout
                 .setBackgroundResource(R.drawable.selector_option_button_bg);
-
         return relativeLayout;
     }
 
@@ -308,7 +307,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         relativeLayout.setLayoutParams(param);
     }
 
-    private Button createButton(float density, String title) {
+    private Button createButton(float density, int title) {
         Button button = new Button(getActivity(), null, R.style.fontButton);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -408,16 +407,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                             // mProductImage.setImageResource(R.drawable.image_load_error);
                         }
                     });
-
             RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());
             imageRequestQueue.add(request);
-
         }
     }
 
 
     public void onUpdateAssetData() {
-
         mManualPdf = mViewProductDetailsModel.getManualLink();
         mProductPage = mViewProductDetailsModel.getProductInfoLink();
         DigiCareLogger.d(TAG, "Manual Link : " + mManualPdf);
@@ -425,7 +421,5 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         List<String> productVideos = mViewProductDetailsModel.getVideoLinks();
         if (productVideos != null)
             initView(mViewProductDetailsModel.getVideoLinks());
-
     }
-
 }

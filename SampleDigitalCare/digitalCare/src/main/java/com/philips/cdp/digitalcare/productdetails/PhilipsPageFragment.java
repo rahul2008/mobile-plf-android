@@ -24,10 +24,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * FaqFragment Webview
+ * Product Specific Philips Page.
  *
- * @author : pawan.kumar.deshpande@philips.com
- * @since : 25 june 2015
+ * @author : naveen@philips.com
+ * @since : 9 Nov 2015
  */
 public class PhilipsPageFragment extends DigitalCareBaseFragment {
 
@@ -154,5 +154,4 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
             mWebView = null;
         }
     }
-
 }

@@ -7,9 +7,7 @@
     <ImageView
         android:id="@+id/videoContainer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_prod_details_video_height"
-        android:paddingLeft="1dp"
-        android:paddingRight="1dp"></ImageView>
+        android:layout_height="@dimen/view_prod_details_video_height"></ImageView>
 
     <ImageView
         android:id="@+id/videoPlay"
