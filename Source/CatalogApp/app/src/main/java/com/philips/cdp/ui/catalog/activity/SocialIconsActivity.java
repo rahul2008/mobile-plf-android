@@ -16,7 +16,7 @@ import com.philips.cdp.uikit.costumviews.SocialMediaDrawables;
  * Created by 310213373 on 11/3/2015.
  */
 public class SocialIconsActivity extends CatalogActivity {
-    ImageView mImageView1, mImageView2, mImageView3, mImageView4, mImageView5, mImageView6, mImageView7, mImageView8;
+    ImageView mImageView1, mImageView2, mImageView3, mImageView4, mImageView5, mImageView6, mImageView7,mImageView8 ,mImageView9 ,mImageView10 ,mImageView11 ,mImageView12, mImageView13, mImageView14, mImageView15 , mImageView16;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,14 @@ public class SocialIconsActivity extends CatalogActivity {
         mImageView6 = (ImageView) findViewById(R.id.image6);
         mImageView7 = (ImageView) findViewById(R.id.image7);
         mImageView8 = (ImageView) findViewById(R.id.image8);
+        mImageView9 = (ImageView) findViewById(R.id.image9);
+        mImageView10 = (ImageView) findViewById(R.id.image10);
+        mImageView11 = (ImageView) findViewById(R.id.image11);
+        mImageView12 = (ImageView) findViewById(R.id.image12);
+        mImageView13 = (ImageView) findViewById(R.id.image13);
+        mImageView14 = (ImageView) findViewById(R.id.image14);
+        mImageView15 = (ImageView) findViewById(R.id.image15);
+        mImageView16 = (ImageView) findViewById(R.id.image16);
 
 
         SocialMediaDrawables smd = new SocialMediaDrawables();
@@ -56,5 +64,36 @@ public class SocialIconsActivity extends CatalogActivity {
 
         Drawable d8 = smd.getSocialDrawable(this, R.drawable.uikit_social_instagram, true);
         mImageView8.setBackgroundDrawable(d8);
+
+        Drawable d9 = smd.getSocialDrawable(this, R.drawable.uikit_social_wechat, false);
+        mImageView9.setBackgroundDrawable(d9);
+
+        Drawable d10 = smd.getSocialDrawable(this, R.drawable.uikit_social_vkontakte, false);
+        mImageView10.setBackgroundDrawable(d10);
+
+        Drawable d11 = smd.getSocialDrawable(this, R.drawable.uikit_social_pininterest, false);
+        mImageView11.setBackgroundDrawable(d11);
+
+        Drawable d12 = smd.getSocialDrawable(this, R.drawable.uikit_social_facebook, false);
+        mImageView12.setBackgroundDrawable(d12);
+
+        Drawable d13 = smd.getSocialDrawable(this, R.drawable.uikit_social_linkedin, false);
+        mImageView13.setBackgroundDrawable(d13);
+
+        Drawable d14 = smd.getSocialDrawable(this, R.drawable.uikit_social_twitter, false);
+        mImageView14.setBackgroundDrawable(d14);
+
+        Drawable d15 = smd.getSocialDrawable(this, R.drawable.uikit_social_youtube, false);
+        mImageView15.setBackgroundDrawable(d15);
+
+        Drawable d16 = smd.getSocialDrawable(this, R.drawable.uikit_social_instagram, false);
+        mImageView16.setBackgroundDrawable(d16);
+
+
+
+
+
+        
+
     }
 }
