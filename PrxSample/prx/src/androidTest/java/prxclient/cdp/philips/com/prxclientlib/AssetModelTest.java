@@ -193,7 +193,7 @@ public class AssetModelTest extends InstrumentationTestCase {
         list.add(mAssetObject);
         list.add(mAssetObject);
         mAssetsObject = new Assets(list);
-        assertEquals(mAssetsObject.getAsset().size(), 1);
+        assertEquals(mAssetsObject.getAsset().size(), 2);
     }
 
 
@@ -205,7 +205,7 @@ public class AssetModelTest extends InstrumentationTestCase {
         list.add(mAssetObject);
         mAssetsObject = new Assets();
         mAssetsObject.setAsset(list);
-        assertEquals(mAssetsObject.getAsset().size(), 1);
+        assertEquals(mAssetsObject.getAsset().size(), 2);
     }
 
 
