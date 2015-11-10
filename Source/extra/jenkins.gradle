@@ -81,8 +81,8 @@ def getBranchType(branch_name){
 
     if (branch_name.equals('master')) {
         branch_type = 'master';
-//    } else if (branch_name.startsWith('release')) {
-//        branch_type = 'release';
+    } else if (branch_name.startsWith('release')) {
+        branch_type = 'release';
 //    } else if (branch_name.startsWith('hotfix')) {
 //        branch_type = 'release';
 //    } else if (branch_name.startsWith('feature')) {
