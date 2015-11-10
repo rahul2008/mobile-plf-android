@@ -107,6 +107,7 @@
 
     <declare-styleable name="slider">
         <attr name="enableBubbleIndictor" format="boolean"/>
+        <attr name="discreteValue" format="integer"/>
     </declare-styleable>
 
 </resources>
