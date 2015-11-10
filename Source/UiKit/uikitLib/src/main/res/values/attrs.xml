@@ -114,4 +114,9 @@
         <attr name="expandable" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="notification_label">
+        <attr name="notification_label_small" format="boolean" />
+    </declare-styleable>
+
+
 </resources>

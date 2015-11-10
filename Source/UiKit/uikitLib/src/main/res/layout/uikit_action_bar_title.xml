@@ -6,7 +6,7 @@
 
     <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
         android:id="@+id/hamburger_count"
-        style="@style/NotificationLabel"
+        style="@style/NotificationLabel.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
