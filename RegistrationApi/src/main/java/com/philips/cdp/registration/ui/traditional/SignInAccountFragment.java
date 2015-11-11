@@ -399,7 +399,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
                 && NetworkUtility.isNetworkAvailable(mContext)
                 && RegistrationHelper.getInstance().isJanrainIntialized()) {
-
+            mLlattentionBox.setVisibility(View.GONE);
             mBtnSignInAccount.setEnabled(true);
             mRegError.hideError();
         } else {

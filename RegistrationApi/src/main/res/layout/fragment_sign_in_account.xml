@@ -33,6 +33,7 @@
                     style="@style/reg_textStyle"
                     android:layout_marginTop="0dip"
                     android:text="@string/TraditionalSignIn_SignInWithMyPhilips_lbltxt"
+                    android:textSize="@dimen/reg_title_text_size"
                     android:gravity="left"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
@@ -46,6 +47,7 @@
                 <com.philips.cdp.registration.ui.customviews.XPassword
                     android:id="@+id/rl_reg_password_field"
                     android:layout_width="match_parent"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
