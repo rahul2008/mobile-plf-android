@@ -31,7 +31,7 @@ public class HamburgerUtil {
         this.context = context;
         this.drawerListView = drawerListView;
         drawerListView.setFooterDividersEnabled(true);
-        drawerListView.setPadding(0, getStatusBarHeight(), 0, 0);
+//        drawerListView.setPadding(0, getStatusBarHeight(), 0, 0);
     }
 
     public void moveDrawerToTop(View drawer) {

@@ -24,6 +24,7 @@ import com.philips.cdp.uikit.R;
 public class PhilipsBadgeView extends TextView {
 
     private static final int DEFAULT_BADGE_COLOR = Color.parseColor("#CD202C");
+    private final Resources resources;
     private boolean isSmallSize;
 
     public PhilipsBadgeView(Context context) {
@@ -50,23 +51,27 @@ public class PhilipsBadgeView extends TextView {
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     public PhilipsBadgeView(Context context, AttributeSet attrs, int defStyle, View target, int tabIndex) {
         super(context, attrs, defStyle);
-        validateIsSmallView(attrs);
+        validateIsSmallView(attrs, getContext());
+        resources = getResources();
         setBackgroundDrawable(getCircleBackground());
         setGravity(Gravity.CENTER);
         handleTextChangeListener();
-        setTextColor(context.getResources().getColor(android.R.color.white));
+        setTextColor(resources.getColor(android.R.color.white));
     }
 
     private void applyTo(View target, int width, int height) {
         ViewGroup.LayoutParams lp = target.getLayoutParams();
+        if (lp == null)
+            lp = new ViewGroup.LayoutParams(width, height);
+
         target.setMinimumHeight(height);
         target.setMinimumWidth(width);
         target.setLayoutParams(lp);
     }
 
 
-    private void validateIsSmallView(AttributeSet attrs) {
-        final TypedArray a = getContext().obtainStyledAttributes(
+    private void validateIsSmallView(AttributeSet attrs, Context context) {
+        final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.notification_label, 0, 0);
         isSmallSize = a.getBoolean(R.styleable.notification_label_notification_label_small, false);
         a.recycle();
@@ -106,13 +111,12 @@ public class PhilipsBadgeView extends TextView {
         int r = dipToPixels(15);
         float[] outerR = new float[]{r, r, r, r, r, r, r, r};
         RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
-        Resources resources = getResources();
-        ShapeDrawable shapeDrawable = setSquareParams(roundRectShape, resources);
+        ShapeDrawable shapeDrawable = setSquareParams(roundRectShape);
         return shapeDrawable;
     }
 
     @NonNull
-    private ShapeDrawable setSquareParams(RoundRectShape roundRectShape, Resources resources) {
+    private ShapeDrawable setSquareParams(RoundRectShape roundRectShape) {
         int defaultWidth;
         int defaultHeight;
         if (isSmallSize) {
@@ -136,12 +140,22 @@ public class PhilipsBadgeView extends TextView {
         paint.setColor(DEFAULT_BADGE_COLOR);
         paint.setAntiAlias(true);
         setPadding(0, 0, 0, 0);
+        int defaultWidth;
+        int defaultHeight;
+        if (isSmallSize) {
+            defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_small_circle_radius);
+            defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_small_circle_radius);
+
+        } else {
+            defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_default_radius);
+            defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_default_radius);
+        }
+        applyTo(this, defaultWidth, defaultHeight);
         return shapeDrawable;
     }
 
     private int dipToPixels(int dip) {
-        Resources r = getResources();
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, r.getDisplayMetrics());
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, resources.getDisplayMetrics());
         return (int) px;
     }
 

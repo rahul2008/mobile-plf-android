@@ -77,7 +77,7 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
     }
 
     @Override
-    public void onDataSetChanged(BaseAdapter adapter, String dataCount) {
+    public void onDataSetChanged(String dataCount) {
         actionBarCount.setText(dataCount);
         hamburgerUtil.updateSmartFooter(footerImageView);
     }

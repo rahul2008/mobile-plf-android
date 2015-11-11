@@ -20,8 +20,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:actionOverflowButtonStyle">@color/uikit_white</item>
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
 
+    </style>
+
+    <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/uikit_hamburger_options</item>
     </style>
 
     <style name="TextAppearance" parent="android:TextAppearance">
