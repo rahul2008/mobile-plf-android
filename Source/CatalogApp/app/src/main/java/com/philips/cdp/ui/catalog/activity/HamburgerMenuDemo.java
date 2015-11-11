@@ -1,6 +1,7 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.app.FragmentManager;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +19,10 @@ import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
+import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
+import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.OnDataNotified;
 import com.philips.cdp.uikit.costumviews.PhilipsBadgeView;
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
@@ -29,7 +33,7 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class HamburgerMenuDemo extends CatalogActivity {
+public class HamburgerMenuDemo extends CatalogActivity implements OnDataNotified {
 
     private String[] hamburgerMenuTitles;
     private TypedArray hamburgerMenuIcons;
@@ -40,6 +44,10 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private TextView actionBarTitle;
+    private VectorDrawableImageView footerView;
+    private PhilipsHamburgerAdapter adapter;
+    private PhilipsBadgeView actionBarCount;
+    private HamburgerUtil hamburgerUtil;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -62,6 +70,8 @@ public class HamburgerMenuDemo extends CatalogActivity {
             }
         });
 
+        hamburgerUtil = new HamburgerUtil(this, drawerListView);
+        hamburgerUtil.updateSmartFooter(footerView);
     }
 
     private void initViews() {
@@ -69,6 +79,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
         drawerListView = (ListView) findViewById(R.id.hamburger_list);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        footerView = (VectorDrawableImageView) findViewById(R.id.image);
         setSupportActionBar(toolbar);
     }
 
@@ -121,20 +132,19 @@ public class HamburgerMenuDemo extends CatalogActivity {
     }
 
     private void setDrawerAdaptor() {
-        PhilipsHamburgerAdapter adapter = new PhilipsHamburgerAdapter(this,
+        adapter = new PhilipsHamburgerAdapter(this,
                 hamburgerItems);
+        adapter.setOnDataNotified(this);
         drawerListView.setAdapter(adapter);
-//        philipsDrawerLayout.setCounterListener(adapter);
-//        philipsDrawerLayout.getDrawerListView().setAdapter(adapter);
     }
 
     private void displayView(int position) {
         final HamburgerFragment fragment = new HamburgerFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
-            fragment.setArguments(bundle);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
+        fragment.setArguments(bundle);
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_container, fragment).commit();
         setTitle(hamburgerMenuTitles[position]);
         philipsDrawerLayout.closeDrawer(navigationView);
     }
@@ -168,10 +178,24 @@ public class HamburgerMenuDemo extends CatalogActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
-        PhilipsBadgeView actionBarCount = (PhilipsBadgeView) findViewById(R.id.hamburger_count);
+        actionBarCount = (PhilipsBadgeView) findViewById(R.id.hamburger_count);
         actionBarCount.setText("0");
-        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();//first get parent toolbar of current action bar
-        parent.setContentInsetsAbsolute(0, 0);// set padding programmatically to 0dp
+        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+    }
+
+    @Override
+    public void onDataSetChanged(String dataCount) {
+        actionBarCount.setText(dataCount);
+        hamburgerUtil.updateSmartFooter(footerView);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            hamburgerUtil.updateSmartFooter(footerView);
+        }
     }
 
 }
