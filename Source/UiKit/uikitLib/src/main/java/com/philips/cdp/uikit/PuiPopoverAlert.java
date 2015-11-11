@@ -1,6 +1,7 @@
 package com.philips.cdp.uikit;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -34,10 +35,9 @@ public class PuiPopoverAlert extends RelativeLayout {
 
     public PuiPopoverAlert(final Context context, final AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.uikit_popover_alert, this, true);
-
-        setBackgroundDrawable(getBarckgroundGradientDrawable());
 
         titleText = (TextView) findViewById(R.id.uikit_popover_alert_title);
         leftIconImageView = (ImageView) findViewById(R.id.uikit_popover_info_icon);
@@ -45,9 +45,13 @@ public class PuiPopoverAlert extends RelativeLayout {
         rightIconImageView = (ImageView) findViewById(R.id.uikit_popover_close_icon);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.popover_alert);
+        int backgroundGradientStartColor = a.getColor(R.styleable.popover_alert_popover_background_gradient_start_color, getResources().getColor(R.color.uikit_philips_dark_blue));
+        int backgroundGradientEndColor = a.getColor(R.styleable.popover_alert_popover_background_gradient_end_color, getResources().getColor(R.color.uikit_philips_bright_blue));
         Drawable leftIcon = a.getDrawable(R.styleable.popover_alert_popover_left_icon);
         Drawable rightIcon = a.getDrawable(R.styleable.popover_alert_popover_right_icon);
         String titleString = (String) a.getText(R.styleable.popover_alert_popover_title_text);
+
+        setBackgroundDrawable(getBarckgroundGradientDrawable(backgroundGradientStartColor, backgroundGradientEndColor));
 
         titleText.setText(titleString);
         if(leftIcon != null) {
@@ -69,7 +73,6 @@ public class PuiPopoverAlert extends RelativeLayout {
             }
         });
 
-        this.context = context;
         setVisibility(View.GONE);
     }
 
@@ -77,9 +80,12 @@ public class PuiPopoverAlert extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    private Drawable getBarckgroundGradientDrawable() {
-        int[] gradient = new int[] {R.color.uikit_philips_bright_green, R.color.uikit_philips_bright_orange, R.color.uikit_philips_bright_aqua};
-        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, gradient);
+    private Drawable getBarckgroundGradientDrawable(int startColor, int endColor) {
+        final Resources resources = context.getResources();
+        int[] gradient = new int[]{endColor, startColor};
+
+        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TR_BL, gradient);
+
         drawable.mutate();
         return drawable;
     }
@@ -100,24 +106,20 @@ public class PuiPopoverAlert extends RelativeLayout {
         }
     }
 
-    public void setTitleText(final TextView titleText) {
-        this.titleText = titleText;
-    }
-
-    public void setLeftIcon(final Drawable leftIcon) {
-        this.leftIconImageView.setImageDrawable(leftIcon);
-    }
-
-    public void setRightIcon(final Drawable rightIcon) {
-        this.rightIconImageView.setImageDrawable(rightIcon);
-    }
-
     public TextView getTitleText() {
         return titleText;
     }
 
+    public void setTitleText(final TextView titleText) {
+        this.titleText = titleText;
+    }
+
     public ImageView getLeftIcon() {
         return leftIconImageView;
+    }
+
+    public void setLeftIcon(final Drawable leftIcon) {
+        this.leftIconImageView.setImageDrawable(leftIcon);
     }
 
     public ProgressBar getProgressBar() {
@@ -126,5 +128,9 @@ public class PuiPopoverAlert extends RelativeLayout {
 
     public ImageView getRightIcon() {
         return rightIconImageView;
+    }
+
+    public void setRightIcon(final Drawable rightIcon) {
+        this.rightIconImageView.setImageDrawable(rightIcon);
     }
 }
