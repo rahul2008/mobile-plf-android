@@ -1,7 +1,7 @@
 apply plugin: 'com.jfrog.artifactory-upload'
 
 group = ext.artifactoryGroup
-version = (getLibVersionName(ext.shineLibVersion))
+version = (getLibVersionName(ext.artifactoryVersion))
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
@@ -36,10 +36,10 @@ artifacts {
     archives sourceJar
 }
 
-def getLibVersionName(shineLibVersion) {
+def getLibVersionName(libVersion) {
     def workingBranch = """git rev-parse --abbrev-ref HEAD""".execute().text.trim()
 
-    def versionName = "${shineLibVersion}"
+    def versionName = "${libVersion}"
     if (!workingBranch.equals('master')) {
         versionName += '.SNAPSHOT'
     }
