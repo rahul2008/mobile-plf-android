@@ -117,7 +117,7 @@ public class PhilipsDrawerLayout extends DrawerLayout implements OnDataNotified 
 
     private void initializeDrawerViews(View drawer) {
         listViewParentLayout = (RelativeLayout) drawer.findViewById(R.id.list_view_parent);
-        footerImageView = (VectorDrawableImageView) drawer.findViewById(R.id.image);
+        footerImageView = (VectorDrawableImageView) drawer.findViewById(R.id.philips_logo);
         drawerLayout = (DrawerLayout) drawer.findViewById(R.id.philips_drawer_layout);
         hamburgerUtil = new HamburgerUtil(getContext(), drawerListView);
     }

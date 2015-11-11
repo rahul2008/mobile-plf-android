@@ -79,7 +79,7 @@ public class HamburgerUtil {
         removeFooterViewIfExists();
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footerView = vi.inflate(R.layout.uikit_footer_view, null);
-        VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) footerView.findViewById(R.id.hamburger_logo);
+        VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) footerView.findViewById(R.id.philips_logo);
         RelativeLayout.LayoutParams lp = getLayoutParams();
         vectorDrawableImageView.setLayoutParams(lp);
         setVectorImage(vectorDrawableImageView);

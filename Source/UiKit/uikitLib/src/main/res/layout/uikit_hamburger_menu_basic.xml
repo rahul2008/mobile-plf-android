@@ -33,20 +33,20 @@
         <RelativeLayout
             android:id="@+id/list_view_parent"
             android:layout_width="@dimen/uikit_hamburger_width"
-            android:layout_height="match_parent"
-            android:background="?attr/gradBackground">
+            android:layout_height="match_parent">
 
             <ListView
                 android:id="@+id/hamburger_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
+                android:layout_marginTop="10dp"
                 android:divider="?attr/brightColor"
                 android:dividerHeight="1dp"
                 android:scrollbars="none"></ListView>
 
             <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
-                android:id="@+id/image"
+                android:id="@+id/philips_logo"
                 android:layout_width="@dimen/uikit_hamburger_logo_width"
                 android:layout_height="@dimen/uikit_hamburger_logo_height"
                 android:layout_alignParentBottom="true"

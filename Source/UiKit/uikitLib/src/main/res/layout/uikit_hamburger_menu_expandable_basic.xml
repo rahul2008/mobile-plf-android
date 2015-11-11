@@ -1,4 +1,5 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/philips_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +11,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/uikit_toolbar" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/gradBackground"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -18,21 +26,39 @@
         android:layout_width="@dimen/uikit_hamburger_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/actionBarBackground"
-        android:elevation="10dp"
+        android:background="?attr/gradBackground"
         android:fitsSystemWindows="true">
 
-    <ExpandableListView
-        android:id="@+id/hamburger_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:childDivider="?attr/brightColor"
-        android:dividerHeight="1dp"
-        android:footerDividersEnabled="true"
-        android:groupIndicator="@null"
-        android:scrollbars="none"
-        android:showDividers="end" />
+        <RelativeLayout
+            android:id="@+id/list_view_parent"
+            android:layout_width="@dimen/uikit_hamburger_width"
+            android:layout_height="match_parent">
+
+            <ExpandableListView
+                android:id="@+id/hamburger_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:childDivider="?attr/brightColor"
+                android:dividerHeight="1dp"
+                android:footerDividersEnabled="true"
+                android:groupIndicator="@null"
+                android:scrollbars="none"
+                android:showDividers="end" />
+
+            <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+                android:id="@+id/philips_logo"
+                android:layout_width="@dimen/uikit_hamburger_logo_width"
+                android:layout_height="@dimen/uikit_hamburger_logo_height"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/uikit_hamburger_menu_logo_bottom_margin"
+                android:layout_marginTop="@dimen/uikit_hamburger_menu_logo_top_margin"
+                android:visibility="gone"
+                app:vectorsrc="@drawable/uikit_philips_logo" />
+
+        </RelativeLayout>
 
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

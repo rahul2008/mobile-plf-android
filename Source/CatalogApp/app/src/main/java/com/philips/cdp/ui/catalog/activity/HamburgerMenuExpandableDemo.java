@@ -16,7 +16,10 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
+import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
+import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.OnDataNotified;
 import com.philips.cdp.uikit.costumviews.PhilipsBadgeView;
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsExpandableListAdapter;
@@ -29,7 +32,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class HamburgerMenuExpandableDemo extends CatalogActivity {
+public class HamburgerMenuExpandableDemo extends CatalogActivity implements OnDataNotified {
 
     private String[] hamburgerMenuTitles;
     private TypedArray hamburgerMenuIcons;
@@ -41,6 +44,10 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
     private TextView actionBarTitle;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private VectorDrawableImageView footerView;
+    private HamburgerUtil hamburgerUtil;
+    private PhilipsBadgeView actionBarCount;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -65,10 +72,13 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
             }
         });
         configureDrawer();
+        hamburgerUtil = new HamburgerUtil(this, drawerListView);
+        hamburgerUtil.updateSmartFooter(footerView);
     }
 
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        footerView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
         philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
         drawerListView = (ExpandableListView) findViewById(R.id.hamburger_list);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -177,7 +187,7 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_hamburger_icon));
         actionBarTitle = (TextView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_title);
-        PhilipsBadgeView actionBarCount = (PhilipsBadgeView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_count);
+        actionBarCount = (PhilipsBadgeView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_count);
         actionBarCount.setText("0");
     }
 
@@ -185,5 +195,10 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         actionBarTitle.setText(title);
+    }
+
+    @Override
+    public void onDataSetChanged(String dataCount) {
+        hamburgerUtil.updateSmartFooter(footerView);
     }
 }

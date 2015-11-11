@@ -103,11 +103,9 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     //we need to support API lvl 14+, so cannot change to context.setBackgroundDrawable(): sticking with deprecated API for now
     private void addStates(View convertView) {
         StateListDrawable states = new StateListDrawable();
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.baseColor});
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor});
         states.addState(new int[]{android.R.attr.state_pressed},
                 new ColorDrawable(typedArray.getColor(0, -1)));
-        states.addState(new int[]{},
-                new ColorDrawable(typedArray.getColor(1, -1)));
         convertView.setBackgroundDrawable(states);
     }
 

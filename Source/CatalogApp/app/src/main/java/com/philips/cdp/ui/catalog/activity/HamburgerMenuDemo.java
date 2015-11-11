@@ -79,7 +79,7 @@ public class HamburgerMenuDemo extends CatalogActivity implements OnDataNotified
         philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
         drawerListView = (ListView) findViewById(R.id.hamburger_list);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        footerView = (VectorDrawableImageView) findViewById(R.id.image);
+        footerView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
         setSupportActionBar(toolbar);
     }
 
