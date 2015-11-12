@@ -17,6 +17,13 @@ public class SHNFirmwareInfo {
     private String deviceCloudComponentVersion;
     private SHNFirmwareState state;
 
+    public SHNFirmwareInfo(String version, String deviceCloudComponentName, String deviceCloudComponentVersion, SHNFirmwareState state) {
+        this.version = version;
+        this.deviceCloudComponentName = deviceCloudComponentName;
+        this.deviceCloudComponentVersion = deviceCloudComponentVersion;
+        this.state = state;
+    }
+
     public String getVersion() {
         return version;
     }
