@@ -510,13 +510,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (user.getEmailVerificationStatus(mContext)) {
             launchWelcomeFragment();
         } else {
-            launchAccountActivationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.IS_SOCIAL_PROVIDER, true);
+            launchAccountActivationFragment(bundle);
         }
     }
 
-    private void launchAccountActivationFragment() {
+    private void launchAccountActivationFragment(Bundle bundle) {
         trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
         getRegistrationFragment().addFragment(new AccountActivationFragment());
+        AccountActivationFragment accountActivationFragment = new AccountActivationFragment();
+        accountActivationFragment.setArguments(bundle);
+        getRegistrationFragment().addFragment(accountActivationFragment);
     }
 
     private void launchWelcomeFragment() {

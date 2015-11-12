@@ -66,6 +66,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private ScrollView mSvRootLayout;
 
+    private boolean isSocialProvider;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onAttach");
@@ -84,6 +86,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworStateListener");
+
+        Bundle bundle = getArguments();
+        if (null != bundle) {
+            isSocialProvider = bundle.getBoolean(RegConstants.IS_SOCIAL_PROVIDER);
+        }
         mUser = new User(mContext);
         View view = inflater.inflate(R.layout.fragment_account_activation, null);
         handleOrientation(view);
@@ -198,7 +205,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         DIUserProfile userProfile = mUser.getUserInstance(mContext);
         mEmailId = userProfile.getEmail();
 
-        String email = getString(R.string.RegVerifyEmailView_VerificationEmailText);
+        String email = getString(R.string.VerifyEmail_EmailSentto_lbltxt);
         email = String.format(email, mEmailId);
         tvEmail.setText(email);
 
@@ -291,7 +298,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public int getTitleResourceId() {
-        return R.string.SigIn_TitleTxt;
+        if(isSocialProvider){
+            return R.string.SigIn_TitleTxt;
+        }else{
+            return R.string.RegCreateAccount_NavTitle;
+        }
     }
 
     @Override

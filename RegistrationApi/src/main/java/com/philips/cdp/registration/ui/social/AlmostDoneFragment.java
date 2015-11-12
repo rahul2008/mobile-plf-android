@@ -392,8 +392,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
             mEtEmail.clearFocus();
             if (mBundle == null) {
-                launchWelcomeFragment();
-                return;
+                if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+                    if (mCbAcceptTerms.isChecked()) {
+                        launchWelcomeFragment();
+                        return;
+                    } else {
+                        mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
+                    }
+                } else {
+                    launchWelcomeFragment();
+                    return;
+                }
+
             }
             if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
                 if (mCbAcceptTerms.isChecked()) {
