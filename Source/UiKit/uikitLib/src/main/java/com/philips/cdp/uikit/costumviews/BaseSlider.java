@@ -92,7 +92,7 @@ public class BaseSlider extends SeekBar {
         return d;
     }
 
-    public  Drawable getThumb() {
+    public  Drawable getThumbDrawable() {
         return thumb;
     }
 

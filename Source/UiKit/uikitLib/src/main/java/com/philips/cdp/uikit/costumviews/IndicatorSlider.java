@@ -20,7 +20,7 @@ public class IndicatorSlider extends LinearLayout {
 
     private ImageView indicatorImage;
     private TextView indicatorText;
-    private SeekBar seekbar;
+    private BaseSlider seekbar;
     private FrameLayout sliderFramelayout;
 
     public IndicatorSlider(final Context context) {
@@ -47,7 +47,7 @@ public class IndicatorSlider extends LinearLayout {
             public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
 
                 int padding = getResources().getDimensionPixelSize(R.dimen.slider_padding);
-                int pos = padding + (seekbar.getThumb().getBounds().left + (seekbar.getThumb().getBounds().right - seekbar.getThumb().getBounds().left) / 2 - (indicatorImage.getWidth() / 2));
+                int pos = padding + (seekbar.getThumbDrawable().getBounds().left + (seekbar.getThumbDrawable().getBounds().right - seekbar.getThumbDrawable().getBounds().left) / 2 - (indicatorImage.getWidth() / 2));
                 LayoutParams mparams = (LayoutParams) sliderFramelayout.getLayoutParams();
                 mparams.leftMargin = pos;
                 sliderFramelayout.setLayoutParams(mparams);
@@ -69,7 +69,7 @@ public class IndicatorSlider extends LinearLayout {
     private void setIndicatorPosition() {
 
         int padding = getResources().getDimensionPixelSize(R.dimen.slider_padding);
-        int pos = padding + (seekbar.getThumb().getBounds().left + (seekbar.getThumb().getBounds().right - seekbar.getThumb().getBounds().left) / 2 - (indicatorImage.getWidth() / 2));
+        int pos = padding + (seekbar.getThumbDrawable().getBounds().left + (seekbar.getThumbDrawable().getBounds().right - seekbar.getThumbDrawable().getBounds().left) / 2 - (indicatorImage.getWidth() / 2));
         LayoutParams mparams = (LayoutParams) sliderFramelayout.getLayoutParams();
         mparams.leftMargin = pos;
         sliderFramelayout.setLayoutParams(mparams);
@@ -81,7 +81,7 @@ public class IndicatorSlider extends LinearLayout {
         setIndicatorPosition();
     }
     private void init(Context context) {
-        seekbar = (SeekBar) findViewById(R.id.slider);
+        seekbar = (BaseSlider) findViewById(R.id.slider);
         indicatorImage = (ImageView) findViewById(R.id.slider_indicator);
         sliderFramelayout = (FrameLayout) findViewById(R.id.slider_framelayout);
         indicatorText = (TextView) findViewById(R.id.indicator_text);
