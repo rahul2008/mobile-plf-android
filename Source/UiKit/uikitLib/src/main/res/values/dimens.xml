@@ -62,4 +62,12 @@
 
     <!-- variable to hold info for tablet or phone -->
     <bool name="uikit_istablet">false</bool>
+
+    <!-- For Rating Bar -->
+    <dimen name="star_width">37dp</dimen>
+    <dimen name="star_height">37dp</dimen>
+
+    <dimen name="star_width_small">22dp</dimen>
+    <dimen name="star_height_small">22dp</dimen>
+
 </resources>

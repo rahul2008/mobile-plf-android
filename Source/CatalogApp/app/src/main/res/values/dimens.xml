@@ -6,11 +6,4 @@
     <dimen name="philips_action_button_margin">16dp</dimen>
     <dimen name="app_top_margin">25dp</dimen>
     <dimen name="button_width">150dp</dimen>
-
-    <dimen name="star_width">37dp</dimen>
-    <dimen name="star_height">37dp</dimen>
-
-    <dimen name="star_width_small">22dp</dimen>
-    <dimen name="star_height_small">22dp</dimen>
-
 </resources>
