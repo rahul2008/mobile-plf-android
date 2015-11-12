@@ -13,14 +13,15 @@
         android:layout_height="wrap_content"
          />-->
 
-    <com.philips.cdp.ui.catalog.ratingbar.UIKitRatingBar
+    <com.philips.cdp.uikit.ratingbar.UIKitRatingBar
         android:id="@+id/ratingbig"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         app:isratingbarbig="true"/>
 
-    <com.philips.cdp.ui.catalog.ratingbar.UIKitRatingBar
+    <com.philips.cdp.uikit.ratingbar.UIKitRatingBar
+        android:id="@+id/ratingsmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/ratingbig"

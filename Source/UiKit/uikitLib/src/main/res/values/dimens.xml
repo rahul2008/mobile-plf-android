@@ -66,7 +66,6 @@
     <!-- variable to hold info for tablet or phone -->
     <bool name="uikit_istablet">false</bool>
 
-
     <!--Slider-->
     <dimen name="slider_thumb_width">20dp</dimen>
     <dimen name="slider_thumb_height">20dp</dimen>
@@ -79,4 +78,12 @@
     <dimen name="slider_text_size">14dp</dimen>
     <dimen name="slider_indicator_margin">2dp</dimen>
     <dimen name="slider_textview_margin_bottom">2dp</dimen>
+
+    <!-- For Rating Bar -->
+    <dimen name="star_width">37dp</dimen>
+    <dimen name="star_height">37dp</dimen>
+
+    <dimen name="star_width_small">22dp</dimen>
+    <dimen name="star_height_small">22dp</dimen>
+
 </resources>

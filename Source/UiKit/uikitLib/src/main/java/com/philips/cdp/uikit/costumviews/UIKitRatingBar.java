@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog.ratingbar;
+package com.philips.cdp.uikit.costumviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
-import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.lang.reflect.Method;
