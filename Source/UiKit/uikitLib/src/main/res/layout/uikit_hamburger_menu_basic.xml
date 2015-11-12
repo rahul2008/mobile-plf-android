@@ -16,10 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/gradBackground"
+            android:elevation="@dimen/uikit_toolbar_elevation"
+            android:gravity="center"
             app:contentInsetEnd="0dp"
             app:contentInsetStart="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

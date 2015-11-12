@@ -23,7 +23,6 @@ import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.OnDataNotified;
 import com.philips.cdp.uikit.costumviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
 
@@ -48,6 +47,7 @@ public class HamburgerMenuDemo extends CatalogActivity implements OnDataNotified
     private PhilipsHamburgerAdapter adapter;
     private PhilipsBadgeView actionBarCount;
     private HamburgerUtil hamburgerUtil;
+    private VectorDrawableImageView hamburgerIcon;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -174,14 +174,23 @@ public class HamburgerMenuDemo extends CatalogActivity implements OnDataNotified
     private void initActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
-        actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_hamburger_icon));
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_hamburger_icon));
+        actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
         actionBarCount = (PhilipsBadgeView) findViewById(R.id.hamburger_count);
+        hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
+
         actionBarCount.setText("0");
         Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
         parent.setContentInsetsAbsolute(0, 0);
+
+        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                philipsDrawerLayout.openDrawer(navigationView);
+            }
+        });
     }
 
     @Override
