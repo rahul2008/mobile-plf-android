@@ -70,7 +70,8 @@
     <dimen name="slider_thumb_width">20dp</dimen>
     <dimen name="slider_thumb_height">20dp</dimen>
     <dimen name="slider_thumb_stroke_width">1dp</dimen>
-    <dimen name="slider_bar_width">2dp</dimen>
+    <dimen name="baseslider_bar_width">2dp</dimen>
+    <dimen name="baseslider_bar_padding">2dp</dimen>
     <dimen name="slider_bar_progress">4dp</dimen>
     <dimen name="slider_padding_right">0dp</dimen>
     <dimen name="slider_padding_left">0dp</dimen>
@@ -78,6 +79,9 @@
     <dimen name="slider_text_size">14dp</dimen>
     <dimen name="slider_indicator_margin">2dp</dimen>
     <dimen name="slider_textview_margin_bottom">2dp</dimen>
+	<dimen name="discreteslider_padding">1dp</dimen>
+    <dimen name="discreteslider_circle_radius">1dp</dimen>
+    <dimen name="resolution_factor">1dp</dimen>
 
     <!-- For Rating Bar -->
     <dimen name="star_width">37dp</dimen>
