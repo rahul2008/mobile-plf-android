@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.ratingbar;
+package com.philips.cdp.uikit.costumviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
