@@ -10,17 +10,21 @@ public class TabBarDemo extends CatalogActivity {
 
     TabLayout topLayout;
     TabLayout bottomLayout;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_demo);
         TabLayout view = (TabLayout) findViewById(R.id.tab_bar);
         setTopBar();
         setBottomBar();
         if(savedInstanceState != null) {
-            topLayout.getTabAt(savedInstanceState.getInt("top")).select();
-            bottomLayout.getTabAt(savedInstanceState.getInt("bottom")).select();;
+            topLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    topLayout.getTabAt(savedInstanceState.getInt("top")).select();
+                    bottomLayout.getTabAt(savedInstanceState.getInt("bottom")).select();
+                }
+            });
         }
     }
 
@@ -57,6 +61,10 @@ public class TabBarDemo extends CatalogActivity {
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.gear, 0, true);
         utils.setTitle(tab, "Settings");
         topLayout.addTab(tab);
+
+        tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0, false);
+        utils.setTitle(tab, "Alarm");
+        topLayout.addTab(tab);
     }
 
     private void setBottomBar() {
@@ -76,6 +84,10 @@ public class TabBarDemo extends CatalogActivity {
 
         tab = utils.newTab(0, 0, 0, true);
         utils.setTitle(tab, "Settings");
+        bottomLayout.addTab(tab);
+
+        tab = utils.newTab(0, 0, 0, false);
+        utils.setTitle(tab, "Alarm");
         bottomLayout.addTab(tab);
     }
 }
