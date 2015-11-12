@@ -55,7 +55,6 @@ public class DiscoveryManager<T extends DICommAppliance> {
     private static final Object mDiscoveryLock = new Object();
     private NetworkMonitor mNetwork;
     private SsdpServiceHelper mSsdpHelper;
-    private CppDiscoveryHelper mCppHelper;
 
     private List<DiscoveryEventListener> mDiscoveryEventListenersList;
 
@@ -91,12 +90,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
 
         NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
 
-        CppDiscoveryHelper cppDiscoveryHelper = null;
-        if (cppController != null) {
-            cppDiscoveryHelper = new CppDiscoveryHelper(cppController);
-        }
-
-        DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppDiscoveryHelper, applianceFactory, applianceDatabase, networkMonitor);
+        DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(applianceFactory, applianceDatabase, networkMonitor);
         mInstance = discoveryManager;
         return discoveryManager;
     }
@@ -105,7 +99,7 @@ public class DiscoveryManager<T extends DICommAppliance> {
         return mInstance;
     }
 
-    /* package, for testing */ DiscoveryManager(CppDiscoveryHelper discoveryHelper, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
+    /* package, for testing */ DiscoveryManager(DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
         mApplianceFactory = applianceFactory;
         mApplianceDatabase = applianceDatabase;
 
@@ -113,11 +107,6 @@ public class DiscoveryManager<T extends DICommAppliance> {
         initializeAppliancesMapFromDataBase();
 
         mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), mHandlerCallback);
-
-        mCppHelper = discoveryHelper;
-        if (mCppHelper != null) {
-            mCppHelper.setCppDiscoverEventListener(mCppDiscoverEventListener);
-        }
 
         mNetwork = networkMonitor;
         mNetwork.setListener(mNetworkChangedCallback);
@@ -141,20 +130,13 @@ public class DiscoveryManager<T extends DICommAppliance> {
             mSsdpHelper.startDiscoveryAsync();
             DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
         }
-        if (mCppHelper != null) {
-            mCppHelper.startDiscoveryViaCpp();
-        }
         mNetwork.startNetworkChangedReceiver();
     }
 
     public void stop() {
         mSsdpHelper.stopDiscoveryAsync();
         DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Stop called");
-        if (mCppHelper != null) {
-            mCppHelper.stopDiscoveryViaCpp();
-        }
         mNetwork.stopNetworkChangedReceiver();
-        //mDiscoveryEventListenersList = null;
     }
 
     public ArrayList<T> getAllDiscoveredAppliances() {
@@ -814,10 +796,6 @@ public class DiscoveryManager<T extends DICommAppliance> {
 
     public void setDummySsdpServiceHelperForTesting(SsdpServiceHelper dummyHelper) {
         mSsdpHelper = dummyHelper;
-    }
-
-    public void setDummyCppDiscoveryHelperForTesting(CppDiscoveryHelper dummyHelper) {
-        mCppHelper = dummyHelper;
     }
 
     public void setAppliancesListForTesting(LinkedHashMap<String, T> testMap) {
