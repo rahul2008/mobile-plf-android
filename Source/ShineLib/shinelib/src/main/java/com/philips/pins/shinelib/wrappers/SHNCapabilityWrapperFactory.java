@@ -8,6 +8,7 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigWearingPosition;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityUserInformationLifeSense;
@@ -58,6 +59,12 @@ public class SHNCapabilityWrapperFactory {
             case WearingPosition:
                 shnCapabilityWrapper = new SHNCapabilityConfigWearingPositionWrapper(
                         (SHNCapabilityConfigWearingPosition) shnCapability,
+                        internalHandler,
+                        userHandler);
+                break;
+            case FirmwareUpdate:
+                shnCapabilityWrapper = new SHNCapabilityFirmwareUpdateWrapper(
+                        (SHNCapabilityFirmwareUpdate) shnCapability,
                         internalHandler,
                         userHandler);
                 break;

@@ -1,0 +1,71 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+apply from: '../extra/artifactory.gradle'
+
+android {
+    compileSdkVersion _compileSdkVersion
+    buildToolsVersion _buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion _minSdkVersion
+        targetSdkVersion _targetSdkVersion
+        versionCode _versionCode
+        versionName getLibVersionName(shineLibVersion)
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.1.0'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.2'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.2'
+}
+
+def getLibVersionName(shineLibVersion) {
+    def gitHash = """git rev-parse --short HEAD""".execute().text.trim()
+    def workingBranch = """git rev-parse --abbrev-ref HEAD""".execute().text.trim()
+
+    if (!workingBranch.equals('master')) {
+        return "${shineLibVersion} (${gitHash} ${workingBranch})"
+    }
+
+    return "${shineLibVersion}"
+}
+
+task jacocoTestReport(type:JacocoReport, dependsOn: ["assemble","test"]) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: "${buildDir}/intermediates/classes/debug",
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*Activity.*',
+                       '**/*Fragment.*',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    sourceDirectories = files("${buildDir.parent}/src/main/java")
+    executionData = files("${buildDir}/jacoco/testDebug.exec")
+
+    reports {
+        html.enabled = true
+        xml.enabled = false
+        csv.enabled = false
+    }
+}
