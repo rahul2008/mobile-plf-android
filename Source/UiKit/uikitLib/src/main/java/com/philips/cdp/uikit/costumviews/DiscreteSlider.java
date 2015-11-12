@@ -54,7 +54,7 @@ public class DiscreteSlider extends BaseSlider implements SeekBar.OnSeekBarChang
         int scale = (length - (2 * radius * noDiscretePoint)) / (noDiscretePoint - 1);
 
         canvas.save();
-        int y = (getThumbDrawable().getBounds().bottom - getThumbDrawable().getBounds().top) / 2;
+        int y = (getThumbDrawable().getBounds().bottom + getThumbDrawable().getBounds().top) / 2;
         int x = getScrollX() + baseSliderPadding;
 
         Paint P = new Paint();
