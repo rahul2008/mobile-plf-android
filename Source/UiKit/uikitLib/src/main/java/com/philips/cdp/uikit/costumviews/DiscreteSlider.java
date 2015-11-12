@@ -31,7 +31,7 @@ public class DiscreteSlider extends BaseSlider implements SeekBar.OnSeekBarChang
 
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.slider, 0, 0);
-        noDiscretePoint = a.getInteger(1,5);
+        noDiscretePoint = a.getInteger(0,5);
     }
 
     public DiscreteSlider(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -47,7 +47,9 @@ public class DiscreteSlider extends BaseSlider implements SeekBar.OnSeekBarChang
     @Override
     protected synchronized void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
-
+        if (noDiscretePoint == 1) {
+            return;
+        }
         int length = getMeasuredWidth() - baseSliderPadding;
         int scale = (length - (2 * radius * noDiscretePoint)) / (noDiscretePoint - 1);
 
@@ -77,6 +79,10 @@ public class DiscreteSlider extends BaseSlider implements SeekBar.OnSeekBarChang
 
     @Override
     public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+
+        if (noDiscretePoint == 1) {
+            return;
+        }
 
         double scalefactor = 100.00 / noDiscretePoint;
         double setfactor = (double) (100.00 / (noDiscretePoint - 1));

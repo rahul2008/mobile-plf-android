@@ -10,16 +10,14 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        app:enableBubbleIndictor="false">
+        android:layout_gravity="center">
     </com.philips.cdp.uikit.costumviews.BaseSlider>
 
     <com.philips.cdp.uikit.costumviews.IndicatorSlider
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        app:enableBubbleIndictor="true">
+        android:layout_gravity="center">
     </com.philips.cdp.uikit.costumviews.IndicatorSlider>
 
     <com.philips.cdp.uikit.costumviews.DiscreteSlider
