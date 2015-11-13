@@ -176,6 +176,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
             return;
         } else if (v.getId() == (R.id.your_product_review_preview_send_button)) {
             String productId = DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCtn();
+            productId = productId.replace('/','-');
 
             //set to preview for easier testing, intention here is to submit
             mBazaarVoiceWrapper.submitReview(productId, mBazaarReviewModel,
