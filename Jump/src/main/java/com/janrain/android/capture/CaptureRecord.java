@@ -38,16 +38,12 @@ import android.util.Base64;
 import android.util.Pair;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.Capture.CaptureApiRequestCallbackWithResponse;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -65,6 +61,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import static com.janrain.android.capture.Capture.CaptureApiRequestCallback;
 import static com.janrain.android.capture.Capture.InvalidApidChangeException;
@@ -126,6 +125,7 @@ public class CaptureRecord extends JSONObject {
             fis = null;
             return inflateCaptureRecord(fileContents);
         } catch (FileNotFoundException ignore) {
+        } catch (NullPointerException ignore){
         } catch (JSONException ignore) {
             throwDebugException(new RuntimeException("Bad CaptureRecord file contents:\n" + fileContents,
                     ignore));

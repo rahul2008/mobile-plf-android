@@ -336,7 +336,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     private ClickableSpan mPhilipsNewsLinkClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegUtility.handlePhilipsNews(getRegistrationFragment().getParentActivity());
+            getRegistrationFragment().addPhilipsNewsFragment();
         }
     };
 }

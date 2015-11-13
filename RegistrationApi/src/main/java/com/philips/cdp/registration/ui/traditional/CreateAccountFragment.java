@@ -276,7 +276,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegUtility.handlePhilipsNews(getRegistrationFragment().getParentActivity());
+            getRegistrationFragment().addPhilipsNewsFragment();
         }
     };
 

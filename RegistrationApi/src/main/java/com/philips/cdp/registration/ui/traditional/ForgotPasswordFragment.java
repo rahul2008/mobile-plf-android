@@ -103,6 +103,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         mLlEmailField = (LinearLayout) view.findViewById(R.id.ll_reg_email_field_container);
         mRlContinueBtnContainer = (RelativeLayout) view
                 .findViewById(R.id.rl_reg_btn_continue_container);
+        mEtEmail.setHint(mContext.getResources().getString(R.string.Social_SignIn_Email_PlaceHolder_txtFiled));
     }
 
     @Override

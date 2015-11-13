@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -161,6 +162,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
         mBtnContinue.setOnClickListener(this);
         mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
+
+        ImageView backPressImageView = (ImageView) getRegistrationFragment().getParentActivity().findViewById(R.id.iv_reg_back);
+        backPressImageView.setVisibility(View.GONE);
 
         userProfile = mUser.getUserInstance(mContext);
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + userProfile.getGivenName());

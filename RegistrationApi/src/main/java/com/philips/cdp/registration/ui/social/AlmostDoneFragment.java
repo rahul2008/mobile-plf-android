@@ -315,7 +315,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            RegUtility.handlePhilipsNews(getRegistrationFragment().getParentActivity());
+            getRegistrationFragment().addPhilipsNewsFragment();
         }
     };
 

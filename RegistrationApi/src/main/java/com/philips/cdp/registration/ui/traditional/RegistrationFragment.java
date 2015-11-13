@@ -19,7 +19,6 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -126,7 +125,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
 
             if (fragment instanceof AlmostDoneFragment) {
-                   ((AlmostDoneFragment)(fragment)).clearUserData();
+                ((AlmostDoneFragment) (fragment)).clearUserData();
             }
             trackHandler();
             mFragmentManager.popBackStack();
@@ -241,11 +240,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void navigateToHome() {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        int fragmentCount = fragmentManager.getBackStackEntryCount();
-        for (int i = fragmentCount; i >= 0; i--) {
-            fragmentManager.popBackStack();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FragmentManager fragmentManager = getChildFragmentManager();
+                int fragmentCount = fragmentManager.getBackStackEntryCount();
+                for (int i = fragmentCount; i >= 0; i--) {
+                    fragmentManager.popBackStack();
+                }
+            }
+        });
     }
 
     public void addWelcomeFragmentOnVerification() {
@@ -317,6 +321,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public void addPlaneAlmostDoneFragment() {
         AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
         addFragment(almostDoneFragment);
+    }
+
+    public void addPhilipsNewsFragment() {
+        PhilipsNewsFragment philipsNewsFragment = new PhilipsNewsFragment();
+        addFragment(philipsNewsFragment);
     }
 
     public void addMergeAccountFragment(String registrationToken, String provider, String emailId) {

@@ -156,7 +156,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 		mIvArrowUpView.setVisibility(View.VISIBLE);
 	}
 
-	private void hideErrPopUp() {
+	public void hideErrPopUp() {
 		mTvErrDescriptionView.setVisibility(View.GONE);
 		mIvArrowUpView.setVisibility(View.GONE);
 	}
@@ -191,5 +191,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 			mIvArrowUpView.setVisibility(View.GONE);
 
 		}
+	}
+
+	public void setHint(String hintText){
+		mEtEmail.setHint(hintText);
+	}
+
+	public void clearEmailFieldData(){
+		mEtEmail.getText().clear();
 	}
 }
