@@ -209,6 +209,7 @@
                 android:layout_height="wrap_content"
                 android:text="ProdReviewUrl : "
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="gone"
                 android:textSize="18sp" />
 
             <AutoCompleteTextView

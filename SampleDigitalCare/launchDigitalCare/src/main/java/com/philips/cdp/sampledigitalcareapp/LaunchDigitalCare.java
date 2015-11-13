@@ -77,10 +77,13 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
 
+        // Digital care initialization
+        initializeDigitalCareLibrary();
 
         //setting autocompeletion for category
         mCategory_AutoText = (AutoCompleteTextView) findViewById(R.id.category);
         ArrayList<String> categoryList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.category)));
+        categoryList.add(0, mConsumerProductInfo.getCatalog());
         AutoCompleteAdapter category_adapter = new AutoCompleteAdapter(this,
                 R.layout.list_items, R.id.autotext, categoryList);
         mCategory_AutoText.setAdapter(category_adapter);
@@ -88,6 +91,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         //setting autocompeletion for subcategory
         mSubCategory_AutoText = (AutoCompleteTextView) findViewById(R.id.subcategory);
         ArrayList<String> subcategoryList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.subcategory)));
+        subcategoryList.add(0, mConsumerProductInfo.getSubCategory());
         AutoCompleteAdapter subcategory_adapter = new AutoCompleteAdapter(this,
                 R.layout.list_items, R.id.autotext, subcategoryList);
         mSubCategory_AutoText.setAdapter(subcategory_adapter);
@@ -95,6 +99,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         //setting autocompeletion for ctn
         mCtn_AutoText = (AutoCompleteTextView) findViewById(R.id.ctn);
         ArrayList<String> ctnList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.ctn)));
+        ctnList.add(0, mConsumerProductInfo.getCtn());
         AutoCompleteAdapter ctn_adapter = new AutoCompleteAdapter(this,
                 R.layout.list_items, R.id.autotext, ctnList);
         mCtn_AutoText.setAdapter(ctn_adapter);
@@ -102,6 +107,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         //setting autocompeletion for product_title
         mProductTitle_AutoText = (AutoCompleteTextView) findViewById(R.id.product_title);
         ArrayList<String> productTitleList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.product_title)));
+        productTitleList.add(0, mConsumerProductInfo.getProductTitle());
         AutoCompleteAdapter product_title_adapter = new AutoCompleteAdapter(this,
                 R.layout.list_items, R.id.autotext, productTitleList);
         mProductTitle_AutoText.setAdapter(product_title_adapter);
@@ -109,6 +115,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         //setting autocompeletion for product_review
         mProductReview_AutoText = (AutoCompleteTextView) findViewById(R.id.product_review_url);
         ArrayList<String> productReviewList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.product_review)));
+        productReviewList.add(0, mConsumerProductInfo.getProductTitle());
         AutoCompleteAdapter product_review_adapter = new AutoCompleteAdapter(this,
                 R.layout.list_items, R.id.autotext, productReviewList);
         mProductReview_AutoText.setAdapter(product_review_adapter);
@@ -118,9 +125,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         mCtn_AutoText.setText(ctnList.get(0));
         mProductTitle_AutoText.setText(productTitleList.get(0));
         mProductReview_AutoText.setText(productReviewList.get(0));
-
-        // Digital care initialization
-        initializeDigitalCareLibrary();
 //        registerHockeyApp();
     }
 
