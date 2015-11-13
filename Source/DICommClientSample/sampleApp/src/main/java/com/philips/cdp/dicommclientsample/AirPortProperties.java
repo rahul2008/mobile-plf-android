@@ -14,7 +14,8 @@ public class AirPortProperties {
     public static final String LIGHT_OFF_STRING = "0";
 
     //aqil is the name of the light property in AirPurifier json spec
-    @SerializedName(KEY_LIGHT_STATE) private String lightOn;
+    @SerializedName(KEY_LIGHT_STATE)
+    String lightOn;
 
     public boolean getLightOn() {
         return Integer.parseInt(lightOn) == 1;

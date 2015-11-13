@@ -6,8 +6,6 @@ import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 
-import java.util.Map;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -27,11 +25,13 @@ public class AirPort extends DICommPort<AirPortProperties> {
     @Override
     public boolean isResponseForThisPort(final String jsonResponse) {
         try {
-            jsonParser.fromJson(jsonResponse, AirPortProperties.class);
+            AirPortProperties portProperties = jsonParser.fromJson(jsonResponse, AirPortProperties.class);
+
+            // We need to check that the portProperties content is actually not null
+            return portProperties.lightOn != null;
         } catch (JsonSyntaxException exception) {
             return false;
         }
-        return true;
     }
 
     @Override
