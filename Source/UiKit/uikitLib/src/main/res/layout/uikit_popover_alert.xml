@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="53dp">
+
+    <TextView
+        android:id="@+id/uikit_popover_alert_title"
+        fontPath="fonts/centralesans_book.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:includeFontPadding="false"
+        android:text="Pop Over Alert"
+        android:textColor="@color/uikit_white"
+        android:textSize="14sp"/>
+
+    <ImageView
+        android:id="@+id/uikit_popover_info_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"/>
+
+    <ProgressBar
+        android:id="@+id/uikit_popover_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="224dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/uikit_popover_alert_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:progressDrawable="@drawable/uikit_popover_progress_bar_drawable"/>
+
+    <ImageView
+        android:id="@+id/uikit_popover_close_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"/>
+</RelativeLayout>

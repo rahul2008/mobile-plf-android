@@ -75,6 +75,16 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, TabBarDemo.class));
                 break;
             case 9:
+                startActivity(new Intent(this, SliderActivity.class));
+                break;
+            case 10:
+                startActivity(new Intent(this, RatingBarLauncher.class));
+                break;
+            case 11:
+                startActivity(new Intent(this, ActionBarDemo.class));
+            case 12:
+                startActivity(new Intent(this, ActionBarLauncher.class));
+			case 13:
                 startActivity(new Intent(this, SocialIconsActivity.class));
                 break;
             default:
@@ -113,7 +123,11 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(6, "Input Text Fields");
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
-        itemsMap.put(9, "Social Media Icons");
+        itemsMap.put(9, "Sliders");
+        itemsMap.put(10, "Rating Bar");
+//        itemsMap.put(11, "Action Bar Demo");
+        itemsMap.put(12, "Action Bar Up");
+        itemsMap.put(13, "Social Media Icons");
         return itemsMap;
     }
 }

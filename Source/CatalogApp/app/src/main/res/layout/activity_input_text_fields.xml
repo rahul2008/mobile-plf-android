@@ -5,9 +5,7 @@
     xmlns:inputText="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:background="@color/uikit_white"
-    >
+    android:animateLayoutChanges="true">
 
     <com.philips.cdp.uikit.PuiEditText
         android:id="@+id/input_field_1"

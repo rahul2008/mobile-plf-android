@@ -16,10 +16,10 @@
         <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
-        <item name="themeSwitch">@style/SwitchDarkBlue</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
-        <item name="switchOffColor">@color/uikit_philips_dark_blue</item>
+        <item name="popover_background_gradient_start_color">#CC003478</item>
+        <item name="popover_background_gradient_end_color">#CC0066A1</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange">
@@ -37,10 +37,10 @@
         <item name="errorTextColor">@color/uikit_enricher_red</item>
         <item name="errorIcon">@drawable/uikit_error_cross_red</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg_red</item>
-        <item name="themeSwitch">@style/SwitchBrightOrange</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="splashGradient">@drawable/uikit_grad_orange_bright_to_light</item>
-        <item name="switchOffColor">@color/uikit_philips_bright_orange</item>
+        <item name="popover_background_gradient_start_color">#CC983222</item>
+        <item name="popover_background_gradient_end_color">#CCE98300</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
@@ -58,10 +58,10 @@
         <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
-        <item name="themeSwitch">@style/SwitchBrightAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="splashGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
-        <item name="switchOffColor">@color/uikit_philips_bright_aqua</item>
+        <item name="popover_background_gradient_start_color">#CC156570</item>
+        <item name="popover_background_gradient_end_color">#CC1E9D8B</item>
     </style>
 
 </resources>

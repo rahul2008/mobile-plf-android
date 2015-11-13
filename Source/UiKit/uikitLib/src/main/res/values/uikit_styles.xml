@@ -48,7 +48,11 @@
         <item name="customNavigationLayout">@layout/uikit_about_screen_actionbar_mm</item>
     </style>
 
-    <style name="FontIcon">
+    <style name="Slider">
+        <item name="android:thumbOffset">@dimen/slider_padding_left</item>
+	
+    </style>
+	<style name="FontIcon">
         <item name="fontPath">fonts/puicon.ttf</item>
         <item name="android:textColor">?attr/baseColor</item>
 
@@ -56,5 +60,4 @@
     </style>
     <style name="FontIcon.Small">
         <item name="android:textSize">20sp</item>
-    </style>
 </resources>
