@@ -5,27 +5,39 @@
 
 package com.philips.cdp.dicommclient.subscription;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
+
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.startsWith;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class RemoteSubscriptionHandlerTest extends MockitoTestCase {
 
 	private static final String APPLIANCE_IP = "198.168.1.145";
 	private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
 
+	public static final String dscData = "{\"testKey\":\"testValue\"}";
+	public static final String dscResponse = "{\"status\":0, \"data\":"+dscData+"}";
+	public static final String dscResponseError = "{\"status\":111, \"data\":"+dscData+"}";
+	public static final String dscResponseNullData = "{\"status\":0}";
+
 	private RemoteSubscriptionHandler mRemoteSubscriptionHandler;
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mMockNetworkNode;
 	private WrappedHandler mSubscriptionEventResponseHandler;
 	private CppController mMockCppController;
+
+	@Captor
+	ArgumentCaptor<Runnable> runnableCaptor;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -57,39 +69,61 @@ public class RemoteSubscriptionHandlerTest extends MockitoTestCase {
 		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
 	}
 
-	public void testDCSEventReceivedDataRandomString() {
-		String expected = "dfjalsjdfl";
-		mRemoteSubscriptionHandler.onDCSEventReceived(expected, APPLIANCE_CPPID, null);
-
-		verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
-	}
-
 	public void testDCSEventReceivedEui64Null() {
-		String data = "dfjalsjdfl";
-		mRemoteSubscriptionHandler.onDCSEventReceived(data, null, null);
+		mRemoteSubscriptionHandler.onDCSEventReceived(dscResponse, null, null);
 
 		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
 	}
 
 	public void testDCSEventReceivedEui64EmptyString() {
-		String data = "dfjalsjdfl";
-		mRemoteSubscriptionHandler.onDCSEventReceived(data, "", null);
+		mRemoteSubscriptionHandler.onDCSEventReceived(dscResponse, "", null);
+
+		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
+	}
+
+	public void testDCSEventReceivedWrongEui64() {
+		mRemoteSubscriptionHandler.onDCSEventReceived(dscResponse, "0.0.0.0", null);
 
 		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
 	}
 
 	public void testDCSEventReceivedRightEui64() {
-		String data = "dfjalsjdfl";
-		mRemoteSubscriptionHandler.onDCSEventReceived(data, APPLIANCE_CPPID, null);
+		mRemoteSubscriptionHandler.onDCSEventReceived(dscResponse, APPLIANCE_CPPID, null);
+
+		verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
+	}
+
+	public void testShouldContainCorrectData_WhenRunnableIsExecuted() {
+		mRemoteSubscriptionHandler.onDCSEventReceived(dscResponse, APPLIANCE_CPPID, null);
 
 		verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
 	}
 
-	public void testDCSEventReceivedWrongEui64() {
-		String data = "dfjalsjdfl";
-		mRemoteSubscriptionHandler.onDCSEventReceived(data, "0.0.0.0", null);
+	public void testDCSEventReceivedDataValidString() {
+		mRemoteSubscriptionHandler.onDCSEventReceived(dscResponse, APPLIANCE_CPPID, null);
 
-		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
+		verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
+		runnableCaptor.getValue().run();
+
+		verify(mSubscriptionEventListener).onSubscriptionEventReceived(dscData);
+	}
+
+	public void testDCSEventReceivedDataValidErrorString() {
+		mRemoteSubscriptionHandler.onDCSEventReceived(dscResponseError, APPLIANCE_CPPID, null);
+
+		verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
+		runnableCaptor.getValue().run();
+
+		verify(mSubscriptionEventListener).onSubscriptionEventReceived(startsWith("Error"));
+	}
+
+	public void testDCSEventReceivedDataContentNullString() {
+		mRemoteSubscriptionHandler.onDCSEventReceived(dscResponseNullData, APPLIANCE_CPPID, null);
+
+		verify(mSubscriptionEventResponseHandler).post(runnableCaptor.capture());
+		runnableCaptor.getValue().run();
+
+		verify(mSubscriptionEventListener).onSubscriptionEventReceived(startsWith("Error"));
 	}
 
 	private class RemoteSubscriptionHandlerImpl extends RemoteSubscriptionHandler {
