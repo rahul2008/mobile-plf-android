@@ -22,6 +22,8 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="start_color">#80003478</item>
+        <item name="end_color">#800f204b</item>
 
     </style>
 

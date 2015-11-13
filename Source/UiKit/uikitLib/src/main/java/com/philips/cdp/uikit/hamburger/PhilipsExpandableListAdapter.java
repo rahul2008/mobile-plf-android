@@ -8,8 +8,9 @@ package com.philips.cdp.uikit.hamburger;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -151,12 +152,21 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private void setGroupLayoutAlpha(View convertView) {
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
-        int colorPrimary = typedArray.getColor(0, 0);
-        int newColor = Color.argb(context.getResources().getInteger(R.integer.uikit_hamburger_menu_group_layout_alpha), Color.red(colorPrimary), Color.green(colorPrimary), Color.blue(colorPrimary));
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.start_color, R.attr.end_color});
+        int backgroundGradientStartColor = typedArray.getColor(0, 0);
+        int backgroundGradientEndColor = typedArray.getColor(1, 0);
         typedArray.recycle();
-        convertView.setBackgroundColor(newColor);
+        convertView.setBackgroundDrawable(getBackgroundGradientDrawable(backgroundGradientStartColor, backgroundGradientEndColor));
+
     }
+
+    private Drawable getBackgroundGradientDrawable(int startColor, int endColor) {
+        int[] gradient = new int[]{endColor, startColor};
+        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TR_BL, gradient);
+        drawable.mutate();
+        return drawable;
+    }
+
 
     @Override
     public boolean hasStableIds() {
