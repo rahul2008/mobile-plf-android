@@ -1,8 +1,8 @@
-package com.philips.cdp.uikit.themeutils;
+package com.philips.cdp.ui.catalog.themeutils;
 
 import android.content.SharedPreferences;
 
-import com.philips.cdp.uikit.ColorType;
+import com.philips.cdp.ui.catalog.ColorType;
 import com.philips.cdp.uikit.R;
 
 import java.util.ArrayList;

@@ -143,6 +143,26 @@ public class PuiEditText extends RelativeLayout {
         return editText;
     }
 
+    /**
+     * Returns the error text TextView component of the PuiEditText.
+     * The developer is free to add constraints on this TextView to fit their needs.
+     *
+     * @return Edittext
+     */
+    public TextView getErrorText() {
+        return errorTextView;
+    }
+
+    /**
+     * Returns the error icon ImageView component of the PuiEditText.
+     * The developer is free to add constraints on this ImageView to fit their needs.
+     *
+     * @return Edittext
+     */
+    public ImageView getErrorIcon() {
+        return errorImage;
+    }
+
     private void initErrorMessage(final String errorText) {
         errorTextView = (TextView) getChildAt(3);
         errorTextView.setText(errorText);

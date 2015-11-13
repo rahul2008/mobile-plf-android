@@ -108,7 +108,15 @@
     </declare-styleable>
 
     <declare-styleable name="slider">
-        <attr name="enableBubbleIndictor" format="boolean"/>
+        <attr name="discreteValue" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="popover_alert">
+        <attr name="popover_background_gradient_start_color" format="color"/>
+        <attr name="popover_background_gradient_end_color" format="color"/>
+        <attr name="popover_right_icon" format="reference"/>
+        <attr name="popover_left_icon" format="reference"/>
+        <attr name="popover_title_text" format="reference|string"/>
     </declare-styleable>
 
     <declare-styleable name="hamburger">

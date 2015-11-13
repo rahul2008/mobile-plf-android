@@ -119,8 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/uikit_about_screen_logo_margin"
             android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin_bottom"
-            android:layout_gravity="center"
-            android:src="@drawable/uikit_makers_logo"/>
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 </ScrollView>

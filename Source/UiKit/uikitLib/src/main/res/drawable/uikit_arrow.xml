@@ -7,9 +7,9 @@
         app:vc_viewportHeight="17.0"
         app:vc_viewportWidth="9.0">
     <path
-        android:fillColor="@android:color/white"
+        android:fillColor="?attr/baseColor"
         android:pathData="M0,1.2l7,7.3l-7,7.4L0.9,17L9,8.5L0.9,0L0,1.2z"
 
-        app:vc_fillColor="@android:color/white"
+        app:vc_fillColor="?attr/baseColor"
         app:vc_pathData="M0,1.2l7,7.3l-7,7.4L0.9,17L9,8.5L0.9,0L0,1.2z"/>
 </vector>

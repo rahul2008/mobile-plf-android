@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit;
+package com.philips.cdp.ui.catalog;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

@@ -3,8 +3,8 @@ package com.philips.cdp.uikit;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
-import android.widget.Switch;
 
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -12,7 +12,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PuiSwitch extends Switch{
+public class PuiSwitch extends SwitchCompat {
     public PuiSwitch(final Context context) {
         super(context);
     }
