@@ -25,7 +25,6 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setContentView(com.philips.cdp.uikit.R.layout.test);
         setContentView(R.layout.activity_main);
         createListView();
     }
@@ -75,9 +74,6 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 8:
                 startActivity(new Intent(this, TabBarDemo.class));
                 break;
-            case 9:
-                startActivity(new Intent(this, SocialIconsActivity.class));
-                break;
             default:
                 break;
         }
@@ -114,7 +110,6 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(6, "Input Text Fields");
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
-        itemsMap.put(9, "Social Media Icons");
         return itemsMap;
     }
 }

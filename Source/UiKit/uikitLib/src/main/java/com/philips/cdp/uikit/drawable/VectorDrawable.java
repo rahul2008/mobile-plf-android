@@ -201,7 +201,6 @@ public class VectorDrawable extends Drawable {
     private static final int LINEJOIN_BEVEL = 2;
 
     private static final boolean DBG_VECTOR_DRAWABLE = false;
-    private static final boolean INVERTED_VECTOR_DRAWABLE = false;
 
     private VectorDrawableState mVectorState;
 
@@ -440,7 +439,6 @@ public class VectorDrawable extends Drawable {
         }
         return null;
     }
-
 
     private static int applyAlpha(int color, float alpha) {
         int alphaBytes = Color.alpha(color);
