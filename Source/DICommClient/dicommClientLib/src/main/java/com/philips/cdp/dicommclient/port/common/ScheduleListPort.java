@@ -242,7 +242,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         try {
             Gson gson = new GsonBuilder().create();
             ScheduleListPortInfo.ScheduleListPortInfoFromCpp scheduleListPortInfoFromCpp = gson.fromJson(response, ScheduleListPortInfo.ScheduleListPortInfoFromCpp.class);
-            if (scheduleListPortInfoFromCpp.getData() != null) {
+            if (hasValidPortInfo(scheduleListPortInfoFromCpp)) {
                 scheduleListPortInfo = scheduleListPortInfoFromCpp.getData();
             } else {
                 ScheduleListPortInfo tempPortInfo = gson.fromJson(response, ScheduleListPortInfo.class);
@@ -259,6 +259,18 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         }
 
         return scheduleListPortInfo;
+    }
+
+    private boolean hasValidPortInfo(final ScheduleListPortInfo.ScheduleListPortInfoFromCpp scheduleListPortInfoFromCpp) {
+        boolean isValid = false;
+        ScheduleListPortInfo portInfo = scheduleListPortInfoFromCpp.getData();
+        if (portInfo != null) {
+            isValid = portInfo.getName() != null
+                    && portInfo.getPort() != null
+                    && portInfo.getScheduleTime() != null;
+        }
+
+        return isValid;
     }
 
     List<ScheduleListPortInfo> parseResponseAsScheduleList(String response) {
