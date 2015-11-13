@@ -89,6 +89,23 @@
         android:id="@+id/uikit_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp" />
+        android:layout_margin="20dp"
+        android:checked="false" />
+
+    <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
+        android:id="@+id/badge_view_circle_medium"
+        style="@style/NotificationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="3" />
+
+    <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
+        android:id="@+id/badge_view_square_medium"
+        style="@style/NotificationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="22" />
 
 </LinearLayout>

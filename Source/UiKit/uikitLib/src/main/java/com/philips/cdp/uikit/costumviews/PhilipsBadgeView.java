@@ -53,7 +53,12 @@ public class PhilipsBadgeView extends TextView {
         super(context, attrs, defStyle);
         validateIsSmallView(attrs, getContext());
         resources = getResources();
-        setBackgroundDrawable(getCircleBackground());
+
+        if (getText().length() > 1)
+            setBackgroundDrawable(getSquareRoundBackground());
+        else
+            setBackgroundDrawable(getCircleBackground());
+
         setGravity(Gravity.CENTER);
         handleTextChangeListener();
         setTextColor(resources.getColor(android.R.color.white));
