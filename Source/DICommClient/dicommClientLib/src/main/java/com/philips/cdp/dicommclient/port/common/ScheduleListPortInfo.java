@@ -13,6 +13,7 @@ public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
 
     private String time;
     private String days;
+    private String port;
     private ScheduleListPortInfoMode mode;
     private Map<String, Object> command;
     private int scheduleNumber;
@@ -25,6 +26,14 @@ public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(final String port) {
+        this.port = port;
     }
 
     public String getScheduleTime() {

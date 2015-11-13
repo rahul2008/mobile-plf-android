@@ -10,6 +10,9 @@ import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RemoteSubscriptionHandler extends SubscriptionHandler implements DcsEventListener {
 
     private SubscriptionEventListener mSubscriptionEventListener;
@@ -57,8 +60,28 @@ public class RemoteSubscriptionHandler extends SubscriptionHandler implements Dc
 
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "DCS event received from " + fromEui64);
         DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, data);
+
         if (mSubscriptionEventListener != null) {
-            postSubscriptionEventOnUIThread(data, mSubscriptionEventListener);
+            postSubscriptionEventOnUIThread(extractData(data), mSubscriptionEventListener);
+        }
+    }
+
+    private String extractData(final String data) {
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            int status = jsonObject.getInt("status");
+            JSONObject dataObject = jsonObject.optJSONObject("data");
+
+            if (status > 0) {
+                return "Error, code received: " + data;
+            } else if (dataObject == null) {
+                return "Error, no data received: " + data;
+            } else {
+                return dataObject.toString();
+            }
+        } catch (JSONException e) {
+            DICommLog.i(DICommLog.REMOTEREQUEST, "JSONException: " + e.getMessage());
+            return "Error, JSONException:" + e.getMessage();
         }
     }
 }
