@@ -18,8 +18,8 @@
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
-        <item name="popover_background_gradient_start_color">#E6003478</item>
-        <item name="popover_background_gradient_end_color">#E60066A1</item>
+        <item name="popover_background_gradient_start_color">#CC003478</item>
+        <item name="popover_background_gradient_end_color">#CC0066A1</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange">
@@ -39,8 +39,8 @@
         <item name="errorBackground">@drawable/uikit_edittext_error_bg_red</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="splashGradient">@drawable/uikit_grad_orange_bright_to_light</item>
-        <item name="popover_background_gradient_start_color">#E6983222</item>
-        <item name="popover_background_gradient_end_color">#E6E98300</item>
+        <item name="popover_background_gradient_start_color">#CC983222</item>
+        <item name="popover_background_gradient_end_color">#CCE98300</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
@@ -60,8 +60,8 @@
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="splashGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
-        <item name="popover_background_gradient_start_color">#E6156570</item>
-        <item name="popover_background_gradient_end_color">#E61E9D8B</item>
+        <item name="popover_background_gradient_start_color">#CC156570</item>
+        <item name="popover_background_gradient_end_color">#CC1E9D8B</item>
     </style>
 
 </resources>
