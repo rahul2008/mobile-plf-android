@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
@@ -190,16 +191,16 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
         VectorDrawableImageView hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
 
+        RelativeLayout hamburgerClick = (RelativeLayout) findViewById(R.id.hamburger_click);
         Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
-        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
+        hamburgerClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 philipsDrawerLayout.openDrawer(navigationView);
             }
         });
-
     }
 
     @Override

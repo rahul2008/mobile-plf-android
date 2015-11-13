@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:id="@+id/hamburger_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
         android:id="@+id/hamburger_icon"
         android:layout_width="18dp"
@@ -21,6 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/uikit_hamburger_counter_icon_left_margin"
         android:layout_toRightOf="@+id/hamburger_icon" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/hamburger_title"
