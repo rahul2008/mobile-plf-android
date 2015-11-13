@@ -59,8 +59,8 @@ public class ButtonsActivity extends CatalogActivity {
         });
 
         puiPopoverAlert = (PuiPopoverAlert) findViewById(R.id.popover_alert);
-        puiPopoverAlert.setLeftIcon(leftIcon);
-        puiPopoverAlert.setRightIcon(rightIcon);
+//        puiPopoverAlert.setLeftIcon(leftIcon);
+//        puiPopoverAlert.setRightIcon(rightIcon);
         popoverProgress = puiPopoverAlert.getProgressBar();
     }
 
@@ -77,7 +77,7 @@ public class ButtonsActivity extends CatalogActivity {
         protected Void doInBackground(final Void... params) {
             while (progress < 100) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(100);
                 } catch (InterruptedException ie) {
 
                 }
@@ -95,7 +95,7 @@ public class ButtonsActivity extends CatalogActivity {
         @Override
         protected void onPostExecute(final Void aVoid) {
             try {
-                Thread.sleep(300);
+                Thread.sleep(500);
             } catch (InterruptedException ie) {
             }
             puiPopoverAlert.dismiss();

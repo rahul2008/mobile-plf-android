@@ -67,8 +67,8 @@
         android:id="@+id/popover_alert"
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        app:popover_left_icon="@drawable/info_icon"
-        app:popover_right_icon="@drawable/cross_icon"
+        app:popover_left_icon="@drawable/gear"
+        app:popover_right_icon="@drawable/apple"
         app:popover_title_text="Uploading settings"/>
 
 </RelativeLayout>

@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.TextView;
  */
 public class PuiPopoverAlert extends RelativeLayout {
 
+    private static int viewId = 10050001;
     private Context context;
 
     private TextView titleText;
@@ -42,6 +45,7 @@ public class PuiPopoverAlert extends RelativeLayout {
         titleText = (TextView) findViewById(R.id.uikit_popover_alert_title);
         leftIconImageView = (ImageView) findViewById(R.id.uikit_popover_info_icon);
         progressBar = (ProgressBar) findViewById(R.id.uikit_popover_progress_bar);
+        progressBar.setId(viewId++);
         rightIconImageView = (ImageView) findViewById(R.id.uikit_popover_close_icon);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.popover_alert);
@@ -132,5 +136,63 @@ public class PuiPopoverAlert extends RelativeLayout {
 
     public void setRightIcon(final Drawable rightIcon) {
         this.rightIconImageView.setImageDrawable(rightIcon);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        setVisibility(savedState.visible);
+        progressBar.setProgress(savedState.progress);
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.progress = progressBar.getProgress();
+        savedState.visible = getVisibility();
+        return savedState;
+    }
+
+    static class SavedState extends BaseSavedState {
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(final Parcel source) {
+                        return new SavedState(source);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(final int size) {
+                        return new SavedState[size];
+                    }
+                };
+
+        int progress;
+        int visible;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            this.progress = in.readInt();
+            this.visible = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(final Parcel out, final int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(this.progress);
+            out.writeInt(this.visible);
+        }
     }
 }
