@@ -151,6 +151,9 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to setBackgroundDrawable(): sticking with deprecated API for now
     private void setGroupLayoutAlpha(View convertView) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.start_color, R.attr.end_color});
         int backgroundGradientStartColor = typedArray.getColor(0, 0);
