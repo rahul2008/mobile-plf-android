@@ -33,7 +33,7 @@
             android:layout_marginBottom="@dimen/slider_textview_margin_bottom"
             />
     </FrameLayout>
-    <SeekBar
+    <com.philips.cdp.uikit.costumviews.BaseSlider
         android:id="@+id/slider"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
