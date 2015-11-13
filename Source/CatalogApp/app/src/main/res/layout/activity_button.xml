@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:text="Show notification"/>
+        android:text="Show notification" />
 
     <com.philips.cdp.uikit.PuiSwitch
         android:id="@+id/change_button_state"
@@ -21,7 +21,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="50dp" />
 
     <Button
         android:id="@+id/theme_button"
@@ -68,6 +68,6 @@
         android:layout_height="53dp"
         app:popover_left_icon="@drawable/gear"
         app:popover_right_icon="@drawable/apple"
-        app:popover_title_text="Uploading settings"/>
+        app:popover_title_text="Uploading settings" />
 
 </RelativeLayout>
