@@ -60,9 +60,6 @@ public class BaseSlider extends SeekBar {
     }
 
 
-
-
-
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private void processAttributes() {
@@ -81,6 +78,7 @@ public class BaseSlider extends SeekBar {
 
         return slidebar;
     }
+
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private GradientDrawable getShapeDrawable() {
@@ -92,7 +90,7 @@ public class BaseSlider extends SeekBar {
         return d;
     }
 
-    public  Drawable getThumbDrawable() {
+    public Drawable getThumbDrawable() {
         return thumb;
     }
 

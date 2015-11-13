@@ -109,7 +109,7 @@
     <dimen name="uikit_hamburger_counter_icon_left_margin">4dp</dimen>
     <dimen name="uikit_hamburger_list_top_margin">24dp</dimen>
 
-	<dimen name="discreteslider_padding">1dp</dimen>
+    <dimen name="discreteslider_padding">1dp</dimen>
     <dimen name="discreteslider_circle_radius">1dp</dimen>
     <dimen name="resolution_factor">1dp</dimen>
 

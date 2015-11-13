@@ -89,7 +89,10 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
 
     private void setImageView(final VectorDrawableImageView imgIcon, final int icon, TextView txtTitle) {
         if (icon > 0) {
-            imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
+            if (imgIcon instanceof VectorDrawableImageView)
+                imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
+            else
+                imgIcon.setImageResource(icon);
         } else {
             imgIcon.setVisibility(View.GONE);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) txtTitle.getLayoutParams();

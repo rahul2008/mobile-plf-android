@@ -1,10 +1,8 @@
-<RelativeLayout
-    android:id="@+id/ratingtheme"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ratingtheme"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:id="@+id/UpButton"
@@ -12,27 +10,25 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        >
+        android:paddingRight="15dp">
 
         <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
             android:id="@+id/arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            app:vectorsrc="@drawable/uikit_up_arrow"/>
+            app:vectorsrc="@drawable/uikit_up_arrow" />
     </FrameLayout>
 
 
     <TextView
         android:id="@+id/text"
+        fontPath="fonts/centralesanslight.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:layout_centerInParent="true"
         android:text="Settings"
         android:textColor="#FFFFFF"
-        android:layout_centerInParent="true"
-        fontPath="fonts/centralesanslight.ttf"
-        />
+        android:textSize="20dp" />
 
 </RelativeLayout>

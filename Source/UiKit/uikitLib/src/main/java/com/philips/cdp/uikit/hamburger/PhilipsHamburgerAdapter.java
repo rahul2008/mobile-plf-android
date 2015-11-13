@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,7 +68,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void setValuesToViews(final int position, final VectorDrawableImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
+    private void setValuesToViews(final int position, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
         int icon = hamburgerItems.get(position).getIcon();
         setImageView(imgIcon, icon, txtTitle);
         txtTitle.setText(hamburgerItems.get(position).getTitle());
@@ -83,9 +84,13 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         }
     }
 
-    private void setImageView(final VectorDrawableImageView imgIcon, final int icon, TextView txtTitle) {
+    private void setImageView(final ImageView imgIcon, final int icon, TextView txtTitle) {
         if (icon > 0) {
-            imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
+            if (imgIcon instanceof VectorDrawableImageView)
+                imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
+            else
+                imgIcon.setImageResource(icon);
+
         } else {
             imgIcon.setVisibility(View.GONE);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) txtTitle.getLayoutParams();
@@ -132,7 +137,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     }
 
     static class ViewHolderItem {
-        VectorDrawableImageView imgIcon;
+        ImageView imgIcon;
         TextView txtTitle;
         TextView txtCount;
     }

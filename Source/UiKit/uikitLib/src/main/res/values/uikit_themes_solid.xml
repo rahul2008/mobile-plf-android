@@ -22,13 +22,6 @@
         <item name="hamburgerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
     </style>
 
-    <style name="Theme.Philips.DarkBlue.NoActionBar" parent="@style/NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="popover_background_gradient_start_color">#CC003478</item>
-        <item name="popover_background_gradient_end_color">#CC0066A1</item>
-    </style>
-
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
         <item name="gradBackground">@drawable/uikit_grad_orange_background</item>

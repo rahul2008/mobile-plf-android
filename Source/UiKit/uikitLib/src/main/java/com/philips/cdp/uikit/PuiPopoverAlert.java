@@ -58,13 +58,13 @@ public class PuiPopoverAlert extends RelativeLayout {
         setBackgroundDrawable(getBarckgroundGradientDrawable(backgroundGradientStartColor, backgroundGradientEndColor));
 
         titleText.setText(titleString);
-        if(leftIcon != null) {
+        if (leftIcon != null) {
             leftIconImageView.setImageDrawable(leftIcon);
         } else {
             leftIconImageView.setVisibility(View.GONE);
         }
 
-        if(rightIcon != null) {
+        if (rightIcon != null) {
             rightIconImageView.setImageDrawable(rightIcon);
         } else {
             rightIconImageView.setVisibility(View.GONE);
@@ -95,7 +95,7 @@ public class PuiPopoverAlert extends RelativeLayout {
     }
 
     public void show() {
-        if(!(View.VISIBLE == getVisibility())) {
+        if (!(View.VISIBLE == getVisibility())) {
             setVisibility(View.VISIBLE);
             Animation fadeIn = AnimationUtils.loadAnimation(context, R.anim.uikit_popover_fadein);
             startAnimation(fadeIn);
@@ -103,7 +103,7 @@ public class PuiPopoverAlert extends RelativeLayout {
     }
 
     public void dismiss() {
-        if((View.VISIBLE == getVisibility())) {
+        if ((View.VISIBLE == getVisibility())) {
             setVisibility(View.GONE);
             Animation fadeOut = AnimationUtils.loadAnimation(context, R.anim.uikit_popover_fadeout);
             startAnimation(fadeOut);

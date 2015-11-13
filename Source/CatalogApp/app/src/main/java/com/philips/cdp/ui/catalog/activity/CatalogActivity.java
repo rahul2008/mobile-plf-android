@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.cdp.uikit.themeutils.ThemeUtils;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

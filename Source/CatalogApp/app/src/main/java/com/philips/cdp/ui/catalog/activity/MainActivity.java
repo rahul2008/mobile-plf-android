@@ -10,8 +10,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.RatingBarLauncher;
 import com.philips.cdp.ui.catalog.SplashLauncher;
-import com.philips.cdp.uikit.themeutils.ThemeUtils;
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -83,11 +84,11 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
 			case 11:
                 startActivity(new Intent(this, ActionBarDemo.class));
-				break;
+                break;
             case 12:
                 startActivity(new Intent(this, ActionBarLauncher.class));
-				break;
-			case 13:
+                break;
+            case 13:
                 startActivity(new Intent(this, HamburgerActivity.class));
 				break;
             default:

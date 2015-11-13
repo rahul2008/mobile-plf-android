@@ -26,7 +26,7 @@ public class AboutScreenMM extends UiKitActivity {
         });
 
         ImageView logo = (ImageView) findViewById(R.id.about_screen_logo);
-        logo.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.uikit_makers_logo, null));
+        logo.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.uikit_makers_logo, null));
         findViewById(R.id.aboutscreen_back).setVisibility(View.GONE);
     }
 }

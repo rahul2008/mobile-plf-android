@@ -22,17 +22,18 @@
             app:vectorsrc="@drawable/uikit_slider_bubble" />
         <TextView
             android:id="@+id/indicator_text"
+            fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/slider_textview_margin_bottom"
             android:lines="1"
             android:text="0"
-            android:textSize="@dimen/slider_text_size"
-            fontPath="fonts/centralesansbold.ttf"
             android:textColor="?attr/baseColor"
-            android:layout_marginBottom="@dimen/slider_textview_margin_bottom"
+            android:textSize="@dimen/slider_text_size"
             />
     </FrameLayout>
+
     <com.philips.cdp.uikit.costumviews.BaseSlider
         android:id="@+id/slider"
         android:layout_width="fill_parent"

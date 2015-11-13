@@ -1,34 +1,24 @@
 package com.philips.cdp.ui.catalog.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class ActionBarLauncher extends CatalogActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-       // requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        // requestWindowFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-     //   setContentView(R.layout.action_bar);
+        //   setContentView(R.layout.action_bar);
 
         ActionBar mActionBar = this.getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -57,7 +47,7 @@ public class ActionBarLauncher extends CatalogActivity {
         mActionBar.setCustomView(mCustomView, params);
         mActionBar.setDisplayShowCustomEnabled(true);
 
-        Toolbar parent =(Toolbar) mCustomView.getParent();
+        Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
     }
 }
