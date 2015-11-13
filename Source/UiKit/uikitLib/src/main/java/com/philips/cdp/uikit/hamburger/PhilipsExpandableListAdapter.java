@@ -31,12 +31,14 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader;
     private HashMap<String, List<HamburgerItem>> listDataChild;
+    private int totalCount = 0;
 
     public PhilipsExpandableListAdapter(Context context, List<String> listDataHeader,
                                         HashMap<String, List<HamburgerItem>> listChildData) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;
+        calculateCount();
     }
 
     @Override
@@ -81,7 +83,7 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
         int icon = hamburgerItem.getIcon();
         setImageView(imgIcon, icon, txtTitle);
         txtTitle.setText(hamburgerItem.getTitle());
-        String count = hamburgerItem.getCount();
+        int count = hamburgerItem.getCount();
         setTextView(txtCount, count);
     }
 
@@ -96,9 +98,10 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private void setTextView(final TextView txtCount, final String count) {
-        if (count != null && !count.equals("0")) {
-            txtCount.setText(count);
+    private void setTextView(final TextView txtCount, final int count) {
+        if (count > 0) {
+            txtCount.setText(String.valueOf(count));
+            totalCount += count;
         } else {
             txtCount.setVisibility(View.INVISIBLE);
         }
@@ -180,5 +183,26 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
         int[] colors = new int[]{context.getResources().getColor(android.R.color.white), context.getResources().getColor(android.R.color.white), typedArray.getColor(0, -1)};
         ColorStateList colorStateList = new ColorStateList(states, colors);
         txtTitle.setTextColor(colorStateList);
+    }
+
+    public String calculateCount() {
+        for (String header : listDataHeader) {
+            List<HamburgerItem> hamburgerItems = listDataChild.get(header);
+            for (HamburgerItem hamburgerItem : hamburgerItems) {
+                totalCount += hamburgerItem.getCount();
+            }
+        }
+        return String.valueOf(totalCount);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        totalCount = 0;
+        calculateCount();
+    }
+
+    public int getCounterValue() {
+        return totalCount;
     }
 }

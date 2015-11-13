@@ -105,9 +105,9 @@
     <dimen name="uikit_notification_label_square_round_textSize_small">14sp</dimen>
     <dimen name="uikit_notification_label_small_circle_radius">20dp</dimen>
     <dimen name="uikit_notification_label_square_round_padding">4dp</dimen>
-    <dimen name="uikit_toolbar_height">56dp</dimen>
     <dimen name="uikit_toolbar_elevation">6dp</dimen>
     <dimen name="uikit_hamburger_icon_left_margin">14dp</dimen>
     <dimen name="uikit_hamburger_counter_icon_left_margin">4dp</dimen>
+    <dimen name="uikit_hamburger_list_top_margin">24dp</dimen>
 
 </resources>

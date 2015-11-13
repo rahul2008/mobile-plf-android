@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/gradBackground"
+            android:background="?attr/actionBarBackground"
             android:elevation="@dimen/uikit_toolbar_elevation"
             app:contentInsetEnd="0dp"
             app:contentInsetStart="0dp"
@@ -27,7 +27,7 @@
         android:layout_width="@dimen/uikit_hamburger_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/gradBackground"
+        android:background="?attr/hamburgerGradient"
         android:fitsSystemWindows="true">
 
         <RelativeLayout
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/uikit_hamburger_list_top_margin"
                 android:childDivider="?attr/brightColor"
                 android:dividerHeight="1dp"
                 android:footerDividersEnabled="true"

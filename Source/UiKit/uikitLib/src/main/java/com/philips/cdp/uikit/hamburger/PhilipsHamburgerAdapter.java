@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.OnDataNotified;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -24,15 +23,12 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
-    private OnDataNotified onDataNotified;
+    private int totalCount = 0;
 
     public PhilipsHamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
-    }
-
-    public void setOnDataNotified(OnDataNotified onDataNotified) {
-        this.onDataNotified = onDataNotified;
+        calculateCount();
     }
 
     @Override
@@ -68,7 +64,6 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
         setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount);
-        notifyCounter();
         return convertView;
     }
 
@@ -76,13 +71,13 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         int icon = hamburgerItems.get(position).getIcon();
         setImageView(imgIcon, icon, txtTitle);
         txtTitle.setText(hamburgerItems.get(position).getTitle());
-        String count = hamburgerItems.get(position).getCount();
+        int count = hamburgerItems.get(position).getCount();
         setTextView(txtCount, count);
     }
 
-    private void setTextView(final TextView txtCount, final String count) {
-        if (count != null && !count.equals("0")) {
-            txtCount.setText(count);
+    private void setTextView(final TextView txtCount, final int count) {
+        if (count > 0) {
+            txtCount.setText(String.valueOf(count));
         } else {
             txtCount.setVisibility(View.GONE);
         }
@@ -119,23 +114,21 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         txtTitle.setTextColor(colorStateList);
     }
 
-    public String getCounter() {
-        int counter = 0;
-        for (HamburgerItem hamburgerItem : hamburgerItems) {
-            counter += Integer.parseInt(hamburgerItem.getCount());
-        }
-        return String.valueOf(counter);
+    public int getCounterValue() {
+        return totalCount;
     }
 
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
-        notifyCounter();
+        totalCount = 0;
+        calculateCount();
     }
 
-    private void notifyCounter() {
-        if (onDataNotified != null)
-            onDataNotified.onDataSetChanged(getCounter());
+    public void calculateCount() {
+        for (HamburgerItem hamburgerItem : hamburgerItems) {
+            totalCount += hamburgerItem.getCount();
+        }
     }
 
     static class ViewHolderItem {

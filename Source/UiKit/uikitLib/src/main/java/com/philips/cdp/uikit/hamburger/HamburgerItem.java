@@ -4,7 +4,7 @@ public class HamburgerItem {
 
     private String title;
     private int icon;
-    private String count;
+    private int count;
 
     public HamburgerItem() {
     }
@@ -14,7 +14,7 @@ public class HamburgerItem {
         this.icon = icon;
     }
 
-    public HamburgerItem(String title, int icon, String count) {
+    public HamburgerItem(String title, int icon, int count) {
         this.title = title;
         this.icon = icon;
         this.count = count;
@@ -36,11 +36,11 @@ public class HamburgerItem {
         this.icon = icon;
     }
 
-    public String getCount() {
+    public int getCount() {
         return this.count;
     }
 
-    public void setCount(String count) {
+    public void setCount(int count) {
         this.count = count;
     }
 }

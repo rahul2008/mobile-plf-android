@@ -20,9 +20,9 @@ import android.widget.Toast;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
 import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
-import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.OnDataNotified;
 import com.philips.cdp.uikit.costumviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
 
@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class HamburgerMenuDemo extends CatalogActivity implements OnDataNotified {
+public class HamburgerMenuDemo extends CatalogActivity {
 
     private String[] hamburgerMenuTitles;
     private TypedArray hamburgerMenuIcons;
@@ -121,21 +121,31 @@ public class HamburgerMenuDemo extends CatalogActivity implements OnDataNotified
 
     private void addDrawerItems() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0, String.valueOf(i + 1)));
+            if (i == 4) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0, 3));
+            } else if (i == 6) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0, 22));
+            } else
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0));
         }
     }
 
     private void addDrawerItemsWithIcons() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
-            hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1), String.valueOf(i + 1)));
+            if (i == 4) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1), 3));
+            } else if (i == 6) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1), 22));
+            } else
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1)));
         }
     }
 
     private void setDrawerAdaptor() {
         adapter = new PhilipsHamburgerAdapter(this,
                 hamburgerItems);
-        adapter.setOnDataNotified(this);
         drawerListView.setAdapter(adapter);
+        actionBarCount.setText(String.valueOf(adapter.getCounterValue()));
     }
 
     private void displayView(int position) {
@@ -174,14 +184,12 @@ public class HamburgerMenuDemo extends CatalogActivity implements OnDataNotified
     private void initActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
-//        actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_hamburger_icon));
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
         actionBarCount = (PhilipsBadgeView) findViewById(R.id.hamburger_count);
         hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
-
-        actionBarCount.setText("0");
+        hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
@@ -191,12 +199,6 @@ public class HamburgerMenuDemo extends CatalogActivity implements OnDataNotified
                 philipsDrawerLayout.openDrawer(navigationView);
             }
         });
-    }
-
-    @Override
-    public void onDataSetChanged(String dataCount) {
-        actionBarCount.setText(dataCount);
-        hamburgerUtil.updateSmartFooter(footerView);
     }
 
     @Override

@@ -20,8 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/uikit_hamburger_counter_icon_left_margin"
-        android:layout_toRightOf="@+id/hamburger_icon"
-        android:text="10" />
+        android:layout_toRightOf="@+id/hamburger_icon" />
 
     <TextView
         android:id="@+id/hamburger_title"

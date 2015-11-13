@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
 import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
-import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.OnDataNotified;
 import com.philips.cdp.uikit.costumviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -32,7 +31,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class HamburgerMenuExpandableDemo extends CatalogActivity implements OnDataNotified {
+public class HamburgerMenuExpandableDemo extends CatalogActivity {
 
     private String[] hamburgerMenuTitles;
     private TypedArray hamburgerMenuIcons;
@@ -88,6 +87,7 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity implements OnDa
     private void setHamburgerAdaptor() {
         final PhilipsExpandableListAdapter listAdapter = new PhilipsExpandableListAdapter(this, listDataHeader, listDataChild);
         drawerListView.setAdapter(listAdapter);
+        actionBarCount.setText(String.valueOf(listAdapter.getCounterValue()));
     }
 
     private void loadSlideMenuItems() {
@@ -148,19 +148,19 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity implements OnDa
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], 0));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], 0));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], 0));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], 0));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], 0, 3));
 
             Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], 0));
-            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], 0));
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], 0, 22));
         } else if (feature == 2) {
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[0], hamburgerMenuIcons.getResourceId(0, -1)));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], hamburgerMenuIcons.getResourceId(1, -1)));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], hamburgerMenuIcons.getResourceId(2, -1)));
             Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], hamburgerMenuIcons.getResourceId(3, -1)));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], hamburgerMenuIcons.getResourceId(4, -1)));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], hamburgerMenuIcons.getResourceId(4, -1), 3));
 
             Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], hamburgerMenuIcons.getResourceId(5, -1)));
-            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], hamburgerMenuIcons.getResourceId(6, -1)));
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], hamburgerMenuIcons.getResourceId(6, -1), 22));
         }
 
         listDataChild.put(listDataHeader.get(0), Title_Long);
@@ -183,12 +183,23 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity implements OnDa
     private void initActionBar(ActionBar actionBar) {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setHomeAsUpIndicator(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_hamburger_icon));
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(true);
         actionBarTitle = (TextView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_title);
         actionBarCount = (PhilipsBadgeView) actionBar.getCustomView().findViewById(com.philips.cdp.uikit.R.id.hamburger_count);
-        actionBarCount.setText("0");
+        VectorDrawableImageView hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
+        hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
+
+        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+
+        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                philipsDrawerLayout.openDrawer(navigationView);
+            }
+        });
+
     }
 
     @Override
@@ -197,8 +208,4 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity implements OnDa
         actionBarTitle.setText(title);
     }
 
-    @Override
-    public void onDataSetChanged(String dataCount) {
-        hamburgerUtil.updateSmartFooter(footerView);
-    }
 }
