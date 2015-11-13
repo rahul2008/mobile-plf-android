@@ -60,4 +60,5 @@
     </style>
     <style name="FontIcon.Small">
         <item name="android:textSize">20sp</item>
+    </style>
 </resources>

@@ -12,20 +12,10 @@ public class SocialIconsActivity extends CatalogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initFontIconLib();
+
         setContentView(R.layout.activity_social_icons);
     }
 
 
 
-    private void initFontIconLib() {
-        try {
-            FontIconTypefaceHolder.getTypeface();
-
-        }
-    catch(IllegalStateException e)
-        {
-            FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
-        }
-    }
 }
