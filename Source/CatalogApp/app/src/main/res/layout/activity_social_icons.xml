@@ -124,9 +124,44 @@ android:background="@android:color/white">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/baseColor"
         android:orientation="horizontal">
 
-
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           style="@style/FontIcon.Inverse"
+            android:layout_margin="20dp"
+            android:text="@string/uikit_fonticon_twitter"
+            />
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           style="@style/FontIcon.Inverse"
+            android:text="@string/uikit_fonticon_linkedin"
+            android:layout_margin="20dp"
+            />
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           style="@style/FontIcon.Inverse"
+            android:text="@string/uikit_fonticon_youtube"
+            android:layout_margin="20dp"
+            />
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/FontIcon.Inverse"
+            android:text="@string/uikit_fonticon_pininterest"
+            android:layout_margin="20dp"
+            />
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           style="@style/FontIcon.Inverse"
+            android:text="@string/uikit_fonticon_facebook"
+            android:layout_margin="20dp"
+            />
     </LinearLayout>
 </HorizontalScrollView>
 
@@ -142,9 +177,44 @@ android:background="@android:color/white">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="10dp"
+        android:background="?attr/baseColor"
         android:orientation="horizontal">
-
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/FontIcon.SmallInverse"
+            android:layout_margin="20dp"
+            android:text="@string/uikit_fonticon_twitter"
+            />
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/FontIcon.SmallInverse"
+            android:text="@string/uikit_fonticon_linkedin"
+            android:layout_margin="20dp"
+            />
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/FontIcon.SmallInverse"
+            android:text="@string/uikit_fonticon_youtube"
+            android:layout_margin="20dp"
+            />
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/FontIcon.SmallInverse"
+            android:text="@string/uikit_fonticon_pininterest"
+            android:layout_margin="20dp"
+            />
+        <com.shamanland.fonticon.FontIconView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/FontIcon.SmallInverse"
+            android:text="@string/uikit_fonticon_facebook"
+            android:layout_margin="20dp"
+            />
 
     </LinearLayout>
 </HorizontalScrollView>
