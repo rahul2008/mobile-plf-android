@@ -1,12 +1,19 @@
 package com.philips.cdp.ui.catalog.activity;
 
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.TabUtils;
 
-public class TabBarDemo extends CatalogActivity {
+public class TabBarDemo extends AppCompatActivity {
 
     TabLayout topLayout;
     TabLayout bottomLayout;
@@ -14,6 +21,7 @@ public class TabBarDemo extends CatalogActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_demo);
+        disableActionbarShadow(this);
         TabLayout view = (TabLayout) findViewById(R.id.tab_bar);
         setTopBar();
         setBottomBar();
@@ -32,14 +40,14 @@ public class TabBarDemo extends CatalogActivity {
     protected void onResume() {
         super.onResume();
         TabUtils.adjustTabs(topLayout, this);
-        TabUtils.adjustTabs(bottomLayout,this);
+        TabUtils.adjustTabs(bottomLayout, this);
     }
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("top", topLayout.getSelectedTabPosition());
-        outState.putInt("bottom",bottomLayout.getSelectedTabPosition());
+        outState.putInt("bottom", bottomLayout.getSelectedTabPosition());
     }
 
     private void setTopBar() {
@@ -89,5 +97,27 @@ public class TabBarDemo extends CatalogActivity {
         tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Alarm");
         bottomLayout.addTab(tab);
+    }
+
+    public void disableActionbarShadow(Activity activity) {
+        if (activity == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (activity instanceof AppCompatActivity) {
+                if (((AppCompatActivity) activity).getSupportActionBar() != null)
+                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
+            } else {
+                if (activity.getActionBar() != null)
+                    activity.getActionBar().setElevation(0);
+            }
+        } else {
+            View content = activity.findViewById(android.R.id.content);
+            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
+                ((ViewGroup) content.getParent()).setWillNotDraw(true);
+
+                if (content instanceof FrameLayout) {
+                    ((FrameLayout) content).setForeground(null);
+                }
+            }
+        }
     }
 }
