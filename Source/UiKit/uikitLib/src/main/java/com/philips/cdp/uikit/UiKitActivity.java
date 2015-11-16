@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -17,16 +17,28 @@ public class UiKitActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+
     }
 
     @Override
     public void onCreate(final Bundle savedInstanceState, final PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-
+        initFontIconLib();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/centralesans_book.ttf")
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
+
+    }
+    private void initFontIconLib() {
+        try {
+            FontIconTypefaceHolder.getTypeface();
+
+        }
+        catch(IllegalStateException e)
+        {
+            FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
+        }
     }
 }
