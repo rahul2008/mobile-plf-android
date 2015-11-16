@@ -52,7 +52,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.uikit_hamburger_menu_basic);
+        setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());
         configureDrawer();
