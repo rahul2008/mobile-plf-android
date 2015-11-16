@@ -145,23 +145,23 @@ public class HamburgerMenuExpandableDemo extends CatalogActivity {
         List<HamburgerItem> Title_Long = new ArrayList<>();
         List<HamburgerItem> Title_long = new ArrayList<>();
         if (feature == 1) {
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[0], 0));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], 0));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], 0));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], 0));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], 0, 3));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[0], null));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], null));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], null));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], null));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], null, 3));
 
-            Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], 0));
-            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], 0, 22));
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], null));
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], null, 22));
         } else if (feature == 2) {
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[0], hamburgerMenuIcons.getResourceId(0, -1)));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], hamburgerMenuIcons.getResourceId(1, -1)));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], hamburgerMenuIcons.getResourceId(2, -1)));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], hamburgerMenuIcons.getResourceId(3, -1)));
-            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], hamburgerMenuIcons.getResourceId(4, -1), 3));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[0], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(0, -1))));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[1], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(1, -1))));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[2], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(2, -1))));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[3], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(3, -1))));
+            Title_Long.add(new HamburgerItem(hamburgerMenuTitles[4], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(4, -1)), 3));
 
-            Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], hamburgerMenuIcons.getResourceId(5, -1)));
-            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], hamburgerMenuIcons.getResourceId(6, -1), 22));
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[5], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(5, -1))));
+            Title_long.add(new HamburgerItem(hamburgerMenuTitles[6], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(6, -1)), 22));
         }
 
         listDataChild.put(listDataHeader.get(0), Title_Long);

@@ -123,22 +123,22 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private void addDrawerItems() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
             if (i == 4) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0, 3));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 3));
             } else if (i == 6) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0, 22));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 22));
             } else
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], 0));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null));
         }
     }
 
     private void addDrawerItemsWithIcons() {
         for (int i = 0; i < hamburgerMenuTitles.length; i++) {
             if (i == 4) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1), 3));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 3));
             } else if (i == 6) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1), 22));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 22));
             } else
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], hamburgerMenuIcons.getResourceId(i, -1)));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1))));
         }
     }
 

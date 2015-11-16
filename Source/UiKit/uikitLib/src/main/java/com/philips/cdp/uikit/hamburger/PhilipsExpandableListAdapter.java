@@ -7,7 +7,10 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -17,12 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.ColorFilterStateListDrawable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +36,10 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> listDataHeader;
     private HashMap<String, List<HamburgerItem>> listDataChild;
     private int totalCount = 0;
+    private int enabledColor;
+    private int disabledColor;
+    private PorterDuffColorFilter enabledFilter;
+    private PorterDuffColorFilter disabledFilter;
 
     public PhilipsExpandableListAdapter(Context context, List<String> listDataHeader,
                                         HashMap<String, List<HamburgerItem>> listChildData) {
@@ -69,7 +76,7 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
         TextView hamburgerItemText = (TextView) convertView
                 .findViewById(R.id.hamburger_item_text);
 
-        VectorDrawableImageView imageView = (VectorDrawableImageView) convertView
+        ImageView imageView = (ImageView) convertView
                 .findViewById(R.id.hamburger_list_icon);
 
         TextView hamburgerItemCounter = (TextView) convertView
@@ -80,26 +87,41 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    private void setValuesToViews(final HamburgerItem hamburgerItem, final VectorDrawableImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
-        int icon = hamburgerItem.getIcon();
+    private void setValuesToViews(final HamburgerItem hamburgerItem, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
+        Drawable icon = hamburgerItem.getIcon();
         setImageView(imgIcon, icon, txtTitle);
         txtTitle.setText(hamburgerItem.getTitle());
         int count = hamburgerItem.getCount();
         setTextView(txtCount, count);
     }
 
-    private void setImageView(final VectorDrawableImageView imgIcon, final int icon, TextView txtTitle) {
-        if (icon > 0) {
-            if (imgIcon instanceof VectorDrawableImageView)
-                imgIcon.setImageDrawable(VectorDrawable.create(context, icon));
-            else
-                imgIcon.setImageResource(icon);
+    private void setImageView(final ImageView imgIcon, final Drawable icon, TextView txtTitle) {
+        if (icon != null) {
+            imgIcon.setImageDrawable(getHamburgerIconSelector(icon));
         } else {
             imgIcon.setVisibility(View.GONE);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) txtTitle.getLayoutParams();
             layoutParams.leftMargin = (int) context.getResources().getDimension(R.dimen.uikit_hamburger_item_title_left_margin);
             txtTitle.setLayoutParams(layoutParams);
         }
+    }
+
+    private void initIconColorFilters() {
+        enabledFilter = new PorterDuffColorFilter(enabledColor, PorterDuff.Mode.SRC_ATOP);
+        disabledFilter = new PorterDuffColorFilter(disabledColor, PorterDuff.Mode.SRC_ATOP);
+    }
+
+    private Drawable getHamburgerIconSelector(Drawable drawable) {
+        initIconColorFilters();
+        Drawable enabled = drawable.getConstantState().newDrawable().mutate();
+        Drawable disabled = drawable.getConstantState().newDrawable().mutate();
+
+        ColorFilterStateListDrawable selector = new ColorFilterStateListDrawable();
+        selector.addState(new int[]{android.R.attr.state_activated}, enabled, enabledFilter);
+        selector.addState(new int[]{android.R.attr.state_pressed}, enabled, enabledFilter);
+        selector.addState(new int[]{}, disabled, disabledFilter);
+
+        return selector;
     }
 
     private void setTextView(final TextView txtCount, final int count) {
@@ -196,7 +218,10 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
     private void addStatesToText(TextView txtTitle) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor});
         int[][] states = new int[][]{new int[]{android.R.attr.state_activated}, new int[]{android.R.attr.state_pressed}, new int[]{-android.R.attr.state_activated}};
-        int[] colors = new int[]{context.getResources().getColor(android.R.color.white), context.getResources().getColor(android.R.color.white), typedArray.getColor(0, -1)};
+        Resources resources = context.getResources();
+        enabledColor = android.R.color.white;
+        disabledColor = typedArray.getColor(0, -1);
+        int[] colors = new int[]{resources.getColor(enabledColor), resources.getColor(enabledColor), disabledColor};
         ColorStateList colorStateList = new ColorStateList(states, colors);
         txtTitle.setTextColor(colorStateList);
     }

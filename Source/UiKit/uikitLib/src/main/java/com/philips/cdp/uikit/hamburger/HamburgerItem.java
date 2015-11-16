@@ -1,20 +1,22 @@
 package com.philips.cdp.uikit.hamburger;
 
+import android.graphics.drawable.Drawable;
+
 public class HamburgerItem {
 
     private String title;
-    private int icon;
+    private Drawable icon;
     private int count;
 
     public HamburgerItem() {
     }
 
-    public HamburgerItem(String title, int icon) {
+    public HamburgerItem(String title, Drawable icon) {
         this.title = title;
         this.icon = icon;
     }
 
-    public HamburgerItem(String title, int icon, int count) {
+    public HamburgerItem(String title, Drawable icon, int count) {
         this.title = title;
         this.icon = icon;
         this.count = count;
@@ -28,11 +30,11 @@ public class HamburgerItem {
         this.title = title;
     }
 
-    public int getIcon() {
+    public Drawable getIcon() {
         return this.icon;
     }
 
-    public void setIcon(int icon) {
+    public void setIcon(Drawable icon) {
         this.icon = icon;
     }
 
