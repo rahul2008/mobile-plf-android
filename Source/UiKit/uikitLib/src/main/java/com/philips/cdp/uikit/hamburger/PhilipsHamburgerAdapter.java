@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
@@ -57,33 +58,69 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolderItem viewHolder;
+        HamburgerItem hamburgerItem = hamburgerItems.get(position);
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
+            if (hamburgerItem.isParent()) {
+                convertView = mInflater.inflate(R.layout.uikit_hamburger_list_group, parent, false);
+                convertView.setSelected(false);
+                setGroupLayoutAlpha(convertView);
+            } else {
+                convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
+                addStates(convertView);
+            }
+
             viewHolder = new ViewHolderItem();
-            viewHolder.imgIcon = (ImageView) convertView.findViewById(R.id.hamburger_list_icon);
             viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
+            viewHolder.imgIcon = (ImageView) convertView.findViewById(R.id.hamburger_list_icon);
             viewHolder.txtCount = (TextView) convertView.findViewById(R.id.list_counter);
+            viewHolder.bottomDivider = convertView.findViewById(R.id.divider_bottom);
             convertView.setTag(viewHolder);
-            addStates(convertView);
-            addStatesToText(viewHolder.txtTitle);
+            validateBottomDivider(hamburgerItem, viewHolder.bottomDivider);
         } else {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
-        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount);
+        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItem);
         return convertView;
     }
 
-    private void setValuesToViews(final int position, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount) {
-        Drawable icon = hamburgerItems.get(position).getIcon();
-        setImageView(imgIcon, icon, txtTitle);
-        txtTitle.setText(hamburgerItems.get(position).getTitle());
-        int count = hamburgerItems.get(position).getCount();
-        setTextView(txtCount, count);
+    private void validateBottomDivider(HamburgerItem hamburgerItem, View bottomDivider) {
+        if (hamburgerItem.isLastChild())
+            bottomDivider.setVisibility(View.INVISIBLE);
     }
 
-    private void setTextView(final TextView txtCount, final int count) {
+
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to setBackgroundDrawable(): sticking with deprecated API for now
+    private void setGroupLayoutAlpha(View convertView) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        int baseColor = typedArray.getColor(0, 0);
+        typedArray.recycle();
+        convertView.setBackgroundColor(adjustAlpha(baseColor, 0.5f));
+    }
+
+
+    private int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
+    }
+
+    private void setValuesToViews(final int position, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount, HamburgerItem hamburgerItem) {
+        if (!hamburgerItem.isParent()) {
+            Drawable icon = hamburgerItems.get(position).getIcon();
+            setImageView(imgIcon, icon, txtTitle);
+            int count = hamburgerItems.get(position).getCount();
+            setCounterView(txtCount, count);
+            addStatesToText(txtTitle);
+        }
+        txtTitle.setText(hamburgerItems.get(position).getTitle());
+    }
+
+    private void setCounterView(final TextView txtCount, final int count) {
         if (count > 0) {
             txtCount.setText(String.valueOf(count));
         } else {
@@ -164,5 +201,6 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         ImageView imgIcon;
         TextView txtTitle;
         TextView txtCount;
+        View bottomDivider;
     }
 }

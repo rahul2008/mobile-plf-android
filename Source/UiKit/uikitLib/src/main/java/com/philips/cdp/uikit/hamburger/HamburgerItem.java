@@ -7,6 +7,8 @@ public class HamburgerItem {
     private String title;
     private Drawable icon;
     private int count;
+    private boolean isParent;
+    private boolean isLastChild;
 
     public HamburgerItem() {
     }
@@ -21,6 +23,23 @@ public class HamburgerItem {
         this.icon = icon;
         this.count = count;
     }
+
+    public HamburgerItem(String title, Drawable icon, int count, boolean isParent) {
+        this.title = title;
+        this.icon = icon;
+        this.count = count;
+        this.isParent = isParent;
+    }
+
+    public HamburgerItem(String title, Drawable icon, int count, boolean isParent, boolean isLastChild) {
+        this.title = title;
+        this.icon = icon;
+        this.count = count;
+        this.isParent = isParent;
+        this.isLastChild = isLastChild;
+    }
+
+
 
     public String getTitle() {
         return this.title;
@@ -44,5 +63,21 @@ public class HamburgerItem {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public boolean isParent() {
+        return isParent;
+    }
+
+    public void setIsParent(boolean isParent) {
+        this.isParent = isParent;
+    }
+
+    public boolean isLastChild() {
+        return isLastChild;
+    }
+
+    public void setIsLastChild(boolean isLastChild) {
+        this.isLastChild = isLastChild;
     }
 }

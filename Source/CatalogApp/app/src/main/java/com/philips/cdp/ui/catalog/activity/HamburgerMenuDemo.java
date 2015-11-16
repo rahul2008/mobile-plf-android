@@ -125,7 +125,9 @@ public class HamburgerMenuDemo extends CatalogActivity {
             if (i == 4) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 3));
             } else if (i == 6) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 22));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 22, false, true));
+            } else if (hamburgerMenuTitles[i].equalsIgnoreCase("Title Long")) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 0, true));
             } else
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null));
         }
@@ -137,8 +139,12 @@ public class HamburgerMenuDemo extends CatalogActivity {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 3));
             } else if (i == 6) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 22));
-            } else
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1))));
+            } else {
+                if (hamburgerMenuTitles[i].equalsIgnoreCase("Title Long")) {
+                    hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 0, true));
+                } else
+                    hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1))));
+            }
         }
     }
 

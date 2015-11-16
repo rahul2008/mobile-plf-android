@@ -39,9 +39,6 @@
         <activity
             android:name=".activity.HamburgerMenuDemo"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".activity.HamburgerMenuExpandableDemo"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".activity.HamburgerActivity" />
         <activity android:name=".RatingBarLauncher" />
         <activity android:name=".activity.ActionBarLauncher" />

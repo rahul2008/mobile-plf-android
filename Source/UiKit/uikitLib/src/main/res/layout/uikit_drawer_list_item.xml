@@ -5,6 +5,7 @@
     android:layout_height="@dimen/uikit_hamburger_list_item_height"
     android:state_pressed="true">
 
+
     <ImageView
         android:id="@+id/hamburger_list_icon"
         android:layout_width="wrap_content"
@@ -35,5 +36,12 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/uikit_hamburger_item_counter_right_margin"
         />
+
+    <View
+        android:id="@+id/divider_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/brightColor" />
 
 </RelativeLayout>

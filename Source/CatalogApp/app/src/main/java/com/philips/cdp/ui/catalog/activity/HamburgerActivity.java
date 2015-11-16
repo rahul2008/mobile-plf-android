@@ -25,14 +25,6 @@ public class HamburgerActivity extends CatalogActivity {
                 intent = new Intent(this, HamburgerMenuDemo.class);
                 intent.putExtra("feature", 2);
                 break;
-            case R.id.hamburger_menu_expand_no_icon:
-                intent = new Intent(this, HamburgerMenuExpandableDemo.class);
-                intent.putExtra("feature", 1);
-                break;
-            case R.id.hamburger_menu_expand_with_icon:
-                intent = new Intent(this, HamburgerMenuExpandableDemo.class);
-                intent.putExtra("feature", 2);
-                break;
             default:
                 break;
         }

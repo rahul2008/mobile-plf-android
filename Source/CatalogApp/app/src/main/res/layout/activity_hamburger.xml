@@ -21,20 +21,4 @@
         android:onClick="onClick"
         android:text="Hamburger Menu with Icons"/>
 
-    <Button
-        android:id="@+id/hamburger_menu_expand_no_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:onClick="onClick"
-        android:text="Hamburger with dividers no icon"/>
-
-    <Button
-        android:id="@+id/hamburger_menu_expand_with_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:onClick="onClick"
-        android:text="Hamburger with dividers"/>
-
 </LinearLayout>

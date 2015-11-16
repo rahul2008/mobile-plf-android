@@ -5,12 +5,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?attr/brightColor"
-        android:paddingTop="0dp" />
-
     <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
         android:id="@+id/philips_logo"
         android:layout_width="@dimen/uikit_hamburger_logo_width"
