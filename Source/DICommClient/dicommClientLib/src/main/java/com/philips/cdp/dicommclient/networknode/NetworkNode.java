@@ -5,10 +5,10 @@
 
 package com.philips.cdp.dicommclient.networknode;
 
-import java.util.Observable;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.Observable;
 
 public class NetworkNode extends Observable implements Parcelable {
 	public static enum PAIRED_STATUS { PAIRED, NOT_PAIRED, UNPAIRED, PAIRING }
@@ -28,7 +28,6 @@ public class NetworkNode extends Observable implements Parcelable {
 	private long mBootId;
 	private String mEncryptionKey;
 
-	private boolean mIsOnlineViaCpp = false; // not
 	private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
 	private long mLastPairedTime;
 
@@ -140,14 +139,6 @@ public class NetworkNode extends Observable implements Parcelable {
 	    }
 	}
 
-	public synchronized boolean isOnlineViaCpp() {
-		return mIsOnlineViaCpp;
-	}
-
-	public synchronized void setOnlineViaCpp(boolean isOnlineViaCpp) {
-		this.mIsOnlineViaCpp = isOnlineViaCpp;
-	}
-
 	public synchronized NetworkNode.PAIRED_STATUS getPairedState() {
 		return mPairedState;
 	}
@@ -178,7 +169,6 @@ public class NetworkNode extends Observable implements Parcelable {
         mHomeSsid = in.readString();
         mBootId = in.readLong();
         mEncryptionKey = in.readString();
-        mIsOnlineViaCpp = in.readByte() != 0x00;
         mPairedState = PAIRED_STATUS.values()[in.readInt()];
         mLastPairedTime = in.readLong();
     }
@@ -199,7 +189,6 @@ public class NetworkNode extends Observable implements Parcelable {
         dest.writeString(mHomeSsid);
         dest.writeLong(mBootId);
         dest.writeString(mEncryptionKey);
-        dest.writeByte((byte) (mIsOnlineViaCpp ? 0x01 : 0x00));
         dest.writeInt(mPairedState.ordinal());
         dest.writeLong(mLastPairedTime);
     }

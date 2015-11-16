@@ -7,12 +7,15 @@ package com.philips.cdp.dicommclient.port.common;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
 
     private String time;
     private String days;
+    private String port;
     private ScheduleListPortInfoMode mode;
-    private String command;
+    private Map<String, Object> command;
     private int scheduleNumber;
     private String name;
     private boolean enabled;
@@ -23,6 +26,14 @@ public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(final String port) {
+        this.port = port;
     }
 
     public String getScheduleTime() {
@@ -65,11 +76,11 @@ public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
         this.mode = new ScheduleListPortInfoMode(mode);
     }
 
-    public String getCommand() {
+    public Map<String, Object> getCommand() {
         return command;
     }
 
-    public void setCommand(final String command) {
+    public void setCommand(final Map<String, Object> command) {
         this.command = command;
     }
 

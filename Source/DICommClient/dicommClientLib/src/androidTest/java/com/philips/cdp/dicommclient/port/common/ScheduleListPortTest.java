@@ -8,16 +8,13 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleListPortTest extends TestCase {
 
 	private String scheduleDetailJson_WithMode = "{\"name\":\"16:00\",\"enabled\":true,\"name\":\"testName\",\"time\":\"16:00\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"mode\":{\"om\":\"a\"}}";
-	private String scheduleDetailJson_WithCommand = "{\"name\":\"16:00\",\"enabled\":true,\"name\":\"testName\",\"time\":\"16:00\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":\"testCommand\"}";
+	private String scheduleDetailJson_WithCommand = "{\"name\":\"16:00\",\"enabled\":true,\"name\":\"testName\",\"time\":\"16:00\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":{\"testKey\":\"testValue\"}}";
 	private String allScheduleJson = "{\"2\":{\"name\":\"18:45\"},\"3\":{\"name\":\"15:45\"},\"4\":{\"name\":\"20:00\"}}";
-
-	private String scheduleDetailJsonCpp_WithMode = "{\"status\":0,\"data\":{\"name\":\"12:15\",\"enabled\":true,\"name\":\"testName\",\"time\":\"12:15\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"mode\":{\"om\":\"a\"}}}";
-	private String scheduleDetailJsonCpp_WithCommand = "{\"status\":0,\"data\":{\"name\":\"12:15\",\"enabled\":true,\"name\":\"testName\",\"time\":\"12:15\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":\"testCommand\"}}";
-	private String allScheduleJsonCpp = "{\"status\":0,\"data\":{\"0\":{\"name\":\"16:14\"},\"1\":{\"name\":\"12:15\"}}}";
 
 	public void testParseSchedulerDtoWithNullParam() {
 		List<ScheduleListPortInfo> schedulePortInfos = parseScheduleListdata(null);
@@ -89,33 +86,6 @@ public class ScheduleListPortTest extends TestCase {
 		assertNull(schedulePortInfos);
 	}
 
-	public void testparseSchedulerDtoSize() {
-		List<ScheduleListPortInfo> schedulePortInfos = parseScheduleListdata(allScheduleJsonCpp);
-		assertEquals(2, schedulePortInfos.size());
-	}
-
-	public void testparseSchedulerDtoKeys() {
-		List<ScheduleListPortInfo> schedulePortInfos = parseScheduleListdata(allScheduleJsonCpp);
-		ArrayList<Integer> keys = new ArrayList<Integer>();
-		keys.add(0);
-		keys.add(1);
-
-		assertTrue(keys.contains(schedulePortInfos.get(0).getScheduleNumber()));
-		assertTrue(keys.contains(schedulePortInfos.get(1).getScheduleNumber()));
-	}
-
-	public void testparseSchedulerDtoNames() {
-		List<ScheduleListPortInfo> schedulePortInfos = parseScheduleListdata(allScheduleJsonCpp);
-
-		ArrayList<String> names = new ArrayList<String>();
-		names.add("16:14");
-		names.add("12:15");
-
-		assertTrue(names.contains(schedulePortInfos.get(0).getName()));
-		assertTrue(names.contains(schedulePortInfos.get(1).getName()));
-	}
-
-
 	public void testParseScheduleDetailsWithNullParam() {
 		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(null);
 		assertNull(schedulePortInfo);
@@ -151,6 +121,11 @@ public class ScheduleListPortTest extends TestCase {
 		assertEquals("123", schedulePortInfo.getDays());
 	}
 
+	public void testParseScheduleDetailsSchedulePort() {
+		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJson_WithMode);
+		assertEquals("air", schedulePortInfo.getPort());
+	}
+
 	public void testParseScheduleDetailsScheduleMode() {
 		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJson_WithMode);
 		assertEquals("a", schedulePortInfo.getMode());
@@ -158,7 +133,8 @@ public class ScheduleListPortTest extends TestCase {
 
 	public void testParseScheduleDetailsScheduleCommand() {
 		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJson_WithCommand);
-		assertEquals("testCommand", schedulePortInfo.getCommand());
+		Map<String, Object> command = schedulePortInfo.getCommand();
+		assertEquals("testValue", command.get("testKey"));
 	}
 
 	public void testparseScheduleDetailsWithNullParam() {
@@ -179,31 +155,6 @@ public class ScheduleListPortTest extends TestCase {
 	public void testparseScheduleDetailsWithWrongJsonFormat() {
 		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata("hello");
 		assertNull(schedulePortInfo);
-	}
-
-	public void testParseScheduleDetailsScheduleCppName() {
-		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJsonCpp_WithMode);
-		assertEquals("testName", schedulePortInfo.getName());
-	}
-
-	public void testParseScheduleDetailsScheduleCppTime() {
-		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJsonCpp_WithMode);
-		assertEquals("12:15", schedulePortInfo.getScheduleTime());
-	}
-
-	public void testParseScheduleDetailsScheduleCppDay() {
-		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJsonCpp_WithMode);
-		assertEquals("123", schedulePortInfo.getDays());
-	}
-
-	public void testParseScheduleDetailsScheduleCppMode() {
-		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJsonCpp_WithMode);
-		assertEquals("a", schedulePortInfo.getMode());
-	}
-
-	public void testParseScheduleDetailsScheduleCppCommand() {
-		ScheduleListPortInfo schedulePortInfo = parseSingleScheduledata(scheduleDetailJsonCpp_WithCommand);
-		assertEquals("testCommand", schedulePortInfo.getCommand());
 	}
 
 	private ScheduleListPortInfo parseSingleScheduledata(String data){
