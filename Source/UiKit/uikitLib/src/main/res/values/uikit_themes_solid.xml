@@ -19,7 +19,7 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="brightColor">@color/uikit_philips_bright_blue</item>
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
-        <item name="hamburgerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
+        <item name="veryDarkToDark">@drawable/uikit_grad_blue_verydark_to_dark</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange">
@@ -40,7 +40,7 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="splashGradient">@drawable/uikit_grad_orange_bright_to_light</item>
-        <item name="hamburgerGradient">@drawable/uikit_grad_orange_dark_to_bright</item>
+        <item name="veryDarkToDark">@drawable/uikit_grad_orange_dark_to_bright</item>
 
         <item name="popover_background_gradient_start_color">#CC983222</item>
         <item name="popover_background_gradient_end_color">#CCE98300</item>
@@ -64,7 +64,7 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="brightColor">@color/uikit_philips_light_aqua</item>
         <item name="splashGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
-        <item name="hamburgerGradient">@drawable/uikit_grad_aqua_dark_to_bright</item>
+        <item name="veryDarkToDark">@drawable/uikit_grad_aqua_dark_to_bright</item>
         <item name="popover_background_gradient_start_color">#CC156570</item>
         <item name="popover_background_gradient_end_color">#CC1E9D8B</item>
     </style>

@@ -123,20 +123,25 @@ public class PhilipsBadgeView extends TextView {
 
     @NonNull
     private ShapeDrawable setSquareParams(RoundRectShape roundRectShape) {
-        int defaultWidth;
-        int defaultHeight;
-        if (isSmallSize) {
-            defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width_small);
-            defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height_small);
-
-        } else {
-            defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width);
-            defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height);
-        }
-
         ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
         shapeDrawable.getPaint().setColor(DEFAULT_BADGE_COLOR);
-        applyTo(this, defaultWidth, defaultHeight);
+        int count = getText().length();
+        if (count == 2) {
+            int defaultWidth;
+            int defaultHeight;
+            if (isSmallSize) {
+                defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width_small);
+                defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height_small);
+
+            } else {
+                defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width);
+                defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height);
+            }
+            applyTo(this, defaultWidth, defaultHeight);
+        } else {
+            applyTo(this, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            setPadding(5, 5, 5, 5);
+        }
         return shapeDrawable;
     }
 

@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
 import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
-import com.philips.cdp.uikit.costumviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -46,7 +45,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private TextView actionBarTitle;
     private VectorDrawableImageView footerView;
     private PhilipsHamburgerAdapter adapter;
-    private PhilipsBadgeView actionBarCount;
+    private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private VectorDrawableImageView hamburgerIcon;
 
@@ -67,8 +66,11 @@ public class HamburgerMenuDemo extends CatalogActivity {
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title Long"))
-                displayView(position);
+                if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title Long")) {
+                    displayView(position);
+                    adapter.setSelectedIndex(position);
+//                    drawerListView.setSelected(true);
+                }
             }
         });
 
@@ -164,7 +166,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_container, fragment).commit();
         setTitle(hamburgerMenuTitles[position]);
-        philipsDrawerLayout.closeDrawer(navigationView);
+//        philipsDrawerLayout.closeDrawer(navigationView);
     }
 
     @NonNull
@@ -195,7 +197,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
-        actionBarCount = (PhilipsBadgeView) findViewById(R.id.hamburger_count);
+        actionBarCount = (TextView) findViewById(R.id.hamburger_count);
         hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         RelativeLayout hamburgerClick = (RelativeLayout) findViewById(R.id.hamburger_click);

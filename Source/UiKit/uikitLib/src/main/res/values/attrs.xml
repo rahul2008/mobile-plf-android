@@ -11,7 +11,7 @@
         <attr name="veryLightColor" format="color"/>
         <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
-        <attr name="hamburgerGradient" format="reference" />
+        <attr name="veryDarkToDark" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ActionButton">
