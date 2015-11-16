@@ -79,9 +79,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
-        View mView = inflater.inflate(R.layout.fragment_view_product,
+        View view = inflater.inflate(R.layout.fragment_view_product,
                 container, false);
-        return mView;
+        return view;
     }
 
     @Override
@@ -129,6 +129,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         DigiCareLogger.d(TAG, "Video's Length : " + mVideoLength.size());
         if(mVideoLength != null && mVideoLength.size() > 0){
             mProductVideoHeader.setVisibility(View.VISIBLE);
+        }
+        else{
             return;
         }
         for (int i = 0; i < mVideoLength.size(); i++) {
