@@ -9,11 +9,11 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -177,21 +177,19 @@ public class PhilipsExpandableListAdapter extends BaseExpandableListAdapter {
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to setBackgroundDrawable(): sticking with deprecated API for now
     private void setGroupLayoutAlpha(View convertView) {
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.start_color, R.attr.end_color});
-        int backgroundGradientStartColor = typedArray.getColor(0, 0);
-        int backgroundGradientEndColor = typedArray.getColor(1, 0);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        int baseColor = typedArray.getColor(0, 0);
         typedArray.recycle();
-        convertView.setBackgroundDrawable(getBackgroundGradientDrawable(backgroundGradientStartColor, backgroundGradientEndColor));
-
+        convertView.setBackgroundColor(adjustAlpha(baseColor, 0.5f));
     }
 
-    private Drawable getBackgroundGradientDrawable(int startColor, int endColor) {
-        int[] gradient = new int[]{endColor, startColor};
-        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TR_BL, gradient);
-        drawable.mutate();
-        return drawable;
+    public int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
-
 
     @Override
     public boolean hasStableIds() {

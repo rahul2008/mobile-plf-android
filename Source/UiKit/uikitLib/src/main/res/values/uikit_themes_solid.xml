@@ -17,8 +17,6 @@
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
-        <item name="start_color">#80003478</item>
-        <item name="end_color">#800f204b</item>
         <item name="brightColor">@color/uikit_philips_bright_blue</item>
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
         <item name="hamburgerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
@@ -46,8 +44,6 @@
 
         <item name="popover_background_gradient_start_color">#CC983222</item>
         <item name="popover_background_gradient_end_color">#CCE98300</item>
-        <item name="start_color">#80983222</item>
-        <item name="end_color">#80e98300</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
@@ -71,8 +67,6 @@
         <item name="hamburgerGradient">@drawable/uikit_grad_aqua_dark_to_bright</item>
         <item name="popover_background_gradient_start_color">#CC156570</item>
         <item name="popover_background_gradient_end_color">#CC1E9D8B</item>
-        <item name="start_color">#80156570</item>
-        <item name="end_color">#801e9d8b</item>
     </style>
 
 </resources>
