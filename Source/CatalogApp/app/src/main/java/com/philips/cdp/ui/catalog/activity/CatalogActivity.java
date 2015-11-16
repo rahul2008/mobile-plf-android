@@ -17,19 +17,8 @@ public class CatalogActivity extends UiKitActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name), Context.MODE_PRIVATE)).getTheme());
-        initFontIconLib();
-
         super.onCreate(savedInstanceState);
 
     }
-    private void initFontIconLib() {
-        try {
-            FontIconTypefaceHolder.getTypeface();
 
-        }
-        catch(IllegalStateException e)
-        {
-            FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
-        }
     }
-}
