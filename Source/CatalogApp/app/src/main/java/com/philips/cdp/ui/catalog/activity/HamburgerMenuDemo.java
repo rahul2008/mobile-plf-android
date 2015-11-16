@@ -61,12 +61,13 @@ public class HamburgerMenuDemo extends CatalogActivity {
         setHamburgerAdaptor();
         setDrawerAdaptor();
         if (savedInstanceState == null) {
-            displayView(0);
+            displayView(1);
         }
 
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title Long"))
                 displayView(position);
             }
         });
