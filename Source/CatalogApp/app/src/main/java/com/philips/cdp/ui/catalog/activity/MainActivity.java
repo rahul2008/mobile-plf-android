@@ -2,7 +2,10 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +40,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 
     private void createListView() {
         ListView listView = (ListView) findViewById(R.id.listView);
+        addHeaderVersion(listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getDemoItems().values().toArray(new String[1])));
         listView.setOnItemClickListener(this);
     }
@@ -110,6 +114,20 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 return entry.getKey();
         }
         return 0;
+    }
+
+    private void addHeaderVersion(ListView lv) {
+        int code = 0;
+        try {
+            code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        TextView version = new TextView(this);
+        version.setText("Version:" + code);
+        version.setBackgroundColor(Color.GRAY);
+        version.setGravity(Gravity.CENTER);
+        lv.addHeaderView(version, null, false);
     }
 
     private HashMap<Integer, String> getDemoItems() {
