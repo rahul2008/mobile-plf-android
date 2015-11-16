@@ -4,14 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-
 import com.shamanland.fonticon.FontIconTypefaceHolder;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -61,7 +60,7 @@ public class UiKitActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
             MenuItem reload = menu.findItem(R.id.action_reload);
             reload.setIcon(VectorDrawable.create(this, R.drawable.uikit_reload));
-             return true;
+            return true;
         }
         return super.onCreateOptionsMenu(menu);
 
