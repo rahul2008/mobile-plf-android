@@ -68,8 +68,6 @@ public class HamburgerMenuDemo extends CatalogActivity {
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title Long")) {
                     displayView(position);
-                    adapter.setSelectedIndex(position);
-//                    drawerListView.setSelected(true);
                 }
             }
         });
