@@ -86,26 +86,21 @@
 
     </HorizontalScrollView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:text="@string/misc_shadow_message" />
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:scrollbars="none">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/misc_shadow_message" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
@@ -176,8 +171,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/philips_action_button_margin"
                     android:layout_marginTop="5dp" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
