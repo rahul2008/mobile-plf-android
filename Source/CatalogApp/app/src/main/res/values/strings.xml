@@ -18,4 +18,5 @@
     <string name="invalid_email_format">Invalid email</string>
     <string name="invalid_pwd_format">Invalid password format</string>
     <string name="sample_button">Sample button</string>
+    <string name="title_activity_social_icons">SocialIconsActivity</string>
 </resources>
