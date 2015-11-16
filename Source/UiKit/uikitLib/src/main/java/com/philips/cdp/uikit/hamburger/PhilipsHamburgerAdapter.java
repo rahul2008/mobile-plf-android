@@ -97,7 +97,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         } else {
             imgIcon.setVisibility(View.GONE);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) txtTitle.getLayoutParams();
-            layoutParams.leftMargin = (int) context.getResources().getDimension(R.dimen.uikit_hamburger_item_title_left_margin);
+            layoutParams.leftMargin = (int) context.getResources().getDimension(R.dimen.uikit_hamburger_item_icon_left_margin);
             txtTitle.setLayoutParams(layoutParams);
         }
     }

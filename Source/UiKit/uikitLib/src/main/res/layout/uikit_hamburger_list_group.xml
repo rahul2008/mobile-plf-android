@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/uikit_hamburger_item_title_left_margin"
+        android:layout_marginLeft="@dimen/uikit_hamburger_item_icon_left_margin"
         android:textColor="@android:color/white"
         android:textSize="@dimen/uikit_hamburger_item_text_title_size"/>
 
