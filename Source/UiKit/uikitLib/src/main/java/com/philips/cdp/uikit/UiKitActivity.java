@@ -28,11 +28,6 @@ public class UiKitActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFontIconLib();
@@ -51,14 +46,22 @@ public class UiKitActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if(validateHamburger()) {
+            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
+            if (vectorDrawableImageView != null)
+                vectorDrawableImageView.setAlpha(229);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (validateHamburger()) {
             getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
             MenuItem reload = menu.findItem(R.id.action_reload);
             reload.setIcon(VectorDrawable.create(this, R.drawable.uikit_reload));
-            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
-            vectorDrawableImageView.setAlpha(229);
-            return true;
+             return true;
         }
         return super.onCreateOptionsMenu(menu);
 
