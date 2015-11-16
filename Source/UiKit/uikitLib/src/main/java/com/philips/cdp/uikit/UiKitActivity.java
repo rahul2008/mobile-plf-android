@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -45,6 +46,8 @@ public class UiKitActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
             MenuItem reload = menu.findItem(R.id.action_reload);
             reload.setIcon(VectorDrawable.create(this, R.drawable.uikit_reload));
+            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
+            vectorDrawableImageView.setAlpha(229);
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -52,9 +55,6 @@ public class UiKitActivity extends AppCompatActivity {
     }
 
     private boolean validateHamburger() {
-        if (findViewById(R.id.philips_drawer_layout) != null)
-            return true;
-        else
-            return false;
+        return findViewById(R.id.philips_drawer_layout) != null;
     }
 }

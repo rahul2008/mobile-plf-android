@@ -3,13 +3,10 @@ package com.philips.cdp.uikit.com.philips.cdp.uikit.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -31,25 +28,6 @@ public class HamburgerUtil {
         this.context = context;
         this.drawerListView = drawerListView;
         drawerListView.setFooterDividersEnabled(true);
-//        drawerListView.setPadding(0, getStatusBarHeight(), 0, 0);
-    }
-
-    public void moveDrawerToTop(View drawer) {
-        Activity activity = (Activity) context;
-        ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
-        View child = decor.getChildAt(0);
-        decor.removeView(child);
-        LinearLayout container = (LinearLayout) drawer.findViewById(R.id.frame_container);
-        container.addView(child, 0);
-        decor.addView(drawer);
-    }
-
-    public int getStatusBarHeight() {
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-                new int[]{android.R.attr.actionBarSize});
-        int actionBarSize = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-        return actionBarSize;
     }
 
     public void updateSmartFooter(final VectorDrawableImageView footerImageView) {
@@ -80,6 +58,7 @@ public class HamburgerUtil {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footerView = vi.inflate(R.layout.uikit_footer_view, null);
         VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) footerView.findViewById(R.id.philips_logo);
+        vectorDrawableImageView.setAlpha(229);
         RelativeLayout.LayoutParams lp = getLayoutParams();
         vectorDrawableImageView.setLayoutParams(lp);
         setVectorImage(vectorDrawableImageView);
