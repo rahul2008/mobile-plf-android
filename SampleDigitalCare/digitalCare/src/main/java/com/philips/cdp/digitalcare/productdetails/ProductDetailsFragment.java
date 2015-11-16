@@ -1,6 +1,7 @@
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -150,7 +151,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             mBiggerResolution = heightPixels;
         }
 
-        isTablet = ((float)mSmallerResolution/density > 360);
+        isTablet = ((float) mSmallerResolution / density > 360);
 
         if (isTablet) {
             return (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
@@ -160,7 +161,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void loadVideoThumbnail(final ImageView imageView, String imagePath) {
-        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" +getDisplayWidth() + "&amp;";
+        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
 
         ImageRequest request = new ImageRequest(thumbnail,
                 new Response.Listener<Bitmap>() {
@@ -357,24 +358,15 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
 
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
-                R.string.product_open_manual))) {
-        } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
-
-            if (isConnectionAvailable()) {
-                String mFilePath = mViewProductDetailsModel.getManualLink();
-
-                if (mFilePath != null) {
-                    File sdcard = Environment.getExternalStorageDirectory();
-                    File pdfFilepath = new File(sdcard.getAbsolutePath() + "/" + DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF_DOWNLOAD);
-                    if (pdfFilepath.exists()) {
-                        pdfFilepath.delete();
-                        new PdfDownloader(getActivity()).execute(mFilePath);
-                    } else {
-                        new PdfDownloader(getActivity()).execute(mFilePath);
-                    }
-                }
+            String mFilePath = mViewProductDetailsModel.getManualLink();
+            if ((mFilePath != null) && (mFilePath != "")) {
+                if (isConnectionAvailable())
+                    showFragment(new ProductManualFragment());
+            } else {
+                showAlert(getResources().getString(R.string.no_data));
             }
+
         } else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_information))) {
             if (isConnectionAvailable()) {

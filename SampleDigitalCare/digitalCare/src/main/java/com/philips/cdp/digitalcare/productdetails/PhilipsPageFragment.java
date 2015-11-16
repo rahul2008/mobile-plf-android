@@ -143,7 +143,7 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return AnalyticsConstants.PAGE_FAQ;
+        return AnalyticsConstants.PAGE_PRODCUT_DETAILS;
     }
 
     @Override
