@@ -2,7 +2,10 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,6 +41,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 
     private void createListView() {
         ListView listView = (ListView) findViewById(R.id.listView);
+        addHeaderVersion(listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getDemoItems().values().toArray(new String[1])));
         listView.setOnItemClickListener(this);
     }
@@ -75,7 +79,6 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 8:
                 startActivity(new Intent(this, TabBarDemo.class));
                 break;
-
             case 9:
                 startActivity(new Intent(this, SliderActivity.class));
                 break;
@@ -91,6 +94,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 13:
                 startActivity(new Intent(this, HamburgerActivity.class));
 				break;
+			case 14:
+                startActivity(new Intent(this, SocialIconsActivity.class));
+                break;
             default:
                 break;
         }
@@ -116,6 +122,20 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         return 0;
     }
 
+    private void addHeaderVersion(ListView lv) {
+        int code = 0;
+        try {
+            code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        TextView version = new TextView(this);
+        version.setText("Version:" + code);
+        version.setBackgroundColor(Color.GRAY);
+        version.setGravity(Gravity.CENTER);
+        lv.addHeaderView(version, null, false);
+    }
+
     private HashMap<Integer, String> getDemoItems() {
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Action Buttons");
@@ -131,6 +151,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(10, "Rating Bar");
         itemsMap.put(12, "Action Bar Up");
         itemsMap.put(13, "Hamburger Menu");
+        itemsMap.put(14, "Social Media Icons");
         return itemsMap;
     }
 }

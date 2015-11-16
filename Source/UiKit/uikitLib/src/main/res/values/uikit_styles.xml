@@ -54,6 +54,27 @@
 
     <style name="Slider">
         <item name="android:thumbOffset">@dimen/slider_padding_left</item>
+	
+    </style>
+	<style name="FontIcon">
+        <item name="fontPath">fonts/puicon.ttf</item>
+        <item name="android:textColor">?attr/baseColor</item>
+
+        <item name="android:textSize">32sp</item>
+    </style>
+    <style name="FontIcon.Small">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="FontIcon.Inverse">
+        <item name="fontPath">fonts/puicon.ttf</item>
+        <item name="android:textColor">@color/uikit_white</item>
+
+        <item name="android:textSize">32sp</item>
+    </style>
+    <style name="FontIcon.SmallInverse">
+        <item name="android:textColor">@color/uikit_white</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="NotificationLabel">

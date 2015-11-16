@@ -35,13 +35,14 @@
         <activity android:name=".activity.DotNavigation"/>
         <activity android:name=".activity.TabBarDemo"/>
         <activity android:name=".activity.SliderActivity"/>
-
         <activity
             android:name=".activity.HamburgerMenuDemo"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".activity.HamburgerActivity" />
         <activity android:name=".RatingBarLauncher" />
         <activity android:name=".activity.ActionBarLauncher" />
+		<activity android:name=".activity.SocialIconsActivity"/>
+
     </application>
 
 </manifest>

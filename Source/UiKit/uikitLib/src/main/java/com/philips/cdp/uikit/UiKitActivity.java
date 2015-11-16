@@ -4,12 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -22,11 +24,18 @@ public class UiKitActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+
     }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initFontIconLib();
     }
 
     @Override
@@ -38,6 +47,7 @@ public class UiKitActivity extends AppCompatActivity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
+
     }
 
     @Override
@@ -56,5 +66,15 @@ public class UiKitActivity extends AppCompatActivity {
 
     private boolean validateHamburger() {
         return findViewById(R.id.philips_drawer_layout) != null;
+    }
+    private void initFontIconLib() {
+        try {
+            FontIconTypefaceHolder.getTypeface();
+
+        }
+        catch(IllegalStateException e)
+        {
+            FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.philips.cdp.uikit;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 
@@ -22,6 +23,7 @@ public class PuiSwitch extends SwitchCompat {
 
         Drawable switchOff = VectorDrawable.create(context, R.drawable.uikit_switch_off);
         Drawable switchOn = VectorDrawable.create(context, R.drawable.uikit_switch_on_vector);
+        setThumbResource(R.drawable.uikit_thumb);
 
         StateListDrawable states = new StateListDrawable();
         states.addState(new int[]{android.R.attr.state_checked}, switchOn);
@@ -30,8 +32,14 @@ public class PuiSwitch extends SwitchCompat {
         setTextOff("");
         setTextOn("");
         setTrackDrawable(states);
-        setThumbResource(R.drawable.uikit_thumb);
 
+
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(null);
+        }else {
+            setBackgroundDrawable(null);
+        }
     }
 
     public PuiSwitch(final Context context, final AttributeSet attrs, final int defStyleAttr) {
