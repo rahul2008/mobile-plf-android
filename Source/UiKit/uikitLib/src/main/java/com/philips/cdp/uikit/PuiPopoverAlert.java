@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +76,11 @@ public class PuiPopoverAlert extends RelativeLayout {
                 dismiss();
             }
         });
+
+        //Set via code to avoid the tailing issue of background drawable
+        Drawable d = ResourcesCompat.getDrawable(context.getResources(), R.drawable
+                .uikit_popover_progress_bar_drawable, context.getTheme());
+        progressBar.setProgressDrawable(d);
 
         setVisibility(View.GONE);
     }
