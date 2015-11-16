@@ -49,14 +49,13 @@ public class PuiPopoverAlert extends RelativeLayout {
         rightIconImageView = (ImageView) findViewById(R.id.uikit_popover_close_icon);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.popover_alert);
-        int backgroundGradientStartColor = a.getColor(R.styleable.popover_alert_popover_background_gradient_start_color, getResources().getColor(R.color.uikit_philips_dark_blue));
-        int backgroundGradientEndColor = a.getColor(R.styleable.popover_alert_popover_background_gradient_end_color, getResources().getColor(R.color.uikit_philips_bright_blue));
         Drawable leftIcon = a.getDrawable(R.styleable.popover_alert_popover_left_icon);
         Drawable rightIcon = a.getDrawable(R.styleable.popover_alert_popover_right_icon);
         String titleString = (String) a.getText(R.styleable.popover_alert_popover_title_text);
+        float alpha = a.getFloat(R.styleable.popover_alert_popover_opacity,0.8f);
+        a.recycle();
 
-        setBackgroundDrawable(getBarckgroundGradientDrawable(backgroundGradientStartColor, backgroundGradientEndColor));
-
+        setAlpha(alpha);
         titleText.setText(titleString);
         if(leftIcon != null) {
             leftIconImageView.setImageDrawable(leftIcon);
