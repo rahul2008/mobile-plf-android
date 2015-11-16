@@ -53,6 +53,14 @@
 
         </LinearLayout>
 
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+            android:id="@+id/productVideoText"
+            style="@style/viewProductDetails_Product_Header"
+            android:text="@string/product_view_videos"
+            android:visibility="gone"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin"/>
+
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

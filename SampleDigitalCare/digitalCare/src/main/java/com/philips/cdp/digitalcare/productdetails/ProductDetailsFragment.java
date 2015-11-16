@@ -62,6 +62,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private DigitalCareFontTextView mProductTitle = null;
+    private DigitalCareFontTextView mProductVideoHeader = null;
     private DigitalCareFontTextView mCtn = null;
     private ImageView mProductImage = null;
     private HorizontalScrollView mVideoScrollView = null;
@@ -102,6 +103,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         mProductImage = (ImageView) getActivity().findViewById(R.id.productimage);
         mProductTitle = (DigitalCareFontTextView) getActivity().findViewById(R.id.name);
+        mProductVideoHeader = (DigitalCareFontTextView) getActivity().findViewById(R.id.productVideoText);
         mCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.variant);
         mVideoScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.videoScrollView);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
@@ -124,6 +126,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private void initView(List<String> mVideoLength) {
 
         DigiCareLogger.d(TAG, "Video's Length : " + mVideoLength.size());
+        if(mVideoLength != null && mVideoLength.size() > 0){
+            mProductVideoHeader.setVisibility(View.VISIBLE);
+            return;
+        }
         for (int i = 0; i < mVideoLength.size(); i++) {
             addNewVideo(i + "", mVideoLength.get(i));
         }

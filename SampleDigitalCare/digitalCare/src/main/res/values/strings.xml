@@ -50,6 +50,7 @@
     <string name="no_thanks">No, thanks</string>
     <string name="chat_desc">Start a live chat with our product specialist. 24/7 available in English</string>
     <!-- View Product Details   null -->
+    <string name="product_view_videos">Product videos</string>
     <string name="product_open_manual">Open interactive manual</string>
     <string name="product_download_manual">Download Product manual</string>
     <string name="product_information">Products information(on philips.com)</string>
