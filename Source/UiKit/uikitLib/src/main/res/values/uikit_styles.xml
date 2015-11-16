@@ -66,25 +66,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="NotificationLabel.SquareRound">
-        <item name="android:minWidth">@dimen/uikit_notification_label_square_round_width</item>
-        <item name="android:minHeight">@dimen/uikit_notification_label_square_round_height</item>
-        <item name="android:padding">@dimen/uikit_notification_label_square_round_padding</item>
-    </style>
-
     <style name="NotificationLabel.Small">
         <item name="android:minWidth">@dimen/uikit_notification_label_small_circle_radius</item>
         <item name="android:minHeight">@dimen/uikit_notification_label_small_circle_radius</item>
         <item name="android:textSize">@dimen/uikit_notification_label_square_round_textSize_small
         </item>
         <item name="notification_label_small">true</item>
-    </style>
-
-    <style name="NotificationLabel.Small.SquareBackground">
-        <item name="android:minWidth">@dimen/uikit_notification_label_square_round_width_small
-        </item>
-        <item name="android:minHeight">@dimen/uikit_notification_label_square_round_height_small
-        </item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
