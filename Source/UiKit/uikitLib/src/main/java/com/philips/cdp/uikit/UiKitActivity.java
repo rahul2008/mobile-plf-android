@@ -21,9 +21,15 @@ public class UiKitActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initFontIconLib();
+    }
+
+    @Override
     public void onCreate(final Bundle savedInstanceState, final PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        initFontIconLib();
+
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/centralesans_book.ttf")
                         .setFontAttrId(R.attr.fontPath)
