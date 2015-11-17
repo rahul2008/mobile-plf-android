@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
-import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
-import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.utils.HamburgerUtil;
+import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;

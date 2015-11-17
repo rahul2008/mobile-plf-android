@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+    <com.philips.cdp.uikit.customviews.VectorDrawableImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:vectorsrc="@drawable/uikit_arrow"

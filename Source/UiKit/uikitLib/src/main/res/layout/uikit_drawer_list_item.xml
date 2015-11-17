@@ -27,7 +27,7 @@
         android:textSize="@dimen/uikit_hamburgur_item_text_size"
         />
 
-    <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
+    <com.philips.cdp.uikit.customviews.PhilipsBadgeView
         android:id="@+id/list_counter"
         style="@style/NotificationLabel.Small"
         android:layout_width="wrap_content"

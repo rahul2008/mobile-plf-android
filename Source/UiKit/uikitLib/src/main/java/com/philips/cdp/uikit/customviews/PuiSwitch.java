@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit;
+package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 
+import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**

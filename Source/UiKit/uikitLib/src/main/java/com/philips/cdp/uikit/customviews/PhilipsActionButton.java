@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.CustomButton;
+package com.philips.cdp.uikit.customviews;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.widget.ImageButton;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**

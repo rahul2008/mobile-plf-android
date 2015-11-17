@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class HamburgerFragment extends Fragment {

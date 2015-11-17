@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.costumviews;
+package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;

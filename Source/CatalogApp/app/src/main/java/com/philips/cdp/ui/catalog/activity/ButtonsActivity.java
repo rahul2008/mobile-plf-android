@@ -10,8 +10,8 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.PuiPopoverAlert;
-import com.philips.cdp.uikit.PuiSwitch;
+import com.philips.cdp.uikit.customviews.PuiPopoverAlert;
+import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.utils.FontIconUtils;
 
 public class ButtonsActivity extends CatalogActivity {

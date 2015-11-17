@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit;
+package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.philips.cdp.uikit.R;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

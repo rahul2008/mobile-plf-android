@@ -11,7 +11,7 @@ import android.widget.Switch;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
-import com.philips.cdp.uikit.PuiSwitch;
+import com.philips.cdp.uikit.customviews.PuiSwitch;
 
 import java.util.ArrayList;
 

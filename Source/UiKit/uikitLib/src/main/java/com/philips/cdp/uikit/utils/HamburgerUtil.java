@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.com.philips.cdp.uikit.utils;
+package com.philips.cdp.uikit.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
