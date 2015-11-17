@@ -37,6 +37,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener, EventListener, ResendVerificationEmailHandler,
@@ -253,9 +254,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (mUser != null) {
             showSignInSpinner();
         }
-        mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(), mEtPassword.getPassword()
+        mEmail = mEtEmail.getEmailId().toString();
+        mUser.loginUsingTraditional(mEmail, mEtPassword.getPassword()
                 .toString(), this);
     }
+
+    private String mEmail;
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -448,7 +452,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         mRegError.hideError();
         if (mUser.getEmailVerificationStatus(getActivity())) {
-            launchWelcomeFragment();
+            if(RegPreferenceUtility.isAvailableIn(mContext,mEmail)){
+                launchWelcomeFragment();
+            }else{
+                launchAlmostDoneScreenForTermsAcceptance();
+            }
+
         } else {
             mEtEmail.showEmailInvalidAlert();
             mEtEmail.showErrPopUp();
@@ -467,4 +476,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             RegAlertDialog.dismissDialog();
         }
     };
+
+    private void launchAlmostDoneScreenForTermsAcceptance(){
+        getRegistrationFragment().addPlaneAlmostDoneFragment();
+        trackPage(AppTaggingPages.ALMOST_DONE);
+    }
+
 }

@@ -23,6 +23,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -336,11 +337,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void handleUiAcceptTerms(View view) {
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            if(isEmailExist && RegPreferenceUtility.isAvailableIn(mContext, mEmail)){
+            if (isEmailExist && RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
                 View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
                 acceptTermsLine.setVisibility(View.GONE);
                 mLlAcceptTermsContainer.setVisibility(View.GONE);
-            }else{
+            } else {
                 mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
             }
         } else {
@@ -401,18 +402,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (mBundle == null) {
                 if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
                     if (mCbAcceptTerms.isChecked()) {
+                        storeEmailInPreference();
                         launchWelcomeFragment();
-                        return;
                     } else {
                         mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
                     }
                 } else {
                     launchWelcomeFragment();
-                    return;
                 }
-
+                return;
             }
-            if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+            if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && mLlAcceptTermsContainer.getVisibility() == View.VISIBLE) {
                 if (mCbAcceptTerms.isChecked()) {
                     register();
                 } else {
@@ -420,6 +420,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 }
             } else {
                 register();
+            }
+
+        }
+    }
+
+    private void storeEmailInPreference() {
+        if (mEmail != null) {
+            RegPreferenceUtility.storePreference(mContext, mEmail, true);
+        }else{
+            User user = new User(mContext);
+            DIUserProfile diUserProfile = user.getUserInstance(mContext);
+            String email = null;
+            if (diUserProfile != null) {
+                email = diUserProfile.getEmail();
+            }
+            if (email != null) {
+                RegPreferenceUtility.storePreference(mContext, email, true);
             }
         }
     }
