@@ -20,11 +20,11 @@ import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
-import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
+import com.philips.cdp.uikit.utils.HamburgerUtil;
 
 import java.util.ArrayList;
 
@@ -164,7 +164,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_container, fragment).commit();
         setTitle(hamburgerMenuTitles[position]);
-//        philipsDrawerLayout.closeDrawer(navigationView);
+        philipsDrawerLayout.closeDrawer(navigationView);
     }
 
     @NonNull

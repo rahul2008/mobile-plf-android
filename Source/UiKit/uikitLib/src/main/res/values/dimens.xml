@@ -72,7 +72,7 @@
     <dimen name="uikit_tab_divider_width">1dp</dimen>
     <dimen name="uikit_hamburger_list_item_height">53dp</dimen>
     <dimen name="uikit_hamburger_item_counter_right_margin">20dp</dimen>
-    <dimen name="uikit_hamburger_item_text_left_margin">47dp</dimen>
+    <dimen name="uikit_hamburger_item_text_left_margin">45dp</dimen>
     <dimen name="uikit_hamburgur_item_text_size">16sp</dimen>
     <dimen name="uikit_hamburger_item_text_title_size">16sp</dimen>
     <dimen name="uikit_hamburger_group_item_height">33dp</dimen>
