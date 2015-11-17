@@ -8,6 +8,15 @@ import com.philips.pins.shinelib.SHNResult;
  * Created by 310188215 on 16/06/15.
  */
 public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
+
+    enum SHNFirmwareUpdateState {
+        SHNFirmwareUpdateStateIdle,
+        SHNFirmwareUpdateStatePreparing,
+        SHNFirmwareUpdateStateUploading,
+        SHNFirmwareUpdateStateVerifying,
+        SHNFirmwareUpdateStateDeploying;
+    }
+
     boolean supportsUploadWithoutDeploy();
 
     void uploadFirmware(byte[] firmwareData);
@@ -20,15 +29,9 @@ public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
 
     void setSHNCapabilityFirmwareUpdateListener(SHNCapabilityFirmwareUpdateListener shnCapabilityFirmwareUpdateListener);
 
-    public enum SHNFirmwareUpdateState {
-        SHNFirmwareUpdateStateIdle,
-        SHNFirmwareUpdateStatePreparing,
-        SHNFirmwareUpdateStateUploading,
-        SHNFirmwareUpdateStateVerifying,
-        SHNFirmwareUpdateStateDeploying,
-    }
+    SHNFirmwareUpdateState getState();
 
-    public interface SHNCapabilityFirmwareUpdateListener {
+    interface SHNCapabilityFirmwareUpdateListener {
         void onStateChanged(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
         void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float progress);
         void onUploadFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);

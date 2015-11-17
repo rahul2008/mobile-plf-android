@@ -11,17 +11,19 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery {
+public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery, SHNCapabilityBattery.SHNCapabilityBatteryListener {
     private static final String TAG = SHNCapabilityBatteryWrapper.class.getSimpleName();
     private static final boolean LOGGING = false;
     private final SHNCapabilityBattery wrappedShnCapability;
     private final Handler userHandler;
     private final Handler internalHandler;
+    private SHNCapabilityBatteryListener shnCapabilityBatteryListener;
 
     public SHNCapabilityBatteryWrapper(SHNCapabilityBattery shnCapability, Handler internalHandler, Handler userHandler) {
         wrappedShnCapability = shnCapability;
         this.userHandler = userHandler;
         this.internalHandler = internalHandler;
+        wrappedShnCapability.setSetSHNCapabilityBatteryListener(this);
     }
 
     // implements SHNCapabilityBattery
@@ -30,7 +32,7 @@ public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getBatteryLevel( new SHNIntegerResultListener() {
+                wrappedShnCapability.getBatteryLevel(new SHNIntegerResultListener() {
                     @Override
                     public void onActionCompleted(final int value, final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
@@ -71,13 +73,20 @@ public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery {
 
     @Override
     public void setSetSHNCapabilityBatteryListener(final SHNCapabilityBatteryListener shnCapabilityBatteryListener) {
-        Runnable command = new Runnable() {
+        this.shnCapabilityBatteryListener = shnCapabilityBatteryListener;
+    }
+
+    @Override
+    public void onBatteryLevelChanged(final int level) {
+        Runnable callback = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setSetSHNCapabilityBatteryListener(shnCapabilityBatteryListener);
+                if (shnCapabilityBatteryListener != null) {
+                    shnCapabilityBatteryListener.onBatteryLevelChanged(level);
+                }
             }
         };
-        internalHandler.post(command);
+        userHandler.post(callback);
     }
 }
 
