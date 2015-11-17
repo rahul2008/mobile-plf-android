@@ -27,14 +27,33 @@
         <item>Swedish (sv)</item>
         <item>Turkish (tr)</item>
         <item>Bulgeria (bg)</item>
-        <item>cs</item>
         <item>Estonia (et)</item>
-        <item>lt</item>
-        <item>lv</item>
-        <item>no</item>
-        <item>ro</item>
-        <item>th</item>
+        <item>Czech (cs)</item>
+        <item>Romanian (ro)</item>
+        <item>Ukranian (uk)</item>
+        <item>Albanian (sq)</item>
+        <item>Bosnian (bs)</item>
+        <item>Bulgarian (bg)</item>
+        <item>Croatian (hr)</item>
+        <item>Estonian (et)</item>
+        <item>Gaelic (gd)</item>
+        <item>Greek (el)</item>
+        <item>Hebrew (he)</item>
+        <item>Hindi (hi)</item>
+        <item>Hungarian (hu)</item>
+        <item>Indonesia (id)</item>
+        <item>Kazakh (kk)</item>
+        <item>Latvian (lv)</item>
+        <item>Lithuanian (lt)</item>
+        <item>Macedonian (mk)</item>
+        <item>Malag (mg)</item>
+        <item>Serbian (sr)</item>
+        <item>Slovak (sk)</item>
+        <item>Slovenian (sl)</item>
+        <item>Thai (th)</item>
+        <item>Vietnames (vi)</item>
     </string-array>
+
 
 
     <!-- Language code -->
@@ -62,14 +81,33 @@
         <item>sv</item>
         <item>tr</item>
         <item>bg</item>
-        <item>cs</item>
         <item>et</item>
-        <item>lt</item>
-        <item>lv</item>
-        <item>no</item>
+        <item>cs</item>
         <item>ro</item>
+        <item>uk</item>
+        <item>sq</item>
+        <item>bs</item>
+        <item>bg</item>
+        <item>hr</item>
+        <item>et</item>
+        <item>gd</item>
+        <item>el</item>
+        <item>he</item>
+        <item>hi</item>
+        <item>hu</item>
+        <item>id</item>
+        <item>kk</item>
+        <item>lv</item>
+        <item>lt</item>
+        <item>mk</item>
+        <item>mg</item>
+        <item>sr</item>
+        <item>sk</item>
+        <item>sl</item>
         <item>th</item>
+        <item>vi</item>
     </string-array>
+
 
 
     <!-- Country -->
@@ -96,7 +134,7 @@
         <item>Norway (NO)</item>
         <item>Sweden (SE)</item>
         <item>Turkey (TR)</item>
-
+        <item>UK (GB)</item>
         <item>BG</item>
         <item>CZ</item>
         <item>AT</item>
@@ -123,6 +161,7 @@
         <item>RO</item>
         <item>TH</item>
     </string-array>
+
 
     <!-- country code -->
     <string-array name="country_code">
@@ -148,7 +187,7 @@
         <item>NO</item>
         <item>SE</item>
         <item>TR</item>
-
+        <item>GB</item>
         <item>BG</item>
         <item>CZ</item>
         <item>AT</item>
@@ -175,6 +214,7 @@
         <item>RO</item>
         <item>TH</item>
     </string-array>
+
 
     <string name="dummytext">Dummy View</string>
     <string name="dummyTitle">Dummy Actionbar Title</string>
