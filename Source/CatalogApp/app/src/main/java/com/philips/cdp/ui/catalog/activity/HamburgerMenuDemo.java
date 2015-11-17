@@ -1,0 +1,221 @@
+package com.philips.cdp.ui.catalog.activity;
+
+import android.app.FragmentManager;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
+import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.HamburgerUtil;
+import com.philips.cdp.uikit.costumviews.VectorDrawableImageView;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.hamburger.HamburgerItem;
+import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
+
+import java.util.ArrayList;
+
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+public class HamburgerMenuDemo extends CatalogActivity {
+
+    private String[] hamburgerMenuTitles;
+    private TypedArray hamburgerMenuIcons;
+    private ArrayList<HamburgerItem> hamburgerItems;
+    private DrawerLayout philipsDrawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private ListView drawerListView;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+    private TextView actionBarTitle;
+    private VectorDrawableImageView footerView;
+    private PhilipsHamburgerAdapter adapter;
+    private TextView actionBarCount;
+    private HamburgerUtil hamburgerUtil;
+    private VectorDrawableImageView hamburgerIcon;
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.uikit_hamburger_menu);
+        initViews();
+        initActionBar(getSupportActionBar());
+        configureDrawer();
+        loadSlideMenuItems();
+        setHamburgerAdaptor();
+        setDrawerAdaptor();
+        if (savedInstanceState == null) {
+            displayView(1);
+        }
+
+        drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title Long")) {
+                    displayView(position);
+                }
+            }
+        });
+
+        hamburgerUtil = new HamburgerUtil(this, drawerListView);
+        hamburgerUtil.updateSmartFooter(footerView);
+    }
+
+    private void initViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
+        drawerListView = (ListView) findViewById(R.id.hamburger_list);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        footerView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        actionBarTitle.setText(title);
+    }
+
+    private void configureDrawer() {
+        drawerToggle = new ActionBarDrawerToggle(this, philipsDrawerLayout, com.philips.cdp.uikit.R.string.app_name, com.philips.cdp.uikit.R.string.app_name) {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        philipsDrawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    private void setHamburgerAdaptor() {
+        int feature = getIntent().getIntExtra("feature", -1);
+        if (feature == 1)
+            addDrawerItems();
+        else if (feature == 2)
+            addDrawerItemsWithIcons();
+    }
+
+    private void loadSlideMenuItems() {
+        hamburgerMenuTitles = getResources().getStringArray(R.array.hamburger_drawer_items);
+
+        hamburgerMenuIcons = getResources()
+                .obtainTypedArray(R.array.hamburger_drawer_icons);
+
+        hamburgerItems = new ArrayList<>();
+    }
+
+    private void addDrawerItems() {
+        for (int i = 0; i < hamburgerMenuTitles.length; i++) {
+            if (i == 4) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 3));
+            } else if (i == 6) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 22, false, true));
+            } else if (hamburgerMenuTitles[i].equalsIgnoreCase("Title Long")) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 0, true));
+            } else
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null));
+        }
+    }
+
+    private void addDrawerItemsWithIcons() {
+        for (int i = 0; i < hamburgerMenuTitles.length; i++) {
+            if (i == 4) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 3));
+            } else if (i == 6) {
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 22));
+            } else {
+                if (hamburgerMenuTitles[i].equalsIgnoreCase("Title Long")) {
+                    hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 0, true));
+                } else
+                    hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1))));
+            }
+        }
+    }
+
+    private void setDrawerAdaptor() {
+        adapter = new PhilipsHamburgerAdapter(this,
+                hamburgerItems);
+        drawerListView.setAdapter(adapter);
+        actionBarCount.setText(String.valueOf(adapter.getCounterValue()));
+    }
+
+    private void displayView(int position) {
+        final HamburgerFragment fragment = new HamburgerFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        Bundle bundle = getBundle(hamburgerMenuTitles[position], hamburgerMenuIcons.getResourceId(position, -1));
+        fragment.setArguments(bundle);
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_container, fragment).commit();
+        setTitle(hamburgerMenuTitles[position]);
+//        philipsDrawerLayout.closeDrawer(navigationView);
+    }
+
+    @NonNull
+    private Bundle getBundle(final String navMenuTitle, final int resourceId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("data", navMenuTitle);
+        bundle.putInt("resId", resourceId);
+        return bundle;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        switch (item.getItemId()) {
+            case R.id.action_reload:
+                Toast.makeText(this, "clicked reload", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void initActionBar(ActionBar actionBar) {
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
+        actionBarCount = (TextView) findViewById(R.id.hamburger_count);
+        hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
+        hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
+        RelativeLayout hamburgerClick = (RelativeLayout) findViewById(R.id.hamburger_click);
+        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+
+        hamburgerClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                philipsDrawerLayout.openDrawer(navigationView);
+            }
+        });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            hamburgerUtil.updateSmartFooter(footerView);
+        }
+    }
+
+}

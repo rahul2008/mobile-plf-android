@@ -31,7 +31,7 @@ public class DiscreteSlider extends BaseSlider implements SeekBar.OnSeekBarChang
 
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.slider, 0, 0);
-        noDiscretePoint = a.getInteger(0,5);
+        noDiscretePoint = a.getInteger(0, 5);
     }
 
     public DiscreteSlider(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -73,7 +73,7 @@ public class DiscreteSlider extends BaseSlider implements SeekBar.OnSeekBarChang
             x = x + radius;
         }
 
-        canvas.drawCircle(length , y, radius, P);
+        canvas.drawCircle(length, y, radius, P);
         canvas.restore();
     }
 

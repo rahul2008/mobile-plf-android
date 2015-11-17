@@ -18,5 +18,34 @@
     <string name="invalid_email_format">Invalid email</string>
     <string name="invalid_pwd_format">Invalid password format</string>
     <string name="sample_button">Sample button</string>
+    <string name="uikit_hamburger">Hamburger</string>
+
+    <string-array name="hamburger_drawer_items">
+        <item>Title Long</item>
+        <item>Quisque</item>
+        <item>Eget Odio</item>
+        <item>Ac Lectus</item>
+        <item>Faucibus</item>
+        <item>Eget In</item>
+        <item>Pellentesque</item>
+        <item>Title long</item>
+        <item>Vestibulum</item>
+        <item>Tortor</item>
+    </string-array>
+
+    <array name="hamburger_drawer_icons">
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_coffee</item>
+        <item>@drawable/uikit_stats</item>
+        <item>@drawable/uikit_recycle_bin</item>
+        <item>@drawable/uikit_radio</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_factory</item>
+        <item>@drawable/uikit_apple</item>
+        <item>@drawable/uikit_gear</item>
+    </array>
+
+
     <string name="title_activity_social_icons">SocialIconsActivity</string>
 </resources>

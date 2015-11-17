@@ -32,7 +32,6 @@ public class IndicatorSlider extends LinearLayout {
     }
 
 
-
     public IndicatorSlider(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
@@ -80,6 +79,7 @@ public class IndicatorSlider extends LinearLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         setIndicatorPosition();
     }
+
     private void init(Context context) {
         seekbar = (BaseSlider) findViewById(R.id.slider);
         indicatorImage = (ImageView) findViewById(R.id.slider_indicator);
