@@ -1,13 +1,13 @@
 ﻿<vector xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-        android:width="26.5dp"
-        android:height="26.5dp"
-        android:viewportHeight="26.5"
-        android:viewportWidth="26.5"
+    android:width="26.5dp"
+    android:height="26.5dp"
+    android:viewportHeight="26.5"
+    android:viewportWidth="26.5"
 
-        app:vc_viewportHeight="26.5"
-        app:vc_viewportWidth="26.5">
+    app:vc_viewportHeight="26.5"
+    app:vc_viewportWidth="26.5">
 
     <path
         android:fillColor="@color/uikit_white"
@@ -32,5 +32,5 @@ c0.5,0.5,0.8,1.1,0.8,1.8c0,0.2,0,0.4-0.1,0.8c0,0.4-0.1,0.7-0.2,1.1l-1,3.5c-0.1,0
 c0,0.5,0.1,0.8,0.3,0.9c0.2,0.2,0.6,0.3,1.1,0.3c0.2,0,0.5,0,0.8-0.1c0.3-0.1,0.5-0.2,0.7-0.2L16.4,21.8z
 M16.3,7.6
 c-0.5,0.4-1,0.6-1.7,0.6c-0.6,0-1.2-0.2-1.7-0.6c-0.5-0.4-0.7-0.9-0.7-1.6c0-0.6,0.2-1.1,0.7-1.6c0.5-0.4,1-0.6,1.7-0.6
-c0.6,0,1.2,0.2,1.7,0.6C16.7,4.9,17,5.5,17,6.1C17,6.7,16.7,7.2,16.3,7.6z"/>
+c0.6,0,1.2,0.2,1.7,0.6C16.7,4.9,17,5.5,17,6.1C17,6.7,16.7,7.2,16.3,7.6z" />
 </vector>

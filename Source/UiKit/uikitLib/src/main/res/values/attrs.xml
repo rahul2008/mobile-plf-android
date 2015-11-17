@@ -9,7 +9,9 @@
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
         <attr name="veryLightColor" format="color"/>
+        <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
+        <attr name="veryDarkToDark" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ActionButton">
@@ -106,15 +108,18 @@
     </declare-styleable>
 
     <declare-styleable name="slider">
-        <attr name="discreteValue" format="integer"/>
+        <attr name="discreteValue" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="popover_alert">
-        <attr name="popover_background_gradient_start_color" format="color"/>
-        <attr name="popover_background_gradient_end_color" format="color"/>
         <attr name="popover_right_icon" format="reference"/>
         <attr name="popover_left_icon" format="reference"/>
         <attr name="popover_title_text" format="reference|string"/>
+        <attr name="popover_opacity" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="notification_label">
+        <attr name="notification_label_small" format="boolean" />
     </declare-styleable>
 
 </resources>

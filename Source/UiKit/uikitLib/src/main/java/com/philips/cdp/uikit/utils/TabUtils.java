@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.com.philips.cdp.uikit.utils;
+package com.philips.cdp.uikit.utils;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

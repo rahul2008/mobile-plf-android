@@ -9,26 +9,22 @@
         android:id="@+id/baseslider"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center">
-    </com.philips.cdp.uikit.costumviews.BaseSlider>
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"></com.philips.cdp.uikit.costumviews.BaseSlider>
 
     <com.philips.cdp.uikit.costumviews.IndicatorSlider
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center">
-    </com.philips.cdp.uikit.costumviews.IndicatorSlider>
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"></com.philips.cdp.uikit.costumviews.IndicatorSlider>
 
     <com.philips.cdp.uikit.costumviews.DiscreteSlider
         android:id="@+id/discreteslider"
         android:layout_width="269dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        app:discreteValue="7">
-    </com.philips.cdp.uikit.costumviews.DiscreteSlider>
-
+        android:layout_marginTop="10dp"
+        app:discreteValue="7"></com.philips.cdp.uikit.costumviews.DiscreteSlider>
 
 
 </LinearLayout>

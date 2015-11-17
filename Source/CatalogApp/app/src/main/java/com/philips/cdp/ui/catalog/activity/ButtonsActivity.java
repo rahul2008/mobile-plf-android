@@ -1,6 +1,6 @@
 package com.philips.cdp.ui.catalog.activity;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.PuiPopoverAlert;
 import com.philips.cdp.uikit.PuiSwitch;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.utils.FontIconUtils;
 
 public class ButtonsActivity extends CatalogActivity {
 
@@ -37,9 +37,6 @@ public class ButtonsActivity extends CatalogActivity {
 
         showNotification = (Button) findViewById(R.id.show_notification);
 
-        Drawable leftIcon = VectorDrawable.create(this, R.drawable.info_icon);
-        Drawable rightIcon = VectorDrawable.create(this, R.drawable.cross_icon);
-
         showNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -59,8 +56,10 @@ public class ButtonsActivity extends CatalogActivity {
         });
 
         puiPopoverAlert = (PuiPopoverAlert) findViewById(R.id.popover_alert);
-//        puiPopoverAlert.setLeftIcon(leftIcon);
-//        puiPopoverAlert.setRightIcon(rightIcon);
+        puiPopoverAlert.setLeftIcon(FontIconUtils.getInfo(this, FontIconUtils.ICONS.INFO, 22, Color.WHITE,
+                false));
+        puiPopoverAlert.setRightIcon(FontIconUtils.getInfo(this, FontIconUtils.ICONS.CROSS, 15, Color.WHITE,
+                false));
         popoverProgress = puiPopoverAlert.getProgressBar();
     }
 
@@ -72,17 +71,20 @@ public class ButtonsActivity extends CatalogActivity {
     }
 
     private class ProgresAsyncTask extends AsyncTask<Void, Integer, Void> {
+        private Object lock = new Object();
 
         @Override
         protected Void doInBackground(final Void... params) {
-            while (progress < 100) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ie) {
+            synchronized (lock) {
+                while (progress < 100) {
+                    try {
+                        lock.wait(5);
+                    } catch (InterruptedException ie) {
 
+                    }
+                    progress++;
+                    publishProgress(progress);
                 }
-                progress++;
-                publishProgress(progress);
             }
             return null;
         }
@@ -94,12 +96,14 @@ public class ButtonsActivity extends CatalogActivity {
 
         @Override
         protected void onPostExecute(final Void aVoid) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ie) {
+            synchronized (lock) {
+                try {
+                    lock.wait(200);
+                } catch (InterruptedException ie) {
+                }
+                puiPopoverAlert.dismiss();
+                progress = 0;
             }
-            puiPopoverAlert.dismiss();
-            progress = 0;
         }
     }
 }

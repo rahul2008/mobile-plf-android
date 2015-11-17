@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/hamburger_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+        android:id="@+id/hamburger_icon"
+        android:layout_width="18dp"
+        android:layout_height="12dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/uikit_hamburger_icon_left_margin"
+        app:vectorsrc="@drawable/uikit_hamburger_icon" />
+
+    <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
+        android:id="@+id/hamburger_count"
+        style="@style/NotificationLabel.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/uikit_hamburger_counter_icon_left_margin"
+        android:layout_toRightOf="@+id/hamburger_icon" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/hamburger_title"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/uikit_hamburger_menu_title_text_size">
+    </TextView>
+
+</RelativeLayout>

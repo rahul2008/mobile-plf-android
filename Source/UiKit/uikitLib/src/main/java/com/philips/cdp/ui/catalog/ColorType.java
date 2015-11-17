@@ -19,14 +19,6 @@ public enum ColorType {
         this.description = description;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public static ColorType fromId(final int id) {
         final ColorType[] values = ColorType.values();
 
@@ -49,5 +41,13 @@ public enum ColorType {
         }
 
         return UNKNOWN;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

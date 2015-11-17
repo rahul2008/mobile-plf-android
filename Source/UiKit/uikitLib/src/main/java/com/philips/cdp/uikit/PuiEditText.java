@@ -20,10 +20,6 @@ import android.widget.TextView;
  */
 public class PuiEditText extends RelativeLayout {
 
-    public interface Validator {
-        boolean validate(String inputToBeValidated);
-    }
-
     /**
      * viewId needs to be generated at runtime if we want to save and restore state of a View
      */
@@ -37,7 +33,6 @@ public class PuiEditText extends RelativeLayout {
     private Drawable themeDrawable;
     private Validator validator;
     private boolean focused;
-
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
         @Override
         public void onFocusChange(final View view, final boolean hasFocus) {
@@ -248,6 +243,10 @@ public class PuiEditText extends RelativeLayout {
         } else {
             editText.setBackgroundDrawable(backgroundDrawable);
         }
+    }
+
+    public interface Validator {
+        boolean validate(String inputToBeValidated);
     }
 
     /**

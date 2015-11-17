@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.com.philips.cdp.uikit.utils;
+package com.philips.cdp.uikit.drawable;
 
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;

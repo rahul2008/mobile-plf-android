@@ -4,4 +4,5 @@
     <integer name="circle">1</integer>
     <integer name="philips_gradient_angle">315</integer>
     <integer name="uikit_dot_navigation_unselected_alpha">77</integer>
+    <integer name="uikit_hamburger_menu_group_layout_alpha">128</integer>
 </resources>
