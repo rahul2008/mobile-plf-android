@@ -26,6 +26,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     private int disabledColor;
     private int brightColor;
     private int selectedIndex;
+    private int baseColor;
 
     public PhilipsHamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
         this.context = context;
@@ -84,9 +85,10 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     }
 
     private void setColors() {
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor, R.attr.brightColor});
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor, R.attr.brightColor, R.attr.baseColor});
         disabledColor = typedArray.getColor(0, -1);
         brightColor = typedArray.getColor(1, -1);
+        baseColor = typedArray.getColor(2, -1);
         typedArray.recycle();
     }
 
@@ -99,9 +101,6 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to setBackgroundDrawable(): sticking with deprecated API for now
     private void setGroupLayoutAlpha(View convertView) {
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
-        int baseColor = typedArray.getColor(0, 0);
-        typedArray.recycle();
         convertView.setBackgroundColor(adjustAlpha(baseColor, 0.5f));
     }
 
