@@ -1,10 +1,8 @@
 package com.philips.cdp.uikit;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.res.ResourcesCompat;
@@ -87,16 +85,6 @@ public class PuiPopoverAlert extends RelativeLayout {
 
     public PuiPopoverAlert(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    private Drawable getBarckgroundGradientDrawable(int startColor, int endColor) {
-        final Resources resources = context.getResources();
-        int[] gradient = new int[]{endColor, startColor};
-
-        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TR_BL, gradient);
-
-        drawable.mutate();
-        return drawable;
     }
 
     public void show() {

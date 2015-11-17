@@ -21,4 +21,6 @@
     <string name="uikit_fonticon_star">&#xe612;</string>
     <string name="uikit_fonticon_plus">&#xe613;</string>
     <string name="uikit_fonticon_cross">&#xe614;</string>
+    <string name="uikit_fonticon_hamburger">&#xe615;</string>
+    <string name="uikit_fonticon_info">&#xe616;</string>
 </resources>
