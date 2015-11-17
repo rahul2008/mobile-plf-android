@@ -39,6 +39,7 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import org.json.JSONException;
@@ -335,7 +336,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void handleUiAcceptTerms(View view) {
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+            if(isEmailExist && RegPreferenceUtility.isAvailableIn(mContext, mEmail)){
+                View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
+                acceptTermsLine.setVisibility(View.GONE);
+                mLlAcceptTermsContainer.setVisibility(View.GONE);
+            }else{
+                mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+            }
         } else {
             View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
             acceptTermsLine.setVisibility(View.GONE);
@@ -426,8 +433,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
                         mCbTerms.isChecked(), this, mRegistrationToken);
             } else {
+                mEmail = mEtEmail.getEmailId().toString().trim();
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName,
-                        mEtEmail.getEmailId().toString().trim(), true, mCbTerms.isChecked(), this, mRegistrationToken);
+                        mEmail, true, mCbTerms.isChecked(), this, mRegistrationToken);
             }
         }
     }
@@ -493,6 +501,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
+        RegPreferenceUtility.storePreference(mContext, mEmail, true);
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);

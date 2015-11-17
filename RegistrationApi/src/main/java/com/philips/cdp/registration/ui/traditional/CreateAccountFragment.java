@@ -40,6 +40,7 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -262,9 +263,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mEtEmail.clearFocus();
         mEtPassword.clearFocus();
         showSpinner();
+        mEmail =  mEtEmail.getEmailId();
         mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
                 .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
     }
+
+    private String mEmail;
 
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
         @Override
@@ -325,6 +329,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onRegisterSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
+        if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
+            RegPreferenceUtility.storePreference(mContext,mEmail,true);
+        }
         hideSpinner();
         trackCheckMarketing();
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
