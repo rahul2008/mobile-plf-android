@@ -121,7 +121,6 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private void applyUnselectedMetrics(final ImageView view, final Drawable drawable, Context context) {
-//        drawable.setAlpha(context.getResources().getInteger(R.integer.uikit_dot_navigation_unselected_alpha));
         LayoutParams vp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         vp.setMargins(0, 0, distanceBetweenCircles, 0);
         this.unSelectedDrawable = drawable;
