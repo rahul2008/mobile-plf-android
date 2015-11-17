@@ -1,6 +1,13 @@
 PhilipsUIKit for Android Release Notes
 ======================================
 
+Version 0.3.0
+------------------
+### New Features
+Discreet Slider
+Soical icons (icon fonts implementation)
+Hamburger menu
+
 Version 0.2.0
 ------------------
 
