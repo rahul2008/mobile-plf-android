@@ -3,7 +3,7 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
 
-import com.adobe.mobile.Config;
+
 import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -15,7 +15,7 @@ public class RegistrationApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Config.setContext(getApplicationContext());
+		//Config.setContext(getApplicationContext());
 		RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
 		RLog.d(RLog.JANRAIN_INITIALIZE,
 		        "RegistrationApplication : Janrain initialization with locale : "

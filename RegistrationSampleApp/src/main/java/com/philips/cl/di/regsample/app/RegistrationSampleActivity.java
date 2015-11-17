@@ -14,7 +14,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.adobe.mobile.Config;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.coppa.CoppaResendError;
@@ -26,6 +25,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.tagging.Tagging;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -73,7 +73,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onResume() {
-        Config.collectLifecycleData();
+        Tagging.collectLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
 
@@ -88,7 +88,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     protected void onPause() {
-        Config.pauseCollectingLifecycleData();
+        Tagging.pauseCollectingLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onPause");
         super.onPause();
     }
