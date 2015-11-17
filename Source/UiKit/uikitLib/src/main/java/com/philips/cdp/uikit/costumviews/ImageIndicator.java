@@ -17,13 +17,13 @@ import android.widget.LinearLayout;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.dotnavigation.PageIndicator;
-import com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedDots;
+import com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ImageIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedDots {
+public class ImageIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedViews {
 
     private final View parentView;
     private ViewPager viewPager;
@@ -32,7 +32,7 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     private int currentPage;
     private int distanceBetweenCircles;
     private int scrollState;
-    private onTouchUnSelectedDots onTouchUnSelectedDots;
+    private onTouchUnSelectedViews onTouchUnSelectedViews;
     private Drawable unSelectedDrawable;
     private Drawable[] drawables;
 
@@ -86,13 +86,13 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
                 }
 
                 final LinearLayout parent = getParentLayout();
-                drawDots(context, count, parent, drawables);
+                drawViews(context, parent, drawables);
             }
         });
 
     }
 
-    private void drawDots(final Context context, final int count, final LinearLayout parent, Drawable[] drawables) {
+    private void drawViews(final Context context, final LinearLayout parent, Drawable[] drawables) {
         for (int i = 0; i < drawables.length; i++) {
             ImageView view = new ImageView(context);
             if (i == currentPage) {
@@ -110,9 +110,9 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onClickUnSelectedCircle(v, position);
-                if (onTouchUnSelectedDots != null) {
-                    onTouchUnSelectedDots.onClickUnSelectedCircle(v, position);
+                onClickUnSelectedView(v, position);
+                if (onTouchUnSelectedViews != null) {
+                    onTouchUnSelectedViews.onClickUnSelectedView(v, position);
                 }
             }
         });
@@ -231,12 +231,12 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     }
 
     @Override
-    public void onClickUnSelectedCircle(final View view, final int position) {
+    public void onClickUnSelectedView(final View view, final int position) {
         viewPager.setCurrentItem(position, true);
     }
 
-    public void setOnTouchUnSelectedDots(onTouchUnSelectedDots onTouchUnSelectedDots) {
-        this.onTouchUnSelectedDots = onTouchUnSelectedDots;
+    public void setOnTouchUnSelectedViews(onTouchUnSelectedViews onTouchUnSelectedViews) {
+        this.onTouchUnSelectedViews = onTouchUnSelectedViews;
     }
 
     public int getFilledColor() {

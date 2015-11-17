@@ -17,7 +17,7 @@ import com.philips.cdp.uikit.R;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class CircleIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedDots {
+public class CircleIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedViews {
 
     private final View parentView;
     private ViewPager viewPager;
@@ -32,7 +32,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     private int currentPage;
     private int distanceBetweenCircles;
     private int scrollState;
-    private onTouchUnSelectedDots onTouchUnSelectedDots;
+    private onTouchUnSelectedViews onTouchUnSelectedViews;
     private GradientDrawable unSelectedGradientDrawable;
 
     public CircleIndicator(final Context context, final AttributeSet attrs) {
@@ -116,9 +116,9 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onClickUnSelectedCircle(v, position);
-                if (onTouchUnSelectedDots != null) {
-                    onTouchUnSelectedDots.onClickUnSelectedCircle(v, position);
+                onClickUnSelectedView(v, position);
+                if (onTouchUnSelectedViews != null) {
+                    onTouchUnSelectedViews.onClickUnSelectedView(v, position);
                 }
             }
         });
@@ -277,12 +277,12 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     }
 
     @Override
-    public void onClickUnSelectedCircle(final View view, final int position) {
+    public void onClickUnSelectedView(final View view, final int position) {
         viewPager.setCurrentItem(position, true);
     }
 
-    public void setOnTouchUnSelectedDots(onTouchUnSelectedDots onTouchUnSelectedDots) {
-        this.onTouchUnSelectedDots = onTouchUnSelectedDots;
+    public void setOnTouchUnSelectedViews(onTouchUnSelectedViews onTouchUnSelectedViews) {
+        this.onTouchUnSelectedViews = onTouchUnSelectedViews;
     }
 
     public int getFilledColor() {
