@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+    <com.philips.cdp.uikit.customviews.VectorDrawableImageView
         android:id="@+id/hamburger_icon"
         android:layout_width="18dp"
         android:layout_height="12dp"
@@ -19,7 +19,7 @@
         android:layout_marginLeft="@dimen/uikit_hamburger_icon_left_margin"
         app:vectorsrc="@drawable/uikit_hamburger_icon" />
 
-    <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
+    <com.philips.cdp.uikit.customviews.PhilipsBadgeView
         android:id="@+id/hamburger_count"
         style="@style/NotificationLabel.Small"
         android:layout_width="wrap_content"

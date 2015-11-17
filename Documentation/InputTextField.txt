@@ -27,7 +27,7 @@ Attributes defined for PuiEditText :
 
 Sample usage : 
 
-<com.philips.cdp.uikit.PuiEditText
+<com.philips.cdp.uikit.customviews.PuiEditText
         android:id="@+id/input_field_1"  			-> Unique id of the PuiEditText
         android:layout_width="wrap_content" 			-> Width of the EditText layout container
         android:layout_height="wrap_content" 			-> Height of the EditText layout container

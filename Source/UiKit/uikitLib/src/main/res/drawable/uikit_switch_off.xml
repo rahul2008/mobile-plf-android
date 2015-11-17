@@ -2,13 +2,13 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
 
-        android:width="66dp"
+        android:width="64dp"
         android:height="33dp"
         android:viewportHeight="33"
-        android:viewportWidth="66"
+        android:viewportWidth="64"
 
         app:vc_viewportHeight="33"
-        app:vc_viewportWidth="66">
+        app:vc_viewportWidth="64">
 
     <path
         android:fillColor="?attr/baseColor"

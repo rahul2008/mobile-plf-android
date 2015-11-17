@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         style="?attr/splashTitleStyle"/>
 
-    <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+    <com.philips.cdp.uikit.customviews.VectorDrawableImageView
         android:id="@+id/splash_logo"
         android:layout_width="@dimen/uikit_splash_logo_width"
         android:layout_height="@dimen/uikit_splash_logo_height"

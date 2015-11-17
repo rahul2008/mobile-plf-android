@@ -14,7 +14,7 @@
         android:layout_height = "wrap_content"
         android:layout_centerInParent="true">
 
-        <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+        <com.philips.cdp.uikit.customviews.VectorDrawableImageView
             android:id="@+id/slider_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             />
     </FrameLayout>
 
-    <com.philips.cdp.uikit.costumviews.BaseSlider
+    <com.philips.cdp.uikit.customviews.BaseSlider
         android:id="@+id/slider"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

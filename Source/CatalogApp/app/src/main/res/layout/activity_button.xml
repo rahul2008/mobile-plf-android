@@ -14,7 +14,7 @@
         android:layout_marginTop="40dp"
         android:text="Show notification" />
 
-    <com.philips.cdp.uikit.PuiSwitch
+    <com.philips.cdp.uikit.customviews.PuiSwitch
         android:id="@+id/change_button_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/sample_button"/>
 
-    <com.philips.cdp.uikit.PuiPopoverAlert
+    <com.philips.cdp.uikit.customviews.PuiPopoverAlert
         android:id="@+id/popover_alert"
         android:layout_width="match_parent"
         android:layout_height="53dp"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <com.philips.cdp.uikit.PuiEditText
+    <com.philips.cdp.uikit.customviews.PuiEditText
         android:id="@+id/input_field_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         inputText:inputFieldWidth="240dp"
         inputText:singleLine="true"/>
 
-    <com.philips.cdp.uikit.PuiEditText
+    <com.philips.cdp.uikit.customviews.PuiEditText
         android:id="@+id/input_field_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         inputText:inputFieldWidth="240dp"
         inputText:singleLine="true"/>
 
-    <com.philips.cdp.uikit.PuiEditText
+    <com.philips.cdp.uikit.customviews.PuiEditText
         android:id="@+id/input_field_disabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

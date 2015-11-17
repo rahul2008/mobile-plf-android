@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/miscBtnCircleArrow"
                 style="@style/Philips.ActionButton.Circle.Arrow"
                 android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
                 android:layout_marginTop="5dp" />
 
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/miscBtnCirclePlus"
                 style="@style/Philips.ActionButton.Circle.Plus"
                 android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
                 android:layout_marginLeft="@dimen/philips_action_button_margin"
                 android:layout_marginTop="5dp" />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/miscBtnCircleMinus"
                 style="@style/Philips.ActionButton.Circle.Minus"
                 android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
                 android:layout_marginLeft="@dimen/philips_action_button_margin"
                 android:layout_marginTop="5dp" />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/miscBtnCircleQuestionMark"
                 style="@style/Philips.ActionButton.Circle.QuestionMark"
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
                 android:layout_marginTop="5dp"
                 />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/miscBtnSquareArrow"
                 style="@style/Philips.ActionButton.Square.Arrow"
                 android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                 android:layout_marginTop="5dp" />
 
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/miscBtnSquarePlus"
                 style="@style/Philips.ActionButton.Square.Plus"
                 android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_marginLeft="@dimen/philips_action_button_margin"
                 android:layout_marginTop="5dp" />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/miscBtnSquareMinus"
                 style="@style/Philips.ActionButton.Square.Minus"
                 android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
                 android:layout_marginTop="5dp" />
 
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/miscBtnSquareCrossMark"
                 style="@style/Philips.ActionButton.Square.CrossMark"
                 android:layout_width="wrap_content"
@@ -85,14 +85,14 @@
 
     </HorizontalScrollView>
 
-    <com.philips.cdp.uikit.PuiSwitch
+    <com.philips.cdp.uikit.customviews.PuiSwitch
         android:id="@+id/uikit_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:checked="false" />
 
-    <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
+    <com.philips.cdp.uikit.customviews.PhilipsBadgeView
         android:id="@+id/badge_view_circle_medium"
         style="@style/NotificationLabel"
         android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
         android:layout_margin="20dp"
         android:text="3" />
 
-    <com.philips.cdp.uikit.costumviews.PhilipsBadgeView
+    <com.philips.cdp.uikit.customviews.PhilipsBadgeView
         android:id="@+id/badge_view_square_medium"
         style="@style/NotificationLabel"
         android:layout_width="wrap_content"

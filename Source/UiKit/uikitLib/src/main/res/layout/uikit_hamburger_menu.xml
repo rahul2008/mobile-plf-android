@@ -47,7 +47,7 @@
                 android:listSelector="@android:color/transparent"
                 android:scrollbars="none"></ListView>
 
-            <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+            <com.philips.cdp.uikit.customviews.VectorDrawableImageView
                 android:id="@+id/philips_logo"
                 android:layout_width="@dimen/uikit_hamburger_logo_width"
                 android:layout_height="@dimen/uikit_hamburger_logo_height"
