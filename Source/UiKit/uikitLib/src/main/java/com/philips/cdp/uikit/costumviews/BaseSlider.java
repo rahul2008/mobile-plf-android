@@ -83,13 +83,22 @@ public class BaseSlider extends SeekBar {
     }
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
-    private GradientDrawable getShapeDrawable() {
+    private LayerDrawable getShapeDrawable() {
         Resources resources = getResources();
-        final GradientDrawable gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.uikit_slider_circle);
-        GradientDrawable d = (GradientDrawable) gradientDrawable.getConstantState().newDrawable().mutate();
+
+
+        LayerDrawable ld = (LayerDrawable) resources.getDrawable(R.drawable.uikit_slider_circle);
+        GradientDrawable gradientDrawableDummy = (GradientDrawable) ld.findDrawableByLayerId(R.id.dummycircle);
+        //GradientDrawable gdDummyCircle = (GradientDrawable) gradientDrawableDummy.getConstantState().newDrawable().mutate();
+        gradientDrawableDummy.setStroke(thumbStrokeWidth, Color.WHITE);
+
+
+        GradientDrawable gradientDrawableCircle = (GradientDrawable) ld.findDrawableByLayerId(R.id.originalcircle);
+       // GradientDrawable gdCircle = (GradientDrawable) gradientDrawableCircle.getConstantState().newDrawable().mutate();
         int strokeColor = Color.argb(128, Color.red(themeBaseColor), Color.green(themeBaseColor), Color.blue(themeBaseColor));
-        d.setStroke(thumbStrokeWidth, strokeColor);
-        return d;
+        gradientDrawableCircle.setStroke(thumbStrokeWidth,strokeColor );
+
+        return ld;
     }
 
     public  Drawable getThumbDrawable() {
