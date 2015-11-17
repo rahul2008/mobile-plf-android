@@ -6,6 +6,7 @@ import com.philips.cdp.ui.catalog.ColorType;
 import com.philips.cdp.uikit.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -28,9 +29,11 @@ public class ThemeUtils {
             R.style.Theme_Philips_BrightAqua_WhiteBackground
     };
 
+    private HashMap<Integer, Integer> noActionBarMap = new HashMap<Integer,Integer>();
     public ThemeUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
         appendThemes();
+        initNoActionBarMap();
     }
 
     public String getColorString() {
@@ -119,5 +122,28 @@ public class ThemeUtils {
 
     public void setThemePreferences(String prefData) {
         sharedPreferences.edit().putString(CURRENT_THEME_STATE, prefData).apply();
+    }
+
+    public int getNoActionBarTheme() {
+        return noActionBarMap.get(getTheme());
+    }
+
+    private void initNoActionBarMap() {
+        noActionBarMap.put(R.style.Theme_Philips_DarkBlue, R.style.Theme_Philips_DarkBlue_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_DarkBlue_WhiteBackground, R.style.Theme_Philips_DarkBlue_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground, R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_DarkBlue_Gradient, R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
+        //BrightOrange
+        noActionBarMap.put(R.style.Theme_Philips_BrightOrange, R.style.Theme_Philips_BrightOrange_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightOrange_WhiteBackground, R.style.Theme_Philips_BrightOrange_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightOrange_Gradient_WhiteBackground, R.style.Theme_Philips_BrightOrange_Gradient_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightOrange_Gradient, R.style.Theme_Philips_BrightOrange_Gradient_NoActionBar);
+
+        //BrightAqua
+
+        noActionBarMap.put(R.style.Theme_Philips_BrightAqua, R.style.Theme_Philips_BrightAqua_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightAqua_WhiteBackground, R.style.Theme_Philips_BrightAqua_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightAqua_Gradient_WhiteBackground, R.style.Theme_Philips_BrightAqua_Gradient_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightAqua_Gradient, R.style.Theme_Philips_BrightAqua_Gradient_NoActionBar);
     }
 }

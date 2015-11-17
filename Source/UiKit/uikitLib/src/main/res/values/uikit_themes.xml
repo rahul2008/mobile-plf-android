@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Placeholder to start PhilipsTheme definition -->
-    <style name="Theme.Philips" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/HoloActionBar</item>
         <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="splashTitleStyle">@style/SplashTitle</item>
