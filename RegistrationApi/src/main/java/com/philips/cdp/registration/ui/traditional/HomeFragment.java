@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -270,6 +271,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mLlSocialProviderBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_social_provider_container);
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
+
+        ImageView backPressImageView = (ImageView) getRegistrationFragment().getParentActivity().findViewById(R.id.iv_reg_back);
+        backPressImageView.setVisibility(View.VISIBLE);
 
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
