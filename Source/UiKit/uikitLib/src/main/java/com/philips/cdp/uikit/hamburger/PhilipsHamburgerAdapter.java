@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.ColorFilterStateListDrawable;
+import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 
 import java.util.ArrayList;
 

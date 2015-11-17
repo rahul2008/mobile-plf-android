@@ -1,12 +1,11 @@
 package com.philips.cdp.uikit;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,14 +48,13 @@ public class PuiPopoverAlert extends RelativeLayout {
         rightIconImageView = (ImageView) findViewById(R.id.uikit_popover_close_icon);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.popover_alert);
-        int backgroundGradientStartColor = a.getColor(R.styleable.popover_alert_popover_background_gradient_start_color, getResources().getColor(R.color.uikit_philips_dark_blue));
-        int backgroundGradientEndColor = a.getColor(R.styleable.popover_alert_popover_background_gradient_end_color, getResources().getColor(R.color.uikit_philips_bright_blue));
         Drawable leftIcon = a.getDrawable(R.styleable.popover_alert_popover_left_icon);
         Drawable rightIcon = a.getDrawable(R.styleable.popover_alert_popover_right_icon);
         String titleString = (String) a.getText(R.styleable.popover_alert_popover_title_text);
+        float alpha = a.getFloat(R.styleable.popover_alert_popover_opacity,0.8f);
+        a.recycle();
 
-        setBackgroundDrawable(getBarckgroundGradientDrawable(backgroundGradientStartColor, backgroundGradientEndColor));
-
+        setAlpha(alpha);
         titleText.setText(titleString);
         if (leftIcon != null) {
             leftIconImageView.setImageDrawable(leftIcon);
@@ -77,21 +75,16 @@ public class PuiPopoverAlert extends RelativeLayout {
             }
         });
 
+        //Set via code to avoid the tailing issue of background drawable
+        Drawable d = ResourcesCompat.getDrawable(context.getResources(), R.drawable
+                .uikit_popover_progress_bar_drawable, context.getTheme());
+        progressBar.setProgressDrawable(d);
+
         setVisibility(View.GONE);
     }
 
     public PuiPopoverAlert(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    private Drawable getBarckgroundGradientDrawable(int startColor, int endColor) {
-        final Resources resources = context.getResources();
-        int[] gradient = new int[]{endColor, startColor};
-
-        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TR_BL, gradient);
-
-        drawable.mutate();
-        return drawable;
     }
 
     public void show() {

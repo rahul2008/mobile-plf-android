@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.TabUtils;
+import com.philips.cdp.uikit.utils.TabUtils;
 
 public class TabBarDemo extends CatalogActivity {
 
