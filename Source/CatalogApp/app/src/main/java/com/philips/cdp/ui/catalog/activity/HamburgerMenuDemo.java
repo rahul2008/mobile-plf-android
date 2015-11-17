@@ -51,7 +51,9 @@ public class HamburgerMenuDemo extends CatalogActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        setNoActionBarTheme();
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());

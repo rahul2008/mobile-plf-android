@@ -22,6 +22,11 @@
         <item name="veryDarkToDark">@drawable/uikit_grad_blue_verydark_to_dark</item>
     </style>
 
+    <style name="Theme.Philips.DarkBlue.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
         <item name="gradBackground">@drawable/uikit_grad_orange_background</item>
@@ -41,6 +46,11 @@
         <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="splashGradient">@drawable/uikit_grad_orange_bright_to_light</item>
         <item name="veryDarkToDark">@drawable/uikit_grad_orange_dark_to_bright</item>
+    </style>
+
+    <style name="Theme.Philips.BrightOrange.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
@@ -64,4 +74,8 @@
         <item name="veryDarkToDark">@drawable/uikit_grad_aqua_dark_to_bright</item>
     </style>
 
+    <style name="Theme.Philips.BrightAqua.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
