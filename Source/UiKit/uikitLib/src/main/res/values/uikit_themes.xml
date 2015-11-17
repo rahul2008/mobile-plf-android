@@ -18,9 +18,7 @@
         <item name="android:seekBarStyle">@style/Slider</item>
         <item name="colorPrimaryDark">?attr/gradBackground</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
+        <item name="android:statusBarColor">?attr/baseColor</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
