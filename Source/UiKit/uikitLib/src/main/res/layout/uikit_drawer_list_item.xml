@@ -23,7 +23,6 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/uikit_hamburger_item_text_left_margin"
-        android:textColor="?attr/veryLightColor"
         android:textSize="@dimen/uikit_hamburgur_item_text_size"
         />
 

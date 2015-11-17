@@ -67,6 +67,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title Long")) {
+                    adapter.setSelectedIndex(position);
                     displayView(position);
                 }
             }

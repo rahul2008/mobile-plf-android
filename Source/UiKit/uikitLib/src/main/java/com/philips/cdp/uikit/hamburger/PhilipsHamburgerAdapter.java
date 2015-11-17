@@ -2,15 +2,10 @@ package com.philips.cdp.uikit.hamburger;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 
 import java.util.ArrayList;
 
@@ -29,15 +23,19 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
     private int totalCount = 0;
-    private int enabledColor;
     private int disabledColor;
-    private PorterDuffColorFilter enabledFilter;
-    private PorterDuffColorFilter disabledFilter;
+    private int brightColor;
+    private int selectedIndex;
 
     public PhilipsHamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
         calculateCount();
+    }
+
+    public void setSelectedIndex(int ind) {
+        selectedIndex = ind;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -62,13 +60,13 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
                     context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            setColors();
             if (hamburgerItem.isParent()) {
                 convertView = mInflater.inflate(R.layout.uikit_hamburger_list_group, parent, false);
                 convertView.setSelected(false);
                 setGroupLayoutAlpha(convertView);
             } else {
                 convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
-                addStates(convertView);
             }
 
             viewHolder = new ViewHolderItem();
@@ -81,8 +79,15 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
-        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItem);
+        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItem, convertView);
         return convertView;
+    }
+
+    private void setColors() {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor, R.attr.brightColor});
+        disabledColor = typedArray.getColor(0, -1);
+        brightColor = typedArray.getColor(1, -1);
+        typedArray.recycle();
     }
 
     private void validateBottomDivider(HamburgerItem hamburgerItem, View bottomDivider) {
@@ -109,15 +114,26 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         return Color.argb(alpha, red, green, blue);
     }
 
-    private void setValuesToViews(final int position, final ImageView imgIcon, final TextView txtTitle, final TextView txtCount, HamburgerItem hamburgerItem) {
+    private void setValuesToViews(final int position, final ImageView imgIcon, TextView txtTitle, final TextView txtCount, HamburgerItem hamburgerItem, View convertView) {
         if (!hamburgerItem.isParent()) {
             Drawable icon = hamburgerItems.get(position).getIcon();
-            setImageView(imgIcon, icon, txtTitle);
             int count = hamburgerItems.get(position).getCount();
             setCounterView(txtCount, count);
-            addStatesToText(txtTitle);
+            handleSelector(position, imgIcon, txtTitle, convertView, icon);
         }
         txtTitle.setText(hamburgerItems.get(position).getTitle());
+    }
+
+    private void handleSelector(int position, ImageView imgIcon, TextView txtTitle, View convertView, Drawable icon) {
+        if (selectedIndex != -1 && position == selectedIndex) {
+            setTextColor(txtTitle, Color.WHITE);
+            setImageView(imgIcon, icon, txtTitle, Color.WHITE);
+            convertView.setBackgroundColor(brightColor);
+        } else {
+            setTextColor(txtTitle, disabledColor);
+            setImageView(imgIcon, icon, txtTitle, disabledColor);
+            convertView.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     private void setCounterView(final TextView txtCount, final int count) {
@@ -128,9 +144,11 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         }
     }
 
-    private void setImageView(final ImageView imgIcon, final Drawable icon, TextView txtTitle) {
+    private void setImageView(final ImageView imgIcon, final Drawable icon, TextView txtTitle, int color) {
         if (icon != null) {
-            imgIcon.setImageDrawable(getHamburgerIconSelector(icon));
+            imgIcon.setImageDrawable(icon);
+            imgIcon.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
         } else {
             imgIcon.setVisibility(View.GONE);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) txtTitle.getLayoutParams();
@@ -140,44 +158,9 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     }
 
     @SuppressWarnings("deprecation")
-    //we need to support API lvl 14+, so cannot change to context.setBackgroundDrawable(): sticking with deprecated API for now
-    private void addStates(View convertView) {
-        StateListDrawable states = new StateListDrawable();
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor});
-        states.addState(new int[]{android.R.attr.state_pressed},
-                new ColorDrawable(typedArray.getColor(0, -1)));
-        convertView.setBackgroundDrawable(states);
-    }
-
-    @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
-    private void addStatesToText(TextView txtTitle) {
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor});
-        int[][] states = new int[][]{new int[]{android.R.attr.state_activated}, new int[]{android.R.attr.state_pressed}, new int[]{-android.R.attr.state_activated}};
-        Resources resources = context.getResources();
-        enabledColor = android.R.color.white;
-        disabledColor = typedArray.getColor(0, -1);
-        int[] colors = new int[]{resources.getColor(enabledColor), resources.getColor(enabledColor), disabledColor};
-        ColorStateList colorStateList = new ColorStateList(states, colors);
-        txtTitle.setTextColor(colorStateList);
-    }
-
-    private void initIconColorFilters() {
-        enabledFilter = new PorterDuffColorFilter(enabledColor, PorterDuff.Mode.SRC_ATOP);
-        disabledFilter = new PorterDuffColorFilter(disabledColor, PorterDuff.Mode.SRC_ATOP);
-    }
-
-    private Drawable getHamburgerIconSelector(Drawable drawable) {
-        initIconColorFilters();
-        Drawable enabled = drawable.getConstantState().newDrawable().mutate();
-        Drawable disabled = drawable.getConstantState().newDrawable().mutate();
-
-        ColorFilterStateListDrawable selector = new ColorFilterStateListDrawable();
-        selector.addState(new int[]{android.R.attr.state_activated}, enabled, enabledFilter);
-        selector.addState(new int[]{android.R.attr.state_pressed}, enabled, enabledFilter);
-        selector.addState(new int[]{}, disabled, disabledFilter);
-
-        return selector;
+    private void setTextColor(TextView txtTitle, int color) {
+        txtTitle.setTextColor(color);
     }
 
     public int getCounterValue() {
