@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
-                android:background="#f00">
+                android:background="?attr/veryDarkToDark">
 
     <TextView
         android:id="@+id/uikit_popover_alert_title"

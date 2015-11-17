@@ -116,7 +116,6 @@
         <attr name="popover_left_icon" format="reference"/>
         <attr name="popover_title_text" format="reference|string"/>
         <attr name="popover_opacity" format="float"/>
-        <attr name="popover_title_text" format="reference|string" />
     </declare-styleable>
 
     <declare-styleable name="notification_label">
