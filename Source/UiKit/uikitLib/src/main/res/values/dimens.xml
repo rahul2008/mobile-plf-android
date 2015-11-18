@@ -72,7 +72,7 @@
     <dimen name="uikit_tab_divider_width">1dp</dimen>
     <dimen name="uikit_hamburger_list_item_height">53dp</dimen>
     <dimen name="uikit_hamburger_item_counter_right_margin">20dp</dimen>
-    <dimen name="uikit_hamburger_item_text_left_margin">47dp</dimen>
+    <dimen name="uikit_hamburger_item_text_left_margin">45dp</dimen>
     <dimen name="uikit_hamburgur_item_text_size">16sp</dimen>
     <dimen name="uikit_hamburger_item_text_title_size">16sp</dimen>
     <dimen name="uikit_hamburger_group_item_height">33dp</dimen>
@@ -102,7 +102,7 @@
     <dimen name="uikit_notification_label_default_radius">33dp</dimen>
     <dimen name="uikit_notification_label_square_round_textSize_small">14sp</dimen>
     <dimen name="uikit_notification_label_small_circle_radius">20dp</dimen>
-    <dimen name="uikit_notification_label_square_round_padding">4dp</dimen>
+    <dimen name="uikit_notification_label_square_round_padding">5dp</dimen>
     <dimen name="uikit_toolbar_elevation">6dp</dimen>
     <dimen name="uikit_hamburger_icon_left_margin">14dp</dimen>
     <dimen name="uikit_hamburger_counter_icon_left_margin">4dp</dimen>
