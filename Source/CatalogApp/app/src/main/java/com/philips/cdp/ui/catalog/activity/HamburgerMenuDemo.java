@@ -20,11 +20,11 @@ import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
-import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
+import com.philips.cdp.uikit.utils.HamburgerUtil;
 
 import java.util.ArrayList;
 
@@ -51,7 +51,9 @@ public class HamburgerMenuDemo extends CatalogActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        setNoActionBarTheme();
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.uikit_hamburger_menu);
         initViews();
         initActionBar(getSupportActionBar());
@@ -67,6 +69,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (!hamburgerMenuTitles[position].equalsIgnoreCase("Title Long")) {
+                    adapter.setSelectedIndex(position);
                     displayView(position);
                 }
             }
@@ -139,7 +142,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
             if (i == 4) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 3));
             } else if (i == 6) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 22));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 22, false, true));
             } else {
                 if (hamburgerMenuTitles[i].equalsIgnoreCase("Title Long")) {
                     hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], VectorDrawable.create(this, hamburgerMenuIcons.getResourceId(i, -1)), 0, true));
@@ -164,7 +167,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_container, fragment).commit();
         setTitle(hamburgerMenuTitles[position]);
-//        philipsDrawerLayout.closeDrawer(navigationView);
+        philipsDrawerLayout.closeDrawer(navigationView);
     }
 
     @NonNull

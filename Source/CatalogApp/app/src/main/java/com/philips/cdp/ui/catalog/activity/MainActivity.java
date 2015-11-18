@@ -64,7 +64,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, DotNavigation.class));
                 break;
             case 5:
-//                startActivity(new Intent(this, ButtonsActivity.class));
+                startActivity(new Intent(this, ImageNavigation.class));
                 break;
             case 6:
                 startActivity(new Intent(this, InputTextFieldsActivity.class));
@@ -127,7 +127,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(2, "Change Theme");
         itemsMap.put(3, "Buttons");
         itemsMap.put(4, "Dot Navigation");
-//        itemsMap.put(5, "Image Navigation");
+        itemsMap.put(5, "Image Navigation");
         itemsMap.put(6, "Input Text Fields");
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");

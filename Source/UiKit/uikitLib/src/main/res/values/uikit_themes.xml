@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Placeholder to start PhilipsTheme definition -->
-    <style name="Theme.Philips" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/HoloActionBar</item>
         <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="splashTitleStyle">@style/SplashTitle</item>
@@ -18,10 +18,9 @@
         <item name="android:seekBarStyle">@style/Slider</item>
         <item name="colorPrimaryDark">?attr/gradBackground</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
+        <item name="android:statusBarColor">?attr/baseColor</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="darkToBright">@drawable/uikit_grad_blue_dark_to_bright</item>
     </style>
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">

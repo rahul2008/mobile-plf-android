@@ -6,7 +6,7 @@ import android.view.View;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public interface onTouchUnSelectedDots {
+public interface onTouchUnSelectedViews {
 
-    void onClickUnSelectedCircle(View view, int position);
+    void onClickUnSelectedView(View view, int position);
 }

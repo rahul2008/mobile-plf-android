@@ -145,7 +145,9 @@ public class PhilipsBadgeView extends TextView {
             applyTo(this, defaultWidth, defaultHeight);
         } else {
             applyTo(this, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            setPadding(5, 5, 5, 5);
+            int padding = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_padding);
+            setPadding(padding
+                    , padding, padding, padding);
         }
         return shapeDrawable;
     }
