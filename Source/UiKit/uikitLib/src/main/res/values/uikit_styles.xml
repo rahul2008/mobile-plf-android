@@ -77,6 +77,8 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+
+
     <style name="NotificationLabel">
         <item name="android:gravity">center</item>
         <item name="android:minWidth">@dimen/uikit_notification_label_default_radius</item>

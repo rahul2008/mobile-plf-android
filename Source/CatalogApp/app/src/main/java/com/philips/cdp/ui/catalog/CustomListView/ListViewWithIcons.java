@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.shamanland.fonticon.FontIconView;
 
 /**
  * Created by 310213373 on 11/18/2015.
@@ -55,7 +57,44 @@ public class ListViewWithIcons extends BaseAdapter {
         ImageView image = (ImageView) vi.findViewById(R.id.image);
         TextView name = (TextView) vi.findViewById(R.id.text);
         PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-        //TextView from = (TextView) vi.findViewById(R.id.from);
+        TextView on_off=(TextView)vi.findViewById(R.id.off_on);
+        FontIconView arrow=(FontIconView)vi.findViewById(R.id.arrow);
+
+        TextView description=(TextView)vi.findViewById(R.id.text_description);
+        PhilipsBadgeView mBadge=(PhilipsBadgeView)vi.findViewById(R.id.notification_badge);
+        if(position==0)
+        {
+            value.setVisibility(View.VISIBLE);
+            mBadge.setVisibility(View.GONE);
+            arrow.setVisibility(View.GONE);
+            on_off.setVisibility(View.GONE);
+        }
+        if(position==1)
+        {
+            mBadge.setVisibility(View.VISIBLE);
+            arrow.setVisibility(View.VISIBLE);
+        }
+        if(position==2)
+        {
+            description.setVisibility(View.VISIBLE);
+            image.setVisibility(View.INVISIBLE);
+
+        }
+
+        if(position==3)
+        {
+            arrow.setVisibility(View.VISIBLE);
+        }
+        if(position==4)
+        {
+            on_off.setVisibility(View.VISIBLE);
+            arrow.setVisibility(View.VISIBLE);
+        }
+        if(position==5)
+        {
+            mBadge.setVisibility(View.VISIBLE);
+            arrow.setVisibility(View.VISIBLE);
+        }
 
         image.setImageResource(R.drawable.maps_carrot);
         //image.setColorFilter(Color.GREEN);
