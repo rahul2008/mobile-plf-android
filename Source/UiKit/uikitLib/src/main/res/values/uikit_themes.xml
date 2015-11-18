@@ -22,6 +22,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="darkToBright">@drawable/uikit_grad_blue_dark_to_bright</item>
     </style>
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
