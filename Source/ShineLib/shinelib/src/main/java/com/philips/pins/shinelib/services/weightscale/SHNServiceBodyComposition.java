@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.services.weightscale;
 
 import android.util.Log;
