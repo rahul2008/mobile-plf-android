@@ -2,7 +2,10 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.RatingBarLauncher;
 import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
@@ -37,6 +41,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 
     private void createListView() {
         ListView listView = (ListView) findViewById(R.id.listView);
+        addHeaderVersion(listView);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getDemoItems().values().toArray(new String[1])));
         listView.setOnItemClickListener(this);
     }
@@ -63,7 +68,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, DotNavigation.class));
                 break;
             case 5:
-//                startActivity(new Intent(this, ButtonsActivity.class));
+                startActivity(new Intent(this, ImageNavigation.class));
                 break;
             case 6:
                 startActivity(new Intent(this, InputTextFieldsActivity.class));
@@ -77,8 +82,20 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 9:
                 startActivity(new Intent(this, SliderActivity.class));
                 break;
-            case 10:
+			case 10:
                 startActivity(new Intent(this, RatingBarLauncher.class));
+                break;
+			case 11:
+                startActivity(new Intent(this, ActionBarDemo.class));
+                break;
+            case 12:
+                startActivity(new Intent(this, ActionBarLauncher.class));
+                break;
+            case 13:
+                startActivity(new Intent(this, HamburgerActivity.class));
+				break;
+			case 14:
+                startActivity(new Intent(this, SocialIconsActivity.class));
                 break;
             default:
                 break;
@@ -105,6 +122,20 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         return 0;
     }
 
+    private void addHeaderVersion(ListView lv) {
+        int code = 0;
+        try {
+            code = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        TextView version = new TextView(this);
+        version.setText("Version:" + code);
+        version.setBackgroundColor(Color.GRAY);
+        version.setGravity(Gravity.CENTER);
+        lv.addHeaderView(version, null, false);
+    }
+
     private HashMap<Integer, String> getDemoItems() {
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, "Action Buttons");
@@ -112,12 +143,15 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(2, "Change Theme");
         itemsMap.put(3, "Buttons");
         itemsMap.put(4, "Dot Navigation");
-//        itemsMap.put(5, "Image Navigation");
+        itemsMap.put(5, "Image Navigation");
         itemsMap.put(6, "Input Text Fields");
         itemsMap.put(7, "About Screen");
         itemsMap.put(8, "Tab Bar");
         itemsMap.put(9, "Sliders");
         itemsMap.put(10, "Rating Bar");
+        itemsMap.put(12, "Action Bar Up");
+        itemsMap.put(13, "Hamburger Menu");
+        itemsMap.put(14, "Social Media Icons");
         return itemsMap;
     }
 }

@@ -1,19 +1,27 @@
 package com.philips.cdp.ui.catalog.activity;
 
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.PuiSwitch;
+import com.philips.cdp.uikit.customviews.PuiPopoverAlert;
+import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.cdp.uikit.utils.FontIconUtils;
 
 public class ButtonsActivity extends CatalogActivity {
 
     private PuiSwitch changeButtonState;
-
     private Button themeButton, outlinedButton, transparentButton, whiteTranspararentButton;
+    private Button showNotification;
+    private PuiPopoverAlert puiPopoverAlert;
+    private ProgressBar popoverProgress;
+    private int progress = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,16 @@ public class ButtonsActivity extends CatalogActivity {
         transparentButton = (Button) findViewById(R.id.outlined_transparent_button);
         whiteTranspararentButton = (Button) findViewById(R.id.outlined_transparent_white_button);
 
+        showNotification = (Button) findViewById(R.id.show_notification);
+
+        showNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                puiPopoverAlert.show();
+                new ProgresAsyncTask().execute();
+            }
+        });
+
         changeButtonState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
@@ -36,6 +54,13 @@ public class ButtonsActivity extends CatalogActivity {
                 whiteTranspararentButton.setEnabled(isChecked);
             }
         });
+
+        puiPopoverAlert = (PuiPopoverAlert) findViewById(R.id.popover_alert);
+        puiPopoverAlert.setLeftIcon(FontIconUtils.getInfo(this, FontIconUtils.ICONS.INFO, 22, Color.WHITE,
+                false));
+        puiPopoverAlert.setRightIcon(FontIconUtils.getInfo(this, FontIconUtils.ICONS.CROSS, 15, Color.WHITE,
+                false));
+        popoverProgress = puiPopoverAlert.getProgressBar();
     }
 
     @Override
@@ -45,18 +70,40 @@ public class ButtonsActivity extends CatalogActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private class ProgresAsyncTask extends AsyncTask<Void, Integer, Void> {
+        private Object lock = new Object();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        @Override
+        protected Void doInBackground(final Void... params) {
+            synchronized (lock) {
+                while (progress < 100) {
+                    try {
+                        lock.wait(5);
+                    } catch (InterruptedException ie) {
+
+                    }
+                    progress++;
+                    publishProgress(progress);
+                }
+            }
+            return null;
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        protected void onProgressUpdate(final Integer... values) {
+            popoverProgress.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(final Void aVoid) {
+            synchronized (lock) {
+                try {
+                    lock.wait(200);
+                } catch (InterruptedException ie) {
+                }
+                puiPopoverAlert.dismiss();
+                progress = 0;
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.PuiEditText;
+import com.philips.cdp.uikit.customviews.PuiEditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

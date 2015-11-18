@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 
 
-def libVersionNumber = '0.2.0'
+def libVersionNumber = '0.4.0'
 
 buildscript {
     repositories {
@@ -40,6 +40,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.android.support:design:23.0.1'
+    compile 'com.shamanland:fonticon:0.1.8'
 }
 
 //maven configuration stuff required for artifactory plugin

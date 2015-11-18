@@ -113,7 +113,7 @@
                 android:text="@string/uikit_about_screen_content"/>
         </RelativeLayout>
 
-        <com.philips.cdp.uikit.costumviews.VectorDrawableImageView
+        <com.philips.cdp.uikit.customviews.VectorDrawableImageView
             android:id="@+id/about_screen_logo"
             android:layout_width="@dimen/uikit_about_screen_logo_width"
             android:layout_height="@dimen/uikit_about_screen_logo_height"

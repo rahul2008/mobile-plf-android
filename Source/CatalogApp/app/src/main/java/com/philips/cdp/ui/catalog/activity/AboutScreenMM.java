@@ -1,7 +1,9 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -23,6 +25,8 @@ public class AboutScreenMM extends UiKitActivity {
             }
         });
 
+        ImageView logo = (ImageView) findViewById(R.id.about_screen_logo);
+        logo.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.uikit_makers_logo, null));
         findViewById(R.id.aboutscreen_back).setVisibility(View.GONE);
     }
 }
