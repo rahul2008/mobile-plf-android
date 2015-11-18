@@ -92,4 +92,8 @@
     <color name="reg_password_hint_incorrect_ic_color">#C4C4C4</color>
 
 
+    <!-- Create account password mask enable and dosable  symbol colors-->
+    <color name="reg_password_mask_enable_ic_color">@android:color/black</color>
+    <color name="reg_password_mask_disable_ic_color">#C4C4C4</color>
+
 </resources>

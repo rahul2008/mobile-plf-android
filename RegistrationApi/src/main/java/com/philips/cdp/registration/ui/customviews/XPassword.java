@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -37,6 +38,8 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private RelativeLayout mRlEtPassword;
 
+    private TextView mTvMaskPassword;
+
     private boolean isValidatePassword = true;
 
     public XPassword(Context context) {
@@ -63,7 +66,10 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         mEtPassword.setOnFocusChangeListener(this);
         mEtPassword.addTextChangedListener(this);
         mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_parent_verified_field);
+        mTvMaskPassword = (TextView) findViewById(R.id.tv_password_mask);
+        disableMaskPassoword();
     }
+
 
     public void setOnUpdateListener(onUpdateListener updateStatusListener) {
         mUpdateStatusListener = updateStatusListener;
@@ -181,7 +187,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     private void handleValidPasswordWithPattern() {
         if (validatePassword()) {
             mIvPasswordErrAlert.setVisibility(View.GONE);
-            RegUtility.invalidalertvisibilitygone(mEtPassword);
+           // RegUtility.invalidalertvisibilitygone(mEtPassword);
         } else {
 
             if (mEtPassword.getText().toString().trim().length() == 0) {
@@ -190,7 +196,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
                 setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
             }
             mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-            RegUtility.invalidalertvisibilityview(mEtPassword);
+           // RegUtility.invalidalertvisibilityview(mEtPassword);
         }
     }
 
@@ -207,20 +213,65 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     @Override
     public void afterTextChanged(Editable s) {
+
         fireUpdateStatusEvent();
         if (isValidatePassword && validatePassword()) {
-            RegUtility.invalidalertvisibilitygone(mEtPassword);
+         //   RegUtility.invalidalertvisibilitygone(mEtPassword);
             mIvArrowUpView.setVisibility(View.GONE);
             mTvErrDescriptionView.setVisibility(View.GONE);
         } else if (validatePasswordWithoutPattern() && !isValidatePassword) {
-            RegUtility.invalidalertvisibilityview(mEtPassword);
+         //   RegUtility.invalidalertvisibilityview(mEtPassword);
             mIvArrowUpView.setVisibility(View.GONE);
             mTvErrDescriptionView.setVisibility(View.GONE);
+        }
+
+        handleMaskPasswordUi();
+    }
+
+    private void handleMaskPasswordUi() {
+        if (getPassword().length() == 1) {
+            enableMaskPassword();
+        } else if(getPassword().length() == 0){
+            disableMaskPassoword();
         }
     }
 
     public void isValidatePassword(boolean isValidatePassword) {
         this.isValidatePassword = isValidatePassword;
+    }
+
+
+    private void enableMaskPassword() {
+        mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_enable_ic_color));
+        mTvMaskPassword.setOnClickListener(mMaskPasswordOnclickListener);
+    }
+
+    private void disableMaskPassoword() {
+        mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_disable_ic_color));
+        mTvMaskPassword.setOnClickListener(null);
+    }
+
+    private OnClickListener mMaskPasswordOnclickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            togglePasswordMask();
+        }
+    };
+
+    private void togglePasswordMask() {
+        if(mEtPassword.getInputType()!=(InputType.TYPE_CLASS_TEXT |
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)){
+            mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
+                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+
+            mEtPassword.setSelection(mEtPassword.getText().length());
+
+        }else{
+            mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
+                    InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+            mEtPassword.setSelection(mEtPassword.getText().length());
+        }
     }
 
 }

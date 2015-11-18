@@ -49,4 +49,6 @@
 
     <string name="ic_reg_favoriteStarEmpty">\uE617</string>
 
+    <string name="ic_reg_maskPassword">\uE619</string>
+
 </resources>
