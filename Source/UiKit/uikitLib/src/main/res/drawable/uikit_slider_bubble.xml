@@ -1,21 +1,49 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:width="34dp"
-		android:height="40dp"
-		android:viewportWidth="28.0"
-		android:viewportHeight="34.0"
-		app:vc_viewportWidth="28.0"
-		app:vc_viewportHeight="34.0">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	<path
-		android:pathData="M22.5,23.8c2.8,-2.4 4.5,-5.9 4.5,-9.8c0,-7.2 -5.8,-13 -13,-13S1,6.8 1,14c0,4.1 1.9,7.7 4.9,10.1l8.3,8L22.5,23.8z"
-		android:strokeWidth="2"
-		android:strokeAlpha=".5"
-		android:strokeColor="?attr/baseColor"
-		android:fillColor="@color/uikit_white"
-		app:vc_pathData="M22.5,23.8c2.8,-2.4 4.5,-5.9 4.5,-9.8c0,-7.2 -5.8,-13 -13,-13S1,6.8 1,14c0,4.1 1.9,7.7 4.9,10.1l8.3,8L22.5,23.8z"
-		app:vc_strokeWidth="2"
-		app:vc_strokeColor="?attr/baseColor"
-		app:vc_strokeAlpha=".5"
-		app:vc_fillColor="@color/uikit_white"/>
-</vector>
+<item
+	android:id="@+id/dummy">
+	<vector xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			android:width="34dp"
+			android:height="40dp"
+			android:viewportWidth="28.0"
+			android:viewportHeight="34.0"
+			app:vc_viewportWidth="28.0"
+			app:vc_viewportHeight="34.0">
+
+		<path
+			android:pathData="M22.5,23.8c2.8,-2.4 4.5,-5.9 4.5,-9.8c0,-7.2 -5.8,-13 -13,-13S1,6.8 1,14c0,4.1 1.9,7.7 4.9,10.1l8.3,8L22.5,23.8z"
+			android:strokeWidth="2"
+			android:strokeColor="@color/uikit_white"
+			android:fillColor="@color/uikit_white"
+			app:vc_pathData="M22.5,23.8c2.8,-2.4 4.5,-5.9 4.5,-9.8c0,-7.2 -5.8,-13 -13,-13S1,6.8 1,14c0,4.1 1.9,7.7 4.9,10.1l8.3,8L22.5,23.8z"
+			app:vc_strokeWidth="2"
+			app:vc_strokeColor="@color/uikit_white"
+			app:vc_fillColor="@color/uikit_white"/>
+	</vector>
+</item>
+<item android:id="@+id/original">
+	<vector xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			android:width="34dp"
+			android:height="40dp"
+			android:viewportWidth="28.0"
+			android:viewportHeight="34.0"
+			app:vc_viewportWidth="28.0"
+			app:vc_viewportHeight="34.0">
+
+		<path
+			android:pathData="M22.5,23.8c2.8,-2.4 4.5,-5.9 4.5,-9.8c0,-7.2 -5.8,-13 -13,-13S1,6.8 1,14c0,4.1 1.9,7.7 4.9,10.1l8.3,8L22.5,23.8z"
+			android:strokeWidth="2"
+			android:strokeAlpha=".5"
+			android:strokeColor="?attr/baseColor"
+			android:fillColor="@color/uikit_white"
+			app:vc_pathData="M22.5,23.8c2.8,-2.4 4.5,-5.9 4.5,-9.8c0,-7.2 -5.8,-13 -13,-13S1,6.8 1,14c0,4.1 1.9,7.7 4.9,10.1l8.3,8L22.5,23.8z"
+			app:vc_strokeWidth="2"
+			app:vc_strokeColor="?attr/baseColor"
+			app:vc_strokeAlpha=".5"
+			app:vc_fillColor="@color/uikit_white"/>
+	</vector>
+</item>
+
+</layer-list>
