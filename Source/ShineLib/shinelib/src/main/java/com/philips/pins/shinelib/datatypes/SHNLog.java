@@ -1,5 +1,8 @@
 package com.philips.pins.shinelib.datatypes;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,17 +10,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by 310188215 on 07/05/15.
- */
 public class SHNLog {
+
+    @Nullable
     private final Date startDate;
+
+    @Nullable
     private final Date endDate;
+
+    @NonNull
     private final String associatedDeviceAddress;
+
+    @NonNull
     private final List<SHNLogItem> logItems;
+
+    @NonNull
     private final Set<SHNDataType> containedDataTypes;
 
-    public SHNLog(Date startDate, Date endDate, String associatedDeviceAddress, List<SHNLogItem> logItems, Set<SHNDataType> containedDataTypes) {
+    public SHNLog(@Nullable final Date startDate, @Nullable final Date endDate, @NonNull final String associatedDeviceAddress, @NonNull final List<SHNLogItem> logItems, @NonNull final Set<SHNDataType> containedDataTypes) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.associatedDeviceAddress = associatedDeviceAddress;
@@ -25,10 +35,12 @@ public class SHNLog {
         this.containedDataTypes = containedDataTypes;
     }
 
+    @Nullable
     public Date getStartDate() {
         return startDate;
     }
 
+    @Nullable
     public Date getEndDate() {
         return endDate;
     }
@@ -40,18 +52,22 @@ public class SHNLog {
         return 0;
     }
 
+    @NonNull
     public String getAssociatedDeviceAddress() {
         return associatedDeviceAddress;
     }
 
+    @NonNull
     public List<SHNLogItem> getLogItems() {
         return logItems;
     }
 
+    @NonNull
     public Set<SHNDataType> getContainedDataTypes() {
         return containedDataTypes;
     }
 
+    @NonNull
     public List<SHNLogItem> getLogItems(SHNDataType shnDataType) {
         List<SHNLogItem> result = new ArrayList<>();
 
