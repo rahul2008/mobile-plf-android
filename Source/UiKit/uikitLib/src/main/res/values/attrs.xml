@@ -12,6 +12,7 @@
         <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
         <attr name="veryDarkToDark" format="reference" />
+        <attr name="darkToBright" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ActionButton">

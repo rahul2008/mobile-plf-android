@@ -1,18 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.philips.cdp.ui.catalog.activity.ButtonsActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.philips.cdp.ui.catalog.activity.ButtonsActivity">
 
-    <Button
-        android:id="@+id/show_notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:text="Show notification" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <com.philips.cdp.uikit.customviews.PuiSwitch
         android:id="@+id/change_button_state"
@@ -27,7 +22,6 @@
         android:id="@+id/theme_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/show_notification"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="@string/sample_button"/>
@@ -62,6 +56,15 @@
         android:layout_marginTop="20dp"
         android:text="@string/sample_button"/>
 
+    <Button
+        android:id="@+id/show_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/outlined_transparent_white_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Show notification" />
+
     <com.philips.cdp.uikit.customviews.PuiPopoverAlert
         android:id="@+id/popover_alert"
         android:layout_width="match_parent"
@@ -71,3 +74,4 @@
         app:popover_title_text="Uploading settings" />
 
 </RelativeLayout>
+</ScrollView>
