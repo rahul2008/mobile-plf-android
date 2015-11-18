@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.cdp.ui.catalog.CustomListView.ListViewWithIcons;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
@@ -79,7 +80,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, SliderActivity.class));
                 break;
             case 10:
-                startActivity(new Intent(this, RatingBarLauncher.class));
+              //  startActivity(new Intent(this, RatingBarLauncher.class));
                 break;
 
             case 12:
@@ -90,6 +91,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 14:
                 startActivity(new Intent(this, ListViewProducts.class));
+                break;
+            case 15:
+                startActivity(new Intent(this, ListWithIcons.class));
                 break;
             default:
                 break;
@@ -133,6 +137,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(12, "Action Bar Up");
         itemsMap.put(13, "Lists View with Options");
         itemsMap.put(14, "List View Products");
+        itemsMap.put(15,"List With icons");
         return itemsMap;
     }
 }

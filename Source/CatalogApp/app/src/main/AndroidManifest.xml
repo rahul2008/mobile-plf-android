@@ -42,6 +42,9 @@
         <activity android:name=".activity.ActionBarLauncher"/>
         <activity android:name=".activity.ListViewWithOptionsLauncher"/>
         <activity android:name=".activity.ListViewProducts"/>
+        <activity android:name=".activity.ListWithIcons"/>
+        />
+
     </application>
 
 </manifest>
