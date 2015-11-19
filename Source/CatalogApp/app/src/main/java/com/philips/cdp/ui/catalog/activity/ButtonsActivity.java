@@ -106,7 +106,7 @@ public class ButtonsActivity extends CatalogActivity {
                         puiPopoverAlert.dismiss();
                         progress = 0;
                     }
-                }, 200);
+                }, 500);
             }
         }
     }
