@@ -56,7 +56,7 @@
 <string name="Social_SignIn_AlmostDone_lbltxt">Bijna klaar!</string>
 <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">U hebt eerder aangemeld met %s, waarbij u %s hebt gebruikt voor een Philips-app of -website. We koppelen %s aan uw account.</string>
 <string name="Social_Merge_Accounts_lbltxt">Meld u nogmaals aan met %s, zodat wij kunnen controleren of u het echt bent.</string>
-<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Als u %s niet aan uw account wilt koppelen, drukt u op \annuleren\ en meldt u aan met %s.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Als u %s niet aan uw account wilt koppelen, drukt u op \"annuleren\" en meldt u aan met %s.</string>
 <string name="Social_Merge_Cancel_btntxt">Annuleren</string>
 <string name="Account_Merge_lbltxt">Uw accounts samenvoegen</string>
 <string name="Social_Merge_btntxt">Koppelen</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Het kan enige tijd duren voordat de e-mail aankomt.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Controleer uw e-mail om uw account te activeren.</string>
 <string name="VerifyEmail_Activated_btntxt">Ik heb mijn account geactiveerd</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Problemen?\n-  Het kan enige tijd duren voor de bevestigingsmail binnenkomt\n-  Kijk ook in uw map met junkmail\n- Druk op de knop \Opnieuw verzenden\ hieronder als u de verificatiemail niet hebt ontvangen</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Problemen?\n-  Het kan enige tijd duren voor de bevestigingsmail binnenkomt\n-  Kijk ook in uw map met junkmail\n- Druk op de knop \"Opnieuw verzenden\" hieronder als u de verificatiemail niet hebt ontvangen</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWe hebben een e-mail verzonden. Het kan enige tijd duren voordat de e-mail aankomt.\n\nControleer uw e-mail om uw account te activeren.\n\nU kunt de app in de tussentijd gebruiken.</string>
 <string name="myphilips">Philips-account</string>
 <string name="facebook">Facebook</string>
@@ -111,19 +111,19 @@
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Hoofdletters en kleine letters</string>
 <string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Speciaal teken</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Cijfers</string>
-<string name="Philips_News_Description_Normal_lbltxt"></string>
-<string name="Philips_News_Description_First_Bulleted_Title_lbltxt"></string>
-<string name="Philips_News_Description_First_Bulleted_Description_lbltxt"></string>
-<string name="Philips_News_Description_Second_Bulleted_Title_lbltxt"></string>
-<string name="Philips_News_Description_Second_Bulleted_Description_lbltxt"></string>
-<string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt"></string>
-<string name="Signin_Success_Hello_lbltxt"></string>
-<string name="Access_More_Account_Setting_lbltxt"></string>
-<string name="Philips_URL_txt"></string>
-<string name="Receive_Philips_News_lbltxt"></string>
-<string name="Receive_Philips_News_Meaning_lbltxt"></string>
-<string name="Philips_News_Title"></string>
-<string name="Philips_News_Back_btntxt"></string>
-<string name="Account_Setting_Titletxt"></string>
-<string name="Create_With_lbltxt"></string>
+<string name="Philips_News_Description_Normal_lbltxt">Door uw toestemming kunnen de bedrijven uit de Philips-groep u, op basis van uw voorkeuren en gedrag, benaderen over Philips-producten, diensten, evenementen en aanbiedingen voor promotionele doeleinden. \nWe kunnen u benaderen via e-mail, sms en andere digitale kanalen, zoals mobiele apps en social media. Om de berichtgeving te kunnen aanpassen aan uw voorkeuren en gedrag en u de beste persoonlijke ervaring te bieden, kunnen we mogelijk uw persoonsgegevens analyseren en combineren. \n\nDeze gegevens kunnen bestaan uit:\n</string>
+<string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Gegevens die u aan ons hebt verstrekt:\n</string>
+<string name="Philips_News_Description_First_Bulleted_Description_lbltxt">Gegevens die u met ons hebt gedeeld, zoals uw naam, geboortedatum of leeftijd, e-mailadres, woonadres, land, geslacht, telefoonnummer, social-mediaprofiel.\n\n</string>
+<string name="Philips_News_Description_Second_Bulleted_Title_lbltxt">Gegevens die wij hebben verkregen via uw interactie met Philips:\n</string>
+<string name="Philips_News_Description_Second_Bulleted_Description_lbltxt">Gegevens over uw interactie met en het gebruik van de digitale kanalen van Philips, zoals social media, websites, e-mail, apps en connected producten. Deze gegevens kunnen het volgende omvatten: IP-adres, cookies, apparaatinformatie, berichten waar u op klikt, locatiegegevens en websites die u bezoekt</string>
+<string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">U kunt uw toestemming aan Philips op ieder gewenst moment intrekken.</string>
+<string name="Signin_Success_Hello_lbltxt">Hallo</string>
+<string name="Access_More_Account_Setting_lbltxt">Wilt u toegang tot meer accountinstellingen?\nGa via uw browser naar %s.</string>
+<string name="Philips_URL_txt">www.philips.com</string>
+<string name="Receive_Philips_News_lbltxt">Aankondigingen van Philips ontvangen\n%s</string>
+<string name="Receive_Philips_News_Meaning_lbltxt">Wat betekent dit?</string>
+<string name="Philips_News_Title">Aankondigingen van Philips</string>
+<string name="Philips_News_Back_btntxt">Terug</string>
+<string name="Account_Setting_Titletxt">Accountinstellingen</string>
+<string name="Create_With_lbltxt">Of maak met</string>
 </resources>

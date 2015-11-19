@@ -23,7 +23,7 @@
 <string name="NameField_ErrorText">Введите имя.</string>
 <string name="kemailFieldErrorText">Укажите действующий адрес электронной почты.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Такой адрес электронной почты уже используется</string>
-<string name="EmailAlreadyUsedErrorMsg_LabelTxt">Этот адрес электронной почты уже используется для учетной записи Philips или социальной сети.\nВернитесь к шагу \Вход\ или выберите другой адрес электронной почты.</string>
+<string name="EmailAlreadyUsedErrorMsg_LabelTxt">Этот адрес электронной почты уже используется для учетной записи Philips или социальной сети.\nВернитесь к шагу \"Вход\" или выберите другой адрес электронной почты.</string>
 <string name="PrivacyPolicyText">Заявление о конфиденциальности</string>
 <string name="TermsAndConditionsText">Положения и условия</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Подтвердите адрес электронной почты с помощью ссылки активации, отправленной вам на этот адрес</string>
@@ -33,11 +33,11 @@
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Войти с помощью учетной записи Philips</string>
 <string name="EmailAddPlaceHolder_txtField">Введите адрес эл. почты</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Введите пароль</string>
-<string name="TraditionalSignIn_Resend_lbltxt">Если вы не получили электронное сообщение, нажмите кнопку Отправить повторно.</string>
+<string name="TraditionalSignIn_Resend_lbltxt">Если вы не получили электронное сообщение, нажмите кнопку \"Отправить повторно\".</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">Забыли пароль?</string>
 <string name="Resend_btntxt">Отправить повторно</string>
 <string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">Не беспокойтесь, пароль Philips не требуется. Вы уже выполняли вход через социальную сеть.</string>
-<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Приносим свои извинения за неудобства! Вы уже выполняли вход через социальную сеть. Вернитесь к шагу Вход и выберите социальную сеть.</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Приносим свои извинения за неудобства! Вы уже выполняли вход через социальную сеть. Вернитесь к шагу \"Вход\" и выберите социальную сеть.</string>
 <string name="SignInSuccess_Welcome_lbltxt">Приветствуем Вас</string>
 <string name="SignOut_btntxt">Выход</string>
 <string name="SignInSuccess_ResendConsent_btntxt">Отправить письмо с согласием повторно</string>
@@ -56,7 +56,7 @@
 <string name="Social_SignIn_AlmostDone_lbltxt">Почти готово!</string>
 <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Вы уже выполняли вход с помощью %s через %s в приложении Philips или на веб-сайте. Мы выполним привязку %s к вашей учетной записи.</string>
 <string name="Social_Merge_Accounts_lbltxt">Чтобы подтвердить свою личность, еще раз войдите с помощью %s.</string>
-<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Если вы не хотите привязывать %s к своей учетной записи, нажмите \Отмена\ и войдите с помощью %s.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Если вы не хотите привязывать %s к своей учетной записи, нажмите \"Отмена\" и войдите с помощью %s.</string>
 <string name="Social_Merge_Cancel_btntxt">Отмена</string>
 <string name="Account_Merge_lbltxt">Объединение учетных записей</string>
 <string name="Social_Merge_btntxt">Привязать</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Вы получите электронное письмо. Это может занять некоторое время.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Для активации учетной записи проверьте вашу электронную почту.</string>
 <string name="VerifyEmail_Activated_btntxt">Учетная запись активирована</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Возникли проблемы?\n- Отправка письма с подтверждением может занять некоторое время.\n- Проверьте папку Спам.\n- Внизу нажмите кнопку \Переслать\, если письмо с подтверждением не пришло.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Возникли проблемы?\n- Отправка письма с подтверждением может занять некоторое время.\n- Проверьте папку \"Спам\".\n- Внизу нажмите кнопку \"Переслать\", если письмо с подтверждением не пришло.</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nВам придет письмо. Это может занять некоторое время.\n\nДля активации учетной записи проверьте вашу электронную почту.\n\nВы можете продолжать использовать приложение.</string>
 <string name="myphilips">Учетная запись Philips</string>
 <string name="facebook">Facebook</string>
@@ -111,19 +111,19 @@
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Буквы верхнего и нижнего регистров</string>
 <string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Специальные символы</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Цифры</string>
-<string name="Philips_News_Description_Normal_lbltxt"></string>
-<string name="Philips_News_Description_First_Bulleted_Title_lbltxt"></string>
-<string name="Philips_News_Description_First_Bulleted_Description_lbltxt"></string>
-<string name="Philips_News_Description_Second_Bulleted_Title_lbltxt"></string>
-<string name="Philips_News_Description_Second_Bulleted_Description_lbltxt"></string>
-<string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt"></string>
-<string name="Signin_Success_Hello_lbltxt"></string>
-<string name="Access_More_Account_Setting_lbltxt"></string>
-<string name="Philips_URL_txt"></string>
-<string name="Receive_Philips_News_lbltxt"></string>
-<string name="Receive_Philips_News_Meaning_lbltxt"></string>
-<string name="Philips_News_Title"></string>
-<string name="Philips_News_Back_btntxt"></string>
-<string name="Account_Setting_Titletxt"></string>
-<string name="Create_With_lbltxt"></string>
+<string name="Philips_News_Description_Normal_lbltxt">В результате соглашения компании группы Philips могут на основе ваших предпочтений и совершаемых действий отправлять вам рекламно-информационные материалы о продукции, услугах, мероприятиях и рекламных акциях Philips. \nМы можем обратиться к вам по электронной почте, с помощью SMS-сообщений и других способов цифровой связи, например мобильных приложений и социальных сетей. В целях персонализации сообщений согласно вашим предпочтениям и действиям, а также предоставления наиболее актуальной информации мы можем анализировать и комбинировать ваши персональные данные. \n\nТакие данные включают в себя следующую информацию.\n</string>
+<string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Предоставленные вами данные\n</string>
+<string name="Philips_News_Description_First_Bulleted_Description_lbltxt">Данные, которыми вы хотите делиться с нами: имя, дата рождения или возраст, адрес электронной почты, почтовый адрес, страна, пол, номер телефона, учетная запись в социальной сети.\n\n</string>
+<string name="Philips_News_Description_Second_Bulleted_Title_lbltxt">Данные, получаемые при взаимодействии с компанией Philips\n</string>
+<string name="Philips_News_Description_Second_Bulleted_Description_lbltxt">Данные о взаимодействии с компанией Philips и об использовании таких цифровых средств связи, как социальные сети, веб-сайты, электронная почта, приложения и подключаемые устройства. Такие данные могут включать следующую информацию: IP-адрес, файлы cookie, информация об устройстве, переход по ссылкам, информация о местоположении, посещаемые веб-сайты.</string>
+<string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">Вы сможете в любое время отказаться от соглашения с Philips.</string>
+<string name="Signin_Success_Hello_lbltxt">Приветствуем!</string>
+<string name="Access_More_Account_Setting_lbltxt">Вы хотите получить доступ к дополнительным настройкам учетной записи?\nПосетите %s в браузере.</string>
+<string name="Philips_URL_txt">www.philips.com</string>
+<string name="Receive_Philips_News_lbltxt">Получать оповещения от Philips\n%s</string>
+<string name="Receive_Philips_News_Meaning_lbltxt">Что это значит?</string>
+<string name="Philips_News_Title">Оповещения от Philips</string>
+<string name="Philips_News_Back_btntxt">Назад</string>
+<string name="Account_Setting_Titletxt">Настройки учетной записи</string>
+<string name="Create_With_lbltxt">Или создать с помощью</string>
 </resources>

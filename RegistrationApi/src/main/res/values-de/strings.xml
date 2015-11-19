@@ -23,7 +23,7 @@
 <string name="NameField_ErrorText">Geben Sie Ihren Vornamen ein.</string>
 <string name="kemailFieldErrorText">Bitte geben Sie eine gültige E-Mail-Adresse ein.</string>
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Diese E-Mail-Adresse wird bereits verwendet.</string>
-<string name="EmailAlreadyUsedErrorMsg_LabelTxt">Diese E-Mail-Adresse wird bereits mit einem Philips Konto oder einem Konto eines sozialen Netzwerks verwendet.\nGehen Sie zurück zum Schritt \Anmelden\, oder verwenden Sie eine andere E-Mail-Adresse.</string>
+<string name="EmailAlreadyUsedErrorMsg_LabelTxt">Diese E-Mail-Adresse wird bereits mit einem Philips Konto oder einem Konto eines sozialen Netzwerks verwendet.\nGehen Sie zurück zum Schritt \"Anmelden\", oder verwenden Sie eine andere E-Mail-Adresse.</string>
 <string name="PrivacyPolicyText">Datenschutzbestimmungen</string>
 <string name="TermsAndConditionsText">Allg. Nutzungsbedingungen</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Verifizieren Sie Ihre E-Mail-Adresse über den Aktivierungslink, der an Ihre E-Mail-Adresse gesendet wurde.</string>
@@ -33,11 +33,11 @@
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Mit Philips Konto anmelden</string>
 <string name="EmailAddPlaceHolder_txtField">E-Mail-Adresse eingeben</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Passwort eingeben</string>
-<string name="TraditionalSignIn_Resend_lbltxt">Drücken Sie die Schaltfläche Erneut senden, wenn Sie keine E-Mail erhalten haben.</string>
+<string name="TraditionalSignIn_Resend_lbltxt">Drücken Sie die Schaltfläche \"Erneut senden\", wenn Sie keine E-Mail erhalten haben.</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">Passwort vergessen</string>
 <string name="Resend_btntxt">Erneut senden</string>
 <string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">Keine Sorge! Sie brauchen kein Philips Passwort. Sie haben sich zuvor mit einem sozialen Netzwerk angemeldet.</string>
-<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Entschuldigung, dass Sie zweimal klicken müssen. Sie haben sich zuvor mit einem sozialen Netzwerk angemeldet. Bitte gehen Sie zurück zum Schritt \Anmelden\, und melden Sie sich mit Ihrem sozialen Netzwerk an.</string>
+<string name="TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Entschuldigung, dass Sie zweimal klicken müssen. Sie haben sich zuvor mit einem sozialen Netzwerk angemeldet. Bitte gehen Sie zurück zum Schritt \"Anmelden\", und melden Sie sich mit Ihrem sozialen Netzwerk an.</string>
 <string name="SignInSuccess_Welcome_lbltxt">Willkommen!</string>
 <string name="SignOut_btntxt">Abmelden</string>
 <string name="SignInSuccess_ResendConsent_btntxt">Zustimmung erneut senden</string>
@@ -56,7 +56,7 @@
 <string name="Social_SignIn_AlmostDone_lbltxt">Fast fertig!</string>
 <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Sie haben sich zuvor mit %s bei einer Philips App oder Website angemeldet und dabei %s verwendet. Wir verknüpfen %s mit Ihrem Konto.</string>
 <string name="Social_Merge_Accounts_lbltxt">Um sicherzustellen, dass Sie der Inhaber des Kontos sind, melden Sie sich bitte erneut mit %s an.</string>
-<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Wenn Sie %s nicht mit Ihrem Konto verknüpfen möchten, drücken Sie \Anmelden\, und melden Sie sich mit %s an.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Wenn Sie %s nicht mit Ihrem Konto verknüpfen möchten, drücken Sie \"Anmelden\", und melden Sie sich mit %s an.</string>
 <string name="Social_Merge_Cancel_btntxt">Abbrechen</string>
 <string name="Account_Merge_lbltxt">Verknüpfen Sie Ihre Konten</string>
 <string name="Social_Merge_btntxt">Verbinden</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Es kann einige Zeit dauern, bis die E-Mail bei Ihnen ankommt.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Überprüfen Sie Ihr E-Mail-Postfach, um Ihr Konto zu aktivieren.</string>
 <string name="VerifyEmail_Activated_btntxt">Ich habe mein Konto aktiviert</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Treten Probleme auf?\n-  Es kann einige Zeit dauern, bis die Bestätigungs-E-Mail bei Ihnen ankommt.\n-  Sehen Sie auch in Ihrem Spam-Ordner nach.\n- Drücken Sie unten auf die Schaltfläche \Erneut senden\, wenn Sie keine Bestätigungs-E-Mail erhalten haben.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Treten Probleme auf?\n-  Es kann einige Zeit dauern, bis die Bestätigungs-E-Mail bei Ihnen ankommt.\n-  Sehen Sie auch in Ihrem Spam-Ordner nach.\n- Drücken Sie unten auf die Schaltfläche \"Erneut senden\", wenn Sie keine Bestätigungs-E-Mail erhalten haben.</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWir haben eine E-Mail gesendet. Es kann einige Zeit dauern, bis die E-Mail bei Ihnen ankommt.\n\nÜberprüfen Sie Ihr E-Mail-Postfach, um Ihr Konto zu aktivieren.\n\nIn der Zwischenzeit können Sie die App verwenden.</string>
 <string name="myphilips">Philips Konto</string>
 <string name="facebook">Facebook</string>
@@ -111,19 +111,19 @@
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Groß- und Kleinbuchstaben</string>
 <string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Sonderzeichen</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Zahlen</string>
-<string name="Philips_News_Description_Normal_lbltxt"></string>
-<string name="Philips_News_Description_First_Bulleted_Title_lbltxt"></string>
-<string name="Philips_News_Description_First_Bulleted_Description_lbltxt"></string>
-<string name="Philips_News_Description_Second_Bulleted_Title_lbltxt"></string>
-<string name="Philips_News_Description_Second_Bulleted_Description_lbltxt"></string>
-<string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt"></string>
-<string name="Signin_Success_Hello_lbltxt"></string>
-<string name="Access_More_Account_Setting_lbltxt"></string>
-<string name="Philips_URL_txt"></string>
-<string name="Receive_Philips_News_lbltxt"></string>
-<string name="Receive_Philips_News_Meaning_lbltxt"></string>
-<string name="Philips_News_Title"></string>
-<string name="Philips_News_Back_btntxt"></string>
-<string name="Account_Setting_Titletxt"></string>
-<string name="Create_With_lbltxt"></string>
+<string name="Philips_News_Description_Normal_lbltxt">Mit Ihrer Zustimmung können die Unternehmen der Philips Group Ihnen Werbemitteilungen – basierend auf Ihren Interessen und Ihrem Verhalten – zu Philips Produkten, Services, Veranstaltungen und Werbeaktionen zukommen lassen. \nWir kontaktieren Sie in Form von Werbemitteilungen per E-Mail, SMS und über andere digitale Kanäle, wie mobile Apps und soziale Medien. Damit wir die Mitteilungen an Ihre Interessen und Ihr Verhalten anpassen und Ihnen ein optimal personalisiertes Erlebnis bieten können, analysieren und kombinieren wir möglicherweise Ihre persönlichen Daten. \n\nDiese Daten umfassen Folgendes:\n</string>
+<string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Daten, die Sie uns zur Verfügung gestellt haben:\n</string>
+<string name="Philips_News_Description_First_Bulleted_Description_lbltxt">Daten, die Sie aktiv mit uns teilen, wie z. B.: Name, Geburtsdatum oder Alter, E-Mail-Adresse, Hausanschrift, Land, Geschlecht, Telefonnummer, Profile von sozialen Netzwerken.\n\n</string>
+<string name="Philips_News_Description_Second_Bulleted_Title_lbltxt">Daten, die wir durch Ihre Interaktionen mit Philips beziehen:\n</string>
+<string name="Philips_News_Description_Second_Bulleted_Description_lbltxt">Daten über Ihre Interaktionen und Ihre Nutzung der digitalen Philips Kanäle wie soziale Medien, Websites, E-Mails, Apps und gekoppelte Produkte. Diese Daten umfassen möglicherweise die IP-Adresse, Cookies, Geräteinformationen, von Ihnen angeklickte Informationen, Standortdetails und von Ihnen besuchte Websites.</string>
+<string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">Sie erhalten von Philips die Gelegenheit, Ihre Zustimmung jederzeit zu widerrufen.</string>
+<string name="Signin_Success_Hello_lbltxt">Hallo</string>
+<string name="Access_More_Account_Setting_lbltxt">Möchten Sie Zugriff auf mehr Kontoeinstellungen?\nBesuchen Sie %s über Ihren Browser.</string>
+<string name="Philips_URL_txt">www.philips.com</string>
+<string name="Receive_Philips_News_lbltxt">Benachrichtigungen von Philips erhalten\n%s</string>
+<string name="Receive_Philips_News_Meaning_lbltxt">Was bedeutet das?</string>
+<string name="Philips_News_Title">Benachrichtigungen von Philips</string>
+<string name="Philips_News_Back_btntxt">Zurück</string>
+<string name="Account_Setting_Titletxt">Kontoeinstellungen</string>
+<string name="Create_With_lbltxt">Oder erstellen mit</string>
 </resources>

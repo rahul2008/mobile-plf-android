@@ -33,7 +33,7 @@
 <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Iniciar sesión con una cuenta de Philips</string>
 <string name="EmailAddPlaceHolder_txtField">Introduce la dirección de correo.</string>
 <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Introduce la contraseña.</string>
-<string name="TraditionalSignIn_Resend_lbltxt">Pulsa el botón Reenviar si no has recibido ningún correo.</string>
+<string name="TraditionalSignIn_Resend_lbltxt">Pulsa el botón \"Reenviar\" si no has recibido ningún correo.</string>
 <string name="TraditionalSignIn_ForgotPwd_btntxt">He olvidado la contraseña.</string>
 <string name="Resend_btntxt">Reenviar</string>
 <string name="TraditionalSignIn_ForgotPwdSocialError_lbltxt">No te preocupes, no necesitas una contraseña de Philips. Ya has iniciado sesión anteriormente a través de una red social.</string>
@@ -56,7 +56,7 @@
 <string name="Social_SignIn_AlmostDone_lbltxt">Ya casi has terminado.</string>
 <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Anteriormente, has iniciado sesión con %s usando %s en una aplicación o sitio web de Philips. Conectaremos %s a tu cuenta.</string>
 <string name="Social_Merge_Accounts_lbltxt">Para confirmar tu identidad, inicia sesión con %s una vez más.</string>
-<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Si no deseas conectar %s a tu cuenta, pulsa \cancelar\ e inicia sesión con %s.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Si no deseas conectar %s a tu cuenta, pulsa \"cancelar\" e inicia sesión con %s.</string>
 <string name="Social_Merge_Cancel_btntxt">Cancelar</string>
 <string name="Account_Merge_lbltxt">Fusionar cuentas</string>
 <string name="Social_Merge_btntxt">Conectar</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Es posible que el correo electrónico tarde un poco en llegar.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Comprueba tu correo electrónico para activar tu cuenta.</string>
 <string name="VerifyEmail_Activated_btntxt">He activado mi cuenta.</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">¿Tienes problemas?\n-  Es posible que el correo electrónico de verificación tarde un poco en llegar\n-  Consulta tu carpeta de correo no deseado también\n- Pulsa el botón \Reenviar\ a continuación si no has recibido el correo electrónico de verificación</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">¿Tienes problemas?\n-  Es posible que el correo electrónico de verificación tarde un poco en llegar\n-  Consulta tu carpeta de correo no deseado también\n- Pulsa el botón \"Reenviar\" a continuación si no has recibido el correo electrónico de verificación</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nTe hemos enviado un correo electrónico, es posible que tarde un poco en llegar.\n\nComprueba tu correo electrónico para activar tu cuenta.\n\nMientras puedes usar la aplicación.</string>
 <string name="myphilips">Cuenta de Philips</string>
 <string name="facebook">Facebook</string>
@@ -111,19 +111,19 @@
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Letras mayúsculas y minúsculas</string>
 <string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Carácter especial</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Números</string>
-<string name="Philips_News_Description_Normal_lbltxt"></string>
-<string name="Philips_News_Description_First_Bulleted_Title_lbltxt"></string>
-<string name="Philips_News_Description_First_Bulleted_Description_lbltxt"></string>
-<string name="Philips_News_Description_Second_Bulleted_Title_lbltxt"></string>
-<string name="Philips_News_Description_Second_Bulleted_Description_lbltxt"></string>
-<string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt"></string>
-<string name="Signin_Success_Hello_lbltxt"></string>
-<string name="Access_More_Account_Setting_lbltxt"></string>
-<string name="Philips_URL_txt"></string>
-<string name="Receive_Philips_News_lbltxt"></string>
-<string name="Receive_Philips_News_Meaning_lbltxt"></string>
-<string name="Philips_News_Title"></string>
-<string name="Philips_News_Back_btntxt"></string>
-<string name="Account_Setting_Titletxt"></string>
-<string name="Create_With_lbltxt"></string>
+<string name="Philips_News_Description_Normal_lbltxt">Tras haber indicado tu consentimiento, es posible que algunas empresas del grupo Philips se pongan en contacto contigo con motivo de comunicaciones promocionales (en función de tus preferencias y acciones) relacionadas con productos, servicios, eventos y promociones de Philips. \nPodríamos ponernos en contacto contigo por correo electrónico, SMS y otros canales digitales, como aplicaciones móviles y medios sociales. Para poder personalizar las comunicaciones en función de tus preferencias y acciones, y así proporcionarte la mejor experiencia personalizada, podríamos analizar y combinar tus datos personales. \n\nEstos datos podrían incluir:\n</string>
+<string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Los datos que nos has proporcionado:\n</string>
+<string name="Philips_News_Description_First_Bulleted_Description_lbltxt">Los datos que desees compartir activamente con nosotros, como tu nombre, fecha de nacimiento o edad, dirección de correo electrónico, dirección posta, país, sexo, número de teléfono o perfil en medios sociales.\n\n</string>
+<string name="Philips_News_Description_Second_Bulleted_Title_lbltxt">Los datos que obtenemos de tus interacciones con Philips:\n</string>
+<string name="Philips_News_Description_Second_Bulleted_Description_lbltxt">Los datos sobre tus interacciones y uso de los canales digitales de Philips, como medios sociales, sitios web, correo electrónico, aplicaciones y productos conectados. Estos datos podrían incluir: direcciones IP, cookies, información del dispositivo, comunicaciones en las que hagas clic, detalles de ubicación y sitios web que visitas</string>
+<string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">Philips te permitirá retirar tu consentimiento en cualquier momento.</string>
+<string name="Signin_Success_Hello_lbltxt">Hola</string>
+<string name="Access_More_Account_Setting_lbltxt">¿Deseas acceder a más ajustes de la cuenta?\nVisita %s con tu explorador web.</string>
+<string name="Philips_URL_txt">www.philips.com</string>
+<string name="Receive_Philips_News_lbltxt">Recibe información sobre Philips\n%s</string>
+<string name="Receive_Philips_News_Meaning_lbltxt">¿Qué significa?</string>
+<string name="Philips_News_Title">Información sobre Philips</string>
+<string name="Philips_News_Back_btntxt">Atrás</string>
+<string name="Account_Setting_Titletxt">Ajustes de la cuenta</string>
+<string name="Create_With_lbltxt">O crea una con</string>
 </resources>
