@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-$in_file_name = "../Source/CatalogApp/build.gradle";
+$in_file_name = $ARGV[0]; 
 $temp_file_name = $in_file_name . ".inserted-maven";
 open(INFILE, "<$in_file_name") || die("cannot open in file");
 open(OUTFILE, ">$temp_file_name") || die("cannot open temp file");
@@ -28,7 +28,7 @@ while (<INFILE>) {
       print "found close brace, count: " . $count . "\n";
       if ($count == 0) {
         print "close brace of allprojects block found -> inserting maven url block\n";
-        $line = ("maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }\n") ;
+        $line = ("\tmaven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local' }\n") ;
         print OUTFILE $line;
       }
     }
