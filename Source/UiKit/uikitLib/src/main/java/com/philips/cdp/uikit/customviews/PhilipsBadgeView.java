@@ -155,6 +155,7 @@ public class PhilipsBadgeView extends TextView {
     @NonNull
     private ShapeDrawable getCircleBackground() {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
+        shapeDrawable.setPadding(0,0,0,0);
         final Paint paint = shapeDrawable.getPaint();
         paint.setColor(DEFAULT_BADGE_COLOR);
         paint.setAntiAlias(true);
