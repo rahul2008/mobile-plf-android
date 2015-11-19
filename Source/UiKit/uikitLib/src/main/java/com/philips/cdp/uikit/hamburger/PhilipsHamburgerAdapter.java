@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,11 +79,15 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
 
-        if (position == 0)
-            viewHolder.transparentView.setVisibility(View.VISIBLE);
+        addHeaderMargin(position, viewHolder);
 
         setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItem, viewHolder.parentView);
         return convertView;
+    }
+
+    private void addHeaderMargin(int position, ViewHolderItem viewHolder) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && position == 0)
+            viewHolder.transparentView.setVisibility(View.VISIBLE);
     }
 
     private void initializeViews(View convertView, ViewHolderItem viewHolder) {
