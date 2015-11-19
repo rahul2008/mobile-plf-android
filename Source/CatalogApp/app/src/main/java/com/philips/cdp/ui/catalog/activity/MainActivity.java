@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.philips.cdp.ui.catalog.CustomListView.ListViewWithIcons;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
@@ -93,7 +92,10 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, ListViewProducts.class));
                 break;
             case 15:
-                startActivity(new Intent(this, ListWithIcons.class));
+                startActivity(new Intent(this, ListWithIconsActivity.class));
+                break;
+            case 16:
+                startActivity(new Intent(this, ListViewWithoutIconsActivity.class));
                 break;
             default:
                 break;
@@ -138,6 +140,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(13, "Lists View with Options");
         itemsMap.put(14, "List View Products");
         itemsMap.put(15,"List With icons");
+        itemsMap.put(16,"List Without icons");
         return itemsMap;
     }
 }

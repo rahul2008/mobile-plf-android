@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.CustomListView.ListViewWithIcons;
@@ -12,18 +13,36 @@ import com.philips.cdp.ui.catalog.R;
 /**
  * Created by 310213373 on 11/18/2015.
  */
-public class ListWithIcons extends CatalogActivity {
-    ListViewWithIcons adapter;
+public class ListWithIconsActivity extends CatalogActivity {
+    ListViewWithIcons mAdapter;
     ListView list;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listview_with_options);
+        setContentView(R.layout.activity_list_view_with_icons);
 
         list=(ListView)findViewById(R.id.list);
+        TextView text=(TextView) findViewById(R.id.sectionheader);
+        text.setText("Title Pallendia");
+       // adapter=new ListViewWithIcons(this);
+        mAdapter = new ListViewWithIcons(this);
 
-        adapter=new ListViewWithIcons(this);
-        list.setAdapter(adapter);
+                mAdapter.addItem("Quisque ");
+        mAdapter.addItem("Eget Odio ");
+        mAdapter.addItem("Foscibus ");
+        mAdapter.addItem("AC Lectus ");
+        mAdapter.addItem("Pellentesque ");
+        mAdapter.addSectionHeaderItem("Title Pallendia");
+        mAdapter.addItem("Vestibullum ");
+        mAdapter.addItem("Nulla Facilisi ");
+        mAdapter.addItem("Tortor ");
+
+
+
+
+       // setListAdapter(mAdapter);
+        list.setAdapter(mAdapter);
+
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

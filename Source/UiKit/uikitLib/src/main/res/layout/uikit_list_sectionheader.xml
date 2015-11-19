@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<TextView
     android:layout_width="fill_parent"
-    android:layout_height="30dp" />
+    android:background="@drawable/uikit_listview_headers_background_gradient"
+    android:alpha="0.7"
+
+    android:layout_height="33dp" >
+<TextView
+    android:id="@+id/sectionheader"
+    android:layout_width="fill_parent"
+    android:visibility="visible"
+    android:textSize="16sp"
+    android:text="jkdfnjdf"
+    android:layout_marginTop="12dp"
+    android:includeFontPadding="false"
+    android:layout_marginLeft="12dp"
+    android:layout_centerVertical="true"
+    android:textColor="?attr/baseColor"
+    fontPath="fonts/centralesansbold.ttf"
+    android:layout_height="33dp" />
 </LinearLayout>
