@@ -3,6 +3,7 @@ package com.philips.cdp.ui.catalog.activity;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -86,6 +87,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         footerView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
         setSupportActionBar(toolbar);
+        philipsDrawerLayout.setScrimColor(Color.TRANSPARENT);
     }
 
     @Override
