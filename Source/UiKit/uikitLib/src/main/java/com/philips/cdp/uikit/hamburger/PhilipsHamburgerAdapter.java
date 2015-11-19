@@ -71,17 +71,25 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
             }
 
             viewHolder = new ViewHolderItem();
-            viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
-            viewHolder.imgIcon = (ImageView) convertView.findViewById(R.id.hamburger_list_icon);
-            viewHolder.txtCount = (TextView) convertView.findViewById(R.id.list_counter);
-            viewHolder.bottomDivider = convertView.findViewById(R.id.divider_bottom);
+            initializeViews(convertView, viewHolder);
+            if (position == 0)
+                viewHolder.transparentView.setVisibility(View.VISIBLE);
             convertView.setTag(viewHolder);
             validateBottomDivider(hamburgerItem, viewHolder.bottomDivider);
         } else {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
-        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItem, convertView);
+        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItem, viewHolder.parentView);
         return convertView;
+    }
+
+    private void initializeViews(View convertView, ViewHolderItem viewHolder) {
+        viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
+        viewHolder.imgIcon = (ImageView) convertView.findViewById(R.id.hamburger_list_icon);
+        viewHolder.txtCount = (TextView) convertView.findViewById(R.id.list_counter);
+        viewHolder.bottomDivider = convertView.findViewById(R.id.divider_bottom);
+        viewHolder.transparentView = convertView.findViewById(R.id.transparentView);
+        viewHolder.parentView = (RelativeLayout) convertView.findViewById(R.id.hamburger_parent);
     }
 
     private void setColors() {
@@ -184,5 +192,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         TextView txtTitle;
         TextView txtCount;
         View bottomDivider;
+        View transparentView;
+        RelativeLayout parentView;
     }
 }
