@@ -229,7 +229,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
     private void handleMaskPasswordUi() {
-        if (getPassword().length() == 1) {
+        if (getPassword().length() > 1) {
             enableMaskPassword();
         } else if(getPassword().length() == 0){
             disableMaskPassoword();

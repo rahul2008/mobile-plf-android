@@ -27,6 +27,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -44,7 +45,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private LinearLayout mLlWelcomeContainer;
 
-    private TextView mTvResendDetails;
+    private XHavingProblems mViewHavingProblem;
 
     private RelativeLayout mRlSingInOptions;
 
@@ -184,7 +185,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         consumeTouch(view);
         mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_reg_veify_email);
         mLlWelcomeContainer = (LinearLayout) view.findViewById(R.id.ll_reg_welcome_container);
-        mTvResendDetails = (TextView) view.findViewById(R.id.tv_reg_resend_details);
+        mViewHavingProblem = (XHavingProblems) view.findViewById(R.id.view_having_problem);
         mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);
         mBtnActivate = (Button) view.findViewById(R.id.btn_reg_activate_acct);
         mBtnResend = (Button) view.findViewById(R.id.btn_reg_resend);
@@ -286,7 +287,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void setViewParams(Configuration config, int width) {
         applyParams(config, mTvVerifyEmail, width);
         applyParams(config, mLlWelcomeContainer, width);
-        applyParams(config, mTvResendDetails, width);
+        applyParams(config, mViewHavingProblem, width);
         applyParams(config, mRlSingInOptions, width);
         applyParams(config, mRegError, width);
     }

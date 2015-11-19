@@ -29,6 +29,7 @@ import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XEmail;
+import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
@@ -72,6 +73,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private View mViewAttentionBoxLine;
 
     private TextView mTvResendDetails;
+
+    private XHavingProblems mViewHavingProblem ;
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
@@ -170,6 +173,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         applyParams(config, mRlSignInBtnContainer,width);
         applyParams(config, mRegError, width);
         applyParams(config, mTvResendDetails, width);
+        applyParams(config,mViewHavingProblem,width);
     }
 
     @Override
@@ -211,6 +215,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void initUI(View view) {
         consumeTouch(view);
         mBtnSignInAccount = (Button) view.findViewById(R.id.btn_reg_sign_in);
+        mViewHavingProblem = (XHavingProblems) view.findViewById(R.id.view_having_problem);
         mBtnSignInAccount.setOnClickListener(this);
         mBtnForgot = (Button) view.findViewById(R.id.btn_reg_forgot_password);
         mBtnForgot.setOnClickListener(this);
@@ -332,6 +337,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (userRegistrationFailureInfo.getError().code == SOCIAL_SIGIN_IN_ONLY_CODE) {
             mLlattentionBox.setVisibility(View.VISIBLE);
             mEtEmail.showInvalidAlert();
+            mTvResendDetails.setVisibility(View.VISIBLE);
+            mViewHavingProblem.setVisibility(View.GONE);
             mTvResendDetails.setText(getString(R.string.TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt));
             mEtEmail.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             mEtEmail.showErrPopUp();
@@ -464,6 +471,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mBtnSignInAccount.setEnabled(false);
             mEtEmail.setErrDescription(getString(R.string.Janrain_Error_Need_Email_Verification));
             mBtnResend.setVisibility(View.VISIBLE);
+            mViewHavingProblem.setVisibility(View.VISIBLE);
+            mTvResendDetails.setVisibility(View.GONE);
             mLlattentionBox.setVisibility(View.VISIBLE);
             mViewAttentionBoxLine.setVisibility(View.INVISIBLE);
         }
