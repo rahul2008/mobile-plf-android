@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 
+import java.util.ArrayList;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -19,14 +21,23 @@ public class ListViewWithOptions extends BaseAdapter{
 
     public Activity activity;
     private LayoutInflater inflater=null;
+    ArrayList<String> listOfItems;
     public ListViewWithOptions(Activity activity){
         this.activity = activity;
         inflater = (LayoutInflater)activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
+       listOfItems = new ArrayList<>(7);
+        listOfItems.add("DiamondClean");
+        listOfItems.add("DiamondClean");
+        listOfItems.add("DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.");
+        listOfItems.add("DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.");
+        listOfItems.add("DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod. DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.");
+        listOfItems.add("DiamondClean");
+        listOfItems.add("DiamondClean");
     }
 
     @Override
     public int getCount() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -43,6 +54,7 @@ public class ListViewWithOptions extends BaseAdapter{
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         View vi=convertView;
 
+
         if(convertView==null)
             vi = inflater.inflate(R.layout.uikit_listview_with_options_custom_layout, null);
 
@@ -53,9 +65,10 @@ public class ListViewWithOptions extends BaseAdapter{
 
         image.setImageResource(R.drawable.image);
         //image.setColorFilter(Color.GREEN);
-        name.setText("DiamondClean");
+        name.setText(listOfItems.get(position));
         value.setText("€209,99*");
         from.setText("from");
+        vi.setTag(position);
         return vi;
     }
 }

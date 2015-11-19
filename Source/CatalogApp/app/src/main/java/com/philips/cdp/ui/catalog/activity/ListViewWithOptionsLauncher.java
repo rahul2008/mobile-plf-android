@@ -21,6 +21,9 @@ public class ListViewWithOptionsLauncher extends CatalogActivity {
 
         adapter=new ListViewWithOptions(this);
         list.setAdapter(adapter);
+        list.setDividerHeight(1);
+
+
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
