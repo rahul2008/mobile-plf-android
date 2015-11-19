@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:id="@+id/hamburger_click"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
@@ -38,6 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/uikit_hamburger_counter_icon_left_margin"
+        android:layout_toRightOf="@+id/hamburger_click"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="@dimen/uikit_hamburger_menu_title_text_size">

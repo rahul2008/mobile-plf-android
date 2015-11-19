@@ -196,14 +196,12 @@ public class HamburgerMenuDemo extends CatalogActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
         actionBarCount = (TextView) findViewById(R.id.hamburger_count);
         hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         LinearLayout hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
-//        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
-//        parent.setContentInsetsAbsolute(0, 0);
 
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
             @Override
