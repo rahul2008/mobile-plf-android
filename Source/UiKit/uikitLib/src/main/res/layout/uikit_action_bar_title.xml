@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/hamburger_click"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
 
     <com.philips.cdp.uikit.customviews.VectorDrawableImageView
         android:id="@+id/hamburger_icon"
         android:layout_width="18dp"
         android:layout_height="12dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
+        android:layout_gravity="center"
         android:layout_marginLeft="@dimen/uikit_hamburger_icon_left_margin"
         app:vectorsrc="@drawable/uikit_hamburger_icon" />
 
@@ -24,10 +26,10 @@
         style="@style/NotificationLabel.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/uikit_hamburger_counter_icon_left_margin"
-        android:layout_toRightOf="@+id/hamburger_icon" />
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/uikit_hamburger_counter_icon_left_margin" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/hamburger_title"

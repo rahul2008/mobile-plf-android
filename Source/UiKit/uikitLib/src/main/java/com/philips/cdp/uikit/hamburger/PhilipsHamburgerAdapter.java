@@ -72,13 +72,15 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
 
             viewHolder = new ViewHolderItem();
             initializeViews(convertView, viewHolder);
-            if (position == 0)
-                viewHolder.transparentView.setVisibility(View.VISIBLE);
             convertView.setTag(viewHolder);
             validateBottomDivider(hamburgerItem, viewHolder.bottomDivider);
         } else {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
+
+        if (position == 0)
+            viewHolder.transparentView.setVisibility(View.VISIBLE);
+
         setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItem, viewHolder.parentView);
         return convertView;
     }

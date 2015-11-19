@@ -13,8 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -201,9 +201,9 @@ public class HamburgerMenuDemo extends CatalogActivity {
         actionBarCount = (TextView) findViewById(R.id.hamburger_count);
         hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
-        RelativeLayout hamburgerClick = (RelativeLayout) findViewById(R.id.hamburger_click);
-        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
-        parent.setContentInsetsAbsolute(0, 0);
+        LinearLayout hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
+//        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
+//        parent.setContentInsetsAbsolute(0, 0);
 
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
             @Override
