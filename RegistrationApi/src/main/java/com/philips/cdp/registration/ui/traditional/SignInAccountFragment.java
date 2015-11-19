@@ -64,6 +64,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private ProgressBar mPbForgotPasswdSpinner;
 
+    private ProgressBar mPbResendSpinner;
+
     private XRegError mRegError;
 
     private Context mContext;
@@ -74,7 +76,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private TextView mTvResendDetails;
 
-    private XHavingProblems mViewHavingProblem ;
+    private XHavingProblems mViewHavingProblem;
 
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
@@ -168,12 +170,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void setViewParams(Configuration config,int width) {
-        applyParams(config, mLlCreateAccountFields,width);
-        applyParams(config, mRlSignInBtnContainer,width);
+    public void setViewParams(Configuration config, int width) {
+        applyParams(config, mLlCreateAccountFields, width);
+        applyParams(config, mRlSignInBtnContainer, width);
         applyParams(config, mRegError, width);
         applyParams(config, mTvResendDetails, width);
-        applyParams(config,mViewHavingProblem,width);
+        applyParams(config, mViewHavingProblem, width);
     }
 
     @Override
@@ -189,16 +191,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
-            if(mEtEmail.getEmailId().length()==0 ){
+            if (mEtEmail.getEmailId().length() == 0) {
                 launchResetPasswordFragment();
-            }else{
+            } else {
                 resetPassword();
             }
         } else if (id == R.id.btn_reg_resend) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
             mEtEmail.clearFocus();
             mEtPassword.clearFocus();
-            lauchAccountActivationFragment();
+            RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
+            handleResend();
         }
     }
 
@@ -242,7 +245,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mUser = new User(mContext);
         mPbSignInSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_sign_in_spinner);
         mPbForgotPasswdSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_forgot_spinner);
-
+        mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_resend_spinner);
     }
 
     @Override
@@ -298,13 +301,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         hideSignInSpinner();
 
         mBtnSignInAccount.setEnabled(false);
-        if(userRegistrationFailureInfo.getErrorCode()>= RegConstants.HSDP_LOWER_ERROR_BOUND){
+        if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
             //HSDP related error description
             scrollViewAutomatically(mRegError, mSvRootLayout);
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
             scrollViewAutomatically(mRegError, mSvRootLayout);
-        }else{
+        } else {
             //Need to show password errors only
             scrollViewAutomatically(mRegError, mSvRootLayout);
             mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
@@ -320,7 +323,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg_Title),
-                mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg),getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+                mContext.getResources().getString(R.string.ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         hideForgotPasswordSpinner();
         mBtnResend.setEnabled(true);
         mRegError.hideError();
@@ -412,9 +415,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 && RegistrationHelper.getInstance().isJanrainIntialized()) {
             mLlattentionBox.setVisibility(View.GONE);
             mBtnSignInAccount.setEnabled(true);
+            mBtnForgot.setEnabled(true);
+            mBtnResend.setEnabled(true);
             mRegError.hideError();
         } else {
             mBtnSignInAccount.setEnabled(false);
+            mBtnForgot.setEnabled(false);
+            mBtnResend.setEnabled(false);
         }
     }
 
@@ -443,13 +450,28 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onResendVerificationEmailSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Verification_email_Title),
+                mContext.getResources().getString(R.string.Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
+        updateResendUIState();
     }
 
     @Override
     public void onResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        RLog.i(RLog.CALLBACK,
+                "SignInAccountFragment : onResendVerificationEmailFailedWithError");
+        updateResendUIState();
         trackActionResendVerificationFailure(userRegistrationFailureInfo.getError().code);
+        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
+                + userRegistrationFailureInfo.getEmailErrorMessage());
+        mBtnResend.setEnabled(true);
     }
 
+    private void updateResendUIState() {
+        mBtnSignInAccount.setEnabled(true);
+        mBtnResend.setEnabled(true);
+        mBtnForgot.setEnabled(true);
+        hideResendSpinner();
+    }
 
     private void handleLoginSuccess() {
         hideSignInSpinner();
@@ -459,9 +481,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         mRegError.hideError();
         if (mUser.getEmailVerificationStatus(getActivity())) {
-            if(RegPreferenceUtility.isAvailableIn(mContext,mEmail)){
+            if (RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
                 launchWelcomeFragment();
-            }else{
+            } else {
                 launchAlmostDoneScreenForTermsAcceptance();
             }
 
@@ -486,9 +508,38 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
     };
 
-    private void launchAlmostDoneScreenForTermsAcceptance(){
+
+    private OnClickListener mContinueVerifyBtnClick = new OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            RegAlertDialog.dismissDialog();
+            updateActivationUIState();
+        }
+    };
+
+    private void hideResendSpinner() {
+        mPbResendSpinner.setVisibility(View.GONE);
+    }
+
+    private void showResendSpinner() {
+        mPbResendSpinner.setVisibility(View.VISIBLE);
+    }
+
+    private void updateActivationUIState() {
+        lauchAccountActivationFragment();
+    }
+
+    private void launchAlmostDoneScreenForTermsAcceptance() {
         getRegistrationFragment().addPlaneAlmostDoneFragment();
         trackPage(AppTaggingPages.ALMOST_DONE);
     }
 
+    private void handleResend() {
+        showResendSpinner();
+        mBtnResend.setEnabled(false);
+        mBtnSignInAccount.setEnabled(false);
+        mBtnForgot.setEnabled(false);
+        mUser.resendVerificationMail(mEtEmail.getEmailId(), this);
+    }
 }

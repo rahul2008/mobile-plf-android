@@ -281,8 +281,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         trackPage(AppTaggingPages.ALMOST_DONE);
     }
 
-
-
     @Override
     public void setViewParams(Configuration config, int width) {
         applyParams(config, mTvVerifyEmail, width);
@@ -384,7 +382,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         @Override
         public void onClick(View view) {
             RegAlertDialog.dismissDialog();
-            launchAlmostFragment();
         }
     };
 }
