@@ -56,6 +56,7 @@
     <dimen name="reg_title_text_size_medium">15sp</dimen>
     <dimen name="reg_title_text_size_small">13sp</dimen>
     <dimen name="reg_margin_bottom">11dp</dimen>
+    <dimen name="reg_title_text_size_medium_neg">-15sp</dimen>
 
     <!-- error mapping -->
     <dimen name="reg_err_mapping_padding">10dip</dimen>

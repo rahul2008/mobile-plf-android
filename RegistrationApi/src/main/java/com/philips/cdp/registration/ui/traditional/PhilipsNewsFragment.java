@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -53,6 +55,17 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
         mBtnBack = (Button)view.findViewById(R.id.reg_btn_back);
         mBtnBack.setOnClickListener(this);
         mRlBackBtnContainer = (RelativeLayout)view.findViewById(R.id.rl_reg_btn_back_container);
+
+
+        TextView tvFirstDesc = (TextView)view.findViewById(R.id.tv_first_desc);
+        String s = " <i>"+getString(R.string.Philips_News_Description_First_Bulleted_Description_lbltxt)+"</i>";
+        tvFirstDesc.setText(Html.fromHtml(s));
+
+
+        TextView tvSecondDesc = (TextView)view.findViewById(R.id.tv_second_desc);
+         s = " <i>"+getString(R.string.Philips_News_Description_Second_Bulleted_Description_lbltxt)+"</i>";
+        tvSecondDesc.setText(Html.fromHtml(s));
+
     }
 
     @Override
