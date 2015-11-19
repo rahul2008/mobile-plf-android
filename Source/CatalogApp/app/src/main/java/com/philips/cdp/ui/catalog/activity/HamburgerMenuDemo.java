@@ -129,7 +129,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
             if (i == 4) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 3));
             } else if (i == 6) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 22, false, true));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 222, false, true));
             } else if (hamburgerMenuTitles[i].equalsIgnoreCase("Title Long")) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 0, true));
             } else
