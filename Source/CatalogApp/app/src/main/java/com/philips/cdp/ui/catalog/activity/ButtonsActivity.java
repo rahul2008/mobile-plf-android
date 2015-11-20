@@ -3,6 +3,7 @@ package com.philips.cdp.ui.catalog.activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -76,15 +77,16 @@ public class ButtonsActivity extends CatalogActivity {
         @Override
         protected Void doInBackground(final Void... params) {
             synchronized (lock) {
-                while (progress < 100) {
+                while (progress <= 100) {
                     try {
                         lock.wait(5);
                     } catch (InterruptedException ie) {
 
                     }
-                    progress++;
                     publishProgress(progress);
+                    progress++;
                 }
+                //publishProgress(100);
             }
             return null;
         }
@@ -97,12 +99,14 @@ public class ButtonsActivity extends CatalogActivity {
         @Override
         protected void onPostExecute(final Void aVoid) {
             synchronized (lock) {
-                try {
-                    lock.wait(200);
-                } catch (InterruptedException ie) {
-                }
-                puiPopoverAlert.dismiss();
-                progress = 0;
+                popoverProgress.setProgress(100);
+                new Handler(getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        puiPopoverAlert.dismiss();
+                        progress = 0;
+                    }
+                }, 500);
             }
         }
     }
