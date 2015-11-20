@@ -34,6 +34,9 @@ import java.util.List;
 public class PrxProductData {
 
     private static final String TAG = PrxProductData.class.getSimpleName();
+    public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF = "User manual";
+    public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF = "qsg";
+    public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL = "mp4";
 
 
     private Context mContext = null;
@@ -183,10 +186,13 @@ public class PrxProductData {
                         String assetDescription = assetObject.getDescription();
                         String assetResource = assetObject.getAsset();
                         String assetExtension = assetObject.getExtension();
-                        if (assetDescription.equalsIgnoreCase(DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF))
+                        if (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF))
                             if (assetResource != null)
                                 mProductDetailsObject.setManualLink(assetResource);
-                        if (assetExtension.equalsIgnoreCase(DigitalCareConstants.VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
+                        if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF)))
+                            if (assetResource != null)
+                                mProductDetailsObject.setManualLink(assetResource);
+                        if (assetExtension.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
                             if (assetResource != null)
                                 mVideoList.add(assetResource);
                     }
