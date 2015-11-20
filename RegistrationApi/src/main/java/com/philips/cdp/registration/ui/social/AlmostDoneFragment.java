@@ -318,6 +318,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         @Override
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
+            trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
         }
     };
 

@@ -281,6 +281,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         @Override
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
+            trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
         }
     };
 

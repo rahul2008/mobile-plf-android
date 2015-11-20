@@ -337,6 +337,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         @Override
         public void onClick(View widget) {
             getRegistrationFragment().addPhilipsNewsFragment();
+            trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
         }
     };
 }
