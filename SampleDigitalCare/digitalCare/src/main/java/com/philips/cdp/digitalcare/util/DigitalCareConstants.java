@@ -60,8 +60,7 @@ public class DigitalCareConstants {
     public static final String DIGITALCARE_FRAGMENT_TAG = "digitalcare";
 
 
-    public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF = "User manual";
-    public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL = "mp4";
+
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF_DOWNLOAD = "Philips_Manual";
 
 }
