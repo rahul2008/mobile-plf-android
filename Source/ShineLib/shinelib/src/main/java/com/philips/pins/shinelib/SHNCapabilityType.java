@@ -5,20 +5,39 @@
 
 package com.philips.pins.shinelib;
 
-/**
- * Created by 310188215 on 02/03/15.
- */
 public enum SHNCapabilityType {
+    @Deprecated
     DataStreaming,
+    @Deprecated
     DeviceInformation,
+    @Deprecated
     FirmwareUpdate,
+    @Deprecated
     LogSynchronization,
+    @Deprecated
     Notifications,
+    @Deprecated
     Sedentary,
+    @Deprecated
     TargetHeartrateZone,
+    @Deprecated
     Targets,
+    @Deprecated
     UserConfiguration,
+    @Deprecated
     WearingPosition,
+    @Deprecated
     Battery,
-    UserInformationLifeSense
+    @Deprecated
+    UserInformationLifeSense,
+
+    DATA_STREAMING,
+    DEVICE_INFORMATION,
+    FIRMWARE_UPDATE,
+    LOG_SYNCHRONIZATION,
+    NOTIFICATIONS,
+    WEARING_POSITION,
+    BATTERY,
+    USER_INFORMATION_LIFE_SENSE,
+    DEVICE_DIAGNOSTIC
 }
