@@ -56,6 +56,11 @@ public class ListViewWithIcons extends BaseAdapter {
     }
 
     @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
+    @Override
     public int getItemViewType(int position) {
         return sectionHeader.contains(position) ? TYPE_SEPARATOR : TYPE_ITEM;
     }
@@ -96,23 +101,23 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.name=(TextView) convertView.findViewById(R.id.off_on);
                     holder.value=(PuiSwitch)convertView.findViewById(R.id.switch_button);
 
+                    holder.textView.setText(mData.get(position));
 
-
-                    if(position==0)
+                    if(position==1)
                     {
-                        holder.mImage.setImageResource(R.drawable.alarm);
+                        holder.mImage.setImageResource(R.drawable.call);
                         holder.mImage.setVisibility(View.VISIBLE);
                         holder.value.setVisibility(View.VISIBLE);
 
                     }
-                    if(position==1)
+                    if(position==2)
                     {
                         holder.mImage.setImageResource(R.drawable.maps_carrot);
                         holder.mImage.setVisibility(View.VISIBLE);
                         holder.value.setVisibility(View.VISIBLE);
 
                     }
-                    if(position==2)
+                    if(position==3)
                     {
                         holder.mImage.setImageResource(R.drawable.mail);
                         holder.name.setVisibility(View.VISIBLE);
@@ -123,7 +128,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                     }
 
-                    if(position==3)
+                    if(position==4)
                     {
                         holder.name.setVisibility(View.VISIBLE);
                         holder.name.setText("On");
@@ -134,14 +139,6 @@ public class ListViewWithIcons extends BaseAdapter {
 
                     }
 
-                    if(position==4)
-                    {
-                        holder.mImage.setImageResource(R.drawable.alarm);
-                        holder.arrow.setVisibility(View.VISIBLE);
-                        holder.mImage.setVisibility(View.VISIBLE);
-
-
-                    }
                     if(position==5)
                     {
                         holder.mImage.setImageResource(R.drawable.alarm);
@@ -150,27 +147,28 @@ public class ListViewWithIcons extends BaseAdapter {
 
 
                     }
-                    if(position==6)
+                    if(position==7)
                     {
+
                         holder.arrow.setVisibility(View.VISIBLE);
-                        holder.arrow.setVisibility(View.VISIBLE);
+
                         holder.mBadge.setVisibility(View.VISIBLE);
                         holder.mBadge.setText("22");
 
 
                     }
-                    if(position==7)
+                    if(position==8)
                     {
                         holder.arrow.setVisibility(View.VISIBLE);
 
 
+
                     }
-                    if(position==8)
+                    if(position==9)
                     {
                         holder.mBadge.setVisibility(View.VISIBLE);
                         holder.mBadge.setText("3");
                         holder.arrow.setVisibility(View.VISIBLE);
-
 
 
                     }
@@ -178,21 +176,22 @@ public class ListViewWithIcons extends BaseAdapter {
                     break;
                 case TYPE_SEPARATOR:
                     convertView = mInflater.inflate(R.layout.uikit_list_sectionheader, null);
-                    holder.textView = (TextView) convertView.findViewById(R.id.sectionheader);
-
+                    holder.textViewH = (TextView) convertView.findViewById(R.id.sectionheader);
+                    holder.textViewH.setText(mData.get(position));
                     break;
             }
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.textView.setText(mData.get(position));
+
 
         return convertView;
     }
 
     public static class ViewHolder {
         public TextView textView;
+        public  TextView textViewH;
         ImageView mImage;
         TextView name;
         PuiSwitch value;

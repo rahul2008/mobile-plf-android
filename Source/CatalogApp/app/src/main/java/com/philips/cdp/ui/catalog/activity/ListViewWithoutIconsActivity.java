@@ -20,7 +20,7 @@ public class ListViewWithoutIconsActivity extends CatalogActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listview_with_options);
+        setContentView(R.layout.listview_without_icons);
 
         list=(ListView)findViewById(R.id.list);
 

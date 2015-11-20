@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:background="@drawable/uikit_listview_headers_background_gradient"
     android:alpha="0.7"
-
     android:layout_height="33dp" >
 <TextView
     android:id="@+id/sectionheader"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:visibility="visible"
     android:textSize="16sp"
-    android:text="jkdfnjdf"
-    android:layout_marginTop="12dp"
+    android:text="SubHeading"
+    android:paddingTop="9dp"
     android:includeFontPadding="false"
     android:layout_marginLeft="12dp"
     android:layout_centerVertical="true"

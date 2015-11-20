@@ -22,12 +22,12 @@ public class ListWithIconsActivity extends CatalogActivity {
         setContentView(R.layout.activity_list_view_with_icons);
 
         list=(ListView)findViewById(R.id.list);
-        TextView text=(TextView) findViewById(R.id.sectionheader);
-        text.setText("Title Pallendia");
+      //  TextView text=(TextView) findViewById(R.id.sectionheader);
+      //  text.setText("Title Pallendia");
        // adapter=new ListViewWithIcons(this);
         mAdapter = new ListViewWithIcons(this);
-
-                mAdapter.addItem("Quisque ");
+        mAdapter.addSectionHeaderItem("Title Pallendia");
+        mAdapter.addItem("Quisque ");
         mAdapter.addItem("Eget Odio ");
         mAdapter.addItem("Foscibus ");
         mAdapter.addItem("AC Lectus ");
