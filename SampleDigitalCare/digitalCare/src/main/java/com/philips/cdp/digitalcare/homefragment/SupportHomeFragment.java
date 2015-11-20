@@ -24,6 +24,7 @@ import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.FaqFragment;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
+import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -108,6 +109,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
     private void createButtonLayout(int buttonTitleResId, int buttonDrawableResId) {
 
         String buttonTitle = getResources().getResourceEntryName(buttonTitleResId);
+
         String buttonDrawable = getResources().getResourceEntryName(buttonDrawableResId);
         float density = getResources().getDisplayMetrics().density;
         String packageName = getActivity().getPackageName();
@@ -115,9 +117,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
                 packageName + ":string/" + buttonTitle, null, null);
         int drawable = getResources().getIdentifier(
                 packageName + ":drawable/" + buttonDrawable, null, null);
-
         RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
-
+        if(relativeLayout ==null){
+            return;
+        }
         Button button = createButton(density, title);
         relativeLayout.addView(button);
         setButtonParams(button, density);
@@ -150,6 +153,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         } else {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_button_bg);
+        }
+
+          /*
+            If PRX response is fail/unsuccess then disable "View Product Button".
+         */
+        String viewProductText = getStringKey(R.string.view_product_details);
+        ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+
+        if((buttonTitle == null) || (buttonTitle.equalsIgnoreCase(viewProductText) && (model == null || model.getCtnName() == null))){
+            return null;
         }
 
         return relativeLayout;

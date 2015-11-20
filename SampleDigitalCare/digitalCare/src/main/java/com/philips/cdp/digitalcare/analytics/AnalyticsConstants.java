@@ -28,8 +28,8 @@ public class AnalyticsConstants {
     public static final String PAGE_REVIEW_THANKS = "digitalcare:ratethisapp:guideLines:writeReview:preview:thankYou";
 
     public static final String PAGE_VIEW_PRODUCT_DETAILS = "digitalcare:viewProductDetails";
-    public static final String PAGE_VIEW_PRODUCT_WEBSITE = "digitalcare:viewProductWebsite";
-    public static final String PAGE_VIEW_PRODUCT_MANUAL = "digitalcare:viewProductManual";
+    public static final String PAGE_VIEW_PRODUCT_WEBSITE = "digitalcare:viewProductDetails:website";
+    public static final String PAGE_VIEW_PRODUCT_MANUAL = "digitalcare:viewProductDetails:manual";
         /* ACTION KEY CONSTANTS */
     /*****************
      * Page Context Data start
