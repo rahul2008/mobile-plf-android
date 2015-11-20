@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -49,27 +51,39 @@ public class UiKitActivity extends AppCompatActivity {
 
     }
 
-    @SuppressWarnings("deprecation")
-    //we need to support API lvl 14+, so cannot change to imageView.setAlpha(): sticking with deprecated API for now
     @Override
     protected void onStart() {
         super.onStart();
-        if(validateHamburger()) {
-            VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
-            DrawerLayout philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
-            if (vectorDrawableImageView != null)
-                vectorDrawableImageView.setAlpha(229);
-
-            setStatusBarTransparent();
+        if (validateHamburger()) {
+            DrawerLayout philipsDrawerLayout = setLogoAlpha();
+            configureStatusBarViews();
             philipsDrawerLayout.setScrimColor(Color.TRANSPARENT);
         }
     }
 
-    private void setStatusBarTransparent() {
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to imageView.setAlpha(): sticking with deprecated API for now
+    private DrawerLayout setLogoAlpha() {
+        VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
+        DrawerLayout philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
+        if (vectorDrawableImageView != null)
+            vectorDrawableImageView.setAlpha(229);
+        return philipsDrawerLayout;
+    }
+
+    private void configureStatusBarViews() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
+        } else {
+            RelativeLayout parentView = (RelativeLayout) findViewById(R.id.list_view_parent);
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) parentView.getLayoutParams();
+            if (layoutParams != null) {
+                int topMargin = (int) getResources().getDimension(R.dimen.uikit_hamburger_list_top_margin);
+                layoutParams.setMargins(0, topMargin, 0, 0);
+                parentView.setLayoutParams(layoutParams);
+            }
         }
     }
 
@@ -88,13 +102,12 @@ public class UiKitActivity extends AppCompatActivity {
     private boolean validateHamburger() {
         return findViewById(R.id.philips_drawer_layout) != null;
     }
+
     private void initFontIconLib() {
         try {
             FontIconTypefaceHolder.getTypeface();
 
-        }
-        catch(IllegalStateException e)
-        {
+        } catch (IllegalStateException e) {
             FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
         }
     }
