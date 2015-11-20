@@ -212,7 +212,7 @@ public class AssetModelTest extends InstrumentationTestCase {
 
 
 
-    private void testDataModelObject()
+    public void testDataModelObject()
     {
         testAssetsDataModelTest();
          mData = new Data(mAssetsObject);
