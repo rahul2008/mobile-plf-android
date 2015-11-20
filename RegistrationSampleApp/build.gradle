@@ -55,12 +55,12 @@ android {
         simulator {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.2.9"
+            versionName "2.3.0"
         }
         device {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.2.9"
+            versionName "2.3.0"
         }
     }
 }
@@ -83,8 +83,9 @@ if (propFile.canRead()){
     println 'signing.properties not found'
     android.buildTypes.release.signingConfig = null
 }
-
+repositories { flatDir { dirs 'libs' } }
 dependencies {
+
     compile project(':registrationApi')
     compile project(':HockeySDK-3.0.2')
 }
