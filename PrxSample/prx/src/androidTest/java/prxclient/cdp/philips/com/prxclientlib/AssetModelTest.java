@@ -199,7 +199,6 @@ public class AssetModelTest extends InstrumentationTestCase {
     }
 
 
-
     public void testAssetsDataModelTest2() {
 
         List<Asset> list = new ArrayList<Asset>();
@@ -211,11 +210,16 @@ public class AssetModelTest extends InstrumentationTestCase {
     }
 
 
-
-    public void testDataModelObject()
-    {
+    public void testDataModelObject() {
         testAssetsDataModelTest();
-         mData = new Data(mAssetsObject);
+        mData = new Data(mAssetsObject);
+        assertNotNull(mData.getAssets());
+    }
+
+    public void testDataModelwithAssets() {
+        testAssetsDataModelTest();
+        mData = new Data();
+        mData.setAssets(mAssetsObject);
         assertNotNull(mData.getAssets());
     }
 
