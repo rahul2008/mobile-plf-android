@@ -136,7 +136,6 @@ public class DigitalCareConfigManager {
     }
 
 
-
     /**
      * <p> Invoking DigitalCare Component from the Intent. </p>
      * <b> Note: </b> Please make sure to set the Locale before invoking this method.
