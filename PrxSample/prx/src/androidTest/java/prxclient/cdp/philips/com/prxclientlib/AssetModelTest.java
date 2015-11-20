@@ -32,6 +32,7 @@ public class AssetModelTest extends InstrumentationTestCase {
     private Asset mAssetObject = null;
     private Assets mAssetsObject = null;
     private Data mData = null;
+    private AssetModel mAssetModel = null;
 
     String mCode = "RQ1250_17";
     String mDescription = "User manual";
@@ -221,6 +222,25 @@ public class AssetModelTest extends InstrumentationTestCase {
         mData = new Data();
         mData.setAssets(mAssetsObject);
         assertNotNull(mData.getAssets());
+    }
+
+
+    public void testAssetModelExistanceTest()
+    {
+        testDataModelObject();
+        mAssetModel = new AssetModel();
+        mAssetModel.setData(mData);
+        mAssetModel.setSuccess(false);
+        assertEquals(false, mAssetModel.isSuccess());
+    }
+
+    public void testAssetModelDataLoaderTest()
+    {
+        testDataModelObject();
+        mAssetModel = new AssetModel(true, mData);
+        mAssetModel.setData(mData);
+        mAssetModel.setSuccess(true);
+        assertEquals(mData, mAssetModel.getData());
     }
 
 }
