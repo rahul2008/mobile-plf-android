@@ -15,8 +15,12 @@ import android.widget.ScrollView;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -33,6 +37,7 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
+    private String mUrl = null;
 
     private String PRODUCT_PAGE_URL = "http://docs.google.com/gview?embedded=true&url=%s";
     private String TAG = ProductManualFragment.class.getSimpleName();
@@ -44,6 +49,13 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         if (mView == null) {
             mView = inflater.inflate(R.layout.common_webview, container, false);
         }
+        mUrl = getPhilipsProductPageUrl();
+
+        Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(AnalyticsConstants.ACTION_KEY_URL, mUrl);
+        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_MANUAL,
+                getPreviousName(), contextData);
+
         return mView;
     }
 
@@ -69,9 +81,8 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
-            String url = getPhilipsProductPageUrl();
             DigiCareLogger.d(TAG, getPhilipsProductPageUrl());
-            mWebView.loadUrl(url);
+            mWebView.loadUrl(mUrl);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setVerticalScrollBarEnabled(false);
             mWebView.setHorizontalScrollBarEnabled(false);
@@ -131,7 +142,7 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return AnalyticsConstants.PAGE_PRODCUT_DETAILS;
+        return AnalyticsConstants.PAGE_VIEW_PRODUCT_MANUAL;
     }
 
     @Override

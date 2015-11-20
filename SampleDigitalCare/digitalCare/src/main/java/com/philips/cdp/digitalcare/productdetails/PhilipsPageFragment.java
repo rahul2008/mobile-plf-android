@@ -39,6 +39,7 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
 
     private String PRODUCT_PAGE_URL = "http://%s%s";
     private String TAG = PhilipsPageFragment.class.getSimpleName();
+    private String mUrl = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +48,17 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
         if (mView == null) {
             mView = inflater.inflate(R.layout.common_webview, container, false);
         }
+
+        /*
+         * Philips page has to be tagged in different ways as below.
+         */
+        mUrl = getPhilipsProductPageUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
+
+        Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(AnalyticsConstants.ACTION_KEY_URL, mUrl);
+        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_WEBSITE,
+                getPreviousName(), contextData);
+
         return mView;
     }
 
@@ -57,13 +69,7 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-
-        Map<String, Object> contextData = new HashMap<String, Object>();
-        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ,
-                getPreviousName(), contextData);
         initView();
-
         loadFaq();
     }
 
@@ -78,9 +84,8 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
-            String url = getPhilipsProductPageUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
             DigiCareLogger.d(TAG, getPhilipsProductPageUrl());
-            mWebView.loadUrl(url);
+            mWebView.loadUrl(mUrl);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
 
@@ -143,7 +148,7 @@ public class PhilipsPageFragment extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return AnalyticsConstants.PAGE_PRODCUT_DETAILS;
+        return AnalyticsConstants.PAGE_VIEW_PRODUCT_WEBSITE;
     }
 
     @Override

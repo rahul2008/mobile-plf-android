@@ -39,7 +39,9 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 /*import com.philips.cdp.horizontal.RequestManager;
 import com.philips.cdp.network.listeners.AssetListener;
 import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
@@ -81,6 +83,14 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         DigiCareLogger.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_view_product,
                 container, false);
+
+        try {
+            AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
+                    getPreviousName());
+        } catch (Exception e) {
+            DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
+        }
+
         return view;
     }
 
@@ -112,8 +122,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         setViewParams(config);
         createProductDetailsMenu();
         updateViewsWithData();
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS,
-                getPreviousName());
 /*
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -133,6 +141,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         else{
             return;
         }
+
+        Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_COUNT, mVideoLength.size());
+        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SEND_DATA, contextData);
+
         for (int i = 0; i < mVideoLength.size(); i++) {
             addNewVideo(i + "", mVideoLength.get(i));
         }
@@ -162,8 +175,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         return (int) mSmallerResolution;
     }
 
-    protected void loadVideoThumbnail(final ImageView imageView, String imagePath) {
-        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
+    protected void loadVideoThumbnail(final ImageView imageView, String thumbnail) {
+//        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
 
         ImageRequest request = new ImageRequest(thumbnail,
                 new Response.Listener<Bitmap>() {
@@ -175,6 +188,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         // mProductImage.setImageResource(R.drawable.image_load_error);
+                        Map<String, Object> contextData = new HashMap<String, Object>();
+                        contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, error.getMessage());
+                        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, contextData);
                     }
                 });
 
@@ -186,12 +202,17 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         View child = getActivity().getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
         ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
         ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
-        loadVideoThumbnail(videoThumbnail, video);
+        final String thumbnail = video.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
+        loadVideoThumbnail(videoThumbnail, thumbnail);
         child.setTag(tag);
         //    videoPlay.setOnClickListener(videoModel);
         videoPlay.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Map<String, Object> contextData = new HashMap<String, Object>();
+                contextData.put(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_THUMBNAIL, thumbnail);
+                AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SEND_DATA, contextData);
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse(video), "video/mp4");
@@ -384,7 +405,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public String setPreviousPageName() {
-        return AnalyticsConstants.PAGE_PRODCUT_DETAILS;
+        return AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS;
     }
 
 
@@ -405,6 +426,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
                             // mProductImage.setImageResource(R.drawable.image_load_error);
+                            Map<String, Object> contextData = new HashMap<String, Object>();
+                            contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, error.getMessage());
+                            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, contextData);
                         }
                     });
             RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());

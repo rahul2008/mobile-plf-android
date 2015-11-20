@@ -224,7 +224,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 //                                    contextData.put(AnalyticsConstants.ACTION_KEY_REVIEWER_NAME, mBazaarReviewModel.getNickname());
                                     contextData.put(AnalyticsConstants.ACTION_KEY_REVIEWER_SUMMARY, mBazaarReviewModel.getSummary());
 //                                    contextData.put(AnalyticsConstants.ACTION_KEY_REVIEWER_EMAIL, mBazaarReviewModel.getEmail());
-                                    AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA, contextData);
+                                    AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SEND_DATA, contextData);
 
                                     showFragment(new ProductReviewThankyouFragment());
                                 }

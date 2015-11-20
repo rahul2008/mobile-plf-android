@@ -738,7 +738,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                                         String.valueOf(count));
                                 AnalyticsTracker
                                         .trackAction(
-                                                AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+                                                AnalyticsConstants.ACTION_SEND_DATA,
                                                 contextData);
                                 if (count == 0) {
                                     Toast.makeText(
@@ -764,7 +764,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         } else if (v.getId() == R.id.getdirection) {
             AnalyticsTracker
                     .trackAction(
-                            AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+                            AnalyticsConstants.ACTION_SEND_DATA,
                             AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                             AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS);
 
@@ -797,7 +797,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mLinearLayout.setVisibility(View.GONE);
             AnalyticsTracker
                     .trackAction(
-                            AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+                            AnalyticsConstants.ACTION_SEND_DATA,
                             AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                             AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);
             if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
@@ -842,7 +842,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         addressForTag = addressForTag.replaceAll(",", " ");
 
         AnalyticsTracker.trackAction(
-                AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+                AnalyticsConstants.ACTION_SEND_DATA,
                 AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_LOCATION_VIEW,
                 resultModel.getAddressModel().getPhone() + '|'
                         + addressForTag);

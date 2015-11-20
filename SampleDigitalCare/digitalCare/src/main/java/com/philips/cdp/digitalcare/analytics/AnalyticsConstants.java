@@ -3,14 +3,13 @@ package com.philips.cdp.digitalcare.analytics;
 /**
  * AnalyticsConstants is holding constant members used for TAGGING, Adobe
  * Analytics.
- * <p/>
+ * <p>
  * = author: ritesh.jha= philips.com = since: Mar 26, 2015
  */
 public class AnalyticsConstants {
 
     /* PAGE CONSTANTS */
     public static final String PAGE_HOME = "digitalcare:home";
-    public static final String PAGE_PRODCUT_DETAILS = "digitalcare:productdetails";
     public static final String PAGE_CONTACT_US = "digitalcare:contactus";
     public static final String PAGE_RATE_THIS_APP = "digitalcare:ratethisapp";
     public static final String PAGE_PRODUCT_REGISTRATION = "digitalcare:productregistration";
@@ -28,7 +27,10 @@ public class AnalyticsConstants {
     public static final String PAGE_REVIEW__PREVIEW = "digitalcare:ratethisapp:guideLines:writeReview:preview";
     public static final String PAGE_REVIEW_THANKS = "digitalcare:ratethisapp:guideLines:writeReview:preview:thankYou";
 
-	/* ACTION KEY CONSTANTS */
+    public static final String PAGE_VIEW_PRODUCT_DETAILS = "digitalcare:viewProductDetails";
+    public static final String PAGE_VIEW_PRODUCT_WEBSITE = "digitalcare:viewProductWebsite";
+    public static final String PAGE_VIEW_PRODUCT_MANUAL = "digitalcare:viewProductManual";
+        /* ACTION KEY CONSTANTS */
     /*****************
      * Page Context Data start
      **************/
@@ -54,7 +56,7 @@ public class AnalyticsConstants {
     public static final String ACTION_EXIT_LINK = "exit link";
     public static final String ACTION_SERVICE_REQUEST = "serviceRequest";
     /* ACTION KEY FOR LOCATE PHILIPS */
-    public static final String ACTION_LOCATE_PHILIPS_SEND_DATA = "sendData";
+    public static final String ACTION_SEND_DATA = "sendData";
 
     /*****************
      * Action Keys
@@ -64,6 +66,7 @@ public class AnalyticsConstants {
     public static final String ACTION_KEY_SOCIAL_TYPE = "socialType";
     public static final String ACTION_KEY_SERVICE_CHANNEL = "serviceChannel";
     public static final String ACTION_KEY_PHOTO = "photo"; // TODO: Has to be
+    public static final String ACTION_KEY_URL = "url";
     // confirmed.
     public static final String ACTION_KEY_EXIT_LINK = "exitLinkName";
 
@@ -73,11 +76,16 @@ public class AnalyticsConstants {
     public static final String ACTION_KEY_LOCATE_PHILIPS_LOCATION_VIEW = "locationView";
 //	public static final String ACTION_KEY_LOCATE_PHILIPS_SPECIAL_EVENTS = "specialEvents";
 
-    /*  Action keys */
+    /*  Action keys Product Review*/
     public static final String ACTION_KEY_REVIEWER_STAR_RATING = "starRating";
     public static final String ACTION_KEY_REVIEWER_NAME = "reviewerName";
     public static final String ACTION_KEY_REVIEWER_SUMMARY = "reviewSummary";
     public static final String ACTION_KEY_REVIEWER_EMAIL = "reviewerEmail";
+
+    /*  Action keys View Product Details*/
+    public static final String ACTION_KEY_VIEW_PRODUCT_VIDEO_COUNT = "videoCount";
+    public static final String ACTION_KEY_VIEW_PRODUCT_VIDEO_THUMBNAIL = "videoThumbnailLink";
+
 
     /*****************
      * Action Values
