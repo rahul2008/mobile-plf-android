@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
@@ -77,12 +77,12 @@ public class UiKitActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         } else {
-            RelativeLayout parentView = (RelativeLayout) findViewById(R.id.list_view_parent);
-            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) parentView.getLayoutParams();
+            ListView listView = (ListView) findViewById(R.id.hamburger_list);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) listView.getLayoutParams();
             if (layoutParams != null) {
                 int topMargin = (int) getResources().getDimension(R.dimen.uikit_hamburger_list_top_margin);
                 layoutParams.setMargins(0, topMargin, 0, 0);
-                parentView.setLayoutParams(layoutParams);
+                listView.setLayoutParams(layoutParams);
             }
         }
     }

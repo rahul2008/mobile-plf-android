@@ -34,8 +34,9 @@
     <TextView
         android:id="@+id/hamburger_title"
         fontPath="fonts/centralesanslight.ttf"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/uikit_hamburger_counter_icon_left_margin"
