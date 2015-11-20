@@ -38,10 +38,19 @@ public class SHNCapabilityDeviceDiagnosticsWrapper implements SHNCapabilityDevic
             public void run() {
                 shnCapability.readDeviceDiagnostics(new SHNMapResultListener<String, String>() {
                     @Override
-                    public void onActionCompleted(final Map<String, String> value, final SHNResult result) {
-                        
+                    public void onActionCompleted(@NonNull final Map<String, String> value, @NonNull final SHNResult result) {
+                        postActionComplete(value, result, listener);
                     }
                 });
+            }
+        });
+    }
+
+    private void postActionComplete(@NonNull final Map<String, String> value, @NonNull final SHNResult result, @NonNull final SHNMapResultListener<String, String> listener) {
+        userHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onActionCompleted(value, result);
             }
         });
     }

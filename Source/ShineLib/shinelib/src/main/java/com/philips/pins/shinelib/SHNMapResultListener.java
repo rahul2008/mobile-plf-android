@@ -5,8 +5,10 @@
 
 package com.philips.pins.shinelib;
 
+import android.support.annotation.NonNull;
+
 import java.util.Map;
 
 public interface SHNMapResultListener<K, V> {
-    void onActionCompleted(Map<K, V> value, SHNResult result);
+    void onActionCompleted(@NonNull final Map<K, V> value, @NonNull final SHNResult result);
 }

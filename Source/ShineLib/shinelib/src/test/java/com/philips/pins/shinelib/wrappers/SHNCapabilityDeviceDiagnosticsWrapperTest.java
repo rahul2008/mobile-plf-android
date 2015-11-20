@@ -8,6 +8,7 @@ package com.philips.pins.shinelib.wrappers;
 import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNMapResultListener;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceDiagnostics;
 
 import org.junit.Before;
@@ -15,6 +16,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+
+import java.util.HashMap;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
@@ -34,8 +37,14 @@ public class SHNCapabilityDeviceDiagnosticsWrapperTest {
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
 
+    @Captor
+    private ArgumentCaptor<SHNMapResultListener<String, String>> mapResultListenerCaptor;
+
     private Handler internalHandlerMock;
     private Handler userHandlerMock;
+
+    private static final HashMap<String, String> TEST_MAP = new HashMap<>();
+    private static final SHNResult TEST_RESULT = SHNResult.SHNErrorConnectionLost;
 
     @Before
     public void setUp() {
@@ -48,14 +57,44 @@ public class SHNCapabilityDeviceDiagnosticsWrapperTest {
     }
 
     @Test
-    public void shouldPostReadMethodOnInternalHandler_WhenReadIsCalled() {
-        diagnosticsWrapper.readDeviceDiagnostics(listenerMock);
-        verify(internalHandlerMock).post(runnableCaptor.capture());
+    public void shouldPostReadMethodOnCapabilityOnInternalHandler_WhenReadIsCalled() {
+        Runnable runnable = captureInternalHandlerRunnable();
 
-        Runnable runnable = runnableCaptor.getValue();
         runnable.run();
 
         verify(capabilityMock).readDeviceDiagnostics(isA(SHNMapResultListener.class));
     }
 
+    @Test
+    public void shouldPostReadMethodOnListenerOnUserHandler_WhenReadIsCalled() {
+        Runnable internalRunnable = captureInternalHandlerRunnable();
+        SHNMapResultListener<String, String> mapResultListener = captureMapResultListener(internalRunnable);
+        Runnable userRunnable = captureUserRunnable(mapResultListener);
+
+        userRunnable.run();
+
+        verify(listenerMock).onActionCompleted(TEST_MAP, TEST_RESULT);
+    }
+
+    // -------------------------
+
+    private Runnable captureUserRunnable(final SHNMapResultListener<String, String> mapResultListener) {
+        mapResultListener.onActionCompleted(TEST_MAP, TEST_RESULT);
+        verify(userHandlerMock).post(runnableCaptor.capture());
+        return runnableCaptor.getValue();
+    }
+
+    private Runnable captureInternalHandlerRunnable() {
+        diagnosticsWrapper.readDeviceDiagnostics(listenerMock);
+        verify(internalHandlerMock).post(runnableCaptor.capture());
+
+        return runnableCaptor.getValue();
+    }
+
+    private SHNMapResultListener<String, String> captureMapResultListener(final Runnable runnable) {
+        runnable.run();
+
+        verify(capabilityMock).readDeviceDiagnostics(mapResultListenerCaptor.capture());
+        return mapResultListenerCaptor.getValue();
+    }
 }
