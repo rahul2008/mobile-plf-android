@@ -22,6 +22,7 @@ public class ListWithIconsActivity extends CatalogActivity {
         setContentView(R.layout.activity_list_view_with_icons);
 
         list=(ListView)findViewById(R.id.list);
+        list.setDividerHeight(1);
       //  TextView text=(TextView) findViewById(R.id.sectionheader);
       //  text.setText("Title Pallendia");
        // adapter=new ListViewWithIcons(this);

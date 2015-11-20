@@ -23,7 +23,7 @@ public class ListViewWithoutIconsActivity extends CatalogActivity {
         setContentView(R.layout.listview_without_icons);
 
         list=(ListView)findViewById(R.id.list);
-
+        list.setDividerHeight(1);
         adapter=new ListViewWithoutIcons(this);
         list.setAdapter(adapter);
 

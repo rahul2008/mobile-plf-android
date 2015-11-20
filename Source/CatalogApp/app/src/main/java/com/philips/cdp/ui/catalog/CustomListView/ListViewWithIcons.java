@@ -57,7 +57,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
     @Override
     public boolean isEnabled(int position) {
-        return false;
+        return true;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ListViewWithIcons extends BaseAdapter {
         ViewHolder holder = null;
         int rowType = getItemViewType(position);
 
-        if (convertView == null) {
+
             holder = new ViewHolder();
             switch (rowType) {
                 case TYPE_ITEM:
@@ -181,9 +181,9 @@ public class ListViewWithIcons extends BaseAdapter {
                     break;
             }
             convertView.setTag(holder);
-        } else {
+
             holder = (ViewHolder) convertView.getTag();
-        }
+
 
 
         return convertView;
