@@ -5,6 +5,7 @@
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_blue</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_blue_theme</item>
         <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_blue</item>
@@ -32,6 +33,7 @@
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_orange_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
         <item name="gradBackground">@drawable/uikit_grad_orange_background</item>
         <item name="actionBarBackground">@drawable/uikit_grad_orange_background</item>
@@ -61,6 +63,7 @@
     <style name="Theme.Philips.BrightAqua">
         <item name="baseColor">@color/uikit_philips_bright_aqua</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
         <item name="gradBackground">@drawable/uikit_grad_aqua_background</item>
         <item name="actionBarBackground">@drawable/uikit_grad_aqua_background</item>
