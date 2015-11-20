@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,15 +49,19 @@ public class UiKitActivity extends AppCompatActivity {
 
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to imageView.setAlpha(): sticking with deprecated API for now
     @Override
     protected void onStart() {
         super.onStart();
         if(validateHamburger()) {
             VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
+            DrawerLayout philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
             if (vectorDrawableImageView != null)
                 vectorDrawableImageView.setAlpha(229);
 
             setStatusBarTransparent();
+            philipsDrawerLayout.setScrimColor(Color.TRANSPARENT);
         }
     }
 
