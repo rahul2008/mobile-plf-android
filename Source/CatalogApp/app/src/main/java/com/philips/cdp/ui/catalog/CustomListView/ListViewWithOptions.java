@@ -22,22 +22,47 @@ public class ListViewWithOptions extends BaseAdapter{
     public Activity activity;
     private LayoutInflater inflater=null;
     ArrayList<String> listOfItems;
+    ArrayList<Integer> images = new ArrayList<>(14);
     public ListViewWithOptions(Activity activity){
         this.activity = activity;
         inflater = (LayoutInflater)activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
-       listOfItems = new ArrayList<>(7);
+
+        images.add(R.drawable.image);
+        images.add(R.drawable.toothbrush);
+        images.add(R.drawable.hairdryer);
+        images.add(R.drawable.image);
+        images.add(R.drawable.toothbrush);
+        images.add(R.drawable.hairdryer);
+        images.add(R.drawable.image);
+        images.add(R.drawable.toothbrush);
+        images.add(R.drawable.hairdryer);
+        images.add(R.drawable.image);
+        images.add(R.drawable.toothbrush);
+        images.add(R.drawable.hairdryer);
+        images.add(R.drawable.toothbrush);
+        images.add(R.drawable.hairdryer);
+
+       listOfItems = new ArrayList<>(14);
         listOfItems.add("DiamondClean");
-        listOfItems.add("DiamondClean");
+        listOfItems.add("Sonicare for Kids");
+        listOfItems.add("HealthyWhite");
+        listOfItems.add("Sonicare FlexCare+");
+        listOfItems.add("Sonicare EasyClean");
+        listOfItems.add("Sonicare FlexCare Platinum");
         listOfItems.add("DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.");
         listOfItems.add("DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.");
         listOfItems.add("DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod. DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod.");
         listOfItems.add("DiamondClean");
         listOfItems.add("DiamondClean");
+        listOfItems.add("Sonicare for Kids");
+        listOfItems.add("HealthyWhite");
+        listOfItems.add("Sonicare FlexCare+");
+
     }
 
     @Override
     public int getCount() {
-        return 7;
+        return 14;
     }
 
     @Override
@@ -63,10 +88,10 @@ public class ListViewWithOptions extends BaseAdapter{
         TextView value = (TextView) vi.findViewById(R.id.text2value);
         TextView from = (TextView) vi.findViewById(R.id.from);
 
-        image.setImageResource(R.drawable.image);
+        image.setImageResource(images.get(position));
         //image.setColorFilter(Color.GREEN);
         name.setText(listOfItems.get(position));
-        value.setText("€209,99*");
+        value.setText("€ 209,99*");
         from.setText("from");
         vi.setTag(position);
         return vi;

@@ -19,9 +19,11 @@
         android:textColor="?attr/baseColor"
         android:text="Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod."
         android:background="?attr/gradientColorForListHeader"
-        android:minHeight="85dp"
+        android:minHeight="101dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="9dp"
         />
 
 </RelativeLayout>

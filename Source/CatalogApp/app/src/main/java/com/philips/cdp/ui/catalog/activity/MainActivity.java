@@ -86,17 +86,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, ActionBarLauncher.class));
                 break;
             case 13:
-                startActivity(new Intent(this, ListViewWithOptionsLauncher.class));
+                startActivity(new Intent(this, TabViewWithViewPager.class));
                 break;
-            case 14:
-                startActivity(new Intent(this, ListViewProducts.class));
-                break;
-            case 15:
-                startActivity(new Intent(this, ListWithIconsActivity.class));
-                break;
-            case 16:
-                startActivity(new Intent(this, ListViewWithoutIconsActivity.class));
-                break;
+
             default:
                 break;
         }
@@ -137,10 +129,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(10, "Rating Bar");
 //        itemsMap.put(11, "Action Bar Demo");
         itemsMap.put(12, "Action Bar Up");
-        itemsMap.put(13, "Lists View with Options");
-        itemsMap.put(14, "List View Products");
-        itemsMap.put(15,"List With icons");
-        itemsMap.put(16,"List Without icons");
+        itemsMap.put(13, "Lists View Demo");
+
         return itemsMap;
     }
 }

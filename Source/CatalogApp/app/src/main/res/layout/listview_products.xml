@@ -6,24 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <TextView
-        android:id="@+id/textproduct"
-        android:layout_width="wrap_content"
-        android:layout_height="101dp"
-        fontPath="fonts/centralesansbook.ttf"
-        android:gravity="center"
-        android:textSize="16dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginLeft="12dp"
-        android:textColor="?attr/baseColor"
-        android:text="Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod."/>
 
-  <ListView
-      android:id="@+id/list"
-      android:layout_below="@id/textproduct"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:dividerHeight="1dp"
-      android:divider="?attr/baseColor"></ListView>
+    <ListView
+        android:id="@+id/listproduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:divider="?attr/listDividerColor"
+        android:dividerHeight="1dp"></ListView>
 
 </RelativeLayout>

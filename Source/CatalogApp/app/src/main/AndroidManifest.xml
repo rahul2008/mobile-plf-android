@@ -45,12 +45,7 @@
         <activity android:name=".activity.SliderActivity" />
         <activity android:name=".activity.RatingBarLauncher" />
         <activity android:name=".activity.ActionBarLauncher" />
-        <activity android:name=".activity.ListViewWithOptionsLauncher" />
-        <activity android:name=".activity.ListViewProducts" />
-        <activity android:name=".activity.ListWithIconsActivity" />
-        <activity
-            android:name=".activity.ListViewWithoutIconsActivity"/>
-        />
+	 <activity android:name=".activity.TabViewWithViewPager"/>
 
 
 

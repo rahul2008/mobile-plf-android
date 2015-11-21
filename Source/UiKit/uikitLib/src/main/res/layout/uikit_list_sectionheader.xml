@@ -15,6 +15,6 @@
     android:layout_marginLeft="12dp"
     android:layout_centerVertical="true"
     android:textColor="?attr/baseColor"
-    fontPath="fonts/centralesansbold.ttf"
+    fontPath="fonts/centralesansbook.ttf"
     android:layout_height="33dp" />
 </LinearLayout>
