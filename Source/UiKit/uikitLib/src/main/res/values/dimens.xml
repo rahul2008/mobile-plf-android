@@ -35,13 +35,17 @@
     <dimen name="uikit_about_screen_layout_top_margin">33dp</dimen><!-- 48dp -->
     <dimen name="uikit_about_screen_layout_left_margin">31dp</dimen><!-- 32dp -->
     <dimen name="uikit_about_screen_layout_rest_left_margin">32dp</dimen><!-- 31dp-->
-    <dimen name="uikit_about_screen_logo_margin">48dp</dimen>
+    <dimen name="uikit_about_screen_logo_margin">44dp</dimen> <!-- 48dp 1dp iconfont-->
     <dimen name="uikit_about_screen_logo_margin_bottom">53dp</dimen>
     <dimen name="uikit_about_screen_logo_width">67dp</dimen>
     <dimen name="uikit_about_screen_logo_height">85dp</dimen>
     <dimen name="uikit_about_screen_mm_logo_height">63dp</dimen>
     <dimen name="uikit_about_screen_content_linespacing">8dp</dimen>
     <dimen name="uikit_about_screen_version_copyright_left_margin">32dp</dimen>
+    <dimen name="uikit_about_screen_dismiss_icon_margin">12dp</dimen><!-- 15dp 3dp iconfont-->
+    <dimen name="uikit_about_screen_dismiss_icon_margin_right">14dp</dimen><!-- 15dp 1dp iconfont-->
+    <dimen name="uikit_about_screen_dismiss_icon_size">19dp</dimen>
+    <dimen name="uikit_about_screen_dismiss_icon_cross_size">17dp</dimen><!-- 15dp 2dp iconfont-->
 
     <dimen name="uikit_dot_navigation_selected_width">12dp</dimen>
     <dimen name="uikit_dot_navigation_selected_height">12dp</dimen>
