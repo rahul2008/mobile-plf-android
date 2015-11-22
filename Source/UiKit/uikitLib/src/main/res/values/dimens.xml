@@ -32,7 +32,7 @@
     <dimen name="uikit_about_screen_privacy_margin">31dp</dimen>
     <dimen name="uikit_about_screen_content_top_margin">27dp</dimen><!-- 27dp -->
     <dimen name="uikit_about_screen_content_right_margin">32dp</dimen>
-    <dimen name="uikit_about_screen_layout_top_margin">33dp</dimen><!-- 48dp -->
+    <dimen name="uikit_about_screen_layout_top_margin">48dp</dimen>
     <dimen name="uikit_about_screen_layout_left_margin">31dp</dimen><!-- 32dp -->
     <dimen name="uikit_about_screen_layout_rest_left_margin">32dp</dimen><!-- 31dp-->
     <dimen name="uikit_about_screen_logo_margin">44dp</dimen> <!-- 48dp 1dp iconfont-->
