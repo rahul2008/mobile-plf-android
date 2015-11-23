@@ -29,6 +29,13 @@ public class PRXComponentConstant {
     String MARKETINGTEXTHEADER = "Our most advanced shave yet, the Philips SensoTouch 3D RQ1250 shaver, gives you the ultimate shaving experience. The GyroFlex 3D system follows every contour of your face and the UltraTrack heads shave every hair in just a few strokes.";
     String SUBCATEGORY = "SERIES_SHAVERS_SU";
 
+    public static String CURRENCYCODE = "INR";
+    public static String DISPLAYPRICE = "12.5";
+    public static String DISPLAYPRICETYPE = "Rupees";
+    public static String FORMATTEDDISPLAYPRICE = "12.8";
+    public static String FORMATTED_PRICE = "12";
+    public static String PRODUCT_PRICE = "12.8 Rupees";
+
     int PRIORITY = 810521;
    public static long REVIEW_STATICS_AVAERAGE = 1206l;
     public static double REVIEW_STATICS_TOTAL = 1245.6;
