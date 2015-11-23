@@ -36,6 +36,17 @@ rm -R "${ARCHIVEDIR}/CatalogApp/.gradle"
 rm "${ARCHIVEDIR}/CatalogApp/local.properties"
 find . -name .DS_Store | xargs rm
 
+#replace local lib reference with artifactory one
+#update CatalogApp/settings.gradle to remove local lib project ref
+perl -pi -e "s/include \':uikitLib\'//" "${ARCHIVEDIR}/CatalogApp/settings.gradle"
+perl -pi -e "s/project\(\'\:uikitLib\'\)\.projectDir \= new File\(\'\.\.\/UiKit\/uikitLib\'\)//" "${ARCHIVEDIR}/CatalogApp/settings.gradle"
+
+#update CatalogApp/build.gradle to include maven url
+perl ${BUILDSCRIPTDIR}/insert_maven_url.pl "${ARCHIVEDIR}/CatalogApp/build.gradle"
+
+#replace compile project(':uikitLib') in app/build.gradle with maven dependency
+perl -pi -e "s/compile project\(\':uikitLib\'\)/compile \'com.philips.cdp:uikitLib:${VERSION_NUMBER}\'/" "${ARCHIVEDIR}/CatalogApp/app/build.gradle"
+
 #zip/tar the release artifacts
 tar -cvzf "${RELEASEDIR}/PhilipsUIKit-Android-${VERSION_NUMBER}.tar.gz" -C "${ARCHIVEDIR}" . || fatal "Failed to create release archive"
 

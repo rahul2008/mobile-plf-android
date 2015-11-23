@@ -4,7 +4,7 @@
     <style name="Theme.Philips.DarkBlue">
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
         <item name="gradBackground">@drawable/uikit_grad_dark_blue_background</item>
-        <item name="actionBarBackground">@color/uikit_philips_dark_blue</item>
+        <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_blue</item>
         <item name="actionButtonBgColor">@color/uikit_philips_dark_blue</item>
@@ -16,16 +16,22 @@
         <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
-        <item name="themeSwitch">@style/SwitchDarkBlue</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
+        <item name="brightColor">@color/uikit_philips_bright_blue</item>
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
-        <item name="switchOffColor">@color/uikit_philips_dark_blue</item>
+        <item name="darkToBright">@drawable/uikit_grad_blue_dark_to_bright</item>
+        <item name="veryDarkToDark">@drawable/uikit_grad_blue_verydark_to_dark</item>
+    </style>
+
+    <style name="Theme.Philips.DarkBlue.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
         <item name="gradBackground">@drawable/uikit_grad_orange_background</item>
-        <item name="actionBarBackground">@color/uikit_philips_bright_orange</item>
+        <item name="actionBarBackground">@drawable/uikit_grad_orange_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_orange</item>
         <item name="actionButtonBgColor">@color/uikit_philips_bright_orange</item>
@@ -37,16 +43,22 @@
         <item name="errorTextColor">@color/uikit_enricher_red</item>
         <item name="errorIcon">@drawable/uikit_error_cross_red</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg_red</item>
-        <item name="themeSwitch">@style/SwitchBrightOrange</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
+        <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="splashGradient">@drawable/uikit_grad_orange_bright_to_light</item>
-        <item name="switchOffColor">@color/uikit_philips_bright_orange</item>
+        <item name="darkToBright">@drawable/uikit_grad_orange_dark_to_bright</item>
+        <item name="veryDarkToDark">@drawable/uikit_grad_orange_verydark_to_dark</item>
+    </style>
+
+    <style name="Theme.Philips.BrightOrange.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua">
         <item name="baseColor">@color/uikit_philips_bright_aqua</item>
         <item name="gradBackground">@drawable/uikit_grad_aqua_background</item>
-        <item name="actionBarBackground">@color/uikit_philips_bright_aqua</item>
+        <item name="actionBarBackground">@drawable/uikit_grad_aqua_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColor">@color/uikit_philips_bright_aqua</item>
@@ -58,10 +70,15 @@
         <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
-        <item name="themeSwitch">@style/SwitchBrightAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
+        <item name="brightColor">@color/uikit_philips_light_aqua</item>
         <item name="splashGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
-        <item name="switchOffColor">@color/uikit_philips_bright_aqua</item>
+        <item name="darkToBright">@drawable/uikit_grad_aqua_dark_to_bright</item>
+        <item name="veryDarkToDark">@drawable/uikit_grad_aqua_verydark_to_dark</item>
     </style>
 
+    <style name="Theme.Philips.BrightAqua.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

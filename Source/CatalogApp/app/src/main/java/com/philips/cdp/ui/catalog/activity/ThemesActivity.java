@@ -11,6 +11,7 @@ import android.widget.Switch;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
+import com.philips.cdp.uikit.customviews.PuiSwitch;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class ThemesActivity extends CatalogActivity implements RadioGroup.OnChec
 
     public static int RESULT_CODE_THEME_UPDATED = 1;
     private RadioButton solidRadioButton, gradientRadioButton;
-    private Switch colorSwitch;
+    private PuiSwitch colorSwitch;
     private RadioGroup radioGroup;
     private ThemeUtils themeUtils;
 
@@ -65,7 +66,7 @@ public class ThemesActivity extends CatalogActivity implements RadioGroup.OnChec
     private void declareViews() {
         gradientRadioButton = (RadioButton) findViewById(R.id.gradient);
         solidRadioButton = (RadioButton) findViewById(R.id.solid);
-        colorSwitch = (Switch) findViewById(R.id.colorSwitch);
+        colorSwitch = (PuiSwitch) findViewById(R.id.colorSwitch);
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
     }
 

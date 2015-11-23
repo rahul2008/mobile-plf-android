@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uikit_fonticon_tick_light">&#xe600;</string>
+    <string name="uikit_fonticon_exclamation">&#xe601;</string>
+    <string name="uikit_fonticon_heart">&#xe602;</string>
+    <string name="uikit_fonticon_shield">&#xe603;</string>
+    <string name="uikit_fonticon_question">&#xe604;</string>
+    <string name="uikit_fonticon_facebook">&#xe605;</string>
+    <string name="uikit_fonticon_google_plus">&#xe606;</string>
+    <string name="uikit_fonticon_linkedin">&#xe607;</string>
+    <string name="uikit_fonticon_pininterest">&#xe608;</string>
+    <string name="uikit_fonticon_stumble_upon">&#xe609;</string>
+    <string name="uikit_fonticon_twitter">&#xe60a;</string>
+    <string name="uikit_fonticon_youtube">&#xe60b;</string>
+    <string name="uikit_fonticon_tick_bold">&#xe60c;</string>
+    <string name="uikit_fonticon_arrow_down">&#xe60d;</string>
+    <string name="uikit_fonticon_arrow_left">&#xe60e;</string>
+    <string name="uikit_fonticon_arrow_right">&#xe60f;</string>
+    <string name="uikit_fonticon_arrow_up">&#xe610;</string>
+    <string name="uikit_fonticon_dash">&#xe611;</string>
+    <string name="uikit_fonticon_star">&#xe612;</string>
+    <string name="uikit_fonticon_plus">&#xe613;</string>
+    <string name="uikit_fonticon_cross">&#xe614;</string>
+    <string name="uikit_fonticon_hamburger">&#xe615;</string>
+    <string name="uikit_fonticon_info">&#xe616;</string>
+</resources>

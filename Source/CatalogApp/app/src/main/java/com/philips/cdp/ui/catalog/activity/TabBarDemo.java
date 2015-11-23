@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.com.philips.cdp.uikit.utils.TabUtils;
+import com.philips.cdp.uikit.utils.TabUtils;
 
 public class TabBarDemo extends AppCompatActivity {
 

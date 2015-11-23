@@ -20,8 +20,8 @@ android {
         applicationId "com.philips.cdp.ui.catalog"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 11
-        versionName "1.0.11"
+        versionCode 15
+        versionName "1.0.15"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -47,17 +47,16 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:support-annotations:22.2.0'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.android.support:design:23.0.1'
+    compile 'com.shamanland:fonticon:0.1.8'
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
     androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'com.android.support.test:rules:0.3'
 
-    if (findProject(':uikitLib')) {
-        compile project(':uikitLib')
-    } else {
-        //only use this line to add a dependency to uikit
-        compile 'com.philips.cdp:uikitLib:0.2.0'
-    }
+    compile project(':uikitLib')
 }
 
 configurations.all {

@@ -3,14 +3,22 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/aboutscreen_back"
+    <FrameLayout
+        android:id="@+id/UpButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/uikit_about_screen_actionbar_icon_margin"
-        android:src="@drawable/uikit_as_back"
-        android:layout_centerVertical="true"/>
+        android:layout_height="match_parent">
+
+        <com.shamanland.fonticon.FontIconTextView
+            android:id="@+id/aboutscreen_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            fontPath="fonts/puicon.ttf"
+            android:textSize="@dimen/uikit_about_screen_dismiss_icon_size"
+            android:text="@string/uikit_fonticon_arrow_left"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="@dimen/uikit_about_screen_dismiss_icon_margin"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/aboutscreen_title"
@@ -22,13 +30,23 @@
         android:layout_centerInParent="true"
         app:fontPath="fonts/centralesanslight.ttf"/>
 
-    <ImageView
-        android:id="@+id/aboutscreen_close"
+    <FrameLayout
+        android:id="@+id/CloseButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/uikit_as_close"
-        android:layout_marginRight="@dimen/uikit_about_screen_actionbar_icon_margin"/>
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true">
+
+        <com.shamanland.fonticon.FontIconTextView
+            android:id="@+id/aboutscreen_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontPath="fonts/puicon.ttf"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/uikit_about_screen_dismiss_icon_cross_size"
+            android:text="@string/uikit_fonticon_cross"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="@dimen/uikit_about_screen_dismiss_icon_margin_right"
+            />
+    </FrameLayout>
 
 </RelativeLayout>

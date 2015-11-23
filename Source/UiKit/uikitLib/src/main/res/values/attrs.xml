@@ -9,7 +9,10 @@
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
         <attr name="veryLightColor" format="color"/>
+        <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
+        <attr name="veryDarkToDark" format="reference" />
+        <attr name="darkToBright" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="ActionButton">
@@ -30,6 +33,10 @@
         <attr name="vectorsrc" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="RatingBarView">
+        <attr name="isratingbarbig" format="boolean"/>
+    </declare-styleable>
+
     <declare-styleable name="InputTextField">
         <attr name="inputFieldWidth" format="dimension"/>
         <attr name="inputFieldHeight" format="dimension"/>
@@ -43,6 +50,7 @@
     </declare-styleable>
 
     <attr name="enableStroke" format="boolean"/>
+
     <declare-styleable name="VectorCompat">
         <attr name="vc_tintMode" format="enum">
             <enum name="src_over" value="3" />
@@ -99,4 +107,20 @@
         </attr>
         <attr name="vc_strokeMiterLimit" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="slider">
+        <attr name="discreteValue" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="popover_alert">
+        <attr name="popover_right_icon" format="reference"/>
+        <attr name="popover_left_icon" format="reference"/>
+        <attr name="popover_title_text" format="reference|string"/>
+        <attr name="popover_opacity" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="notification_label">
+        <attr name="notification_label_small" format="boolean" />
+    </declare-styleable>
+
 </resources>
