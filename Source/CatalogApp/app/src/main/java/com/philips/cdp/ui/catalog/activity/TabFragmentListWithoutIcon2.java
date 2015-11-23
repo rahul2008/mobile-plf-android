@@ -24,13 +24,13 @@ public class TabFragmentListWithoutIcon2 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.listview_without_icons, container, false);
+        return inflater.inflate(R.layout.listview_without_icons2, container, false);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        list=(ListView)getActivity().findViewById(R.id.listwithouticon);
+        list=(ListView)getActivity().findViewById(R.id.listwithouticon2);
 
         adapter=new ListViewWithoutIcons(getActivity());
 
