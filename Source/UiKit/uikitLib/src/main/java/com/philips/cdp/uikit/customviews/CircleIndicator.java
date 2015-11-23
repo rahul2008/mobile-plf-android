@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.dotnavigation;
+package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,12 +12,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.dotnavigation.PageIndicator;
+import com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class CircleIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedViews {
+public class CircleIndicator extends LinearLayout implements PageIndicator, com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews {
 
     private final View parentView;
     private ViewPager viewPager;

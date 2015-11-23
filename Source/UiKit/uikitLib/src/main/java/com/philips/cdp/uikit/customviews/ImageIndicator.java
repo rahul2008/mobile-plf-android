@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.costumviews;
+package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -93,15 +93,17 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     }
 
     private void drawViews(final Context context, final LinearLayout parent, Drawable[] drawables) {
-        for (int i = 0; i < drawables.length; i++) {
-            ImageView view = new ImageView(context);
-            if (i == currentPage) {
-                applySelectedMetrics(view, drawables[i]);
-            } else {
-                applyUnselectedMetrics(view, drawables[i], context);
-                setOnClickListener(i, view);
+        if (drawables != null) {
+            for (int i = 0; i < drawables.length; i++) {
+                ImageView view = new ImageView(context);
+                if (i == currentPage) {
+                    applySelectedMetrics(view, drawables[i]);
+                } else {
+                    applyUnselectedMetrics(view, drawables[i], context);
+                    setOnClickListener(i, view);
+                }
+                parent.addView(view);
             }
-            parent.addView(view);
         }
     }
 
