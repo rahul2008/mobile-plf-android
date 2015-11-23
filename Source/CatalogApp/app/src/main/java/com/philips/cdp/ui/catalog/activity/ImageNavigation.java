@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.dotnavigation.ViewPagerAdaptor;
-import com.philips.cdp.uikit.costumviews.ImageIndicator;
+import com.philips.cdp.uikit.customviews.ImageIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
