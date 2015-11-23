@@ -18,7 +18,7 @@ public class AboutScreenMM extends UiKitActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_about_screen_mm);
-        findViewById(R.id.aboutscreen_close).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.CloseButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 finish();

@@ -113,14 +113,25 @@
                 android:text="@string/uikit_about_screen_content"/>
         </RelativeLayout>
 
-        <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+        <com.shamanland.fonticon.FontIconTextView
+            android:id="@+id/about_screen_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/uikit_about_screen_logo_margin"
+            android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin_bottom"
+            android:layout_gravity="center"
+            android:text="@string/uikit_fonticon_shield"
+            android:textColor="#fff"
+            fontPath="fonts/puicon.ttf"
+            android:textSize="@dimen/uikit_about_screen_logo_height"/>
+<!--        <com.philips.cdp.uikit.customviews.VectorDrawableImageView
             android:id="@+id/about_screen_logo"
             android:layout_width="@dimen/uikit_about_screen_logo_width"
             android:layout_height="@dimen/uikit_about_screen_logo_height"
             android:layout_marginTop="@dimen/uikit_about_screen_logo_margin"
             android:layout_marginBottom="@dimen/uikit_about_screen_logo_margin_bottom"
             android:layout_gravity="center"
-            app:vectorsrc="@drawable/uikit_philips_logo"/>
+            app:vectorsrc="@drawable/uikit_philips_logo"/>-->
     </LinearLayout>
 
     </ScrollView>
