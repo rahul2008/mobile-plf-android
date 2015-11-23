@@ -6,6 +6,7 @@ import android.util.Log;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.prxdatamodels.summary.ReviewStatistics;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 
@@ -24,14 +25,15 @@ import java.io.InputStreamReader;
 public class SummaryModelTest extends InstrumentationTestCase {
 
     private static final String TAG = SummaryModelTest.class.getSimpleName();
-    PrxDataBuilder mProductAssetBuilder = null;
+    private PrxDataBuilder mProductAssetBuilder = null;
+    private ReviewStatistics mReviewStatistics = null;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
         mProductAssetBuilder = new ProductAssetBuilder("125", null);
-        mProductAssetBuilder.setmCatalogCode("COnsumer");
+        mProductAssetBuilder.setmCatalogCode("Consumer");
         mProductAssetBuilder.setmLocale("nl_NL");
         mProductAssetBuilder.setmSectorCode("HAIR");
     }
@@ -69,4 +71,15 @@ public class SummaryModelTest extends InstrumentationTestCase {
             Log.d(TAG, "IO " + e);
         }
     }
+
+
+    public void testReviewStatic() {
+        mReviewStatistics = new ReviewStatistics();
+        mReviewStatistics.setAverageOverallRating(PRXComponentConstant.REVIEW_STATICS_TOTAL);
+        mReviewStatistics.setTotalReviewCount(PRXComponentConstant.REVIEW_STATICS_AVAERAGE);
+
+        assertNotNull(mReviewStatistics);
+        assertEquals(mReviewStatistics.getTotalReviewCount(), 1206l);
+    }
+
 }
