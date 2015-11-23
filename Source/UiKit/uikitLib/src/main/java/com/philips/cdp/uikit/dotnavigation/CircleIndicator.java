@@ -34,6 +34,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     private int scrollState;
     private onTouchUnSelectedViews onTouchUnSelectedViews;
     private GradientDrawable unSelectedGradientDrawable;
+    private int strokeColor;
 
     public CircleIndicator(final Context context, final AttributeSet attrs) {
         super(context, attrs);
@@ -65,9 +66,12 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         unSelectedCircleWidth = (int) resources.getDimension(R.dimen.uikit_dot_navigation_unselected_width);
         unSelectedCircleHeight = (int) resources.getDimension(R.dimen.uikit_dot_navigation_unselected_height);
         distanceBetweenCircles = (int) resources.getDimension(R.dimen.uikit_dot_navigation_distance_between_circles);
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.enableStroke});
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.enableStroke, R.attr.strokeColor});
         themeBaseColor = a.getColor(0, resources.getColor(R.color.uikit_philips_blue));
         enableStrokeBackground = a.getBoolean(1, false);
+        strokeColor = a.getColor(2, themeBaseColor);
+
+        a.recycle();
     }
 
     private void reDrawView() {
@@ -131,7 +135,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         LayoutParams vp = new LayoutParams(unSelectedCircleWidth, unSelectedCircleHeight);
         vp.setMargins(0, 0, distanceBetweenCircles, 0);
         if (enableStrokeBackground) {
-            gradientDrawable.setStroke(2, themeBaseColor);
+            gradientDrawable.setStroke(2, strokeColor);
             gradientDrawable.setColor(getResources().getColor(android.R.color.transparent));
         }
         this.unSelectedGradientDrawable = gradientDrawable;
@@ -276,6 +280,11 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
         reDrawView();
     }
 
+    public void setEnableStrokeBackground(boolean enableStrokeBackground) {
+        this.enableStrokeBackground = enableStrokeBackground;
+        reDrawView();
+    }
+
     @Override
     public void onClickUnSelectedView(final View view, final int position) {
         viewPager.setCurrentItem(position, true);
@@ -288,5 +297,17 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, onTo
     public int getFilledColor() {
         return themeBaseColor;
     }
+
+
+    public int getStrokeColor() {
+        return strokeColor;
+    }
+
+    public void setStrokeColor(int strokeColor) {
+        this.strokeColor = strokeColor;
+        reDrawView();
+    }
+
+
 
 }
