@@ -35,15 +35,17 @@ public class TabUtils {
     private TabLayout tabLayout;
     ColorFilter enabledFilter;
     ColorFilter selectedFilter;
+    boolean isTablet;
 
     public TabUtils(Context context, TabLayout tabLayout, boolean withIcon) {
         this.context = context;
         this.tabLayout = tabLayout;
+        isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
         initSelectionColors();
         initIconColorFilters();
     }
 
-    public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount, boolean isLastTab) {
+    public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
         TabLayout.Tab newTab = tabLayout.newTab();
         View customView;
         if (imageDrawable > 0) {
@@ -68,17 +70,16 @@ public class TabUtils {
         }
         title.setTextColor(getTextSelector());
 
-        boolean isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
+        int tabCount = tabLayout.getTabCount();
 
-        //Hide divider for the first view
-        if (tabLayout.getTabCount() == 0 && !isTablet) {
+        if((isTablet && tabCount > 0)|| (!isTablet && tabCount == 0)) {
             customView.findViewById(R.id.tab_divider).setVisibility(View.GONE);
         }
 
-        //Show last divider for the tablet view.
-        if(isLastTab && isTablet) {
+        if(isTablet) {
             customView.findViewById(R.id.tab_divider_last).setVisibility(View.VISIBLE);
         }
+
         newTab.setCustomView(customView);
         return newTab;
     }
