@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 
 public class PhilipsHamburgerAdapter extends BaseAdapter {
 
+    private static final int HEADER = 0;
+    private static final int CHILD = 1;
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
     private int totalCount = 0;
@@ -57,37 +60,58 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderItem viewHolder;
-        HamburgerItem hamburgerItem = hamburgerItems.get(position);
-        if (convertView == null) {
-            LayoutInflater mInflater = (LayoutInflater)
-                    context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            setColors();
-            if (hamburgerItem.isParent()) {
-                convertView = mInflater.inflate(R.layout.uikit_hamburger_list_group, parent, false);
-                convertView.setSelected(false);
-                setGroupLayoutAlpha(convertView);
-            } else {
-                convertView = mInflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
-            }
+        ViewHolderItem viewHolderItem;
+        switch (getItemViewType(position)) {
 
-            viewHolder = new ViewHolderItem();
-            initializeViews(convertView, viewHolder);
-            convertView.setTag(viewHolder);
-            validateBottomDivider(hamburgerItem, viewHolder.bottomDivider);
-        } else {
-            viewHolder = (ViewHolderItem) convertView.getTag();
+            case HEADER:
+                View parentView = convertView;
+                if (parentView == null) {
+                    LayoutInflater mInflater = (LayoutInflater)
+                            context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+                    setColors();
+                    parentView = mInflater.inflate(R.layout.uikit_hamburger_list_group, parent, false);
+                    viewHolderItem = new ViewHolderItem();
+                    initializeHeaderViews(parentView, viewHolderItem);
+                    parentView.setSelected(false);
+                    setGroupLayoutAlpha(parentView);
+                    parentView.setTag(viewHolderItem);
+                } else {
+                    viewHolderItem = (ViewHolderItem) parentView.getTag();
+                }
+                addHeaderMargin(position, viewHolderItem.transparentView);
+                viewHolderItem.txtTitle.setText(hamburgerItems.get(position).getTitle());
+                return parentView;
+            case CHILD:
+                View childView = convertView;
+                if (childView == null) {
+                    LayoutInflater mInflater = (LayoutInflater)
+                            context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+                    setColors();
+                    childView = mInflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
+                    viewHolderItem = new ViewHolderItem();
+                    initializeViews(childView, viewHolderItem);
+                    childView.setSelected(false);
+                    childView.setTag(viewHolderItem);
+                } else {
+                    viewHolderItem = (ViewHolderItem) childView.getTag();
+                }
+                validateBottomDivider(hamburgerItems.get(position), viewHolderItem.bottomDivider);
+                addHeaderMargin(position, viewHolderItem.transparentView);
+                setValuesToViews(position, viewHolderItem.imgIcon, viewHolderItem.txtTitle, viewHolderItem.txtCount, hamburgerItems.get(position), viewHolderItem.parentView);
+                return childView;
         }
-
-        addHeaderMargin(position, viewHolder);
-
-        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItems.get(position), viewHolder.parentView);
-        return convertView;
+        return null;
     }
 
-    private void addHeaderMargin(int position, ViewHolderItem viewHolder) {
+    private void initializeHeaderViews(View convertView, ViewHolderItem viewHolder) {
+        viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
+        viewHolder.transparentView = convertView.findViewById(R.id.transparentView);
+        viewHolder.parentView = (RelativeLayout) convertView.findViewById(R.id.hamburger_parent);
+    }
+
+    private void addHeaderMargin(int position, View transparentView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && position == 0)
-            viewHolder.transparentView.setVisibility(View.VISIBLE);
+            transparentView.setVisibility(View.VISIBLE);
     }
 
     private void initializeViews(View convertView, ViewHolderItem viewHolder) {
@@ -129,12 +153,11 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     }
 
     private void setValuesToViews(final int position, final ImageView imgIcon, TextView txtTitle, final TextView txtCount, final HamburgerItem hamburgerItem, final View convertView) {
-        if (!hamburgerItem.isParent()) {
             Drawable icon = hamburgerItems.get(position).getIcon();
             int count = hamburgerItems.get(position).getCount();
+        Log.d(getClass() + "", hamburgerItem.getTitle() + "");
             setCounterView(txtCount, count);
             handleSelector(position, imgIcon, txtTitle, convertView, icon);
-        }
         txtTitle.setText(hamburgerItems.get(position).getTitle());
     }
 
@@ -192,6 +215,20 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         for (HamburgerItem hamburgerItem : hamburgerItems) {
             totalCount += hamburgerItem.getCount();
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        HamburgerItem hamburgerItem = hamburgerItems.get(position);
+        if (hamburgerItem.isParent())
+            return HEADER;
+        else
+            return CHILD;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
     }
 
     static class ViewHolderItem {

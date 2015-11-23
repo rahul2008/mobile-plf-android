@@ -7,12 +7,14 @@ import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -75,8 +77,12 @@ public class HamburgerUtil {
     }
 
     private void removeFooterViewIfExists() {
-        if (footerView != null)
+        if (footerView != null) {
+            HeaderViewListAdapter headerViewListAdapter = (HeaderViewListAdapter) drawerListView.getAdapter();
+            PhilipsHamburgerAdapter philipsHamburgerAdapter = (PhilipsHamburgerAdapter) headerViewListAdapter.getWrappedAdapter();
+            drawerListView.setAdapter(philipsHamburgerAdapter);
             drawerListView.removeFooterView(footerView);
+        }
     }
     private int getLogoDedicatedHeight() {
         Resources resources = context.getResources();
