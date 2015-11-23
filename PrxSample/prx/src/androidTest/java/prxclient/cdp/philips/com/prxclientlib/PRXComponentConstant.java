@@ -13,7 +13,8 @@ public class PRXComponentConstant {
     String LEAAFLETURL , IMAGEURL, KEYAWARDS = "http://download.p4c.philips.com/files/r/rq1250_17/rq1250_17_pss_enggb.pdf";
     String PRODUCTTITLE = "Shaver series 9000 SensoTouch wet and dry electric shaver";
     String ALPHANUMERIC = "RQ1250/17";
-    String BRANDNAME = "Philips";
+    public static String BRANDNAME = "Philips";
+    public static String BRANDNAME_1 = "CDP";
     String BRANDLOGO = "http://images.philips.com/is/image/PhilipsConsumer/PHI-BRP-global-001";
     String FAMILYNAME = "Shaver Series 900 SensoTouch";
     String PRODUCTURL = "/c-p/RQ1250_17/shaver-series-9000-sensotouch-wet-dry-electric-shaver-with-aquatec";

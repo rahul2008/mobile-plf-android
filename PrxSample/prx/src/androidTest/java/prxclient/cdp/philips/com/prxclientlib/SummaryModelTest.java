@@ -6,6 +6,7 @@ import android.util.Log;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.prxdatamodels.summary.Brand;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Price;
 import com.philips.cdp.prxclient.prxdatamodels.summary.ReviewStatistics;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
@@ -29,6 +30,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
     private PrxDataBuilder mProductAssetBuilder = null;
     private ReviewStatistics mReviewStatistics = null;
     private Price mPrice = null;
+    private Brand mBrand = null;
 
     @Override
     protected void setUp() throws Exception {
@@ -166,5 +168,16 @@ public class SummaryModelTest extends InstrumentationTestCase {
         assertEquals("12.8 Rupees", mPrice.getProductPrice());
     }
 
+
+    public void testBrandType() {
+        mBrand = new Brand();
+        mBrand.setBrandLogo(PRXComponentConstant.BRANDNAME);
+        assertEquals("Philips", mBrand.getBrandLogo());
+    }
+
+    public void testBrandTypeWithCDP() {
+        mBrand = new Brand(PRXComponentConstant.BRANDNAME_1);
+        assertEquals("CDP", mBrand.getBrandLogo());
+    }
 
 }
