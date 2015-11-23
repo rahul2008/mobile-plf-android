@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s жүйесіне қош келдіңіз</string>
 <string name="InitialSignedIn_SigninEmailText">%s арқылы жүйеге кірдіңіз</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Электрондық поштаны тексеріңіз</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Мына мекенжайға электрондық хат жіберілді:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Мына мекенжайға электрондық хат жіберілді: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Электрондық хат келгенше шамалы уақыт кетуі мүмкін.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Тіркелгіні іске қосу үшін электрондық поштаны тексеріңіз.</string>
 <string name="VerifyEmail_Activated_btntxt">Тіркелгімді іске қостым</string>

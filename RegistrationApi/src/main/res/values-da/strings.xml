@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Velkommen %s</string>
 <string name="InitialSignedIn_SigninEmailText">Du er logget ind ved hjælp af: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Bekræft din e-mail</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Vi har sendt en e-mail til:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Vi har sendt en e-mail til: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Det kan tage noget tid, før e-mailen kommer.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Tjek din e-mail for at aktivere din konto.</string>
 <string name="VerifyEmail_Activated_btntxt">Jeg har aktiveret min konto</string>

@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Добро пожаловать, %s!</string>
 <string name="InitialSignedIn_SigninEmailText">Вы выполнили вход через %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Подтвердите адрес электронной почты</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Мы отправили сообщение на адрес электронной почты:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Мы отправили сообщение на адрес электронной почты: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Вы получите электронное письмо. Это может занять некоторое время.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Для активации учетной записи проверьте вашу электронную почту.</string>
 <string name="VerifyEmail_Activated_btntxt">Учетная запись активирована</string>

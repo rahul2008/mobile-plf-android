@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s خوش‌آمدید</string>
 <string name="InitialSignedIn_SigninEmailText">شما با استفاده از این شناسه وارد سیستم شدید: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">لطفاً ایمیل خود را تأیید کنید</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">ما یک ایمیل به آدرس زیر ارسال کردیم:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">ما یک ایمیل به آدرس زیر ارسال کردیم: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">دریافت ایمیل ممکن است مدتی طول بکشد.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">لطفاً برای فعال‌سازی حساب خود، ایمیل‌تان را بررسی کنید.</string>
 <string name="VerifyEmail_Activated_btntxt">من حسابم را فعال کرده‌ام</string>

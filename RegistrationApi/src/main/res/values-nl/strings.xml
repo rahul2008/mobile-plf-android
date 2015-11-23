@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Welkom %s</string>
 <string name="InitialSignedIn_SigninEmailText">U bent aangemeld met: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Controleer uw e-mailadres</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">We hebben een e-mail verzonden naar:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">We hebben een e-mail verzonden naar: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Het kan enige tijd duren voordat de e-mail aankomt.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Controleer uw e-mail om uw account te activeren.</string>
 <string name="VerifyEmail_Activated_btntxt">Ik heb mijn account geactiveerd</string>

@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Tervetuloa %s</string>
 <string name="InitialSignedIn_SigninEmailText">Olet kirjautunut sähköpostiosoitteella %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Vahvista sähköpostiosoitteesi</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Olemme lähettäneet sähköpostiviestin seuraavaan osoitteeseen:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Olemme lähettäneet sähköpostiviestin seuraavaan osoitteeseen: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Viestin saapuminen voi kestää jonkin aikaa.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Tarkista sähköpostisi ja aktivoi tilisi.</string>
 <string name="VerifyEmail_Activated_btntxt">Olen ottanut tilini käyttöön</string>

@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Sveiki, %s</string>
 <string name="InitialSignedIn_SigninEmailText">Prisijungėte naudodami %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Patvirtinkite savo el. paštą</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">El. laišką išsiuntėme adresu:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">El. laišką išsiuntėme adresu: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Gali šiek tiek užtrukti, kol gausite el. laišką.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Patikrinkite savo el. paštą ir suaktyvinkite paskyrą.</string>
 <string name="VerifyEmail_Activated_btntxt">Aš suaktyvinau savo paskyrą</string>

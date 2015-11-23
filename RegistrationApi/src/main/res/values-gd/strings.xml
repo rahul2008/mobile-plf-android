@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Fáilte %s</string>
 <string name="InitialSignedIn_SigninEmailText">Logáil tú isteach ag úsáid: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Fíordheimhnigh do ríomhphost</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Tá ríomhphost seolta againn chuig:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Tá ríomhphost seolta againn chuig: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">D\'fhéadfadh roinnt ama a bheith i gceist sula bhfaighidh tú an ríomhphost</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Seiceáil do ríomhphost chun do chuntas a fhíordheimhniú.</string>
 <string name="VerifyEmail_Activated_btntxt">Tá mo chuntas gníomhachtaithe</string>

@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Mirë se vjen %s</string>
 <string name="InitialSignedIn_SigninEmailText">Je identifikuar me: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Verifiko emailin tënd</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Të kemi dërguar një email te:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Të kemi dërguar një email te: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Mund të duhet pak kohë derisa të mbërrijë emaili.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Kontrollo emailin për të aktivizuar llogarinë.</string>
 <string name="VerifyEmail_Activated_btntxt">E kam aktivizuar llogarinë</string>

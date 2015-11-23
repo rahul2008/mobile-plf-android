@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Добредојдовте %s</string>
 <string name="InitialSignedIn_SigninEmailText">Се најавивте преку: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Ве молиме потврдете ја вашата e-mail адреса</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Испративме e-mail порака на:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Испративме e-mail порака на: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Можеби ќе биде потребно одредено време за да пристигне e-mail пораката.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Проверете ја вашата електронска пошта за да ја активирате вашата сметка.</string>
 <string name="VerifyEmail_Activated_btntxt">Ја активирав мојата сметка</string>

@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Tere tulemast, %s</string>
 <string name="InitialSignedIn_SigninEmailText">Logisite sisse kontoga: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Kinnitage oma e-posti aadress</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Saatsime e-kirja aadressile:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Saatsime e-kirja aadressile: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Selle kohalejõudmine võib veidi aega võtta.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Palun kontrollige oma konto aktiveerimiseks oma e-posti.</string>
 <string name="VerifyEmail_Activated_btntxt">Olen oma konto aktiveerinud</string>

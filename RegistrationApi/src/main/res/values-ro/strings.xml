@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Bun venit %s</string>
 <string name="InitialSignedIn_SigninEmailText">Te-ai conectat folosind: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Te rugăm să verifici adresa de e-mail</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Am expediat un e-mail către:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Am expediat un e-mail către: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Poate dura ceva timp până vei primi mesajul.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Te rugăm să-ţi verifici e-mailul pentru a-ţi activa contul.</string>
 <string name="VerifyEmail_Activated_btntxt">Mi-am activat contul</string>

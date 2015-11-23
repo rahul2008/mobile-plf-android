@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Bienvenue %s</string>
 <string name="InitialSignedIn_SigninEmailText">Vous êtes connecté(e) avec : %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Merci de vérifier votre adresse e-mail</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Un e-mail a été envoyé à l\'adresse :</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Un e-mail a été envoyé à l\'adresse : %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Il peut se passer un certain temps avant que vous ne receviez l\'e-mail.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Merci de consulter vos e-mails pour activer votre compte.</string>
 <string name="VerifyEmail_Activated_btntxt">J\'ai activé mon compte</string>

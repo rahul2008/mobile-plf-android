@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s님 환영합니다</string>
 <string name="InitialSignedIn_SigninEmailText">%s을(를) 사용하여 로그인했습니다.</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">이메일을 확인하십시오.</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">다음으로 이메일을 발송했습니다.</string>
+<string name="VerifyEmail_EmailSentto_lbltxt"> %s다음으로 이메일을 발송했습니다.</string>
 <string name="VerifyEmail_EmailTime_lbltxt">이메일을 받아 보시기까지 약간의 시간이 소요될 수 있습니다.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">이메일을 확인하여 계정을 활성화하십시오.</string>
 <string name="VerifyEmail_Activated_btntxt">계정을 활성화했습니다.</string>

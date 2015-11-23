@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Chào mừng %s</string>
 <string name="InitialSignedIn_SigninEmailText">Bạn đã đăng nhập bằng: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Vui lòng xác thực email của bạn</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Chúng tôi đã gửi email đến:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Chúng tôi đã gửi email đến: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Có thể cần một lúc để email được gửi đến nơi.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Vui lòng kiểm tra email để kích hoạt tài khoản của bạn.</string>
 <string name="VerifyEmail_Activated_btntxt">Tôi đã kích hoạt tài khoản của tôi</string>

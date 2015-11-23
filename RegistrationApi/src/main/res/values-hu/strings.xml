@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Üdvözöljük, %s</string>
 <string name="InitialSignedIn_SigninEmailText">A következő használatával jelentkezett be: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Kérjük, erősítse meg e-mail címét</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">E-mailt küldtünk ide:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">E-mailt küldtünk ide: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Igénybe vehet egy kis időt, amíg megérkezik.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">A fiók aktiválásához, kérjük, ellenőrizze e-mail címét.</string>
 <string name="VerifyEmail_Activated_btntxt">Aktiváltam a fiókomat</string>

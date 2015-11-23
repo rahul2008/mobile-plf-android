@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">欢迎使用 %s</string>
 <string name="InitialSignedIn_SigninEmailText">您已通过以下方式登录：%s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">请确认电子邮件</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">我们已向以下地址发送电子邮件：</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">我们已向以下地址发送电子邮件： %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">电子邮件到达可能需要一段时间。</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">请查看您的电子邮件以激活您的帐户。</string>
 <string name="VerifyEmail_Activated_btntxt">我已激活自己的帐户</string>

@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Selamat datang %s</string>
 <string name="InitialSignedIn_SigninEmailText">Anda telah masuk menggunakan: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Harap verifikasi email Anda</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Kami telah mengirim email ke:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Kami telah mengirim email ke: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Dibutuhkan waktu hingga email masuk.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Harap periksa email untuk mengaktifkan akun Anda.</string>
 <string name="VerifyEmail_Activated_btntxt">Saya telah mengaktifkan akun saya</string>

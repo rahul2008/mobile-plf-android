@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Dobro došli %s</string>
 <string name="InitialSignedIn_SigninEmailText">Za prijavljivanje ste upotrebili: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Verifikujte e-adresu</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Poslali smo e-poruku na:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Poslali smo e-poruku na: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Možda će biti potrebno određeno vreme da e-poruka stigne.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Proverite e-poštu da biste aktivirali nalog.</string>
 <string name="VerifyEmail_Activated_btntxt">Aktivirao/la sam nalog</string>

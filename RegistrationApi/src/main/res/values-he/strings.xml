@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">ברוך הבא %s</string>
 <string name="InitialSignedIn_SigninEmailText">התחברת באמצעות: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">אמת את כתובת הדוא\"ל שלך</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">שלחת הודעת דוא\"ל אל:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">שלחת הודעת דוא\"ל אל: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">הגעת ההודעה עשויה לארוך זמן מה.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">בדוק את הדוא\"ל שלך כדי להפעיל את חשבונך.</string>
 <string name="VerifyEmail_Activated_btntxt">הפעלתי את חשבוני</string>

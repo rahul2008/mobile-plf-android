@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">%s へようこそ</string>
 <string name="InitialSignedIn_SigninEmailText">次のアカウントでログインしています：%s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">メールアドレスの照合を行ってください</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">次のアドレスにメールを送信しています：</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">次のアドレスにメールを送信しています： %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">メールが届くまで少々時間がかかることがあります。</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">メールを確認してアカウントをアクティベートしてください。</string>
 <string name="VerifyEmail_Activated_btntxt">アカウントはアクティベート済みです</string>

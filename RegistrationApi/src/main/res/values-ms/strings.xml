@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Selamat datang %s</string>
 <string name="InitialSignedIn_SigninEmailText">Anda telah log masuk menggunakan: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Sila sahkan e-mel anda</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Kami telah menghantar e-mel kepada:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Kami telah menghantar e-mel kepada: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">E-mel tersebut akan mengambil sedikit masa untuk sampai.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Sila semak e-mel anda untuk mengaktifkan akaun anda.</string>
 <string name="VerifyEmail_Activated_btntxt">Saya telah mengaktifkan akaun saya</string>

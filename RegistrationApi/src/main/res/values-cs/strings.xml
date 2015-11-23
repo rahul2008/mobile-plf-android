@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Vítejte uživateli %s</string>
 <string name="InitialSignedIn_SigninEmailText">Přihlásili jste se pomocí: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Ověřte svůj e-mail</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Zaslali jsme e-mail na adresu:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Zaslali jsme e-mail na adresu: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Může chvíli trvat, než e-mail obdržíte.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Pokud chcete aktivovat účet, zkontrolujte svou e-mailovou schránku.</string>
 <string name="VerifyEmail_Activated_btntxt">Mám aktivovaný účet</string>

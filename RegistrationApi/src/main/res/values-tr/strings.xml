@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Hoş geldiniz, %s</string>
 <string name="InitialSignedIn_SigninEmailText">%s adresini kullanarak oturum açtınız</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Lütfen e-posta adresinizi doğrulayın</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Şu adrese bir e-posta gönderdik:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Şu adrese bir e-posta gönderdik: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Bu e-postanın size ulaşması biraz zaman alabilir.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Hesabınızı etkinleştirmek için lütfen e-postanızı kontrol edin.</string>
 <string name="VerifyEmail_Activated_btntxt">Hesabımı etkinleştirdim</string>

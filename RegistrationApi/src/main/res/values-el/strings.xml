@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">Καλώς ήρθατε, %s</string>
 <string name="InitialSignedIn_SigninEmailText">Έχετε συνδεθεί με τη διεύθυνση %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">Επαληθεύστε το email σας</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">Έχουμε στείλει ένα email στη διεύθυνση</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">Έχουμε στείλει ένα email στη διεύθυνση %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">Ίσως χρειαστεί λίγη ώρα μέχρι να λάβετε το email.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Ελέγξτε το email σας για να ενεργοποιήσετε το λογαριασμό σας.</string>
 <string name="VerifyEmail_Activated_btntxt">Έχω ενεργοποιήσει το λογαριασμό μου</string>

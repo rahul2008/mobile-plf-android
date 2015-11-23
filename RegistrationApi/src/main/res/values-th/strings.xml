@@ -63,7 +63,7 @@
 <string name="InitialSignedIn_Welcome_User_lbltxt">ยินดีต้อนรับ %s</string>
 <string name="InitialSignedIn_SigninEmailText">คุณได้ล็อกอินด้วย: %s</string>
 <string name="VerifyEmail_VerifyEmail_lbltxt">โปรดยืนยันอีเมล์แอดเดรสของคุณ</string>
-<string name="VerifyEmail_EmailSentto_lbltxt">เราได้ส่งอีเมล์ไปยัง:</string>
+<string name="VerifyEmail_EmailSentto_lbltxt">เราได้ส่งอีเมล์ไปยัง: %s</string>
 <string name="VerifyEmail_EmailTime_lbltxt">อาจจะใช้เวลาสักครู่ก่อนที่อีเมล์จะไปถึง</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">โปรดตรวจสอบอีเมล์ของคุณเพื่อเปิดใช้บัญชี</string>
 <string name="VerifyEmail_Activated_btntxt">ฉันได้เปิดใช้บัญชีของฉันแล้ว</string>
