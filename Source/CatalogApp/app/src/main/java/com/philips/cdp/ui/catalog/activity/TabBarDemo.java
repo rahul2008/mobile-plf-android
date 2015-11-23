@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.TabUtils;
 
-public class TabBarDemo extends AppCompatActivity {
+public class TabBarDemo extends CatalogActivity {
 
     TabLayout topLayout;
     TabLayout bottomLayout;
@@ -55,22 +56,27 @@ public class TabBarDemo extends AppCompatActivity {
         TabUtils utils = new TabUtils(this, topLayout, true);
 
         TabLayout.Tab tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
+        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_clock_32x32),true);
         utils.setTitle(tab, "Alarm");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.apple, 0);
+        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_apple_32x32),true);
         utils.setTitle(tab, "Wellness");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 0);
+        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_stats_39x32),true);
         utils.setTitle(tab, "Statistics");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.gear, 0);
+        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_gear_32x32),true);
         utils.setTitle(tab, "Settings");
         topLayout.addTab(tab);
 
         tab = utils.newTab(R.string.uikit_splash_title, R.drawable.alarm, 0);
+        utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_clock_32x32),true);
         utils.setTitle(tab, "Alarm");
         topLayout.addTab(tab);
     }
