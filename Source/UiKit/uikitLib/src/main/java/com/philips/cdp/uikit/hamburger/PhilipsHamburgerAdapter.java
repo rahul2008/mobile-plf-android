@@ -81,7 +81,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
 
         addHeaderMargin(position, viewHolder);
 
-        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItem, viewHolder.parentView);
+        setValuesToViews(position, viewHolder.imgIcon, viewHolder.txtTitle, viewHolder.txtCount, hamburgerItems.get(position), viewHolder.parentView);
         return convertView;
     }
 
@@ -128,7 +128,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         return Color.argb(alpha, red, green, blue);
     }
 
-    private void setValuesToViews(final int position, final ImageView imgIcon, TextView txtTitle, final TextView txtCount, HamburgerItem hamburgerItem, View convertView) {
+    private void setValuesToViews(final int position, final ImageView imgIcon, TextView txtTitle, final TextView txtCount, final HamburgerItem hamburgerItem, final View convertView) {
         if (!hamburgerItem.isParent()) {
             Drawable icon = hamburgerItems.get(position).getIcon();
             int count = hamburgerItems.get(position).getCount();
