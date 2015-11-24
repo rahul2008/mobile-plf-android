@@ -14,6 +14,6 @@
         android:divider="?attr/listDividerColor"
         android:saveEnabled="true"
         android:dividerHeight="1dp"
-        android:listSelector="@drawable/uikit_list_selector"></ListView>
+        android:listSelector="?attr/listSelectorBackground"></ListView>
 
 </RelativeLayout>

@@ -93,7 +93,11 @@ public class ListViewWithIcons extends BaseAdapter {
             holder = new ViewHolder();
             switch (rowType) {
                 case TYPE_ITEM:
-                    convertView = mInflater.inflate(R.layout.uikit_list_with_icons, null);
+                    try {
+                        convertView = mInflater.inflate(R.layout.uikit_list_with_icons, null);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     holder.textView = (TextView) convertView.findViewById(R.id.text);
                     holder.mImage=(ImageView)convertView.findViewById(R.id.image);
                     holder.mBadge=(PhilipsBadgeView)convertView.findViewById(R.id.notification_badge);

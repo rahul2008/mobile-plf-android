@@ -45,6 +45,7 @@
         <activity android:name=".activity.SliderActivity" />
         <activity android:name=".activity.RatingBarLauncher" />
         <activity android:name=".activity.ActionBarLauncher" />
+        <activity android:name=".activity.DummyActivityForListItemClick" />
 	 <activity android:name=".activity.TabViewWithViewPager"/>
 
 

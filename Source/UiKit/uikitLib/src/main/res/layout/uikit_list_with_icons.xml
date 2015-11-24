@@ -42,12 +42,13 @@
                 android:layout_marginRight="90dp"
                 android:layout_marginTop="8dp"
                 android:textSize="20sp"
-                android:textColor="?attr/baseColor"
+                android:textColor="?attr/listtextselector"
                 android:includeFontPadding="false"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 fontPath="fonts/centralesansbook.ttf"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                />
             <TextView
                 android:id="@+id/text_description"
                 android:text="Eget Odeo uu  kkdkd d dkd v kl  kkd  dkld dv l  df vf uu  kkdkd d dkd v kl  kkd  dkld dv l  df vf uu  kkdkd d dkd v kl  kkd  dkld dv l  df vf uu  kkdkd d dkd v kl  kkd  dkld dv l  df vf"
@@ -58,7 +59,7 @@
                 android:layout_toRightOf="@+id/image"
                 android:layout_marginRight="15dp"
                 android:textSize="16sp"
-                android:textColor="?attr/baseColor"
+                android:textColor="?attr/listtextselector"
                 android:layout_alignParentBottom="true"
                 android:layout_width="wrap_content"
                 fontPath="fonts/centralesansbook.ttf"
@@ -92,10 +93,11 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toLeftOf="@id/arrow"
                 android:layout_centerVertical="true"
-                android:textColor="?attr/baseColor"
+                android:textColor="?attr/listtextselector"
                 android:layout_alignTop="@+id/image"
                 android:visibility="gone"
                 android:includeFontPadding="false"
+                android:padding="0dp"
                 fontPath="fonts/centralesanslight.ttf"
                 android:layout_height="wrap_content" />
 
@@ -110,7 +112,8 @@
                 android:layout_centerVertical="true"
                 android:layout_alignTop="@+id/image"
                 android:includeFontPadding="false"
-                android:text="22" />
+                android:text="22"
+                android:padding="0dp"/>
 
             <com.shamanland.fonticon.FontIconView
                 android:layout_width="wrap_content"
@@ -124,6 +127,7 @@
                 android:layout_alignParentRight="true"
                 android:includeFontPadding="false"
                 android:text="@string/uikit_fonticon_arrow_right"
+                android:padding="0dp"
                 />
 
         </LinearLayout>
