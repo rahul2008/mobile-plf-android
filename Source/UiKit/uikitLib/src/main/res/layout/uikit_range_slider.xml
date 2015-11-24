@@ -8,7 +8,7 @@
         android:id="@+id/textviewleft"
         fontPath="fonts/centralesanslight.ttf"
         android:textColor="@color/uikit_philips_slider_text"
-        android:textSize="@dimen/slider_text_size"
+        android:textSize="@dimen/slider_text_size_sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/textviewright"
         fontPath="fonts/centralesanslight.ttf"
-        android:textSize="@dimen/slider_text_size"
+        android:textSize="@dimen/slider_text_size_sp"
         android:textColor="@color/uikit_philips_slider_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
