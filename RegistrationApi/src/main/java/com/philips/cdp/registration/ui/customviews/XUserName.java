@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 	private TextView mTvErrDescriptionView;
 
 	private ImageView mIvArrowUpView;
+
+	private FrameLayout mFlInvalidAlert;
 
 	public XUserName(Context context) {
 		super(context);
@@ -65,6 +68,8 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_name_err);
 		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
+
+		mFlInvalidAlert = (FrameLayout)findViewById(R.id.fl_reg_invalid_alert);
 	}
 
 	@Override
@@ -104,6 +109,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	public void showInvalidAlert() {
 		mIvErrAlert.setVisibility(View.VISIBLE);
+		mFlInvalidAlert.setVisibility(VISIBLE);
 	}
 
 	private boolean validateName() {
@@ -131,9 +137,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		if (!hasFocus) {
 			showNameEtFocusDisable();
 			mEtUserName.setFocusable(true);
-			if (mEtUserName.getText().toString().trim().length() == 0) {
-				mIvErrAlert.setVisibility(View.VISIBLE);
-			}
 		} else {
 			showEtNameFocusEnable();
 		}
@@ -156,6 +159,8 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		if (v.getId() == R.id.et_reg_fname) {
 			handleName(hasFocus);
 			raiseUpdateUIEvent();
+			if(!hasFocus){
+				handleOnFocusChanges();}
 		}
 	}
 
@@ -166,17 +171,20 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+	}
+
+	private void handleOnFocusChanges() {
 		if (validateName()) {
 			mIvErrAlert.setVisibility(View.GONE);
-			RegUtility.invalidalertvisibilitygone(mEtUserName);
+			mFlInvalidAlert.setVisibility(GONE);
 		} else {
 			if (mEtUserName.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			}
 			mIvErrAlert.setVisibility(View.VISIBLE);
-			RegUtility.invalidalertvisibilityview(mEtUserName);
+			mFlInvalidAlert.setVisibility(VISIBLE);
 		}
-
 	}
 
 	@Override
@@ -184,19 +192,10 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		if (validateName()) {
 			mTvErrDescriptionView.setVisibility(View.GONE);
 			mIvArrowUpView.setVisibility(View.GONE);
+			mFlInvalidAlert.setVisibility(GONE);
 		}
+
+
 		raiseUpdateUIEvent();
 	}
-
-	/*private void inValidAlertVisibilityGone(){
-		android.widget.RelativeLayout.LayoutParams userNameParam = (RelativeLayout.LayoutParams) mEtUserName.getLayoutParams();
-		userNameParam.addRule(RelativeLayout.LEFT_OF, R.id.rl_reg_name_verified_field);
-		mEtUserName.setLayoutParams(userNameParam);
-	}
-
-	private void inValidAlertVisibilityView(){
-		android.widget.RelativeLayout.LayoutParams userNameParam = (RelativeLayout.LayoutParams) mEtUserName.getLayoutParams();
-		userNameParam.addRule(RelativeLayout.LEFT_OF, R.id.fl_reg_align);
-		mEtUserName.setLayoutParams(userNameParam);
-	}*/
 }

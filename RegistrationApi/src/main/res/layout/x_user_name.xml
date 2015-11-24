@@ -18,7 +18,7 @@
             android:layout_marginBottom="@dimen/reg_x_edit_field_margin"
             android:layout_marginLeft="@dimen/reg_x_edit_field_margin"
             android:layout_marginRight="@dimen/reg_x_edit_field_margin_right"
-            android:layout_marginTop="@dimen/reg_x_edit_field_margin">
+            android:layout_marginTop="@dimen/reg_x_edit_field_margin"  android:visibility="gone" >
 
             <ImageView
                 android:id="@+id/iv_reg_name_error_alert"

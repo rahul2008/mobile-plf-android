@@ -39,17 +39,7 @@ public class RegUtility {
         return padding;
     }
 
-    public static void invalidalertvisibilitygone(View view){
-        android.widget.RelativeLayout.LayoutParams userNameParam = (RelativeLayout.LayoutParams) view.getLayoutParams();
-        userNameParam.addRule(RelativeLayout.LEFT_OF, R.id.rl_reg_parent_verified_field);
-        view.setLayoutParams(userNameParam);
-    }
 
-    public static void invalidalertvisibilityview(View view){
-        android.widget.RelativeLayout.LayoutParams userNameParam = (RelativeLayout.LayoutParams) view.getLayoutParams();
-        userNameParam.addRule(RelativeLayout.LEFT_OF, R.id.fl_reg_invalid_alert);
-        view.setLayoutParams(userNameParam);
-    }
 
     public static void linkifyTermsandCondition(TextView termsAndConditionsAcceptance, final Activity activity, ClickableSpan termsAndConditionClickListener) {
 

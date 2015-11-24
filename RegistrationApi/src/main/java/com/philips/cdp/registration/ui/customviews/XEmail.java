@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
 	private RelativeLayout mRlEtEmail;
 
+	private FrameLayout mFlInvalidAlert;
+
 	public XEmail(Context context) {
 		super(context);
 		this.mContext = context;
@@ -61,6 +64,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 		mIvEmailErrAlert = (ImageView) findViewById(R.id.iv_reg_email_error_alert);
 		mIvEmailErrAlert.setOnClickListener(this);
 		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
+		mFlInvalidAlert = (FrameLayout)findViewById(R.id.fl_reg_invalid_alert);
 
 	}
 
@@ -93,9 +97,6 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 		if (!hasFocus) {
 			showEtEmailFocusDisable();
 			mEtEmail.setFocusable(true);
-			if (mEtEmail.getText().toString().trim().length() == 0) {
-				showEmailInvalidAlert();
-			}
 		} else {
 			showEtEmailFocusEnable();
 		}
@@ -111,10 +112,12 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
 	public void showEmailInvalidAlert() {
 		mIvEmailErrAlert.setVisibility(View.VISIBLE);
+		mFlInvalidAlert.setVisibility(VISIBLE);
 	}
 
 	public void showInvalidAlert() {
 		mIvEmailErrAlert.setVisibility(View.VISIBLE);
+		mFlInvalidAlert.setVisibility(VISIBLE);
 	}
 
 	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
@@ -132,6 +135,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 		if (v.getId() == R.id.et_reg_email) {
 			handleEmail(hasFocus);
 			raiseUpdateUIEvent();
+			if(!hasFocus){
+			handleOnFocusChanges();}
 		}
 	}
 
@@ -168,10 +173,14 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+	}
+
+	private void handleOnFocusChanges() {
 		if (validateEmail()) {
 			mIvEmailErrAlert.setVisibility(View.GONE);
+			mFlInvalidAlert.setVisibility(GONE);
 			mValidEmail = true;
-			RegUtility.invalidalertvisibilitygone(mEtEmail);
 		} else {
 			if (mEtEmail.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
@@ -179,7 +188,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 				setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
 			}
 			mIvEmailErrAlert.setVisibility(View.VISIBLE);
-			RegUtility.invalidalertvisibilityview(mEtEmail);
+			mFlInvalidAlert.setVisibility(VISIBLE);
 		}
 	}
 
@@ -187,9 +196,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	public void afterTextChanged(Editable s) {
 		raiseUpdateUIEvent();
 		if (validateEmail()) {
-			mTvErrDescriptionView.setVisibility(View.GONE);
-			mIvArrowUpView.setVisibility(View.GONE);
-
+			mTvErrDescriptionView.setVisibility(GONE);
+			mIvArrowUpView.setVisibility(GONE);
+			mIvEmailErrAlert.setVisibility(GONE);
+			mFlInvalidAlert.setVisibility(GONE);
 		}
 	}
 

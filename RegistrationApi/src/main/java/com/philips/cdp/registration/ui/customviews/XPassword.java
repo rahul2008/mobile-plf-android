@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     private TextView mTvMaskPassword;
 
     private boolean isValidatePassword = true;
+
 
     public XPassword(Context context) {
         super(context);
@@ -84,13 +86,12 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         if (!hasFocus) {
             showPasswordEtFocusDisable();
             mEtPassword.setFocusable(true);
-            if (mEtPassword.getText().toString().trim().length() == 0) {
-                mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-            }
         } else {
             showEtPasswordFocusEnable();
         }
     }
+
+
 
     public void showEtPasswordFocusEnable() {
         mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_enable);
@@ -140,6 +141,9 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         if (v.getId() == R.id.et_reg_password) {
             handlePassword(hasFocus);
             fireUpdateStatusEvent();
+           if (!hasFocus){
+                handleOnFocusChanges();
+            }
         }
     }
 
@@ -176,6 +180,10 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        handleOnTextChanged();
+    }
+
+    private void handleOnFocusChanges() {
         if (isValidatePassword) {
             handleValidPasswordWithPattern();
         } else {
@@ -183,10 +191,42 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         }
     }
 
+
+    private void handleOnTextChanged() {
+        if (isValidatePassword) {
+            handleValidPasswordWithPatternTextChanage();
+        } else {
+            handleValidPasswordWithoutPatternTextChange();
+        }
+    }
+
+    private void handleValidPasswordWithPatternTextChanage() {
+        if (validatePassword()) {
+            mIvPasswordErrAlert.setVisibility(View.GONE);
+        } else {
+
+            if (mEtPassword.getText().toString().trim().length() == 0) {
+                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+            } else {
+                setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
+            }
+        }
+    }
+
+    private void handleValidPasswordWithoutPatternTextChange() {
+        if (validatePasswordWithoutPattern()) {
+            mIvPasswordErrAlert.setVisibility(View.GONE);
+        } else {
+            if (mEtPassword.getText().toString().trim().length() == 0) {
+                setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+            }
+        }
+    }
+
+
     private void handleValidPasswordWithPattern() {
         if (validatePassword()) {
             mIvPasswordErrAlert.setVisibility(View.GONE);
-           // RegUtility.invalidalertvisibilitygone(mEtPassword);
         } else {
 
             if (mEtPassword.getText().toString().trim().length() == 0) {
@@ -195,7 +235,6 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
                 setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
             }
             mIvPasswordErrAlert.setVisibility(View.VISIBLE);
-           // RegUtility.invalidalertvisibilityview(mEtPassword);
         }
     }
 
@@ -215,13 +254,13 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
         fireUpdateStatusEvent();
         if (isValidatePassword && validatePassword()) {
-         //   RegUtility.invalidalertvisibilitygone(mEtPassword);
             mIvArrowUpView.setVisibility(View.GONE);
             mTvErrDescriptionView.setVisibility(View.GONE);
+            mIvPasswordErrAlert.setVisibility(View.GONE);
         } else if (validatePasswordWithoutPattern() && !isValidatePassword) {
-         //   RegUtility.invalidalertvisibilityview(mEtPassword);
             mIvArrowUpView.setVisibility(View.GONE);
             mTvErrDescriptionView.setVisibility(View.GONE);
+            mIvPasswordErrAlert.setVisibility(View.GONE);
         }
 
         handleMaskPasswordUi();
