@@ -10,7 +10,8 @@ import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
-import com.shamanland.fonticon.FontIconView;
+import com.shamanland.fonticon.FontIconTextView;
+
 
 /**
  * Created by 310213373 on 11/18/2015.
@@ -58,7 +59,7 @@ public class ListViewWithoutIcons extends BaseAdapter {
         TextView name = (TextView) vi.findViewById(R.id.text);
         PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
         TextView on_off=(TextView)vi.findViewById(R.id.off_on);
-        FontIconView arrow=(FontIconView)vi.findViewById(R.id.arrow);
+        FontIconTextView arrow=(FontIconTextView)vi.findViewById(R.id.arrow);
         image.setVisibility(View.GONE);
         TextView description=(TextView)vi.findViewById(R.id.text_description);
         if(position==0) {

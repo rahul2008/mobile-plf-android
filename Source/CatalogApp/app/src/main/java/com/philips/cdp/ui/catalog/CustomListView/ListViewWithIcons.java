@@ -11,7 +11,8 @@ import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
-import com.shamanland.fonticon.FontIconView;
+import com.shamanland.fonticon.FontIconTextView;
+
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -101,7 +102,7 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.textView = (TextView) convertView.findViewById(R.id.text);
                     holder.mImage=(ImageView)convertView.findViewById(R.id.image);
                     holder.mBadge=(PhilipsBadgeView)convertView.findViewById(R.id.notification_badge);
-                    holder.arrow= (FontIconView) convertView.findViewById(R.id.arrow);
+                    holder.arrow= (FontIconTextView) convertView.findViewById(R.id.arrow);
                     holder.name=(TextView) convertView.findViewById(R.id.off_on);
                     holder.value=(PuiSwitch)convertView.findViewById(R.id.switch_button);
 
@@ -200,7 +201,7 @@ public class ListViewWithIcons extends BaseAdapter {
         TextView name;
         PuiSwitch value;
         ;
-        FontIconView arrow;
+        FontIconTextView arrow;
 
 
         PhilipsBadgeView mBadge ;
