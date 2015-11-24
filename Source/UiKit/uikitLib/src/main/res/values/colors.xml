@@ -72,5 +72,6 @@
 
     <!-- Color codes for Miscellaneous buttons -->
     <color name="uikit_philips_Red">#CD202C</color>
+    <color name="uikit_philips_slider_text">#252525</color>
 
 </resources>

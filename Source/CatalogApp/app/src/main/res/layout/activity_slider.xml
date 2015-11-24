@@ -1,6 +1,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/seekbar_placeholder"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -25,6 +26,17 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         app:discreteValue="7"></com.philips.cdp.uikit.customviews.DiscreteSlider>
+
+
+    <com.philips.cdp.uikit.customviews.RangeSlider
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:absoluteMinValue="90"
+        app:absoluteMaxValue="300"/>
+
+
+
 
 
 </LinearLayout>
