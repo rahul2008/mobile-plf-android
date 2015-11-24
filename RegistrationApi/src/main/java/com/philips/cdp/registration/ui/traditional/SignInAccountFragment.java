@@ -229,11 +229,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
-        //mEtEmail.setOnClickListener(this);
+        mEtEmail.setOnClickListener(this);
         mEtEmail.setOnUpdateListener(this);
         mEtEmail.setFocusable(true);
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
-        //mEtPassword.setOnClickListener(this);
+        mEtPassword.setOnClickListener(this);
         mEtPassword.setOnUpdateListener(this);
         mEtPassword.isValidatePassword(false);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -418,10 +418,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mBtnForgot.setEnabled(true);
             mBtnResend.setEnabled(true);
             mRegError.hideError();
-        } else {
+        } else if (mEtEmail.isValidEmail() && NetworkUtility.isNetworkAvailable(mContext)
+                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+            mBtnForgot.setEnabled(true);
             mBtnSignInAccount.setEnabled(false);
-            mBtnForgot.setEnabled(false);
             mBtnResend.setEnabled(false);
+        } else {
+            if (mEtEmail.getEmailId().length() == 0) {
+                mBtnForgot.setEnabled(true);
+            } else {
+                mBtnForgot.setEnabled(false);
+                mBtnSignInAccount.setEnabled(false);
+                mBtnResend.setEnabled(false);
+            }
         }
     }
 

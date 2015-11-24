@@ -197,6 +197,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 		mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
 
+		mEtPassword.setHint(mContext.getResources().getString(R.string.Account_Merge_EnterPassword_Placeholder_txtFiled));
+
 		trackActionStatus(AppTagingConstants.SEND_DATA,
 				AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
 

@@ -185,6 +185,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         applyParams(config, mRegAccptTermsError, width);
         applyParams(config, mLlAcceptTermsContainer, width);
         applyParams(config, mPasswordHintView, width);
+        applyParams(config, mTvEmailExist, width);
     }
 
     @Override

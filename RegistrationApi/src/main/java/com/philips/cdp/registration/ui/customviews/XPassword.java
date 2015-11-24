@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class XPassword extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
@@ -229,7 +228,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
     private void handleMaskPasswordUi() {
-        if (getPassword().length() > 1) {
+        if (getPassword().length() >= 1) {
             enableMaskPassword();
         } else if(getPassword().length() == 0){
             disableMaskPassoword();
@@ -272,6 +271,10 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
             mEtPassword.setSelection(mEtPassword.getText().length());
         }
+    }
+
+    public void setHint(String hintText){
+        mEtPassword.setHint(hintText);
     }
 
 }
