@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
 
+
     private final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
     private FragmentManager mFragmentManager;
@@ -318,8 +319,15 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(socialAlmostDoneFragment);
     }
 
-    public void addPlaneAlmostDoneFragment() {
+    public void addPlainAlmostDoneFragment() {
         AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
+        addFragment(almostDoneFragment);
+    }
+
+    public void addAlmostDoneFragmentforTermsAcceptance() {
+        AlmostDoneFragment almostDoneFragment = new AlmostDoneFragment();
+        Bundle almostDoneFragmentBundle = new Bundle();
+        almostDoneFragmentBundle.putBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, true);
         addFragment(almostDoneFragment);
     }
 

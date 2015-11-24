@@ -116,7 +116,7 @@
 
             <View
                 style="@style/reg_line"
-                android:layout_marginBottom="@dimen/reg_margin_bottom" />
+                android:layout_marginBottom="@dimen/reg_margin_bottom" android:id="@+id/reg_recieve_email_line" />
 
             <RelativeLayout
                 android:id="@+id/rl_reg_btn_continue_container"

@@ -118,4 +118,6 @@ public class RegConstants {
 
     public static final String IS_SOCIAL_PROVIDER = "IS_SOCIAL_PROVIDER";
 
+    public static final String IS_FOR_TERMS_ACCEPATNACE = "IsForTermsAccepatnace";
+
 }

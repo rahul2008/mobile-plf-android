@@ -540,7 +540,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void launchAlmostDoneScreenForTermsAcceptance() {
-        getRegistrationFragment().addPlaneAlmostDoneFragment();
+        getRegistrationFragment().addPlainAlmostDoneFragment();
         trackPage(AppTaggingPages.ALMOST_DONE);
     }
 

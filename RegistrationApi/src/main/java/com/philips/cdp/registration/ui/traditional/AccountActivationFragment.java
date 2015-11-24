@@ -277,7 +277,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     private void launchAlmostFragment() {
-        getRegistrationFragment().addPlaneAlmostDoneFragment();
+        getRegistrationFragment().addPlainAlmostDoneFragment();
         trackPage(AppTaggingPages.ALMOST_DONE);
     }
 

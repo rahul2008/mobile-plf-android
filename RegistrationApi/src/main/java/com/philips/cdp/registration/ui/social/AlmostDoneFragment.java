@@ -96,6 +96,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private Bundle mBundle;
 
+    private boolean isForTermsAccepatance;
+
     @Override
     public void onAttach(Activity activity) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onAttach");
@@ -205,6 +207,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mBundle = getArguments();
         if (null != mBundle) {
             try {
+
+                isForTermsAccepatance = mBundle.getBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, false);
+
                 JSONObject mPreRegJson = null;
                 mPreRegJson = new JSONObject(mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
 
@@ -299,11 +304,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             if (mBundle == null) {
                 mBtnContinue.setEnabled(true);
             } else {
-                View viewLine = (View) view.findViewById(R.id.reg_view_line);
+                View viewLine = view.findViewById(R.id.reg_view_line);
                 viewLine.setVisibility(View.VISIBLE);
                 mEtEmail.setVisibility(View.VISIBLE);
             }
         }
+
         handleUiAcceptTerms(view);
     }
 
@@ -349,6 +355,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             View acceptTermsLine = view.findViewById(R.id.reg_view_accep_terms_line);
             acceptTermsLine.setVisibility(View.GONE);
             mLlAcceptTermsContainer.setVisibility(View.GONE);
+        }
+
+        if (!isForTermsAccepatance) {
+            view.findViewById(R.id.ll_reg_periodic_offers_check).setVisibility(View.GONE);
+            view.findViewById(R.id.reg_recieve_email_line).setVisibility(View.GONE);
         }
     }
 
@@ -429,7 +440,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private void storeEmailInPreference() {
         if (mEmail != null) {
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
-        }else{
+        } else {
             User user = new User(mContext);
             DIUserProfile diUserProfile = user.getUserInstance(mContext);
             String email = null;
