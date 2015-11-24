@@ -27,9 +27,9 @@ public class AnalyticsConstants {
     public static final String PAGE_REVIEW__PREVIEW = "digitalcare:ratethisapp:guideLines:writeReview:preview";
     public static final String PAGE_REVIEW_THANKS = "digitalcare:ratethisapp:guideLines:writeReview:preview:thankYou";
 
-    public static final String PAGE_VIEW_PRODUCT_DETAILS = "digitalcare:viewProductDetails";
-    public static final String PAGE_VIEW_PRODUCT_WEBSITE = "digitalcare:viewProductDetails:website";
-    public static final String PAGE_VIEW_PRODUCT_MANUAL = "digitalcare:viewProductDetails:manual";
+    public static final String PAGE_VIEW_PRODUCT_DETAILS = "digitalcare:productdetails";
+    public static final String PAGE_VIEW_PRODUCT_WEBSITE = "digitalcare:productdetails:website";
+    public static final String PAGE_VIEW_PRODUCT_MANUAL = "digitalcare:productdetails:manual";
         /* ACTION KEY CONSTANTS */
     /*****************
      * Page Context Data start
@@ -83,9 +83,8 @@ public class AnalyticsConstants {
     public static final String ACTION_KEY_REVIEWER_EMAIL = "reviewerEmail";
 
     /*  Action keys View Product Details*/
-    public static final String ACTION_KEY_VIEW_PRODUCT_VIDEO_COUNT = "videoCount";
-    public static final String ACTION_KEY_VIEW_PRODUCT_VIDEO_THUMBNAIL = "videoThumbnailLink";
-
+    public static final String ACTION_KEY_VIEW_PRODUCT_VIDEO_START = "videoStart";
+    public static final String ACTION_KEY_VIEW_PRODUCT_VIDEO_NAME = "videoName";
 
     /*****************
      * Action Values

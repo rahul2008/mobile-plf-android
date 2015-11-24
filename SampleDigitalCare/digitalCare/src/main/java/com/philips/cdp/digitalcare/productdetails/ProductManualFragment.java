@@ -51,10 +51,8 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         }
         mUrl = getPhilipsProductPageUrl();
 
-        Map<String, Object> contextData = new HashMap<String, Object>();
-        contextData.put(AnalyticsConstants.ACTION_KEY_URL, mUrl);
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_MANUAL,
-                getPreviousName(), contextData);
+                getPreviousName());
 
         return mView;
     }

@@ -142,10 +142,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             return;
         }
 
-        Map<String, Object> contextData = new HashMap<String, Object>();
-        contextData.put(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_COUNT, mVideoLength.size());
-        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SEND_DATA, contextData);
-
         for (int i = 0; i < mVideoLength.size(); i++) {
             addNewVideo(i + "", mVideoLength.get(i));
         }
@@ -175,7 +171,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         return (int) mSmallerResolution;
     }
 
-    protected void loadVideoThumbnail(final ImageView imageView, String thumbnail) {
+    protected void loadVideoThumbnail(final ImageView imageView, final String thumbnail) {
 //        String thumbnail = imagePath.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
 
         ImageRequest request = new ImageRequest(thumbnail,
@@ -188,9 +184,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
                         // mProductImage.setImageResource(R.drawable.image_load_error);
-                        Map<String, Object> contextData = new HashMap<String, Object>();
-                        contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, error.getMessage());
-                        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, contextData);
+
+//                        Map<String, Object> contextData = new HashMap<String, Object>();
+//                        contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, error.getMessage());
+//                        contextData.put(AnalyticsConstants.ACTION_KEY_URL, thumbnail);
+//                        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, contextData);
                     }
                 });
 
@@ -211,8 +209,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             public void onClick(View v) {
 
                 Map<String, Object> contextData = new HashMap<String, Object>();
-                contextData.put(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_THUMBNAIL, thumbnail);
-                AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SEND_DATA, contextData);
+                contextData.put(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_NAME, video);
+                AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_VIEW_PRODUCT_VIDEO_START, contextData);
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse(video), "video/mp4");
@@ -428,6 +426,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                             // mProductImage.setImageResource(R.drawable.image_load_error);
                             Map<String, Object> contextData = new HashMap<String, Object>();
                             contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, error.getMessage());
+                            contextData.put(AnalyticsConstants.ACTION_KEY_URL, mViewProductDetailsModel.getProductImage());
                             AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, contextData);
                         }
                     });
