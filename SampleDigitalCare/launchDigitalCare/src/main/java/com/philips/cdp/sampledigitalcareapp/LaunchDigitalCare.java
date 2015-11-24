@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -139,6 +140,31 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
+
+        mLanguage_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                initializeDigitalCareLibrary();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mCountry_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                initializeDigitalCareLibrary();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         if (mActivityButtonSelected) {
             mLaunchDigitalCare.setVisibility(View.VISIBLE);
         } else {
@@ -195,6 +221,8 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         return false;
     }
 
+
+
     private String getStringKey(int resId) {
         return getResources().getResourceEntryName(resId);
     }
@@ -219,7 +247,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         DigitalCareConfigManager.getInstance().enableTagging(true);
         DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
         DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
-        setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+   //     setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         /*
          * Take values from GUI editText.
