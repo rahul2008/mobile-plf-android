@@ -25,8 +25,7 @@
     android:layout_toEndOf="@+id/image"
     android:layout_centerVertical="true"
     android:gravity="center_vertical"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
     android:paddingRight="20dp">
 
     <TextView
@@ -65,7 +64,7 @@
         fontPath="fonts/centralesansbook.ttf"
         android:textSize="10sp"
        android:layout_alignBaseline="@id/text2value"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="3dp"
         android:layout_toRightOf="@+id/image"
         android:layout_toEndOf="@+id/image"
         android:textColor="?attr/listtextselector"

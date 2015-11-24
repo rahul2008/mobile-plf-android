@@ -1,5 +1,6 @@
 package com.philips.cdp.ui.catalog.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,14 +24,9 @@ public class TabFragmentListProduct extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.listview_products, container, false);
-    }
+        View view =  inflater.inflate(R.layout.listview_products, container, false);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        list=(ListView)getActivity().findViewById(R.id.listproduct);
+        list=(ListView) view.findViewById(R.id.listproduct);
 
         LayoutInflater lf;
         View headerView;
@@ -45,9 +41,11 @@ public class TabFragmentListProduct extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), com.philips.cdp.ui.catalog.activity.DummyActivityForListItemClick.class);
+                startActivity(intent);
             }
         });
-
+        return view;
     }
+
 }

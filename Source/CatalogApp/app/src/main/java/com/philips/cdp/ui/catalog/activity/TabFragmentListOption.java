@@ -26,14 +26,10 @@ public class TabFragmentListOption extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.listview_options, container, false);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+        View view =  inflater.inflate(R.layout.listview_options, container, false);
 
-        list=(ListView)getActivity().findViewById(R.id.listoption);
+        list=(ListView)view.findViewById(R.id.listoption);
 
 
         adapter=new ListViewWithOptions(getActivity());
@@ -42,14 +38,12 @@ public class TabFragmentListOption extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-
-               view.setActivated(true);
-                view.setClickable(true);
-
                 Intent intent = new Intent(getActivity(), com.philips.cdp.ui.catalog.activity.DummyActivityForListItemClick.class);
                 startActivity(intent);
             }
         });
 
+        return view;
     }
+
 }

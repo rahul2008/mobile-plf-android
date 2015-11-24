@@ -24,14 +24,9 @@ public class TabFragmentListWithoutIcon1 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.listview_without_icons, container, false);
-    }
+        View view =  inflater.inflate(R.layout.listview_without_icons, container, false);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        list=(ListView)getActivity().findViewById(R.id.listwithouticon);
+        list=(ListView)view.findViewById(R.id.listwithouticon);
 
         adapter=new ListViewWithoutIcons(getActivity());
         list.setAdapter(adapter);
@@ -42,5 +37,8 @@ public class TabFragmentListWithoutIcon1 extends Fragment {
                 Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
             }
         });
+
+        return view;
     }
+
 }
