@@ -11,13 +11,13 @@ import org.json.JSONObject;
  */
 public abstract class PrxDataBuilder {
 
-    private String mServerInfo = "www.philips.com/prx";
+    private String PRX_BASE_URL = "www.philips.com/prx";
     private String mSectorCode = null;
     private String mLocale = null;
     private String mCatalogCode = null;
 
-    public String getServerInfo() {
-        return mServerInfo;
+    public String getPRXBaseUrl() {
+        return PRX_BASE_URL;
     }
 
     public String getSectorCode() {
@@ -32,16 +32,16 @@ public abstract class PrxDataBuilder {
         return mLocale;
     }
 
-    public void setmLocale(String mLocale) {
-        this.mLocale = mLocale;
+    public void setLocale(String locale) {
+        this.mLocale = locale;
     }
 
     public String getCatalogCode() {
         return mCatalogCode;
     }
 
-    public void setmCatalogCode(String mCatalogCode) {
-        this.mCatalogCode = mCatalogCode;
+    public void setCatalogCode(String catalogCode) {
+        this.mCatalogCode = catalogCode;
     }
 
     public abstract ResponseData getResponseData(JSONObject jsonObject);

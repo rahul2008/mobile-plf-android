@@ -2,7 +2,6 @@ package prxclient.cdp.philips.com.prxclientlib;
 
 import android.test.InstrumentationTestCase;
 import android.test.mock.MockContext;
-import android.test.mock.MockDialogInterface;
 import android.util.Log;
 
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
@@ -14,9 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
@@ -35,8 +32,8 @@ public class ProductSummaryBuilderTest extends InstrumentationTestCase {
         super.setUp();
 
         mProductAssetBuilder = new ProductSummaryBuilder("125", null);
-        mProductAssetBuilder.setmCatalogCode("COnsumer");
-        mProductAssetBuilder.setmLocale("nl_NL");
+        mProductAssetBuilder.setCatalogCode("COnsumer");
+        mProductAssetBuilder.setLocale("nl_NL");
         mProductAssetBuilder.setmSectorCode("HAIR");
     }
 
@@ -54,7 +51,7 @@ public class ProductSummaryBuilderTest extends InstrumentationTestCase {
 
     public void testPrxBuilderServerInfo() {
 
-        String mURL = mProductAssetBuilder.getServerInfo();
+        String mURL = mProductAssetBuilder.getPRXBaseUrl();
         assertEquals("www.philips.com/prx", mURL);
     }
 

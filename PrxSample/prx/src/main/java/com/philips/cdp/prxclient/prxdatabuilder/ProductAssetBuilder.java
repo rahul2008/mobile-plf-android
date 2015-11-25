@@ -29,7 +29,7 @@ public class ProductAssetBuilder extends PrxDataBuilder {
 
     @Override
     public String getRequestUrl() {
-        return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(), getLocale(),
+        return String.format(PRX_REQUEST_URL, getPRXBaseUrl(), getSectorCode(), getLocale(),
                 getCatalogCode(), mCtn);
     }
 }

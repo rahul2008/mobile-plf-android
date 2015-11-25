@@ -35,8 +35,8 @@ public class LauncherActivity extends AppCompatActivity {
 
    /*   ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, mRequestTag);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setmLocale(mLocale);
-        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setLocale(mLocale);
+        mProductAssetBuilder.setCatalogCode(mCatalogCode);
         mProductAssetBuilder.setmCtnCode(mCtn);
 
         */
@@ -44,8 +44,8 @@ public class LauncherActivity extends AppCompatActivity {
 
         ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setmLocale(mLocale);
-        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setLocale(mLocale);
+        mProductAssetBuilder.setCatalogCode(mCatalogCode);
 
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(getApplicationContext());

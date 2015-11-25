@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Brand;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Price;
 import com.philips.cdp.prxclient.prxdatamodels.summary.ReviewStatistics;
@@ -37,8 +36,8 @@ public class SummaryModelTest extends InstrumentationTestCase {
         super.setUp();
 
         mProductAssetBuilder = new ProductAssetBuilder("125", null);
-        mProductAssetBuilder.setmCatalogCode("Consumer");
-        mProductAssetBuilder.setmLocale("nl_NL");
+        mProductAssetBuilder.setCatalogCode("Consumer");
+        mProductAssetBuilder.setLocale("nl_NL");
         mProductAssetBuilder.setmSectorCode("HAIR");
     }
 
