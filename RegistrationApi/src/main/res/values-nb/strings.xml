@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Det kan ta litt tid før du mottar e-posten.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Kontroller e-posten din for å aktivere kontoen.</string>
 <string name="VerifyEmail_Activated_btntxt">Jeg har aktivert kontoen</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Har du problemer?\n – Det kan ta litt tid før du mottar e-posten for bekreftelse \n – Du må også sjekke søppelposten \n – Trykk på \"Send på nytt\"-knappen nedenfor hvis du ikke har mottatt e-posten for bekreftelse</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Har du problemer?\n- Det kan ta litt tid før du mottar e-posten for bekreftelse \n- Du må også sjekke søppelposten \n- Trykk på "Send på nytt"-knappen nedenfor hvis du ikke har mottatt e-posten for bekreftelse</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nVi har sendt en e-post. Det kan ta litt tid før du mottar e-posten.\n\nSjekk e-posten for å aktivere kontoen din.\n\nDu kan bruke appen i mellomtiden.</string>
 <string name="myphilips">Philips-konto</string>
 <string name="facebook">Facebook</string>
