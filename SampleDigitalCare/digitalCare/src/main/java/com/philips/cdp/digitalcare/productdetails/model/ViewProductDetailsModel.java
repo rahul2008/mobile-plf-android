@@ -1,18 +1,7 @@
 package com.philips.cdp.digitalcare.productdetails.model;
 
-import android.content.Context;
-import android.util.Log;
-import android.widget.ImageView;
 
-
-import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.prxclient.response.ResponseListener;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
 
 /**
@@ -35,47 +24,47 @@ public class ViewProductDetailsModel {
         return mProductName;
     }
 
-    public void setProductName(String mProductName) {
-        this.mProductName = mProductName;
+    public void setProductName(String productName) {
+        this.mProductName = productName;
     }
 
     public String getCtnName() {
         return mCtnName;
     }
 
-    public void setCtnName(String mCtnName) {
-        this.mCtnName = mCtnName;
+    public void setCtnName(String ctnName) {
+        this.mCtnName = ctnName;
     }
 
     public String getProductImage() {
         return mProductImage;
     }
 
-    public void setProductImage(String mProductImage) {
-        this.mProductImage = mProductImage;
+    public void setProductImage(String productImage) {
+        this.mProductImage = productImage;
     }
 
     public String getManualLink() {
         return mManualLink;
     }
 
-    public void setManualLink(String mManualLink) {
-        this.mManualLink = mManualLink;
+    public void setManualLink(String manualLink) {
+        this.mManualLink = manualLink;
     }
 
     public String getProductInfoLink() {
         return mProductInfoLink;
     }
 
-    public void setProductInfoLink(String mProductInfoLink) {
-        this.mProductInfoLink = mProductInfoLink;
+    public void setProductInfoLink(String productInfoLink) {
+        this.mProductInfoLink = productInfoLink;
     }
 
     public List<String> getVideoLinks() {
         return mVideoLinks;
     }
 
-    public void setVideoLinks(List<String> mVideoLinks) {
-        this.mVideoLinks = mVideoLinks;
+    public void setmVideoLinks(List<String> videoLinks) {
+        this.mVideoLinks = videoLinks;
     }
 }

@@ -11,7 +11,6 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
@@ -196,7 +195,7 @@ public class PrxProductData {
                             if (assetResource != null)
                                 mVideoList.add(assetResource);
                     }
-                    mProductDetailsObject.setVideoLinks(mVideoList);
+                    mProductDetailsObject.setmVideoLinks(mVideoList);
                     mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
                     if (mAssetDialog != null && mAssetDialog.isShowing())
