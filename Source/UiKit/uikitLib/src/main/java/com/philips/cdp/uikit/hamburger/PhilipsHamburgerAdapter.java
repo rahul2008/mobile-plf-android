@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
 
     private static final int HEADER = 0;
     private static final int CHILD = 1;
+    private final LayoutInflater mInflater;
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
     private int totalCount = 0;
@@ -31,11 +31,16 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     private int brightColor;
     private int selectedIndex;
     private int baseColor;
+    private int groupAlpha = 0;
 
     public PhilipsHamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
+        mInflater = (LayoutInflater)
+                context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        setColors();
         calculateCount();
+        groupAlpha = adjustAlpha(baseColor, 0.5f);
     }
 
     public void setSelectedIndex(int ind) {
@@ -66,9 +71,6 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
             case HEADER:
                 View parentView = convertView;
                 if (parentView == null) {
-                    LayoutInflater mInflater = (LayoutInflater)
-                            context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-                    setColors();
                     parentView = mInflater.inflate(R.layout.uikit_hamburger_list_group, parent, false);
                     viewHolderItem = new ViewHolderItem();
                     initializeHeaderViews(parentView, viewHolderItem);
@@ -84,12 +86,9 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
             case CHILD:
                 View childView = convertView;
                 if (childView == null) {
-                    LayoutInflater mInflater = (LayoutInflater)
-                            context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-                    setColors();
                     childView = mInflater.inflate(R.layout.uikit_drawer_list_item, parent, false);
                     viewHolderItem = new ViewHolderItem();
-                    initializeViews(childView, viewHolderItem);
+                    initializeChildViews(childView, viewHolderItem);
                     childView.setSelected(false);
                     childView.setTag(viewHolderItem);
                 } else {
@@ -110,11 +109,11 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     }
 
     private void addHeaderMargin(int position, View transparentView) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && position == 0)
+        if (position == 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             transparentView.setVisibility(View.VISIBLE);
     }
 
-    private void initializeViews(View convertView, ViewHolderItem viewHolder) {
+    private void initializeChildViews(View convertView, ViewHolderItem viewHolder) {
         viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.hamburger_item_text);
         viewHolder.imgIcon = (ImageView) convertView.findViewById(R.id.hamburger_list_icon);
         viewHolder.txtCount = (TextView) convertView.findViewById(R.id.list_counter);
@@ -140,7 +139,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to setBackgroundDrawable(): sticking with deprecated API for now
     private void setGroupLayoutAlpha(View convertView) {
-        convertView.setBackgroundColor(adjustAlpha(baseColor, 0.5f));
+        convertView.setBackgroundColor(groupAlpha);
     }
 
 
@@ -155,7 +154,6 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     private void setValuesToViews(final int position, final ImageView imgIcon, TextView txtTitle, final TextView txtCount, final HamburgerItem hamburgerItem, final View convertView) {
             Drawable icon = hamburgerItems.get(position).getIcon();
             int count = hamburgerItems.get(position).getCount();
-        Log.d(getClass() + "", hamburgerItem.getTitle() + "");
             setCounterView(txtCount, count);
             handleSelector(position, imgIcon, txtTitle, convertView, icon);
         txtTitle.setText(hamburgerItems.get(position).getTitle());
@@ -184,7 +182,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     private void setImageView(final ImageView imgIcon, final Drawable icon, TextView txtTitle, int color) {
         if (icon != null) {
             imgIcon.setImageDrawable(icon);
-            imgIcon.getDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            imgIcon.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         } else {
             imgIcon.setVisibility(View.GONE);
