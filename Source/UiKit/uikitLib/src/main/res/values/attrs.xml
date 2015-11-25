@@ -124,4 +124,9 @@
         <attr name="notification_label_small" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="RangeSeekBar">
+        <attr name="absoluteMinValue" format="integer|float"/>
+        <attr name="absoluteMaxValue" format="integer|float"/>
+    </declare-styleable>
+
 </resources>
