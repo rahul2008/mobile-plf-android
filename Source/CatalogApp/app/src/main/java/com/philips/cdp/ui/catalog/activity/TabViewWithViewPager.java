@@ -1,8 +1,15 @@
 package com.philips.cdp.ui.catalog.activity;
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.philips.cdp.ui.catalog.CustomListView.ListViewPagerAdapter;
@@ -19,6 +26,7 @@ public class TabViewWithViewPager extends CatalogActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabview_viewpager);
+        disableActionbarShadow(this);
         setBottomBar();
         setViewPager();
     }
@@ -27,6 +35,28 @@ public class TabViewWithViewPager extends CatalogActivity {
     protected void onResume() {
         super.onResume();
         TabUtils.adjustTabs(bottomLayout, this);
+    }
+
+    public void disableActionbarShadow(Activity activity) {
+        if (activity == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (activity instanceof AppCompatActivity) {
+                if (((AppCompatActivity) activity).getSupportActionBar() != null)
+                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
+            } else {
+                if (activity.getActionBar() != null)
+                    activity.getActionBar().setElevation(0);
+            }
+        } else {
+            View content = activity.findViewById(android.R.id.content);
+            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
+                ((ViewGroup) content.getParent()).setWillNotDraw(true);
+
+                if (content instanceof FrameLayout) {
+                    ((FrameLayout) content).setForeground(null);
+                }
+            }
+        }
     }
 
     private void setViewPager() {
