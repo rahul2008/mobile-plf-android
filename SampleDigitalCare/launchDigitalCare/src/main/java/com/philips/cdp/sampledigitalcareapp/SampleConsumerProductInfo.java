@@ -5,11 +5,11 @@ import com.philips.cdp.digitalcare.ConsumerProductInfo;
 public class SampleConsumerProductInfo extends ConsumerProductInfo {
 	private static String mGroup = "PERSONAL_CARE_GR";
 	private static String mSector = "B2C";
-	private static String mCatalog = "CARE";
+	private static String mCatalog = "CONSUMER";
 	private static String mCategory = "MENS_SHAVING_CA";
-	private static String mSubCategory = "HAIR_STYLERS_SU";
-	private static String mCtn = "HD8967_01";
-	private static String mProductTitle = "Saeco GranBaristo Avanti";
+	private static String mSubCategory = "SERIES_SHAVERS_SU";
+	private static String mCtn = "RQ1250/17";
+	private static String mProductTitle = "SensoTouch 3D";
 
 	@Override
 	public String getGroup() {

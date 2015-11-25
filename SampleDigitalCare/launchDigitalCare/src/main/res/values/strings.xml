@@ -218,12 +218,14 @@
 
 
     <string-array name="category">
+        <item>MENS_SHAVING_CA</item>
         <item>HAIRCARE_CA</item>
         <item>MENS_SHAVING_CA</item>
     </string-array>
 
 
     <string-array name="subcategory">
+        <item>MENS_SHAVING_CA</item>
         <item>HAIR_STYLERS_SU</item>
         <item>SONICARE_FOR_KIDS_SU</item>
         <item>HAIR_STYLERS_SU</item>
@@ -232,6 +234,7 @@
     </string-array>
 
     <string-array name="ctn">
+        <item>RQ1250/17</item>
         <item>HD8967_01</item>
         <item>HD8967_02</item>
         <item>HD8967_03</item>
@@ -243,6 +246,7 @@
     </string-array>
 
     <string-array name="product_title">
+        <item>SensoTouch 3D</item>
         <item>HairStyler</item>
         <item>Saeco GranBaristo Avanti</item>
     </string-array>
