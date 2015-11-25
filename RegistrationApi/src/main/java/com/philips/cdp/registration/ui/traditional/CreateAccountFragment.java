@@ -252,7 +252,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mViewLine = view.findViewById(R.id.reg_accept_terms_line);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
-
+        mEtPassword.setHint(mContext.getResources().getString(R.string.Create_Account_ChoosePwd_PlaceHolder_txtField));
         handleUiAcceptTerms();
         handleUiState();
         mUser = new User(mContext);
