@@ -105,7 +105,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
         setValuePrimAndNumberType();
 
-        INITIAL_PADDING = 0;
+        INITIAL_PADDING = thumbHalfWidth;
 
 
 
@@ -408,10 +408,10 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         canvas.drawRect(rect, paint);
 
         // draw minimum thumb
-            drawThumb(normalizedToScreen(normalizedMinValue), canvas);
+            drawThumb(normalizedToScreen(normalizedMinValue)- thumbHalfWidth, canvas);
 
         // draw maximum thumb
-        drawThumb(normalizedToScreen(normalizedMaxValue), canvas );
+        drawThumb(normalizedToScreen(normalizedMaxValue)+ thumbHalfWidth, canvas );
 
 
     }
@@ -454,8 +454,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         boolean minThumbPressed = isInThumbRange(touchX, normalizedMinValue);
         boolean maxThumbPressed = isInThumbRange(touchX, normalizedMaxValue);
         if (minThumbPressed && maxThumbPressed) {
-            // if both thumbs are pressed (they lie on top of each other), choose the one with more room to drag. this avoids "stalling" the thumbs in a corner, not being able to drag them apart anymore.
-            result = (touchX / getWidth() > 0.5f) ? Thumb.MIN : Thumb.MAX;
+            result = isThumbMax(touchX, normalizedMinValue) ? Thumb.MAX : Thumb.MIN;
         } else if (minThumbPressed) {
             result = Thumb.MIN;
         } else if (maxThumbPressed) {
@@ -464,15 +463,18 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         return result;
     }
 
-    /**
-     * Decides if given x-coordinate in screen space needs to be interpreted as "within" the normalized thumb x-coordinate.
-     *
-     * @param touchX               The x-coordinate in screen space to check.
-     * @param normalizedThumbValue The normalized x-coordinate of the thumb to check.
-     * @return true if x-coordinate is in thumb range, false otherwise.
-     */
+
     private boolean isInThumbRange(float touchX, double normalizedThumbValue) {
-        return Math.abs(touchX - normalizedToScreen(normalizedThumbValue)) <= thumbHalfWidth;
+        return Math.abs(touchX - normalizedToScreen(normalizedThumbValue)) <= thumbHalfWidth * 2;
+    }
+
+    private boolean isThumbMax(float touchX, double normalizedThumbValue) {
+
+        if ((touchX - normalizedToScreen(normalizedThumbValue) > 0)) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     /**

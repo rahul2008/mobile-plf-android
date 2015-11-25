@@ -23,7 +23,7 @@ public class RangeSlider<T extends Number> extends RelativeLayout implements Ran
 
     private TextView textviewLeft;
     private TextView textviewRight;
-    private RangeSeekBar baserangbar;
+    private RangeSeekBar baserangebar;
     public RangeSlider(final Context context) {
         super(context);
     }
@@ -34,17 +34,15 @@ public class RangeSlider<T extends Number> extends RelativeLayout implements Ran
         View view = inflater.inflate(R.layout.uikit_range_slider, null, false);
         addView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         init();
-        baserangbar.setOnRangeSeekBarChangeListener(this);
-        baserangbar.setNotifyWhileDragging(true);
+        baserangebar.setOnRangeSeekBarChangeListener(this);
+        baserangebar.setNotifyWhileDragging(true);
 
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekBar, 0, 0);
 
         Number minValue = extractNumericValueFromAttributes(a,R.styleable.RangeSeekBar_absoluteMinValue,0);
         Number maxValue = extractNumericValueFromAttributes(a,R.styleable.RangeSeekBar_absoluteMaxValue,100);
-
-        baserangbar.setRangeValues(minValue,maxValue);
-
+        setRangeValues(minValue, maxValue);
     }
 
     public RangeSlider(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -94,7 +92,12 @@ public class RangeSlider<T extends Number> extends RelativeLayout implements Ran
 
         textviewLeft = (TextView) findViewById(R.id.textviewleft);
         textviewRight = (TextView) findViewById(R.id.textviewright);
-        baserangbar = (RangeSeekBar) findViewById(R.id.baserangebar);
+        baserangebar = (RangeSeekBar) findViewById(R.id.baserangebar);
+
+    }
+
+    public void setRangeValues(Number minValue, Number maxValue) {
+        baserangebar.setRangeValues(minValue, maxValue);
 
     }
 }
