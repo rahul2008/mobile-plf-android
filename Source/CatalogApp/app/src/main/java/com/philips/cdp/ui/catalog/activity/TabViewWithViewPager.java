@@ -89,29 +89,30 @@ public class TabViewWithViewPager extends CatalogActivity {
     private void setBottomBar() {
         bottomLayout = (TabLayout) findViewById(R.id.tab_bar_for_list);
         TabUtils utils = new TabUtils(this, bottomLayout, false);
-        TabLayout.Tab tab = utils.newTab(0, 0, 0, false);
+
+        TabLayout.Tab tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n Option");
         bottomLayout.addTab(tab);
 
-        tab = utils.newTab(0, 0, 0, false);
+        tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n" +
                 " Option");
         bottomLayout.addTab(tab);
 
-        tab = utils.newTab(0, 0, 0, false);
+        tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n" +
                 " Option");
         bottomLayout.addTab(tab);
 
-        tab = utils.newTab(0, 0, 0, true);
+        /*tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n" +
                 " Option");
         bottomLayout.addTab(tab);
 
-        tab = utils.newTab(0, 0, 0, false);
+        tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n" +
                 " Option");
-        bottomLayout.addTab(tab);
+        bottomLayout.addTab(tab);*/
         bottomLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 }
