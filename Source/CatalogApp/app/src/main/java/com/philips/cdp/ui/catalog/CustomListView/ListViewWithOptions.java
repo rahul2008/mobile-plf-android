@@ -17,7 +17,8 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ListViewWithOptions extends BaseAdapter{
+public class
+        ListViewWithOptions extends BaseAdapter{
 
     public Activity activity;
     private LayoutInflater inflater=null;
