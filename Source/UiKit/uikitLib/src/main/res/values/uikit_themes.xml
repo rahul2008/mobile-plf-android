@@ -20,7 +20,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/baseColor</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="darkToBright">@drawable/uikit_grad_blue_dark_to_bright</item>
+
     </style>
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:minHeight="52dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/image_layout"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+           >
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="30dp"
+                android:tint="?attr/baseColor"
+                android:visibility="gone"
+                android:gravity="center_vertical"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/text_description_layout"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignTop="@+id/image_layout"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/image_layout"
+            android:layout_toLeftOf="@+id/right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text"
+                android:text="Eget Odeo"
+                android:textSize="20sp"
+                android:layout_marginBottom="-2dp"
+                android:textColor="?attr/listtextselector"
+                android:includeFontPadding="false"
+                android:layout_width="wrap_content"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:id="@+id/text_description"
+                android:text="Eget Odeo uu  kkdkd d dkd v kl  kkd  dkld dv l  df vf uu  kkdkd d dkd v kl  kkd  dkld dv l  df vf uu  kkdkd d dkd v kl  kkd  dkld dv l  df vf uu  kkdkd d dkd v kl  kkd  dkld dv l  df vf"
+                android:layout_below="@+id/text"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"
+                android:layout_toRightOf="@+id/image"
+                android:textSize="16sp"
+                android:textColor="?attr/listtextselector"
+                android:layout_width="wrap_content"
+                android:includeFontPadding="false"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/right"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp">
+
+
+            <com.philips.cdp.uikit.customviews.PuiSwitch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/switch_button"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:layout_marginLeft="7dp"
+                />
+            <TextView
+                android:id="@+id/off_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Off "
+                android:textSize="20sp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:textColor="?attr/listtextselector"
+                android:visibility="gone"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="-4dp"
+                fontPath="fonts/centralesanslight.ttf"
+                 />
+
+            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+                style="@style/NotificationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginRight="5dp"
+                android:id="@+id/notification_badge"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="22"
+                android:padding="0dp"/>
+
+            <com.shamanland.fonticon.FontIconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="-3dp"
+                android:id="@+id/arrow"
+                android:visibility="gone"
+                android:textSize="13sp"
+                style="@style/FontIcon.Small"
+                android:layout_gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/uikit_fonticon_arrow_right"
+                android:gravity="center_vertical"
+                android:textColor="?attr/listtextselector"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>

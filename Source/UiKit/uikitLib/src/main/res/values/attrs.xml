@@ -4,7 +4,11 @@
         <attr name="actionBarBackground" format="reference|color"/>
         <attr name="outlinedButtonStyle" format="reference"/>
         <attr name="baseColor" format="reference|color"/>
+        <attr name="listSelectorBackground" format="reference|color"/>
+        <attr name="listiconselector" format="reference|color"/>
+        <attr name="listtextselector" format="reference|color"/>
         <attr name="gradBackground" format="reference|color"/>
+        <attr name="listDividerColor" format="reference|color"/>
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
@@ -12,7 +16,8 @@
         <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
         <attr name="veryDarkToDark" format="reference" />
-        <attr name="darkToBright" format="reference" />
+        <attr name="gradientColorForListHeader" format="reference|color"/>
+        <attr name="gradientColorForListSectionTitle" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="ActionButton">
