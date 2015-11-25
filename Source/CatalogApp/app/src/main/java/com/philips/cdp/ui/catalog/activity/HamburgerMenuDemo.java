@@ -1,7 +1,6 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.app.FragmentManager;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -209,14 +208,6 @@ public class HamburgerMenuDemo extends CatalogActivity {
                 philipsDrawerLayout.openDrawer(navigationView);
             }
         });
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration config) {
-        super.onConfigurationChanged(config);
-        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            hamburgerUtil.updateSmartFooter(footerView);
-        }
     }
 
 }
