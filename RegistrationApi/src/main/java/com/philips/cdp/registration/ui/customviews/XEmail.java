@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
@@ -111,8 +110,21 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	}
 
 	public void showEmailInvalidAlert() {
-		mIvEmailErrAlert.setVisibility(View.VISIBLE);
+		mIvEmailErrAlert.setVisibility(VISIBLE);
+	}
+
+	private void showEmailIsInvalidAlert() {
+		mIvEmailErrAlert.setVisibility(VISIBLE);
 		mFlInvalidAlert.setVisibility(VISIBLE);
+		mIvArrowUpView.setVisibility(VISIBLE);
+		mTvErrDescriptionView.setVisibility(VISIBLE);
+	}
+
+	private void showValidEmailAlert() {
+		mIvEmailErrAlert.setVisibility(GONE);
+		mFlInvalidAlert.setVisibility(GONE);
+		mIvArrowUpView.setVisibility(GONE);
+		mTvErrDescriptionView.setVisibility(GONE);
 	}
 
 	public void showInvalidAlert() {
@@ -173,13 +185,20 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+		if (validateEmail()) {
+			showValidEmailAlert();
+		} else {
+			if (mEtEmail.getText().toString().trim().length() == 0) {
+				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+			} else {
+				setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
+			}
+		}
 	}
 
 	private void handleOnFocusChanges() {
 		if (validateEmail()) {
-			mIvEmailErrAlert.setVisibility(View.GONE);
-			mFlInvalidAlert.setVisibility(GONE);
+			showValidEmailAlert();
 			mValidEmail = true;
 		} else {
 			if (mEtEmail.getText().toString().trim().length() == 0) {
@@ -187,10 +206,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 			} else {
 				setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
 			}
-			mIvEmailErrAlert.setVisibility(View.VISIBLE);
-			mFlInvalidAlert.setVisibility(VISIBLE);
+			showEmailIsInvalidAlert();
 		}
 	}
+
 
 	@Override
 	public void afterTextChanged(Editable s) {

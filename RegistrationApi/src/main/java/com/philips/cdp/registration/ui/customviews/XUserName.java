@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class XUserName extends RelativeLayout implements TextWatcher, OnFocusChangeListener,
         OnClickListener {
@@ -107,9 +106,18 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		}
 	}
 
-	public void showInvalidAlert() {
-		mIvErrAlert.setVisibility(View.VISIBLE);
-		mFlInvalidAlert.setVisibility(VISIBLE);
+	private void showInvalidUserNameAlert() {
+		mIvErrAlert.setVisibility(VISIBLE);
+		mFlInvalidAlert.setVisibility(View.VISIBLE);
+		mIvArrowUpView.setVisibility(VISIBLE);
+		mTvErrDescriptionView.setVisibility(VISIBLE);
+	}
+
+	private void showValidUserNameAlert() {
+		mFlInvalidAlert.setVisibility(GONE);
+		mIvErrAlert.setVisibility(GONE);
+		mIvArrowUpView.setVisibility(GONE);
+		mTvErrDescriptionView.setVisibility(GONE);
 	}
 
 	private boolean validateName() {
@@ -171,19 +179,24 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-	}
-
-	private void handleOnFocusChanges() {
 		if (validateName()) {
-			mIvErrAlert.setVisibility(View.GONE);
-			mFlInvalidAlert.setVisibility(GONE);
+			showValidUserNameAlert();
 		} else {
 			if (mEtUserName.getText().toString().trim().length() == 0) {
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			}
-			mIvErrAlert.setVisibility(View.VISIBLE);
-			mFlInvalidAlert.setVisibility(VISIBLE);
+		}
+	}
+
+	private void handleOnFocusChanges() {
+		if (validateName()) {
+			showValidUserNameAlert();
+		} else {
+			if (mEtUserName.getText().toString().trim().length() == 0) {
+				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+				showInvalidUserNameAlert();
+			}
+
 		}
 	}
 
@@ -194,8 +207,6 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 			mIvArrowUpView.setVisibility(View.GONE);
 			mFlInvalidAlert.setVisibility(GONE);
 		}
-
-
 		raiseUpdateUIEvent();
 	}
 }
