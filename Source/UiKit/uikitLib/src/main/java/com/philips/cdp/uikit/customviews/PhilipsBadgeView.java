@@ -115,10 +115,10 @@ public class PhilipsBadgeView extends TextView {
     @NonNull
     private ShapeDrawable getSquareRoundBackground() {
         int r;
-        if (!isSmallSize)
-            r = dipToPixels(15);
+        if (isSmallSize)
+            r = dipToPixels(12);
         else
-            r = dipToPixels(8);
+            r = dipToPixels(16);
 
         float[] outerR = new float[]{r, r, r, r, r, r, r, r};
         RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
@@ -155,10 +155,10 @@ public class PhilipsBadgeView extends TextView {
     @NonNull
     private ShapeDrawable getCircleBackground() {
         ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
+        shapeDrawable.setPadding(0, 0, 0, 0);
         final Paint paint = shapeDrawable.getPaint();
         paint.setColor(DEFAULT_BADGE_COLOR);
         paint.setAntiAlias(true);
-        setPadding(0, 0, 0, 0);
         int defaultWidth;
         int defaultHeight;
         if (isSmallSize) {

@@ -1,7 +1,6 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.app.FragmentManager;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,8 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -129,7 +128,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
             if (i == 4) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 3));
             } else if (i == 6) {
-                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 22, false, true));
+                hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 222, false, true));
             } else if (hamburgerMenuTitles[i].equalsIgnoreCase("Title Long")) {
                 hamburgerItems.add(new HamburgerItem(hamburgerMenuTitles[i], null, 0, true));
             } else
@@ -196,14 +195,12 @@ public class HamburgerMenuDemo extends CatalogActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title);
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
         actionBarCount = (TextView) findViewById(R.id.hamburger_count);
         hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
-        RelativeLayout hamburgerClick = (RelativeLayout) findViewById(R.id.hamburger_click);
-        Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
-        parent.setContentInsetsAbsolute(0, 0);
+        LinearLayout hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
 
         hamburgerClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,14 +208,6 @@ public class HamburgerMenuDemo extends CatalogActivity {
                 philipsDrawerLayout.openDrawer(navigationView);
             }
         });
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration config) {
-        super.onConfigurationChanged(config);
-        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            hamburgerUtil.updateSmartFooter(footerView);
-        }
     }
 
 }

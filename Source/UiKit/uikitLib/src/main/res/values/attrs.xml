@@ -55,6 +55,7 @@
     </declare-styleable>
 
     <attr name="enableStroke" format="boolean"/>
+    <attr name="strokeColor" format="color" />
 
     <declare-styleable name="VectorCompat">
         <attr name="vc_tintMode" format="enum">
