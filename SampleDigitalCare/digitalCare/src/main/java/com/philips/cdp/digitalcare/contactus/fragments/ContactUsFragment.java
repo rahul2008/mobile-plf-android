@@ -359,6 +359,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     protected void startProgressDialog() {
         DigiCareLogger.v(TAG, "Progress Dialog Started");
+        if(getActivity() == null){
+            return;
+        }
         if (mDialog == null) {
             mDialog = new ProgressDialog(getActivity());
             mDialog.setCancelable(true);
@@ -781,7 +784,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void update(Observable observable, Object data) {
-        requestCDLSData();
+        if(!(getActivity() == null)) {
+            requestCDLSData();
+        }
     }
 
 }

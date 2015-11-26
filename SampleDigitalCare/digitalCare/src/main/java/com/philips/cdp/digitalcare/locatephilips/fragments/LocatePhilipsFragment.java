@@ -1,5 +1,6 @@
 package com.philips.cdp.digitalcare.locatephilips.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -7,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +22,7 @@ import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -62,6 +65,7 @@ import com.philips.cdp.digitalcare.RequestData;
 import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.customview.DigitalCareFontLoader;
 import com.philips.cdp.digitalcare.customview.GpsAlertView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.locatephilips.CustomGeoAdapter;
@@ -144,6 +148,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
     private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
     private ProgressBar mLocateNearProgressBar;
+    private static final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
     private LocationListener mLocationListener = new LocationListener() {
 
         @Override
@@ -380,11 +386,32 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         editor.commit();
     }
 
-    private void initView() {
+    /*
+     Android Marshmallow: Android M : Permission has to be requested at runtime.
+     */
+    private void requestPermissionAndroidM(){
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            int hasPermission = getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+            }
+        }
+        else{
+            getCurrentLocation();
+        }
+    }
+
+    private void getCurrentLocation(){
         if (isProviderAvailable() && (provider != null)) {
             DigiCareLogger.i(TAG, "Provider is [" + provider + "]");
             locateCurrentPosition();
         }
+    }
+
+    private void initView() {
+
+        requestPermissionAndroidM();
         mLinearLayout = (LinearLayout) getActivity().findViewById(
                 R.id.showlayout);
         mListView = (ListView) getActivity().findViewById(R.id.placelistview);
@@ -508,6 +535,26 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    if (isProviderAvailable() && (provider != null)) {
+                        DigiCareLogger.i(TAG, "Provider is [" + provider + "]");
+                        getCurrentLocation();
+                    }
+                } else {
+                    // Permission Denied
+                    DigiCareLogger.e(TAG, "LocateNearYou -> permissions not granted" + permissions.toString());
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     private void locateCurrentPosition() {
@@ -772,9 +819,17 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 // check sourcelat and sourcelng
                 if (mSourceLat == 0 && mSourceLng == 0) {
 
-                    gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
-                            android.R.string.yes, android.R.string.no);
-
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+                        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                    REQUEST_CODE_ASK_PERMISSIONS);
+                        }
+                    }
+                    else {
+                        gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
+                                android.R.string.yes, android.R.string.no);
+                    }
                 } else {
                     gpsAlertView.removeAlert();
                     trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(

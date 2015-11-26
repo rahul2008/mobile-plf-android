@@ -3,9 +3,8 @@
     android:versionCode="133"
     android:versionName="2.1.4">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="21" />
+    <uses-sdk android:minSdkVersion="10"
+        android:targetSdkVersion="23"/>
 
     <!--Credentials For LocatePhilips Near you feature(Google Map)-->
     <uses-permission android:name="com.philips.cdp.sampledigitalcareapp.permission.MAPS_RECEIVE" />
