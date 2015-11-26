@@ -107,6 +107,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
             assertNotNull(responseData);*/
             SummaryModel mSummaryModel = (SummaryModel) mResponseData;
             Log.d(TAG, "Naveen Success : " + mSummaryModel.isSuccess());
+            Log.d(TAG, "Naveen Data : " + mSummaryModel.getData().getBrandName());
         } catch (JSONException e) {
             Log.d(TAG, "JSON Naveen : " + e);
 
