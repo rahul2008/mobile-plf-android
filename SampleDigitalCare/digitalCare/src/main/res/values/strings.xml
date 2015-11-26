@@ -92,7 +92,7 @@
 <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, got it! </string>
 <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Write a review </string>
 <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Please rate this product </string>
-<string name="bazzarvoice_productreview_writescreen_yourreview_text"> Your review: </string>
+<string name="bazzarvoice_productreview_writescreen_yourreview_text"> Your review </string>
 <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Review Summary </string>
 <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Write your review here </string>
 <string name="bazzarvoice_productreview_writescreen_pickname_text"> Pick a nickname: </string>

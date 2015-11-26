@@ -141,11 +141,13 @@ public class PrxProductData {
                     mSummaryModel = (SummaryModel) responseData;
                     DigiCareLogger.d(TAG, "Summary Data Received ? " + mSummaryModel.isSuccess());
                     Data data = mSummaryModel.getData();
-                    mProductDetailsObject.setProductName(data.getProductTitle());
-                    mProductDetailsObject.setCtnName(data.getCtn());
-                    mProductDetailsObject.setProductImage(data.getImageURL());
-                    mProductDetailsObject.setProductInfoLink(data.getProductURL());
-                    mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                    if (data != null) {
+                        mProductDetailsObject.setProductName(data.getProductTitle());
+                        mProductDetailsObject.setCtnName(data.getCtn());
+                        mProductDetailsObject.setProductImage(data.getImageURL());
+                        mProductDetailsObject.setProductInfoLink(data.getProductURL());
+                        mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                    }
                     if (mSummaryDialog != null && mSummaryDialog.isShowing())
                         mSummaryDialog.cancel();
                 }
@@ -178,25 +180,28 @@ public class PrxProductData {
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
                     com.philips.cdp.prxclient.prxdatamodels.assets.Data data = mAssetModel.getData();
-                    Assets assets = data.getAssets();
-                    List<Asset> asset = assets.getAsset();
-                    List<String> mVideoList = new ArrayList<String>();
-                    for (Asset assetObject : asset) {
-                        String assetDescription = assetObject.getDescription();
-                        String assetResource = assetObject.getAsset();
-                        String assetExtension = assetObject.getExtension();
-                        if (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF))
-                            if (assetResource != null)
-                                mProductDetailsObject.setManualLink(assetResource);
-                        if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF)))
-                            if (assetResource != null)
-                                mProductDetailsObject.setManualLink(assetResource);
-                        if (assetExtension.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
-                            if (assetResource != null)
-                                mVideoList.add(assetResource);
+                    if (data != null) {
+                        Assets assets = data.getAssets();
+                        List<Asset> asset = assets.getAsset();
+                        List<String> mVideoList = new ArrayList<String>();
+                        for (Asset assetObject : asset) {
+                            String assetDescription = assetObject.getDescription();
+                            String assetResource = assetObject.getAsset();
+                            String assetExtension = assetObject.getExtension();
+                            if (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF))
+                                if (assetResource != null)
+                                    mProductDetailsObject.setManualLink(assetResource);
+                            if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF)))
+                                if (assetResource != null)
+                                    mProductDetailsObject.setManualLink(assetResource);
+                            if (assetExtension.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
+                                if (assetResource != null)
+                                    mVideoList.add(assetResource);
+                        }
+                        mProductDetailsObject.setmVideoLinks(mVideoList);
+                        mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+
                     }
-                    mProductDetailsObject.setmVideoLinks(mVideoList);
-                    mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
                     if (mAssetDialog != null && mAssetDialog.isShowing())
                         mAssetDialog.cancel();
