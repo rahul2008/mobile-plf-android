@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.philips.cdp.ui.catalog"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philips.cdp.ui.catalog">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -45,7 +45,7 @@
         <activity android:name=".activity.SliderActivity"/>
         <activity
             android:name=".activity.HamburgerMenuDemo"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+            android:configChanges="keyboardHidden|screenSize" />
         <activity android:name=".activity.HamburgerActivity"/>
         <activity android:name=".activity.RatingBarLauncher"/>
         <activity android:name=".activity.ActionBarLauncher"/>
