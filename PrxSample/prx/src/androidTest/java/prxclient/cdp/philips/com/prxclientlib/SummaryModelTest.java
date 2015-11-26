@@ -1,10 +1,9 @@
 package prxclient.cdp.philips.com.prxclientlib;
 
 import android.test.InstrumentationTestCase;
-import android.test.mock.MockApplication;
 import android.util.Log;
 
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
+import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Brand;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Price;
@@ -27,7 +26,7 @@ import java.io.InputStreamReader;
 public class SummaryModelTest extends InstrumentationTestCase {
 
     private static final String TAG = SummaryModelTest.class.getSimpleName();
-    private PrxDataBuilder mProductAssetBuilder = null;
+    private PrxDataBuilder mProductSummaryBuilder = null;
     private ReviewStatistics mReviewStatistics = null;
     private Price mPrice = null;
     private Brand mBrand = null;
@@ -36,18 +35,21 @@ public class SummaryModelTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductAssetBuilder = new ProductAssetBuilder("125", null);
-        mProductAssetBuilder.setCatalogCode("Consumer");
-        mProductAssetBuilder.setLocale("nl_NL");
-        mProductAssetBuilder.setmSectorCode("HAIR");
+        mProductSummaryBuilder = new ProductSummaryBuilder("125", null);
+        mProductSummaryBuilder.setCatalogCode("Consumer");
+        mProductSummaryBuilder.setLocale("nl_NL");
+        mProductSummaryBuilder.setmSectorCode("HAIR");
     }
 
-    public void testAssetDataLoad() {
+
+
+
+    public void testSummaryDataLoad() {
         JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("ssummary_template_one.txt")));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("summary_template_one.txt")));
 
                 // do reading, usually loop until end of file reading
                 String mLine = reader.readLine();
@@ -64,7 +66,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
             mJsonObject = new JSONObject(sb.toString());
-            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
             SummaryModel summaryModel = new SummaryModel();
             ResponseData responseData = summaryModel.parseJsonResponseData(mJsonObject);
             assertNotNull(responseData);
@@ -73,6 +75,43 @@ public class SummaryModelTest extends InstrumentationTestCase {
 
         } catch (Exception e) {
             Log.d(TAG, "IO " + e);
+        }
+    }
+
+
+    public void testSummaryDataLoadToModel() {
+        JSONObject mJsonObject = null;
+        try {
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("summary_template_one.txt")));
+
+                // do reading, usually loop until end of file reading
+                String mLine = reader.readLine();
+                while (mLine != null) {
+                    // process line
+                    sb.append(mLine);
+                    mLine = reader.readLine();
+                }
+
+                reader.close();
+            } catch (IOException e) {
+                // log the exception
+                e.printStackTrace();
+            }
+            Log.d(TAG, "Parsed Data : " + sb.toString());
+            mJsonObject = new JSONObject(sb.toString());
+            ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
+           /* SummaryModel summaryModel = new SummaryModel();
+            ResponseData responseData = summaryModel.parseJsonResponseData(mJsonObject);
+            assertNotNull(responseData);*/
+            SummaryModel mSummaryModel = (SummaryModel) mResponseData;
+            Log.d(TAG, "Naveen Success : " + mSummaryModel.isSuccess());
+        } catch (JSONException e) {
+            Log.d(TAG, "JSON Naveen : " + e);
+
+        } catch (Exception e) {
+            Log.d(TAG, "IO Naveen" + e);
         }
     }
 
