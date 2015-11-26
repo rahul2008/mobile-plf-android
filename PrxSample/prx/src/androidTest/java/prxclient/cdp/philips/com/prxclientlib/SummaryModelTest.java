@@ -107,7 +107,35 @@ public class SummaryModelTest extends InstrumentationTestCase {
             assertNotNull(responseData);*/
             SummaryModel mSummaryModel = (SummaryModel) mResponseData;
             Log.d(TAG, "Naveen Success : " + mSummaryModel.isSuccess());
-            Log.d(TAG, "Naveen Data : " + mSummaryModel.getData().getBrandName());
+            assertNotNull(mSummaryModel.getData().getBrandName());
+            assertNotNull(mSummaryModel.getData().getAlphanumeric());
+            assertNotNull(mSummaryModel.getData().getBrand());
+            assertNotNull(mSummaryModel.getData().getCareSop());
+            assertNotNull(mSummaryModel.getData().getCtn());
+            assertNotNull(mSummaryModel.getData().getDescriptor());
+            assertNotNull(mSummaryModel.getData().getDomain());
+            assertNotNull(mSummaryModel.getData().getDtn());
+            assertNotNull(mSummaryModel.getData().getEop());
+            assertNotNull(mSummaryModel.getData().getFamilyName());
+            assertNotNull(mSummaryModel.getData().getFilterKeys());
+            assertNotNull(mSummaryModel.getData().getImageURL());
+            assertNotNull(mSummaryModel.getData().getKeyAwards());
+            assertNotNull(mSummaryModel.getData().getLeafletUrl());
+            assertNotNull(mSummaryModel.getData().getLocale());
+            assertNotNull(mSummaryModel.getData().getMarketingTextHeader());
+            assertNotNull(mSummaryModel.getData().getPrice());
+            assertNotNull(mSummaryModel.getData().getPriority());
+            assertNotNull(mSummaryModel.getData().getProductPagePath());
+            assertNotNull(mSummaryModel.getData().getProductStatus());
+            assertNotNull(mSummaryModel.getData().getProductTitle());
+            assertNotNull(mSummaryModel.getData().getProductURL());
+            assertNotNull(mSummaryModel.getData().getReviewStatistics());
+            assertNotNull(mSummaryModel.getData().getSomp());
+            assertNotNull(mSummaryModel.getData().getSop());
+            assertNotNull(mSummaryModel.getData().getSubcategory());
+            assertNotNull(mSummaryModel.getData().getSubWOW());
+            assertNotNull(mSummaryModel.getData().getVersions());
+            assertNotNull(mSummaryModel.getData().getWow());
         } catch (JSONException e) {
             Log.d(TAG, "JSON Naveen : " + e);
 
