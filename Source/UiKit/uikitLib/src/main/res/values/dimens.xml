@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="uikit_philips_action_button_radius">33dp</dimen>
+    <dimen name="uikit_philips_action_button_float_radius">53dp</dimen>
     <dimen name="uikit_philips_action_button_text_size">9dp</dimen>
     <dimen name="uikit_philips_action_button_padding">2dp</dimen>
     <dimen name="uikit_action_button_shadow_radius">6dp</dimen>

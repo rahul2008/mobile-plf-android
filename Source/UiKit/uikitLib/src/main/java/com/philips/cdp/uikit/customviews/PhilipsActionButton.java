@@ -39,7 +39,9 @@ public class PhilipsActionButton extends ImageButton {
                 R.style.Philips_ActionButton);
 
         int resID = getResID(typedArray);
-        setImageDrawable(VectorDrawable.create(context, resID));
+        if (resID > 0)
+            setImageDrawable(VectorDrawable.create(context, resID));
+
         addStates(getNormalStateDrawable(typedArray, resources), getPressedStateDrawable(typedArray, resources));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -66,7 +68,10 @@ public class PhilipsActionButton extends ImageButton {
 
     private int getResID(final TypedArray typedArray) {
         String resPath = typedArray.getString(R.styleable.ActionButton_actionButtonImageDrawable);
-        return VectorDrawableImageView.getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
+        if (resPath != null)
+            return VectorDrawableImageView.getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
+        else
+            return 0;
     }
 
     @SuppressWarnings("deprecation")
