@@ -6,6 +6,7 @@ import android.util.Log;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Brand;
+import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Price;
 import com.philips.cdp.prxclient.prxdatamodels.summary.ReviewStatistics;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Description :
@@ -40,8 +42,6 @@ public class SummaryModelTest extends InstrumentationTestCase {
         mProductSummaryBuilder.setLocale("nl_NL");
         mProductSummaryBuilder.setmSectorCode("HAIR");
     }
-
-
 
 
     public void testSummaryDataLoad() {
@@ -145,6 +145,42 @@ public class SummaryModelTest extends InstrumentationTestCase {
     }
 
 
+    public void testSummaryDataObjectNullTest() {
+        SummaryModel mSummaryModel = new SummaryModel();
+        mSummaryModel.setData(getSummaryDataWithNullInput());
+
+        assertNull(mSummaryModel.getData().getBrandName());
+        assertNull(mSummaryModel.getData().getAlphanumeric());
+        assertNull(mSummaryModel.getData().getBrand());
+        assertNull(mSummaryModel.getData().getCareSop());
+        assertNull(mSummaryModel.getData().getCtn());
+        assertNull(mSummaryModel.getData().getDescriptor());
+        assertNull(mSummaryModel.getData().getDomain());
+        assertNull(mSummaryModel.getData().getDtn());
+        assertNull(mSummaryModel.getData().getEop());
+        assertNull(mSummaryModel.getData().getFamilyName());
+        assertNull(mSummaryModel.getData().getFilterKeys());
+        assertNull(mSummaryModel.getData().getImageURL());
+        assertNull(mSummaryModel.getData().getKeyAwards());
+        assertNull(mSummaryModel.getData().getLeafletUrl());
+        assertNull(mSummaryModel.getData().getLocale());
+        assertNull(mSummaryModel.getData().getMarketingTextHeader());
+        assertNull(mSummaryModel.getData().getPrice());
+        assertEquals(13450, mSummaryModel.getData().getPriority());
+        assertNull(mSummaryModel.getData().getProductPagePath());
+        assertNull(mSummaryModel.getData().getProductStatus());
+        assertNull(mSummaryModel.getData().getProductTitle());
+        assertNull(mSummaryModel.getData().getProductURL());
+        assertNull(mSummaryModel.getData().getReviewStatistics());
+        assertNull(mSummaryModel.getData().getSomp());
+        assertNull(mSummaryModel.getData().getSop());
+        assertNull(mSummaryModel.getData().getSubcategory());
+        assertNull(mSummaryModel.getData().getSubWOW());
+        assertNull(mSummaryModel.getData().getVersions());
+        assertNull(mSummaryModel.getData().getWow());
+    }
+
+
     public void testReviewStaticTotalCountLogic() {
         mReviewStatistics = new ReviewStatistics();
         mReviewStatistics.setAverageOverallRating(PRXComponentConstant.REVIEW_STATICS_TOTAL);
@@ -236,6 +272,41 @@ public class SummaryModelTest extends InstrumentationTestCase {
         assertNotNull(mPrice.getProductPrice());
     }
 
+
+    private Data getSummaryDataWithNullInput() {
+        Data mData = new Data();
+        mData.setBrandName(null);
+        mData.setAlphanumeric(null);
+        mData.setBrand(null);
+        mData.setCareSop(null);
+        mData.setCtn(null);
+        mData.setDescriptor(null);
+        mData.setDomain(null);
+        mData.setDtn(null);
+        mData.setEop(null);
+        mData.setFamilyName(null);
+        mData.setFilterKeys(null);
+        mData.setImageURL(null);
+        mData.setKeyAwards(null);
+        mData.setLeafletUrl(null);
+        mData.setLocale(null);
+        mData.setMarketingTextHeader(null);
+        mData.setPrice(null);
+        mData.setPriority(13450);
+        mData.setProductPagePath(null);
+        mData.setProductStatus(null);
+        mData.setProductTitle(null);
+        mData.setProductURL(null);
+        mData.setReviewStatistics(null);
+        mData.setSomp(null);
+        mData.setSop(null);
+        mData.setSubcategory(null);
+        mData.setSubWOW(null);
+        mData.setVersions(null);
+        mData.setWow(null);
+
+        return mData;
+    }
 
     public void testBrandType() {
         mBrand = new Brand();
