@@ -104,12 +104,12 @@ public class TabViewWithViewPager extends CatalogActivity {
                 " Option");
         bottomLayout.addTab(tab);
 
-        /*tab = utils.newTab(0, 0, 0);
+        tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n" +
                 " Option");
         bottomLayout.addTab(tab);
 
-        tab = utils.newTab(0, 0, 0);
+    /*    tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n" +
                 " Option");
         bottomLayout.addTab(tab);*/

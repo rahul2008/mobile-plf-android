@@ -53,23 +53,26 @@ public class ListViewWithoutIcons extends BaseAdapter {
         View vi=convertView;
 
         if(convertView==null)
-            vi = inflater.inflate(R.layout.uikit_list_with_icons, null);
+            vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
 
-        ImageView image = (ImageView) vi.findViewById(R.id.image);
-        TextView name = (TextView) vi.findViewById(R.id.text);
+
+        TextView name = (TextView) vi.findViewById(R.id.ifo);
         PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-        TextView on_off=(TextView)vi.findViewById(R.id.off_on);
-        FontIconTextView arrow=(FontIconTextView)vi.findViewById(R.id.arrow);
-        image.setVisibility(View.GONE);
-        TextView description=(TextView)vi.findViewById(R.id.text_description);
+        TextView number=(TextView)vi.findViewById(R.id.numberwithouticon);
+        TextView on_off=(TextView)vi.findViewById(R.id.medium);
+        FontIconTextView arrow=(FontIconTextView)vi.findViewById(R.id.arrowwithouticons);
+        TextView description=(TextView)vi.findViewById(R.id.text_description_without_icons);
+
         if(position==0) {
+            //name.setVisibility(View.VISIBLE);
             name.setText("Version ");
 
             value.setVisibility(View.GONE);
             description.setVisibility(View.GONE);
             //  arrow.setVisibility(View.GONE);
-            on_off.setVisibility(View.VISIBLE);
-            on_off.setText("1.1.4");
+            number.setVisibility(View.VISIBLE);
+            number.setText("1.1.4");
+            on_off.setVisibility(View.GONE);
             arrow.setVisibility(View.GONE);
         }
 
@@ -100,7 +103,7 @@ description.setVisibility(View.GONE);
 
             //  arrow.setVisibility(View.GONE);
             on_off.setVisibility(View.VISIBLE);
-            on_off.setText("Default ");
+            on_off.setText("Default");
             arrow.setVisibility(View.VISIBLE);
 
 
