@@ -30,13 +30,13 @@ public class SHNCapabilityDataStreamingWrapper implements SHNCapabilityDataStrea
     }
 
     @Override
-    public void getSupportedDataTypes(final SHNSetResultListener shnResultListener) {
+    public void getSupportedDataTypes(final SHNSetResultListener<SHNDataType> shnResultListener) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedSHNCapabilityDataStreaming.getSupportedDataTypes(new SHNSetResultListener() {
+                wrappedSHNCapabilityDataStreaming.getSupportedDataTypes(new SHNSetResultListener<SHNDataType>() {
                     @Override
-                    public void onActionCompleted(final Set value, final SHNResult result) {
+                    public void onActionCompleted(final Set<SHNDataType> value, final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
                             @Override
                             public void run() {

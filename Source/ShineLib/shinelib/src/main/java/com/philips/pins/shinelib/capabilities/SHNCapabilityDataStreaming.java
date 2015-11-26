@@ -20,7 +20,7 @@ public interface SHNCapabilityDataStreaming extends SHNCapability {
         void onReceiveData(SHNData data);
     }
 
-    void getSupportedDataTypes(SHNSetResultListener listener);
+    void getSupportedDataTypes(SHNSetResultListener<SHNDataType> listener);
 
     void setDataListener(SHNCapabilityDataStreamingListener listener);
 
