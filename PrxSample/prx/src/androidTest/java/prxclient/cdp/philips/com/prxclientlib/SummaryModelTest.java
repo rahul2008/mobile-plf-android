@@ -116,10 +116,10 @@ public class SummaryModelTest extends InstrumentationTestCase {
             assertNotNull(mSummaryModel.getData().getVersions());
 
         } catch (JSONException e) {
-            Log.d(TAG, "JSON Naveen : " + e);
+            Log.d(TAG, "JSON  : " + e);
 
         } catch (Exception e) {
-            Log.d(TAG, "IO Naveen" + e);
+            Log.d(TAG, "IO " + e);
         }
     }
 
@@ -151,7 +151,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
             ResponseData responseData = summaryModel.parseJsonResponseData(mJsonObject);
             assertNotNull(responseData);*/
             SummaryModel mSummaryModel = (SummaryModel) mResponseData;
-            Log.d(TAG, "Naveen Success : " + mSummaryModel.isSuccess());
+            Log.d(TAG, " Success : " + mSummaryModel.isSuccess());
             assertNotNull(mSummaryModel.getData().getBrandName());
             assertNotNull(mSummaryModel.getData().getAlphanumeric());
             assertNotNull(mSummaryModel.getData().getBrand());
@@ -183,10 +183,10 @@ public class SummaryModelTest extends InstrumentationTestCase {
             assertNotNull(mSummaryModel.getData().getWow());
             assertFalse(mSummaryModel.getData().isIsDeleted());
         } catch (JSONException e) {
-            Log.d(TAG, "JSON Naveen : " + e);
+            Log.d(TAG, "JSON  : " + e);
 
         } catch (Exception e) {
-            Log.d(TAG, "IO Naveen" + e);
+            Log.d(TAG, "IO " + e);
         }
     }
 
@@ -360,7 +360,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
     {
         SummaryModel summaryModel = new SummaryModel(true, getSummaryDataWithNullInput());
         summaryModel.setSuccess(false);
-        assertTrue(summaryModel.getData().isIsDeleted()/);
+        assertTrue(summaryModel.getData().isIsDeleted());
     }
 
     public void testBrandType() {
