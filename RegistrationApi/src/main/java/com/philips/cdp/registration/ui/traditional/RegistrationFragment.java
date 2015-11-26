@@ -315,6 +315,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
         socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_REGISTRATION_TOKEN,
                 registrationToken);
+        socialAlmostDoneFragmentBundle.putBoolean(RegConstants.IS_FOR_TERMS_ACCEPATNACE, true);
         socialAlmostDoneFragment.setArguments(socialAlmostDoneFragmentBundle);
         addFragment(socialAlmostDoneFragment);
     }
