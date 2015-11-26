@@ -91,103 +91,108 @@ public class ListViewWithIcons extends BaseAdapter {
         int rowType = getItemViewType(position);
 
 
-            holder = new ViewHolder();
-            switch (rowType) {
-                case TYPE_ITEM:
-                    try {
-                        convertView = mInflater.inflate(R.layout.uikit_list_with_icons, null);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    holder.textView = (TextView) convertView.findViewById(R.id.text);
-                    holder.mImage=(ImageView)convertView.findViewById(R.id.image);
-                    holder.mBadge=(PhilipsBadgeView)convertView.findViewById(R.id.notification_badge);
-                    holder.arrow= (FontIconTextView) convertView.findViewById(R.id.arrow);
-                    holder.name=(TextView) convertView.findViewById(R.id.off_on);
-                    holder.value=(PuiSwitch)convertView.findViewById(R.id.switch_button);
+        holder = new ViewHolder();
+        switch (rowType) {
+            case TYPE_ITEM:
+                try {
+                    convertView = mInflater.inflate(R.layout.uikit_list_with_icons, null);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                holder.textView = (TextView) convertView.findViewById(R.id.text);
+                holder.mImage=(ImageView)convertView.findViewById(R.id.image);
+                holder.mBadge=(PhilipsBadgeView)convertView.findViewById(R.id.notification_badge);
+                holder.arrow= (FontIconTextView) convertView.findViewById(R.id.arrow);
+                holder.name=(TextView) convertView.findViewById(R.id.off_on);
+                holder.value=(PuiSwitch)convertView.findViewById(R.id.switch_button);
+                holder.done = (TextView) convertView.findViewById(R.id.textdownnoicon);
 
+
+                if(position==1)
+                {
+                    holder.mImage.setImageResource(R.drawable.call);
+                    holder.mImage.setVisibility(View.VISIBLE);
+                    holder.value.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
 
-                    if(position==1)
-                    {
-                        holder.mImage.setImageResource(R.drawable.call);
-                        holder.mImage.setVisibility(View.VISIBLE);
-                        holder.value.setVisibility(View.VISIBLE);
+                }
+                if(position==2)
+                {
+                    holder.mImage.setImageResource(R.drawable.maps_carrot);
+                    holder.mImage.setVisibility(View.VISIBLE);
+                    holder.value.setVisibility(View.VISIBLE);
+                    holder.textView.setText(mData.get(position));
+                }
+                if(position==3)
+                {
+                    holder.mImage.setImageResource(R.drawable.mail);
+                    holder.name.setVisibility(View.VISIBLE);
+                    holder.name.setText("Off");
+                    holder.arrow.setVisibility(View.VISIBLE);
+                    holder.mImage.setVisibility(View.VISIBLE);
+                    holder.textView.setText(mData.get(position));
 
-                    }
-                    if(position==2)
-                    {
-                        holder.mImage.setImageResource(R.drawable.maps_carrot);
-                        holder.mImage.setVisibility(View.VISIBLE);
-                        holder.value.setVisibility(View.VISIBLE);
+                }
 
-                    }
-                    if(position==3)
-                    {
-                        holder.mImage.setImageResource(R.drawable.mail);
-                        holder.name.setVisibility(View.VISIBLE);
-                        holder.name.setText("Off");
-                        holder.arrow.setVisibility(View.VISIBLE);
-                        holder.mImage.setVisibility(View.VISIBLE);
+                if(position==4)
+                {
+                    holder.name.setVisibility(View.VISIBLE);
+                    holder.name.setText("On");
+                    holder.arrow.setVisibility(View.VISIBLE);
+                    holder.mImage.setImageResource(R.drawable.gear);
+                    holder.mImage.setVisibility(View.VISIBLE);
+                    holder.textView.setText(mData.get(position));
 
+                }
 
-                    }
+                if(position==5)
+                {
+                    holder.mImage.setImageResource(R.drawable.alarm);
+                    holder.arrow.setVisibility(View.VISIBLE);
+                    holder.mImage.setVisibility(View.VISIBLE);
+                    holder.textView.setText(mData.get(position));
 
-                    if(position==4)
-                    {
-                        holder.name.setVisibility(View.VISIBLE);
-                        holder.name.setText("On");
-                        holder.arrow.setVisibility(View.VISIBLE);
-                        holder.mImage.setImageResource(R.drawable.gear);
-                        holder.mImage.setVisibility(View.VISIBLE);
+                }
+                if(position==7)
+                {
 
+                    holder.arrow.setVisibility(View.VISIBLE);
 
-                    }
+                    holder.mBadge.setVisibility(View.VISIBLE);
+                    holder.mBadge.setText("22");
+                    holder.done.setVisibility(View.VISIBLE);
+                    holder.done.setText(mData.get(position));
+                    holder.textView.setVisibility(View.GONE);
 
-                    if(position==5)
-                    {
-                        holder.mImage.setImageResource(R.drawable.alarm);
-                        holder.arrow.setVisibility(View.VISIBLE);
-                        holder.mImage.setVisibility(View.VISIBLE);
+                }
+                if(position==8)
+                {
+                    holder.arrow.setVisibility(View.VISIBLE);
+                    holder.done.setVisibility(View.VISIBLE);
+                    holder.done.setText(mData.get(position));
+                    holder.textView.setVisibility(View.GONE);
 
+                }
+                if(position==9)
+                {
+                    holder.mBadge.setVisibility(View.VISIBLE);
+                    holder.mBadge.setText("3");
+                    holder.arrow.setVisibility(View.VISIBLE);
+                    holder.done.setVisibility(View.VISIBLE);
+                    holder.done.setText(mData.get(position));
+                    holder.textView.setVisibility(View.GONE);
+                }
 
-                    }
-                    if(position==7)
-                    {
+                break;
+            case TYPE_SEPARATOR:
+                convertView = mInflater.inflate(R.layout.uikit_list_sectionheader, null);
+                holder.textViewH = (TextView) convertView.findViewById(R.id.sectionheader);
+                holder.textViewH.setText(mData.get(position));
+                break;
+        }
+        convertView.setTag(holder);
 
-                        holder.arrow.setVisibility(View.VISIBLE);
-
-                        holder.mBadge.setVisibility(View.VISIBLE);
-                        holder.mBadge.setText("22");
-
-
-                    }
-                    if(position==8)
-                    {
-                        holder.arrow.setVisibility(View.VISIBLE);
-
-
-
-                    }
-                    if(position==9)
-                    {
-                        holder.mBadge.setVisibility(View.VISIBLE);
-                        holder.mBadge.setText("3");
-                        holder.arrow.setVisibility(View.VISIBLE);
-
-
-                    }
-
-                    break;
-                case TYPE_SEPARATOR:
-                    convertView = mInflater.inflate(R.layout.uikit_list_sectionheader, null);
-                    holder.textViewH = (TextView) convertView.findViewById(R.id.sectionheader);
-                    holder.textViewH.setText(mData.get(position));
-                    break;
-            }
-            convertView.setTag(holder);
-
-            holder = (ViewHolder) convertView.getTag();
+        holder = (ViewHolder) convertView.getTag();
 
 
 
@@ -196,14 +201,13 @@ public class ListViewWithIcons extends BaseAdapter {
 
     public static class ViewHolder {
         public TextView textView;
+        public TextView done;
         public  TextView textViewH;
         ImageView mImage;
         TextView name;
         PuiSwitch value;
         ;
         FontIconTextView arrow;
-
-
         PhilipsBadgeView mBadge ;
     }
 
