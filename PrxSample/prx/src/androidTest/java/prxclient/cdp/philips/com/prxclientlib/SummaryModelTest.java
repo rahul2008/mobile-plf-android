@@ -355,6 +355,14 @@ public class SummaryModelTest extends InstrumentationTestCase {
         return mData;
     }
 
+
+    public void testSummaryObjectWithMultiParamConstructor()
+    {
+        SummaryModel summaryModel = new SummaryModel(true, getSummaryDataWithNullInput());
+        summaryModel.setSuccess(false);
+        assertTrue(summaryModel.getData().isIsDeleted()/);
+    }
+
     public void testBrandType() {
         mBrand = new Brand();
         mBrand.setBrandLogo(PRXComponentConstant.BRANDNAME);
