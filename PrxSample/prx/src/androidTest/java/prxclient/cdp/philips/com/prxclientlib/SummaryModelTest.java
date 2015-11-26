@@ -79,6 +79,51 @@ public class SummaryModelTest extends InstrumentationTestCase {
     }
 
 
+    public void testSummaryObjectModelWithSingleCOnstructorData() {
+        JSONObject mJsonObject = null;
+        try {
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(getInstrumentation().getContext().getResources().getAssets().open("summary_template_one.txt")));
+
+                // do reading, usually loop until end of file reading
+                String mLine = reader.readLine();
+                while (mLine != null) {
+                    // process line
+                    sb.append(mLine);
+                    mLine = reader.readLine();
+                }
+
+                reader.close();
+            } catch (IOException e) {
+                // log the exception
+                e.printStackTrace();
+            }
+            Log.d(TAG, "Parsed Data : " + sb.toString());
+            mJsonObject = new JSONObject(sb.toString());
+            ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
+           /* SummaryModel summaryModel = new SummaryModel();
+            ResponseData responseData = summaryModel.parseJsonResponseData(mJsonObject);
+            assertNotNull(responseData);*/
+            SummaryModel mSummaryModel = (SummaryModel) mResponseData;
+
+            Data data = new Data(null, null, null, null, null, null, null, mSummaryModel.getData().getBrand(),
+                    null, null, null, null, null, mSummaryModel.getData().getFilterKeys(),
+                    null, null, null, null, null, true, mSummaryModel.getData().getPriority(), mSummaryModel.getData().getPrice(), mSummaryModel.getData().getReviewStatistics(),
+                    mSummaryModel.getData().getVersions(), null, null, null, null, mSummaryModel.getData().getFilterKeys(), null);
+
+            mSummaryModel.setData(data);
+            assertNotNull(mSummaryModel.getData().getVersions());
+
+        } catch (JSONException e) {
+            Log.d(TAG, "JSON Naveen : " + e);
+
+        } catch (Exception e) {
+            Log.d(TAG, "IO Naveen" + e);
+        }
+    }
+
+
     public void testSummaryDataLoadToModel() {
         JSONObject mJsonObject = null;
         try {
@@ -136,6 +181,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
             assertNotNull(mSummaryModel.getData().getSubWOW());
             assertNotNull(mSummaryModel.getData().getVersions());
             assertNotNull(mSummaryModel.getData().getWow());
+            assertFalse(mSummaryModel.getData().isIsDeleted());
         } catch (JSONException e) {
             Log.d(TAG, "JSON Naveen : " + e);
 
@@ -304,6 +350,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
         mData.setSubWOW(null);
         mData.setVersions(null);
         mData.setWow(null);
+        mData.setIsDeleted(true);
 
         return mData;
     }
