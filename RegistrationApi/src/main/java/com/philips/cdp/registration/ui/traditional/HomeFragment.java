@@ -28,18 +28,21 @@ import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XProviderButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
 import org.json.JSONObject;
 
@@ -101,10 +104,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         RLog.i(RLog.EVENT_LISTENERS,
                 "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view;
+        if (RegistrationHelper.getInstance().getPrioritisedFunction().equals(RegistrationFunction.Registration)) {
+            view = inflater.inflate(R.layout.fragment_home_create_top, container, false);
+        } else {
+            view = inflater.inflate(R.layout.fragment_home_login_top, container, false);
+        }
+
         handleOrientation(view);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
+        System.out.println("Priority fuction : " + RegistrationHelper.getInstance().getPrioritisedFunction());
         return view;
     }
 
@@ -532,8 +542,21 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchWelcomeFragment() {
+        DIUserProfile diUserProfile = mUser.getUserInstance(mContext);
+        String emailId = diUserProfile.getEmail();
+        if (emailId != null && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired() && !RegPreferenceUtility.isAvailableIn(mContext, emailId)) {
+            launchAlmostDoneForTermsAcceptanceFragment();
+            return;
+        }
+
         trackPage(AppTaggingPages.WELCOME);
         getRegistrationFragment().addWelcomeFragmentOnVerification();
+    }
+
+
+    private void launchAlmostDoneForTermsAcceptanceFragment() {
+        trackPage(AppTaggingPages.ALMOST_DONE);
+        getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
     }
 
     private void hideProviderProgress() {
@@ -641,15 +664,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         handleJanrainInitPb();
     }
 
-    private void trackSocialProviderPage(){
-        if(mProvider == null){
+    private void trackSocialProviderPage() {
+        if (mProvider == null) {
             return;
         }
-        if(mProvider.equalsIgnoreCase(SocialProvider.FACEBOOK)){
-                trackPage(AppTaggingPages.FACEBOOK);
-        }else if(mProvider.equalsIgnoreCase(SocialProvider.GOOGLE_PLUS)){
+        if (mProvider.equalsIgnoreCase(SocialProvider.FACEBOOK)) {
+            trackPage(AppTaggingPages.FACEBOOK);
+        } else if (mProvider.equalsIgnoreCase(SocialProvider.GOOGLE_PLUS)) {
             trackPage(AppTaggingPages.GOOGLE_PLUS);
-        }else if(mProvider.equalsIgnoreCase(SocialProvider.TWITTER)){
+        } else if (mProvider.equalsIgnoreCase(SocialProvider.TWITTER)) {
             trackPage(AppTaggingPages.TWITTER);
         }
     }

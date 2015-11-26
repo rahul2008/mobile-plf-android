@@ -421,4 +421,15 @@ public class RegistrationHelper {
     }
 
 
+
+    private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
+
+    public void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
+        this.prioritisedFunction = prioritisedFunction;
+    }
+
+    public RegistrationFunction getPrioritisedFunction() {
+        return prioritisedFunction;
+    }
+
 }
