@@ -16,7 +16,7 @@
     <string name="feedback"> Пікіріңізді айтыңыз </string>
     <string name="registration"> Өнімді тіркеу </string>
     <string name="actionbar_title_support"> Қолдау </string>
-
+    <string name="product_info"> өнім туралы ақпарат </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Жүктелуде </string>
     <string name="please_wait"> Күтіңіз &amp;#8230; </string>

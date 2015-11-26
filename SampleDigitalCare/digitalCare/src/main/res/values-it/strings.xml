@@ -26,7 +26,7 @@
     <string name="servicecenters_not_found"> Nessun centro di assistenza disponibile nel tuo paese  </string>
     <string name="no_data"> Nessun dato disponibile </string>
     <string name="locate_philips_popup_legal"> Quando si ricorre all\'utilizzo della funzione &quot;Trova Philips vicino a te&quot; sulla pagina di assistenza, viene richiesto di condividere i dati di localizzazione con Philips. In base a tali dati, verrà rilevato il punto vendita più vicino oppure verranno indicati i dettagli di contatto dell\'assistenza clienti del Paese </string>
-
+    <string name="product_info"> informazioni prodotto </string>
     <!-- ContactUs Screen   null -->
     <string name="leave_us_a_message"> Lasciaci un messaggio: </string>
     <string name="contact_us_text"> Contattaci: </string>

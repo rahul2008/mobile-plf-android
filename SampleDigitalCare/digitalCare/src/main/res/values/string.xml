@@ -6,7 +6,7 @@
     <string name="opening_hours_second_row" translatable="false"></string>
 
     <!-- View Product Details -->
-    <string name="product_info" translatable="false">Product Information</string>
+
     <string name="product_name" translatable="false">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
     <string name="product_variant" translatable="false">s9721/84</string>
 
@@ -20,4 +20,5 @@
     <string name="enableNetwork" translatable="false">Enable Network</string>
     <string name="social_post_from" translatable="false">From</string>
     <string name="social_post_editor_alert" translatable="false">No description to send</string>
-</resources>
+
+</resources>

@@ -16,7 +16,7 @@
     <string name="feedback"> Tabhair do thuairim dúinn </string>
     <string name="registration"> Cláraigh do tháirge </string>
     <string name="actionbar_title_support"> Tacaíocht </string>
-
+    <string name="product_info"> eolas faoi tháirgí </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Ag lódáil </string>
     <string name="please_wait"> Fan le do thoil &amp;#8230; </string>

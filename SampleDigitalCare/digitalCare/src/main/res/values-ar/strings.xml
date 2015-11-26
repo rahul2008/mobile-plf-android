@@ -8,6 +8,7 @@
     <string name="no_internet"> ما من اتصال بالإنترنت. يرجى التحقق من توفر اتصال في إعدادات wifi أو إعدادات البيانات على الهاتف </string>
 
     <!-- Support Home Screen    null -->
+    <string name="product_info"> معلومات عن المنتج </string>
     <string name="how_can_we_help"> كيف يمكننا مساعدتك؟ </string>
     <string name="contact_us"> اتصل بنا </string>
     <string name="view_product_details"> عرض معلومات المنتج </string>

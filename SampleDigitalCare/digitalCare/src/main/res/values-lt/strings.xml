@@ -16,7 +16,7 @@
     <string name="feedback"> Pasakykite mums, ką galvojate </string>
     <string name="registration"> Užregistruokite savo gaminį </string>
     <string name="actionbar_title_support"> Palaikymas </string>
-
+    <string name="product_info"> gaminio informacija </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Įkeliama </string>
     <string name="please_wait"> Palaukite &amp;#8230; </string>

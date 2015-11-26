@@ -8,6 +8,7 @@
     <string name="no_internet"> Няма връзка с интернет. Проверете дали връзката е съвместима с wi-fi настройките или настройките за данни на вашия телефон </string>
 
     <!-- Support Home Screen    null -->
+    <string name="product_info"> информация за продукта </string>
     <string name="how_can_we_help"> Как можем да ви помогнем? </string>
     <string name="contact_us"> Връзка с нас </string>
     <string name="view_product_details"> Преглед на информация за продукта </string>

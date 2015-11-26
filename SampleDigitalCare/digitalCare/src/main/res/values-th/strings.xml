@@ -16,7 +16,7 @@
     <string name="feedback"> คุณคิดอย่างไรบ้าง </string>
     <string name="registration"> ลงทะเบียนผลิตภัณฑ์ของคุณ </string>
     <string name="actionbar_title_support"> ฝ่ายสนับสนุน </string>
-
+    <string name="product_info"> ข้อมูลผลิตภัณฑ์ </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> การโหลดข้อมูล </string>
     <string name="please_wait"> โปรดรอ &amp;#8230; </string>

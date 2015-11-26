@@ -16,7 +16,7 @@
     <string name="feedback"> Spune-ne părerea ta </string>
     <string name="registration"> Înregistrează-ţi produsul </string>
     <string name="actionbar_title_support"> Asistenţă </string>
-
+    <string name="product_info"> informaţii despre produs </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Încărcare </string>
     <string name="please_wait"> Te rugăm să aştepţi &amp;#8230; </string>

@@ -16,7 +16,7 @@
     <string name="feedback"> Zaupajte nam svoje mnenje </string>
     <string name="registration"> Registracija izdelka </string>
     <string name="actionbar_title_support"> Podpora </string>
-
+    <string name="product_info"> informacije o izdelku </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Nalaganje </string>
     <string name="please_wait"> Počakajte &amp;#8230; </string>

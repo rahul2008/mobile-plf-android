@@ -26,7 +26,7 @@
     <string name="servicecenters_not_found"> U vašoj zemlji nema dostupnih servisnih centara  </string>
     <string name="no_data"> Nisu dostupni podaci </string>
     <string name="locate_philips_popup_legal"> Kada koristite funkciju ‘Pronađi Philips u svojoj blizini’ na stranici za podršku, od vas se zahtijeva da podijelite podatke o lokaciji s kompanijom Philips. Na osnovu vaših podataka o lokaciji, bit ćete usmjereni na prodavnicu u vašoj blizini ili na kontakt detalje odjela za brigu o kupcima u vašoj zemlji </string>
-
+    <string name="product_info"> informacije o proizvodu </string>
     <!-- ContactUs Screen   null -->
     <string name="leave_us_a_message"> Ostavite nam poruku: </string>
     <string name="contact_us_text"> Kontaktirajte nas: </string>

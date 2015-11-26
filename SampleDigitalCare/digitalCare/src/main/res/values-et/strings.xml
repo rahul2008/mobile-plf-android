@@ -16,7 +16,7 @@
     <string name="feedback"> Andke meile tagasisidet </string>
     <string name="registration"> Registreerige oma toode </string>
     <string name="actionbar_title_support"> Tugi </string>
-
+    <string name="product_info"> tooteteave </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Laadimine </string>
     <string name="please_wait"> Palun oodake &amp;#8230; </string>

@@ -16,7 +16,7 @@
     <string name="feedback"> Powiedz nam, co myślisz </string>
     <string name="registration"> Zarejestruj produkt </string>
     <string name="actionbar_title_support"> Pomoc techniczna </string>
-
+    <string name="product_info"> informacje o produkcie </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Ładowanie </string>
     <string name="please_wait"> Proszę czekać &amp;#8230; </string>

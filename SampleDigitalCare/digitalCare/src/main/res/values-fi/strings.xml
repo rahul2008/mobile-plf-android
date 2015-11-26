@@ -16,7 +16,7 @@
     <string name="feedback"> Kerro mielipiteesi </string>
     <string name="registration"> Rekisteröi tuotteesi </string>
     <string name="actionbar_title_support"> Tuki </string>
-
+    <string name="product_info"> tuotetiedot </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Ladataan </string>
     <string name="please_wait"> Odota &amp;#8230; </string>

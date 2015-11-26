@@ -16,7 +16,7 @@
     <string name="feedback"> 告诉我们您的想法 </string>
     <string name="registration"> 注册您的产品 </string>
     <string name="actionbar_title_support"> 支持 </string>
-
+    <string name="product_info"> 产品信息 </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> 正在加载 </string>
     <string name="please_wait"> 请稍候 &amp;#8230; </string>

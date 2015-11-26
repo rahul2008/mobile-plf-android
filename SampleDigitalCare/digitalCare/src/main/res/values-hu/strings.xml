@@ -16,7 +16,7 @@
     <string name="feedback"> Mondja el véleményét </string>
     <string name="registration"> Regisztrálja a terméket </string>
     <string name="actionbar_title_support"> Támogatás </string>
-
+    <string name="product_info"> termékinformációk </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Betöltés </string>
     <string name="please_wait"> Kérem, várjon &amp;#8230; </string>

@@ -16,7 +16,7 @@
     <string name="feedback"> 分享您的想法 </string>
     <string name="registration"> 註冊您的產品 </string>
     <string name="actionbar_title_support"> 支援 </string>
-
+    <string name="product_info"> 產品資訊 </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> 正在載入 </string>
     <string name="please_wait"> 請稍候 &amp;#8230; </string>

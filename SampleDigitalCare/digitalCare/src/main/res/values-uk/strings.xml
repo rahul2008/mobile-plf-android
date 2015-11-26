@@ -16,7 +16,7 @@
     <string name="feedback"> Повідомте нам свою думку </string>
     <string name="registration"> Зареєструйте свій виріб </string>
     <string name="actionbar_title_support"> Підтримка </string>
-
+    <string name="product_info"> Інформація про виріб </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Завантаження </string>
     <string name="please_wait"> Зачекайте &amp;#8230; </string>

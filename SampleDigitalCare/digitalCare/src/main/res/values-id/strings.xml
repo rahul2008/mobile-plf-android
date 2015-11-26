@@ -16,7 +16,7 @@
     <string name="feedback"> Sampaikan pendapat Anda </string>
     <string name="registration"> Daftarkan produk Anda </string>
     <string name="actionbar_title_support"> Dukungan </string>
-
+    <string name="product_info"> informasi produk </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Memuat </string>
     <string name="please_wait"> Harap tunggu &amp;#8230; </string>

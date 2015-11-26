@@ -16,7 +16,7 @@
     <string name="feedback"> Cho chúng tôi biết bạn nghĩ gì </string>
     <string name="registration"> Đăng ký sản phẩm của bạn </string>
     <string name="actionbar_title_support"> Hỗ trợ </string>
-
+    <string name="product_info"> thông tin sản phẩm </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Đang nạp </string>
     <string name="please_wait"> Vui lòng đợi &amp;#8230; </string>

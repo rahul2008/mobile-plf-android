@@ -16,7 +16,7 @@
     <string name="feedback"> Fortæl os, hvad du synes </string>
     <string name="registration"> Registrer dit produkt </string>
     <string name="actionbar_title_support"> Support </string>
-
+    <string name="product_info"> produktoplysninger </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Indlæser </string>
     <string name="please_wait"> Vent venligst &amp;#8230; </string>

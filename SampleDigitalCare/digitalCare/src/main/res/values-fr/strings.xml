@@ -26,7 +26,7 @@
     <string name="servicecenters_not_found"> Aucun centre disponible dans votre pays  </string>
     <string name="no_data"> Aucune donnée </string>
     <string name="locate_philips_popup_legal"> Lorsque vous utilisez la fonctionnalité « Trouver Philips près de chez vous » sur la page d\'assistance, vous êtes invité à partager vos données de géolocalisation avec Philips. En fonction de votre situation géographique, vous serez redirigé vers un magasin près de chez vous ou vers les coordonnées du Service Consommateurs de votre pays. </string>
-
+    <string name="product_info"> Informations produit </string>
     <!-- ContactUs Screen   null -->
     <string name="leave_us_a_message"> Laissez-nous un message : </string>
     <string name="contact_us_text"> Contactez-nous : </string>

@@ -26,7 +26,7 @@
     <string name="servicecenters_not_found"> お客様がお住まいの国にはサービスセンターがありません  </string>
     <string name="no_data"> 利用可能なデータなし </string>
     <string name="locate_philips_popup_legal"> サポートページの「お近くのフィリップス」機能を使用する場合は、お客様の位置データのフィリップスへのシェアをお願いしています。お客様の位置データに基づいて、お近くのフィリップス拠点やお住まいの国のお問い合わせ先詳細をお知らせするためです。 </string>
-
+    <string name="product_info"> 製品情報 </string>
     <!-- ContactUs Screen   null -->
     <string name="leave_us_a_message"> ご意見をお寄せください： </string>
     <string name="contact_us_text"> お問い合わせ先： </string>

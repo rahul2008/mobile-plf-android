@@ -16,7 +16,7 @@
     <string name="feedback"> Sniedziet atsauksmes </string>
     <string name="registration"> Reģistrējiet savu produktu </string>
     <string name="actionbar_title_support"> Atbalsts </string>
-
+    <string name="product_info"> informācija par produktu </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Ielāde </string>
     <string name="please_wait"> Lūdzu, uzgaidiet &amp;#8230; </string>

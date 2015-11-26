@@ -16,7 +16,7 @@
     <string name="feedback"> 의견 남기기 </string>
     <string name="registration"> 제품 등록하기 </string>
     <string name="actionbar_title_support"> 지원 </string>
-
+    <string name="product_info"> 제품 정보 </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> 로딩중 </string>
     <string name="please_wait"> 잠시 기다려 주십시오. &amp;#8230; </string>

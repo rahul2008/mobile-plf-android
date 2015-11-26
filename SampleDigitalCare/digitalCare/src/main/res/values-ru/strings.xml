@@ -58,7 +58,7 @@
     <string name="rate_philips_headertext"> Загрузить отзыв </string>
     <string name="rate_philips_description"> Оставьте отзыв и помогите другим сделать правильный выбор </string>
     <string name="rate_philips_buttontext"> Войти в My Philips </string>
-
+    <string name="product_info"> сведения о продукте </string>
     <!-- reviewandrewards   null -->
 
     <!-- Twitter Screen   null -->

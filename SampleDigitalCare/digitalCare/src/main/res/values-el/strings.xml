@@ -16,7 +16,7 @@
     <string name="feedback"> Πείτε μας τη γνώμη σας </string>
     <string name="registration"> Δηλώστε το προϊόν σας </string>
     <string name="actionbar_title_support"> Υποστήριξη </string>
-
+    <string name="product_info"> πληροφορίες προϊόντος </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Φορτώνει... </string>
     <string name="please_wait"> Περιμένετε &amp;#8230; </string>

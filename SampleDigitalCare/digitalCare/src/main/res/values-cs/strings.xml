@@ -16,7 +16,7 @@
     <string name="feedback"> Sdělte nám svůj názor </string>
     <string name="registration"> Zaregistrujte svůj výrobek </string>
     <string name="actionbar_title_support"> Podpora </string>
-
+    <string name="product_info"> Informace o výrobku </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> Načítání </string>
     <string name="please_wait"> Počkejte prosím &amp;#8230; </string>

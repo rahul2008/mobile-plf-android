@@ -16,7 +16,7 @@
     <string name="feedback"> अपने विचार हमें बताएँ </string>
     <string name="registration"> अपना उत्पाद पंजीकृत करें </string>
     <string name="actionbar_title_support"> समर्थन </string>
-
+    <string name="product_info"> उत्पाद जानकारी </string>
     <!-- Locate Near You Screen   null -->
     <string name="loading"> लोड कर रहा है </string>
     <string name="please_wait"> कृपया प्रतीक्षा करें &amp;#8230; </string>
