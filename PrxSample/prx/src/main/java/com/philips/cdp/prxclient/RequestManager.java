@@ -14,6 +14,8 @@ import com.philips.cdp.prxclient.response.ResponseListener;
  */
 public class RequestManager {
 
+    private final String VERSION = "1.0.0";
+
     private Context mContext = null;
     //private ResponseHandler mResponseHandler = null;
 
@@ -21,9 +23,15 @@ public class RequestManager {
         mContext = applicationContext;
     }
 
-    public void executeRequest(PrxDataBuilder prxDataBuilder,ResponseListener responseListener) {
+    public void executeRequest(PrxDataBuilder prxDataBuilder, ResponseListener responseListener) {
         new NetworkWrapper(mContext).executeJsonObjectRequest(prxDataBuilder, responseListener);
     }
 
-    public void cancelRequest(String requestTag) {}
+    public void cancelRequest(String requestTag) {
+    }
+
+
+    public String getLibVersion() {
+        return VERSION;
+    }
 }
