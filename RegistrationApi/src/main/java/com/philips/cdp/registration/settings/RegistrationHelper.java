@@ -118,7 +118,7 @@ public class RegistrationHelper {
     public void intializeRegistrationSettings(final Context context,
                                               Locale locale) {
 
-        if (null == Tagging.getTrackingIdentifer()) {
+        if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
         }
 
