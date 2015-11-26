@@ -62,5 +62,5 @@ public enum SHNDataType {
     UserConfigChangedEventEnergyIntake,
     ChangeTime,
     FatPercentage,
-    BloodOxygenLevel
+    Raw, BloodOxygenLevel
 }
