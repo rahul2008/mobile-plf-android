@@ -4,23 +4,14 @@ package com.philips.cdp.registration;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.Socket;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
@@ -32,26 +23,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.HTTP;
-
 import android.support.v4.util.Pair;
 import android.util.Log;
 
@@ -73,7 +44,7 @@ public class HttpClient {
 	private String LOG_TAG = "HttpClient";
 
 	// ----- Post Method
-	public String postData(String url, List<NameValuePair> nameValuePairs, String accessToken) {
+	/*public String postData(String url, List<NameValuePair> nameValuePairs, String accessToken) {
 
 		DefaultHttpClient httpClient = getHttpClient();
 
@@ -102,7 +73,7 @@ public class HttpClient {
 		}
 
 		return null;
-	}
+	}*/
 
 	public String callPost(String urlString, List<Pair<String, String>> nameValuePairs, String accessToken){
 		URL url = null;
@@ -195,7 +166,7 @@ public class HttpClient {
 		OutputStream outputStream = null;
 		BufferedWriter bufferedWriter = null;
 		BufferedReader bufferedReader = null;
-		StringBuilder inputResponse = null;
+		StringBuilder inputResponse =  new StringBuilder();
 		try{
 			url = new URL(urlString);
 			HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
@@ -254,7 +225,7 @@ public class HttpClient {
 
 
 	// ---- Get Method
-	public String connectWithHttpGet(String url, String accessToken) {
+	/*public String connectWithHttpGet(String url, String accessToken) {
 
 		DefaultHttpClient httpClient = getHttpClient();
 
@@ -282,9 +253,9 @@ public class HttpClient {
 		}
 
 		return null;
-	}
+	}*/
 
-	public DefaultHttpClient getHttpClient() {
+	/*public DefaultHttpClient getHttpClient() {
 		try {
 			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
 			trustStore.load(null, null);
@@ -308,7 +279,7 @@ public class HttpClient {
 		} catch (Exception e) {
 			return new DefaultHttpClient();
 		}
-	}
+	}*/
 
 	private  javax.net.ssl.SSLSocketFactory createSslSocketFactory() throws Exception {
 		TrustManager[] byPassTrustManagers = new TrustManager[] { new X509TrustManager() {
@@ -344,7 +315,7 @@ public class HttpClient {
 
 
 
-	class HttpsSocketFactory extends SSLSocketFactory {
+	/*class HttpsSocketFactory extends SSLSocketFactory {
 
 		private SSLContext mSslContext = SSLContext.getInstance("TLS");
 
@@ -381,9 +352,9 @@ public class HttpClient {
 		        throws IOException {
 			return mSslContext.getSocketFactory().createSocket();
 		}
-	}
+	}*/
 
-	public String request(HttpResponse response) {
+	/*public String request(HttpResponse response) {
 		String result = null;
 		if (response.getStatusLine().getStatusCode() == 200) {
 			InputStream in = null;
@@ -418,5 +389,5 @@ public class HttpClient {
 			}
 		}
 		return result;
-	}
+	}*/
 }
