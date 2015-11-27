@@ -60,7 +60,7 @@ android {
         device {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "2.3.2"
+            versionName "2.3.3"
         }
     }
 }
