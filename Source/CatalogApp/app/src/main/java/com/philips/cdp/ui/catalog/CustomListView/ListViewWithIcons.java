@@ -58,6 +58,11 @@ public class ListViewWithIcons extends BaseAdapter {
 
     @Override
     public boolean isEnabled(int position) {
+        int rowType = getItemViewType(position);
+
+        if(rowType == TYPE_SEPARATOR){
+            return false;
+        }
         return true;
     }
 
@@ -198,6 +203,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
         return convertView;
     }
+    
 
     public static class ViewHolder {
         public TextView textView;
