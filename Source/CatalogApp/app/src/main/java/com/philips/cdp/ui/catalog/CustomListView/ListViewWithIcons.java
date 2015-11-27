@@ -57,6 +57,11 @@ public class ListViewWithIcons extends BaseAdapter {
     }
 
     @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
     public boolean isEnabled(int position) {
         int rowType = getItemViewType(position);
 
@@ -203,7 +208,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
         return convertView;
     }
-    
+
 
     public static class ViewHolder {
         public TextView textView;
