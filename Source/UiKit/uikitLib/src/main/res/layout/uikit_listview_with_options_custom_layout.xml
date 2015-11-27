@@ -13,9 +13,11 @@
             android:layout_centerVertical="true"
             android:id="@+id/image"
             android:layout_width="85dp"
-            android:layout_height="85dp"
+            android:layout_height="75dp"
             android:src="@drawable/toothbrush"
-            android:backgroundTint="?attr/baseColor"/>
+            android:backgroundTint="?attr/baseColor"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
 
 <RelativeLayout

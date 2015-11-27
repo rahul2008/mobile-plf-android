@@ -110,7 +110,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 if(position==1)
                 {
-                    holder.mImage.setImageResource(R.drawable.call);
+                    holder.mImage.setImageResource(R.drawable.phone);
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
