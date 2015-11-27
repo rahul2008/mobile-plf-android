@@ -439,8 +439,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mTvWelcomeDesc.setText(privacyPolicyText);
 
         //String privacyPolicyText = getResources().getString(R.string.LegalNoticeText);
-        String terms = getResources().getString(R.string.TermsAndConditionsText);
-        String privacy = getResources().getString(R.string.PrivacyPolicyText);
+        String terms = mContext.getResources().getString(R.string.TermsAndConditionsText);
+        String privacy = mContext.getResources().getString(R.string.PrivacyPolicyText);
         SpannableString spanableString = new SpannableString(privacyPolicyText);
 
 

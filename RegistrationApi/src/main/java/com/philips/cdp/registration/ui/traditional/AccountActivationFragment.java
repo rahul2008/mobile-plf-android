@@ -264,7 +264,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
         } else {
             mEMailVerifiedError.setVisibility(View.VISIBLE);
-            mEMailVerifiedError.setError(getResources().getString(
+            mEMailVerifiedError.setError(mContext.getResources().getString(
                     R.string.RegEmailNotVerified_AlertPopupErrorText));
             trackActionLoginError(AppTagingConstants.EMAIL_NOT_VERIFIED);
             scrollViewAutomatically(mEMailVerifiedError, mSvRootLayout);

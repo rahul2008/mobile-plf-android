@@ -338,7 +338,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         @Override
         public void onClick(View widget) {
             RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://"+getResources().getString(
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://"+mContext.getResources().getString(
                     com.philips.cdp.registration.R.string.Philips_URL_txt)));
             startActivity(browserIntent);
         }
