@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.productreview.model;
 
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+*/
 /**
  * BazaarReviewModel.java <br>
  * ReviewSubmissionExample<br>
@@ -26,7 +28,8 @@ import java.io.Serializable;
  * @author : Ritesh.jha@philips.com
  *
  * @since : 11 Sep 2015
- */
+ *//*
+
 public class BazaarReviewModel implements Serializable{
 	private float rating;
 	private String title;
@@ -42,9 +45,11 @@ public class BazaarReviewModel implements Serializable{
     private String mUserId;
     private boolean mTermAndConditionAccepted = false;
 
-    /**
+    */
+/**
 	 * Sets all variables to 0, null, or "null"
-	 */
+	 *//*
+
 	public BazaarReviewModel() {
 		rating = 0;
 		title = "null";
@@ -56,7 +61,8 @@ public class BazaarReviewModel implements Serializable{
 		imageBitmap = null;
 	}
 
-	/**
+	*/
+/**
 	 * Parses the json response of a review query and builds the structure of
 	 * the object.
 	 * 
@@ -67,7 +73,8 @@ public class BazaarReviewModel implements Serializable{
 	 *             should never occur)
 	 * @throws org.json.JSONException
 	 *             if there is a missing field in the json response
-	 */
+	 *//*
+
 	public BazaarReviewModel(JSONObject json) throws NumberFormatException,
 			JSONException {
 		String ratingText = json.getString("Rating");
@@ -95,7 +102,8 @@ public class BazaarReviewModel implements Serializable{
 		imageBitmap = null;
 	}
 
-	/**
+	*/
+/**
 	 * Formats the date string from a json response into a readable format.
 	 * 
 	 * <p>
@@ -104,7 +112,8 @@ public class BazaarReviewModel implements Serializable{
 	 * @param timestamp
 	 *            the timestamp string from the json response
 	 * @return the formatted string
-	 */
+	 *//*
+
 	private String formatDateString(String timestamp) {
 		String year = timestamp.substring(0, 4);
 		int monthNum = Integer.parseInt(timestamp.substring(5, 7));
@@ -155,32 +164,40 @@ public class BazaarReviewModel implements Serializable{
 	}
 
 
-	/**
+	*/
+/**
 	 * @return the rating
-	 */
+	 *//*
+
 	public float getRating() {
 		return rating;
 	}
 
-	/**
+	*/
+/**
 	 * @param rating
 	 *            the rating to set
-	 */
+	 *//*
+
 	public void setRating(float rating) {
 		this.rating = rating;
 	}
 
-	/**
+	*/
+/**
 	 * @return the title
-	 */
+	 *//*
+
 	public String getTitle() {
 		return title;
 	}
 
-	/**
+	*/
+/**
 	 * @param title
 	 *            the title to set
-	 */
+	 *//*
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -189,10 +206,12 @@ public class BazaarReviewModel implements Serializable{
         return mReview;
     }
 
-    /**
+    */
+/**
      * @param review
      *            the title to set
-     */
+     *//*
+
     public void setReview(String review) {
         mReview = review;
     }
@@ -201,18 +220,22 @@ public class BazaarReviewModel implements Serializable{
         return mSummary;
     }
 
-    /**
+    */
+/**
      * @param summary
      *            the title to set
-     */
+     *//*
+
     public void setSummary(String summary) {
         mSummary = summary;
     }
 
-    /**
+    */
+/**
      * @param email
      *            the title to set
-     */
+     *//*
+
     public void setEmail(String email) {
         mEmail = email;
     }
@@ -221,101 +244,127 @@ public class BazaarReviewModel implements Serializable{
         return mEmail;
     }
 
-	/**
+	*/
+/**
 	 * @return the authorId
-	 */
+	 *//*
+
 	public String getAuthorId() {
 		return authorId;
 	}
 
-	/**
+	*/
+/**
 	 * @param authorId
 	 *            the authorId to set
-	 */
+	 *//*
+
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
 	}
 
-	/**
+	*/
+/**
 	 * @return the dateString
-	 */
+	 *//*
+
 	public String getDateString() {
 		return dateString;
 	}
 
-	/**
+	*/
+/**
 	 * @param dateString
 	 *            the dateString to set
-	 */
+	 *//*
+
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
 	}
 
-	/**
+	*/
+/**
 	 * @return the reviewText
-	 */
+	 *//*
+
 	public String getReviewText() {
 		return reviewText;
 	}
 
-	/**
+	*/
+/**
 	 * @param reviewText
 	 *            the reviewText to set
-	 */
+	 *//*
+
 	public void setReviewText(String reviewText) {
 		this.reviewText = reviewText;
 	}
 
-    /**
+    */
+/**
      * @return the mUserId
-     */
+     *//*
+
     public String getUserId() {
         return mUserId;
     }
 
-    /**
+    */
+/**
      * @param userID
      *            the reviewText to set
-     */
+     *//*
+
     public void setUserId(String userID) {
         mUserId = userID;
     }
 
-    /**
+    */
+/**
 	 * @return the imageBitmap
-	 */
+	 *//*
+
 	public Bitmap getImageBitmap() {
 		return imageBitmap;
 	}
 
-	/**
+	*/
+/**
 	 * @param imageBitmap
 	 *            the imageBitmap to set
-	 */
+	 *//*
+
 	public void setImageBitmap(Bitmap imageBitmap) {
 		this.imageBitmap = imageBitmap;
 	}
 
-	/**
+	*/
+/**
 	 * @return the userNickname
-	 */
+	 *//*
+
 	public String getNickname() {
 		return userNickname;
 	}
 
-	/**
+	*/
+/**
 	 * @param userNickname
 	 *            the userNickname to set
-	 */
+	 *//*
+
 	public void setNickname(String userNickname) {
 		this.userNickname = userNickname;
 	}
 
-	/**
+	*/
+/**
 	 * Gets the correct name for display.
 	 * 
 	 * @return nickname if it exists, else the author ID
-	 */
+	 *//*
+
 	public String getDisplayName() {
 		if (userNickname == "")
 			return authorId;
@@ -332,3 +381,4 @@ public class BazaarReviewModel implements Serializable{
     }
 
 }
+*/

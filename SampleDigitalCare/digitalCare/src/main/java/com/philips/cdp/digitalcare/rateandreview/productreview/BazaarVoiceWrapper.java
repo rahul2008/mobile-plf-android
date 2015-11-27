@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.productreview;
 
 
@@ -17,6 +18,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+*/
 /**
  * BazaarFunctions.java <br>
  * ReviewSubmissionExample<br>
@@ -31,7 +33,8 @@ import java.util.regex.Pattern;
  *
  * @author : Ritesh.jha@philips.com
  * @since : 11 Sep 2015
- */
+ *//*
+
 
 public class BazaarVoiceWrapper {
 
@@ -52,9 +55,11 @@ public class BazaarVoiceWrapper {
         }
     }
 
-    /*
+    */
+/*
      * Initialize all staging keys.
-     */
+     *//*
+
     private void initializeBazaarVoiceStagingKeys() {
         DigiCareLogger.d(TAG, "Initializing Staging Keys");
         mBazaarVoiceApiKeysHashMap.clear();
@@ -102,9 +107,11 @@ public class BazaarVoiceWrapper {
         mBazaarVoiceApiKeysHashMap.put("tr_TR", "jctmhj58yng9dfrazvdvzdjk");
     }
 
-    /*
+    */
+/*
      * Initialize all staging keys.
-     */
+     *//*
+
     private void initializeBazaarVoiceProductionKeys() {
         mBazaarVoiceApiKeysHashMap.clear();
         DigiCareLogger.d(TAG, "Initializing Production Keys");
@@ -152,7 +159,8 @@ public class BazaarVoiceWrapper {
         mBazaarVoiceApiKeysHashMap.put("tr_TR", "e0nui2ukl14qjeh90es6q39lu");
     }
 
-    /**
+    */
+/**
      * Submits the given review for the given product as a submission. This
      * means that it will be entered into the system and be ready for display
      * soon.
@@ -160,13 +168,15 @@ public class BazaarVoiceWrapper {
      * @param prodId   the product ID
      * @param review   the full review
      * @param listener the callback function for handling the response
-     */
+     *//*
+
     public void submitReview(String prodId, BazaarReviewModel review,
                                     OnBazaarResponse listener) {
         reviewAction(prodId, review, listener, true);
     }
 
-    /**
+    */
+/**
      * Builds a review request and sends it off as either a preview or a
      * submission.
      *
@@ -174,7 +184,8 @@ public class BazaarVoiceWrapper {
      * @param review   the full review
      * @param listener the callback function for handling the response
      * @param submit   true to submit, false to preview
-     */
+     *//*
+
     private void reviewAction(String prodId, BazaarReviewModel review,
                                      OnBazaarResponse listener, boolean submit) {
         SubmissionParams params = new SubmissionParams();
@@ -228,3 +239,4 @@ public class BazaarVoiceWrapper {
         return null;
     }
 }
+*/

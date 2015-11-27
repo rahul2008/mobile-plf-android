@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Key"> Indonesian </string>
-    <string name="key"> id </string>
+    <string name="key"> in </string>
 
     <!-- Common   null -->
     <string name="img_description"> keterangan </string>

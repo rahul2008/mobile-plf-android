@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
 import android.content.res.Configuration;
@@ -20,13 +21,15 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
+*/
 /**
  * This class is responsible for showing the guidlines for the Philips Product users before submiting the
  * product review in the Philips Page.
  *
  * @author naveen@philips.com
  * @since 15/September/2015
- */
+ *//*
+
 public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductReviewGuideFragment.class.getSimpleName();
@@ -61,14 +64,17 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
         mThirdGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_third_expandableimage);
         mFourthGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_fourth_expandableimage);
 
-     /*   mFirstGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_first_expandableimage_text);
+     */
+/*   mFirstGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_first_expandableimage_text);
         mSecondGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_second_expandableimage_text);
         mThirdGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_third_expandableimage_text);
-        mFourthGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_fourth_expandableimage_text);*/
+        mFourthGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_fourth_expandableimage_text);*//*
+
 
         mOkButton.setOnClickListener(this);
 
-      /*  mFirstGuideLineImage.setOnClickListener(this);
+      */
+/*  mFirstGuideLineImage.setOnClickListener(this);
         mSecondGuideLineImage.setOnClickListener(this);
         mThirdGuideLineImage.setOnClickListener(this);
         mFourthGuideLineImage.setOnClickListener(this);
@@ -77,7 +83,8 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
         mFirstGuideText.setOnClickListener(this);
         mSecondGuideText.setOnClickListener(this);
         mThirdGuideText.setOnClickListener(this);
-        mFourthGuideText.setOnClickListener(this);*/
+        mFourthGuideText.setOnClickListener(this);*//*
+
 
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
@@ -141,11 +148,13 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_REVIEW_GUIDE_LINE;
     }
 
-    /**
+    */
+/**
      * Called when a view has been clicked.
      *
      * @param v The view that was clicked.
-     */
+     *//*
+
     @Override
     public void onClick(View v) {
 
@@ -153,3 +162,4 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
             showFragment(new ProductWriteReviewFragment());
     }
 }
+*/

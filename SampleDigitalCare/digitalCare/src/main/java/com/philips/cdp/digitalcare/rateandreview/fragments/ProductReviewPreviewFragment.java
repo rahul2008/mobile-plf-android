@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
 import android.app.ProgressDialog;
@@ -32,12 +33,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+*/
 /**
  * This class is responsible for showing the UI for showing the preview of the end user information.
  *
  * @author naveen@philips.com
  * @since 15/September/2015
- */
+ *//*
+
 
 public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
@@ -163,11 +166,13 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_REVIEW__PREVIEW;
     }
 
-    /**
+    */
+/**
      * Called when a view has been clicked.
      *
      * @param v The view that was clicked.
-     */
+     *//*
+
     @Override
     public void onClick(View v) {
 
@@ -216,8 +221,10 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                                         DigiCareLogger.d(TAG, "BV response " + response);
                                     }
 
-                                    /* TODO: Name and email ID can have legal terms associated while tagging.
-                                            As per joost suggestion, we are commenting two attributes.*/
+                                    */
+/* TODO: Name and email ID can have legal terms associated while tagging.
+                                            As per joost suggestion, we are commenting two attributes.*//*
+
 
                                     Map<String, Object> contextData = new HashMap<String, Object>();
                                     contextData.put(AnalyticsConstants.ACTION_KEY_REVIEWER_STAR_RATING, mBazaarReviewModel.getRating());
@@ -251,12 +258,14 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                 PorterDuff.Mode.SRC_ATOP);
     }
 
-    /**
+    */
+/**
      * Grabs the first field error and displays it in a toast. If no form errors
      * occurred, displays a general error.
      *
      * @param json the response to the BazaarRequest
-     */
+     *//*
+
     protected void displayErrorMessage(final JSONObject json) {
 
         if (getActivity() == null) {
@@ -301,3 +310,4 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                 error);
     }
 }
+*/

@@ -1,2 +1,2 @@
-include ':digitalCare', ':adobeMobileLibrary', ':localeMatch-v1.0.3', ':bvsdk',':gson', ':Prx'
+include ':digitalCare', ':adobeMobileLibrary', ':localeMatch-v1.0.3', ':gson', ':Prx'
 include ':launchDigitalCare'

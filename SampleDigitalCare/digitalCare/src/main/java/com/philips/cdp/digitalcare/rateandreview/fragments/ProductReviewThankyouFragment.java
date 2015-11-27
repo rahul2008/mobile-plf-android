@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
 import android.content.res.Configuration;
@@ -16,12 +17,14 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
+*/
 /**
  * This class is the final greeting class, Shown to the users after the successfull push of the Product review
  *
  * @author naveen@philips.com
  * @since 16/September/2015
- */
+ *//*
+
 public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
 
 
@@ -102,11 +105,13 @@ public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_REVIEW_THANKS;
     }
 
-    /**
+    */
+/**
      * Called when a view has been clicked.
      *
      * @param v The view that was clicked.
-     */
+     *//*
+
     @Override
     public void onClick(View v) {
 
@@ -117,3 +122,4 @@ public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
 
 }
 
+*/

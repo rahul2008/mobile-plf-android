@@ -22,8 +22,9 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
-import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
-import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;
+/*import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewGuideFragment;
+import com.philips.cdp.digitalcare.rateandreview.productreview.BazaarVoiceWrapper;*/
+import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -34,7 +35,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  */
 public class RateThisAppFragment extends DigitalCareBaseFragment {
 
-    private static final String PRODUCT_REVIEW_URL = "http://%s%s/%s";
+
     public static String mProductReviewProductImage = null;
     public static String mProductReviewProductName = null;
     public static String mProductReviewProductCtn = null;
@@ -53,7 +54,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
     private boolean mBazaarVoiceReviewRequired = false;
-    private BazaarVoiceWrapper mBazaarVoiceWrapper;
+    //  private BazaarVoiceWrapper mBazaarVoiceWrapper;
     private ViewProductDetailsModel mProductData = null;
 
     @Override
@@ -65,12 +66,12 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
-        mBazaarVoiceWrapper = new BazaarVoiceWrapper();
+      /*  mBazaarVoiceWrapper = new BazaarVoiceWrapper();
         mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
 
         if (mBazaarVoiceReviewRequired) {
             mBazaarVoiceWrapper.initializeKeys();
-        }
+        }*/
 
         return mView;
     }
@@ -127,24 +128,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     }
 
 
-    /**
-     * Product Review URL Page
-     *
-     * @return
-     */
-    protected Uri getUri() {
-        String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                .getLanguage().toLowerCase();
 
-        String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                .getCountry().toUpperCase();
-        String countryFallBack = LocaleMatchHandler.getPRXUrl(language + "_" + country);
-        DigiCareLogger.v(TAG, "Country FallBack Url : " + countryFallBack);
-        DigiCareLogger.v(TAG, "Country Specific Review&Rewards Url : " + getActivity().getResources().getString(R.string.reviewandrewards));
-
-        return Uri.parse(String.format(PRODUCT_REVIEW_URL, countryFallBack,
-                mProductReviewPage, getActivity().getResources().getString(R.string.reviewandrewards)));
-    }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -175,12 +159,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     }
 
     private void rateProductReview() {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        Uri productPageUrl = getUri();
-        DigiCareLogger.d(TAG, productPageUrl.toString());
-        i.setData(productPageUrl);
-        tagExitLisk(productPageUrl.toString());
-        startActivity(i);
+        if(isConnectionAvailable())
+            showFragment(new ProductReviewFragment());
     }
 
     @Override
@@ -200,8 +180,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         int id = view.getId();
         if (id == R.id.tellus_PhilipsReviewButton) {
             if (isConnectionAvailable())
-                //rateProductReview();
-                showFragment(new ProductReviewGuideFragment());
+                rateProductReview();
+
         } else if (id == R.id.tellus_PlayStoreReviewButton) {
             if (isConnectionAvailable())
                 rateThisApp();
@@ -245,13 +225,14 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onPRXProductPageReceived(ViewProductDetailsModel data) {
 
         String productlink = data.getProductInfoLink();
-        mProductReviewProductImage = data.getProductImage();
+        /*mProductReviewProductImage = data.getProductImage();
         mProductReviewProductName = data.getProductName();
         mProductReviewProductCtn = data.getCtnName();
-
-        DigiCareLogger.d(TAG, "Show product review()" + mBazaarVoiceWrapper.getBazaarVoiceKey() + "Bzaarvoice Reqd = " + mBazaarVoiceReviewRequired);
-        if (productlink != null && mBazaarVoiceWrapper.getBazaarVoiceKey() != null && mBazaarVoiceReviewRequired) {
+*/
+        // DigiCareLogger.d(TAG, "Show product review()" + mBazaarVoiceWrapper.getBazaarVoiceKey() + "Bzaarvoice Reqd = " + mBazaarVoiceReviewRequired);
+        if (productlink != null /*&& mBazaarVoiceWrapper.getBazaarVoiceKey() != null && mBazaarVoiceReviewRequired*/) {
             DigiCareLogger.d(TAG, "Show product review()");
+            mProductReviewPage = productlink;
             showProductReviewView();
         } else {
             DigiCareLogger.d(TAG, "Hide product review()");
@@ -259,72 +240,5 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         }
     }
 
-    /*protected String getLocalizedReviewUrl(String countryUrl) {
 
-        String reviewAwards = null;
-
-        switch (countryUrl) {
-            case "www.philips.co.in":
-                reviewAwards = "reviewandawards";
-                break;
-            case "www.philips.usa":
-                reviewAwards = "reviewandawards";
-                break;
-            case "www.philips.fr":
-                reviewAwards = "recompenses";
-                break;
-            case "www.philips.de":
-                reviewAwards = "testberichte";
-                break;
-            case "www.philips.co.kr":
-                reviewAwards = "reviewandawards";
-                break;
-            case "www.philips.nl":
-                reviewAwards = "reviewenawards";
-                break;
-            case "www.philips.com.br":
-                reviewAwards = "premios-e-reviews";
-                break;
-            case "www.philips.ru":
-                reviewAwards = "reviewandawards";
-                break;
-            case "www.philips.com.tw":
-                reviewAwards = "reviewandawards";
-                break;
-            case "www.philips.it":
-                reviewAwards = "reviewandawards";
-                break;
-            case "www.philips.com.cn":
-                reviewAwards = "reviewandawards";
-                break;
-            case "www.philips.pl":
-                reviewAwards = "recenzje-i-nagrody";
-                break;
-            case "www.philips.es":
-                reviewAwards = "valoracionesyresenas";
-                break;
-            case "www.philips.com.hk":
-                reviewAwards = "reviewandawards";
-                break;
-            case "www.philips.dk":
-                reviewAwards = "priser-og-anmeldelser";
-                break;
-            case "www.philips.fi":
-                reviewAwards = "palkinnot-ja-arvostelut";
-                break;
-            case "www.philips.no":
-                reviewAwards = "priser-og-anmelselser";
-                break;
-            case "www.philips.se":
-                reviewAwards = "recensioner-och-utmarkelser";
-                break;
-            case "www.philips.co.uk":
-                reviewAwards = "reviewandawards";
-                break;
-            default:
-                reviewAwards = "reviewandawards";
-                break;
-        }
-        return reviewAwards;
-    }*/
 }

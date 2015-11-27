@@ -1,8 +1,11 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.productreview.model;
 
+*/
 /**
  * @author naveen@philips.com
- */
+ *//*
+
 public class PRXProductModel {
 
     private String mReviewPageUrl = null;
@@ -42,3 +45,4 @@ public class PRXProductModel {
         this.mProductCtn = mProductCtn;
     }
 }
+*/

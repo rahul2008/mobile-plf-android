@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
 import android.content.res.Configuration;
@@ -38,13 +39,15 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.util.Locale;
 
+*/
 /**
  * This class is responsible for showing the UI for getting the end user information before submiting the
  * product review in the Philips Page.
  *
  * @author naveen@philips.com
  * @since 15/September/2015
- */
+ *//*
+
 public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
@@ -354,8 +357,10 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mNameErrorButton.setLayoutParams(paramErrorLabel);
         mEmailErrorButton.setLayoutParams(paramErrorLabel);
 
-    /*   mRatingBarHorizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.
-                LayoutParams.WRAP_CONTENT));*/
+    */
+/*   mRatingBarHorizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.
+                LayoutParams.WRAP_CONTENT));*//*
+
     }
 
     @Override
@@ -381,14 +386,16 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mRatingBarVerticle.setMax(5);
         mRatingBarVerticle.setStepSize(1f);
         setRatingBarLayers(mRatingBarVerticle);
-        /*LayerDrawable stars = (LayerDrawable) mRatingBarVerticle
+        */
+/*LayerDrawable stars = (LayerDrawable) mRatingBarVerticle
                 .getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.parseColor("#528E18"),
                 PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(1).setColorFilter(Color.parseColor("#528E18"),
                 PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(0).setColorFilter(Color.parseColor("#CCD9BE"),
-                PorterDuff.Mode.SRC_ATOP);*/
+                PorterDuff.Mode.SRC_ATOP);*//*
+
 
         mRatingBarHorizontal = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
         mRatingBarHorizontal.setNumStars(5);
@@ -420,11 +427,13 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_REVIEW_WRITING;
     }
 
-    /**
+    */
+/**
      * Called when a view has been clicked.
      *
      * @param v The view that was clicked.
-     */
+     *//*
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.reviewSummaryIconInvalid) {
@@ -490,7 +499,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     }
 
 
-    /**
+    */
+/**
      * Does some client-side validation before calling the necessary
      * BazaarFunctions function to submit a review (only previews to facilitate
      * easier testing). When the response comes in, it launches the next
@@ -498,7 +508,8 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
      * <p/>
      * If the photo has not uploaded yet, we put off submitting and show an
      * "Uploading Photo..." dialog.
-     */
+     *//*
+
     private void submitReview() {
         boolean disablePreviewButton = false;
         StringBuilder alertStringBuilder = new StringBuilder();
@@ -565,3 +576,4 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         }
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.productreview;
 
 import android.graphics.Bitmap;
@@ -12,11 +13,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+*/
 /**
  * Adding Product Image Loader here.
  *
  * @author naveen@philips.com
- */
+ *//*
+
 public class ProductImageLoader {
 
     private static final String TAG = ProductImageLoader.class.getSimpleName();
@@ -74,3 +77,4 @@ public class ProductImageLoader {
     }
 
 }
+*/
