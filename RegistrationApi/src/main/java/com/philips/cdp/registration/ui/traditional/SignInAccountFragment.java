@@ -333,7 +333,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onSendForgotPasswordFailedWithError(
             UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
+        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
         mBtnResend.setEnabled(true);
         hideForgotPasswordSpinner();
 
@@ -345,10 +345,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mTvResendDetails.setText(getString(R.string.TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt));
             mEtEmail.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             mEtEmail.showErrPopUp();
+            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
+            return;
         } else {
-            mEtEmail.showErrPopUp();
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
-            mEtEmail.showInvalidAlert();
             mLlattentionBox.setVisibility(View.GONE);
         }
 
@@ -356,6 +355,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showErrPopUp();
             mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
             mEtEmail.showInvalidAlert();
+            trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
             return;
         }
 
@@ -364,7 +364,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         }
-
         trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
     }
 
@@ -500,7 +499,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.showEmailInvalidAlert();
             mEtEmail.showErrPopUp();
             mBtnSignInAccount.setEnabled(false);
-            mEtEmail.setErrDescription(getString(R.string.Janrain_Error_Need_Email_Verification));
+            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.Janrain_Error_Need_Email_Verification));
             mBtnResend.setVisibility(View.VISIBLE);
             mViewHavingProblem.setVisibility(View.VISIBLE);
             mTvResendDetails.setVisibility(View.GONE);

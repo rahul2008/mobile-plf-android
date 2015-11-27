@@ -120,4 +120,8 @@ public class RegConstants {
 
     public static final String IS_FOR_TERMS_ACCEPATNACE = "IsForTermsAccepatnace";
 
+    public static final String INVALID_ACCESS_TOKEN_CODE = "1009";
+
+    public static final String INVALID_REFRESH_ACCESS_TOKEN_CODE = "1151";
+
 }

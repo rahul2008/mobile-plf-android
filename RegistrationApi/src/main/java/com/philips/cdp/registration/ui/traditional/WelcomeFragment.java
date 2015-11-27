@@ -16,10 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -228,14 +228,17 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         trackPage(AppTaggingPages.HOME);
         hideLogoutSpinner();
         getRegistrationFragment().replaceWithHomeFragment();
+        RegistrationHelper.getInstance().getUserRegistrationListener()
+                .notifyOnUserLogoutSuccess();
     }
 
     @Override
     public void onLogoutFailure(int responseCode, final String message) {
         mRegError.setError(message);
         hideLogoutSpinner();
+        RegistrationHelper.getInstance().getUserRegistrationListener()
+                .notifyOnUserLogoutFailure();
     }
-
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             if (RegistrationHelper.getInstance().isJanrainIntialized()) {

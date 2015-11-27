@@ -265,7 +265,7 @@ public class User {
     }
 
     private void refreshHsdpAccessToken(Context context, final RefreshLoginSessionHandler refreshLoginSessionHandler) {
-        HsdpUser hsdpUser = new HsdpUser(context);
+        final HsdpUser hsdpUser = new HsdpUser(context);
         hsdpUser.refreshToken(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
@@ -277,7 +277,6 @@ public class User {
                 refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
             }
         });
-
     }
 
     // For Resend verification emails
@@ -465,7 +464,10 @@ public class User {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
-                updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(0);
+                updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(error);
+                if(error==Integer.parseInt(RegConstants.INVALID_REFRESH_ACCESS_TOKEN_CODE)){
+                    clearData();
+                }
             }
         }, mContext);
     }
@@ -641,12 +643,22 @@ public class User {
 
             @Override
             public void onLogoutFailure(int responseCode, String message) {
+
+                if(responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
+                        || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_ACCESS_TOKEN_CODE)){
+                    clearData();
+                }
                 if(logoutHandler!=null){
-                  logoutHandler.onLogoutFailure(responseCode, message);
+                    logoutHandler.onLogoutFailure(responseCode, message);
                 }
             }
         });
+    }
 
+    public void clearData() {
+        logoutJanrainUser();
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        hsdpUser.deleteFromDisk();
     }
 
     private void logoutJanrainUser() {

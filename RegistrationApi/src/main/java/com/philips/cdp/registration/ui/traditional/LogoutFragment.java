@@ -35,6 +35,7 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class LogoutFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -268,6 +269,12 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     @Override
     public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
         hideProgressBar();
+        if(error== Integer.parseInt(RegConstants.INVALID_REFRESH_ACCESS_TOKEN_CODE)){
+            getRegistrationFragment().replaceWithHomeFragment();
+            RegistrationHelper.getInstance().getUserRegistrationListener()
+                    .notifyOnLogoutSuccessWithInvalidAccessToken();
+            return;
+        }
         mCbTerms.setOnCheckedChangeListener(null);
         mCbTerms.setChecked(!mCbTerms.isChecked());
         mCbTerms.setOnCheckedChangeListener(this);
@@ -288,6 +295,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         trackPage(AppTaggingPages.HOME);
         hideLogoutSpinner();
         getRegistrationFragment().replaceWithHomeFragment();
+        RegistrationHelper.getInstance().getUserRegistrationListener()
+                .notifyOnUserLogoutSuccess();
     }
 
     @Override
@@ -298,6 +307,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         }
         hideLogoutSpinner();
         mRegError.setError(message);
+        RegistrationHelper.getInstance().getUserRegistrationListener()
+                .notifyOnUserLogoutFailure();
     }
 
     private void showLogoutSpinner() {

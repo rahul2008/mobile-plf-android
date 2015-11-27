@@ -76,4 +76,35 @@ public class UserRegistrationHelper {
 			}
 		}
 	}
+
+
+	public void notifyOnUserLogoutSuccess() {
+		if (userRegistrationListeners != null) {
+			for (UserRegistrationListener eventListener : userRegistrationListeners) {
+				if (eventListener != null) {
+					eventListener.onUserLogoutSuccess();
+				}
+			}
+		}
+	}
+
+	public void notifyOnUserLogoutFailure() {
+		if (userRegistrationListeners != null) {
+			for (UserRegistrationListener eventListener : userRegistrationListeners) {
+				if (eventListener != null) {
+					eventListener.onUserLogoutFailure();
+				}
+			}
+		}
+	}
+
+	public void notifyOnLogoutSuccessWithInvalidAccessToken() {
+		if (userRegistrationListeners != null) {
+			for (UserRegistrationListener eventListener : userRegistrationListeners) {
+				if (eventListener != null) {
+					eventListener.onUserLogoutSuccessWithInvalidAccessToken();
+				}
+			}
+		}
+	}
 }

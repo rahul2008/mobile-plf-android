@@ -5,10 +5,16 @@ import android.app.Activity;
 
 public interface UserRegistrationListener {
 
-    public void onUserRegistrationComplete(Activity activity);
+    void onUserRegistrationComplete(Activity activity);
 
-    public void onPrivacyPolicyClick(Activity activity);
+    void onPrivacyPolicyClick(Activity activity);
 
-    public void onTermsAndConditionClick(Activity activity);
+    void onTermsAndConditionClick(Activity activity);
+
+    void onUserLogoutSuccess();
+
+    void onUserLogoutFailure();
+
+    void onUserLogoutSuccessWithInvalidAccessToken();
 
 }

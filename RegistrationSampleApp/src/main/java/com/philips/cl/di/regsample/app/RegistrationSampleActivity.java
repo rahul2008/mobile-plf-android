@@ -31,7 +31,7 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
-        UserRegistrationListener, RefreshLoginSessionHandler, ResendCoppaEmailConsentHandler {
+        UserRegistrationListener, RefreshLoginSessionHandler, ResendCoppaEmailConsentHandler{
 
     private Button mBtnRegistration;
     private Button mBtnHsdpRefreshAccessToken;
@@ -62,7 +62,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         if (RegistrationHelper.getInstance().isCoppaFlow()) {
             mBtnResendCoppaMail.setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override
@@ -171,6 +170,21 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     }
 
     @Override
+    public void onUserLogoutSuccess() {
+        RLog.d(RLog.HSDP, "RegistrationSampleActivity : onUserLogoutSuccess");
+    }
+
+    @Override
+    public void onUserLogoutFailure() {
+        RLog.d(RLog.HSDP, "  RegistrationSampleActivity : onUserLogoutFailure");
+    }
+
+    @Override
+    public void onUserLogoutSuccessWithInvalidAccessToken() {
+        RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onUserLogoutSuccessWithInvalidAccessToken");
+    }
+
+    @Override
     public void didResendCoppaEmailConsentSucess() {
         dimissDialog();
         showToast("Success to resend coppa mail");
@@ -203,7 +217,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onRefreshLoginSessionSuccess() {
         dimissDialog();
         showToast("Success to refresh hsdp access token");
-
     }
 
     @Override

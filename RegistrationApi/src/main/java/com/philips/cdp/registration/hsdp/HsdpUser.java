@@ -118,10 +118,7 @@ public class HsdpUser {
                                 logoutHandler.onLogoutFailure(NETWORK_ERROR_CODE + RegConstants.HSDP_LOWER_ERROR_BOUND, mContext.getString(R.string.JanRain_Server_Connection_Failed));
                             }
                         });
-                        return;
-                    }
-
-                    if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
+                    } else if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -130,7 +127,7 @@ public class HsdpUser {
                             }
                         });
 
-                    } else {
+                    }else {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -177,8 +174,7 @@ public class HsdpUser {
                             }
                         });
                         return;
-                    }
-                    if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
+                    } else if (dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
                         mHsdpUserRecord.getAccessCredential().setExpiresIn(dhpAuthenticationResponse.expiresIn.intValue());
                         mHsdpUserRecord.getAccessCredential().setRefreshToken(dhpAuthenticationResponse.refreshToken);
                         mHsdpUserRecord.getAccessCredential().setAccessToken(dhpAuthenticationResponse.accessToken);
@@ -190,7 +186,16 @@ public class HsdpUser {
                                 refreshHandler.onRefreshLoginSessionSuccess();
                             }
                         });
-                    } else {
+                    }else if (dhpAuthenticationResponse.responseCode.toString().equals(RegConstants.INVALID_REFRESH_ACCESS_TOKEN_CODE)) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                RLog.i(RLog.HSDP, "onHsdpRefreshFailure : responseCode : " + dhpAuthenticationResponse.responseCode +
+                                        " message : " + dhpAuthenticationResponse.message);
+                                refreshHandler.onRefreshLoginSessionFailedWithError(Integer.parseInt(dhpAuthenticationResponse.responseCode));
+                            }
+                        });
+                    }else {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -251,4 +256,6 @@ public class HsdpUser {
         mContext.deleteFile(HSDP_RECORD_FILE);
         mHsdpUserRecord = null;
     }
+
+
 }
