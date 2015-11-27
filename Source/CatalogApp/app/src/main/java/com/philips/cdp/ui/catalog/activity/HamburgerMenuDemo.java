@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -85,6 +86,14 @@ public class HamburgerMenuDemo extends CatalogActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         footerView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(com.philips.cdp.uikit.R.menu.uikit_hamburger_menu_item, menu);
+        MenuItem reload = menu.findItem(com.philips.cdp.uikit.R.id.action_reload);
+        reload.setIcon(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_reload));
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

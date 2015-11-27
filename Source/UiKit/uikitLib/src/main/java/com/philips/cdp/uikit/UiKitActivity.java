@@ -7,15 +7,12 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -85,18 +82,6 @@ public class UiKitActivity extends AppCompatActivity {
                 listView.setLayoutParams(layoutParams);
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (validateHamburger()) {
-            getMenuInflater().inflate(R.menu.uikit_hamburger_menu_item, menu);
-            MenuItem reload = menu.findItem(R.id.action_reload);
-            reload.setIcon(VectorDrawable.create(this, R.drawable.uikit_reload));
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-
     }
 
     private boolean validateHamburger() {
