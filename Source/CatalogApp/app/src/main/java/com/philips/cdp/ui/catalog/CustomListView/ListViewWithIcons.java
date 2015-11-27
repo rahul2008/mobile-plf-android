@@ -128,14 +128,14 @@ public class ListViewWithIcons extends BaseAdapter {
                 }
                 if(position==2)
                 {
-                    holder.mImage.setImageResource(R.drawable.maps_carrot);
+                    holder.mImage.setImageResource(R.drawable.uikit_gear);
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
                 }
                 if(position==3)
                 {
-                    holder.mImage.setImageResource(R.drawable.mail);
+                    holder.mImage.setImageResource(R.drawable.uikit_email);
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Off");
                     holder.arrow.setVisibility(View.VISIBLE);
@@ -149,7 +149,7 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("On");
                     holder.arrow.setVisibility(View.VISIBLE);
-                    holder.mImage.setImageResource(R.drawable.gear);
+                    holder.mImage.setImageResource(R.drawable.uikit_gear);
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
 
@@ -157,7 +157,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 if(position==5)
                 {
-                    holder.mImage.setImageResource(R.drawable.alarm);
+                    holder.mImage.setImageResource(R.drawable.phone);
                     holder.arrow.setVisibility(View.VISIBLE);
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
