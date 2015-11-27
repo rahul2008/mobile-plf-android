@@ -921,7 +921,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mPhoneNumber = phoneNumbers.get(0);
 
         if (mPhoneNumber != null && mPhoneNumber != "")
-            mButtonCall.setText(getResources().getString(R.string.call) + " "
+            mButtonCall.setText(getResources().getString(R.string.call_number) + " "
                     + mPhoneNumber);
         else
             mButtonCall.setVisibility(View.INVISIBLE);
