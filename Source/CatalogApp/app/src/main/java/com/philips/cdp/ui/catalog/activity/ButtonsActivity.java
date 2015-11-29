@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.ui.catalog.R;
@@ -23,6 +24,7 @@ public class ButtonsActivity extends CatalogActivity {
     private PuiPopoverAlert puiPopoverAlert;
     private ProgressBar popoverProgress;
     private int progress = 0;
+    private AsyncTask notificationTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +38,30 @@ public class ButtonsActivity extends CatalogActivity {
         transparentButton = (Button) findViewById(R.id.outlined_transparent_button);
         whiteTranspararentButton = (Button) findViewById(R.id.outlined_transparent_white_button);
 
+        puiPopoverAlert = (PuiPopoverAlert) findViewById(R.id.popover_alert);
+
         showNotification = (Button) findViewById(R.id.show_notification);
 
         showNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                progress = 0;
+                puiPopoverAlert.getProgressBar().setProgress(0);
+                notificationTask = new ProgresAsyncTask().execute();
                 puiPopoverAlert.show();
-                new ProgresAsyncTask().execute();
+            }
+        });
+
+        ImageView closeIcon = (ImageView) findViewById(R.id.uikit_popover_close_icon);
+        closeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (!notificationTask.isCancelled() || notificationTask.getStatus() !=
+                        AsyncTask.Status.FINISHED) {
+                    notificationTask.cancel(true);
+                    puiPopoverAlert.dismiss();
+                    progress = 0;
+                }
             }
         });
 
@@ -56,7 +75,7 @@ public class ButtonsActivity extends CatalogActivity {
             }
         });
 
-        puiPopoverAlert = (PuiPopoverAlert) findViewById(R.id.popover_alert);
+
         puiPopoverAlert.setLeftIcon(FontIconUtils.getInfo(this, FontIconUtils.ICONS.INFO, 22, Color.WHITE,
                 false));
         puiPopoverAlert.setRightIcon(FontIconUtils.getInfo(this, FontIconUtils.ICONS.CROSS, 15, Color.WHITE,
@@ -81,7 +100,7 @@ public class ButtonsActivity extends CatalogActivity {
                     try {
                         lock.wait(5);
                     } catch (InterruptedException ie) {
-
+                        break;
                     }
                     publishProgress(progress);
                     progress++;
