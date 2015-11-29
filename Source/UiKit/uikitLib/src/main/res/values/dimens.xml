@@ -65,6 +65,7 @@
     <dimen name="uikit_tab_text_size_without_image">14dp</dimen>
     <color name="uikit_tab_text_enabled_color">#fff</color>
     <dimen name="uikit_tab_minwidth">90dp</dimen>
+    <dimen name="uikit_tab_shadow">3dp</dimen>
 
                       <!-- Hamburger Menu -->
     <dimen name="uikit_hamburger_menu_title_text_size">20sp</dimen>

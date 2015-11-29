@@ -1,12 +1,16 @@
 package com.philips.cdp.uikit.utils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.ColorFilter;
+import android.graphics.Outline;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -14,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,6 +48,8 @@ public class TabUtils {
         isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
         initSelectionColors();
         initIconColorFilters();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            tabLayout.setOutlineProvider(new TabOutline());
     }
 
     public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
@@ -157,5 +164,22 @@ public class TabUtils {
         selector.addState(new int[]{}, enabled, enabledFilter);
 
         return selector;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private class TabOutline extends ViewOutlineProvider {
+
+        /**
+         * Since setting custom gradient remvoes the shadow, just proivde a
+         * dummy outline which ends exactly at tablyout height/
+         * @param view
+         * @param outline
+         */
+        @Override
+        public void getOutline(final View view, final Outline outline) {
+            outline.setRect(new Rect(view.getLeft(), view.getHeight()-2, view.getRight(),view
+                    .getHeight()));
+//            outline.setAlpha(0.6f);
+        }
     }
 }
