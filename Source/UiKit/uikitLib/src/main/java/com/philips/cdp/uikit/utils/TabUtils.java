@@ -55,6 +55,7 @@ public class TabUtils {
     public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
         TabLayout.Tab newTab = tabLayout.newTab();
         View customView;
+        TextView countView;
         if (imageDrawable > 0) {
             customView = LayoutInflater.from(context).inflate(R.layout.uikit_tab_with_image, null);
             //Set icon for the tab
@@ -62,6 +63,13 @@ public class TabUtils {
             Drawable d = ResourcesCompat.getDrawable(context.getResources(), imageDrawable, null);
             iconView.setImageDrawable(getTabIconSelector(d));
             iconView.setVisibility(View.VISIBLE);
+
+            //Update count
+            countView = (TextView) customView.findViewById(R.id.tab_count);
+            if (badgeCount > 0) {
+                countView.setText(String.valueOf(badgeCount));
+                countView.setVisibility(View.VISIBLE);
+            }
         } else {
             customView = LayoutInflater.from(context).inflate(R.layout.uikit_tab_textonly, null);
         }
@@ -177,7 +185,7 @@ public class TabUtils {
          */
         @Override
         public void getOutline(final View view, final Outline outline) {
-            outline.setRect(new Rect(view.getLeft(), view.getHeight()-2, view.getRight(),view
+            outline.setRect(new Rect(view.getLeft(), view.getHeight() - 2, view.getRight(), view
                     .getHeight()));
 //            outline.setAlpha(0.6f);
         }

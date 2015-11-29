@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.support.v7.widget.ActionBarOverlayLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -65,7 +65,7 @@ public class TabBarDemo extends CatalogActivity {
         utils.setTitle(tab, "Wellness");
         topLayout.addTab(tab);
 
-        tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 0);
+        tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 3);
         utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_stats_39x32),true);
         utils.setTitle(tab, "Statistics");
         topLayout.addTab(tab);
