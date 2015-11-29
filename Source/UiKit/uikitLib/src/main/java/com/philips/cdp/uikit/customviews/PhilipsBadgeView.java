@@ -115,7 +115,11 @@ public class PhilipsBadgeView extends TextView {
     @NonNull
     private ShapeDrawable getSquareRoundBackground() {
         int r;
-        r = dipToPixels(12);
+        if (isSmallSize)
+            r = dipToPixels(12);
+        else
+            r = dipToPixels(16);
+
         float[] outerR = new float[]{r, r, r, r, r, r, r, r};
         RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);
         ShapeDrawable shapeDrawable = setSquareParams(roundRectShape);
@@ -126,10 +130,25 @@ public class PhilipsBadgeView extends TextView {
     private ShapeDrawable setSquareParams(RoundRectShape roundRectShape) {
         ShapeDrawable shapeDrawable = new ShapeDrawable(roundRectShape);
         shapeDrawable.getPaint().setColor(DEFAULT_BADGE_COLOR);
+        int count = getText().length();
+        if (count == 2) {
+            int defaultWidth;
+            int defaultHeight;
+            if (isSmallSize) {
+                defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width_small);
+                defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height_small);
+
+            } else {
+                defaultWidth = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_width);
+                defaultHeight = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_height);
+            }
+            applyTo(this, defaultWidth, defaultHeight);
+        } else {
             applyTo(this, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             int padding = (int) resources.getDimension(R.dimen.uikit_notification_label_square_round_padding);
             setPadding(padding
                     , padding, padding, padding);
+        }
         return shapeDrawable;
     }
 

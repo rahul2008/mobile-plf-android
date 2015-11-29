@@ -8,16 +8,16 @@ import com.philips.cdp.ui.catalog.R;
 
 public class SliderActivity extends CatalogActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slider);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_slider, menu);
         return true;
     }
 
@@ -35,4 +35,6 @@ public class SliderActivity extends CatalogActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

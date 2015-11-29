@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:overScrollMode="always">
 
 
     <LinearLayout
@@ -116,6 +117,74 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text="22" />
+
+            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+                style="@style/NotificationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="223" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+                android:id="@+id/badge_view_circle_small"
+                style="@style/NotificationLabel.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="3" />
+
+            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+                android:id="@+id/badge_view_square_small"
+                style="@style/NotificationLabel.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="22" />
+
+            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+                style="@style/NotificationLabel.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="223" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:text="@string/action_icons" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
+                android:id="@+id/actionIcon1"
+                style="@style/Philips.ActionButton.Circle.Float.Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp" />
+
+            <com.philips.cdp.uikit.customviews.PhilipsActionButton
+                android:id="@+id/actionIcon2"
+                style="@style/Philips.ActionButton.Circle.Float.Pencil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/philips_action_button_margin"
+                android:layout_marginTop="5dp" />
+
         </LinearLayout>
 
     </LinearLayout>

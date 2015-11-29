@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.dotnavigation.ViewPagerAdaptor;
-import com.philips.cdp.uikit.costumviews.ImageIndicator;
+import com.philips.cdp.uikit.customviews.ImageIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
@@ -26,7 +26,7 @@ public class ImageNavigation extends CatalogActivity {
         final ImageIndicator mIndicator = (ImageIndicator) findViewById(R.id.indicator);
         Drawable drawables[] = {VectorDrawable.create(this, R.drawable.uikit_cart),
                 VectorDrawable.create(this, R.drawable.uikit_coffee),
-                VectorDrawable.create(this, R.drawable.uikit_stats_39x32),
+                VectorDrawable.create(this, R.drawable.uikit_stats),
                 VectorDrawable.create(this, R.drawable.uikit_recycle_bin)};
         mIndicator.setImages(drawables);
         mIndicator.setViewPager(mPager);
