@@ -67,7 +67,7 @@ public class TabUtils {
             //Update count
             countView = (TextView) customView.findViewById(R.id.tab_count);
             if (badgeCount > 0) {
-                countView.setText(String.valueOf(badgeCount));
+                countView.setText(Integer.toString(badgeCount));
                 countView.setVisibility(View.VISIBLE);
             }
         } else {
@@ -110,6 +110,17 @@ public class TabUtils {
         TextView titleView = (TextView) tab.getCustomView().findViewById(R.id.tab_title);
         titleView.setText(title);
         titleView.setVisibility(View.VISIBLE);
+    }
+
+    public void setCount(TabLayout.Tab tab, int count) {
+        TextView countView = (TextView) tab.getCustomView().findViewById(R.id.tab_count);
+        if (countView != null) {
+            int visibility = count == 0 ? View.GONE : View.VISIBLE;
+            if (count > 0) {
+                countView.setText(Integer.toString(count));
+            }
+            countView.setVisibility(visibility);
+        }
     }
 
     public void setTitle(TabLayout.Tab tab, int resID) {
