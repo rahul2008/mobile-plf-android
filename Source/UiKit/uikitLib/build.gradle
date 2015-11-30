@@ -24,6 +24,8 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName libVersionNumber
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {

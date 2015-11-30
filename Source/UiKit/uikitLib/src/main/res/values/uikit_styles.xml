@@ -100,4 +100,13 @@
         <item name="color">@android:color/black</item>
     </style>
 
+    <style name="PhilipsDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/PhilipsDialogAnimation</item>
+    </style>
+
+    <style name="PhilipsDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/uikit_popover_fadein</item>
+        <item name="android:windowExitAnimation">@anim/uikit_popover_fadeout</item>
+    </style>
+
 </resources>
