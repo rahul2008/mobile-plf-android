@@ -252,5 +252,7 @@
         <item>/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide</item>
     </string-array>
 
+    <bool name="productreview_required">true</bool>
+
 
 </resources>

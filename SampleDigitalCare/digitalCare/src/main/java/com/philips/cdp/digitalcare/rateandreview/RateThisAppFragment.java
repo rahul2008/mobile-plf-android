@@ -66,13 +66,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
-      /*  mBazaarVoiceWrapper = new BazaarVoiceWrapper();
         mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
-
-        if (mBazaarVoiceReviewRequired) {
-            mBazaarVoiceWrapper.initializeKeys();
-        }*/
-
         return mView;
     }
 
@@ -128,8 +122,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     }
 
 
-
-
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
@@ -159,7 +151,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     }
 
     private void rateProductReview() {
-        if(isConnectionAvailable())
+        if (isConnectionAvailable())
             showFragment(new ProductReviewFragment());
     }
 
@@ -225,20 +217,12 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onPRXProductPageReceived(ViewProductDetailsModel data) {
 
         String productlink = data.getProductInfoLink();
-        /*mProductReviewProductImage = data.getProductImage();
-        mProductReviewProductName = data.getProductName();
-        mProductReviewProductCtn = data.getCtnName();
-*/
-        // DigiCareLogger.d(TAG, "Show product review()" + mBazaarVoiceWrapper.getBazaarVoiceKey() + "Bzaarvoice Reqd = " + mBazaarVoiceReviewRequired);
-        if (productlink != null /*&& mBazaarVoiceWrapper.getBazaarVoiceKey() != null && mBazaarVoiceReviewRequired*/) {
+        if (productlink != null && mBazaarVoiceReviewRequired) {
             DigiCareLogger.d(TAG, "Show product review()");
-            mProductReviewPage = productlink;
             showProductReviewView();
         } else {
             DigiCareLogger.d(TAG, "Hide product review()");
             hideProductReviewView();
         }
     }
-
-
 }
