@@ -102,11 +102,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         View view = inflater.inflate(R.layout.fragment_sign_in_account, null);
-        handleOrientation(view);
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
+        handleOrientation(view);
         return view;
     }
 
@@ -167,6 +167,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onConfigurationChanged");
+        setViewParams(config, mWidth);
     }
 
     @Override

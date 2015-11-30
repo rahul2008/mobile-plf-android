@@ -89,12 +89,12 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
 
         View view = inflater.inflate(R.layout.fragment_logout, null);
-        handleOrientation(view);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         init(view);
         handleUiState();
+        handleOrientation(view);
         return view;
     }
 
@@ -151,6 +151,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onConfigurationChanged");
+        setViewParams(config, mWidth);
     }
 
     @Override

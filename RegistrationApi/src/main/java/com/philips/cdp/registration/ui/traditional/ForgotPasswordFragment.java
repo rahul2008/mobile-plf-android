@@ -82,11 +82,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         RLog.i(RLog.EVENT_LISTENERS,
                 "ResetPasswordFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         View view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
-        handleOrientation(view);
         mUser = new User(mContext);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleUiState();
+        handleOrientation(view);
         return view;
     }
 
@@ -163,6 +163,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "ResetPasswordFragment : onConfigurationChanged");
+        setViewParams(config, mWidth);
     }
 
     @Override

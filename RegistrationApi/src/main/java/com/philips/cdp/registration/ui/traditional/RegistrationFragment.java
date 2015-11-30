@@ -56,6 +56,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "HSDP Version :" + BuildConfig.VERSION_CODE);
         Tagging.setComponentVersionKey(REGISTRATION_VERSION_TAG);
         Tagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
+        RegistrationBaseFragment.mWidth = 0;
         super.onCreate(savedInstanceState);
     }
 
@@ -104,6 +105,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationHelper.getInstance().unregisterListener(mActivity.getApplicationContext());
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworStateListener,Context");
+        RegistrationBaseFragment.mWidth = 0;
         super.onDestroy();
     }
 

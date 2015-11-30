@@ -44,8 +44,8 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onCreateView");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         View view = inflater.inflate(R.layout.fragment_philips_news, null);
-        handleOrientation(view);
         initUI(view);
+        handleOrientation(view);
         return view;
     }
 
@@ -121,6 +121,7 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onConfigurationChanged");
+        setViewParams(config, mWidth);
     }
 
     @Override

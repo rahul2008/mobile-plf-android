@@ -40,7 +40,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     private int mPrevTitleResourceId = -99;
 
-    protected int mWidth = 0;
+    protected static int mWidth = 0;
 
     private final int JELLY_BEAN = 16;
 
@@ -239,22 +239,25 @@ public abstract class RegistrationBaseFragment extends Fragment {
         if (null == view) {
             return;
         }
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int currentWidth = view.getWidth();
-                if (mWidth != currentWidth) {
-                    mWidth = currentWidth;
-                    if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    } else {
-                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        if(mWidth == 0) {
+            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    int currentWidth = view.getWidth();
+                    if (mWidth != currentWidth) {
+                        mWidth = currentWidth;
+                        if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        } else {
+                            view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                        setViewParams(getResources().getConfiguration(), mWidth);
                     }
-                    setViewParams(getResources().getConfiguration(), mWidth);
-                    view.getViewTreeObserver().addOnGlobalLayoutListener(this);
                 }
-            }
-        });
+            });
+        }else{
+            setViewParams(getResources().getConfiguration(), mWidth);
+        }
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {

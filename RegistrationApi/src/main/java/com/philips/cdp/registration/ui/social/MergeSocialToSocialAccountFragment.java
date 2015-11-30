@@ -87,13 +87,13 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         View view = inflater.inflate(R.layout.fragment_social_to_social_merge_account, container, false);
-        handleOrientation(view);
         RLog.i(RLog.EVENT_LISTENERS,
                 "MergeSocialToSocialAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mUser = new User(mContext);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleUiErrorState();
+        handleOrientation(view);
         return view;
     }
 
@@ -154,6 +154,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeSocialToSocialAccountFragment : onConfigurationChanged");
+        setViewParams(config, mWidth);
     }
 
     private void initUI(View view) {

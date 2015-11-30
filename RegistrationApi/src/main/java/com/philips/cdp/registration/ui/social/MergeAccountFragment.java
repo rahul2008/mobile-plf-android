@@ -93,13 +93,13 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 				.registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
 		View view = inflater.inflate(R.layout.fragment_social_merge_account, container, false);
-		handleOrientation(view);
 		RLog.i(RLog.EVENT_LISTENERS,
 				"MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		mUser = new User(mContext);
 		mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
 		initUI(view);
 		handleUiErrorState();
+		handleOrientation(view);
 		return view;
 	}
 
@@ -160,6 +160,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onConfigurationChanged");
+		setViewParams(config, mWidth);
 	}
 
 	private void initUI(View view) {

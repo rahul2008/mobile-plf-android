@@ -111,10 +111,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             view = inflater.inflate(R.layout.fragment_home_login_top, container, false);
         }
 
-        handleOrientation(view);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
-        System.out.println("Priority fuction : " + RegistrationHelper.getInstance().getPrioritisedFunction());
+        handleOrientation(view);
         return view;
     }
 
@@ -242,6 +241,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onConfigurationChanged");
+        setViewParams(config, mWidth);
     }
 
     private void initUI(View view) {
@@ -350,16 +350,21 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mTvWelcome, width);
-        applyParams(config, mTvWelcomeDesc, width);
-        applyParams(config, mLlCreateBtnContainer, width);
-        applyParams(config, mLlLoginBtnContainer, width);
-        applyParams(config, mTvTermsAndConditionDesc, width);
+            applyParams(config, mTvWelcome, width);
+            applyParams(config, mTvWelcomeDesc, width);
+            applyParams(config, mLlCreateBtnContainer, width);
+            applyParams(config, mLlLoginBtnContainer, width);
+            applyParams(config, mTvTermsAndConditionDesc, width);
     }
+
+
+
+
+
 
     @Override
     protected void handleOrientation(View view) {
-        handleOrientationOnView(view);
+            handleOrientationOnView(view);
     }
 
     @Override

@@ -109,11 +109,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         View view = inflater.inflate(R.layout.fragment_create_account, container, false);
-        handleOrientation(view);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
+        handleOrientation(view);
         return view;
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -174,6 +175,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     public void onConfigurationChanged(Configuration config) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
         super.onConfigurationChanged(config);
+        setViewParams(config, mWidth);
     }
 
     @Override
@@ -188,9 +190,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         applyParams(config, mTvEmailExist, width);
     }
 
+
+
+
     @Override
     protected void handleOrientation(View view) {
-        handleOrientationOnView(view);
+            handleOrientationOnView(view);
     }
 
     @Override
@@ -264,7 +269,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mEtEmail.clearFocus();
         mEtPassword.clearFocus();
         showSpinner();
-        mEmail =  mEtEmail.getEmailId();
+        mEmail = mEtEmail.getEmailId();
         mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
                 .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
     }
@@ -331,8 +336,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onRegisterSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
-        if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
-            RegPreferenceUtility.storePreference(mContext,mEmail,true);
+        if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+            RegPreferenceUtility.storePreference(mContext, mEmail, true);
         }
         hideSpinner();
         trackCheckMarketing();
@@ -387,7 +392,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void updateUiStatus() {
-        if(mTvEmailExist.getVisibility() == View.VISIBLE){
+        if (mTvEmailExist.getVisibility() == View.VISIBLE) {
             mTvEmailExist.setVisibility(View.GONE);
         }
         if (mPasswordHintView.getVisibility() != View.VISIBLE) {

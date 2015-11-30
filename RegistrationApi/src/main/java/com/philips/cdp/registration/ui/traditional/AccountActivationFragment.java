@@ -94,9 +94,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         }
         mUser = new User(mContext);
         View view = inflater.inflate(R.layout.fragment_account_activation, null);
-        handleOrientation(view);
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
+        handleOrientation(view);
         return view;
     }
 
@@ -154,6 +154,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onConfigurationChanged");
+        setViewParams(config, mWidth);
     }
 
     @Override
