@@ -64,7 +64,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
                 getPreviousName(), contextData);
         initView();
 
-        loadFaq();
+        loadProductpage();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
-    private void loadFaq() {
+    private void loadProductpage() {
         if (getProductPageUri() == null) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
