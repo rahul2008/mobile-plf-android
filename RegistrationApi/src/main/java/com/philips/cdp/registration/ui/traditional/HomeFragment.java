@@ -23,10 +23,10 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -532,19 +532,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (user.getEmailVerificationStatus(mContext)) {
             launchWelcomeFragment();
         } else {
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(RegConstants.IS_SOCIAL_PROVIDER, true);
-            launchAccountActivationFragment(bundle);
+            launchAccountActivationFragment();
         }
     }
 
-    private void launchAccountActivationFragment(Bundle bundle) {
-        trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
-        getRegistrationFragment().addFragment(new AccountActivationFragment());
-        AccountActivationFragment accountActivationFragment = new AccountActivationFragment();
-        accountActivationFragment.setArguments(bundle);
-        getRegistrationFragment().addFragment(accountActivationFragment);
+    private void launchAccountActivationFragment() {
+       getRegistrationFragment().launchAccountActivationFragmentForLogin();
     }
+
 
     private void launchWelcomeFragment() {
         DIUserProfile diUserProfile = mUser.getUserInstance(mContext);

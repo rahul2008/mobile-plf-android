@@ -212,7 +212,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void lauchAccountActivationFragment() {
-        getRegistrationFragment().addFragment(new AccountActivationFragment());
+        getRegistrationFragment().launchAccountActivationFragmentForLogin();
         trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
     }
 

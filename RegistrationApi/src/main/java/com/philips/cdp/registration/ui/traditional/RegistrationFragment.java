@@ -355,6 +355,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(mergeAccountFragment);
     }
 
+    public void launchAccountActivationFragmentForLogin() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(RegConstants.IS_SOCIAL_PROVIDER, true);
+        trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
+        AccountActivationFragment accountActivationFragment = new AccountActivationFragment();
+        accountActivationFragment.setArguments(bundle);
+        addFragment(accountActivationFragment);
+    }
+
+
     public void addResetPasswordFragment() {
         ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();
         addFragment(resetPasswordFragment);
