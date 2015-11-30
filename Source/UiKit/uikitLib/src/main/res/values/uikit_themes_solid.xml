@@ -3,6 +3,7 @@
 
     <style name="Theme.Philips.DarkBlue">
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
+        <item name="darkColor">@color/uikit_philips_dark_blue</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color</item>
         <item name="listiconselector">@drawable/uikit_list_icon_selector_blue</item>
@@ -35,6 +36,7 @@
 
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
+        <item name="darkColor">@color/uikit_philips_dark_orange</item>
         <item name="listiconselector">@drawable/uikit_list_icon_selector_orange</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_orange</item>
@@ -68,6 +70,7 @@
 
     <style name="Theme.Philips.BrightAqua">
         <item name="baseColor">@color/uikit_philips_bright_aqua</item>
+        <item name="darkColor">@color/uikit_philips_dark_aqua</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme</item>
         <item name="listiconselector">@drawable/uikit_list_icon_selector_aqua</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_aqua</item>

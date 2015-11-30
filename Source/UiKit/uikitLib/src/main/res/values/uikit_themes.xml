@@ -10,6 +10,7 @@
         <item name="actionButtonBgColorPressed">@color/uikit_philips_light_blue</item>
         <item name="android:textAppearance">@style/TextAppearance</item>
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
+        <item name="darkColor">@color/uikit_philips_dark_blue</item>
         <item name="gradBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>

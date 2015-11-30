@@ -32,7 +32,6 @@ public class PhilipsDialog extends Dialog {
     protected float blurRadius = 25.f;
     private boolean isBlur = true;
     private Activity activity;
-    private Handler handler;
     private Bitmap fast;
     private Handler messageHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -76,7 +75,7 @@ public class PhilipsDialog extends Dialog {
         view.buildDrawingCache();
 
 
-        Bitmap b1 = view.getDrawingCache();
+        Bitmap drawingCache = view.getDrawingCache();
         Rect frame = new Rect();
         activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         int statusBarHeight = frame.top;
@@ -88,7 +87,7 @@ public class PhilipsDialog extends Dialog {
         int height = size.y;
 
 
-        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);
+        Bitmap b = Bitmap.createBitmap(drawingCache, 0, statusBarHeight, width, height - statusBarHeight);
         view.destroyDrawingCache();
         return b;
     }

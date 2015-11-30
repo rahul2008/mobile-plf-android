@@ -144,7 +144,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
     }
 
     private void showDialog() {
-        PhilipsDialog alert = new PhilipsDialog(MainActivity.this, R.style.PhilipsDialog);
+        PhilipsDialog alert = new PhilipsDialog(MainActivity.this);
         alert.setContentView(R.layout.uikit_modal_alert);
         alert.show();
     }
