@@ -31,6 +31,7 @@
     <com.philips.cdp.uikit.customviews.RangeSlider
         android:layout_width="269dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
         app:absoluteMinValue="90"
         app:absoluteMaxValue="300"/>

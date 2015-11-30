@@ -391,8 +391,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         paint.setColor(getResources().getColor(R.color.uikit_enricher6));
         paint.setAntiAlias(true);
         padding = INITIAL_PADDING +  thumbHalfWidth;
-        mRect.left = INITIAL_PADDING;
-        mRect.right = getWidth() - INITIAL_PADDING;
+        mRect.left = INITIAL_PADDING - thumbHalfWidth ;
+        mRect.right = getWidth() - INITIAL_PADDING + thumbHalfWidth;
         canvas.drawRect(mRect, paint);
 
 
