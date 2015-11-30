@@ -2,6 +2,7 @@ package com.philips.cdp.ui.catalog.CustomListView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.shamanland.fonticon.FontIconTextView;
 
 
@@ -30,7 +32,7 @@ import java.util.TreeSet;
  */
 public class ListViewWithIcons extends BaseAdapter {
 
-    public Activity activity;
+    public Context activity;
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
@@ -43,6 +45,7 @@ public class ListViewWithIcons extends BaseAdapter {
     public ListViewWithIcons(Context context) {
         mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        activity = context;
     }
 
     public void addItem(final String item) {
@@ -118,9 +121,10 @@ public class ListViewWithIcons extends BaseAdapter {
                 holder.done = (TextView) convertView.findViewById(R.id.textdownnoicon);
 
 
+
                 if(position==1)
                 {
-                    holder.mImage.setImageResource(R.drawable.phone);
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
@@ -128,14 +132,14 @@ public class ListViewWithIcons extends BaseAdapter {
                 }
                 if(position==2)
                 {
-                    holder.mImage.setImageResource(R.drawable.uikit_gear);
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
                 }
                 if(position==3)
                 {
-                    holder.mImage.setImageResource(R.drawable.uikit_email);
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Off");
                     holder.arrow.setVisibility(View.VISIBLE);
@@ -149,7 +153,7 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("On");
                     holder.arrow.setVisibility(View.VISIBLE);
-                    holder.mImage.setImageResource(R.drawable.uikit_gear);
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
 
@@ -157,7 +161,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 if(position==5)
                 {
-                    holder.mImage.setImageResource(R.drawable.phone);
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.arrow.setVisibility(View.VISIBLE);
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));

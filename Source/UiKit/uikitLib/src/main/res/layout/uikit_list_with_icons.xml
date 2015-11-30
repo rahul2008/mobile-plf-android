@@ -6,15 +6,16 @@
             android:minHeight="52dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="20dp"
+                android:paddingTop="11dp"
            >
-            <ImageView
+
+            <com.philips.cdp.uikit.customviews.ImageDrawable
                 android:id="@+id/image"
                 android:layout_width="30dp"
                 android:tint="?attr/baseColor"
                 android:visibility="gone"
                 android:gravity="center_vertical"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"/>
+                android:layout_height="30dp" />
 
             <TextView
                 android:id="@+id/text"
@@ -28,7 +29,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/image"
-                android:layout_centerVertical="true"
                 />
 
     <TextView
@@ -43,7 +43,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_toRightOf="@id/image"
-        android:layout_centerVertical="true"
         />
 
             <com.philips.cdp.uikit.customviews.PuiSwitch
@@ -54,7 +53,6 @@
                 android:layout_marginLeft="7dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 />
 
 
@@ -72,7 +70,6 @@
         android:gravity="right"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
         />
 
             <TextView
@@ -88,8 +85,6 @@
                 android:includeFontPadding="false"
                 fontPath="fonts/centralesanslight.ttf"
                 android:layout_toLeftOf="@id/arrow"
-                android:layout_centerVertical="true"
-                android:layout_alignBaseline="@id/arrow"
                 />
 
     <com.philips.cdp.uikit.customviews.PhilipsBadgeView
@@ -100,8 +95,9 @@
         android:id="@+id/notification_badge"
         android:text="22"
         android:layout_toLeftOf="@id/arrow"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="4dp"
         />
+
+
+
 
         </RelativeLayout>
