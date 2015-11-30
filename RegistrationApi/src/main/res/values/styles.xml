@@ -79,7 +79,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/reg_forgot_text_color</item>
+        <item name="android:textColor">@drawable/reg_btn_secondary_text_selector</item>
         <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
