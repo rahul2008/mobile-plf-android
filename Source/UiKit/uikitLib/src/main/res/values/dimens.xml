@@ -138,4 +138,18 @@
     <dimen name="popover_alert_progress_margin_right">67dp</dimen>
     <dimen name="popover_alert_close_margin_right">14dp</dimen>
     <dimen name="uikit_hamburger_divider_height">1dp</dimen>
+
+    <!-- Modal alert-->
+    <dimen name="uikit_modal_alert_dialog_width">296dp</dimen>
+    <dimen name="uikit_modal_alert_dialog_height">228dp</dimen>
+    <dimen name="uikit_modal_alert_text_top_margin">34dp</dimen>
+    <dimen name="uikit_modal_alert_message_text_top_margin">20dp</dimen>
+    <dimen name="uikit_modal_alert_label_text_size">20sp</dimen>
+    <dimen name="uikit_modal_alert_message_text_size">14sp</dimen>
+    <dimen name="uikit_modal_alert_button_top_margin">33dp</dimen>
+    <dimen name="uikit_modal_alert_button_left_margin">20dp</dimen>
+    <dimen name="uikit_modal_alert_bottom_margin">32dp</dimen>
+    <dimen name="uikit_modal_alert_text_right_margin">21dp</dimen>
+
+
 </resources>
