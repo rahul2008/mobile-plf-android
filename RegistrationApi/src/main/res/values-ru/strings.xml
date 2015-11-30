@@ -119,7 +119,7 @@
 <string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">Вы сможете в любое время отказаться от соглашения с Philips.</string>
 <string name="Signin_Success_Hello_lbltxt">Приветствуем!</string>
 <string name="Access_More_Account_Setting_lbltxt">Вы хотите получить доступ к дополнительным настройкам учетной записи?\nПосетите %s в браузере.</string>
-<string name="Philips_URL_txt">www.philips.com</string>
+<string name="Philips_URL_txt">https://www.philips.co.uk/myphilips/login.html</string>
 <string name="Receive_Philips_News_lbltxt">Получать оповещения от Philips\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Что это значит?</string>
 <string name="Philips_News_Title">Оповещения от Philips</string>

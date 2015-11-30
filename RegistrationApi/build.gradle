@@ -54,7 +54,6 @@ dependencies {
     compile project(':jump')
     compile project(':localeMatch')
     compile project(':hsdp')
-    compile project(':org.apache.http.legacy')
     compile project(':Tagging')
     androidTestCompile project(':dexmaker-1.0')
     androidTestCompile project(':dexmaker-mockito-1.0')
