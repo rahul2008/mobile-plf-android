@@ -48,8 +48,8 @@ public class TabUtils {
         isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
         initSelectionColors();
         initIconColorFilters();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            tabLayout.setOutlineProvider(new TabOutline());
+/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            tabLayout.setOutlineProvider(new TabOutline());*/
     }
 
     public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
