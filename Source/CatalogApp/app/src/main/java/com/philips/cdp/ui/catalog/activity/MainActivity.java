@@ -96,6 +96,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 15:
                 startActivity(new Intent(this, TabViewWithViewPager.class));
                 break;
+            case 16:
+                startActivity(new Intent(this, SpringboardFullBlocksActivity.class));
             default:
                 break;
         }
@@ -139,7 +141,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(13,"Hamburger Menu");
         itemsMap.put(14,"Social Media Icons");
         itemsMap.put(15, "Lists View Demo");
-
+        itemsMap.put(16,"spring board");
         return itemsMap;
     }
 }
