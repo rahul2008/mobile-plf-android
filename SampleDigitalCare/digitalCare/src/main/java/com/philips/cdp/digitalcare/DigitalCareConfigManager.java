@@ -348,7 +348,7 @@ public class DigitalCareConfigManager {
 
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
-        new PrxProductData(mContext).excuteRequests();
+        new PrxProductData(mContext).executeRequests();
         //new ProductPageParser().execute();
     }
 
