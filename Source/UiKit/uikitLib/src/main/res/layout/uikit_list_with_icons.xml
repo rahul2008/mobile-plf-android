@@ -67,6 +67,7 @@
         android:includeFontPadding="false"
         android:text="@string/uikit_fonticon_arrow_right"
         android:textColor="?attr/listtextselector"
+        android:layout_centerInParent="true"
         android:gravity="right"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
