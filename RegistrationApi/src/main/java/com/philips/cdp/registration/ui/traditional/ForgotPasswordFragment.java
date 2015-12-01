@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -303,6 +304,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
         @Override
         public void onClick(View view) {
+            trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
             RegAlertDialog.dismissDialog();
         }
     };

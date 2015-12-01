@@ -30,7 +30,7 @@ public class AppTagingConstants {
 
 	public static final String OS_ANDROID = "android";
 
-	public static final String SEND_DATA = "senddata";
+	public static final String SEND_DATA = "sendData";
 
 	public static final String REGISTRATION_CHANNEL = "registrationChannel";
 
@@ -53,6 +53,10 @@ public class AppTagingConstants {
 	public static final String SUCCESS_SOCIAL_MERGE = "successSocialMerge";
 
 	public static final String REMARKETING_OPTION_IN = "remarketingOptIn";
+
+	public static final String ACCEPT_TERMS_OPTION_IN = "termsAndConditionsOptIn";
+
+	public static final String ACCEPT_TERMS_OPTION_OUT = "termsAndConditionsOptOut";
 
 	public static final String REMARKETING_OPTION_OUT = "remarketingOptOut";
 
@@ -77,5 +81,7 @@ public class AppTagingConstants {
 	public static final String SIGN_OUT = "signOut";
 
 	public static final String SUCCESS_RESEND_EMAIL_VERIFICATION = "successResendEmailVerification";
+
+	public static final String RESEND_VERIFICATION_MAIL_LINK_SENT = "We have sent an email to your email address to reset your password";
 
 }

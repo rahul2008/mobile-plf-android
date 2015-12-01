@@ -208,7 +208,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void launchResetPasswordFragment() {
         getRegistrationFragment().addResetPasswordFragment();
-        trackPage(AppTaggingPages.RESET_PASSWORD);
+        trackPage(AppTaggingPages.FORGOT_PASSWORD);
     }
 
     private void lauchAccountActivationFragment() {

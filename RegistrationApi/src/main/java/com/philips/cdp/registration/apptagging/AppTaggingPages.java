@@ -21,7 +21,7 @@ public class AppTaggingPages {
 
 	public static final String MERGE_SOCIAL_ACCOUNT = "registration:mergesocialaccount";
 
-	public static final String RESET_PASSWORD = "registration:forgotpassword";
+	public static final String FORGOT_PASSWORD = "registration:forgotpassword";
 
 	public static final String PHILIPS_ANNOUNCEMENT = "registration:philipsannouncement";
 

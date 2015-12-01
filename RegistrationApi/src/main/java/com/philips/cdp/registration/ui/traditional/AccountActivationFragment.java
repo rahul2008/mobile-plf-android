@@ -16,10 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.apptagging.AppTaggingPages;
-import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -33,6 +33,8 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+
+import java.util.HashMap;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
         RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener, TraditionalLoginHandler {
@@ -326,19 +328,27 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onResendVerificationEmailSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+        map.put(AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
+        trackMultipleActionsMap(AppTagingConstants.SEND_DATA,map);
+
+/*
+        trackActionStatus(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+
+        trackActionStatus(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
+*/
         updateResendUIState();
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Verification_email_Title),
                 mContext.getResources().getString(R.string.Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-
         mBtnResend.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mBtnResend.setEnabled(true);
             }
-        },RESEND_ENABLE_BUTTON_INTERVAL );
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
-
+        }, RESEND_ENABLE_BUTTON_INTERVAL);
     }
 
     private void updateResendUIState() {

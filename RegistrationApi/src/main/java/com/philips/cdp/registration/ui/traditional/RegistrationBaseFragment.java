@@ -205,6 +205,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
         AppTagging.trackAction(state, null, null);
     }
 
+    protected void trackActionForAcceptTermsOption(String state) {
+        AppTagging.trackAction(state, null, null);
+    }
+
     protected void trackActionRegisterError(int errorCode) {
         AppTaggingErrors.trackActionRegisterError(errorCode);
     }
@@ -233,6 +237,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
         map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.LOGIN_START);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
+    }
+
+    protected void trackMultipleActionsMap(String state,HashMap map) {
+        AppTagging.trackMultipleActions(state, map);
     }
 
     protected void handleOrientationOnView(final View view) {

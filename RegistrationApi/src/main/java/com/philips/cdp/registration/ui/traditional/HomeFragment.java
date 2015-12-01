@@ -344,6 +344,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (NetworkUtility.isNetworkAvailable(mContext)
                 && RegistrationHelper.getInstance().isJanrainIntialized()) {
             trackMultipleActionsLogin(providerName);
+            trackSocialProviderPage();
             mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
         }
     }
@@ -524,7 +525,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
 
-        trackSocialProviderPage();
+        //trackSocialProviderPage();
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
         hideProviderProgress();
         enableControls(true);
@@ -577,8 +578,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError");
-        trackSocialProviderPage();
+        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" +userRegistrationFailureInfo.getErrorCode());
+        trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
         if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
@@ -590,7 +591,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
                                               String socialRegistrationToken) {
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithTwoStepError");
-        trackSocialProviderPage();
         hideProviderProgress();
         enableControls(true);
         RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
@@ -609,7 +609,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                                                 String conflictingIdentityProvider, String conflictingIdpNameLocalized,
                                                 String existingIdpNameLocalized, final String emailId) {
 
-        trackSocialProviderPage();
         hideProviderProgress();
         enableControls(true);
         if (mUser.handleMergeFlowError(existingProvider)) {
@@ -638,7 +637,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void onContinueSocialProviderLoginSuccess() {
         RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
-        trackSocialProviderPage();
         hideProviderProgress();
         enableControls(true);
         launchWelcomeFragment();

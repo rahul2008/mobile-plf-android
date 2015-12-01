@@ -195,12 +195,13 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
         TextView currentProviderView = (TextView) view.findViewById(R.id.tv_reg_conflict_provider);
         String currentProvider = getString(R.string.Social_Merge_Accounts_lbltxt);
-        currentProvider = String.format(currentProvider, mContext.getResources().getString(currentSocialProviderId));
+        currentProvider = String.format(currentProvider, mContext.getResources().getString(conflictSocialProviderId));
         currentProviderView.setText(currentProvider);
         mConflictProvider = conflictingProvider;
 
         String previousSocialProviderDetails = getString(R.string.Social_Merge_Used_EmailError_lbltxt);
-        previousSocialProviderDetails = String.format(previousSocialProviderDetails, conflictingProvider,mEmailId,mContext.getResources().getString(currentSocialProviderId));
+        previousSocialProviderDetails = String.format(previousSocialProviderDetails, mContext.getResources().getString(conflictSocialProviderId)
+                ,mEmailId,mContext.getResources().getString(currentSocialProviderId));
         mTvCurrentProviderDetails.setText(previousSocialProviderDetails);
 
         TextView mergeAccountBoxView = (TextView) view.findViewById(R.id.tv_reg_merge_account_box);

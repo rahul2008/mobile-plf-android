@@ -477,6 +477,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
+        if(mCbAcceptTerms.isChecked()){
+            trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
+        }else{
+            trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
+        }
     }
 
     @Override
