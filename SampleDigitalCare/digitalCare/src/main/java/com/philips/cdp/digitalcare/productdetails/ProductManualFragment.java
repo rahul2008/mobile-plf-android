@@ -19,9 +19,6 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 /**
  * Product Specific PhilipsProduct Manual.
@@ -122,7 +119,8 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         String manualUrl = DigitalCareConfigManager
                 .getInstance().getViewProductDetailsData().getManualLink();
 
-        return String.format(PRODUCT_PAGE_URL, manualUrl);
+        return manualUrl;
+      //  return String.format(PRODUCT_PAGE_URL, manualUrl);
     }
 
     @Override
