@@ -262,7 +262,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     private void hideProgressBar() {
-        mPbWelcomeCheck.setVisibility(View.GONE);
+        mPbWelcomeCheck.setVisibility(View.INVISIBLE);
         mCbTerms.setEnabled(true);
         mBtnLogOut.setEnabled(true);
     }
