@@ -58,6 +58,8 @@
             style="@style/viewProductDetails_Product_Header"
             android:text="@string/product_view_videos"
             android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin"/>
 
@@ -65,6 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/videoScrollView"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:layout_gravity="center_horizontal">
 
             <LinearLayout

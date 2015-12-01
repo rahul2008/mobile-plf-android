@@ -72,6 +72,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private static int mSmallerResolution = 0;
     private int mBiggerResolution = 0;
     private static boolean isTablet = false;
+    private LinearLayout.LayoutParams mScrollerLayoutParams = null;
+    private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,11 +115,16 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProductVideoHeader = (DigitalCareFontTextView) getActivity().findViewById(R.id.productVideoText);
         mCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.variant);
         mVideoScrollView = (HorizontalScrollView) getActivity().findViewById(R.id.videoScrollView);
+        mScrollerLayoutParams = (LinearLayout.LayoutParams) mVideoScrollView
+                .getLayoutParams();
+        mProductVideoHeaderParams = (LinearLayout.LayoutParams) mProductVideoHeader
+                .getLayoutParams();
+
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
-        setViewParams(config);
         createProductDetailsMenu();
         updateViewsWithData();
+        setViewParams(config);
 /*
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -131,10 +138,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private void initView(List<String> mVideoLength) {
 
         DigiCareLogger.d(TAG, "Video's Length : " + mVideoLength.size());
-        if(mVideoLength != null && mVideoLength.size() > 0){
+        if (mVideoLength != null && mVideoLength.size() > 0) {
             mProductVideoHeader.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             return;
         }
 
@@ -146,7 +152,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     .getLayoutParams();
             float density = getResources().getDisplayMetrics().density;
 
-            if(mVideoLength.size() > 1 && (mVideoLength.size() - 1 ) != i){
+            if (mVideoLength.size() > 1 && (mVideoLength.size() - 1) != i) {
                 param.rightMargin = (int) (25 * density);
                 videoThumbnail.setLayoutParams(param);
             }
@@ -270,22 +276,28 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
+            mProductVideoHeaderParams.leftMargin = mProductVideoHeaderParams.rightMargin = mLeftRightMarginPort;
             if (isTablet) {
-                mVideoScrollView.setPadding(300, 0, 300, 0);
-            } else {
-                mVideoScrollView.setPadding(0, 0, 0, 0);
+                mVideoScrollView.setPadding(mProdButtonsParent.getPaddingLeft(), 0, mProdButtonsParent.getPaddingRight(), 0);
+                mScrollerLayoutParams.leftMargin = mScrollerLayoutParams.rightMargin = mLeftRightMarginPort;
+                mScrollerLayoutParams.bottomMargin = 0;
             }
         } else {
             mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginLand;
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginLand;
+            mProductVideoHeaderParams.leftMargin = mProductVideoHeaderParams.rightMargin = mLeftRightMarginLand;
+
             if (isTablet) {
-                mVideoScrollView.setPadding(mLeftRightMarginPort, 0, mLeftRightMarginPort, 0);
-            } else {
-                mVideoScrollView.setPadding(mLeftRightMarginPort, 0, mLeftRightMarginPort, 0);
+                mVideoScrollView.setPadding(mProdButtonsParent.getPaddingLeft(), 0, mProdButtonsParent.getPaddingRight(), 0);
+                mScrollerLayoutParams.leftMargin = mScrollerLayoutParams.rightMargin = mLeftRightMarginLand;
+                mScrollerLayoutParams.bottomMargin = 0;
             }
         }
+
         mFirstContainer.setLayoutParams(mFirstContainerParams);
         mProdButtonsParent.setLayoutParams(mSecondContainerParams);
+        mVideoScrollView.setLayoutParams(mScrollerLayoutParams);
+        mProductVideoHeader.setLayoutParams(mProductVideoHeaderParams);
     }
 
     @Override
