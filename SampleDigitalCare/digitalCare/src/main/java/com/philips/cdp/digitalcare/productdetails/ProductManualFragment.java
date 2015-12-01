@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
     private String mUrl = null;
 
     private String PRODUCT_PAGE_URL = "http://docs.google.com/gview?embedded=true&url=%s";
+
     private String TAG = ProductManualFragment.class.getSimpleName();
 
     @Override
@@ -77,8 +79,10 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         } else {
             //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
             DigiCareLogger.d(TAG, getPhilipsProductPageUrl());
-            mWebView.loadUrl(mUrl);
             mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+            mWebView.getSettings().setAllowFileAccess(true);
+            mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             mWebView.setVerticalScrollBarEnabled(false);
             mWebView.setHorizontalScrollBarEnabled(false);
             mWebView.setWebViewClient(new WebViewClient() {
@@ -102,6 +106,9 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
                 }
 
             });
+
+            mWebView.loadUrl(mUrl);
+
         }
     }
 
@@ -119,8 +126,8 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         String manualUrl = DigitalCareConfigManager
                 .getInstance().getViewProductDetailsData().getManualLink();
 
-        return manualUrl;
-      //  return String.format(PRODUCT_PAGE_URL, manualUrl);
+        //  return manualUrl;
+        return String.format(PRODUCT_PAGE_URL, manualUrl);
     }
 
     @Override
@@ -157,5 +164,8 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         mWebView.setHorizontalScrollBarEnabled(false);
         mScrollView.setVerticalScrollBarEnabled(false);
         mScrollView.setHorizontalScrollBarEnabled(false);
+
+        initView();
+        loadPdfManual();
     }
 }
