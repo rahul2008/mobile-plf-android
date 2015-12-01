@@ -31,7 +31,7 @@ public class RegistrationApplication extends Application {
 			mlocale = new Locale("en_US");
 		}
 		Tagging.init(mlocale, this);
-		RegistrationHelper.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+		RegistrationHelper.getInstance().setPrioritisedFunction(RegistrationFunction.SignIn);
 		RegistrationHelper.getInstance().intializeRegistrationSettings(this,
 				Locale.getDefault());
 
