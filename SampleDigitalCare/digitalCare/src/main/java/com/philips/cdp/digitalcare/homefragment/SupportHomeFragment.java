@@ -288,7 +288,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().finish();
+        /*
+        Commenting below finish() because of "Rally DE9081".
+        [Coffee]After switching menu from consumer care to other menu from leftoffcanvas, our application getting close
+         */
+//        getActivity().finish();
     }
 
     private Drawable getDrawable(int resId) {
