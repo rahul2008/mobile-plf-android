@@ -197,7 +197,7 @@ public class DigitalCareConfigManager {
     /**
      * It returns the previously set Page name for tagging.
      *
-     * @return
+     * @return mPageScreenpageName
      */
     public String getVerticalPageNameForTagging() {
         return mPageName;
@@ -398,7 +398,7 @@ public class DigitalCareConfigManager {
         }
     }
 
-    public boolean isBazaarVoiceRequired() {
+    /*public boolean isBazaarVoiceRequired() {
         if (mContext != null) {
             return mContext.getResources().getBoolean(R.bool.productreview_required);
         }
@@ -410,7 +410,7 @@ public class DigitalCareConfigManager {
             return mContext.getResources().getBoolean(R.bool.production_environment);
         }
         return false;
-    }
+    }*/
 
     public void setViewProductDetailsData(ViewProductDetailsModel detailsObject) {
         mProductDetailsModel = detailsObject;

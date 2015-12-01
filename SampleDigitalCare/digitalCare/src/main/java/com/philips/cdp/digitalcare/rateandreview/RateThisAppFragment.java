@@ -53,7 +53,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private FrameLayout.LayoutParams mLayoutParams = null;
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
-    private boolean mBazaarVoiceReviewRequired = false;
+   // private boolean mBazaarVoiceReviewRequired = false;
     //  private BazaarVoiceWrapper mBazaarVoiceWrapper;
     private ViewProductDetailsModel mProductData = null;
 
@@ -66,7 +66,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
-        mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
+     //   mBazaarVoiceReviewRequired = DigitalCareConfigManager.getInstance().isBazaarVoiceRequired();
         return mView;
     }
 
@@ -217,7 +217,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onPRXProductPageReceived(ViewProductDetailsModel data) {
 
         String productlink = data.getProductInfoLink();
-        if (productlink != null && mBazaarVoiceReviewRequired) {
+        if (productlink != null /*&& mBazaarVoiceReviewRequired*/) {
             DigiCareLogger.d(TAG, "Show product review()");
             showProductReviewView();
         } else {
