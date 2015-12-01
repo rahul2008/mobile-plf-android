@@ -124,6 +124,21 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
             public void onTermsAndConditionClick(Activity activity) {
 
             }
+
+            @Override
+            public void onUserLogoutSuccess() {
+
+            }
+
+            @Override
+            public void onUserLogoutFailure() {
+
+            }
+
+            @Override
+            public void onUserLogoutSuccessWithInvalidAccessToken() {
+
+            }
         });
 
         UserRegistrationHelper url = mRegistrationHelper.getUserRegistrationListener();
