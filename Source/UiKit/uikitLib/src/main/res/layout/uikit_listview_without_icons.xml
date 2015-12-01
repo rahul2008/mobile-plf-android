@@ -12,9 +12,6 @@
     >
 
 
-
-
-
     <TextView
         android:id="@+id/text_description_without_icons"
         android:layout_width="wrap_content"
@@ -52,6 +49,18 @@
         android:layout_marginRight="19dp"/>
 
     <TextView
+        android:id="@+id/ifo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:includeFontPadding="false"
+        android:text="Version"
+        android:layout_alignParentTop="true"
+        android:textColor="?attr/listtextselector"
+        android:layout_alignBaseline="@id/medium"
+        />
+
+    <TextView
         android:id="@+id/numberwithouticon"
         android:text="Medium"
         android:layout_width="wrap_content"
@@ -62,6 +71,7 @@
         android:textColor="?attr/listtextselector"
         android:visibility="gone"
         android:textSize="20sp"
+        android:layout_alignBaseline="@id/ifo"
         />
 
     <com.shamanland.fonticon.FontIconTextView
@@ -81,16 +91,6 @@
         android:layout_alignBaseline="@id/medium"
         />
 
-    <TextView
-        android:id="@+id/ifo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:includeFontPadding="false"
-        android:text="Version"
-        android:layout_alignParentTop="true"
-        android:textColor="?attr/listtextselector"
-        android:layout_alignBaseline="@id/medium"
-        />
+
 
     </RelativeLayout>
