@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.rateandreview.test;
 
 import android.app.Activity;
@@ -13,19 +14,21 @@ import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductWriteReviewFragment;
 
+*/
 /**
  * This is the testing Class to test the Product Review features testing.
  *
  * @author ritesh.jha@philips.com
  * @since 27 Aug 2015
- */
+ *//*
+
 public class ProductReviewTest extends
         ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
     private RateThisAppFragment mRateThisAppScreen = null;
     private Activity mLauncherActivity = null;
     private Context mContext, context = null;
-    private ProductWriteReviewFragment mProductWriteReviewFragment = null;
+ //   private ProductWriteReviewFragment mProductWriteReviewFragment = null;
 
     public ProductReviewTest() {
         super(DigitalCareActivity.class);
@@ -43,7 +46,8 @@ public class ProductReviewTest extends
     }
 
 
-     /*
+     */
+/*
     @SmallTest
     public void testTheLauncherContext() {
         assertNotNull(mLauncherActivity);
@@ -147,5 +151,6 @@ public class ProductReviewTest extends
     @SmallTest
     public void testProductTitle() {
         String productTitle = mProductWriteReviewFragment.getProductTitle();
-    } */
-}
+    } *//*
+
+}*/
