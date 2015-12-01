@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
-import com.philips.cdp.uikit.customviews.PhilipsDialog;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -94,7 +93,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, TabViewWithViewPager.class));
                 break;
             case 16:
-                showDialog();
+                startActivity(new Intent(this, ModalAlertDemo.class));
                 break;
             default:
                 break;
@@ -142,11 +141,4 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 
         return itemsMap;
     }
-
-    private void showDialog() {
-        PhilipsDialog alert = new PhilipsDialog(MainActivity.this);
-        alert.setContentView(R.layout.uikit_modal_alert);
-        alert.show();
-    }
-
 }
