@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/videoContainer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_prod_details_video_height"></ImageView>
+        android:layout_height="wrap_content"></ImageView>
 
     <ImageView
         android:id="@+id/videoPlay"
