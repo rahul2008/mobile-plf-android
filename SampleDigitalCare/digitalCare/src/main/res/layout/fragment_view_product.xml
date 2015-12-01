@@ -43,8 +43,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="120dp"
                 android:layout_height="130dp"
-                style="@style/viewProductDetails_ProdImage"
-                />
+                style="@style/viewProductDetails_ProdImage"/>
         </RelativeLayout>
 
         <View
@@ -79,8 +78,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/videoScrollView"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:layout_gravity="center_horizontal">
 
             <LinearLayout
