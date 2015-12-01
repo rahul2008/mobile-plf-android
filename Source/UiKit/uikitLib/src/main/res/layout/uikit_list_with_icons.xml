@@ -66,6 +66,7 @@
         style="@style/FontIcon.Small"
         android:includeFontPadding="false"
         android:text="@string/uikit_fonticon_arrow_right"
+        android:layout_centerInParent="true"
         android:textColor="?attr/listtextselector"
         android:gravity="right"
         android:layout_alignParentRight="true"
