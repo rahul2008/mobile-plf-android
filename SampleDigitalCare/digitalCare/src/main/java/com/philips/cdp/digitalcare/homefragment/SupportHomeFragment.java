@@ -118,7 +118,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         int drawable = getResources().getIdentifier(
                 packageName + ":drawable/" + buttonDrawable, null, null);
         RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
-        if(relativeLayout ==null){
+        if (relativeLayout == null) {
             return;
         }
         Button button = createButton(density, title);
@@ -161,7 +161,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         String viewProductText = getStringKey(R.string.view_product_details);
         ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
 
-        if((buttonTitle == null) || (buttonTitle.equalsIgnoreCase(viewProductText) && (model == null || model.getCtnName() == null))){
+        if ((buttonTitle == null) || (buttonTitle.equalsIgnoreCase(viewProductText) && (model == null || model.getCtnName() == null || model
+                .getProductName() == null))) {
             return null;
         }
 
