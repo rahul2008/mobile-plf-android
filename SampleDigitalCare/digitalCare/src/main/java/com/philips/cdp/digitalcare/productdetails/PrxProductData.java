@@ -57,7 +57,6 @@ public class PrxProductData {
     DigitalCareConfigManager mConfigManager = null;
 
     private ProgressDialog mSummaryDialog = null;
-    private ProgressDialog mAssetDialog = null;
 
     private RequestManager mRequestManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
@@ -73,7 +72,7 @@ public class PrxProductData {
         initProductCredentials();
     }
 
-    public void excuteRequests() {
+    public void executeRequests() {
         updateUI(new Runnable() {
             @Override
             public void run() {
@@ -166,13 +165,6 @@ public class PrxProductData {
 
     public void executeAssetRequest() {
 
-        if (mAssetDialog == null)
-            mAssetDialog = new ProgressDialog(mContext, R.style.loaderTheme);
-        mAssetDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        mAssetDialog.setCancelable(false);
-        Activity activity = (Activity) mContext;
-        if (!(activity.isFinishing()))
-            mAssetDialog.show();
         mRequestManager.executeRequest(getPrxAssetData(), new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -202,9 +194,6 @@ public class PrxProductData {
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
                     }
-
-                    if (mAssetDialog != null && mAssetDialog.isShowing())
-                        mAssetDialog.cancel();
                 }
             }
 
@@ -212,8 +201,6 @@ public class PrxProductData {
             public void onResponseError(String error, int statusCode) {
                 DigiCareLogger.d(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                if (mAssetDialog != null && mAssetDialog.isShowing())
-                    mAssetDialog.cancel();
             }
         });
     }
