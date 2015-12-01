@@ -49,7 +49,7 @@
     <string name="product_view_videos"> Vidéos de produit </string>
     <string name="product_open_manual"> Ouvrir le manuel interactif </string>
     <string name="product_download_manual"> Télécharger le manuel du produit </string>
-    <string name="product_information"> Information sur les produits (sur philips.com) </string>
+    <string name="product_information"> Information sur les produits (sur Philips.com) </string>
 
     <!-- Rate This Application   null -->
     <string name="rate_playstore_headertext"> Que pensez-vous de cette application? </string>

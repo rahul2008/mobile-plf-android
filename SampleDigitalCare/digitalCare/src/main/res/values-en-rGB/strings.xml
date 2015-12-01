@@ -48,8 +48,8 @@
     <!-- View Product Details Screen   null -->
     <string name="product_view_videos"> Product videos </string>
     <string name="product_open_manual"> Open interactive manual </string>
-    <string name="product_download_manual"> Download Product manual </string>
-    <string name="product_information"> Products information (on philips.com) </string>
+    <string name="product_download_manual"> Download product manual </string>
+    <string name="product_information"> Product information (on Philips.com) </string>
 
     <!-- Rate This Application   null -->
     <string name="rate_playstore_headertext"> How would you rate this app? </string>

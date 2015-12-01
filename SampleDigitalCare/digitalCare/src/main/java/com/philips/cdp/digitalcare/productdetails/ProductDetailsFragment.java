@@ -64,6 +64,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private DigitalCareFontTextView mProductVideoHeader = null;
     private DigitalCareFontTextView mCtn = null;
     private ImageView mProductImage = null;
+    private static ImageView mProductImageTablet = null;
     private HorizontalScrollView mVideoScrollView = null;
     private String mManualPdf = null;
     private String mProductPage = null;
@@ -88,7 +89,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         } catch (Exception e) {
             DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
-
+        getDisplayWidth();
         return view;
     }
 
@@ -110,7 +111,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 .getLayoutParams();
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+
+        mProductImageTablet = (ImageView) getActivity().findViewById(R.id.productImageTablet);
         mProductImage = (ImageView) getActivity().findViewById(R.id.productimage);
+
         mProductTitle = (DigitalCareFontTextView) getActivity().findViewById(R.id.name);
         mProductVideoHeader = (DigitalCareFontTextView) getActivity().findViewById(R.id.productVideoText);
         mCtn = (DigitalCareFontTextView) getActivity().findViewById(R.id.variant);
@@ -436,7 +440,14 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap bitmap) {
-                            mProductImage.setImageBitmap(bitmap);
+                            if(isTablet){
+                                mProductImageTablet.setVisibility(View.VISIBLE);
+                                mProductImageTablet.setImageBitmap(bitmap);
+                            }
+                            else {
+                                mProductImage.setVisibility(View.VISIBLE);
+                                mProductImage.setImageBitmap(bitmap);
+                            }
                         }
                     }, 0, 0, null,
                     new Response.ErrorListener() {
