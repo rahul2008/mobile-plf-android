@@ -139,7 +139,18 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
 
         for (int i = 0; i < mVideoLength.size(); i++) {
-            addNewVideo(i + "", mVideoLength.get(i));
+            View child = getActivity().getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
+            ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
+            ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
+            RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) videoThumbnail
+                    .getLayoutParams();
+            float density = getResources().getDisplayMetrics().density;
+
+            if(mVideoLength.size() > 1 && (mVideoLength.size() - 1 ) != i){
+                param.rightMargin = (int) (25 * density);
+                videoThumbnail.setLayoutParams(param);
+            }
+            addNewVideo(i, mVideoLength.get(i), child, videoThumbnail, videoPlay);
         }
     }
 
@@ -192,11 +203,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         imageRequestQueue.add(request);
     }
 
-    private void addNewVideo(String tag, final String video) {
-        View child = getActivity().getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
-        ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
-        ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
+    private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, ImageView videoPlay) {
+        String tag = counter + "";
         final String thumbnail = video.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
+
         loadVideoThumbnail(videoThumbnail, thumbnail);
         child.setTag(tag);
         //    videoPlay.setOnClickListener(videoModel);
@@ -261,7 +271,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
             if (isTablet) {
-                mVideoScrollView.setPadding(0, 0, 0, 0);
+                mVideoScrollView.setPadding(300, 0, 300, 0);
             } else {
                 mVideoScrollView.setPadding(0, 0, 0, 0);
             }

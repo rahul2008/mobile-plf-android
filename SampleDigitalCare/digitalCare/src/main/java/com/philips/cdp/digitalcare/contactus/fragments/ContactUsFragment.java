@@ -408,14 +408,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }
 
         if (id == R.id.contactUsChat && isConnectionAvailable()) {
-            if (mCdlsResponseStr == null) {
-                showAlert(getActivity().getString(R.string.no_data));
-                return;
-            } else if (mCdlsParsedResponse != null
-                    && !mCdlsParsedResponse.getSuccess()) {
-                showAlert(getActivity().getString(R.string.no_data));
-                return;
-            }
+//            if (mCdlsResponseStr == null) {
+//                showAlert(getActivity().getString(R.string.no_data));
+//                return;
+//            } else if (mCdlsParsedResponse != null
+//                    && !mCdlsParsedResponse.getSuccess()) {
+//                showAlert(getActivity().getString(R.string.no_data));
+//                return;
+//            }
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CHAT);
             showFragment(new ChatFragment());
         } else if (id == R.id.contactUsCall) {
