@@ -11,10 +11,6 @@
            android:gravity="center"
     >
 
-
-
-
-
     <TextView
         android:id="@+id/text_description_without_icons"
         android:layout_width="wrap_content"
@@ -27,6 +23,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="11dp"
+        fontPath="fonts/centralesansbook.ttf"
         android:visibility="gone"/>
 
     <com.philips.cdp.uikit.customviews.PuiSwitch
@@ -49,6 +46,7 @@
         android:textColor="?attr/listtextselector"
         android:visibility="gone"
         android:textSize="20sp"
+        fontPath="fonts/centralesanslight.ttf"
         android:layout_marginRight="19dp"/>
 
     <TextView
@@ -62,6 +60,7 @@
         android:textColor="?attr/listtextselector"
         android:visibility="gone"
         android:textSize="20sp"
+        fontPath="fonts/centralesanslight.ttf"
         />
 
     <com.shamanland.fonticon.FontIconTextView
@@ -86,6 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        fontPath="fonts/centralesansbook.ttf"
         android:includeFontPadding="false"
         android:text="Version"
         android:layout_alignParentTop="true"
