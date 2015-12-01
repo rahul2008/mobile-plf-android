@@ -38,8 +38,7 @@
     <string name="check_sim"> Aucune carte SIM détectée. Vérifiez qu\'elle est bien insérée. </string>
     <string name="no_data_available"> Aucune donnée </string>
 
-    <!-- send_us_email   null -->
-
+    <string name="send_us_email">Электронное сообщение</string>
     <!-- Live Chat Screen   null -->
     <string name="can_we_help_you"> Нужна помощь? </string>
     <string name="chat_now"> Начать чат </string>
