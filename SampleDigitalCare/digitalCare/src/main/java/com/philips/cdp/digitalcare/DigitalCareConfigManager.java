@@ -15,6 +15,7 @@ import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 import java.util.Locale;
@@ -32,6 +33,7 @@ import java.util.Locale;
  */
 public class DigitalCareConfigManager {
 
+    private static final String TAG = DigitalCareConfigManager.class.getSimpleName();
     private static DigitalCareConfigManager mDigitalCareInstance = null;
     private static Context mContext = null;
     private static LocaleMatchHandler mLocaleMatchHandler = null;
@@ -324,11 +326,9 @@ public class DigitalCareConfigManager {
      */
     public void setLocale(String langCode, String countryCode) {
 
-//        mLocaleMatchWithCountryFallBack = null;
-//        mLocaleMatchWithLanguageFallBack = null;
-
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
+            DigiCareLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
             mLocaleMatchHandler.initializeLocaleMatchService(langCode, countryCode);
         }
     }
@@ -348,8 +348,8 @@ public class DigitalCareConfigManager {
 
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
+        DigiCareLogger.d(TAG, "Country Fallback : " + localeMatchLocale.toString());
         new PrxProductData(mContext).executeRequests();
-        //new ProductPageParser().execute();
     }
 
 
@@ -359,6 +359,7 @@ public class DigitalCareConfigManager {
 
     public void setLocaleMatchResponseLocaleWithLanguageFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithLanguageFallBack = localeMatchLocale;
+        DigiCareLogger.d(TAG, "Language Fallback : " + localeMatchLocale.toString());
     }
 
     public String getDigitalCareLibVersion() {
@@ -417,7 +418,7 @@ public class DigitalCareConfigManager {
     }
 
     public ViewProductDetailsModel getViewProductDetailsData() {
-        return  mProductDetailsModel;
+        return mProductDetailsModel;
     }
 
 }

@@ -76,8 +76,8 @@ public class PrxProductData {
         updateUI(new Runnable() {
             @Override
             public void run() {
-                executeSummaryRequest();
                 executeAssetRequest();
+                executeSummaryRequest();
             }
         });
 
@@ -154,7 +154,7 @@ public class PrxProductData {
 
             @Override
             public void onResponseError(String error, int statuscode) {
-                DigiCareLogger.d(TAG, "Summary Error Response : " + error);
+                DigiCareLogger.e(TAG, "Summary Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                 if (mSummaryDialog != null && mSummaryDialog.isShowing())
                     mSummaryDialog.cancel();
@@ -199,7 +199,7 @@ public class PrxProductData {
 
             @Override
             public void onResponseError(String error, int statusCode) {
-                DigiCareLogger.d(TAG, "Asset Error Response : " + error);
+                DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
             }
         });

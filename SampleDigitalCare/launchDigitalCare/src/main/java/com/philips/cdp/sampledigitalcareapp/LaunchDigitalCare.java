@@ -222,14 +222,13 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     }
 
 
-
     private String getStringKey(int resId) {
         return getResources().getResourceEntryName(resId);
     }
 
     @Override
     public boolean onProductMenuItemClicked(String productMenu) {
-              return false;
+        return false;
     }
 
     @Override
@@ -247,7 +246,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         DigitalCareConfigManager.getInstance().enableTagging(true);
         DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
         DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
-   //     setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         /*
          * Take values from GUI editText.

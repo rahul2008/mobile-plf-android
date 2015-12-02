@@ -3,10 +3,8 @@ package com.philips.cdp.digitalcare.localematch;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
 /**
  * Created by 310202701 on 9/16/2015.
@@ -30,6 +28,6 @@ public class LocaleMatchHandlerObserver extends Observable {
         synchronized(mObservers){
             mObservers.notify();
         }
-        DigiCareLogger.d(TAG, "setValue called");
+        DigiCareLogger.i(TAG, "******** Locale notified ****");
     }
 }
