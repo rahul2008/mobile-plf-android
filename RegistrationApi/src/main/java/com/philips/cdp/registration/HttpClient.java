@@ -1,12 +1,16 @@
 
 package com.philips.cdp.registration;
 
+import android.support.v4.util.Pair;
+import android.util.Log;
+
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,7 +19,6 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
@@ -23,8 +26,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import android.support.v4.util.Pair;
-import android.util.Log;
 
 
 public class HttpClient {
@@ -43,44 +44,12 @@ public class HttpClient {
 
 	private String LOG_TAG = "HttpClient";
 
-	// ----- Post Method
-	/*public String postData(String url, List<NameValuePair> nameValuePairs, String accessToken) {
-
-		DefaultHttpClient httpClient = getHttpClient();
-
-		try {
-			HttpPost httppost = new HttpPost(url);
-			httppost.setHeader(ACCESS_TOKEN_HEADER, accessToken);
-			httppost.setHeader(CONTENT_TYPE_HEADER, CONTENT_TYPE);
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse httpResponse = httpClient.execute(httppost);
-			InputStream inputStream = httpResponse.getEntity().getContent();
-			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			StringBuilder stringBuilder = new StringBuilder();
-			String bufferedStrChunk = null;
-
-			while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
-				stringBuilder.append(bufferedStrChunk);
-			}
-			Log.i(LOG_TAG, "Returninge of doInBackground :" + stringBuilder.toString());
-			return stringBuilder.toString();
-		} catch (ClientProtocolException cpe) {
-			cpe.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-
-		return null;
-	}*/
-
 	public String callPost(String urlString, List<Pair<String, String>> nameValuePairs, String accessToken){
 		URL url = null;
 		OutputStream outputStream = null;
 		BufferedWriter bufferedWriter = null;
 		BufferedReader bufferedReader = null;
-		StringBuilder inputResponse = null;
+		StringBuilder inputResponse = new StringBuilder();
 		try {
 			url = new URL(urlString);
 			HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
@@ -96,39 +65,42 @@ public class HttpClient {
 				}
 			});
 			outputStream = connection.getOutputStream();
-			bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-			Log.i(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection input params" + getPostString(nameValuePairs));
-			bufferedWriter.write(getPostString(nameValuePairs));
+			DataOutputStream wr = new DataOutputStream(outputStream);
+			wr.writeBytes(getPostString(nameValuePairs));
+			wr.flush();
+			wr.close();
 			int responseCode = connection.getResponseCode();
-
-
-			bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			Log.i(LOG_TAG, "HTTPsURLConnection  response code: " + responseCode);
 			String input;
 			inputResponse = new StringBuilder();
 			if(responseCode == HttpsURLConnection.HTTP_OK) {
+				bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				while ((input = bufferedReader.readLine()) != null) {
 					inputResponse.append(input);
 				}
 			}else {
-				Log.i(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection response error with code" + responseCode);
+				bufferedReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+				while ((input = bufferedReader.readLine()) != null) {
+					inputResponse.append(input);
+				}
 			}
-
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection" + e.getMessage());
+			Log.e(LOG_TAG, "Error in POST call " + e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
-			Log.e(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection" );
+			Log.e(LOG_TAG, "Error in POST call " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
-				bufferedWriter.close();
-				outputStream.close();
-				bufferedReader.close();
+				if(bufferedWriter != null)
+					bufferedWriter.close();
+				if(bufferedReader != null)
+					bufferedReader.close();
 			} catch (IOException e) {
-				Log.e(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection" + e.getMessage());
+				Log.e(LOG_TAG, "Error in POST call " + e.getMessage());
 				e.printStackTrace();
 			}
 
@@ -163,8 +135,6 @@ public class HttpClient {
 
 	public String callGet(String urlString, String accessToken){
 		URL url = null;
-		OutputStream outputStream = null;
-		BufferedWriter bufferedWriter = null;
 		BufferedReader bufferedReader = null;
 		StringBuilder inputResponse =  new StringBuilder();
 		try{
@@ -185,13 +155,17 @@ public class HttpClient {
 
 			int responseCode = connection.getResponseCode();
 			Log.i(LOG_TAG, "Returninge of doInBackground :HTTPURLConnection response code" + responseCode);
-
-			bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String input;
-			inputResponse = new StringBuilder();
-
-			while((input = bufferedReader.readLine()) != null){
-				inputResponse.append(input);
+			if(responseCode == HttpsURLConnection.HTTP_OK) {
+				bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				while ((input = bufferedReader.readLine()) != null) {
+					inputResponse.append(input);
+				}
+			}else {
+				bufferedReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+				while ((input = bufferedReader.readLine()) != null) {
+					inputResponse.append(input);
+				}
 			}
 
 		}catch (MalformedURLException e) {
@@ -203,12 +177,6 @@ public class HttpClient {
 
 		}finally {
 			try {
-				if(bufferedWriter != null) {
-					bufferedWriter.close();
-				}
-				if(outputStream != null) {
-					outputStream.close();
-				}
 				if(bufferedReader != null) {
 					bufferedReader.close();
 				}
@@ -222,64 +190,6 @@ public class HttpClient {
 		return inputResponse.toString();
 
 	}
-
-
-	// ---- Get Method
-	/*public String connectWithHttpGet(String url, String accessToken) {
-
-		DefaultHttpClient httpClient = getHttpClient();
-
-		HttpGet httpGet = new HttpGet(url);
-		httpGet.setHeader(ACCESS_TOKEN_HEADER, accessToken);
-
-		try {
-			HttpResponse httpResponse = httpClient.execute(httpGet);
-			InputStream inputStream = httpResponse.getEntity().getContent();
-			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			StringBuilder stringBuilder = new StringBuilder();
-			String bufferedStrChunk = null;
-
-			while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
-				stringBuilder.append(bufferedStrChunk);
-			}
-			Log.i(LOG_TAG, "Returninge of doInBackground :" + stringBuilder.toString());
-			return stringBuilder.toString();
-
-		} catch (ClientProtocolException cpe) {
-			Log.e(LOG_TAG, "Exception related to httpResponse :" + cpe);
-		} catch (IOException ioe) {
-			Log.e(LOG_TAG, "IOException related to httpResponse :" + ioe);
-		}
-
-		return null;
-	}*/
-
-	/*public DefaultHttpClient getHttpClient() {
-		try {
-			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-			trustStore.load(null, null);
-
-			SSLSocketFactory sf = new HttpsSocketFactory(trustStore);
-
-
-			sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-			HttpParams params = new BasicHttpParams();
-			HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-			HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
-
-			SchemeRegistry registry = new SchemeRegistry();
-			registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-			registry.register(new Scheme("https", sf, 443));
-
-			ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
-
-			return new DefaultHttpClient(ccm, params);
-		} catch (Exception e) {
-			return new DefaultHttpClient();
-		}
-	}*/
 
 	private  javax.net.ssl.SSLSocketFactory createSslSocketFactory() throws Exception {
 		TrustManager[] byPassTrustManagers = new TrustManager[] { new X509TrustManager() {
@@ -314,80 +224,4 @@ public class HttpClient {
 	}
 
 
-
-	/*class HttpsSocketFactory extends SSLSocketFactory {
-
-		private SSLContext mSslContext = SSLContext.getInstance("TLS");
-
-		public HttpsSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException,
-		        KeyManagementException, KeyStoreException, UnrecoverableKeyException {
-			super(truststore);
-
-			TrustManager tm = new X509TrustManager() {
-
-				public void checkClientTrusted(X509Certificate[] chain, String authType)
-				        throws CertificateException {
-				}
-
-				public void checkServerTrusted(X509Certificate[] chain, String authType)
-				        throws CertificateException {
-				}
-
-				public X509Certificate[] getAcceptedIssuers() {
-					return null;
-				}
-			};
-
-			mSslContext.init(null, new TrustManager[] { tm }, null);
-		}
-
-		@Override
-		public Socket createSocket(Socket socket, String host, int port, boolean autoClose)
-		        throws IOException, UnknownHostException {
-			return mSslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
-		}
-
-		@Override
-		public Socket createSocket()
-		        throws IOException {
-			return mSslContext.getSocketFactory().createSocket();
-		}
-	}*/
-
-	/*public String request(HttpResponse response) {
-		String result = null;
-		if (response.getStatusLine().getStatusCode() == 200) {
-			InputStream in = null;
-			BufferedReader reader = null;
-			try {
-				in = response.getEntity().getContent();
-				reader = new BufferedReader(new InputStreamReader(in));
-				StringBuilder str = new StringBuilder();
-				String line = null;
-				while ((line = reader.readLine()) != null) {
-					str.append(line + "\n");
-					line = null;
-				}
-				result = str.toString();
-			} catch (Exception ex) {
-				result = null;
-			} finally {
-				if (in != null)
-					try {
-						in.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				in = null;
-				if (reader != null)
-					try {
-						reader.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				reader = null;
-			}
-		}
-		return result;
-	}*/
 }
