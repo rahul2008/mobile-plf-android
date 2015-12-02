@@ -100,59 +100,6 @@
     </string-array>
 
 
-    <!-- country code -->
-    <string-array name="country_code">
-        <item>GB</item>
-        <item>IN</item>
-        <item>US</item>
-        <item>SA</item>
-        <item>BG</item>
-        <item>BA</item>
-        <item>CZ</item>
-        <item>DK</item>
-        <item>DE</item>
-        <item>GR</item>
-        <item>AR</item>
-        <item>EU</item>
-        <item>MX</item>
-        <item>EE</item>
-        <item>IR</item>
-        <item>AF</item>
-        <item>CA</item>
-        <item>FI</item>
-        <item>FR</item>
-        <item>HR</item>
-        <item>HU</item>
-        <item>ID</item>
-        <item>IT</item>
-        <item>KR</item>
-        <item>LT</item>
-        <item>LV</item>
-        <item>MG</item>
-        <item>MK</item>
-        <item>NO</item>
-        <item>NL</item>
-        <item>PL</item>
-        <item>PT</item>
-        <item>BR</item>
-        <item>RO</item>
-        <item>RU</item>
-        <item>SK</item>
-        <item>SI</item>
-        <item>AL</item>
-        <item>RS</item>
-        <item>ME</item>
-        <item>SE</item>
-        <item>TH</item>
-        <item>TR</item>
-        <item>UA</item>
-        <item>VN</item>
-        <item>CN</item>
-        <item>HK</item>
-        <item>TW</item>
-    </string-array>
-
-
     <!-- Country -->
     <string-array name="country">
         <item>United Kingdom (GB)</item>
@@ -203,7 +150,70 @@
         <item>Simplified Chinese (zh-CN)</item>
         <item>Chinese HongKong (zh-HK)</item>
         <item>Traditional Chinese (zh-TW)</item>
+        <item>Japan (JP)</item>
+        <item>Estonia (EE)</item>
+        <item>Israel (IL)</item>
+        <item>Kazakhstan (KZ)</item>
     </string-array>
+
+
+    <!-- country code -->
+    <string-array name="country_code">
+        <item>GB</item>
+        <item>IN</item>
+        <item>US</item>
+        <item>SA</item>
+        <item>BG</item>
+        <item>BA</item>
+        <item>CZ</item>
+        <item>DK</item>
+        <item>DE</item>
+        <item>GR</item>
+        <item>AR</item>
+        <item>EU</item>
+        <item>MX</item>
+        <item>EE</item>
+        <item>IR</item>
+        <item>AF</item>
+        <item>CA</item>
+        <item>FI</item>
+        <item>FR</item>
+        <item>HR</item>
+        <item>HU</item>
+        <item>ID</item>
+        <item>IT</item>
+        <item>KR</item>
+        <item>LT</item>
+        <item>LV</item>
+        <item>MG</item>
+        <item>MK</item>
+        <item>NO</item>
+        <item>NL</item>
+        <item>PL</item>
+        <item>PT</item>
+        <item>BR</item>
+        <item>RO</item>
+        <item>RU</item>
+        <item>SK</item>
+        <item>SI</item>
+        <item>AL</item>
+        <item>RS</item>
+        <item>ME</item>
+        <item>SE</item>
+        <item>TH</item>
+        <item>TR</item>
+        <item>UA</item>
+        <item>VN</item>
+        <item>CN</item>
+        <item>HK</item>
+        <item>TW</item>
+        <item>JP</item>
+        <item>EE</item>
+        <item>IL</item>
+        <item>KZ</item>
+    </string-array>
+
+
 
 
     <string name="dummytext">Dummy View</string>
