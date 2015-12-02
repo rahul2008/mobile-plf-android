@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        versionName "2.1.5"
+        versionName "2.1.6"
         multiDexEnabled true
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
