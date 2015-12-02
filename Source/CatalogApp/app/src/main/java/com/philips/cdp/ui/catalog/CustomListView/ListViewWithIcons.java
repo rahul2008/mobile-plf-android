@@ -221,13 +221,6 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.textView.setVisibility(View.GONE);
                 }
 
-                boolean val=holder.arrow.isActivated();
-                holder.arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
 
 
                 break;
