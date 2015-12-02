@@ -13,6 +13,9 @@
         android:layout_height="wrap_content"
         android:divider="?attr/listDividerColor"
         android:dividerHeight="1dp"
-        android:listSelector="?attr/listSelectorBackground"></ListView>
+        android:listSelector="?attr/listSelectorBackground"
+        android:scrollbarStyle="outsideInset"
+        android:overScrollFooter="@android:color/transparent"
+        android:footerDividersEnabled="false"></ListView>
 
 </RelativeLayout>

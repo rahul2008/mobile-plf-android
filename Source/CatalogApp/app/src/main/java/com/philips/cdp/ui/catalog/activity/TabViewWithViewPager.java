@@ -62,10 +62,11 @@ public class TabViewWithViewPager extends CatalogActivity {
     private void setViewPager() {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new ListViewPagerAdapter(getSupportFragmentManager(),bottomLayout.getTabCount());
+     //   viewPager.setAdapter(new SampleFragmentPagerAdapter(getChildFragmentManager(), getActivity()));
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(bottomLayout));
-
+        viewPager.setOffscreenPageLimit(4);
         bottomLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
 
             @Override
@@ -104,12 +105,12 @@ public class TabViewWithViewPager extends CatalogActivity {
                 " Option");
         bottomLayout.addTab(tab);
 
-        /*tab = utils.newTab(0, 0, 0);
+        tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n" +
                 " Option");
         bottomLayout.addTab(tab);
 
-        tab = utils.newTab(0, 0, 0);
+    /*    tab = utils.newTab(0, 0, 0);
         utils.setTitle(tab, "Filter \n" +
                 " Option");
         bottomLayout.addTab(tab);*/

@@ -1,10 +1,12 @@
 package com.philips.cdp.ui.catalog.CustomListView;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
@@ -25,7 +27,7 @@ import com.shamanland.fonticon.FontIconTextView;
  * All rights reserved.
  */
 public class ListViewWithoutIcons extends BaseAdapter {
-
+    Bundle saveBundle = new Bundle();
     public Activity activity;
     private LayoutInflater inflater=null;
     public ListViewWithoutIcons(Activity activity){
@@ -53,23 +55,26 @@ public class ListViewWithoutIcons extends BaseAdapter {
         View vi=convertView;
 
         if(convertView==null)
-            vi = inflater.inflate(R.layout.uikit_list_with_icons, null);
+            vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
 
-        ImageView image = (ImageView) vi.findViewById(R.id.image);
-        TextView name = (TextView) vi.findViewById(R.id.text);
+
+        TextView name = (TextView) vi.findViewById(R.id.ifo);
         PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-        TextView on_off=(TextView)vi.findViewById(R.id.off_on);
-        FontIconTextView arrow=(FontIconTextView)vi.findViewById(R.id.arrow);
-        image.setVisibility(View.GONE);
-        TextView description=(TextView)vi.findViewById(R.id.text_description);
+        TextView number=(TextView)vi.findViewById(R.id.numberwithouticon);
+        TextView on_off=(TextView)vi.findViewById(R.id.medium);
+        FontIconTextView arrow=(FontIconTextView)vi.findViewById(R.id.arrowwithouticons);
+        TextView description=(TextView)vi.findViewById(R.id.text_description_without_icons);
+
         if(position==0) {
+            //name.setVisibility(View.VISIBLE);
             name.setText("Version ");
 
             value.setVisibility(View.GONE);
             description.setVisibility(View.GONE);
             //  arrow.setVisibility(View.GONE);
-            on_off.setVisibility(View.VISIBLE);
-            on_off.setText("1.1.4");
+            number.setVisibility(View.VISIBLE);
+            number.setText("1.1.4");
+            on_off.setVisibility(View.GONE);
             arrow.setVisibility(View.GONE);
         }
 
@@ -87,6 +92,14 @@ description.setVisibility(View.GONE);
         {
             name.setText("Enable Analytics ");
             value.setVisibility(View.VISIBLE);
+            setSwitchState(value,"s1");
+
+            value.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    saveBundle.putBoolean("s1", ((PuiSwitch) v).isChecked());
+                }
+            });
             description.setVisibility(View.VISIBLE);
             description.setText("By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app.");
             //  mBadge.setVisibility(View.VISIBLE);
@@ -100,7 +113,7 @@ description.setVisibility(View.GONE);
 
             //  arrow.setVisibility(View.GONE);
             on_off.setVisibility(View.VISIBLE);
-            on_off.setText("Default ");
+            on_off.setText("Default");
             arrow.setVisibility(View.VISIBLE);
 
 
@@ -112,5 +125,18 @@ description.setVisibility(View.GONE);
         //  value.setText("€209,99*");
         //  from.setText("from");
         return vi;
+    }
+    public Bundle getSavedBundle() {
+        return saveBundle;
+    }
+
+    public void setSavedBundle(Bundle bundle) {
+        saveBundle = bundle;
+    }
+
+    private void setSwitchState(CompoundButton toggleSwitch, String code) {
+        if(saveBundle.containsKey(code)) {
+            toggleSwitch.setChecked(saveBundle.getBoolean(code));
+        }
     }
 }

@@ -20,6 +20,10 @@
         <attr name="gradientColorForListSectionTitle" format="reference|color"/>
     </declare-styleable>
 
+    <declare-styleable name="TintableImageView">
+        <attr name="tint" format="reference|color" />
+    </declare-styleable>
+
     <declare-styleable name="ActionButton">
         <attr name="actionButtonShape" format="enum">
             <enum name="square" value="0"/>
