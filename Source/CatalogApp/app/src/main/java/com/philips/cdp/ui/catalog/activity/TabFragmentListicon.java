@@ -21,11 +21,15 @@ import com.philips.cdp.ui.catalog.R;
 public class TabFragmentListicon extends Fragment {
 
     ListViewWithIcons mAdapter;
+    ListViewWithIcons savedAdapter;
     ListView list;
-
+    public static boolean switch1=false;
+    public static boolean switch2=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setRetainInstance(true);
         View view =  inflater.inflate(R.layout.listview_icons, container, false);
+
 
         list=(ListView)view.findViewById(R.id.listicon);
 
@@ -41,7 +45,17 @@ public class TabFragmentListicon extends Fragment {
         mAdapter.addItem("Nulla Facilisi ");
         mAdapter.addItem("Tortor ");
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey("ListviewWithIcons")) {
+                mAdapter.setSavedBundle(savedInstanceState.getBundle("ListviewWithIcons"));
+            }
+        }
 
+     /*   if(savedAdapter!=null)
+        {
+            list.setAdapter(savedAdapter);
+        }
+        else*/
 
 
         // setListAdapter(mAdapter);
@@ -58,5 +72,23 @@ public class TabFragmentListicon extends Fragment {
 
         return view;
     }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+       // savedAdapter = mAdapte;
+      //  savedFilelist = filelist;
+       // fromBackStack = true;
+      //  Log.e("onDestroyView", "onDestroyView");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBundle("ListviewWithIcons",mAdapter.getSavedBundle());
+    }
+
 
 }

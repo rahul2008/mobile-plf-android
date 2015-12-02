@@ -3,13 +3,17 @@ package com.philips.cdp.ui.catalog.CustomListView;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.activity.TabFragmentListicon;
 import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -41,6 +45,8 @@ public class ListViewWithIcons extends BaseAdapter {
     private TreeSet<Integer> sectionHeader = new TreeSet<Integer>();
 
     private LayoutInflater mInflater;
+
+    Bundle saveBundle = new Bundle();
 
     public ListViewWithIcons(Context context) {
         mInflater = (LayoutInflater) context
@@ -124,10 +130,19 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 if(position==1)
                 {
+
                     holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
+
+                    setSwitchState(holder.value,"s1");
                     holder.textView.setText(mData.get(position));
+                    holder.value.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            saveBundle.putBoolean("s1", ((PuiSwitch) v).isChecked());
+                        }
+                    });
 
                 }
                 if(position==2)
@@ -135,6 +150,14 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
+//                    holder.value.setActivated(TabFragmentListicon.switch2);
+                    setSwitchState(holder.value,"s2");
+                    holder.value.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            saveBundle.putBoolean("s2", ((PuiSwitch) v).isChecked());
+                        }
+                    });
                     holder.textView.setText(mData.get(position));
                 }
                 if(position==3)
@@ -144,6 +167,7 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.name.setText("Off");
                     holder.arrow.setVisibility(View.VISIBLE);
                     holder.mImage.setVisibility(View.VISIBLE);
+
                     holder.textView.setText(mData.get(position));
 
                 }
@@ -197,6 +221,15 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.textView.setVisibility(View.GONE);
                 }
 
+                boolean val=holder.arrow.isActivated();
+                holder.arrow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+
                 break;
             case TYPE_SEPARATOR:
                 convertView = mInflater.inflate(R.layout.uikit_list_sectionheader, null);
@@ -226,82 +259,17 @@ public class ListViewWithIcons extends BaseAdapter {
         PhilipsBadgeView mBadge ;
     }
 
+    public Bundle getSavedBundle() {
+        return saveBundle;
+    }
+
+    public void setSavedBundle(Bundle bundle) {
+        saveBundle = bundle;
+    }
+
+    private void setSwitchState(CompoundButton toggleSwitch, String code) {
+        if(saveBundle.containsKey(code)) {
+            toggleSwitch.setChecked(saveBundle.getBoolean(code));
+        }
+    }
 }
-   /* @Override
-    public int getCount() {
-        return 11;
-    }
-
-    @Override
-    public Object getItem(final int position) {
-        return position;
-    }
-
-    @Override
-    public long getItemId(final int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
-        View vi = convertView;
-
-        if (convertView == null)
-            vi = inflater.inflate(R.layout.uikit_list_with_icons, null);
-
-
-        ImageView image = (ImageView) vi.findViewById(R.id.image);
-        TextView name = (TextView) vi.findViewById(R.id.text);
-        PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-        TextView on_off = (TextView) vi.findViewById(R.id.off_on);
-        FontIconView arrow = (FontIconView) vi.findViewById(R.id.arrow);
-
-
-        PhilipsBadgeView mBadge = (PhilipsBadgeView) vi.findViewById(R.id.notification_badge);
-
-        if (position == 1) {
-            value.setVisibility(View.VISIBLE);
-            mBadge.setVisibility(View.GONE);
-            arrow.setVisibility(View.GONE);
-            on_off.setVisibility(View.GONE);
-
-        }
-        if (position == 2) {
-            mBadge.setVisibility(View.VISIBLE);
-            arrow.setVisibility(View.VISIBLE);
-
-        }
-
-        if (position == 3) {
-            arrow.setVisibility(View.VISIBLE);
-        }
-        if (position == 4) {
-            on_off.setVisibility(View.VISIBLE);
-            arrow.setVisibility(View.VISIBLE);
-        }
-        if (position == 5) {
-            mBadge.setVisibility(View.VISIBLE);
-            arrow.setVisibility(View.VISIBLE);
-        }
-
-        image.setImageResource(R.drawable.maps_carrot);
-        //image.setColorFilter(Color.GREEN);
-        // name.setText("DiamondClean");
-        //  value.setText("€209,99*");
-        //  from.setText("from");
-
-        if (position == 0) {
-            {
-                if (convertView == null)
-                    vi = inflater.inflate(R.layout.uikit_list_sectionheader, null);
-
-
-                name = (TextView) vi.findViewById(R.id.sectionheader);
-                name.setText("Title Pellendia");
-            }
-
-
-        }
-        return vi;
-    }
-*/
