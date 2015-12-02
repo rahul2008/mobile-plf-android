@@ -25,7 +25,9 @@ public class TabFragmentListicon extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setRetainInstance(true);
         View view =  inflater.inflate(R.layout.listview_icons, container, false);
+
 
         list=(ListView)view.findViewById(R.id.listicon);
 
@@ -41,11 +43,13 @@ public class TabFragmentListicon extends Fragment {
         mAdapter.addItem("Nulla Facilisi ");
         mAdapter.addItem("Tortor ");
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey("ListviewWithIcons")) {
+                mAdapter.setSavedBundle(savedInstanceState.getBundle("ListviewWithIcons"));
+            }
+        }
 
-
-
-        // setListAdapter(mAdapter);
-        list.setAdapter(mAdapter);
+             list.setAdapter(mAdapter);
 
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,5 +62,13 @@ public class TabFragmentListicon extends Fragment {
 
         return view;
     }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBundle("ListviewWithIcons",mAdapter.getSavedBundle());
+    }
+
 
 }
