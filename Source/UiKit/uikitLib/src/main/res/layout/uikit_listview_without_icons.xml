@@ -49,19 +49,7 @@
         fontPath="fonts/centralesanslight.ttf"
         android:layout_marginRight="19dp"/>
 
-    <TextView
-        android:id="@+id/numberwithouticon"
-        android:text="Medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/arrowwithouticons"
-        android:layout_alignParentRight="true"
-        android:textColor="?attr/listtextselector"
-        android:visibility="gone"
-        android:textSize="20sp"
-        fontPath="fonts/centralesanslight.ttf"
-        />
+
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrowwithouticons"
@@ -91,6 +79,21 @@
         android:layout_alignParentTop="true"
         android:textColor="?attr/listtextselector"
         android:layout_alignBaseline="@id/medium"
+        />
+
+    <TextView
+        android:id="@+id/numberwithouticon"
+        android:text="Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/arrowwithouticons"
+        android:layout_alignParentRight="true"
+        android:textColor="?attr/listtextselector"
+        android:visibility="gone"
+        android:textSize="20sp"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_alignBaseline="@id/ifo"
         />
 
     </RelativeLayout>
