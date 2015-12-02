@@ -21,10 +21,8 @@ import com.philips.cdp.ui.catalog.R;
 public class TabFragmentListicon extends Fragment {
 
     ListViewWithIcons mAdapter;
-    ListViewWithIcons savedAdapter;
     ListView list;
-    public static boolean switch1=false;
-    public static boolean switch2=false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(true);
@@ -51,15 +49,7 @@ public class TabFragmentListicon extends Fragment {
             }
         }
 
-     /*   if(savedAdapter!=null)
-        {
-            list.setAdapter(savedAdapter);
-        }
-        else*/
-
-
-        // setListAdapter(mAdapter);
-        list.setAdapter(mAdapter);
+             list.setAdapter(mAdapter);
 
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,16 +63,6 @@ public class TabFragmentListicon extends Fragment {
         return view;
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-       // savedAdapter = mAdapte;
-      //  savedFilelist = filelist;
-       // fromBackStack = true;
-      //  Log.e("onDestroyView", "onDestroyView");
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

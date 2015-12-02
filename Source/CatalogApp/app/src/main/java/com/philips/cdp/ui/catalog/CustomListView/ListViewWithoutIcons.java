@@ -1,10 +1,12 @@
 package com.philips.cdp.ui.catalog.CustomListView;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.philips.cdp.ui.catalog.R;
@@ -25,7 +27,7 @@ import com.shamanland.fonticon.FontIconTextView;
  * All rights reserved.
  */
 public class ListViewWithoutIcons extends BaseAdapter {
-
+    Bundle saveBundle = new Bundle();
     public Activity activity;
     private LayoutInflater inflater=null;
     public ListViewWithoutIcons(Activity activity){
@@ -90,6 +92,14 @@ description.setVisibility(View.GONE);
         {
             name.setText("Enable Analytics ");
             value.setVisibility(View.VISIBLE);
+            setSwitchState(value,"s1");
+
+            value.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    saveBundle.putBoolean("s1", ((PuiSwitch) v).isChecked());
+                }
+            });
             description.setVisibility(View.VISIBLE);
             description.setText("By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app.");
             //  mBadge.setVisibility(View.VISIBLE);
@@ -115,5 +125,18 @@ description.setVisibility(View.GONE);
         //  value.setText("€209,99*");
         //  from.setText("from");
         return vi;
+    }
+    public Bundle getSavedBundle() {
+        return saveBundle;
+    }
+
+    public void setSavedBundle(Bundle bundle) {
+        saveBundle = bundle;
+    }
+
+    private void setSwitchState(CompoundButton toggleSwitch, String code) {
+        if(saveBundle.containsKey(code)) {
+            toggleSwitch.setChecked(saveBundle.getBoolean(code));
+        }
     }
 }
