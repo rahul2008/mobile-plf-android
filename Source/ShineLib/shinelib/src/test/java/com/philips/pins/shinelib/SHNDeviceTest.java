@@ -211,13 +211,16 @@ public class SHNDeviceTest {
         assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
     }
 
-    @Test
-    public void whenInStateConnectedDisconnectIsCalledThenDisconnectOnBTGattIsCalled() {
+    private void getDeviceInConnectedState() {
         shnDevice.connect();
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
         btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
         shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
-        // Now the SHNDevice is connected
+    }
+
+    @Test
+    public void whenInStateConnectedDisconnectIsCalledThenDisconnectOnBTGattIsCalled() {
+        getDeviceInConnectedState();
 
         shnDevice.disconnect();
         verify(mockedBTGatt).disconnect();
@@ -225,11 +228,7 @@ public class SHNDeviceTest {
 
     @Test
     public void whenInStateConnectedDisconnectIsCalledThenTheStateIsChangedToDisconnecting() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
-        // Now the SHNDevice is connected
+        getDeviceInConnectedState();
 
         shnDevice.disconnect();
         assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
@@ -237,11 +236,7 @@ public class SHNDeviceTest {
 
     @Test
     public void whenInStateDisconnectingTheCallbackIndicatesDisconnectedThenTheStateIsChangedToDisconnected() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
-        // Now the SHNDevice is connected
+        getDeviceInConnectedState();
 
         shnDevice.disconnect();
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
@@ -250,11 +245,7 @@ public class SHNDeviceTest {
 
     @Test
     public void whenInStateDisconnectingTheCallbackIndicatesDisconnectedThenTheGattServerIsClosed() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
-        // Now the SHNDevice is connected
+        getDeviceInConnectedState();
 
         shnDevice.disconnect();
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
@@ -263,15 +254,21 @@ public class SHNDeviceTest {
 
     @Test
     public void whenInStateDisconnectingTheCallbackIndicatesDisconnectedThenSHNServiceDisconnectFromBleLayerIsCalled() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
-        // Now the SHNDevice is connected
+        getDeviceInConnectedState();
 
         shnDevice.disconnect();
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
         verify(mockedSHNService).disconnectFromBLELayer();
+    }
+
+    @Test
+    public void whenInStateDisconnectingTheServiceIndicatesUnavailableThenTheStateIsDisconnecting() {
+        getDeviceInConnectedState();
+
+        shnDevice.disconnect();
+        mockedServiceState = SHNService.State.Unavailable;
+        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Unavailable);
+        assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
     }
 
     @Test
@@ -338,10 +335,7 @@ public class SHNDeviceTest {
     // Receiving responses tot requests
     @Test
     public void whenInStateConnectedOnCharacteristicReadWithDataThenTheServiceIsCalled() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        getDeviceInConnectedState();
         // Now the SHNDevice is connected
 
         btGattCallback.onCharacteristicReadWithData(mockedBTGatt, mockedBluetoothGattCharacteristic, BluetoothGatt.GATT_SUCCESS, new byte[]{'d', 'a', 't', 'a'});
@@ -350,10 +344,7 @@ public class SHNDeviceTest {
 
     @Test
     public void whenInStateConnectedOnCharacteristicWriteThenTheServiceIsCalled() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        getDeviceInConnectedState();
         // Now the SHNDevice is connected
 
         btGattCallback.onCharacteristicWrite(mockedBTGatt, mockedBluetoothGattCharacteristic, BluetoothGatt.GATT_SUCCESS);
@@ -362,10 +353,7 @@ public class SHNDeviceTest {
 
     @Test
     public void whenInStateConnectedOnCharacteristicChangedWithDataThenTheServiceIsCalled() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        getDeviceInConnectedState();
         // Now the SHNDevice is connected
 
         btGattCallback.onCharacteristicChangedWithData(mockedBTGatt, mockedBluetoothGattCharacteristic, new byte[]{'d', 'a', 't', 'a'});
@@ -374,10 +362,7 @@ public class SHNDeviceTest {
 
     @Test
     public void whenInStateConnectedOnDescriptorReadWithDataThenTheServiceIsCalled() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        getDeviceInConnectedState();
         // Now the SHNDevice is connected
 
         btGattCallback.onDescriptorReadWithData(mockedBTGatt, mockedBluetoothGattDescriptor, BluetoothGatt.GATT_SUCCESS, new byte[]{'d', 'a', 't', 'a'});
@@ -386,10 +371,7 @@ public class SHNDeviceTest {
 
     @Test
     public void whenInStateConnectedOnDescriptorWriteThenTheServiceIsCalled() {
-        shnDevice.connect();
-        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
-        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
-        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        getDeviceInConnectedState();
         // Now the SHNDevice is connected
 
         btGattCallback.onDescriptorWrite(mockedBTGatt, mockedBluetoothGattDescriptor, BluetoothGatt.GATT_SUCCESS);
@@ -423,7 +405,7 @@ public class SHNDeviceTest {
     }
 
     @Test
-    public void whenRegisteringACapabilityMorehanOnceThenAnExceptionIsThrown() {
+    public void whenRegisteringACapabilityMoreThanOnceThenAnExceptionIsThrown() {
         SHNCapabilityNotifications mockedSHNCapabilityNotifications = (SHNCapabilityNotifications) Utility.makeThrowingMock(SHNCapabilityNotifications.class);
         shnDevice.registerCapability(mockedSHNCapabilityNotifications, SHNCapabilityType.Notifications);
         boolean exceptionCaught = false;
@@ -444,5 +426,4 @@ public class SHNDeviceTest {
         verify(mockedBTGatt).disconnect();
         assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
     }
-
 }

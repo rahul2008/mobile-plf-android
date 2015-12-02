@@ -164,14 +164,16 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
         if (LOGGING) Log.e(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
-        State newState = State.Connected;
-        for (SHNService service: registeredServices.values()) {
-            if (service.getState() != SHNService.State.Ready) {
-                newState = State.Connecting;
-                break;
+        if (this.state == State.Connecting) {
+            State newState = State.Connected;
+            for (SHNService service : registeredServices.values()) {
+                if (service.getState() != SHNService.State.Ready) {
+                    newState = State.Connecting;
+                    break;
+                }
             }
+            updateShnDeviceState(newState);
         }
-        updateShnDeviceState(newState);
     }
 
     @Override
