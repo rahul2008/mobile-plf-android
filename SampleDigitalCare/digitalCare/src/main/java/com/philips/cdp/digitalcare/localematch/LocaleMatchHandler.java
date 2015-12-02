@@ -114,11 +114,9 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     }
 
     public void initializeLocaleMatchService(String langCode, String countryCode) {
-        DigiCareLogger.v(TAG, "initializing the Service  " + mLanguageCode + " " + mCountryCode);
         mLanguageCode = langCode;
         mCountryCode = countryCode;
         mLocale = new Locale(mLanguageCode, mCountryCode);
-
         mPLocaleManager.refresh(mContext, mLanguageCode,
                 mCountryCode);
     }
@@ -141,8 +139,6 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         }
 
         PILLocaleManager pilLocaleManager = new PILLocaleManager();
-        DigiCareLogger.v(TAG, "onLocaleMatchRefreshed(), Sector from Config : "
-                + DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
 
         String mSector = DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector();
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
@@ -157,14 +153,11 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 
 
             if (mPilLocaleWithCountryFallBack != null) {
-                DigiCareLogger.v(TAG, "PILocale is Not null");
                 Locale locale = new Locale(mPilLocaleWithCountryFallBack.getLanguageCode(), mPilLocaleWithCountryFallBack.getCountrycode());
-                DigiCareLogger.d(TAG, mPilLocaleWithCountryFallBack.getCountrycode() + "" + mPilLocaleWithCountryFallBack.getCountrycode());
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(locale);
                 DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
 
             } else {
-                DigiCareLogger.v(TAG, "PILocale country fallback received null");
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
                 DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
 
@@ -175,7 +168,6 @@ public class LocaleMatchHandler implements LocaleMatchListener {
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(locale);
                 DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
             } else {
-                DigiCareLogger.v(TAG, "PILocale language fallback received null");
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
                 DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
             }
@@ -183,7 +175,6 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 
         } else {
             DigiCareLogger.v(TAG, "Sector Not exists");
-            //DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
             DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
         }
         initializePRXMap();
