@@ -119,7 +119,7 @@
 <string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">تسمح لك Philips بسحب موافقتك في أي وقت.</string>
 <string name="Signin_Success_Hello_lbltxt">مرحبًا</string>
 <string name="Access_More_Account_Setting_lbltxt">هل تريد الوصول إلى المزيد من إعدادات الحساب؟\nتفضل بزيارة %s من خلال المستعرض لديك.</string>
-<string name="Philips_URL_txt">www.philips.co.uk/myphilips/login.html</string>
+<string name="Philips_URL_txt">www.philips.com</string>
 <string name="Receive_Philips_News_lbltxt">تلقي الإعلانات من Philips‏\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">لم أفهم</string>
 <string name="Philips_News_Title">الإعلانات من Philips</string>

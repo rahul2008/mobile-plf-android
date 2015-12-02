@@ -119,7 +119,7 @@
 <string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">언제라도 동의를 철회하실 수 있습니다.</string>
 <string name="Signin_Success_Hello_lbltxt">안녕하십니까?</string>
 <string name="Access_More_Account_Setting_lbltxt">더 많은 계정 설정을 확인하시겠습니까?\n브라우저에서 %s을(를) 방문하세요.</string>
-<string name="Philips_URL_txt">https://www.philips.co.kr/myphilips/login.html</string>
+<string name="Philips_URL_txt">https://www.philips.co.kr</string>
 <string name="Receive_Philips_News_lbltxt">필립스 소식 받아보기\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">이는 무슨 의미입니까?</string>
 <string name="Philips_News_Title">필립스 소식</string>

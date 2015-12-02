@@ -119,7 +119,7 @@
 <string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">Η Philips σας δίνει την επιλογή να άρετε την συναίνεσή σας, οποιαδήποτε στιγμή.</string>
 <string name="Signin_Success_Hello_lbltxt">Γεια!</string>
 <string name="Access_More_Account_Setting_lbltxt">Θέλετε να έχετε πρόσβαση σε περισσότερες ρυθμίσεις λογαριασμού;\nΕπισκεφθείτε την τοποθεσία %s μέσω του προγράμματος περιήγησης που χρησιμοποιείτε.</string>
-<string name="Philips_URL_txt">www.philips.co.uk/myphilips/login.html</string>
+<string name="Philips_URL_txt">www.philips.com</string>
 <string name="Receive_Philips_News_lbltxt">Λήψη ανακοινώσεων της Philips\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">Τι σημαίνει αυτό;</string>
 <string name="Philips_News_Title">Ανακοινώσεις της Philips</string>
