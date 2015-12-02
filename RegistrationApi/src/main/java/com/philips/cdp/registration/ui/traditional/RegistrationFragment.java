@@ -57,6 +57,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         Tagging.setComponentVersionKey(REGISTRATION_VERSION_TAG);
         Tagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
         RegistrationBaseFragment.mWidth = 0;
+        RegistrationBaseFragment.mHeight = 0;
         super.onCreate(savedInstanceState);
     }
 
@@ -106,6 +107,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworStateListener,Context");
         RegistrationBaseFragment.mWidth = 0;
+        RegistrationBaseFragment.mHeight = 0;
         super.onDestroy();
     }
 

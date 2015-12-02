@@ -134,7 +134,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onConfigurationChanged");
-        setViewParams(config, mWidth);
+        setCustomParams(config);
     }
 
     @Override

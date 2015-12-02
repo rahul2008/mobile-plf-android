@@ -156,7 +156,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onConfigurationChanged");
-        setViewParams(config, mWidth);
+        setCustomParams(config);
     }
 
     @Override

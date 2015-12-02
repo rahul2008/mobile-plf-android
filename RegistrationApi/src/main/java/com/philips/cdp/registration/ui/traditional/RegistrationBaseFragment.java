@@ -41,6 +41,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
     private int mPrevTitleResourceId = -99;
 
     protected static int mWidth = 0;
+    protected static int mHeight = 0;
+
 
     private final int JELLY_BEAN = 16;
 
@@ -239,7 +241,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
-    protected void trackMultipleActionsMap(String state,HashMap map) {
+    protected void trackMultipleActionsMap(String state, HashMap map) {
         AppTagging.trackMultipleActions(state, map);
     }
 
@@ -247,25 +249,46 @@ public abstract class RegistrationBaseFragment extends Fragment {
         if (null == view) {
             return;
         }
-        if(mWidth == 0) {
+        if (mWidth == 0 && mHeight == 0) {
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    int currentWidth = view.getWidth();
-                    if (mWidth != currentWidth) {
-                        mWidth = currentWidth;
-                        if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        } else {
-                            view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        }
-                        setViewParams(getResources().getConfiguration(), mWidth);
+                    Configuration  config = getResources().getConfiguration();
+                    if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        mWidth = view.getWidth();
+                        mHeight = view.getHeight();
+                    } else {
+                        mWidth = view.getHeight();
+                        mHeight = view.getWidth();
                     }
+
+                    if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    } else {
+                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                    setViewParams(getResources().getConfiguration(), view.getWidth());
                 }
             });
-        }else{
-            setViewParams(getResources().getConfiguration(), mWidth);
+        } else {
+            Configuration  config = getResources().getConfiguration();
+            if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                setViewParams(getResources().getConfiguration(), mWidth);
+            } else {
+                setViewParams(getResources().getConfiguration(), mHeight);
+            }
+
         }
+    }
+
+
+    public void setCustomParams(Configuration config){
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setViewParams(config, mWidth);
+        } else {
+            setViewParams(config, mHeight);
+        }
+
     }
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
@@ -277,7 +300,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
             }
         });*/
 
-       scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @Override
             public void onGlobalLayout() {

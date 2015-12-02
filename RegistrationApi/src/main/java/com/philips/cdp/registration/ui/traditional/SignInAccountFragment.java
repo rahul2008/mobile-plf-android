@@ -167,7 +167,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onConfigurationChanged");
-        setViewParams(config, mWidth);
+        setCustomParams(config);
     }
 
     @Override

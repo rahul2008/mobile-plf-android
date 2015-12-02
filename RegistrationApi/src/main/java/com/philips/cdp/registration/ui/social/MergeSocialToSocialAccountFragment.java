@@ -154,7 +154,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeSocialToSocialAccountFragment : onConfigurationChanged");
-        setViewParams(config, mWidth);
+        setCustomParams(config);
     }
 
     private void initUI(View view) {

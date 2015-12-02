@@ -175,7 +175,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     public void onConfigurationChanged(Configuration config) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
         super.onConfigurationChanged(config);
-        setViewParams(config, mWidth);
+        setCustomParams(config);
     }
 
     @Override

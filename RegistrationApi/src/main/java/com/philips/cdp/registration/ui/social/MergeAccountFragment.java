@@ -160,7 +160,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onConfigurationChanged");
-		setViewParams(config, mWidth);
+		setCustomParams(config);
 	}
 
 	private void initUI(View view) {

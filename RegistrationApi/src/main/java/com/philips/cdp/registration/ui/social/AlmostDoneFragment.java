@@ -184,7 +184,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onConfigurationChanged");
-        setViewParams(config, mWidth);
+        setCustomParams(config);
     }
 
     @Override

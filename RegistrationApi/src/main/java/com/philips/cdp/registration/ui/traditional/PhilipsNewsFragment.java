@@ -121,7 +121,7 @@ public class PhilipsNewsFragment extends RegistrationBaseFragment implements Vie
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "PhilipsNewsFragment : onConfigurationChanged");
-        setViewParams(config, mWidth);
+        setCustomParams(config);
     }
 
     @Override
