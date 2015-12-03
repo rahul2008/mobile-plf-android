@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -164,6 +165,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
     }
 
+    private static int mHeight = 0;
+
     private int getDisplayWidth() {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -178,6 +181,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             mSmallerResolution = widthPixels;
             mBiggerResolution = heightPixels;
         }
+        mHeight = mSmallerResolution;
 
         isTablet = ((float) mSmallerResolution / density > 360);
 
@@ -200,17 +204,25 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-                        // mProductImage.setImageResource(R.drawable.image_load_error);
-
-//                        Map<String, Object> contextData = new HashMap<String, Object>();
-//                        contextData.put(AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, error.getMessage());
-//                        contextData.put(AnalyticsConstants.ACTION_KEY_URL, thumbnail);
-//                        AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR, contextData);
+                        imageView.setImageBitmap(addBlankThumbnail());
                     }
                 });
 
         RequestQueue imageRequestQueue = Volley.newRequestQueue(getContext());
         imageRequestQueue.add(request);
+    }
+
+    private Bitmap addBlankThumbnail(){
+        int height = 0;
+        if(isTablet) {
+            height = (getDisplayWidth()/2) + 13;
+        }
+        else{
+            height = (getDisplayWidth()/2) + 46;
+        }
+        Bitmap imageBitmap = Bitmap.createBitmap(getDisplayWidth(), height, Bitmap.Config.ARGB_8888);
+        imageBitmap.eraseColor(Color.BLACK);
+        return imageBitmap;
     }
 
     private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, ImageView videoPlay) {
