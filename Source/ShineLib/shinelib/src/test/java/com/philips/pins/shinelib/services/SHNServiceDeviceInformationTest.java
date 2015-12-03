@@ -1,15 +1,10 @@
 package com.philips.pins.shinelib.services;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
-import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,38 +13,20 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.nio.charset.StandardCharsets;
-import java.text.FieldPosition;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SHNServiceDeviceInformationTest {
 
     public static final SHNCapabilityDeviceInformation.SHNDeviceInformationType INFORMATION_TYPE = SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision;
     public static final String TEST_MESSAGE = "TEST_MESSAGE";
-    public static final String TEST_DATE_STRING = "TEST_DATE_STRING";
-    public static final Date TEST_DATE = new Date();
-
-    @Mock
-    private Context contextMock;
-
-    @Mock
-    private SharedPreferences sharedPreferencesMock;
-
-    @Mock
-    private SharedPreferences.Editor editorMock;
-
-    @Mock
-    private SimpleDateFormat simpleDateFormatMock;
 
     @Mock
     private SHNStringResultListener stringResultListenerMock;
@@ -69,12 +46,7 @@ public class SHNServiceDeviceInformationTest {
     public void setUp() throws ParseException {
         initMocks(this);
 
-        when(contextMock.getSharedPreferences(ShinePreferenceWrapper.SHINELIB_PREFERENCES_FILE_KEY + DeviceInformationCache.DEVICE_INFORMATION_CACHE, Context.MODE_PRIVATE)).thenReturn(sharedPreferencesMock);
-        when(sharedPreferencesMock.edit()).thenReturn(editorMock);
-        when(simpleDateFormatMock.format(any(Date.class), any(StringBuffer.class), any(FieldPosition.class))).thenReturn(new StringBuffer(TEST_DATE_STRING));
-        when(simpleDateFormatMock.parse(TEST_DATE_STRING)).thenReturn(TEST_DATE);
-
-        deviceInformation = new TestSHNServiceDeviceInformation(new TestDeviceInformationCache(contextMock));
+        deviceInformation = new TestSHNServiceDeviceInformation();
     }
 
     @Test
@@ -116,9 +88,6 @@ public class SHNServiceDeviceInformationTest {
         deviceInformation.readDeviceInformation(INFORMATION_TYPE, stringResultListenerMock);
         verify(characteristicMock).read(reporterArgumentCaptor.capture());
         SHNCommandResultReporter resultReporter = reporterArgumentCaptor.getValue();
-
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name(), null)).thenReturn(TEST_MESSAGE);
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
 
         SHNResult shnResult = SHNResult.SHNOk;
         resultReporter.reportResult(shnResult, TEST_MESSAGE.getBytes(StandardCharsets.UTF_8));
@@ -166,26 +135,8 @@ public class SHNServiceDeviceInformationTest {
         verify(characteristicMock).read(reporterArgumentCaptor.capture());
         SHNCommandResultReporter resultReporter = reporterArgumentCaptor.getValue();
 
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name(), null)).thenReturn(TEST_MESSAGE);
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
-
         SHNResult shnResult = SHNResult.SHNOk;
         resultReporter.reportResult(shnResult, TEST_MESSAGE.getBytes(StandardCharsets.UTF_8));
-
-        verify(deviceInformationListenerMock).onDeviceInformation(eq(INFORMATION_TYPE), eq(TEST_MESSAGE), isA(Date.class));
-    }
-
-    @Test
-    public void shouldInformListenerValue_whenDataHasBeenCached_AndReporterReportsError() {
-        deviceInformation.readDeviceInformation(INFORMATION_TYPE, deviceInformationListenerMock);
-        verify(characteristicMock).read(reporterArgumentCaptor.capture());
-        SHNCommandResultReporter resultReporter = reporterArgumentCaptor.getValue();
-
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name(), null)).thenReturn(TEST_MESSAGE);
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
-
-        SHNResult shnResult = SHNResult.SHNErrorAssociationFailed;
-        resultReporter.reportResult(shnResult, null);
 
         verify(deviceInformationListenerMock).onDeviceInformation(eq(INFORMATION_TYPE), eq(TEST_MESSAGE), isA(Date.class));
     }
@@ -193,10 +144,6 @@ public class SHNServiceDeviceInformationTest {
     private class TestSHNServiceDeviceInformation extends SHNServiceDeviceInformation {
 
         UUID characteristicUUID;
-
-        public TestSHNServiceDeviceInformation(@NonNull final DeviceInformationCache deviceInformationCache) {
-            super(deviceInformationCache);
-        }
 
         @Override
         public SHNCharacteristic getSHNCharacteristic(final UUID characteristicUUID) {
@@ -206,19 +153,6 @@ public class SHNServiceDeviceInformationTest {
                 this.characteristicUUID = characteristicUUID;
                 return characteristicMock;
             }
-        }
-    }
-
-    private class TestDeviceInformationCache extends DeviceInformationCache{
-
-        public TestDeviceInformationCache(@NonNull final Context context) {
-            super(context);
-        }
-
-        @NonNull
-        @Override
-        SimpleDateFormat getSimpleDateFormat() {
-            return simpleDateFormatMock;
         }
     }
 }

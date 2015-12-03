@@ -1,4 +1,4 @@
-package com.philips.pins.shinelib.services;
+package com.philips.pins.shinelib.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
-import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

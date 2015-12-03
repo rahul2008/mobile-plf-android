@@ -16,9 +16,9 @@ import java.util.Date;
 public interface SHNCapabilityDeviceInformation extends SHNCapability {
 
     interface Listener {
-        void onDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate);
+        void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate);
 
-        void onError(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNResult error);
+        void onError(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final SHNResult error);
     }
 
     enum SHNDeviceInformationType {

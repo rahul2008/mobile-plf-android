@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class SHNServiceDeviceInformation extends SHNService implements SHNService.SHNServiceListener {
+public class SHNServiceDeviceInformation extends SHNService {
     public static final String SERVICE_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180A);
     public static final String SYSTEM_ID_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A23);
     public static final String MODEL_NUMBER_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A24);
@@ -37,12 +37,8 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
     @NonNull
     private final Map<SHNCapabilityDeviceInformation.SHNDeviceInformationType, String> uuidMap = new HashMap<>();
 
-    @NonNull
-    private DeviceInformationCache deviceInformationCache;
-
-    public SHNServiceDeviceInformation(@NonNull final DeviceInformationCache deviceInformationCache) {
+    public SHNServiceDeviceInformation() {
         super(UUID.fromString(SERVICE_UUID), getRequiredCharacteristics(), getOptionalCharacteristics());
-        this.deviceInformationCache = deviceInformationCache;
 
         uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.FirmwareRevision, FIRMWARE_REVISION_CHARACTERISTIC_UUID);
         uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision, HARDWARE_REVISION_CHARACTERISTIC_UUID);
@@ -52,7 +48,14 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
         uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SoftwareRevision, SOFTWARE_REVISION_CHARACTERISTIC_UUID);
         uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SystemID, SYSTEM_ID_CHARACTERISTIC_UUID);
 
-        registerSHNServiceListener(this);
+        registerSHNServiceListener(new SHNServiceListener() {
+            @Override
+            public void onServiceStateChanged(final SHNService shnService, final State state) {
+                if (state == SHNService.State.Available) {
+                    shnService.transitionToReady();
+                }
+            }
+        });
     }
 
     @NonNull
@@ -71,13 +74,6 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
         set.add(UUID.fromString(SOFTWARE_REVISION_CHARACTERISTIC_UUID));
         set.add(UUID.fromString(SYSTEM_ID_CHARACTERISTIC_UUID));
         return set;
-    }
-
-    @Override
-    public void onServiceStateChanged(@NonNull final SHNService shnService, @Nullable final SHNService.State state) {
-        if (state == SHNService.State.Available) {
-            shnService.transitionToReady();
-        }
     }
 
     @Deprecated
@@ -105,16 +101,10 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
                 @Override
                 public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                     if (shnResult == SHNResult.SHNOk) {
-                        deviceInformationCache.save(informationType, new String(data, StandardCharsets.UTF_8));
-                    }
-
-                    String value = deviceInformationCache.getValue(informationType);
-                    Date date = deviceInformationCache.getDate(informationType);
-
-                    if (value == null || date == null) {
-                        resultListener.onError(informationType, shnResult);
+                        String value = new String(data, StandardCharsets.UTF_8);
+                        resultListener.onDeviceInformation(informationType, value, new Date());
                     } else {
-                        resultListener.onDeviceInformation(informationType, value, date);
+                        resultListener.onError(informationType, shnResult);
                     }
                 }
             };
