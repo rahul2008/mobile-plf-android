@@ -34,6 +34,7 @@ public class SHNCapabilityDeviceInformationWrapper implements SHNCapabilityDevic
         this.internalHandler = internalHandler;
     }
 
+    @Deprecated
     @Override
     public void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
         if (LOGGING) Log.i(TAG, "readDeviceInformation called by user");

@@ -17,6 +17,7 @@ public class SHNCapabilityDeviceInformationImpl implements SHNCapabilityDeviceIn
         this.shnServiceDeviceInformation = shnServiceDeviceInformation;
     }
 
+    @Deprecated
     public void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
         shnServiceDeviceInformation.readDeviceInformation(shnDeviceInformationType, shnStringResultListener);
     }
