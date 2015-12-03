@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/image_layout"
@@ -14,7 +15,8 @@
         android:layout_width="30dp"
         android:visibility="gone"
         android:gravity="center_vertical"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        app:themeStyle="inverted"/>
 
     <TextView
         android:id="@+id/text"
@@ -51,6 +53,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/switch_button"
         android:visibility="gone"
+        android:layout_marginBottom="13dp"
         android:layout_marginLeft="7dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -78,12 +81,13 @@
         android:id="@+id/off_on"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" Off "
+        android:text="Off"
         android:textSize="20sp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:textColor="?attr/listtextselector"
         android:visibility="gone"
+        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:includeFontPadding="false"
         fontPath="fonts/centralesanslight.ttf"
@@ -95,6 +99,7 @@
         android:layout_height="wrap_content"
         style="@style/NotificationLabel"
         android:visibility="gone"
+        android:layout_marginRight="4dp"
         android:id="@+id/notification_badge"
         android:text="22"
         android:layout_toLeftOf="@id/arrow"

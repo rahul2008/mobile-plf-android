@@ -21,7 +21,11 @@
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">
-        <attr name="tint" format="reference|color" />
+        <attr name="themeStyle" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="theme" value="1"/>
+            <enum name="inverted" value="2"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="ActionButton">
@@ -137,5 +141,4 @@
         <attr name="absoluteMinValue" format="integer|float"/>
         <attr name="absoluteMaxValue" format="integer|float"/>
     </declare-styleable>
-
 </resources>
