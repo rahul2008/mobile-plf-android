@@ -5,12 +5,11 @@
 
 package com.philips.pins.shinelib.capabilities;
 
+import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 
-/**
- * Created by 310188215 on 31/03/15.
- */
 public class SHNCapabilityDeviceInformationImpl implements SHNCapabilityDeviceInformation {
     private final SHNServiceDeviceInformation shnServiceDeviceInformation;
 
@@ -20,5 +19,10 @@ public class SHNCapabilityDeviceInformationImpl implements SHNCapabilityDeviceIn
 
     public void readDeviceInformation(SHNDeviceInformationType shnDeviceInformationType, SHNStringResultListener shnStringResultListener) {
         shnServiceDeviceInformation.readDeviceInformation(shnDeviceInformationType, shnStringResultListener);
+    }
+
+    @Override
+    public void readDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final Listener listener) {
+        shnServiceDeviceInformation.readDeviceInformation(deviceInformationType, listener);
     }
 }

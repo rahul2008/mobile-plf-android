@@ -5,13 +5,22 @@
 
 package com.philips.pins.shinelib.capabilities;
 
+import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.SHNCapability;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNStringResultListener;
 
-/**
- * Created by 310188215 on 03/03/15.
- */
+import java.util.Date;
+
 public interface SHNCapabilityDeviceInformation extends SHNCapability {
+
+    interface Listener {
+        void onDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate);
+
+        void onError(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNResult error);
+    }
+
     enum SHNDeviceInformationType {
         ManufacturerName,
         ModelNumber,
@@ -26,5 +35,8 @@ public interface SHNCapabilityDeviceInformation extends SHNCapability {
         Unknown
     }
 
+    @Deprecated
     void readDeviceInformation(SHNDeviceInformationType shnDeviceInformationType, SHNStringResultListener shnStringResultListener);
+
+    void readDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final Listener listener);
 }

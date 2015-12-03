@@ -16,13 +16,13 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 31/03/15.
- */
 public class SHNServiceDeviceInformation extends SHNService implements SHNService.SHNServiceListener {
     public static final String SERVICE_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180A);
     public static final String SYSTEM_ID_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A23);
@@ -36,8 +36,19 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
     private static final String TAG = SHNServiceDeviceInformation.class.getSimpleName();
     private static final boolean LOGGING = false;
 
+    private final Map<SHNCapabilityDeviceInformation.SHNDeviceInformationType, String> uuidMap = new HashMap<>();
+
     public SHNServiceDeviceInformation() {
         super(UUID.fromString(SERVICE_UUID), getRequiredCharacteristics(), getOptionalCharacteristics());
+
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.FirmwareRevision, SHNServiceDeviceInformation.FIRMWARE_REVISION_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision, SHNServiceDeviceInformation.HARDWARE_REVISION_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.ManufacturerName, SHNServiceDeviceInformation.MANUFACTURER_NAME_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.ModelNumber, SHNServiceDeviceInformation.MODEL_NUMBER_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SerialNumber, SHNServiceDeviceInformation.SERIAL_NUMBER_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SoftwareRevision, SHNServiceDeviceInformation.SOFTWARE_REVISION_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SystemID, SHNServiceDeviceInformation.SYSTEM_ID_CHARACTERISTIC_UUID);
+
         registerSHNServiceListener(this);
     }
 
@@ -64,8 +75,9 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
         }
     }
 
+    @Deprecated
     public void readDeviceInformation(final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, final SHNStringResultListener shnStringResultListener) {
-        if (LOGGING) Log.i(TAG, "readDeviceInformation");
+        if (LOGGING) Log.i(TAG, "Deprecated readDeviceInformation");
         final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(shnDeviceInformationType));
         if (shnCharacteristic == null) {
             shnStringResultListener.onActionCompleted(null, SHNResult.SHNErrorUnsupportedOperation);
@@ -73,7 +85,7 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
             SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
                 @Override
                 public void reportResult(SHNResult shnResult, byte[] data) {
-                    if (LOGGING) Log.i(TAG, "readDeviceInformation reportResult");
+                    if (LOGGING) Log.i(TAG, "Deprecated readDeviceInformation reportResult");
                     String value = null;
                     if (shnResult == SHNResult.SHNOk) {
                         value = new String(data, StandardCharsets.UTF_8);
@@ -87,34 +99,37 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
         }
     }
 
-    private UUID getCharacteristicUUIDForDeviceInformationType(SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType) {
-        String uuidString = null;
-        switch (shnDeviceInformationType) {
-            case FirmwareRevision:
-                uuidString = SHNServiceDeviceInformation.FIRMWARE_REVISION_CHARACTERISTIC_UUID;
-                break;
-            case HardwareRevision:
-                uuidString = SHNServiceDeviceInformation.HARDWARE_REVISION_CHARACTERISTIC_UUID;
-                break;
-            case ManufacturerName:
-                uuidString = SHNServiceDeviceInformation.MANUFACTURER_NAME_CHARACTERISTIC_UUID;
-                break;
-            case ModelNumber:
-                uuidString = SHNServiceDeviceInformation.MODEL_NUMBER_CHARACTERISTIC_UUID;
-                break;
-            case SerialNumber:
-                uuidString = SHNServiceDeviceInformation.SERIAL_NUMBER_CHARACTERISTIC_UUID;
-                break;
-            case SoftwareRevision:
-                uuidString = SHNServiceDeviceInformation.SOFTWARE_REVISION_CHARACTERISTIC_UUID;
-                break;
-            case SystemID:
-                uuidString = SHNServiceDeviceInformation.SYSTEM_ID_CHARACTERISTIC_UUID;
-                break;
+    public void readDeviceInformation(final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, final SHNCapabilityDeviceInformation.Listener resultListener) {
+        if (LOGGING) Log.i(TAG, "readDeviceInformation");
+        final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(shnDeviceInformationType));
+        if (shnCharacteristic == null) {
+            resultListener.onError(shnDeviceInformationType, SHNResult.SHNErrorUnsupportedOperation);
+        } else {
+            SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
+                @Override
+                public void reportResult(SHNResult shnResult, byte[] data) {
+                    if (LOGGING) Log.i(TAG, "readDeviceInformation reportResult");
+                    if (resultListener != null) {
+                        if (shnResult == SHNResult.SHNOk) {
+                            String value = new String(data, StandardCharsets.UTF_8);
+                            resultListener.onDeviceInformation(shnDeviceInformationType, value, new Date());
+                        } else {
+                            resultListener.onError(shnDeviceInformationType, shnResult);
+                        }
+                    }
+                }
+            };
+            shnCharacteristic.read(resultReporter);
         }
+    }
+
+    private UUID getCharacteristicUUIDForDeviceInformationType(SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType) {
+        String uuidString = uuidMap.get(shnDeviceInformationType);
+
         if (uuidString != null) {
             return UUID.fromString(uuidString);
         }
+
         return null;
     }
 }
