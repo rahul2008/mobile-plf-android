@@ -144,10 +144,10 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
         if (mSectorValue != 0) {
 
-            PILLocale mPilLocaleWithCountryFallBack = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(
+            PILLocale mPilLocaleWithCountryFallBack = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext,
                     mLanguageCode + "_" + mCountryCode, Platform.PRX,
                     setSector(mSectorValue), Catalog.CONSUMER);
-            PILLocale mPilLocaleWithLanguageFallBack = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(
+            PILLocale mPilLocaleWithLanguageFallBack = pilLocaleManager.currentLocaleWithLanguageFallbackForPlatform(mContext,
                     mLanguageCode + "_" + mCountryCode, Platform.PRX,
                     setSector(mSectorValue), Catalog.CONSUMER);
 
