@@ -1,2 +1,2 @@
 configurations.create("default")
-artifacts.add("default", file('prx-release.aar'))
+artifacts.add("default", file('prx-v1.0.0.aar'))
