@@ -16,6 +16,7 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.TabFragmentListicon;
 import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.cdp.uikit.customviews.TintableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.shamanland.fonticon.FontIconTextView;
 
@@ -119,7 +120,7 @@ public class ListViewWithIcons extends BaseAdapter {
                     e.printStackTrace();
                 }
                 holder.textView = (TextView) convertView.findViewById(R.id.text);
-                holder.mImage=(ImageView)convertView.findViewById(R.id.image);
+                holder.mImage=(TintableImageView)convertView.findViewById(R.id.image);
                 holder.mBadge=(PhilipsBadgeView)convertView.findViewById(R.id.notification_badge);
                 holder.arrow= (FontIconTextView) convertView.findViewById(R.id.arrow);
                 holder.name=(TextView) convertView.findViewById(R.id.off_on);
@@ -149,8 +150,8 @@ public class ListViewWithIcons extends BaseAdapter {
                 {
                     holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.mImage.setVisibility(View.VISIBLE);
+
                     holder.value.setVisibility(View.VISIBLE);
-//                    holder.value.setActivated(TabFragmentListicon.switch2);
                     setSwitchState(holder.value,"s2");
                     holder.value.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -221,13 +222,6 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.textView.setVisibility(View.GONE);
                 }
 
-                boolean val=holder.arrow.isActivated();
-                holder.arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
 
 
                 break;
@@ -251,7 +245,7 @@ public class ListViewWithIcons extends BaseAdapter {
         public TextView textView;
         public TextView done;
         public  TextView textViewH;
-        ImageView mImage;
+        TintableImageView mImage;
         TextView name;
         PuiSwitch value;
         ;
