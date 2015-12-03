@@ -36,6 +36,7 @@
     <dimen name="chatnowhelptext_padding_right">80dp</dimen>
     <dimen name="chatnowhelptext_padding_right_land">150dp</dimen>
     <dimen name="chat_bg_height">300dp</dimen>
+    <dimen name="chat_bg_height_land">200dp</dimen>
 
     <dimen name="bazzarvoice_guidlines_icon_size">25px</dimen>
     <dimen name="err_alert_width">28dp</dimen>

@@ -1,18 +1,22 @@
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.vision.Frame;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
@@ -33,6 +37,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
     private Button mChatNoThanksLand = null;
     private LinearLayout.LayoutParams mChatNowParentBottom = null;
     private LinearLayout.LayoutParams mHelpTextParams = null;
+    private FrameLayout.LayoutParams mChatNowBgParams = null;
     private LinearLayout mChatNowParentPort = null;
     private LinearLayout mChatNowParentLand = null;
     private TextView mChatDescText = null;
@@ -105,6 +110,8 @@ public class ChatFragment extends DigitalCareBaseFragment {
                 .getLayoutParams();
         mHelpTextParams = (LinearLayout.LayoutParams) mChatDescText
                 .getLayoutParams();
+        mChatNowBgParams = (FrameLayout.LayoutParams) mChatNowBG
+                .getLayoutParams();
         setButtonParams();
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
@@ -124,23 +131,56 @@ public class ChatFragment extends DigitalCareBaseFragment {
         setViewParams(config);
     }
 
+    private boolean isTablet(){
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float yInches= metrics.heightPixels/metrics.ydpi;
+        float xInches= metrics.widthPixels/metrics.xdpi;
+        double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+
+        if (diagonalInches>=6.5){
+            // 6.5inch device or bigger
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void setViewParams(Configuration config) {
-        float density = getResources().getDisplayMetrics().density;
+        //This is required to release the older live_chat_bg background drawable.
+        mChatNowBG.setBackgroundColor(Color.BLACK);
+
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mChatNowParentPort.setVisibility(View.VISIBLE);
             mChatNowParentLand.setVisibility(View.GONE);
             mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right), 0);
+
+            if(isTablet()){
+                mChatNowBG.setBackgroundResource(R.drawable.live_chat_bg_tablet_port);
+            }
+            else{
+                mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height);
+                mChatNowBG.setLayoutParams(mChatNowBgParams);
+                mChatNowBG.setBackgroundResource(R.drawable.live_chat_bg_phone_port);
+            }
         } else {
             mChatNowParentLand.setVisibility(View.VISIBLE);
             mChatNowParentPort.setVisibility(View.GONE);
             mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right_land), 0);
-            mChatScrollView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mChatScrollView.scrollTo(0, 270);
-                }
-            }, 100);
+//            mChatScrollView.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mChatScrollView.scrollTo(0, 270);
+//                }
+//            }, 100);
+            if(isTablet()){
+                mChatNowBG.setBackgroundResource(R.drawable.live_chat_bg_tablet_land);
+            }
+            else{
+                mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height_land);
+                mChatNowBG.setLayoutParams(mChatNowBgParams);
+                mChatNowBG.setBackgroundResource(R.drawable.live_chat_bg_phone_land);
+            }
         }
     }
 

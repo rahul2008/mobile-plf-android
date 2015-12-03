@@ -8,14 +8,12 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:weightSum="2"
     android:orientation="vertical"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         >
 
         <FrameLayout
@@ -26,8 +24,7 @@
             <ImageView
                 android:id="@+id/chatnow_bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/live_chat_bg"
+                android:layout_height="500dp"
                 android:contentDescription="@string/chat_desc" />
 
             <TextView
@@ -44,7 +41,6 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="70dp"
         android:orientation="vertical"
-        android:weightSum="1"
         >
 
         <TextView

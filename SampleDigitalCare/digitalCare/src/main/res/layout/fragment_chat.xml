@@ -26,7 +26,6 @@
                     android:id="@+id/chatnow_bg"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chat_bg_height"
-                    android:background="@drawable/live_chat_bg"
                     android:contentDescription="@string/chat_desc" />
 
                 <TextView
