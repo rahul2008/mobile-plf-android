@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Key"> Hebrew </string>
-    <string name="key"> he </string>
+    <string name="key"> iw </string>
 
     <!-- Common   null -->
     <string name="img_description"> תיאור </string>

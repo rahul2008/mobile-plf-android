@@ -101,7 +101,7 @@ public class PrxProductData {
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();
         mSectorCode = mProductInfo.getSector();
-        mLocale = mConfigManager.getLocale().toString();
+        mLocale = mConfigManager.getLocaleMatchResponseWithCountryFallBack().toString();
         mCatalogCode = mProductInfo.getCatalog();
         if ((mSectorCode == null) || (mCtn == null) || (mLocale == null) || (mCatalogCode == null))
             DigiCareLogger.e(TAG, "Please make sure to set SectorCode, CatalogCode, ");
