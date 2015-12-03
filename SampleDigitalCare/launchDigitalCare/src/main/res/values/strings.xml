@@ -30,7 +30,7 @@
         <item>Korean (ko)</item>
         <item>Lithuanian (lt)</item>
         <item>Latvian (lv)</item>
-        <item>Malay (my)</item>
+        <item>Malay (ms)</item>
         <item>Macedonian (mk)</item>
         <item>Norwegian (nb)</item>
         <item>Dutch (nl)</item>
@@ -80,7 +80,7 @@
         <item>ko</item>
         <item>lt</item>
         <item>lv</item>
-        <item>my</item>
+        <item>ms</item>
         <item>mk</item>
         <item>nb</item>
         <item>nl</item>
@@ -160,6 +160,7 @@
         <item>Kazakhstan (KZ)</item>
         <item>Malaysia (MY)</item>
         <item>Brazil (BR)</item>
+        <item>Malaysia (MY)</item>
     </string-array>
 
 
@@ -221,6 +222,7 @@
         <item>KZ</item>
         <item>MY</item>
         <item>BR</item>
+        <item>MY</item>
     </string-array>
 
 
