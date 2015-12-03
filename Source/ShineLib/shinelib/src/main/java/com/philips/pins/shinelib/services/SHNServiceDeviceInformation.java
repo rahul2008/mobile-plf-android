@@ -5,7 +5,6 @@
 
 package com.philips.pins.shinelib.services;
 
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -18,8 +17,6 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,17 +34,15 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
     public static final String SOFTWARE_REVISION_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A28);
     public static final String MANUFACTURER_NAME_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A29);
 
-    private static final String TAG = SHNServiceDeviceInformation.class.getSimpleName();
-    private static final boolean LOGGING = false;
-    public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    public static final String DATE_SUFFIX = "date";
-
+    @NonNull
     private final Map<SHNCapabilityDeviceInformation.SHNDeviceInformationType, String> uuidMap = new HashMap<>();
-    private SharedPreferences sharedPreferences;
 
-    public SHNServiceDeviceInformation(@NonNull final SharedPreferences sharedPreferences) {
+    @NonNull
+    private DeviceInformationCache deviceInformationCache;
+
+    public SHNServiceDeviceInformation(@NonNull final DeviceInformationCache deviceInformationCache) {
         super(UUID.fromString(SERVICE_UUID), getRequiredCharacteristics(), getOptionalCharacteristics());
-        this.sharedPreferences = sharedPreferences;
+        this.deviceInformationCache = deviceInformationCache;
 
         uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.FirmwareRevision, FIRMWARE_REVISION_CHARACTERISTIC_UUID);
         uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision, HARDWARE_REVISION_CHARACTERISTIC_UUID);
@@ -60,10 +55,12 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
         registerSHNServiceListener(this);
     }
 
+    @NonNull
     private static Set<UUID> getRequiredCharacteristics() {
         return new HashSet<>();
     }
 
+    @NonNull
     private static Set<UUID> getOptionalCharacteristics() {
         Set<UUID> set = new HashSet<>();
         set.add(UUID.fromString(FIRMWARE_REVISION_CHARACTERISTIC_UUID));
@@ -77,7 +74,7 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
     }
 
     @Override
-    public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
+    public void onServiceStateChanged(@NonNull final SHNService shnService, @Nullable final SHNService.State state) {
         if (state == SHNService.State.Available) {
             shnService.transitionToReady();
         }
@@ -99,16 +96,20 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
     }
 
     public void readDeviceInformation(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType, @NonNull final SHNCapabilityDeviceInformation.Listener resultListener) {
-        final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(informationType));
+        UUID uuid = getCharacteristicUUIDForDeviceInformationType(informationType);
+        final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(uuid);
         if (shnCharacteristic == null) {
             resultListener.onError(informationType, SHNResult.SHNErrorUnsupportedOperation);
         } else {
             SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
                 @Override
                 public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
-                    cacheInformation(shnResult, data);
-                    String value = getValueFromCache();
-                    Date date = getDateFromCache();
+                    if (shnResult == SHNResult.SHNOk) {
+                        deviceInformationCache.save(informationType, new String(data, StandardCharsets.UTF_8));
+                    }
+
+                    String value = deviceInformationCache.getValue(informationType);
+                    Date date = deviceInformationCache.getDate(informationType);
 
                     if (value == null || date == null) {
                         resultListener.onError(informationType, shnResult);
@@ -116,40 +117,9 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
                         resultListener.onDeviceInformation(informationType, value, date);
                     }
                 }
-
-                @Nullable
-                private Date getDateFromCache() {
-                    String dateString = sharedPreferences.getString(informationType.name() + DATE_SUFFIX, null);
-                    Date date = null;
-                    try {
-                        date = getSimpleDateFormat().parse(dateString);
-                    } catch (ParseException e) {
-                    }
-                    return date;
-                }
-
-                @Nullable
-                private String getValueFromCache() {
-                    return sharedPreferences.getString(informationType.name(), null);
-                }
-
-                private void cacheInformation(final @NonNull SHNResult shnResult, final byte[] data) {
-                    if (shnResult == SHNResult.SHNOk) {
-                        String value = new String(data, StandardCharsets.UTF_8);
-                        SharedPreferences.Editor edit = sharedPreferences.edit();
-                        edit.putString(informationType.name(), value);
-                        edit.putString(informationType.name() + DATE_SUFFIX, getSimpleDateFormat().format(new Date()));
-                        edit.commit();
-                    }
-                }
             };
             shnCharacteristic.read(resultReporter);
         }
-    }
-
-    @NonNull
-    SimpleDateFormat getSimpleDateFormat() {
-        return new SimpleDateFormat(DATE_PATTERN);
     }
 
     @Nullable

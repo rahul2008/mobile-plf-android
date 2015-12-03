@@ -14,11 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by 310188215 on 19/05/15.
- */
 public class ShinePreferenceWrapper {
-    private static final String SHINELIB_PREFERENCES_FILE_KEY = ShinePreferenceWrapper.class.getCanonicalName() + ".SHINELIBPLUGINMOONSHINE_PREFERENCES_FILE_KEY";
+    public static final String SHINELIB_PREFERENCES_FILE_KEY = "SHINELIB_PREFERENCES";
     public static final String ASSOCIATED_DEVICES = "ASSOCIATED_DEVICES";
 
     private final SharedPreferences sharedPreferences;
@@ -60,29 +57,6 @@ public class ShinePreferenceWrapper {
         }
         editor.commit();
     }
-
-//    public synchronized void storeAssociatedDevices(List<SHNDevice> associatedDevices) {
-//        // Get the current Associated devices
-//        List<AssociatedDeviceInfo> oldAssociatedDeviceInfos = readAssociatedDeviceInfos();
-//
-//        // Create the list of new macAddressKeys
-//        Set<String> newMacAddressKeys = new HashSet<>();
-//        for (SHNDevice associatedDevice : associatedDevices) {
-//            newMacAddressKeys.add(createKeyFromMacAddress(associatedDevice.getAddress()));
-//        }
-//
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putStringSet(ASSOCIATED_DEVICES, newMacAddressKeys);
-//        for (SHNDevice associatedDevice : associatedDevices) {
-//            editor.putString(createKeyFromMacAddress(associatedDevice.getAddress()), associatedDevice.getDeviceTypeName());
-//        }
-//        for (AssociatedDeviceInfo oldAssociatedDeviceInfo : oldAssociatedDeviceInfos) {
-//            if (!newMacAddressKeys.contains(oldAssociatedDeviceInfo.macAddress)) {
-//                editor.remove(createKeyFromMacAddress(oldAssociatedDeviceInfo.macAddress));
-//            }
-//        }
-//        editor.commit();
-//    }
 
     public synchronized List<AssociatedDeviceInfo> readAssociatedDeviceInfos() {
         List<AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();

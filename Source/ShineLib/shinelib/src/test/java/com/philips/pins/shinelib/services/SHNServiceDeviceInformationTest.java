@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.services;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
@@ -8,6 +9,7 @@ import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
+import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +40,9 @@ public class SHNServiceDeviceInformationTest {
     public static final Date TEST_DATE = new Date();
 
     @Mock
+    private Context contextMock;
+
+    @Mock
     private SharedPreferences sharedPreferencesMock;
 
     @Mock
@@ -64,11 +69,12 @@ public class SHNServiceDeviceInformationTest {
     public void setUp() throws ParseException {
         initMocks(this);
 
+        when(contextMock.getSharedPreferences(ShinePreferenceWrapper.SHINELIB_PREFERENCES_FILE_KEY + DeviceInformationCache.DEVICE_INFORMATION_CACHE, Context.MODE_PRIVATE)).thenReturn(sharedPreferencesMock);
         when(sharedPreferencesMock.edit()).thenReturn(editorMock);
         when(simpleDateFormatMock.format(any(Date.class), any(StringBuffer.class), any(FieldPosition.class))).thenReturn(new StringBuffer(TEST_DATE_STRING));
         when(simpleDateFormatMock.parse(TEST_DATE_STRING)).thenReturn(TEST_DATE);
 
-        deviceInformation = new TestSHNServiceDeviceInformation(sharedPreferencesMock);
+        deviceInformation = new TestSHNServiceDeviceInformation(new TestDeviceInformationCache(contextMock));
     }
 
     @Test
@@ -112,7 +118,7 @@ public class SHNServiceDeviceInformationTest {
         SHNCommandResultReporter resultReporter = reporterArgumentCaptor.getValue();
 
         when(sharedPreferencesMock.getString(INFORMATION_TYPE.name(), null)).thenReturn(TEST_MESSAGE);
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + SHNServiceDeviceInformation.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
+        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
 
         SHNResult shnResult = SHNResult.SHNOk;
         resultReporter.reportResult(shnResult, TEST_MESSAGE.getBytes(StandardCharsets.UTF_8));
@@ -161,7 +167,7 @@ public class SHNServiceDeviceInformationTest {
         SHNCommandResultReporter resultReporter = reporterArgumentCaptor.getValue();
 
         when(sharedPreferencesMock.getString(INFORMATION_TYPE.name(), null)).thenReturn(TEST_MESSAGE);
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + SHNServiceDeviceInformation.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
+        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
 
         SHNResult shnResult = SHNResult.SHNOk;
         resultReporter.reportResult(shnResult, TEST_MESSAGE.getBytes(StandardCharsets.UTF_8));
@@ -176,7 +182,7 @@ public class SHNServiceDeviceInformationTest {
         SHNCommandResultReporter resultReporter = reporterArgumentCaptor.getValue();
 
         when(sharedPreferencesMock.getString(INFORMATION_TYPE.name(), null)).thenReturn(TEST_MESSAGE);
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + SHNServiceDeviceInformation.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
+        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
 
         SHNResult shnResult = SHNResult.SHNErrorAssociationFailed;
         resultReporter.reportResult(shnResult, null);
@@ -188,8 +194,8 @@ public class SHNServiceDeviceInformationTest {
 
         UUID characteristicUUID;
 
-        public TestSHNServiceDeviceInformation(@NonNull final SharedPreferences sharedPreferences) {
-            super(sharedPreferences);
+        public TestSHNServiceDeviceInformation(@NonNull final DeviceInformationCache deviceInformationCache) {
+            super(deviceInformationCache);
         }
 
         @Override
@@ -200,6 +206,13 @@ public class SHNServiceDeviceInformationTest {
                 this.characteristicUUID = characteristicUUID;
                 return characteristicMock;
             }
+        }
+    }
+
+    private class TestDeviceInformationCache extends DeviceInformationCache{
+
+        public TestDeviceInformationCache(@NonNull final Context context) {
+            super(context);
         }
 
         @NonNull
