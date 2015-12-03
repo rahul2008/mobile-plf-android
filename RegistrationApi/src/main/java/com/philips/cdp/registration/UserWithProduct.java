@@ -283,7 +283,7 @@ public class UserWithProduct extends User implements LocaleMatchListener {
     @Override
     public void onLocaleMatchRefreshed(String locale) {
         PILLocaleManager manager = new PILLocaleManager();
-        PILLocale pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(locale,
+        PILLocale pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext,locale,
                 Platform.PRX, mProdInfo.getSector(), mProdInfo.getCatalog());
 
         if (null != pilLocaleInstance) {

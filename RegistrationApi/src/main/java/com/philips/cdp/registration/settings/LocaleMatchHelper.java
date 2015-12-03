@@ -44,7 +44,7 @@ public class LocaleMatchHelper implements LocaleMatchListener {
 	public void onLocaleMatchRefreshed(String locale) {
 
 		PILLocaleManager manager = new PILLocaleManager();
-		PILLocale pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(locale,
+		PILLocale pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext,locale,
 		        Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
 
 		if (null != pilLocaleInstance) {

@@ -103,8 +103,9 @@ public class PILLocaleManager {
             refreshNeeded = true;
         } else if ((inputLocale != null)
                 && (inputLocale.equalsIgnoreCase(inputLocalePref))) {
-            Log.i(LOG_TAG, "INPUT SAME");
-            boolean fileExists = LocaleMatchFileHelper.verifyJsonExists(inputLocale);
+
+            boolean fileExists = LocaleMatchFileHelper.verifyJsonExists(context,inputLocale);
+            Log.i(LOG_TAG, "INPUT SAME, fileExists = "+fileExists);
             if (fileExists) {
                 refreshNeeded = false;
             } else {
@@ -125,26 +126,26 @@ public class PILLocaleManager {
     private void forceRefresh(Context context, String languageCode,
                               String countryCode) {
         Log.i(LOG_TAG, "LocaleMatch forcerefresh()");
-        LocaleMatchThreadManager threadManager = new LocaleMatchThreadManager(mLocaleMatchNotifier);
+        LocaleMatchThreadManager threadManager = new LocaleMatchThreadManager(mLocaleMatchNotifier,context);
         threadManager.processRequest(languageCode, countryCode);
     }
 
-    public PILLocale currentLocaleWithCountryFallbackForPlatform(String locale,
+    public PILLocale currentLocaleWithCountryFallbackForPlatform(Context context, String locale,
                                                                  Platform platform, Sector sector, Catalog catalog) {
-        return parseLocaleMatchJson(locale, platform, sector, catalog,
+        return parseLocaleMatchJson(context,locale, platform, sector, catalog,
                 MATCH_BY_COUNTRY);
     }
 
-    public PILLocale currentLocaleWithLanguageFallbackForPlatform(
+    public PILLocale currentLocaleWithLanguageFallbackForPlatform( Context context,
             String locale, Platform platform, Sector sector, Catalog catalog) {
-        return parseLocaleMatchJson(locale, platform, sector, catalog,
+        return parseLocaleMatchJson(context,locale, platform, sector, catalog,
                 MATCH_BY_LANGUAGE);
     }
 
-    private PILLocale parseLocaleMatchJson(String locale, Platform platform,
+    private PILLocale parseLocaleMatchJson(Context context, String locale, Platform platform,
                                            Sector sector, Catalog catalog, String matchContraint) {
         String responseStr = LocaleMatchFileHelper
-                .getJsonStringFromFile(locale);
+                .getJsonStringFromFile(context, locale);
         JSONArray localeArr = getLocaleParsingJson(responseStr, platform,
                 sector, catalog, matchContraint);
         return getPIlLocale(getResultedLocaleFromLocaleArray(localeArr, locale));

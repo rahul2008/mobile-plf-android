@@ -2,6 +2,7 @@
 package com.philips.cdp.localematch;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 
 import com.philips.cdp.localematch.enums.LocaleMatchError;
@@ -37,9 +38,12 @@ public class LocaleMatchThreadManager {
 	private static final String LOG_TAG ="LocaleMatchThreadManager";
 
 	private LocaleMatchNotifier mLocaleMatchNotifier = null;
+
+	private Context mContext;
 	
-	public LocaleMatchThreadManager(LocaleMatchNotifier notifier){
+	public LocaleMatchThreadManager(LocaleMatchNotifier notifier, Context context){
 		mLocaleMatchNotifier = notifier;
+		mContext = context;
 	}
 	public void processRequest(String languageCode,
 	        String countryCode) {
@@ -72,7 +76,7 @@ public class LocaleMatchThreadManager {
 				String urlStr = URL
 				        + mCountryCode.toUpperCase(Locale.getDefault()) + "/"
 				        + mLanguageCode.toLowerCase(Locale.getDefault())+".json";
-				Log.d(LOG_TAG,"LocaleMatchThreadManager, performHttpRequest(), URL = "
+				Log.d(LOG_TAG,"LocaleMatchThreadManager, performHttpRequest,URL = "
 				                + urlStr);
 				URL url = new URL(urlStr);
 				connection = (HttpURLConnection) url.openConnection();
@@ -113,7 +117,7 @@ public class LocaleMatchThreadManager {
 		private void handleResponse(int responseCode, InputStream ipStream) {
 			switch (responseCode) {
 				case HttpURLConnection.HTTP_OK:
-					LocaleMatchFileHelper.writeResponseToFile(ipStream, mInputLocale);
+					LocaleMatchFileHelper.writeResponseToFile(ipStream, mInputLocale,mContext);
 					sendCallback(false, null);
 					break;
 				case HttpURLConnection.HTTP_INTERNAL_ERROR:
