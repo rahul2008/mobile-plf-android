@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.services;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -17,6 +18,8 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,19 +39,23 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
 
     private static final String TAG = SHNServiceDeviceInformation.class.getSimpleName();
     private static final boolean LOGGING = false;
+    public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_SUFFIX = "date";
 
     private final Map<SHNCapabilityDeviceInformation.SHNDeviceInformationType, String> uuidMap = new HashMap<>();
+    private SharedPreferences sharedPreferences;
 
-    public SHNServiceDeviceInformation() {
+    public SHNServiceDeviceInformation(@NonNull final SharedPreferences sharedPreferences) {
         super(UUID.fromString(SERVICE_UUID), getRequiredCharacteristics(), getOptionalCharacteristics());
+        this.sharedPreferences = sharedPreferences;
 
-        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.FirmwareRevision, SHNServiceDeviceInformation.FIRMWARE_REVISION_CHARACTERISTIC_UUID);
-        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision, SHNServiceDeviceInformation.HARDWARE_REVISION_CHARACTERISTIC_UUID);
-        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.ManufacturerName, SHNServiceDeviceInformation.MANUFACTURER_NAME_CHARACTERISTIC_UUID);
-        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.ModelNumber, SHNServiceDeviceInformation.MODEL_NUMBER_CHARACTERISTIC_UUID);
-        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SerialNumber, SHNServiceDeviceInformation.SERIAL_NUMBER_CHARACTERISTIC_UUID);
-        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SoftwareRevision, SHNServiceDeviceInformation.SOFTWARE_REVISION_CHARACTERISTIC_UUID);
-        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SystemID, SHNServiceDeviceInformation.SYSTEM_ID_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.FirmwareRevision, FIRMWARE_REVISION_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision, HARDWARE_REVISION_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.ManufacturerName, MANUFACTURER_NAME_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.ModelNumber, MODEL_NUMBER_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SerialNumber, SERIAL_NUMBER_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SoftwareRevision, SOFTWARE_REVISION_CHARACTERISTIC_UUID);
+        uuidMap.put(SHNCapabilityDeviceInformation.SHNDeviceInformationType.SystemID, SYSTEM_ID_CHARACTERISTIC_UUID);
 
         registerSHNServiceListener(this);
     }
@@ -58,15 +65,15 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
     }
 
     private static Set<UUID> getOptionalCharacteristics() {
-        Set<UUID> optionalCharacteristicUUIDs = new HashSet<>();
-        optionalCharacteristicUUIDs.add(UUID.fromString(SHNServiceDeviceInformation.FIRMWARE_REVISION_CHARACTERISTIC_UUID));
-        optionalCharacteristicUUIDs.add(UUID.fromString(SHNServiceDeviceInformation.HARDWARE_REVISION_CHARACTERISTIC_UUID));
-        optionalCharacteristicUUIDs.add(UUID.fromString(SHNServiceDeviceInformation.MANUFACTURER_NAME_CHARACTERISTIC_UUID));
-        optionalCharacteristicUUIDs.add(UUID.fromString(SHNServiceDeviceInformation.MODEL_NUMBER_CHARACTERISTIC_UUID));
-        optionalCharacteristicUUIDs.add(UUID.fromString(SHNServiceDeviceInformation.SERIAL_NUMBER_CHARACTERISTIC_UUID));
-        optionalCharacteristicUUIDs.add(UUID.fromString(SHNServiceDeviceInformation.SOFTWARE_REVISION_CHARACTERISTIC_UUID));
-        optionalCharacteristicUUIDs.add(UUID.fromString(SHNServiceDeviceInformation.SYSTEM_ID_CHARACTERISTIC_UUID));
-        return optionalCharacteristicUUIDs;
+        Set<UUID> set = new HashSet<>();
+        set.add(UUID.fromString(FIRMWARE_REVISION_CHARACTERISTIC_UUID));
+        set.add(UUID.fromString(HARDWARE_REVISION_CHARACTERISTIC_UUID));
+        set.add(UUID.fromString(MANUFACTURER_NAME_CHARACTERISTIC_UUID));
+        set.add(UUID.fromString(MODEL_NUMBER_CHARACTERISTIC_UUID));
+        set.add(UUID.fromString(SERIAL_NUMBER_CHARACTERISTIC_UUID));
+        set.add(UUID.fromString(SOFTWARE_REVISION_CHARACTERISTIC_UUID));
+        set.add(UUID.fromString(SYSTEM_ID_CHARACTERISTIC_UUID));
+        return set;
     }
 
     @Override
@@ -99,16 +106,50 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
             SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
                 @Override
                 public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
+                    cacheInformation(shnResult, data);
+                    String value = getValueFromCache();
+                    Date date = getDateFromCache();
+
+                    if (value == null || date == null) {
+                        resultListener.onError(informationType, shnResult);
+                    } else {
+                        resultListener.onDeviceInformation(informationType, value, date);
+                    }
+                }
+
+                @Nullable
+                private Date getDateFromCache() {
+                    String dateString = sharedPreferences.getString(informationType.name() + DATE_SUFFIX, null);
+                    Date date = null;
+                    try {
+                        date = getSimpleDateFormat().parse(dateString);
+                    } catch (ParseException e) {
+                    }
+                    return date;
+                }
+
+                @Nullable
+                private String getValueFromCache() {
+                    return sharedPreferences.getString(informationType.name(), null);
+                }
+
+                private void cacheInformation(final @NonNull SHNResult shnResult, final byte[] data) {
                     if (shnResult == SHNResult.SHNOk) {
                         String value = new String(data, StandardCharsets.UTF_8);
-                        resultListener.onDeviceInformation(informationType, value, new Date());
-                    } else {
-                        resultListener.onError(informationType, shnResult);
+                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                        edit.putString(informationType.name(), value);
+                        edit.putString(informationType.name() + DATE_SUFFIX, getSimpleDateFormat().format(new Date()));
+                        edit.commit();
                     }
                 }
             };
             shnCharacteristic.read(resultReporter);
         }
+    }
+
+    @NonNull
+    SimpleDateFormat getSimpleDateFormat() {
+        return new SimpleDateFormat(DATE_PATTERN);
     }
 
     @Nullable
