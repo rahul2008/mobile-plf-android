@@ -48,6 +48,7 @@
         <item>Ukrainian (uk)</item>
         <item>Vietnamese (vi)</item>
         <item>Chinese (zh)</item>
+        <item>Brazil (br)</item>
     </string-array>
 
 
@@ -97,6 +98,7 @@
         <item>uk</item>
         <item>vi</item>
         <item>zh</item>
+        <item>br</item>
     </string-array>
 
 
@@ -157,6 +159,7 @@
         <item>Scotland (GD)</item>
         <item>Kazakhstan (KZ)</item>
         <item>Malaysia (MY)</item>
+        <item>Brazil (BR)</item>
     </string-array>
 
 
@@ -217,9 +220,8 @@
         <item>GD</item>
         <item>KZ</item>
         <item>MY</item>
+        <item>BR</item>
     </string-array>
-
-
 
 
     <string name="dummytext">Dummy View</string>
