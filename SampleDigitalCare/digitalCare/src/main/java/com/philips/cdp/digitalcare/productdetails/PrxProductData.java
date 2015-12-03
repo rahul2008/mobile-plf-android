@@ -175,6 +175,7 @@ public class PrxProductData {
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
                     com.philips.cdp.prxclient.prxdatamodels.assets.Data data = mAssetModel.getData();
+                    String qsgManual = null, usermanual = null;
                     if (data != null) {
                         Assets assets = data.getAssets();
                         List<Asset> asset = assets.getAsset();
@@ -185,14 +186,18 @@ public class PrxProductData {
                             String assetExtension = assetObject.getExtension();
                             if (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF))
                                 if (assetResource != null)
-                                    mProductDetailsObject.setManualLink(assetResource);
+                                    qsgManual = assetResource;
                             if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF)))
                                 if (assetResource != null)
-                                    mProductDetailsObject.setManualLink(assetResource);
+                                    usermanual = assetResource;
                             if (assetExtension.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
                                 if (assetResource != null)
                                     mVideoList.add(assetResource);
                         }
+                        if (qsgManual != null)
+                            mProductDetailsObject.setManualLink(qsgManual);
+                        else if (usermanual != null)
+                            mProductDetailsObject.setManualLink(usermanual);
                         mProductDetailsObject.setmVideoLinks(mVideoList);
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 
