@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.services;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -77,33 +78,25 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
 
     @Deprecated
     public void readDeviceInformation(final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, final SHNStringResultListener shnStringResultListener) {
-        if (LOGGING) Log.i(TAG, "Deprecated readDeviceInformation");
-        final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(shnDeviceInformationType));
-        if (shnCharacteristic == null) {
-            shnStringResultListener.onActionCompleted(null, SHNResult.SHNErrorUnsupportedOperation);
-        } else {
-            SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
-                @Override
-                public void reportResult(SHNResult shnResult, byte[] data) {
-                    if (LOGGING) Log.i(TAG, "Deprecated readDeviceInformation reportResult");
-                    String value = null;
-                    if (shnResult == SHNResult.SHNOk) {
-                        value = new String(data, StandardCharsets.UTF_8);
-                    }
-                    if (shnStringResultListener != null) {
-                        shnStringResultListener.onActionCompleted(value, shnResult);
-                    }
-                }
-            };
-            shnCharacteristic.read(resultReporter);
-        }
+        readDeviceInformation(shnDeviceInformationType, new SHNCapabilityDeviceInformation.Listener() {
+            @Override
+            public void onDeviceInformation(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate) {
+                shnStringResultListener.onActionCompleted(value, SHNResult.SHNOk);
+            }
+
+            @Override
+            public void onError(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNResult error) {
+                shnStringResultListener.onActionCompleted(null, error);
+            }
+        });
+
     }
 
-    public void readDeviceInformation(final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, final SHNCapabilityDeviceInformation.Listener resultListener) {
+    public void readDeviceInformation(final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType, final SHNCapabilityDeviceInformation.Listener resultListener) {
         if (LOGGING) Log.i(TAG, "readDeviceInformation");
-        final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(shnDeviceInformationType));
+        final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(informationType));
         if (shnCharacteristic == null) {
-            resultListener.onError(shnDeviceInformationType, SHNResult.SHNErrorUnsupportedOperation);
+            resultListener.onError(informationType, SHNResult.SHNErrorUnsupportedOperation);
         } else {
             SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
                 @Override
@@ -112,9 +105,9 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
                     if (resultListener != null) {
                         if (shnResult == SHNResult.SHNOk) {
                             String value = new String(data, StandardCharsets.UTF_8);
-                            resultListener.onDeviceInformation(shnDeviceInformationType, value, new Date());
+                            resultListener.onDeviceInformation(informationType, value, new Date());
                         } else {
-                            resultListener.onError(shnDeviceInformationType, shnResult);
+                            resultListener.onError(informationType, shnResult);
                         }
                     }
                 }
