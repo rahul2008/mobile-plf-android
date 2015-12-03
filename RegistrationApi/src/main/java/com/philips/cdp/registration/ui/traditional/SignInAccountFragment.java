@@ -347,6 +347,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             mEtEmail.showErrPopUp();
             trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
+            mBtnForgot.setEnabled(false);
             return;
         } else {
             mLlattentionBox.setVisibility(View.GONE);
