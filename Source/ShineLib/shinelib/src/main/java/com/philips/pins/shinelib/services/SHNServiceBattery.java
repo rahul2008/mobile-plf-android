@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.services;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -84,7 +85,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getBatteryLevel reportResult");
                 int value = -1;
                 if (shnResult == SHNResult.SHNOk) {
@@ -111,7 +112,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "setBatteryLevelNotifications reportResult");
                 if (listener != null) {
                     listener.onActionCompleted(shnResult);

@@ -98,7 +98,7 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
         } else {
             SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
                 @Override
-                public void reportResult(SHNResult shnResult, byte[] data) {
+                public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                     if (shnResult == SHNResult.SHNOk) {
                         String value = new String(data, StandardCharsets.UTF_8);
                         resultListener.onDeviceInformation(informationType, value, new Date());

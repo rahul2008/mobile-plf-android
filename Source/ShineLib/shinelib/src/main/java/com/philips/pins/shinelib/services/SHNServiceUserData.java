@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.services;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -212,7 +213,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(uuid);
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getStringCharacteristic reportResult");
                 String value = null;
                 if (shnResult == SHNResult.SHNOk) {
@@ -231,7 +232,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(uuid);
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getUByteCharacteristic reportResult");
                 int value = UNSUCCESSFUL_OPERATION_VALUE;
                 if (shnResult == SHNResult.SHNOk) {
@@ -252,7 +253,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(uuid);
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getUByteCharacteristic reportResult");
                 int value = UNSUCCESSFUL_OPERATION_VALUE;
                 if (shnResult == SHNResult.SHNOk) {
@@ -279,7 +280,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getDate reportResult");
                 Date date = null;
                 if (shnResult == SHNResult.SHNOk) {
@@ -494,7 +495,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     public void getFiveZoneHeartRateLimits(final SHNObjectResultListener listener) {
         getZoneHeartRateLimits(FIVE_ZONE_HEART_LIMITS_CHARACTERISTIC_UUID, new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getFiveZoneHeartRateLimits reportResult");
                 FiveZoneHeartRateLimits limits = null;
                 if (shnResult == SHNResult.SHNOk) {
@@ -511,7 +512,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     public void getThreeZoneHeartRateLimits(final SHNObjectResultListener listener) {
         getZoneHeartRateLimits(THREE_ZONE_HEART_LIMITS_CHARACTERISTIC_UUID, new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getThreeZoneHeartRateLimits reportResult");
                 ThreeZoneHeartRateLimits limits = null;
                 if (shnResult == SHNResult.SHNOk) {
@@ -528,7 +529,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     public void getTwoZoneHeartRateLimits(final SHNObjectResultListener listener) {
         getZoneHeartRateLimits(TWO_ZONE_HEART_LIMITS_CHARACTERISTIC_UUID, new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getThreeZoneHeartRateLimits reportResult");
                 TwoZoneHeartRateLimits limits = null;
                 if (shnResult == SHNResult.SHNOk) {
@@ -677,7 +678,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getDatabaseIncrement reportResult");
                 int value = UNSUCCESSFUL_OPERATION_VALUE;
                 if (shnResult == SHNResult.SHNOk) {
@@ -703,7 +704,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         byte[] value = name.getBytes(StandardCharsets.UTF_8);
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "setStringCharacteristic reportResult");
 
                 if (listener != null) {
@@ -747,7 +748,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "writeScalarValueToCharacteristic reportResult");
                 if (listener != null) {
                     listener.onActionCompleted(shnResult);
@@ -869,7 +870,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(USER_CONTROL_POINT_CHARACTERISTIC_UUID);
         SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (shnResult != SHNResult.SHNOk) {
                     listener.onActionCompleted(UNSUCCESSFUL_OPERATION_VALUE, shnResult);
                 }
@@ -883,7 +884,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(USER_CONTROL_POINT_CHARACTERISTIC_UUID);
         SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if (shnResult != SHNResult.SHNOk) {
                     listener.onActionCompleted(shnResult);
                 }
@@ -897,7 +898,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(uuid);
         SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 listener.onActionCompleted(shnResult);
             }
         };

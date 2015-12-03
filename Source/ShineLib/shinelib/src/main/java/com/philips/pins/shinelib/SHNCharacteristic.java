@@ -8,6 +8,7 @@ package com.philips.pins.shinelib;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
@@ -16,9 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 26/03/15.
- */
 public class SHNCharacteristic {
     private static final String TAG = SHNCharacteristic.class.getSimpleName();
     private static final boolean LOGGING = false;
@@ -83,15 +81,14 @@ public class SHNCharacteristic {
         return true;
     }
 
-    public boolean read(SHNCommandResultReporter resultReporter) {
+    public void read(@NonNull final SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             btGatt.readCharacteristic(bluetoothGattCharacteristic);
             pendingCompletions.add(resultReporter);
         } else {
             if (LOGGING) Log.i(TAG, "Error read; characteristic not active: " + uuid);
-            return false;
+            resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
         }
-        return true;
     }
 
     public boolean setNotification(boolean enable, SHNCommandResultReporter resultReporter) {
@@ -148,11 +145,11 @@ public class SHNCharacteristic {
         if (completion != null) completion.reportResult(shnResult, data);
     }
 
-    private boolean writeToBtGatt(byte[] value, boolean enable, SHNCommandResultReporter resultReporter){
+    private boolean writeToBtGatt(byte[] value, boolean enable, SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
                 BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
-                if(descriptor==null){
+                if (descriptor == null) {
                     resultReporter.reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
                     return false;
                 }

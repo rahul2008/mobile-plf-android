@@ -5,6 +5,8 @@
 
 package com.philips.pins.shinelib.services;
 
+import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
@@ -92,7 +94,7 @@ public class SHNServiceCurrentTime {
         SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(CURRENT_TIME_CHARACTERISTIC_UUID);
         shnCharacteristic.read(new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 extractCurrentTimeFromReport(shnResult, data, shnObjectResultListener);
             }
         });

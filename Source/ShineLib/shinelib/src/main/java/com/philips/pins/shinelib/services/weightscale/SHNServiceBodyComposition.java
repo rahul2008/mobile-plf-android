@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.services.weightscale;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -93,7 +94,7 @@ public class SHNServiceBodyComposition implements SHNService.SHNServiceListener,
         SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(BODY_COMPOSITION_MEASUREMENT_CHARACTERISTIC_UUID);
         SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 shnResultListener.onActionCompleted(shnResult);
             }
         };
@@ -121,7 +122,7 @@ public class SHNServiceBodyComposition implements SHNService.SHNServiceListener,
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 extractFeatures(shnResult, data, listener);
             }
         };
