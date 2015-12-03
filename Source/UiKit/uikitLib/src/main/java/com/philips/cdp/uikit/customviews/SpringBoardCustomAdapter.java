@@ -13,18 +13,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.SpringBoardItems;
+
+import java.util.ArrayList;
 
 public class SpringBoardCustomAdapter extends BaseAdapter{
 
     String [] result;
     Context context;
     Drawable [] imageId;
+    ArrayList<SpringBoardItems> mArrayList =new ArrayList<SpringBoardItems>();
     private static LayoutInflater inflater=null;
-    public SpringBoardCustomAdapter(Context con, String[] prgmNameList, Drawable[] prgmImages) {
+    public SpringBoardCustomAdapter(Context con, ArrayList<SpringBoardItems> al) {
         // TODO Auto-generated constructor stub
-        result=prgmNameList;
+
         context=con;
-        imageId=prgmImages;
+        this.mArrayList=al;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -33,7 +37,7 @@ public class SpringBoardCustomAdapter extends BaseAdapter{
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return result.length;
+        return 8;
     }
 
     @Override
@@ -63,8 +67,8 @@ public class SpringBoardCustomAdapter extends BaseAdapter{
         holder.tv=(TextView) rowView.findViewById(R.id.textView1);
         holder.img=(ImageView) rowView.findViewById(R.id.imageView1);
 
-        holder.tv.setText(result[position]);
-        holder.img.setImageDrawable(imageId[position]);
+        holder.tv.setText(mArrayList.get(position).getmString());
+        holder.img.setImageDrawable(mArrayList.get(position).getmImage());
 
         rowView.setOnClickListener(new OnClickListener() {
 

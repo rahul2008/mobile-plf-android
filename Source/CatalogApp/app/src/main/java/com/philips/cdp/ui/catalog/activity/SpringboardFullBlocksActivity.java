@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.widget.GridView;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.SpringBoardItems;
 import com.philips.cdp.uikit.customviews.SpringBoardCustomAdapter;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -21,17 +22,36 @@ public class SpringboardFullBlocksActivity extends  CatalogActivity {
     Context context;
     ArrayList prgmName;
     SpringBoardCustomAdapter spd;
+    ArrayList<SpringBoardItems> mData;
   //  public static String [] prgmNameList={"Telephone "," Moniter ","Alarm Clock"," Factory ","Stats","Message","Shopping","Settings"};
   //  public static int [] prgmImages={R.drawable.call,R.drawable.apple,R.drawable.alarm,R.drawable.barchart,R.drawable.mail, VectorDrawable.create(this, R.drawable.uikit_cart),R.drawable.cross_icon,R.drawable.gear};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
          String [] prgmNameList={"Telephone "," Moniter ","Alarm Clock"," Factory ","Stats","Message","Shopping","Settings"};
         Drawable [] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_stats)),(VectorDrawable.create(this, R.drawable.uikit_cart)), (VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_apple)),(VectorDrawable.create(this, R.drawable.uikit_gear))};
+
+            int i;
+        ArrayList<SpringBoardItems> mData=new ArrayList<SpringBoardItems>();
+
+        for(i=0;i<8;i++) {
+
+
+            SpringBoardItems sbi = new SpringBoardItems();
+            sbi.setmString(prgmNameList[i]);
+            sbi.setmImage(prgmImages[i]);
+            mData.add(sbi);
+           sbi=null;
+        }
+
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_springboard);
         gv=(GridView) findViewById(R.id.gridView1);
-        spd=new SpringBoardCustomAdapter(this, prgmNameList, prgmImages);
+        spd=new SpringBoardCustomAdapter(this,mData);
         gv.setAdapter(spd);
     }
 
