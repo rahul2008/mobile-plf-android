@@ -12,7 +12,6 @@ import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
-import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -349,7 +348,6 @@ public class DigitalCareConfigManager {
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
         DigiCareLogger.d(TAG, "Country Fallback : " + localeMatchLocale.toString());
-        new PrxProductData(mContext).executeRequests();
     }
 
 

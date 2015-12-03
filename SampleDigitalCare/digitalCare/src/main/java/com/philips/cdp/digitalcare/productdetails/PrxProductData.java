@@ -2,13 +2,13 @@ package com.philips.cdp.digitalcare.productdetails;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.listeners.IPrxCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.prxclient.RequestManager;
@@ -38,7 +38,8 @@ public class PrxProductData {
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL = "mp4";
 
 
-    private Context mContext = null;
+    private Activity mActivity = null;
+    private IPrxCallback mPrxCallback = null;
 /*    private String mCtn = "RQ1250/17";
     private String mSectorCode = "B2C";
     private String mLocale = "en_GB";
@@ -63,8 +64,9 @@ public class PrxProductData {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
 
-    public PrxProductData(Context context) {
-        this.mContext = context;
+    public PrxProductData(Activity activity, IPrxCallback callback) {
+        this.mActivity = activity;
+        this.mPrxCallback = callback;
         mConfigManager = DigitalCareConfigManager.getInstance();
         mProductDetailsObject = new ViewProductDetailsModel();
 
@@ -94,7 +96,7 @@ public class PrxProductData {
     protected void initProductCredentials() {
         if (mRequestManager == null)
             mRequestManager = new RequestManager();
-        mRequestManager.init(mContext);
+        mRequestManager.init(mActivity);
         DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();
@@ -127,11 +129,10 @@ public class PrxProductData {
 
     public void executeSummaryRequest() {
         if (mSummaryDialog == null)
-            mSummaryDialog = new ProgressDialog(mContext, R.style.loaderTheme);
+            mSummaryDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
         mSummaryDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mSummaryDialog.setCancelable(false);
-        Activity activity = (Activity) mContext;
-        if (!(activity.isFinishing()))
+        if (!(mActivity.isFinishing()))
             mSummaryDialog.show();
         mRequestManager.executeRequest(getPrxSummaryData(), new ResponseListener() {
             @Override
@@ -146,6 +147,7 @@ public class PrxProductData {
                         mProductDetailsObject.setProductImage(data.getImageURL());
                         mProductDetailsObject.setProductInfoLink(data.getProductURL());
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                        mPrxCallback.onResponseReceived(true);
                     }
                     if (mSummaryDialog != null && mSummaryDialog.isShowing())
                         mSummaryDialog.cancel();
@@ -156,6 +158,7 @@ public class PrxProductData {
             public void onResponseError(String error, int statuscode) {
                 DigiCareLogger.e(TAG, "Summary Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                mPrxCallback.onResponseReceived(false);
                 if (mSummaryDialog != null && mSummaryDialog.isShowing())
                     mSummaryDialog.cancel();
             }

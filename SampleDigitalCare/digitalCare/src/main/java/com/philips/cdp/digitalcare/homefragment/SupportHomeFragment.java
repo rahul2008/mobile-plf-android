@@ -22,8 +22,10 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.FaqFragment;
+import com.philips.cdp.digitalcare.listeners.IPrxCallback;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
+import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -36,7 +38,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @creation Date : 5 Dec 2014
  */
 
-public class SupportHomeFragment extends DigitalCareBaseFragment {
+public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrxCallback {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private LinearLayout mOptionParent = null;
@@ -57,6 +59,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIsFirstScreenLaunch = true;
+        DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
+        synchronized (this) {
+            new PrxProductData(getActivity(), this).executeRequests();
+        }
     }
 
     @Override
@@ -70,7 +76,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         setViewParams(config);
         ButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopButtonLayout);
         RegisterButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopRegisterButton);
-        createMainMenu();
+        if (!(mIsFirstScreenLaunch))
+            createMainMenu();
         try {
             if (DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging() != null && mIsFirstScreenLaunch) {
                 AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
@@ -283,6 +290,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         for (int i = 0; i < titles.length(); i++) {
             createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
         }
+    }
+
+    @Override
+    public void onResponseReceived(boolean isAvailable) {
+        createMainMenu();
     }
 
     @Override
