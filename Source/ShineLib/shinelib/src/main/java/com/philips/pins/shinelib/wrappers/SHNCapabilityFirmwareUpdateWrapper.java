@@ -101,7 +101,7 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onStateChanged(shnCapabilityFirmwareUpdate);
+                    shnCapabilityFirmwareUpdateListener.onStateChanged(wrappedCapability);
                 }
             }
         };
@@ -114,7 +114,7 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onProgressUpdate(shnCapabilityFirmwareUpdate, progress);
+                    shnCapabilityFirmwareUpdateListener.onProgressUpdate(wrappedCapability, progress);
                 }
             }
         };
@@ -127,7 +127,7 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onUploadFailed(shnCapabilityFirmwareUpdate, shnResult);
+                    shnCapabilityFirmwareUpdateListener.onUploadFailed(wrappedCapability, shnResult);
                 }
             }
         };
@@ -140,7 +140,7 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onUploadFinished(shnCapabilityFirmwareUpdate);
+                    shnCapabilityFirmwareUpdateListener.onUploadFinished(wrappedCapability);
                 }
             }
         };
@@ -153,7 +153,7 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onDeployFailed(shnCapabilityFirmwareUpdate, shnResult);
+                    shnCapabilityFirmwareUpdateListener.onDeployFailed(wrappedCapability, shnResult);
                 }
             }
         };
@@ -166,7 +166,7 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onDeployFinished(shnCapabilityFirmwareUpdate);
+                    shnCapabilityFirmwareUpdateListener.onDeployFinished(wrappedCapability);
                 }
             }
         };
