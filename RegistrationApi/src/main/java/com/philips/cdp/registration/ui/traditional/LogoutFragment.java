@@ -270,7 +270,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     @Override
     public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
         hideProgressBar();
-        if(error== Integer.parseInt(RegConstants.INVALID_REFRESH_ACCESS_TOKEN_CODE)){
+        if(error== Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
             getRegistrationFragment().replaceWithHomeFragment();
             RegistrationHelper.getInstance().getUserRegistrationListener()
                     .notifyOnLogoutSuccessWithInvalidAccessToken();

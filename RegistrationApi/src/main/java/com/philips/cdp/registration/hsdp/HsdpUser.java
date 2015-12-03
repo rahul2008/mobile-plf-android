@@ -186,7 +186,7 @@ public class HsdpUser {
                                 refreshHandler.onRefreshLoginSessionSuccess();
                             }
                         });
-                    }else if (dhpAuthenticationResponse.responseCode.toString().equals(RegConstants.INVALID_REFRESH_ACCESS_TOKEN_CODE)) {
+                    }else if (dhpAuthenticationResponse.responseCode.toString().equals(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {

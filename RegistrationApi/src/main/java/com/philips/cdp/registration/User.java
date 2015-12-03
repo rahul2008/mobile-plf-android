@@ -465,7 +465,7 @@ public class User {
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
                 updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(error);
-                if(error==Integer.parseInt(RegConstants.INVALID_REFRESH_ACCESS_TOKEN_CODE)){
+                if(error==Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
                     clearData();
                 }
             }
@@ -645,7 +645,7 @@ public class User {
             public void onLogoutFailure(int responseCode, String message) {
 
                 if(responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
-                        || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_ACCESS_TOKEN_CODE)){
+                        || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
                     clearData();
                 }
                 if(logoutHandler!=null){
