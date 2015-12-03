@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/image_layout"
-            android:minHeight="52dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="20dp"
-                android:paddingTop="11dp"
-           >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/image_layout"
+    android:minHeight="52dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="20dp"
+    android:paddingTop="11dp"
+    >
 
-            <com.philips.cdp.uikit.customviews.ImageDrawable
-                android:id="@+id/image"
-                android:layout_width="30dp"
-                android:tint="?attr/baseColor"
-                android:visibility="gone"
-                android:gravity="center_vertical"
-                android:layout_height="30dp" />
+    <com.philips.cdp.uikit.customviews.TintableImageView
+        android:id="@+id/image"
+        android:layout_width="30dp"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:layout_height="30dp" />
 
-            <TextView
-                android:id="@+id/text"
-                android:text="Eget Odeo"
-                android:textSize="20sp"
-                android:layout_marginBottom="-2dp"
-                android:textColor="?attr/listtextselector"
-                android:includeFontPadding="false"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                fontPath="fonts/centralesansbook.ttf"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/image"
-                />
+    <TextView
+        android:id="@+id/text"
+        android:text="Eget Odeo"
+        android:textSize="20sp"
+        android:layout_marginBottom="-2dp"
+        android:textColor="?attr/listtextselector"
+        android:includeFontPadding="false"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/image"
+        />
 
     <TextView
         android:id="@+id/textdownnoicon"
@@ -47,15 +46,16 @@
         android:layout_alignParentLeft="true"
         />
 
-            <com.philips.cdp.uikit.customviews.PuiSwitch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/switch_button"
-                android:visibility="gone"
-                android:layout_marginLeft="7dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                />
+    <com.philips.cdp.uikit.customviews.PuiSwitch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switch_button"
+        android:visibility="gone"
+        android:layout_marginBottom="13dp"
+        android:layout_marginLeft="7dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        />
 
 
     <com.shamanland.fonticon.FontIconTextView
@@ -75,27 +75,29 @@
         android:layout_alignParentEnd="true"
         />
 
-            <TextView
-                android:id="@+id/off_on"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Off "
-                android:textSize="20sp"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:textColor="?attr/listtextselector"
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:includeFontPadding="false"
-                fontPath="fonts/centralesanslight.ttf"
-                android:layout_toLeftOf="@id/arrow"
-                />
+    <TextView
+        android:id="@+id/off_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Off"
+        android:textSize="20sp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="?attr/listtextselector"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:includeFontPadding="false"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_toLeftOf="@id/arrow"
+        />
 
     <com.philips.cdp.uikit.customviews.PhilipsBadgeView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/NotificationLabel"
         android:visibility="gone"
+        android:layout_marginRight="4dp"
         android:id="@+id/notification_badge"
         android:text="22"
         android:layout_toLeftOf="@id/arrow"
@@ -104,4 +106,4 @@
 
 
 
-        </RelativeLayout>
+</RelativeLayout>
