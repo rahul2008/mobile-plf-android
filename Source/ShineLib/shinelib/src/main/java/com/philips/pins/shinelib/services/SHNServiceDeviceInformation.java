@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.services;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -77,7 +77,7 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
     }
 
     @Deprecated
-    public void readDeviceInformation(final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, final SHNStringResultListener shnStringResultListener) {
+    public void readDeviceInformation(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
         readDeviceInformation(shnDeviceInformationType, new SHNCapabilityDeviceInformation.Listener() {
             @Override
             public void onDeviceInformation(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate) {
@@ -89,11 +89,9 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
                 shnStringResultListener.onActionCompleted(null, error);
             }
         });
-
     }
 
-    public void readDeviceInformation(final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType, final SHNCapabilityDeviceInformation.Listener resultListener) {
-        if (LOGGING) Log.i(TAG, "readDeviceInformation");
+    public void readDeviceInformation(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType, @NonNull final SHNCapabilityDeviceInformation.Listener resultListener) {
         final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(informationType));
         if (shnCharacteristic == null) {
             resultListener.onError(informationType, SHNResult.SHNErrorUnsupportedOperation);
@@ -101,14 +99,11 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
             SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
                 @Override
                 public void reportResult(SHNResult shnResult, byte[] data) {
-                    if (LOGGING) Log.i(TAG, "readDeviceInformation reportResult");
-                    if (resultListener != null) {
-                        if (shnResult == SHNResult.SHNOk) {
-                            String value = new String(data, StandardCharsets.UTF_8);
-                            resultListener.onDeviceInformation(informationType, value, new Date());
-                        } else {
-                            resultListener.onError(informationType, shnResult);
-                        }
+                    if (shnResult == SHNResult.SHNOk) {
+                        String value = new String(data, StandardCharsets.UTF_8);
+                        resultListener.onDeviceInformation(informationType, value, new Date());
+                    } else {
+                        resultListener.onError(informationType, shnResult);
                     }
                 }
             };
@@ -116,7 +111,8 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
         }
     }
 
-    private UUID getCharacteristicUUIDForDeviceInformationType(SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType) {
+    @Nullable
+    private UUID getCharacteristicUUIDForDeviceInformationType(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType) {
         String uuidString = uuidMap.get(shnDeviceInformationType);
 
         if (uuidString != null) {

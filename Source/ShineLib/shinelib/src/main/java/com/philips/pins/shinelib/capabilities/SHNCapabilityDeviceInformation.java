@@ -36,7 +36,7 @@ public interface SHNCapabilityDeviceInformation extends SHNCapability {
     }
 
     @Deprecated
-    void readDeviceInformation(SHNDeviceInformationType shnDeviceInformationType, SHNStringResultListener shnStringResultListener);
+    void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener);
 
     void readDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final Listener listener);
 }

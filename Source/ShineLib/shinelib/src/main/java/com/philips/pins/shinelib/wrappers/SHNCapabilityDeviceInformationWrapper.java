@@ -18,18 +18,24 @@ import java.util.Date;
 public class SHNCapabilityDeviceInformationWrapper implements SHNCapabilityDeviceInformation {
     private static final String TAG = SHNCapabilityDeviceInformationWrapper.class.getSimpleName();
     private static final boolean LOGGING = false;
+
+    @NonNull
     private final SHNCapabilityDeviceInformation wrappedShnCapability;
+
+    @NonNull
     private final Handler userHandler;
+
+    @NonNull
     private final Handler internalHandler;
 
-    public SHNCapabilityDeviceInformationWrapper(SHNCapabilityDeviceInformation shnCapability, Handler internalHandler, Handler userHandler) {
+    public SHNCapabilityDeviceInformationWrapper(@NonNull final SHNCapabilityDeviceInformation shnCapability, @NonNull final Handler internalHandler, @NonNull final Handler userHandler) {
         wrappedShnCapability = shnCapability;
         this.userHandler = userHandler;
         this.internalHandler = internalHandler;
     }
 
     @Override
-    public void readDeviceInformation(final SHNDeviceInformationType shnDeviceInformationType, final SHNStringResultListener shnStringResultListener) {
+    public void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
         if (LOGGING) Log.i(TAG, "readDeviceInformation called by user");
         Runnable command = new Runnable() {
             @Override

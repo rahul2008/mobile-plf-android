@@ -77,6 +77,7 @@ end
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
@@ -144,6 +145,7 @@ public class SHNService {
         return uuid;
     }
 
+    @Nullable
     public SHNCharacteristic getSHNCharacteristic(UUID characteristicUUID) {
         return characteristicMap.get(characteristicUUID);
     }
