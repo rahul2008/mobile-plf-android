@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -69,7 +70,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private HorizontalScrollView mVideoScrollView = null;
     private String mManualPdf = null;
     private String mProductPage = null;
-    private ImageView mVideoImageView = null;
     private ViewProductDetailsModel mViewProductDetailsModel = null;
     private static int mSmallerResolution = 0;
     private int mBiggerResolution = 0;
@@ -104,7 +104,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 R.id.prodbuttonsParent);
 
         mProdVideoContainer = (LinearLayout) getActivity().findViewById(
-                R.id.videoContainer);
+                R.id.videoContainerParent);
 
         mFirstContainerParams = (LinearLayout.LayoutParams) mFirstContainer
                 .getLayoutParams();
@@ -130,6 +130,14 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         createProductDetailsMenu();
         updateViewsWithData();
         setViewParams(config);
+
+        mVideoScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+
+            @Override
+            public void onScrollChanged() {
+                mScrollPosition = mVideoScrollView.getScrollX(); //for horizontalScrollView
+            }
+        });
 /*
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -153,19 +161,39 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             View child = getActivity().getLayoutInflater().inflate(R.layout.viewproduct_video_view, null);
             ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
             ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
+            ImageView videoLeftArrow = (ImageView) child.findViewById(R.id.videoLeftArrow);
+            ImageView videoRightArrow = (ImageView) child.findViewById(R.id.videoRightArrow);
+
             RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) videoThumbnail
                     .getLayoutParams();
+//            RelativeLayout.LayoutParams paramLeftArrow = (RelativeLayout.LayoutParams) videoLeftArrow
+//                    .getLayoutParams();
+
+//            RelativeLayout.LayoutParams paramRightArrow = (RelativeLayout.LayoutParams) videoRightArrow
+//                    .getLayoutParams();
+
             float density = getResources().getDisplayMetrics().density;
 
-            if (mVideoLength.size() > 1 && (mVideoLength.size() - 1) != i) {
+            if (mVideoLength.size() > 1 && (mVideoLength.size() - 1) != i && isTablet) {
                 param.rightMargin = (int) (25 * density);
                 videoThumbnail.setLayoutParams(param);
             }
-            addNewVideo(i, mVideoLength.get(i), child, videoThumbnail, videoPlay);
+
+//            paramLeftArrow.leftMargin =
+//                    (int) (50 * density) + (int) getResources().getDimension(R.dimen.activity_margin);
+
+//            videoRightArrow.setLayoutParams(paramRightArrow);
+//            videoLeftArrow.setLayoutParams(paramLeftArrow);
+
+            videoLeftArrow.bringToFront();
+            videoRightArrow.bringToFront();
+
+            addNewVideo(i, mVideoLength.get(i), child, videoThumbnail, videoPlay, videoLeftArrow, videoRightArrow);
         }
     }
 
     private static int mHeight = 0;
+    private static int mScrollPosition = 0;
 
     private int getDisplayWidth() {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -212,20 +240,20 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         imageRequestQueue.add(request);
     }
 
-    private Bitmap addBlankThumbnail(){
+    private Bitmap addBlankThumbnail() {
         int height = 0;
-        if(isTablet) {
-            height = (getDisplayWidth()/2) + 13;
-        }
-        else{
-            height = (getDisplayWidth()/2) + 46;
+        if (isTablet) {
+            height = (getDisplayWidth() / 2) + 13;
+        } else {
+            height = (getDisplayWidth() / 2) + 46;
         }
         Bitmap imageBitmap = Bitmap.createBitmap(getDisplayWidth(), height, Bitmap.Config.ARGB_8888);
         imageBitmap.eraseColor(Color.BLACK);
         return imageBitmap;
     }
 
-    private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, ImageView videoPlay) {
+    private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, ImageView videoPlay,
+                             ImageView videoLeftArrow, ImageView videoRightArrow) {
         String tag = counter + "";
         final String thumbnail = video.replace("/content/", "/image/") + "?wid=" + getDisplayWidth() + "&amp;";
 
@@ -243,6 +271,37 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse(video), "video/mp4");
                 getActivity().startActivity(intent);
+            }
+        });
+
+        if (isTablet) {
+            videoLeftArrow.setVisibility(View.GONE);
+            videoRightArrow.setVisibility(View.GONE);
+        }
+        videoLeftArrow.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mScrollPosition >= 400) {
+                    mVideoScrollView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mVideoScrollView.smoothScrollTo((mScrollPosition - 400), 0);
+                        }
+                    }, 5);
+                }
+            }
+        });
+
+        videoRightArrow.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mVideoScrollView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mVideoScrollView.smoothScrollTo((mScrollPosition + 400), 0);
+                    }
+                }, 5);
+//                    mVideoScrollView.scrollTo(mScrollPosition, (mScrollPosition + 50));
             }
         });
         mProdVideoContainer.addView(child);
@@ -452,11 +511,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap bitmap) {
-                            if(isTablet){
+                            if (isTablet) {
                                 mProductImageTablet.setVisibility(View.VISIBLE);
                                 mProductImageTablet.setImageBitmap(bitmap);
-                            }
-                            else {
+                            } else {
                                 mProductImage.setVisibility(View.VISIBLE);
                                 mProductImage.setImageBitmap(bitmap);
                             }
