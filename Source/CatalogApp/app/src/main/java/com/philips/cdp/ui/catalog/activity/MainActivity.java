@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.RatingBarLauncher;
 import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
@@ -79,23 +78,27 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 8:
                 startActivity(new Intent(this, TabBarDemo.class));
                 break;
+
             case 9:
                 startActivity(new Intent(this, SliderActivity.class));
                 break;
-			case 10:
+            case 10:
                 startActivity(new Intent(this, RatingBarLauncher.class));
                 break;
-			case 11:
-                startActivity(new Intent(this, ActionBarDemo.class));
-                break;
+
             case 12:
                 startActivity(new Intent(this, ActionBarLauncher.class));
                 break;
             case 13:
                 startActivity(new Intent(this, HamburgerActivity.class));
-				break;
-			case 14:
+                break;
+
+            case 14:
                 startActivity(new Intent(this, SocialIconsActivity.class));
+                break;
+
+            case 15:
+                startActivity(new Intent(this, TabViewWithViewPager.class));
                 break;
             default:
                 break;
@@ -149,9 +152,15 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(8, "Tab Bar");
         itemsMap.put(9, "Sliders");
         itemsMap.put(10, "Rating Bar");
+//        itemsMap.put(11, "Action Bar Demo");
         itemsMap.put(12, "Action Bar Up");
-        itemsMap.put(13, "Hamburger Menu");
-        itemsMap.put(14, "Social Media Icons");
+        itemsMap.put(13,"Hamburger Menu");
+        itemsMap.put(14,"Social Media Icons");
+        itemsMap.put(15, "Lists View Demo");
+
         return itemsMap;
     }
+
+
+
 }

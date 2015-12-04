@@ -41,7 +41,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_marginTop="@dimen/uikit_hamburger_list_top_margin"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
                 android:listSelector="@android:color/transparent"

@@ -4,7 +4,11 @@
         <attr name="actionBarBackground" format="reference|color"/>
         <attr name="outlinedButtonStyle" format="reference"/>
         <attr name="baseColor" format="reference|color"/>
+        <attr name="listSelectorBackground" format="reference|color"/>
+        <attr name="listiconselector" format="reference|color"/>
+        <attr name="listtextselector" format="reference|color"/>
         <attr name="gradBackground" format="reference|color"/>
+        <attr name="listDividerColor" format="reference|color"/>
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
@@ -12,7 +16,16 @@
         <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
         <attr name="veryDarkToDark" format="reference" />
-        <attr name="darkToBright" format="reference" />
+        <attr name="gradientColorForListHeader" format="reference|color"/>
+        <attr name="gradientColorForListSectionTitle" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="TintableImageView">
+        <attr name="themeStyle" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="theme" value="1"/>
+            <enum name="inverted" value="2"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="ActionButton">
@@ -50,6 +63,7 @@
     </declare-styleable>
 
     <attr name="enableStroke" format="boolean"/>
+    <attr name="strokeColor" format="color" />
 
     <declare-styleable name="VectorCompat">
         <attr name="vc_tintMode" format="enum">
@@ -123,4 +137,8 @@
         <attr name="notification_label_small" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="RangeSeekBar">
+        <attr name="absoluteMinValue" format="integer|float"/>
+        <attr name="absoluteMaxValue" format="integer|float"/>
+    </declare-styleable>
 </resources>

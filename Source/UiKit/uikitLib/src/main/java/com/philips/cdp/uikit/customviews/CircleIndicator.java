@@ -1,18 +1,14 @@
-package com.philips.cdp.uikit.costumviews;
+package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cdp.uikit.R;
@@ -23,50 +19,64 @@ import com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ImageIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedViews {
+public class CircleIndicator extends LinearLayout implements PageIndicator, com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews {
 
     private final View parentView;
     private ViewPager viewPager;
     private ViewPager.OnPageChangeListener pageChangeListener;
+    private boolean enableStrokeBackground;
+
+    private int selectedCircleWidth;
+    private int selectedCircleHeight;
+    private int unSelectedCircleWidth;
+    private int unSelectedCircleHeight;
     private int themeBaseColor;
     private int currentPage;
     private int distanceBetweenCircles;
     private int scrollState;
     private onTouchUnSelectedViews onTouchUnSelectedViews;
-    private Drawable unSelectedDrawable;
-    private Drawable[] drawables;
+    private GradientDrawable unSelectedGradientDrawable;
+    private int strokeColor;
 
-    public ImageIndicator(final Context context, final AttributeSet attrs) {
+    public CircleIndicator(final Context context, final AttributeSet attrs) {
         super(context, attrs);
+        final Resources resources = getResources();
         parentView = LayoutInflater.from(context).inflate(
                 R.layout.uikit_indicator, null);
-        processAttributes(context, context.getResources());
+        processAttributes(context, resources);
+        reDrawView();
     }
 
-    public ImageIndicator(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public CircleIndicator(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        final Resources resources = getResources();
         parentView = LayoutInflater.from(context).inflate(
                 R.layout.uikit_indicator, null);
-        processAttributes(context, context.getResources());
+        processAttributes(context, resources);
+        reDrawView();
     }
 
-    public Drawable getUnSelectedView() {
-        return unSelectedDrawable;
-    }
-
-    public void setImages(Drawable[] drawables) {
-        this.drawables = drawables;
+    public GradientDrawable getUnSelectedDot() {
+        return unSelectedGradientDrawable;
     }
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private void processAttributes(final Context context, final Resources resources) {
+        selectedCircleWidth = (int) resources.getDimension(R.dimen.uikit_dot_navigation_selected_width);
+        selectedCircleHeight = (int) resources.getDimension(R.dimen.uikit_dot_navigation_selected_height);
+        unSelectedCircleWidth = (int) resources.getDimension(R.dimen.uikit_dot_navigation_unselected_width);
+        unSelectedCircleHeight = (int) resources.getDimension(R.dimen.uikit_dot_navigation_unselected_height);
         distanceBetweenCircles = (int) resources.getDimension(R.dimen.uikit_dot_navigation_distance_between_circles);
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.enableStroke, R.attr.strokeColor});
         themeBaseColor = a.getColor(0, resources.getColor(R.color.uikit_philips_blue));
+        enableStrokeBackground = a.getBoolean(1, false);
+        strokeColor = a.getColor(2, themeBaseColor);
+
+        a.recycle();
     }
 
-    private void reDrawView(final Drawable[] drawables) {
+    private void reDrawView() {
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -85,20 +95,22 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
                     return;
                 }
 
-                final LinearLayout parent = getParentLayout();
-                drawViews(context, parent, drawables);
+                final LinearLayout parent = getParentLayout(context);
+                drawDots(context, count, parent);
             }
         });
 
     }
 
-    private void drawViews(final Context context, final LinearLayout parent, Drawable[] drawables) {
-        for (int i = 0; i < drawables.length; i++) {
-            ImageView view = new ImageView(context);
+    private void drawDots(final Context context, final int count, final LinearLayout parent) {
+        for (int i = 0; i < count; i++) {
+            View view = new View(context);
+
+            GradientDrawable gradientDrawable = getShapeDrawable();
             if (i == currentPage) {
-                applySelectedMetrics(view, drawables[i]);
+                applySelectedMetrics(view, gradientDrawable);
             } else {
-                applyUnselectedMetrics(view, drawables[i], context);
+                applyUnselectedMetrics(view, gradientDrawable, context);
                 setOnClickListener(i, view);
             }
             parent.addView(view);
@@ -120,41 +132,46 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
-    private void applyUnselectedMetrics(final ImageView view, final Drawable drawable, Context context) {
-        LayoutParams vp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private void applyUnselectedMetrics(final View view, final GradientDrawable gradientDrawable, Context context) {
+        gradientDrawable.setAlpha(context.getResources().getInteger(R.integer.uikit_dot_navigation_unselected_alpha));
+        LayoutParams vp = new LayoutParams(unSelectedCircleWidth, unSelectedCircleHeight);
         vp.setMargins(0, 0, distanceBetweenCircles, 0);
-        this.unSelectedDrawable = drawable;
+        if (enableStrokeBackground) {
+            gradientDrawable.setStroke(2, strokeColor);
+            gradientDrawable.setColor(getResources().getColor(android.R.color.transparent));
+        }
+        this.unSelectedGradientDrawable = gradientDrawable;
         view.setLayoutParams(vp);
-        view.setImageDrawable(drawable);
-        view.getDrawable().setColorFilter(adjustAlpha(themeBaseColor, 0.5f), PorterDuff.Mode.SRC_ATOP);
+        view.setBackgroundDrawable(gradientDrawable);
     }
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
-    private void applySelectedMetrics(final ImageView view, final Drawable drawable) {
-        LayoutParams vp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private void applySelectedMetrics(final View view, final GradientDrawable gradientDrawable) {
+        LayoutParams vp = new LayoutParams(selectedCircleWidth, selectedCircleHeight);
         vp.setMargins(0, 0, distanceBetweenCircles, 0);
         view.setLayoutParams(vp);
-        view.setImageDrawable(drawable);
-        view.getDrawable().setColorFilter(themeBaseColor, PorterDuff.Mode.SRC_ATOP);
-    }
-
-    private int adjustAlpha(int color, float factor) {
-        int alpha = Math.round(Color.alpha(color) * factor);
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        return Color.argb(alpha, red, green, blue);
+        view.setBackgroundDrawable(gradientDrawable);
     }
 
     @NonNull
-    private LinearLayout getParentLayout() {
+    private LinearLayout getParentLayout(final Context context) {
         this.removeAllViews();
         this.addView(parentView);
         final LinearLayout linearLayout = (LinearLayout) parentView.findViewById(R.id.uikit_linear);
         linearLayout.removeAllViews();
 
         return linearLayout;
+    }
+
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
+    private GradientDrawable getShapeDrawable() {
+        Resources resources = getResources();
+        final GradientDrawable gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.uikit_dot_circle);
+        gradientDrawable.setColor(themeBaseColor);
+        gradientDrawable.mutate();
+        return gradientDrawable;
     }
 
     @SuppressWarnings("deprecation")
@@ -172,7 +189,7 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         }
         viewPager = view;
         viewPager.setOnPageChangeListener(this);
-        reDrawView(drawables);
+        reDrawView();
     }
 
     @Override
@@ -188,12 +205,12 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         }
         viewPager.setCurrentItem(item);
         currentPage = item;
-        reDrawView(drawables);
+        reDrawView();
     }
 
     @Override
     public void notifyDataSetChanged() {
-        reDrawView(drawables);
+        reDrawView();
     }
 
     @Override
@@ -208,7 +225,7 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         currentPage = position;
-        reDrawView(drawables);
+        reDrawView();
         if (pageChangeListener != null) {
             pageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
         }
@@ -218,7 +235,7 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     public void onPageSelected(int position) {
         if (scrollState == ViewPager.SCROLL_STATE_IDLE) {
             currentPage = position;
-            reDrawView(drawables);
+            reDrawView();
         }
         if (pageChangeListener != null) {
             pageChangeListener.onPageSelected(position);
@@ -228,6 +245,46 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     @Override
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         pageChangeListener = listener;
+    }
+
+    public int getSelectedCircleWidth() {
+        return selectedCircleWidth;
+    }
+
+    public void setSelectedCircleWidth(final int selectedCircleWidth) {
+        this.selectedCircleWidth = selectedCircleWidth;
+    }
+
+    public int getSelectedCircleHeight() {
+        return selectedCircleHeight;
+    }
+
+    public void setSelectedCircleHeight(final int selectedCircleHeight) {
+        this.selectedCircleHeight = selectedCircleHeight;
+        reDrawView();
+    }
+
+    public int getUnSelectedCircleWidth() {
+        return unSelectedCircleWidth;
+    }
+
+    public void setUnSelectedCircleWidth(final int unSelectedCircleWidth) {
+        this.unSelectedCircleWidth = unSelectedCircleWidth;
+        reDrawView();
+    }
+
+    public int getUnSelectedCircleHeight() {
+        return unSelectedCircleHeight;
+    }
+
+    public void setUnSelectedCircleHeight(final int unSelectedCircleHeight) {
+        this.unSelectedCircleHeight = unSelectedCircleHeight;
+        reDrawView();
+    }
+
+    public void setEnableStrokeBackground(boolean enableStrokeBackground) {
+        this.enableStrokeBackground = enableStrokeBackground;
+        reDrawView();
     }
 
     @Override
@@ -242,5 +299,17 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     public int getFilledColor() {
         return themeBaseColor;
     }
+
+
+    public int getStrokeColor() {
+        return strokeColor;
+    }
+
+    public void setStrokeColor(int strokeColor) {
+        this.strokeColor = strokeColor;
+        reDrawView();
+    }
+
+
 
 }

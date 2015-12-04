@@ -16,7 +16,7 @@ public class AboutScreenPhilips extends UiKitActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_about_screen);
-        findViewById(R.id.aboutscreen_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.UpButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 finish();
