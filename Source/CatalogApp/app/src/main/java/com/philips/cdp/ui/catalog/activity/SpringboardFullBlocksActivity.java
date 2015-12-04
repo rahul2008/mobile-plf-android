@@ -29,30 +29,13 @@ public class SpringboardFullBlocksActivity extends  CatalogActivity {
     ArrayList<SpringBoardItems> mData;
    @Override
     protected void onCreate(Bundle savedInstanceState) {
+       setNoActionBarTheme();
 
+       super.onCreate(savedInstanceState);
+       String [] prgmNameList={"Telephone "," Monitor ","Alarm Clock"," Factory ","Stats","Message","Shopping","Settings"};
+       Drawable [] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_dial)),(VectorDrawable.create(this, R.drawable.uikit_monitor)),(VectorDrawable.create(this, R.drawable.uikit_alarm)),(VectorDrawable.create(this, R.drawable.uikit_factory)),(VectorDrawable.create(this, R.drawable.uikit_stats)), (VectorDrawable.create(this, R.drawable.uikit_email)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_gear))};
 
-         String [] prgmNameList={"Telephone "," Monitor ","Alarm Clock"," Factory ","Stats","Message","Shopping","Settings"};
-        Drawable [] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_dial)),(VectorDrawable.create(this, R.drawable.uikit_monitor)),(VectorDrawable.create(this, R.drawable.uikit_alarm)),(VectorDrawable.create(this, R.drawable.uikit_factory)),(VectorDrawable.create(this, R.drawable.uikit_stats)), (VectorDrawable.create(this, R.drawable.uikit_email)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_gear))};
-
-         /*   int i;
-        ArrayList<SpringBoardItems> mData=new ArrayList<SpringBoardItems>();
-
-        for(i=0;i<5;i++) {
-
-
-            SpringBoardItems sbi = new SpringBoardItems();
-            sbi.setmString(prgmNameList[i]);
-            sbi.setmImage(prgmImages[i]);
-            mData.add(sbi);
-           sbi=null;
-        }
-*/
-
-
-
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.uikit_springboard_fullblocks);
+       setContentView(R.layout.uikit_springboard_fullblocks);
         LinearLayout ll= (LinearLayout) findViewById(R.id.row_layout1);
      //   ll.setVisibility(View.GONE);
         ImageView imv1= (ImageView) findViewById(R.id.imageView1);
