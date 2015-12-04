@@ -84,7 +84,7 @@
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
         <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
         <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
-        <item name="errorTextColor">@color/uikit_philips_bright_aqua</item>
+        <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
@@ -117,7 +117,7 @@
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentGreen</item>
         <item name="buttonStyle">@style/Button.Solid.BrightGreen</item>
         <item name="editTextStyle">@style/InputStyle.BrightGreen</item>
-        <item name="errorTextColor">@color/uikit_philips_bright_green</item>
+        <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
