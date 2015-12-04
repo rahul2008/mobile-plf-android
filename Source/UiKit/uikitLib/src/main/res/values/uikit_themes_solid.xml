@@ -129,4 +129,35 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Theme.Philips.BrightPink">
+        <item name="baseColor">@color/uikit_philips_bright_pink</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme</item>
+        <item name="listiconselector">@drawable/uikit_list_icon_selector_bright_pink</item>
+        <item name="listtextselector">@drawable/uikit_list_icon_selector_bright_pink</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_pink_color</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_pink_theme</item>
+        <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Pink</item>
+        <item name="gradBackground">@drawable/uikit_grad_pink_dark_to_bright</item>
+        <item name="actionBarBackground">@drawable/uikit_grad_pink_dark_to_bright</item>
+        <item name="android:windowBackground">@color/uikit_philips_very_light_pink</item>
+        <item name="android:colorBackground">@color/uikit_philips_very_light_pink</item>
+        <item name="actionButtonBgColor">@color/uikit_philips_bright_pink</item>
+        <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_pink</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedBrightPink</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPink</item>
+        <item name="buttonStyle">@style/Button.Solid.BrightPink</item>
+        <item name="editTextStyle">@style/InputStyle.BrightPink</item>
+        <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
+        <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
+        <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
+        <item name="veryLightColor">@color/uikit_philips_very_light_pink</item>
+        <item name="brightColor">@color/uikit_philips_light_pink</item>
+        <item name="splashGradient">@drawable/uikit_grad_pink_bright_to_light</item>
+        <item name="veryDarkToDark">@drawable/uikit_grad_pink_verydark_to_dark</item>
+    </style>
+    <style name="Theme.Philips.BrightPink.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
