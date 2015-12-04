@@ -3,6 +3,7 @@ apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 
 def libVersionNumber = new File('../../VERSION').text.trim()
+libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
 
 buildscript {
     repositories {
