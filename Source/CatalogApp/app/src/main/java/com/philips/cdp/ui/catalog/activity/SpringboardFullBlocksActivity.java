@@ -31,8 +31,8 @@ public class SpringboardFullBlocksActivity extends  CatalogActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 
-         String [] prgmNameList={"Telephone "," Moniter ","Alarm Clock"," Factory ","Stats","Message","Shopping","Settings"};
-        Drawable [] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_stats)),(VectorDrawable.create(this, R.drawable.uikit_cart)), (VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_apple)),(VectorDrawable.create(this, R.drawable.uikit_gear))};
+         String [] prgmNameList={"Telephone "," Monitor ","Alarm Clock"," Factory ","Stats","Message","Shopping","Settings"};
+        Drawable [] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_dial)),(VectorDrawable.create(this, R.drawable.uikit_monitor)),(VectorDrawable.create(this, R.drawable.uikit_alarm)),(VectorDrawable.create(this, R.drawable.uikit_factory)),(VectorDrawable.create(this, R.drawable.uikit_stats)), (VectorDrawable.create(this, R.drawable.uikit_email)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_gear))};
 
          /*   int i;
         ArrayList<SpringBoardItems> mData=new ArrayList<SpringBoardItems>();

@@ -53,7 +53,8 @@
         <activity android:name=".activity.DummyActivityForListItemClick"/>
         <activity android:name=".activity.TabViewWithViewPager"/>
         <activity android:name=".activity.SocialIconsActivity"/>
-        <activity android:name=".activity.SpringboardFullBlocksActivity"/>
+        <activity android:name=".activity.SpringboardFullBlocksActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
