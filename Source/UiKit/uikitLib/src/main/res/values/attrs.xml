@@ -10,6 +10,7 @@
         <attr name="gradBackground" format="reference|color"/>
         <attr name="listDividerColor" format="reference|color"/>
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
+        <attr name="springBoardTextColor" format="reference|color"/>
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
         <attr name="veryLightColor" format="color"/>

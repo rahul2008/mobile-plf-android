@@ -6,6 +6,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color</item>
         <item name="listiconselector">@drawable/uikit_list_icon_selector_blue</item>
+        <item name="springBoardTextColor">@drawable/uikit_sprinboard_textselector_blue</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_blue</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_blue</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_blue_theme</item>
@@ -42,6 +43,7 @@
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_orange_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
         <item name="gradBackground">@drawable/uikit_grad_orange_background</item>
+        <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
         <item name="actionBarBackground">@drawable/uikit_grad_orange_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_orange</item>
@@ -75,6 +77,7 @@
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
         <item name="gradBackground">@drawable/uikit_grad_aqua_background</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_aqua</item>
         <item name="actionBarBackground">@drawable/uikit_grad_aqua_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
