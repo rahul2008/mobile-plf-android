@@ -58,10 +58,9 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
-        Map<String, Object> contextData = new HashMap<String, Object>();
-        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ,
-                getPreviousName(), contextData);
+        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_REVIEW_WRITING,
+                getPreviousName());
+
         initView();
 
         loadProductpage();
@@ -80,6 +79,8 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
             DigiCareLogger.d(TAG, getProductPageUri().toString());
             mWebView.loadUrl(getProductPageUri().toString());
             mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.getSettings().setDomStorageEnabled(true);
+            mWebView.getSettings().setBuiltInZoomControls(true);
             mWebView.setWebViewClient(new WebViewClient() {
 
                 @Override
@@ -146,7 +147,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return AnalyticsConstants.PAGE_RATE_THIS_APP;
+        return AnalyticsConstants.PAGE_REVIEW_WRITING;
     }
 
     @Override
