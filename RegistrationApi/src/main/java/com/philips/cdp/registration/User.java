@@ -265,7 +265,6 @@ public class User {
     }
 
     private void refreshHsdpAccessToken(Context context, final RefreshLoginSessionHandler refreshLoginSessionHandler) {
-        System.out.println("************** Called refreshHsdpAccessToken Method");
         final HsdpUser hsdpUser = new HsdpUser(context);
         hsdpUser.refreshToken(new RefreshLoginSessionHandler() {
             @Override
