@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformationCached;
 
 import org.junit.Before;
 import org.junit.Test;

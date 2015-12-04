@@ -8,6 +8,7 @@ package com.philips.pins.shinelib.capabilities;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 import com.philips.pins.shinelib.utility.DeviceInformationCache;
@@ -25,6 +26,15 @@ public class SHNCapabilityDeviceInformationCached implements SHNCapabilityDevice
     public SHNCapabilityDeviceInformationCached(@NonNull final SHNServiceDeviceInformation shnServiceDeviceInformation, @NonNull final DeviceInformationCache deviceInformationCache) {
         this.shnServiceDeviceInformation = shnServiceDeviceInformation;
         this.deviceInformationCache = deviceInformationCache;
+
+        shnServiceDeviceInformation.registerSHNServiceListener(new SHNService.SHNServiceListener() {
+            @Override
+            public void onServiceStateChanged(final SHNService shnService, final SHNService.State state) {
+                if (SHNService.State.Available.equals(state)) {
+                    initCache();
+                }
+            }
+        });
     }
 
     @Deprecated
@@ -53,5 +63,19 @@ public class SHNCapabilityDeviceInformationCached implements SHNCapabilityDevice
                 }
             }
         });
+    }
+
+    public void initCache() {
+        for (SHNDeviceInformationType value : SHNDeviceInformationType.values()) {
+            readDeviceInformation(value, new Listener() {
+                @Override
+                public void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate) {
+                }
+
+                @Override
+                public void onError(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final SHNResult error) {
+                }
+            });
+        }
     }
 }

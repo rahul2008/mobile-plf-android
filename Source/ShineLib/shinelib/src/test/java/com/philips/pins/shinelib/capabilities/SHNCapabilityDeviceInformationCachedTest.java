@@ -1,6 +1,7 @@
 package com.philips.pins.shinelib.capabilities;
 
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 import com.philips.pins.shinelib.utility.DeviceInformationCache;
 
@@ -13,7 +14,10 @@ import org.mockito.Mock;
 import java.text.ParseException;
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -34,7 +38,13 @@ public class SHNCapabilityDeviceInformationCachedTest {
     private SHNCapabilityDeviceInformation.Listener deviceInformationListenerMock;
 
     @Captor
+    private ArgumentCaptor<SHNService.SHNServiceListener> serviceListenerCaptor;
+
+    @Captor
     private ArgumentCaptor<SHNCapabilityDeviceInformation.Listener> deviceInformationListenerCaptor;
+
+    @Captor
+    private ArgumentCaptor<SHNCapabilityDeviceInformation.SHNDeviceInformationType> deviceInformationTypeCaptor;
 
     private SHNCapabilityDeviceInformationCached deviceInformationCached;
 
@@ -92,5 +102,19 @@ public class SHNCapabilityDeviceInformationCachedTest {
         listener.onError(INFORMATION_TYPE, result);
 
         verify(deviceInformationListenerMock).onDeviceInformation(INFORMATION_TYPE, TEST_MESSAGE, TEST_DATE);
+    }
+
+    @Test
+    public void shouldCallReadForAllDeviceInformationTypes_whenServiceBecomesActiveIsCalled() {
+        verify(deviceInformationMock).registerSHNServiceListener(serviceListenerCaptor.capture());
+
+        SHNService.SHNServiceListener serviceListener = serviceListenerCaptor.getValue();
+
+        serviceListener.onServiceStateChanged(null, SHNService.State.Available);
+
+        SHNCapabilityDeviceInformation.SHNDeviceInformationType[] values = SHNCapabilityDeviceInformation.SHNDeviceInformationType.values();
+        verify(deviceInformationMock, times(values.length)).readDeviceInformation(deviceInformationTypeCaptor.capture(), any(SHNCapabilityDeviceInformation.Listener.class));
+
+        assertThat(deviceInformationTypeCaptor.getAllValues()).containsExactly(values);
     }
 }

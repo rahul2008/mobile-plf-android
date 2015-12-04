@@ -91,9 +91,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 26/03/15.
- */
 public class SHNService {
     private static final String TAG = SHNService.class.getSimpleName();
     private static final boolean LOGGING = false;
@@ -102,7 +99,6 @@ public class SHNService {
     private BTGatt btGatt;
     private WeakReference<BluetoothGattService> bluetoothGattServiceWeakReference;
     private List<SHNCharacteristic> requiredCharacteristics;
-    private List<SHNCharacteristic> optionalCharacteristics;
     private Map<UUID, SHNCharacteristic> characteristicMap;
     private Set<SHNServiceListener> shnServiceListeners;
 
@@ -115,7 +111,6 @@ public class SHNService {
     public SHNService(UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
         this.uuid = serviceUuid;
         this.requiredCharacteristics = new ArrayList<>();
-        this.optionalCharacteristics = new ArrayList<>();
         this.characteristicMap = new HashMap<>();
         this.shnServiceListeners = new HashSet<>();
 
@@ -157,7 +152,6 @@ public class SHNService {
 
     private void addOptionalSHNCharacteristic(SHNCharacteristic shnCharacteristic) {
         characteristicMap.put(shnCharacteristic.getUuid(), shnCharacteristic);
-        optionalCharacteristics.add(shnCharacteristic);
     }
 
     private void updateState(State newState) {
