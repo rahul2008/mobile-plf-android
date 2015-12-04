@@ -51,4 +51,5 @@
     <string name="title_activity_social_icons">SocialIconsActivity</string>
     <string name="title_activity_list_view_without_icons">ListViewWithoutIcons</string>
     <string name="title_activity_spring_boardsctivity">SpringBoardsctivity</string>
+    <string name="title_activity_spring_board_six_grid">SpringBoardSixGridActivity</string>
 </resources>

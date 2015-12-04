@@ -58,7 +58,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SpringBoardsctivity"
-            android:label="@string/title_activity_spring_boardsctivity" >
+             >
+        </activity>
+        <activity
+            android:name=".activity.SpringBoardSixGridActivity"
+             >
         </activity>
     </application>
 
