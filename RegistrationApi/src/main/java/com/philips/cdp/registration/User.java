@@ -265,6 +265,7 @@ public class User {
     }
 
     private void refreshHsdpAccessToken(Context context, final RefreshLoginSessionHandler refreshLoginSessionHandler) {
+        System.out.println("************** Called refreshHsdpAccessToken Method");
         final HsdpUser hsdpUser = new HsdpUser(context);
         hsdpUser.refreshToken(new RefreshLoginSessionHandler() {
             @Override
@@ -274,6 +275,10 @@ public class User {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
+                if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
+                        || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+                    clearData();
+                }
                 refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
             }
         });
@@ -434,11 +439,18 @@ public class User {
     }
 
     public boolean isUserSignIn(Context context) {
-        CaptureRecord captured = CaptureRecord.loadFromDisk(context);
-        if (captured == null) {
-            return false;
+        if (RegistrationHelper.getInstance().isHsdpFlow()) {
+            HsdpUser hsdpUser = new HsdpUser(context);
+            if (hsdpUser.getHsdpUserRecord() != null) {
+                return true;
+            }
+        } else {
+            CaptureRecord captured = CaptureRecord.loadFromDisk(context);
+            if (captured == null) {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     // check merge flow error for capture
@@ -464,10 +476,12 @@ public class User {
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
-                updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(error);
-                if(error==Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
+                if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
+                        || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                     clearData();
+                    return;
                 }
+                updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(error);
             }
         }, mContext);
     }
@@ -548,12 +562,12 @@ public class User {
     // For Log out
     public void logout(LogoutHandler logoutHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        if (RegistrationHelper.getInstance().isHsdpFlow() && null!=hsdpUser.getHsdpUserRecord()) {
+        if (RegistrationHelper.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
             logoutHsdp(logoutHandler);
         } else {
             logoutJanrainUser();
-            if(logoutHandler!=null){
-               logoutHandler.onLogoutSuccess();
+            if (logoutHandler != null) {
+                logoutHandler.onLogoutSuccess();
             }
         }
     }
@@ -636,29 +650,36 @@ public class User {
             public void onLogoutSuccess() {
                 logoutJanrainUser();
                 hsdpUser.deleteFromDisk();
-                if(logoutHandler!=null){
-                   logoutHandler.onLogoutSuccess();
+                if (logoutHandler != null) {
+                    logoutHandler.onLogoutSuccess();
                 }
             }
 
             @Override
             public void onLogoutFailure(int responseCode, String message) {
 
-                if(responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
-                        || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
+                if (responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
+                        || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+                    System.out.println("******************************* clearData Logout");
                     clearData();
+                    if (logoutHandler != null) {
+                        logoutHandler.onLogoutSuccess();
+                    }
+                    return;
+                } else {
+                    if (logoutHandler != null) {
+                        logoutHandler.onLogoutFailure(responseCode, message);
+                    }
                 }
-                if(logoutHandler!=null){
-                    logoutHandler.onLogoutFailure(responseCode, message);
-                }
+
             }
         });
     }
 
     public void clearData() {
-        logoutJanrainUser();
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
+        logoutJanrainUser();
     }
 
     private void logoutJanrainUser() {

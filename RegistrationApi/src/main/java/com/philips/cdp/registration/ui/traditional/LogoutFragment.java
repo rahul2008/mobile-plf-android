@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -291,25 +292,36 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         return R.string.Account_Setting_Titletxt;
     }
 
+    private Handler handler = new Handler();
     @Override
     public void onLogoutSuccess() {
-        trackPage(AppTaggingPages.HOME);
-        hideLogoutSpinner();
-        getRegistrationFragment().replaceWithHomeFragment();
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnUserLogoutSuccess();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                trackPage(AppTaggingPages.HOME);
+                hideLogoutSpinner();
+                getRegistrationFragment().replaceWithHomeFragment();
+                RegistrationHelper.getInstance().getUserRegistrationListener()
+                        .notifyOnUserLogoutSuccess();
+            }
+        });
     }
 
     @Override
     public void onLogoutFailure(int responseCode, final String message) {
-        if (mBtnLogOut.getVisibility() == View.VISIBLE) {
-            mBtnLogOut.setEnabled(true);
-            mBtnLogOut.setClickable(true);
-        }
-        hideLogoutSpinner();
-        mRegError.setError(message);
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnUserLogoutFailure();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mBtnLogOut.getVisibility() == View.VISIBLE) {
+                    mBtnLogOut.setEnabled(true);
+                    mBtnLogOut.setClickable(true);
+                }
+                hideLogoutSpinner();
+                mRegError.setError(message);
+                RegistrationHelper.getInstance().getUserRegistrationListener()
+                        .notifyOnUserLogoutFailure();
+            }
+        });
     }
 
     private void showLogoutSpinner() {

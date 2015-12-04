@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.janrain.android.Jump;
+import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
@@ -191,7 +192,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
-        if (mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
+        if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext()) ) {
             AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
             replaceWithLogoutFragment();
             return;
@@ -426,5 +427,14 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public int getResourceID() {
         return titleResourceID;
     }
+
+    public boolean isUserSignIn(Context context) {
+        CaptureRecord captured = CaptureRecord.loadFromDisk(context);
+        if (captured == null) {
+            return false;
+        }
+        return true;
+    }
+
 
 }

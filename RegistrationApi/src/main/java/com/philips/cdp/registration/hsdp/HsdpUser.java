@@ -127,6 +127,10 @@ public class HsdpUser {
                             }
                         });
 
+                    }else if (dhpAuthenticationResponse.responseCode.equals(RegConstants.INVALID_ACCESS_TOKEN_CODE) || dhpAuthenticationResponse.responseCode.equals(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
+                        RLog.i(RLog.HSDP, "onHsdsLogoutFailure : responseCode : " + dhpAuthenticationResponse.responseCode +" message : " + dhpAuthenticationResponse.message);
+                        logoutHandler.onLogoutFailure(Integer.parseInt(dhpAuthenticationResponse.responseCode),dhpAuthenticationResponse.message);
+
                     }else {
                         handler.post(new Runnable() {
                             @Override

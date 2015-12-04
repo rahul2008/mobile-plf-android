@@ -222,6 +222,11 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
         dimissDialog();
+        if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
+                || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+            showToast("Failed to refresh hsdp Invalid access token");
+            return;
+        }
         showToast("Failed to refresh hsdp access token");
     }
 }
