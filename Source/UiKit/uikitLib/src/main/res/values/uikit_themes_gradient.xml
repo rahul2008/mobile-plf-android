@@ -34,5 +34,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+    <style name="Theme.Philips.BrightGreen.Gradient">
+        <item name="actionBarBackground">@drawable/uikit_grad_green_dark_to_bright</item>
+        <item name="android:windowBackground">@drawable/uikit_grad_green_bright_to_light</item>
+        <item name="android:colorBackground">@color/uikit_philips_bright_green</item>
+    </style>
+    <style name="Theme.Philips.BrightGreen.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
 

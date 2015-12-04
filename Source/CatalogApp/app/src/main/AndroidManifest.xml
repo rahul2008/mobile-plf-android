@@ -56,14 +56,8 @@
         <activity
             android:name=".activity.SpringboardFullBlocksActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.SpringBoardsctivity"
-             >
-        </activity>
-        <activity
-            android:name=".activity.SpringBoardSixGridActivity"
-             >
-        </activity>
+        <activity android:name=".activity.SpringBoardsctivity"></activity>
+        <activity android:name=".activity.SpringBoardSixGridActivity"></activity>
     </application>
 
 </manifest>
