@@ -15,25 +15,17 @@ public class RegistrationApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		//Config.setContext(getApplicationContext());
 		RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
 		RLog.d(RLog.JANRAIN_INITIALIZE,
 		        "RegistrationApplication : Janrain initialization with locale : "
 		                + Locale.getDefault());
-
-
 		Tagging.enableAppTagging(true);
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
-
-		Locale mlocale = Locale.getDefault();
-		if (RegistrationHelper.getInstance().isCoppaFlow()) {
-			mlocale = new Locale("en_US");
-		}
-		Tagging.init(mlocale, this);
 		RegistrationHelper.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 		RegistrationHelper.getInstance().intializeRegistrationSettings(this,
 				Locale.getDefault());
+		Tagging.init(RegistrationHelper.getInstance().getLocale(), this);
 
 	}
 
