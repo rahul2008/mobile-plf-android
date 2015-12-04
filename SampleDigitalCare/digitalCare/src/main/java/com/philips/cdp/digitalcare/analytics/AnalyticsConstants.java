@@ -23,8 +23,8 @@ public class AnalyticsConstants {
     public static final String PAGE_CONTACTUS_EMAIL = "digitalcare:contactus:email";
 
     public static final String PAGE_REVIEW_GUIDE_LINE = "digitalcare:ratethisapp:guideLines";
-    public static final String PAGE_REVIEW_WRITING = "digitalcare:ratethisapp:guideLines:writeReview";
-    public static final String PAGE_REVIEW__PREVIEW = "digitalcare:ratethisapp:guideLines:writeReview:preview";
+    public static final String PAGE_REVIEW_WRITING = "digitalcare:ratethisapp:writeReview";
+    public static final String PAGE_REVIEW_PREVIEW = "digitalcare:ratethisapp:guideLines:writeReview:preview";
     public static final String PAGE_REVIEW_THANKS = "digitalcare:ratethisapp:guideLines:writeReview:preview:thankYou";
 
     public static final String PAGE_VIEW_PRODUCT_DETAILS = "digitalcare:productdetails";

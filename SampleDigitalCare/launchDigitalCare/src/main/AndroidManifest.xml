@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cdp.sampledigitalcareapp"
     android:versionCode="136"
-    android:versionName="2.1.7">
+    android:versionName="3.0.0">
 
     <uses-sdk android:minSdkVersion="10"
         android:targetSdkVersion="23"/>
