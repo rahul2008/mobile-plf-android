@@ -82,9 +82,9 @@
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_aqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
-        <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
-        <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
-        <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
+        <item name="buttonStyle">@style/Button.Solid.BrightGreen</item>
+        <item name="editTextStyle">@style/InputStyle.BrightGreen</item>
+        <item name="errorTextColor">@color/uikit_philips_bright_green</item>
         <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
         <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
@@ -95,6 +95,37 @@
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.BrightGreen">
+        <item name="baseColor">@color/uikit_philips_bright_green</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme</item>
+        <item name="listiconselector">@drawable/uikit_list_icon_selector_bright_green</item>
+        <item name="listtextselector">@drawable/uikit_list_icon_selector_bright_green</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_green_color</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_green_theme</item>
+        <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Green</item>
+        <item name="gradBackground">@drawable/uikit_grad_green_dark_to_bright</item>
+        <item name="actionBarBackground">@drawable/uikit_grad_green_dark_to_bright</item>
+        <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
+        <item name="android:colorBackground">@color/uikit_philips_very_light_green</item>
+        <item name="actionButtonBgColor">@color/uikit_philips_bright_green</item>
+        <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_green</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedBrightGreen</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
+        <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
+        <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
+        <item name="errorTextColor">@color/uikit_philips_bright_green</item>
+        <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
+        <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
+        <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
+        <item name="brightColor">@color/uikit_philips_light_green</item>
+        <item name="splashGradient">@drawable/uikit_grad_green_bright_to_light</item>
+        <item name="veryDarkToDark">@drawable/uikit_grad_green_verydark_to_dark</item>
+    </style>
+    <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
