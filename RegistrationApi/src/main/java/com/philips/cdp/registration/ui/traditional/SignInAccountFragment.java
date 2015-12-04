@@ -20,6 +20,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -494,9 +495,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             if (RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
                 launchWelcomeFragment();
             } else {
-                launchAlmostDoneScreenForTermsAcceptance();
+                if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+                    launchAlmostDoneScreenForTermsAcceptance();
+                } else {
+                    launchWelcomeFragment();
+                }
             }
-
         } else {
             mEtEmail.showEmailInvalidAlert();
             mEtEmail.showErrPopUp();

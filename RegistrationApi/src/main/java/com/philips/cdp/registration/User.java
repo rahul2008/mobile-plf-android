@@ -446,7 +446,7 @@ public class User {
             }
         } else {
             CaptureRecord captured = CaptureRecord.loadFromDisk(context);
-            if (captured == null) {
+            if (captured!=null) {
                 return true;
             }
         }
@@ -660,7 +660,6 @@ public class User {
 
                 if (responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-                    System.out.println("******************************* clearData Logout");
                     clearData();
                     if (logoutHandler != null) {
                         logoutHandler.onLogoutSuccess();
