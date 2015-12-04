@@ -159,7 +159,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(13,"Hamburger Menu");
         itemsMap.put(14,"Social Media Icons");
         itemsMap.put(15, "Lists View Demo");
-        itemsMap.put(16,"spring board");
+        itemsMap.put(16,"Spring Board");
         return itemsMap;
     }
 
