@@ -101,7 +101,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, TabViewWithViewPager.class));
                 break;
             case 16:
-                startActivity(new Intent(this, SpringboardFullBlocksActivity.class));
+                startActivity(new Intent(this, SpringBoardsctivity.class));
             default:
                 break;
         }
