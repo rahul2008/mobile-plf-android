@@ -28,7 +28,7 @@
         android:layout_width="@dimen/uikit_hamburger_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/veryDarkToDark"
+        android:background="?attr/hamburgerGradient"
         android:fitsSystemWindows="true">
 
         <RelativeLayout

@@ -7,7 +7,6 @@
         <attr name="listSelectorBackground" format="reference|color"/>
         <attr name="listiconselector" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
-        <attr name="gradBackground" format="reference|color"/>
         <attr name="listDividerColor" format="reference|color"/>
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
         <attr name="themeSwitch" format="reference"/>
@@ -15,9 +14,17 @@
         <attr name="veryLightColor" format="color"/>
         <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
-        <attr name="veryDarkToDark" format="reference" />
         <attr name="gradientColorForListHeader" format="reference|color"/>
         <attr name="gradientColorForListSectionTitle" format="reference|color"/>
+        <attr name="notificationBarGradient" format="reference"/>
+        <attr name="tabBarGradient" format="reference"/>
+        <attr name="hamburgerGradient" format="reference"/>
+        <!--  Definiton of these gradients vary as per the theme -->
+        <attr name="baseGradient" format="reference"/>
+        <attr name="darkerGradient" format="reference"/>
+        <attr name="lighterGradient" format="reference"/>
+        <attr name="evenLighterGradient" format="reference"/>
+        <attr name="veryLightGradient" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">
