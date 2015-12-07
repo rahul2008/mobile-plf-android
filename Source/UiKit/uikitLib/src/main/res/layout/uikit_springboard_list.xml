@@ -7,7 +7,7 @@
     android:paddingTop="33dp"
     android:paddingLeft="33dp"
     android:paddingRight="33dp"
-    android:background="?attr/baseColor"
+    android:background="?attr/gradWindowBackground"
     android:orientation="vertical">
 
     <TextView

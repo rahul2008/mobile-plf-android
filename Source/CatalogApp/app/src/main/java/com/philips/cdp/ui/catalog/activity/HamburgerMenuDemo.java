@@ -1,6 +1,7 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.app.FragmentManager;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -184,6 +185,12 @@ public class HamburgerMenuDemo extends CatalogActivity {
         bundle.putString("data", navMenuTitle);
         bundle.putInt("resId", resourceId);
         return bundle;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        hamburgerUtil.updateSmartFooter(footerView);
     }
 
     @Override

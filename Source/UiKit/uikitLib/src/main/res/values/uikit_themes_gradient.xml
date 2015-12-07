@@ -2,7 +2,6 @@
 <resources>
 
     <style name="Theme.Philips.DarkBlue.Gradient">
-        <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="android:windowBackground">@drawable/uikit_grad_window_blue_background</item>
         <item name="android:colorBackground">@color/uikit_philips_bright_blue</item>
     </style>
@@ -13,7 +12,6 @@
     </style>
 
     <style name="Theme.Philips.BrightOrange.Gradient">
-        <item name="actionBarBackground">@drawable/uikit_grad_orange_background</item>
         <item name="android:windowBackground">@drawable/uikit_grad_window_orange_background</item>
         <item name="android:colorBackground">@color/uikit_philips_bright_orange</item>
     </style>
@@ -24,7 +22,6 @@
     </style>
 
     <style name="Theme.Philips.BrightAqua.Gradient">
-        <item name="actionBarBackground">@drawable/uikit_grad_aqua_background</item>
         <item name="android:windowBackground">@drawable/uikit_grad_window_aqua_background</item>
         <item name="android:colorBackground">@color/uikit_philips_bright_aqua</item>
     </style>
@@ -36,7 +33,6 @@
 
 
     <style name="Theme.Philips.BrightGreen.Gradient">
-        <item name="actionBarBackground">@drawable/uikit_grad_green_dark_to_bright</item>
         <item name="android:windowBackground">@drawable/uikit_grad_green_bright_to_light</item>
         <item name="android:colorBackground">@color/uikit_philips_bright_green</item>
     </style>
@@ -46,7 +42,6 @@
     </style>
 
     <style name="Theme.Philips.BrightPink.Gradient">
-        <item name="actionBarBackground">@drawable/uikit_grad_pink_dark_to_bright</item>
         <item name="android:windowBackground">@drawable/uikit_grad_pink_bright_to_light</item>
         <item name="android:colorBackground">@color/uikit_philips_bright_pink</item>
     </style>

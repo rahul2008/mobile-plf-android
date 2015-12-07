@@ -16,6 +16,10 @@
     <color name="uikit_gradient_blue_end">#629fd5</color>
     <color name="uikit_gradient_orange_end">#eda600</color>
     <color name="uikit_gradient_aqua_end">#4fb5ae</color>
+    <color name="uikit_gradient_pink_end">#e08291</color>
+    <color name="uikit_gradient_green_end">#a4b507</color>
+    <color name="uikit_gradient_purple_end">#a873a9</color>
+
 
 
     <!-- Dark Blue theme -->
