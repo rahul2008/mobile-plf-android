@@ -31,4 +31,7 @@
         <item name="android:background">@drawable/uikit_inputtext_bright_pink_selector</item>
     </style>
 
+    <style name="InputStyle.DarkPurple">
+        <item name="android:background">@drawable/uikit_inputtext_dark_purple_selector</item>
+    </style>
 </resources>
