@@ -4,52 +4,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
-    android:paddingTop="33dp"
+    android:background="?attr/gradBackground"
+    android:orientation="vertical"
     android:paddingLeft="33dp"
     android:paddingRight="33dp"
-    android:background="?attr/gradBackground"
-    android:orientation="vertical">
+    android:paddingTop="33dp">
 
     <TextView
+        fontPath="fonts/centralesanslight.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
         android:layout_marginTop="50px"
         android:text="Mobile app"
-        android:layout_gravity="center"
         android:textColor="@color/uikit_white"
-        fontPath="fonts/centralesanslight.ttf"
-        android:layout_marginBottom="30dp"
-        android:textSize="33dp"/>
+        android:textSize="33dp" />
 
     <LinearLayout
         android:id="@+id/row_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
         android:layout_marginBottom="-1.5dp"
+        android:layout_weight="0.25"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="0.5"
-            android:clickable="true"
-            android:orientation="vertical"
-            android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
             android:background="?attr/springboardgradBackground"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
 
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
-                android:foregroundGravity="center_vertical|center_horizontal|center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+                android:foregroundGravity="center_vertical|center_horizontal|center"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -69,14 +69,13 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:layout_marginBottom="20dp"
             android:layout_weight="0.5"
             android:background="?attr/springboardgradBackground"
             android:clickable="true"
-            android:layout_marginBottom="20dp"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            >
+            android:paddingBottom="15dp">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -84,7 +83,7 @@
                 android:layout_height="33dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -106,21 +105,21 @@
         android:id="@+id/row_layout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
         android:layout_marginBottom="20dp"
+        android:layout_weight="0.25"
 
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:layout_marginRight="20dp"
             android:layout_weight="0.5"
             android:background="?attr/springboardgradBackground"
-            android:paddingBottom="15dp"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:layout_marginRight="20dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -129,7 +128,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -152,9 +151,9 @@
             android:layout_weight="0.5"
             android:background="?attr/springboardgradBackground"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -163,7 +162,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -185,21 +184,21 @@
         android:id="@+id/row_layout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
         android:layout_marginBottom="20dp"
+        android:layout_weight="0.25"
 
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:background="?attr/springboardgradBackground"
             android:layout_marginRight="15dp"
             android:layout_weight="0.5"
+            android:background="?attr/springboardgradBackground"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <ImageView
                 android:id="@+id/imageView5"
@@ -208,7 +207,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -227,16 +226,15 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
             android:background="?attr/springboardgradBackground"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <ImageView
                 android:id="@+id/imageView6"
@@ -245,7 +243,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -263,7 +261,6 @@
 
         </LinearLayout>
     </LinearLayout>
-
 
 
 </LinearLayout><!--160 , 180-->

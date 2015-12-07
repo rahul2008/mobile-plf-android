@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/popover_info_layout_height"
-                android:background="?attr/veryDarkToDark">
+                android:background="?attr/notificationBarGradient">
 
     <TextView
         android:id="@+id/uikit_popover_alert_title"

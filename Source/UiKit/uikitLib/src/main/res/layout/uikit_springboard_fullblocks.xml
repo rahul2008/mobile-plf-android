@@ -33,7 +33,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_height="53dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -124,7 +124,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -164,7 +164,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -215,7 +215,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -258,7 +258,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -309,7 +309,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -350,7 +350,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView

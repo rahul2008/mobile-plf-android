@@ -43,7 +43,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -80,7 +80,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -120,7 +120,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -156,7 +156,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -196,7 +196,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -234,7 +234,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/image"
+
                 app:themeStyle="theme" />
 
             <TextView
