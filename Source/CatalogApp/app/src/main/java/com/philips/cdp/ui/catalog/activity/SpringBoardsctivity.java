@@ -35,7 +35,7 @@ public class SpringBoardsctivity extends CatalogActivity {
         });
 
         Button block3=(Button)findViewById(R.id.list);
-        i3= new Intent(this, SpringBoardSixGridActivity.class);
+        i3= new Intent(this, SpringBoardListActivity.class);
         block3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

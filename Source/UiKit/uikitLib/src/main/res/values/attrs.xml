@@ -8,6 +8,7 @@
         <attr name="listiconselector" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
         <attr name="gradBackground" format="reference|color"/>
+        <attr name="springboardgradBackground" format="reference|color"/>
         <attr name="listDividerColor" format="reference|color"/>
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
         <attr name="springBoardTextColor" format="reference|color"/>

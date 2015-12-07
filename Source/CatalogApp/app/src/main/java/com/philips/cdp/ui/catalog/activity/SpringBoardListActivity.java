@@ -1,12 +1,9 @@
 package com.philips.cdp.ui.catalog.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,10 +14,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 
-/**
- * Created by 310213373 on 11/30/2015.
- */
-public class SpringBoardSixGridActivity extends  CatalogActivity {
+public class SpringBoardListActivity extends  CatalogActivity {
 
 
     Context context;
@@ -32,7 +26,7 @@ public class SpringBoardSixGridActivity extends  CatalogActivity {
 
 
         String [] prgmNameList={"Telephone "," Monitor ","Alarm Clock"," Factory ","Stats","Message","Shopping","Settings"};
-        Drawable [] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_dial)),(VectorDrawable.create(this, R.drawable.uikit_monitor)),(VectorDrawable.create(this, R.drawable.uikit_alarm)),(VectorDrawable.create(this, R.drawable.uikit_factory)),(VectorDrawable.create(this, R.drawable.uikit_stats)), (VectorDrawable.create(this, R.drawable.uikit_email)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_gear))};
+        Drawable[] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_dial)),(VectorDrawable.create(this, R.drawable.uikit_monitor)),(VectorDrawable.create(this, R.drawable.uikit_alarm)),(VectorDrawable.create(this, R.drawable.uikit_factory)),(VectorDrawable.create(this, R.drawable.uikit_stats)), (VectorDrawable.create(this, R.drawable.uikit_email)),(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_gear))};
 
          /*   int i;
         ArrayList<SpringBoardItems> mData=new ArrayList<SpringBoardItems>();
@@ -52,7 +46,7 @@ public class SpringBoardSixGridActivity extends  CatalogActivity {
         setNoActionBarTheme();
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.uikit_springboard_sixblocks);
+        setContentView(R.layout.uikit_springboard_list);
         LinearLayout ll= (LinearLayout) findViewById(R.id.row_layout1);
         //   ll.setVisibility(View.GONE);
         ImageView imv1= (ImageView) findViewById(R.id.imageView1);

@@ -28,10 +28,10 @@
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView1"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/image"
                 app:themeStyle="theme" />
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
                 android:textColor="?attr/springBoardTextColor"
@@ -69,9 +69,9 @@
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView2"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_marginBottom="5dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/image"
                 app:themeStyle="theme" />
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
                 android:textColor="?attr/springBoardTextColor"
@@ -119,10 +119,10 @@
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView3"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/image"
                 app:themeStyle="theme" />
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
                 android:textColor="?attr/springBoardTextColor"
@@ -159,10 +159,10 @@
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView4"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/image"
                 app:themeStyle="theme" />
@@ -173,7 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
                 android:textColor="?attr/springBoardTextColor"
@@ -210,10 +210,10 @@
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView5"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/image"
                 app:themeStyle="theme" />
@@ -224,7 +224,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="TextView"
@@ -253,10 +253,10 @@
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView6"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/image"
                 app:themeStyle="theme" />
@@ -267,7 +267,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="TextView"
@@ -304,10 +304,10 @@
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView7"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/image"
                 app:themeStyle="theme" />
@@ -318,7 +318,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
                 android:textColor="?attr/springBoardTextColor"
@@ -345,10 +345,10 @@
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView8"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/image"
                 app:themeStyle="theme" />
@@ -359,7 +359,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
                 android:textColor="?attr/springBoardTextColor"

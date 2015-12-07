@@ -10,13 +10,23 @@
     android:background="?attr/gradBackground"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50px"
+        android:text="Mobile app"
+        android:layout_gravity="center"
+        android:textColor="@color/uikit_white"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_marginBottom="30dp"
+        android:textSize="33dp"/>
+
     <LinearLayout
         android:id="@+id/row_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:layout_marginBottom="-1.5dp"
-        android:background="?attr/gradBackground"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -27,11 +37,11 @@
             android:orientation="vertical"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:background="@color/uikit_philips_dark_blue"
+            android:background="?attr/springboardgradBackground"
             android:paddingBottom="15dp"
             android:gravity="center_horizontal|center_vertical|bottom">
 
-            <com.philips.cdp.uikit.customviews.TintableImageView
+            <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
@@ -51,7 +61,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -60,14 +70,15 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
-            android:background="@drawable/uikit_springboard_item_selector"
+            android:background="?attr/springboardgradBackground"
             android:clickable="true"
+            android:layout_marginBottom="20dp"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
             android:paddingBottom="15dp"
             >
 
-            <com.philips.cdp.uikit.customviews.TintableImageView
+            <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
@@ -85,7 +96,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -97,21 +108,21 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:layout_marginBottom="20dp"
-        android:background="?attr/gradBackground"
+
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
-            android:background="@color/uikit_philips_dark_blue"
+            android:background="?attr/springboardgradBackground"
             android:paddingBottom="15dp"
             android:clickable="true"
             android:orientation="vertical"
             android:layout_marginRight="20dp"
             android:gravity="center_horizontal|center_vertical|bottom">
 
-            <com.philips.cdp.uikit.customviews.TintableImageView
+            <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
@@ -130,7 +141,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -139,13 +150,13 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
-            android:background="@drawable/uikit_springboard_item_selector"
+            android:background="?attr/springboardgradBackground"
             android:clickable="true"
             android:orientation="vertical"
             android:paddingBottom="15dp"
             android:gravity="center_horizontal|center_vertical|bottom">
 
-            <com.philips.cdp.uikit.customviews.TintableImageView
+            <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
@@ -164,7 +175,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -176,13 +187,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:layout_marginBottom="20dp"
-        android:background="?attr/gradBackground"
+
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:background="@color/uikit_philips_dark_blue"
+            android:background="?attr/springboardgradBackground"
             android:layout_marginRight="15dp"
             android:layout_weight="0.5"
             android:clickable="true"
@@ -190,7 +201,7 @@
             android:paddingBottom="15dp"
             android:gravity="center_horizontal|center_vertical|bottom">
 
-            <com.philips.cdp.uikit.customviews.TintableImageView
+            <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
@@ -210,7 +221,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="TextView"
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -221,13 +232,13 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
-            android:background="@drawable/uikit_springboard_item_selector"
+            android:background="?attr/springboardgradBackground"
             android:clickable="true"
             android:orientation="vertical"
             android:paddingBottom="15dp"
             android:gravity="center_horizontal|center_vertical|bottom">
 
-            <com.philips.cdp.uikit.customviews.TintableImageView
+            <ImageView
                 android:id="@+id/imageView6"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
@@ -247,7 +258,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="TextView"
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
         </LinearLayout>
