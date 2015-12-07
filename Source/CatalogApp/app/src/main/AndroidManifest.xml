@@ -6,9 +6,9 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
         android:theme="@style/Theme.Philips.BrightOrange">
         <activity
             android:name=".activity.MainActivity"
@@ -46,7 +46,7 @@
         <activity android:name=".activity.SliderActivity"/>
         <activity
             android:name=".activity.HamburgerMenuDemo"
-            android:configChanges="keyboardHidden|screenSize" />
+            android:configChanges="keyboardHidden|screenSize|orientation" />
         <activity android:name=".activity.HamburgerActivity"/>
         <activity android:name=".activity.RatingBarLauncher"/>
         <activity android:name=".activity.ActionBarLauncher"/>
