@@ -40,7 +40,6 @@
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_orange_color</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_orange_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
-        <item name="gradBackground">@drawable/uikit_grad_orange_background</item>
         <item name="springboardgradBackground">@drawable/uikit_springboard_list_selector_orange</item>
         <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
         <item name="actionBarBackground">@drawable/uikit_grad_orange_background</item>
@@ -74,7 +73,6 @@
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_aqua_color</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
-        <item name="gradBackground">@drawable/uikit_grad_aqua_background</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_aqua</item>
         <item name="actionBarBackground">@drawable/uikit_grad_aqua_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
@@ -99,7 +97,6 @@
         <item name="darkerGradient">@drawable/uikit_grad_green_dark_to_bright</item>
         <item name="baseGradient">@drawable/uikit_grad_green_bright_to_light</item>
         <item name="lighterGradient">@drawable/uikit_grad_green_light_to_verylight</item>
-
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_green</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_green_color</item>
