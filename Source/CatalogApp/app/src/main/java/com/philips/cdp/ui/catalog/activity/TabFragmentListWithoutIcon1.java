@@ -29,6 +29,12 @@ public class TabFragmentListWithoutIcon1 extends Fragment {
         list=(ListView)view.findViewById(R.id.listwithouticon);
 
         adapter=new ListViewWithoutIcons(getActivity());
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey("ListViewWithoutIcons")) {
+                adapter.setSavedBundle(savedInstanceState.getBundle("ListViewWithoutIcons"));
+            }
+        }
+
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -40,5 +46,12 @@ public class TabFragmentListWithoutIcon1 extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBundle("ListViewWithoutIcons", adapter.getSavedBundle());
+    }
+
 
 }

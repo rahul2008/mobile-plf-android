@@ -8,7 +8,7 @@ import com.philips.cdp.ui.catalog.activity.TabFragmentListOption;
 import com.philips.cdp.ui.catalog.activity.TabFragmentListProduct;
 import com.philips.cdp.ui.catalog.activity.TabFragmentListicon;
 import com.philips.cdp.ui.catalog.activity.TabFragmentListWithoutIcon1;
-import com.philips.cdp.ui.catalog.activity.TabFragmentListWithoutIcon2;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -41,9 +41,7 @@ public class ListViewPagerAdapter extends FragmentStatePagerAdapter {
             case 3:
                 TabFragmentListWithoutIcon1 tab4 = new TabFragmentListWithoutIcon1();
                 return tab4;
-            case 4:
-            TabFragmentListWithoutIcon2 tab5 = new TabFragmentListWithoutIcon2();
-                return tab5;
+
 
             default:
                 TabFragmentListOption tab6 = new TabFragmentListOption();

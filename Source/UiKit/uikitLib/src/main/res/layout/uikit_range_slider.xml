@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/slider_range_margin"
         />
     <TextView
         android:id="@+id/textviewright"
@@ -21,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/slider_range_margin_right"
         />
     <com.philips.cdp.uikit.customviews.RangeSeekBar
         android:id="@+id/baserangebar"

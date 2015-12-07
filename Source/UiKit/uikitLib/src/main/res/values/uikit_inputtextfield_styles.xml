@@ -23,4 +23,12 @@
         <item name="android:background">@drawable/uikit_inputtext_bright_aqua_selector</item>
     </style>
 
+    <style name="InputStyle.BrightGreen">
+        <item name="android:background">@drawable/uikit_inputtext_bright_green_selector</item>
+    </style>
+
+    <style name="InputStyle.BrightPink">
+        <item name="android:background">@drawable/uikit_inputtext_bright_pink_selector</item>
+    </style>
+
 </resources>
