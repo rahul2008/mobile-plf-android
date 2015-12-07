@@ -1,25 +1,20 @@
 package com.philips.cdp.ui.catalog.CustomListView;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
+
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.activity.TabFragmentListicon;
 import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.TintableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.shamanland.fonticon.FontIconTextView;
-
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -37,17 +32,13 @@ import java.util.TreeSet;
  */
 public class ListViewWithIcons extends BaseAdapter {
 
-    public Context activity;
-
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
-
+    public Context activity;
+    Bundle saveBundle = new Bundle();
     private ArrayList<String> mData = new ArrayList<String>();
     private TreeSet<Integer> sectionHeader = new TreeSet<Integer>();
-
     private LayoutInflater mInflater;
-
-    Bundle saveBundle = new Bundle();
 
     public ListViewWithIcons(Context context) {
         mInflater = (LayoutInflater) context
@@ -75,10 +66,7 @@ public class ListViewWithIcons extends BaseAdapter {
     public boolean isEnabled(int position) {
         int rowType = getItemViewType(position);
 
-        if(rowType == TYPE_SEPARATOR){
-            return false;
-        }
-        return true;
+        return rowType != TYPE_SEPARATOR;
     }
 
     @Override
@@ -116,27 +104,25 @@ public class ListViewWithIcons extends BaseAdapter {
             case TYPE_ITEM:
                 try {
                     convertView = mInflater.inflate(R.layout.uikit_list_with_icons, null);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 holder.textView = (TextView) convertView.findViewById(R.id.text);
-                holder.mImage=(TintableImageView)convertView.findViewById(R.id.image);
-                holder.mBadge=(PhilipsBadgeView)convertView.findViewById(R.id.notification_badge);
-                holder.arrow= (FontIconTextView) convertView.findViewById(R.id.arrow);
-                holder.name=(TextView) convertView.findViewById(R.id.off_on);
-                holder.value=(PuiSwitch)convertView.findViewById(R.id.switch_button);
+                holder.mImage = (TintableImageView) convertView.findViewById(R.id.image);
+                holder.mBadge = (PhilipsBadgeView) convertView.findViewById(R.id.notification_badge);
+                holder.arrow = (FontIconTextView) convertView.findViewById(R.id.arrow);
+                holder.name = (TextView) convertView.findViewById(R.id.off_on);
+                holder.value = (PuiSwitch) convertView.findViewById(R.id.switch_button);
                 holder.done = (TextView) convertView.findViewById(R.id.textdownnoicon);
 
 
-
-                if(position==1)
-                {
+                if (position == 1) {
 
                     holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
 
-                    setSwitchState(holder.value,"s1");
+                    setSwitchState(holder.value, "s1");
                     holder.textView.setText(mData.get(position));
                     holder.value.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -146,13 +132,12 @@ public class ListViewWithIcons extends BaseAdapter {
                     });
 
                 }
-                if(position==2)
-                {
+                if (position == 2) {
                     holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.mImage.setVisibility(View.VISIBLE);
 
                     holder.value.setVisibility(View.VISIBLE);
-                    setSwitchState(holder.value,"s2");
+                    setSwitchState(holder.value, "s2");
                     holder.value.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
@@ -161,8 +146,7 @@ public class ListViewWithIcons extends BaseAdapter {
                     });
                     holder.textView.setText(mData.get(position));
                 }
-                if(position==3)
-                {
+                if (position == 3) {
                     holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Off");
@@ -173,8 +157,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 }
 
-                if(position==4)
-                {
+                if (position == 4) {
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("On");
                     holder.arrow.setVisibility(View.VISIBLE);
@@ -184,16 +167,14 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 }
 
-                if(position==5)
-                {
+                if (position == 5) {
                     holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
                     holder.arrow.setVisibility(View.VISIBLE);
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
 
                 }
-                if(position==7)
-                {
+                if (position == 7) {
 
                     holder.arrow.setVisibility(View.VISIBLE);
 
@@ -204,16 +185,14 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.textView.setVisibility(View.GONE);
 
                 }
-                if(position==8)
-                {
+                if (position == 8) {
                     holder.arrow.setVisibility(View.VISIBLE);
                     holder.done.setVisibility(View.VISIBLE);
                     holder.done.setText(mData.get(position));
                     holder.textView.setVisibility(View.GONE);
 
                 }
-                if(position==9)
-                {
+                if (position == 9) {
                     holder.mBadge.setVisibility(View.VISIBLE);
                     holder.mBadge.setText("3");
                     holder.arrow.setVisibility(View.VISIBLE);
@@ -221,7 +200,6 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.done.setText(mData.get(position));
                     holder.textView.setVisibility(View.GONE);
                 }
-
 
 
                 break;
@@ -236,21 +214,7 @@ public class ListViewWithIcons extends BaseAdapter {
         holder = (ViewHolder) convertView.getTag();
 
 
-
         return convertView;
-    }
-
-
-    public static class ViewHolder {
-        public TextView textView;
-        public TextView done;
-        public  TextView textViewH;
-        TintableImageView mImage;
-        TextView name;
-        PuiSwitch value;
-        ;
-        FontIconTextView arrow;
-        PhilipsBadgeView mBadge ;
     }
 
     public Bundle getSavedBundle() {
@@ -262,8 +226,19 @@ public class ListViewWithIcons extends BaseAdapter {
     }
 
     private void setSwitchState(CompoundButton toggleSwitch, String code) {
-        if(saveBundle.containsKey(code)) {
+        if (saveBundle.containsKey(code)) {
             toggleSwitch.setChecked(saveBundle.getBoolean(code));
         }
+    }
+
+    public static class ViewHolder {
+        public TextView textView;
+        public TextView done;
+        public TextView textViewH;
+        TintableImageView mImage;
+        TextView name;
+        PuiSwitch value;
+        FontIconTextView arrow;
+        PhilipsBadgeView mBadge;
     }
 }

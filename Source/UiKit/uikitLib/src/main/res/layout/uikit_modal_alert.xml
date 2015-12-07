@@ -14,7 +14,7 @@
         android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
         android:layout_marginTop="@dimen/uikit_modal_alert_text_top_margin"
         android:text="@string/uikit_modal_alert_label"
-        android:textColor="?attr/darkColor"
+        android:textColor="?attr/baseColor"
         android:textSize="@dimen/uikit_modal_alert_label_text_size" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_marginRight="@dimen/uikit_modal_alert_text_right_margin"
         android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
         android:text="@string/uikit_modal_alert_message"
-        android:textColor="?attr/darkColor"
+        android:textColor="?attr/baseColor"
         android:textSize="@dimen/uikit_modal_alert_message_text_size" />
 
     <LinearLayout

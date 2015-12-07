@@ -28,7 +28,8 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/baseColor</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color
+        </item>
         <item name="android:listChoiceBackgroundIndicator">?attr/listSelectorBackground</item>
     </style>
 

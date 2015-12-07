@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.philips.cdp.ui.catalog.CustomListView.ListViewWithOptions;
 import com.philips.cdp.ui.catalog.CustomListView.ListViewWithoutIcons;
 import com.philips.cdp.ui.catalog.R;
 

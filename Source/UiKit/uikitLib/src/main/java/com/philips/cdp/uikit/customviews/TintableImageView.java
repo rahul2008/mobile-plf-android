@@ -11,7 +11,7 @@ import com.philips.cdp.uikit.R;
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
- *
+ * <p/>
  * <br>
  * Helper ImageView class which provides differnt color for pressed state and normal state <br>
  * Use themeStyle (none, theme, inverted) attribute in xml to apply the proper color on
@@ -33,10 +33,9 @@ public class TintableImageView extends ImageView {
      * Default color is base color, pressed color will be white color
      */
     public static int STYLE_INVERTED = 2;
-
-    private ColorStateList tint;
     Context context;
     int baseColor;
+    private ColorStateList tint;
     private int colorStyle;
 
     public TintableImageView(Context context) {
@@ -66,7 +65,7 @@ public class TintableImageView extends ImageView {
         super.drawableStateChanged();
 
         //Same as bsae ImageView
-        if(colorStyle == STYLE_NONE) return;
+        if (colorStyle == STYLE_NONE) return;
 
         int[] state = getDrawableState();
         boolean isPressed = false;
@@ -100,6 +99,7 @@ public class TintableImageView extends ImageView {
 
     /**
      * Describes how the tint should be applied to the image.
+     *
      * @param themeStyle One of {@link #STYLE_NONE}, {@link #STYLE_THEME}, {@link #STYLE_INVERTED}
      */
     public void setStyleTheme(int themeStyle) {

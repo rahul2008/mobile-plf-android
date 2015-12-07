@@ -1,16 +1,16 @@
 package com.philips.cdp.ui.catalog.CustomListView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.shamanland.fonticon.FontIconTextView;
 
@@ -27,12 +27,12 @@ import com.shamanland.fonticon.FontIconTextView;
  * All rights reserved.
  */
 public class ListViewWithoutIcons extends BaseAdapter {
-    Bundle saveBundle = new Bundle();
     public Activity activity;
+    Bundle saveBundle = new Bundle();
     private LayoutInflater inflater=null;
     public ListViewWithoutIcons(Activity activity){
         this.activity = activity;
-        inflater = (LayoutInflater)activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -60,10 +60,10 @@ public class ListViewWithoutIcons extends BaseAdapter {
 
         TextView name = (TextView) vi.findViewById(R.id.ifo);
         PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
-        TextView number=(TextView)vi.findViewById(R.id.numberwithouticon);
-        TextView on_off=(TextView)vi.findViewById(R.id.medium);
-        FontIconTextView arrow=(FontIconTextView)vi.findViewById(R.id.arrowwithouticons);
-        TextView description=(TextView)vi.findViewById(R.id.text_description_without_icons);
+        TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
+        TextView on_off = (TextView) vi.findViewById(R.id.medium);
+        FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
+        TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
 
         if(position==0) {
             //name.setVisibility(View.VISIBLE);
@@ -92,7 +92,7 @@ description.setVisibility(View.GONE);
         {
             name.setText("Enable Analytics ");
             value.setVisibility(View.VISIBLE);
-            setSwitchState(value,"s1");
+            setSwitchState(value, "s1");
 
             value.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,6 +126,7 @@ description.setVisibility(View.GONE);
         //  from.setText("from");
         return vi;
     }
+
     public Bundle getSavedBundle() {
         return saveBundle;
     }
@@ -135,7 +136,7 @@ description.setVisibility(View.GONE);
     }
 
     private void setSwitchState(CompoundButton toggleSwitch, String code) {
-        if(saveBundle.containsKey(code)) {
+        if (saveBundle.containsKey(code)) {
             toggleSwitch.setChecked(saveBundle.getBoolean(code));
         }
     }

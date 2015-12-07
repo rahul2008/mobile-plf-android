@@ -100,6 +100,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 15:
                 startActivity(new Intent(this, TabViewWithViewPager.class));
                 break;
+            case 16:
+                startActivity(new Intent(this, ModalAlertDemo.class));
+                break;
             default:
                 break;
         }
@@ -154,13 +157,12 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(10, "Rating Bar");
 //        itemsMap.put(11, "Action Bar Demo");
         itemsMap.put(12, "Action Bar Up");
-        itemsMap.put(13,"Hamburger Menu");
-        itemsMap.put(14,"Social Media Icons");
+        itemsMap.put(13, "Hamburger Menu");
+        itemsMap.put(14, "Social Media Icons");
         itemsMap.put(15, "Lists View Demo");
-
+        itemsMap.put(16, "Modal Alert");
         return itemsMap;
     }
-
 
 
 }

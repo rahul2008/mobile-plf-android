@@ -91,10 +91,15 @@
         <item name="baseGradient">@drawable/uikit_grad_green_bright_to_light</item>
         <item name="lighterGradient">@drawable/uikit_grad_green_light_to_verylight</item>
 
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_green</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_green_color</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_green_theme</item>
+        <item name="listSelectorBackground">
+            @drawable/uikit_background_lists_selector_bright_green_color
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_green_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Green</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_green</item>
@@ -106,6 +111,7 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
         <item name="brightColor">@color/uikit_philips_light_green</item>
     </style>
+
     <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -117,10 +123,15 @@
         <item name="baseGradient">@drawable/uikit_grad_pink_bright_to_light</item>
         <item name="lighterGradient">@drawable/uikit_grad_pink_light_to_verylight</item>
 
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_pink</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_pink_color</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_pink_theme</item>
+        <item name="listSelectorBackground">
+            @drawable/uikit_background_lists_selector_bright_pink_color
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_pink_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Pink</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_pink</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_pink</item>
@@ -132,6 +143,7 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_pink</item>
         <item name="brightColor">@color/uikit_philips_light_pink</item>
     </style>
+
     <style name="Theme.Philips.BrightPink.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

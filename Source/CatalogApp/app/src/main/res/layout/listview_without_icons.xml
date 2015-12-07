@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/ratingtheme"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ratingtheme"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/listwithouticon"
@@ -13,8 +11,8 @@
         android:layout_height="wrap_content"
         android:divider="?attr/listDividerColor"
         android:dividerHeight="1dp"
+        android:footerDividersEnabled="false"
         android:listSelector="?attr/listSelectorBackground"
-        android:overScrollFooter="@android:color/transparent"
-        android:footerDividersEnabled="false"></ListView>
+        android:overScrollFooter="@android:color/transparent"></ListView>
 
 </RelativeLayout>

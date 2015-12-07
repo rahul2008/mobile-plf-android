@@ -4,7 +4,6 @@
         <attr name="actionBarBackground" format="reference|color"/>
         <attr name="outlinedButtonStyle" format="reference"/>
         <attr name="baseColor" format="reference|color"/>
-        <attr name="darkColor" format="reference|color" />
         <attr name="listSelectorBackground" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
         <attr name="listDividerColor" format="reference|color"/>
@@ -16,22 +15,22 @@
         <attr name="splashGradient" format="reference"/>
         <attr name="gradientColorForListHeader" format="reference|color"/>
         <attr name="gradientColorForListSectionTitle" format="reference|color"/>
-        <attr name="notificationBarGradient" format="reference"/>
-        <attr name="tabBarGradient" format="reference"/>
-        <attr name="hamburgerGradient" format="reference"/>
+        <attr name="notificationBarGradient" format="reference" />
+        <attr name="tabBarGradient" format="reference" />
+        <attr name="hamburgerGradient" format="reference" />
         <!--  Definiton of these gradients vary as per the theme -->
-        <attr name="baseGradient" format="reference"/>
-        <attr name="darkerGradient" format="reference"/>
-        <attr name="lighterGradient" format="reference"/>
-        <attr name="evenLighterGradient" format="reference"/>
-        <attr name="veryLightGradient" format="reference"/>
+        <attr name="baseGradient" format="reference" />
+        <attr name="darkerGradient" format="reference" />
+        <attr name="lighterGradient" format="reference" />
+        <attr name="evenLighterGradient" format="reference" />
+        <attr name="veryLightGradient" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">
         <attr name="themeStyle" format="enum">
-            <enum name="none" value="0"/>
-            <enum name="theme" value="1"/>
-            <enum name="inverted" value="2"/>
+            <enum name="none" value="0" />
+            <enum name="theme" value="1" />
+            <enum name="inverted" value="2" />
         </attr>
     </declare-styleable>
 
