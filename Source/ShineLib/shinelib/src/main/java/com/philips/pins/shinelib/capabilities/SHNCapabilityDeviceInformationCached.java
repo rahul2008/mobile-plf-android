@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNStringResultListener;
-import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 import com.philips.pins.shinelib.utility.DeviceInformationCache;
 
 import java.util.Date;
@@ -18,16 +17,16 @@ import java.util.Date;
 public class SHNCapabilityDeviceInformationCached implements SHNCapabilityDeviceInformation {
 
     @NonNull
-    private final SHNServiceDeviceInformation shnServiceDeviceInformation;
+    private final SHNCapabilityDeviceInformation shnServiceDeviceInformation;
 
     @NonNull
     private final DeviceInformationCache deviceInformationCache;
 
-    public SHNCapabilityDeviceInformationCached(@NonNull final SHNServiceDeviceInformation shnServiceDeviceInformation, @NonNull final DeviceInformationCache deviceInformationCache) {
-        this.shnServiceDeviceInformation = shnServiceDeviceInformation;
+    public SHNCapabilityDeviceInformationCached(@NonNull final SHNCapabilityDeviceInformation capabilityDeviceInformation, @NonNull final SHNService shnService, @NonNull final DeviceInformationCache deviceInformationCache) {
+        this.shnServiceDeviceInformation = capabilityDeviceInformation;
         this.deviceInformationCache = deviceInformationCache;
 
-        shnServiceDeviceInformation.registerSHNServiceListener(new SHNService.SHNServiceListener() {
+        shnService.registerSHNServiceListener(new SHNService.SHNServiceListener() {
             @Override
             public void onServiceStateChanged(final SHNService shnService, final SHNService.State state) {
                 if (SHNService.State.Available.equals(state)) {
