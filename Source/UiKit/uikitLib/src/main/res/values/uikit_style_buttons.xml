@@ -103,4 +103,13 @@
         <item name="android:textColor">@drawable/uikit_purple_transparent_text_selector</item>
         <item name="android:background">@drawable/uikit_purple_transparent_selector</item>
     </style>
+
+    <style name="Button.Solid.DarkAqua">
+        <item name="android:background">@drawable/uikit_dark_aqua_selector</item>
+    </style>
+
+    <style name="Button.OutlinedDarkAqua">
+        <item name="android:textColor">@drawable/uikit_dark_aqua_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_dark_aqua_outlined_selector</item>
+    </style>
 </resources>

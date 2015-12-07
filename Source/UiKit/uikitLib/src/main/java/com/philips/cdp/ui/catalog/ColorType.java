@@ -12,7 +12,8 @@ public enum ColorType {
     AQUA(2, "aqua"),
     BRIGHT_GREEN(3,"bright_green"),
     BRIGHT_PINK(4,"bright_pink"),
-    DARK_PURPLE(5,"dark_purple");
+    DARK_PURPLE(5,"dark_purple"),
+    DARK_AQUA(6,"dark_aqua");
 
     private final int id;
     private final String description;
