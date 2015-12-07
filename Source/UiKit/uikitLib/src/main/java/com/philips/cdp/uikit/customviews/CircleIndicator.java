@@ -102,7 +102,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
 
     }
 
-    private void setFillColor(int color) {
+    public void setFillColor(int color) {
         themeBaseColor = color;
         reDrawView();
     }
