@@ -13,7 +13,7 @@
         <item name="springBoardTextColor">@drawable/uikit_sprinboard_textselector_blue</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_blue</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_blue</item>
-        <item name="springboardgradBackground">@drawable/uikit_springboard_list_selector_blue</item>
+
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_blue_theme</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_blue</item>
@@ -97,7 +97,7 @@
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_orange_color</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_orange_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
-        <item name="springboardgradBackground">@drawable/uikit_springboard_list_selector_orange</item>
+
         <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
         <item name="actionBarBackground">@drawable/uikit_grad_light_orange_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
@@ -137,7 +137,6 @@
         <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_aqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
-        <item name="springboardgradBackground">@drawable/uikit_springboard_list_selector_aqua</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
         <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
         <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
@@ -164,7 +163,6 @@
         <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_green</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_green</item>
-        <item name="springboardgradBackground">@drawable/uikit_springboard_list_selector_green</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightGreen</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentGreen</item>
         <item name="buttonStyle">@style/Button.Solid.BrightGreen</item>

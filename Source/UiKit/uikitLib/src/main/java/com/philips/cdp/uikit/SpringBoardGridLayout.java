@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +16,16 @@ import com.philips.cdp.uikit.customviews.LayerListDrawable;
 /**
  * Created by 310213373 on 12/7/2015.
  */
-public class CustomLinearLayout extends LinearLayout {
+public class SpringBoardGridLayout extends LinearLayout {
 
     private Drawable selector;
     private int baseColor;
     int overlayColor = 0;
-    public CustomLinearLayout(Context context) {
+    public SpringBoardGridLayout(Context context) {
         super(context);
     }
 
-    public CustomLinearLayout(Context context, AttributeSet attrs) {
+    public SpringBoardGridLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViews(context, attrs);
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.verydarkBaseColor});
@@ -39,7 +38,7 @@ public class CustomLinearLayout extends LinearLayout {
         //ToDO: Initialize ur seelctor
     }
 
-    public CustomLinearLayout(Context context, AttributeSet attrs, int defStyle) {
+    public SpringBoardGridLayout(Context context, AttributeSet attrs, int defStyle) {
         this(context, attrs);
         initViews(context, attrs);
     }

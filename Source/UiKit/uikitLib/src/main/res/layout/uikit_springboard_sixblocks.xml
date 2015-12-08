@@ -21,7 +21,7 @@
         android:textColor="@color/uikit_white"
         android:textSize="33dp" />
 
-    <com.philips.cdp.uikit.CustomLinearLayout
+    <com.philips.cdp.uikit.SpringBoardGridLayout
         android:id="@+id/row_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -98,9 +98,9 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </com.philips.cdp.uikit.CustomLinearLayout>
+    </com.philips.cdp.uikit.SpringBoardGridLayout>
 
-    <com.philips.cdp.uikit.CustomLinearLayout
+    <com.philips.cdp.uikit.SpringBoardGridLayout
         android:id="@+id/row_layout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
             android:layout_height="fill_parent"
             android:layout_marginRight="20dp"
             android:layout_weight="0.5"
-            android:background="?attr/springboardgradBackground"
+
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -150,7 +150,6 @@
             android:id="@+id/item4"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
-            android:background="?attr/springboardgradBackground"
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -179,9 +178,9 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </com.philips.cdp.uikit.CustomLinearLayout>
+    </com.philips.cdp.uikit.SpringBoardGridLayout>
 
-    <com.philips.cdp.uikit.CustomLinearLayout
+    <com.philips.cdp.uikit.SpringBoardGridLayout
         android:id="@+id/row_layout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -196,7 +195,7 @@
             android:layout_height="fill_parent"
             android:layout_marginRight="15dp"
             android:layout_weight="0.5"
-            android:background="?attr/springboardgradBackground"
+
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -233,7 +232,6 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
-            android:background="?attr/springboardgradBackground"
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -262,7 +260,7 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </com.philips.cdp.uikit.CustomLinearLayout>
+    </com.philips.cdp.uikit.SpringBoardGridLayout>
 
 
 </LinearLayout><!--160 , 180-->
