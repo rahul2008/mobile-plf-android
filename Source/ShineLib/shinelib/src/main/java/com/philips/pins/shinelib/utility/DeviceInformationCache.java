@@ -35,10 +35,14 @@ public class DeviceInformationCache {
     public Date getDate(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType) {
         String dateString = sharedPreferences.getString(informationType.name() + DATE_SUFFIX, null);
         Date date = null;
-        try {
-            date = getSimpleDateFormat().parse(dateString);
-        } catch (ParseException e) {
+
+        if (dateString != null) {
+            try {
+                date = getSimpleDateFormat().parse(dateString);
+            } catch (ParseException e) {
+            }
         }
+
         return date;
     }
 

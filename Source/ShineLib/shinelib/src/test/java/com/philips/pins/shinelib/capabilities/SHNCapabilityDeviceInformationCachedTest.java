@@ -29,6 +29,9 @@ public class SHNCapabilityDeviceInformationCachedTest {
     public static final Date TEST_DATE = new Date();
 
     @Mock
+    private SHNCapabilityDeviceInformationImpl capabilityDeviceInformationMock;
+
+    @Mock
     private SHNServiceDeviceInformation deviceInformationMock;
 
     @Mock
@@ -52,13 +55,13 @@ public class SHNCapabilityDeviceInformationCachedTest {
     public void setUp() throws ParseException {
         initMocks(this);
 
-        deviceInformationCached = new SHNCapabilityDeviceInformationCached(deviceInformationMock, cacheMock);
+        deviceInformationCached = new SHNCapabilityDeviceInformationCached(capabilityDeviceInformationMock, deviceInformationMock, cacheMock);
     }
 
     @Test
     public void shouldInformListener_whenDeviceInformationIsReceived() {
         deviceInformationCached.readDeviceInformation(INFORMATION_TYPE, deviceInformationListenerMock);
-        verify(deviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
+        verify(capabilityDeviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
         SHNCapabilityDeviceInformation.Listener listener = deviceInformationListenerCaptor.getValue();
 
         listener.onDeviceInformation(INFORMATION_TYPE, TEST_MESSAGE, TEST_DATE);
@@ -69,7 +72,7 @@ public class SHNCapabilityDeviceInformationCachedTest {
     @Test
     public void shouldCacheInformation_whenDeviceInformationIsReceived() {
         deviceInformationCached.readDeviceInformation(INFORMATION_TYPE, deviceInformationListenerMock);
-        verify(deviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
+        verify(capabilityDeviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
         SHNCapabilityDeviceInformation.Listener listener = deviceInformationListenerCaptor.getValue();
 
         listener.onDeviceInformation(INFORMATION_TYPE, TEST_MESSAGE, TEST_DATE);
@@ -80,7 +83,7 @@ public class SHNCapabilityDeviceInformationCachedTest {
     @Test
     public void shouldInformListener_whenErrorIsReceived_AndNoCachedData() {
         deviceInformationCached.readDeviceInformation(INFORMATION_TYPE, deviceInformationListenerMock);
-        verify(deviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
+        verify(capabilityDeviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
         SHNCapabilityDeviceInformation.Listener listener = deviceInformationListenerCaptor.getValue();
 
         SHNResult result = SHNResult.SHNErrorBluetoothDisabled;
@@ -92,7 +95,7 @@ public class SHNCapabilityDeviceInformationCachedTest {
     @Test
     public void shouldInformListener_whenErrorIsReceived_AndHasCachedData() {
         deviceInformationCached.readDeviceInformation(INFORMATION_TYPE, deviceInformationListenerMock);
-        verify(deviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
+        verify(capabilityDeviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
         SHNCapabilityDeviceInformation.Listener listener = deviceInformationListenerCaptor.getValue();
 
         when(cacheMock.getValue(INFORMATION_TYPE)).thenReturn(TEST_MESSAGE);
@@ -113,7 +116,7 @@ public class SHNCapabilityDeviceInformationCachedTest {
         serviceListener.onServiceStateChanged(null, SHNService.State.Available);
 
         SHNCapabilityDeviceInformation.SHNDeviceInformationType[] values = SHNCapabilityDeviceInformation.SHNDeviceInformationType.values();
-        verify(deviceInformationMock, times(values.length)).readDeviceInformation(deviceInformationTypeCaptor.capture(), any(SHNCapabilityDeviceInformation.Listener.class));
+        verify(capabilityDeviceInformationMock, times(values.length)).readDeviceInformation(deviceInformationTypeCaptor.capture(), any(SHNCapabilityDeviceInformation.Listener.class));
 
         assertThat(deviceInformationTypeCaptor.getAllValues()).containsExactly(values);
     }
