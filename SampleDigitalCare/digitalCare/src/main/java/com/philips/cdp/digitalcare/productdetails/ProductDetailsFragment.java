@@ -247,7 +247,17 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         } else {
             height = (getDisplayWidth() / 2) + 46;
         }
-        Bitmap imageBitmap = Bitmap.createBitmap(getDisplayWidth(), height, Bitmap.Config.ARGB_8888);
+        int width  = 0;
+
+        try{
+            width = getDisplayWidth();
+        }
+        catch(NullPointerException e){
+            width = (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
+        }
+
+        Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
         imageBitmap.eraseColor(Color.BLACK);
         return imageBitmap;
     }
