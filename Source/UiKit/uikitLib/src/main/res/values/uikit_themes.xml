@@ -5,7 +5,7 @@
         <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
-        <item name="gradWindowBackground">@drawable/uikit_grad_light_blue_background</item>
+        <item name="gradWindowBackground">?attr/lighterGradient</item>
         <item name="splashGradient">?attr/lighterGradient</item>
         <item name="notificationBarGradient">?attr/darkerGradient</item>
         <item name="actionBarBackground">?attr/baseGradient</item>

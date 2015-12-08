@@ -4,6 +4,7 @@
         <attr name="actionBarBackground" format="reference|color"/>
         <attr name="outlinedButtonStyle" format="reference"/>
         <attr name="baseColor" format="reference|color"/>
+        <attr name="verydarkBaseColor" format="reference|color"/>
         <attr name="listSelectorBackground" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
         <attr name="gradWindowBackground" format="reference|color"/>

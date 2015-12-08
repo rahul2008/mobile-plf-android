@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
@@ -22,7 +21,7 @@
         android:textColor="@color/uikit_white"
         android:textSize="33dp" />
 
-    <LinearLayout
+    <com.philips.cdp.uikit.CustomLinearLayout
         android:id="@+id/row_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -31,12 +30,12 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/item1"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="0.5"
-            android:background="?attr/springboardgradBackground"
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -50,7 +49,6 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:foregroundGravity="center_vertical|center_horizontal|center"
-
                 app:themeStyle="theme" />
 
             <TextView
@@ -68,11 +66,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/item2"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginBottom="20dp"
             android:layout_weight="0.5"
-            android:background="?attr/springboardgradBackground"
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -100,9 +98,9 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </LinearLayout>
+    </com.philips.cdp.uikit.CustomLinearLayout>
 
-    <LinearLayout
+    <com.philips.cdp.uikit.CustomLinearLayout
         android:id="@+id/row_layout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -112,6 +110,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/item3"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginRight="20dp"
@@ -148,6 +147,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:id="@+id/item4"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
             android:background="?attr/springboardgradBackground"
@@ -179,9 +179,9 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </LinearLayout>
+    </com.philips.cdp.uikit.CustomLinearLayout>
 
-    <LinearLayout
+    <com.philips.cdp.uikit.CustomLinearLayout
         android:id="@+id/row_layout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -191,6 +191,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/item5"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginRight="15dp"
@@ -228,6 +229,7 @@
 
 
         <LinearLayout
+            android:id="@+id/item6"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
@@ -260,7 +262,7 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </LinearLayout>
+    </com.philips.cdp.uikit.CustomLinearLayout>
 
 
 </LinearLayout><!--160 , 180-->

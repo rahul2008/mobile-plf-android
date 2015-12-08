@@ -21,6 +21,10 @@
         android:layout_marginBottom="30dp"
         android:textSize="33dp"/>
 
+    <com.philips.cdp.uikit.CustomLinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="">
 
 
         <LinearLayout
@@ -254,5 +258,5 @@
 
 
 
-
+    </com.philips.cdp.uikit.CustomLinearLayout>
 </LinearLayout><!--160 , 180-->

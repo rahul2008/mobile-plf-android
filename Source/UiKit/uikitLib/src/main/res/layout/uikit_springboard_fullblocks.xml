@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
-    android:background="@color/uikit_white"
+    android:background="?attr/baseGradient"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:layout_marginBottom="-1.5dp"
-        android:background="?attr/baseColor"
+
         android:orientation="horizontal">
 
         <LinearLayout
@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:layout_marginBottom="-3dp"
-        android:background="?attr/baseColor"
+
         android:orientation="horizontal">
 
         <LinearLayout
@@ -194,7 +194,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:layout_marginBottom="-3dp"
-        android:background="?attr/baseColor"
+
         android:orientation="horizontal">
 
         <LinearLayout
@@ -288,7 +288,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:layout_marginBottom="-3dp"
-        android:background="?attr/baseColor"
+
         android:orientation="horizontal">
 
         <LinearLayout
