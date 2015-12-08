@@ -5,8 +5,11 @@
 
 package com.philips.pins.shinelib.utility;
 
+import android.support.annotation.Nullable;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,29 +19,44 @@ import java.util.UUID;
 /**
  * Created by 310188215 on 17/09/15.
  */
-public class BleScanRecordParser {
+public class BleScanRecord {
+    private static final String TAG = "BleScanRecord";
+    private byte[] scanRecord;
     private List<UUID> uuids;
     private byte[] manufacturerSpecificData;
+    private String localName;
 
-    public static BleScanRecordParser createNewInstance(byte[] scanRecord) {
-        return new BleScanRecordParser(scanRecord);
+    public static BleScanRecord createNewInstance(byte[] scanRecord) {
+        return new BleScanRecord(scanRecord);
     }
 
-    private BleScanRecordParser(byte[] scanRecord) {
+    private BleScanRecord(byte[] scanRecord) {
+        this.scanRecord = scanRecord.clone();
         uuids = new ArrayList<>();
         parseScanRecord(scanRecord);
     }
 
+    public byte[] getScanRecord() {
+        return scanRecord.clone();
+    }
+
+    @Nullable
     public byte[] getManufacturerSpecificData() {
         if (manufacturerSpecificData != null)
             return manufacturerSpecificData.clone();
         return null;
     }
 
+    @Nullable
     public List<UUID> getUuids() {
         if (uuids != null)
             return Collections.unmodifiableList(uuids);
         return null;
+    }
+
+    @Nullable
+    public String getLocalName() {
+        return localName;
     }
 
     private void parseScanRecord(final byte[] advertisedData) {
@@ -79,6 +97,14 @@ public class BleScanRecordParser {
                             len -= 16;
                         }
                     }
+                    break;
+                case 0x08:
+                case 0x09:
+                    byte[] buffer = new byte[len - 1];
+                    ByteBuffer byteBuffer = ByteBuffer.wrap(advertisedData, offset, len - 1);
+                    byteBuffer.get(buffer);
+                    localName = new String(buffer, StandardCharsets.US_ASCII);
+                    offset += (len - 1);
                     break;
                 case 0xff:// Manufacturer specific data. No defined format, just an array of bytes.
                     manufacturerSpecificData = Arrays.copyOfRange(advertisedData, offset, offset + len - 1);

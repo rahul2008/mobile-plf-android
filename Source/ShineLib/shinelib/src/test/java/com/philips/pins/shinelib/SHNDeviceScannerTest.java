@@ -9,6 +9,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
+import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
@@ -45,6 +48,8 @@ public class SHNDeviceScannerTest {
     private BluetoothAdapter mockedBluetoothAdapter;
     private MockedHandler mockedHandler;
     private List<SHNDeviceDefinitionInfo> testDeviceDefinitionInfos;
+    private boolean resultForMatchesOnAdvertisedData;
+    private boolean resultForUseAdvertisedDataMatcher;
 
     @Before
     public void setUp() {
@@ -59,7 +64,7 @@ public class SHNDeviceScannerTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Runnable)invocation.getArguments()[0]).run();
+                ((Runnable) invocation.getArguments()[0]).run();
                 return null;
             }
         }).when(mockedSHNCentral).runOnUserHandlerThread(any(Runnable.class));
@@ -92,7 +97,19 @@ public class SHNDeviceScannerTest {
             public SHNDeviceDefinition getSHNDeviceDefinition() {
                 return null;
             }
+
+            @Override
+            public boolean useAdvertisedDataMatcher() {
+                return resultForUseAdvertisedDataMatcher;
+            }
+
+            @Override
+            public boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi) {
+                return resultForMatchesOnAdvertisedData;
+            }
         });
+        resultForMatchesOnAdvertisedData = false;
+        resultForUseAdvertisedDataMatcher = false;
         BleUtilities.init(mockedContext);
         shnDeviceScanner = new SHNDeviceScanner(mockedSHNCentral, testDeviceDefinitionInfos);
     }
@@ -222,4 +239,33 @@ public class SHNDeviceScannerTest {
         shnDeviceScanner.shutdown();
     }
 
+    @Test
+    public void whenThePluginScannerDataMatcherReturnsTrueThenTheScannerReportsDeviceFound() {
+        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
+        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+
+        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
+        doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
+        resultForUseAdvertisedDataMatcher = true;
+        resultForMatchesOnAdvertisedData = true;
+        shnDeviceScanner.onLeScan(mockedBluetoothDevice, -50, new byte[]{}); // advertisement of the primary uuid for an unknown service
+
+        verify(mockedSHNDeviceScannerListener).deviceFound(eq(shnDeviceScanner), isA(SHNDeviceFoundInfo.class));
+    }
+
+    @Test
+    public void whenThePluginScannerDataMatcherReturnsFalseThenTheScannerDoesNotReportTheDeviceFound() {
+        SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
+        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+
+        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
+        doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
+        resultForUseAdvertisedDataMatcher = true;
+        resultForMatchesOnAdvertisedData = false;
+        shnDeviceScanner.onLeScan(mockedBluetoothDevice, -50, new byte[]{});
+
+        verify(mockedSHNDeviceScannerListener, never()).deviceFound(eq(shnDeviceScanner), isA(SHNDeviceFoundInfo.class));
+    }
 }
