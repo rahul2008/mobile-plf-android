@@ -27,6 +27,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:id="@+id/row_layout1"
             android:paddingLeft="33dp"
             android:orientation="horizontal"
             android:layout_marginBottom="12dp"
@@ -66,7 +67,7 @@
             android:paddingLeft="33dp"
             android:background="?attr/springboardgradBackground"
             android:clickable="true"
-
+            android:id="@+id/row_layout2"
             android:gravity="center|left"
             android:layout_marginBottom="12dp" android:layout_marginTop="12dp"
             android:orientation="horizontal"
@@ -104,7 +105,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="?attr/springboardgradBackground"
-
+            android:id="@+id/row_layout3"
             android:clickable="true"
             android:layout_marginBottom="12dp" android:layout_marginTop="12dp"
             android:paddingLeft="33dp"
@@ -145,7 +146,7 @@
             android:clickable="true"
             android:layout_marginBottom="12dp" android:layout_marginTop="12dp"
             android:orientation="horizontal"
-
+            android:id="@+id/row_layout4"
             android:gravity="center|left">
 
             <ImageView
@@ -178,25 +179,22 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="?attr/springboardgradBackground"
-            android:layout_marginBottom="12dp" android:layout_marginTop="12dp"
-
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
             android:paddingLeft="33dp"
             android:clickable="true"
-
+            android:id="@+id/row_layout5"
             android:orientation="horizontal"
-
             android:gravity="center|left">
 
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
-
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-
                 app:themeStyle="theme" />
 
             <TextView
@@ -222,7 +220,9 @@
             android:background="?attr/springboardgradBackground"
             android:clickable="true"
             android:paddingLeft="33dp"
+            android:id="@+id/row_layout6"
             android:orientation="horizontal"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:gravity="center|left">
 
