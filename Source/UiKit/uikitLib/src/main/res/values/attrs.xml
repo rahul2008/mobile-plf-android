@@ -12,12 +12,13 @@
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
-        <attr name="veryLightColor" format="color"/>
+        <attr name="veryLightColor" format="reference|color"/>
         <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
         <attr name="veryDarkToDark" format="reference" />
         <attr name="gradientColorForListHeader" format="reference|color"/>
         <attr name="gradientColorForListSectionTitle" format="reference|color"/>
+        <attr name="darkerColor" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">

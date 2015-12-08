@@ -26,6 +26,8 @@
         <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
 
         <item name="veryDarkToDark">@drawable/uikit_grad_blue_verydark_to_dark</item>
+
+        <item name="darkerColor">@color/uikit_philips_very_dark_blue</item>
     </style>
 
     <style name="Theme.Philips.DarkBlue.NoActionBar">
@@ -59,6 +61,7 @@
         <item name="splashGradient">@drawable/uikit_grad_orange_bright_to_light</item>
 
         <item name="veryDarkToDark">@drawable/uikit_grad_orange_verydark_to_dark</item>
+        <item name="darkerColor">@color/uikit_philips_dark_orange</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.NoActionBar">
@@ -92,6 +95,8 @@
         <item name="splashGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
 
         <item name="veryDarkToDark">@drawable/uikit_grad_aqua_verydark_to_dark</item>
+
+        <item name="darkerColor">@color/uikit_philips_dark_aqua</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">

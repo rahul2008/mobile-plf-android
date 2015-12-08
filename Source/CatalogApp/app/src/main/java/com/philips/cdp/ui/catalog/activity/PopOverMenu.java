@@ -4,52 +4,161 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListPopupWindow;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.ListView;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
+import com.philips.cdp.uikit.utils.CustomListViewAdapter;
+import com.philips.cdp.uikit.utils.RowItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PopOverMenu extends CatalogActivity {
 
-    private ListPopupWindow listpopupwindow;
-    TextView tv;
+    private UIKitListPopupWindow listpopupwindowTopLeft;
+    private UIKitListPopupWindow listpopupwindowTopRight;
+    private UIKitListPopupWindow listpopupwindowLeft;
+    private UIKitListPopupWindow listpopupwindowRight;
+    private UIKitListPopupWindow listpopupwindowBottomLeft;
+    private UIKitListPopupWindow listpopupwindowBottomRight;
+
+
+    private Button topleft;
+    private Button topright;
+    private Button left;
+    private Button right;
+    private Button buttomleft;
+    private Button buttomright;
+
+
+
     String[] value = new String[] {"1","2"};
+
+    public  final String[] descriptions = new String[] {
+            "Add to favs",
+            "Share", "Mail",
+            "Chat" };
+
+    public   Integer[] images = { R.drawable.uikit_share,R.drawable.uikit_share
+            /*FontIconUtils.getInfo(this, FontIconUtils.ICONS.INFO, 22, Color.WHITE,
+                    false)*/,
+            R.drawable.uikit_apple, R.drawable.uikit_apple };
+
+    ListView listView;
+    List<RowItem> rowItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        rowItems = new ArrayList<RowItem>();
+        for (int i = 0; i < descriptions.length; i++) {
+            RowItem item = new RowItem(images[i],descriptions[i]);
+            rowItems.add(item);
+        }
         setContentView(R.layout.activity_pop_over_menu2);
-        tv = (TextView)findViewById(R.id.text1);
-
-        listpopupwindow = new ListPopupWindow(PopOverMenu.this);
-        listpopupwindow.setAnchorView(tv);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, android.R.id.text1, value);
-        listpopupwindow.setAdapter(adapter);
-        //listpopupwindow.setHorizontalOffset(50);
-        //listpopupwindow.setVerticalOffset(listpopupwindow.getAnchorView().getBottom() - listpopupwindow.getAnchorView().getTop() );
-
-        //listpopupwindow.setDropDownGravity(Gravity.START);
 
 
 
+        CustomListViewAdapter adapter = new CustomListViewAdapter(this,
+                R.layout.simple_list_image_text, rowItems);
+
+        init();
 
 
-//        listpopupwindow.setDropDownGravity(Gravity.RIGHT);
-        listpopupwindow.setModal(true);
-        tv.setOnClickListener(new View.OnClickListener() {
+        listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT);
+        listpopupwindowTopLeft.setAdapter(adapter);
+
+
+        listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT);
+        listpopupwindowTopRight.setAdapter(adapter);
+
+        listpopupwindowLeft = new UIKitListPopupWindow(PopOverMenu.this,left,UIKitListPopupWindow.Type.LEFT);
+        listpopupwindowLeft.setAdapter(adapter);
+
+        listpopupwindowRight = new UIKitListPopupWindow(PopOverMenu.this,right,UIKitListPopupWindow.Type.RIGHT);
+        listpopupwindowRight.setAdapter(adapter);
+
+        listpopupwindowBottomLeft = new UIKitListPopupWindow(PopOverMenu.this,buttomleft,UIKitListPopupWindow.Type.BOTTOMLEFT);
+        listpopupwindowBottomLeft.setAdapter(adapter);
+
+        listpopupwindowBottomRight = new UIKitListPopupWindow(PopOverMenu.this,buttomright,UIKitListPopupWindow.Type.BOTTOMRIGHT);
+        listpopupwindowBottomRight.setAdapter(adapter);
+
+
+
+
+
+
+
+        topleft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-
-                //listpopupwindow.setVerticalOffset((listpopupwindow.getListView().getScrollY()) );
-
-                listpopupwindow.show();
-                registerForContextMenu(listpopupwindow.getListView());
-
+                listpopupwindowTopLeft.show();
             }
         });
 
 
+
+        topright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                listpopupwindowTopRight.show();
+            }
+        });
+
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                listpopupwindowLeft.show();
+            }
+        });
+
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                listpopupwindowRight.show();
+            }
+        });
+
+
+        buttomleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                listpopupwindowBottomLeft.show();
+            }
+        });
+
+
+        buttomright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                listpopupwindowBottomRight.show();
+            }
+        });
+
+
+
+
+
+
+
+
+
+    }
+
+
+    void init() {
+        topleft = (Button)findViewById(R.id.topleft);
+        topright = (Button) findViewById(R.id.topright);
+
+        left = (Button) findViewById(R.id.left);
+        right = (Button)findViewById(R.id.right);
+
+        buttomleft = (Button) findViewById(R.id.bottomleft);
+        buttomright = (Button) findViewById(R.id.bottomright);
     }
 
     @Override

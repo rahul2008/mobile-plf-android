@@ -6,4 +6,5 @@
     <dimen name="philips_action_button_margin">16dp</dimen>
     <dimen name="app_top_margin">25dp</dimen>
     <dimen name="button_width">150dp</dimen>
+    <dimen name="test">180dp</dimen>
 </resources>
