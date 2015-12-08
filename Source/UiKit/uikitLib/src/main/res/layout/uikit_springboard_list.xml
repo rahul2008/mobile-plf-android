@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:textColor="@color/uikit_white"
         fontPath="fonts/centralesanslight.ttf"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:textSize="38dp"/>
 
     <com.philips.cdp.uikit.SpringBoardGridLayout
@@ -51,8 +51,8 @@
                 android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
 
                 app:themeStyle="theme" />
 
@@ -74,7 +74,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="33dp"
-
             android:clickable="true"
             android:id="@+id/row_layout2"
             android:gravity="center|left"
@@ -88,8 +87,8 @@
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
 
                 app:themeStyle="theme" />
 
@@ -127,8 +126,8 @@
                 android:layout_height="33dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
 
                 app:themeStyle="theme" />
 
@@ -162,8 +161,8 @@
                 android:layout_height="33dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
 
                 app:themeStyle="theme" />
 
@@ -198,9 +197,9 @@
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 app:themeStyle="theme" />
 
             <TextView
@@ -237,8 +236,8 @@
                 android:layout_height="33dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 app:themeStyle="theme" />
 
             <TextView
