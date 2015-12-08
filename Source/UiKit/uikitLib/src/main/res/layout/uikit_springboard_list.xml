@@ -22,9 +22,9 @@
         android:textSize="33dp"/>
 
     <com.philips.cdp.uikit.CustomLinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="">
+        android:layout_height="match_parent">
 
 
         <LinearLayout
