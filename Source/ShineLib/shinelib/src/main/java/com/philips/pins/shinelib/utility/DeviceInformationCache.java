@@ -55,4 +55,23 @@ public class DeviceInformationCache {
     SimpleDateFormat getSimpleDateFormat() {
         return new SimpleDateFormat(DATE_PATTERN);
     }
+
+    @Nullable
+    public static Date parseStringToDate(final String dateString) {
+        Date date = null;
+
+        if (dateString != null) {
+            try {
+                date = new SimpleDateFormat(DATE_PATTERN).parse(dateString);
+            } catch (ParseException e) {
+            }
+        }
+
+        return date;
+    }
+
+    @Nullable
+    public static String getDateAsString(@NonNull final Date date) {
+        return new SimpleDateFormat(DATE_PATTERN).format(date);
+    }
 }
