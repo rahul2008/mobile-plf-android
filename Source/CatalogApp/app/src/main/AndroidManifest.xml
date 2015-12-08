@@ -53,10 +53,9 @@
         <activity android:name=".activity.DummyActivityForListItemClick" />
         <activity android:name=".activity.TabViewWithViewPager" />
         <activity android:name=".activity.SocialIconsActivity" />
-        <activity
-            android:name=".activity.PopOverMenu"
-            android:label="@string/title_activity_pop_over_menu" >
+        <activity android:name=".activity.PopOverMenu">
         </activity>
+
     </application>
 
 </manifest>

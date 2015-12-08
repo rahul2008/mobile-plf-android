@@ -61,4 +61,55 @@
         <item name="android:background">@drawable/uikit_white_transparent_selector</item>
     </style>
 
+    <style name="Button.OutlinedBrightGreen">
+        <item name="android:textColor">@drawable/uikit_bright_green_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_green_outlined_selector</item>
+    </style>
+
+    <style name="Button.TransparentGreen">
+        <item name="android:textColor">@drawable/uikit_green_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_green_transparent_selector</item>
+    </style>
+
+    <style name="Button.Solid.BrightGreen">
+        <item name="android:background">@drawable/uikit_bright_green_selector</item>
+    </style>
+
+    <!-- Bright pink-->
+    <style name="Button.OutlinedBrightPink">
+        <item name="android:textColor">@drawable/uikit_bright_pink_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_pink_outlined_selector</item>
+    </style>
+
+    <style name="Button.TransparentPink">
+        <item name="android:textColor">@drawable/uikit_pink_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_pink_transparent_selector</item>
+    </style>
+
+    <style name="Button.Solid.BrightPink">
+        <item name="android:background">@drawable/uikit_bright_pink_selector</item>
+    </style>
+
+    <style name="Button.Solid.DarkPurple">
+        <item name="android:background">@drawable/uikit_dark_purple_selector</item>
+    </style>
+
+    <style name="Button.OutlinedDarkPurple">
+        <item name="android:textColor">@drawable/uikit_dark_purple_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_dark_purple_outlined_selector</item>
+    </style>
+
+    <style name="Button.TransparentPurple">
+        <item name="android:textColor">@drawable/uikit_purple_transparent_text_selector</item>
+        <item name="android:background">@drawable/uikit_purple_transparent_selector</item>
+    </style>
+
+    <style name="Button.Solid.DarkAqua">
+        <item name="android:background">@drawable/uikit_dark_aqua_selector</item>
+    </style>
+
+    <style name="Button.OutlinedDarkAqua">
+        <item name="android:textColor">@drawable/uikit_dark_aqua_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_dark_aqua_outlined_selector</item>
+    </style>
 </resources>

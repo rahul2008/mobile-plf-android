@@ -22,10 +22,6 @@ import com.philips.cdp.uikit.R;
  */
 public class PuiEditText extends RelativeLayout {
 
-    /**
-     * viewId needs to be generated at runtime if we want to save and restore state of a View
-     */
-    private static int viewId = 10000001;
     private EditText editText;
     private ImageView errorImage;
     private TextView errorTextView;
@@ -101,14 +97,19 @@ public class PuiEditText extends RelativeLayout {
             return;
         }
 
-        SavedState savedState = (SavedState) state;
+        final SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
-        editText.setText(savedState.savedText);
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                editText.setText(savedState.savedText);
+                int focused = savedState.focused;
+                if (focused == 1) {
+                    editText.requestFocus();
+                }
+            }
+        });
         showErrorAndChangeEditTextStyle(View.VISIBLE == savedState.showError);
-        int focused = savedState.focused;
-        if (focused == 1) {
-            editText.requestFocus();
-        }
     }
 
     /**
@@ -173,7 +174,6 @@ public class PuiEditText extends RelativeLayout {
 
     private void initEditText(final String editTextHint, final boolean enabled, final int editTextWidth, final boolean singleLine, int editTextHeight) {
         editText = (EditText) getChildAt(0);
-        editText.setId(viewId++);
         if (editTextWidth > 0) setWidth(editTextWidth);
         if (editTextHeight > 0) setHeight(editTextHeight);
         if (focused) editText.requestFocus();

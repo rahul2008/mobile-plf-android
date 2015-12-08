@@ -9,7 +9,11 @@ public enum ColorType {
     UNKNOWN(-1, "unknown"),
     BLUE(0, "blue"),
     ORANGE(1, "orange"),
-    AQUA(2, "aqua");
+    AQUA(2, "aqua"),
+    BRIGHT_GREEN(3,"bright_green"),
+    BRIGHT_PINK(4,"bright_pink"),
+    DARK_PURPLE(5,"dark_purple"),
+    DARK_AQUA(6,"dark_aqua");
 
     private final int id;
     private final String description;
