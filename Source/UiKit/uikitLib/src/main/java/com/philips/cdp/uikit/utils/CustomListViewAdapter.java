@@ -83,7 +83,11 @@ public class CustomListViewAdapter extends ArrayAdapter<RowItem> {
             holder.imageView.setImageResource(rowItem.getImageId());
 
         } else {
+//            rowItem.getDrawable().mutate().setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP));
+            //Drawable d = rowItem.getDrawable().mutate();
+            //d.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP));
             holder.imageView.setImageDrawable(rowItem.getDrawable());
+
         }
 
         holder.txtDesc.setText(rowItem.getDesc());

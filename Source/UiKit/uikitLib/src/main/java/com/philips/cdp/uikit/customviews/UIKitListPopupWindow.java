@@ -15,6 +15,10 @@ import android.widget.ListPopupWindow;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
+import com.philips.cdp.uikit.utils.CustomListViewAdapter;
+import com.philips.cdp.uikit.utils.RowItem;
+
+import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -32,12 +36,15 @@ public class UIKitListPopupWindow extends ListPopupWindow {
     {
         TOPLEFT, TOPRIGHT , LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
     }
-    public UIKitListPopupWindow(final Context context,final View view, final Type type) {
+    public UIKitListPopupWindow(final Context context,final View view, final Type type, List<RowItem> rowItems) {
         super(context);
         mcontext = context;
         setAnchorView(view);
         mtype = type;
         mview = view;
+
+        CustomListViewAdapter adapter = new CustomListViewAdapter(mcontext, R.layout.simple_list_image_text, rowItems);
+        setAdapter(adapter);
 
     }
 
@@ -91,13 +98,14 @@ public class UIKitListPopupWindow extends ListPopupWindow {
 
     @Override
     public void show() {
-        setWidth(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width));
+        setBackgroundDrawable(new ColorDrawable(0));
+        //setBackgroundDrawable(ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.popovermenu,null));
+        setWidth((int) mcontext.getResources().getDimension(R.dimen.popup_menu_width));
         setOffsetValue(mtype);
         super.show();
         if (isShowing()) {
 
             TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor,R.attr.darkerColor});
-            //TypedArray arr = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.darkerColor});
             verylightthemecolor = a.getColor(0, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
             darkerColor = a.getColor(1, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
             Drawable drawable = ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.pop_over_menu_divider,null);
@@ -107,45 +115,25 @@ public class UIKitListPopupWindow extends ListPopupWindow {
             getListView().setBackgroundColor(Color.WHITE);
 
             a.recycle();
-            //arr.recycle();
 
 
-            Drawable selector = new ColorDrawable(verylightthemecolor);//ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.uikit_popup_selector,null);
+            Drawable selector = new ColorDrawable(verylightthemecolor);
             ColorFilterStateListDrawable selector1 = new ColorFilterStateListDrawable();
             selector1.addState(new int[]{android.R.attr.state_pressed}, selector.mutate(), verylightcolor);
-//            selector.addState(new int[]{}, selector, enabledFilter);
-//            selector.setColorFilter(verylightcolor);
             getListView().setSelector(selector1);
 
 
+            //Drawable drawable1 = FontIconUtils.getInfo(this, FontIconUtils.ICONS.HEART, 22, Color.WHITE,false);
 
-           /* StateListDrawable states = new StateListDrawable();
-            states.addState(new int[]{android.R.attr.state_pressed},
-                    selector);
-            states.addState(new int[]{},
-                    normal);
-            setBackgroundDrawable(states);*/
-
-
-
-           /* Drawable fontdrawable =FontIconUtils.getInfo(mcontext.getApplicationContext(), FontIconUtils.ICONS.HEART, 22, darkerColor,
-                    false);
-            ColorFilter darkcolorfilter = new PorterDuffColorFilter(darkerColor, PorterDuff.Mode.SRC_ATOP);
-            fontdrawable.setColorFilter(darkcolorfilter);*/
-
-            //getListView().findViewById(R.id.listimageview).setBackgroundTintList(darkerColor);
-
-
-
-                    //getListView().setDivider(mcontext.getResources().getDrawable(R.drawable.pop_over_menu_divider));
-
+            //getListView().setBackground(R.drawable.popovermenu);
+            //setBackgroundDrawable(mcontext.getDrawable(R.drawable.model_alert));
         }
     }
 
-    @Override
+   /* @Override
     public void setWidth(final int width) {
         super.setWidth(width);
-    }
+    }*/
 
     @Override
     public void setHeight(final int height) {

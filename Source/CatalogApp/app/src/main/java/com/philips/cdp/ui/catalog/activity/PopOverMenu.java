@@ -9,7 +9,6 @@ import android.widget.Button;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.uikit.utils.CustomListViewAdapter;
 import com.philips.cdp.uikit.utils.RowItem;
 
 import java.util.ArrayList;
@@ -34,85 +33,70 @@ public class PopOverMenu extends CatalogActivity {
 
 
     public  final String[] descriptions = new String[] {
-            "Add to favs",
+            "Setting",
             "Share", "Mail",
             "Chat" };
 
     public   Integer[] images = {R.drawable.uikit_apple, R.drawable.uikit_share,
             R.drawable.uikit_envelope,R.drawable.uikit_ballon, };
 
-    List<RowItem> rowItems;
+    List<RowItem> rowItems1;
+    List<RowItem> rowItems2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        rowItems = new ArrayList<RowItem>();
+        rowItems1 = new ArrayList<RowItem>();
+        rowItems2 = new ArrayList<RowItem>();
 
         RowItem item1 = new RowItem();
         item1.setDesc(descriptions[0]);
         /*item1.setDrawable(FontIconUtils.getInfo(this, FontIconUtils.ICONS.HEART, 22, Color.WHITE,
                 false));*/
-        item1.setDrawable(VectorDrawable.create(this, R.drawable.uikit_share));
+        //item1.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.apple, null));
+        item1.setDrawable(VectorDrawable.create(this, R.drawable.uikit_gear));
 
-        rowItems.add(item1);
+        rowItems1.add(item1);
 
 
         RowItem item2 = new RowItem();
         item2.setDesc(descriptions[1]);
         item2.setDrawable(VectorDrawable.create(this, R.drawable.uikit_share));
-        rowItems.add(item2);
+        rowItems1.add(item2);
 
         RowItem item3 = new RowItem();
         item3.setDesc(descriptions[2]);
         item3.setDrawable(VectorDrawable.create(this, R.drawable.uikit_envelope));
-        rowItems.add(item3);
+        rowItems1.add(item3);
 
 
         RowItem item4 = new RowItem();
         item4.setDesc(descriptions[3]);
         item4.setDrawable(VectorDrawable.create(this, R.drawable.uikit_ballon));
-        rowItems.add(item4);
+        rowItems1.add(item4);
 
-
-
-
-
-
-
+        rowItems2.add(item1);
+        rowItems2.add(item2);
+        rowItems2.add(item3);
+        rowItems2.add(item4);
+        rowItems2.add(item1);
+        rowItems2.add(item2);
+        rowItems2.add(item3);
+        rowItems2.add(item4);
 
 
         setContentView(R.layout.activity_pop_over_menu2);
         init();
-        CustomListViewAdapter adapter = new CustomListViewAdapter(this,
-                R.layout.simple_list_image_text, rowItems);
-
-        listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT);
-        listpopupwindowTopLeft.setAdapter(adapter);
 
 
-        listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT);
-        listpopupwindowTopRight.setAdapter(adapter);
-
-        listpopupwindowLeft = new UIKitListPopupWindow(PopOverMenu.this,left,UIKitListPopupWindow.Type.LEFT);
-        listpopupwindowLeft.setAdapter(adapter);
-
-        listpopupwindowRight = new UIKitListPopupWindow(PopOverMenu.this,right,UIKitListPopupWindow.Type.RIGHT);
-        listpopupwindowRight.setAdapter(adapter);
-
-        listpopupwindowBottomLeft = new UIKitListPopupWindow(PopOverMenu.this,buttomleft,UIKitListPopupWindow.Type.BOTTOMLEFT);
-        listpopupwindowBottomLeft.setAdapter(adapter);
-
-        listpopupwindowBottomRight = new UIKitListPopupWindow(PopOverMenu.this,buttomright,UIKitListPopupWindow.Type.BOTTOMRIGHT);
-        listpopupwindowBottomRight.setAdapter(adapter);
-
-
-
-
-
-
-
+        listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT, rowItems1);
+        listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT, rowItems1);
+        listpopupwindowLeft = new UIKitListPopupWindow(PopOverMenu.this,left,UIKitListPopupWindow.Type.LEFT, rowItems1);
+        listpopupwindowRight = new UIKitListPopupWindow(PopOverMenu.this,right,UIKitListPopupWindow.Type.RIGHT, rowItems2);
+        listpopupwindowBottomLeft = new UIKitListPopupWindow(PopOverMenu.this,buttomleft,UIKitListPopupWindow.Type.BOTTOMLEFT, rowItems1);
+        listpopupwindowBottomRight = new UIKitListPopupWindow(PopOverMenu.this,buttomright,UIKitListPopupWindow.Type.BOTTOMRIGHT, rowItems1);
 
 
 
