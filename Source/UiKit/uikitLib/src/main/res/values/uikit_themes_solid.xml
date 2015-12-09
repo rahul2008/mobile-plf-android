@@ -28,6 +28,61 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.Philips.DarkPurple">
+        <item name="baseColor">@color/uikit_philips_dark_purple</item>
+        <item name="darkerGradient">@drawable/uikit_grad_purple_verydark_to_dark</item>
+        <item name="baseGradient">@drawable/uikit_grad_purple_dark_to_bright</item>
+        <item name="lighterGradient">@drawable/uikit_grad_purple_bright_to_light</item>
+
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_purple_color</item>
+        <item name="listtextselector">@drawable/uikit_list_text_selector_purple</item>
+        <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Purple</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_purple_theme</item>
+        <item name="android:windowBackground">@color/uikit_philips_very_light_purple</item>
+        <item name="android:colorBackground">@color/uikit_philips_very_light_purple</item>
+        <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_purple</item>
+        <item name="buttonStyle">@style/Button.Solid.DarkPurple</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedDarkPurple</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPurple</item>
+        <item name="editTextStyle">@style/InputStyle.DarkPurple</item>
+        <item name="veryLightColor">@color/uikit_philips_very_light_purple</item>
+        <item name="brightColor">@color/uikit_philips_bright_purple</item>
+    </style>
+
+    <style name="Theme.Philips.DarkPurple.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="Theme.Philips.DarkAqua">
+        <item name="baseColor">@color/uikit_philips_dark_aqua</item>
+        <item name="darkerGradient">@drawable/uikit_grad_aqua_verydark_to_dark</item>
+        <item name="baseGradient">@drawable/uikit_grad_aqua_dark_to_bright</item>
+        <item name="lighterGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
+
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_aqua_color</item>
+        <item name="listtextselector">@drawable/uikit_list_text_selector_aqua</item>
+        <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
+        <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
+        <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
+        <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_aqua</item>
+        <item name="buttonStyle">@style/Button.Solid.DarkAqua</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedDarkAqua</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
+        <item name="editTextStyle">@style/InputStyle.DarkAqua</item>
+        <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
+        <item name="brightColor">@color/uikit_philips_bright_aqua</item>
+    </style>
+
+    <style name="Theme.Philips.DarkAqua.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
         <item name="darkerGradient">@drawable/uikit_grad_orange_dark_to_bright</item>

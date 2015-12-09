@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +74,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
                     viewHolderItem = new ViewHolderItem();
                     initializeHeaderViews(parentView, viewHolderItem);
                     parentView.setSelected(false);
-                    setGroupLayoutAlpha(parentView);
+                    setGroupLayoutAlpha(viewHolderItem.parentView);
                     parentView.setTag(viewHolderItem);
                 } else {
                     viewHolderItem = (ViewHolderItem) parentView.getTag();
@@ -109,7 +108,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     }
 
     private void addHeaderMargin(int position, View transparentView) {
-        if (position == 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (position == 0)
             transparentView.setVisibility(View.VISIBLE);
     }
 
@@ -152,10 +151,10 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     }
 
     private void setValuesToViews(final int position, final ImageView imgIcon, TextView txtTitle, final TextView txtCount, final HamburgerItem hamburgerItem, final View convertView) {
-            Drawable icon = hamburgerItems.get(position).getIcon();
-            int count = hamburgerItems.get(position).getCount();
-            setCounterView(txtCount, count);
-            handleSelector(position, imgIcon, txtTitle, convertView, icon);
+        Drawable icon = hamburgerItems.get(position).getIcon();
+        int count = hamburgerItems.get(position).getCount();
+        setCounterView(txtCount, count);
+        handleSelector(position, imgIcon, txtTitle, convertView, icon);
         txtTitle.setText(hamburgerItems.get(position).getTitle());
     }
 

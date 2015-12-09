@@ -9,8 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
@@ -73,14 +71,6 @@ public class UiKitActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-        } else {
-            ListView listView = (ListView) findViewById(R.id.hamburger_list);
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) listView.getLayoutParams();
-            if (layoutParams != null) {
-                int topMargin = (int) getResources().getDimension(R.dimen.uikit_hamburger_list_top_margin);
-                layoutParams.setMargins(0, topMargin, 0, 0);
-                listView.setLayoutParams(layoutParams);
-            }
         }
     }
 

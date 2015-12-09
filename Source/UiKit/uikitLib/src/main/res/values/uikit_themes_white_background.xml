@@ -92,4 +92,40 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.Philips.DarkPurple.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Philips.DarkPurple.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.DarkPurple.Gradient.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Philips.DarkPurple.Gradient.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Dark Aqua -->
+    <style name="Theme.Philips.DarkAqua.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Philips.DarkAqua.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.DarkAqua.Gradient.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Philips.DarkAqua.Gradient.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
