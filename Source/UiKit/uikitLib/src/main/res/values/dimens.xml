@@ -144,7 +144,7 @@
     <!-- Modal alert-->
     <dimen name="uikit_modal_alert_dialog_width">296dp</dimen>
     <dimen name="uikit_modal_alert_dialog_height">228dp</dimen>
-    <dimen name="uikit_modal_alert_text_top_margin">34dp</dimen>
+    <dimen name="uikit_modal_alert_text_top_margin">33dp</dimen>
     <dimen name="uikit_modal_alert_message_text_top_margin">20dp</dimen>
     <dimen name="uikit_modal_alert_label_text_size">20sp</dimen>
     <dimen name="uikit_modal_alert_message_text_size">14sp</dimen>

@@ -101,12 +101,16 @@
     </style>
 
     <style name="PhilipsDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/PhilipsDialogAnimation</item>
+        <item name="android:windowAnimationStyle">@style/PhilipsDialogAnimationZoom</item>
     </style>
 
-    <style name="PhilipsDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/uikit_popover_fadein</item>
-        <item name="android:windowExitAnimation">@anim/uikit_popover_fadeout</item>
+    <style name="PhilipsDialogAnimationZoom">
+        <item name="android:windowEnterAnimation">@anim/zoom_out</item>
+        <item name="android:windowExitAnimation">@anim/zoom_in</item>
     </style>
 
+    <style name="PhilipsDialogAnimationFade">
+        <item name="android:windowEnterAnimation">@anim/fade_in_dialog</item>
+        <item name="android:windowExitAnimation">@anim/fade_out_dialog</item>
+    </style>
 </resources>
