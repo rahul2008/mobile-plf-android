@@ -100,12 +100,4 @@
         <item name="color">@android:color/black</item>
     </style>
 
-    <style name="PhilipsDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/PhilipsDialogAnimationZoom</item>
-    </style>
-
-    <style name="PhilipsDialogAnimationZoom">
-        <item name="android:windowExitAnimation">@anim/uikit_zoom_in</item>
-    </style>
-
 </resources>

@@ -134,7 +134,7 @@ public class PhilipsDialog extends Dialog {
     }
 
     private void startAnimation() {
-        Animation animationScaleDown = AnimationUtils.loadAnimation(activity, R.anim.uikit_zoom_out);
+        Animation animationScaleDown = AnimationUtils.loadAnimation(activity, R.anim.uikit_modal_alert_zoom_out);
         AnimationSet growShrink = new AnimationSet(true);
         growShrink.addAnimation(animationScaleDown);
         LinearLayout parent = (LinearLayout) findViewById(R.id.parent_id);
@@ -142,22 +142,38 @@ public class PhilipsDialog extends Dialog {
     }
 
     private void stopAnimation() {
-        Animation animationScaleUp = AnimationUtils.loadAnimation(activity, R.anim.uikit_zoom_in);
+        Animation animationScaleUp = AnimationUtils.loadAnimation(activity, R.anim.uikit_modal_alert_zoom_in);
         AnimationSet growShrinkTest = new AnimationSet(false);
         growShrinkTest.addAnimation(animationScaleUp);
         LinearLayout parent = null;
         parent = (LinearLayout) findViewById(R.id.parent_id);
         parent.startAnimation(growShrinkTest);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void dismiss() {
         super.dismiss();
+    }
+
+    public void dismissDialog() {
+        Animation anim = AnimationUtils.loadAnimation(activity, R.anim.uikit_modal_alert_zoom_in);
+        LinearLayout parent = (LinearLayout) findViewById(R.id.parent_id);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                dismiss();
+            }
+        });
+        parent.startAnimation(anim);
     }
 
     private void showFastBlurWithoutThreading() {

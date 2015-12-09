@@ -21,7 +21,7 @@ public class ModalAlertDemo extends CatalogActivity {
         findViewById(R.id.show_modal_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final PhilipsDialog alert = new PhilipsDialog(ModalAlertDemo.this, R.style.PhilipsDialog);
+                final PhilipsDialog alert = new PhilipsDialog(ModalAlertDemo.this);
                 alert.setContentView(R.layout.uikit_modal_alert);
                 Button justOnce = (Button) alert.findViewById(R.id.dialogButtonCancel);
                 Button always = (Button) alert.findViewById(R.id.dialogButtonOK);
@@ -38,7 +38,7 @@ public class ModalAlertDemo extends CatalogActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert.dismiss();
+                alert.dismissDialog();
             }
         };
     }
