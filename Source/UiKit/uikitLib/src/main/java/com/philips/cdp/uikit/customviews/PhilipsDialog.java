@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v8.renderscript.Allocation;
@@ -94,16 +95,16 @@ public class PhilipsDialog extends Dialog {
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to BitmapDrawable: sticking with deprecated API for now
-    private void renderUsingRenderScript(Bitmap outputBitmap) {
+    private void renderUsingRenderScript(Bitmap screenShotBitmap) {
         RenderScript rs = RenderScript.create(activity);
         ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-        Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+        Allocation tmpOut = Allocation.createFromBitmap(rs, screenShotBitmap);
         theIntrinsic.setRadius(blurRadius);
         theIntrinsic.setInput(tmpOut);
         theIntrinsic.forEach(tmpOut);
-        tmpOut.copyTo(outputBitmap);
+        tmpOut.copyTo(screenShotBitmap);
         Window window = this.getWindow();
-        window.setBackgroundDrawable(new BitmapDrawable(outputBitmap));
+        window.setBackgroundDrawable(new BitmapDrawable(screenShotBitmap));
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.setGravity(Gravity.CENTER);
     }
@@ -118,8 +119,10 @@ public class PhilipsDialog extends Dialog {
 
     @Override
     public void show() {
-        if (isBlur)
+        if (isBlur && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
             renderUsingRenderScript(takeScreenShot());
+        else if (isBlur)
+            showFastBlurWithoutThreading();
         super.show();
     }
 
