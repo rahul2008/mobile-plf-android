@@ -5,8 +5,11 @@
 
 package com.philips.pins.shinelib;
 
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
@@ -52,7 +55,23 @@ public class SHNDeviceAssociation {
         public void onAssociationSuccess(final SHNDevice shnDevice) {
             handleStopAssociation();
             addAssociatedDevice(shnDevice);
-            shnCentral.getUserHandler().post(new Runnable() {
+            QuickTestConnection quickTestConnection = createQuickTestConnection();
+            quickTestConnection.execute(shnDevice, new QuickTestConnection.Listener() {
+                @Override
+                public void onSuccess() {
+                    informAssociationSuccess(shnDevice);
+                }
+
+                @Override
+                public void onFailure() {
+                    informAssociationSuccess(shnDevice);
+                }
+            });
+        }
+
+        private void informAssociationSuccess(final SHNDevice shnDevice) {
+            Handler userHandler = shnCentral.getUserHandler();
+            userHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (shnDeviceAssociationListener != null) {
@@ -242,5 +261,10 @@ public class SHNDeviceAssociation {
     private void startScanning(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         scanStoppedIndicatesScanTimeout = true;
         shnCentral.startScanningForDevices(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs(), SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
+    }
+
+    @NonNull
+    QuickTestConnection createQuickTestConnection() {
+        return new QuickTestConnection();
     }
 }
