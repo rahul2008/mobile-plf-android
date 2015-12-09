@@ -141,6 +141,4 @@
     <!-- White Color with 0% Opacity-->
     <color name="uikit_philips_White_with_opacity_0">#00FFFFFF</color>
 
-
-    <color name="hintcolor">#b9b9b9</color>
 </resources>
