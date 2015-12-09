@@ -17,15 +17,15 @@ public class RegistrationApplication extends Application {
 		super.onCreate();
 		RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
 		RLog.d(RLog.JANRAIN_INITIALIZE,
-		        "RegistrationApplication : Janrain initialization with locale : "
-		                + Locale.getDefault());
+				"RegistrationApplication : Janrain initialization with locale : "
+						+ Locale.getDefault());
 		Tagging.enableAppTagging(true);
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
 		RegistrationHelper.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 		RegistrationHelper.getInstance().intializeRegistrationSettings(this,
 				Locale.getDefault());
-		Tagging.init(RegistrationHelper.getInstance().getLocale(), this);
+		Tagging.init(Locale.getDefault(), this);
 
 	}
 
