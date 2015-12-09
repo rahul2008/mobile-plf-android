@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
+import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
@@ -71,17 +72,29 @@ public class DeviceInformationCacheTest {
 
         verify(editorMock).putString(INFORMATION_TYPE.name(), TEST_MESSAGE);
         verify(editorMock).putLong(eq(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX), longThat(new ArgumentMatcher<Long>() {
+
+            private long max;
+            private long min;
+
             @Override
             public boolean matches(final Object argument) {
                 boolean res = false;
 
                 if (argument instanceof Long) {
                     long millis = ((Long) argument).longValue();
-                    res = TEST_DATE.getTime() < millis;
-                    res &= millis < new Date().getTime();
+                    min = TEST_DATE.getTime();
+                    max = new Date().getTime();
+
+                    res = min <= millis;
+                    res &= millis <= max;
                 }
 
                 return res;
+            }
+
+            @Override
+            public void describeTo(final Description description) {
+                description.appendText(String.format("Expected value between %d and %d", min, max));
             }
         }));
 
