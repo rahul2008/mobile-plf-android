@@ -7,11 +7,13 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListPopupWindow;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.utils.FontIconUtils;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -19,10 +21,11 @@ import com.philips.cdp.uikit.R;
  */
 public class UIKitListPopupWindow extends ListPopupWindow {
 
-    Context mcontext;
-    Type mtype;
-    View mview;
-    private  int verylightthemecolor;
+    private Context mcontext;
+    private Type mtype;
+    private View mview;
+    private int verylightthemecolor;
+    private int darkerColor;
 
     public enum Type
     {
@@ -52,16 +55,19 @@ public class UIKitListPopupWindow extends ListPopupWindow {
                 setVerticalOffset(-mview.getHeight());
                 break;
             case RIGHT:
-                setHorizontalOffset(mview.getWidth() + (mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin)));
+                setHorizontalOffset(-((mcontext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) +
+                                       mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin))));
                 setVerticalOffset(-mview.getHeight());
-
                 break;
             case BOTTOMLEFT:
+                setVerticalOffset(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
             case BOTTOMRIGHT:
+                setHorizontalOffset(-(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) - mview.getWidth()));
+                setVerticalOffset(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
-
-
+            default:
+                setVerticalOffset(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
         }
 
     }
@@ -90,17 +96,28 @@ public class UIKitListPopupWindow extends ListPopupWindow {
         if (isShowing()) {
 
             TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor});
+            TypedArray arr = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.darkerColor});
             verylightthemecolor = a.getColor(0, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
-            Drawable drawable = mcontext.getDrawable(R.drawable.pop_over_menu_divider);
+            darkerColor = arr.getColor(0, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
+            Drawable drawable = ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.pop_over_menu_divider,null);
             ColorFilter verylightcolor = new PorterDuffColorFilter(verylightthemecolor, PorterDuff.Mode.SRC_ATOP);
             drawable.setColorFilter(verylightcolor);
             getListView().setDivider(drawable);
             getListView().setBackgroundColor(Color.WHITE);
 
 
-            Drawable selector = mcontext.getDrawable(R.drawable.uikit_popup_selector);
+            Drawable selector = ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.uikit_popup_selector,null);
             selector.setColorFilter(verylightcolor);
             getListView().setSelector(selector);
+
+
+
+            Drawable fontdrawable =FontIconUtils.getInfo(mcontext.getApplicationContext(), FontIconUtils.ICONS.HEART, 22, darkerColor,
+                    false);
+            ColorFilter darkcolorfilter = new PorterDuffColorFilter(darkerColor, PorterDuff.Mode.SRC_ATOP);
+            fontdrawable.setColorFilter(darkcolorfilter);
+
+            //getListView().findViewById(R.id.listimageview).setBackgroundTintList(darkerColor);
 
 
 

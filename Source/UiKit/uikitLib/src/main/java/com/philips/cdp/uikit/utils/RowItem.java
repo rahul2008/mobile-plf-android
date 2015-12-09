@@ -1,17 +1,18 @@
 package com.philips.cdp.uikit.utils;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class RowItem {
-    private int imageId;
-    private String desc;
+    private int imageId = 0;
+    private Drawable drawable = null;
+    private int stringId = 0;
+    private String desc = null;
 
-    public RowItem(int imageId, String desc) {
-        this.imageId = imageId;
-        this.desc = desc;
-    }
+
     public int getImageId() {
         return imageId;
     }
@@ -23,5 +24,25 @@ public class RowItem {
     }
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public Drawable getDrawable() {
+        return drawable;
+    }
+
+    public void setDrawable(final Drawable drawable) {
+        this.drawable = drawable;
+    }
+
+    public int getStringId() {
+        return stringId;
+    }
+
+    public void setStringId(final int stringId) {
+        this.stringId = stringId;
+    }
+
+    public RowItem() {
+
     }
 }

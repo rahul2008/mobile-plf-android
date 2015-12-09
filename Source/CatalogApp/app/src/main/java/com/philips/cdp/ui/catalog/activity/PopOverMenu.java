@@ -5,10 +5,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.CustomListViewAdapter;
 import com.philips.cdp.uikit.utils.RowItem;
 
@@ -33,40 +33,60 @@ public class PopOverMenu extends CatalogActivity {
     private Button buttomright;
 
 
-
-    String[] value = new String[] {"1","2"};
-
     public  final String[] descriptions = new String[] {
             "Add to favs",
             "Share", "Mail",
             "Chat" };
 
-    public   Integer[] images = { R.drawable.uikit_share,R.drawable.uikit_share
-            /*FontIconUtils.getInfo(this, FontIconUtils.ICONS.INFO, 22, Color.WHITE,
-                    false)*/,
-            R.drawable.uikit_apple, R.drawable.uikit_apple };
+    public   Integer[] images = {R.drawable.uikit_apple, R.drawable.uikit_share,
+            R.drawable.uikit_envelope,R.drawable.uikit_ballon, };
 
-    ListView listView;
     List<RowItem> rowItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         rowItems = new ArrayList<RowItem>();
-        for (int i = 0; i < descriptions.length; i++) {
-            RowItem item = new RowItem(images[i],descriptions[i]);
-            rowItems.add(item);
-        }
+
+        RowItem item1 = new RowItem();
+        item1.setDesc(descriptions[0]);
+        /*item1.setDrawable(FontIconUtils.getInfo(this, FontIconUtils.ICONS.HEART, 22, Color.WHITE,
+                false));*/
+        item1.setDrawable(VectorDrawable.create(this, R.drawable.uikit_share));
+
+        rowItems.add(item1);
+
+
+        RowItem item2 = new RowItem();
+        item2.setDesc(descriptions[1]);
+        item2.setDrawable(VectorDrawable.create(this, R.drawable.uikit_share));
+        rowItems.add(item2);
+
+        RowItem item3 = new RowItem();
+        item3.setDesc(descriptions[2]);
+        item3.setDrawable(VectorDrawable.create(this, R.drawable.uikit_envelope));
+        rowItems.add(item3);
+
+
+        RowItem item4 = new RowItem();
+        item4.setDesc(descriptions[3]);
+        item4.setDrawable(VectorDrawable.create(this, R.drawable.uikit_ballon));
+        rowItems.add(item4);
+
+
+
+
+
+
+
+
+
         setContentView(R.layout.activity_pop_over_menu2);
-
-
-
+        init();
         CustomListViewAdapter adapter = new CustomListViewAdapter(this,
                 R.layout.simple_list_image_text, rowItems);
-
-        init();
-
 
         listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT);
         listpopupwindowTopLeft.setAdapter(adapter);
@@ -86,6 +106,9 @@ public class PopOverMenu extends CatalogActivity {
 
         listpopupwindowBottomRight = new UIKitListPopupWindow(PopOverMenu.this,buttomright,UIKitListPopupWindow.Type.BOTTOMRIGHT);
         listpopupwindowBottomRight.setAdapter(adapter);
+
+
+
 
 
 
@@ -138,25 +161,14 @@ public class PopOverMenu extends CatalogActivity {
                 listpopupwindowBottomRight.show();
             }
         });
-
-
-
-
-
-
-
-
-
     }
 
 
     void init() {
         topleft = (Button)findViewById(R.id.topleft);
         topright = (Button) findViewById(R.id.topright);
-
         left = (Button) findViewById(R.id.left);
         right = (Button)findViewById(R.id.right);
-
         buttomleft = (Button) findViewById(R.id.bottomleft);
         buttomright = (Button) findViewById(R.id.bottomright);
     }
