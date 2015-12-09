@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
@@ -13,7 +14,7 @@ import android.view.View;
 import android.widget.ListPopupWindow;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.utils.FontIconUtils;
+import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -95,27 +96,42 @@ public class UIKitListPopupWindow extends ListPopupWindow {
         super.show();
         if (isShowing()) {
 
-            TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor});
-            TypedArray arr = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.darkerColor});
+            TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor,R.attr.darkerColor});
+            //TypedArray arr = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.darkerColor});
             verylightthemecolor = a.getColor(0, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
-            darkerColor = arr.getColor(0, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
+            darkerColor = a.getColor(1, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
             Drawable drawable = ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.pop_over_menu_divider,null);
             ColorFilter verylightcolor = new PorterDuffColorFilter(verylightthemecolor, PorterDuff.Mode.SRC_ATOP);
             drawable.setColorFilter(verylightcolor);
             getListView().setDivider(drawable);
             getListView().setBackgroundColor(Color.WHITE);
 
-
-            Drawable selector = ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.uikit_popup_selector,null);
-            selector.setColorFilter(verylightcolor);
-            getListView().setSelector(selector);
+            a.recycle();
+            //arr.recycle();
 
 
+            Drawable selector = new ColorDrawable(verylightthemecolor);//ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.uikit_popup_selector,null);
+            ColorFilterStateListDrawable selector1 = new ColorFilterStateListDrawable();
+            selector1.addState(new int[]{android.R.attr.state_pressed}, selector.mutate(), verylightcolor);
+//            selector.addState(new int[]{}, selector, enabledFilter);
+//            selector.setColorFilter(verylightcolor);
+            getListView().setSelector(selector1);
 
-            Drawable fontdrawable =FontIconUtils.getInfo(mcontext.getApplicationContext(), FontIconUtils.ICONS.HEART, 22, darkerColor,
+
+
+           /* StateListDrawable states = new StateListDrawable();
+            states.addState(new int[]{android.R.attr.state_pressed},
+                    selector);
+            states.addState(new int[]{},
+                    normal);
+            setBackgroundDrawable(states);*/
+
+
+
+           /* Drawable fontdrawable =FontIconUtils.getInfo(mcontext.getApplicationContext(), FontIconUtils.ICONS.HEART, 22, darkerColor,
                     false);
             ColorFilter darkcolorfilter = new PorterDuffColorFilter(darkerColor, PorterDuff.Mode.SRC_ATOP);
-            fontdrawable.setColorFilter(darkcolorfilter);
+            fontdrawable.setColorFilter(darkcolorfilter);*/
 
             //getListView().findViewById(R.id.listimageview).setBackgroundTintList(darkerColor);
 
