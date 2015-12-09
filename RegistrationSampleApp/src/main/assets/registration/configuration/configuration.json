@@ -13,8 +13,8 @@
     "RegistrationEnvironment": "Staging"
   },
   "Flow": {
-    "EmailVerificationRequired": "true",
-    "TermsAndConditionsAcceptanceRequired": "false",
+    "EmailVerificationRequired": "false",
+    "TermsAndConditionsAcceptanceRequired": "true",
     "MinimumAgeLimit": {
       "NL": 16,
       "GB": 16,
