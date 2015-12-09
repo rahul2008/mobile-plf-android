@@ -21,7 +21,7 @@
         android:textColor="@color/uikit_white"
         android:textSize="33dp" />
 
-    <com.philips.cdp.uikit.SpringBoardGridLayout
+    <com.philips.cdp.uikit.SpringBoardItemSelector
         android:id="@+id/row_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -96,9 +96,9 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </com.philips.cdp.uikit.SpringBoardGridLayout>
+    </com.philips.cdp.uikit.SpringBoardItemSelector>
 
-    <com.philips.cdp.uikit.SpringBoardGridLayout
+    <com.philips.cdp.uikit.SpringBoardItemSelector
         android:id="@+id/row_layout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -176,9 +176,9 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </com.philips.cdp.uikit.SpringBoardGridLayout>
+    </com.philips.cdp.uikit.SpringBoardItemSelector>
 
-    <com.philips.cdp.uikit.SpringBoardGridLayout
+    <com.philips.cdp.uikit.SpringBoardItemSelector
         android:id="@+id/row_layout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -257,7 +257,7 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-    </com.philips.cdp.uikit.SpringBoardGridLayout>
+    </com.philips.cdp.uikit.SpringBoardItemSelector>
 
 
 </LinearLayout><!--160 , 180-->

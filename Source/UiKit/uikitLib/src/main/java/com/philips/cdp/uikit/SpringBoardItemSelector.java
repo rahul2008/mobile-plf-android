@@ -3,10 +3,8 @@ package com.philips.cdp.uikit;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -18,16 +16,16 @@ import com.philips.cdp.uikit.customviews.LayerListDrawable;
 /**
  * Created by 310213373 on 12/7/2015.
  */
-public class SpringBoardGridLayout extends LinearLayout {
+public class SpringBoardItemSelector extends LinearLayout {
 
     private Drawable selector;
     private int baseColor;
     int overlayColor = 0;
-    public SpringBoardGridLayout(Context context) {
+    public SpringBoardItemSelector(Context context) {
         super(context);
     }
 
-    public SpringBoardGridLayout(Context context, AttributeSet attrs) {
+    public SpringBoardItemSelector(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViews(context, attrs);
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.verydarkBaseColor});
@@ -40,7 +38,7 @@ public class SpringBoardGridLayout extends LinearLayout {
         //ToDO: Initialize ur seelctor
     }
 
-    public SpringBoardGridLayout(Context context, AttributeSet attrs, int defStyle) {
+    public SpringBoardItemSelector(Context context, AttributeSet attrs, int defStyle) {
         this(context, attrs);
         initViews(context, attrs);
     }
@@ -49,7 +47,7 @@ public class SpringBoardGridLayout extends LinearLayout {
     public void addView(View child, ViewGroup.LayoutParams params) {
         super.addView(child, params);
         selector = getBackgroundSelector();
-        child.setBackground(selector);
+        child.setBackgroundDrawable(selector);
 
     }
 
@@ -72,12 +70,12 @@ public class SpringBoardGridLayout extends LinearLayout {
       //  int baseColor = 0;
      //   int overlayColor = 0; //35%
 
-        GradientDrawable[] d = new GradientDrawable[2];
+        GradientDrawable[] d = new GradientDrawable[1];
 
+      //  d[0] =  (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
+      //  d[0].setColor(baseColor);
         d[0] =  (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
-        d[0].setColor(baseColor);
-        d[1] =  (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
-        d[1].setColor(overlayColor);
+        d[0].setColor(overlayColor);
 
 
         return new LayerListDrawable(d);

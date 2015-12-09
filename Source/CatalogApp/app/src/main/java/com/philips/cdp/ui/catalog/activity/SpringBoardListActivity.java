@@ -26,7 +26,7 @@ public class SpringBoardListActivity extends  CatalogActivity {
 
 
         String [] prgmNameList={"Shop "," Stats "," Factory ","Monitor","Wellness","Settings"};
-        Drawable[] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_cart)),(VectorDrawable.create(this, R.drawable.uikit_stats)),(VectorDrawable.create(this, R.drawable.uikit_factory)),(VectorDrawable.create(this, R.drawable.uikit_monitor)),(VectorDrawable.create(this, R.drawable.uikit_apple)), (VectorDrawable.create(this, R.drawable.uikit_gear))};
+        Drawable[] prgmImages={(VectorDrawable.create(this, R.drawable.uikit_cart_large)),(VectorDrawable.create(this, R.drawable.uikit_stats_39x32)),(VectorDrawable.create(this, R.drawable.uikit_factory_large)),(VectorDrawable.create(this, R.drawable.uikit_monitor)),(VectorDrawable.create(this, R.drawable.uikit_apple_large)), (VectorDrawable.create(this, R.drawable.uikit_gear_large))};
         setNoActionBarTheme();
         super.onCreate(savedInstanceState);
 
