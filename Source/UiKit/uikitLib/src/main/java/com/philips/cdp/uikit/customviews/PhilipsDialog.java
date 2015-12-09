@@ -20,7 +20,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 
+import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.utils.BlurView;
 
 
@@ -88,9 +93,9 @@ public class PhilipsDialog extends Dialog {
         int height = size.y;
 
 
-        Bitmap b = Bitmap.createBitmap(drawingCache, 0, statusBarHeight, width, height - statusBarHeight);
+        Bitmap screenShotBitmap = Bitmap.createBitmap(drawingCache, 0, statusBarHeight, width, height - statusBarHeight);
         view.destroyDrawingCache();
-        return b;
+        return screenShotBitmap;
     }
 
     @SuppressWarnings("deprecation")
@@ -123,7 +128,36 @@ public class PhilipsDialog extends Dialog {
             renderUsingRenderScript(takeScreenShot());
         else if (isBlur)
             showFastBlurWithoutThreading();
+
+        startAnimation();
         super.show();
+    }
+
+    private void startAnimation() {
+        Animation animationScaleDown = AnimationUtils.loadAnimation(activity, R.anim.uikit_zoom_out);
+        AnimationSet growShrink = new AnimationSet(true);
+        growShrink.addAnimation(animationScaleDown);
+        LinearLayout parent = (LinearLayout) findViewById(R.id.parent_id);
+        parent.startAnimation(growShrink);
+    }
+
+    private void stopAnimation() {
+        Animation animationScaleUp = AnimationUtils.loadAnimation(activity, R.anim.uikit_zoom_in);
+        AnimationSet growShrinkTest = new AnimationSet(false);
+        growShrinkTest.addAnimation(animationScaleUp);
+        LinearLayout parent = null;
+        parent = (LinearLayout) findViewById(R.id.parent_id);
+        parent.startAnimation(growShrinkTest);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
     }
 
     private void showFastBlurWithoutThreading() {
