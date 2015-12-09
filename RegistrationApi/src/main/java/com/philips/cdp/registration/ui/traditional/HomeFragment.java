@@ -450,10 +450,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         SpannableString spanableString = new SpannableString(privacyPolicyText);
 
 
-        int termStartIndex = privacyPolicyText.toLowerCase(Locale.getDefault()).indexOf(
-                terms.toLowerCase(Locale.getDefault()));
-        int privacyStartIndex = privacyPolicyText.toLowerCase(Locale.getDefault()).indexOf(
-                privacy.toLowerCase(Locale.getDefault()));
+        int termStartIndex = privacyPolicyText.toLowerCase().indexOf(
+                terms.toLowerCase());
+        int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(
+                privacy.toLowerCase());
 
         spanableString.setSpan(new ClickableSpan() {
 

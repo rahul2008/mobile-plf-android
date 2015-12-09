@@ -86,7 +86,7 @@ public class ConfigurationParser {
             for (int i = 0; i < providerNames.length(); i++) {
                 list.add(providerNames.getString(i));
             }
-            socialProviderMap.put(country.toUpperCase(Locale.getDefault()), list);
+            socialProviderMap.put(country.toUpperCase(), list);
         }
         providers.setProviders(socialProviderMap);
         return providers;

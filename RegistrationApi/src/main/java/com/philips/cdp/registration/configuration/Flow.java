@@ -40,7 +40,7 @@ public class Flow {
         String DEFAULT = "default";
         if(null!=minAgeLimit){
             if(minAgeLimit.containsKey(countryCode)){
-                return Integer.parseInt(minAgeLimit.get(countryCode.toUpperCase(Locale.getDefault())));
+                return Integer.parseInt(minAgeLimit.get(countryCode.toUpperCase()));
             }else{
                 return Integer.parseInt(minAgeLimit.get(DEFAULT));
             }

@@ -91,7 +91,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
             // visitedMicroSites
             try {
                 Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
                 String currentDate = sdf.format(c.getTime());
 
                 JSONObject visitedMicroSitesObject = new JSONObject();
@@ -172,7 +172,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
             String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
             try {
                 Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
                 String currentDate = sdf.format(c.getTime());
 
                 JSONObject visitedMicroSitesObject = new JSONObject();

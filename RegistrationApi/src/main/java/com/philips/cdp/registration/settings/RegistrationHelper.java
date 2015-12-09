@@ -110,6 +110,24 @@ public class RegistrationHelper {
 
     private Locale mLocale;
 
+    private Locale mUILocale;
+
+    public void setUiLocale(String languageCode , String countryCode){
+        if(languageCode == null || languageCode.length() != 2 ){
+            throw new RuntimeException("Please set language code correctly . Please pass valid locale");
+        }
+
+        if(languageCode == null || languageCode.length() != 2 ){
+            throw new RuntimeException("Please set country code correctly .  Please pass valid locale");
+        }
+
+        mUILocale = new Locale(languageCode,countryCode);
+    }
+
+    public Locale getUiLocale(){
+       return mUILocale;
+    }
+
     /*
      * Initialize Janrain
      * @param isInitialized true for initialize and false for reinitialize
@@ -124,7 +142,7 @@ public class RegistrationHelper {
 
         Locale mlocale = locale;
         if (isCoppaFlow()) {
-            mlocale = new Locale("en_US");
+            mlocale = new Locale("en","US");
         }
         setLocale(mlocale);
         mContext = context.getApplicationContext();

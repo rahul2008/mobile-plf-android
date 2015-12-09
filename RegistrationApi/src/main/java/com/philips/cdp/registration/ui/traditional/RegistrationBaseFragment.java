@@ -17,13 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingErrors;
 import com.philips.cdp.registration.apptagging.AppTagingConstants;
-import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
@@ -55,9 +57,23 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setCustomLocale();
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onCreate");
         mLeftRightMarginPort = (int) getResources().getDimension(R.dimen.reg_layout_margin_port);
         mLeftRightMarginLand = (int) getResources().getDimension(R.dimen.reg_layout_margin_land);
+    }
+
+    private void setCustomLocale() {
+        Locale locale;
+        if (RegistrationHelper.getInstance().getUiLocale() != null) {
+            locale = RegistrationHelper.getInstance().getUiLocale();
+        } else {
+            locale = RegistrationHelper.getInstance().getLocale();
+        }
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
     }
 
     @Override
@@ -80,8 +96,13 @@ public abstract class RegistrationBaseFragment extends Fragment {
     @Override
     public void onResume() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onResume");
+
         super.onResume();
+
+
         setCurrentTitle();
+
+
     }
 
     @Override
@@ -253,7 +274,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    Configuration  config = getResources().getConfiguration();
+                    Configuration config = getResources().getConfiguration();
                     if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
                         mWidth = view.getWidth();
                         mHeight = view.getHeight();
@@ -271,7 +292,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
                 }
             });
         } else {
-            Configuration  config = getResources().getConfiguration();
+            Configuration config = getResources().getConfiguration();
             if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 setViewParams(getResources().getConfiguration(), mWidth);
             } else {
@@ -282,12 +303,23 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
 
-    public void setCustomParams(Configuration config){
+    public void setCustomParams(Configuration config) {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             setViewParams(config, mWidth);
         } else {
             setViewParams(config, mHeight);
         }
+
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
+        super.onConfigurationChanged(newConfig);
+
+        setCustomLocale();
+
 
     }
 

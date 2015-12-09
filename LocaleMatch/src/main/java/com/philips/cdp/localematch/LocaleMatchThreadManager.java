@@ -74,8 +74,8 @@ public class LocaleMatchThreadManager {
 
 			try {
 				String urlStr = URL
-				        + mCountryCode.toUpperCase(Locale.getDefault()) + "/"
-				        + mLanguageCode.toLowerCase(Locale.getDefault())+".json";
+				        + mCountryCode.toUpperCase() + "/"
+				        + mLanguageCode.toLowerCase()+".json";
 				Log.d(LOG_TAG,"LocaleMatchThreadManager, performHttpRequest,URL = "
 				                + urlStr);
 				URL url = new URL(urlStr);

@@ -12,7 +12,7 @@ public class DateUtil {
 
     public static String getTimestamp() {
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         String formattedDate = df.format(c.getTime());
         return formattedDate;

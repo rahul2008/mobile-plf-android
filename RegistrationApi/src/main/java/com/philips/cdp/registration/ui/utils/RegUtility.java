@@ -50,8 +50,8 @@ public class RegUtility {
         String terms = activity.getString(R.string.TermsAndConditionsText);
         SpannableString spanableString = new SpannableString(termsAndCondition);
 
-        int termStartIndex = termsAndCondition.toLowerCase(Locale.getDefault()).indexOf(
-                terms.toLowerCase(Locale.getDefault()));
+        int termStartIndex = termsAndCondition.toLowerCase().indexOf(
+                terms.toLowerCase());
         spanableString.setSpan(termsAndConditionClickListener, termStartIndex, termStartIndex + terms.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         removeUnderlineFromLink(spanableString);
 
@@ -71,8 +71,8 @@ public class RegUtility {
         String link = activity.getString(R.string.Receive_Philips_News_Meaning_lbltxt);
         SpannableString spanableString = new SpannableString(receivePhilipsNews);
 
-        int termStartIndex = receivePhilipsNews.toLowerCase(Locale.getDefault()).indexOf(
-                link.toLowerCase(Locale.getDefault()));
+        int termStartIndex = receivePhilipsNews.toLowerCase().indexOf(
+                link.toLowerCase());
         spanableString.setSpan(receivePhilipsNewsClickListener, termStartIndex, termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         removeUnderlineFromLink(spanableString);
 
@@ -93,8 +93,8 @@ public class RegUtility {
         String link = activity.getString(R.string.Philips_URL_txt);
         SpannableString spanableString = new SpannableString(moreAccountSettings);
 
-        int termStartIndex = moreAccountSettings.toLowerCase(Locale.getDefault()).indexOf(
-                link.toLowerCase(Locale.getDefault()));
+        int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
+                link.toLowerCase());
         spanableString.setSpan(accountSettingsPhilipsClickListener, termStartIndex, termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         removeUnderlineFromLink(spanableString);
