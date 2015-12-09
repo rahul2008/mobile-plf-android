@@ -2,22 +2,20 @@ package com.philips.pins.shinelib.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformationCached;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 
-import java.text.FieldPosition;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.longThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -25,7 +23,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class DeviceInformationCacheTest {
     public static final SHNCapabilityDeviceInformation.SHNDeviceInformationType INFORMATION_TYPE = SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision;
     public static final String TEST_MESSAGE = "TEST_MESSAGE";
-    public static final String TEST_DATE_STRING = "TEST_DATE_STRING";
     public static final Date TEST_DATE = new Date();
 
     @Mock
@@ -37,8 +34,6 @@ public class DeviceInformationCacheTest {
     @Mock
     private SharedPreferences.Editor editorMock;
 
-    @Mock
-    private SimpleDateFormat simpleDateFormatMock;
     private DeviceInformationCache deviceInformationCache;
 
     @Before
@@ -47,7 +42,7 @@ public class DeviceInformationCacheTest {
 
         when(contextMock.getSharedPreferences(ShinePreferenceWrapper.SHINELIB_PREFERENCES_FILE_KEY + DeviceInformationCache.DEVICE_INFORMATION_CACHE, Context.MODE_PRIVATE)).thenReturn(sharedPreferencesMock);
 
-        deviceInformationCache = new TestDeviceInformationCache(contextMock);
+        deviceInformationCache = new DeviceInformationCache(contextMock);
     }
 
     @Test
@@ -61,8 +56,7 @@ public class DeviceInformationCacheTest {
 
     @Test
     public void ShouldReturnDateOfCachedType_WhenQueried() throws ParseException {
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, null)).thenReturn(TEST_DATE_STRING);
-        when(simpleDateFormatMock.parse(TEST_DATE_STRING)).thenReturn(TEST_DATE);
+        when(sharedPreferencesMock.getLong(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, 0)).thenReturn(TEST_DATE.getTime());
 
         Date date = deviceInformationCache.getDate(INFORMATION_TYPE);
 
@@ -72,27 +66,29 @@ public class DeviceInformationCacheTest {
     @Test
     public void ShouldPersistValueAndDate_WhenSaveIsCalled() {
         when(sharedPreferencesMock.edit()).thenReturn(editorMock);
-        when(simpleDateFormatMock.format(any(Date.class), any(StringBuffer.class), any(FieldPosition.class))).thenReturn(new StringBuffer(TEST_DATE_STRING));
 
         deviceInformationCache.save(INFORMATION_TYPE, TEST_MESSAGE);
 
         verify(editorMock).putString(INFORMATION_TYPE.name(), TEST_MESSAGE);
-        verify(editorMock).putString(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, TEST_DATE_STRING);
+        verify(editorMock).putLong(eq(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX), valueBetween(TEST_DATE.getTime(), new Date().getTime()));
+
         verify(editorMock).commit();
     }
 
-    // ---------
+    private long valueBetween(final long min, final long max) {
+        return longThat(new ArgumentMatcher<Long>() {
+            @Override
+            public boolean matches(final Object argument) {
+                boolean res = false;
 
-    private class TestDeviceInformationCache extends DeviceInformationCache {
+                if (argument instanceof Long) {
+                    long millis = ((Long) argument).longValue();
+                    res = min < millis;
+                    res &= millis < max;
+                }
 
-        public TestDeviceInformationCache(@NonNull final Context context) {
-            super(context);
-        }
-
-        @NonNull
-        @Override
-        SimpleDateFormat getSimpleDateFormat() {
-            return simpleDateFormatMock;
-        }
+                return res;
+            }
+        });
     }
 }

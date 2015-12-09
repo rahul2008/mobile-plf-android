@@ -7,14 +7,11 @@ import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DeviceInformationCache {
 
     public static final String DEVICE_INFORMATION_CACHE = "DeviceInformationCache";
-    public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_SUFFIX = "date";
 
     @NonNull
@@ -27,20 +24,17 @@ public class DeviceInformationCache {
     public void save(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType, @NonNull final String value) {
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString(informationType.name(), value);
-        edit.putString(informationType.name() + DATE_SUFFIX, getSimpleDateFormat().format(new Date()));
+        edit.putLong(informationType.name() + DATE_SUFFIX, (new Date()).getTime());
         edit.commit();
     }
 
     @Nullable
     public Date getDate(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType) {
-        String dateString = sharedPreferences.getString(informationType.name() + DATE_SUFFIX, null);
+        long dateMillis = sharedPreferences.getLong(informationType.name() + DATE_SUFFIX, 0);
         Date date = null;
 
-        if (dateString != null) {
-            try {
-                date = getSimpleDateFormat().parse(dateString);
-            } catch (ParseException e) {
-            }
+        if (dateMillis > 0) {
+            date = new Date(dateMillis);
         }
 
         return date;
@@ -49,29 +43,5 @@ public class DeviceInformationCache {
     @Nullable
     public String getValue(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType) {
         return sharedPreferences.getString(informationType.name(), null);
-    }
-
-    @NonNull
-    SimpleDateFormat getSimpleDateFormat() {
-        return new SimpleDateFormat(DATE_PATTERN);
-    }
-
-    @Nullable
-    public static Date parseStringToDate(final String dateString) {
-        Date date = null;
-
-        if (dateString != null) {
-            try {
-                date = new SimpleDateFormat(DATE_PATTERN).parse(dateString);
-            } catch (ParseException e) {
-            }
-        }
-
-        return date;
-    }
-
-    @Nullable
-    public static String getDateAsString(@NonNull final Date date) {
-        return new SimpleDateFormat(DATE_PATTERN).format(date);
     }
 }
