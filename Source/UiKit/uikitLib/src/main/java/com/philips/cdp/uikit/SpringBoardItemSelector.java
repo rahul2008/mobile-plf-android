@@ -3,8 +3,11 @@ package com.philips.cdp.uikit;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,8 +22,9 @@ import com.philips.cdp.uikit.customviews.LayerListDrawable;
 public class SpringBoardItemSelector extends LinearLayout {
 
     private Drawable selector;
-    private int baseColor;
+    int baseColor;
     int overlayColor = 0;
+
     public SpringBoardItemSelector(Context context) {
         super(context);
     }
@@ -29,10 +33,9 @@ public class SpringBoardItemSelector extends LinearLayout {
         super(context, attrs);
         initViews(context, attrs);
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.verydarkBaseColor});
-        baseColor  = ar.getInt(0, R.attr.baseColor);
+        baseColor = ar.getInt(0, R.attr.baseColor);
         overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
-        overlayColor = Color.argb(89,Color.red(overlayColor),Color.green(overlayColor),Color.blue(overlayColor));
-        getBackgroundSelector();
+        overlayColor = Color.argb(89, Color.red(overlayColor), Color.green(overlayColor), Color.blue(overlayColor));
         selector = getBackgroundSelector();
         ar.recycle();
         //ToDO: Initialize ur seelctor
@@ -56,28 +59,22 @@ public class SpringBoardItemSelector extends LinearLayout {
     }
 
     private Drawable getBackgroundSelector() {
-        GradientDrawable d= (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
-        d.setColor(baseColor);
+        GradientDrawable d = (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
+        d.setColorFilter(baseColor, PorterDuff.Mode.SRC_ATOP);
         StateListDrawable background = new StateListDrawable();
         background.addState(new int[]{android.R.attr.state_pressed}, getPressedDrawable());
         background.addState(new int[]{}, d);
-      // background.addState(new int[]{}, new ColorDrawable(baseColor)); //
+       
         return background;
     }
 
     private Drawable getPressedDrawable() {
+        Drawable[] d = new Drawable[2];
+        d[0] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
+        ((GradientDrawable)d[0]).setColor(baseColor);
 
-      //  int baseColor = 0;
-     //   int overlayColor = 0; //35%
-
-        GradientDrawable[] d = new GradientDrawable[1];
-
-      //  d[0] =  (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
-      //  d[0].setColor(baseColor);
-        d[0] =  (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
-        d[0].setColor(overlayColor);
-
-
+        d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
+        ((GradientDrawable)d[1]).setColor(overlayColor);
         return new LayerListDrawable(d);
     }
 }
