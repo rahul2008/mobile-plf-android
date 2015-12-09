@@ -14,7 +14,7 @@ import android.content.SharedPreferences;
  */
 public class SHNDevicePreferenceWrapper {
 
-    private static final String SHN_DEVICE_PREFERENCES_FILE_KEY = ShinePreferenceWrapper.class.getCanonicalName() + "_PREFERENCES_FILE_KEY";
+    public static final String SHN_DEVICE_PREFERENCES_FILE_KEY = "_SHINELIB_DEVICE_PREFERENCES_FILE_KEY";
 
     private final SharedPreferences sharedPreferences;
 
@@ -24,6 +24,10 @@ public class SHNDevicePreferenceWrapper {
 
     private SHNDevicePreferenceWrapper(Context context, String address) {
         sharedPreferences = context.getSharedPreferences(address + SHN_DEVICE_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
     }
 
     public SharedPreferences.Editor edit() {
