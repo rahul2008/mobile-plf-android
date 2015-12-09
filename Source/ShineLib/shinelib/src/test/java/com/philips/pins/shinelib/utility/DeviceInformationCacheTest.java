@@ -70,25 +70,21 @@ public class DeviceInformationCacheTest {
         deviceInformationCache.save(INFORMATION_TYPE, TEST_MESSAGE);
 
         verify(editorMock).putString(INFORMATION_TYPE.name(), TEST_MESSAGE);
-        verify(editorMock).putLong(eq(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX), valueBetween(TEST_DATE.getTime(), new Date().getTime()));
-
-        verify(editorMock).commit();
-    }
-
-    private long valueBetween(final long min, final long max) {
-        return longThat(new ArgumentMatcher<Long>() {
+        verify(editorMock).putLong(eq(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX), longThat(new ArgumentMatcher<Long>() {
             @Override
             public boolean matches(final Object argument) {
                 boolean res = false;
 
                 if (argument instanceof Long) {
                     long millis = ((Long) argument).longValue();
-                    res = min < millis;
-                    res &= millis < max;
+                    res = TEST_DATE.getTime() < millis;
+                    res &= millis < new Date().getTime();
                 }
 
                 return res;
             }
-        });
+        }));
+
+        verify(editorMock).commit();
     }
 }
