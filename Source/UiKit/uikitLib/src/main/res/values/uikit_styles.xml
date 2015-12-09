@@ -108,8 +108,4 @@
         <item name="android:windowExitAnimation">@anim/uikit_zoom_in</item>
     </style>
 
-    <style name="PhilipsDialogAnimationFade">
-        <item name="android:windowEnterAnimation">@anim/fade_in_dialog</item>
-        <item name="android:windowExitAnimation">@anim/fade_out_dialog</item>
-    </style>
 </resources>
