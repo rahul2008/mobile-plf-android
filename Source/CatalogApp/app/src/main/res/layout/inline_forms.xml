@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <com.philips.cdp.uikit.customviews.PhilipsTextInputLayout
-        android:id="@+id/disabledInputTextlayout"
+        android:id="@+id/InlineForms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -38,13 +38,6 @@
                 android:hint="Samanta"
                 android:text="Samanta"/>
         </LinearLayout>
-    </com.philips.cdp.uikit.customviews.PhilipsTextInputLayout>
-
-
-    <com.philips.cdp.uikit.customviews.PhilipsTextInputLayout
-        android:id="@+id/firstnamelayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/firstnamelayouthorzontal"
@@ -71,14 +64,6 @@
                 android:hint="Jones"
             />
         </LinearLayout>
-    </com.philips.cdp.uikit.customviews.PhilipsTextInputLayout>
-
-
-    <com.philips.cdp.uikit.customviews.PhilipsTextInputLayout
-        android:id="@+id/lastnamelayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/firstnamelayout">
 
         <LinearLayout
             android:id="@+id/lastnamelayouthorizontal"
@@ -103,13 +88,6 @@
                 android:layout_weight="0.5"
                 android:hint="s.jones@philips.com"/>
         </LinearLayout>
-
-    </com.philips.cdp.uikit.customviews.PhilipsTextInputLayout>
-
-    <com.philips.cdp.uikit.customviews.PhilipsTextInputLayout
-        android:id="@+id/fullnamelast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/fullnamelasthorzontal"

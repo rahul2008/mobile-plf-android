@@ -2,20 +2,15 @@ package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-
-import android.graphics.Rect;
 import android.os.Parcelable;
-import android.text.Layout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.R.color;
@@ -28,28 +23,25 @@ public class PhilipsTextInputLayout extends LinearLayout{
     View view ;
     private Validator validator;
     private boolean isErrorShown = false;
-    View errorView;
     boolean isFocused = false;
-    //int dividercolor;
 
-    public PhilipsTextInputLayout(final Context context) {
-        super(context);
-    }
+    OnFocusChangeListener listener = new OnFocusChangeListener() {
+
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus) {
+                Toast.makeText(getContext(),"On Focuss", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(),"No Focus", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     public PhilipsTextInputLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         setOrientation(VERTICAL);
-        initErrorView();
-        //dividercolor = getinitialColor();
     }
 
-    /*@Override
-    protected void onFocusChanged(final boolean gainFocus, final int direction, final Rect previouslyFocusedRect) {
-        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-
-    }*/
-
-    private int getinitialColor(){
+    private int getFocusedColor(){
         TypedArray array = getContext().obtainStyledAttributes(R.styleable.PhilipsUIKit);
         int dividercolor = array.getColor(R.styleable.PhilipsUIKit_veryLightColor, 0);
         array.recycle();
@@ -60,108 +52,95 @@ public class PhilipsTextInputLayout extends LinearLayout{
         }
     }
 
-    private int getBaseColor(){
+   /* private int getBaseColor(){
 
         TypedArray array = getContext().obtainStyledAttributes(R.styleable.PhilipsUIKit);
         int basecolor = array.getColor(R.styleable.PhilipsUIKit_baseColor, 0);
         array.recycle();
         return basecolor;
-    }
+    }*/
 
-    private void initErrorView(){
+    private View createNewErrorView(){
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        errorView = inflater.inflate(R.layout.uikit_input_text_inline_error, null, false);
-        errorView.setId(R.id.errorlayout);
+        final View errorView = inflater.inflate(R.layout.uikit_input_text_inline_error, null, false);
 
                 errorView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(final View view) {
-                        highLightLines((LinearLayout) errorView.getParent(), getinitialColor(), "base");
+                       /* highLightErrorView(indexOfChild((LinearLayout) errorView.getParent()), getFocusedColor(), "base");
                         EditText text;
                         text = (EditText) ((LinearLayout) ((LinearLayout) errorView.getParent()).getChildAt(0)).getChildAt(0);
-                        highLightTextFeilds(text, getBaseColor(), "base");
-                        setErrorMessageVisibilty(View.GONE);
+                        highLightTextFeilds(text, getBaseColor(), "base");*/
+                        indexOfChild(errorView);
+                        errorView.setVisibility(View.GONE);
+                        isErrorShown = false;
+                      //  removeView(errorView);
                     }
                 });
+        return errorView;
     }
-
-    void setErrorMessageVisibilty(int visibilty){
-            errorView.setVisibility(visibilty);
-            isErrorShown = false;
-    }
-
 
 
     public void showError(EditText edittext) {
-        LinearLayout parent = ((LinearLayout) ((LinearLayout) edittext.getParent()).getParent());
+        LinearLayout parent = (LinearLayout)edittext.getParent();
+        int indexofParent = indexOfChild(parent);
+
         if (!isErrorShown) {
-            removeLine(parent.getChildAt(1));
-            parent.addView(errorView, 1);
-            drawLine();
-            setErrorMessageVisibilty(View.VISIBLE);
-            /*
-                If error is shown please don't show again
-             */
+            addView(createNewErrorView(), indexofParent +1);
+
+            //If error is shown please don't show again
             isErrorShown = true;
         }
 
-        setNumberofchild(parent);
-
         int themecolor = getThemeColor();
+
         if(themecolor == getResources().getColor(color.uikit_philips_bright_orange)){
-            highLightLines(parent, color.uikit_enricher_red, "Orange");
-            highLightTextFeilds(edittext, color.uikit_enricher_red, "Orange");
+            highLightErrorView(indexofParent, color.uikit_enricher_red, "Orange");
+            highLightTextFeilds(parent, color.uikit_enricher_red, "Orange");
         }else {
-
-            highLightLines(parent, color.uikit_philips_bright_orange, "Orange");
-            highLightTextFeilds(edittext, color.uikit_philips_bright_orange, "Orange");
+            highLightErrorView(indexofParent, color.uikit_philips_bright_orange, "Orange");
+            highLightTextFeilds(parent, color.uikit_philips_bright_orange, "Orange");
         }
     }
 
-    private void highLightTextFeilds(EditText editText, int color, String isBase){
-        LinearLayout parent = (LinearLayout)editText.getParent();
+    private void highLightErrorView(int indexofParent, int color, String isBase){
+
+        /*
+            Line HighLighting
+         */
+        View aboveLine = getChildAt(indexofParent-1);
+        View belowLine = getChildAt(indexofParent+2);
+
         if(isBase.equalsIgnoreCase("Orange")) {
-            ((EditText) (parent.getChildAt(0))).setTextColor(getResources().getColor(color));
+            aboveLine.setBackgroundColor(getResources().getColor(color));
         }else{
-            ((EditText) (parent.getChildAt(0))).setTextColor(color);
+            aboveLine.setBackgroundColor(color);
         }
 
         if(isBase.equalsIgnoreCase("Orange")) {
-            ((EditText) (parent.getChildAt(1))).setTextColor(getResources().getColor(color));
-        }else{
-            ((EditText) (parent.getChildAt(1))).setTextColor(color);
+            belowLine.setBackgroundColor(getResources().getColor(color));
+        }else {
+            belowLine.setBackgroundColor(color);
         }
-        //((EditText)(parent.getChildAt(1))).setTextColor(getResources().getColor(color));
-
     }
 
-    private void highLightLines(LinearLayout parent, int color, String isBase){
-        View highlightchild = parent.getChildAt(2);
-        int i = parent.indexOfChild(highlightchild);
+    private void highLightTextFeilds(LinearLayout parent, int color, String isBase){
+
+        EditText editText1 = (EditText) parent.getChildAt(0);
+        EditText editText2 = (EditText) parent.getChildAt(1);
 
         if(isBase.equalsIgnoreCase("Orange")) {
-            highlightchild.setBackgroundColor(getResources().getColor(color));
+            editText1.setTextColor(getResources().getColor(color));
         }else{
-            highlightchild.setBackgroundColor(color);
+            editText1.setTextColor(color);
         }
 
-        LinearLayout parentsparent = (LinearLayout)parent.getParent();
-        LinearLayout parentbefore = (LinearLayout)parentsparent.getChildAt(i-1);
-
-        int count = parentbefore.getChildCount();
-        int beforelineindex;
-
-        if (count == 3)
-            beforelineindex = 2;
-        else
-            beforelineindex = 1;
-
-        View highlightbefore = parentbefore.getChildAt(beforelineindex);
         if(isBase.equalsIgnoreCase("Orange")) {
-            highlightbefore.setBackgroundColor(getResources().getColor(color));
+            editText2.setTextColor(getResources().getColor(color));
         }else{
-            highlightbefore.setBackgroundColor(color);
+            editText2.setTextColor(color);
         }
+
     }
 
 
@@ -180,7 +159,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
         view = new View(getContext());
         LayoutParams layoutparams = new LayoutParams(LayoutParams.MATCH_PARENT,1);
         view.setLayoutParams(layoutparams);
-        view.setBackgroundColor(getinitialColor());
+        view.setBackgroundColor(getFocusedColor());
         addView(view);
     }
 
@@ -196,10 +175,6 @@ public class PhilipsTextInputLayout extends LinearLayout{
         return themeBaseColor;
     }
 
-    private void removeError(){
-        errorView.setVisibility(View.GONE);
-    }
-
 
     public interface Validator {
         boolean validate(String inputToBeValidated);
@@ -212,16 +187,46 @@ public class PhilipsTextInputLayout extends LinearLayout{
     @Override
     public void addView(final View child, final ViewGroup.LayoutParams params) {
         super.addView(child, params);
+
+        child.setFocusable(true);
+        child.setFocusableInTouchMode(true);
+        child.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Toast.makeText(getContext(), "On Focuss " +v.toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "No Focus", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        child.setClickable(true);
+        child.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        child.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, final MotionEvent event) {
+                Toast.makeText(getContext(), "On touch", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
         drawLine();
         setDisabledTextFeild(child);
     }
 
-    private void setDisabledTextFeild(View child){
-        EditText editText1 = (EditText)((LinearLayout)child).getChildAt(0);
-        EditText editText2 = (EditText)((LinearLayout)child).getChildAt(1);
+
+    private void setDisabledTextFeild(View child) {
+        EditText editText1 = (EditText) ((LinearLayout) child).getChildAt(0);
+        EditText editText2 = (EditText) ((LinearLayout) child).getChildAt(1);
         boolean isEnabled = editText1.isEnabled();
-        if(isEnabled == false){
-            LinearLayout parent = ((LinearLayout)((LinearLayout)child).getParent());
+        if (isEnabled == false) {
+            LinearLayout parent = ((LinearLayout) ((LinearLayout) child).getParent());
             View line = parent.getChildAt(1);
             line.setBackgroundColor(getResources().getColor(R.color.uikit_enricher4));
             child.setBackgroundColor(getResources().getColor(R.color.uikit_enricher7));

@@ -32,7 +32,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inline_forms);
         disableActionbarShadow(this);
-        final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.lastnamelayout);
+        final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.InlineForms);
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
         email.setFocusable(true);
 
