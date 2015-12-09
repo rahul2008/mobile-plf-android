@@ -16,7 +16,11 @@
     <string name="misc_shadow_message">Miscellaneous Buttons with Shadow</string>
     <string name="action_icons">Action Icons</string>
     <string name="enter_text_here">Enter text here</string>
-    <string name="invalid_email_format">Invalid email</string>
+    <string name="FirstName">First Name</string>
+    <string name="LastName">Last Name</string>
+    <string name="FullName">Full Name</string>
+    <string name="EmailAddress">Email Address</string>
+    <string name="invalid_email_format">Incorrect email format</string>
     <string name="invalid_pwd_format">Invalid password format</string>
     <string name="sample_button">Sample button</string>
     <string name="uikit_hamburger">Hamburger</string>
