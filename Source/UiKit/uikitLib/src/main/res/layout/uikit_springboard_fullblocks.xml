@@ -292,7 +292,6 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-
             android:layout_weight="0.5"
             android:background="@drawable/uikit_springboard_item_selector"
             android:clickable="true"

@@ -28,7 +28,7 @@
         android:layout_weight="0.25"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/item1"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -36,18 +36,15 @@
             android:layout_marginRight="20dp"
             android:layout_weight="0.5"
             android:clickable="true"
-            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp">
+            >
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:foregroundGravity="center_vertical|center_horizontal|center"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
                 app:themeStyle="theme" />
 
             <TextView
@@ -55,14 +52,16 @@
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_below="@id/imageView1"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
                 android:text="TextView"
                 android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/item2"
@@ -71,6 +70,7 @@
             android:layout_marginBottom="20dp"
             android:layout_weight="0.5"
             android:clickable="true"
+            android:background="@drawable/uikit_springboard_layout_shape"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
             android:paddingBottom="15dp">
@@ -81,7 +81,6 @@
                 android:layout_height="53dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-
                 app:themeStyle="theme" />
 
             <TextView
@@ -192,9 +191,8 @@
             android:id="@+id/item5"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="0.5"
-
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"

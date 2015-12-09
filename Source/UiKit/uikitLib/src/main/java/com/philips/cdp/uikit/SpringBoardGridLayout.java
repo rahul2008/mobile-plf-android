@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -56,9 +58,12 @@ public class SpringBoardGridLayout extends LinearLayout {
     }
 
     private Drawable getBackgroundSelector() {
+        GradientDrawable d= (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
+        d.setColor(baseColor);
         StateListDrawable background = new StateListDrawable();
         background.addState(new int[]{android.R.attr.state_pressed}, getPressedDrawable());
-        background.addState(new int[]{}, new ColorDrawable(baseColor)); //
+        background.addState(new int[]{}, d);
+      // background.addState(new int[]{}, new ColorDrawable(baseColor)); //
         return background;
     }
 
@@ -67,9 +72,13 @@ public class SpringBoardGridLayout extends LinearLayout {
       //  int baseColor = 0;
      //   int overlayColor = 0; //35%
 
-        Drawable[] d = new Drawable[2];
-        d[0] = new ColorDrawable(baseColor);
-        d[1] = new ColorDrawable(overlayColor);
+        GradientDrawable[] d = new GradientDrawable[2];
+
+        d[0] =  (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
+        d[0].setColor(baseColor);
+        d[1] =  (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape);
+        d[1].setColor(overlayColor);
+
 
         return new LayerListDrawable(d);
     }
