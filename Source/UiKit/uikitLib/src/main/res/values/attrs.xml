@@ -37,6 +37,14 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="UikitSpringBoardLayout">
+        <attr name="opacityStyle" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="with" value="1"/>
+
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="ActionButton">
         <attr name="actionButtonShape" format="enum">
             <enum name="square" value="0"/>

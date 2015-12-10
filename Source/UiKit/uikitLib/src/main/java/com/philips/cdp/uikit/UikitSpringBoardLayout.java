@@ -21,7 +21,9 @@ import com.philips.cdp.uikit.customviews.LayerListDrawable;
 public class UikitSpringBoardLayout extends LinearLayout {
 
     private Drawable selector;
+    public static int STYLE_THEME = 1;
     int baseColor;
+    int colorStyle=1;
     int overlayColor = 0;
     Context mContext;
     public UikitSpringBoardLayout(Context context) {
@@ -31,10 +33,20 @@ public class UikitSpringBoardLayout extends LinearLayout {
     public UikitSpringBoardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext=context;
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UikitSpringBoardLayout);
+        colorStyle = typedArray.getInt(R.styleable.TintableImageView_themeStyle, 0);
+        typedArray.recycle();
+
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.verydarkBaseColor});
         baseColor = ar.getInt(0, R.attr.baseColor);
-        overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
-        overlayColor = Color.argb(89, Color.red(overlayColor), Color.green(overlayColor), Color.blue(overlayColor));
+        if(colorStyle==0) {
+            overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
+        }
+        else {
+            overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
+            overlayColor = Color.argb(89, Color.red(overlayColor), Color.green(overlayColor), Color.blue(overlayColor));
+        }
         selector = getBackgroundSelector();
         ar.recycle();
         //ToDO: Initialize ur seelctor
@@ -50,7 +62,7 @@ public class UikitSpringBoardLayout extends LinearLayout {
         super.addView(child, params);
         selector = getBackgroundSelector();
         int version = Build.VERSION.SDK_INT;
-        if(version>16) {
+        if(version<16) {
             child.setBackgroundDrawable(selector);
         }
         else {

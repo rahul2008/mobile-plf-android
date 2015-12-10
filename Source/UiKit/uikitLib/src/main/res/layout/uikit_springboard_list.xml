@@ -10,8 +10,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:isScrollContainer="true"
-    android:paddingLeft="33dp"
-    android:paddingRight="33dp"
+    android:paddingLeft="32dp"
+    android:paddingRight="31dp"
     android:background="?attr/gradWindowBackground"
     android:orientation="vertical">
 
@@ -23,12 +23,13 @@
         android:layout_gravity="center"
         android:textColor="@color/uikit_white"
         fontPath="fonts/centralesanslight.ttf"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="13dp"
         android:textSize="38dp"/>
 
     <com.philips.cdp.uikit.UikitSpringBoardLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+        app:opacityStyle="none"
         android:layout_height="match_parent">
 
 
@@ -69,11 +70,9 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-
             android:clickable="true"
             android:id="@+id/row_layout2"
             android:gravity="center|left"
-
             android:layout_marginTop="12dp"
             android:orientation="horizontal"
 
