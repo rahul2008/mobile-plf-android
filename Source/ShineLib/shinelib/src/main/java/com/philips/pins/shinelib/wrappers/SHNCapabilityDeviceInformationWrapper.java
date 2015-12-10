@@ -70,11 +70,11 @@ public class SHNCapabilityDeviceInformationWrapper implements SHNCapabilityDevic
             public void run() {
                 wrappedShnCapability.readDeviceInformation(deviceInformationType, new Listener() {
                     @Override
-                    public void onDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate) {
+                    public void onDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired) {
                         Runnable resultRunnable = new Runnable() {
                             @Override
                             public void run() {
-                                listener.onDeviceInformation(shnDeviceInformationType, value, lastCacheUpdate);
+                                listener.onDeviceInformation(shnDeviceInformationType, value, dateWhenAcquired);
                             }
                         };
                         userHandler.post(resultRunnable);

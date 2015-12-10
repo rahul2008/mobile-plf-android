@@ -38,16 +38,26 @@ public class SHNCapabilityDeviceInformationCached implements SHNCapabilityDevice
 
     @Deprecated
     public void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
-        shnServiceDeviceInformation.readDeviceInformation(shnDeviceInformationType, shnStringResultListener);
+        shnServiceDeviceInformation.readDeviceInformation(shnDeviceInformationType, new Listener() {
+            @Override
+            public void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired) {
+                shnStringResultListener.onActionCompleted(value, SHNResult.SHNOk);
+            }
+
+            @Override
+            public void onError(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final SHNResult error) {
+                shnStringResultListener.onActionCompleted(null, error);
+            }
+        });
     }
 
     @Override
     public void readDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final Listener listener) {
         shnServiceDeviceInformation.readDeviceInformation(deviceInformationType, new Listener() {
             @Override
-            public void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate) {
+            public void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired) {
                 deviceInformationCache.save(deviceInformationType, value);
-                listener.onDeviceInformation(deviceInformationType, value, lastCacheUpdate);
+                listener.onDeviceInformation(deviceInformationType, value, dateWhenAcquired);
             }
 
             @Override
@@ -68,7 +78,7 @@ public class SHNCapabilityDeviceInformationCached implements SHNCapabilityDevice
         for (SHNDeviceInformationType value : SHNDeviceInformationType.values()) {
             readDeviceInformation(value, new Listener() {
                 @Override
-                public void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate) {
+                public void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired) {
                 }
 
                 @Override
