@@ -5,7 +5,7 @@
     <item android:state_window_focused="false" android:drawable="@android:color/transparent"/>
     <gradient
         android:angle="315"
-        android:startColor="@color/uikit_white"
-        android:endColor="@color/uikit_offwhite"/>
+        android:startColor="@color/uikit_offwhite"
+        android:endColor="@color/uikit_white"/>
 
 </shape>

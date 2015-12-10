@@ -35,7 +35,7 @@ public class UikitSpringBoardLayout extends LinearLayout {
         mContext=context;
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UikitSpringBoardLayout);
-        colorStyle = typedArray.getInt(R.styleable.TintableImageView_themeStyle, 0);
+        colorStyle = typedArray.getInt(R.styleable.UikitSpringBoardLayout_opacityStyle, 0);
         typedArray.recycle();
 
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.verydarkBaseColor});
@@ -44,6 +44,7 @@ public class UikitSpringBoardLayout extends LinearLayout {
             overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
         }
         else {
+
             overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
             overlayColor = Color.argb(89, Color.red(overlayColor), Color.green(overlayColor), Color.blue(overlayColor));
         }

@@ -27,6 +27,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
+        app:opacityStyle="with"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -35,7 +36,6 @@
             android:layout_height="fill_parent"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
-
             android:layout_weight="0.5"
             android:clickable="true"
             android:orientation="vertical"
