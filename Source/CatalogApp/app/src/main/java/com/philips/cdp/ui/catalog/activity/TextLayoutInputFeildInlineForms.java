@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -34,8 +36,28 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
         setContentView(R.layout.inline_forms);
         disableActionbarShadow(this);
         final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.InlineForms);
-        //EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
+        final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
        // email.setFocusable(true);
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(final Editable s) {
+                boolean result = validateEmail(email,email.hasFocus());
+                if(result){
+                        layout.removeError(email);
+                }
+            }
+        });
 
         layout.setValidator(new PhilipsTextInputLayout.Validator() {
             @Override
@@ -48,43 +70,6 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
                 }
             }
         });
-
-
-        /*email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(final View v, final boolean hasFocus) {
-
-                if (hasFocus) {
-                    // Toast.makeText(getApplicationContext(), "on focus", Toast.LENGTH_LONG).show();
-                } else {
-                    //   Toast.makeText(getApplicationContext(), "lost focus", Toast.LENGTH_LONG).show();
-                    boolean validate = validateEmail(email.getText().toString());
-                    if (!validate)
-                        layout.showError(email);
-                }
-            }
-        });*/
-
-        /*final PhilipsTextInputLayout layout1 = (PhilipsTextInputLayout) findViewById(R.id.firstnamelayout);
-        final EditText email1 = (EditText) layout1.findViewById(R.id.firstnamevalue);
-        email1.setFocusable(true);
-
-
-
-        email1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(final View v, final boolean hasFocus) {
-
-                if(hasFocus){
-                    // Toast.makeText(getApplicationContext(), "on focus", Toast.LENGTH_LONG).show();
-                }else {
-                    //   Toast.makeText(getApplicationContext(), "lost focus", Toast.LENGTH_LONG).show();
-                    boolean validate = validateEmail(email1.getText().toString());
-                    if(!validate)
-                        layout.showError(email1);
-                }
-            }
-        });*/
 
     }
 

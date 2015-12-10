@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.R.color;
@@ -125,6 +126,21 @@ public class PhilipsTextInputLayout extends LinearLayout{
         return errorView;
     }
 
+    public void removeError(View editText){
+        //Toast.makeText(getContext(),"Remove Error", Toast.LENGTH_SHORT).show();
+        LinearLayout parent = (LinearLayout)editText.getParent();
+        int indexofparent = indexOfChild(parent);
+
+        View errorview = getChildAt(indexofparent+1);
+
+        if(errorview instanceof RelativeLayout){
+            int index = indexOfChild(errorview);
+            removeView(errorview);
+            set.remove(index - 1);
+            resetcolor(index - 1);
+        }
+    }
+
     private void resetcolor(int indexofParent){
          LinearLayout parent = (LinearLayout)getChildAt(indexofParent);
         if(parent.hasFocus()){
@@ -218,6 +234,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
 
     public interface Validator {
         void validate(View EditText, boolean hasfocus);
+
     }
 
     public void setValidator(Validator validator) {
