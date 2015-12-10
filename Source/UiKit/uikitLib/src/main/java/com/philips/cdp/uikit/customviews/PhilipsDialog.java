@@ -82,7 +82,7 @@ public class PhilipsDialog extends Dialog {
                                  KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     if (isAnimationEnabled)
-                        dismissDialog();
+                        dismissPhilipsDialog();
                     else
                         dismiss();
                 }
@@ -131,8 +131,10 @@ public class PhilipsDialog extends Dialog {
         theIntrinsic.forEach(tmpOut);
         tmpOut.copyTo(screenShotBitmap);
         Window window = this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
         window.setBackgroundDrawable(new BitmapDrawable(screenShotBitmap));
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.setGravity(Gravity.CENTER);
@@ -146,20 +148,15 @@ public class PhilipsDialog extends Dialog {
         this.blurRadius = blurRadius;
     }
 
-    @Override
-    public void show() {
-        if (isAnimationEnabled)
-            showDialog();
-        super.show();
-    }
-
-    private void showDialog() {
+    public void showPhilipsDialog() {
         if (isBlur && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
             renderUsingRenderScript(takeScreenShot());
         else if (isBlur)
             showFastBlurWithoutThreading();
 
-        startAnimation();
+        if (isAnimationEnabled)
+            startAnimation();
+        show();
     }
 
     private void startAnimation() {
@@ -172,7 +169,7 @@ public class PhilipsDialog extends Dialog {
     }
 
 
-    public void dismissDialog() {
+    public void dismissPhilipsDialog() {
         Animation anim = AnimationUtils.loadAnimation(activity, R.anim.uikit_modal_alert_zoom_in);
         LinearLayout parent = (LinearLayout) findViewById(R.id.parent_id);
         anim.setAnimationListener(new Animation.AnimationListener() {
