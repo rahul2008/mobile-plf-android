@@ -2,6 +2,9 @@ package com.philips.cdp.registration.hsdp;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Base64;
+import android.util.Base64InputStream;
+import android.util.Base64OutputStream;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPClientInfo;
@@ -18,11 +21,19 @@ import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.security.Key;
 import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by 310190722 on 9/15/2015.
@@ -129,7 +140,7 @@ public class HsdpUser {
 
                     }else if (dhpAuthenticationResponse.responseCode.equals(RegConstants.INVALID_ACCESS_TOKEN_CODE) || dhpAuthenticationResponse.responseCode.equals(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
                         RLog.i(RLog.HSDP, "onHsdsLogoutFailure : responseCode : " + dhpAuthenticationResponse.responseCode +" message : " + dhpAuthenticationResponse.message);
-                        logoutHandler.onLogoutFailure(Integer.parseInt(dhpAuthenticationResponse.responseCode),dhpAuthenticationResponse.message);
+                        logoutHandler.onLogoutFailure(Integer.parseInt(dhpAuthenticationResponse.responseCode), dhpAuthenticationResponse.message);
 
                     }else {
                         handler.post(new Runnable() {
@@ -235,11 +246,12 @@ public class HsdpUser {
         try {
             FileOutputStream fos = mContext.openFileOutput(HSDP_RECORD_FILE, 0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(mHsdpUserRecord);
+            String objectPlainString = objectToString(mHsdpUserRecord) ;
+            byte[] ectext =  encrypt(objectPlainString);
+            oos.writeObject(ectext);
             oos.close();
             fos.close();
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -247,12 +259,12 @@ public class HsdpUser {
         try {
             FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            mHsdpUserRecord = (HsdpUserRecord) ois.readObject();
+            byte[] enctText = (byte[])ois.readObject();
+            byte [] decrtext =  decrypt(enctText);
+            mHsdpUserRecord = (HsdpUserRecord) stringToObject(new String(decrtext));
 
         } catch (Exception e) {
-            e.printStackTrace();
         }
-
         return mHsdpUserRecord;
     }
 
@@ -261,5 +273,56 @@ public class HsdpUser {
         mHsdpUserRecord = null;
     }
 
+    private  String objectToString(Serializable  obj) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(
+                    new Base64OutputStream(baos, Base64.NO_PADDING
+                            | Base64.NO_WRAP));
+            oos.writeObject(obj);
+            oos.close();
+            return baos.toString("UTF-8");
+        } catch (IOException e) {
+        }
+        return null;
+    }
+
+    private  Object stringToObject(String str) {
+        try {
+            return new ObjectInputStream(new Base64InputStream(
+                    new ByteArrayInputStream(str.getBytes()), Base64.NO_PADDING
+                    | Base64.NO_WRAP)).readObject();
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    private  byte[] encrypt(String text ){
+        try{
+            Key key = (Key) new SecretKeySpec(secretKey.getBytes(), "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] encText = cipher.doFinal(text.getBytes());
+            return  encText;
+
+        }catch (Exception  ex){
+        }
+        return null;
+    }
+
+
+    private  byte[] decrypt(byte[] encByte){
+        try{
+            Key key = (Key) new SecretKeySpec(secretKey.getBytes(), "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] decText = cipher.doFinal(encByte);
+            return  decText;
+
+        }catch (Exception  ex){
+        }
+        return null;
+    }
+    private  final String secretKey = "ASecureSecretKey";
 
 }
