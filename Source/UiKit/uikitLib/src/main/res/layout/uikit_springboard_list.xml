@@ -26,7 +26,7 @@
         android:layout_marginBottom="15dp"
         android:textSize="38dp"/>
 
-    <com.philips.cdp.uikit.SpringBoardItemSelector
+    <com.philips.cdp.uikit.UikitSpringBoardLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:id="@+id/row_layout1"
-
             android:orientation="horizontal"
             android:layout_marginTop="12dp"
             android:gravity="center|left">
@@ -49,8 +48,8 @@
                 android:layout_marginLeft="33dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginTop="11dp"
                 app:themeStyle="theme" />
 
             <TextView
@@ -85,8 +84,8 @@
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginTop="11dp"
                 android:layout_marginLeft="33dp"
                 app:themeStyle="theme" />
 
@@ -124,8 +123,8 @@
                 android:layout_height="33dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginTop="11dp"
                 android:layout_marginLeft="33dp"
                 app:themeStyle="theme" />
 
@@ -159,8 +158,8 @@
                 android:layout_height="33dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginTop="11dp"
                 android:layout_marginLeft="33dp"
                 app:themeStyle="theme" />
 
@@ -196,9 +195,9 @@
                 android:layout_height="33dp"
                 android:layout_marginLeft="33dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="11dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="11dp"
                 app:themeStyle="theme" />
 
             <TextView
@@ -235,8 +234,8 @@
                 android:layout_marginLeft="33dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginTop="11dp"
                 app:themeStyle="theme" />
 
             <TextView
@@ -256,6 +255,6 @@
 
 
 
-    </com.philips.cdp.uikit.SpringBoardItemSelector>
+    </com.philips.cdp.uikit.UikitSpringBoardLayout>
 </LinearLayout><!--160 , 180-->
 </ScrollView>
