@@ -21,7 +21,7 @@
 
             <TextView
                 android:id="@+id/diabaledtextfeild1"
-                style="@style/PhilipsTextInputLayoutStyleDisabled"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -46,7 +46,7 @@
 
             <TextView
                 android:id="@+id/firstname"
-                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -72,7 +72,7 @@
 
             <TextView
                 android:id="@+id/lastname"
-                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -96,7 +96,7 @@
 
             <TextView
                 android:id="@+id/fullnamelastfirstname"
-                style="@style/PhilipsTextInputLayoutStyleEnabled"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
