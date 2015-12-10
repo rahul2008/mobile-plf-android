@@ -15,7 +15,6 @@
     android:text="@string/uikit_fonticon_cross"
     android:textSize="13sp"
     android:layout_marginRight="9dp"
-    android:layout_marginLeft="13dp"
     fontPath="fonts/puicon.ttf"
     android:textColor="?attr/erroriconcolorinlineforms"
     />

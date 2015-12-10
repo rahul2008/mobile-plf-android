@@ -133,7 +133,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
         LinearLayout parent = (LinearLayout)editText.getParent();
         int indexofparent = indexOfChild(parent);
 
-        View errorview = getChildAt(indexofparent+1);
+        View errorview = getChildAt(indexofparent + 1);
 
         if(errorview instanceof RelativeLayout){
             int index = indexOfChild(errorview);
@@ -209,7 +209,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
 
     private void highLightTextFeilds(LinearLayout parent, int color){
 
-        EditText editText1 = (EditText) parent.getChildAt(0);
+        TextView editText1 = (TextView) parent.getChildAt(0);
         EditText editText2 = (EditText) parent.getChildAt(1);
 
             editText1.setTextColor(getResources().getColor(color));
@@ -270,8 +270,9 @@ public class PhilipsTextInputLayout extends LinearLayout{
 
 
     private void setDisabledTextFeild(View child) {
-        EditText editText1 = (EditText) ((LinearLayout) child).getChildAt(0);
+        TextView editText1 = (TextView) ((LinearLayout) child).getChildAt(0);
         EditText editText2 = (EditText) ((LinearLayout) child).getChildAt(1);
+
         boolean isEnabled = editText1.isEnabled();
         if (isEnabled == false) {
             LinearLayout parent = ((LinearLayout) ((LinearLayout) child).getParent());

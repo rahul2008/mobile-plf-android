@@ -19,7 +19,7 @@
             android:orientation="horizontal"
             android:enabled="false">
 
-            <EditText
+            <TextView
                 android:id="@+id/diabaledtextfeild1"
                 style="@style/PhilipsTextInputLayoutStyleDisabled"
                 android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/firstname"
                 style="@style/PhilipsTextInputLayoutStyleEnabled"
                 android:layout_width="match_parent"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/lastname"
                 style="@style/PhilipsTextInputLayoutStyleEnabled"
                 android:layout_width="match_parent"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/fullnamelastfirstname"
                 style="@style/PhilipsTextInputLayoutStyleEnabled"
                 android:layout_width="match_parent"
