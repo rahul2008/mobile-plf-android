@@ -23,7 +23,7 @@ public class ActionButtonsActivity extends CatalogActivity {
     public void onClick(View view) {
         alert = new PhilipsDialog(ActionButtonsActivity.this);
         alert.setContentView(R.layout.uikit_modal_alert);
-        alert.showPhilipsDialog();
+        alert.show();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ActionButtonsActivity extends CatalogActivity {
                     Button always = (Button) alert.findViewById(R.id.dialogButtonOK);
                     justOnce.setOnClickListener(ActionButtonsActivity.this.onClick(alert));
                     always.setOnClickListener(ActionButtonsActivity.this.onClick(alert));
-                    alert.showPhilipsDialog();
+                    alert.show();
                 }
             }
         }, 100);
@@ -57,7 +57,7 @@ public class ActionButtonsActivity extends CatalogActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert.dismissPhilipsDialog();
+                alert.dismiss();
             }
         };
     }

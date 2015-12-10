@@ -31,7 +31,7 @@ public class ModalAlertDemo extends CatalogActivity {
                 Button always = (Button) alert.findViewById(R.id.dialogButtonOK);
                 justOnce.setOnClickListener(ModalAlertDemo.this.onClick(alert));
                 always.setOnClickListener(ModalAlertDemo.this.onClick(alert));
-                alert.showPhilipsDialog();
+                alert.show();
             }
         });
 
@@ -50,7 +50,7 @@ public class ModalAlertDemo extends CatalogActivity {
                     Button always = (Button) alert.findViewById(R.id.dialogButtonOK);
                     justOnce.setOnClickListener(ModalAlertDemo.this.onClick(alert));
                     always.setOnClickListener(ModalAlertDemo.this.onClick(alert));
-                    alert.showPhilipsDialog();
+                    alert.show();
                 }
             }
         }, 100);
@@ -68,7 +68,7 @@ public class ModalAlertDemo extends CatalogActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert.dismissPhilipsDialog();
+                alert.dismiss();
             }
         };
     }
