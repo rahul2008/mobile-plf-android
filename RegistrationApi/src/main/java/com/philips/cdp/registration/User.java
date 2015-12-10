@@ -25,7 +25,6 @@ import com.philips.cdp.registration.dao.ConsumerArray;
 import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
@@ -52,9 +51,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class User {
 
@@ -71,7 +68,6 @@ public class User {
     private CaptureRecord mCapturedData;
 
     private String USER_EMAIL = "email";
-
 
     private String USER_GIVEN_NAME = "givenName";
 
@@ -119,7 +115,7 @@ public class User {
     }
 
     private void loginTraditionally(final String emailAddress, final String password,
-                                    final TraditionalLoginHandler traditionalLoginHandler){
+                                    final TraditionalLoginHandler traditionalLoginHandler) {
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
             throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
         }
@@ -146,7 +142,7 @@ public class User {
 
     }
 
-    private boolean isJumpInitializationRequired(){
+    private boolean isJumpInitializationRequired() {
         return !mRegistrationHelper.isJumpInitializationInProgress() && !mRegistrationHelper.isJanrainIntialized();
     }
 
@@ -154,7 +150,7 @@ public class User {
     public void loginUsingTraditional(final String emailAddress, final String password,
                                       final TraditionalLoginHandler traditionalLoginHandler) {
 
-        if(!isJumpInitializationRequired()){
+        if (!isJumpInitializationRequired()) {
             loginTraditionally(emailAddress, password, traditionalLoginHandler);
             return;
         }
@@ -178,32 +174,29 @@ public class User {
         mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
 
 
-
     }
 
     private void loginIntoHsdp(final String emailAddress, String password, final TraditionalLoginHandler traditionalLoginHandler) {
-        if (RegistrationHelper.getInstance().isHsdpFlow() && isUserSignIn(mContext)) {
-            HsdpUser hsdpUser = new HsdpUser(mContext);
-            HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-            if (hsdpUserRecord == null && getEmailVerificationStatus(mContext)) {
-                hsdpUser.login(emailAddress, password, new TraditionalLoginHandler() {
-                    @Override
-                    public void onLoginSuccess() {
-                        traditionalLoginHandler.onLoginSuccess();
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+        if (hsdpUserRecord == null && getEmailVerificationStatus(mContext)) {
+            hsdpUser.login(emailAddress, password, new TraditionalLoginHandler() {
+                @Override
+                public void onLoginSuccess() {
+                    traditionalLoginHandler.onLoginSuccess();
 
-                    }
+                }
 
-                    @Override
-                    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                        traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                    }
-                });
-            }
+                @Override
+                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                }
+            });
         }
     }
 
     private void loginUserWithSocialProvider(final Activity activity, final String providerName,
-                                             final SocialProviderLoginHandler socialLoginHandler, final String mergeToken){
+                                             final SocialProviderLoginHandler socialLoginHandler, final String mergeToken) {
         if (providerName != null && activity != null) {
             LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
                     socialLoginHandler, mContext, mUpdateUserRecordHandler);
@@ -214,11 +207,12 @@ public class User {
             socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
         }
     }
+
     // For Social SignIn Using Provider
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler, final String mergeToken) {
         RLog.i(LOG_TAG, "Jump  initialized " + mRegistrationHelper.isJumpInitializationInProgress() + " " + mRegistrationHelper.isJanrainIntialized());
-        if(!isJumpInitializationRequired()){
+        if (!isJumpInitializationRequired()) {
             RLog.i(LOG_TAG, "Jump  initialized ");
             loginUserWithSocialProvider(activity, providerName, socialLoginHandler, mergeToken);
             return;
@@ -246,8 +240,6 @@ public class User {
         mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
 
 
-
-
     }
 
     // moved app logic to set user info (traditional login) in diuserprofile to
@@ -255,7 +247,6 @@ public class User {
     public void registerUserInfoForTraditional(String mGivenName, String mUserEmail,
                                                String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
-
 
 
         final DIUserProfile profile = new DIUserProfile();
@@ -278,7 +269,7 @@ public class User {
         };
 
 
-        if(!isJumpInitializationRequired()){
+        if (!isJumpInitializationRequired()) {
             RLog.i(LOG_TAG, "Jump initialized, registering");
             registerNewUserUsingTraditional(profile, traditionalRegistrationHandler);
             return;
@@ -304,8 +295,6 @@ public class User {
 
             }
         });
-
-
 
 
     }
@@ -344,7 +333,7 @@ public class User {
 
     // For Forgot password
 
-    private void performForgotPassword(String emailAddress, ForgotPasswordHandler forgotPasswordHandler){
+    private void performForgotPassword(String emailAddress, ForgotPasswordHandler forgotPasswordHandler) {
         if (emailAddress != null) {
             ForgotPassword forgotPasswordResultHandler = new ForgotPassword(forgotPasswordHandler);
             Jump.performForgotPassword(emailAddress, forgotPasswordResultHandler);
@@ -356,9 +345,10 @@ public class User {
         }
 
     }
+
     public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
 
-        if(!isJumpInitializationRequired()){
+        if (!isJumpInitializationRequired()) {
             performForgotPassword(emailAddress, forgotPasswordHandler);
             return;
         }
@@ -429,7 +419,7 @@ public class User {
         });
     }
 
-    private void resendMail(final String emailAddress, final ResendVerificationEmailHandler resendVerificationEmail){
+    private void resendMail(final String emailAddress, final ResendVerificationEmailHandler resendVerificationEmail) {
         if (emailAddress != null) {
             ResendVerificationEmail resendVerificationEmailHandler = new ResendVerificationEmail(
                     resendVerificationEmail);
@@ -448,7 +438,7 @@ public class User {
     public void resendVerificationMail(final String emailAddress,
                                        final ResendVerificationEmailHandler resendVerificationEmail) {
 
-        if(!isJumpInitializationRequired()){
+        if (!isJumpInitializationRequired()) {
             resendMail(emailAddress, resendVerificationEmail);
             return;
         }
@@ -457,7 +447,7 @@ public class User {
             @Override
             public void onFlowDownloadSuccess() {
                 RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, resending mail now");
-                resendMail(emailAddress,resendVerificationEmail);
+                resendMail(emailAddress, resendVerificationEmail);
                 mRegistrationHelper.unregisterJumpFlowDownloadListener();
             }
 
@@ -472,14 +462,11 @@ public class User {
         });
 
         mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
-
-
-
     }
 
 
     private void mergeTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
-                                         final TraditionalLoginHandler traditionalLoginHandler){
+                                         final TraditionalLoginHandler traditionalLoginHandler) {
         if (emailAddress != null && password != null) {
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
                     traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
@@ -494,11 +481,12 @@ public class User {
         }
 
     }
+
     // For handling merge scenario
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                           final TraditionalLoginHandler traditionalLoginHandler) {
 
-        if(!isJumpInitializationRequired()){
+        if (!isJumpInitializationRequired()) {
             mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
             return;
         }
@@ -521,9 +509,6 @@ public class User {
             }
         });
         mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
-
-
-
     }
 
     // moved app logic to set user info ( social sign in ) in diuserprofile to
@@ -531,9 +516,7 @@ public class User {
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
                                           final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
                                           final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
-
-
-        if(!isJumpInitializationRequired()){
+        if (!isJumpInitializationRequired()) {
             registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialProviderLoginHandler, socialRegistrationToken);
             return;
         }
@@ -562,7 +545,7 @@ public class User {
 
     private void registerUserForSocial(final String givenName, final String displayName, final String familyName,
                                        final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
-                                       final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken){
+                                       final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
 
         DIUserProfile profile = new DIUserProfile();
         profile.setGivenName(givenName);
@@ -571,9 +554,7 @@ public class User {
         profile.setEmail(userEmail);
         profile.setOlderThanAgeLimit(olderThanAgeLimit);
         profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-
         completeSocialProviderLogin(profile, socialProviderLoginHandler, socialRegistrationToken);
-
     }
 
     // For Two Step registration
@@ -640,16 +621,14 @@ public class User {
             JSONObject userAddress = new JSONObject(mObject.getString(CONSUMER_PRIMARY_ADDRESS));
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(mObject.getString(CONSUMER_PREFERED_LANGUAGE));
+
             if (RegistrationHelper.getInstance().isHsdpFlow()) {
                 HsdpUser hsdpUser = new HsdpUser(mContext);
-                HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-                if (hsdpUserRecord != null) {
-                    diUserProfile.setHsdpUUID(hsdpUserRecord.getUserUUID());
-                    diUserProfile.setHsdpAccessToken(hsdpUserRecord.getAccessCredential().getAccessToken());
+                if (hsdpUser != null) {
+                    diUserProfile.setHsdpUUID(hsdpUser.getHsdpUserRecord().getUserUUID());
+                    diUserProfile.setHsdpAccessToken(hsdpUser.getHsdpUserRecord().getAccessCredential().getAccessToken());
                 }
             }
-
-
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");
         }
@@ -685,7 +664,7 @@ public class User {
             }
         } else {
             CaptureRecord captured = CaptureRecord.loadFromDisk(context);
-            if (captured!=null) {
+            if (captured != null) {
                 return true;
             }
         }
@@ -701,7 +680,7 @@ public class User {
     }
 
     private void refreshReceiveMarketignEmail(final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
-                                              final boolean receiveMarketingEmail){
+                                              final boolean receiveMarketingEmail) {
         final User user = new User(mContext);
         user.refreshLoginSession(new RefreshLoginSessionHandler() {
 
@@ -729,15 +708,15 @@ public class User {
             final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
             final boolean receiveMarketingEmail) {
 
-        if(!isJumpInitializationRequired()){
-            refreshReceiveMarketignEmail(updateReceiveMarketingEmail,receiveMarketingEmail);
+        if (!isJumpInitializationRequired()) {
+            refreshReceiveMarketignEmail(updateReceiveMarketingEmail, receiveMarketingEmail);
             return;
         }
 
         mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
             @Override
             public void onFlowDownloadSuccess() {
-                refreshReceiveMarketignEmail(updateReceiveMarketingEmail,receiveMarketingEmail);
+                refreshReceiveMarketignEmail(updateReceiveMarketingEmail, receiveMarketingEmail);
                 mRegistrationHelper.unregisterJumpFlowDownloadListener();
 
             }
@@ -748,7 +727,7 @@ public class User {
             }
         });
 
-        mRegistrationHelper.intializeRegistrationSettings(mContext,mRegistrationHelper.getLocale());
+        mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
 
     }
 
@@ -936,7 +915,6 @@ public class User {
                         logoutHandler.onLogoutFailure(responseCode, message);
                     }
                 }
-
             }
         });
     }
@@ -986,5 +964,4 @@ public class User {
     private void deleteDIUserProfileFromDisk() {
         mContext.deleteFile(DI_PROFILE_FILE);
     }
-
 }

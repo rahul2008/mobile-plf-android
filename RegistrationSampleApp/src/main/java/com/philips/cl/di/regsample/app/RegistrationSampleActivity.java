@@ -216,6 +216,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     @Override
     public void onRefreshLoginSessionSuccess() {
         dimissDialog();
+        User user = new User(mContext);
+        RLog.d(RLog.HSDP, "RegistrationSampleActivity Access token: "+user.getUserInstance(mContext).getHsdpAccessToken());
         showToast("Success to refresh hsdp access token");
     }
 
