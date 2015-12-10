@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:background="?attr/gradWindowBackground"
+    android:orientation="vertical"
+    android:paddingLeft="33dp"
+    android:paddingRight="33dp"
+    >
+
+    <TextView
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:includeFontPadding="false"
+        android:layout_marginTop="53dp"
+        android:text="Mobile app"
+        android:textColor="@color/uikit_white"
+        android:textSize="33dp" />
+
+    <com.philips.cdp.uikit.UikitSpringBoardLayout
+        android:id="@+id/row_layout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        app:opacityStyle="with"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/item1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:clickable="true"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView1"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView1"
+                android:layout_marginTop="10dp"
+                android:includeFontPadding="false"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/item2"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="0.5"
+            android:clickable="true"
+            android:background="@drawable/uikit_springboard_layout_shape"
+            android:gravity="center_horizontal|center_vertical|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView2"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </com.philips.cdp.uikit.UikitSpringBoardLayout>
+
+    <com.philips.cdp.uikit.UikitSpringBoardLayout
+        android:id="@+id/row_layout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="0.25"
+
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/item3"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+
+            android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView3"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:id="@+id/item4"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
+            android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView4"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </com.philips.cdp.uikit.UikitSpringBoardLayout>
+
+    <com.philips.cdp.uikit.UikitSpringBoardLayout
+        android:id="@+id/row_layout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="0.25"
+
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/item5"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView5"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/item6"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
+            android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView6"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </com.philips.cdp.uikit.UikitSpringBoardLayout>
+
+
+</LinearLayout><!--160 , 180-->

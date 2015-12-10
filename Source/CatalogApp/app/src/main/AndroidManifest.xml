@@ -53,9 +53,15 @@
         <activity android:name=".activity.DummyActivityForListItemClick" />
         <activity android:name=".activity.TabViewWithViewPager" />
         <activity android:name=".activity.SocialIconsActivity" />
-        <activity android:name=".activity.PopOverMenu">
-        </activity>
-
+        <activity android:name=".activity.PopOverMenu"/>
+		<activity android:name=".activity.SpringBoardListActivity" />
+        <activity
+            android:name=".activity.SpringboardFullBlocksActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SpringBoardsctivity" />
+        <activity android:name=".activity.SpringBoardSixGridActivity"
+            android:screenOrientation="portrait" />
+        
     </application>
 
 </manifest>

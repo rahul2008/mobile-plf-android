@@ -103,6 +103,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 16:
                 startActivity(new Intent(this, PopOverMenu.class));
                 break;
+            case 17:
+                startActivity(new Intent(this, SpringBoardsctivity.class));
             default:
                 break;
         }
@@ -161,7 +163,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(14,"Social Media Icons");
         itemsMap.put(15, "Lists View Demo");
         itemsMap.put(16, "Pop Over Menu");
-
+        itemsMap.put(17,"Spring Board");
         return itemsMap;
     }
 
