@@ -65,7 +65,7 @@ public class TabBarDemo extends CatalogActivity {
         utils.setTitle(tab, "Wellness");
         topLayout.addTab(tab);
 
-        tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 0);
+        tab = utils.newTab(R.string.uikit_splash_title, R.drawable.barchart, 3);
         utils.setIcon(tab,VectorDrawable.create(this,R.drawable.uikit_stats_39x32),true);
         utils.setTitle(tab, "Statistics");
         topLayout.addTab(tab);
