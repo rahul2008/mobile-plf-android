@@ -61,30 +61,31 @@ public class UikitSpringBoardLayout extends LinearLayout {
 
 
     private Drawable getBackgroundSelector() {
-       // GradientDrawable d = (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
-       Drawable d = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
+        GradientDrawable d = (GradientDrawable) getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
+     /*  Drawable d = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
                .uikit_springboard_layout_shape, null);
 
         GradientDrawable gd =(GradientDrawable) d;
-                gd.setColor(baseColor);
+                gd.setColor(baseColor);*/
+        d.setColor(baseColor);
         StateListDrawable background = new StateListDrawable();
         background.addState(new int[]{android.R.attr.state_pressed}, getPressedDrawable());
-        background.addState(new int[]{}, gd);
+        background.addState(new int[]{}, d);
 
         return background;
     }
 
     private Drawable getPressedDrawable() {
         Drawable[] d = new Drawable[2];
-         d[0] = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
-                .uikit_springboard_layout_shape, null);
+       //  d[0] = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
+          //      .uikit_springboard_layout_shape, null);
 
-        //    d[0] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
+            d[0] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
         ((GradientDrawable)d[0]).setColor(baseColor);
-         d[1] = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
-                .uikit_springboard_layout_shape,null);
+       //  d[1] = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
+         //       .uikit_springboard_layout_shape,null);
 
-       // d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
+       d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
         ((GradientDrawable)d[1]).setColor(overlayColor);
         return new LayerListDrawable(d);
     }
