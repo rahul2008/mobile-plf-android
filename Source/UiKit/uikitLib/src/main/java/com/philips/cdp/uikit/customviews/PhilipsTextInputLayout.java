@@ -31,6 +31,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
 
     boolean isFocused = false;
     Set<Integer> set = new HashSet<Integer>() ;
+    int mThemeBaseColor;
 
 
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
@@ -75,8 +76,8 @@ public class PhilipsTextInputLayout extends LinearLayout{
 
              //   if (array.contains(layout)) {
                     //In case true meaning error is there
-                    int themecolor = getThemeColor();
-                    if (themecolor == getResources().getColor(color.uikit_philips_bright_orange)) {
+                   // int themecolor = getThemeColor();
+                    if (mThemeBaseColor == getResources().getColor(color.uikit_philips_bright_orange)) {
                         highLightErrorView(layout, R.color.uikit_enricher_red, "Orange");
                         highLightTextFeilds(parent, R.color.uikit_enricher_red);
                     } else {
@@ -95,6 +96,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
     public PhilipsTextInputLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         setOrientation(VERTICAL);
+        mThemeBaseColor = getThemeColor();
     }
 
     private int getFocusedColor(){
