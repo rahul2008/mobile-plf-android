@@ -3,7 +3,9 @@ package com.philips.cdp.uikit.customviews;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -17,6 +19,7 @@ import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -39,6 +42,7 @@ public class PhilipsDialog extends Dialog {
     private boolean isBlur = true;
     private Activity activity;
     private Bitmap fast;
+    private boolean isAnimationEnabled = true;
     private Handler messageHandler = new Handler() {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -54,17 +58,37 @@ public class PhilipsDialog extends Dialog {
     public PhilipsDialog(Context context) {
         super(context);
         this.activity = (Activity) context;
+        setBackListener();
 
     }
 
     public PhilipsDialog(Context context, int themeResId) {
         super(context, themeResId);
         this.activity = (Activity) context;
+        setBackListener();
     }
 
     protected PhilipsDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         this.activity = (Activity) context;
+        setBackListener();
+    }
+
+    private void setBackListener() {
+        setOnKeyListener(new OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (isAnimationEnabled)
+                        dismissDialog();
+                    else
+                        dismiss();
+                }
+                return true;
+            }
+        });
     }
 
     public boolean isBlur() {
@@ -80,7 +104,6 @@ public class PhilipsDialog extends Dialog {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
 
-
         Bitmap drawingCache = view.getDrawingCache();
         Rect frame = new Rect();
         activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
@@ -91,7 +114,6 @@ public class PhilipsDialog extends Dialog {
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-
 
         Bitmap screenShotBitmap = Bitmap.createBitmap(drawingCache, 0, statusBarHeight, width, height - statusBarHeight);
         view.destroyDrawingCache();
@@ -109,6 +131,8 @@ public class PhilipsDialog extends Dialog {
         theIntrinsic.forEach(tmpOut);
         tmpOut.copyTo(screenShotBitmap);
         Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.TRANSPARENT);
         window.setBackgroundDrawable(new BitmapDrawable(screenShotBitmap));
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.setGravity(Gravity.CENTER);
@@ -124,13 +148,18 @@ public class PhilipsDialog extends Dialog {
 
     @Override
     public void show() {
+        if (isAnimationEnabled)
+            showDialog();
+        super.show();
+    }
+
+    private void showDialog() {
         if (isBlur && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
             renderUsingRenderScript(takeScreenShot());
         else if (isBlur)
             showFastBlurWithoutThreading();
 
         startAnimation();
-        super.show();
     }
 
     private void startAnimation() {
@@ -138,22 +167,10 @@ public class PhilipsDialog extends Dialog {
         AnimationSet growShrink = new AnimationSet(true);
         growShrink.addAnimation(animationScaleDown);
         LinearLayout parent = (LinearLayout) findViewById(R.id.parent_id);
-        parent.startAnimation(growShrink);
+        if (parent != null)
+            parent.startAnimation(growShrink);
     }
 
-    private void stopAnimation() {
-        Animation animationScaleUp = AnimationUtils.loadAnimation(activity, R.anim.uikit_modal_alert_zoom_in);
-        AnimationSet growShrinkTest = new AnimationSet(false);
-        growShrinkTest.addAnimation(animationScaleUp);
-        LinearLayout parent = null;
-        parent = (LinearLayout) findViewById(R.id.parent_id);
-        parent.startAnimation(growShrinkTest);
-    }
-
-    @Override
-    public void dismiss() {
-        super.dismiss();
-    }
 
     public void dismissDialog() {
         Animation anim = AnimationUtils.loadAnimation(activity, R.anim.uikit_modal_alert_zoom_in);
@@ -173,6 +190,7 @@ public class PhilipsDialog extends Dialog {
                 dismiss();
             }
         });
+        if (parent != null)
         parent.startAnimation(anim);
     }
 
