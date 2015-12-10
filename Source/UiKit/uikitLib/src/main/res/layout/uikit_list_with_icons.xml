@@ -23,7 +23,7 @@
         android:text="Eget Odeo"
         android:textSize="20sp"
         android:layout_marginBottom="-2dp"
-        android:textColor="?attr/listtextselector"
+        android:textColor="@color/uikit_white"
         android:includeFontPadding="false"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
