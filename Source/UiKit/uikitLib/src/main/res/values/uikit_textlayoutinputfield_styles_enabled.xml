@@ -2,7 +2,6 @@
 
     <style name="PhilipsTextInputLayoutStyleEnabled">
         <item name="android:background">@drawable/uikit_textinputlayout_bg</item>
-        <item name="android:textColor">@color/uikit_philips_very_dark_blue</item>
         <item name="android:textColorHint">@color/uikit_enricher4</item>
         <item name="android:enabled">true</item>
         <item name="android:fontFamily">fonts/centralesansbook.ttf</item>

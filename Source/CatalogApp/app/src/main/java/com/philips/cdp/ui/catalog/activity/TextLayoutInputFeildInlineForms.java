@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PhilipsTextInputLayout;
+import com.philips.cdp.uikit.customviews.PuiEditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,12 +34,23 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
         setContentView(R.layout.inline_forms);
         disableActionbarShadow(this);
         final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.InlineForms);
-        final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
-        email.setFocusable(true);
+        //EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
+       // email.setFocusable(true);
+
+        layout.setValidator(new PhilipsTextInputLayout.Validator() {
+            @Override
+            public void validate(View editText, boolean hasFocus) {
+                if (editText.getId() == R.id.lastnamevalue && hasFocus == false) {
+                    boolean result = validateEmail(editText, hasFocus);
+                    if (!result) {
+                        layout.showError((EditText) editText);
+                    }
+                }
+            }
+        });
 
 
-
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(final View v, final boolean hasFocus) {
 
@@ -51,7 +63,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
                         layout.showError(email);
                 }
             }
-        });
+        });*/
 
         /*final PhilipsTextInputLayout layout1 = (PhilipsTextInputLayout) findViewById(R.id.firstnamelayout);
         final EditText email1 = (EditText) layout1.findViewById(R.id.firstnamevalue);
@@ -98,12 +110,13 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
         }
     }
 
-    private boolean validateEmail(final String email) {
-        if (email == null) {
+    private boolean validateEmail(View editText,boolean hasFocus) {
+        String stringToBeValidated = ((EditText)editText).getText().toString();
+        if (stringToBeValidated == null) {
             return false;
         }
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(email);
+        Matcher matcher = pattern.matcher(stringToBeValidated);
         boolean matches = matcher.matches();
 
         return matches;

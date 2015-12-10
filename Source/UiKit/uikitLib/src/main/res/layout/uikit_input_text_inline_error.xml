@@ -13,7 +13,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/uikit_fonticon_cross"
-    android:textSize="14sp"
+    android:textSize="13sp"
     android:layout_marginRight="9dp"
     android:layout_marginLeft="13dp"
     fontPath="fonts/puicon.ttf"
