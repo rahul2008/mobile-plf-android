@@ -21,6 +21,7 @@
         <item name="tabPadding">0dp</item>
         <item name="tabMinWidth">@dimen/uikit_tab_minwidth</item>
         <item name="tabIndicatorHeight">0dp</item>
+        <item name="android:elevation">@dimen/uikit_tab_shadow</item>
     </style>
 
     <style name="PTablayout.Image" parent="@style/PTablayout">

@@ -1,4 +1,5 @@
 package com.philips.cdp.ui.catalog.activity;
+
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
