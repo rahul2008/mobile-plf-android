@@ -51,18 +51,18 @@ public class PopOverMenu extends CatalogActivity {
         rowItems1 = new ArrayList<RowItem>();
         rowItems2 = new ArrayList<RowItem>();
 
-        rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear) , descriptions[0]));
+        rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear_19_19) , descriptions[0]));
         rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
         rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
         rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
 
 
 
-        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear) , descriptions[0]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear_19_19) , descriptions[0]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
-        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear) , descriptions[0]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear_19_19) , descriptions[0]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));

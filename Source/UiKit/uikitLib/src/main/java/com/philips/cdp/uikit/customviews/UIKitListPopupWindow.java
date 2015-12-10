@@ -132,9 +132,12 @@ public class UIKitListPopupWindow extends ListPopupWindow {
     }
 
     private void setThemeSelector() {
-        Drawable selector = new ColorDrawable(mVerylightthemecolor);
+
+        int fifteenopa_mVerylightthemecolor = Color.argb(38, Color.red(mVerylightthemecolor), Color.green(mVerylightthemecolor), Color.blue(mVerylightthemecolor));
+        ColorFilter FifteenVerylightcolor = new PorterDuffColorFilter(fifteenopa_mVerylightthemecolor, PorterDuff.Mode.SRC_ATOP);
+        Drawable selector = new ColorDrawable(fifteenopa_mVerylightthemecolor);
         mSelector = new ColorFilterStateListDrawable();
-        mSelector.addState(new int[]{android.R.attr.state_pressed}, selector.mutate(), mVerylightcolor);
+        mSelector.addState(new int[]{android.R.attr.state_pressed}, selector.mutate(), FifteenVerylightcolor);
     }
 
     @Override
