@@ -22,9 +22,15 @@ public class RowItem {
         this.desc = desc;
     }
 
+    public RowItem(final int imageId, final int stringId) {
+        this.imageId = imageId;
+        this.stringId = stringId;
+    }
+
     public RowItem(final int stringId, final String desc) {
         this.stringId = stringId;
         this.desc = desc;
+
 
     }
 
