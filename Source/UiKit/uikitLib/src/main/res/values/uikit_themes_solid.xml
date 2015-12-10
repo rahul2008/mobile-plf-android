@@ -49,6 +49,7 @@
         <item name="editTextStyle">@style/InputStyle.DarkPurple</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_purple</item>
         <item name="brightColor">@color/uikit_philips_bright_purple</item>
+        <item name="darkerColor">@color/uikit_philips_very_dark_purple</item>
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -77,6 +78,7 @@
         <item name="editTextStyle">@style/InputStyle.DarkAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="brightColor">@color/uikit_philips_bright_aqua</item>
+        <item name="darkerColor">@color/uikit_philips_very_dark_aqua</item>
     </style>
 
     <style name="Theme.Philips.DarkAqua.NoActionBar">
@@ -108,6 +110,7 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="darkerColor">@color/uikit_philips_dark_orange</item>
+
     </style>
 
     <style name="Theme.Philips.BrightOrange.NoActionBar">
@@ -163,6 +166,7 @@
         <item name="editTextStyle">@style/InputStyle.BrightGreen</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
         <item name="brightColor">@color/uikit_philips_light_green</item>
+        <item name="darkerColor">@color/uikit_philips_dark_green</item>
     </style>
     <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -189,6 +193,7 @@
         <item name="editTextStyle">@style/InputStyle.BrightPink</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_pink</item>
         <item name="brightColor">@color/uikit_philips_light_pink</item>
+        <item name="darkerColor">@color/uikit_philips_dark_pink</item>
     </style>
     <style name="Theme.Philips.BrightPink.NoActionBar">
         <item name="windowActionBar">false</item>
