@@ -38,6 +38,10 @@ public class SHNDevicePreferenceWrapper {
         return sharedPreferences.getInt(key, -1);
     }
 
+    public long getLong(String key) {
+        return sharedPreferences.getLong(key, -1L);
+    }
+
     public String getString(String key) {
         return sharedPreferences.getString(key, null);
     }
