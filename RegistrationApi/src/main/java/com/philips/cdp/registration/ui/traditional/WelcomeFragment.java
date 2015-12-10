@@ -164,8 +164,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mBtnContinue.setOnClickListener(this);
         mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
 
-        ImageView backPressImageView = (ImageView) getRegistrationFragment().getParentActivity().findViewById(R.id.iv_reg_back);
-        backPressImageView.setVisibility(View.GONE);
+
 
         userProfile = mUser.getUserInstance(mContext);
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + userProfile.getGivenName());

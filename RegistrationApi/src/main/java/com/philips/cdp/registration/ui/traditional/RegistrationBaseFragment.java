@@ -166,7 +166,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         }
         if (fragment.getFragmentCount() > 1) {
             if (this instanceof WelcomeFragment) {
-                fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+                fragment.getUpdateTitleListener().updateRegistrationTitleWithOutBack(getTitleResourceId());
             } else {
                 fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
             }

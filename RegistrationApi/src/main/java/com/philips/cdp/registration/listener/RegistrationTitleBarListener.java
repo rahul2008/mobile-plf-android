@@ -7,4 +7,6 @@ public interface RegistrationTitleBarListener {
 
 	public void updateRegistrationTitleWithBack(int titleResourceID);
 
+	public void updateRegistrationTitleWithOutBack(int titleResourceID);
+
 }

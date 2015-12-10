@@ -283,8 +283,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 .findViewById(R.id.ll_reg_social_provider_container);
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 
-        ImageView backPressImageView = (ImageView) getRegistrationFragment().getParentActivity().findViewById(R.id.iv_reg_back);
-        backPressImageView.setVisibility(View.VISIBLE);
+
 
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
