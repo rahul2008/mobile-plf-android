@@ -64,7 +64,7 @@ public class SpringBoardItemSelector extends LinearLayout {
         StateListDrawable background = new StateListDrawable();
         background.addState(new int[]{android.R.attr.state_pressed}, getPressedDrawable());
         background.addState(new int[]{}, d);
-       
+
         return background;
     }
 
