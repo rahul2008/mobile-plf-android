@@ -624,9 +624,10 @@ public class User {
 
             if (RegistrationHelper.getInstance().isHsdpFlow()) {
                 HsdpUser hsdpUser = new HsdpUser(mContext);
-                if (hsdpUser != null) {
-                    diUserProfile.setHsdpUUID(hsdpUser.getHsdpUserRecord().getUserUUID());
-                    diUserProfile.setHsdpAccessToken(hsdpUser.getHsdpUserRecord().getAccessCredential().getAccessToken());
+                HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+                if (hsdpUserRecord != null) {
+                    diUserProfile.setHsdpUUID(hsdpUserRecord.getUserUUID());
+                    diUserProfile.setHsdpAccessToken(hsdpUserRecord.getAccessCredential().getAccessToken());
                 }
             }
         } catch (JSONException e) {
