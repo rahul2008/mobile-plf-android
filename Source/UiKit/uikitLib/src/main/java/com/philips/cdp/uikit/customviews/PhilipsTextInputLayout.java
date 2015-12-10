@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -114,7 +115,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
     private View createNewErrorView(){
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View errorView = inflater.inflate(R.layout.uikit_input_text_inline_error, null, false);
-        TextView imageview = (TextView)errorView.findViewById(R.id.error_image);
+        FrameLayout imageview = (FrameLayout)errorView.findViewById(R.id.error_image);
 
         imageview.setOnClickListener(new OnClickListener() {
             @Override
