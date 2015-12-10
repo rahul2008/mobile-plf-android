@@ -51,45 +51,24 @@ public class PopOverMenu extends CatalogActivity {
         rowItems1 = new ArrayList<RowItem>();
         rowItems2 = new ArrayList<RowItem>();
 
-        RowItem item1 = new RowItem();
-        item1.setDesc(descriptions[0]);
-        /*item1.setDrawable(FontIconUtils.getInfo(this, FontIconUtils.ICONS.HEART, 22, Color.WHITE,
-                false));*/
-        //item1.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.apple, null));
-        item1.setDrawable(VectorDrawable.create(this, R.drawable.uikit_gear));
-
-        rowItems1.add(item1);
+        rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear) , descriptions[0]));
+        rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
+        rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
+        rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
 
 
-        RowItem item2 = new RowItem();
-        item2.setDesc(descriptions[1]);
-        item2.setDrawable(VectorDrawable.create(this, R.drawable.uikit_share));
-        rowItems1.add(item2);
 
-        RowItem item3 = new RowItem();
-        item3.setDesc(descriptions[2]);
-        item3.setDrawable(VectorDrawable.create(this, R.drawable.uikit_envelope));
-        rowItems1.add(item3);
-
-
-        RowItem item4 = new RowItem();
-        item4.setDesc(descriptions[3]);
-        item4.setDrawable(VectorDrawable.create(this, R.drawable.uikit_ballon));
-        rowItems1.add(item4);
-
-        rowItems2.add(item1);
-        rowItems2.add(item2);
-        rowItems2.add(item3);
-        rowItems2.add(item4);
-        rowItems2.add(item1);
-        rowItems2.add(item2);
-        rowItems2.add(item3);
-        rowItems2.add(item4);
-
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear) , descriptions[0]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear) , descriptions[0]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
 
         setContentView(R.layout.activity_pop_over_menu2);
         init();
-
 
         listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT, rowItems1);
         listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT, rowItems1);
@@ -160,7 +139,11 @@ public class PopOverMenu extends CatalogActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_pop_over_menu, menu);
+
+        //menu.add(listpopupwindowTopLeft);
+
         return true;
     }
 
@@ -170,6 +153,8 @@ public class PopOverMenu extends CatalogActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        //listpopupwindowTopLeft.show();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

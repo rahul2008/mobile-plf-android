@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -31,6 +32,10 @@ public class UIKitListPopupWindow extends ListPopupWindow {
     private View mview;
     private int verylightthemecolor;
     private int darkerColor;
+    private int mwidth = 0;
+    private Drawable drawable;
+    private ColorFilter verylightcolor;
+    private ColorFilterStateListDrawable mselector;
 
     public enum Type
     {
@@ -44,8 +49,9 @@ public class UIKitListPopupWindow extends ListPopupWindow {
         mview = view;
 
         CustomListViewAdapter adapter = new CustomListViewAdapter(mcontext, R.layout.simple_list_image_text, rowItems);
+        setThemeDrawable();
         setAdapter(adapter);
-
+        setThemeSelector();
     }
 
     public void setOffsetValue(Type type) {
@@ -99,41 +105,48 @@ public class UIKitListPopupWindow extends ListPopupWindow {
     @Override
     public void show() {
         setBackgroundDrawable(new ColorDrawable(0));
-        //setBackgroundDrawable(ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.popovermenu,null));
-        setWidth((int) mcontext.getResources().getDimension(R.dimen.popup_menu_width));
+        if(mwidth == 0) {
+            setWidth((int) mcontext.getResources().getDimension(R.dimen.popup_menu_width));
+        } else {
+            setWidth(mwidth);
+        }
         setOffsetValue(mtype);
         super.show();
         if (isShowing()) {
-
-            TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor,R.attr.darkerColor});
-            verylightthemecolor = a.getColor(0, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
-            darkerColor = a.getColor(1, mcontext.getResources().getColor(R.color.uikit_philips_very_light_blue));
-            Drawable drawable = ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.pop_over_menu_divider,null);
-            ColorFilter verylightcolor = new PorterDuffColorFilter(verylightthemecolor, PorterDuff.Mode.SRC_ATOP);
-            drawable.setColorFilter(verylightcolor);
-            getListView().setDivider(drawable);
+            getListView().setDivider(getThemeDrawabe());
             getListView().setBackgroundColor(Color.WHITE);
-
-            a.recycle();
-
-
-            Drawable selector = new ColorDrawable(verylightthemecolor);
-            ColorFilterStateListDrawable selector1 = new ColorFilterStateListDrawable();
-            selector1.addState(new int[]{android.R.attr.state_pressed}, selector.mutate(), verylightcolor);
-            getListView().setSelector(selector1);
-
-
-            //Drawable drawable1 = FontIconUtils.getInfo(this, FontIconUtils.ICONS.HEART, 22, Color.WHITE,false);
-
-            //getListView().setBackground(R.drawable.popovermenu);
-            //setBackgroundDrawable(mcontext.getDrawable(R.drawable.model_alert));
+            getListView().setSelector(mselector);
         }
     }
 
-   /* @Override
+    private void setThemeDrawable() {
+
+        TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor,R.attr.darkerColor});
+        ContextCompat.getColor(mcontext,R.color.uikit_philips_very_light_blue);
+        verylightthemecolor = a.getColor(0, ContextCompat.getColor(mcontext, R.color.uikit_philips_very_light_blue));
+        darkerColor = a.getColor(1,ContextCompat.getColor(mcontext, R.color.uikit_philips_very_light_blue));
+        drawable = ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.pop_over_menu_divider,null);
+        verylightcolor = new PorterDuffColorFilter(verylightthemecolor, PorterDuff.Mode.SRC_ATOP);
+        drawable.setColorFilter(verylightcolor);
+        a.recycle();
+    }
+
+    private void setThemeSelector() {
+        Drawable selector = new ColorDrawable(verylightthemecolor);
+        mselector = new ColorFilterStateListDrawable();
+        mselector.addState(new int[]{android.R.attr.state_pressed}, selector.mutate(), verylightcolor);
+    }
+
+
+    private Drawable getThemeDrawabe() {
+        return  drawable;
+    }
+
+    @Override
     public void setWidth(final int width) {
         super.setWidth(width);
-    }*/
+        mwidth = width;
+    }
 
     @Override
     public void setHeight(final int height) {

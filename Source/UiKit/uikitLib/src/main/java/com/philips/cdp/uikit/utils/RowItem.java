@@ -16,6 +16,28 @@ public class RowItem {
     public int getImageId() {
         return imageId;
     }
+
+    public RowItem(final Drawable drawable, final String desc) {
+        this.drawable = drawable;
+        this.desc = desc;
+    }
+
+    public RowItem(final int stringId, final String desc) {
+        this.stringId = stringId;
+        this.desc = desc;
+
+    }
+
+    public RowItem(final int imageId, final Drawable drawable) {
+        this.imageId = imageId;
+        this.drawable = drawable;
+    }
+
+    public RowItem(final Drawable drawable, final int stringId) {
+        this.drawable = drawable;
+        this.stringId = stringId;
+    }
+
     public void setImageId(int imageId) {
         this.imageId = imageId;
     }

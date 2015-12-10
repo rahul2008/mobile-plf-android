@@ -90,9 +90,11 @@ public class CustomListViewAdapter extends ArrayAdapter<RowItem> {
 
         }
 
-        holder.txtDesc.setText(rowItem.getDesc());
-
-
+        if ( rowItem.getStringId() != 0) {
+            holder.txtDesc.setText(rowItem.getStringId());
+        } else {
+            holder.txtDesc.setText(rowItem.getDesc());
+        }
 
         return convertView;
     }

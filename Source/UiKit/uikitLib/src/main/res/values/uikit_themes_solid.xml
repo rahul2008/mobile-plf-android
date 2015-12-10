@@ -21,7 +21,6 @@
         <item name="editTextStyle">@style/InputStyle.DarkBlue</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="brightColor">@color/uikit_philips_bright_blue</item>
-
         <item name="darkerColor">@color/uikit_philips_very_dark_blue</item>
     </style>
 
