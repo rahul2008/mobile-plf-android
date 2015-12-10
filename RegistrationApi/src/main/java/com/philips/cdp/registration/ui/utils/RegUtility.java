@@ -88,6 +88,7 @@ public class RegUtility {
 
         String moreAccountSettings = activity.getString(R.string.Access_More_Account_Setting_lbltxt);
         String doesThisMeanStr = activity.getString(R.string.Philips_URL_txt);
+
         moreAccountSettings = String.format(moreAccountSettings, doesThisMeanStr);
         accountSettingPhilipsNews.setText(moreAccountSettings);
         String link = activity.getString(R.string.Philips_URL_txt);

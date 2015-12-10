@@ -88,6 +88,8 @@ public class Jump {
 
     public static final String JR_DOWNLOAD_FLOW_SUCCESS = "com.janrain.android.Jump.DOWNLOAD_FLOW_SUCCESS";
 
+    public static final String JR_PROVIDER_FLOW_SUCCESS = "com.janrain.android.Jump.PROVIDER_FLOW_SUCCESS";
+
     /*package*/ enum State {
         STATE;
 
@@ -861,10 +863,10 @@ public class Jump {
                 } else {
                     state.captureFlow = JsonUtils.jsonToCollection(jsonObject);
                     LogUtils.logd("Parsed flow, version: " + CaptureFlowUtils.getFlowVersion(state.captureFlow));
+                    storeCaptureFlow();
                     Intent intent = new Intent(JR_DOWNLOAD_FLOW_SUCCESS);
                     intent.putExtra("message", "Download flow Success!!");
                     LocalBroadcastManager.getInstance(state.context).sendBroadcast(intent);
-                    storeCaptureFlow();
                 }
             }
         });

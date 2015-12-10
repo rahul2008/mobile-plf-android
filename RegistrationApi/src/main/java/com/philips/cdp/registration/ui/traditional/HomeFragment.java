@@ -288,8 +288,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
 
-        handleJanrainInitPb();
-        enableControls(false);
+       // handleJanrainInitPb();
+       // enableControls(NetworkUtility.isNetworkAvailable(mContext));
         handleUiState();
     }
 
@@ -340,8 +340,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mProvider = providerName;
         if (null == mUser)
             return;
-        if (NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+        if (NetworkUtility.isNetworkAvailable(mContext)) {
             trackMultipleActionsLogin(providerName);
             trackSocialProviderPage();
             mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
@@ -374,14 +373,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived is : " + event);
+        RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived isHomeFragment :onEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             enableControls(true);
-            handleJanrainInitPb();
+           // handleJanrainInitPb();
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
             enableControls(false);
-            handleJanrainInitPb();
+           // handleJanrainInitPb();
         } else if (RegConstants.PARSING_COMPLETED.equals(event)) {
+            enableControls(true);
             handleSocialProvider();
         }
     }
@@ -393,12 +393,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
                 enableControls(true);
-            } else {
-                mRegError.hideError();
-            }
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
             enableControls(false);
@@ -407,17 +403,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void enableControls(boolean state) {
-        if (state && NetworkUtility.isNetworkAvailable(mContext)) {
-            handleBtnClickableStates(state);
-//            setAlphaForView(mBtnMyPhilips, 1);
-//            setAlphaForView(mLlSocialProviderBtnContainer, 1);
+    private void enableControls(boolean clickableState) {
+        RLog.i("Home Fragment ", "enable controles " +clickableState);
+        if(clickableState){
             mRegError.hideError();
-        } else {
-            handleBtnClickableStates(state);
-//            setAlphaForView(mBtnMyPhilips, 0.75f);
-//            setAlphaForView(mLlSocialProviderBtnContainer, 0.75f);
         }
+        handleBtnClickableStates(clickableState);
     }
 
     private void handleBtnClickableStates(boolean state) {
@@ -658,7 +649,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "HomeFragment :onNetWorkStateReceived state :" + isOnline);
         handleUiState();
-        handleJanrainInitPb();
+       // handleJanrainInitPb();
     }
 
     private void trackSocialProviderPage() {

@@ -26,7 +26,6 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     private ImageView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
-
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
         @Override

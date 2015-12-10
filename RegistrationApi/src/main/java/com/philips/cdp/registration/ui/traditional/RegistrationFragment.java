@@ -104,7 +104,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onDestroy");
-        RegistrationHelper.getInstance().unregisterListener(mActivity.getApplicationContext());
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworStateListener,Context");
         RegistrationBaseFragment.mWidth = 0;

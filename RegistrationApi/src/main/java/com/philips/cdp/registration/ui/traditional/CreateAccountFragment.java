@@ -318,11 +318,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+
                 mRegError.hideError();
-            } else {
-                mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
-            }
+
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
@@ -407,8 +405,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
         mPasswordHintView.updateValidationStatus(mEtPassword.getPassword());
         if (mEtName.isValidName() && mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-                && NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                && NetworkUtility.isNetworkAvailable(mContext)) {
             mBtnCreateAccount.setEnabled(true);
             mRegError.hideError();
         } else {

@@ -18,6 +18,7 @@ import com.philips.cdp.registration.configuration.HSDPClientInfo;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
@@ -61,6 +62,14 @@ public class RegistrationHelper {
 
     private boolean isHsdpFlow;
 
+    private boolean mIsInitializationInProgress;
+
+    private JumpFlowDownloadStatusListener mJumpFlowDownloadStatusListener;
+
+    public boolean isJumpInitializationInProgress(){
+        return mIsInitializationInProgress;
+    }
+
     public boolean isJanrainIntialized() {
         return mJanrainIntialized;
     }
@@ -78,9 +87,21 @@ public class RegistrationHelper {
             mRegistrationHelper = new RegistrationHelper();
 
         }
+      //  RLog.i(RLog.ACTIVITY_LIFECYCLE,"mRegistrationHelper " +mRegistrationHelper);
         return mRegistrationHelper;
     }
 
+    public void registerJumpFlowDownloadListener(JumpFlowDownloadStatusListener pJumpFlowDownloadStatusListener){
+        this.mJumpFlowDownloadStatusListener = pJumpFlowDownloadStatusListener;
+    }
+
+    public void unregisterJumpFlowDownloadListener(){
+        this.mJumpFlowDownloadStatusListener = null;
+    }
+
+    private int mJumpDownloadFlow;
+    private boolean mReceivedDownloadFlowSuccess;
+    private boolean mReceivedProviderFlowSuccess;
     private final BroadcastReceiver janrainStatusReceiver = new BroadcastReceiver() {
 
         @Override
@@ -88,21 +109,41 @@ public class RegistrationHelper {
 
             if (intent != null) {
                 Bundle extras = intent.getExtras();
-                RLog.i(RLog.ACTIVITY_LIFECYCLE,
-                        "janrainStatusReceiver, intent = " + intent.toString());
-                if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()))
+                if(extras.getString("message").equalsIgnoreCase("Download flow Success!!")){
+                   // mJumpDownloadFlow++;
+                    mReceivedDownloadFlowSuccess = true;
+                    RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = mJumpDownloadFlow" + mJumpDownloadFlow);
+                }else if(extras.getString("message").equalsIgnoreCase("Provider flow Success!!")){
+                    mReceivedProviderFlowSuccess = true;
+                }
+                RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = " + intent.toString());
+                if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()) || Jump.JR_PROVIDER_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()))
                         && (null != extras)) {
-                    mJanrainIntialized = true;
 
-                    EventHelper.getInstance()
-                            .notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
+                    if(mReceivedDownloadFlowSuccess && mReceivedProviderFlowSuccess){
+                        mJanrainIntialized = true;
+                        mIsInitializationInProgress = false;
+                        mReceivedDownloadFlowSuccess = false;
+                        mReceivedProviderFlowSuccess = false;
+                        if(mJumpFlowDownloadStatusListener != null) {
+                            mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
+
+                        }
+                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
+
+                    }
+
                 } else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW.equalsIgnoreCase(intent.getAction())
                         && (extras != null)) {
-
+                    mIsInitializationInProgress = false;
+                    mJanrainIntialized = false;
+                    if(mJumpFlowDownloadStatusListener != null){
+                        mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
+                    }
                     EventHelper.getInstance()
                             .notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
 
-                    mJanrainIntialized = false;
+
                 }
             }
         }
@@ -145,6 +186,10 @@ public class RegistrationHelper {
             mlocale = new Locale("en","US");
         }
         setLocale(mlocale);
+        mIsInitializationInProgress = false;
+        mJanrainIntialized = false;
+        mReceivedProviderFlowSuccess = false;
+        mReceivedDownloadFlowSuccess = false;
         mContext = context.getApplicationContext();
         NetworkUtility.isNetworkAvailable(mContext);
         RegistrationConfiguration.getInstance().setSocialProviders(null);
@@ -162,11 +207,11 @@ public class RegistrationHelper {
                     isHsdpFlow = true;
                 }
 
-                EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
+                /*EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
 
                 IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
                 flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-                LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
+                LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,t
                         flowFilter);
 
                 String mMicrositeId = RegistrationConfiguration.getInstance().getPilConfiguration()
@@ -179,10 +224,34 @@ public class RegistrationHelper {
                 RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
 
                 boolean mIsInitialize = mJanrainIntialized;
-                mJanrainIntialized = false;
+                mJanrainIntialized = false;*/
 
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
+                    EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
+
+                    IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+
+                    flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
+                    flowFilter.addAction("com.janrain.android.Jump.PROVIDER_FLOW_SUCCESS");
+                    if(janrainStatusReceiver != null){
+                        LocalBroadcastManager.getInstance(context).unregisterReceiver(janrainStatusReceiver);
+                    }
+                    LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
+                            flowFilter);
+
+                    String mMicrositeId = RegistrationConfiguration.getInstance().getPilConfiguration()
+                            .getMicrositeId();
+
+                    RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + mMicrositeId);
+
+                    String mRegistrationType = RegistrationConfiguration.getInstance()
+                            .getPilConfiguration().getRegistrationEnvironment();
+                    RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
+
+                    boolean mIsInitialize = false;
+                    mJanrainIntialized = false;
+                    mIsInitializationInProgress = true;
 
                     if (RegistrationEnvironmentConstants.EVAL.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
@@ -314,9 +383,6 @@ public class RegistrationHelper {
         return s.hasNext() ? s.next() : "";
     }
 
-    public void unregisterListener(Context context) {
-        LocalBroadcastManager.getInstance(context).unregisterReceiver(janrainStatusReceiver);
-    }
 
     private void initEvalSettings(Context context, String captureClientId, String microSiteId,
                                   String registrationType, boolean isintialize, String locale) {
@@ -388,6 +454,8 @@ public class RegistrationHelper {
     public UserRegistrationHelper getUserRegistrationListener() {
         return UserRegistrationHelper.getInstance();
     }
+
+
 
     public void registerNetworkStateListener(NetworStateListener networStateListener) {
         NetworkStateHelper.getInstance().registerEventNotification(networStateListener);

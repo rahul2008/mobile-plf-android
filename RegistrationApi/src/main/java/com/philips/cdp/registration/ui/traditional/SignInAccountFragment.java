@@ -273,11 +273,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+
                 mRegError.hideError();
-            } else {
-                mRegError.setError(getString(R.string.NoNetworkConnection));
-            }
+
         } else {
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
             mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -413,15 +411,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void updateUiStatus() {
         if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-                && NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                && NetworkUtility.isNetworkAvailable(mContext)) {
             mLlattentionBox.setVisibility(View.GONE);
             mBtnSignInAccount.setEnabled(true);
             mBtnForgot.setEnabled(true);
             mBtnResend.setEnabled(true);
             mRegError.hideError();
-        } else if (mEtEmail.isValidEmail() && NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+        } else if (mEtEmail.isValidEmail() && NetworkUtility.isNetworkAvailable(mContext)) {
             mBtnForgot.setEnabled(true);
             mBtnSignInAccount.setEnabled(false);
             mBtnResend.setEnabled(false);

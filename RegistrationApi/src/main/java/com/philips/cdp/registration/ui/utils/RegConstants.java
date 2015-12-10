@@ -114,6 +114,22 @@ public class RegConstants {
 
     public static final int HSDP_LOWER_ERROR_BOUND = 7000;
 
+    public static final int TRADITIONAL_LOGIN_FAILED_SERVER_ERROR = 7001;
+
+    public static final int SOCIAL_LOGIN_FAILED_SERVER_ERROR = 7002;
+
+    public static final int REGISTER_TRADITIONAL_FAILED_SERVER_ERROR = 7003;
+
+    public static final int FORGOT_PASSWORD_FAILED_SERVER_ERROR = 7004;
+
+    public static final int RESEND_MAIL_FAILED_SERVER_ERROR = 7005;
+
+    public static final int MERGE_TRADITIONAL_FAILED_SERVER_ERROR = 7006;
+
+    public static final int REGISTER_SOCIAL_FAILED_SERVER_ERROR = 7007;
+
+    public static final int UPDATE_MARKETING_EMAIL_FAILED_SERVER_ERROR = 7007;
+
     public static final int HSDP_ACTIVATE_ACCOUNT_FAILED = 10000;
 
     public static final String IS_SOCIAL_PROVIDER = "IS_SOCIAL_PROVIDER";

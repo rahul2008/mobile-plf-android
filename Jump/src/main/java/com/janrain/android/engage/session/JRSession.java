@@ -37,8 +37,11 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.webkit.CookieManager;
+
+import com.janrain.android.Jump;
 import com.janrain.android.R;
 import com.janrain.android.engage.JREngage;
 import com.janrain.android.engage.JREngageError;
@@ -635,6 +638,7 @@ public class JRSession implements JRConnectionManagerDelegate {
                     /* If the ETag matched, we're done. */
                     LogUtils.logd("[connectionDidFinishLoading] HTTP_NOT_MODIFIED -> matched ETag");
                     triggerConfigDidFinish();
+                    sendProviderFlowSuccessBroadcast();
                     return;
                 }
 
@@ -643,6 +647,14 @@ public class JRSession implements JRConnectionManagerDelegate {
                 LogUtils.loge("unexpected userData found in ConnectionDidFinishLoading full");
             }
         }
+        sendProviderFlowSuccessBroadcast();
+
+    }
+
+    private void sendProviderFlowSuccessBroadcast(){
+        Intent intent = new Intent(Jump.JR_PROVIDER_FLOW_SUCCESS);
+        intent.putExtra("message", "Provider flow Success!!");
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
 
     public void addDelegate(JRSessionDelegate delegate) {
