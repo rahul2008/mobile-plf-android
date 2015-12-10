@@ -17,38 +17,38 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class CustomListViewAdapter extends ArrayAdapter<RowItem> {
+public class PopupOverAdapter extends ArrayAdapter<RowItem> {
 
     Context context;
 
 
 
-    public CustomListViewAdapter(final Context context, final int resource) {
+    public PopupOverAdapter(final Context context, final int resource) {
         super(context, resource);
         this.context = context;
     }
 
-    public CustomListViewAdapter(final Context context, final int resource, final int textViewResourceId) {
+    public PopupOverAdapter(final Context context, final int resource, final int textViewResourceId) {
         super(context, resource, textViewResourceId);
         this.context = context;
     }
 
-   /* public CustomListViewAdapter(final Context context, final int resource, final Object[] objects) {
+   /* public PopupOverAdapter(final Context context, final int resource, final Object[] objects) {
         super(context, resource, objects);
         this.context = context;
     }*/
 
-   /* public CustomListViewAdapter(final Context context, final int resource, final int textViewResourceId, final Object[] objects) {
+   /* public PopupOverAdapter(final Context context, final int resource, final int textViewResourceId, final Object[] objects) {
         super(context, resource, textViewResourceId, objects);
         this.context = context;
     }*/
 
-    public CustomListViewAdapter(final Context context, final int resource, final List objects) {
+    public PopupOverAdapter(final Context context, final int resource, final List objects) {
         super(context, resource, objects);
         this.context = context;
     }
 
-    public CustomListViewAdapter(final Context context, final int resource, final int textViewResourceId, final List objects) {
+    public PopupOverAdapter(final Context context, final int resource, final int textViewResourceId, final List objects) {
         super(context, resource, textViewResourceId, objects);
         this.context = context;
     }

@@ -16,7 +16,7 @@ import android.widget.ListPopupWindow;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
-import com.philips.cdp.uikit.utils.CustomListViewAdapter;
+import com.philips.cdp.uikit.utils.PopupOverAdapter;
 import com.philips.cdp.uikit.utils.RowItem;
 
 import java.util.List;
@@ -27,15 +27,15 @@ import java.util.List;
  */
 public class UIKitListPopupWindow extends ListPopupWindow {
 
-    private Context mcontext;
-    private Type mtype;
-    private View mview;
-    private int verylightthemecolor;
-    private int darkerColor;
-    private int mwidth = 0;
-    private Drawable drawable;
-    private ColorFilter verylightcolor;
-    private ColorFilterStateListDrawable mselector;
+    private Context mContext;
+    private Type mType;
+    private View mView;
+    private int mVerylightthemecolor;
+    private int mDarkerColor;
+    private int mWidth = 0;
+    private Drawable mDrawable;
+    private ColorFilter mVerylightcolor;
+    private ColorFilterStateListDrawable mSelector;
 
     public enum Type
     {
@@ -43,12 +43,12 @@ public class UIKitListPopupWindow extends ListPopupWindow {
     }
     public UIKitListPopupWindow(final Context context,final View view, final Type type, List<RowItem> rowItems) {
         super(context);
-        mcontext = context;
+        mContext = context;
         setAnchorView(view);
-        mtype = type;
-        mview = view;
+        mType = type;
+        mView = view;
 
-        CustomListViewAdapter adapter = new CustomListViewAdapter(mcontext, R.layout.simple_list_image_text, rowItems);
+        PopupOverAdapter adapter = new PopupOverAdapter(mContext, R.layout.simple_list_image_text, rowItems);
         setThemeDrawable();
         setAdapter(adapter);
         setThemeSelector();
@@ -58,94 +58,89 @@ public class UIKitListPopupWindow extends ListPopupWindow {
 
         switch (type) {
             case TOPLEFT:
-                setVerticalOffset(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
+                setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
             case TOPRIGHT:
-                setHorizontalOffset(-(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) - mview.getWidth()));
-                setVerticalOffset(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
+                setHorizontalOffset(-(mContext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) - mView.getWidth()));
+                setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
             case LEFT:
-                setHorizontalOffset(mview.getWidth() + (mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin)));
-                setVerticalOffset(-mview.getHeight());
+                setHorizontalOffset(mView.getWidth() + (mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin)));
+                setVerticalOffset(-mView.getHeight());
                 break;
             case RIGHT:
-                setHorizontalOffset(-((mcontext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) +
-                                       mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin))));
-                setVerticalOffset(-mview.getHeight());
+                setHorizontalOffset(-((mContext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) +
+                                       mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin))));
+                setVerticalOffset(-mView.getHeight());
                 break;
             case BOTTOMLEFT:
-                setVerticalOffset(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
+                setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
             case BOTTOMRIGHT:
-                setHorizontalOffset(-(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) - mview.getWidth()));
-                setVerticalOffset(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
+                setHorizontalOffset(-(mContext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) - mView.getWidth()));
+                setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
             default:
-                setVerticalOffset(mcontext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
+                setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
         }
 
     }
 
     public UIKitListPopupWindow(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        mcontext = context;
+        mContext = context;
     }
 
     public UIKitListPopupWindow(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mcontext = context;
+        mContext = context;
     }
 
     public UIKitListPopupWindow(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        mcontext = context;
+        mContext = context;
     }
 
 
     @Override
     public void show() {
         setBackgroundDrawable(new ColorDrawable(0));
-        if(mwidth == 0) {
-            setWidth((int) mcontext.getResources().getDimension(R.dimen.popup_menu_width));
+        if(mWidth == 0) {
+            setWidth((int) mContext.getResources().getDimension(R.dimen.popup_menu_width));
         } else {
-            setWidth(mwidth);
+            setWidth(mWidth);
         }
-        setOffsetValue(mtype);
+        setOffsetValue(mType);
         super.show();
         if (isShowing()) {
-            getListView().setDivider(getThemeDrawabe());
+            getListView().setDivider(mDrawable);
             getListView().setBackgroundColor(Color.WHITE);
-            getListView().setSelector(mselector);
+            getListView().setSelector(mSelector);
         }
     }
 
     private void setThemeDrawable() {
 
-        TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor,R.attr.darkerColor});
-        ContextCompat.getColor(mcontext,R.color.uikit_philips_very_light_blue);
-        verylightthemecolor = a.getColor(0, ContextCompat.getColor(mcontext, R.color.uikit_philips_very_light_blue));
-        darkerColor = a.getColor(1,ContextCompat.getColor(mcontext, R.color.uikit_philips_very_light_blue));
-        drawable = ResourcesCompat.getDrawable(mcontext.getResources(),R.drawable.pop_over_menu_divider,null);
-        verylightcolor = new PorterDuffColorFilter(verylightthemecolor, PorterDuff.Mode.SRC_ATOP);
-        drawable.setColorFilter(verylightcolor);
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor,R.attr.darkerColor});
+        ContextCompat.getColor(mContext,R.color.uikit_philips_very_light_blue);
+        mVerylightthemecolor = a.getColor(0, ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
+        mDarkerColor = a.getColor(1,ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
+        mDrawable = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.pop_over_menu_divider,null);
+        mVerylightcolor = new PorterDuffColorFilter(mVerylightthemecolor, PorterDuff.Mode.SRC_ATOP);
+        mDrawable.setColorFilter(mVerylightcolor);
         a.recycle();
     }
 
     private void setThemeSelector() {
-        Drawable selector = new ColorDrawable(verylightthemecolor);
-        mselector = new ColorFilterStateListDrawable();
-        mselector.addState(new int[]{android.R.attr.state_pressed}, selector.mutate(), verylightcolor);
-    }
-
-
-    private Drawable getThemeDrawabe() {
-        return  drawable;
+        Drawable selector = new ColorDrawable(mVerylightthemecolor);
+        mSelector = new ColorFilterStateListDrawable();
+        mSelector.addState(new int[]{android.R.attr.state_pressed}, selector.mutate(), mVerylightcolor);
     }
 
     @Override
     public void setWidth(final int width) {
         super.setWidth(width);
-        mwidth = width;
+        mWidth = width;
     }
 
     @Override
