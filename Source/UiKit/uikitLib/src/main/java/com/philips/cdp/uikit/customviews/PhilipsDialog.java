@@ -159,6 +159,15 @@ public class PhilipsDialog extends Dialog {
         show();
     }
 
+    @Override
+    public void show() {
+        if (isBlur && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            renderUsingRenderScript(takeScreenShot());
+        else if (isBlur)
+            showFastBlurWithoutThreading();
+        super.show();
+    }
+
     private void startAnimation() {
         Animation animationScaleDown = AnimationUtils.loadAnimation(activity, R.anim.uikit_modal_alert_zoom_out);
         AnimationSet growShrink = new AnimationSet(true);
