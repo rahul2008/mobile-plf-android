@@ -29,7 +29,7 @@ import com.philips.cdp.uikit.utils.BlurView;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsDialog extends Dialog {
+public class UiKitModalAlert extends Dialog {
 
     protected float blurRadius = 30.f;
     private boolean useBlur = true;
@@ -40,9 +40,11 @@ public class PhilipsDialog extends Dialog {
     private Bitmap fastBlurBitmap;
 
     private Handler messageHandler = new Handler() {
+        @SuppressWarnings("deprecation")
+        //we need to support API lvl 14+, so cannot change to BitmapDrawable: sticking with deprecated API for now
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Window window = PhilipsDialog.this.getWindow();
+            Window window = UiKitModalAlert.this.getWindow();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 window.setStatusBarColor(Color.TRANSPARENT);
@@ -58,17 +60,17 @@ public class PhilipsDialog extends Dialog {
         }
     };
 
-    public PhilipsDialog(Context context) {
+    public UiKitModalAlert(Context context) {
         super(context);
         this.activity = (Activity) context;
     }
 
-    public PhilipsDialog(Context context, int themeResId) {
+    public UiKitModalAlert(Context context, int themeResId) {
         super(context, themeResId);
         this.activity = (Activity) context;
     }
 
-    protected PhilipsDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+    protected UiKitModalAlert(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         this.activity = (Activity) context;
     }

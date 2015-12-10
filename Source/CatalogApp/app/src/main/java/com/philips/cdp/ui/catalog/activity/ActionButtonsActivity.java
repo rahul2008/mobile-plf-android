@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.customviews.PhilipsDialog;
+import com.philips.cdp.uikit.customviews.UiKitModalAlert;
 
 public class ActionButtonsActivity extends CatalogActivity {
-    private PhilipsDialog alert;
+    private UiKitModalAlert alert;
     private Bundle savedInstanceState;
 
     @Override
@@ -21,7 +21,7 @@ public class ActionButtonsActivity extends CatalogActivity {
     }
 
     public void onClick(View view) {
-        alert = new PhilipsDialog(ActionButtonsActivity.this);
+        alert = new UiKitModalAlert(ActionButtonsActivity.this);
         alert.setContentView(R.layout.uikit_modal_alert);
         alert.show();
     }
@@ -33,7 +33,7 @@ public class ActionButtonsActivity extends CatalogActivity {
             @Override
             public void run() {
                 if (savedInstanceState != null && savedInstanceState.getBoolean("dialogState")) {
-                    alert = new PhilipsDialog(ActionButtonsActivity.this);
+                    alert = new UiKitModalAlert(ActionButtonsActivity.this);
                     alert.setContentView(R.layout.uikit_modal_alert);
                     Button justOnce = (Button) alert.findViewById(R.id.dialogButtonCancel);
                     Button always = (Button) alert.findViewById(R.id.dialogButtonOK);
@@ -53,7 +53,7 @@ public class ActionButtonsActivity extends CatalogActivity {
     }
 
     @NonNull
-    private View.OnClickListener onClick(final PhilipsDialog alert) {
+    private View.OnClickListener onClick(final UiKitModalAlert alert) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {

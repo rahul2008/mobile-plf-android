@@ -7,14 +7,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.customviews.PhilipsDialog;
+import com.philips.cdp.uikit.customviews.UiKitModalAlert;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class ModalAlertDemo extends CatalogActivity {
-    private PhilipsDialog alert;
+    private UiKitModalAlert alert;
     private Bundle savedInstanceState;
 
     @Override
@@ -25,7 +25,7 @@ public class ModalAlertDemo extends CatalogActivity {
         findViewById(R.id.show_modal_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                alert = new PhilipsDialog(ModalAlertDemo.this);
+                alert = new UiKitModalAlert(ModalAlertDemo.this);
                 alert.setContentView(R.layout.uikit_modal_alert);
                 Button justOnce = (Button) alert.findViewById(R.id.dialogButtonCancel);
                 Button always = (Button) alert.findViewById(R.id.dialogButtonOK);
@@ -44,7 +44,7 @@ public class ModalAlertDemo extends CatalogActivity {
             @Override
             public void run() {
                 if (savedInstanceState != null && savedInstanceState.getBoolean("dialogState")) {
-                    alert = new PhilipsDialog(ModalAlertDemo.this);
+                    alert = new UiKitModalAlert(ModalAlertDemo.this);
                     alert.setContentView(R.layout.uikit_modal_alert);
                     Button justOnce = (Button) alert.findViewById(R.id.dialogButtonCancel);
                     Button always = (Button) alert.findViewById(R.id.dialogButtonOK);
@@ -64,7 +64,7 @@ public class ModalAlertDemo extends CatalogActivity {
     }
 
     @NonNull
-    private View.OnClickListener onClick(final PhilipsDialog alert) {
+    private View.OnClickListener onClick(final UiKitModalAlert alert) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
