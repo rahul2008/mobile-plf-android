@@ -128,7 +128,9 @@ public class RegConstants {
 
     public static final int REGISTER_SOCIAL_FAILED_SERVER_ERROR = 7007;
 
-    public static final int UPDATE_MARKETING_EMAIL_FAILED_SERVER_ERROR = 7007;
+    public static final int UPDATE_MARKETING_EMAIL_FAILED_SERVER_ERROR = 7008;
+
+    public static final int REFRESH_USER_FAILED_SERVER_ERROR = 7009;
 
     public static final int HSDP_ACTIVATE_ACCOUNT_FAILED = 10000;
 

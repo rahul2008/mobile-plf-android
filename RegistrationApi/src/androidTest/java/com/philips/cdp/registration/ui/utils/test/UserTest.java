@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.ui.utils.test;
 
+
+
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
@@ -47,9 +49,10 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		UpdateUserRecordHandler updateHandler = Mockito
 				.mock(UpdateUserRecordHandler.class);
 
-		mockUser.registerNewUserUsingTraditional(setValuesForTraditionalLogin("Sampath",
-						"sampath.kumar@yahoo.com", "Sams@1234", true, false),
-				regHandler);
+		DIUserProfile diUserProfile = Mockito.mock(DIUserProfile.class);
+
+		mockUser.registerNewUserUsingTraditional(diUserProfile,regHandler);
+		//mockUser.registerNewUserUsingTraditional(setValuesForTraditionalLogin("Sampath", "sampath.kumar@yahoo.com", "Sams@1234", true, false), regHandler);
 
 		Jump.SignInResultHandler mockJump = Mockito
 				.mock(Jump.SignInResultHandler.class);
@@ -59,6 +62,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 
 		handler.onSuccess();
 		Mockito.verify(regHandler, Mockito.atLeast(1)).onRegisterSuccess();
+		Mockito.verify(mockUser, Mockito.atLeast(1)).registerNewUserUsingTraditional(diUserProfile,regHandler);
 	}
 
 	public void testRegisterUserInfoForSocialIsOnSuccess() {
@@ -85,6 +89,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		handler.onSuccess();
 		Mockito.verify(socialRegHandler, Mockito.atLeast(1))
 				.onContinueSocialProviderLoginSuccess();
+
 	}
 	
 /*	public void testForgotPasswordForEmailNull() throws Exception {

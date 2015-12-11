@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
@@ -171,6 +172,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
         String email = getString(R.string.InitialSignedIn_SigninEmailText);
         email = String.format(email, userProfile.getEmail());
+        String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
+                .getAccessToken() : null;
+        RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);
         mTvSignInEmail.setText(email);
     }
 

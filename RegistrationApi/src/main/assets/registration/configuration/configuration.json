@@ -12,7 +12,8 @@
       "CampaignID":"COPPA-SONICARE"
    },
    "Flow":{
-        "EmailVerificationRequired" : "true"
+        "EmailVerificationRequired" : "true",
+      "TermsAndConditionsAcceptanceRequired" : "true"
     },
    "SigninProviders":{
       "NL":[

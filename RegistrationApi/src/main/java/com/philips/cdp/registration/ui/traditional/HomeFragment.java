@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -190,6 +191,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         }
                         RLog.d("HomeFragment", "social providers : " + providers);
                     }
+                    handleUiState();
                 }
             });
         }
@@ -205,6 +207,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "drawable",
                     getRegistrationFragment().getParentActivity().getPackageName());
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
+
 
         } catch (Exception e) {
             RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
@@ -371,18 +374,25 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         return R.string.SigIn_TitleTxt;
     }
 
+    private Handler mHandler = new Handler();
+
     @Override
     public void onEventReceived(String event) {
         RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived isHomeFragment :onEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            enableControls(true);
            // handleJanrainInitPb();
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
-            enableControls(false);
+           // enableControls(false);
            // handleJanrainInitPb();
         } else if (RegConstants.PARSING_COMPLETED.equals(event)) {
-            enableControls(true);
-            handleSocialProvider();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    enableControls(true);
+                   // handleSocialProvider();
+                }
+            });
+
         }
     }
 
@@ -404,7 +414,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void enableControls(boolean clickableState) {
-        RLog.i("Home Fragment ", "enable controles " +clickableState);
         if(clickableState){
             mRegError.hideError();
         }
@@ -551,8 +560,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void hideProviderProgress() {
-        getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
-        getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
+        if(getView() != null) {
+            getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
+        }
         if (null != getView().findViewWithTag(mProvider)) {
             XProviderButton providerButton = (XProviderButton) getView().findViewWithTag(mProvider);
             providerButton.hideProgressBar();
