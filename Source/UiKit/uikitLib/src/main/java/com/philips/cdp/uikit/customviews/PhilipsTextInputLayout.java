@@ -274,7 +274,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
         TextView editText1 = (TextView) ((LinearLayout) child).getChildAt(0);
         EditText editText2 = (EditText) ((LinearLayout) child).getChildAt(1);
 
-        boolean isEnabled = editText1.isEnabled();
+        boolean isEnabled = editText2.isEnabled();
         if (isEnabled == false) {
             LinearLayout parent = ((LinearLayout) ((LinearLayout) child).getParent());
             View line = parent.getChildAt(1);
