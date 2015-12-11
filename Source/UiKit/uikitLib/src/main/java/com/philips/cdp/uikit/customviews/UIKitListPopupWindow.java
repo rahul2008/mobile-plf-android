@@ -48,7 +48,7 @@ public class UIKitListPopupWindow extends ListPopupWindow {
         mType = type;
         mView = view;
 
-        PopupOverAdapter adapter = new PopupOverAdapter(mContext, R.layout.simple_list_image_text, rowItems);
+        PopupOverAdapter adapter = new PopupOverAdapter(mContext, R.layout.uikit_simple_list_image_text, rowItems);
         setThemeDrawable();
         setAdapter(adapter);
         setThemeSelector();
