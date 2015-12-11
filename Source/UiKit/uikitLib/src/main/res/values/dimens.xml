@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+dimens
+
+    <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="uikit_philips_action_button_radius">33dp</dimen>
     <dimen name="uikit_philips_action_button_float_radius">53dp</dimen>
@@ -70,7 +72,7 @@
     <dimen name="uikit_tab_badge_margin_left">-5dp</dimen>
     <dimen name="uikit_tab_badge_margin_top">10dp</dimen>
 
-                      <!-- Hamburger Menu -->
+    <!-- Hamburger Menu -->
     <dimen name="uikit_hamburger_menu_title_text_size">20sp</dimen>
     <dimen name="uikit_hamburger_width">222dp</dimen>
     <dimen name="uikit_hamburger_menu_logo_top_margin">46dp</dimen>
@@ -143,4 +145,18 @@
     <dimen name="popover_alert_progress_margin_right">67dp</dimen>
     <dimen name="popover_alert_close_margin_right">14dp</dimen>
     <dimen name="uikit_hamburger_divider_height">1dp</dimen>
+
+
+    <!--Popup Over menu-->
+    <dimen name="popup_menu_width">180dp</dimen>
+    <dimen name="popup_text_size">16sp</dimen>
+    <dimen name="popup_top_margin">5dp</dimen>
+
+    <!-- SpringBoard -->
+    <dimen name="springboard_gridsize">138dp</dimen>
+    <dimen name="springboard_title_text_margin_top">53dp</dimen>
+    <dimen name="springboard_title_text_margin_bottom">30dp</dimen>
+    <dimen name="springboard_gridspacing">20dp</dimen>
+    <dimen name="springboard_grid_margin_left">33dp</dimen>
+    <dimen name="springboard_grid_margin_right">33dp</dimen>
 </resources>

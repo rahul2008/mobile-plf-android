@@ -6,8 +6,7 @@
     android:layout_gravity="bottom"
     android:background="?attr/gradWindowBackground"
     android:orientation="vertical"
-    android:paddingLeft="33dp"
-    android:paddingRight="33dp"
+
     >
 
     <TextView
@@ -15,9 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="@dimen/springboard_title_text_margin_bottom"
         android:includeFontPadding="false"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="@dimen/springboard_title_text_margin_top"
         android:text="Mobile app"
         android:textColor="@color/uikit_white"
         android:textSize="33dp" />
@@ -26,19 +25,19 @@
         android:id="@+id/row_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
         app:opacityStyle="with"
+        android:layout_marginBottom="@dimen/springboard_gridspacing"
+        android:layout_marginLeft="@dimen/springboard_grid_margin_left"
+        android:layout_marginRight="@dimen/springboard_grid_margin_right"
         android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/item1"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="0.5"
+            android:layout_width="@dimen/springboard_gridsize"
+            android:layout_marginRight="@dimen/springboard_gridspacing"
+            android:layout_height="@dimen/springboard_gridsize"
             android:clickable="true"
-            android:orientation="vertical"
+
             >
 
             <ImageView
@@ -55,34 +54,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageView1"
-                android:layout_marginTop="10dp"
-                android:includeFontPadding="false"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
                 android:text="TextView"
                 android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/item2"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="0.5"
+            android:layout_width="@dimen/springboard_gridsize"
+            android:layout_height="@dimen/springboard_gridsize"
             android:clickable="true"
-            android:background="@drawable/uikit_springboard_layout_shape"
-            android:gravity="center_horizontal|center_vertical|bottom"
-            android:orientation="vertical"
-            android:paddingBottom="15dp">
+
+            >
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
                 app:themeStyle="theme" />
 
             <TextView
@@ -90,22 +85,180 @@
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_below="@id/imageView2"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
                 android:text="TextView"
                 android:textColor="@color/uikit_white"
                 android:textSize="16sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
     </com.philips.cdp.uikit.UikitSpringBoardLayout>
+
+
+
 
     <com.philips.cdp.uikit.UikitSpringBoardLayout
         android:id="@+id/row_layout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        app:opacityStyle="with"
+        android:layout_marginBottom="@dimen/springboard_gridspacing"
+        android:layout_marginLeft="@dimen/springboard_grid_margin_left"
+        android:layout_marginRight="@dimen/springboard_grid_margin_right"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/item3"
+            android:layout_width="@dimen/springboard_gridsize"
+            android:layout_marginRight="@dimen/springboard_gridspacing"
+            android:layout_height="@dimen/springboard_gridsize"
+            android:clickable="true"
+            >
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView3"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView3"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/item4"
+            android:layout_width="@dimen/springboard_gridsize"
+            android:layout_height="@dimen/springboard_gridsize"
+            android:clickable="true"
+
+            >
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView4"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView4"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </com.philips.cdp.uikit.UikitSpringBoardLayout>
+
+
+    <com.philips.cdp.uikit.UikitSpringBoardLayout
+        android:id="@+id/row_layout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:opacityStyle="with"
+        android:layout_marginBottom="@dimen/springboard_gridspacing"
+        android:layout_marginLeft="@dimen/springboard_grid_margin_left"
+        android:layout_marginRight="@dimen/springboard_grid_margin_right"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/item5"
+            android:layout_width="@dimen/springboard_gridsize"
+            android:layout_marginRight="@dimen/springboard_gridspacing"
+            android:layout_height="@dimen/springboard_gridsize"
+            android:clickable="true"
+
+            >
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView5"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView5"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/item6"
+            android:layout_width="@dimen/springboard_gridsize"
+            android:layout_height="@dimen/springboard_gridsize"
+            android:clickable="true"
+
+            >
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                app:themeStyle="theme" />
+
+            <TextView
+                android:id="@+id/textView6"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView6"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="TextView"
+                android:textColor="@color/uikit_white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </com.philips.cdp.uikit.UikitSpringBoardLayout>
+
+    <!--<com.philips.cdp.uikit.UikitSpringBoardLayout
+        android:id="@+id/row_layout2"
+        app:opacityStyle="with"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_weight="0.25"
+
 
         android:orientation="horizontal">
 
@@ -114,7 +267,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginRight="20dp"
-            android:layout_weight="0.5"
+
 
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
@@ -149,7 +302,7 @@
             android:layout_width="0dp"
             android:id="@+id/item4"
             android:layout_height="fill_parent"
-            android:layout_weight="0.5"
+
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -182,10 +335,11 @@
 
     <com.philips.cdp.uikit.UikitSpringBoardLayout
         android:id="@+id/row_layout3"
+        app:opacityStyle="with"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_weight="0.25"
+
 
         android:orientation="horizontal">
 
@@ -194,7 +348,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginRight="20dp"
-            android:layout_weight="0.5"
+
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -230,7 +384,7 @@
             android:id="@+id/item6"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="0.5"
+
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
@@ -260,6 +414,6 @@
 
         </LinearLayout>
     </com.philips.cdp.uikit.UikitSpringBoardLayout>
-
+-->
 
 </LinearLayout><!--160 , 180-->
