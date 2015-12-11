@@ -7,6 +7,7 @@
     <color name="uikit_enricher6">#E0E0E0</color>
     <color name="uikit_enricher7">#EFEFEF</color>
     <color name="uikit_enricher_red">#CD202C</color>
+    <color name="uikit_offwhite">#edf2f8</color>
 
 
     <!-- Blue theme -->
@@ -16,6 +17,10 @@
     <color name="uikit_gradient_blue_end">#629fd5</color>
     <color name="uikit_gradient_orange_end">#eda600</color>
     <color name="uikit_gradient_aqua_end">#4fb5ae</color>
+    <color name="uikit_gradient_pink_end">#e08291</color>
+    <color name="uikit_gradient_green_end">#a4b507</color>
+    <color name="uikit_gradient_purple_end">#a873a9</color>
+
 
 
     <!-- Dark Blue theme -->
@@ -35,6 +40,7 @@
 
     <!-- Very Light Blue Theme with opacity 25-->
     <color name="uikit_philips_very_light_blue_with_opacity_25">#40b3c8e6</color>
+    <color name="uikit_philips_very_dark_blue_with_opacity_35">#590f204b</color>
 
     <!-- List Divider very Light BLue with 20% opacity-->
     <color name="uikit_philips_list_divider_very_light_blue">#33b3c8e6</color>
@@ -62,7 +68,7 @@
 
     <!-- Very Light Aqua Theme with opacity 30-->
     <color name="uikit_philips_very_light_Aqua_with_opacity_30">#4Dcae3e9</color>
-
+    <color name="uikit_philips_very_dark_Aqua_with_opacity_35">#5922505f</color>
     <!-- Green -->
     <color name="uikit_philips_very_dark_green">#024731</color>
     <color name="uikit_philips_dark_green">#00693c</color>
@@ -79,6 +85,7 @@
 
     <!-- Very Light Green Theme with opacity 30-->
     <color name="uikit_philips_very_light_green_with_opacity_30">#4De0e96e</color>
+    <color name="uikit_philips_very_dark_green_with_opacity_35">#59024731</color>
 
 
     <!-- Orange -->
@@ -97,6 +104,7 @@
 
     <!-- Very Light Orange Theme with opacity 30-->
     <color name="uikit_philips_very_light_Orange_with_opacity_30">#4Dfbd476</color>
+    <color name="uikit_philips_very_dark_orange_with_opacity_35">#59983222</color>
 
     <!-- Pink -->
     <color name="uikit_philips_very_dark_pink">#662046</color>
@@ -114,6 +122,7 @@
 
     <!-- Very Light Pink Theme with opacity 30-->
     <color name="uikit_philips_very_light_Pink_with_opacity_30">#4De9c5cb</color>
+    <color name="uikit_philips_very_dark_Pink_with_opacity_35">#5991004b</color>
 
 
     <!-- Purple -->
@@ -133,6 +142,7 @@
     <!-- Very Light Purple Theme with opacity 30-->
     <color name="uikit_philips_very_light_Purple_with_opacity_30">#4Ddbcfe9</color>
 
+    <color name="uikit_philips_very_dark_Purple_with_opacity_35">#59631d76</color>
 
     <!-- Color codes for Miscellaneous buttons -->
     <color name="uikit_philips_Red">#CD202C</color>

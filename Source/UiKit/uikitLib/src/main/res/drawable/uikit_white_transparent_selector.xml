@@ -13,14 +13,14 @@
     </item>
     <!-- pressed -->
     <item>
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-               android:shape="rectangle">
 
-            <stroke android:width="@dimen/uikit_button_stroke_width" android:color="@color/uikit_white"/>
-            <corners android:radius="@dimen/uikit_button_corner_rounding"/>
-
-            <solid android:color="@android:color/transparent"/>
-        </shape>
     </item>
-    <!-- default -->
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="rectangle">
+
+        <stroke android:width="@dimen/uikit_button_stroke_width" android:color="@color/uikit_white"/>
+        <corners android:radius="@dimen/uikit_button_corner_rounding"/>
+
+        <solid android:color="@android:color/transparent"/>
+    </shape>  <!-- default -->
 </selector>

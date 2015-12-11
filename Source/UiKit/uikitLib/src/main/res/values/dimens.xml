@@ -61,11 +61,14 @@
     <dimen name="uikit_tab_icon_height">33dp</dimen>
     <dimen name="uikit_tab_icon_margin_top">16dp</dimen>
     <dimen name="uikit_tab_text_margin_top">14dp</dimen>
-    <dimen name="uikit_tab_text_margin_bottom">10dp</dimen> <!-- 13dp -->
+    <dimen name="uikit_tab_text_margin_bottom">9dp</dimen> <!-- 13dp -->
     <dimen name="uikit_tab_text_size_with_image">12dp</dimen>
     <dimen name="uikit_tab_text_size_without_image">14dp</dimen>
     <color name="uikit_tab_text_enabled_color">#fff</color>
     <dimen name="uikit_tab_minwidth">90dp</dimen>
+    <dimen name="uikit_tab_shadow">0dp</dimen>
+    <dimen name="uikit_tab_badge_margin_left">-5dp</dimen>
+    <dimen name="uikit_tab_badge_margin_top">10dp</dimen>
 
                       <!-- Hamburger Menu -->
     <dimen name="uikit_hamburger_menu_title_text_size">20sp</dimen>
@@ -140,4 +143,10 @@
     <dimen name="popover_alert_progress_margin_right">67dp</dimen>
     <dimen name="popover_alert_close_margin_right">14dp</dimen>
     <dimen name="uikit_hamburger_divider_height">1dp</dimen>
+
+
+    <!--Popup Over menu-->
+    <dimen name="popup_menu_width">180dp</dimen>
+    <dimen name="popup_text_size">16sp</dimen>
+    <dimen name="popup_top_margin">5dp</dimen>
 </resources>
