@@ -25,9 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 02/03/15.
- */
 public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener {
     private static final String TAG = SHNDeviceImpl.class.getSimpleName();
     private static final boolean LOGGING = false;
@@ -40,10 +37,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private SHNDeviceListener shnDeviceListener;
     private State state = State.Disconnected;
     private String deviceTypeName;
-//    private String name;
-//    private String type;
-//    private UUID identifier;
-//    private int rssiWhenDiscovered; // How is that usefull?
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
         this.state = State.Disconnected;
@@ -69,6 +62,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public String getAddress() {
         return btDevice.getAddress();
     }
+
     @Override
     public String getName() {
         return btDevice.getName();
@@ -80,7 +74,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
-    public void connect()  {
+    public void connect() {
         if (LOGGING) Log.i(TAG, "connect");
         shnCentral.registerBondStatusListenerForAddress(this, getAddress());
         if (getState() == State.Disconnected) {
@@ -129,16 +123,19 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Set<SHNCapabilityType> registeredCapabilityTypes = new HashSet<>();
+
     @Override
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
         return registeredCapabilityTypes;
     }
+
     @Override
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
-        return registeredCapabilities.get(type);
+        return registeredCapabilities.get(SHNCapabilityType.fixDeprecation(type));
     }
 
     public void registerCapability(SHNCapability shnCapability, SHNCapabilityType shnCapabilityType) {
+        shnCapabilityType = SHNCapabilityType.fixDeprecation(shnCapabilityType);
         if (registeredCapabilities.containsKey(shnCapabilityType)) {
             throw new IllegalStateException("Capability already registered");
         }
@@ -150,12 +147,13 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         registeredCapabilities.put(shnCapabilityType, shnCapabilityWrapper);
     }
 
-
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
+
     public void registerService(SHNService shnService) {
         registeredServices.put(shnService.getUuid(), shnService);
         shnService.registerSHNServiceListener(this);
     }
+
     private SHNService getSHNService(UUID serviceUUID) {
         return registeredServices.get(serviceUUID);
     }
@@ -163,7 +161,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     // SHNServiceListener callback
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        if (LOGGING) Log.e(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
+        if (LOGGING)
+            Log.e(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
         if (this.state == State.Connecting) {
             State newState = State.Connected;
             for (SHNService service : registeredServices.values()) {
@@ -187,12 +186,13 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange");
             State tmpState = getState();
             if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange newState: STATE_DISCONNECTED");
+                if (LOGGING)
+                    Log.i(TAG, "handleOnConnectionStateChange newState: STATE_DISCONNECTED");
                 if (btGatt != null) {
                     btGatt.close();
                     btGatt = null;
                 }
-                for (SHNService shnService: registeredServices.values()) {
+                for (SHNService shnService : registeredServices.values()) {
                     shnService.disconnectFromBLELayer();
                 }
                 tmpState = State.Disconnected;
@@ -207,9 +207,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         public void onServicesDiscovered(BTGatt gatt, int status) {
             if (LOGGING) Log.i(TAG, "handleOnServicesDiscovered");
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                for (BluetoothGattService bluetoothGattService: btGatt.getServices()) {
+                for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
                     SHNService shnService = getSHNService(bluetoothGattService.getUuid());
-                    if (LOGGING) Log.i(TAG, "handleOnServicesDiscovered service: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not found" : " connecting"));
+                    if (LOGGING)
+                        Log.i(TAG, "handleOnServicesDiscovered service: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not found" : " connecting"));
                     if (shnService != null) {
                         shnService.connectToBLELayer(gatt, bluetoothGattService);
                     }
