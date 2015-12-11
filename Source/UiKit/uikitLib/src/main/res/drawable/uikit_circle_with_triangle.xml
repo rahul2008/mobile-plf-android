@@ -23,7 +23,7 @@
         app:vc_fillAlpha="0.5"
         app:vc_strokeAlpha="0.5"
         app:vc_fillColor="#00000000"
-        app:vc_strokeWidth="0.75"/>
+        app:vc_strokeWidth="1"/>
     <path
         android:pathData="M11.021,7.002l0,5.996l2.958,-2.998z"
         android:fillColor="?attr/baseColor"
