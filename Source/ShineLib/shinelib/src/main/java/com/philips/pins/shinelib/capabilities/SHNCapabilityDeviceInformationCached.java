@@ -29,7 +29,7 @@ public class SHNCapabilityDeviceInformationCached implements SHNCapabilityDevice
         shnService.registerSHNServiceListener(new SHNService.SHNServiceListener() {
             @Override
             public void onServiceStateChanged(final SHNService shnService, final SHNService.State state) {
-                if (SHNService.State.Available.equals(state)) {
+                if (SHNService.State.Ready == state) {
                     initCache();
                 }
             }
