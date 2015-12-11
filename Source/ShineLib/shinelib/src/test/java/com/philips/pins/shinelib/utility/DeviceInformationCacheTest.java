@@ -1,8 +1,5 @@
 package com.philips.pins.shinelib.utility;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
 import org.hamcrest.Description;
@@ -27,13 +24,7 @@ public class DeviceInformationCacheTest {
     public static final Date TEST_DATE = new Date();
 
     @Mock
-    private Context contextMock;
-
-    @Mock
-    private SharedPreferences sharedPreferencesMock;
-
-    @Mock
-    private SharedPreferences.Editor editorMock;
+    private SHNDevicePreferenceWrapper preferenceWrapperMock;
 
     private DeviceInformationCache deviceInformationCache;
 
@@ -41,14 +32,13 @@ public class DeviceInformationCacheTest {
     public void setUp() throws ParseException {
         initMocks(this);
 
-        when(contextMock.getSharedPreferences(ShinePreferenceWrapper.SHINELIB_PREFERENCES_FILE_KEY + DeviceInformationCache.DEVICE_INFORMATION_CACHE, Context.MODE_PRIVATE)).thenReturn(sharedPreferencesMock);
 
-        deviceInformationCache = new DeviceInformationCache(contextMock);
+        deviceInformationCache = new DeviceInformationCache(preferenceWrapperMock);
     }
 
     @Test
     public void ShouldReturnValueOfCachedType_WhenQueried() {
-        when(sharedPreferencesMock.getString(INFORMATION_TYPE.name(), null)).thenReturn(TEST_MESSAGE);
+        when(preferenceWrapperMock.getString(INFORMATION_TYPE.name())).thenReturn(TEST_MESSAGE);
 
         String value = deviceInformationCache.getValue(INFORMATION_TYPE);
 
@@ -57,7 +47,7 @@ public class DeviceInformationCacheTest {
 
     @Test
     public void ShouldReturnDateOfCachedType_WhenQueried() throws ParseException {
-        when(sharedPreferencesMock.getLong(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX, 0)).thenReturn(TEST_DATE.getTime());
+        when(preferenceWrapperMock.getLong(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX)).thenReturn(TEST_DATE.getTime());
 
         Date date = deviceInformationCache.getDate(INFORMATION_TYPE);
 
@@ -66,12 +56,10 @@ public class DeviceInformationCacheTest {
 
     @Test
     public void ShouldPersistValueAndDate_WhenSaveIsCalled() {
-        when(sharedPreferencesMock.edit()).thenReturn(editorMock);
-
         deviceInformationCache.save(INFORMATION_TYPE, TEST_MESSAGE);
 
-        verify(editorMock).putString(INFORMATION_TYPE.name(), TEST_MESSAGE);
-        verify(editorMock).putLong(eq(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX), longThat(new ArgumentMatcher<Long>() {
+        verify(preferenceWrapperMock).putString(INFORMATION_TYPE.name(), TEST_MESSAGE);
+        verify(preferenceWrapperMock).putLong(eq(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX), longThat(new ArgumentMatcher<Long>() {
 
             private long max;
             private long min;
@@ -97,7 +85,5 @@ public class DeviceInformationCacheTest {
                 description.appendText(String.format("Expected value between %d and %d", min, max));
             }
         }));
-
-        verify(editorMock).commit();
     }
 }

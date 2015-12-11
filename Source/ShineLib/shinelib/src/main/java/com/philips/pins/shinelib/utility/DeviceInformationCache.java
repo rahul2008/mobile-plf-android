@@ -1,7 +1,5 @@
 package com.philips.pins.shinelib.utility;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -11,26 +9,23 @@ import java.util.Date;
 
 public class DeviceInformationCache {
 
-    public static final String DEVICE_INFORMATION_CACHE = "DeviceInformationCache";
     public static final String DATE_SUFFIX = "date";
 
     @NonNull
-    private final SharedPreferences sharedPreferences;
+    private final SHNDevicePreferenceWrapper preferenceWrapper;
 
-    public DeviceInformationCache(@NonNull final Context context) {
-        sharedPreferences = context.getSharedPreferences(ShinePreferenceWrapper.SHINELIB_PREFERENCES_FILE_KEY + DEVICE_INFORMATION_CACHE, Context.MODE_PRIVATE);
+    public DeviceInformationCache(@NonNull final SHNDevicePreferenceWrapper preferenceWrapper) {
+        this.preferenceWrapper = preferenceWrapper;
     }
 
     public void save(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType, @NonNull final String value) {
-        SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString(informationType.name(), value);
-        edit.putLong(informationType.name() + DATE_SUFFIX, (new Date()).getTime());
-        edit.commit();
+        preferenceWrapper.putString(informationType.name(), value);
+        preferenceWrapper.putLong(informationType.name() + DATE_SUFFIX, (new Date()).getTime());
     }
 
     @Nullable
     public Date getDate(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType) {
-        long dateMillis = sharedPreferences.getLong(informationType.name() + DATE_SUFFIX, 0);
+        long dateMillis = preferenceWrapper.getLong(informationType.name() + DATE_SUFFIX);
         Date date = null;
 
         if (dateMillis > 0) {
@@ -42,6 +37,6 @@ public class DeviceInformationCache {
 
     @Nullable
     public String getValue(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType) {
-        return sharedPreferences.getString(informationType.name(), null);
+        return preferenceWrapper.getString(informationType.name());
     }
 }
