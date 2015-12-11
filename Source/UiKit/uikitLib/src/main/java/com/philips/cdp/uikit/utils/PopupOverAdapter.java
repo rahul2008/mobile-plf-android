@@ -67,7 +67,7 @@ public class PopupOverAdapter extends ArrayAdapter<RowItem> {
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.simple_list_image_text, null);
+            convertView = mInflater.inflate(R.layout.uikit_simple_list_image_text, null);
             holder = new ViewHolder();
 
 
