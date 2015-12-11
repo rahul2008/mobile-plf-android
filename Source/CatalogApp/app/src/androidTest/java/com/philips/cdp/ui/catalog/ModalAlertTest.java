@@ -20,7 +20,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsOpacityValueAsExpectedMatcher.isOpacityValueSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsOutlineColorAsExpectedMatcher.isOutlineColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
@@ -147,7 +146,6 @@ public class ModalAlertTest extends ActivityInstrumentationTestCase2<ModalAlertD
         relaunchActivity();
         onView(withId(R.id.show_modal_dialog)).perform(click());
         onView(withId(R.id.dialogButtonCancel)).check(matches(isOutlineColorSimilar("#03478")));
-        onView(withId(R.id.dialogButtonCancel)).check(matches(isOpacityValueSimilar(128, 0, 5)));
     }
 
     public void testMAOutlineColorofButtonBOTheme() {
@@ -155,7 +153,6 @@ public class ModalAlertTest extends ActivityInstrumentationTestCase2<ModalAlertD
         relaunchActivity();
         onView(withId(R.id.show_modal_dialog)).perform(click());
         onView(withId(R.id.dialogButtonCancel)).check(matches(isOutlineColorSimilar("#e9830")));
-        onView(withId(R.id.dialogButtonCancel)).check(matches(isOpacityValueSimilar(128, 0, 5)));
     }
 
     public void testMAOutlineColorofButtonBATheme() {
@@ -163,7 +160,6 @@ public class ModalAlertTest extends ActivityInstrumentationTestCase2<ModalAlertD
         relaunchActivity();
         onView(withId(R.id.show_modal_dialog)).perform(click());
         onView(withId(R.id.dialogButtonCancel)).check(matches(isOutlineColorSimilar("#1e9d8b")));
-        onView(withId(R.id.dialogButtonCancel)).check(matches(isOpacityValueSimilar(128, 0, 5)));
     }
 
     public void testMAColorofFocusedButtonDBTheme() {
