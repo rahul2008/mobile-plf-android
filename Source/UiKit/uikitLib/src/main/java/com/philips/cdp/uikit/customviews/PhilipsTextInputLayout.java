@@ -8,13 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.R.color;
@@ -218,9 +216,12 @@ public class PhilipsTextInputLayout extends LinearLayout{
 
     }
 
+
     private void drawLine(){
         view = new View(getContext());
-        LayoutParams layoutparams = new LayoutParams(LayoutParams.MATCH_PARENT,1);
+        int height = (int) getContext().getResources().getDimension(R.dimen.uikit_view_height);
+
+        LayoutParams layoutparams = new LayoutParams(LayoutParams.MATCH_PARENT,height);
         view.setLayoutParams(layoutparams);
         view.setBackgroundColor(getFocusedColor());
         addView(view);
