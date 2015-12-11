@@ -1,6 +1,4 @@
-dimens
-
-    <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="uikit_philips_action_button_radius">33dp</dimen>
     <dimen name="uikit_philips_action_button_float_radius">53dp</dimen>
