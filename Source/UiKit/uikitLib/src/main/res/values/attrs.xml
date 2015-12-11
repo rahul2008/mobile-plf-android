@@ -4,31 +4,25 @@
         <attr name="actionBarBackground" format="reference|color"/>
         <attr name="outlinedButtonStyle" format="reference"/>
         <attr name="baseColor" format="reference|color"/>
-        <attr name="verydarkBaseColor" format="reference|color"/>
+        <attr name="verydarkBaseColor" format="reference|color" />
         <attr name="listSelectorBackground" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
-        <attr name="gradWindowBackground" format="reference|color"/>
+        <attr name="gradWindowBackground" format="reference|color" />
         <attr name="listDividerColor" format="reference|color"/>
-        <attr name="springBoardDivider" format="reference|color"/>
+        <attr name="springBoardDivider" format="reference|color" />
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
-        <attr name="springBoardTextColor" format="reference|color"/>
+        <attr name="springBoardTextColor" format="reference|color" />
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
-        <attr name="veryLightColor" format="reference|color"/>
+        <attr name="veryLightColor" format="reference|color" />
         <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
         <attr name="gradientColorForListHeader" format="reference|color"/>
         <attr name="gradientColorForListSectionTitle" format="reference|color"/>
-        <attr name="notificationBarGradient" format="reference"/>
-        <attr name="tabBarGradient" format="reference"/>
-        <attr name="hamburgerGradient" format="reference"/>
         <attr name="notificationBarGradient" format="reference" />
         <attr name="tabBarGradient" format="reference" />
         <attr name="hamburgerGradient" format="reference" />
-        <attr name="darkerColor" format="reference|color"/>
-        <attr name="notificationBarGradient" format="reference"/>
-        <attr name="tabBarGradient" format="reference"/>
-        <attr name="hamburgerGradient" format="reference"/>
+        <attr name="darkerColor" format="reference|color" />
         <!--  Definiton of these gradients vary as per the theme -->
         <attr name="baseGradient" format="reference" />
         <attr name="darkerGradient" format="reference" />
@@ -47,8 +41,8 @@
 
     <declare-styleable name="UikitSpringBoardLayout">
         <attr name="opacityStyle" format="enum">
-            <enum name="none" value="0"/>
-            <enum name="with" value="1"/>
+            <enum name="none" value="0" />
+            <enum name="with" value="1" />
 
         </attr>
     </declare-styleable>

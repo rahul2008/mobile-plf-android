@@ -6,7 +6,7 @@ import android.graphics.drawable.LayerDrawable;
 /**
  * Created by 310213373 on 12/7/2015.
  */
-public class LayerListDrawable extends LayerDrawable{
+public class LayerListDrawable extends LayerDrawable {
     /**
      * Creates a new layer drawable with the list of specified layers.
      *

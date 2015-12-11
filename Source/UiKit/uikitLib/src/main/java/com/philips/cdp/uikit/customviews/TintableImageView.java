@@ -3,7 +3,6 @@ package com.philips.cdp.uikit.customviews;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 

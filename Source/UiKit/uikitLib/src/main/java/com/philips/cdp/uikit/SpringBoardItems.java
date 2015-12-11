@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 public class SpringBoardItems {
     int mImageID;
     int mStringID;
+    String mString;
+    Drawable mImage;
 
     public int getmImageID() {
         return mImageID;
@@ -40,7 +42,4 @@ public class SpringBoardItems {
     public void setmString(String mString) {
         this.mString = mString;
     }
-
-    String mString;
-    Drawable mImage;
 }

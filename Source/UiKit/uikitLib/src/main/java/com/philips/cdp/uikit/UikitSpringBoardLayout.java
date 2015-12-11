@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +19,20 @@ import com.philips.cdp.uikit.customviews.LayerListDrawable;
  */
 public class UikitSpringBoardLayout extends LinearLayout {
 
-    private Drawable selector;
     public static int STYLE_THEME = 1;
     int baseColor;
-    int colorStyle=1;
+    int colorStyle = 1;
     int overlayColor = 0;
     Context mContext;
+    private Drawable selector;
+
     public UikitSpringBoardLayout(Context context) {
         super(context);
     }
 
     public UikitSpringBoardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext=context;
+        mContext = context;
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UikitSpringBoardLayout);
         colorStyle = typedArray.getInt(R.styleable.UikitSpringBoardLayout_opacityStyle, 0);
@@ -40,10 +40,9 @@ public class UikitSpringBoardLayout extends LinearLayout {
 
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.verydarkBaseColor});
         baseColor = ar.getInt(0, R.attr.baseColor);
-        if(colorStyle==0) {
+        if (colorStyle == 0) {
             overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
-        }
-        else {
+        } else {
 
             overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
             overlayColor = Color.argb(89, Color.red(overlayColor), Color.green(overlayColor), Color.blue(overlayColor));
@@ -63,10 +62,9 @@ public class UikitSpringBoardLayout extends LinearLayout {
         super.addView(child, params);
         selector = getBackgroundSelector();
         int version = Build.VERSION.SDK_INT;
-        if(version<16) {
+        if (version < 16) {
             child.setBackgroundDrawable(selector);
-        }
-        else {
+        } else {
             child.setBackground(selector);
         }
 
@@ -90,16 +88,16 @@ public class UikitSpringBoardLayout extends LinearLayout {
 
     private Drawable getPressedDrawable() {
         Drawable[] d = new Drawable[2];
-       //  d[0] = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
-          //      .uikit_springboard_layout_shape, null);
+        //  d[0] = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
+        //      .uikit_springboard_layout_shape, null);
 
-            d[0] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
-        ((GradientDrawable)d[0]).setColor(baseColor);
-       //  d[1] = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
-         //       .uikit_springboard_layout_shape,null);
+        d[0] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
+        ((GradientDrawable) d[0]).setColor(baseColor);
+        //  d[1] = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable
+        //       .uikit_springboard_layout_shape,null);
 
-       d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
-        ((GradientDrawable)d[1]).setColor(overlayColor);
+        d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
+        ((GradientDrawable) d[1]).setColor(overlayColor);
         return new LayerListDrawable(d);
     }
 }
