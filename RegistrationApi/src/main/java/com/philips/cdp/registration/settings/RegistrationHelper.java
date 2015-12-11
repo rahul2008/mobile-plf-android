@@ -137,6 +137,8 @@ public class RegistrationHelper {
                         && (extras != null)) {
                     mIsInitializationInProgress = false;
                     mJanrainIntialized = false;
+                    mReceivedDownloadFlowSuccess = false;
+                    mReceivedProviderFlowSuccess = false;
                     if(mJumpFlowDownloadStatusListener != null){
                         mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
                     }

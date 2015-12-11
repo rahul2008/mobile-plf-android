@@ -560,10 +560,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void hideProviderProgress() {
-        if(getView() != null) {
-            getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
-            getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
+
+        if(getView() == null){
+            return;
         }
+
+        getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
+
         if (null != getView().findViewWithTag(mProvider)) {
             XProviderButton providerButton = (XProviderButton) getView().findViewWithTag(mProvider);
             providerButton.hideProgressBar();
