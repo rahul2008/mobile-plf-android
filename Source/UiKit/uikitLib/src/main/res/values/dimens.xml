@@ -153,7 +153,7 @@
     <dimen name="uikit_modal_alert_message_text_size">14sp</dimen>
     <dimen name="uikit_modal_alert_button_top_margin">29dp</dimen>
     <dimen name="uikit_modal_alert_button_left_margin">20dp</dimen>
-    <dimen name="uikit_modal_alert_bottom_margin">32dp</dimen>
+    <dimen name="uikit_modal_alert_bottom_margin">30dp</dimen>
     <dimen name="uikit_modal_alert_text_right_margin">21dp</dimen>
 
 
@@ -161,4 +161,5 @@
     <dimen name="popup_menu_width">180dp</dimen>
     <dimen name="popup_text_size">16sp</dimen>
     <dimen name="popup_top_margin">5dp</dimen>
+    <dimen name="uikit_modal_alert_button_width">118dp</dimen>
 </resources>
