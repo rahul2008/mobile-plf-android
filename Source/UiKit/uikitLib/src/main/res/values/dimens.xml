@@ -151,10 +151,10 @@
     <dimen name="popup_top_margin">5dp</dimen>
 
     <!-- SpringBoard -->
-    <dimen name="springboard_gridsize">138dp</dimen>
+    <dimen name="springboard_gridsize">140dp</dimen>
     <dimen name="springboard_title_text_margin_top">53dp</dimen>
-    <dimen name="springboard_title_text_margin_bottom">30dp</dimen>
-    <dimen name="springboard_gridspacing">20dp</dimen>
+    <dimen name="springboard_title_text_margin_bottom">25dp</dimen>
+    <dimen name="springboard_gridspacing">18dp</dimen>
     <dimen name="springboard_grid_margin_left">33dp</dimen>
     <dimen name="springboard_grid_margin_right">33dp</dimen>
 </resources>
