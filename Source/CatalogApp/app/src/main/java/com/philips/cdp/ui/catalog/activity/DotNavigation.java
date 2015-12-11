@@ -19,7 +19,7 @@ public class DotNavigation extends CatalogActivity {
         setContentView(R.layout.dot_navigation);
 
         final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setAdapter(new ViewPagerAdaptor(getSupportFragmentManager()));
+        mPager.setAdapter(new ViewPagerAdaptor(getSupportFragmentManager(), 0));
 
         final CircleIndicator mIndicator = (CircleIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);

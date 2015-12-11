@@ -40,6 +40,8 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.android.support:design:23.0.1'
     compile 'com.shamanland:fonticon:0.1.8'
+    compile 'com.android.support:cardview-v7:+'
+    compile 'com.android.support:recyclerview-v7:+'
 }
 
 //maven configuration stuff required for artifactory plugin

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="34dp">
+
+    <RelativeLayout
+        android:layout_width="824dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/baseColor"
+        android:elevation="6dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="390dp"
+            android:layout_above="@+id/bottom_layout">
+
+            <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="19dp"
+                android:layout_marginTop="17dp"
+                card_view:vectorsrc="@drawable/cross_icon" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="224dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/uikit_white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="33dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/cards_title"
+                    fontPath="fonts/centralesanslight.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="34dp"
+                    android:text="Your title goes"
+                    android:textColor="?attr/verydarkBaseColor"
+                    android:textSize="28sp" />
+
+                <TextView
+                    fontPath="fonts/centralesansxbold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/cards_title"
+                    android:text="here"
+                    android:textColor="?attr/verydarkBaseColor"
+                    android:textSize="28sp" />
+
+                <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+                    android:id="@+id/cardimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="33dp"
+                    card_view:vectorsrc="@drawable/uikit_heart" />
+
+                <TextView
+                    fontPath="fonts/centralesansbook.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/cardimage"
+                    android:text="12"
+                    android:textColor="?attr/verydarkBaseColor"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <TextView
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="33dp"
+                android:layout_marginTop="32dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
+                android:textColor="?attr/verydarkBaseColor"
+                android:textSize="16sp" />
+
+            <TextView
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="33dp"
+                android:layout_marginTop="29dp"
+                android:text="Link dolor elit ›"
+                android:textColor="?attr/brightColor"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
