@@ -23,6 +23,7 @@
     android:layout_marginRight="9dp"
     fontPath="fonts/puicon.ttf"
     android:textColor="?attr/erroriconcolorinlineforms"
+    android:textStyle="bold"
     />
 
     </FrameLayout>
