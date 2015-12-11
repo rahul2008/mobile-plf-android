@@ -157,4 +157,9 @@
     <dimen name="uikit_modal_alert_text_right_margin">21dp</dimen>
 
 
+
+    <!--Popup Over menu-->
+    <dimen name="popup_menu_width">180dp</dimen>
+    <dimen name="popup_text_size">16sp</dimen>
+    <dimen name="popup_top_margin">5dp</dimen>
 </resources>

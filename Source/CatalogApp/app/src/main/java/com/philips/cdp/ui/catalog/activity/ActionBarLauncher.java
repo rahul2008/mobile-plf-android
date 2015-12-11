@@ -18,7 +18,7 @@ public class ActionBarLauncher extends CatalogActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         // requestWindowFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        //   setContentView(R.layout.action_bar);
+        //   setContentView(R.layout.uikit_action_bar);
 
         ActionBar mActionBar = this.getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -29,7 +29,7 @@ public class ActionBarLauncher extends CatalogActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
 
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.action_bar, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.uikit_action_bar, null); // layout which contains your button.
 
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 

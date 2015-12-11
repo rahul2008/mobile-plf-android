@@ -3,14 +3,17 @@
 
     <style name="Theme.Philips.DarkBlue">
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_blue</item>
+
         <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
-
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color</item>
+        <item name="springBoardTextColor">@drawable/uikit_sprinboard_textselector_blue</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_blue</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_blue</item>
+        <item name="springBoardDivider">@color/uikit_philips_bright_blue</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_blue_theme</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_blue</item>
@@ -21,6 +24,7 @@
         <item name="editTextStyle">@style/InputStyle.DarkBlue</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="brightColor">@color/uikit_philips_bright_blue</item>
+        <item name="darkerColor">@color/uikit_philips_very_dark_blue</item>
     </style>
 
     <style name="Theme.Philips.DarkBlue.NoActionBar">
@@ -33,10 +37,12 @@
         <item name="darkerGradient">@drawable/uikit_grad_purple_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_purple_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_purple_bright_to_light</item>
-
+        <item name= "verydarkBaseColor">@color/uikit_philips_very_dark_purple</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_purple</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_purple_color</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_purple</item>
+        <item name="springBoardDivider">@color/uikit_philips_bright_purple</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Purple</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_purple_theme</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_purple</item>
@@ -48,6 +54,7 @@
         <item name="editTextStyle">@style/InputStyle.DarkPurple</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_purple</item>
         <item name="brightColor">@color/uikit_philips_bright_purple</item>
+        <item name="darkerColor">@color/uikit_philips_very_dark_purple</item>
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -61,7 +68,9 @@
         <item name="darkerGradient">@drawable/uikit_grad_aqua_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_aqua_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
-
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_aqua</item>
+        <item name="springBoardDivider">@color/uikit_philips_bright_aqua</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_aqua</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_aqua_color</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_aqua</item>
@@ -76,6 +85,7 @@
         <item name="editTextStyle">@style/InputStyle.DarkAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="brightColor">@color/uikit_philips_bright_aqua</item>
+        <item name="darkerColor">@color/uikit_philips_very_dark_aqua</item>
     </style>
 
     <style name="Theme.Philips.DarkAqua.NoActionBar">
@@ -85,15 +95,18 @@
 
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_orange</item>
         <item name="darkerGradient">@drawable/uikit_grad_orange_dark_to_bright</item>
         <item name="baseGradient">@drawable/uikit_grad_orange_bright_to_light</item>
         <item name="lighterGradient">@drawable/uikit_grad_orange_light_to_verylight</item>
-
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_orange</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_orange_color</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_orange_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
+        <item name="springBoardDivider">@color/uikit_philips_light_orange</item>
+        <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
+        <item name="actionBarBackground">@drawable/uikit_grad_light_orange_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_orange</item>
@@ -106,6 +119,8 @@
         <item name="errorBackground">@drawable/uikit_edittext_error_bg_red</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="brightColor">@color/uikit_philips_light_orange</item>
+        <item name="darkerColor">@color/uikit_philips_dark_orange</item>
+
     </style>
 
     <style name="Theme.Philips.BrightOrange.NoActionBar">
@@ -114,16 +129,20 @@
     </style>
 
     <style name="Theme.Philips.BrightAqua">
+
         <item name="baseColor">@color/uikit_philips_bright_aqua</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_aqua</item>
         <item name="darkerGradient">@drawable/uikit_grad_aqua_dark_to_bright</item>
         <item name="baseGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
+        <item name="springBoardDivider">@color/uikit_philips_light_aqua</item>
         <item name="lighterGradient">@drawable/uikit_grad_aqua_light_to_verylight</item>
-
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_aqua</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_aqua_color</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_aqua</item>
+        <item name="actionBarBackground">@drawable/uikit_grad_light_aqua_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_aqua</item>
@@ -133,6 +152,7 @@
         <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="brightColor">@color/uikit_philips_light_aqua</item>
+        <item name="darkerColor">@color/uikit_philips_dark_aqua</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">
@@ -142,19 +162,25 @@
 
     <style name="Theme.Philips.BrightGreen">
         <item name="baseColor">@color/uikit_philips_bright_green</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_green</item>
         <item name="darkerGradient">@drawable/uikit_grad_green_dark_to_bright</item>
         <item name="baseGradient">@drawable/uikit_grad_green_bright_to_light</item>
+        <item name="springBoardDivider">@color/uikit_philips_light_green</item>
         <item name="lighterGradient">@drawable/uikit_grad_green_light_to_verylight</item>
-
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_green</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_green_color</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_green_theme</item>
         <item name="listSelectorBackground">
             @drawable/uikit_background_lists_selector_bright_green_color
         </item>
         <item name="gradientColorForListSectionTitle">
             @drawable/uikit_listview_headers_gradient_green_theme
         </item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_green</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_green_color</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_green_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Green</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
         <item name="android:colorBackground">@color/uikit_philips_very_light_green</item>
@@ -165,6 +191,7 @@
         <item name="editTextStyle">@style/InputStyle.BrightGreen</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
         <item name="brightColor">@color/uikit_philips_light_green</item>
+        <item name="darkerColor">@color/uikit_philips_dark_green</item>
     </style>
 
     <style name="Theme.Philips.BrightGreen.NoActionBar">
@@ -174,10 +201,12 @@
 
     <style name="Theme.Philips.BrightPink">
         <item name="baseColor">@color/uikit_philips_bright_pink</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_pink</item>
         <item name="darkerGradient">@drawable/uikit_grad_pink_dark_to_bright</item>
         <item name="baseGradient">@drawable/uikit_grad_pink_bright_to_light</item>
         <item name="lighterGradient">@drawable/uikit_grad_pink_light_to_verylight</item>
-
+        <item name="springBoardDivider">@color/uikit_philips_light_pink</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_pink</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_pink</item>
@@ -197,6 +226,7 @@
         <item name="editTextStyle">@style/InputStyle.BrightPink</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_pink</item>
         <item name="brightColor">@color/uikit_philips_light_pink</item>
+        <item name="darkerColor">@color/uikit_philips_dark_pink</item>
     </style>
 
     <style name="Theme.Philips.BrightPink.NoActionBar">
