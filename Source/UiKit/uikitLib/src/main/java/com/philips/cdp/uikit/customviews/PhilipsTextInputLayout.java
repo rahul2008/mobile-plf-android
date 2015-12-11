@@ -210,9 +210,25 @@ public class PhilipsTextInputLayout extends LinearLayout{
 
         TextView editText1 = (TextView) parent.getChildAt(0);
         EditText editText2 = (EditText) parent.getChildAt(1);
+            if(editText2.getText().toString().trim().length() == 0) {
+                editText1.setTextColor(getResources().getColor(color));
+                editText2.setTextColor(getResources().getColor(color));
+            }else{
+                editText1.setTextColor(getResources().getColor(R.color.uikit_philips_dark_blue));
+                editText2.setTextColor(getResources().getColor(R.color.uikit_philips_dark_blue));
 
-            editText1.setTextColor(getResources().getColor(color));
-            editText2.setTextColor(getResources().getColor(color));
+                if(set.contains(indexOfChild(parent))) {
+                    if (mThemeBaseColor == getResources().getColor(R.color.uikit_philips_bright_orange)) {
+                        editText1.setTextColor(getResources().getColor(R.color.uikit_enricher_red));
+                        editText2.setTextColor(getResources().getColor(R.color.uikit_enricher_red));
+                    }else{
+                        editText1.setTextColor(getResources().getColor(R.color.uikit_philips_bright_orange));
+                        editText2.setTextColor(getResources().getColor(R.color.uikit_philips_bright_orange));
+                    }
+                }
+            }
+
+
 
     }
 
