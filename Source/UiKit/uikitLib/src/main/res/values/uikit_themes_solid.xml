@@ -25,6 +25,8 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="brightColor">@color/uikit_philips_bright_blue</item>
         <item name="darkerColor">@color/uikit_philips_very_dark_blue</item>
+        <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
     </style>
 
     <style name="Theme.Philips.DarkBlue.NoActionBar">
@@ -55,6 +57,8 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_purple</item>
         <item name="brightColor">@color/uikit_philips_bright_purple</item>
         <item name="darkerColor">@color/uikit_philips_very_dark_purple</item>
+        <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -86,6 +90,8 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="brightColor">@color/uikit_philips_bright_aqua</item>
         <item name="darkerColor">@color/uikit_philips_very_dark_aqua</item>
+        <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
     </style>
 
     <style name="Theme.Philips.DarkAqua.NoActionBar">
@@ -121,6 +127,8 @@
         <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="darkerColor">@color/uikit_philips_dark_orange</item>
 
+        <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.NoActionBar">
@@ -153,6 +161,8 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="brightColor">@color/uikit_philips_light_aqua</item>
         <item name="darkerColor">@color/uikit_philips_dark_aqua</item>
+        <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">
@@ -183,6 +193,8 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
         <item name="brightColor">@color/uikit_philips_light_green</item>
         <item name="darkerColor">@color/uikit_philips_dark_green</item>
+        <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
     </style>
     <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -212,6 +224,8 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_pink</item>
         <item name="brightColor">@color/uikit_philips_light_pink</item>
         <item name="darkerColor">@color/uikit_philips_dark_pink</item>
+        <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
     </style>
     <style name="Theme.Philips.BrightPink.NoActionBar">
         <item name="windowActionBar">false</item>

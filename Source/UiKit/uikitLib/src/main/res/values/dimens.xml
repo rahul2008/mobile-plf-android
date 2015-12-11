@@ -149,4 +149,7 @@
     <dimen name="popup_menu_width">180dp</dimen>
     <dimen name="popup_text_size">16sp</dimen>
     <dimen name="popup_top_margin">5dp</dimen>
+
+    <!-- Set View Height -->
+    <dimen name="uikit_view_height">1dp</dimen>
 </resources>
