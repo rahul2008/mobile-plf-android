@@ -116,5 +116,59 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Theme.Philips.LightBlue.Gradient">
+        <item name="android:windowBackground">@drawable/uikit_grad_blue_light_to_verylight</item>
+        <item name="android:colorBackground">@color/uikit_philips_light_blue</item>
+    </style>
+    <style name="Theme.Philips.LightBlue.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.LightOrange.Gradient">
+        <item name="android:windowBackground">@drawable/uikit_grad_orange_light_to_verylight</item>
+        <item name="android:colorBackground">@color/uikit_philips_light_orange</item>
+    </style>
+    <style name="Theme.Philips.LightOrange.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.LightGreen.Gradient">
+        <item name="android:windowBackground">@drawable/uikit_grad_green_light_to_verylight</item>
+        <item name="android:colorBackground">@color/uikit_philips_light_green</item>
+    </style>
+    <style name="Theme.Philips.LightGreen.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.LightAqua.Gradient">
+        <item name="android:windowBackground">@drawable/uikit_grad_aqua_light_to_verylight</item>
+        <item name="android:colorBackground">@color/uikit_philips_light_aqua</item>
+    </style>
+    <style name="Theme.Philips.LightAqua.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.LightPink.Gradient">
+        <item name="android:windowBackground">@drawable/uikit_grad_pink_light_to_verylight</item>
+        <item name="android:colorBackground">@color/uikit_philips_light_pink</item>
+    </style>
+    <style name="Theme.Philips.LightPink.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.LightPurple.Gradient">
+        <item name="android:windowBackground">@drawable/uikit_grad_purple_light_to_verylight</item>
+        <item name="android:colorBackground">@color/uikit_philips_light_purple</item>
+    </style>
+    <style name="Theme.Philips.LightPurple.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
 

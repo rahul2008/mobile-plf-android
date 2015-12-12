@@ -153,12 +153,58 @@
     <style name="Button.Solid.BrightPurple">
         <item name="android:background">@drawable/uikit_bright_purple_selector</item>
     </style>
-    <style name="Button.BrightPurple">
-        <item name="android:textColor">@drawable/uikit_bright_purple_outlined_text_selector</item>
-        <item name="android:background">@drawable/uikit_bright_purple_outlined_selector</item>
-    </style>
+
     <style name="Button.OutlinedBrightPurple">
         <item name="android:textColor">@drawable/uikit_bright_purple_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_bright_purple_outlined_selector</item>
+    </style>
+
+
+    <style name="Button.Solid.LightBlue">
+        <item name="android:background">@drawable/uikit_light_blue_selector</item>
+    </style>
+    <style name="Button.OutlinedLightBlue">
+        <item name="android:textColor">@drawable/uikit_light_blue_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_blue_outlined_selector</item>
+    </style>
+
+    <style name="Button.Solid.LightOrange">
+        <item name="android:background">@drawable/uikit_light_orange_selector</item>
+    </style>
+    <style name="Button.OutlinedLightOrange">
+        <item name="android:textColor">@drawable/uikit_light_orange_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_orange_outlined_selector</item>
+    </style>
+
+    <style name="Button.Solid.LightAqua">
+        <item name="android:background">@drawable/uikit_light_aqua_selector</item>
+    </style>
+    <style name="Button.OutlinedLightAqua">
+        <item name="android:textColor">@drawable/uikit_light_aqua_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_aqua_outlined_selector</item>
+    </style>
+
+    <style name="Button.Solid.LightGreen">
+        <item name="android:background">@drawable/uikit_light_green_selector</item>
+    </style>
+    <style name="Button.OutlinedLightGreen">
+        <item name="android:textColor">@drawable/uikit_light_green_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_green_outlined_selector</item>
+    </style>
+
+    <style name="Button.Solid.LightPink">
+        <item name="android:background">@drawable/uikit_light_pink_selector</item>
+    </style>
+    <style name="Button.OutlinedLightPink">
+        <item name="android:textColor">@drawable/uikit_light_pink_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_pink_outlined_selector</item>
+    </style>
+
+    <style name="Button.Solid.LightPurple">
+        <item name="android:background">@drawable/uikit_light_purple_selector</item>
+    </style>
+    <style name="Button.OutlinedLightPurple">
+        <item name="android:textColor">@drawable/uikit_light_purple_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_light_purple_outlined_selector</item>
     </style>
 </resources>
