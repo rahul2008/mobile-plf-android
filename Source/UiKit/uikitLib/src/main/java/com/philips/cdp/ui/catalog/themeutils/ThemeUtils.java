@@ -34,7 +34,8 @@ public class ThemeUtils {
             R.style.Theme_Philips_DarkGreen_WhiteBackground,
             R.style.Theme_Philips_DarkOrange_WhiteBackground,
             R.style.Theme_Philips_DarkPink_WhiteBackground,
-            R.style.Theme_Philips_BrightBlue_WhiteBackground
+            R.style.Theme_Philips_BrightBlue_WhiteBackground,
+            R.style.Theme_Philips_BrightPurple_WhiteBackground
     };
 
     private HashMap<Integer, Integer> noActionBarMap = new HashMap<Integer,Integer>();
@@ -100,6 +101,11 @@ public class ThemeUtils {
                 R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground,
                 R.style.Theme_Philips_BrightBlue_Gradient};
 
+        int[] bright_purple_themes = {R.style.Theme_Philips_BrightPurple_WhiteBackground, R.style
+                .Theme_Philips_BrightPurple,
+                R.style.Theme_Philips_BrightPurple_Gradient_WhiteBackground,
+                R.style.Theme_Philips_BrightPurple_Gradient};
+
         themesMap.put(ColorType.BLUE.getDescription(), blue_themes);
         themesMap.put(ColorType.ORANGE.getDescription(), orange_themes);
         themesMap.put(ColorType.AQUA.getDescription(), aqua_themes);
@@ -111,6 +117,7 @@ public class ThemeUtils {
         themesMap.put(ColorType.DARK_ORANGE.getDescription(), dark_orange_themes);
         themesMap.put(ColorType.DARK_PINK.getDescription(), dark_pink_themes);
         themesMap.put(ColorType.BRIGHT_BLUE.getDescription(), bright_blue_themes);
+        themesMap.put(ColorType.BRIGHT_PURPLE.getDescription(), bright_purple_themes);
     }
 
     public void setThemePreferences(boolean previous) {
@@ -247,5 +254,11 @@ public class ThemeUtils {
         noActionBarMap.put(R.style.Theme_Philips_BrightBlue_WhiteBackground, R.style.Theme_Philips_BrightBlue_WhiteBackground_NoActionBar);
         noActionBarMap.put(R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground, R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground_NoActionBar);
         noActionBarMap.put(R.style.Theme_Philips_BrightBlue_Gradient, R.style.Theme_Philips_BrightBlue_Gradient_NoActionBar);
+
+        //BrightPurple
+        noActionBarMap.put(R.style.Theme_Philips_BrightPurple, R.style.Theme_Philips_BrightPurple_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightPurple_WhiteBackground, R.style.Theme_Philips_BrightPurple_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightPurple_Gradient_WhiteBackground, R.style.Theme_Philips_BrightPurple_Gradient_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_BrightPurple_Gradient, R.style.Theme_Philips_BrightPurple_Gradient_NoActionBar);
     }
 }

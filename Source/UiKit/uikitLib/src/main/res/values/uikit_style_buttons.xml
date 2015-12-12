@@ -149,4 +149,16 @@
         <item name="android:textColor">@drawable/uikit_bright_blue_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_bright_blue_outlined_selector</item>
     </style>
+
+    <style name="Button.Solid.BrightPurple">
+        <item name="android:background">@drawable/uikit_bright_purple_selector</item>
+    </style>
+    <style name="Button.BrightPurple">
+        <item name="android:textColor">@drawable/uikit_bright_purple_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_purple_outlined_selector</item>
+    </style>
+    <style name="Button.OutlinedBrightPurple">
+        <item name="android:textColor">@drawable/uikit_bright_purple_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_purple_outlined_selector</item>
+    </style>
 </resources>

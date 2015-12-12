@@ -54,4 +54,8 @@
     <style name="InputStyle.BrightBlue">
         <item name="android:background">@drawable/uikit_inputtext_bright_blue_selector</item>
     </style>
+
+    <style name="InputStyle.BrightPurple">
+        <item name="android:background">@drawable/uikit_inputtext_bright_purple_selector</item>
+    </style>
 </resources>

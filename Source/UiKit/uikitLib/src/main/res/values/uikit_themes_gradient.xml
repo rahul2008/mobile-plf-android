@@ -107,5 +107,14 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Theme.Philips.BrightPurple.Gradient">
+        <item name="android:windowBackground">@drawable/uikit_grad_purple_bright_to_light</item>
+        <item name="android:colorBackground">@color/uikit_philips_bright_purple</item>
+    </style>
+    <style name="Theme.Philips.BrightPurple.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
 

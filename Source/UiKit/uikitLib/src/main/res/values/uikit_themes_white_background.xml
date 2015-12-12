@@ -198,4 +198,20 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- BrightPurple-->
+    <style name="Theme.Philips.BrightPurple.Gradient.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="Theme.Philips.BrightPurple.Gradient.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Philips.BrightPurple.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="Theme.Philips.BrightPurple.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>
