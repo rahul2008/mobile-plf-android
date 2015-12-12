@@ -31,7 +31,8 @@ public class ThemeUtils {
             R.style.Theme_Philips_BrightPink_WhiteBackground,
             R.style.Theme_Philips_DarkPurple_WhiteBackground,
             R.style.Theme_Philips_DarkAqua_WhiteBackground,
-            R.style.Theme_Philips_DarkGreen_WhiteBackground
+            R.style.Theme_Philips_DarkGreen_WhiteBackground,
+            R.style.Theme_Philips_DarkOrange_WhiteBackground
     };
 
     private HashMap<Integer, Integer> noActionBarMap = new HashMap<Integer,Integer>();
@@ -82,6 +83,11 @@ public class ThemeUtils {
                 R.style.Theme_Philips_DarkGreen_Gradient_WhiteBackground,
                 R.style.Theme_Philips_DarkGreen_Gradient};
 
+        int[] dark_orange_themes = {R.style.Theme_Philips_DarkOrange_WhiteBackground,
+                R.style.Theme_Philips_DarkOrange,
+                R.style.Theme_Philips_DarkOrange_Gradient_WhiteBackground,
+                R.style.Theme_Philips_DarkOrange_Gradient};
+
         themesMap.put(ColorType.BLUE.getDescription(), blue_themes);
         themesMap.put(ColorType.ORANGE.getDescription(), orange_themes);
         themesMap.put(ColorType.AQUA.getDescription(), aqua_themes);
@@ -90,6 +96,7 @@ public class ThemeUtils {
         themesMap.put(ColorType.DARK_PURPLE.getDescription(), dark_purple_themes);
         themesMap.put(ColorType.DARK_AQUA.getDescription(), dark_aqua_themes);
         themesMap.put(ColorType.DARK_GREEN.getDescription(), dark_green_themes);
+        themesMap.put(ColorType.DARK_ORANGE.getDescription(), dark_orange_themes);
     }
 
     public void setThemePreferences(boolean previous) {
@@ -184,6 +191,12 @@ public class ThemeUtils {
         noActionBarMap.put(R.style.Theme_Philips_DarkGreen_WhiteBackground, R.style.Theme_Philips_DarkGreen_WhiteBackground_NoActionBar);
         noActionBarMap.put(R.style.Theme_Philips_DarkGreen_Gradient_WhiteBackground, R.style.Theme_Philips_DarkGreen_Gradient_WhiteBackground_NoActionBar);
         noActionBarMap.put(R.style.Theme_Philips_DarkGreen_Gradient, R.style.Theme_Philips_DarkGreen_Gradient_NoActionBar);
+
+        //DarkOrange
+        noActionBarMap.put(R.style.Theme_Philips_DarkOrange, R.style.Theme_Philips_DarkOrange_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_DarkOrange_WhiteBackground, R.style.Theme_Philips_DarkOrange_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_DarkOrange_Gradient_WhiteBackground, R.style.Theme_Philips_DarkOrange_Gradient_WhiteBackground_NoActionBar);
+        noActionBarMap.put(R.style.Theme_Philips_DarkOrange_Gradient, R.style.Theme_Philips_DarkOrange_Gradient_NoActionBar);
 
         //BrightOrange
         noActionBarMap.put(R.style.Theme_Philips_BrightOrange, R.style.Theme_Philips_BrightOrange_NoActionBar);

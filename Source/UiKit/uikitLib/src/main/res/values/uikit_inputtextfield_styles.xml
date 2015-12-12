@@ -42,4 +42,8 @@
     <style name="InputStyle.DarkGreen">
         <item name="android:background">@drawable/uikit_inputtext_dark_green_selector</item>
     </style>
+
+    <style name="InputStyle.DarkOrange">
+        <item name="android:background">@drawable/uikit_inputtext_dark_orange_selector</item>
+    </style>
 </resources>
