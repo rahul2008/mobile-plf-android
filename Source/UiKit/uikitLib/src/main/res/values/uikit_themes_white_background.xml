@@ -181,4 +181,21 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <!-- BrightBlue-->
+    <style name="Theme.Philips.BrightBlue.Gradient.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="Theme.Philips.BrightBlue.Gradient.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Philips.BrightBlue.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="Theme.Philips.BrightBlue.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

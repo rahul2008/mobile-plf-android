@@ -137,4 +137,16 @@
         <item name="android:textColor">@drawable/uikit_dark_pink_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_dark_pink_outlined_selector</item>
     </style>
+
+    <style name="Button.Solid.BrightBlue">
+        <item name="android:background">@drawable/uikit_bright_blue_selector</item>
+    </style>
+    <style name="Button.BrightBlue">
+        <item name="android:textColor">@drawable/uikit_bright_blue_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_blue_outlined_selector</item>
+    </style>
+    <style name="Button.OutlinedBrightBlue">
+        <item name="android:textColor">@drawable/uikit_bright_blue_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_bright_blue_outlined_selector</item>
+    </style>
 </resources>
