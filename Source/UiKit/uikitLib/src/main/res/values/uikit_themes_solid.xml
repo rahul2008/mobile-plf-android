@@ -66,6 +66,38 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Dark Green-->
+    <style name="Theme.Philips.DarkGreen">
+        <item name="baseColor">@color/uikit_philips_dark_green</item>
+        <item name="darkerGradient">@drawable/uikit_grad_green_verydark_to_dark</item>
+        <item name="baseGradient">@drawable/uikit_grad_green_dark_to_bright</item>
+        <item name="lighterGradient">@drawable/uikit_grad_green_bright_to_light</item>
+        <item name= "verydarkBaseColor">@color/uikit_philips_very_dark_green</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_green</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_green_color</item>
+        <item name="listtextselector">@drawable/uikit_list_text_selector_green</item>
+        <item name="springBoardDivider">@color/uikit_philips_bright_green</item>
+        <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Green</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_green_theme</item>
+        <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
+        <item name="android:colorBackground">@color/uikit_philips_very_light_green</item>
+        <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_green</item>
+        <item name="buttonStyle">@style/Button.Solid.DarkGreen</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedDarkGreen</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentGreen</item>
+        <item name="editTextStyle">@style/InputStyle.DarkGreen</item>
+        <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
+        <item name="brightColor">@color/uikit_philips_bright_green</item>
+        <item name="darkerColor">@color/uikit_philips_very_dark_green</item>
+        <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+    </style>
+
+    <style name="Theme.Philips.DarkGreen.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
     <style name="Theme.Philips.DarkAqua">
         <item name="baseColor">@color/uikit_philips_dark_aqua</item>

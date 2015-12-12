@@ -112,4 +112,13 @@
         <item name="android:textColor">@drawable/uikit_dark_aqua_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_dark_aqua_outlined_selector</item>
     </style>
+
+    <style name="Button.Solid.DarkGreen">
+        <item name="android:background">@drawable/uikit_dark_green_selector</item>
+    </style>
+
+    <style name="Button.OutlinedDarkGreen">
+        <item name="android:textColor">@drawable/uikit_dark_green_outlined_text_selector</item>
+        <item name="android:background">@drawable/uikit_dark_green_outlined_selector</item>
+    </style>
 </resources>

@@ -124,4 +124,23 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <!-- Dark Green -->
+    <style name="Theme.Philips.DarkGreen.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Philips.DarkGreen.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Philips.DarkGreen.Gradient.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Philips.DarkGreen.Gradient.WhiteBackground.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
