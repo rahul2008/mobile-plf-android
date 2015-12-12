@@ -166,6 +166,39 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Dark Pink-->
+    <style name="Theme.Philips.DarkPink">
+        <item name="baseColor">@color/uikit_philips_dark_pink</item>
+        <item name="darkerGradient">@drawable/uikit_grad_pink_verydark_to_dark</item>
+        <item name="baseGradient">@drawable/uikit_grad_pink_dark_to_bright</item>
+        <item name="lighterGradient">@drawable/uikit_grad_pink_bright_to_light</item>
+        <item name= "verydarkBaseColor">@color/uikit_philips_very_dark_pink</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_pink</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_pink_color</item>
+        <item name="listtextselector">@drawable/uikit_list_text_selector_pink</item>
+        <item name="springBoardDivider">@color/uikit_philips_bright_pink</item>
+        <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Pink</item>
+        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_pink_theme</item>
+        <item name="android:windowBackground">@color/uikit_philips_very_light_pink</item>
+        <item name="android:colorBackground">@color/uikit_philips_very_light_pink</item>
+        <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_pink</item>
+        <item name="buttonStyle">@style/Button.Solid.DarkPink</item>
+        <item name="outlinedButtonStyle">@style/Button.OutlinedDarkPink</item>
+        <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPink</item>
+        <item name="editTextStyle">@style/InputStyle.DarkPink</item>
+        <item name="veryLightColor">@color/uikit_philips_very_light_pink</item>
+        <item name="brightColor">@color/uikit_philips_bright_pink</item>
+        <item name="darkerColor">@color/uikit_philips_very_dark_pink</item>
+        <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+    </style>
+
+    <style name="Theme.Philips.DarkPink.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Theme.Philips.BrightOrange">
         <item name="baseColor">@color/uikit_philips_bright_orange</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_orange</item>

@@ -89,5 +89,15 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Theme.Philips.DarkPink.Gradient">
+        <item name="android:windowBackground">@drawable/uikit_grad_window_pink_background</item>
+        <item name="android:colorBackground">@color/uikit_philips_bright_pink</item>
+    </style>
+
+    <style name="Theme.Philips.DarkPink.Gradient.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
 
