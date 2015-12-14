@@ -64,7 +64,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CardsActivity"
-            android:label="@string/title_activity_cards"></activity>
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

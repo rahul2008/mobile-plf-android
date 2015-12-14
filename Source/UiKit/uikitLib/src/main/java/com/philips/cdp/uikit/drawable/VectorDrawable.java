@@ -242,8 +242,8 @@ public class VectorDrawable extends Drawable {
             } else {
                 drawable = new VectorDrawable();
                 drawable.inflate(resources, parser, attrs, theme);
-                return drawable;
             }
+            return drawable;
         } catch (XmlPullParserException e) {
             Log.e(LOGTAG, "parser error", e);
         } catch (IOException e) {
@@ -274,6 +274,7 @@ public class VectorDrawable extends Drawable {
     /**
      * Parses a {@link android.graphics.PorterDuff.Mode} from a tintMode
      * attribute's enum value.
+     *
      */
     public static PorterDuff.Mode parseTintMode(int value, Mode defaultMode) {
         switch (value) {
@@ -557,7 +558,7 @@ public class VectorDrawable extends Drawable {
     }
 
     private void inflateInternal(Resources res, XmlPullParser parser, AttributeSet attrs,
-            Theme theme) throws XmlPullParserException, IOException {
+                                 Theme theme) throws XmlPullParserException, IOException {
         final VectorDrawableState state = mVectorState;
         final VPathRenderer pathRenderer = state.mVPathRenderer;
         boolean noPathTag = true;
@@ -949,7 +950,7 @@ public class VectorDrawable extends Drawable {
         }
 
         private void drawGroupTree(VGroup currentGroup, Matrix currentMatrix,
-                Canvas canvas, int w, int h, ColorFilter filter) {
+                                   Canvas canvas, int w, int h, ColorFilter filter) {
             // Calculate current group's matrix by preConcat the parent's and
             // and the current one on the top of the stack.
             // Basically the Mfinal = Mviewport * M0 * M1 * M2;
@@ -978,7 +979,7 @@ public class VectorDrawable extends Drawable {
         }
 
         private void drawPath(VGroup vGroup, VPath vPath, Canvas canvas, int w, int h,
-                ColorFilter filter) {
+                              ColorFilter filter) {
             final float scaleX = w / mViewportWidth;
             final float scaleY = h / mViewportHeight;
             final float minScale = Math.min(scaleX, scaleY);

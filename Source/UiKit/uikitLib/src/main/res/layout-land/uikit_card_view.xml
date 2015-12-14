@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="34dp">
@@ -15,17 +15,18 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/child1"
             android:layout_width="match_parent"
-            android:layout_height="390dp"
-            android:layout_above="@+id/bottom_layout">
+            android:layout_height="390dp">
 
             <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+                android:id="@+id/cross"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="19dp"
                 android:layout_marginTop="17dp"
-                card_view:vectorsrc="@drawable/cross_icon" />
+                app:vectorsrc="@drawable/uikit_cross_icon" />
 
         </RelativeLayout>
 
@@ -34,14 +35,14 @@
             android:layout_width="match_parent"
             android:layout_height="224dp"
             android:layout_alignParentBottom="true"
+            android:layout_below="@+id/child1"
             android:background="@color/uikit_white"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="33dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="33dp">
 
                 <TextView
                     android:id="@+id/cards_title"
@@ -50,34 +51,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="34dp"
-                    android:text="Your title goes"
-                    android:textColor="?attr/verydarkBaseColor"
-                    android:textSize="28sp" />
-
-                <TextView
-                    fontPath="fonts/centralesansxbold.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/cards_title"
-                    android:text="here"
+                    android:text="Your title goes here"
                     android:textColor="?attr/verydarkBaseColor"
                     android:textSize="28sp" />
 
                 <com.philips.cdp.uikit.customviews.VectorDrawableImageView
-                    android:id="@+id/cardimage"
+                    android:id="@+id/cardImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="33dp"
-                    card_view:vectorsrc="@drawable/uikit_heart" />
+                    app:vectorsrc="@drawable/uikit_heart_icon" />
 
                 <TextView
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/cardimage"
+                    android:layout_toLeftOf="@+id/cardImage"
                     android:text="12"
                     android:textColor="?attr/verydarkBaseColor"
                     android:textSize="14sp" />
