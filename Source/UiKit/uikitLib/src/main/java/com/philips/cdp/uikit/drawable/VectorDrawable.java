@@ -28,7 +28,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
@@ -184,7 +183,7 @@ import java.util.Stack;
  */
 
 public class VectorDrawable extends Drawable {
-    static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
+    static final Mode DEFAULT_TINT_MODE = Mode.SRC_IN;
     private static final String LOGTAG = VectorDrawable.class.getSimpleName();
     private static final String SHAPE_CLIP_PATH = "clip-path";
     private static final String SHAPE_GROUP = "group";
@@ -272,11 +271,11 @@ public class VectorDrawable extends Drawable {
     }
 
     /**
-     * Parses a {@link android.graphics.PorterDuff.Mode} from a tintMode
+     * Parses a {@link Mode} from a tintMode
      * attribute's enum value.
      *
      */
-    public static PorterDuff.Mode parseTintMode(int value, Mode defaultMode) {
+    public static Mode parseTintMode(int value, Mode defaultMode) {
         switch (value) {
             case 3:
                 return Mode.SRC_OVER;
@@ -677,7 +676,7 @@ public class VectorDrawable extends Drawable {
      * mode.
      */
     PorterDuffColorFilter updateTintFilter(PorterDuffColorFilter tintFilter, ColorStateList tint,
-                                           PorterDuff.Mode tintMode) {
+                                           Mode tintMode) {
         if (tint == null || tintMode == null) {
             return null;
         }

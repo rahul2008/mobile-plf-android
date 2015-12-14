@@ -7,10 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
@@ -53,14 +53,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        VectorDrawableImageView cardImage, crossIcon;
+        ImageView cardImage, crossIcon;
         TextView cardtitle;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            cardImage = (VectorDrawableImageView) itemView.findViewById(R.id.cardImage);
-            crossIcon = (VectorDrawableImageView) itemView.findViewById(R.id.cross);
+            cardImage = (ImageView) itemView.findViewById(R.id.cardImage);
+            crossIcon = (ImageView) itemView.findViewById(R.id.cross);
 
         }
     }

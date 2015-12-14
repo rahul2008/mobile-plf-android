@@ -62,9 +62,7 @@
         <activity
             android:name=".activity.SpringBoardSixGridActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.CardsActivity"
-            android:screenOrientation="landscape" />
+        <activity android:name=".activity.CardsActivity" />
     </application>
 
 </manifest>
