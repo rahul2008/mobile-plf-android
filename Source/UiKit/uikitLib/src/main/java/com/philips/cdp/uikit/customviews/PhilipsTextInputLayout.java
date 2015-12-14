@@ -19,6 +19,7 @@ import com.philips.cdp.uikit.R.color;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -29,8 +30,9 @@ public class PhilipsTextInputLayout extends LinearLayout{
     private Validator validator=null;
 
     boolean isFocused = false;
-    Set<Integer> set = new HashSet<Integer>() ;
+    Set<Integer> set = new ConcurrentSkipListSet<Integer>() ;
     int mThemeBaseColor;
+    final String TAG = "Set";
 
 
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
@@ -69,6 +71,7 @@ public class PhilipsTextInputLayout extends LinearLayout{
 
     private void retainErrorLayoutFocus(){
         try {
+            Log.i(TAG, "In retainErrorLayoutFocus and set = " + set.toString());
             for (Integer layout:set
                  ) {
                 LinearLayout parent = (LinearLayout)getChildAt(layout);
@@ -118,10 +121,33 @@ public class PhilipsTextInputLayout extends LinearLayout{
         imageview.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View view) {
-                int index = indexOfChild(errorView);
-                removeView(errorView);
-                set.remove(index - 1);
+
+                Log.i(TAG, "In On Click Listener the Set = " + set.toString());
+
+                RelativeLayout parent = (RelativeLayout) view.getParent();
+
+                int index = indexOfChild(parent);
+                Log.i(TAG,"Index of RelativeLayout = " +index);
+
+                removeView(parent);
+
+                boolean isremoved = set.remove(index - 1);
+                Log.i(TAG,"is removded = " + isremoved);
+
+                Log.i(TAG, "Reset color called for" + index + "minus one");
                 resetcolor(index - 1);
+
+
+                for (Object i :set
+                        ) {
+                    Integer indexOfParenthavingError = (Integer)i;
+                    if(index<=indexOfParenthavingError){
+                        set.remove(indexOfParenthavingError);
+                        set.add(indexOfParenthavingError-1);
+                    }
+                }
+                Log.i(TAG, "After In On Click Listener the Set = " + set.toString());
+                retainErrorLayoutFocus();
             }
         });
         return errorView;
@@ -137,8 +163,22 @@ public class PhilipsTextInputLayout extends LinearLayout{
         if(errorview instanceof RelativeLayout){
             int index = indexOfChild(errorview);
             removeView(errorview);
-            set.remove(index - 1);
+            boolean isremoved = set.remove(index - 1);
+            Log.i(TAG,"is removded = " + isremoved);
+
+            Log.i(TAG, "Reset color called for" + index + "minus one");
             resetcolor(index - 1);
+
+            for (Object i :set
+                    ) {
+                Integer indexOfParenthavingError = (Integer)i;
+                if(index<=indexOfParenthavingError){
+                    set.remove(indexOfParenthavingError);
+                    set.add(indexOfParenthavingError-1);
+                }
+            }
+            Log.i(TAG, "After In On Click Listener the Set = " + set.toString());
+            retainErrorLayoutFocus();
         }
     }
 
@@ -154,25 +194,50 @@ public class PhilipsTextInputLayout extends LinearLayout{
          View view = getFocusedChild();
         try{
             //ViewParent parentOfView = view.getParent();
+            LinearLayout layout = null;
+            int index = -1;
             if(view instanceof LinearLayout){
-                LinearLayout l = (LinearLayout)view;
-                int index = indexOfChild(l);
+                 layout = (LinearLayout)view;
+                index = indexOfChild(layout);
                 highLightErrorView(index, getFocusedColor(),"base");
-                highLightTextFeilds(l,R.color.uikit_philips_very_dark_blue);
+                highLightTextFeilds(layout,R.color.uikit_philips_very_dark_blue);
             }
+
+
 
         }catch (Exception e){
             e.printStackTrace();
         }
+
+
     }
 
     public void showError(EditText edittext) {
+        Log.i(TAG, "In Show Error the Set = " + set.toString());
+
         LinearLayout parent = (LinearLayout)edittext.getParent();
         int indexofParent = indexOfChild(parent);
+        Log.i(TAG,"In show error index of LinearLayout where error has to be added = " + indexofParent);
 
         if (!(set.contains(indexofParent))) {
-            addView(createNewErrorView(), indexofParent +1);
+            View errorView = createNewErrorView();
+
+            addView(errorView, indexofParent +1);
             set.add(indexofParent);
+            int errorIndex = indexOfChild(errorView);
+            Log.i(TAG,"Error Layout containing error view = " + indexofParent);
+            for (Object i: set
+                    ) {
+                Integer indexofErrorParent = (Integer)i;
+                if(errorIndex <=indexofErrorParent){
+                    Log.i(TAG, "In Show Error, error Index " + errorIndex + "<= error layout index in set " + indexofErrorParent);
+                    boolean isremoved = set.remove(indexofErrorParent);
+                    Log.i(TAG,"is removed  = " + isremoved + "and set = " + set.toString());
+                    isremoved = set.add(indexofErrorParent+1);
+                    Log.i(TAG,"is added  = " + isremoved + "and set = " + set.toString());
+                }
+            }
+            Log.i(TAG, "After In Show Error the Set = " + set.toString());
         }
     }
 
@@ -184,11 +249,15 @@ public class PhilipsTextInputLayout extends LinearLayout{
         try {
             View belowLine;
             View aboveLine = getChildAt(indexofParent - 1);
+            Log.i(TAG, "above Line index = " + indexOfChild(aboveLine));
 
             belowLine = getChildAt(indexofParent + 1);
+
             if(belowLine instanceof RelativeLayout){
                 belowLine = getChildAt(indexofParent + 2);
             }
+
+            Log.i(TAG, "Below Line index = " + indexOfChild(belowLine));
 
             if (isBase.equalsIgnoreCase("Orange")) {
                 aboveLine.setBackgroundColor(getResources().getColor(color));
@@ -201,6 +270,17 @@ public class PhilipsTextInputLayout extends LinearLayout{
             } else {
                 belowLine.setBackgroundColor(color);
             }
+
+            if(set.contains(indexofParent)) {
+                if (mThemeBaseColor == getResources().getColor(R.color.uikit_philips_bright_orange)) {
+                    aboveLine.setBackgroundColor(getResources().getColor(R.color.uikit_enricher_red));
+                    belowLine.setBackgroundColor(getResources().getColor(R.color.uikit_enricher_red));
+                }else{
+                    aboveLine.setBackgroundColor(getResources().getColor(R.color.uikit_philips_bright_orange));
+                    belowLine.setBackgroundColor(getResources().getColor(R.color.uikit_philips_bright_orange));
+                }
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }

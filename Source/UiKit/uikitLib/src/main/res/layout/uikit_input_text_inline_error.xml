@@ -4,7 +4,7 @@
     android:id="@+id/errorlayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingBottom="14dp"
+    android:paddingBottom="16dp"
 
     >
     <FrameLayout
