@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
@@ -168,13 +169,18 @@ public class BTGatt extends BluetoothGattCallback {
 
     // Implements BluetoothGattCallback
     @Override
-    public void onConnectionStateChange(BluetoothGatt gatt, final int status, final int newState) {
+    public void onConnectionStateChange(final BluetoothGatt gatt, final int status, final int newState) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 if (LOGGING) Log.w(TAG, "onConnectionStateChange status: " + status + " newState: " + newState);
                 btGattCallback.onConnectionStateChange(BTGatt.this, status, newState);
-            }
+// For Tuscany we found that Android does not negotiate the MTU size. The below statements work for Lolipop on a MOTOG.
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    boolean result = gatt.requestMtu(128);
+//                    Log.e(TAG, "gatt.requestMtu(128); = " + result);
+//                }
+//            }
         };
         handler.post(runnable);
     }
