@@ -180,7 +180,7 @@ public class BTGatt extends BluetoothGattCallback {
 //                    boolean result = gatt.requestMtu(128);
 //                    Log.e(TAG, "gatt.requestMtu(128); = " + result);
 //                }
-//            }
+            }
         };
         handler.post(runnable);
     }
