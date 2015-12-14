@@ -157,5 +157,6 @@
     <dimen name="springboard_gridspacing">18dp</dimen>
     <dimen name="springboard_grid_margin_left">33dp</dimen>
     <dimen name="springboard_text_margin">14dp</dimen>
+    <dimen name="image_margin_top">36dp</dimen>
     <dimen name="springboard_grid_margin_right">31dp</dimen>
 </resources>

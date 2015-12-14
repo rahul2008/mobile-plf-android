@@ -44,8 +44,8 @@
                 android:id="@+id/imageView1"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+               android:layout_marginTop="@dimen/image_margin_top"
                 app:themeStyle="theme" />
 
             <TextView
@@ -76,7 +76,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/image_margin_top"
                 android:layout_centerHorizontal="true"
                 app:themeStyle="theme" />
 
@@ -122,7 +122,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/image_margin_top"
                 android:layout_centerHorizontal="true"
                 app:themeStyle="theme" />
 
@@ -154,7 +154,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/image_margin_top"
                 android:layout_centerHorizontal="true"
                 app:themeStyle="theme" />
 
@@ -199,7 +199,7 @@
                 android:id="@+id/imageView5"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/image_margin_top"
                 android:layout_centerHorizontal="true"
                 app:themeStyle="theme" />
 
@@ -231,7 +231,7 @@
                 android:id="@+id/imageView6"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/image_margin_top"
                 android:layout_centerHorizontal="true"
                 app:themeStyle="theme" />
 
