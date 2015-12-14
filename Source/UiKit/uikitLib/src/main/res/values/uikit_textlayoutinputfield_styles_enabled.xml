@@ -1,0 +1,18 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="PhilipsTextInputLayoutStyleEnabled">
+        <item name="android:background">@drawable/uikit_textinputlayout_bg</item>
+        <item name="android:textColorHint">@color/uikit_enricher4</item>
+        <item name="android:enabled">true</item>
+        <item name="android:fontFamily">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingBottom">1dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_marginLeft">-13dp</item>
+    </style>
+
+</resources>
