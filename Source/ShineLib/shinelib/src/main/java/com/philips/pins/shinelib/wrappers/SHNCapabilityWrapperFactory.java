@@ -21,6 +21,7 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityUserInformationLifeSe
 
 public class SHNCapabilityWrapperFactory {
     public static SHNCapability createCapabilityWrapper(SHNCapability shnCapability, SHNCapabilityType shnCapabilityType, Handler internalHandler, Handler userHandler) {
+        shnCapabilityType = SHNCapabilityType.fixDeprecation(shnCapabilityType);
         SHNCapability shnCapabilityWrapper;
         switch (shnCapabilityType) {
             case Notifications:

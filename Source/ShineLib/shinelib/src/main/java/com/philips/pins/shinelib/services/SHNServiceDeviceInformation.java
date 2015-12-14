@@ -80,7 +80,7 @@ public class SHNServiceDeviceInformation extends SHNService {
     public void readDeviceInformation(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
         readDeviceInformation(shnDeviceInformationType, new SHNCapabilityDeviceInformation.Listener() {
             @Override
-            public void onDeviceInformation(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, @NonNull final String value, @NonNull final Date lastCacheUpdate) {
+            public void onDeviceInformation(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired) {
                 shnStringResultListener.onActionCompleted(value, SHNResult.SHNOk);
             }
 
@@ -116,10 +116,6 @@ public class SHNServiceDeviceInformation extends SHNService {
     private UUID getCharacteristicUUIDForDeviceInformationType(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType) {
         String uuidString = uuidMap.get(shnDeviceInformationType);
 
-        if (uuidString != null) {
-            return UUID.fromString(uuidString);
-        }
-
-        return null;
+        return uuidString != null ? UUID.fromString(uuidString) : null;
     }
 }

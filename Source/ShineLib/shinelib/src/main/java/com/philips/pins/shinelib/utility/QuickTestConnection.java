@@ -19,6 +19,17 @@ public class QuickTestConnection {
     public void execute(@NonNull final SHNDevice device, @NonNull final Listener listener) {
         stop();
 
+        SHNDevice.State state = device.getState();
+        if (state == SHNDevice.State.Disconnecting) {
+            listener.onFailure();
+        } else if (state == SHNDevice.State.Connected) {
+            listener.onSuccess();
+        } else {
+            registerAndConnect(device, listener);
+        }
+    }
+
+    private void registerAndConnect(final @NonNull SHNDevice device, final @NonNull Listener listener) {
         this.device = device;
         deviceListener = new SHNDevice.SHNDeviceListener() {
             @Override

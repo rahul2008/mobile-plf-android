@@ -8,6 +8,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,16 +32,19 @@ public class QuickTestConnectionTest {
         initMocks(this);
 
         quickTestConnection = new QuickTestConnection();
-        quickTestConnection.execute(deviceMock, listenerMock);
     }
 
     @Test
     public void ShouldCallConnect_WhenExecuteIsCalled() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
         verify(deviceMock).connect();
     }
 
     @Test
     public void ShouldInformListenerOfFailure_WhenDeviceCannotBeConnected() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
 
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
@@ -51,6 +55,8 @@ public class QuickTestConnectionTest {
 
     @Test
     public void ShouldUnregisterDeviceListener_WhenStopIsCalledAfterStart() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
@@ -61,6 +67,8 @@ public class QuickTestConnectionTest {
 
     @Test
     public void ShouldUnregisterDeviceListener_WhenDeviceCannotBeConnected() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
@@ -71,6 +79,8 @@ public class QuickTestConnectionTest {
 
     @Test
     public void ShouldUnregisterDeviceListenerOnlyOnce_WhenStopMultipleTimesIsCalledAfterStart() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
@@ -82,6 +92,8 @@ public class QuickTestConnectionTest {
 
     @Test
     public void ShouldInformListenerOnSuccess_WhenDeviceBecomesConnected() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
         when(deviceMock.getState()).thenReturn(SHNDevice.State.Connected);
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
 
@@ -93,6 +105,8 @@ public class QuickTestConnectionTest {
 
     @Test
     public void ShouldUnregisterDeviceListener_WhenDeviceIsConnected() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
         when(deviceMock.getState()).thenReturn(SHNDevice.State.Connected);
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
 
@@ -104,6 +118,8 @@ public class QuickTestConnectionTest {
 
     @Test
     public void ShouldIgnoreNonConnectedStates_WhenDeviceStateIsUpdated() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
@@ -118,5 +134,50 @@ public class QuickTestConnectionTest {
         deviceListener.onStateUpdated(deviceMock);
 
         verify(deviceMock, never()).unregisterSHNDeviceListener(deviceListener);
+    }
+
+    @Test
+    public void ShouldReportFailure_WhenStateIsDisconnectingDuringExecute() {
+        when(deviceMock.getState()).thenReturn(SHNDevice.State.Disconnecting);
+
+        quickTestConnection.execute(deviceMock, listenerMock);
+
+        verify(listenerMock).onFailure();
+    }
+
+    @Test
+    public void ShouldReportSuccess_WhenStateIsConnectedDuringExecute() {
+        when(deviceMock.getState()).thenReturn(SHNDevice.State.Connected);
+
+        quickTestConnection.execute(deviceMock, listenerMock);
+
+        verify(listenerMock).onSuccess();
+    }
+
+    @Test
+    public void ShouldReportSuccess_WhenStateIsConnectingDuringExecute() {
+        when(deviceMock.getState()).thenReturn(SHNDevice.State.Connecting);
+
+        quickTestConnection.execute(deviceMock, listenerMock);
+
+        verify(deviceMock).registerSHNDeviceListener(isA(SHNDevice.SHNDeviceListener.class));
+    }
+
+    @Test
+    public void ShouldNotConnect_WhenStateIsDisconnectingDuringExecute() {
+        when(deviceMock.getState()).thenReturn(SHNDevice.State.Disconnecting);
+
+        quickTestConnection.execute(deviceMock, listenerMock);
+
+        verify(deviceMock, never()).connect();
+    }
+
+    @Test
+    public void ShouldNotConnect_WhenStateIsConnectedDuringExecute() {
+        when(deviceMock.getState()).thenReturn(SHNDevice.State.Connected);
+
+        quickTestConnection.execute(deviceMock, listenerMock);
+
+        verify(deviceMock, never()).connect();
     }
 }

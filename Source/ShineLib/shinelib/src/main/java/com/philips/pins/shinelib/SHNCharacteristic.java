@@ -70,15 +70,14 @@ public class SHNCharacteristic {
         return null;
     }
 
-    public boolean write(byte[] data, SHNCommandResultReporter resultReporter) {
+    public void write(byte[] data, SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
             pendingCompletions.add(resultReporter);
         } else {
             if (LOGGING) Log.i(TAG, "Error write; characteristic not active: " + uuid);
-            return false;
+            resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
         }
-        return true;
     }
 
     public void read(@NonNull final SHNCommandResultReporter resultReporter) {

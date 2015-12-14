@@ -29,9 +29,6 @@ import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
-/**
- * Created by 310188215 on 06/05/15.
- */
 @RunWith(PowerMockRunner.class)
 public class SHNCharacteristicTest {
     private SHNCharacteristic shnCharacteristic;
@@ -94,7 +91,7 @@ public class SHNCharacteristicTest {
 
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
 
-        assertTrue(shnCharacteristic.write(data, null));
+        shnCharacteristic.write(data, null);
         verify(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, data);
     }
 
@@ -143,7 +140,7 @@ public class SHNCharacteristicTest {
 
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
 
-        assertTrue(shnCharacteristic.write(data, resultReporterMock));
+        shnCharacteristic.write(data, resultReporterMock);
 
         shnCharacteristic.onWrite(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
 
@@ -217,7 +214,7 @@ public class SHNCharacteristicTest {
         final int[] characteristicChangedListenerInvocationCount = {0};
         byte[] data = new byte[]{'d', 'a', 't', 'a'};
         SHNCharacteristic.SHNCharacteristicChangedListener mockedSHNCharacteristicChangedListener = (SHNCharacteristic.SHNCharacteristicChangedListener) Utility.makeThrowingMock(SHNCharacteristic.SHNCharacteristicChangedListener.class);
-        doAnswer(new Answer<Void>(){
+        doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 characteristicChangedListenerInvocationCount[0]++;
@@ -258,8 +255,10 @@ public class SHNCharacteristicTest {
     }
 
     @Test
-    public void whenWriteIsCalledWhenNotActiveThenWriteIsNotAccepted() {
-        assertFalse(shnCharacteristic.write(null, resultReporterMock));
+    public void whenWriteIsCalledWhenNotActiveThenInvalidStateIsReported() {
+        shnCharacteristic.write(null, resultReporterMock);
+
+        verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidState, null);
     }
 
     @Test

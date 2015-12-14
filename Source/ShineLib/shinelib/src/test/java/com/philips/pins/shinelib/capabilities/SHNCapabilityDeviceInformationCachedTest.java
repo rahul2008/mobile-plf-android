@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.capabilities;
 
+import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
@@ -7,9 +8,12 @@ import com.philips.pins.shinelib.utility.DeviceInformationCache;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -22,6 +26,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class SHNCapabilityDeviceInformationCachedTest {
 
     public static final SHNCapabilityDeviceInformation.SHNDeviceInformationType INFORMATION_TYPE = SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision;
@@ -108,12 +114,12 @@ public class SHNCapabilityDeviceInformationCachedTest {
     }
 
     @Test
-    public void shouldCallReadForAllDeviceInformationTypes_whenServiceBecomesActiveIsCalled() {
+    public void shouldCallReadForAllDeviceInformationTypes_whenServiceBecomesIsCalled() {
         verify(deviceInformationMock).registerSHNServiceListener(serviceListenerCaptor.capture());
 
         SHNService.SHNServiceListener serviceListener = serviceListenerCaptor.getValue();
 
-        serviceListener.onServiceStateChanged(null, SHNService.State.Available);
+        serviceListener.onServiceStateChanged(null, SHNService.State.Ready);
 
         SHNCapabilityDeviceInformation.SHNDeviceInformationType[] values = SHNCapabilityDeviceInformation.SHNDeviceInformationType.values();
         verify(capabilityDeviceInformationMock, times(values.length)).readDeviceInformation(deviceInformationTypeCaptor.capture(), any(SHNCapabilityDeviceInformation.Listener.class));
