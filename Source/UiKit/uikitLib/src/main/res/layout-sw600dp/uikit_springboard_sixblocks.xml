@@ -15,7 +15,7 @@
         android:includeFontPadding="false"
         android:text="Mobile app"
         android:layout_above="@+id/center_grids"
-        android:layout_marginBottom="@dimen/uikit_tab_text_margin_bottom"
+        android:layout_marginBottom="23dp"
         android:textColor="@color/uikit_white"
         android:textSize="33dp" />
 
