@@ -14,9 +14,9 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/child1"
             android:layout_width="match_parent"
-            android:layout_height="390dp">
+            android:layout_height="390dp"
+            android:layout_above="@+id/bottom_layout">
 
             <ImageView
                 android:id="@+id/cross"
@@ -33,7 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="224dp"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/child1"
             android:background="@color/uikit_white"
             android:orientation="vertical">
 

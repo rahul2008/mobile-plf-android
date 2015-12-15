@@ -105,8 +105,10 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 17:
                 startActivity(new Intent(this, SpringBoardsctivity.class));
+                break;
             case 19:
                 startActivity(new Intent(this, CardsActivity.class));
+                break;
             default:
                 break;
         }
