@@ -177,14 +177,6 @@ public class PhilipsTextInputLayout extends LinearLayout {
             highLightErrorView(indexofParent, mEnricher4);
             highLightTextFeilds(parent, mEnricher4);
         }
-
-        for(int i=0;i<parent.getChildCount();i++){
-            View view = parent.getChildAt(i);
-            if(view instanceof EditText){
-                ((EditText)view).requestFocus();
-            }
-        }
-        /*
         View view = getFocusedChild();
         try {
             LinearLayout layout = null;
@@ -197,7 +189,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     public void showError(EditText edittext) {
