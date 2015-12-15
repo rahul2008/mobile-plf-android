@@ -2,6 +2,7 @@ package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -19,6 +20,9 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.R.color;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -90,8 +94,48 @@ public class PhilipsTextInputLayout extends LinearLayout {
     };
 
     @Override
-    protected void onRestoreInstanceState(final Parcelable state) {
-        super.onRestoreInstanceState(state);
+    protected Parcelable onSaveInstanceState() {
+        Parcelable parcel =  super.onSaveInstanceState();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("instanceState", super.onSaveInstanceState());
+        ArrayList<Integer> list = new ArrayList<>();
+        list.addAll(set);
+        bundle.putIntegerArrayList("Set", list);
+        // ... save everything
+        return bundle;
+        //return  parcel;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            ArrayList<Integer> list = bundle.getIntegerArrayList("Set");
+            // ... load everything
+            state = bundle.getParcelable("instanceState");
+            Set<Integer> restoreSet = new ConcurrentSkipListSet<Integer>(list);
+
+            Log.i(TAG, " In OnRestoreInstanceState = " + restoreSet.toString());
+            if(!restoreSet.isEmpty()){
+                Log.i(TAG, " In OnRestoreInstanceState = " + restoreSet.toString());
+                for (int i: restoreSet
+                        ) {
+                    View layout = getChildAt(i);
+                    if(layout instanceof LinearLayout){
+                        LinearLayout linearLayout = (LinearLayout) layout;
+                        for(int j=0;j<linearLayout.getChildCount();j++){
+                            View view = linearLayout.getChildAt(j);
+                            if(view instanceof EditText){
+                                showError((EditText)view);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
         for(int i=0;i<this.getChildCount();i++){
             View view = getChildAt(i);
             if(view instanceof LinearLayout){
@@ -106,6 +150,8 @@ public class PhilipsTextInputLayout extends LinearLayout {
                 }
             }
         }
+
+        super.onRestoreInstanceState(state);
     }
 
     private void retainErrorLayoutFocus() {
