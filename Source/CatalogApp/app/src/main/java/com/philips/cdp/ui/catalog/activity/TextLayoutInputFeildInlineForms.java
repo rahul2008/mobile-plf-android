@@ -11,11 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PhilipsTextInputLayout;
-import com.philips.cdp.uikit.customviews.PuiEditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +22,7 @@ import java.util.regex.Pattern;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TextLayoutInputFeildInlineForms extends CatalogActivity{
+public class TextLayoutInputFeildInlineForms extends CatalogActivity {
 
     private static final String EMAIL_PATTERN =
             "^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@"
@@ -36,53 +34,8 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
         setContentView(R.layout.inline_forms);
         disableActionbarShadow(this);
         final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.InlineForms);
-        /*final EditText fullnamelastfirstnamevalue = (EditText) layout.findViewById(R.id.fullnamelastfirstnamevalue);
-
-        fullnamelastfirstnamevalue.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                boolean result = validateEmail(fullnamelastfirstnamevalue,fullnamelastfirstnamevalue.hasFocus());
-                if(result){
-                    layout.removeError(fullnamelastfirstnamevalue);
-                }
-            }
-        });
-*/
-        /*final EditText firstName = (EditText) layout.findViewById(R.id.firstnamevalue);
-
-        firstName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                boolean result = validateEmail(firstName,firstName.hasFocus());
-                if(result){
-                    layout.removeError(firstName);
-                }
-            }
-        });*/
-
 
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
-       // email.setFocusable(true);
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,9 +50,9 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
 
             @Override
             public void afterTextChanged(final Editable s) {
-                boolean result = validateEmail(email,email.hasFocus());
-                if(result){
-                        layout.removeError(email);
+                boolean result = validateEmail(email, email.hasFocus());
+                if (result) {
+                    layout.removeError(email);
                 }
             }
         });
@@ -113,23 +66,8 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
                         layout.showError((EditText) editText);
                     }
                 }
-
-                /*if (editText.getId() == R.id.firstnamevalue && hasFocus == false) {
-                    boolean result = validateEmail(editText, hasFocus);
-                    if (!result) {
-                        layout.showError((EditText) editText);
-                    }
-                }*/
-
-                /*if (editText.getId() == R.id.fullnamelastfirstnamevalue && hasFocus == false) {
-                    boolean result = validateEmail(editText, hasFocus);
-                    if (!result) {
-                        layout.showError((EditText) editText);
-                    }
-                }*/
             }
         });
-
     }
 
     public void disableActionbarShadow(Activity activity) {
@@ -154,8 +92,8 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
         }
     }
 
-    private boolean validateEmail(View editText,boolean hasFocus) {
-        String stringToBeValidated = ((EditText)editText).getText().toString();
+    private boolean validateEmail(View editText, boolean hasFocus) {
+        String stringToBeValidated = ((EditText) editText).getText().toString();
         if (stringToBeValidated == null) {
             return false;
         }
