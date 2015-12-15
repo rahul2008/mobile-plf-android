@@ -2,7 +2,6 @@ package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -91,8 +90,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
 
     private void retainErrorLayoutFocus() {
         try {
-            for (Integer layout : set
-                    ) {
+            for (Integer layout : set) {
                 LinearLayout parent = (LinearLayout) getChildAt(layout);
                 if (mThemeBaseColor == mOrangeColor) {
                     highLightErrorView(layout, mEnricher_red);
@@ -204,8 +202,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
             addView(errorView, indexofParent + 1);
             set.add(indexofParent);
             int errorIndex = indexOfChild(errorView);
-            for (Object i : set
-                    ) {
+            for (Object i : set) {
                 Integer indexofErrorParent = (Integer) i;
                 if (errorIndex <= indexofErrorParent) {
                     set.remove(indexofErrorParent);
@@ -361,15 +358,5 @@ public class PhilipsTextInputLayout extends LinearLayout {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        return super.onSaveInstanceState();
-    }
-
-    @Override
-    protected void onRestoreInstanceState(final Parcelable state) {
-        super.onRestoreInstanceState(state);
     }
 }
