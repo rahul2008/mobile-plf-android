@@ -13,11 +13,36 @@ import com.philips.pins.shinelib.SHNStringResultListener;
 
 import java.util.Date;
 
+/**
+ * Device information provides information such as described by {@link SHNDeviceInformationType}.
+ * Depended on the plugin this information may be cached every time the device connects, including association.
+ * <p>
+ * Plugin developers can opt for a default implementation (link #SHNCapabilityDeviceInformationImpl},
+ * and can decorate any implementation with {@link SHNCapabilityDeviceInformationCached} to provide caching functionality.
+ * </p>
+ */
 public interface SHNCapabilityDeviceInformation extends SHNCapability {
 
+    /**
+     * Callback interface for {@link #readDeviceInformation(SHNDeviceInformationType, Listener)}.
+     */
     interface Listener {
+
+        /**
+         * The requested data has been retrieved successfully.
+         *
+         * @param deviceInformationType The type of information retrieved.
+         * @param value                 The value of the information, never null.
+         * @param dateWhenAcquired      The date when the value was obtained, since device information is optionally cached.
+         */
         void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired);
 
+        /**
+         * An error occurred while retrieving the required information.
+         *
+         * @param deviceInformationType The type of information retrieved.
+         * @param error                 The error that occurred.
+         */
         void onError(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final SHNResult error);
     }
 
@@ -35,8 +60,17 @@ public interface SHNCapabilityDeviceInformation extends SHNCapability {
         Unknown
     }
 
+    /**
+     * Use {@link #readDeviceInformation(SHNDeviceInformationType, Listener)} instead.
+     */
     @Deprecated
     void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener);
 
+    /**
+     * Read out the device information.
+     *
+     * @param deviceInformationType The type of information to read.
+     * @param listener              A listener to receive callbacks on.
+     */
     void readDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final Listener listener);
 }

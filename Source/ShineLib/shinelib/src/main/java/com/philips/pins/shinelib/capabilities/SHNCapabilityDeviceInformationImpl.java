@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 
+/**
+ * Default implementation for {@link SHNCapabilityDeviceInformation}.
+ */
 public class SHNCapabilityDeviceInformationImpl implements SHNCapabilityDeviceInformation {
     private final SHNServiceDeviceInformation shnServiceDeviceInformation;
 

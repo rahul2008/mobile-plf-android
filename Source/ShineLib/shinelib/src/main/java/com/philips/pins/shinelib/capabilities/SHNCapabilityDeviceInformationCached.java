@@ -14,6 +14,11 @@ import com.philips.pins.shinelib.utility.DeviceInformationCache;
 
 import java.util.Date;
 
+/**
+ * Caching decorator for{@link SHNCapabilityDeviceInformation}. As soon as the {@link SHNService} becomes ready this decorator will query for all values of {@link SHNDeviceInformationType} and cache them.<br/>
+ * Every time When data is returned successfully, the value is cached. When an error occurs during retrieving of the data (for example when the device is not connected), but there is data in the cache, the cached
+ * data will be returned to the listener.
+ */
 public class SHNCapabilityDeviceInformationCached implements SHNCapabilityDeviceInformation {
 
     @NonNull

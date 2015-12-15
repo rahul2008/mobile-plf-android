@@ -5,33 +5,36 @@
 
 package com.philips.pins.shinelib;
 
+import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
+
 public enum SHNCapabilityType {
+    
     /**
-     * Use DATA_STREAMING instead.
+     * Use {@link #DATA_STREAMING} instead.
      */
     @Deprecated
     DataStreaming,
 
     /**
-     * Use DEVICE_INFORMATION instead.
+     * Use {@link #DEVICE_INFORMATION} instead.
      */
     @Deprecated
     DeviceInformation,
 
     /**
-     * Use FIRMWARE_UPDATE instead.
+     * Use {@link #FIRMWARE_UPDATE} instead.
      */
     @Deprecated
     FirmwareUpdate,
 
     /**
-     * Use LOG_SYNCHRONIZATION instead.
+     * Use {@link #LOG_SYNCHRONIZATION} instead.
      */
     @Deprecated
     LogSynchronization,
 
     /**
-     * Use NOTIFICATIONS instead.
+     * Use {@link #NOTIFICATIONS} instead.
      */
     @Deprecated
     Notifications,
@@ -67,18 +70,24 @@ public enum SHNCapabilityType {
     WearingPosition,
 
     /**
-     * Use BATTERY instead.
+     * Use {@link #BATTERY} instead.
      */
     @Deprecated
     Battery,
 
     /**
-     * Use USER_INFORMATION_LIFE_SENSE instead.
+     * Use {@link #USER_INFORMATION_LIFE_SENSE} instead.
      */
     @Deprecated
     UserInformationLifeSense,
 
     DATA_STREAMING,
+
+    /**
+     * Device information provides information such as FirmwareRevision, HardwareRevision and SerialNumber.
+     *
+     * @see SHNCapabilityDeviceInformation
+     */
     DEVICE_INFORMATION,
     FIRMWARE_UPDATE,
     LOG_SYNCHRONIZATION,
@@ -88,7 +97,7 @@ public enum SHNCapabilityType {
     USER_INFORMATION_LIFE_SENSE,
     DEVICE_DIAGNOSTIC;
 
-   public static SHNCapabilityType fixDeprecation(SHNCapabilityType capabilityType) {
+    public static SHNCapabilityType fixDeprecation(SHNCapabilityType capabilityType) {
         switch (capabilityType) {
             case DataStreaming:
                 capabilityType = DATA_STREAMING;
