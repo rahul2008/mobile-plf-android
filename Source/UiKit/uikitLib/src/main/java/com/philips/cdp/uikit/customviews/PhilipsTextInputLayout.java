@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,18 +27,17 @@ import java.util.concurrent.ConcurrentSkipListSet;
  * All rights reserved.
  */
 public class PhilipsTextInputLayout extends LinearLayout {
-
+    final String TAG = PhilipsTextInputLayout.class.getSimpleName();
     private Validator validator = null;
     boolean isFocused = false;
-    Set<Integer> set = new ConcurrentSkipListSet<Integer>();
+    private Set<Integer> set = new ConcurrentSkipListSet<Integer>();
     int mThemeBaseColor;
     int mFocusedColor;
-    final String TAG = "Set";
-    final int ORANGE_COLOR = ContextCompat.getColor(getContext(), color.uikit_philips_bright_orange);
-    final int ENRICHER_4 = ContextCompat.getColor(getContext(), color.uikit_enricher4);
-    final int ENRICHER_7 = ContextCompat.getColor(getContext(), color.uikit_enricher7);
-    final int ENRICHER_RED = ContextCompat.getColor(getContext(), color.uikit_enricher_red);
-    final int DARK_BLUE = ContextCompat.getColor(getContext(), color.uikit_philips_very_dark_blue);
+    int mOrangeColor;
+    int mEnricher4;
+    int mEnricher7;
+    int mEnricher_red;
+    int mDarkBlue;
 
     public interface Validator {
         void validate(View EditText, boolean hasfocus);
@@ -46,8 +46,17 @@ public class PhilipsTextInputLayout extends LinearLayout {
     public PhilipsTextInputLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         setOrientation(VERTICAL);
+        initColors();
+    }
+    
+    private void  initColors(){
         mThemeBaseColor = getThemeColor();
         mFocusedColor = getFocusedColor();
+        mOrangeColor = ContextCompat.getColor(getContext(), color.uikit_philips_bright_orange);
+        mEnricher4 = ContextCompat.getColor(getContext(), color.uikit_enricher4);
+        mEnricher7 = ContextCompat.getColor(getContext(), color.uikit_enricher7);
+        mEnricher_red = ContextCompat.getColor(getContext(), color.uikit_enricher_red);
+        mDarkBlue = ContextCompat.getColor(getContext(), color.uikit_philips_very_dark_blue);
     }
 
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
@@ -66,11 +75,11 @@ public class PhilipsTextInputLayout extends LinearLayout {
             Handle Focus based color setting
         */
             if (hasFocus) {
-                highLightErrorView(indexofParent, mFocusedColor, "base");
-                highLightTextFeilds(parent, DARK_BLUE);
+                highLightErrorView(indexofParent, mFocusedColor);
+                highLightTextFeilds(parent, mDarkBlue);
             } else {
-                highLightErrorView(indexofParent, ENRICHER_4, "Orange");
-                highLightTextFeilds(parent, ENRICHER_4);
+                highLightErrorView(indexofParent, mEnricher4);
+                highLightTextFeilds(parent, mEnricher4);
             }
 
             /*
@@ -85,12 +94,12 @@ public class PhilipsTextInputLayout extends LinearLayout {
             for (Integer layout : set
                     ) {
                 LinearLayout parent = (LinearLayout) getChildAt(layout);
-                if (mThemeBaseColor == ORANGE_COLOR) {
-                    highLightErrorView(layout, ENRICHER_RED, "Orange");
-                    highLightTextFeilds(parent, ENRICHER_RED);
+                if (mThemeBaseColor == mOrangeColor) {
+                    highLightErrorView(layout, mEnricher_red);
+                    highLightTextFeilds(parent, mEnricher_red);
                 } else {
-                    highLightErrorView(layout, ORANGE_COLOR, "Orange");
-                    highLightTextFeilds(parent, ORANGE_COLOR);
+                    highLightErrorView(layout, mOrangeColor);
+                    highLightTextFeilds(parent, mOrangeColor);
                 }
             }
         } catch (Exception e) {
@@ -162,11 +171,11 @@ public class PhilipsTextInputLayout extends LinearLayout {
     private void resetcolor(int indexofParent) {
         LinearLayout parent = (LinearLayout) getChildAt(indexofParent);
         if (parent.hasFocus()) {
-            highLightErrorView(indexofParent, mFocusedColor, "base");
-            highLightTextFeilds(parent, DARK_BLUE);
+            highLightErrorView(indexofParent, mFocusedColor);
+            highLightTextFeilds(parent, mDarkBlue);
         } else {
-            highLightErrorView(indexofParent, ENRICHER_4, "Orange");
-            highLightTextFeilds(parent, ENRICHER_4);
+            highLightErrorView(indexofParent, mEnricher4);
+            highLightTextFeilds(parent, mEnricher4);
         }
         View view = getFocusedChild();
         try {
@@ -175,8 +184,8 @@ public class PhilipsTextInputLayout extends LinearLayout {
             if (view instanceof LinearLayout) {
                 layout = (LinearLayout) view;
                 index = indexOfChild(layout);
-                highLightErrorView(index, mFocusedColor, "base");
-                highLightTextFeilds(layout, DARK_BLUE);
+                highLightErrorView(index, mFocusedColor);
+                highLightTextFeilds(layout, mDarkBlue);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,7 +216,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
         }
     }
 
-    private void highLightErrorView(int indexofParent, int color, String isBase) {
+    private void highLightErrorView(int indexofParent, int color) {
 
         /*
             Line HighLighting
@@ -225,12 +234,12 @@ public class PhilipsTextInputLayout extends LinearLayout {
             belowLine.setBackgroundColor(color);
 
             if (set.contains(indexofParent)) {
-                if (mThemeBaseColor == ORANGE_COLOR) {
-                    aboveLine.setBackgroundColor(ENRICHER_RED);
-                    belowLine.setBackgroundColor(ENRICHER_RED);
+                if (mThemeBaseColor == mOrangeColor) {
+                    aboveLine.setBackgroundColor(mEnricher_red);
+                    belowLine.setBackgroundColor(mEnricher_red);
                 } else {
-                    aboveLine.setBackgroundColor(ORANGE_COLOR);
-                    belowLine.setBackgroundColor(ORANGE_COLOR);
+                    aboveLine.setBackgroundColor(mOrangeColor);
+                    belowLine.setBackgroundColor(mOrangeColor);
                 }
             }
         } catch (Exception e) {
@@ -254,20 +263,20 @@ public class PhilipsTextInputLayout extends LinearLayout {
 
         try {
 
-            if (editText2.getText().toString().trim().length() == 0) {
+            if (TextUtils.isEmpty(editText2.getText())) {
                 editText1.setTextColor(color);
                 editText2.setTextColor(color);
             } else {
-                editText1.setTextColor(DARK_BLUE);
-                editText2.setTextColor(DARK_BLUE);
+                editText1.setTextColor(mDarkBlue);
+                editText2.setTextColor(mDarkBlue);
 
                 if (set.contains(indexOfChild(parent))) {
-                    if (mThemeBaseColor == ORANGE_COLOR) {
-                        editText1.setTextColor(ENRICHER_RED);
-                        editText2.setTextColor(ENRICHER_RED);
+                    if (mThemeBaseColor == mOrangeColor) {
+                        editText1.setTextColor(mEnricher_red);
+                        editText2.setTextColor(mEnricher_red);
                     } else {
-                        editText1.setTextColor(ORANGE_COLOR);
-                        editText2.setTextColor(ORANGE_COLOR);
+                        editText1.setTextColor(mOrangeColor);
+                        editText2.setTextColor(mOrangeColor);
                     }
                 }
             }
@@ -285,7 +294,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
         if (isFocused)
             view.setBackgroundColor(mFocusedColor);
         else
-            view.setBackgroundColor(ENRICHER_4);
+            view.setBackgroundColor(mEnricher4);
         addView(view);
     }
 
@@ -314,7 +323,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
                 editText.setFocusable(true);
                 editText.setFocusableInTouchMode(true);
                 editText.setOnFocusChangeListener(onFocusChangeListener);
-                editText.setTextColor(ENRICHER_4);
+                editText.setTextColor(mEnricher4);
             }
         }
 
@@ -340,12 +349,12 @@ public class PhilipsTextInputLayout extends LinearLayout {
             if (isEnabled == false) {
                 LinearLayout parent = ((LinearLayout) ((LinearLayout) child).getParent());
                 View line = parent.getChildAt(1);
-                line.setBackgroundColor(ENRICHER_4);
-                child.setBackgroundColor(ENRICHER_7);
-                editText1.setTextColor(ENRICHER_4);
-                editText2.setTextColor(ENRICHER_4);
-                editText1.setHintTextColor(ENRICHER_4);
-                editText2.setHintTextColor(ENRICHER_4);
+                line.setBackgroundColor(mEnricher4);
+                child.setBackgroundColor(mEnricher7);
+                editText1.setTextColor(mEnricher4);
+                editText2.setTextColor(mEnricher4);
+                editText1.setHintTextColor(mEnricher4);
+                editText2.setHintTextColor(mEnricher4);
                 editText1.setFocusable(false);
                 editText2.setFocusable(false);
             }
