@@ -2,6 +2,7 @@ package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -87,6 +88,25 @@ public class PhilipsTextInputLayout extends LinearLayout {
             retainErrorLayoutFocus();
         }
     };
+
+    @Override
+    protected void onRestoreInstanceState(final Parcelable state) {
+        super.onRestoreInstanceState(state);
+        for(int i=0;i<this.getChildCount();i++){
+            View view = getChildAt(i);
+            if(view instanceof LinearLayout){
+                LinearLayout linearLayout = (LinearLayout)view;
+                for(int j=0; j< linearLayout.getChildCount();j++){
+                    if(((View)linearLayout.getChildAt(j) instanceof EditText)){
+                        EditText editText = (EditText)((ViewGroup) view).getChildAt(j);
+                        if(TextUtils.isEmpty(editText.getText())){
+                            highLightTextFeilds(linearLayout,mDarkBlue);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private void retainErrorLayoutFocus() {
         try {
