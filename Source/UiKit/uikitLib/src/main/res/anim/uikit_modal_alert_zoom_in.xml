@@ -1,5 +1,5 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="300">
+    android:duration="400">
 
     <scale
         android:fillAfter="false"
@@ -9,12 +9,5 @@
         android:pivotY="50%"
         android:toXScale="1.5"
         android:toYScale="1.5" />
-
-    <alpha
-        android:duration="400"
-        android:fromAlpha="1.0"
-        android:interpolator="@android:anim/accelerate_interpolator"
-        android:toAlpha="0.0" />
-
 
 </set>

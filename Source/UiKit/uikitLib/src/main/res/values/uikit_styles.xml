@@ -102,8 +102,8 @@
     </style>
 
     <style name="DialogSlideAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
-        <item name="android:windowExitAnimation">@anim/slide_down_dialog</item>
+        <item name="android:windowEnterAnimation">@anim/uikit_modal_alert_zoom_out</item>
+        <item name="android:windowExitAnimation">@anim/uikit_modal_alert_zoom_in</item>
     </style>
 
 </resources>
