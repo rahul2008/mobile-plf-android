@@ -43,8 +43,8 @@
 
     <declare-styleable name="UikitSpringBoardLayout">
         <attr name="opacityStyle" format="enum">
-            <enum name="none" value="0"/>
-            <enum name="with" value="1"/>
+            <enum name="darker_color" value="0"/>
+            <enum name="darker_with_opacity" value="1"/>
 
         </attr>
     </declare-styleable>

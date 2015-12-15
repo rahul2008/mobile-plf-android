@@ -38,4 +38,48 @@
     <style name="InputStyle.DarkAqua">
         <item name="android:background">@drawable/uikit_inputtext_dark_aqua_selector</item>
     </style>
+
+    <style name="InputStyle.DarkGreen">
+        <item name="android:background">@drawable/uikit_inputtext_dark_green_selector</item>
+    </style>
+
+    <style name="InputStyle.DarkOrange">
+        <item name="android:background">@drawable/uikit_inputtext_dark_orange_selector</item>
+    </style>
+
+    <style name="InputStyle.DarkPink">
+        <item name="android:background">@drawable/uikit_inputtext_dark_pink_selector</item>
+    </style>
+
+    <style name="InputStyle.BrightBlue">
+        <item name="android:background">@drawable/uikit_inputtext_bright_blue_selector</item>
+    </style>
+
+    <style name="InputStyle.BrightPurple">
+        <item name="android:background">@drawable/uikit_inputtext_bright_purple_selector</item>
+    </style>
+
+    <style name="InputStyle.LightBlue">
+        <item name="android:background">@drawable/uikit_inputtext_light_blue_selector</item>
+    </style>
+
+    <style name="InputStyle.LightOrange">
+        <item name="android:background">@drawable/uikit_inputtext_light_orange_selector</item>
+    </style>
+
+    <style name="InputStyle.LightAqua">
+        <item name="android:background">@drawable/uikit_inputtext_light_aqua_selector</item>
+    </style>
+
+    <style name="InputStyle.LightGreen">
+        <item name="android:background">@drawable/uikit_inputtext_light_green_selector</item>
+    </style>
+
+    <style name="InputStyle.LightPink">
+        <item name="android:background">@drawable/uikit_inputtext_light_pink_selector</item>
+    </style>
+
+    <style name="InputStyle.LightPurple">
+        <item name="android:background">@drawable/uikit_inputtext_light_purple_selector</item>
+    </style>
 </resources>

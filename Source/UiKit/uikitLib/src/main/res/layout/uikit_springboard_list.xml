@@ -29,7 +29,7 @@
     <com.philips.cdp.uikit.UikitSpringBoardLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        app:opacityStyle="none"
+        app:opacityStyle="darker_color"
         android:layout_height="match_parent">
 
 
