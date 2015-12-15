@@ -16,8 +16,10 @@ import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.customviews.LayerListDrawable;
 
 /**
- * Created by 310213373 on 12/7/2015.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
+
 public class UikitSpringBoardLayout extends LinearLayout {
 
     private Drawable selector;
@@ -51,7 +53,7 @@ public class UikitSpringBoardLayout extends LinearLayout {
         }
         selector = getBackgroundSelector();
         ar.recycle();
-        //ToDO: Initialize ur seelctor
+
     }
 
     public UikitSpringBoardLayout(Context context, AttributeSet attrs, int defStyle) {
