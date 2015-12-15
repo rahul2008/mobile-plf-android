@@ -101,4 +101,9 @@
         <item name="color">@android:color/black</item>
     </style>
 
+    <style name="DialogSlideAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_dialog</item>
+    </style>
+
 </resources>

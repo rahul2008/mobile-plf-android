@@ -42,18 +42,16 @@
         <activity android:name=".activity.InputTextFieldsActivity" />
         <activity android:name=".activity.DotNavigation" />
         <activity android:name=".activity.ImageNavigation" />
-        <activity android:name=".activity.TabBarDemo" />
         <activity android:name=".activity.ActionBarDemo" />
         <activity android:name=".activity.SliderActivity" />
         <activity
             android:name=".activity.HamburgerMenuDemo"
             android:configChanges="keyboardHidden|screenSize|orientation" />
-        <activity android:name=".activity.ModalAlertDemo" />
+        <activity android:name=".activity.ModalAlertTest" />
         <activity android:name=".activity.HamburgerActivity" />
         <activity android:name=".activity.RatingBarLauncher" />
         <activity android:name=".activity.ActionBarLauncher" />
         <activity android:name=".activity.DummyActivityForListItemClick" />
-        <activity android:name=".activity.TabViewWithViewPager" />
         <activity android:name=".activity.SocialIconsActivity" />
         <activity android:name=".activity.PopOverMenu" />
         <activity android:name=".activity.SpringBoardListActivity" />

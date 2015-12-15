@@ -175,8 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/philips_action_button_margin"
-                android:layout_marginTop="5dp"
-                android:onClick="onClick" />
+                android:layout_marginTop="5dp" />
 
             <com.philips.cdp.uikit.customviews.PhilipsActionButton
                 android:id="@+id/actionIcon2"

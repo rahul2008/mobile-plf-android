@@ -151,6 +151,8 @@
     <!-- White Color with 0% Opacity-->
     <color name="uikit_philips_White_with_opacity_0">#00FFFFFF</color>
 
+    <color name="bg_glass">#88ffffff</color>
+
 
 
 </resources>

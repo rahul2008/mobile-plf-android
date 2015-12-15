@@ -76,7 +76,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, AboutScreenLauncher.class));
                 break;
             case 8:
-                startActivity(new Intent(this, TabBarDemo.class));
+//                startActivity(new Intent(this, TabBarDemo.class));
                 break;
 
             case 9:
@@ -98,7 +98,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
 
             case 15:
-                startActivity(new Intent(this, TabViewWithViewPager.class));
+//                startActivity(new Intent(this, TabViewWithViewPager.class));
                 break;
             case 16:
                 startActivity(new Intent(this, PopOverMenu.class));
@@ -107,7 +107,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, SpringBoardsctivity.class));
                 break;
             case 18:
-                startActivity(new Intent(this, ModalAlertDemo.class));
+                startActivity(new Intent(this, ModalAlertTest.class));
                 break;
             default:
                 break;

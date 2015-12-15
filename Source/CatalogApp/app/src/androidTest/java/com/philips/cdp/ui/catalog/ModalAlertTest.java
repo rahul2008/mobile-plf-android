@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cdp.ui.catalog.activity.ModalAlertDemo;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 import java.util.concurrent.Semaphore;
@@ -30,12 +29,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.is
  */
 public class ModalAlertTest extends ActivityInstrumentationTestCase2<ModalAlertDemo> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private ModalAlertDemo modalAlertDemo;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public ModalAlertTest() {
         super(ModalAlertDemo.class);
