@@ -67,10 +67,10 @@ public class PhilipsTextInputLayout extends LinearLayout {
         */
             if (hasFocus) {
                 highLightErrorView(indexofParent, mFocusedColor, "base");
-                highLightTextFeilds(parent, R.color.uikit_philips_very_dark_blue);
+                highLightTextFeilds(parent, DARK_BLUE);
             } else {
-                highLightErrorView(indexofParent, R.color.uikit_enricher4, "Orange");
-                highLightTextFeilds(parent, R.color.uikit_enricher4);
+                highLightErrorView(indexofParent, ENRICHER_4, "Orange");
+                highLightTextFeilds(parent, ENRICHER_4);
             }
 
             /*
@@ -82,20 +82,18 @@ public class PhilipsTextInputLayout extends LinearLayout {
 
     private void retainErrorLayoutFocus() {
         try {
-            Log.i(TAG, "In retainErrorLayoutFocus and set = " + set.toString());
             for (Integer layout : set
                     ) {
                 LinearLayout parent = (LinearLayout) getChildAt(layout);
                 if (mThemeBaseColor == ORANGE_COLOR) {
-                    highLightErrorView(layout, R.color.uikit_enricher_red, "Orange");
-                    highLightTextFeilds(parent, R.color.uikit_enricher_red);
+                    highLightErrorView(layout, ENRICHER_RED, "Orange");
+                    highLightTextFeilds(parent, ENRICHER_RED);
                 } else {
-                    highLightErrorView(layout, R.color.uikit_philips_bright_orange, "Orange");
-                    highLightTextFeilds(parent, R.color.uikit_philips_bright_orange);
+                    highLightErrorView(layout, ORANGE_COLOR, "Orange");
+                    highLightTextFeilds(parent, ORANGE_COLOR);
                 }
             }
         } catch (Exception e) {
-            Log.i("Set", set.toString());
             e.printStackTrace();
         }
     }
@@ -118,11 +116,8 @@ public class PhilipsTextInputLayout extends LinearLayout {
                 Log.i(TAG, "In On Click Listener the Set = " + set.toString());
                 RelativeLayout parent = (RelativeLayout) view.getParent();
                 int index = indexOfChild(parent);
-                Log.i(TAG, "Index of RelativeLayout = " + index);
                 removeView(parent);
-                boolean isremoved = set.remove(index - 1);
-                Log.i(TAG, "is removded = " + isremoved);
-                Log.i(TAG, "Reset color called for" + index + "minus one");
+                set.remove(index - 1);
                 resetcolor(index - 1);
 
                 for (Object i : set
@@ -149,8 +144,6 @@ public class PhilipsTextInputLayout extends LinearLayout {
             int index = indexOfChild(errorview);
             removeView(errorview);
             boolean isremoved = set.remove(index - 1);
-            Log.i(TAG, "is removded = " + isremoved);
-            Log.i(TAG, "Reset color called for" + index + "minus one");
             resetcolor(index - 1);
 
             for (Object i : set
@@ -170,10 +163,10 @@ public class PhilipsTextInputLayout extends LinearLayout {
         LinearLayout parent = (LinearLayout) getChildAt(indexofParent);
         if (parent.hasFocus()) {
             highLightErrorView(indexofParent, mFocusedColor, "base");
-            highLightTextFeilds(parent, R.color.uikit_philips_very_dark_blue);
+            highLightTextFeilds(parent, DARK_BLUE);
         } else {
-            highLightErrorView(indexofParent, color.uikit_enricher4, "Orange");
-            highLightTextFeilds(parent, R.color.uikit_enricher4);
+            highLightErrorView(indexofParent, ENRICHER_4, "Orange");
+            highLightTextFeilds(parent, ENRICHER_4);
         }
         View view = getFocusedChild();
         try {
@@ -183,7 +176,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
                 layout = (LinearLayout) view;
                 index = indexOfChild(layout);
                 highLightErrorView(index, mFocusedColor, "base");
-                highLightTextFeilds(layout, R.color.uikit_philips_very_dark_blue);
+                highLightTextFeilds(layout, DARK_BLUE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,7 +188,6 @@ public class PhilipsTextInputLayout extends LinearLayout {
 
         LinearLayout parent = (LinearLayout) edittext.getParent();
         int indexofParent = indexOfChild(parent);
-        Log.i(TAG, "In show error index of LinearLayout where error has to be added = " + indexofParent);
 
         if (!(set.contains(indexofParent))) {
             View errorView = createNewErrorView();
@@ -203,16 +195,12 @@ public class PhilipsTextInputLayout extends LinearLayout {
             addView(errorView, indexofParent + 1);
             set.add(indexofParent);
             int errorIndex = indexOfChild(errorView);
-            Log.i(TAG, "Error Layout containing error view = " + indexofParent);
             for (Object i : set
                     ) {
                 Integer indexofErrorParent = (Integer) i;
                 if (errorIndex <= indexofErrorParent) {
-                    Log.i(TAG, "In Show Error, error Index " + errorIndex + "<= error layout index in set " + indexofErrorParent);
-                    boolean isremoved = set.remove(indexofErrorParent);
-                    Log.i(TAG, "is removed  = " + isremoved + "and set = " + set.toString());
-                    isremoved = set.add(indexofErrorParent + 1);
-                    Log.i(TAG, "is added  = " + isremoved + "and set = " + set.toString());
+                    set.remove(indexofErrorParent);
+                    set.add(indexofErrorParent + 1);
                 }
             }
             Log.i(TAG, "After In Show Error the Set = " + set.toString());
@@ -227,27 +215,14 @@ public class PhilipsTextInputLayout extends LinearLayout {
         try {
             View belowLine;
             View aboveLine = getChildAt(indexofParent - 1);
-            Log.i(TAG, "above Line index = " + indexOfChild(aboveLine));
-
             belowLine = getChildAt(indexofParent + 1);
 
             if (belowLine instanceof RelativeLayout) {
                 belowLine = getChildAt(indexofParent + 2);
             }
 
-            Log.i(TAG, "Below Line index = " + indexOfChild(belowLine));
-
-            if (isBase.equalsIgnoreCase("Orange")) {
-                aboveLine.setBackgroundColor(ContextCompat.getColor(getContext(), color));
-            } else {
-                aboveLine.setBackgroundColor(color);
-            }
-
-            if (isBase.equalsIgnoreCase("Orange")) {
-                belowLine.setBackgroundColor(ContextCompat.getColor(getContext(), color));
-            } else {
-                belowLine.setBackgroundColor(color);
-            }
+            aboveLine.setBackgroundColor(color);
+            belowLine.setBackgroundColor(color);
 
             if (set.contains(indexofParent)) {
                 if (mThemeBaseColor == ORANGE_COLOR) {
@@ -280,8 +255,8 @@ public class PhilipsTextInputLayout extends LinearLayout {
         try {
 
             if (editText2.getText().toString().trim().length() == 0) {
-                editText1.setTextColor(ContextCompat.getColor(getContext(), color));
-                editText2.setTextColor(ContextCompat.getColor(getContext(), color));
+                editText1.setTextColor(color);
+                editText2.setTextColor(color);
             } else {
                 editText1.setTextColor(DARK_BLUE);
                 editText2.setTextColor(DARK_BLUE);
