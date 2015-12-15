@@ -40,13 +40,13 @@ public class UikitSpringBoardLayout extends LinearLayout {
         colorStyle = typedArray.getInt(R.styleable.UikitSpringBoardLayout_opacityStyle, 0);
         typedArray.recycle();
 
-        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.verydarkBaseColor});
+        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.darkerColor});
         baseColor = ar.getInt(0, R.attr.baseColor);
         if (colorStyle == 0) {
-            overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
+            overlayColor = ar.getInt(1, R.attr.darkerColor);
         } else {
 
-            overlayColor = ar.getInt(1, R.attr.verydarkBaseColor);
+            overlayColor = ar.getInt(1, R.attr.darkerColor);
             overlayColor = Color.argb(89, Color.red(overlayColor), Color.green(overlayColor), Color.blue(overlayColor));
         }
         selector = getBackgroundSelector();
