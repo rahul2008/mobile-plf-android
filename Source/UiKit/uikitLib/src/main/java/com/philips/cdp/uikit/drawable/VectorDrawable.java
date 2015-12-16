@@ -28,6 +28,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
@@ -183,8 +184,9 @@ import java.util.Stack;
  */
 
 public class VectorDrawable extends Drawable {
-    static final Mode DEFAULT_TINT_MODE = Mode.SRC_IN;
     private static final String LOGTAG = VectorDrawable.class.getSimpleName();
+    static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
+
     private static final String SHAPE_CLIP_PATH = "clip-path";
     private static final String SHAPE_GROUP = "group";
     private static final String SHAPE_PATH = "path";
@@ -218,80 +220,6 @@ public class VectorDrawable extends Drawable {
     private VectorDrawable(@NonNull VectorDrawableState state) {
         mVectorState = state;
         mTintFilter = updateTintFilter(mTintFilter, state.mTint, state.mTintMode);
-    }
-
-    public static Drawable create(Context context, int rid) {
-        Resources resources = context.getResources();
-        Theme theme = context.getTheme();
-        try {
-            final XmlPullParser parser = resources.getXml(rid);
-            final AttributeSet attrs = Xml.asAttributeSet(parser);
-            int type;
-            while ((type = parser.next()) != XmlPullParser.START_TAG &&
-                    type != XmlPullParser.END_DOCUMENT) {
-                // Empty loop
-            }
-            if (type != XmlPullParser.START_TAG) {
-                throw new XmlPullParserException("No start tag found");
-            }
-
-            Drawable drawable = null;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                return context.getDrawable(rid);
-            } else {
-                drawable = new VectorDrawable();
-                drawable.inflate(resources, parser, attrs, theme);
-            }
-            return drawable;
-        } catch (XmlPullParserException e) {
-            Log.e(LOGTAG, "parser error", e);
-        } catch (IOException e) {
-            Log.e(LOGTAG, "parser error", e);
-        }
-        return null;
-    }
-
-    private static int applyAlpha(int color, float alpha) {
-        int alphaBytes = Color.alpha(color);
-        color &= 0x00FFFFFF;
-        color |= ((int) (alphaBytes * alpha)) << 24;
-        return color;
-    }
-
-    /**
-     * Obtains styled attributes from the theme, if available, or unstyled
-     * resources if the theme is null.
-     */
-    static TypedArray obtainAttributes(
-            Resources res, Theme theme, AttributeSet set, int[] attrs) {
-        if (theme == null) {
-            return res.obtainAttributes(set, attrs);
-        }
-        return theme.obtainStyledAttributes(set, attrs, 0, 0);
-    }
-
-    /**
-     * Parses a {@link Mode} from a tintMode
-     * attribute's enum value.
-     *
-     */
-    public static Mode parseTintMode(int value, Mode defaultMode) {
-        switch (value) {
-            case 3:
-                return Mode.SRC_OVER;
-            case 5:
-                return Mode.SRC_IN;
-            case 9:
-                return Mode.SRC_ATOP;
-            case 14:
-                return Mode.MULTIPLY;
-            case 15:
-                return Mode.SCREEN;
-            case 16:
-                return Mode.ADD;
-            default:
-                return defaultMode;
-        }
     }
 
     @Override
@@ -479,6 +407,46 @@ public class VectorDrawable extends Drawable {
         return Math.min(scaleX, scaleY);
     }
 
+
+
+    public static Drawable create(Context context, int rid) {
+        Resources resources = context.getResources();
+        Theme theme = context.getTheme();
+        try {
+            final XmlPullParser parser = resources.getXml(rid);
+            final AttributeSet attrs = Xml.asAttributeSet(parser);
+            int type;
+            while ((type=parser.next()) != XmlPullParser.START_TAG &&
+                    type != XmlPullParser.END_DOCUMENT) {
+                // Empty loop
+            }
+            if (type != XmlPullParser.START_TAG) {
+                throw new XmlPullParserException("No start tag found");
+            }
+
+            Drawable  drawable = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                return context.getDrawable(rid);
+            } else {
+                drawable = new VectorDrawable();
+                ((VectorDrawable)drawable).inflate(resources, parser, attrs,theme);
+            }
+            return drawable;
+        } catch (XmlPullParserException e) {
+            Log.e(LOGTAG, "parser error", e);
+        } catch (IOException e) {
+            Log.e(LOGTAG, "parser error", e);
+        }
+        return null;
+    }
+
+    private static int applyAlpha(int color, float alpha) {
+        int alphaBytes = Color.alpha(color);
+        color &= 0x00FFFFFF;
+        color |= ((int) (alphaBytes * alpha)) << 24;
+        return color;
+    }
+
     @Override
     public void inflate(Resources res, XmlPullParser parser, AttributeSet attrs, Theme theme)
             throws XmlPullParserException, IOException {
@@ -659,11 +627,6 @@ public class VectorDrawable extends Drawable {
     }
 
     @Override
-    public boolean isAutoMirrored() {
-        return mVectorState.mAutoMirrored;
-    }
-
-    @Override
     public void setAutoMirrored(boolean mirrored) {
         if (mVectorState.mAutoMirrored != mirrored) {
             mVectorState.mAutoMirrored = mirrored;
@@ -671,21 +634,9 @@ public class VectorDrawable extends Drawable {
         }
     }
 
-    /**
-     * Ensures the tint filter is consistent with the current tint color and
-     * mode.
-     */
-    PorterDuffColorFilter updateTintFilter(PorterDuffColorFilter tintFilter, ColorStateList tint,
-                                           Mode tintMode) {
-        if (tint == null || tintMode == null) {
-            return null;
-        }
-
-        final int color = tint.getColorForState(getState(), Color.TRANSPARENT);
-        if (tintFilter == null) {
-            return new PorterDuffColorFilter(color, tintMode);
-        }
-        return tintFilter;
+    @Override
+    public boolean isAutoMirrored() {
+        return mVectorState.mAutoMirrored;
     }
 
     private static class VectorDrawableState extends ConstantState {
@@ -723,10 +674,6 @@ public class VectorDrawable extends Drawable {
                 mTintMode = copy.mTintMode;
                 mAutoMirrored = copy.mAutoMirrored;
             }
-        }
-
-        public VectorDrawableState() {
-            mVPathRenderer = new VPathRenderer();
         }
 
         public void drawCachedBitmapWithRootAlpha(Canvas canvas, ColorFilter filter) {
@@ -773,17 +720,23 @@ public class VectorDrawable extends Drawable {
         }
 
         public boolean canReuseBitmap(int width, int height) {
-            return width == mCachedBitmap.getWidth()
-                    && height == mCachedBitmap.getHeight();
+            if (width == mCachedBitmap.getWidth()
+                    && height == mCachedBitmap.getHeight()) {
+                return true;
+            }
+            return false;
         }
 
         public boolean canReuseCache() {
-            return !mCacheDirty
+            if (!mCacheDirty
                     && mCachedThemeAttrs == mThemeAttrs
                     && mCachedTint == mTint
                     && mCachedTintMode == mTintMode
                     && mCachedAutoMirrored == mAutoMirrored
-                    && mCachedRootAlpha == mVPathRenderer.getRootAlpha();
+                    && mCachedRootAlpha == mVPathRenderer.getRootAlpha()) {
+                return true;
+            }
+            return false;
         }
 
         public void updateCacheStates() {
@@ -803,6 +756,10 @@ public class VectorDrawable extends Drawable {
                     || super.canApplyTheme();
         }
 
+        public VectorDrawableState() {
+            mVPathRenderer = new VPathRenderer();
+        }
+
         @Override
         public Drawable newDrawable() {
             return new VectorDrawable(this);
@@ -820,8 +777,6 @@ public class VectorDrawable extends Drawable {
     }
 
     private static class VPathRenderer {
-        private static final Matrix IDENTITY_MATRIX = new Matrix();
-        final ArrayMap<String, Object> mVGTargetsMap = new ArrayMap<String, Object>();
         /* Right now the internal data structure is organized as a tree.
          * Each node can be a group node, or a path.
          * A group node can have groups or paths as children, but a path node has
@@ -838,7 +793,16 @@ public class VectorDrawable extends Drawable {
         // is no need for deep copying.
         private final Path mPath;
         private final Path mRenderPath;
+        private static final Matrix IDENTITY_MATRIX = new Matrix();
         private final Matrix mFinalPathMatrix = new Matrix();
+
+        private Paint mStrokePaint;
+        private Paint mFillPaint;
+        private PathMeasure mPathMeasure;
+
+        /////////////////////////////////////////////////////
+        // Variables below need to be copied (deep copy if applicable) for mutation.
+        private int mChangingConfigurations;
         private final VGroup mRootGroup;
         float mBaseWidth = 0;
         float mBaseHeight = 0;
@@ -846,17 +810,32 @@ public class VectorDrawable extends Drawable {
         float mViewportHeight = 0;
         int mRootAlpha = 0xFF;
         String mRootName = null;
-        private Paint mStrokePaint;
-        private Paint mFillPaint;
-        private PathMeasure mPathMeasure;
-        /////////////////////////////////////////////////////
-        // Variables below need to be copied (deep copy if applicable) for mutation.
-        private int mChangingConfigurations;
+
+        final ArrayMap<String, Object> mVGTargetsMap = new ArrayMap<String, Object>();
 
         public VPathRenderer() {
             mRootGroup = new VGroup();
             mPath = new Path();
             mRenderPath = new Path();
+        }
+
+        public void setRootAlpha(int alpha) {
+            mRootAlpha = alpha;
+        }
+
+        public int getRootAlpha() {
+            return mRootAlpha;
+        }
+
+        // setAlpha() and getAlpha() are used mostly for animation purpose, since
+        // Animator like to use alpha from 0 to 1.
+        public void setAlpha(float alpha) {
+            setRootAlpha((int) (alpha * 255));
+        }
+
+        @SuppressWarnings("unused")
+        public float getAlpha() {
+            return getRootAlpha() / 255.0f;
         }
 
         public VPathRenderer(VPathRenderer copy) {
@@ -873,25 +852,6 @@ public class VectorDrawable extends Drawable {
             if (copy.mRootName != null) {
                 mVGTargetsMap.put(copy.mRootName, this);
             }
-        }
-
-        public int getRootAlpha() {
-            return mRootAlpha;
-        }
-
-        public void setRootAlpha(int alpha) {
-            mRootAlpha = alpha;
-        }
-
-        @SuppressWarnings("unused")
-        public float getAlpha() {
-            return getRootAlpha() / 255.0f;
-        }
-
-        // setAlpha() and getAlpha() are used mostly for animation purpose, since
-        // Animator like to use alpha from 0 to 1.
-        public void setAlpha(float alpha) {
-            setRootAlpha((int) (alpha * 255));
         }
 
         public boolean canApplyTheme() {
@@ -1059,15 +1019,14 @@ public class VectorDrawable extends Drawable {
     }
 
     private static class VGroup {
-        /////////////////////////////////////////////////////
-        // Variables below need to be copied (deep copy if applicable) for mutation.
-        final ArrayList<Object> mChildren = new ArrayList<Object>();
         // mStackedMatrix is only used temporarily when drawing, it combines all
         // the parents' local matrices with the current one.
         private final Matrix mStackedMatrix = new Matrix();
-        // mLocalMatrix is updated based on the update of transformation information,
-        // either parsed from the XML or by animation.
-        private final Matrix mLocalMatrix = new Matrix();
+
+        /////////////////////////////////////////////////////
+        // Variables below need to be copied (deep copy if applicable) for mutation.
+        final ArrayList<Object> mChildren = new ArrayList<Object>();
+
         private float mRotate = 0;
         private float mPivotX = 0;
         private float mPivotY = 0;
@@ -1075,6 +1034,10 @@ public class VectorDrawable extends Drawable {
         private float mScaleY = 1;
         private float mTranslateX = 0;
         private float mTranslateY = 0;
+
+        // mLocalMatrix is updated based on the update of transformation information,
+        // either parsed from the XML or by animation.
+        private final Matrix mLocalMatrix = new Matrix();
         private int mChangingConfigurations;
         private int[] mThemeAttrs;
         private String mGroupName = null;
@@ -1378,8 +1341,13 @@ public class VectorDrawable extends Drawable {
      * Normal path, which contains all the fill / paint information.
      */
     private static class VFullPath extends VPath {
+        /////////////////////////////////////////////////////
+        // Variables below need to be copied (deep copy if applicable) for mutation.
+        private int[] mThemeAttrs;
+
         int mStrokeColor = Color.TRANSPARENT;
         float mStrokeWidth = 0;
+
         int mFillColor = Color.TRANSPARENT;
         float mStrokeAlpha = 1.0f;
         int mFillRule;
@@ -1387,12 +1355,10 @@ public class VectorDrawable extends Drawable {
         float mTrimPathStart = 0;
         float mTrimPathEnd = 1;
         float mTrimPathOffset = 0;
+
         Paint.Cap mStrokeLineCap = Paint.Cap.BUTT;
         Paint.Join mStrokeLineJoin = Paint.Join.MITER;
         float mStrokeMiterlimit = 4;
-        /////////////////////////////////////////////////////
-        // Variables below need to be copied (deep copy if applicable) for mutation.
-        private int[] mThemeAttrs;
 
         public VFullPath() {
             // Empty constructor.
@@ -1586,6 +1552,52 @@ public class VectorDrawable extends Drawable {
         @SuppressWarnings("unused")
         void setTrimPathOffset(float trimPathOffset) {
             mTrimPathOffset = trimPathOffset;
+        }
+    }
+
+    /**
+     * Ensures the tint filter is consistent with the current tint color and
+     * mode.
+     */
+    PorterDuffColorFilter updateTintFilter(PorterDuffColorFilter tintFilter, ColorStateList tint,
+                                           PorterDuff.Mode tintMode) {
+        if (tint == null || tintMode == null) {
+            return null;
+        }
+
+        final int color = tint.getColorForState(getState(), Color.TRANSPARENT);
+        if (tintFilter == null) {
+            return new PorterDuffColorFilter(color, tintMode);
+        }
+        return tintFilter;
+    }
+
+    /**
+     * Obtains styled attributes from the theme, if available, or unstyled
+     * resources if the theme is null.
+     */
+    static TypedArray obtainAttributes(
+            Resources res, Theme theme, AttributeSet set, int[] attrs) {
+        if (theme == null) {
+            return res.obtainAttributes(set, attrs);
+        }
+        return theme.obtainStyledAttributes(set, attrs, 0, 0);
+    }
+
+    /**
+     * Parses a {@link android.graphics.PorterDuff.Mode} from a tintMode
+     * attribute's enum value.
+     *
+     */
+    public static PorterDuff.Mode parseTintMode(int value, Mode defaultMode) {
+        switch (value) {
+            case 3: return Mode.SRC_OVER;
+            case 5: return Mode.SRC_IN;
+            case 9: return Mode.SRC_ATOP;
+            case 14: return Mode.MULTIPLY;
+            case 15: return Mode.SCREEN;
+            case 16: return Mode.ADD;
+            default: return defaultMode;
         }
     }
 }
