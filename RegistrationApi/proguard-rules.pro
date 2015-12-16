@@ -57,34 +57,52 @@
 -dontwarn android.support.**
 
 ##-keep public class pack.com.progard.** {*;}
-
+##Registration API specific
+##General network
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
-
--keep public class org.apache.http.**
 -keepclassmembers public class org.apache.http.** {*;}
--keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
--renamesourcefileattribute SourceFile
--keepattributes SourceFile,LineNumberTable
-
-
--keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.cdp.tagging.** {*;}
-
--keep public class com.janrain.android.** {*;}
-
--keep public class com.philips.cdp.localematch.** {*;}
-
-
--keep public class com.philips.cdp.registration.** {*;}
-
-
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
 
+#Hockey app and enabling excpetion catching
+-keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
 
--keep public class com.philips.dhpclient.** {*;}
--keep public class com.fasterxml.jackson.annotation.** {*;}
--keep public class com.fasterxml.jackson.core.** {*;}
--keep public class com.fasterxml.jackson.databind.** {*;}
+#Tagging lib and jar
+-keep public class com.adobe.mobile.** {*;}
+-keep public class com.philips.cdp.tagging.** {*;}
+
+#Janrain lib
+-keep public class com.janrain.android.** {*;}
+
+#Locale match
+-keep public class com.philips.cdp.localematch.** {*;}
+
+#Registration API
+-keep public class com.philips.cdp.registration.** {*;}
+
+#HSDP Lib
+-keep  class com.philips.dhpclient.** {*;}
+-keep  class com.fasterxml.jackson.annotation.** {*;}
+-keep  class com.fasterxml.jackson.core.** {*;}
+-keep  class com.fasterxml.jackson.databind.** {*;}
+
+
+#GSM
+-keep  class com.google.android.gms.* { public *; }
+-dontwarn com.google.android.gms.**
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+
+#webkit
+-keep  class android.net.http.SslError
+-keep  class android.webkit.WebViewClient
+
+-dontwarn android.webkit.WebView
+-dontwarn android.net.http.SslError
+-dontwarn android.webkit.WebViewClient
+
+#notification
+-dontwarn android.app.Notification
