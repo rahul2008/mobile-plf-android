@@ -245,16 +245,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void navigateToHome() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FragmentManager fragmentManager = getChildFragmentManager();
-                int fragmentCount = fragmentManager.getBackStackEntryCount();
-                for (int i = fragmentCount; i >= 0; i--) {
-                    fragmentManager.popBackStack();
-                }
-            }
-        });
+        FragmentManager fragmentManager = getChildFragmentManager();
+        int fragmentCount = fragmentManager.getBackStackEntryCount();
+        for (int i = fragmentCount; i >= 0; i--) {
+            fragmentManager.popBackStack();
+        }
     }
 
     public void addWelcomeFragmentOnVerification() {
@@ -389,6 +384,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
+        if(!isOnline && !RegistrationHelper.getInstance().isJanrainIntialized()){
+            RegistrationHelper.getInstance().resetInitializationState();
+
+        }
         if (!RegistrationHelper.getInstance().isJanrainIntialized() && !RegistrationHelper.getInstance().isJumpInitializationInProgress()) {
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();

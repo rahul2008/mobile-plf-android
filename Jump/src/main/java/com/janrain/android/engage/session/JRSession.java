@@ -638,7 +638,6 @@ public class JRSession implements JRConnectionManagerDelegate {
                     /* If the ETag matched, we're done. */
                     LogUtils.logd("[connectionDidFinishLoading] HTTP_NOT_MODIFIED -> matched ETag");
                     triggerConfigDidFinish();
-                    sendProviderFlowSuccessBroadcast();
                     return;
                 }
 

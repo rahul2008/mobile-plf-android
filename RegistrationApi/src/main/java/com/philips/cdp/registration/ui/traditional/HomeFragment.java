@@ -233,8 +233,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onClick(View v) {
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
-                callSocialProvider(providerName);
-                providerBtn.showProgressBar();
+                if (NetworkUtility.isNetworkAvailable(mContext)) {
+                    callSocialProvider(providerName);
+                    providerBtn.showProgressBar();
+                }else{
+                    enableControls(false);
+                    mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
+                }
             }
         });
         return providerBtn;

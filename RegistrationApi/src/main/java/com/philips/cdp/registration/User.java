@@ -955,7 +955,7 @@ public class User {
             @Override
             public void onFlowDownloadSuccess() {
                 if (handler != null) {
-                    refreshandUpdateUser(context,handler);
+                    refreshandUpdateUser(context, handler);
                 }
                 mRegistrationHelper.unregisterJumpFlowDownloadListener();
 
@@ -1027,8 +1027,10 @@ public class User {
     private void logoutJanrainUser() {
         deleteDIUserProfileFromDisk();
         CoppaConfiguration.clearConfiguration();
-        Jump.signOutCaptureUser(mContext);
-        JRSession.getInstance().signOutAllAuthenticatedUsers();
+
+        if( JRSession.getInstance() != null) {
+            JRSession.getInstance().signOutAllAuthenticatedUsers();
+        }
         CaptureRecord.deleteFromDisk(mContext);
     }
 

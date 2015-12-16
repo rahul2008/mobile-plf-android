@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
@@ -58,6 +59,8 @@ public class RegistrationHelper {
 
     private String countryCode;
 
+    private final int  CALL_AFTER_DELAY = 500;
+
     private boolean isCoppaFlow = false;
 
     private boolean isHsdpFlow;
@@ -78,8 +81,10 @@ public class RegistrationHelper {
         mJanrainIntialized = janrainIntializationStatus;
     }
 
-    private RegistrationHelper() {
+    private Handler mHandler;
 
+    private RegistrationHelper() {
+        mHandler = new Handler();
     }
 
     public static RegistrationHelper getInstance() {
@@ -87,7 +92,7 @@ public class RegistrationHelper {
             mRegistrationHelper = new RegistrationHelper();
 
         }
-      //  RLog.i(RLog.ACTIVITY_LIFECYCLE,"mRegistrationHelper " +mRegistrationHelper);
+        //  RLog.i(RLog.ACTIVITY_LIFECYCLE,"mRegistrationHelper " +mRegistrationHelper);
         return mRegistrationHelper;
     }
 
@@ -110,7 +115,7 @@ public class RegistrationHelper {
             if (intent != null) {
                 Bundle extras = intent.getExtras();
                 if(extras.getString("message").equalsIgnoreCase("Download flow Success!!")){
-                   // mJumpDownloadFlow++;
+                    // mJumpDownloadFlow++;
                     mReceivedDownloadFlowSuccess = true;
                     RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = mJumpDownloadFlow" + mJumpDownloadFlow);
                 }else if(extras.getString("message").equalsIgnoreCase("Provider flow Success!!")){
@@ -126,7 +131,13 @@ public class RegistrationHelper {
                         mReceivedDownloadFlowSuccess = false;
                         mReceivedProviderFlowSuccess = false;
                         if(mJumpFlowDownloadStatusListener != null) {
-                            mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
+                                }
+                            }, CALL_AFTER_DELAY);
+
 
                         }
                         EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
@@ -140,7 +151,13 @@ public class RegistrationHelper {
                     mReceivedDownloadFlowSuccess = false;
                     mReceivedProviderFlowSuccess = false;
                     if(mJumpFlowDownloadStatusListener != null){
-                        mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
+                            }
+                        }, CALL_AFTER_DELAY);
+
                     }
                     EventHelper.getInstance()
                             .notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
@@ -150,6 +167,12 @@ public class RegistrationHelper {
             }
         }
     };
+
+    public void resetInitializationState(){
+        mIsInitializationInProgress = false;
+        mReceivedDownloadFlowSuccess = false;
+        mReceivedProviderFlowSuccess = false;
+    }
 
     private Locale mLocale;
 
@@ -168,7 +191,7 @@ public class RegistrationHelper {
     }
 
     public Locale getUiLocale(){
-       return mUILocale;
+        return mUILocale;
     }
 
     /*
