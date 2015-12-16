@@ -13,7 +13,10 @@ import com.philips.cdp.uikit.SpringBoardItems;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
-
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 public class SpringBoardListActivity extends  CatalogActivity {
 
 
