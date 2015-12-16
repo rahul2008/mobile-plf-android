@@ -22,9 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by 310188215 on 17/06/15.
- */
 public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncBase implements SHNServiceHealthThermometer.SHNServiceHealthThermometerListener {
 
     private static final String TAG = SHNCapabilityLogSyncHealthThermometer.class.getSimpleName();
@@ -33,7 +30,6 @@ public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncB
     private final SHNDeviceTimeAdjuster shnDeviceTimeAdjuster;
 
     public SHNCapabilityLogSyncHealthThermometer(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNDeviceTimeAdjuster shnDeviceTimeAdjuster) {
-        super();
         this.shnServiceHealthThermometer = shnServiceHealthThermometer;
         this.shnDeviceTimeAdjuster = shnDeviceTimeAdjuster;
         shnServiceHealthThermometer.setSHNServiceHealthThermometerListener(this);
@@ -46,13 +42,11 @@ public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncB
         }
     }
 
-    // implements SHNServiceHealthThermometer.SHNServiceHealthThermometerListener
     @Override
     public void onTemperatureMeasurementReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement) {
         if (getState() == State.Synchronizing) {
             if (shnTemperatureMeasurement.getTimestamp() == null) {
                 Log.w(TAG, "The received temperature measurement does not have a timestamp, cannot save it in the log!");
-                timer.restart();
             } else {
                 long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnTemperatureMeasurement.getTimestamp().getTime());
                 Map<SHNDataType, SHNData> map = new HashMap<>();
@@ -65,12 +59,10 @@ public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncB
 
     @Override
     public void onIntermediateTemperatureReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement) {
-
     }
 
     @Override
     public void onMeasurementIntervalChanged(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurementInterval shnTemperatureMeasurementInterval) {
-
     }
 
     @Override

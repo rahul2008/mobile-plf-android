@@ -13,9 +13,6 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 
-/**
- * Created by 310188215 on 19/05/15.
- */
 public class SHNCapabilityLogSynchronizationWrapper implements SHNCapabilityLogSynchronization, SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener {
     private final SHNCapabilityLogSynchronization wrappedShnCapabilityLogSynchronization;
     private final Handler internalHandler;

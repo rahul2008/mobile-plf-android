@@ -5,37 +5,6 @@
 
 package com.philips.pins.shinelib.capabilities;
 
-/*
-@startuml
-actor UserApp
-participant WSLSCapability
-participant WSService
-participant DevTimeAdjusterCTS
-participant CTService
-participant SHNService
-UserApp -> WSLSCapability : getState() = Idle
-SHNService -> CTService : onStateChanged(Available)
-CTService -> DevTimeAdjusterCTS: onStateChanged(Available)
-DevTimeAdjusterCTS -> CTService : getCurrentTime
-CTService -> DevTimeAdjusterCTS : getCurrentTimeResultOK
-DevTimeAdjusterCTS -> DevTimeAdjusterCTS : getCurrentSystemTime
-DevTimeAdjusterCTS -> CTService : transitionToReady
-CTService -> SHNService : transitionToReady
-UserApp -> WSLSCapability : getState() = Idle
-UserApp -> WSLSCapability : startSynchronizationFromToken(null)
-UserApp -> WSLSCapability : getState() = Synchronizing
-WSLSCapability -> WSService : enableNotifications
-loop all stored measurements
-    WSLSCapability -> WSLSCapability : restartTimer
-    WSService -> DevTimeAdjusterCTS : adjustTimeToHostTime
-    WSService -> WSLSCapability : Measurement
-end
-WSLSCapability -> WSLSCapability : timeout
-WSLSCapability -> WSService : disableNotifications
-WSLSCapability -> UserApp : onLogSynchronized
-@enduml
- */
-
 import android.util.Log;
 
 import com.philips.pins.shinelib.SHNResult;
@@ -54,10 +23,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
     private static final String TAG = SHNCapabilityLogSyncWeightScale.class.getSimpleName();
     private static final boolean LOGGING = false;
@@ -77,7 +42,6 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
             if (getState() == State.Synchronizing) {
                 if (shnWeightMeasurement.getTimestamp() == null) {
                     Log.w(TAG, "The received weight measurement does not have a timestamp, cannot save it in the log!");
-                    timer.restart();
                 } else {
                     long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnWeightMeasurement.getTimestamp().getTime());
                     Map<SHNDataType, SHNData> map = new HashMap<>();

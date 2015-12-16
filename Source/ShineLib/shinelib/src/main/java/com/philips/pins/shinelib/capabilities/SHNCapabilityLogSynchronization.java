@@ -16,9 +16,8 @@ import com.philips.pins.shinelib.datatypes.SHNLog;
  */
 public interface SHNCapabilityLogSynchronization extends SHNCapability {
     enum State {
-        Idle
-        ,Synchronizing
-//        ,Processing
+        Idle,
+        Synchronizing
     }
 
     enum Option {
@@ -32,19 +31,27 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
 
     interface SHNCapabilityLogSynchronizationListener {
         void onStateUpdated(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization);
+
         void onProgressUpdate(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, float progress);
+
         void onLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog, SHNResult shnResult);
+
         void onLogSynchronizationFailed(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNResult shnResult);
+
         void onIntermediateLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog);
     }
 
     void setSHNCapabilityLogSynchronizationListener(SHNCapabilityLogSynchronizationListener SHNCapabilityLogSynchronizationListener);
+
     State getState();
+
     Object getLastSynchronizationToken();
 
     void startSynchronizationFromToken(Object synchronizationToken);
+
     void abortSynchronization();
 
     void getValueForOption(Option option, SHNIntegerResultListener shnResultListener);
+
     void setValueForOption(int value, Option option, SHNResultListener shnResultListener);
 }
