@@ -2,14 +2,14 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:layout_width="500dp"
-    android:layout_height="wrap_content"
+    android:layout_height="360dp"
     android:gravity="center"
-    android:layout_marginTop="34dp">
+    android:layout_margin="12dp">
 
         <FrameLayout
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
-            android:layout_height="390dp"
+            android:layout_height="180dp"
             android:layout_gravity="top"
             android:background="?attr/baseColor"
             android:elevation="6dp">
@@ -28,7 +28,7 @@
             android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="224dp"
+            android:minHeight="180dp"
             android:layout_gravity="left|bottom"
             android:background="@color/uikit_white"
             android:orientation="vertical">
@@ -47,7 +47,7 @@
                     android:layout_marginLeft="34dp"
                     android:text="Your title goes here"
                     android:textColor="?attr/verydarkBaseColor"
-                    android:textSize="28sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/cardImage"
@@ -75,7 +75,7 @@
                 android:layout_marginTop="32dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
                 android:textColor="?attr/verydarkBaseColor"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 fontPath="fonts/centralesansbook.ttf"
