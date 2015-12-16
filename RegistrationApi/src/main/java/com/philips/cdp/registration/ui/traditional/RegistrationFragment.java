@@ -385,6 +385,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         if(!isOnline && !RegistrationHelper.getInstance().isJanrainIntialized()){
+
             RegistrationHelper.getInstance().resetInitializationState();
 
         }

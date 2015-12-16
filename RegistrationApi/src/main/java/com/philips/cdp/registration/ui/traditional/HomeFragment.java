@@ -237,6 +237,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     callSocialProvider(providerName);
                     providerBtn.showProgressBar();
                 }else{
+                    scrollViewAutomatically(mRegError,mSvRootLayout);
                     enableControls(false);
                     mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
                 }
@@ -341,10 +342,16 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
+    private void makeProgressVisible(){
+        if(getView() != null) {
+            getView().findViewById(R.id.sv_root_layout).setVisibility(View.INVISIBLE);
+            getView().findViewById(R.id.ll_root_layout).setVisibility(View.VISIBLE);
+        }
+    }
+
     private void callSocialProvider(String providerName) {
         RLog.d("HomeFragment", "callSocialProvider method provider name :" + providerName);
-        getView().findViewById(R.id.sv_root_layout).setVisibility(View.INVISIBLE);
-        getView().findViewById(R.id.ll_root_layout).setVisibility(View.VISIBLE);
+        makeProgressVisible();
         mProvider = providerName;
         if (null == mUser)
             return;
@@ -588,7 +595,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" +userRegistrationFailureInfo.getErrorCode());
+        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" + userRegistrationFailureInfo.getErrorCode());
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
@@ -668,9 +675,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "HomeFragment :onNetWorkStateReceived state :" + isOnline);
+        if(!isOnline){
+            hideProviderProgress();
+        }
         handleUiState();
        // handleJanrainInitPb();
     }
+
+
 
     private void trackSocialProviderPage() {
         if (mProvider == null) {
