@@ -14,7 +14,7 @@
     <dimen name="action_button_height">33dp</dimen>
     <dimen name="about_screen_philips_logo_height">86sp</dimen>
     <dimen name="input_text_field_height">44dp</dimen>
-    <dimen name="inline_form_field_height">53dp</dimen>
+    <dimen name="inline_form_field_height">52dp</dimen>
     <dimen name="tab_bar_height">85sp</dimen>
     <dimen name="slider_thumb_height">18sp</dimen>
     <dimen name="slider_progressbar_height">4sp</dimen>
@@ -43,4 +43,10 @@
     <dimen name="springboard_lists_item_size">55sp</dimen>
     <dimen name="springboard_grid_title_font_size">33sp</dimen>
     <dimen name="springboard_grid_font_size">16sp</dimen>
+    <dimen name="socialicons_height">20dp</dimen>
+    <dimen name="socialicons_width">20dp</dimen>
+    <dimen name="socialicons_height_large">32dp</dimen>
+    <dimen name="socialicons_width_large">32dp</dimen>
+
+
 </resources>
