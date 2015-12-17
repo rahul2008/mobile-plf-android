@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <p>
- * This class acts as a wrapper around logging and allows setting of a global logging level.
+ * This class acts as a wrapper around logging and allows registering of new logging receivers.
  * </p>
  *
  * <p>
