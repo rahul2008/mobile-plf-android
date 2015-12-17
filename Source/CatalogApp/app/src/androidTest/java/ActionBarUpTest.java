@@ -9,7 +9,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsDimensionAsExpectedMatcher.isDimensionSimilar;
 
 /**
@@ -35,9 +34,9 @@ public class ActionBarUpTest extends ActivityInstrumentationTestCase2<ActionBarL
         onView(withId(R.id.arrow)).check(matches(isDimensionSimilar((int) (testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.actionbar_up_height)), ((int) (testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.actionbar_up_width))))));
     }
 
-    public void testUpIconBGColorAsExpected() {
-        onView(withId(R.id.arrow)).check(matches(isBackgroundColorSimilar("#ffffff", 5,20)));
-    }
+//    public void testUpIconBGColorAsExpected() {
+//        onView(withId(R.id.arrow)).check(matches(isBackgroundColorSimilar("#ffffff", 5,20)));
+//    }
 
     public void testUpIconFunctionality() {
         try {

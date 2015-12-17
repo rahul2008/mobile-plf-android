@@ -103,12 +103,12 @@ public class TransparentButtonTest extends ActivityInstrumentationTestCase2<Butt
                 .check(matches(isOpacityValueSimilar(0, 30, 30)));
     }
 
-    public void testBAThemeTButtonOutlineColorAsExpected() {
+/*    public void testBAThemeTButtonOutlineColorAsExpected() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.outlined_transparent_button))
                 .check(matches(isOutlineColorSimilar("#cae3e9")));
-    }
+    }*/
 
     public void testBAThemeTButtonTextColor() {
         themeUtils.setThemePreferences("aqua|false|solid|0");

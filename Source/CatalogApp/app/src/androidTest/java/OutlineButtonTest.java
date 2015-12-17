@@ -99,13 +99,13 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
         onView(withId(R.id.outlined_button))
                 .check(matches(isTextColorSimilar("#e9830")));
     }
-
-    public void testBOThemeOButtonBGColor() {
-        themeUtils.setThemePreferences("orange|false|solid|0");
-        relaunchActivity();
-        onView(withId(R.id.outlined_button))
-                .check(matches(isBackgroundColorSimilar("#ffffff", 15, 15)));
-    }
+//
+//    public void testBOThemeOButtonBGColor() {
+//        themeUtils.setThemePreferences("orange|false|solid|0");
+//        relaunchActivity();
+//        onView(withId(R.id.outlined_button))
+//                .check(matches(isBackgroundColorSimilar("#ffffff", 15, 15)));
+//    }
 
     public void testBAThemeOButtonOutlineColorAsExpected() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
