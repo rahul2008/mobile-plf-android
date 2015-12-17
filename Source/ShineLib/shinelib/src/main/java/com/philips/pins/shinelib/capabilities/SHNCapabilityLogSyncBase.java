@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.capabilities;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
@@ -14,6 +14,7 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,7 +70,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
             notifyListenerWithProgress(0.0f);
             setupToReceiveMeasurements();
         } else {
-            Log.w(TAG, "Unable to start synchronization; Already running!");
+            SHNLogger.w(TAG, "Unable to start synchronization; Already running!");
         }
     }
 
@@ -78,7 +79,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         if (state == State.Synchronizing) {
             stop(SHNResult.SHNAborted);
         } else {
-            Log.w(TAG, "Unable to abort synchronization, already in an idle state!");
+            SHNLogger.w(TAG, "Unable to abort synchronization, already in an idle state!");
         }
     }
 
@@ -120,7 +121,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
             notifyListenerWithProgress(progress);
             notifyListenerWithLogItem(shnLogItem);
         } else {
-            Log.w(TAG, "Received measurement but is in an inconsistent state!");
+            SHNLogger.w(TAG, "Received measurement but is in an inconsistent state!");
         }
     }
 

@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib.capabilities;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -40,7 +40,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class SHNCapabilityLogSyncHealthThermometerTest {
 
     private SHNCapabilityLogSyncHealthThermometer shnCapabilityLogSyncHealthThermometer;
@@ -53,9 +52,6 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         mockedSHNServiceHealthThermometer = mock(SHNServiceHealthThermometer.class);
         mockedSHNDeviceTimeAdjuster = mock(SHNDeviceTimeAdjuster.class);
         mockedShnCapabilitySHNCapabilityLogSynchronizationListener = mock(SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener.class);
-
-        mockStatic(Log.class);
-        when(Log.w(anyString(), anyString())).thenReturn(0);
 
         shnCapabilityLogSyncHealthThermometer = new SHNCapabilityLogSyncHealthThermometer(mockedSHNServiceHealthThermometer, mockedSHNDeviceTimeAdjuster);
         shnCapabilityLogSyncHealthThermometer.setSHNCapabilityLogSynchronizationListener(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);

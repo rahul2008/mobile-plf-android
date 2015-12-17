@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib.services;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -43,7 +43,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
  * All rights reserved.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Timer.class, Log.class})
+@PrepareForTest({Timer.class})
 public class SHNServiceUserDataTest extends TestCase {
 
     private SHNFactory mockedShnFactory;
@@ -81,9 +81,6 @@ public class SHNServiceUserDataTest extends TestCase {
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID)).thenReturn(mockedShnUserControlPointCharacteristic);
         when(mockedShnUserControlPointCharacteristic.getUuid()).thenReturn(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID);
-
-        mockStatic(Log.class);
-        PowerMockito.when(Log.w(anyString(), anyString())).thenReturn(0);
 
         shnServiceUserData = new SHNServiceUserData(mockedShnFactory);
         shnIntegerResultListener = mock(SHNIntegerResultListener.class);

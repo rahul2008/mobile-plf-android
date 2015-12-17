@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.services;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -16,6 +16,7 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.ScalarConverters;
 
 import java.nio.ByteBuffer;
@@ -34,7 +35,6 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
     public static final UUID SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A19));
 
     private static final String TAG = SHNServiceBattery.class.getSimpleName();
-    private static final boolean LOGGING = false;
 
     private SHNServiceBatteryListener shnServiceBatteryListener;
 
@@ -81,12 +81,12 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
     }
 
     public void getBatteryLevel(final SHNIntegerResultListener listener) {
-        if (LOGGING) Log.i(TAG, "getBatteryLevel");
+        SHNLogger.i(TAG, "getBatteryLevel");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
             public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
-                if (LOGGING) Log.i(TAG, "getBatteryLevel reportResult");
+                SHNLogger.i(TAG, "getBatteryLevel reportResult");
                 int value = -1;
                 if (shnResult == SHNResult.SHNOk) {
                     ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
@@ -107,13 +107,13 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
     }
 
     public void setBatteryLevelNotifications(boolean enabled, final SHNResultListener listener) {
-        if (LOGGING) Log.i(TAG, "setBatteryLevelNotifications");
+        SHNLogger.i(TAG, "setBatteryLevelNotifications");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
             public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
-                if (LOGGING) Log.i(TAG, "setBatteryLevelNotifications reportResult");
+                SHNLogger.i(TAG, "setBatteryLevelNotifications reportResult");
                 if (listener != null) {
                     listener.onActionCompleted(shnResult);
                 }

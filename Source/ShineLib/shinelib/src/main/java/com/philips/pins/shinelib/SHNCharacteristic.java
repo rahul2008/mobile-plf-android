@@ -9,9 +9,10 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +20,6 @@ import java.util.UUID;
 
 public class SHNCharacteristic {
     private static final String TAG = SHNCharacteristic.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private static final UUID CLIENT_CHARACTERISTIC_CONFIG_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
     private final UUID uuid;
     private BluetoothGattCharacteristic bluetoothGattCharacteristic;
@@ -38,7 +38,7 @@ public class SHNCharacteristic {
         this.uuid = characteristicUUID;
         this.state = State.Inactive;
         this.pendingCompletions = new LinkedList<>();
-        if (LOGGING) Log.i(TAG, "created: " + uuid);
+        SHNLogger.i(TAG, "created: " + uuid);
     }
 
     public State getState() {
@@ -50,14 +50,14 @@ public class SHNCharacteristic {
     }
 
     public void connectToBLELayer(BTGatt btGatt, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
-        if (LOGGING) Log.i(TAG, "connectToBLELayer: " + uuid);
+        SHNLogger.i(TAG, "connectToBLELayer: " + uuid);
         this.btGatt = btGatt;
         this.bluetoothGattCharacteristic = bluetoothGattCharacteristic;
         state = State.Active;
     }
 
     public void disconnectFromBLELayer() {
-        if (LOGGING) Log.i(TAG, "disconnectFromBLELayer: " + uuid);
+        SHNLogger.i(TAG, "disconnectFromBLELayer: " + uuid);
         bluetoothGattCharacteristic = null;
         btGatt = null;
         state = State.Inactive;
@@ -75,7 +75,7 @@ public class SHNCharacteristic {
             btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
             pendingCompletions.add(resultReporter);
         } else {
-            if (LOGGING) Log.i(TAG, "Error write; characteristic not active: " + uuid);
+            SHNLogger.i(TAG, "Error write; characteristic not active: " + uuid);
             resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
         }
     }
@@ -85,7 +85,7 @@ public class SHNCharacteristic {
             btGatt.readCharacteristic(bluetoothGattCharacteristic);
             pendingCompletions.add(resultReporter);
         } else {
-            if (LOGGING) Log.i(TAG, "Error read; characteristic not active: " + uuid);
+            SHNLogger.i(TAG, "Error read; characteristic not active: " + uuid);
             resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
         }
     }
@@ -103,19 +103,19 @@ public class SHNCharacteristic {
     }
 
     public void onReadWithData(BTGatt gatt, int status, byte[] data) {
-        if (LOGGING) Log.i(TAG, "onReadWithData");
+        SHNLogger.i(TAG, "onReadWithData");
         SHNResult shnResult = translateGATTResultToSHNResult(status);
         reportResultToCaller(data, shnResult);
     }
 
     public void onWrite(BTGatt gatt, int status) {
-        if (LOGGING) Log.i(TAG, "onWrite");
+        SHNLogger.i(TAG, "onWrite");
         SHNResult shnResult = translateGATTResultToSHNResult(status);
         reportResultToCaller(null, shnResult);
     }
 
     public void onChanged(BTGatt gatt, byte[] data) {
-        if (LOGGING) Log.i(TAG, "onChanged");
+        SHNLogger.i(TAG, "onChanged");
         if (shnCharacteristicChangedListener != null) {
             shnCharacteristicChangedListener.onCharacteristicChanged(this, data);
         }
@@ -126,7 +126,7 @@ public class SHNCharacteristic {
     }
 
     public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-        if (LOGGING) Log.i(TAG, "onDescriptorWrite " + getUuid() + " size = " + pendingCompletions.size());
+        SHNLogger.i(TAG, "onDescriptorWrite " + getUuid() + " size = " + pendingCompletions.size());
         SHNResult shnResult = translateGATTResultToSHNResult(status);
         reportResultToCaller(null, shnResult);
     }

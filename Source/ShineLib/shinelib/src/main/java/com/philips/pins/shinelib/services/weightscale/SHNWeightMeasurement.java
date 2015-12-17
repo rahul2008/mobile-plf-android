@@ -5,11 +5,12 @@
 
 package com.philips.pins.shinelib.services.weightscale;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.datatypes.SHNHeightUnit;
 import com.philips.pins.shinelib.datatypes.SHNWeightUnit;
 import com.philips.pins.shinelib.utility.SHNBluetoothDataConverter;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.ScalarConverters;
 
 import java.nio.BufferUnderflowException;
@@ -79,7 +80,7 @@ public class SHNWeightMeasurement {
 
     private float extractWeight(int rawData) {
         if (rawData == MEASUREMENT_UNSUCCESSFUL) {
-            Log.w(TAG, "Received a measurement with the special weight-value 0xFFFF that represents \"Measurement Unsuccessful\"");
+            SHNLogger.w(TAG, "Received a measurement with the special weight-value 0xFFFF that represents \"Measurement Unsuccessful\"");
         } else {
             SHNWeightUnit unit = getFlags().getShnWeightUnit();
             float resolution;

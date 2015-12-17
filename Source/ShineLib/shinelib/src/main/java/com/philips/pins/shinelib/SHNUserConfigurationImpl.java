@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
+
+
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -162,7 +164,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         dateOfBirth.setTime(this.dateOfBirth);
 
         if (dateOfBirth.after(now)) {
-            Log.e(TAG, "Can't be born in the future");
+            SHNLogger.e(TAG, "Can't be born in the future");
             return null;
         }
 

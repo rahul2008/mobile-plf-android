@@ -9,9 +9,10 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.support.annotation.Nullable;
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -24,7 +25,6 @@ import java.util.UUID;
 
 public class SHNService {
     private static final String TAG = SHNService.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private State state = State.Unavailable;
     private final UUID uuid;
     private BTGatt btGatt;
@@ -87,7 +87,7 @@ public class SHNService {
 
     private void updateState(State newState) {
         if (state != newState) {
-            if (LOGGING) Log.i(TAG, "updateState for: " + getUuid() + " new state: " + newState);
+            SHNLogger.i(TAG, "updateState for: " + getUuid() + " new state: " + newState);
             state = newState;
             for (SHNServiceListener shnServiceListener : shnServiceListeners) {
                 shnServiceListener.onServiceStateChanged(this, state);
@@ -100,8 +100,7 @@ public class SHNService {
         this.btGatt = gatt;
         for (BluetoothGattCharacteristic bluetoothGattCharacteristic : bluetoothGattService.getCharacteristics()) {
             SHNCharacteristic shnCharacteristic = getSHNCharacteristic(bluetoothGattCharacteristic.getUuid());
-            if (LOGGING)
-                Log.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + ((shnCharacteristic == null) ? " not found" : " connecting"));
+            SHNLogger.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + ((shnCharacteristic == null) ? " not found" : " connecting"));
             if (shnCharacteristic != null) {
                 shnCharacteristic.connectToBLELayer(btGatt, bluetoothGattCharacteristic);
             }

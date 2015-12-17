@@ -21,7 +21,6 @@ import java.util.UUID;
  */
 public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private static final String TAG = SHNDeviceScanner.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private static final int SCANNING_RESTART_INTERVAL_MS = 3000;
     private ScannerSettingDuplicates scannerSettingDuplicates;
 

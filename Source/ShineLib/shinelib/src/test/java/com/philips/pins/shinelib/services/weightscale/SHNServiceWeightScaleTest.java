@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib.services.weightscale;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -36,7 +36,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * All rights reserved.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class SHNServiceWeightScaleTest {
 
     private SHNServiceWeightScale shnServiceWeightScale;
@@ -49,7 +48,6 @@ public class SHNServiceWeightScaleTest {
 
     @Before
     public void setUp() {
-        mockStatic(Log.class);
         mockedSHNFactory = mock(SHNFactory.class);
         mockedSHNService = mock(SHNService.class);
 

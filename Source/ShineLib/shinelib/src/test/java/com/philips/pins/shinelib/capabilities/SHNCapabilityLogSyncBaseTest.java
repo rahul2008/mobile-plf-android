@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib.capabilities;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.datatypes.SHNLog;
@@ -34,7 +34,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class SHNCapabilityLogSyncBaseTest {
 
     private TestSHNCapabilityLogSyncBase testSHNCapabilityLogSyncBase;
@@ -48,9 +47,6 @@ public class SHNCapabilityLogSyncBaseTest {
         initMocks(this);
 
         mockedShnCapabilitySHNCapabilityLogSynchronizationListener = mock(SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener.class);
-
-        mockStatic(Log.class);
-        when(Log.w(anyString(), anyString())).thenReturn(0);
 
         testSHNCapabilityLogSyncBase = new TestSHNCapabilityLogSyncBase();
         testSHNCapabilityLogSyncBase.setSHNCapabilityLogSynchronizationListener(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);

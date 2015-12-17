@@ -7,17 +7,17 @@ package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Date;
 
 public class SHNCapabilityDeviceInformationWrapper implements SHNCapabilityDeviceInformation {
     private static final String TAG = SHNCapabilityDeviceInformationWrapper.class.getSimpleName();
-    private static final boolean LOGGING = false;
 
     @NonNull
     private final SHNCapabilityDeviceInformation wrappedShnCapability;
@@ -37,21 +37,19 @@ public class SHNCapabilityDeviceInformationWrapper implements SHNCapabilityDevic
     @Deprecated
     @Override
     public void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
-        if (LOGGING) Log.i(TAG, "readDeviceInformation called by user");
+        SHNLogger.i(TAG, "readDeviceInformation called by user");
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.i(TAG, "readDeviceInformation running on device thread");
+                SHNLogger.i(TAG, "readDeviceInformation running on device thread");
                 wrappedShnCapability.readDeviceInformation(shnDeviceInformationType, new SHNStringResultListener() {
                     @Override
                     public void onActionCompleted(final String value, final SHNResult result) {
-                        if (LOGGING)
-                            Log.i(TAG, "readDeviceInformation onActionCompleted running on device thread");
+                        SHNLogger.i(TAG, "readDeviceInformation onActionCompleted running on device thread");
                         Runnable resultRunnable = new Runnable() {
                             @Override
                             public void run() {
-                                if (LOGGING)
-                                    Log.i(TAG, "readDeviceInformation onActionCompleted running on user thread");
+                                SHNLogger.i(TAG, "readDeviceInformation onActionCompleted running on user thread");
                                 shnStringResultListener.onActionCompleted(value, result);
                             }
                         };

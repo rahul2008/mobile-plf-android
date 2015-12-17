@@ -2,7 +2,7 @@ package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
@@ -52,7 +52,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
  * Created by 310188215 on 27/05/15.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class, SHNDeviceAssociation.class})
+@PrepareForTest({SHNDeviceAssociation.class})
 public class SHNDeviceAssociationTest {
     public static final String DEVICE_TYPE_NAME = "Moonshine";
     private SHNDeviceAssociation shnDeviceAssociation;
@@ -80,7 +80,6 @@ public class SHNDeviceAssociationTest {
 
         initMocks(this);
 
-        mockStatic(Log.class);
         mockedSHNDeviceAssociationListener = Utility.makeThrowingMock(SHNDeviceAssociation.SHNDeviceAssociationListener.class);
         mockedSHNAssociationProcedure = Utility.makeThrowingMock(SHNAssociationProcedurePlugin.class);
         mockedSHNCentral = Utility.makeThrowingMock(SHNCentral.class);

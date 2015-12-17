@@ -6,7 +6,7 @@
 package com.philips.pins.shinelib.services.weightscale;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -16,6 +16,7 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
@@ -110,9 +111,9 @@ public class SHNServiceBodyComposition implements SHNService.SHNServiceListener,
                 SHNBodyCompositionMeasurement shnBodyCompositionMeasurement = new SHNBodyCompositionMeasurement(byteBuffer);
                 shnServiceBodyCompositionListener.onBodyCompositionMeasurementReceived(this, shnBodyCompositionMeasurement);
             } catch (IllegalArgumentException e) {
-                Log.w(TAG, "Received incorrect body composition measurement data");
+                SHNLogger.w(TAG, "Received incorrect body composition measurement data");
             } catch (BufferUnderflowException e) {
-                Log.w(TAG, "The supplied data has the wrong length.");
+                SHNLogger.w(TAG, "The supplied data has the wrong length.");
             }
         }
     }

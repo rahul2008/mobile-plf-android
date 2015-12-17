@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib.datatypes;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
@@ -26,7 +26,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * All rights reserved.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class SHNWeightMeasurementTest {
 
     private static final byte IMPERIAL_SUPPORTED = 0x01;
@@ -188,9 +187,6 @@ public class SHNWeightMeasurementTest {
 
     @Test
     public void whenTheScaleMeasurementHasSpecialValueThanMessageIsLogged() {
-        mockStatic(Log.class);
-        when(Log.w(anyString(), anyString())).thenReturn(0);
-
         byte[] data = new byte[]{0, (byte)0xFF, (byte)0xFF};
         getShnWeightMeasurement(data);
 

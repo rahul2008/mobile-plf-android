@@ -5,7 +5,7 @@
 
 package com.philips.pins.shinelib.capabilities;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -18,6 +18,7 @@ import com.philips.pins.shinelib.services.SHNServiceCurrentTime;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale.SHNServiceWeightScaleListener;
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +26,6 @@ import java.util.Map;
 
 public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
     private static final String TAG = SHNCapabilityLogSyncWeightScale.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private final SHNServiceWeightScale shnServiceWeightScale;
     private final SHNDeviceTimeAdjuster shnDeviceTimeAdjuster;
 
@@ -41,7 +41,7 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
         public void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNWeightMeasurement shnWeightMeasurement) {
             if (getState() == State.Synchronizing) {
                 if (shnWeightMeasurement.getTimestamp() == null) {
-                    Log.w(TAG, "The received weight measurement does not have a timestamp, cannot save it in the log!");
+                    SHNLogger.w(TAG, "The received weight measurement does not have a timestamp, cannot save it in the log!");
                 } else {
                     long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnWeightMeasurement.getTimestamp().getTime());
                     Map<SHNDataType, SHNData> map = new HashMap<>();

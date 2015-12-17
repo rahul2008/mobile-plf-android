@@ -12,7 +12,8 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
+
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +23,6 @@ import java.util.List;
  */
 public class BTGatt extends BluetoothGattCallback {
     private static final String TAG = BTGatt.class.getSimpleName();
-    private static final boolean LOGGING = false;
 
     public interface BTGattCallback
     {
@@ -173,7 +173,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onConnectionStateChange status: " + status + " newState: " + newState);
+                SHNLogger.w(TAG, "onConnectionStateChange status: " + status + " newState: " + newState);
                 btGattCallback.onConnectionStateChange(BTGatt.this, status, newState);
 // For Tuscany we found that Android does not negotiate the MTU size. The below statements work for Lolipop on a MOTOG.
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -190,7 +190,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onServicesDiscovered status: " + status);
+                SHNLogger.w(TAG, "onServicesDiscovered status: " + status);
                 btGattCallback.onServicesDiscovered(BTGatt.this, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -207,7 +207,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onCharacteristicRead status: " + status);
+                SHNLogger.w(TAG, "onCharacteristicRead status: " + status);
                 btGattCallback.onCharacteristicReadWithData(BTGatt.this, characteristic, status, finalData);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -221,7 +221,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onCharacteristicWrite status: " + status);
+                SHNLogger.w(TAG, "onCharacteristicWrite status: " + status);
                 btGattCallback.onCharacteristicWrite(BTGatt.this, characteristic, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -236,7 +236,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onCharacteristicChanged");
+                SHNLogger.w(TAG, "onCharacteristicChanged");
                 btGattCallback.onCharacteristicChangedWithData(BTGatt.this, characteristic, data);
             }
         };
@@ -249,7 +249,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onDescriptorRead status: " + status);
+                SHNLogger.w(TAG, "onDescriptorRead status: " + status);
                 btGattCallback.onDescriptorReadWithData(BTGatt.this, descriptor, status, data);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -263,7 +263,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onDescriptorWrite status: " + status);
+                SHNLogger.w(TAG, "onDescriptorWrite status: " + status);
                 btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -277,7 +277,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onReliableWriteCompleted status: " + status);
+                SHNLogger.w(TAG, "onReliableWriteCompleted status: " + status);
                 btGattCallback.onReliableWriteCompleted(BTGatt.this, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -291,7 +291,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onReadRemoteRssi status: " + status);
+                SHNLogger.w(TAG, "onReadRemoteRssi status: " + status);
                 btGattCallback.onReadRemoteRssi(BTGatt.this, rssi, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -305,7 +305,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.w(TAG, "onMtuChanged status: " + status);
+                SHNLogger.w(TAG, "onMtuChanged status: " + status);
                 btGattCallback.onMtuChanged(BTGatt.this, mtu, status);
             }
         };

@@ -7,9 +7,10 @@ package com.philips.pins.shinelib;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.utility.QuickTestConnection;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
@@ -22,7 +23,6 @@ import java.util.List;
  */
 public class SHNDeviceAssociation {
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private List<SHNDevice> associatedDevices;
     private SHNAssociationProcedurePlugin shnAssociationProcedure;
 
@@ -139,7 +139,7 @@ public class SHNDeviceAssociation {
                 if (shnAssociationProcedure == null) {
                     startAssociation(deviceTypeName);
                 } else {
-                    Log.w(TAG, "startAssociationForDeviceType: association not started: it is already running!");
+                    SHNLogger.w(TAG, "startAssociationForDeviceType: association not started: it is already running!");
                 }
             }
         });
@@ -227,7 +227,7 @@ public class SHNDeviceAssociation {
                         }
                     });
                 } else {
-                    Log.w(TAG, "stopAssociation: association not stopped: it is already stopped!");
+                    SHNLogger.w(TAG, "stopAssociation: association not stopped: it is already stopped!");
                 }
             }
         });

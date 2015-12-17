@@ -5,7 +5,7 @@
 
 package com.philips.pins.shinelib.capabilities;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -17,6 +17,7 @@ import com.philips.pins.shinelib.datatypes.SHNLogItem;
 import com.philips.pins.shinelib.services.healththermometer.SHNServiceHealthThermometer;
 import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurement;
 import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurementInterval;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncB
     public void onTemperatureMeasurementReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement) {
         if (getState() == State.Synchronizing) {
             if (shnTemperatureMeasurement.getTimestamp() == null) {
-                Log.w(TAG, "The received temperature measurement does not have a timestamp, cannot save it in the log!");
+                SHNLogger.w(TAG, "The received temperature measurement does not have a timestamp, cannot save it in the log!");
             } else {
                 long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnTemperatureMeasurement.getTimestamp().getTime());
                 Map<SHNDataType, SHNData> map = new HashMap<>();

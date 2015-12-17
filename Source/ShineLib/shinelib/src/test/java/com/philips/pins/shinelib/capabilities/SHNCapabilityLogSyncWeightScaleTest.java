@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib.capabilities;
 
-import android.util.Log;
+
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
@@ -49,7 +49,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * All rights reserved.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class SHNCapabilityLogSyncWeightScaleTest {
 
     public static final byte[] TEST_ENCODED_CURRENT_TIME = new byte[]{
@@ -75,9 +74,6 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         mockedShnServiceWeightScale = mock(SHNServiceWeightScale.class);
         mockedSHNDeviceTimeAdjuster = mock(SHNDeviceTimeAdjuster.class);
         mockedShnCapabilitySHNCapabilityLogSynchronizationListener = mock(SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener.class);
-
-        mockStatic(Log.class);
-        when(Log.w(anyString(), anyString())).thenReturn(0);
 
         shnCapabilityLogSyncWeightScale = new SHNCapabilityLogSyncWeightScale(mockedShnServiceWeightScale, mockedSHNDeviceTimeAdjuster);
         captureServiceWeightScaleListener();

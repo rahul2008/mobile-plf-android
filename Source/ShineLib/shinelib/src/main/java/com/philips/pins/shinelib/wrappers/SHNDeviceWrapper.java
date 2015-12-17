@@ -21,7 +21,6 @@ import java.util.Set;
  */
 public class SHNDeviceWrapper implements SHNDevice {
     private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private final SHNDevice shnDevice;
     private static Handler tempInternalHandler;
     private static Handler tempUserHandler;
