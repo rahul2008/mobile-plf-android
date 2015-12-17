@@ -8,11 +8,10 @@
     app:cardPreventCornerOverlap="false"
     android:layout_margin="34dp">
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
             android:layout_height="390dp"
-            android:layout_gravity="top"
             android:background="?attr/baseColor"
             android:elevation="6dp">
 
@@ -20,11 +19,11 @@
                 android:id="@+id/cross"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|right"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="19dp"
                 android:layout_marginTop="17dp" />
 
-        </FrameLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/bottom_layout"
@@ -75,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="33dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginRight="33dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
                 android:textColor="?attr/verydarkBaseColor"
                 android:textSize="16sp" />
