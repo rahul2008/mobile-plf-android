@@ -27,6 +27,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_blue_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkBlue</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkBlue</item>
     </style>
 
     <style name="Theme.Philips.DarkBlue.NoActionBar">
@@ -59,6 +61,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_purple_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkPurple</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkPurple</item>
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -92,6 +96,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_green_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkGreen</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkGreen</item>
     </style>
 
     <style name="Theme.Philips.DarkGreen.NoActionBar">
@@ -127,6 +133,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_orange_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkOrange</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkOrange</item>
     </style>
 
     <style name="Theme.Philips.DarkOrange.NoActionBar">
@@ -159,6 +167,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_aqua_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkAqua</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkAqua</item>
     </style>
 
     <style name="Theme.Philips.DarkAqua.NoActionBar">
@@ -192,6 +202,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_pink_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkPink</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkPink</item>
     </style>
 
     <style name="Theme.Philips.DarkPink.NoActionBar">
@@ -229,6 +241,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_orange_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightOrange</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightOrange</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.NoActionBar">
@@ -263,6 +277,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_aqua_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightAqua</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightAqua</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">
@@ -295,6 +311,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_green_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightGreen</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightGreen</item>
     </style>
     <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -326,6 +344,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_pink_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightPink</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightPink</item>
     </style>
     <style name="Theme.Philips.BrightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -358,6 +378,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_blue_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightBlue</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightBlue</item>
     </style>
     <style name="Theme.Philips.BrightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -390,6 +412,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_purple_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightPurple</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightPurple</item>
     </style>
     <style name="Theme.Philips.BrightPurple.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -422,7 +446,9 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_blue_selector</item>
-    </style>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightBlue</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightBlue</item>
+</style>
     <style name="Theme.Philips.LightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -456,6 +482,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_orange_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightOrange</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightOrange</item>
     </style>
     <style name="Theme.Philips.LightOrange.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -488,6 +516,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_aqua_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightAqua</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightAqua</item>
     </style>
     <style name="Theme.Philips.LightAqua.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -520,6 +550,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_green_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightGreen</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightGreen</item>
     </style>
     <style name="Theme.Philips.LightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -552,6 +584,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_pink_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightPink</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightPink</item>
     </style>
     <style name="Theme.Philips.LightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -584,6 +618,8 @@
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_purple_selector</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightPurple</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightPurple</item>
     </style>
     <style name="Theme.Philips.LightPurple.NoActionBar">
         <item name="windowActionBar">false</item>

@@ -33,6 +33,8 @@
         <attr name="veryLightGradient" format="reference"/>
         <attr name="veryLightselectoropacityfifteen" format="reference|color"/>
         <attr name="popoverImageStyle" format="reference"/>
+        <attr name="springBoardButton" format="reference"/>
+        <attr name="springBoardButtonWithIcon" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">

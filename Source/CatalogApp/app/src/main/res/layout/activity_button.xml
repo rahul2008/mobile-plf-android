@@ -70,7 +70,31 @@
                 android:text="Show notification"/>
 
 
+            <!-- Springboard buttons-->
+                <Button
+                    android:id="@+id/spButton"
+                    android:layout_below="@id/show_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/springBoardButton"
+                    android:text="Sample button"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:textAllCaps="false"/>
+                <Button
+                    android:id="@+id/spButtonIcon"
+                    android:layout_below="@id/spButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/springBoardButtonWithIcon"
+                    android:text="Sample button"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:textAllCaps="false"/>
+
         </RelativeLayout>
+
     </ScrollView>
 
     <com.philips.cdp.uikit.customviews.PuiPopoverAlert
