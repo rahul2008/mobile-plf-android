@@ -30,8 +30,8 @@
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color</item>
         <item name="android:listChoiceBackgroundIndicator">?attr/listSelectorBackground</item>
-        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
-        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
+        <item name="android:datePickerDialogTheme">@style/PhilipsDatePickerDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/PhilipsTimePickerDialogTheme</item>
     </style>
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
