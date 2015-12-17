@@ -11,6 +11,7 @@ import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,14 +68,16 @@ public class PopOverMenu extends CatalogActivity {
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
 
+        //rowItems3.;
+
         setContentView(R.layout.activity_pop_over_menu2);
         init();
 
-        listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT, rowItems1);
+        listpopupwindowTopLeft  = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT, rowItems1);
         listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT, rowItems1);
-        listpopupwindowLeft = new UIKitListPopupWindow(PopOverMenu.this,left,UIKitListPopupWindow.Type.LEFT, rowItems1);
-        listpopupwindowRight = new UIKitListPopupWindow(PopOverMenu.this,right,UIKitListPopupWindow.Type.RIGHT, rowItems2);
-        listpopupwindowBottomLeft = new UIKitListPopupWindow(PopOverMenu.this,buttomleft,UIKitListPopupWindow.Type.BOTTOMLEFT, rowItems1);
+        listpopupwindowLeft     = new UIKitListPopupWindow(PopOverMenu.this,left,UIKitListPopupWindow.Type.LEFT, rowItems1);
+        listpopupwindowRight    = new UIKitListPopupWindow(PopOverMenu.this,right,UIKitListPopupWindow.Type.RIGHT, rowItems2);
+        listpopupwindowBottomLeft  = new UIKitListPopupWindow(PopOverMenu.this,buttomleft,UIKitListPopupWindow.Type.BOTTOMLEFT, rowItems1);
         listpopupwindowBottomRight = new UIKitListPopupWindow(PopOverMenu.this,buttomright,UIKitListPopupWindow.Type.BOTTOMRIGHT, rowItems1);
 
 
@@ -142,7 +145,20 @@ public class PopOverMenu extends CatalogActivity {
 
         getMenuInflater().inflate(R.menu.menu_pop_over_menu, menu);
 
+       /* //final View menuItemView = findViewById(R.id.menu_item);
+
         //menu.add(listpopupwindowTopLeft);
+
+        try {
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+               // menuKeyField.setBoolean(config, false);
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }*/
 
         return true;
     }
@@ -153,15 +169,48 @@ public class PopOverMenu extends CatalogActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //listpopupwindowTopLeft.show();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+       /* if (id == R.id.action_settings) {
+
+
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        if( menu != null){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+                try{
+                    Method m = menu.getClass().getDeclaredMethod(
+                            "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                }
+                catch(NoSuchMethodException e){
+                   // Log.e(TAG, "onMenuOpened", e);
+                }
+                catch(Exception e){
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        menu.getItem(0).setIcon(VectorDrawable.create(this,R.drawable.uikit_gear_19_19));
+        menu.getItem(1).setIcon(VectorDrawable.create(this,R.drawable.uikit_share));
+        menu.getItem(2).setIcon(VectorDrawable.create(this,R.drawable.uikit_envelope));
+        menu.getItem(3).setIcon(VectorDrawable.create(this,R.drawable.uikit_ballon));
+
+
+        return super.onPrepareOptionsMenu(menu);
+
+
+    }
+
+
 
 }
