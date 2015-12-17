@@ -31,6 +31,8 @@
         <attr name="lighterGradient" format="reference"/>
         <attr name="evenLighterGradient" format="reference"/>
         <attr name="veryLightGradient" format="reference"/>
+        <attr name="veryLightselectoropacityfifteen" format="reference|color"/>
+        <attr name="popoverImageStyle" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">

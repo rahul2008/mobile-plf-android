@@ -143,4 +143,17 @@
         <item name="color">@android:color/black</item>
     </style>
 
+    <style name="PDropDownStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:divider">@drawable/line</item>
+        <item name="android:colorBackground">?attr/veryLightColor</item>
+    </style>
+
+    <style name="PopOverDropdown" parent="android:Widget.ListView.DropDown">
+        <item name="android:textColor">?attr/darkerColor</item>
+        <item name="android:textSize">@dimen/popup_text_size</item>
+    </style>
+
+    <style name="PopOverImageStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:tint">?attr/darkerColor</item>
+    </style>
 </resources>
