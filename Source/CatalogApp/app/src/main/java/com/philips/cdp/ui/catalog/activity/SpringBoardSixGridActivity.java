@@ -18,7 +18,8 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.util.ArrayList;
 
 /**
- * Created by 310213373 on 11/30/2015.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
 public class SpringBoardSixGridActivity extends  CatalogActivity {
 
