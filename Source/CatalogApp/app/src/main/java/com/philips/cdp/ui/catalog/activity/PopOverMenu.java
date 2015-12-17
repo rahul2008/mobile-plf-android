@@ -68,7 +68,6 @@ public class PopOverMenu extends CatalogActivity {
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
 
-        //rowItems3.;
 
         setContentView(R.layout.activity_pop_over_menu2);
         init();
@@ -141,43 +140,13 @@ public class PopOverMenu extends CatalogActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.menu_pop_over_menu, menu);
-
-       /* //final View menuItemView = findViewById(R.id.menu_item);
-
-        //menu.add(listpopupwindowTopLeft);
-
-        try {
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-
-            if (menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-               // menuKeyField.setBoolean(config, false);
-            }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }*/
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //listpopupwindowTopLeft.show();
-
-        //noinspection SimplifiableIfStatement
-       /* if (id == R.id.action_settings) {
-
-
-            return true;
-        }*/
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -193,7 +162,6 @@ public class PopOverMenu extends CatalogActivity {
                     m.invoke(menu, true);
                 }
                 catch(NoSuchMethodException e){
-                   // Log.e(TAG, "onMenuOpened", e);
                 }
                 catch(Exception e){
                     throw new RuntimeException(e);
@@ -205,12 +173,7 @@ public class PopOverMenu extends CatalogActivity {
         menu.getItem(2).setIcon(VectorDrawable.create(this,R.drawable.uikit_envelope));
         menu.getItem(3).setIcon(VectorDrawable.create(this,R.drawable.uikit_ballon));
 
-
         return super.onPrepareOptionsMenu(menu);
 
-
     }
-
-
-
 }
