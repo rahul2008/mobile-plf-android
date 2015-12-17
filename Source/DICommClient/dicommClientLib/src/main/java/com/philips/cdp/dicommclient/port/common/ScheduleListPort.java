@@ -106,7 +106,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
             @Override
             public void onError(Error error, String errorData) {
-                handleErrorResponse();
+                handleErrorResponse(error);
             }
         });
     }
@@ -121,7 +121,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
             @Override
             public void onError(Error error, String errorData) {
-                handleErrorResponse();
+                handleErrorResponse(error);
             }
         });
     }
@@ -148,7 +148,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
             @Override
             public void onError(Error error, String errorData) {
-                handleErrorResponse();
+                handleErrorResponse(error);
             }
         });
     }
@@ -175,7 +175,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
             @Override
             public void onError(Error error, String errorData) {
-                handleErrorResponse();
+                handleErrorResponse(error);
             }
         });
     }
@@ -190,7 +190,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
             @Override
             public void onError(Error error, String errorData) {
-                handleErrorResponse();
+                handleErrorResponse(error);
             }
         });
     }
@@ -207,9 +207,9 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
         return dataMap;
     }
 
-    private void handleErrorResponse() {
+    private void handleErrorResponse(final Error error) {
         if (mSchedulePortListener != null) {
-            mSchedulePortListener.onError(ScheduleListPort.DEFAULT_ERROR);
+            mSchedulePortListener.onError(error != null ? error.ordinal() : DEFAULT_ERROR);
         }
     }
 
@@ -287,6 +287,12 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
             String key;
             while (iterator.hasNext()) {
                 key = iterator.next();
+                Object opt = jsonObject.optJSONObject(key);
+                if (opt == null) {
+                    schedulesList = null;
+                    break;
+                }
+
                 String string = jsonObject.getJSONObject(key).toString();
                 ScheduleListPortInfo portInfo = parseResponseAsSingleSchedule(string);
                 portInfo.setScheduleNumber(Integer.parseInt(key));
@@ -294,7 +300,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
             }
         } catch (JSONException e) {
             schedulesList = null;
-            DICommLog.w(DICommLog.SCHEDULELISTPORT, "JsonIOException: " + "Error: " + e.getMessage());
+            DICommLog.w(DICommLog.SCHEDULELISTPORT, "JSONException: " + "Error: " + e.getMessage());
         } catch (Exception e) {
             schedulesList = null;
             DICommLog.w(DICommLog.SCHEDULELISTPORT, "Exception : " + "Error: " + e.getMessage());
