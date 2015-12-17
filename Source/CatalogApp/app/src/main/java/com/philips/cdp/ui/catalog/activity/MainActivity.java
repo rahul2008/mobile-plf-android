@@ -109,6 +109,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 			case 18:
                 startActivity(new Intent(this, TextLayoutInputFeildInlineForms.class));
                 break;
+            case 20:
+                startActivity(new Intent(this, PickerActivity.class));
+                break;
             default:
                 break;
         }
@@ -169,6 +172,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(16, "Pop Over Menu");
         itemsMap.put(17,"Spring Board");       
         itemsMap.put(18, "Inline Forms");
+        itemsMap.put(20, "Pickers");
         return itemsMap;
     }
 
