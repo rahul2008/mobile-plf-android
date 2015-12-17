@@ -17,10 +17,15 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
 
     public static final String TAG = "IsBackgroundColorAsExpectedMatcher";
     private String expectedColor;
+    int actualX;
+    int actualY;
 
-    public IsBackgroundColorAsExpectedMatcher(final Class<? extends View> expectedType, String expectedColor) {
+
+    public IsBackgroundColorAsExpectedMatcher(final Class<? extends View> expectedType, String expectedColor, final int actualX, final int actualY) {
         super(expectedType);
         this.expectedColor = expectedColor;
+        this.actualX = actualX;
+        this.actualY = actualY;
     }
 
     @Override
@@ -34,7 +39,8 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int actualRGB = actualBitmap.getPixel(30, 30);
+        int actualRGB = actualBitmap.getPixel(actualX, actualY);
+
 
         String actualcolor = "#" +
                 Integer.toString(Color.red(actualRGB), 16) +
@@ -48,8 +54,8 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
         }
     }
 
-    public static Matcher<View> isBackgroundColorSimilar(final String expectedColor) {
-        return new IsBackgroundColorAsExpectedMatcher(View.class, expectedColor);
+    public static Matcher<View> isBackgroundColorSimilar(final String expectedColor, final int actualX, final int actualY) {
+        return new IsBackgroundColorAsExpectedMatcher(View.class, expectedColor, actualX,actualY);
     }
 }
 
