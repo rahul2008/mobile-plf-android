@@ -10,8 +10,8 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
+import com.philips.cdp.uikit.utils.UikitUtils;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,21 +153,7 @@ public class PopOverMenu extends CatalogActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu)
     {
-        if( menu != null){
-            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
-                try{
-                    Method m = menu.getClass().getDeclaredMethod(
-                            "setOptionalIconsVisible", Boolean.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(menu, true);
-                }
-                catch(NoSuchMethodException e){
-                }
-                catch(Exception e){
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+        UikitUtils.menuShowIcon(menu);
         menu.getItem(0).setIcon(VectorDrawable.create(this,R.drawable.uikit_gear_19_19));
         menu.getItem(1).setIcon(VectorDrawable.create(this,R.drawable.uikit_share));
         menu.getItem(2).setIcon(VectorDrawable.create(this,R.drawable.uikit_envelope));
