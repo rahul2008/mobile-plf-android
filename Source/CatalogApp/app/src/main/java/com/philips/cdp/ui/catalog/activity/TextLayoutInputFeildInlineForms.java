@@ -11,11 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PhilipsTextInputLayout;
-import com.philips.cdp.uikit.customviews.PuiEditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +22,7 @@ import java.util.regex.Pattern;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TextLayoutInputFeildInlineForms extends CatalogActivity{
+public class TextLayoutInputFeildInlineForms extends CatalogActivity {
 
     private static final String EMAIL_PATTERN =
             "^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@"
@@ -36,8 +34,8 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
         setContentView(R.layout.inline_forms);
         disableActionbarShadow(this);
         final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.InlineForms);
+
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
-       // email.setFocusable(true);
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -52,9 +50,9 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
 
             @Override
             public void afterTextChanged(final Editable s) {
-                boolean result = validateEmail(email,email.hasFocus());
-                if(result){
-                        layout.removeError(email);
+                boolean result = validateEmail(email, email.hasFocus());
+                if (result) {
+                    layout.removeError(email);
                 }
             }
         });
@@ -70,7 +68,6 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
                 }
             }
         });
-
     }
 
     public void disableActionbarShadow(Activity activity) {
@@ -95,8 +92,8 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity{
         }
     }
 
-    private boolean validateEmail(View editText,boolean hasFocus) {
-        String stringToBeValidated = ((EditText)editText).getText().toString();
+    private boolean validateEmail(View editText, boolean hasFocus) {
+        String stringToBeValidated = ((EditText) editText).getText().toString();
         if (stringToBeValidated == null) {
             return false;
         }

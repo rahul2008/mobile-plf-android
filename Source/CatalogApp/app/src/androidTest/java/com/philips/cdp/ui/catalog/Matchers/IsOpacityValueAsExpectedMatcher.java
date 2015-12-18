@@ -18,10 +18,15 @@ public class IsOpacityValueAsExpectedMatcher extends BoundedMatcher<View, View> 
 
     public static final String TAG = "IsOpacityAsExpected";
     private int expectedAlpha;
+    private int actualX;
+    private int actualY;
 
-    public IsOpacityValueAsExpectedMatcher(final Class<? extends View> expectedType, int expectedAlpha) {
+
+    public IsOpacityValueAsExpectedMatcher(final Class<? extends View> expectedType, int expectedAlpha, final int actualX, final int actualY) {
         super(expectedType);
         this.expectedAlpha = expectedAlpha;
+        this.actualX = actualX;
+        this.actualY = actualY;
     }
 
     @Override
@@ -35,7 +40,7 @@ public class IsOpacityValueAsExpectedMatcher extends BoundedMatcher<View, View> 
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int pixel = actualBitmap.getPixel(30, 30);
+        int pixel = actualBitmap.getPixel(actualX, actualY);
         int actualAlpha = Color.alpha(pixel);
 
         if ((actualAlpha == expectedAlpha)) {
@@ -44,8 +49,8 @@ public class IsOpacityValueAsExpectedMatcher extends BoundedMatcher<View, View> 
         return false;
     }
 
-    public static Matcher<View> isOpacityValueSimilar(final int expectedAlpha) {
-        return new IsOpacityValueAsExpectedMatcher(View.class, expectedAlpha);
+    public static Matcher<View> isOpacityValueSimilar(final int expectedAlpha, final int actualX, final int actualY) {
+        return new IsOpacityValueAsExpectedMatcher(View.class, expectedAlpha ,actualX ,actualY);
     }
 }
 
