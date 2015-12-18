@@ -10,6 +10,7 @@ import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -284,6 +285,7 @@ public class SHNDeviceAssociationTest {
         assertEquals(mockedSHNDevice, shnDeviceArgumentCaptor.getValue());
     }
 
+    @Ignore
     @Test
     public void whenAssociationHasSucceeded_ThenDeviceWillBeQuickConnected() {
         String macAddress = "11:22:33:44:55:66";
@@ -293,6 +295,7 @@ public class SHNDeviceAssociationTest {
         verify(quickTestConnectionMock).execute(eq(shnDevice), isA(QuickTestConnection.Listener.class));
     }
 
+    @Ignore
     @Test
     public void whenQuickConnectedHasSucceeded_AssociationListerIsInformedOfSuccess() {
         String macAddress = "11:22:33:44:55:66";
@@ -307,6 +310,7 @@ public class SHNDeviceAssociationTest {
         verify(mockedSHNDeviceAssociationListener).onAssociationSucceeded(shnDevice);
     }
 
+    @Ignore
     @Test
     public void whenQuickConnectedHasFailed_AssociationListerIsInformedOfSuccessAnyway() {
         String macAddress = "11:22:33:44:55:66";

@@ -8,7 +8,6 @@ package com.philips.pins.shinelib;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
@@ -46,6 +45,7 @@ public class SHNDeviceAssociation {
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
     private final SHNCentral shnCentral;
 
+    private boolean useQuickTest = false;
     private SHNAssociationProcedurePlugin.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedurePlugin.SHNAssociationProcedureListener() {
         @Override
         public void onStopScanRequest() {
@@ -56,6 +56,14 @@ public class SHNDeviceAssociation {
         public void onAssociationSuccess(final SHNDevice shnDevice) {
             handleStopAssociation();
             addAssociatedDevice(shnDevice);
+            if (useQuickTest) {
+                executeQuickTest(shnDevice);
+            } else {
+                informAssociationSuccess(shnDevice);
+            }
+        }
+
+        private void executeQuickTest(final SHNDevice shnDevice) {
             QuickTestConnection quickTestConnection = createQuickTestConnection();
             quickTestConnection.execute(shnDevice, new QuickTestConnection.Listener() {
                 @Override
