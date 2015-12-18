@@ -89,6 +89,18 @@ public class SHNLoggerTest {
     }
 
     @Test
+    public void ShouldCallAllRegisteredLoggers_When_WTF_LoggingFunctionIsCalled() throws Exception {
+        SHNLogger.wtf(TEST_TAG, TEST_MSG);
+        verifyForwarded(Log.ASSERT, TEST_TAG, TEST_MSG, null);
+
+        SHNLogger.wtf(TEST_TAG, TEST_MSG, mockedThrowable);
+        verifyForwarded(Log.ASSERT, TEST_TAG, TEST_MSG, mockedThrowable);
+
+        SHNLogger.wtf(TEST_TAG, mockedThrowable);
+        verifyForwarded(Log.ASSERT, TEST_TAG, "", mockedThrowable);
+    }
+
+    @Test
     public void ShouldNotCallALogger_WhenItWasAlreadyRemoved_When() throws Exception {
         SHNLogger.unregisterLogger(mockedImplementation2);
 

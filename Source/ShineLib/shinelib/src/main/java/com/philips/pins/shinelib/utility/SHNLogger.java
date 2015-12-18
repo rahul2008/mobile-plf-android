@@ -175,6 +175,41 @@ public class SHNLogger {
         triggerLoggers(Log.ERROR, tag, msg, tr);
     }
 
+    /**
+     * What a Terrible Failure: Report a condition that should never happen.
+     * The error will always be logged at level ASSERT with the call stack.
+     * Depending on system configuration, a report may be added to the
+     * {@link android.os.DropBoxManager} and/or the process may be terminated
+     * immediately with an error dialog.
+     * @param tag Used to identify the source of a log message.
+     * @param msg The message you would like logged.
+     */
+    public static void wtf(String tag, String msg) {
+        triggerLoggers(Log.ASSERT, tag, msg);
+    }
+
+    /**
+     * What a Terrible Failure: Report an exception that should never happen.
+     * Similar to {@link #wtf(String, String)}, with an exception to log.
+     * @param tag Used to identify the source of a log message.
+     * @param tr An exception to log.
+     */
+    public static void wtf(String tag, Throwable tr) {
+        triggerLoggers(Log.ASSERT, tag, "", tr);
+    }
+
+    /**
+     * What a Terrible Failure: Report an exception that should never happen.
+     * Similar to {@link #wtf(String, Throwable)}, with a message as well.
+     * @param tag Used to identify the source of a log message.
+     * @param msg The message you would like logged.
+     * @param tr An exception to log.  May be null.
+     */
+    public static void wtf(String tag, String msg, Throwable tr) {
+        triggerLoggers(Log.ASSERT, tag, msg, tr);
+
+    }
+
     private static void triggerLoggers(int priority, String tag, String msg) {
         ROOT_LOGGER.logLine(priority, tag, msg, null);
     }
@@ -203,7 +238,11 @@ public class SHNLogger {
 
         @Override
         public void logLine(int priority, String tag, String msg, Throwable tr) {
-            Log.println(priority, tag, msg + '\n' + Log.getStackTraceString(tr));
+            if (priority == Log.ASSERT) {
+                Log.wtf(tag, msg, tr);
+            }
+            else
+                Log.println(priority, tag, msg + '\n' + Log.getStackTraceString(tr));
         }
     }
 }
