@@ -14,7 +14,7 @@
     <dimen name="action_button_height">33dp</dimen>
     <dimen name="about_screen_philips_logo_height">86sp</dimen>
     <dimen name="input_text_field_height">44dp</dimen>
-    <dimen name="inline_form_field_height">53dp</dimen>
+    <dimen name="inline_form_field_height">52dp</dimen>
     <dimen name="tab_bar_height">85sp</dimen>
     <dimen name="slider_thumb_height">18sp</dimen>
     <dimen name="slider_progressbar_height">4sp</dimen>
@@ -39,8 +39,22 @@
     <dimen name="springboard_divider_height">1sp</dimen>
     <dimen name="springboard_font_size">16sp</dimen>
     <dimen name="springboard_list_title_font_size">38sp</dimen>
-    <dimen name="springboard__lists_font_size">20sp</dimen>
-    <dimen name="springboard_lists_item_size">55sp</dimen>
-    <dimen name="springboard_grid_title_font_size">33sp</dimen>
-    <dimen name="springboard_grid_font_size">16sp</dimen>
+    <dimen name="springboard__lists_font_size">20dp</dimen>
+    <dimen name="springboard_lists_item_size">55dp</dimen>
+    <dimen name="springboard_grid_title_font_size">33dp</dimen>
+    <dimen name="springboard_grid_font_size">16dp</dimen>
+    <dimen name="socialicons_height">20dp</dimen>
+    <dimen name="socialicons_width">20dp</dimen>
+    <dimen name="socialicons_height_large">32dp</dimen>
+    <dimen name="socialicons_width_large">32dp</dimen>
+    <dimen name="hmenu_fontsize_list_item">16dp</dimen>
+    <dimen name="sbgrid_testImageBGColorDBTheme_x">5dp</dimen>
+    <dimen name="sbgrid_testImageBGColorDBTheme_y">10dp</dimen>
+    <dimen name="sbgrid_dividercolor_x">0dp</dimen>
+    <dimen name="sbgrid_dividercolor_y">2dp</dimen>
+    <dimen name="nlabel_large_2digit_height">33dp</dimen>
+    <dimen name="nlabel_large_2digit_width">45dp</dimen>
+    <dimen name="nlabel_small_2digit_height">20dp</dimen>
+    <dimen name="nlabel_small_2digit_width">27dp</dimen>
+
 </resources>
