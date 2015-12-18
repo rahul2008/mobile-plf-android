@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -88,11 +89,29 @@ public class SHNLoggerTest {
     }
 
     @Test
+    public void ShouldCallAllRegisteredLoggers_When_WTF_LoggingFunctionIsCalled() throws Exception {
+        SHNLogger.wtf(TEST_TAG, TEST_MSG);
+        verifyForwarded(Log.ASSERT, TEST_TAG, TEST_MSG, null);
+
+        SHNLogger.wtf(TEST_TAG, TEST_MSG, mockedThrowable);
+        verifyForwarded(Log.ASSERT, TEST_TAG, TEST_MSG, mockedThrowable);
+
+        SHNLogger.wtf(TEST_TAG, mockedThrowable);
+        verifyForwarded(Log.ASSERT, TEST_TAG, "", mockedThrowable);
+    }
+
+    @Test
     public void ShouldNotCallALogger_WhenItWasAlreadyRemoved_When() throws Exception {
         SHNLogger.unregisterLogger(mockedImplementation2);
 
         SHNLogger.e(TEST_TAG, TEST_MSG);
 
+        verify(mockedImplementation1).logLine(Log.ERROR, TEST_TAG, TEST_MSG, null);
         verify(mockedImplementation2, never()).logLine(anyInt(), anyString(), anyString(), any(Throwable.class));
+    }
+
+    @Test
+    public void ShouldBePossibleToCreateALogCatLogger() throws Exception {
+        assertNotNull(new SHNLogger.LogCatLogger());
     }
 }
