@@ -4,13 +4,12 @@
     android:layout_width="0dp"
     android:pivotX="50%" android:pivotY="50%" android:fromDegrees="0"
     android:toDegrees="360">
-    <shape android:shape="line" android:innerRadiusRatio="3"
-        android:thicknessRatio="8" android:useLevel="false">
-
-        <size android:width="76dip" android:height="76dip" />
+    <shape android:shape="ring" android:innerRadiusRatio="2.5"
+        android:thicknessRatio="25" android:useLevel="false">
+        <size android:width="106dp" android:height="106dp" />
         <gradient android:type="sweep" android:useLevel="false"
-            android:startColor="#e98300"
-            android:endColor="#772432"
+            android:startColor="@color/uikit_white"
+            android:endColor="@android:color/transparent"
             android:angle="0"
             />
     </shape>

@@ -11,7 +11,8 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 public class SpinnersRoundActivity extends CatalogActivity {
-    private ProgressBar progressBar;
+    private ProgressBar progressBar1;
+    private ProgressBar progressBar2;
     private int progressStatus = 0;
     private TextView textView;
     private Handler handler = new Handler();
@@ -21,8 +22,10 @@ public class SpinnersRoundActivity extends CatalogActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_spinners_round);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar2=(ProgressBar)findViewById(R.id.progressBar2);
         textView = (TextView) findViewById(R.id.textView1);
+
         // Start long running operation in a background thread
         new Thread(new Runnable() {
             public void run() {
@@ -32,8 +35,9 @@ public class SpinnersRoundActivity extends CatalogActivity {
                     //current value in the text view
                     handler.post(new Runnable() {
                         public void run() {
-                            progressBar.setProgress(progressStatus);
-                            textView.setText(progressStatus+"/"+progressBar.getMax());
+                            progressBar1.setProgress(progressStatus);
+                            progressBar2.setProgress(progressStatus);
+                            textView.setText(progressStatus+"/"+progressBar1.getMax());
                         }
                     });
                     try {
