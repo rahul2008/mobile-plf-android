@@ -33,6 +33,7 @@
         <attr name="veryLightGradient" format="reference"/>
         <attr name="veryLightselectoropacityfifteen" format="reference|color"/>
         <attr name="popoverImageStyle" format="reference"/>
+        <attr name="LightColor" format="reference|color"/>
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">
@@ -163,5 +164,10 @@
     <declare-styleable name="RangeSeekBar">
         <attr name="absoluteMinValue" format="integer|float"/>
         <attr name="absoluteMaxValue" format="integer|float"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIKitProgressBar">
+        <attr name="uikitsecondaryprogress" format="boolean" />
+        <attr name="uikitwhiteprogress" format="boolean" />
     </declare-styleable>
 </resources>
