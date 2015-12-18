@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -93,6 +94,12 @@ public class SHNLoggerTest {
 
         SHNLogger.e(TEST_TAG, TEST_MSG);
 
+        verify(mockedImplementation1).logLine(Log.ERROR, TEST_TAG, TEST_MSG, null);
         verify(mockedImplementation2, never()).logLine(anyInt(), anyString(), anyString(), any(Throwable.class));
+    }
+
+    @Test
+    public void ShouldBePossibleToCreateALogCatLogger() throws Exception {
+        assertNotNull(new SHNLogger.LogCatLogger());
     }
 }

@@ -199,7 +199,7 @@ public class SHNLogger {
         }
     }
 
-    public class LogCatLogger implements LoggerImplementation {
+    public static class LogCatLogger implements LoggerImplementation {
 
         @Override
         public void logLine(int priority, String tag, String msg, Throwable tr) {
