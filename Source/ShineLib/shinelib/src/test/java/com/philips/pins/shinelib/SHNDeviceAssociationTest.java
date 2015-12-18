@@ -3,7 +3,6 @@ package com.philips.pins.shinelib;
 import android.bluetooth.BluetoothDevice;
 import android.support.annotation.NonNull;
 
-
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
@@ -32,7 +31,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -46,7 +44,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 /**
  * Created by 310188215 on 27/05/15.
@@ -115,7 +112,7 @@ public class SHNDeviceAssociationTest {
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
-        doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
+        doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
         SHNServiceRegistry.getInstance().add(mockedShinePreferenceWrapper, ShinePreferenceWrapper.class);
         doNothing().when(mockedSHNCentral).stopScanning();
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
@@ -190,12 +187,9 @@ public class SHNDeviceAssociationTest {
     public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessAndShouldScanReturnsTrue_ThenStartScanningIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
-        ArgumentCaptor<Collection> uuidCollectionArgumentCaptor = ArgumentCaptor.forClass(Collection.class);
         ArgumentCaptor<SHNDeviceScanner.ScannerSettingDuplicates> duplicatesArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.ScannerSettingDuplicates.class);
         ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> scannerListenerArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        verify(mockedSHNCentral).startScanningForDevices(uuidCollectionArgumentCaptor.capture(), duplicatesArgumentCaptor.capture(), scannerListenerArgumentCaptor.capture());
-        assertEquals(1, uuidCollectionArgumentCaptor.getValue().size());
-        assertTrue(uuidCollectionArgumentCaptor.getValue().contains(mockedPrimaryServiceUUID));
+        verify(mockedSHNCentral).startScanningForDevices(duplicatesArgumentCaptor.capture(), scannerListenerArgumentCaptor.capture());
         assertEquals(SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, duplicatesArgumentCaptor.getValue());
         assertNotNull(scannerListenerArgumentCaptor.getValue());
     }
@@ -266,7 +260,7 @@ public class SHNDeviceAssociationTest {
 //        reset(mockedSHNDeviceAssociationListener); // clears the doReturn functions
 
         ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> scannerListenerArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        verify(mockedSHNCentral).startScanningForDevices(anyCollection(), any(SHNDeviceScanner.ScannerSettingDuplicates.class), scannerListenerArgumentCaptor.capture());
+        verify(mockedSHNCentral).startScanningForDevices(any(SHNDeviceScanner.ScannerSettingDuplicates.class), scannerListenerArgumentCaptor.capture());
 
         BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("11:22:33:44:55:66").when(mockedBluetoothDevice).getAddress();

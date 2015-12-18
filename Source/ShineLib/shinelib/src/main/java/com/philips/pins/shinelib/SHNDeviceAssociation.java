@@ -25,6 +25,7 @@ public class SHNDeviceAssociation {
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
     private List<SHNDevice> associatedDevices;
     private SHNAssociationProcedurePlugin shnAssociationProcedure;
+    private String associatingWithDeviceTypeName;
 
     public enum State {
         Idle, Associating
@@ -92,9 +93,11 @@ public class SHNDeviceAssociation {
     private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
-            SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(shnDeviceFoundInfo.getDeviceAddress(), shnDeviceFoundInfo.getShnDeviceDefinitionInfo());
-            if (shnAssociationProcedure != null) {
-                shnAssociationProcedure.deviceDiscovered(shnDevice, shnDeviceFoundInfo);
+            if (shnDeviceFoundInfo.getShnDeviceDefinitionInfo().getDeviceTypeName().equals(associatingWithDeviceTypeName)) {
+                SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(shnDeviceFoundInfo.getDeviceAddress(), shnDeviceFoundInfo.getShnDeviceDefinitionInfo());
+                if (shnAssociationProcedure != null) {
+                    shnAssociationProcedure.deviceDiscovered(shnDevice, shnDeviceFoundInfo);
+                }
             }
         }
 
@@ -172,11 +175,12 @@ public class SHNDeviceAssociation {
 
     private void startAssociation(String deviceTypeName) {
         if (shnCentral.getShnCentralState() == SHNCentral.State.SHNCentralStateReady) {
+            associatingWithDeviceTypeName = deviceTypeName;
             SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
             if (shnDeviceDefinitionInfo != null) {
                 SHNAssociationProcedurePlugin shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
                 if (shnAssociationProcedure.getShouldScan()) {
-                    startScanning(shnDeviceDefinitionInfo);
+                    startScanning();
                 }
                 SHNResult result = shnAssociationProcedure.start();
                 if (result == SHNResult.SHNOk) {
@@ -258,9 +262,9 @@ public class SHNDeviceAssociation {
         shnCentral.stopScanning();
     }
 
-    private void startScanning(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
+    private void startScanning() {
         scanStoppedIndicatesScanTimeout = true;
-        shnCentral.startScanningForDevices(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs(), SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
+        shnCentral.startScanningForDevices(SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
     }
 
     @NonNull

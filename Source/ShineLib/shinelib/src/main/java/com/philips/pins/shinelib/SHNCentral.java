@@ -338,7 +338,15 @@ public class SHNCentral {
         return btAdapter.getRemoteDevice(address);
     }
 
+    @Deprecated
+    /**
+     * Use startScanningForDevices without the serviceUUIDs as the first parameter.
+     */
     public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
+        return startScanningForDevices(scannerSettingDuplicates, shnDeviceScannerListener);
+    }
+
+    public boolean startScanningForDevices(SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
         return shnDeviceScanner.startScanning(shnDeviceScannerListener, scannerSettingDuplicates, 90000l);
     }
 
