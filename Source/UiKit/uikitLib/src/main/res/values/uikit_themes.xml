@@ -37,6 +37,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkBlue</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkBlue</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkBlue</item>
+        <item name="LightColor">@color/uikit_philips_light_blue</item>
     </style>
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">

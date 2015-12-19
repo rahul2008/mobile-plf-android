@@ -31,6 +31,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkBlue</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkBlue</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkBlue</item>
+        <item name="LightColor">@color/uikit_philips_light_blue</item>
     </style>
 
     <style name="Theme.Philips.DarkBlue.NoActionBar">
@@ -67,6 +68,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkPurple</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkPurple</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkPurple</item>
+        <item name="LightColor">@color/uikit_philips_light_purple</item>
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -104,6 +106,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkGreen</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkGreen</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkGreen</item>
+        <item name="LightColor">@color/uikit_philips_light_green</item>
     </style>
 
     <style name="Theme.Philips.DarkGreen.NoActionBar">
@@ -143,6 +146,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkOrange</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkOrange</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkOrange</item>
+        <item name="LightColor">@color/uikit_philips_light_orange</item>
     </style>
 
     <style name="Theme.Philips.DarkOrange.NoActionBar">
@@ -179,6 +183,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkAqua</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkAqua</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkAqua</item>
+        <item name="LightColor">@color/uikit_philips_light_aqua</item>
     </style>
 
     <style name="Theme.Philips.DarkAqua.NoActionBar">
@@ -216,6 +221,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkPink</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkPink</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkPink</item>
+        <item name="LightColor">@color/uikit_philips_light_pink</item>
     </style>
 
     <style name="Theme.Philips.DarkPink.NoActionBar">
@@ -249,7 +255,6 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="darkerColor">@color/uikit_philips_dark_orange</item>
-
         <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_orange_selector</item>
@@ -257,6 +262,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightOrange</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightOrange</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightOrange</item>
+        <item name="LightColor">@color/uikit_philips_light_orange</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.NoActionBar">
@@ -295,6 +301,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightAqua</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightAqua</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightAqua</item>
+        <item name="LightColor">@color/uikit_philips_light_aqua</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">
@@ -331,6 +338,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightGreen</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightGreen</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightGreen</item>
+        <item name="LightColor">@color/uikit_philips_light_green</item>
     </style>
     <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -366,6 +374,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightPink</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightPink</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightPink</item>
+        <item name="LightColor">@color/uikit_philips_light_pink</item>
     </style>
     <style name="Theme.Philips.BrightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -402,6 +411,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightBlue</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightBlue</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightBlue</item>
+        <item name="LightColor">@color/uikit_philips_light_blue</item>
     </style>
     <style name="Theme.Philips.BrightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -438,6 +448,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightPurple</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightPurple</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightPurple</item>
+        <item name="LightColor">@color/uikit_philips_light_purple</item>
     </style>
     <style name="Theme.Philips.BrightPurple.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -474,7 +485,8 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightBlue</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightBlue</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightBlue</item>
-</style>
+        <item name="LightColor">@color/uikit_philips_light_blue</item>
+    </style>
     <style name="Theme.Philips.LightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -512,6 +524,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightOrange</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightOrange</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightOrange</item>
+        <item name="LightColor">@color/uikit_philips_light_orange</item>
     </style>
     <style name="Theme.Philips.LightOrange.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -548,6 +561,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightAqua</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightAqua</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightAqua</item>
+        <item name="LightColor">@color/uikit_philips_light_aqua</item>
     </style>
     <style name="Theme.Philips.LightAqua.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -584,6 +598,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightGreen</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightGreen</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightGreen</item>
+        <item name="LightColor">@color/uikit_philips_light_green</item>
     </style>
     <style name="Theme.Philips.LightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -620,6 +635,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightPink</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightPink</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightPink</item>
+        <item name="LightColor">@color/uikit_philips_light_pink</item>
     </style>
     <style name="Theme.Philips.LightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -656,6 +672,7 @@
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightPurple</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightPurple</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightPurple</item>
+        <item name="LightColor">@color/uikit_philips_light_purple</item>
     </style>
     <style name="Theme.Philips.LightPurple.NoActionBar">
         <item name="windowActionBar">false</item>

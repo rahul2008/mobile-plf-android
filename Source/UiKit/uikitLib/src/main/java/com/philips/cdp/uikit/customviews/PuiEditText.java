@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -53,8 +54,8 @@ public class PuiEditText extends RelativeLayout {
         inflater.inflate(R.layout.uikit_input_text_field, this, true);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
-        int editTextWidth = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldWidth, LayoutParams.WRAP_CONTENT);
-        int editTextHeight = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldHeight, LayoutParams.WRAP_CONTENT);
+//        int editTextWidth = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldWidth, LayoutParams.WRAP_CONTENT);
+//        int editTextHeight = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldHeight, LayoutParams.WRAP_CONTENT);
         boolean singleLine = a.getBoolean(R.styleable.InputTextField_singleLine, true);
         String editTextHint = a.getString(R.styleable.InputTextField_hintText);
         String errorText = a.getString(R.styleable.InputTextField_errorText);
@@ -65,7 +66,7 @@ public class PuiEditText extends RelativeLayout {
         a.recycle();
 
         setSaveEnabled(true);
-        initEditText(editTextHint, enabled, editTextWidth, singleLine, editTextHeight);
+        initEditText(editTextHint, enabled,/* editTextWidth,*/ singleLine/*, editTextHeight*/);
 
         themeDrawable = editText.getBackground();
 
@@ -83,6 +84,14 @@ public class PuiEditText extends RelativeLayout {
 
     public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (getWidth() > 0) {
+            editText.setWidth(getWidth());
+        }
     }
 
     /**
@@ -172,10 +181,10 @@ public class PuiEditText extends RelativeLayout {
         errorImage.setImageDrawable(errorIcon);
     }
 
-    private void initEditText(final String editTextHint, final boolean enabled, final int editTextWidth, final boolean singleLine, int editTextHeight) {
+    private void initEditText(final String editTextHint, final boolean enabled, /*final int editTextWidth,*/ final boolean singleLine/*, int editTextHeight*/) {
         editText = (EditText) getChildAt(0);
-        if (editTextWidth > 0) setWidth(editTextWidth);
-        if (editTextHeight > 0) setHeight(editTextHeight);
+/*        if (editTextWidth > 0) setWidth(editTextWidth);
+        if (editTextHeight > 0) setHeight(editTextHeight);*/
         if (focused) editText.requestFocus();
         editText.setSingleLine(singleLine);
         editText.setHint(editTextHint);
