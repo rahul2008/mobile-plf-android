@@ -110,7 +110,10 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, TextLayoutInputFeildInlineForms.class));
                 break;
             case 19:
-                startActivity(new Intent(this, SpinnersRoundActivity.class));
+
+                
+                startActivity(new Intent(this, ProgressBar.class));
+
                 break;
             default:
                 break;
@@ -172,7 +175,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(16, "Pop Over Menu");
         itemsMap.put(17,"Spring Board");       
         itemsMap.put(18, "Inline Forms");
-        itemsMap.put(19,"Spinners Round");
+        itemsMap.put(19, "ProgressBar");
+
         return itemsMap;
     }
 

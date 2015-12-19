@@ -1,9 +1,12 @@
 package com.philips.cdp.ui.catalog.activity;
 
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +17,7 @@ import android.widget.ProgressBar;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PuiPopoverAlert;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.FontIconUtils;
 
 public class ButtonsActivity extends CatalogActivity {
@@ -81,6 +85,14 @@ public class ButtonsActivity extends CatalogActivity {
         puiPopoverAlert.setRightIcon(FontIconUtils.getInfo(this, FontIconUtils.ICONS.CROSS, 15, Color.WHITE,
                 false));
         popoverProgress = puiPopoverAlert.getProgressBar();
+
+        //Set the icon in springboard icon buttons
+        Button spIconButton = (Button) findViewById(R.id.spButtonIcon);
+        spIconButton.setCompoundDrawables(getSettingsIcon(),null,null,null);
+
+        //SpringBoard outlined button with tintable drawable
+        Button spIconButtonOutLined = (Button) findViewById(R.id.spButtonOutlinedWithIcon);
+        spIconButtonOutLined.setCompoundDrawables(getSettingsIcon(),null,null,null);
     }
 
     @Override
@@ -88,6 +100,17 @@ public class ButtonsActivity extends CatalogActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    private Drawable getSettingsIcon() {
+        Resources r = getResources();
+        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 33,
+                r.getDisplayMetrics());
+        float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, r
+                .getDisplayMetrics());
+        Drawable d = VectorDrawable.create(this, R.drawable.uikit_gear).mutate();
+        d.setBounds(0,0,(int)width,(int)height);
+        return d;
     }
 
     private class ProgresAsyncTask extends AsyncTask<Void, Integer, Void> {
