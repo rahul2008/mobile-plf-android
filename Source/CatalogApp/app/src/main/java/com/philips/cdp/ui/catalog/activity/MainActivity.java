@@ -110,9 +110,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, TextLayoutInputFeildInlineForms.class));
                 break;
             case 19:
-
-                
-                startActivity(new Intent(this, ProgressBar.class));
+                startActivity(new Intent(this, ProgressBarActivity.class));
 
                 break;
             default:

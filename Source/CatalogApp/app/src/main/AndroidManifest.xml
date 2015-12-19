@@ -55,7 +55,7 @@
         <activity android:name=".activity.SocialIconsActivity" />
         <activity android:name=".activity.PopOverMenu" />
         <activity android:name=".activity.SpringBoardListActivity" />
-        <activity android:name=".activity.ProgressBar" />
+        <activity android:name=".activity.ProgressBarActivity" />
         <activity
             android:name=".activity.SpringboardFullBlocksActivity"
             android:screenOrientation="portrait" />
