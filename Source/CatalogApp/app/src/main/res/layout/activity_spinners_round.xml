@@ -19,7 +19,7 @@
         android:progress="1" />
 
 
-    <com.philips.cdp.uikit.customviews.UikitProgressBar
+    <ProgressBar
         android:id="@+id/progressBar2"
         android:layout_below="@+id/progressBar1"
         android:visibility="visible"

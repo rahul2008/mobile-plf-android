@@ -36,7 +36,7 @@ public class UikitCustomSpinner extends ProgressBar {
      // setIndeterminateDrawable(d);
         getProgressDrawable().setColorFilter(baseColor, PorterDuff.Mode.MULTIPLY);
 
-
+        this.setRotation((-getProgress() / 100f * 360f) - 90f);
 
 
 

@@ -26,21 +26,17 @@ public class UikitProgressBar extends ProgressBar {
         TypedArray ar = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor });
         int baseColor = ar.getInt(0, R.attr.brightColor);
         RotateDrawable d = (RotateDrawable) getResources().getDrawable(R.drawable.uikit_progress_style);
-        setIndeterminate(false);
+       /* setIndeterminate(false);
       //setProgressDrawableTiled(d);
     //    setProgressDrawable(d);
 
 
         setIndeterminate(false);
         //setIndeterminateDrawableTiled(d);//DrawableTiled(d);
-        setIndeterminateDrawable(d);
-        getIndeterminateDrawable().setColorFilter(baseColor, PorterDuff.Mode.MULTIPLY);
-
-
-
-
-
-
+        setIndeterminateDrawable(d);*/
+        setIndeterminate(true);
+        setRotation(0.1f);
+        getIndeterminateDrawable().setColorFilter(baseColor, PorterDuff.Mode.SRC_ATOP);
     }
 
     public UikitProgressBar(Context context) {
