@@ -89,6 +89,10 @@ public class ButtonsActivity extends CatalogActivity {
         //Set the icon in springboard icon buttons
         Button spIconButton = (Button) findViewById(R.id.spButtonIcon);
         spIconButton.setCompoundDrawables(getSettingsIcon(),null,null,null);
+
+        //SpringBoard outlined button with tintable drawable
+        Button spIconButtonOutLined = (Button) findViewById(R.id.spButtonOutlinedWithIcon);
+        spIconButtonOutLined.setCompoundDrawables(getSettingsIcon(),null,null,null);
     }
 
     @Override
@@ -104,7 +108,7 @@ public class ButtonsActivity extends CatalogActivity {
                 r.getDisplayMetrics());
         float height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, r
                 .getDisplayMetrics());
-        Drawable d = VectorDrawable.create(this, R.drawable.uikit_gear);
+        Drawable d = VectorDrawable.create(this, R.drawable.uikit_gear).mutate();
         d.setBounds(0,0,(int)width,(int)height);
         return d;
     }

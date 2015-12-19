@@ -93,6 +93,30 @@
                     android:layout_marginBottom="20dp"
                     android:textAllCaps="false"/>
 
+            <Button
+                android:id="@+id/spButtonOutLined"
+                android:layout_below="@id/spButtonIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?attr/springBoardButtonOutLined"
+                android:text="Sample button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:textAllCaps="false"/>
+
+            <com.philips.cdp.uikit.customviews.UIKitSpringBoardTintButton
+                android:id="@+id/spButtonOutlinedWithIcon"
+                android:layout_below="@id/spButtonOutLined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?attr/springBoardButtonOutLinedWithIcon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:text="Sample button"
+                android:textAllCaps="false"/>
+
         </RelativeLayout>
 
     </ScrollView>
