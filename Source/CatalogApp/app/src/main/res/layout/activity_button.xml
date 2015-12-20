@@ -105,7 +105,7 @@
                 android:layout_marginBottom="20dp"
                 android:textAllCaps="false"/>
 
-            <com.philips.cdp.uikit.customviews.UIKitSpringBoardTintButton
+            <com.philips.cdp.uikit.customviews.UIKitButton
                 android:id="@+id/spButtonOutlinedWithIcon"
                 android:layout_below="@id/spButtonOutLined"
                 android:layout_width="wrap_content"
