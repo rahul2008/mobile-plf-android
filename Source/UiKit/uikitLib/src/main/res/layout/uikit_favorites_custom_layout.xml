@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/favoriteslayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:minHeight="60dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="20dp"
+    >
+
+    <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+        android:id="@+id/imagefav"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        app:vectorsrc="@drawable/uikit_location_pointer"
+        />
+
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_marginLeft="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fontPath="fonts/centralesansbook.ttf"
+        android:textSize="16sp"
+        android:textColor="?attr/listtextselector"
+        android:includeFontPadding="false"
+        android:layout_marginTop="4dp"
+        />
+
+    <FrameLayout
+        android:id="@+id/favoritecontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+    <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        app:vectorsrc="@drawable/uikit_outlined_star_favorites"
+        android:layout_marginTop="-6dp"
+        />
+    </FrameLayout>
+
+</RelativeLayout>
