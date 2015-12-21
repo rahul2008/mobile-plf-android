@@ -7,6 +7,8 @@ package com.philips.pins.shinelib.associationprocedures;
 
 
 
+import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.SHNAssociationProcedurePlugin;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
@@ -81,14 +83,19 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
         discoveredDevices = new TreeMap<>();
         nearestDeviceIterationCount = 0;
         successivelyNearestDeviceCount = 0;
-        nearestDeviceIterationTimer = Timer.createTimer(new Runnable() {
+        nearestDeviceIterationTimer = createTimerForRunnable(new Runnable() {
             @Override
             public void run() {
                 associateWithNearestDeviceIfPossible();
             }
-        }, NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS);
+        });
         nearestDeviceIterationTimer.restart();
         return SHNResult.SHNOk;
+    }
+
+    @NonNull
+    protected Timer createTimerForRunnable(Runnable runnable) {
+        return Timer.createTimer(runnable, NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS);
     }
 
     @Override
