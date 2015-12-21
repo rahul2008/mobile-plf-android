@@ -31,6 +31,8 @@ public class BTDevice {
         return device.getAddress();
     }
 
+    public int getBondState() { return device.getBondState(); }
+
     public BTGatt connectGatt(final Context context, boolean autoConnect, final BTGatt.BTGattCallback callback) {
         btGatt = new BTGatt(callback, handler);
         BluetoothGatt bluetoothGatt = device.connectGatt(context, false, btGatt);
