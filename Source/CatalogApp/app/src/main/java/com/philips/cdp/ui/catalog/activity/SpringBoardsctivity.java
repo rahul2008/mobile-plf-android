@@ -6,7 +6,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.philips.cdp.ui.catalog.R;
-
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 public class SpringBoardsctivity extends CatalogActivity {
     Intent i1, i2, i3;
 

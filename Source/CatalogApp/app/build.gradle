@@ -20,10 +20,9 @@ android {
         applicationId "com.philips.cdp.ui.catalog"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 18
-        versionName "1.0.18"
-        renderscriptTargetApi 23
-        renderscriptSupportModeEnabled true
+        versionCode 19
+        versionName "1.0.19"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

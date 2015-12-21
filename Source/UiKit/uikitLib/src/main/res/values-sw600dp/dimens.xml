@@ -50,4 +50,13 @@
     <dimen name="uikit_about_screen_dismiss_icon_margin">17dp</dimen><!-- 20dp 3dp iconfont-->
     <dimen name="uikit_about_screen_dismiss_icon_margin_right">19dp</dimen><!-- 20dp 1dp iconfont-->
     <dimen name="uikit_about_screen_dismiss_icon_cross_size">22dp</dimen><!-- 20dp 2dp iconfont-->
+    <dimen name="springboard_gridsize">140dp</dimen>
+    <dimen name="springboard_title_text_margin_top">53dp</dimen>
+    <dimen name="springboard_title_text_margin_bottom">25dp</dimen>
+    <dimen name="springboard_gridspacing">18dp</dimen>
+    <dimen name="springboard_grid_margin_left">33dp</dimen>
+    <dimen name="springboard_text_margin_top">17dp</dimen>
+    <dimen name="springboard_text_margin_bottom">14dp</dimen>
+    <dimen name="image_margin_top">36dp</dimen>
+    <dimen name="springboard_grid_margin_right">31dp</dimen>
 </resources>
