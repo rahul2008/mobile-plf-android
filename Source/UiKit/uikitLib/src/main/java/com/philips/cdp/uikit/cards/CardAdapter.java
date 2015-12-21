@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -36,6 +38,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
         holder.cardImage.setImageDrawable(VectorDrawable.create(mContext, R.drawable.uikit_heart_icon));
         holder.crossIcon.setImageDrawable(VectorDrawable.create(mContext, R.drawable.uikit_cross_icon));
+        holder.crossIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, " Clicked Close Button", Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.linkText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, " Clicked Link", Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.cardImage.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
 
@@ -53,12 +67,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView cardImage, crossIcon;
+        TextView linkText;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             cardImage = (ImageView) itemView.findViewById(R.id.cardImage);
             crossIcon = (ImageView) itemView.findViewById(R.id.cross);
+            linkText = (TextView) itemView.findViewById(R.id.uikit_cards_link_text);
 
         }
     }

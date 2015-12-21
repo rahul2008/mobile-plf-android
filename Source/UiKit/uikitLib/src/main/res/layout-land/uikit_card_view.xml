@@ -85,6 +85,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/uikit_cards_link_text"
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
