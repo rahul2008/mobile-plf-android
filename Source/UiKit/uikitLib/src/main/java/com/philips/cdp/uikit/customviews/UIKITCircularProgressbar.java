@@ -57,13 +57,21 @@ public class UIKITCircularProgressbar extends ProgressBar {
         ColorFilter BaseColorProgressFilter = new PorterDuffColorFilter(baseColor, PorterDuff.Mode.SRC_ATOP);
         ColorFilter White = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_white) , PorterDuff.Mode.SRC_ATOP);
         ColorFilter Enricher6 = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_enricher6) , PorterDuff.Mode.SRC_ATOP);
+        ColorFilter Enricher4 = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_enricher4) , PorterDuff.Mode.SRC_ATOP);
         if(whiteProgress) {
             progressbar.setColorFilter(BaseColorProgressFilter);
             background.setColorFilter(White);
         }else {
+            if(smallProgress) {
 
-            progressbar.setColorFilter(BaseColorProgressFilter);
-            background.setColorFilter(Enricher6);
+                progressbar.setColorFilter(BaseColorProgressFilter);
+                background.setColorFilter(Enricher4);
+            }
+            else
+            {
+                progressbar.setColorFilter(BaseColorProgressFilter);
+                background.setColorFilter(Enricher6);
+            }
         }
         return circularbar;
     }

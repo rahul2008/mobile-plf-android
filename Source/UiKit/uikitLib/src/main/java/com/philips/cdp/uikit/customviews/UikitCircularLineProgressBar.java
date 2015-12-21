@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * Created by 310213373 on 12/15/2015.
@@ -42,7 +43,14 @@ public class UikitCircularLineProgressBar extends ProgressBar {
         ColorFilter BaseColorProgressFilter = new PorterDuffColorFilter(baseColor, PorterDuff.Mode.SRC_ATOP);
         AnimationDrawable ad=(AnimationDrawable)ContextCompat.getDrawable(mContext, R.drawable.uikit_circular_line_progress);
 
-
+        ad.addFrame((VectorDrawable.create(mContext, R.drawable.progressbar_spinner1)),500);
+        ad.addFrame((VectorDrawable.create(mContext, R.drawable.progressbar_spinner8)),500);
+        ad.addFrame((VectorDrawable.create(mContext, R.drawable.progressbar_spinner7)),500);
+        ad.addFrame((VectorDrawable.create(mContext, R.drawable.progressbar_spinner6)),500);
+        ad.addFrame((VectorDrawable.create(mContext, R.drawable.progressbar_spinner5)),500);
+        ad.addFrame((VectorDrawable.create(mContext, R.drawable.progressbar_spinner4)),500);
+        ad.addFrame((VectorDrawable.create(mContext, R.drawable.progressbar_spinner3)),500);
+        ad.addFrame((VectorDrawable.create(mContext, R.drawable.progressbar_spinner2)),500);
        // animationDrawable.addFrame();
         setIndeterminateDrawable(ad);
       //  setRotation((-getProgress() / 100f * 360f) - 90f);

@@ -5,8 +5,8 @@
             android:innerRadiusRatio="2.5"
             android:shape="ring"
             android:useLevel="false"
-            android:thicknessRatio="16">
-            <solid android:color="@color/uikit_enricher6"/>
+            android:thicknessRatio="25">
+            <solid android:color="@color/uikit_enricher4"/>
         </shape>
     </item>
     <item android:id="@android:id/progress">
@@ -14,7 +14,7 @@
             android:innerRadiusRatio="2.5"
             android:shape="ring"
             android:useLevel="true"
-            android:thicknessRatio="16">
+            android:thicknessRatio="25">
             <solid android:color="@android:color/white"/>
         </shape>
     </item>

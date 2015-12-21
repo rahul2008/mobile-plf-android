@@ -136,13 +136,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <!--<com.philips.cdp.uikit.customviews.UikitCircularLineProgressBar-->
-            <!--android:layout_width="53dp"-->
-            <!--android:layout_height="53dp"-->
-            <!--android:max="10"-->
-            <!--android:indeterminateBehavior="cycle"-->
-            <!--android:indeterminateOnly="true"-->
-            <!--/>-->
+            <com.philips.cdp.uikit.customviews.UikitCircularLineProgressBar
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            android:max="10"
+            android:indeterminateBehavior="cycle"
+            android:indeterminateOnly="true"
+            />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
