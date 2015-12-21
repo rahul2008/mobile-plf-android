@@ -16,7 +16,7 @@ import com.philips.cdp.uikit.R;
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
- *
+ * <p/>
  * Helper class if the compound drawables needs to be tinted.
  * Otherwise behaves as android base button.
  */
@@ -52,6 +52,7 @@ public class UIKitButton extends AppCompatButton {
 
     /**
      * Provide custom tint for the compound Drawables.
+     *
      * @param tint
      */
     public void setCompoundDrawableTintList(final ColorStateList tint) {
@@ -96,8 +97,8 @@ public class UIKitButton extends AppCompatButton {
         Drawable wrappedDrawable = DrawableCompat.wrap(d).mutate();
         wrappedDrawable.setBounds(d.getBounds());
         if (wrappedDrawable instanceof DrawableWrapper) {
-            ((DrawableWrapper) wrappedDrawable).setTintList(mTintList);
-            ((DrawableWrapper) wrappedDrawable).setTintMode(PorterDuff.Mode.SRC_ATOP);
+            wrappedDrawable.setTintList(mTintList);
+            wrappedDrawable.setTintMode(PorterDuff.Mode.SRC_ATOP);
         } else {
             wrappedDrawable.setTintList(mTintList);
         }

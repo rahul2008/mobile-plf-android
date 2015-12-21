@@ -38,12 +38,11 @@ import static org.hamcrest.Matchers.allOf;
 
 public class InputFieldTest extends ActivityInstrumentationTestCase2<InputTextFieldsActivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private InputTextFieldsActivity inputTextFieldsActivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public InputFieldTest() {
 

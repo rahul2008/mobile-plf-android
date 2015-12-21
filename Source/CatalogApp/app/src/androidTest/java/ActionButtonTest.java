@@ -25,12 +25,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsDimensionAsExpectedMatcher.i
  */
 public class ActionButtonTest extends ActivityInstrumentationTestCase2<ActionButtonsActivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private ActionButtonsActivity actionButtonsActivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
 
     public ActionButtonTest() {

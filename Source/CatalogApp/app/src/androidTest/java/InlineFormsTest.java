@@ -28,12 +28,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.is
  */
 public class InlineFormsTest extends ActivityInstrumentationTestCase2<TextLayoutInputFeildInlineForms> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private TextLayoutInputFeildInlineForms inlineForms;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public InlineFormsTest() {
         super(TextLayoutInputFeildInlineForms.class);
@@ -149,7 +148,6 @@ public class InlineFormsTest extends ActivityInstrumentationTestCase2<TextLayout
                 .perform(click());
         onView(withId(R.id.firstnamevalue)).check(matches(isTextColorSimilar("#f204b")));
     }
-
 
 
     public void testFocusedFieldIncorrectTextColorDBTheme() {

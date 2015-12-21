@@ -1,23 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.philips.cdp.ui.catalog.activity.PopOverMenu">
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-          android:orderInCategory="100"
-          app:showAsAction="never"/>
-      <item android:id="@+id/share"
-            android:title="@string/share"
-            android:orderInCategory="100"
-            app:showAsAction="never"/>
-      <item android:id="@+id/mail"
-            android:title="@string/mail"
-            android:orderInCategory="100"
-            app:showAsAction="never"/>
-      <item android:id="@+id/chat"
-            android:title="@string/chat"
-            android:orderInCategory="100"
-            app:showAsAction="never"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.philips.cdp.ui.catalog.activity.PopOverMenu">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/share"
+        android:orderInCategory="100"
+        android:title="@string/share"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/mail"
+        android:orderInCategory="100"
+        android:title="@string/mail"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/chat"
+        android:orderInCategory="100"
+        android:title="@string/chat"
+        app:showAsAction="never" />
 
 </menu>
 

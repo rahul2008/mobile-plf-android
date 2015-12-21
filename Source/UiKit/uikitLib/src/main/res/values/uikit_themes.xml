@@ -28,18 +28,21 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/baseColor</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color
         </item>
         <item name="android:listChoiceBackgroundIndicator">?attr/listSelectorBackground</item>
         <item name="dropDownListViewStyle">@style/PDropDownStyle</item>
         <item name="actionBarPopupTheme">@style/PDropDownStyle</item>
-        <item name="veryLightselectoropacityfifteen">@drawable/uikit_popup_very_light_blue_selector</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_blue_selector
+        </item>
         <item name="popoverImageStyle">@style/PopOverImageStyle</item>
         <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkBlue</item>
         <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkBlue</item>
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkBlue</item>
-        <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkBlue</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkBlue
+        </item>
         <item name="LightColor">@color/uikit_philips_light_blue</item>
     </style>
 

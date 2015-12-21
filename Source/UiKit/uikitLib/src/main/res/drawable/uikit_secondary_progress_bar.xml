@@ -1,10 +1,10 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@android:id/background"
         android:left="@dimen/baseslider_bar_padding">
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
-               android:shape="line" >
+            android:shape="line">
             <stroke
                 android:width="@dimen/baseslider_bar_width"
                 android:color="@color/uikit_enricher5" />
@@ -13,7 +13,7 @@
     <item android:id="@android:id/secondaryProgress">
         <clip>
             <shape xmlns:android="http://schemas.android.com/apk/res/android"
-                   android:shape="line" >
+                android:shape="line">
                 <stroke
                     android:width="@dimen/slider_bar_progress"
                     android:color="@color/uikit_philips_bright_orange" />
@@ -23,7 +23,7 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape xmlns:android="http://schemas.android.com/apk/res/android"
-                   android:shape="line" >
+                android:shape="line">
                 <stroke
                     android:width="@dimen/slider_bar_progress"
                     android:color="@color/uikit_philips_dark_blue" />

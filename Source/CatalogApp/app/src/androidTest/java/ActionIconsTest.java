@@ -23,12 +23,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMat
  */
 public class ActionIconsTest extends ActivityInstrumentationTestCase2<ActionButtonsActivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private ActionButtonsActivity actionButtonsActivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public ActionIconsTest() {
         super(ActionButtonsActivity.class);
@@ -53,10 +52,10 @@ public class ActionIconsTest extends ActivityInstrumentationTestCase2<ActionButt
         actionButtonsActivity.finish();
     }
 
-     public void testActionIcons() {
-         onView(withId(R.id.actionIcon1)).check(matches(isDisplayed()));
-         onView(withId(R.id.actionIcon2)).check(matches(isDisplayed()));
-     }
+    public void testActionIcons() {
+        onView(withId(R.id.actionIcon1)).check(matches(isDisplayed()));
+        onView(withId(R.id.actionIcon2)).check(matches(isDisplayed()));
+    }
 
     public void testBGColorOfActionIconDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
@@ -67,13 +66,13 @@ public class ActionIconsTest extends ActivityInstrumentationTestCase2<ActionButt
     public void testBGColorOfActionIconBOTheme() {
         themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
-        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#e9830",20,15)));
+        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#e9830", 20, 15)));
     }
 
     public void testBGColorOfActionIconBATheme() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
-        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#1e9d8b",20,15)));
+        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#1e9d8b", 20, 15)));
     }
 
 }

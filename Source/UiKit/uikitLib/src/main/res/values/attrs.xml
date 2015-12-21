@@ -7,11 +7,9 @@
         <attr name="verydarkBaseColor" format="reference|color" />
         <attr name="listSelectorBackground" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
-        <attr name="gradWindowBackground" format="reference|color"/>
         <attr name="gradWindowBackground" format="reference|color" />
-        <attr name="errortextcolorinlineforms" format="reference|color"/>
-        <attr name="erroriconcolorinlineforms" format="reference|color"/>
-        <attr name="gradWindowBackground" format="reference|color"/>
+        <attr name="errortextcolorinlineforms" format="reference|color" />
+        <attr name="erroriconcolorinlineforms" format="reference|color" />
         <attr name="listDividerColor" format="reference|color"/>
         <attr name="springBoardDivider" format="reference|color" />
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
@@ -28,28 +26,18 @@
         <attr name="hamburgerGradient" format="reference" />
         <attr name="darkerColor" format="reference|color" />
         <!--  Definiton of these gradients vary as per the theme -->
-        <attr name="baseGradient" format="reference"/>
-        <attr name="darkerGradient" format="reference"/>
-        <attr name="lighterGradient" format="reference"/>
-        <attr name="evenLighterGradient" format="reference"/>
-        <attr name="veryLightGradient" format="reference"/>
         <attr name="baseGradient" format="reference" />
         <attr name="darkerGradient" format="reference" />
         <attr name="lighterGradient" format="reference" />
         <attr name="evenLighterGradient" format="reference" />
         <attr name="veryLightGradient" format="reference" />
-        <attr name="baseGradient" format="reference"/>
-        <attr name="darkerGradient" format="reference"/>
-        <attr name="lighterGradient" format="reference"/>
-        <attr name="evenLighterGradient" format="reference"/>
-        <attr name="veryLightGradient" format="reference"/>
-        <attr name="veryLightselectoropacityfifteen" format="reference|color"/>
-        <attr name="popoverImageStyle" format="reference"/>
-        <attr name="springBoardButton" format="reference"/>
-        <attr name="springBoardButtonWithIcon" format="reference"/>
-        <attr name="springBoardButtonOutLined" format="reference"/>
-        <attr name="springBoardButtonOutLinedWithIcon" format="reference"/>
-        <attr name="LightColor" format="reference|color"/>
+        <attr name="veryLightselectoropacityfifteen" format="reference|color" />
+        <attr name="popoverImageStyle" format="reference" />
+        <attr name="springBoardButton" format="reference" />
+        <attr name="springBoardButtonWithIcon" format="reference" />
+        <attr name="springBoardButtonOutLined" format="reference" />
+        <attr name="springBoardButtonOutLinedWithIcon" format="reference" />
+        <attr name="LightColor" format="reference|color" />
 
     </declare-styleable>
 
@@ -63,12 +51,8 @@
 
     <declare-styleable name="UikitSpringBoardLayout">
         <attr name="opacityStyle" format="enum">
-            <enum name="none" value="0"/>
-            <enum name="with" value="1"/>
-            <enum name="none" value="0" />
-            <enum name="with" value="1" />
-            <enum name="darker_color" value="0"/>
-            <enum name="darker_with_opacity" value="1"/>
+            <enum name="darker_color" value="0" />
+            <enum name="darker_with_opacity" value="1" />
 
         </attr>
     </declare-styleable>

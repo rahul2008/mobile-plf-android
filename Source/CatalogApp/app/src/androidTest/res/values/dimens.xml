@@ -40,10 +40,6 @@
     <dimen name="springboard_font_size">16sp</dimen>
     <dimen name="springboard_list_title_font_size">38sp</dimen>
 
-    <dimen name="springboard__lists_font_size">20sp</dimen>
-    <dimen name="springboard_lists_item_size">55sp</dimen>
-    <dimen name="springboard_grid_title_font_size">33sp</dimen>
-    <dimen name="springboard_grid_font_size">16sp</dimen>
     <dimen name="springboard__lists_font_size">20dp</dimen>
     <dimen name="springboard_lists_item_size">55dp</dimen>
     <dimen name="springboard_grid_title_font_size">33dp</dimen>

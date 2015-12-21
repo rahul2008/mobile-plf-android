@@ -32,12 +32,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.is
 
 public class SpringBoardListsTest extends ActivityInstrumentationTestCase2<SpringBoardsctivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private SpringBoardsctivity springBoardsctivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public SpringBoardListsTest() {
         super(SpringBoardsctivity.class);
@@ -62,49 +61,49 @@ public class SpringBoardListsTest extends ActivityInstrumentationTestCase2<Sprin
         springBoardsctivity.finish();
     }
 
-    public void testCatalogAppDemonstratesSpringboardList(){
+    public void testCatalogAppDemonstratesSpringboardList() {
         onView(withText("Lists")).check(matches(isDisplayed()));
     }
 
-    public void testSpringboardListSupportsHeading(){
+    public void testSpringboardListSupportsHeading() {
         onView(withText("Lists")).perform(click());
         onView(withText("Mobile app")).check(matches(isDisplayed()));
     }
 
-    public void testSBListTitleFontSizeAsExpected(){
+    public void testSBListTitleFontSizeAsExpected() {
         onView(withText("Lists")).perform(click());
         onView(withText("Mobile app")).check(matches(isTextSizeSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard_list_title_font_size))));
     }
 
-    public void testSBListTitleFontColorAsExpected(){
+    public void testSBListTitleFontColorAsExpected() {
         onView(withText("Lists")).perform(click());
         onView(withText("Mobile app")).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testSBListHeightofListItemAsExpected(){
+    public void testSBListHeightofListItemAsExpected() {
         onView(withText("Lists")).perform(click());
         onView(withChild(withText("Shop ")))
                 .check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard_lists_item_size))));
     }
 
 
-    public void testTextColorDBTheme(){
+    public void testTextColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("Lists")).perform(click());
         onView(withText("Shop ")).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testTextFontSize(){
+    public void testTextFontSize() {
         onView(withText("Lists")).perform(click());
         onView(withText("Shop ")).check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard__lists_font_size))));
     }
 
-      public void testImageBGColorDBTheme(){
+    public void testImageBGColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("Lists")).perform(click());
-        onView(withId(R.id.imageView1)).check(matches(isBackgroundColorSimilar("#ffffff", (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
+        onView(withId(R.id.imageView1)).check(matches(isBackgroundColorSimilar("#ffffff", (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
     }
 
 //    public void testListItemBGColorDBTheme(){
@@ -127,10 +126,6 @@ public class SpringBoardListsTest extends ActivityInstrumentationTestCase2<Sprin
 //        onView(withText("Lists")).perform(click());
 //        onView(withId(R.id.row_layout1)).check(matches(isBackgroundColorSimilar("#1e9d8b",(int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
 //    }
-
-
-
-
 
 
 }

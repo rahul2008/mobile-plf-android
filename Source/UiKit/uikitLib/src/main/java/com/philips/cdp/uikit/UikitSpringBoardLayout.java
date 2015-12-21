@@ -7,12 +7,11 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import com.philips.cdp.uikit.R;
+
 import com.philips.cdp.uikit.customviews.LayerListDrawable;
 
 /**
@@ -22,13 +21,12 @@ import com.philips.cdp.uikit.customviews.LayerListDrawable;
 
 public class UikitSpringBoardLayout extends LinearLayout {
 
-    private Drawable selector;
     public static int STYLE_THEME = 1;
     int baseColor;
-
     int colorStyle = 1;
     int overlayColor = 0;
     Context mContext;
+    private Drawable selector;
 
     public UikitSpringBoardLayout(Context context) {
         super(context);

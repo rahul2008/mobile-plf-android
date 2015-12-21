@@ -15,11 +15,6 @@ import android.widget.ImageView;
 
 import com.philips.cdp.uikit.R;
 
-/**
- * PhilipsBlurDialogFragment.java
- *
- * @author Manabu-GT on 6/12/14.
- */
 public class PhilipsBlurDialogFragment extends DialogFragment {
 
     private int mAnimDuration;

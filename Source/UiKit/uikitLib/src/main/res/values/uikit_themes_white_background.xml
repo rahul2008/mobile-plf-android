@@ -190,13 +190,16 @@
     <style name="Theme.Philips.BrightBlue.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.BrightBlue.Gradient.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Philips.BrightBlue.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.BrightBlue.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -206,13 +209,16 @@
     <style name="Theme.Philips.BrightPurple.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.BrightPurple.Gradient.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Philips.BrightPurple.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.BrightPurple.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -222,13 +228,16 @@
     <style name="Theme.Philips.LightBlue.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightBlue.Gradient.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Philips.LightBlue.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightBlue.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -238,13 +247,16 @@
     <style name="Theme.Philips.LightOrange.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightOrange.Gradient.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Philips.LightOrange.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightOrange.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -254,13 +266,16 @@
     <style name="Theme.Philips.LightAqua.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightAqua.Gradient.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Philips.LightAqua.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightAqua.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -270,13 +285,16 @@
     <style name="Theme.Philips.LightGreen.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightGreen.Gradient.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Philips.LightGreen.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightGreen.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -286,13 +304,16 @@
     <style name="Theme.Philips.LightPink.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightPink.Gradient.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Philips.LightPink.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightPink.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -302,13 +323,16 @@
     <style name="Theme.Philips.LightPurple.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightPurple.Gradient.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Philips.LightPurple.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
     <style name="Theme.Philips.LightPurple.WhiteBackground.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

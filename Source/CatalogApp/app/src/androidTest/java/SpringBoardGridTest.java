@@ -30,12 +30,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.is
 
 public class SpringBoardGridTest extends ActivityInstrumentationTestCase2<SpringBoardsctivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private SpringBoardsctivity springBoardsctivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public SpringBoardGridTest() {
         super(SpringBoardsctivity.class);
@@ -60,61 +59,60 @@ public class SpringBoardGridTest extends ActivityInstrumentationTestCase2<Spring
         springBoardsctivity.finish();
     }
 
-    public void testCatalogAppDemonstratesSpringboardGrid(){
+    public void testCatalogAppDemonstratesSpringboardGrid() {
         onView(withText("6 Grid")).check(matches(isDisplayed()));
     }
 
-    public void testSpringboardGridSupportsHeading(){
+    public void testSpringboardGridSupportsHeading() {
         onView(withText("6 Grid")).perform(click());
         onView(withText("Mobile app")).check(matches(isDisplayed()));
     }
 
-    public void testSBGridTitleFontSizeAsExpected(){
+    public void testSBGridTitleFontSizeAsExpected() {
         onView(withText("6 Grid")).perform(click());
         onView(withText("Mobile app")).check(matches(isTextSizeSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard_grid_title_font_size))));
     }
 
-    public void testSBGridTitleFontColorAsExpected(){
+    public void testSBGridTitleFontColorAsExpected() {
         onView(withText("6 Grid")).perform(click());
         onView(withText("Mobile app")).check(matches(isTextColorSimilar("#ffffff")));
     }
 
 
-
-    public void testTextColorDBTheme(){
+    public void testTextColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("6 Grid")).perform(click());
         onView(withText("Monitor")).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testTextFontSize(){
+    public void testTextFontSize() {
         onView(withText("6 Grid")).perform(click());
         onView(withText("Monitor")).check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard_grid_font_size))));
     }
 
-      public void testImageBGColorDBTheme(){
+    public void testImageBGColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("6 Grid")).perform(click());
-        onView(withId(R.id.imageView1)).check(matches(isBackgroundColorSimilar("#ffffff",(int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
+        onView(withId(R.id.imageView1)).check(matches(isBackgroundColorSimilar("#ffffff", (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
     }
 
-    public void testGridItemBGColorDBTheme(){
+    public void testGridItemBGColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("6 Grid")).perform(click());
-        onView(withId(R.id.item1)).check(matches(isBackgroundColorSimilar("#03478",(int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
+        onView(withId(R.id.item1)).check(matches(isBackgroundColorSimilar("#03478", (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
     }
 
-    public void testGridItemBGColorBOTheme(){
+    public void testGridItemBGColorBOTheme() {
         themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
         onView(withText("6 Grid")).perform(click());
-        onView(withId(R.id.item1)).check(matches(isBackgroundColorSimilar("#e9830",(int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
+        onView(withId(R.id.item1)).check(matches(isBackgroundColorSimilar("#e9830", (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_x), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sbgrid_testImageBGColorDBTheme_y))));
     }
 
-    public void testGridItemBGColorBATheme(){
+    public void testGridItemBGColorBATheme() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withText("6 Grid")).perform(click());

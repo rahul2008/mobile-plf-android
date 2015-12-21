@@ -21,8 +21,6 @@ import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.R.color;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -32,9 +30,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class PhilipsTextInputLayout extends LinearLayout {
     final String TAG = PhilipsTextInputLayout.class.getSimpleName();
-    private Validator validator = null;
     boolean isFocused = false;
-    private Set<Integer> set = new ConcurrentSkipListSet<Integer>();
     int mThemeBaseColor;
     int mFocusedColor;
     int mOrangeColor;
@@ -42,27 +38,8 @@ public class PhilipsTextInputLayout extends LinearLayout {
     int mEnricher7;
     int mEnricher_red;
     int mDarkBlue;
-
-    public interface Validator {
-        void validate(View EditText, boolean hasfocus);
-    }
-
-    public PhilipsTextInputLayout(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-        setOrientation(VERTICAL);
-        initColors();
-    }
-    
-    private void  initColors(){
-        mThemeBaseColor = getThemeColor();
-        mFocusedColor = getFocusedColor();
-        mOrangeColor = ContextCompat.getColor(getContext(), color.uikit_philips_bright_orange);
-        mEnricher4 = ContextCompat.getColor(getContext(), color.uikit_enricher4);
-        mEnricher7 = ContextCompat.getColor(getContext(), color.uikit_enricher7);
-        mEnricher_red = ContextCompat.getColor(getContext(), color.uikit_enricher_red);
-        mDarkBlue = ContextCompat.getColor(getContext(), color.uikit_philips_very_dark_blue);
-    }
-
+    private Validator validator = null;
+    private Set<Integer> set = new ConcurrentSkipListSet<Integer>();
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
         @Override
         public void onFocusChange(final View view, final boolean hasFocus) {
@@ -93,9 +70,25 @@ public class PhilipsTextInputLayout extends LinearLayout {
         }
     };
 
+    public PhilipsTextInputLayout(final Context context, final AttributeSet attrs) {
+        super(context, attrs);
+        setOrientation(VERTICAL);
+        initColors();
+    }
+
+    private void initColors() {
+        mThemeBaseColor = getThemeColor();
+        mFocusedColor = getFocusedColor();
+        mOrangeColor = ContextCompat.getColor(getContext(), color.uikit_philips_bright_orange);
+        mEnricher4 = ContextCompat.getColor(getContext(), color.uikit_enricher4);
+        mEnricher7 = ContextCompat.getColor(getContext(), color.uikit_enricher7);
+        mEnricher_red = ContextCompat.getColor(getContext(), color.uikit_enricher_red);
+        mDarkBlue = ContextCompat.getColor(getContext(), color.uikit_philips_very_dark_blue);
+    }
+
     @Override
     protected Parcelable onSaveInstanceState() {
-        Parcelable parcel =  super.onSaveInstanceState();
+        Parcelable parcel = super.onSaveInstanceState();
         Bundle bundle = new Bundle();
         bundle.putParcelable("instanceState", super.onSaveInstanceState());
         ArrayList<Integer> list = new ArrayList<>();
@@ -117,17 +110,17 @@ public class PhilipsTextInputLayout extends LinearLayout {
             Set<Integer> restoreSet = new ConcurrentSkipListSet<Integer>(list);
 
             Log.i(TAG, " In OnRestoreInstanceState = " + restoreSet.toString());
-            if(!restoreSet.isEmpty()){
+            if (!restoreSet.isEmpty()) {
                 Log.i(TAG, " In OnRestoreInstanceState = " + restoreSet.toString());
-                for (int i: restoreSet
+                for (int i : restoreSet
                         ) {
                     View layout = getChildAt(i);
-                    if(layout instanceof LinearLayout){
+                    if (layout instanceof LinearLayout) {
                         LinearLayout linearLayout = (LinearLayout) layout;
-                        for(int j=0;j<linearLayout.getChildCount();j++){
+                        for (int j = 0; j < linearLayout.getChildCount(); j++) {
                             View view = linearLayout.getChildAt(j);
-                            if(view instanceof EditText){
-                                showError((EditText)view);
+                            if (view instanceof EditText) {
+                                showError((EditText) view);
                             }
                         }
                     }
@@ -136,15 +129,15 @@ public class PhilipsTextInputLayout extends LinearLayout {
 
         }
 
-        for(int i=0;i<this.getChildCount();i++){
+        for (int i = 0; i < this.getChildCount(); i++) {
             View view = getChildAt(i);
-            if(view instanceof LinearLayout){
-                LinearLayout linearLayout = (LinearLayout)view;
-                for(int j=0; j< linearLayout.getChildCount();j++){
-                    if(((View)linearLayout.getChildAt(j) instanceof EditText)){
-                        EditText editText = (EditText)((ViewGroup) view).getChildAt(j);
-                        if(TextUtils.isEmpty(editText.getText())){
-                            highLightTextFeilds(linearLayout,mDarkBlue);
+            if (view instanceof LinearLayout) {
+                LinearLayout linearLayout = (LinearLayout) view;
+                for (int j = 0; j < linearLayout.getChildCount(); j++) {
+                    if ((linearLayout.getChildAt(j) instanceof EditText)) {
+                        EditText editText = (EditText) ((ViewGroup) view).getChildAt(j);
+                        if (TextUtils.isEmpty(editText.getText())) {
+                            highLightTextFeilds(linearLayout, mDarkBlue);
                         }
                     }
                 }
@@ -242,10 +235,10 @@ public class PhilipsTextInputLayout extends LinearLayout {
             highLightTextFeilds(parent, mEnricher4);
         }
 
-        for(int i=0;i<parent.getChildCount();i++){
+        for (int i = 0; i < parent.getChildCount(); i++) {
             View view = parent.getChildAt(i);
-            if(view instanceof EditText){
-                ((EditText)view).requestFocus();
+            if (view instanceof EditText) {
+                view.requestFocus();
             }
         }
         /*
@@ -418,7 +411,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
         try {
             boolean isEnabled = editText2.isEnabled();
             if (isEnabled == false) {
-                LinearLayout parent = ((LinearLayout) ((LinearLayout) child).getParent());
+                LinearLayout parent = ((LinearLayout) child.getParent());
                 View line = parent.getChildAt(1);
                 line.setBackgroundColor(mEnricher4);
                 child.setBackgroundColor(mEnricher7);
@@ -432,5 +425,9 @@ public class PhilipsTextInputLayout extends LinearLayout {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public interface Validator {
+        void validate(View EditText, boolean hasfocus);
     }
 }

@@ -71,51 +71,52 @@
 
 
             <!-- Springboard buttons-->
-                <Button
-                    android:id="@+id/spButton"
-                    android:layout_below="@id/show_notification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?attr/springBoardButton"
-                    android:text="Sample button"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textAllCaps="false"/>
-                <Button
-                    android:id="@+id/spButtonIcon"
-                    android:layout_below="@id/spButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?attr/springBoardButtonWithIcon"
-                    android:text="Sample button"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:textAllCaps="false"/>
+            <Button
+                android:id="@+id/spButton"
+                style="?attr/springBoardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/show_notification"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/spButtonIcon"
+                style="?attr/springBoardButtonWithIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/spButtonOutLined"
-                android:layout_below="@id/spButtonIcon"
+                style="?attr/springBoardButtonOutLined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?attr/springBoardButtonOutLined"
-                android:text="Sample button"
+                android:layout_below="@id/spButtonIcon"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:textAllCaps="false"/>
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
 
             <com.philips.cdp.uikit.customviews.UIKitButton
                 android:id="@+id/spButtonOutlinedWithIcon"
-                android:layout_below="@id/spButtonOutLined"
+                style="?attr/springBoardButtonOutLinedWithIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?attr/springBoardButtonOutLinedWithIcon"
+                android:layout_below="@id/spButtonOutLined"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
                 android:text="Sample button"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false" />
 
         </RelativeLayout>
 

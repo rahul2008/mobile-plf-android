@@ -13,18 +13,18 @@ public enum ColorType {
     BRIGHT_GREEN(3,"bright_green"),
     BRIGHT_PINK(4,"bright_pink"),
     DARK_PURPLE(5,"dark_purple"),
-    DARK_AQUA(6,"dark_aqua"),
-    DARK_GREEN(7,"dark_green"),
-    DARK_ORANGE(8,"dark_orange"),
-    DARK_PINK(9,"dark_pink"),
-    BRIGHT_BLUE(10,"bright_blue"),
-    BRIGHT_PURPLE(11,"bright_purple"),
-    LIGHT_BLUE(12,"light_blue"),
-    LIGHT_ORANGE(13,"light_orange"),
-    LIGHT_AQUA(14,"light_aqua"),
-    LIGHT_GREEN(15,"light_green"),
-    LIGHT_PINK(16,"light_pink"),
-    LIGHT_PURPLE(17,"light_purple");
+    DARK_AQUA(6, "dark_aqua"),
+    DARK_GREEN(7, "dark_green"),
+    DARK_ORANGE(8, "dark_orange"),
+    DARK_PINK(9, "dark_pink"),
+    BRIGHT_BLUE(10, "bright_blue"),
+    BRIGHT_PURPLE(11, "bright_purple"),
+    LIGHT_BLUE(12, "light_blue"),
+    LIGHT_ORANGE(13, "light_orange"),
+    LIGHT_AQUA(14, "light_aqua"),
+    LIGHT_GREEN(15, "light_green"),
+    LIGHT_PINK(16, "light_pink"),
+    LIGHT_PURPLE(17, "light_purple");
 
     private final int id;
     private final String description;

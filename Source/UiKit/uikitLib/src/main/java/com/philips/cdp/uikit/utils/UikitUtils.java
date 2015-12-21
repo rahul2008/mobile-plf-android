@@ -11,17 +11,15 @@ import java.lang.reflect.Method;
 public class UikitUtils {
 
     public static void menuShowIcon(Menu menu) {
-        if( menu != null){
-            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
-                try{
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
                     Method m = menu.getClass().getDeclaredMethod(
                             "setOptionalIconsVisible", Boolean.TYPE);
                     m.setAccessible(true);
                     m.invoke(menu, true);
-                }
-                catch(NoSuchMethodException e){
-                }
-                catch(Exception e){
+                } catch (NoSuchMethodException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
