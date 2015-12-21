@@ -32,7 +32,7 @@ public class PhilipsBlurDialogFragment extends DialogFragment {
 
     public PhilipsBlurDialogFragment() {
         mWindowAnimStyle = R.style.PhilipsModalAlertAnimation;
-        mBgColorResId = R.color.bg_glass;
+        mBgColorResId = R.color.uikit_modal_alert_glass;
     }
 
     @Override
