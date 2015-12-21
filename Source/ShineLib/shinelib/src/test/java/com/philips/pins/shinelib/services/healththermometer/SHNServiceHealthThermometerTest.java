@@ -74,7 +74,7 @@ public class SHNServiceHealthThermometerTest {
 
     private void setupCharacteristicMock(SHNCharacteristic shnCharacteristic, UUID characteristicUUID) {
         doNothing().when(shnCharacteristic).setShnCharacteristicChangedListener(any(SHNCharacteristic.SHNCharacteristicChangedListener.class));
-        doReturn(true).when(shnCharacteristic).setIndication(anyBoolean(), any(SHNCommandResultReporter.class));
+        doNothing().when(shnCharacteristic).setIndication(anyBoolean(), any(SHNCommandResultReporter.class));
         doReturn(characteristicUUID).when(shnCharacteristic).getUuid();
     }
 

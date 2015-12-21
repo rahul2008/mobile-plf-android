@@ -90,12 +90,12 @@ public class SHNCharacteristic {
         }
     }
 
-    public boolean setNotification(boolean enable, SHNCommandResultReporter resultReporter) {
-        return writeToBtGatt(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE, enable, resultReporter);
+    public void setNotification(boolean enable, @NonNull SHNCommandResultReporter resultReporter) {
+        toggleNotificationsOrIndications(enable ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE, enable, resultReporter);
     }
 
-    public boolean setIndication(boolean enable, SHNCommandResultReporter resultReporter) {
-        return writeToBtGatt(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE, enable, resultReporter);
+    public void setIndication(boolean enable, @NonNull SHNCommandResultReporter resultReporter) {
+        toggleNotificationsOrIndications(enable ? BluetoothGattDescriptor.ENABLE_INDICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE, enable, resultReporter);
     }
 
     public void setShnCharacteristicChangedListener(SHNCharacteristicChangedListener shnCharacteristicChangedListener) {
@@ -132,11 +132,7 @@ public class SHNCharacteristic {
     }
 
     private SHNResult translateGATTResultToSHNResult(int status) {
-        SHNResult shnResult = SHNResult.SHNErrorUnknownDeviceType;
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            shnResult = SHNResult.SHNOk;
-        }
-        return shnResult;
+        return status == BluetoothGatt.GATT_SUCCESS ? SHNResult.SHNOk : SHNResult.SHNErrorInvalidResponse;
     }
 
     private void reportResultToCaller(byte[] data, SHNResult shnResult) {
@@ -144,19 +140,24 @@ public class SHNCharacteristic {
         if (completion != null) completion.reportResult(shnResult, data);
     }
 
-    private boolean writeToBtGatt(byte[] value, boolean enable, SHNCommandResultReporter resultReporter) {
+    private void toggleNotificationsOrIndications(byte[] valueToWriteToDescriptor, boolean enable, SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
+            Boolean supported = false;
             if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
                 BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
-                if (descriptor == null) {
-                    resultReporter.reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
-                    return false;
+                if (descriptor != null) {
+                    supported = true;
+                    btGatt.writeDescriptor(descriptor, valueToWriteToDescriptor);
+                    pendingCompletions.add(resultReporter);
                 }
-                btGatt.writeDescriptor(descriptor, value);
-                pendingCompletions.add(resultReporter);
-                return true;
             }
+
+            if (!supported)
+            {
+                resultReporter.reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
+            }
+        } else {
+            resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
         }
-        return false;
     }
 }
