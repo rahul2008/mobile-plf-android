@@ -31,7 +31,7 @@ public class PhilipsBlurDialogFragment extends DialogFragment {
     private FrameLayout mBlurContainer;
 
     public PhilipsBlurDialogFragment() {
-        mWindowAnimStyle = R.style.DialogSlideAnimation;
+        mWindowAnimStyle = R.style.PhilipsModalAlertAnimation;
         mBgColorResId = R.color.bg_glass;
     }
 

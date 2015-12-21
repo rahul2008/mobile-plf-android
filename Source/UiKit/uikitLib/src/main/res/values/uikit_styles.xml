@@ -101,9 +101,9 @@
         <item name="color">@android:color/black</item>
     </style>
 
-    <style name="DialogSlideAnimation">
-        <item name="android:windowEnterAnimation">@anim/uikit_modal_alert_zoom_out</item>
-        <item name="android:windowExitAnimation">@anim/uikit_modal_alert_zoom_in</item>
+    <style name="PhilipsModalAlertAnimation">
+        <item name="android:windowEnterAnimation">@anim/uikit_modal_alert_zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/uikit_modal_alert_zoom_out</item>
     </style>
 
 </resources>
