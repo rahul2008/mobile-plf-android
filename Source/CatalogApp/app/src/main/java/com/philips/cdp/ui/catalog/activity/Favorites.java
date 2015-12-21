@@ -31,6 +31,11 @@ public class Favorites extends Fragment{
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        adapter.closeConnections();
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

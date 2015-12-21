@@ -36,6 +36,12 @@ public class AllItems extends Fragment{
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        adapter.closeConnections();
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         try {

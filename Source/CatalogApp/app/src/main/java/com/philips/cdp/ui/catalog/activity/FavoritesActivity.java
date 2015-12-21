@@ -1,42 +1,32 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.internal.widget.ActionBarOverlayLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import com.philips.cdp.ui.catalog.activity.FavoritesContract;
-import com.philips.cdp.ui.catalog.activity.FavoritesContract.FeedEntry;
+
 import com.philips.cdp.ui.catalog.CustomListView.FavoritesPagerAdapter;
 import com.philips.cdp.ui.catalog.R;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.philips.cdp.ui.catalog.activity.FavoritesContract.FeedEntry;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class FavoritesActivity extends CatalogActivity{
+public class FavoritesActivity extends CatalogActivity {
     TabLayout layout;
     Context context;
-    DataBaseHelper mDbHelper;// = new DataBaseHelper(this);
+    DataBaseHelper mDbHelper;
     SQLiteDatabase db;
 
     @Override
@@ -45,34 +35,37 @@ public class FavoritesActivity extends CatalogActivity{
         setContentView(R.layout.favorites_activity);
         context = this;
         disableActionbarShadow(this);
-        layout = (TabLayout)findViewById(R.id.tab_layout);
+        layout = (TabLayout) findViewById(R.id.tab_layout);
         layout.addTab(layout.newTab().setText("All Items"));
         layout.addTab(layout.newTab().setText("Favorites"));
-       // layout.setSelectedTabIndicatorHeight(0);
-       // layout.setSelectedTabIndicatorColor(ContextCompat.getColor(this,R.color.uikit_philips_bright_orange));
+
         setViewPager();
 
-
-        mDbHelper= new DataBaseHelper(this);
-        db = mDbHelper.getWritableDatabase();
-        Cursor c = db.query(
-                FavoritesContract.FeedEntry.TABLE_NAME,  // The table to query
-                null,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                 // The sort order
-        );
-            if(c.getCount()<=0)
-            insertIntoDatabase();
-
+        try {
+            mDbHelper = new DataBaseHelper(this);
+            db = mDbHelper.getWritableDatabase();
+            Cursor c = db.query(
+                    FavoritesContract.FeedEntry.TABLE_NAME,  // The table to query
+                    null,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null                                 // The sort order
+            );
+            if (c.getCount() <= 0)
+                insertIntoDatabase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            mDbHelper.close();
+            db.close();
+        }
     }
 
     private void setViewPager() {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final FavoritesPagerAdapter adapter = new FavoritesPagerAdapter(getSupportFragmentManager(),layout.getTabCount());
-        //   viewPager.setAdapter(new SampleFragmentPagerAdapter(getChildFragmentManager(), getActivity()));
+        final FavoritesPagerAdapter adapter = new FavoritesPagerAdapter(getSupportFragmentManager(), layout.getTabCount());
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(layout));
@@ -118,68 +111,43 @@ public class FavoritesActivity extends CatalogActivity{
         }
     }
 
-    public void insertIntoDatabase(){
-//1st Row
+    public void insertIntoDatabase() {
+
         ContentValues values = new ContentValues();
         values.put(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME, "QuisQue");
         values.put(FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE, "false");
         long newRowId;
-        /*newRowId = db.insert(
-                FavoritesContract.FeedEntry.TABLE_NAME,
-                FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE,
-                values);*/
+
         db.insertWithOnConflict(FeedEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-//2nd Row
+
         values = new ContentValues();
         values.put(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME, "Eget Odio");
         values.put(FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE, "false");
 
-        /*newRowId = db.insert(
-                FavoritesContract.FeedEntry.TABLE_NAME,
-                FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE,
-                values);*/
         db.insertWithOnConflict(FeedEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-//3rd Row
+
         values = new ContentValues();
         values.put(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME, "Ac Lectus");
         values.put(FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE, "false");
 
-        /*newRowId = db.insert(
-                FavoritesContract.FeedEntry.TABLE_NAME,
-                FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE,
-                values);*/
         db.insertWithOnConflict(FeedEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-//4th Row
+
         values = new ContentValues();
         values.put(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME, "Faucibus");
         values.put(FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE, "false");
 
-        /*newRowId = db.insert(
-                FavoritesContract.FeedEntry.TABLE_NAME,
-                FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE,
-                values);*/
         db.insertWithOnConflict(FeedEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-//5th Row
+
         values = new ContentValues();
         values.put(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME, "Eget In");
         values.put(FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE, "false");
 
-        /*newRowId = db.insert(
-                FavoritesContract.FeedEntry.TABLE_NAME,
-                FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE,
-                values);*/
         db.insertWithOnConflict(FeedEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-//6th Row
+
         values = new ContentValues();
         values.put(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME, "Pellentesque");
         values.put(FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE, "false");
 
-        /*newRowId = db.insert(
-                FavoritesContract.FeedEntry.TABLE_NAME,
-                FavoritesContract.FeedEntry.COLUMN_IS_FAVORITE,
-                values);*/
-
         db.insertWithOnConflict(FeedEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
-
 }
