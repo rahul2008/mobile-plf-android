@@ -3,6 +3,7 @@ package com.philips.cdp.uikit.blur;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -88,8 +89,10 @@ public class PhilipsBlurDialogFragment extends DialogFragment {
         // apply blur effect
         Bitmap bitmap = Util.drawViewToBitmap(mRoot, visibleFrame.right,
                 visibleFrame.bottom, visibleFrame.left, visibleFrame.top, 3);
-        Bitmap blurred = Blur.apply(getActivity(), bitmap);
-        mBlurImgView.setImageBitmap(blurred);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            Bitmap blurred = Blur.apply(getActivity(), bitmap);
+            mBlurImgView.setImageBitmap(blurred);
+        }
         bitmap.recycle();
 
         View view = getView();
