@@ -48,7 +48,9 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
 
         if ((nearestDevice != null) && (nearestDeviceInPreviousIteration != null) && (nearestDevice.getAddress().equals(nearestDeviceInPreviousIteration.getAddress()))) {
             SHNLogger.i(TAG, "associateWithNearestDeviceIfPossible address matched with previous iteration");
-            if (++successivelyNearestDeviceCount == ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT) {
+
+            ++successivelyNearestDeviceCount;
+            if (deviceIsSufficientlyOftenNearest(successivelyNearestDeviceCount)) {
                 nearestDeviceInPreviousIteration = null;
                 if (shnAssociationProcedureListener != null) {
                     shnAssociationProcedureListener.onStopScanRequest();
@@ -65,6 +67,10 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
         if (!finished) {
             startNextIterationOrFail();
         }
+    }
+
+    protected boolean deviceIsSufficientlyOftenNearest(int successivelyNearestDeviceCount) {
+        return successivelyNearestDeviceCount == ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT;
     }
 
     private void startNextIterationOrFail() {
