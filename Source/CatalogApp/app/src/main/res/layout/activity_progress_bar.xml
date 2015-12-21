@@ -1,142 +1,148 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/progressbar_placeholder"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.philips.cdp.uikit.customviews.PUIProgressBar
-        android:id="@+id/progressbar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:indeterminate="false"
-        android:layout_width="292dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:indeterminateBehavior="repeat"
-        />
-    <com.philips.cdp.uikit.customviews.PUIProgressBar
-        android:id="@+id/secondaryprogressbar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:indeterminate="false"
-        android:layout_width="292dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:indeterminateBehavior="repeat"
-        app:uikitsecondaryprogress="true"
-        />
-    <com.philips.cdp.uikit.customviews.PUIProgressBar
-        android:id="@+id/whiteprogressbar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:indeterminate="false"
-        android:layout_width="292dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:indeterminateBehavior="repeat"
-        app:uikitwhiteprogress="true"
-        />
-
-    <com.philips.cdp.uikit.customviews.PUIProgressBar
-        android:id="@+id/whitesecondaryprogressbar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="292dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        app:uikitsecondaryprogress="true"
-        app:uikitwhiteprogress="true"
-        />
-
-    <com.philips.cdp.uikit.customviews.PUIProgressBar
-        android:id="@+id/indeterminateprogressbar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:indeterminate="true"
-        android:layout_width="292dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:indeterminateBehavior="repeat"
-        />
-<LinearLayout
-    android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
-        android:id="@+id/progressBar1"
-        android:layout_width="53dp"
-        android:layout_height="53dp"
-
-        android:layout_marginLeft="23dp"
-        android:indeterminateOnly="false"
-        android:layout_marginTop="20dp"
-        android:max="60"
-        app:uikittransparentprogress="true"
-        android:indeterminateBehavior="cycle"
-        android:minHeight="50dp"
-        android:minWidth="200dp"
-        android:progress="1" />
-
-    <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
-        android:id="@+id/progressBar2"
-        android:visibility="visible"
-        android:layout_width="53dp"
-        android:layout_height="53dp"
-        android:indeterminateBehavior="cycle"
-        android:layout_marginLeft="23dp"
-        android:indeterminateOnly="false"
-        android:layout_marginTop="20dp"
-        android:max="60"
-        app:uikitgrayprogress="true"
-        android:minHeight="50dp"
-        android:minWidth="200dp"
-        android:progress="1" />
-
-    <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
-        android:id="@+id/progressBar3"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:indeterminateOnly="false"
-        android:layout_marginLeft="23dp"
-        android:layout_marginTop="40dp"
-        android:max="60"
-        app:uikitcircularprogresssmall="true"
-        app:uikittransparentprogress="true"
-        android:indeterminateBehavior="cycle"
-        android:minHeight="50dp"
-        android:minWidth="200dp"
-        android:progress="1" />
-
-    <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
-        android:id="@+id/progressBar4"
-        android:layout_below="@+id/progressBar3"
-        android:visibility="visible"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:indeterminateBehavior="cycle"
-        android:layout_marginLeft="23dp"
-        android:indeterminateOnly="false"
-        android:layout_marginTop="40dp"
-        android:max="60"
-        app:uikitcircularprogresssmall="true"
-        app:uikitgrayprogress="true"
-        android:minHeight="50dp"
-        android:minWidth="200dp"
-        android:progress="1" />
-
-
-</LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <!--<com.philips.cdp.uikit.customviews.UikitCircularLineProgressBar-->
+        android:id="@+id/progressbar_placeholder"
+        android:layout_width="fill_parent"
+
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.philips.cdp.uikit.customviews.PUIProgressBar
+            android:id="@+id/progressbar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:indeterminate="false"
+            android:indeterminateBehavior="repeat" />
+
+        <com.philips.cdp.uikit.customviews.PUIProgressBar
+            android:id="@+id/secondaryprogressbar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:indeterminate="false"
+            android:indeterminateBehavior="repeat"
+            app:uikitsecondaryprogress="true" />
+
+        <com.philips.cdp.uikit.customviews.PUIProgressBar
+            android:id="@+id/whiteprogressbar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:indeterminate="false"
+            android:indeterminateBehavior="repeat"
+            app:uikitwhiteprogress="true" />
+
+        <com.philips.cdp.uikit.customviews.PUIProgressBar
+            android:id="@+id/whitesecondaryprogressbar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            app:uikitsecondaryprogress="true"
+            app:uikitwhiteprogress="true" />
+
+        <com.philips.cdp.uikit.customviews.PUIProgressBar
+            android:id="@+id/indeterminateprogressbar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="292dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
+                android:id="@+id/progressBar1"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="20dp"
+                android:indeterminateBehavior="cycle"
+                android:indeterminateOnly="false"
+                android:max="60"
+                android:minHeight="50dp"
+                android:minWidth="200dp"
+                android:progress="1"
+                app:uikittransparentprogress="true" />
+
+            <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
+                android:id="@+id/progressBar2"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="20dp"
+                android:indeterminateBehavior="cycle"
+                android:indeterminateOnly="false"
+                android:max="60"
+                android:minHeight="50dp"
+                android:minWidth="200dp"
+                android:progress="1"
+                android:visibility="visible"
+                app:uikitgrayprogress="true" />
+
+            <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
+                android:id="@+id/progressBar3"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="40dp"
+                android:indeterminateBehavior="cycle"
+                android:indeterminateOnly="false"
+                android:max="60"
+                android:minHeight="50dp"
+                android:minWidth="200dp"
+                android:progress="1"
+                app:uikitcircularprogresssmall="true"
+                app:uikittransparentprogress="true" />
+
+            <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
+                android:id="@+id/progressBar4"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_below="@+id/progressBar3"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="40dp"
+                android:indeterminateBehavior="cycle"
+                android:indeterminateOnly="false"
+                android:max="60"
+                android:minHeight="50dp"
+                android:minWidth="200dp"
+                android:progress="1"
+                android:visibility="visible"
+                app:uikitcircularprogresssmall="true"
+                app:uikitgrayprogress="true" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!--<com.philips.cdp.uikit.customviews.UikitCircularLineProgressBar-->
             <!--android:layout_width="53dp"-->
             <!--android:layout_height="53dp"-->
             <!--android:max="10"-->
             <!--android:indeterminateBehavior="cycle"-->
             <!--android:indeterminateOnly="true"-->
             <!--/>-->
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
