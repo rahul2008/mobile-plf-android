@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         fontPath="fonts/centralesansbook.ttf"
         android:textSize="16sp"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/baseColor"
         android:includeFontPadding="false"
         android:layout_marginTop="4dp"
         />

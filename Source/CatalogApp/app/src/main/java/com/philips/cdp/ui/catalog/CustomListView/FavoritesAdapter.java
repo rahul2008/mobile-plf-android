@@ -111,6 +111,8 @@ public class FavoritesAdapter extends BaseAdapter {
         cv.put(FavoritesContract.FeedEntry.COLUMN_ITEM_NAME, name);
 
         int i = db.update(FavoritesContract.FeedEntry.TABLE_NAME, cv, FavoritesContract.FeedEntry.COLUMN_ITEM_NAME + " = ?", new String[]{name});
+        mCursor = getFavFromDB();
+        notifyDataSetChanged();
     }
 
 
