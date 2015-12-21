@@ -46,7 +46,8 @@ public class FavoritesAdapter extends BaseAdapter {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            mCursor.close();
+            if(mCursor!=null)
+                mCursor.close();
         }
         return count;
     }
@@ -84,7 +85,8 @@ public class FavoritesAdapter extends BaseAdapter {
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    mCursor.close();
+                    if(mCursor!=null)
+                        mCursor.close();
                 }
             }
         });
@@ -99,7 +101,8 @@ public class FavoritesAdapter extends BaseAdapter {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-         mCursor.close();
+            if(mCursor!=null)
+                mCursor.close();
         }
         return vi;
     }
@@ -120,9 +123,12 @@ public class FavoritesAdapter extends BaseAdapter {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            mDbHelper.close();
-            db.close();
-            mCursor.close();
+            if(mDbHelper!=null)
+                mDbHelper.close();
+            if(db!=null)
+                db.close();
+            if(mCursor!=null)
+                mCursor.close();
         }
     }
 
@@ -153,7 +159,9 @@ public class FavoritesAdapter extends BaseAdapter {
     }
 
     public void closeConnections(){
-        mDbHelper.close();
-        db.close();
+        if(mDbHelper!=null)
+            mDbHelper.close();
+        if(db!=null)
+            db.close();
     }
 }

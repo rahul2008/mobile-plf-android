@@ -34,7 +34,8 @@ public class Favorites extends Fragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        adapter.closeConnections();
+        if(adapter!=null)
+            adapter.closeConnections();
     }
 
     @Override

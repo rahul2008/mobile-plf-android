@@ -58,8 +58,10 @@ public class FavoritesActivity extends CatalogActivity {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            mDbHelper.close();
-            db.close();
+            if(mDbHelper!=null)
+                mDbHelper.close();
+            if(db!=null)
+                db.close();
         }
     }
 

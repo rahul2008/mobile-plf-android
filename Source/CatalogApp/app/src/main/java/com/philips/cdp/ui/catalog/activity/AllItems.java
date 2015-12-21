@@ -38,7 +38,8 @@ public class AllItems extends Fragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        adapter.closeConnections();
+        if(adapter!=null)
+            adapter.closeConnections();
     }
 
     @Override
@@ -51,7 +52,7 @@ public class AllItems extends Fragment{
                 list.setAdapter(adapter);
             }
         }catch (Exception e){
-            e.printStackTrace();
+       //     e.printStackTrace();
         }
     }
 
