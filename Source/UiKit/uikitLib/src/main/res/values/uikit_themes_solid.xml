@@ -4,7 +4,6 @@
     <style name="Theme.Philips.DarkBlue">
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_blue</item>
-
         <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
@@ -32,6 +31,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkBlue</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkBlue</item>
         <item name="LightColor">@color/uikit_philips_light_blue</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_bright_blue_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_bright_blue_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_bright_blue_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_bright_blue_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.DarkBlue.NoActionBar">
@@ -69,6 +72,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkPurple</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkPurple</item>
         <item name="LightColor">@color/uikit_philips_light_purple</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_bright_purple_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_bright_purple_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_bright_purple_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_bright_purple_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -107,6 +114,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkGreen</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkGreen</item>
         <item name="LightColor">@color/uikit_philips_light_green</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_bright_green_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_bright_green_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_bright_green_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_bright_green_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.DarkGreen.NoActionBar">
@@ -147,6 +158,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkOrange</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkOrange</item>
         <item name="LightColor">@color/uikit_philips_light_orange</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_bright_orange_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_bright_orange_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_bright_orange_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_bright_orange_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.DarkOrange.NoActionBar">
@@ -184,6 +199,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkAqua</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkAqua</item>
         <item name="LightColor">@color/uikit_philips_light_aqua</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_bright_aqua_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_bright_aqua_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_bright_aqua_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_bright_aqua_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.DarkAqua.NoActionBar">
@@ -222,6 +241,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkPink</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedDarkPink</item>
         <item name="LightColor">@color/uikit_philips_light_pink</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_bright_pink_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_bright_pink_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_bright_pink_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_bright_pink_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.DarkPink.NoActionBar">
@@ -263,6 +286,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightOrange</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightOrange</item>
         <item name="LightColor">@color/uikit_philips_light_orange</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_light_orange_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_light_orange_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_light_orange_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_light_orange_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.NoActionBar">
@@ -302,6 +329,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightAqua</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightAqua</item>
         <item name="LightColor">@color/uikit_philips_light_aqua</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_light_aqua_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_light_aqua_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_light_aqua_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_light_aqua_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">
@@ -339,6 +370,11 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightGreen</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightGreen</item>
         <item name="LightColor">@color/uikit_philips_light_green</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_light_green_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_light_green_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_light_green_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_light_green_with_opacity_20</item>
+        
     </style>
     <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -375,6 +411,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightPink</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightPink</item>
         <item name="LightColor">@color/uikit_philips_light_pink</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_light_pink_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_light_pink_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_light_pink_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_light_pink_with_opacity_20</item>
     </style>
     <style name="Theme.Philips.BrightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -412,6 +452,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightBlue</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightBlue</item>
         <item name="LightColor">@color/uikit_philips_light_blue</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_light_orange_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_light_orange_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_light_orange_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_light_orange_with_opacity_20</item>
     </style>
     <style name="Theme.Philips.BrightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -449,6 +493,11 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightPurple</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedBrightPurple</item>
         <item name="LightColor">@color/uikit_philips_light_purple</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_light_purple_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_light_purple_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_light_purple_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_light_purple_with_opacity_20</item>
+        
     </style>
     <style name="Theme.Philips.BrightPurple.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -486,6 +535,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightBlue</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightBlue</item>
         <item name="LightColor">@color/uikit_philips_light_blue</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_very_light_blue_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_very_light_blue_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_very_light_blue_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_very_light_blue_with_opacity_20</item>
     </style>
     <style name="Theme.Philips.LightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -525,6 +578,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightOrange</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightOrange</item>
         <item name="LightColor">@color/uikit_philips_light_orange</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_very_light_orange_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_very_light_orange_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_very_light_orange_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_very_light_orange_with_opacity_20</item>
     </style>
     <style name="Theme.Philips.LightOrange.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -562,6 +619,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightAqua</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightAqua</item>
         <item name="LightColor">@color/uikit_philips_light_aqua</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_very_light_aqua_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_very_light_aqua_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_very_light_aqua_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_very_light_aqua_with_opacity_20</item>
     </style>
     <style name="Theme.Philips.LightAqua.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -599,6 +660,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightGreen</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightGreen</item>
         <item name="LightColor">@color/uikit_philips_light_green</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_very_light_green_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_very_light_green_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_very_light_green_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_very_light_green_with_opacity_20</item>
     </style>
     <style name="Theme.Philips.LightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -636,6 +701,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightPink</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightPink</item>
         <item name="LightColor">@color/uikit_philips_light_pink</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_very_light_pink_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_very_light_pink_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_very_light_pink_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_very_light_pink_with_opacity_20</item>
     </style>
     <style name="Theme.Philips.LightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -673,6 +742,10 @@
         <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightPurple</item>
         <item name="springBoardButtonOutLinedWithIcon">@style/SpringBoardButtonIcon.OutlinedLightPurple</item>
         <item name="LightColor">@color/uikit_philips_light_purple</item>
+        <item name="ProgressBarColorOpacity80">@color/uikit_very_light_purple_with_opacity_80</item>
+        <item name="ProgressBarColorOpacity60">@color/uikit_very_light_purple_with_opacity_60</item>
+        <item name="ProgressBarColorOpacity40">@color/uikit_very_light_purple_with_opacity_40</item>
+        <item name="ProgressBarColorOpacity20">@color/uikit_very_light_purple_with_opacity_20</item>
     </style>
     <style name="Theme.Philips.LightPurple.NoActionBar">
         <item name="windowActionBar">false</item>
