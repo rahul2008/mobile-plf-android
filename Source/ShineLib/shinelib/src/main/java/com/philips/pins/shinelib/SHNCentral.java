@@ -242,28 +242,33 @@ public class SHNCentral {
         intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         BroadcastReceiver bondStateChangedReceiver = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent) {
-                Bundle bundle = intent.getExtras();
-                final BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
-                final int bondState = bundle.getInt(BluetoothDevice.EXTRA_BOND_STATE);
-                final int previousBondState = bundle.getInt(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE);
+            public void onReceive(Context context, final Intent intent) {
                 internalHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        WeakReference<SHNBondStatusListener> shnBondStatusListener = shnBondStatusListeners.get(device.getAddress());
-                        if (shnBondStatusListener != null) {
-                            SHNBondStatusListener listener = shnBondStatusListener.get();
-                            if (listener != null) {
-                                listener.onBondStatusChanged(device, bondState, previousBondState);
-                            } else {
-                                shnBondStatusListeners.remove(device.getAddress());
-                            }
-                        }
+                        onBondStateChanged(intent);
                     }
                 });
             }
         };
         getApplicationContext().registerReceiver(bondStateChangedReceiver, intentFilter);
+    }
+
+    private void onBondStateChanged(Intent intent)
+    {
+        Bundle bundle = intent.getExtras();
+        BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
+        int bondState = bundle.getInt(BluetoothDevice.EXTRA_BOND_STATE);
+        int previousBondState = bundle.getInt(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE);
+        WeakReference<SHNBondStatusListener> shnBondStatusListener = shnBondStatusListeners.get(device.getAddress());
+        if (shnBondStatusListener != null) {
+            SHNBondStatusListener listener = shnBondStatusListener.get();
+            if (listener != null) {
+                listener.onBondStatusChanged(device, bondState, previousBondState);
+            } else {
+                shnBondStatusListeners.remove(device.getAddress());
+            }
+        }
     }
 
     public Handler getInternalHandler() {
