@@ -2,9 +2,10 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.widget.Button;
 
-import com.philips.cdp.ui.catalog.PlaceholderFragment;
+import com.philips.cdp.ui.catalog.ModalAlertDemoFragment;
 import com.philips.cdp.ui.catalog.R;
 
 /**
@@ -14,27 +15,30 @@ import com.philips.cdp.ui.catalog.R;
 public class ModalAlertTest extends CatalogActivity {
 
     private Bundle savedInstanceState;
-    private PlaceholderFragment fragment;
+    private ModalAlertDemoFragment modalAlertDemoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
-        setContentView(R.layout.modal_alert_frag);
+        setContentView(R.layout.modal_alert_demo);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new PlaceholderFragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.frame_container, fragment)
-                .commit();
+        Button showAlert = (Button) findViewById(R.id.show_modal_dialog);
+        showAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                modalAlertDemoFragment = new ModalAlertDemoFragment();
+                modalAlertDemoFragment.show(getSupportFragmentManager(), "dialog");
+            }
+        });
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (fragment != null && fragment.isShowing())
+        if (modalAlertDemoFragment != null && modalAlertDemoFragment.isVisible())
             outState.putBoolean("dialogState", true);
 
-        fragment.dismiss();
+        modalAlertDemoFragment.dismiss();
         super.onSaveInstanceState(outState);
     }
 
@@ -45,7 +49,8 @@ public class ModalAlertTest extends CatalogActivity {
             @Override
             public void run() {
                 if (savedInstanceState != null && savedInstanceState.getBoolean("dialogState")) {
-                    fragment.show();
+                    modalAlertDemoFragment = new ModalAlertDemoFragment();
+                    modalAlertDemoFragment.show(getSupportFragmentManager(), "dialog");
                 }
             }
         }, 100);
