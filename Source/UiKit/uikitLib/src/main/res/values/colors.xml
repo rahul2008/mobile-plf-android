@@ -4,6 +4,7 @@
     <!-- Enrichers -->
     <color name="uikit_white">#FFFFFF</color>
     <color name="uikit_enricher4">#B9B9B9</color>
+    <color name="uikit_enricher5">#CCCCCC</color>
     <color name="uikit_enricher6">#E0E0E0</color>
     <color name="uikit_enricher7">#EFEFEF</color>
     <color name="uikit_enricher_red">#CD202C</color>
@@ -34,9 +35,11 @@
     <color name="uikit_philips_very_light_blue">#b3c8e6</color>
     <!-- Very Light Blue Theme with opacity 100-->
     <color name="uikit_philips_very_light_blue_with_opacity_100">#FFb3c8e6</color>
+    <color name="uikit_philips_very_light_blue_with_opacity_15">#f4f7fb</color>
 
     <!-- Very Light Blue Theme with opacity 30-->
     <color name="uikit_philips_very_light_blue_with_opacity_30">#4Db3c8e6</color>
+    
 
     <!-- Very Light Blue Theme with opacity 25-->
     <color name="uikit_philips_very_light_blue_with_opacity_25">#40b3c8e6</color>
@@ -60,6 +63,7 @@
     <color name="uikit_philips_very_light_aqua">#cae3e9</color>
     <!-- Very Light Aqua Theme with opacity 25-->
     <color name="uikit_philips_very_light_aqua_with_opacity_25">#40cae3e9</color>
+    <color name="uikit_philips_very_light_aqua_with_opacity_15">#f7fbfc</color>
     <!-- List Divider very Light Aqua with 20% opacity-->
     <color name="uikit_philips_list_divider_very_light_Aqua">#33cae3e9</color>
 
@@ -77,6 +81,7 @@
     <color name="uikit_philips_very_light_green">#e0e96e</color>
     <!-- Very Light Green Theme with opacity 25-->
     <color name="uikit_philips_very_light_green_with_opacity_25">#40e0e96e</color>
+    <color name="uikit_philips_very_light_green_with_opacity_15">#fafce9</color>
     <!-- List Divider very Light Green with 20% opacity-->
     <color name="uikit_philips_list_divider_very_light_Green">#33e0e96e</color>
 
@@ -96,6 +101,7 @@
     <color name="uikit_philips_very_light_orange">#fbd476</color>
     <!-- Very Light Orange Theme with opacity 25-->
     <color name="uikit_philips_very_light_orange_with_opacity_25">#40fbd476</color>
+    <color name="uikit_philips_very_light_orange_with_opacity_15">#fef9eb</color>
     <!-- List Divider very Light Orange with 20% opacity-->
     <color name="uikit_philips_list_divider_very_light_Orange">#33fbd476</color>
 
@@ -114,6 +120,7 @@
     <color name="uikit_philips_very_light_pink">#e9c5cb</color>
     <!-- Very Light Pink Theme with opacity 25-->
     <color name="uikit_philips_very_light_pink_with_opacity_25">#40e9c5cb</color>
+    <color name="uikit_philips_very_light_pink_with_opacity_15">#fcf6f7</color>
     <!-- List Divider very Light Pink with 20% opacity-->
     <color name="uikit_philips_list_divider_very_light_Pink">#33e9c5cb</color>
 
@@ -141,6 +148,7 @@
 
     <!-- Very Light Purple Theme with opacity 30-->
     <color name="uikit_philips_very_light_Purple_with_opacity_30">#4Ddbcfe9</color>
+    <color name="uikit_philips_very_light_Purple_with_opacity_15">#faf8fc</color>
 
     <color name="uikit_philips_very_dark_Purple_with_opacity_35">#59631d76</color>
 

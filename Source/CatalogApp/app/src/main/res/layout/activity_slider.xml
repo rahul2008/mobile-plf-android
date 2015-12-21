@@ -35,11 +35,6 @@
         android:layout_gravity="center"
         app:absoluteMinValue="90"
         app:absoluteMaxValue="300"/>
-
-
-
-
-
 </LinearLayout>
 
 

@@ -64,7 +64,7 @@
     </style>
 
     <style name="Philips.ActionButton.Circle.Float.Plus">
-        <item name="actionButtonImageDrawable">@drawable/uikit_plus</item>
+        <item name="actionButtonImageDrawable">@drawable/uikit_action_icon_plus</item>
     </style>
 
     <style name="Philips.ActionButton.Circle.Float.Pencil">
