@@ -10,21 +10,37 @@ import android.widget.Button;
 
 public class PlaceholderFragment extends Fragment {
 
+    private ModalAlertDemoFragment modalAlertDemoFragment;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.modal_alert_demo, container, false);
         Button showAlert = (Button) rootView.findViewById(R.id.show_modal_dialog);
-        ViewGroup group = (ViewGroup) rootView.findViewById(R.id.splash_layout);
-        group.setBackgroundResource(R.drawable.uikit_food);
         showAlert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ModalAlertDemoFragment fragment = new ModalAlertDemoFragment();
-                fragment.show(getActivity().getSupportFragmentManager(), "dialog");
+                modalAlertDemoFragment = new ModalAlertDemoFragment();
+                modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
             }
         });
         return rootView;
     }
 
+    public boolean isShowing() {
+        if (modalAlertDemoFragment != null)
+            return modalAlertDemoFragment.isVisible();
+        else
+            return false;
+    }
+
+    public void show() {
+        modalAlertDemoFragment = new ModalAlertDemoFragment();
+        modalAlertDemoFragment.show(getActivity().getSupportFragmentManager(), "dialog");
+    }
+
+    public void dismiss() {
+        if (modalAlertDemoFragment != null)
+            modalAlertDemoFragment.dismiss();
+    }
 }
