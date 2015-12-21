@@ -32,6 +32,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
@@ -166,7 +167,7 @@ public class SHNDeviceTest {
     public void whenInStateDisconnectedTheConnectMethodIsCalledThenTheActualConnectIsExecutedOnTheInternalHandlerThread() {
         shnDevice.connect();
         assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
-        verify(mockedSHNCentral).getInternalHandler(); // for the creation of the timer object
+        verify(mockedSHNCentral, times(2)).getInternalHandler(); // for the creation of both timer objects
     }
 
     @Test
