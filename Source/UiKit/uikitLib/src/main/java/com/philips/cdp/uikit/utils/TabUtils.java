@@ -30,11 +30,11 @@ import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
- *
+ * <p/>
  * Helper class to initialize tabs and adjusts the modes.
  * For custom image or text background, the selector must be set before creating new tabs.
  * <br>
- *     Tabs should fill the width on phones and centered on Tablets.
+ * Tabs should fill the width on phones and centered on Tablets.
  */
 public class TabUtils {
 
@@ -56,9 +56,6 @@ public class TabUtils {
         this.context = context;
         this.tabLayout = tabLayout;
         isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
-        if(context instanceof Activity) {
-//            disableActionbarShadow((Activity) context);
-        }
         initSelectionColors();
         initIconColorFilters();
     }
@@ -70,12 +67,12 @@ public class TabUtils {
      * <br>
      * For custom background of image/Text please set the selector prior to creating new tab
      *
-     * @param titleResID ResourceId for the String.
+     * @param titleResID    ResourceId for the String.
      * @param imageDrawable Image Drawable resource ID. Must be greater than 0 if image is required in tab.
-     * <br>
+     *                      <br>
      *                      In case of drawable, provide any dummy drawable and call
      *                      {@link TabUtils#setIcon(TabLayout.Tab, Drawable, boolean)} instead.
-     * @param badgeCount Badge count
+     * @param badgeCount    Badge count
      * @return
      */
     public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
@@ -124,11 +121,11 @@ public class TabUtils {
 
         int tabCount = tabLayout.getTabCount();
 
-        if((isTablet && tabCount > 0)|| (!isTablet && tabCount == 0)) {
+        if ((isTablet && tabCount > 0) || (!isTablet && tabCount == 0)) {
             customView.findViewById(R.id.tab_divider).setVisibility(View.GONE);
         }
 
-        if(isTablet) {
+        if (isTablet) {
             customView.findViewById(R.id.tab_divider_last).setVisibility(View.VISIBLE);
         }
 
@@ -139,6 +136,7 @@ public class TabUtils {
     /**
      * Sets custom selector the images and ignores the theme based image background
      * Either of the one should be set to use the custom drawable or ignoreTheme
+     *
      * @param selector
      * @param ignoreTheme
      */
@@ -149,6 +147,7 @@ public class TabUtils {
 
     /**
      * Sets the color for the tab text
+     *
      * @param color Text color to be applied.
      */
     public void setTextSelector(int color) {
@@ -169,7 +168,7 @@ public class TabUtils {
     /**
      * Sets the image drawable for the tab.
      *
-     * @param tab Tab on which the image needs to be applied.
+     * @param tab      Tab on which the image needs to be applied.
      * @param drawable Drawable for the tab.
      * @param useTheme Flag to set theme based tinting over the image.
      */
@@ -182,7 +181,8 @@ public class TabUtils {
 
     /**
      * Sets title for the tabs.
-     * @param tab Target tab
+     *
+     * @param tab   Target tab
      * @param title String resource for the title
      */
     public void setTitle(TabLayout.Tab tab, String title) {
@@ -193,8 +193,9 @@ public class TabUtils {
 
     /**
      * Set the count on the tab.
+     *
      * @param tab
-     * @param count  Must be a int value
+     * @param count Must be a int value
      */
     public void setCount(TabLayout.Tab tab, int count) {
         TextView countView = (TextView) tab.getCustomView().findViewById(R.id.tab_count);
@@ -209,6 +210,7 @@ public class TabUtils {
 
     /**
      * Sets the title on the tab with string resource id
+     *
      * @param tab
      * @param resID String resource id for the title
      */
@@ -222,6 +224,7 @@ public class TabUtils {
      * This must be called in onResume.
      * It adjusts the mode (fill on phones and center on tablet) of the tabs.
      * Due to strange behavior of mode and gravity, we need this function.
+     *
      * @param tabLayout
      * @param context
      */
@@ -281,7 +284,13 @@ public class TabUtils {
         return selector;
     }
 
-    private void disableActionbarShadow(Activity activity) {
+    /**
+     * In case UIKit default tabstyle is used this function must be called to hide the action bar
+     * shadow.
+     *
+     * @param activity
+     */
+    public static void disableActionbarShadow(Activity activity) {
         if (activity == null) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (activity instanceof AppCompatActivity) {
