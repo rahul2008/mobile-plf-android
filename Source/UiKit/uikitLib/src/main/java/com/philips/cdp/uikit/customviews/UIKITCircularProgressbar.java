@@ -14,7 +14,8 @@ import android.widget.ProgressBar;
 import com.philips.cdp.uikit.R;
 
 /**
- * Created by 310213373 on 12/15/2015.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
 public class UIKITCircularProgressbar extends ProgressBar {
     Context mContext;

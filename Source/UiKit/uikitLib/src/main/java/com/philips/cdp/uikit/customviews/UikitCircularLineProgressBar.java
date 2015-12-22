@@ -17,8 +17,9 @@ import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
- * Created by 310213373 on 12/15/2015.
- */
+* (C) Koninklijke Philips N.V., 2015.
+        * All rights reserved.
+        */
 public class UikitCircularLineProgressBar extends ProgressBar {
     Context mContext;
     boolean grayProgress;

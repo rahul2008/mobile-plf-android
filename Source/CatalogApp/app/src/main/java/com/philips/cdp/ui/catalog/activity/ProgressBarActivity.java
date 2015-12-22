@@ -8,13 +8,16 @@ import android.widget.ProgressBar;
 
 
 import com.philips.cdp.ui.catalog.R;
-
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 public class ProgressBarActivity extends CatalogActivity {
     private ProgressBar progressBar1;
     private ProgressBar progressBar2;
     private ProgressBar progressBar3;
     private ProgressBar progressBar4;
-
+    private int progressCount;
     private int progressStatus = 0;
 
     private Handler handler = new Handler();
@@ -23,6 +26,20 @@ public class ProgressBarActivity extends CatalogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress_bar);
 
+
+
+}
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
         progressBar2=(ProgressBar)findViewById(R.id.progressBar2);
         progressBar3 = (ProgressBar) findViewById(R.id.progressBar3);
@@ -53,8 +70,9 @@ public class ProgressBarActivity extends CatalogActivity {
             }
         }).start();
 
+    }
 
-}
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
