@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog.activity;
+package com.philips.cdp.ui.catalog.cardviewpager;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

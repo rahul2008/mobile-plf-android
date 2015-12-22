@@ -4,7 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.philips.cdp.ui.catalog.activity.CardsTestFragment;
+import com.philips.cdp.ui.catalog.cardviewpager.CardsTestFragment;
+
 
 public class ViewPagerAdaptor extends FragmentPagerAdapter {
     protected static final String[] CONTENT = new String[]{"Page 1", "Page 2", "Page 3", "Page 4",};

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
+import com.philips.cdp.ui.catalog.cardviewpager.CardActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 import java.util.HashMap;
@@ -107,8 +108,8 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, SpringBoardsctivity.class));
                 break;
             case 19:
-                startActivity(new Intent(this, CardsActivity.class));
-				break;
+                startActivity(new Intent(this, CardActivity.class));
+                break;
 			case 18:
                 startActivity(new Intent(this, TextLayoutInputFeildInlineForms.class));
                 break;
