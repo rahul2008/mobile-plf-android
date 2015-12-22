@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.cards;
+package com.philips.cdp.ui.catalog.cardviewpager;
 
 import android.content.Context;
 import android.content.res.TypedArray;

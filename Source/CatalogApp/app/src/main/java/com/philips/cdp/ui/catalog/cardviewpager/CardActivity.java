@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;
-import com.philips.cdp.uikit.cards.CardAdapter;
 
 
 public class CardActivity extends CatalogActivity {
