@@ -35,10 +35,11 @@ public class ModalAlertDemo extends CatalogActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (modalAlertDemoFragment != null && modalAlertDemoFragment.isVisible())
+        if (modalAlertDemoFragment != null && modalAlertDemoFragment.isVisible()) {
             outState.putBoolean("dialogState", true);
+            modalAlertDemoFragment.dismiss();
+        }
 
-        modalAlertDemoFragment.dismiss();
         super.onSaveInstanceState(outState);
     }
 
