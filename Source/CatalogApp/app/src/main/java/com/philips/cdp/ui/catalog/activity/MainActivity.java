@@ -112,7 +112,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 19:
                 startActivity(new Intent(this, ProgressBar.class));
                 break;
-            case 20:
+            case 21:
                 startActivity(new Intent(this, ModalAlertDemo.class));
                 break;
             default:
@@ -176,7 +176,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(17, "Spring Board");
         itemsMap.put(18, "Inline Forms");
         itemsMap.put(19, "ProgressBar");
-        itemsMap.put(20, "Modal Alert");
+        itemsMap.put(21, "Modal Alert");
         return itemsMap;
     }
 
