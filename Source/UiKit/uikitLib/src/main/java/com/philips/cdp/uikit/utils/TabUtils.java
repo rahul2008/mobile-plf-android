@@ -30,7 +30,7 @@ import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
- * <p/>
+ * <br>
  * Helper class to initialize tabs and adjusts the modes.
  * For custom image or text background, the selector must be set before creating new tabs.
  * <br>
@@ -131,7 +131,7 @@ public class TabUtils {
      * @param imageDrawable Image Drawable resource ID. Must be greater than 0 if image is required in tab.
      *                      <br>
      *                      In case of drawable, provide any dummy drawable and call
-     *                      {@link TabUtils#setIcon(TabLayout.Tab, Drawable, boolean)} instead.
+     *                      {@link TabUtils#setIcon(TabLayout.Tab, Drawable, boolean)}  instead.
      * @param badgeCount    Badge count
      * @return
      */
