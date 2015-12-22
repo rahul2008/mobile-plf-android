@@ -21,7 +21,7 @@ public class ImageNavigation extends CatalogActivity {
         setContentView(R.layout.image_navigation);
 
         final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setAdapter(new ViewPagerAdaptor(getSupportFragmentManager(), 0));
+        mPager.setAdapter(new ViewPagerAdaptor(getSupportFragmentManager()));
 
         final ImageIndicator mIndicator = (ImageIndicator) findViewById(R.id.indicator);
         Drawable drawables[] = {VectorDrawable.create(this, R.drawable.uikit_cart),
