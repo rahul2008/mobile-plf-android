@@ -102,11 +102,6 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
 
     }
 
-    public void setFillColor(int color) {
-        themeBaseColor = color;
-        reDrawView();
-    }
-
     private void drawDots(final Context context, final int count, final LinearLayout parent) {
         for (int i = 0; i < count; i++) {
             View view = new View(context);
@@ -258,6 +253,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
 
     public void setSelectedCircleWidth(final int selectedCircleWidth) {
         this.selectedCircleWidth = selectedCircleWidth;
+        reDrawView();
     }
 
     public int getSelectedCircleHeight() {
@@ -312,6 +308,11 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
 
     public void setStrokeColor(int strokeColor) {
         this.strokeColor = strokeColor;
+        reDrawView();
+    }
+
+    public void setFillColor(int color) {
+        themeBaseColor = color;
         reDrawView();
     }
 
