@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.SpringBoardItems;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class SpringBoardListActivity extends CatalogActivity {
     Context context;
     ArrayList prgmName;
 
-    ArrayList<SpringBoardItems> mData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

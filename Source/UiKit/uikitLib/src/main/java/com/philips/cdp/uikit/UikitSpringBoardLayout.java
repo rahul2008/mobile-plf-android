@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.philips.cdp.uikit.customviews.LayerListDrawable;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -104,7 +104,7 @@ public class UikitSpringBoardLayout extends LinearLayout {
 
             d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_gridshape).mutate();
             ((GradientDrawable) d[1]).setColor(overlayColor);
-            return new LayerListDrawable(d);
+            return new LayerDrawable(d);
 
         } else {
             {
@@ -114,7 +114,7 @@ public class UikitSpringBoardLayout extends LinearLayout {
 
                 d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
                 ((GradientDrawable) d[1]).setColor(overlayColor);
-                return new LayerListDrawable(d);
+                return new LayerDrawable(d);
 
             }
         }

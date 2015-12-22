@@ -1,6 +1,7 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,39 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.TabUtils;
 
+/**
+ * <p>
+ * UIKit uses design library TabLayout {@link TabLayout}.
+ * Please refer {@link com.philips.cdp.uikit.utils.TabUtils} for managing tabs.
+ * <br>
+ * Due to different requirement of tabs on phone and tablet,
+ * {@link TabUtils#adjustTabs(TabLayout, Context)} must be called in onResume.
+ * <p/>
+ * Tab can be created with two variants.
+ * <h5>With Icons</h5>
+ * <pre> style="@style/PTablayout.Image"</pre></pre></p>
+ * <p/>
+ * <h5>Text</h5>
+ * <pre> style="@style/PTablayout"</pre></pre></p>
+ * <p/>
+ * <h5>Creating Tabs</h5>
+ * <p>
+ * Use {@link TabUtils#newTab(int, int, int)}  for creating new tabs
+ * </p>
+ * <p/>
+ * <p>
+ * Examples:
+ * <pre>
+ *             &lt;android.support.design.widget.TabLayout
+ *                      android:id="@+id/tab_bar"
+ *                      <font color="red">style="@style/PTablayout.Image"</font>/&gt;
+ *
+ *             &lt;android.support.design.widget.TabLayout
+ *                      android:id="@+id/tab_bar_text"
+ *                      <font color="red">style="@style/PTablayout"</font>/&gt;
+ *     </pre>
+ * </p>
+ */
 public class TabBarDemo extends CatalogActivity {
 
     TabLayout topLayout;
@@ -121,7 +155,7 @@ public class TabBarDemo extends CatalogActivity {
                 ((ViewGroup) content.getParent()).setWillNotDraw(true);
 
                 if (content instanceof FrameLayout) {
-                    ((FrameLayout) content).setForeground(null);
+                    content.setForeground(null);
                 }
             }
         }

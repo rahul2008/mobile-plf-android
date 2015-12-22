@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class PhilipsHamburgerAdapter extends BaseAdapter {
 
-    private static final int HEADER = 0;
-    private static final int CHILD = 1;
+    public static final int HEADER = 0;
+    public static final int CHILD = 1;
     private final LayoutInflater mInflater;
     private Context context;
     private ArrayList<HamburgerItem> hamburgerItems;
