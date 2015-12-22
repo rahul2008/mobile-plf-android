@@ -42,9 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:vectorsrc="@drawable/uikit_outlined_star_favorites"
-        android:layout_marginTop="-6dp"
+        android:layout_marginTop="-4dp"
         android:layout_centerVertical="true"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical|right"
         />
     </FrameLayout>
 
