@@ -19,22 +19,22 @@ import com.philips.cdp.uikit.utils.TabUtils;
  * <p>
  * UIKit uses design library TabLayout {@link TabLayout}.
  * Please refer {@link com.philips.cdp.uikit.utils.TabUtils} for managing tabs.
- *<br>
+ * <br>
  * Due to different requirement of tabs on phone and tablet,
  * {@link TabUtils#adjustTabs(TabLayout, Context)} must be called in onResume.
- *
+ * <p/>
  * Tab can be created with two variants.
  * <h5>With Icons</h5>
  * <pre> style="@style/PTablayout.Image"</pre></pre></p>
- *
+ * <p/>
  * <h5>Text</h5>
  * <pre> style="@style/PTablayout"</pre></pre></p>
- *
+ * <p/>
  * <h5>Creating Tabs</h5>
  * <p>
- *      Use {@link TabUtils#newTab(int, int, int)}  for creating new tabs
+ * Use {@link TabUtils#newTab(int, int, int)}  for creating new tabs
  * </p>
- *
+ * <p/>
  * <p>
  * Examples:
  * <pre>
@@ -155,7 +155,7 @@ public class TabBarDemo extends CatalogActivity {
                 ((ViewGroup) content.getParent()).setWillNotDraw(true);
 
                 if (content instanceof FrameLayout) {
-                    ((FrameLayout) content).setForeground(null);
+                    content.setForeground(null);
                 }
             }
         }

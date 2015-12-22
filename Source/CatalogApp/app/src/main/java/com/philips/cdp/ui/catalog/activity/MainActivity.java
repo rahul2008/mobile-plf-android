@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
+import com.philips.cdp.ui.catalog.cardviewpager.CardActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 import java.util.HashMap;
@@ -105,13 +106,15 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 17:
                 startActivity(new Intent(this, SpringBoardsctivity.class));
-				break;
-			case 18:
+                break;
+            case 18:
                 startActivity(new Intent(this, TextLayoutInputFeildInlineForms.class));
                 break;
             case 19:
                 startActivity(new Intent(this, ProgressBarActivity.class));
-
+                break;
+            case 20:
+                startActivity(new Intent(this, CardActivity.class));
                 break;
             default:
                 break;
@@ -171,9 +174,10 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(14,"Social Media Icons");
         itemsMap.put(15, "Lists View Demo");
         itemsMap.put(16, "Pop Over Menu");
-        itemsMap.put(17,"Spring Board");       
+        itemsMap.put(17, "Spring Board");
         itemsMap.put(18, "Inline Forms");
         itemsMap.put(19, "ProgressBar");
+        itemsMap.put(20, "Cards");
 
         return itemsMap;
     }

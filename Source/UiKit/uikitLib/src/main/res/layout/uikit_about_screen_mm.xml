@@ -33,10 +33,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/uikit_about_screen_layout_left_margin"
                 android:layout_marginTop="@dimen/uikit_about_screen_layout_top_margin"
+                android:includeFontPadding="false"
                 android:text="@string/uikit_about_screen_apptitle"
                 android:textColor="@color/uikit_philips_very_dark_blue"
-                android:textSize="@dimen/uikit_about_screen_apptitle_size"
-                android:includeFontPadding="false"/>
+                android:textSize="@dimen/uikit_about_screen_apptitle_size" />
 
             <TextView
                 android:id="@+id/about_version"
@@ -59,10 +59,10 @@
                 android:layout_below="@id/about_version"
                 android:layout_marginLeft="@dimen/uikit_about_screen_layout_left_margin"
                 android:layout_marginTop="@dimen/uikit_about_screen_copyright_margin"
+                android:includeFontPadding="false"
                 android:text="@string/uikit_about_screen_copyright"
                 android:textColor="@color/uikit_philips_very_dark_blue"
-                android:textSize="@dimen/uikit_about_screen_version_copyright_size"
-                android:includeFontPadding="false"/>
+                android:textSize="@dimen/uikit_about_screen_version_copyright_size" />
 
             <LinearLayout
                 android:id="@+id/about_termsandpolicy"

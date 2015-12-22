@@ -4,6 +4,7 @@ package com.philips.cdp.uikit.customviews;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.ColorFilter;
@@ -24,7 +25,6 @@ public class CircularProgressbar extends ProgressBar {
     private boolean isWhiteProgress;
     private boolean isSmallProgress;
     private int baseColor;
-
 
 
     public CircularProgressbar(Context c, AttributeSet attrs) {

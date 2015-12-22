@@ -411,7 +411,7 @@
         <item name="ProgressBarColorOpacity60">@color/uikit_light_green_with_opacity_60</item>
         <item name="ProgressBarColorOpacity40">@color/uikit_light_green_with_opacity_40</item>
         <item name="ProgressBarColorOpacity20">@color/uikit_light_green_with_opacity_20</item>
-        
+
     </style>
     <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -547,7 +547,7 @@
         <item name="ProgressBarColorOpacity60">@color/uikit_light_purple_with_opacity_60</item>
         <item name="ProgressBarColorOpacity40">@color/uikit_light_purple_with_opacity_40</item>
         <item name="ProgressBarColorOpacity20">@color/uikit_light_purple_with_opacity_20</item>
-        
+
     </style>
     <style name="Theme.Philips.BrightPurple.NoActionBar">
         <item name="windowActionBar">false</item>

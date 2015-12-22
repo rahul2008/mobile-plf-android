@@ -38,10 +38,10 @@
         <attr name="springBoardButtonOutLined" format="reference" />
         <attr name="springBoardButtonOutLinedWithIcon" format="reference" />
         <attr name="LightColor" format="reference|color" />
-        <attr name="ProgressBarColorOpacity80" format="reference|color"/>
-        <attr name="ProgressBarColorOpacity60" format="reference|color"/>
-        <attr name="ProgressBarColorOpacity40" format="reference|color"/>
-        <attr name="ProgressBarColorOpacity20" format="reference|color"/>
+        <attr name="ProgressBarColorOpacity80" format="reference|color" />
+        <attr name="ProgressBarColorOpacity60" format="reference|color" />
+        <attr name="ProgressBarColorOpacity40" format="reference|color" />
+        <attr name="ProgressBarColorOpacity20" format="reference|color" />
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">

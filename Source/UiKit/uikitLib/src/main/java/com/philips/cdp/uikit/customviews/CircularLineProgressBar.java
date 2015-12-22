@@ -10,11 +10,8 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.animation.Animation;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.uikit.R;
@@ -23,10 +20,10 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class CircularLineProgressBar extends ProgressBar {
     Context context;
+    int baseColor;
     private boolean isGrayProgress;
     private boolean isWhiteProgress;
     private boolean isSmallProgress;
-    int baseColor;
 
     public CircularLineProgressBar(Context c, AttributeSet attrs) {
         super(c, attrs);

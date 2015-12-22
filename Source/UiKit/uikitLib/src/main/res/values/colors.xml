@@ -50,7 +50,6 @@
     <color name="uikit_philips_list_divider_very_light_blue">#33b3c8e6</color>
 
 
-
     <!-- Group Blue -->
     <color name="uikit_philips_group_blue_1">#72b5cc</color>
     <color name="uikit_philips_group_blue_2">#008964</color>
@@ -162,7 +161,7 @@
     <!-- White Color with 0% Opacity-->
     <color name="uikit_philips_White_with_opacity_0">#00FFFFFF</color>
 
-<!-- Dark themes-->
+    <!-- Dark themes-->
     <color name="uikit_bright_blue_with_opacity_80">#CC0066a1</color>
     <color name="uikit_bright_blue_with_opacity_60">#990066a1</color>
     <color name="uikit_bright_blue_with_opacity_40">#660066a1</color>
@@ -195,7 +194,7 @@
     <color name="uikit_bright_pink_with_opacity_40">#66ec4371</color>
     <color name="uikit_bright_pink_with_opacity_20">#33ec4371</color>
 
-<!--Bright Themes -->
+    <!--Bright Themes -->
 
     <color name="uikit_light_blue_with_opacity_80">#CC7ba4d9</color>
     <color name="uikit_light_blue_with_opacity_60">#997ba4d9</color>
@@ -230,8 +229,6 @@
     <color name="uikit_light_pink_with_opacity_20">#33e59aaa</color>
 
     <!-- Light themes -->
-
-
 
 
     <color name="uikit_very_light_blue_with_opacity_80">#CCb3c8e6</color>

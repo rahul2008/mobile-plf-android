@@ -1,6 +1,5 @@
 package com.philips.cdp.ui.catalog.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,7 +21,7 @@ public class SpringBoardListActivity extends  CatalogActivity {
     Context context;
     ArrayList prgmName;
 
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 

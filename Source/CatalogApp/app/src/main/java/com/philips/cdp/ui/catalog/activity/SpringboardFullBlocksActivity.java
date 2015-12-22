@@ -2,17 +2,13 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
-
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
@@ -27,7 +23,7 @@ public class SpringboardFullBlocksActivity extends  CatalogActivity {
     Context context;
     ArrayList prgmName;
 
-  //  ArrayList<SpringBoardItems> mData;
+ //  ArrayList<SpringBoardItems> mData;
    @Override
     protected void onCreate(Bundle savedInstanceState) {
        setNoActionBarTheme();

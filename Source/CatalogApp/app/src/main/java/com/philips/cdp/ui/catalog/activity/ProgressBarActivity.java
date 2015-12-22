@@ -2,12 +2,10 @@ package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ProgressBar;
 
-
 import com.philips.cdp.ui.catalog.R;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -21,14 +19,14 @@ public class ProgressBarActivity extends CatalogActivity {
     private int progressStatus = 0;
 
     private Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress_bar);
 
 
-
-}
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -41,9 +39,9 @@ public class ProgressBarActivity extends CatalogActivity {
     protected void onResume() {
         super.onResume();
         progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
-        progressBar2=(ProgressBar)findViewById(R.id.progressBar2);
+        progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar3 = (ProgressBar) findViewById(R.id.progressBar3);
-        progressBar4=(ProgressBar)findViewById(R.id.progressBar4);
+        progressBar4 = (ProgressBar) findViewById(R.id.progressBar4);
         new Thread(new Runnable() {
             public void run() {
                 while (progressStatus < 100) {
@@ -71,8 +69,6 @@ public class ProgressBarActivity extends CatalogActivity {
         }).start();
 
     }
-
-
 
 
 }
