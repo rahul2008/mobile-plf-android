@@ -74,5 +74,5 @@ public class ProgressBarActivity extends CatalogActivity {
 
 
 
-    
+
 }

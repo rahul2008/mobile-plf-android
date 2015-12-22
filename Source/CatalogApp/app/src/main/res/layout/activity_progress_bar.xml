@@ -79,6 +79,7 @@
 
             <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
                 android:id="@+id/progressBar1"
+                style="@style/Base.Widget.AppCompat.ProgressBar"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginLeft="23dp"
@@ -109,6 +110,7 @@
             <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
                 android:id="@+id/progressBar3"
                 android:layout_width="32dp"
+                style="@style/Base.Widget.AppCompat.ProgressBar"
                 android:layout_height="32dp"
                 android:layout_marginLeft="23dp"
                 android:layout_marginTop="40dp"
@@ -125,6 +127,7 @@
             <com.philips.cdp.uikit.customviews.UIKITCircularProgressbar
                 android:id="@+id/progressBar4"
                 android:layout_width="32dp"
+                style="@style/Base.Widget.AppCompat.ProgressBar"
                 android:layout_height="32dp"
                 android:layout_below="@+id/progressBar3"
                 android:layout_marginLeft="23dp"
