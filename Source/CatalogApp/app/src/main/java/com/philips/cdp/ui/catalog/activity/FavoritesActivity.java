@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import com.philips.cdp.ui.catalog.CustomListView.FavoritesPagerAdapter;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.FavoritesContract.FeedEntry;
+import com.philips.cdp.uikit.utils.TabUtils;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -63,6 +64,12 @@ public class FavoritesActivity extends CatalogActivity {
             if(db!=null)
                 db.close();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TabUtils.adjustTabs(layout, this);
     }
 
     private void setViewPager() {
