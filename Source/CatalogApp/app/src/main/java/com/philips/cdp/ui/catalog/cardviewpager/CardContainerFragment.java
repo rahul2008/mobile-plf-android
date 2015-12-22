@@ -18,10 +18,6 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class CardContainerFragment extends Fragment {
 
-    public CardContainerFragment() {
-        setHasOptionsMenu(true);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
