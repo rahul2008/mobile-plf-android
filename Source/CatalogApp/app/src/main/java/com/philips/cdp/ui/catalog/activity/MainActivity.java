@@ -113,7 +113,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, ProgressBar.class));
                 break;
             case 20:
-                startActivity(new Intent(this, ModalAlertTest.class));
+                startActivity(new Intent(this, ModalAlertDemo.class));
                 break;
             default:
                 break;

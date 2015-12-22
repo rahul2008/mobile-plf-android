@@ -26,6 +26,14 @@ public class PhilipsBlurDialogFragment extends DialogFragment {
     private ImageView mBlurImgView;
     private FrameLayout mBlurContainer;
 
+    public void setAnimDuration(int mAnimDuration) {
+        this.mAnimDuration = mAnimDuration;
+    }
+
+    public void setWindowAnimStyle(int mWindowAnimStyle) {
+        this.mWindowAnimStyle = mWindowAnimStyle;
+    }
+
     public PhilipsBlurDialogFragment() {
         mWindowAnimStyle = R.style.PhilipsModalAlertAnimation;
         mBgColorResId = R.color.uikit_modal_alert_glass;

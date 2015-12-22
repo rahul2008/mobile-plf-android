@@ -12,7 +12,7 @@ import com.philips.cdp.ui.catalog.R;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ModalAlertTest extends CatalogActivity {
+public class ModalAlertDemo extends CatalogActivity {
 
     private Bundle savedInstanceState;
     private ModalAlertDemoFragment modalAlertDemoFragment;

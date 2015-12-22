@@ -47,7 +47,7 @@
         <activity
             android:name=".activity.HamburgerMenuDemo"
             android:configChanges="keyboardHidden|screenSize|orientation" />
-        <activity android:name=".activity.ModalAlertTest" />
+        <activity android:name=".activity.ModalAlertDemo" />
         <activity android:name=".activity.HamburgerActivity" />
         <activity android:name=".activity.RatingBarLauncher" />
         <activity android:name=".activity.ActionBarLauncher" />
