@@ -33,9 +33,8 @@
 
     <FrameLayout
         android:id="@+id/favoritecontainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_width="25dp"
+        android:layout_height="53dp"
         android:layout_alignParentRight="true">
 
     <com.philips.cdp.uikit.customviews.VectorDrawableImageView
@@ -45,6 +44,7 @@
         app:vectorsrc="@drawable/uikit_outlined_star_favorites"
         android:layout_marginTop="-6dp"
         android:layout_centerVertical="true"
+        android:layout_gravity="center"
         />
     </FrameLayout>
 
