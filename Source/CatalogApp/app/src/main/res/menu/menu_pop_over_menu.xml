@@ -6,4 +6,20 @@
           android:title="@string/action_settings"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+      <item android:id="@+id/share"
+            android:title="@string/share"
+            android:orderInCategory="100"
+            app:showAsAction="never"/>
+      <item android:id="@+id/mail"
+            android:title="@string/mail"
+            android:orderInCategory="100"
+            app:showAsAction="never"/>
+      <item android:id="@+id/chat"
+            android:title="@string/chat"
+            android:orderInCategory="100"
+            app:showAsAction="never"/>
+
 </menu>
+
+
+

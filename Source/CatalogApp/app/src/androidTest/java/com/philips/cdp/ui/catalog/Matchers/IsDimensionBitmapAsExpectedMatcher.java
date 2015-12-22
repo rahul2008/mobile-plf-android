@@ -44,7 +44,7 @@ public class IsDimensionBitmapAsExpectedMatcher extends BoundedMatcher<View, Vie
         return true;
     }
 
-    public static Matcher<View> isDimensionSimilar(final Bitmap expectedBitmap) {
+    public static Matcher<View> isDimensionBitmapSimilar(final Bitmap expectedBitmap) {
         return new IsDimensionBitmapAsExpectedMatcher(View.class, expectedBitmap);
     }
 };
