@@ -21,6 +21,7 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         this(btDevice, shnCentral, deviceTypeName, false);
     }
 
-    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, Boolean deviceBondsDuringConnect) {
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, boolean deviceBondsDuringConnect) {
         this.deviceBondsDuringConnect = deviceBondsDuringConnect;
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
@@ -168,7 +169,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
-        return registeredCapabilityTypes;
+        return Collections.unmodifiableSet(registeredCapabilityTypes);
     }
 
     @Override
@@ -246,6 +247,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                     shnService.disconnectFromBLELayer();
                 }
                 setInternalState(InternalState.Disconnected);
+                shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
             } else if (newState == BluetoothProfile.STATE_CONNECTED) {
                 if (shouldWaitUntilBonded()) {
                     setInternalState(InternalState.ConnectedWaitingUntilBonded);
@@ -336,17 +338,23 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 connectTimer.restart();
             }
 
-            if (internalState == InternalState.ConnectedWaitingUntilBonded && bondState == BluetoothDevice.BOND_BONDED) {
-                assert (btGatt != null);
-                setInternalState(InternalState.ConnectedDiscoveringServices);
-                waitingUntilBondedTimer.stop();
+            if (internalState == InternalState.ConnectedWaitingUntilBonded) {
+                if (bondState == BluetoothDevice.BOND_BONDING) {
+                    waitingUntilBondedTimer.stop();
+                } else if (bondState == BluetoothDevice.BOND_BONDED) {
+                    assert (btGatt != null);
+                    setInternalState(InternalState.ConnectedDiscoveringServices);
+                    waitingUntilBondedTimer.stop();
 
-                shnCentral.getInternalHandler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        btGatt.discoverServices();
-                    }
-                }, BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS);
+                    shnCentral.getInternalHandler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btGatt.discoverServices();
+                        }
+                    }, BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS);
+                } else if (bondState == BluetoothDevice.BOND_NONE) {
+                    disconnect();
+                }
             }
         }
     }
