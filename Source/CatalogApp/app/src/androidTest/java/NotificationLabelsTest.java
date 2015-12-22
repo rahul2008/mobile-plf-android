@@ -25,12 +25,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.is
  */
 public class NotificationLabelsTest extends ActivityInstrumentationTestCase2<ActionButtonsActivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private ActionButtonsActivity actionButtonsActivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public NotificationLabelsTest() {
         super(ActionButtonsActivity.class);
@@ -55,61 +54,61 @@ public class NotificationLabelsTest extends ActivityInstrumentationTestCase2<Act
         actionButtonsActivity.finish();
     }
 
-    public void testNlabelsLarge2DigitDimensionAsExpected(){
-        onView(withId(R.id.badge_view_square_medium)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_large_2digit_height),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_large_2digit_width))));
+    public void testNlabelsLarge2DigitDimensionAsExpected() {
+        onView(withId(R.id.badge_view_square_medium)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_large_2digit_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_large_2digit_width))));
     }
 
-    public void testNlabelsLarge1DigitDimensionAsExpected(){
-        onView(withId(R.id.badge_view_circle_medium)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_large_2digit_height),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_large_2digit_height))));
+    public void testNlabelsLarge1DigitDimensionAsExpected() {
+        onView(withId(R.id.badge_view_circle_medium)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_large_2digit_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_large_2digit_height))));
     }
 
-    public void testNlabelsSmall2DigitDimensionAsExpected(){
-        onView(withId(R.id.badge_view_square_small)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_small_2digit_height),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_small_2digit_width))));
+    public void testNlabelsSmall2DigitDimensionAsExpected() {
+        onView(withId(R.id.badge_view_square_small)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_small_2digit_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_small_2digit_width))));
     }
 
-    public void testNlabelsSmall1DigitDimensionAsExpected(){
-        onView(withId(R.id.badge_view_circle_small)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_small_2digit_height),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_small_2digit_height))));
+    public void testNlabelsSmall1DigitDimensionAsExpected() {
+        onView(withId(R.id.badge_view_circle_small)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_small_2digit_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.nlabel_small_2digit_height))));
     }
 
-    public void testNlabelLarge1DigitBGColor(){
+    public void testNlabelLarge1DigitBGColor() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.badge_view_circle_medium)).check(matches(isBackgroundColorSimilar("#cd202c", 15, 20)));
     }
 
-    public void testNlabelLarge2DigitBGColor(){
+    public void testNlabelLarge2DigitBGColor() {
         onView(withId(R.id.badge_view_square_medium)).check(matches(isBackgroundColorSimilar("#cd202c", 15, 15)));
     }
 
-    public void testNlabelSmall1DigitBGColor(){
+    public void testNlabelSmall1DigitBGColor() {
         onView(withId(R.id.badge_view_circle_small)).check(matches(isBackgroundColorSimilar("#cd202c", 15, 15)));
     }
 
-    public void testNlabelSmall2DigitBGColor(){
+    public void testNlabelSmall2DigitBGColor() {
         onView(withId(R.id.badge_view_square_small)).check(matches(isBackgroundColorSimilar("#cd202c", 15, 15)));
     }
 
-    public void testNlabelSmall1DigitTextColor(){
+    public void testNlabelSmall1DigitTextColor() {
         onView(withId(R.id.badge_view_circle_small)).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testNlabelSmall2DigitTextColor(){
+    public void testNlabelSmall2DigitTextColor() {
         onView(withId(R.id.badge_view_square_small)).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testNlabelLarge1DigitTextColor(){
+    public void testNlabelLarge1DigitTextColor() {
         onView(withId(R.id.badge_view_circle_medium)).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testNlabelLarge2DigitTextColor(){
+    public void testNlabelLarge2DigitTextColor() {
         onView(withId(R.id.badge_view_square_medium)).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testNlabelSmall1DigitTextSize(){
+    public void testNlabelSmall1DigitTextSize() {
         onView(withId(R.id.badge_view_circle_small)).check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.badgeview_small_fontsize))));
     }
 
-    public void testNlabelLarge1DigitTextSize(){
+    public void testNlabelLarge1DigitTextSize() {
         onView(withId(R.id.badge_view_circle_medium)).check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.badgeview_large_fontlarge))));
     }
 

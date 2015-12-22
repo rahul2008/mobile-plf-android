@@ -18,7 +18,7 @@ import com.philips.cdp.uikit.R;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-class PUIProgressBar extends ProgressBar{
+class PUIProgressBar extends ProgressBar {
 
     private Context mContext;
     private int themeBaseColor;
@@ -33,7 +33,7 @@ class PUIProgressBar extends ProgressBar{
     }
 
     public PUIProgressBar(final Context context, final AttributeSet attrs) {
-       super(context, attrs);
+        super(context, attrs);
 
         //this(context, attrs,0);
         //super(context, attrs,android.R.attr.progressBarStyleHorizontal);
@@ -57,10 +57,10 @@ class PUIProgressBar extends ProgressBar{
     }
 
     private void processAttributes() {
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor,R.attr.veryLightColor,R.attr.LightColor});
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.veryLightColor, R.attr.LightColor});
         themeBaseColor = a.getColor(0, ContextCompat.getColor(mContext, R.color.uikit_philips_blue));
-        veryLightBaseColor = a.getColor(1,ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
-        lightBaseColor = a.getColor(2,ContextCompat.getColor(mContext, R.color.uikit_philips_light_blue));
+        veryLightBaseColor = a.getColor(1, ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
+        lightBaseColor = a.getColor(2, ContextCompat.getColor(mContext, R.color.uikit_philips_light_blue));
         a.recycle();
     }
 
@@ -70,12 +70,12 @@ class PUIProgressBar extends ProgressBar{
         ClipDrawable progressbar = (ClipDrawable) sliderbar.findDrawableByLayerId(android.R.id.progress);
         GradientDrawable background = (GradientDrawable) sliderbar.findDrawableByLayerId(android.R.id.background);
         ColorFilter BaseColorProgressFilter = new PorterDuffColorFilter(themeBaseColor, PorterDuff.Mode.SRC_ATOP);
-        ColorFilter White = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_white) , PorterDuff.Mode.SRC_ATOP);
-        ColorFilter Enricher4 = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_enricher4) , PorterDuff.Mode.SRC_ATOP);
-        if(whiteProgress) {
+        ColorFilter White = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_white), PorterDuff.Mode.SRC_ATOP);
+        ColorFilter Enricher4 = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_enricher4), PorterDuff.Mode.SRC_ATOP);
+        if (whiteProgress) {
             progressbar.setColorFilter(White);
             background.setColorFilter(Enricher4);
-        }else {
+        } else {
             progressbar.setColorFilter(BaseColorProgressFilter);
         }
         return sliderbar;
@@ -87,8 +87,8 @@ class PUIProgressBar extends ProgressBar{
         ClipDrawable progressbar = (ClipDrawable) secondarySliderbar.findDrawableByLayerId(android.R.id.progress);
         GradientDrawable background = (GradientDrawable) secondarySliderbar.findDrawableByLayerId(android.R.id.background);
         ColorFilter BaseColorProgressFilter = new PorterDuffColorFilter(themeBaseColor, PorterDuff.Mode.SRC_ATOP);
-        ColorFilter White = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_white) , PorterDuff.Mode.SRC_ATOP);
-        ColorFilter Enricher4 = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_enricher4) , PorterDuff.Mode.SRC_ATOP);
+        ColorFilter White = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_white), PorterDuff.Mode.SRC_ATOP);
+        ColorFilter Enricher4 = new PorterDuffColorFilter(ContextCompat.getColor(mContext, R.color.uikit_enricher4), PorterDuff.Mode.SRC_ATOP);
         if (whiteProgress) {
             progressbar.setColorFilter(White);
             background.setColorFilter(Enricher4);
@@ -117,9 +117,6 @@ class PUIProgressBar extends ProgressBar{
             setIndeterminateDrawable(sliderBar());
         }
         setProgress(50);
-
-
-
 
 
     }

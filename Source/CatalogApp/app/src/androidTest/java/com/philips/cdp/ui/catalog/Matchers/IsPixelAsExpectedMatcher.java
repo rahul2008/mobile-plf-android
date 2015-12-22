@@ -25,6 +25,10 @@ public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
         this.expectedBitmap = expectedBitmap;
     }
 
+    public static Matcher<View> isImageSimilar(final Bitmap expectedBitmap) {
+        return new IsPixelAsExpectedMatcher(View.class, expectedBitmap);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Image differs too much from expected image");
@@ -55,9 +59,5 @@ public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
         Log.d(TAG, "mismatchPercentage:" + mismatchPercentage + "% count=" + diff);
 
         return mismatchPercentage <= PASS_PERCENTAGE;
-    }
-
-    public static Matcher<View> isImageSimilar(final Bitmap expectedBitmap) {
-        return new IsPixelAsExpectedMatcher(View.class, expectedBitmap);
     }
 }

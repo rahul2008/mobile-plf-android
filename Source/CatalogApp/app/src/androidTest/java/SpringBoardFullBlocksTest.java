@@ -32,12 +32,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsWidthAsExpectedMatcher.isWid
 
 public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<SpringBoardsctivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private SpringBoardsctivity springBoardsctivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public SpringBoardFullBlocksTest() {
         super(SpringBoardsctivity.class);
@@ -62,7 +61,7 @@ public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<
         springBoardsctivity.finish();
     }
 
-    public void testCatalogAppDemonstratesSpringboardFullBlock(){
+    public void testCatalogAppDemonstratesSpringboardFullBlock() {
         onView(withText("Full Blocks")).check(matches(isDisplayed()));
     }
 
@@ -90,17 +89,17 @@ public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<
 ////        onView(withId(R.id.HorizonView1)).check(matches(isOpacityValueSimilar(77, 1, 2)));
 //    }
 
-    public void testDividerHeight(){
+    public void testDividerHeight() {
         onView(withText("Full Blocks")).perform(click());
         onView(withId(R.id.HorizonView1)).check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard_divider_height))));
     }
 
-    public void testDividerWidth(){
+    public void testDividerWidth() {
         onView(withText("Full Blocks")).perform(click());
         onView(withId(R.id.FirstView)).check(matches(isWidthSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard_divider_height))));
     }
 
-    public void testTextColorDBTheme(){
+    public void testTextColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("Full Blocks")).perform(click());
@@ -114,14 +113,14 @@ public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<
 //        onView(withText("Telephone ")).check(matches(isTextColorSimilar("#ffffff")));
 //    }
 
-    public void testTextColorBATheme(){
+    public void testTextColorBATheme() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withText("Full Blocks")).perform(click());
         onView(withText("Telephone ")).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testTextFontSize(){
+    public void testTextFontSize() {
         onView(withText("Full Blocks")).perform(click());
         onView(withText("Telephone ")).check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard_font_size))));
     }
@@ -131,21 +130,21 @@ public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<
 
     }
 
-    public void testImageBGColorDBTheme(){
+    public void testImageBGColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("Full Blocks")).perform(click());
         onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
     }
 
-    public void testImageBGColorBOTheme(){
+    public void testImageBGColorBOTheme() {
         themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
         onView(withText("Full Blocks")).perform(click());
         onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
     }
 
-    public void testImageBGColorBATheme(){
+    public void testImageBGColorBATheme() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withText("Full Blocks")).perform(click());

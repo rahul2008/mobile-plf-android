@@ -23,6 +23,10 @@ public class IsSliderOpacityValueAsExpectedMatcher extends BoundedMatcher<View, 
         this.expectedAlpha = expectedAlpha;
     }
 
+    public static Matcher<View> isSliderOpacityValueSimilar(final int expectedAlpha) {
+        return new IsSliderOpacityValueAsExpectedMatcher(View.class, expectedAlpha);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Alpha value of actual is not as expected");
@@ -34,16 +38,9 @@ public class IsSliderOpacityValueAsExpectedMatcher extends BoundedMatcher<View, 
             SeekBar seekbar = (SeekBar) view;
             int actualAlpha = seekbar.getThumb().getAlpha();
 
-            if ((actualAlpha == expectedAlpha)) {
-                return true;
-            }
-            return false;
+            return (actualAlpha == expectedAlpha);
         }
         return false;
-    }
-
-    public static Matcher<View> isSliderOpacityValueSimilar(final int expectedAlpha) {
-        return new IsSliderOpacityValueAsExpectedMatcher(View.class, expectedAlpha);
     }
 }
 

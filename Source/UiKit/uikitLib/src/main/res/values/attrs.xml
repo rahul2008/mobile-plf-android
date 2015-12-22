@@ -31,13 +31,13 @@
         <attr name="lighterGradient" format="reference"/>
         <attr name="evenLighterGradient" format="reference"/>
         <attr name="veryLightGradient" format="reference"/>
-        <attr name="veryLightselectoropacityfifteen" format="reference|color"/>
-        <attr name="popoverImageStyle" format="reference"/>
-        <attr name="springBoardButton" format="reference"/>
-        <attr name="springBoardButtonWithIcon" format="reference"/>
-        <attr name="springBoardButtonOutLined" format="reference"/>
-        <attr name="springBoardButtonOutLinedWithIcon" format="reference"/>
-        <attr name="LightColor" format="reference|color"/>
+        <attr name="veryLightselectoropacityfifteen" format="reference|color" />
+        <attr name="popoverImageStyle" format="reference" />
+        <attr name="springBoardButton" format="reference" />
+        <attr name="springBoardButtonWithIcon" format="reference" />
+        <attr name="springBoardButtonOutLined" format="reference" />
+        <attr name="springBoardButtonOutLinedWithIcon" format="reference" />
+        <attr name="LightColor" format="reference|color" />
 
     </declare-styleable>
 

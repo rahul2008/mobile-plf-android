@@ -26,12 +26,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.is
 
 public class SplashScreenMobileTest extends ActivityInstrumentationTestCase2<SplashLauncher> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private SplashLauncher splashLauncher;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
 
     public SplashScreenMobileTest() {
@@ -48,7 +47,7 @@ public class SplashScreenMobileTest extends ActivityInstrumentationTestCase2<Spl
 
     public void testSplashScreenLogoAsExpected() {
         onView(withText("Logo Center, Title bottom")).perform(click());
-       //        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philips_shield);
+        //        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philips_shield);
         onView(withId(R.id.splash_logo))
                 .check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.splash_logo_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.splash_logo_width))));
     }

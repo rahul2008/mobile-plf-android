@@ -4,7 +4,6 @@ import android.support.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 
 import com.philips.cdp.uikit.customviews.CircleIndicator;
-import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -12,7 +11,8 @@ import org.hamcrest.Matcher;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.*/
+ * All rights reserved.
+ */
 
 
 public class IsDotOpacityAsExpectedMatcher extends BoundedMatcher<View, View> {
@@ -23,8 +23,11 @@ public class IsDotOpacityAsExpectedMatcher extends BoundedMatcher<View, View> {
     public IsDotOpacityAsExpectedMatcher(final Class<? extends View> expectedType, int expectedAlpha) {
         super(expectedType);
         this.expectedAlpha = expectedAlpha;
-          }
+    }
 
+    public static Matcher<View> isOpacitySimilar(final int expectedAlpha) {
+        return new IsDotOpacityAsExpectedMatcher(View.class, expectedAlpha);
+    }
 
     @Override
     public void describeTo(Description description) {
@@ -33,7 +36,7 @@ public class IsDotOpacityAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     @Override
     public boolean matchesSafely(View view) {
-        CircleIndicator circle = (CircleIndicator)view;
+        CircleIndicator circle = (CircleIndicator) view;
 //        PhilipsBadgeView philipsBadgeView = (PhilipsBadgeView)view;
 //        philipsBadgeView.getCurrentTextColor();
 
@@ -45,15 +48,7 @@ public class IsDotOpacityAsExpectedMatcher extends BoundedMatcher<View, View> {
 
         float actualAlpha = circle.getUnSelectedDot().getAlpha();
 
-        if ((actualAlpha == expectedAlpha)) {
-            return true;
-        }
-        return false;
-    }
-
-
-    public static Matcher<View> isOpacitySimilar(final int expectedAlpha) {
-        return new IsDotOpacityAsExpectedMatcher(View.class,expectedAlpha );
+        return (actualAlpha == expectedAlpha);
     }
 
 }

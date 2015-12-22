@@ -126,6 +126,7 @@
     <style name="SpringBoardButtonIcon.Solid.DarkOrange">
         <item name="android:background">@drawable/uikit_dark_orange_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedDarkOrange">
         <item name="android:textColor">@drawable/uikit_dark_orange_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_dark_orange_outlined_selector</item>
@@ -134,6 +135,7 @@
     <style name="SpringBoardButtonIcon.Solid.DarkPink">
         <item name="android:background">@drawable/uikit_dark_pink_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedDarkPink">
         <item name="android:textColor">@drawable/uikit_dark_pink_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_dark_pink_outlined_selector</item>
@@ -142,10 +144,12 @@
     <style name="SpringBoardButtonIcon.Solid.BrightBlue">
         <item name="android:background">@drawable/uikit_bright_blue_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.BrightBlue">
         <item name="android:textColor">@drawable/uikit_bright_blue_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_bright_blue_outlined_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedBrightBlue">
         <item name="android:textColor">@drawable/uikit_bright_blue_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_bright_blue_outlined_selector</item>
@@ -164,6 +168,7 @@
     <style name="SpringBoardButtonIcon.Solid.LightBlue">
         <item name="android:background">@drawable/uikit_light_blue_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedLightBlue">
         <item name="android:textColor">@drawable/uikit_light_blue_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_light_blue_outlined_selector</item>
@@ -172,6 +177,7 @@
     <style name="SpringBoardButtonIcon.Solid.LightOrange">
         <item name="android:background">@drawable/uikit_light_orange_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedLightOrange">
         <item name="android:textColor">@drawable/uikit_light_orange_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_light_orange_outlined_selector</item>
@@ -180,6 +186,7 @@
     <style name="SpringBoardButtonIcon.Solid.LightAqua">
         <item name="android:background">@drawable/uikit_light_aqua_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedLightAqua">
         <item name="android:textColor">@drawable/uikit_light_aqua_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_light_aqua_outlined_selector</item>
@@ -188,6 +195,7 @@
     <style name="SpringBoardButtonIcon.Solid.LightGreen">
         <item name="android:background">@drawable/uikit_light_green_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedLightGreen">
         <item name="android:textColor">@drawable/uikit_light_green_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_light_green_outlined_selector</item>
@@ -196,6 +204,7 @@
     <style name="SpringBoardButtonIcon.Solid.LightPink">
         <item name="android:background">@drawable/uikit_light_pink_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedLightPink">
         <item name="android:textColor">@drawable/uikit_light_pink_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_light_pink_outlined_selector</item>
@@ -204,6 +213,7 @@
     <style name="SpringBoardButtonIcon.Solid.LightPurple">
         <item name="android:background">@drawable/uikit_light_purple_selector</item>
     </style>
+
     <style name="SpringBoardButtonIcon.OutlinedLightPurple">
         <item name="android:textColor">@drawable/uikit_light_purple_outlined_text_selector</item>
         <item name="android:background">@drawable/uikit_light_purple_outlined_selector</item>

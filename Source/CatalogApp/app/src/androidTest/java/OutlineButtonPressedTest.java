@@ -25,12 +25,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.i
  */
 public class OutlineButtonPressedTest extends ActivityInstrumentationTestCase2<ButtonsActivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private ButtonsActivity buttonsActivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public OutlineButtonPressedTest() {
 
@@ -105,7 +104,7 @@ public class OutlineButtonPressedTest extends ActivityInstrumentationTestCase2<B
         matchPressedTextColor(R.id.outlined_button, "#156570");
     }
 
-     private void setPressed(final int buttonID, boolean state) {
+    private void setPressed(final int buttonID, boolean state) {
         acquire();
         targetActivity.runOnUiThread(new Runnable() {
             @Override

@@ -27,12 +27,11 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.is
 
 public class AboutScreenPhilipsTest extends ActivityInstrumentationTestCase2<AboutScreenLauncher> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private AboutScreenLauncher aboutScreenLauncher;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
 
     public AboutScreenPhilipsTest() {

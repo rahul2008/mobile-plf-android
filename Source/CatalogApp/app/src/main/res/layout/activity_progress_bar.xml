@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/progressbar_placeholder"
     android:layout_width="fill_parent"
@@ -9,35 +8,34 @@
     <com.philips.cdp.uikit.customviews.PUIProgressBar
         android:id="@+id/progressbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:indeterminate="false"
         android:layout_width="292dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:indeterminateBehavior="repeat"
-        />
+        android:indeterminate="false"
+        android:indeterminateBehavior="repeat" />
+
     <com.philips.cdp.uikit.customviews.PUIProgressBar
         android:id="@+id/secondaryprogressbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:indeterminate="false"
         android:layout_width="292dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
+        android:indeterminate="false"
         android:indeterminateBehavior="repeat"
-        app:uikitsecondaryprogress="true"
-        />
+        app:uikitsecondaryprogress="true" />
+
     <com.philips.cdp.uikit.customviews.PUIProgressBar
         android:id="@+id/whiteprogressbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:indeterminate="false"
         android:layout_width="292dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
+        android:indeterminate="false"
         android:indeterminateBehavior="repeat"
-        app:uikitwhiteprogress="true"
-        />
+        app:uikitwhiteprogress="true" />
 
     <com.philips.cdp.uikit.customviews.PUIProgressBar
         android:id="@+id/whitesecondaryprogressbar"
@@ -47,19 +45,17 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         app:uikitsecondaryprogress="true"
-        app:uikitwhiteprogress="true"
-        />
+        app:uikitwhiteprogress="true" />
 
     <com.philips.cdp.uikit.customviews.PUIProgressBar
         android:id="@+id/indeterminateprogressbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:indeterminate="true"
         android:layout_width="292dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:indeterminateBehavior="repeat"
-        />
+        android:indeterminate="true"
+        android:indeterminateBehavior="repeat" />
 
 
 </LinearLayout>

@@ -23,6 +23,10 @@ public class IsOutlineColorAsExpectedMatcher extends BoundedMatcher<View, View> 
         this.expectedColor = expectedColor;
     }
 
+    public static Matcher<View> isOutlineColorSimilar(final String expectedColor) {
+        return new IsOutlineColorAsExpectedMatcher(View.class, expectedColor);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Actual  color  differs  when compared with expected color");
@@ -40,14 +44,6 @@ public class IsOutlineColorAsExpectedMatcher extends BoundedMatcher<View, View> 
                 Integer.toString(Color.green(actualRGB), 16) +
                 Integer.toString(Color.blue(actualRGB), 16);
 
-        if (actualcolor.equalsIgnoreCase(expectedColor)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static Matcher<View> isOutlineColorSimilar(final String expectedColor) {
-        return new IsOutlineColorAsExpectedMatcher(View.class, expectedColor);
+        return actualcolor.equalsIgnoreCase(expectedColor);
     }
 }

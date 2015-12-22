@@ -107,7 +107,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 17:
                 startActivity(new Intent(this, SpringBoardsctivity.class));
                 break;
-            case 19:
+            case 20:
                 startActivity(new Intent(this, CardActivity.class));
                 break;
 			case 18:
@@ -174,11 +174,10 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(15, "Lists View Demo");
         itemsMap.put(16, "Pop Over Menu");
         itemsMap.put(17,"Spring Board");
-        itemsMap.put(17,"Spring Board");
-        itemsMap.put(19, "Cards");
-        itemsMap.put(17,"Spring Board");       
         itemsMap.put(18, "Inline Forms");
         itemsMap.put(19, "ProgressBar");
+        itemsMap.put(20, "Cards");
+
         return itemsMap;
     }
 

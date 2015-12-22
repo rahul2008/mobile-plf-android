@@ -32,12 +32,11 @@ import static org.hamcrest.Matchers.allOf;
  */
 public class HamburgerMenuTest extends ActivityInstrumentationTestCase2<HamburgerActivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private HamburgerActivity hamburgerActivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public HamburgerMenuTest() {
         super(HamburgerActivity.class);
@@ -66,10 +65,11 @@ public class HamburgerMenuTest extends ActivityInstrumentationTestCase2<Hamburge
         onView(withText("Hamburger Menu")).perform(click());
         onView(withId(R.id.hamburger_icon)).perform(click());
     }
-     public void testHamburgerMenuItems() {
-         onView(withText("Hamburger Menu")).check(matches(isDisplayed()));
-         onView(withText("Hamburger Menu with Icons")).check(matches(isDisplayed()));
-     }
+
+    public void testHamburgerMenuItems() {
+        onView(withText("Hamburger Menu")).check(matches(isDisplayed()));
+        onView(withText("Hamburger Menu with Icons")).check(matches(isDisplayed()));
+    }
 
 
     public void testHMHeightOfListItem() {
@@ -192,7 +192,7 @@ public class HamburgerMenuTest extends ActivityInstrumentationTestCase2<Hamburge
 //                .check(matches(isOpacityValueSimilar(127, 5, 5)));
 //    }
 
-    public void testHMTextColorOfFocusedListItemDBTheme(){
+    public void testHMTextColorOfFocusedListItemDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("Hamburger Menu")).perform(click());
@@ -230,8 +230,6 @@ public class HamburgerMenuTest extends ActivityInstrumentationTestCase2<Hamburge
         onView(allOf(withId(R.id.hamburger_list_icon), hasSibling(withText("Eget Odio"))))
                 .check(matches(isBackgroundColorSimilar("#cae3e9", 5, 5)));
     }
-
-
 
 
 }

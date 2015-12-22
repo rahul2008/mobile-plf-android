@@ -19,18 +19,18 @@ import static com.philips.cdp.ui.catalog.Matchers.IsDotOpacityAsExpectedMatcher.
 import static com.philips.cdp.ui.catalog.Matchers.IsSelectedDotBackgroundColorAsExpectedMatcher.isSelectedDotColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsSelectedDotDimensionAsExpectedMatcher.isSelectedDotDimenSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsUnSelectedDotDimensionAsExpectedMatcher.isUnSelectedDotDimenSimilar;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class NavigationDotsTest extends ActivityInstrumentationTestCase2<DotNavigation> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private DotNavigation dotNavigation;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public NavigationDotsTest() {
 
@@ -92,7 +92,7 @@ public class NavigationDotsTest extends ActivityInstrumentationTestCase2<DotNavi
     }
 
     public void testUnSelectedNDotDimensionAsExpected() {
-        onView(withId(R.id.indicator)).check(matches(isUnSelectedDotDimenSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.ndot_unselected_height), (int)(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.ndot_unselected_width)))));
+        onView(withId(R.id.indicator)).check(matches(isUnSelectedDotDimenSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.ndot_unselected_height), (int) (testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.ndot_unselected_width)))));
     }
 
     public void testSwipingOfNDot() {

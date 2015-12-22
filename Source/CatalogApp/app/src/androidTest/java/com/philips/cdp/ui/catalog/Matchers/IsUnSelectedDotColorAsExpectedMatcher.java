@@ -25,6 +25,10 @@ public class IsUnSelectedDotColorAsExpectedMatcher extends BoundedMatcher<View, 
         this.expectedColor = expectedColor;
     }
 
+    public static Matcher<View> isUnSelectedDotColorSimilar(ViewGroup vg, final String expectedColor) {
+        return new IsUnSelectedDotColorAsExpectedMatcher(View.class, expectedColor);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Actual  color  differs  when compared with expected color");
@@ -33,11 +37,7 @@ public class IsUnSelectedDotColorAsExpectedMatcher extends BoundedMatcher<View, 
     @Override
     public boolean matchesSafely(View view) {
         String actualColour = actualColor(view);
-        if (actualColour.equalsIgnoreCase(expectedColor)) {
-            return true;
-        } else {
-            return false; 
-        }
+        return actualColour.equalsIgnoreCase(expectedColor);
     }
 
     public String actualColor(View view) {
@@ -85,11 +85,7 @@ public class IsUnSelectedDotColorAsExpectedMatcher extends BoundedMatcher<View, 
         }
         return String.valueOf(color);
     }
-
-    public static Matcher<View> isUnSelectedDotColorSimilar(ViewGroup vg, final String expectedColor) {
-        return new IsUnSelectedDotColorAsExpectedMatcher(View.class, expectedColor);
-    }
-};
+}
 
 
 
