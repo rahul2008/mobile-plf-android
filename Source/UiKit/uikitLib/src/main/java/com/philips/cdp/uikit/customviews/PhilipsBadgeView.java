@@ -3,7 +3,6 @@ package com.philips.cdp.uikit.customviews;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -23,8 +22,8 @@ import com.philips.cdp.uikit.R;
 
 public class PhilipsBadgeView extends TextView {
 
-    private static final int DEFAULT_BADGE_COLOR = Color.parseColor("#CD202C");
     private final Resources resources;
+    private int DEFAULT_BADGE_COLOR;
     private boolean isSmallSize;
 
     public PhilipsBadgeView(Context context) {
@@ -53,6 +52,7 @@ public class PhilipsBadgeView extends TextView {
         super(context, attrs, defStyle);
         validateIsSmallView(attrs, getContext());
         resources = getResources();
+        DEFAULT_BADGE_COLOR = resources.getColor(R.color.uikit_philips_Red);
 
         if (getText().length() > 1)
             setBackgroundDrawable(getSquareRoundBackground());
@@ -116,9 +116,9 @@ public class PhilipsBadgeView extends TextView {
     private ShapeDrawable getSquareRoundBackground() {
         int r;
         if (isSmallSize)
-            r = dipToPixels(12);
+            r = dipToPixels(resources.getInteger(R.integer.uikit_badge_view_small_size_radius));
         else
-            r = dipToPixels(16);
+            r = dipToPixels(resources.getInteger(R.integer.uikit_badge_view_medium_size_radius));
 
         float[] outerR = new float[]{r, r, r, r, r, r, r, r};
         RoundRectShape roundRectShape = new RoundRectShape(outerR, null, null);

@@ -17,17 +17,17 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsActionButton extends ImageButton {
+public class ActionButton extends ImageButton {
 
     private static final int SQUARE = 0;
     private static final int CIRCLE = 1;
 
-    public PhilipsActionButton(final Context context, final AttributeSet attrs) {
+    public ActionButton(final Context context, final AttributeSet attrs) {
         this(context, attrs, R.attr.actionButtonStyleRef);
     }
 
-    public PhilipsActionButton(Context context, AttributeSet attrs,
-                               int defStyle) {
+    public ActionButton(Context context, AttributeSet attrs,
+                        int defStyle) {
         super(context, attrs, defStyle);
         initializeView(context, attrs, defStyle);
     }
@@ -93,6 +93,8 @@ public class PhilipsActionButton extends ImageButton {
         return gradientDrawable;
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to resources.getColor(): sticking with deprecated API for now
     private GradientDrawable getNormalStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
         int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColor, resources.getColor(R.color.uikit_philips_bright_blue));
@@ -101,6 +103,8 @@ public class PhilipsActionButton extends ImageButton {
         return gradientDrawable;
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to resources.getColor(): sticking with deprecated API for now
     private GradientDrawable getPressedStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
         int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColorPressed, resources.getColor(R.color.uikit_philips_dark_blue));
