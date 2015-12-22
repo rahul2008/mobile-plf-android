@@ -5,10 +5,10 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+    <com.philips.cdp.ui.catalog.activity.SnappyRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical" />
+        android:orientation="horizontal" />
 </LinearLayout>

@@ -5,8 +5,9 @@
     android:layout_width="823dp"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    app:cardPreventCornerOverlap="false"
-    android:layout_margin="34dp">
+    android:layout_margin="34dp"
+    app:cardElevation="6dp"
+    app:cardPreventCornerOverlap="false">
 
         <RelativeLayout
             android:id="@+id/top_layout"
@@ -29,9 +30,9 @@
             android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="224dp"
             android:layout_gravity="left|bottom"
             android:background="@color/uikit_white"
+            android:minHeight="224dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -73,8 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="33dp"
-                android:layout_marginTop="32dp"
                 android:layout_marginRight="33dp"
+                android:layout_marginTop="32dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
                 android:textColor="?attr/verydarkBaseColor"
                 android:textSize="16sp" />

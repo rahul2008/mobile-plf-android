@@ -4,9 +4,10 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="360dp"
-    app:cardPreventCornerOverlap="false"
+    android:layout_margin="12dp"
     android:gravity="center"
-    android:layout_margin="12dp">
+    app:cardElevation="6dp"
+    app:cardPreventCornerOverlap="false">
 
         <RelativeLayout
             android:id="@+id/top_layout"
@@ -29,9 +30,9 @@
             android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="180dp"
             android:layout_gravity="left|bottom"
             android:background="@color/uikit_white"
+            android:minHeight="180dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -54,19 +55,19 @@
                     android:id="@+id/cardImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/cards_title"
                     android:layout_alignBottom="@+id/cards_title"
-                    android:padding="0dp"
                     android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/cards_title"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginRight="16dp" />
+                    android:layout_marginRight="16dp"
+                    android:padding="0dp" />
 
                 <TextView
                     fontPath="fonts/centralesansbook.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/cardImage"
                     android:layout_alignBaseline="@id/cards_title"
+                    android:layout_toLeftOf="@+id/cardImage"
                     android:text="12"
                     android:textColor="?attr/verydarkBaseColor"
                     android:textSize="14sp" />

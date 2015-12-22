@@ -20,19 +20,45 @@ public class CardsActivity extends CatalogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cards);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (SnappyRecyclerView) findViewById(R.id.recyclerView);
 
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
 
         int orientation = display.getRotation();
+        LinearLayoutManager llm = new LinearLayoutManager(this);
 
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+        switch (orientation) {
+            case Configuration.ORIENTATION_PORTRAIT:
+                llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+                recyclerView.setLayoutManager(llm);
+                adapter = new CardAdapter(this);
+                recyclerView.setAdapter(adapter);
+                break;
+            case Configuration.ORIENTATION_LANDSCAPE:
+                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(llm);
+                adapter = new CardAdapter(this);
+                recyclerView.setAdapter(adapter);
+                break;
+            default:
+                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(llm);
+                adapter = new CardAdapter(this);
+                recyclerView.setAdapter(adapter);
+                break;
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             LinearLayoutManager llm = new LinearLayoutManager(this);
             llm.setOrientation(LinearLayoutManager.HORIZONTAL);
             recyclerView.setLayoutManager(llm);
             adapter = new CardAdapter(this);
             recyclerView.setAdapter(adapter);
-        } else {
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             LinearLayoutManager llm = new LinearLayoutManager(this);
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(llm);

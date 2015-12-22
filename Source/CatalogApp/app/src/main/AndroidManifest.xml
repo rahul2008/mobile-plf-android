@@ -63,8 +63,10 @@
         <activity
             android:name=".activity.SpringBoardSixGridActivity"
             android:screenOrientation="portrait" />
-        
-        <activity android:name=".activity.CardsActivity" />
+
+        <activity
+            android:name=".activity.CardsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".activity.TextLayoutInputFeildInlineForms"/>
     </application>
 
