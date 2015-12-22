@@ -7,11 +7,6 @@ import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 
-/**
- * Blur.java
- *
- * @author Manabu-GT on 6/12/14.
- */
 public class Blur {
 
     private static final int DEFAULT_BLUR_RADIUS = 10;
