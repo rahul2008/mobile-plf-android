@@ -9,11 +9,13 @@
     <ImageView
         android:id="@+id/some"
         android:layout_width="match_parent"
-        android:layout_height="198dp"/>
+        android:layout_height="198dp"
+        android:background="?attr/gradWindowBackground"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         style="@style/FavTablayout"
+        android:layout_below="@id/some"
         />
 
     <android.support.v4.view.ViewPager
