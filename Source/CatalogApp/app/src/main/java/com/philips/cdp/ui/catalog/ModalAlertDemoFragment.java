@@ -6,13 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.philips.cdp.uikit.blur.PhilipsBlurDialogFragment;
+import com.philips.cdp.uikit.blur.BlurDialogFragment;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ModalAlertDemoFragment extends PhilipsBlurDialogFragment {
+public class ModalAlertDemoFragment extends BlurDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

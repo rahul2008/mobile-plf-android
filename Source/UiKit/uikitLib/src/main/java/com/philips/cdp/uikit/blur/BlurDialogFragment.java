@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import com.philips.cdp.uikit.R;
 
-public class PhilipsBlurDialogFragment extends DialogFragment {
+public class BlurDialogFragment extends DialogFragment {
 
     private int mAnimDuration;
     private int mWindowAnimStyle;
@@ -26,17 +26,17 @@ public class PhilipsBlurDialogFragment extends DialogFragment {
     private ImageView mBlurImgView;
     private FrameLayout mBlurContainer;
 
+    public BlurDialogFragment() {
+        mWindowAnimStyle = R.style.PhilipsModalAlertAnimation;
+        mBgColorResId = R.color.uikit_modal_alert_glass;
+    }
+
     public void setAnimDuration(int mAnimDuration) {
         this.mAnimDuration = mAnimDuration;
     }
 
     public void setWindowAnimStyle(int mWindowAnimStyle) {
         this.mWindowAnimStyle = mWindowAnimStyle;
-    }
-
-    public PhilipsBlurDialogFragment() {
-        mWindowAnimStyle = R.style.PhilipsModalAlertAnimation;
-        mBgColorResId = R.color.uikit_modal_alert_glass;
     }
 
     @Override
