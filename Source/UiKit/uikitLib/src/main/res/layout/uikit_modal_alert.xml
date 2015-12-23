@@ -53,7 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/uikit_modal_alert_button_width"
-                android:text="@string/uikit_modal_alert_negative_button_text" />
+                android:text="@string/uikit_modal_alert_negative_button_text"
+                android:textSize="@dimen/uikit_modal_alert_message_text_size" />
 
             <Button
                 android:id="@+id/dialogButtonOK"
@@ -63,7 +64,7 @@
                 android:gravity="center"
                 android:minWidth="@dimen/uikit_modal_alert_button_width"
                 android:text="@string/uikit_modal_alert_positive_button_text"
-                android:textSize="14sp" />
+                android:textSize="@dimen/uikit_modal_alert_message_text_size" />
 
         </LinearLayout>
 
