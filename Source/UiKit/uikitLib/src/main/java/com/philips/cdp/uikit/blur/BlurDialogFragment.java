@@ -32,14 +32,6 @@ public class BlurDialogFragment extends DialogFragment {
         mBgColorResId = R.color.uikit_modal_alert_glass;
     }
 
-    public void setAnimDuration(int mAnimDuration) {
-        this.mAnimDuration = mAnimDuration;
-    }
-
-    public void setWindowAnimStyle(int mWindowAnimStyle) {
-        this.mWindowAnimStyle = mWindowAnimStyle;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +39,7 @@ public class BlurDialogFragment extends DialogFragment {
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
     }
 
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         applyBlur();
@@ -154,5 +147,13 @@ public class BlurDialogFragment extends DialogFragment {
                 mRoot.removeView(mBlurContainer);
             }
         });
+    }
+
+    public void setAnimDuration(int mAnimDuration) {
+        this.mAnimDuration = mAnimDuration;
+    }
+
+    public void setWindowAnimStyle(int mWindowAnimStyle) {
+        this.mWindowAnimStyle = mWindowAnimStyle;
     }
 }
