@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             }
         });
         holder.cardImage.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        if (position == 1) {
+            holder.topLayout.setBackgroundResource(R.drawable.uikit_food);
+        }
     }
 
     @Override
@@ -68,6 +72,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
         ImageView cardImage, crossIcon;
         TextView linkText;
+        RelativeLayout topLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -75,6 +80,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             cardImage = (ImageView) itemView.findViewById(R.id.cardImage);
             crossIcon = (ImageView) itemView.findViewById(R.id.cross);
             linkText = (TextView) itemView.findViewById(R.id.uikit_cards_link_text);
+            topLayout = (RelativeLayout) itemView.findViewById(R.id.top_layout);
 
         }
     }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,14 +19,19 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class CardContainerFragment extends Fragment {
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_card_container, container, false);
-
+        int index = getArguments().getInt("index");
+        CardFrontFragment fragment = new CardFrontFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("index", index);
+        fragment.setArguments(bundle);
         getChildFragmentManager()
                 .beginTransaction()
-                .add(R.id.container, new CardFrontFragment())
+                .add(R.id.container, fragment)
                 .commit();
         return rootView;
     }
@@ -55,6 +61,8 @@ public class CardContainerFragment extends Fragment {
             typedArray.recycle();
             ImageView cardImage, crossIcon;
             final TextView linkText;
+            RelativeLayout topLayout;
+            topLayout = (RelativeLayout) rootView.findViewById(com.philips.cdp.uikit.R.id.top_layout);
             cardImage = (ImageView) rootView.findViewById(com.philips.cdp.uikit.R.id.cardImage);
             crossIcon = (ImageView) rootView.findViewById(com.philips.cdp.uikit.R.id.cross);
             linkText = (TextView) rootView.findViewById(com.philips.cdp.uikit.R.id.uikit_cards_link_text);
@@ -73,6 +81,10 @@ public class CardContainerFragment extends Fragment {
                 }
             });
             cardImage.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            Bundle arguments = getArguments();
+            if (arguments != null && arguments.getInt("index") == 1) {
+                topLayout.setBackgroundResource(com.philips.cdp.uikit.R.drawable.uikit_food);
+            }
         }
     }
 }
