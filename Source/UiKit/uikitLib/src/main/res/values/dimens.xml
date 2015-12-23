@@ -152,7 +152,7 @@
     <dimen name="uikit_modal_alert_label_text_size">20sp</dimen>
     <dimen name="uikit_modal_alert_message_text_size">14sp</dimen>
     <dimen name="uikit_modal_alert_button_top_margin">30dp</dimen>
-    <dimen name="uikit_modal_alert_button_left_margin">20dp</dimen>
+    <dimen name="uikit_modal_alert_button_left_margin">18dp</dimen>
     <dimen name="uikit_modal_alert_bottom_margin">30dp</dimen>
     <dimen name="uikit_modal_alert_text_right_margin">21dp</dimen>
 
