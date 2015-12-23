@@ -39,6 +39,10 @@
         <attr name="springBoardButtonOutLined" format="reference"/>
         <attr name="springBoardButtonOutLinedWithIcon" format="reference"/>
         <attr name="LightColor" format="reference|color"/>
+        <attr name="LighterColorOpacity80" format="reference|color"/>
+        <attr name="LighterColorOpacity60" format="reference|color"/>
+        <attr name="LighterColorOpacity40" format="reference|color"/>
+        <attr name="LighterColorOpacity20" format="reference|color"/>
 
     </declare-styleable>
 
@@ -173,5 +177,10 @@
     <declare-styleable name="UIKitProgressBar">
         <attr name="uikitsecondaryprogress" format="boolean" />
         <attr name="uikitwhiteprogress" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="UIKitProgressBarCircular">
+        <attr name="uikitgrayprogress" format="boolean" />
+        <attr name="uikittransparentprogress" format="boolean" />
+        <attr name="uikitcircularprogresssmall" format="boolean" />
     </declare-styleable>
 </resources>
