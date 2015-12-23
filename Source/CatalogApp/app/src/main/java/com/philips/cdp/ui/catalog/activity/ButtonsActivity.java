@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.ui.catalog.activity;
 
 import android.content.res.Resources;
@@ -20,6 +25,64 @@ import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.FontIconUtils;
 
+/**
+ *
+ *     Different theme attributes can be used to apply button styles
+ *     Avaialable attributes are <b>outlinedButtonStyle, outlinedButtonTransparentStyle,
+ *     springBoardButton, springBoardButtonWithIcon, springBoardButtonOutLined,
+ *     springBoardButtonOutLinedWithIcon</b>.
+ *     <p>
+ *         Usage: <b>style="?attr/oneofbuttonStyles"</b>
+ *     <br>
+ *         Example:
+ *              <pre>
+ *                     &lt;Button
+ *                          android:layout_width="wrap_content"
+ *                          android:layout_height="wrap_content"
+ *                          <b>style="?attr/springBoardButton"</b>/&gt;
+ *                  </pre>
+ *     </p>
+ * <p>
+ *     UIKit provides lot of default background selector for different themes.
+ *     Different background can be used if themed background is not applicable.<br>
+ *     Default style for dark blue theme is as below:
+ *     <pre>
+ *         &lt;style name="Button.Solid.DarkBlue"&gt;
+ *              &lt;item name="android:background"&gt;@drawable/uikit_dark_blue_selector&lt;/item&gt;
+ *         &lt;/style&gt;
+ *         <br>
+ *         &lt;style name="Button.OutlinedDarkBlue"&gt;
+ *              &lt;item name="android:textColor"&gt;@drawable/uikit_dark_blue_outlined_text_selector&lt;/item&gt;
+ *              &lt;item name="android:background"&gt;@drawable/uikit_dark_blue_outlined_selector&lt;/item&gt;
+ *         &lt;/style&gt;
+ *     </pre>
+ * </p>
+ * <p>
+ *     <p>
+ *         <H4>Outlined SpringBoard Buttons with Icons</H4>
+ *              Supporting tint on compound drawable is not default.
+ *              Use {@link com.philips.cdp.uikit.customviews.UIKitButton} with outlined styled
+ *              button style.
+ *              Example: <br>
+ *                  <pre>
+ *                     &lt;com.philips.cdp.uikit.customviews.UIKitButton
+ *                          android:layout_width="wrap_content"
+ *                          android:layout_height="wrap_content"
+ *                          style="?attr/springBoardButtonOutLinedWithIcon"/&gt;
+ *                  </pre>
+ *     </p>
+ *     For all the available styles please refer below files in aar file
+ *
+ *     <ul>
+ *          <li><b>Buttons:</b> values/uikit_style_buttons.xml  </li>
+ *          <li><b>SpringBoard Buttons:</b> values/uikit_style_springboard_buttons.xml </li>
+ *          <li><b>SpringBoard Buttons with icon:</b> values/uikit_style_springboard_buttons_with_icon.xml</li>
+ *          </ul>
+ * </p>
+ * <p>Below pic explains the different styles and effect on UI.
+ * <img src="../../../../../../img/all_buttons.png"
+ *      alt="Buttons available with UIKit Styling." border="0" /></p>
+ */
 public class ButtonsActivity extends CatalogActivity {
 
     private PuiSwitch changeButtonState;
