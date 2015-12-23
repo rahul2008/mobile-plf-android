@@ -15,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.philips.cdp.ui.catalog.CustomListView.FavoritesPagerAdapter;
+import com.philips.cdp.ui.catalog.favorites.FavoritesPagerAdapter;
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.activity.FavoritesContract.FeedEntry;
+import com.philips.cdp.ui.catalog.favorites.FavoritesContract;
+import com.philips.cdp.ui.catalog.favorites.FavoritesContract.FeedEntry;
+import com.philips.cdp.ui.catalog.favorites.DataBaseHelper;
 import com.philips.cdp.uikit.utils.TabUtils;
 
 /**

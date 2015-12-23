@@ -4,7 +4,7 @@
     <style name="Theme.Philips.DarkBlue">
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_blue</item>
-        <item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_dark_blue</item>
+        <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_blue</item>
         <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
@@ -85,7 +85,7 @@
         <item name="LighterColorOpacity60">@color/uikit_bright_purple_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_bright_purple_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_bright_purple_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_dark_purple</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_purple</item>
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -136,7 +136,7 @@
         <item name="LighterColorOpacity60">@color/uikit_bright_green_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_bright_green_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_bright_green_with_opacity_20</item>
-	 <item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_dark_green</item>
+	 <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_green</item>
     </style>
 
     <style name="Theme.Philips.DarkGreen.NoActionBar">
@@ -189,7 +189,7 @@
         <item name="LighterColorOpacity60">@color/uikit_bright_orange_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_bright_orange_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_bright_orange_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_dark_orange</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_orange</item>
     </style>
 
     <style name="Theme.Philips.DarkOrange.NoActionBar">
@@ -235,7 +235,7 @@
         <item name="LighterColorOpacity60">@color/uikit_bright_aqua_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_bright_aqua_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_bright_aqua_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_dark_aqua</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_aqua</item>
     </style>
 
     <style name="Theme.Philips.DarkAqua.NoActionBar">
@@ -286,7 +286,7 @@
         <item name="LighterColorOpacity60">@color/uikit_bright_pink_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_bright_pink_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_bright_pink_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_dark_pink</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_pink</item>
     </style>
 
     <style name="Theme.Philips.DarkPink.NoActionBar">
@@ -320,7 +320,7 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="darkerColor">@color/uikit_philips_dark_orange</item>
-        <item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_bright_orange</item>
+        <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_orange</item>
         <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="veryLightselectoropacityfifteen">
@@ -385,7 +385,7 @@
         <item name="LighterColorOpacity60">@color/uikit_light_aqua_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_light_aqua_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_light_aqua_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_bright_aqua</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_aqua</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">
@@ -438,7 +438,7 @@
         <item name="LighterColorOpacity60">@color/uikit_light_green_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_light_green_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_light_green_with_opacity_20</item>
-        <item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_bright_green</item>
+        <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_green</item>
 
     </style>
     <style name="Theme.Philips.BrightGreen.NoActionBar">
@@ -489,7 +489,7 @@
         <item name="LighterColorOpacity60">@color/uikit_light_pink_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_light_pink_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_light_pink_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_bright_pink</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_pink</item>
     </style>
     <style name="Theme.Philips.BrightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -540,7 +540,7 @@
         <item name="LighterColorOpacity60">@color/uikit_light_orange_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_light_orange_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_light_orange_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_bright_blue</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_blue</item>
     </style>
     <style name="Theme.Philips.BrightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -594,7 +594,7 @@
         <item name="LighterColorOpacity60">@color/uikit_light_purple_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_light_purple_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_light_purple_with_opacity_20</item>
-        <item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_bright_purple</item>
+        <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_purple</item>
 
     </style>
     <style name="Theme.Philips.BrightPurple.NoActionBar">
@@ -645,7 +645,7 @@
         <item name="LighterColorOpacity60">@color/uikit_very_light_blue_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_very_light_blue_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_very_light_blue_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_light_blue</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_blue</item>
     </style>
     <style name="Theme.Philips.LightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -698,7 +698,7 @@
         <item name="LighterColorOpacity60">@color/uikit_very_light_orange_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_very_light_orange_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_very_light_orange_with_opacity_20</item>
-	 <item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_light_orange</item>
+	 <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_orange</item>
     </style>
     <style name="Theme.Philips.LightOrange.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -748,7 +748,7 @@
         <item name="LighterColorOpacity60">@color/uikit_very_light_aqua_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_very_light_aqua_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_very_light_aqua_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_light_aqua</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_aqua</item>
     </style>
     <style name="Theme.Philips.LightAqua.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -798,7 +798,7 @@
         <item name="LighterColorOpacity60">@color/uikit_very_light_green_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_very_light_green_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_very_light_green_with_opacity_20</item>
-	 <item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_light_green</item>
+	 <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_green</item>
     </style>
     <style name="Theme.Philips.LightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -848,7 +848,7 @@
         <item name="LighterColorOpacity60">@color/uikit_very_light_pink_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_very_light_pink_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_very_light_pink_with_opacity_20</item>
-	 <item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_light_pink</item>
+	 <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_pink</item>
     </style>
     <style name="Theme.Philips.LightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -899,7 +899,7 @@
         <item name="LighterColorOpacity60">@color/uikit_very_light_purple_with_opacity_60</item>
         <item name="LighterColorOpacity40">@color/uikit_very_light_purple_with_opacity_40</item>
         <item name="LighterColorOpacity20">@color/uikit_very_light_purple_with_opacity_20</item>
-	<item name="FavoriteTabSelector">@drawable/uikit_tab_background_selector_light_purple</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_purple</item>
     </style>
     <style name="Theme.Philips.LightPurple.NoActionBar">
         <item name="windowActionBar">false</item>

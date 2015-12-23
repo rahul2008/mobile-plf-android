@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:divider="?attr/listDividerColor"
         android:dividerHeight="1dp"
-        style="@style/ListFavorites"
+        style="@style/ListFav"
         ></ListView>
 
 </RelativeLayout>
