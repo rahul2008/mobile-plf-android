@@ -222,7 +222,6 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
      * @param view
      * @param initialPosition
      */
-
     @Override
     public void setViewPager(ViewPager view, int initialPosition) {
         setViewPager(view);

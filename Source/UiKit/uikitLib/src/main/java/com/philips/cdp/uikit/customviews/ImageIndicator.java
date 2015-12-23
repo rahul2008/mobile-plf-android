@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -20,8 +24,33 @@ import com.philips.cdp.uikit.dotnavigation.PageIndicator;
 import com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * ImageIndicator is a component which is used associated to Viewpager, we have provided a component named ImageIndicator to support Image Navigation.
+ * <br>
+ <p>
+ <br>
+ *         Steps to use ImageIndicator:
+ *              <pre>
+
+ <br>
+ 1.Please include in XML with below convention as per your required display metrics
+ <br>
+ &lt;com.philips.cdp.uikit.customviews.ImageIndicator
+ android:layout_height="wrap_content"
+ android:layout_width="wrap_content"
+ android:padding="10dp" </b>/&gt
+ <br>
+ 2.In Activity/Fragment please bind your View pager object as per below code
+ <br>
+ ViewPager pager = (ViewPager) findViewById(R.id.pager);
+ pager.setAdapter(adaptor);
+ ImageIndicator  indicator = (ImageIndicator) findViewById(R.id.indicator);
+ indicator.setViewPager(pager);
+ Drawable drawables[] = {ResourcesCompat.getDrawable(getResources(), R.drawable.apple, null),
+ ResourcesCompat.getDrawable(getResources(), R.drawable.alarm, null),
+ ResourcesCompat.getDrawable(getResources(), R.drawable.barchart, null),
+ ResourcesCompat.getDrawable(getResources(), R.drawable.gear, null)};
+ indicator.setImages(drawables);
+ </p>
  */
 public class ImageIndicator extends LinearLayout implements PageIndicator, onTouchUnSelectedViews {
 
@@ -48,14 +77,6 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         parentView = LayoutInflater.from(context).inflate(
                 R.layout.uikit_indicator, null);
         processAttributes(context, context.getResources());
-    }
-
-    public Drawable getUnSelectedView() {
-        return unSelectedDrawable;
-    }
-
-    public void setImages(Drawable[] drawables) {
-        this.drawables = drawables;
     }
 
     @SuppressWarnings("deprecation")
@@ -161,6 +182,10 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+
+    /**
+     *This API should be called to bind ViewPager to ImageIndicator
+     * @param view Instance of ViewPager
+     */
     @Override
     public void setViewPager(ViewPager view) {
         if (viewPager == view) {
@@ -177,12 +202,23 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         reDrawView(drawables);
     }
 
+    /**
+     * API to set ViewPager with desired position
+     *
+     * @param view
+     * @param initialPosition
+     */
     @Override
     public void setViewPager(ViewPager view, int initialPosition) {
         setViewPager(view);
         setCurrentItem(initialPosition);
     }
 
+    /**
+     * API to set Current Item
+     *
+     * @param item index to Set
+     */
     @Override
     public void setCurrentItem(int item) {
         if (viewPager == null) {
@@ -193,11 +229,19 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         reDrawView(drawables);
     }
 
+    /**
+     * API to Re-draw Dots when required
+     */
     @Override
     public void notifyDataSetChanged() {
         reDrawView(drawables);
     }
 
+    /**
+     * Callback When Scroll State is Changed
+     *
+     * @param state
+     */
     @Override
     public void onPageScrollStateChanged(int state) {
         scrollState = state;
@@ -207,6 +251,12 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         }
     }
 
+    /**
+     * Callback When Page Scrolled
+     * @param position
+     * @param positionOffset
+     * @param positionOffsetPixels
+     */
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         currentPage = position;
@@ -216,6 +266,10 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         }
     }
 
+    /**
+     * Callback when Page is Selected
+     * @param position
+     */
     @Override
     public void onPageSelected(int position) {
         if (scrollState == ViewPager.SCROLL_STATE_IDLE) {
@@ -227,6 +281,10 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         }
     }
 
+    /**
+     * API to register interface for Callbacks
+     * @param listener
+     */
     @Override
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         pageChangeListener = listener;
@@ -241,8 +299,40 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
         this.onTouchUnSelectedViews = onTouchUnSelectedViews;
     }
 
+    /**
+     * API to get filled color of image which is selected
+     * @return Returns the value of color in integer
+     */
     public int getFilledColor() {
         return themeBaseColor;
+    }
+
+    /**
+     * API to set Color which is selected
+     *
+     * @param color
+     */
+    public void setFilledColor(int color) {
+        this.themeBaseColor = color;
+        reDrawView(drawables);
+    }
+
+    /**
+     * API which returns Drawable of UnSelected Views
+     *
+     * @return
+     */
+    public Drawable getUnSelectedView() {
+        return unSelectedDrawable;
+    }
+
+    /**
+     * API to set Images to Support Image Navigation
+     *
+     * @param drawables - Configurable Drawables to Navigate
+     */
+    public void setImages(Drawable[] drawables) {
+        this.drawables = drawables;
     }
 
 }
