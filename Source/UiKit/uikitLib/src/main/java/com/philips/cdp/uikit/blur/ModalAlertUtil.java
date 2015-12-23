@@ -3,25 +3,26 @@ package com.philips.cdp.uikit.blur;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.Element;
+import android.support.v8.renderscript.RenderScript;
+import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
 /**
- * Util.java
+ * ModalAlertUtil.java
  *
  * @author Manabu-GT on 6/12/14.
  */
-public class Util {
-
-    public static Bitmap drawViewToBitmap(View view, int width, int height, int downSampling) {
-        return drawViewToBitmap(view, width, height, 0f, 0f, downSampling);
-    }
+public class ModalAlertUtil {
 
     public static Bitmap drawViewToBitmap(View view, int width, int height, float translateX,
                                           float translateY, int downSampling) {
@@ -48,7 +49,6 @@ public class Util {
             view.setAlpha(alpha);
         } else {
             AlphaAnimation alphaAnimation = new AlphaAnimation(alpha, alpha);
-            // make it instant
             alphaAnimation.setDuration(0);
             alphaAnimation.setFillAfter(true);
             view.startAnimation(alphaAnimation);
@@ -90,5 +90,30 @@ public class Util {
             }
             view.startAnimation(alphaAnimation);
         }
+    }
+
+    public static Bitmap apply(Context context, Bitmap sentBitmap) {
+        Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
+        final RenderScript rs = RenderScript.create(context);
+        final Allocation input = Allocation.createFromBitmap(rs, sentBitmap, Allocation.MipmapControl.MIPMAP_NONE,
+                Allocation.USAGE_SCRIPT);
+        final Allocation output = Allocation.createTyped(rs, input.getType());
+        final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            script.setRadius(5);
+        } else {
+            script.setRadius(10);
+        }
+        script.setInput(input);
+        script.forEach(output);
+        output.copyTo(bitmap);
+
+        // clean up renderscript resources
+        rs.destroy();
+        input.destroy();
+        output.destroy();
+        script.destroy();
+
+        return bitmap;
     }
 }

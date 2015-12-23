@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
@@ -67,12 +68,37 @@ public class BlurDialogFragment extends DialogFragment {
         Window window = getDialog().getWindow();
         window.setWindowAnimations(mWindowAnimStyle);
 
+        Rect visibleFrame = getVisibleRectWindowFrame();
+
+        setUpBlurImage();
+
+        applyBlurEffect(visibleFrame);
+
+        setOnTouchListener();
+    }
+
+    private void setUpBlurImage() {
+        mBlurBgView = new View(getActivity());
+        mBlurBgView.setBackgroundColor(ContextCompat.getColor(getContext(), mBgColorResId));
+        ModalAlertUtil.setAlpha(mBlurBgView, 0f);
+
+        mBlurImgView = new ImageView(getActivity());
+        ModalAlertUtil.setAlpha(mBlurImgView, 0f);
+
+        mBlurContainer.addView(mBlurImgView);
+        mBlurContainer.addView(mBlurBgView);
+
+        mRoot.addView(mBlurContainer);
+    }
+
+    @NonNull
+    private Rect getVisibleRectWindowFrame() {
         Rect visibleFrame = new Rect();
         mRoot = (ViewGroup) getActivity().getWindow().getDecorView();
         mRoot.getWindowVisibleDisplayFrame(visibleFrame);
 
         mBlurContainer = new FrameLayout(getActivity());
-        if (Util.isPostHoneycomb()) {
+        if (ModalAlertUtil.isPostHoneycomb()) {
             mBlurContainer = new FrameLayout(getActivity());
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(visibleFrame.right - visibleFrame.left,
                     visibleFrame.bottom - visibleFrame.top);
@@ -81,28 +107,10 @@ public class BlurDialogFragment extends DialogFragment {
         } else {
             mBlurContainer.setPadding(visibleFrame.left, visibleFrame.top, 0, 0);
         }
+        return visibleFrame;
+    }
 
-        mBlurBgView = new View(getActivity());
-        mBlurBgView.setBackgroundColor(ContextCompat.getColor(getContext(), mBgColorResId));
-        Util.setAlpha(mBlurBgView, 0f);
-
-        mBlurImgView = new ImageView(getActivity());
-        Util.setAlpha(mBlurImgView, 0f);
-
-        mBlurContainer.addView(mBlurImgView);
-        mBlurContainer.addView(mBlurBgView);
-
-        mRoot.addView(mBlurContainer);
-
-        // apply blur effect
-        Bitmap bitmap = Util.drawViewToBitmap(mRoot, visibleFrame.right,
-                visibleFrame.bottom, visibleFrame.left, visibleFrame.top, 3);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            Bitmap blurred = Blur.apply(getActivity(), bitmap);
-            mBlurImgView.setImageBitmap(blurred);
-        }
-        bitmap.recycle();
-
+    private void setOnTouchListener() {
         View view = getView();
         if (view != null) {
             view.setOnTouchListener(new View.OnTouchListener() {
@@ -115,14 +123,32 @@ public class BlurDialogFragment extends DialogFragment {
         }
     }
 
+    @Override
+    public void setCancelable(boolean cancelable) {
+        if (cancelable)
+            setOnTouchListener();
+        else
+            super.setCancelable(cancelable);
+    }
+
+    private void applyBlurEffect(Rect visibleFrame) {
+        Bitmap bitmap = ModalAlertUtil.drawViewToBitmap(mRoot, visibleFrame.right,
+                visibleFrame.bottom, visibleFrame.left, visibleFrame.top, 3);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            Bitmap blurred = ModalAlertUtil.apply(getActivity(), bitmap);
+            mBlurImgView.setImageBitmap(blurred);
+        }
+        bitmap.recycle();
+    }
+
     private void startEnterAnimation() {
-        Util.animateAlpha(mBlurBgView, 0f, 1f, mAnimDuration, null);
-        Util.animateAlpha(mBlurImgView, 0f, 1f, mAnimDuration, null);
+        ModalAlertUtil.animateAlpha(mBlurBgView, 0f, 1f, mAnimDuration, null);
+        ModalAlertUtil.animateAlpha(mBlurImgView, 0f, 1f, mAnimDuration, null);
     }
 
     private void startExitAnimation() {
-        Util.animateAlpha(mBlurBgView, 1f, 0f, mAnimDuration, null);
-        Util.animateAlpha(mBlurImgView, 1f, 0f, mAnimDuration, new Runnable() {
+        ModalAlertUtil.animateAlpha(mBlurBgView, 1f, 0f, mAnimDuration, null);
+        ModalAlertUtil.animateAlpha(mBlurImgView, 1f, 0f, mAnimDuration, new Runnable() {
             @Override
             public void run() {
                 mRoot.removeView(mBlurContainer);
