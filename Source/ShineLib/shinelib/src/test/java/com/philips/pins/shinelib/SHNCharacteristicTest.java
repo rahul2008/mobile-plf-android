@@ -268,7 +268,7 @@ public class SHNCharacteristicTest {
                     }
 
                     @Test
-                    public void itForwardsTheCallToBtBatt() {
+                    public void itForwardsTheCallToBTGatt() {
                         verify(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), eq(true));
                     }
 
@@ -296,7 +296,7 @@ public class SHNCharacteristicTest {
                     }
 
                     @Test
-                    public void itForwardsTheCallToBtBatt() {
+                    public void itForwardsTheCallToBTGatt() {
                         verify(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), eq(false));
                     }
 
@@ -388,7 +388,7 @@ public class SHNCharacteristicTest {
                     }
 
                     @Test
-                    public void itForwardsTheCallToBtBatt() {
+                    public void itForwardsTheCallToBTGatt() {
                         verify(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), eq(true));
                     }
 
@@ -416,7 +416,7 @@ public class SHNCharacteristicTest {
                     }
 
                     @Test
-                    public void itForwardsTheCallToBtBatt() {
+                    public void itForwardsTheCallToBTGatt() {
                         verify(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), eq(false));
                     }
 
