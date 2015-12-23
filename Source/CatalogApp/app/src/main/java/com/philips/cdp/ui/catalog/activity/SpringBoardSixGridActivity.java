@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-
 import java.util.ArrayList;
 
 /**
