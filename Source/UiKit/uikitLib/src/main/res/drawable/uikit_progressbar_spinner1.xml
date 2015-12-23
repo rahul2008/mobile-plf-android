@@ -21,28 +21,6 @@
             android:pathData="M81.7,51.9c-0.4,7.3-3.3,14-7.9,19.1l12.9,12.9c7.8-8.5,12.8-19.6,13.2-32H81.7z" />
         <path
             android:name="v"
-<<<<<<< Updated upstream:Source/UiKit/uikitLib/src/main/res/drawable/progressbar_spinner2.xml
-            android:fillColor="?attr/ProgressBarColorOpacity80"
-            android:pathData="M71,73.8c-5.2,4.6-11.8,7.5-19.1,7.9v18.2c12.3-0.5,23.5-5.4,32-13.2L71,73.8z" />
-        <path
-            android:name="v"
-            android:fillColor="?attr/ProgressBarColorOpacity60"
-            android:pathData="M48,81.7c-7.3-0.4-13.9-3.3-19.1-7.9L16,86.7c8.5,7.8,19.6,12.8,32,13.2V81.7z" />
-
-        <path
-            android:name="v"
-            android:fillColor="?attr/ProgressBarColorOpacity40"
-            android:pathData="M26.1,71c-4.6-5.2-7.5-11.8-7.9-19.1H0c0.5,12.3,5.4,23.5,13.2,32L26.1,71z" />
-
-        <path
-            android:name="v"
-            android:fillColor="?attr/ProgressBarColorOpacity20"
-            android:pathData="M18.2,48c0.4-7.3,3.3-14,7.9-19.1L13.2,16C5.4,24.5,0.4,35.6,0,48H18.2z" />
-        <path
-            android:name="v"
-            android:fillColor="?attr/brightColor"
-            android:pathData="M28.8,26.1c5.2-4.6,11.8-7.5,19.1-7.9V0c-12.3,0.5-23.5,5.4-32,13.2L28.8,26.1z" />
-=======
             android:fillColor="?attr/brightColor"
             android:pathData="M71,73.8c-5.2,4.6-11.8,7.5-19.1,7.9v18.2c12.3-0.5,23.5-5.4,32-13.2L71,73.8z"
             />
@@ -67,7 +45,6 @@
             android:name="v"
             android:fillColor="?attr/LighterColorOpacity20"
             android:pathData="M28.8,26.1c5.2-4.6,11.8-7.5,19.1-7.9V0c-12.3,0.5-23.5,5.4-32,13.2L28.8,26.1z"/>
->>>>>>> Stashed changes:Source/UiKit/uikitLib/src/main/res/drawable/uikit_progressbar_spinner1.xml
 
     </group>
 </vector>
