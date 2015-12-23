@@ -61,7 +61,11 @@ public class CardActivity extends CatalogActivity {
 
         @Override
         public Fragment getItem(int i) {
-            return new CardContainerFragment();
+            CardContainerFragment cardContainerFragment = new CardContainerFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("index", i);
+            cardContainerFragment.setArguments(bundle);
+            return cardContainerFragment;
         }
 
         @Override

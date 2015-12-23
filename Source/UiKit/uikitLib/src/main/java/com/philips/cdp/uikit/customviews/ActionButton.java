@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.annotation.TargetApi;
@@ -14,8 +18,91 @@ import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Action Buttons are available in 2 shapes
+ * <br>
+ *     1. Circle
+ *     <br>
+ *     2. Square
+ *     <br>
+ *  Available pre-defined icons and its styles
+ *  <br>
+ *      •	> (Arrow)
+ *      •	? (QuestionMark)
+ *      •	+ (Plus)
+ *      •	X (Cross)
+ *      •	- (Minus)
+ *      <br>
+ *   For Example to use Arrow with Circle and Square shape, we need to include below piece of code on layout resource : <br>
+ *
+ *       &lt;com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+ style="@style/Philips.ActionButton.Circle.Arrow"</b>/&gt
+
+ &lt;com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+ style="@style/Philips.ActionButton.Square.Arrow"</b>/&gt
+
+ <br>
+ Users can either define their own styles or layout xml’s with ActionButton Class with following custom attributes<br>
+ •	<b>actionButtonShape</b> = Square / Circle of type String
+ •	<b>actionButtonBgColor</b> for Background Color of type Integer
+ •	<b>actionButtonBgColorPressed</b> for Pressed Background Color of type Integer
+ •	<b>actionButtonImageDrawable</b> for Icon Background of type Drawable.
+ <br>
+
+ <b>Example to use in Layout</b>
+ <br>
+ &lt;com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ custom:actionButtonShape="square"
+ custom:actionButtonBgColor="#ffffff"
+ custom:actionButtonBgColorPressed="#bbbbbbb"
+ custom:actionButtonImageDrawable ="@drawable/plus"</b>/&gt
+
+ <b>Example to use in Styles</b>
+ &lt;style name="Philips.ActionButton.Circle"&gt
+ <item name="actionButtonShape">circle</item>
+ <item name="android:minWidth">@dimen/philips_action_button_radius</item>
+ <item name="android:minHeight">@dimen/philips_action_button_radius</item>
+ <item name="actionButtonShape">square</item>
+ <item name="actionButtonImageDrawable">@drawable/arrow</item>
+ <item name=" actionButtonBgColor ">#ffffff</item>
+ <item name=" actionButtonBgColorPressed ">#bbbbbbb</item>
+ </style>
+
+ <b>To Support Shadow find the below code for reference</b>
+ <br>
+ <b> Example to use in Layout</b>
+ &lt;com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ custom:actionButtonShape="square"
+ custom:actionButtonBgColor="#ffffff"
+ custom:actionButtonBgColorPressed="#bbbbbbb"
+ custom:actionButtonImageDrawable ="@drawable/plus"
+ custom:actionButtonShadow=”true” </b>/&gt
+
+ <b>Example to use in Styles</b>
+ <style name="Philips.ActionButton.Circle">
+ <item name="actionButtonShape">circle</item>
+ <item name="android:minWidth">@dimen/philips_action_button_radius</item>
+ <item name="android:minHeight">@dimen/philips_action_button_radius</item>
+ <item name="actionButtonShape">square</item>
+ <item name="actionButtonImageDrawable">@drawable/arrow</item>
+ <item name=" actionButtonBgColor ">#ffffff</item>
+ <item name=" actionButtonBgColorPressed ">#bbbbbbb</item>
+ <item name=" actionButtonShadow">true</item>
+ </style>
+
+ <b> To Support Action Icons kindly use the below code</b>
+ &lt;com.philips.cdp.uikit.CustomButton.PhilipsActionButton
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ style="@style/Philips.ActionButton.Circle.Float.Pencil"
+ </b>/&gt
+
+
+ *
+
  */
 public class ActionButton extends ImageButton {
 
