@@ -20,7 +20,23 @@ import com.philips.cdp.uikit.dotnavigation.PageIndicator;
 import com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews;
 
 /**
- * Custom Component to Support Dot Navigation associated to ViewPager
+ * CircleIndicator is a component which is used associated to Viewpager, we have provided a component named CircleIndicator to support Dot Navigation.
+
+ Steps to use CircleIndicator
+
+ 1.	Please include in XML with below convention as per your required display metrics
+ < com.philips.cdp.uikit.customviews.CircleIndicator
+ android:layout_height="wrap_content"
+ android:layout_width="wrap_content"
+ android:padding="10dp" />
+
+ 2.	In Activity/Fragment please bind your View pager object as per below code
+
+ ViewPager pager = (ViewPager) findViewById(R.id.pager);
+ pager.setAdapter(adaptor);
+ CircleIndicator  indicator = (CircleIndicator) findViewById(R.id.indicator);
+ indicator.setViewPager(pager);
+
  */
 public class CircleIndicator extends LinearLayout implements PageIndicator, com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews {
 
@@ -57,10 +73,6 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
                 R.layout.uikit_indicator, null);
         processAttributes(context, resources);
         reDrawView();
-    }
-
-    public GradientDrawable getUnSelectedDot() {
-        return unSelectedGradientDrawable;
     }
 
     @SuppressWarnings("deprecation")
@@ -406,6 +418,16 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
         themeBaseColor = color;
         reDrawView();
     }
+
+    /**
+     * API used to support automation Testing
+     *
+     * @return
+     */
+    public GradientDrawable getUnSelectedDot() {
+        return unSelectedGradientDrawable;
+    }
+
 
 
 
