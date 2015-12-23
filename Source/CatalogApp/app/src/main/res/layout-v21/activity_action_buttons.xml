@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-    <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+            <com.philips.cdp.uikit.customviews.BadgeView
         android:id="@+id/badge_view_circle_medium"
         style="@style/NotificationLabel"
         android:layout_width="wrap_content"
@@ -201,7 +201,7 @@
         android:layout_margin="20dp"
         android:text="3" />
 
-            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+            <com.philips.cdp.uikit.customviews.BadgeView
                 android:id="@+id/badge_view_square_medium"
                 style="@style/NotificationLabel"
                 android:layout_width="wrap_content"
@@ -209,7 +209,7 @@
                 android:layout_margin="20dp"
                 android:text="22" />
 
-            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+            <com.philips.cdp.uikit.customviews.BadgeView
                 style="@style/NotificationLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+            <com.philips.cdp.uikit.customviews.BadgeView
                 android:id="@+id/badge_view_circle_small"
                 style="@style/NotificationLabel.Small"
                 android:layout_width="wrap_content"
@@ -231,7 +231,7 @@
                 android:layout_margin="20dp"
                 android:text="3" />
 
-            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+            <com.philips.cdp.uikit.customviews.BadgeView
                 android:id="@+id/badge_view_square_small"
                 style="@style/NotificationLabel.Small"
                 android:layout_width="wrap_content"
@@ -239,7 +239,7 @@
                 android:layout_margin="20dp"
                 android:text="22" />
 
-            <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+            <com.philips.cdp.uikit.customviews.BadgeView
                 style="@style/NotificationLabel.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

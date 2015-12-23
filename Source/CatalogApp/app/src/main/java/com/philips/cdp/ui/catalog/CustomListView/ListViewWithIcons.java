@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.customviews.PhilipsBadgeView;
+import com.philips.cdp.uikit.customviews.BadgeView;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.TintableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -109,7 +109,7 @@ public class ListViewWithIcons extends BaseAdapter {
                 }
                 holder.textView = (TextView) convertView.findViewById(R.id.text);
                 holder.mImage = (TintableImageView) convertView.findViewById(R.id.image);
-                holder.mBadge = (PhilipsBadgeView) convertView.findViewById(R.id.notification_badge);
+                holder.mBadge = (BadgeView) convertView.findViewById(R.id.notification_badge);
                 holder.arrow = (FontIconTextView) convertView.findViewById(R.id.arrow);
                 holder.name = (TextView) convertView.findViewById(R.id.off_on);
                 holder.value = (PuiSwitch) convertView.findViewById(R.id.switch_button);
@@ -239,6 +239,6 @@ public class ListViewWithIcons extends BaseAdapter {
         TextView name;
         PuiSwitch value;
         FontIconTextView arrow;
-        PhilipsBadgeView mBadge;
+        BadgeView mBadge;
     }
 }

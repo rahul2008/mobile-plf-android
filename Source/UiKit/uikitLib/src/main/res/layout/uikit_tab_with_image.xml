@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/uikit_tab_text_margin_top" />
 
-    <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+    <com.philips.cdp.uikit.customviews.BadgeView
         android:id="@+id/tab_count"
         style="@style/NotificationLabel.Small"
         android:layout_width="wrap_content"

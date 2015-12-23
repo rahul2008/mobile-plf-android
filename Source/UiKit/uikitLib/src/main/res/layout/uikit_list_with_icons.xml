@@ -88,7 +88,7 @@
         android:textSize="20sp"
         android:visibility="gone" />
 
-    <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+    <com.philips.cdp.uikit.customviews.BadgeView
         android:id="@+id/notification_badge"
         style="@style/NotificationLabel"
         android:layout_width="wrap_content"

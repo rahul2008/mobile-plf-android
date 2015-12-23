@@ -21,7 +21,7 @@
         android:layout_marginLeft="@dimen/uikit_hamburger_icon_left_margin"
         app:vectorsrc="@drawable/uikit_hamburger_icon" />
 
-    <com.philips.cdp.uikit.customviews.PhilipsBadgeView
+        <com.philips.cdp.uikit.customviews.BadgeView
         android:id="@+id/hamburger_count"
         style="@style/NotificationLabel.Small"
         android:layout_width="wrap_content"

@@ -20,35 +20,35 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
 
-public class PhilipsBadgeView extends TextView {
+public class BadgeView extends TextView {
 
     private final Resources resources;
     private int DEFAULT_BADGE_COLOR;
     private boolean isSmallSize;
 
-    public PhilipsBadgeView(Context context) {
+    public BadgeView(Context context) {
         this(context, (AttributeSet) null, android.R.attr.textViewStyle);
     }
 
-    public PhilipsBadgeView(Context context, AttributeSet attrs) {
+    public BadgeView(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.textViewStyle);
     }
 
-    public PhilipsBadgeView(Context context, View target) {
+    public BadgeView(Context context, View target) {
         this(context, null, android.R.attr.textViewStyle, target, 0);
     }
 
-    public PhilipsBadgeView(Context context, TabWidget target, int index) {
+    public BadgeView(Context context, TabWidget target, int index) {
         this(context, null, android.R.attr.textViewStyle, target, index);
     }
 
-    public PhilipsBadgeView(Context context, AttributeSet attrs, int defStyle) {
+    public BadgeView(Context context, AttributeSet attrs, int defStyle) {
         this(context, attrs, defStyle, null, 0);
     }
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
-    public PhilipsBadgeView(Context context, AttributeSet attrs, int defStyle, View target, int tabIndex) {
+    public BadgeView(Context context, AttributeSet attrs, int defStyle, View target, int tabIndex) {
         super(context, attrs, defStyle);
         validateIsSmallView(attrs, getContext());
         resources = getResources();
