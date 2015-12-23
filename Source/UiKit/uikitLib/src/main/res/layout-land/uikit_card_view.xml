@@ -10,10 +10,16 @@
     app:cardElevation="6dp"
     app:cardPreventCornerOverlap="false">
 
+    <RelativeLayout
+        android:id="@+id/card_view_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <RelativeLayout
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
             android:layout_height="390dp"
+            android:layout_above="@+id/bottom_layout"
             android:background="?attr/baseColor"
             android:elevation="6dp">
 
@@ -31,7 +37,7 @@
             android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
+            android:layout_alignParentBottom="true"
             android:background="@color/uikit_white"
             android:minHeight="224dp"
             android:orientation="vertical">
@@ -93,5 +99,6 @@
                 android:textColor="?attr/brightColor"
                 android:textSize="16sp" />
         </LinearLayout>
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>
