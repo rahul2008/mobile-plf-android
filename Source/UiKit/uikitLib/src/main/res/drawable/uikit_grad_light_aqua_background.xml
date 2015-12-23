@@ -4,6 +4,6 @@
     <gradient
         android:angle="@integer/philips_gradient_angle"
         android:endColor="@color/uikit_gradient_aqua_end"
-        android:startColor="@color/uikit_philips_bright_aqua"/>
+        android:startColor="@color/uikit_philips_bright_aqua" />
 
 </shape>

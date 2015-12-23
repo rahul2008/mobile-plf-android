@@ -22,7 +22,6 @@ public class PopupOverAdapter extends ArrayAdapter<RowItem> {
     Context context;
 
 
-
     public PopupOverAdapter(final Context context, final int resource) {
         super(context, resource);
         this.context = context;
@@ -51,13 +50,6 @@ public class PopupOverAdapter extends ArrayAdapter<RowItem> {
     public PopupOverAdapter(final Context context, final int resource, final int textViewResourceId, final List objects) {
         super(context, resource, textViewResourceId, objects);
         this.context = context;
-    }
-
-
-    /*private view holder class*/
-    private class ViewHolder {
-        ImageView imageView;
-        TextView txtDesc;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -90,13 +82,19 @@ public class PopupOverAdapter extends ArrayAdapter<RowItem> {
 
         }
 
-        if ( rowItem.getStringId() != 0) {
+        if (rowItem.getStringId() != 0) {
             holder.txtDesc.setText(rowItem.getStringId());
         } else {
             holder.txtDesc.setText(rowItem.getDesc());
         }
 
         return convertView;
+    }
+
+    /*private view holder class*/
+    private class ViewHolder {
+        ImageView imageView;
+        TextView txtDesc;
     }
 
 

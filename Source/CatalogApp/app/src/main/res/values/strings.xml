@@ -61,4 +61,8 @@
 
     <string name="title_activity_spring_boardsctivity">SpringBoardsctivity</string>
     <string name="title_activity_spring_board_six_grid">SpringBoardSixGridActivity</string>
+    <string name="title_activity_cards">CardsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_cards_spike">CardsSpike</string>
 </resources>

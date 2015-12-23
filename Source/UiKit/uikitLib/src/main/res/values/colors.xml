@@ -39,14 +39,16 @@
 
     <!-- Very Light Blue Theme with opacity 30-->
     <color name="uikit_philips_very_light_blue_with_opacity_30">#4Db3c8e6</color>
-    
+
 
     <!-- Very Light Blue Theme with opacity 25-->
     <color name="uikit_philips_very_light_blue_with_opacity_25">#40b3c8e6</color>
+
     <color name="uikit_philips_very_dark_blue_with_opacity_35">#590f204b</color>
 
     <!-- List Divider very Light BLue with 20% opacity-->
     <color name="uikit_philips_list_divider_very_light_blue">#33b3c8e6</color>
+
 
     <!-- Group Blue -->
     <color name="uikit_philips_group_blue_1">#72b5cc</color>
@@ -158,6 +160,109 @@
 
     <!-- White Color with 0% Opacity-->
     <color name="uikit_philips_White_with_opacity_0">#00FFFFFF</color>
+
+    <color name="uikit_modal_alert_glass">#19ffffff</color>
+    <!-- Dark themes-->
+    <color name="uikit_bright_blue_with_opacity_80">#CC0066a1</color>
+    <color name="uikit_bright_blue_with_opacity_60">#990066a1</color>
+    <color name="uikit_bright_blue_with_opacity_40">#660066a1</color>
+    <color name="uikit_bright_blue_with_opacity_20">#330066a1</color>
+
+
+    <color name="uikit_bright_green_with_opacity_80">#CC5b8f22</color>
+    <color name="uikit_bright_green_with_opacity_60">#995b8f22</color>
+    <color name="uikit_bright_green_with_opacity_40">#665b8f22</color>
+    <color name="uikit_bright_green_with_opacity_20">#335b8f22</color>
+
+    <color name="uikit_bright_aqua_with_opacity_80">#CC1e9d8b</color>
+    <color name="uikit_bright_aqua_with_opacity_60">#991e9d8b</color>
+    <color name="uikit_bright_aqua_with_opacity_40">#661e9d8b</color>
+    <color name="uikit_bright_aqua_with_opacity_20">#331e9d8b</color>
+
+
+    <color name="uikit_bright_purple_with_opacity_80">#CC7d0063</color>
+    <color name="uikit_bright_purple_with_opacity_60">#997d0063</color>
+    <color name="uikit_bright_purple_with_opacity_40">#667d0063</color>
+    <color name="uikit_bright_purple_with_opacity_20">#337d0063</color>
+
+    <color name="uikit_bright_orange_with_opacity_80">#CCe98300</color>
+    <color name="uikit_bright_orange_with_opacity_60">#99e98300</color>
+    <color name="uikit_bright_orange_with_opacity_40">#66e98300</color>
+    <color name="uikit_bright_orange_with_opacity_20">#33e98300</color>
+
+    <color name="uikit_bright_pink_with_opacity_80">#CCec4371</color>
+    <color name="uikit_bright_pink_with_opacity_60">#99ec4371</color>
+    <color name="uikit_bright_pink_with_opacity_40">#66ec4371</color>
+    <color name="uikit_bright_pink_with_opacity_20">#33ec4371</color>
+
+    <!--Bright Themes -->
+
+    <color name="uikit_light_blue_with_opacity_80">#CC7ba4d9</color>
+    <color name="uikit_light_blue_with_opacity_60">#997ba4d9</color>
+    <color name="uikit_light_blue_with_opacity_40">#667ba4d9</color>
+    <color name="uikit_light_blue_with_opacity_20">#337ba4d9</color>
+
+
+    <color name="uikit_light_green_with_opacity_80">#CCb6bf00</color>
+    <color name="uikit_light_green_with_opacity_60">#99b6bf00</color>
+    <color name="uikit_light_green_with_opacity_40">#66b6bf00</color>
+    <color name="uikit_light_green_with_opacity_20">#33b6bf00</color>
+
+    <color name="uikit_light_aqua_with_opacity_80">#CC5bbbb7</color>
+    <color name="uikit_light_aqua_with_opacity_60">#995bbbb7</color>
+    <color name="uikit_light_aqua_with_opacity_40">#665bbbb7</color>
+    <color name="uikit_light_aqua_with_opacity_20">#335bbbb7</color>
+
+
+    <color name="uikit_light_purple_with_opacity_80">#CCb390bb</color>
+    <color name="uikit_light_purple_with_opacity_60">#99b390bb</color>
+    <color name="uikit_light_purple_with_opacity_40">#66b390bb</color>
+    <color name="uikit_light_purple_with_opacity_20">#33b390bb</color>
+
+    <color name="uikit_light_orange_with_opacity_80">#CCeeaf00</color>
+    <color name="uikit_light_orange_with_opacity_60">#99eeaf00</color>
+    <color name="uikit_light_orange_with_opacity_40">#66eeaf00</color>
+    <color name="uikit_light_orange_with_opacity_20">#33eeaf00</color>
+
+    <color name="uikit_light_pink_with_opacity_80">#CCe59aaa</color>
+    <color name="uikit_light_pink_with_opacity_60">#99e59aaa</color>
+    <color name="uikit_light_pink_with_opacity_40">#66e59aaa</color>
+    <color name="uikit_light_pink_with_opacity_20">#33e59aaa</color>
+
+    <!-- Light themes -->
+
+
+    <color name="uikit_very_light_blue_with_opacity_80">#CCb3c8e6</color>
+    <color name="uikit_very_light_blue_with_opacity_60">#99b3c8e6</color>
+    <color name="uikit_very_light_blue_with_opacity_40">#66b3c8e6</color>
+    <color name="uikit_very_light_blue_with_opacity_20">#33b3c8e6</color>
+
+
+    <color name="uikit_very_light_green_with_opacity_80">#CCe0e96e</color>
+    <color name="uikit_very_light_green_with_opacity_60">#99e0e96e</color>
+    <color name="uikit_very_light_green_with_opacity_40">#66e0e96e</color>
+    <color name="uikit_very_light_green_with_opacity_20">#33e0e96e</color>
+
+    <color name="uikit_very_light_aqua_with_opacity_80">#CCcae3e9</color>
+    <color name="uikit_very_light_aqua_with_opacity_60">#99cae3e9</color>
+    <color name="uikit_very_light_aqua_with_opacity_40">#66cae3e9</color>
+    <color name="uikit_very_light_aqua_with_opacity_20">#33cae3e9</color>
+
+
+    <color name="uikit_very_light_purple_with_opacity_80">#CCdbcfe9</color>
+    <color name="uikit_very_light_purple_with_opacity_60">#99dbcfe9</color>
+    <color name="uikit_very_light_purple_with_opacity_40">#66dbcfe9</color>
+    <color name="uikit_very_light_purple_with_opacity_20">#33dbcfe9</color>
+
+    <color name="uikit_very_light_orange_with_opacity_80">#CCfbd476</color>
+    <color name="uikit_very_light_orange_with_opacity_60">#99fbd476</color>
+    <color name="uikit_very_light_orange_with_opacity_40">#66fbd476</color>
+    <color name="uikit_very_light_orange_with_opacity_20">#33fbd476</color>
+
+    <color name="uikit_very_light_pink_with_opacity_80">#CCe9c5cb</color>
+    <color name="uikit_very_light_pink_with_opacity_60">#99e9c5cb</color>
+    <color name="uikit_very_light_pink_with_opacity_40">#66e9c5cb</color>
+    <color name="uikit_very_light_pink_with_opacity_20">#33e9c5cb</color>
 
 
 

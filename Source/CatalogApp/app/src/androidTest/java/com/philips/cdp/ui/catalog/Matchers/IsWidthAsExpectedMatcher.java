@@ -22,6 +22,10 @@ public class IsWidthAsExpectedMatcher extends BoundedMatcher<View, View> {
         this.expectedWidth = expectedWidth;
     }
 
+    public static Matcher<View> isWidthSimilar(final int expectedWidth) {
+        return new IsWidthAsExpectedMatcher(View.class, expectedWidth);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Actual image differs in width when compared with expected image");
@@ -33,13 +37,6 @@ public class IsWidthAsExpectedMatcher extends BoundedMatcher<View, View> {
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
         int actualWidth = actualBitmap.getWidth();
-        if (actualWidth == expectedWidth) {
-            return true;
-        }
-        return false;
+        return actualWidth == expectedWidth;
     }
-
-    public static Matcher<View> isWidthSimilar(final int expectedWidth) {
-        return new IsWidthAsExpectedMatcher(View.class, expectedWidth);
-    }
-};
+}

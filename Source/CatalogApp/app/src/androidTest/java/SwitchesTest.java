@@ -52,7 +52,7 @@ public class SwitchesTest extends ActivityInstrumentationTestCase2<ActionButtons
         actionbuttonsActivity.finish();
     }
 
-    public void testSwitchIsDisplayed(){
+    public void testSwitchIsDisplayed() {
         onView(withId(R.id.uikit_switch)).check(matches(isDisplayed()));
     }
 
@@ -98,7 +98,7 @@ public class SwitchesTest extends ActivityInstrumentationTestCase2<ActionButtons
                 .check(matches(isImageSimilar(expectedBitmap)));
     }*/
 
-    public void testDBThemeBGColorSwitchOn(){
+    public void testDBThemeBGColorSwitchOn() {
         // Apply Dark blue theme
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
@@ -106,10 +106,10 @@ public class SwitchesTest extends ActivityInstrumentationTestCase2<ActionButtons
         //Verify the background/outline color
         onView(withId(R.id.uikit_switch)).perform(click());
         onView(withId(R.id.uikit_switch)) // change id
-        .check(matches(isOutlineColorSimilar("#5b8f22")));
+                .check(matches(isOutlineColorSimilar("#5b8f22")));
     }
 
-    public void testBOThemeBGColorSwitchOn(){
+    public void testBOThemeBGColorSwitchOn() {
         // Apply Bright Orange theme
         themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
@@ -118,10 +118,10 @@ public class SwitchesTest extends ActivityInstrumentationTestCase2<ActionButtons
         //Verify the background/outline color
         onView(withId(R.id.uikit_switch)).perform(click());
         onView(withId(R.id.uikit_switch)) // change id
-        .check(matches(isOutlineColorSimilar("#5b8f22")));
+                .check(matches(isOutlineColorSimilar("#5b8f22")));
     }
 
-    public void testBAThemeBGColorSwitchOn(){
+    public void testBAThemeBGColorSwitchOn() {
         // Apply Bright Orange theme
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();

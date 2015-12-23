@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:width="42.5dp"
     android:height="42.5dp"
-    android:viewportWidth="42.5"
     android:viewportHeight="42.5"
+    android:viewportWidth="42.5"
 
     app:vc_viewportHeight="42.5"
     app:vc_viewportWidth="42.5">

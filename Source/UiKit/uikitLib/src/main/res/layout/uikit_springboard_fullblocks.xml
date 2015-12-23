@@ -11,8 +11,8 @@
         android:id="@+id/row_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
         android:layout_marginBottom="0dp"
+        android:layout_weight="0.25"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -21,9 +21,9 @@
             android:layout_weight="0.5"
             android:background="@drawable/uikit_springboard_item_selector"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView1"
@@ -48,6 +48,7 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
         <View
             android:id="@+id/FirstView"
             android:layout_width="1dp"
@@ -55,6 +56,7 @@
             android:layout_centerHorizontal="true"
             android:background="?attr/springBoardDivider"
             android:foregroundGravity="center|center_horizontal" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -63,8 +65,7 @@
             android:clickable="true"
             android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            >
+            android:paddingBottom="15dp">
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView2"
@@ -89,20 +90,21 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:id="@+id/HorizonView1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_centerHorizontal="true"
-        android:foregroundGravity="center_vertical"
         android:background="?attr/springBoardDivider"
-         />
+        android:foregroundGravity="center_vertical" />
+
     <LinearLayout
         android:id="@+id/row_layout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
         android:layout_marginBottom="0dp"
+        android:layout_weight="0.25"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -111,9 +113,9 @@
             android:layout_weight="0.5"
             android:background="@drawable/uikit_springboard_item_selector"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView3"
@@ -122,7 +124,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-            
+
                 app:themeStyle="theme" />
 
             <TextView
@@ -138,6 +140,7 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
         <View
             android:id="@+id/SecondView"
             android:layout_width="1dp"
@@ -145,15 +148,16 @@
             android:layout_centerHorizontal="true"
             android:background="?attr/springBoardDivider"
             android:foregroundGravity="center|center_horizontal" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
             android:background="@drawable/uikit_springboard_item_selector"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView4"
@@ -179,19 +183,20 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:id="@+id/HorizonView2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_centerHorizontal="true"
-        android:background="?attr/springBoardDivider"
-        />
+        android:background="?attr/springBoardDivider" />
+
     <LinearLayout
         android:id="@+id/row_layout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
         android:layout_marginBottom="0dp"
+        android:layout_weight="0.25"
 
         android:orientation="horizontal">
 
@@ -202,9 +207,9 @@
             android:layout_weight="0.5"
             android:background="@drawable/uikit_springboard_item_selector"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView5"
@@ -236,8 +241,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="?attr/springBoardDivider"
-             />
+            android:background="?attr/springBoardDivider" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -245,9 +249,9 @@
             android:layout_weight="0.5"
             android:background="@drawable/uikit_springboard_item_selector"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView6"
@@ -273,18 +277,19 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:id="@+id/HorizonView3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/springBoardDivider"
-        />
+        android:background="?attr/springBoardDivider" />
+
     <LinearLayout
         android:id="@+id/row_layout4"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
         android:layout_marginBottom="0dp"
+        android:layout_weight="0.25"
 
         android:orientation="horizontal">
 
@@ -294,9 +299,9 @@
             android:layout_weight="0.5"
             android:background="@drawable/uikit_springboard_item_selector"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView7"
@@ -321,6 +326,7 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
         <View
             android:id="@+id/FourthView"
             android:layout_width="1dp"
@@ -328,6 +334,7 @@
             android:layout_centerHorizontal="true"
             android:background="?attr/springBoardDivider"
             android:foregroundGravity="center|center_horizontal" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -335,9 +342,9 @@
             android:layout_weight="0.5"
             android:background="@drawable/uikit_springboard_item_selector"
             android:clickable="true"
+            android:gravity="center_horizontal|center_vertical|bottom"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:gravity="center_horizontal|center_vertical|bottom">
+            android:paddingBottom="15dp">
 
             <com.philips.cdp.uikit.customviews.TintableImageView
                 android:id="@+id/imageView8"

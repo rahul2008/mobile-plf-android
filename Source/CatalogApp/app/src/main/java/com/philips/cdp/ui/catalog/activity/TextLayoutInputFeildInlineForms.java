@@ -86,7 +86,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
                 ((ViewGroup) content.getParent()).setWillNotDraw(true);
 
                 if (content instanceof FrameLayout) {
-                    ((FrameLayout) content).setForeground(null);
+                    content.setForeground(null);
                 }
             }
         }

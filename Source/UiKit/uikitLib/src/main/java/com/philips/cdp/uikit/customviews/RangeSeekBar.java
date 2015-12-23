@@ -28,15 +28,15 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
     public static final Integer DEFAULT_MINIMUM = 0;
     public static final Integer DEFAULT_MAXIMUM = 100;
-
-    //private static final int INITIAL_PADDING_IN_DP = 0;
-    private int PROGRESS_BG_HEIGHT;
+    public static final int INVALID_POINTER_ID = 255;
+    public static final int ACTION_POINTER_UP = 0x6, ACTION_POINTER_INDEX_MASK = 0x0000ff00, ACTION_POINTER_INDEX_SHIFT = 8;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
     private final Bitmap thumbImage = getBitmapFromDrawable(getVectorDrawable());
     private final float thumbWidth = thumbImage.getWidth();
     private final float thumbHalfWidth = 0.5f * thumbWidth;
     private final float thumbHalfHeight = 0.5f * thumbImage.getHeight();
+    //private static final int INITIAL_PADDING_IN_DP = 0;
+    private int PROGRESS_BG_HEIGHT;
     private float INITIAL_PADDING;
     private float padding;
     private T absoluteMinValue, absoluteMaxValue;
@@ -48,8 +48,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private boolean notifyWhileDragging = false;
     private int themebasecolor;
     private OnRangeSeekBarChangeListener<T> listener;
-    public static final int INVALID_POINTER_ID = 255;
-    public static final int ACTION_POINTER_UP = 0x6, ACTION_POINTER_INDEX_MASK = 0x0000ff00, ACTION_POINTER_INDEX_SHIFT = 8;
     private float mDownMotionX;
     private int mActivePointerId = INVALID_POINTER_ID;
     private int mScaledTouchSlop;
@@ -391,7 +389,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         paint.setColor(getResources().getColor(R.color.uikit_enricher6));
         paint.setAntiAlias(true);
         padding = INITIAL_PADDING +  thumbHalfWidth;
-        mRect.left = INITIAL_PADDING - thumbHalfWidth ;
+        mRect.left = INITIAL_PADDING - thumbHalfWidth;
         mRect.right = getWidth() - INITIAL_PADDING + thumbHalfWidth;
         canvas.drawRect(mRect, paint);
 
@@ -439,8 +437,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private void drawThumb(float screenCoord, Canvas canvas ) {
         Bitmap buttonToDraw = thumbImage;
         canvas.drawBitmap(buttonToDraw, screenCoord - thumbHalfWidth,
-                          0,
-                          paint);
+                0,
+                paint);
     }
 
     /**
@@ -470,11 +468,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
     private boolean isThumbMax(float touchX, double normalizedThumbValue) {
 
-        if ((touchX - normalizedToScreen(normalizedThumbValue) > 0)) {
-            return true;
-        }else {
-            return false;
-        }
+        return (touchX - normalizedToScreen(normalizedThumbValue) > 0);
     }
 
     /**
@@ -551,23 +545,33 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         }
     }
 
+    private Drawable getVectorDrawable() {
 
-    public interface OnRangeSeekBarChangeListener<T> {
-
-        public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, T minValue, T maxValue);
+        return VectorDrawable.create(getContext(), R.drawable.uikit_circle_with_triangle);
     }
+
+    public Bitmap getBitmapFromDrawable(Drawable drawable) {
+
+        int width = drawable.getIntrinsicWidth();
+        int height = drawable.getIntrinsicHeight();
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
 
     /**
      * Thumb constants (min and max).
      */
-    private static enum Thumb {
+    private enum Thumb {
         MIN, MAX
     }
 
-    ;
 
-
-    private static enum NumberType {
+    private enum NumberType {
         LONG, DOUBLE, INTEGER, FLOAT, SHORT, BYTE, BIG_DECIMAL;
 
         public static <E extends Number> NumberType fromNumber(E value) throws IllegalArgumentException {
@@ -617,22 +621,9 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     }
 
 
-    private Drawable getVectorDrawable() {
+    public interface OnRangeSeekBarChangeListener<T> {
 
-        return VectorDrawable.create(getContext(), R.drawable.uikit_circle_with_triangle);
-    }
-
-
-    public Bitmap getBitmapFromDrawable(Drawable drawable){
-
-        int width = drawable.getIntrinsicWidth();
-        int height = drawable.getIntrinsicHeight();
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
+        void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, T minValue, T maxValue);
     }
 
 }

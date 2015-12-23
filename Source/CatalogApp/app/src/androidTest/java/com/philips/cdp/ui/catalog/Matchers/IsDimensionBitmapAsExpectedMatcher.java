@@ -23,6 +23,10 @@ public class IsDimensionBitmapAsExpectedMatcher extends BoundedMatcher<View, Vie
         this.expectedBitmap = expectedBitmap;
     }
 
+    public static Matcher<View> isDimensionBitmapSimilar(final Bitmap expectedBitmap) {
+        return new IsDimensionBitmapAsExpectedMatcher(View.class, expectedBitmap);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Actual image differs in dimension when compared with expected image");
@@ -43,8 +47,4 @@ public class IsDimensionBitmapAsExpectedMatcher extends BoundedMatcher<View, Vie
         }
         return true;
     }
-
-    public static Matcher<View> isDimensionBitmapSimilar(final Bitmap expectedBitmap) {
-        return new IsDimensionBitmapAsExpectedMatcher(View.class, expectedBitmap);
-    }
-};
+}

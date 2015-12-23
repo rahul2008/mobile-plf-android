@@ -23,6 +23,10 @@ public class IsTextSizeAsExpectedMatcher extends BoundedMatcher<View, View> {
         this.actualSize = actualSize;
     }
 
+    public static Matcher<View> isTextSizeSimilar(final float expectedSize) {
+        return new IsTextSizeAsExpectedMatcher(View.class, expectedSize);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Actual Text Size differs when compared with expected Text size");
@@ -39,10 +43,6 @@ public class IsTextSizeAsExpectedMatcher extends BoundedMatcher<View, View> {
             }
         }
         return false;
-    }
-
-    public static Matcher<View> isTextSizeSimilar(final float expectedSize) {
-        return new IsTextSizeAsExpectedMatcher(View.class, expectedSize);
     }
 }
 

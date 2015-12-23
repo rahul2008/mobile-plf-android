@@ -24,7 +24,11 @@ public class IsSelectedDotBackgroundColorAsExpectedMatcher extends BoundedMatche
     public IsSelectedDotBackgroundColorAsExpectedMatcher(final Class<? extends View> expectedType, String expectedSelectedDotRGB) {
         super(expectedType);
         this.expectedSelectedDotRGB = expectedSelectedDotRGB;
-     }
+    }
+
+    public static Matcher<View> isSelectedDotColorSimilar(final String expectedSelectedDotRGB) {
+        return new IsSelectedDotBackgroundColorAsExpectedMatcher(View.class, expectedSelectedDotRGB);
+    }
 
     @Override
     public void describeTo(Description description) {
@@ -34,12 +38,12 @@ public class IsSelectedDotBackgroundColorAsExpectedMatcher extends BoundedMatche
     @Override
     public boolean matchesSafely(View view) {
 
-        CircleIndicator circle = (CircleIndicator)view;
+        CircleIndicator circle = (CircleIndicator) view;
 
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int actualSelectedDotColor = circle.getFilledColor() ;
+        int actualSelectedDotColor = circle.getFilledColor();
 
 /*        String redFocused = Integer.toString(Color.red(actualSelectedDotColor));
         String greenFocused = Integer.toString(Color.green(actualSelectedDotColor));
@@ -51,14 +55,7 @@ public class IsSelectedDotBackgroundColorAsExpectedMatcher extends BoundedMatche
                 Integer.toString(Color.blue(actualSelectedDotColor), 16);
 
 
-        if (actualSelectedDotRGB.equalsIgnoreCase(expectedSelectedDotRGB)){
-            return true;
-        }
-            return false;
-        }
-
-    public static Matcher<View> isSelectedDotColorSimilar(final String expectedSelectedDotRGB){
-        return new IsSelectedDotBackgroundColorAsExpectedMatcher(View.class, expectedSelectedDotRGB);
+        return actualSelectedDotRGB.equalsIgnoreCase(expectedSelectedDotRGB);
     }
 }
 

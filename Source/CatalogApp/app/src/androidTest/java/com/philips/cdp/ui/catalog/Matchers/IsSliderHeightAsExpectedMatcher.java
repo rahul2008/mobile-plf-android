@@ -25,6 +25,10 @@ public class IsSliderHeightAsExpectedMatcher extends BoundedMatcher<View, View> 
         this.sliderComponent = sliderComponent;
     }
 
+    public static Matcher<View> isSliderHeightSimilar(final int expectedHeight, String string) {
+        return new IsSliderHeightAsExpectedMatcher(View.class, expectedHeight, string);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Actual image differs in height when compared with expected image");
@@ -36,10 +40,7 @@ public class IsSliderHeightAsExpectedMatcher extends BoundedMatcher<View, View> 
             SeekBar seekbar = (SeekBar) view;
             if ("thumb".equalsIgnoreCase(sliderComponent)) {
                 int actualHeight = seekbar.getThumb().getBounds().bottom - seekbar.getThumb().getBounds().top;
-                if (actualHeight == expectedHeight) {
-                    return true;
-                }
-                return false;
+                return actualHeight == expectedHeight;
             } else if ("progress".equalsIgnoreCase(sliderComponent)) {
                 Bitmap bitmap = null;
                 if (seekbar.getProgressDrawable() instanceof BitmapDrawable) {
@@ -49,22 +50,12 @@ public class IsSliderHeightAsExpectedMatcher extends BoundedMatcher<View, View> 
 //                seekbar.setMax(10);
 //                seekbar.setProgress(5);
                 int actualHeight = seekbar.getProgressDrawable().getBounds().bottom - seekbar.getProgressDrawable().getBounds().top;
-                if (actualHeight == expectedHeight) {
-                    return true;
-                }
-                return false;
+                return actualHeight == expectedHeight;
             } else if ("background".equalsIgnoreCase(sliderComponent)) {
                 int actualHeight = seekbar.getBackground().getBounds().bottom - seekbar.getBackground().getBounds().top;
-                if (actualHeight == expectedHeight) {
-                    return true;
-                }
-                return false;
+                return actualHeight == expectedHeight;
             }
         }
         return false;
     }
-
-    public static Matcher<View> isSliderHeightSimilar(final int expectedHeight, String string) {
-        return new IsSliderHeightAsExpectedMatcher(View.class, expectedHeight, string);
-    }
-};
+}

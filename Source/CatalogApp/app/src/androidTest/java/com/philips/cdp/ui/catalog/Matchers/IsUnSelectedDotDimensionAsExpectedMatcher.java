@@ -25,27 +25,15 @@ public class IsUnSelectedDotDimensionAsExpectedMatcher extends BoundedMatcher<Vi
         this.expectedUnSelectedDotHeight = expectedUnSelectedDotHeight;
         this.expectedUnSelectedDotWidth = expectedUnSelectedDotWidth;
 
-        }
+    }
+
+    public static Matcher<View> isUnSelectedDotDimenSimilar(final int expectedUnSelectedDotHeight, final int expectedUnSelectedDotWidth) {
+        return new IsUnSelectedDotDimensionAsExpectedMatcher(View.class, expectedUnSelectedDotHeight, expectedUnSelectedDotWidth);
+    }
 
     @Override
     public void describeTo(Description description) {
         description.appendText("");
-    }
-
-    @Override
-    public boolean matchesSafely(View view) {
-        CircleIndicator circle = (CircleIndicator)view;
-
-        Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas actualCanvas = new Canvas(actualBitmap);
-        view.draw(actualCanvas);
-        float actualHeight = circle.getUnSelectedCircleHeight();
-        float actualWidth = circle.getUnSelectedCircleWidth();
-
-        if ((actualHeight == expectedUnSelectedDotHeight)||(actualWidth == expectedUnSelectedDotWidth)) {
-            return true;
-        }
-        return false;
     }
 
 
@@ -56,8 +44,17 @@ public class IsUnSelectedDotDimensionAsExpectedMatcher extends BoundedMatcher<Vi
         circle.getColorUnselected();
 */
 
-    public static Matcher<View> isUnSelectedDotDimenSimilar(final int expectedUnSelectedDotHeight, final int expectedUnSelectedDotWidth) {
-        return new IsUnSelectedDotDimensionAsExpectedMatcher(View.class, expectedUnSelectedDotHeight, expectedUnSelectedDotWidth);
+    @Override
+    public boolean matchesSafely(View view) {
+        CircleIndicator circle = (CircleIndicator) view;
+
+        Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas actualCanvas = new Canvas(actualBitmap);
+        view.draw(actualCanvas);
+        float actualHeight = circle.getUnSelectedCircleHeight();
+        float actualWidth = circle.getUnSelectedCircleWidth();
+
+        return (actualHeight == expectedUnSelectedDotHeight) || (actualWidth == expectedUnSelectedDotWidth);
     }
 
 }

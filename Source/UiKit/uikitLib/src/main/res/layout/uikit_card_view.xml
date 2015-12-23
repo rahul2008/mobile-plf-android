@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="360dp"
+    android:layout_margin="12dp"
+    android:gravity="center"
+    app:cardElevation="6dp"
+    app:cardPreventCornerOverlap="false">
+
+        <RelativeLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="?attr/baseColor"
+            android:elevation="6dp">
+
+            <ImageView
+                android:id="@+id/cross"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="19dp"
+                android:layout_marginTop="17dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:background="@color/uikit_white"
+            android:minHeight="180dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/cards_title"
+                    fontPath="fonts/centralesanslight.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="Your title goes here"
+                    android:textColor="?attr/verydarkBaseColor"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/cardImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/cards_title"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/cards_title"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="16dp"
+                    android:padding="0dp" />
+
+                <TextView
+                    fontPath="fonts/centralesansbook.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/cards_title"
+                    android:layout_toLeftOf="@+id/cardImage"
+                    android:text="12"
+                    android:textColor="?attr/verydarkBaseColor"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <TextView
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
+                android:textColor="?attr/verydarkBaseColor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/uikit_cards_link_text"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="29dp"
+                android:text="Link dolor elit ›"
+                android:textColor="?attr/brightColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+</android.support.v7.widget.CardView>

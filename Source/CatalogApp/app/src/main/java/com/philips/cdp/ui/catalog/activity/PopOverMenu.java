@@ -17,32 +17,26 @@ import java.util.List;
 
 public class PopOverMenu extends CatalogActivity {
 
+    public final String[] descriptions = new String[]{
+            "Setting",
+            "Share", "Mail",
+            "Chat"};
+    public Integer[] images = {R.drawable.uikit_apple, R.drawable.uikit_share,
+            R.drawable.uikit_envelope, R.drawable.uikit_ballon,};
+    List<RowItem> rowItems1;
+    List<RowItem> rowItems2;
     private UIKitListPopupWindow listpopupwindowTopLeft;
     private UIKitListPopupWindow listpopupwindowTopRight;
     private UIKitListPopupWindow listpopupwindowLeft;
     private UIKitListPopupWindow listpopupwindowRight;
     private UIKitListPopupWindow listpopupwindowBottomLeft;
     private UIKitListPopupWindow listpopupwindowBottomRight;
-
-
     private Button topleft;
     private Button topright;
     private Button left;
     private Button right;
     private Button buttomleft;
     private Button buttomright;
-
-
-    public  final String[] descriptions = new String[] {
-            "Setting",
-            "Share", "Mail",
-            "Chat" };
-
-    public   Integer[] images = {R.drawable.uikit_apple, R.drawable.uikit_share,
-            R.drawable.uikit_envelope,R.drawable.uikit_ballon, };
-
-    List<RowItem> rowItems1;
-    List<RowItem> rowItems2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +66,11 @@ public class PopOverMenu extends CatalogActivity {
         setContentView(R.layout.activity_pop_over_menu2);
         init();
 
-        listpopupwindowTopLeft  = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT, rowItems1);
+        listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT, rowItems1);
         listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT, rowItems1);
-        listpopupwindowLeft     = new UIKitListPopupWindow(PopOverMenu.this,left,UIKitListPopupWindow.Type.LEFT, rowItems1);
-        listpopupwindowRight    = new UIKitListPopupWindow(PopOverMenu.this,right,UIKitListPopupWindow.Type.RIGHT, rowItems2);
-        listpopupwindowBottomLeft  = new UIKitListPopupWindow(PopOverMenu.this,buttomleft,UIKitListPopupWindow.Type.BOTTOMLEFT, rowItems1);
+        listpopupwindowLeft = new UIKitListPopupWindow(PopOverMenu.this, left, UIKitListPopupWindow.Type.LEFT, rowItems1);
+        listpopupwindowRight = new UIKitListPopupWindow(PopOverMenu.this, right, UIKitListPopupWindow.Type.RIGHT, rowItems2);
+        listpopupwindowBottomLeft = new UIKitListPopupWindow(PopOverMenu.this, buttomleft, UIKitListPopupWindow.Type.BOTTOMLEFT, rowItems1);
         listpopupwindowBottomRight = new UIKitListPopupWindow(PopOverMenu.this,buttomright,UIKitListPopupWindow.Type.BOTTOMRIGHT, rowItems1);
 
 
@@ -151,13 +145,12 @@ public class PopOverMenu extends CatalogActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         UikitUtils.menuShowIcon(menu);
-        menu.getItem(0).setIcon(VectorDrawable.create(this,R.drawable.uikit_gear_19_19));
-        menu.getItem(1).setIcon(VectorDrawable.create(this,R.drawable.uikit_share));
-        menu.getItem(2).setIcon(VectorDrawable.create(this,R.drawable.uikit_envelope));
-        menu.getItem(3).setIcon(VectorDrawable.create(this,R.drawable.uikit_ballon));
+        menu.getItem(0).setIcon(VectorDrawable.create(this, R.drawable.uikit_gear_19_19));
+        menu.getItem(1).setIcon(VectorDrawable.create(this, R.drawable.uikit_share));
+        menu.getItem(2).setIcon(VectorDrawable.create(this, R.drawable.uikit_envelope));
+        menu.getItem(3).setIcon(VectorDrawable.create(this, R.drawable.uikit_ballon));
 
         return super.onPrepareOptionsMenu(menu);
 

@@ -30,14 +30,15 @@ import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
- *
+ * <br>
  * Helper class to initialize tabs and adjusts the modes.
  * For custom image or text background, the selector must be set before creating new tabs.
  * <br>
- *     Tabs should fill the width on phones and centered on Tablets.
+ * Tabs should fill the width on phones and centered on Tablets.
  */
 public class TabUtils {
 
+    boolean isTablet;
     private int selectedColor;
     //Provide theeming facility for text color.
     private int enabledColor;
@@ -50,17 +51,73 @@ public class TabUtils {
     private ColorStateList textSelector;
     private int textColor = Integer.MIN_VALUE;
 
-    boolean isTablet;
-
     public TabUtils(Context context, TabLayout tabLayout, boolean withIcon) {
         this.context = context;
         this.tabLayout = tabLayout;
         isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
-        if(context instanceof Activity) {
-//            disableActionbarShadow((Activity) context);
-        }
         initSelectionColors();
         initIconColorFilters();
+    }
+
+    /**
+     * This must be called in onResume.
+     * It adjusts the mode (fill on phones and center on tablet) of the tabs.
+     * Due to strange behavior of mode and gravity, we need this function.
+     *
+     * @param tabLayout
+     * @param context
+     */
+    public static void adjustTabs(final TabLayout tabLayout, final Context context) {
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                //Measure width of 1st child. HSView by default has full screen view
+                int tabLayoutWidth = tabLayout.getChildAt(0).getWidth();
+
+                DisplayMetrics metrics = new DisplayMetrics();
+                WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                windowManager.getDefaultDisplay().getMetrics(metrics);
+                int windowWidth = metrics.widthPixels;
+
+                boolean isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
+                if (tabLayoutWidth <= windowWidth) {
+                    tabLayout.setTabMode(TabLayout.MODE_FIXED);
+                    int gravity = isTablet ? TabLayout.GRAVITY_CENTER : TabLayout.GRAVITY_FILL;
+                    tabLayout.setTabGravity(gravity);
+                } else {
+                    if (tabLayout.getTabMode() != TabLayout.MODE_SCROLLABLE)
+                        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                }
+            }
+        });
+    }
+
+    /**
+     * In case UIKit default tabstyle is used this function must be called to hide the action bar
+     * shadow.
+     *
+     * @param activity
+     */
+    public static void disableActionbarShadow(Activity activity) {
+        if (activity == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (activity instanceof AppCompatActivity) {
+                if (((AppCompatActivity) activity).getSupportActionBar() != null)
+                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
+            } else {
+                if (activity.getActionBar() != null)
+                    activity.getActionBar().setElevation(0);
+            }
+        } else {
+            View content = activity.findViewById(android.R.id.content);
+            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
+                ((ViewGroup) content.getParent()).setWillNotDraw(true);
+
+                if (content instanceof FrameLayout) {
+                    content.setForeground(null);
+                }
+            }
+        }
     }
 
     /**
@@ -70,12 +127,12 @@ public class TabUtils {
      * <br>
      * For custom background of image/Text please set the selector prior to creating new tab
      *
-     * @param titleResID ResourceId for the String.
+     * @param titleResID    ResourceId for the String.
      * @param imageDrawable Image Drawable resource ID. Must be greater than 0 if image is required in tab.
-     * <br>
+     *                      <br>
      *                      In case of drawable, provide any dummy drawable and call
-     *                      {@link TabUtils#setIcon(TabLayout.Tab, Drawable, boolean)} instead.
-     * @param badgeCount Badge count
+     *                      {@link TabUtils#setIcon(TabLayout.Tab, Drawable, boolean)}  instead.
+     * @param badgeCount    Badge count
      * @return
      */
     public TabLayout.Tab newTab(int titleResID, int imageDrawable, final int badgeCount) {
@@ -124,11 +181,11 @@ public class TabUtils {
 
         int tabCount = tabLayout.getTabCount();
 
-        if((isTablet && tabCount > 0)|| (!isTablet && tabCount == 0)) {
+        if ((isTablet && tabCount > 0) || (!isTablet && tabCount == 0)) {
             customView.findViewById(R.id.tab_divider).setVisibility(View.GONE);
         }
 
-        if(isTablet) {
+        if (isTablet) {
             customView.findViewById(R.id.tab_divider_last).setVisibility(View.VISIBLE);
         }
 
@@ -139,6 +196,7 @@ public class TabUtils {
     /**
      * Sets custom selector the images and ignores the theme based image background
      * Either of the one should be set to use the custom drawable or ignoreTheme
+     *
      * @param selector
      * @param ignoreTheme
      */
@@ -149,6 +207,7 @@ public class TabUtils {
 
     /**
      * Sets the color for the tab text
+     *
      * @param color Text color to be applied.
      */
     public void setTextSelector(int color) {
@@ -157,19 +216,9 @@ public class TabUtils {
     }
 
     /**
-     * Sets the colorstate list for the text
-     *
-     * @param selector Sets statelistdrawable for the text.
-     */
-    public void setTextSelector(ColorStateList selector) {
-        textSelector = selector;
-        textColor = Integer.MIN_VALUE;
-    }
-
-    /**
      * Sets the image drawable for the tab.
      *
-     * @param tab Tab on which the image needs to be applied.
+     * @param tab      Tab on which the image needs to be applied.
      * @param drawable Drawable for the tab.
      * @param useTheme Flag to set theme based tinting over the image.
      */
@@ -182,7 +231,8 @@ public class TabUtils {
 
     /**
      * Sets title for the tabs.
-     * @param tab Target tab
+     *
+     * @param tab   Target tab
      * @param title String resource for the title
      */
     public void setTitle(TabLayout.Tab tab, String title) {
@@ -193,8 +243,9 @@ public class TabUtils {
 
     /**
      * Set the count on the tab.
+     *
      * @param tab
-     * @param count  Must be a int value
+     * @param count Must be a int value
      */
     public void setCount(TabLayout.Tab tab, int count) {
         TextView countView = (TextView) tab.getCustomView().findViewById(R.id.tab_count);
@@ -209,6 +260,7 @@ public class TabUtils {
 
     /**
      * Sets the title on the tab with string resource id
+     *
      * @param tab
      * @param resID String resource id for the title
      */
@@ -218,42 +270,20 @@ public class TabUtils {
         titleView.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * This must be called in onResume.
-     * It adjusts the mode (fill on phones and center on tablet) of the tabs.
-     * Due to strange behavior of mode and gravity, we need this function.
-     * @param tabLayout
-     * @param context
-     */
-    public static void adjustTabs(final TabLayout tabLayout, final Context context) {
-        tabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                //Measure width of 1st child. HSView by default has full screen view
-                int tabLayoutWidth = ((ViewGroup) tabLayout.getChildAt(0)).getWidth();
-
-                DisplayMetrics metrics = new DisplayMetrics();
-                WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                windowManager.getDefaultDisplay().getMetrics(metrics);
-                int windowWidth = metrics.widthPixels;
-
-                boolean isTablet = context.getResources().getBoolean(R.bool.uikit_istablet);
-                if (tabLayoutWidth <= windowWidth) {
-                    tabLayout.setTabMode(TabLayout.MODE_FIXED);
-                    int gravity = isTablet ? TabLayout.GRAVITY_CENTER : TabLayout.GRAVITY_FILL;
-                    tabLayout.setTabGravity(gravity);
-                } else {
-                    if (tabLayout.getTabMode() != TabLayout.MODE_SCROLLABLE)
-                        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                }
-            }
-        });
-    }
-
     private ColorStateList getTextSelector() {
         int[][] states = {{android.R.attr.state_selected}, {}};
         int[] colors = {selectedColor, enabledColor};
         return new ColorStateList(states, colors);
+    }
+
+    /**
+     * Sets the colorstate list for the text
+     *
+     * @param selector Sets statelistdrawable for the text.
+     */
+    public void setTextSelector(ColorStateList selector) {
+        textSelector = selector;
+        textColor = Integer.MIN_VALUE;
     }
 
     //Focussed color is the base color of the current theme.
@@ -279,27 +309,5 @@ public class TabUtils {
         selector.addState(new int[]{}, enabled, enabledFilter);
 
         return selector;
-    }
-
-    private void disableActionbarShadow(Activity activity) {
-        if (activity == null) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (activity instanceof AppCompatActivity) {
-                if (((AppCompatActivity) activity).getSupportActionBar() != null)
-                    ((AppCompatActivity) activity).getSupportActionBar().setElevation(0);
-            } else {
-                if (activity.getActionBar() != null)
-                    activity.getActionBar().setElevation(0);
-            }
-        } else {
-            View content = activity.findViewById(android.R.id.content);
-            if (content != null && content.getParent() instanceof ActionBarOverlayLayout) {
-                ((ViewGroup) content.getParent()).setWillNotDraw(true);
-
-                if (content instanceof FrameLayout) {
-                    ((FrameLayout) content).setForeground(null);
-                }
-            }
-        }
     }
 }

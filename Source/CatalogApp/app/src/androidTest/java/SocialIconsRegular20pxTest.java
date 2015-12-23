@@ -19,17 +19,17 @@ import static com.philips.cdp.ui.catalog.Matchers.IsDimensionAsExpectedMatcher.i
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.*/
+ * All rights reserved.
+ */
 
 
 public class SocialIconsRegular20pxTest extends ActivityInstrumentationTestCase2<SocialIconsActivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private SocialIconsActivity socialIconsActivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public SocialIconsRegular20pxTest() {
         super(SocialIconsActivity.class);
@@ -55,29 +55,29 @@ public class SocialIconsRegular20pxTest extends ActivityInstrumentationTestCase2
     }
 
     public void testDBThemeTwitterIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_twitter_20)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
+        onView(withId(R.id.uikit_social_twitter_20)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
     }
 
     public void testDBThemeFacebookIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_facebook_20)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
+        onView(withId(R.id.uikit_social_facebook_20)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
     }
 
     public void testDBThemeYoutubeIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_youtube_20)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
+        onView(withId(R.id.uikit_social_youtube_20)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
     }
 
     public void testDBThemePininterestIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_pininterest_20)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
+        onView(withId(R.id.uikit_social_pininterest_20)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
     }
 
     public void testDBThemeLinkedinIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_linkedin_20)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
+        onView(withId(R.id.uikit_social_linkedin_20)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width))));
     }
 
-     public void testBOThemeBGColorAsExpected() {
+    public void testBOThemeBGColorAsExpected() {
         themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
-        onView(withId(R.id.uikit_social_youtube_20)).check(matches(isBackgroundColorSimilar("#e9830",3,10)));
+        onView(withId(R.id.uikit_social_youtube_20)).check(matches(isBackgroundColorSimilar("#e9830", 3, 10)));
     }
 
 //    public void testBAThemeBGColorAsExpected() {

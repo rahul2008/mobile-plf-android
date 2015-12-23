@@ -25,9 +25,9 @@ import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.i
  */
 public class TransparentWhiteButtonPressedTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-    private Resources testResources;
     Semaphore semaphore = new Semaphore(1);
     Activity targetActivity;
+    private Resources testResources;
 
     public TransparentWhiteButtonPressedTest() {
         super(MainActivity.class);

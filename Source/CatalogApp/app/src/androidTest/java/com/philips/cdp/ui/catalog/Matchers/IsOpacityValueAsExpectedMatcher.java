@@ -29,6 +29,10 @@ public class IsOpacityValueAsExpectedMatcher extends BoundedMatcher<View, View> 
         this.actualY = actualY;
     }
 
+    public static Matcher<View> isOpacityValueSimilar(final int expectedAlpha, final int actualX, final int actualY) {
+        return new IsOpacityValueAsExpectedMatcher(View.class, expectedAlpha, actualX, actualY);
+    }
+
     @Override
     public void describeTo(Description description) {
         description.appendText("Alpha value of actual is not as expected");
@@ -43,14 +47,7 @@ public class IsOpacityValueAsExpectedMatcher extends BoundedMatcher<View, View> 
         int pixel = actualBitmap.getPixel(actualX, actualY);
         int actualAlpha = Color.alpha(pixel);
 
-        if ((actualAlpha == expectedAlpha)) {
-            return true;
-        }
-        return false;
-    }
-
-    public static Matcher<View> isOpacityValueSimilar(final int expectedAlpha, final int actualX, final int actualY) {
-        return new IsOpacityValueAsExpectedMatcher(View.class, expectedAlpha ,actualX ,actualY);
+        return (actualAlpha == expectedAlpha);
     }
 }
 

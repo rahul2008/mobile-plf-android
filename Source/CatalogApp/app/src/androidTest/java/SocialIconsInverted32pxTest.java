@@ -18,17 +18,17 @@ import static com.philips.cdp.ui.catalog.Matchers.IsDimensionAsExpectedMatcher.i
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.*/
+ * All rights reserved.
+ */
 
 
 public class SocialIconsInverted32pxTest extends ActivityInstrumentationTestCase2<SocialIconsActivity> {
 
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
     private Resources testResources;
     private SocialIconsActivity socialIconsActivity;
     private ThemeUtils themeUtils;
-
-    Semaphore semaphore = new Semaphore(1);
-    Activity targetActivity;
 
     public SocialIconsInverted32pxTest() {
         super(SocialIconsActivity.class);
@@ -54,19 +54,19 @@ public class SocialIconsInverted32pxTest extends ActivityInstrumentationTestCase
     }
 
     public void testDBThemeTwitterIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_twitter_inverse)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height_large), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width_large))));
+        onView(withId(R.id.uikit_social_twitter_inverse)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height_large), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width_large))));
     }
 
     public void testDBThemeFacebookIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_facebook_inverse)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height_large), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width_large))));
+        onView(withId(R.id.uikit_social_facebook_inverse)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height_large), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width_large))));
     }
 
     public void testDBThemePininterestIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_pininterest_inverse)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height_large), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width_large))));
+        onView(withId(R.id.uikit_social_pininterest_inverse)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height_large), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width_large))));
     }
 
     public void testDBThemeLinkedinIconPixelPerfect() {
-        onView(withId(R.id.uikit_social_linkedin_inverse)).check(matches(isDimensionSimilar((int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height_large), (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width_large))));
+        onView(withId(R.id.uikit_social_linkedin_inverse)).check(matches(isDimensionSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_height_large), (int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.socialicons_width_large))));
     }
 
 }

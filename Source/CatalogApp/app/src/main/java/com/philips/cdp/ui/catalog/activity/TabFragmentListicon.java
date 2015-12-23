@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.CustomListView.ListViewWithIcons;
-import com.philips.cdp.ui.catalog.CustomListView.ListViewWithOptions;
 import com.philips.cdp.ui.catalog.R;
 
 /**
@@ -49,7 +47,7 @@ public class TabFragmentListicon extends Fragment {
             }
         }
 
-             list.setAdapter(mAdapter);
+        list.setAdapter(mAdapter);
 
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,7 +65,7 @@ public class TabFragmentListicon extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBundle("ListviewWithIcons",mAdapter.getSavedBundle());
+        outState.putBundle("ListviewWithIcons", mAdapter.getSavedBundle());
     }
 
 

@@ -39,7 +39,8 @@
     <dimen name="uikit_about_screen_layout_top_margin">85dp</dimen>
     <dimen name="uikit_about_screen_layout_left_margin">137dp</dimen><!-- 138 -->
     <dimen name="uikit_about_screen_layout_rest_left_margin">139dp</dimen><!-- 138 -->
-    <dimen name="uikit_about_screen_logo_margin">85dp</dimen><!-- 53dp 1dp iconfont-->
+    <dimen name="uikit_about_screen_logo_margin">85dp</dimen>
+    <!-- 53dp 1dp iconfont-->
     <dimen name="uikit_about_screen_logo_margin_bottom">85dp</dimen>
     <dimen name="uikit_about_screen_logo_width">176dp</dimen>
     <dimen name="uikit_about_screen_logo_height">138dp</dimen>
