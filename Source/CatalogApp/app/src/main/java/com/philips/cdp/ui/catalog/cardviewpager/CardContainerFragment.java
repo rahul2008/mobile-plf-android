@@ -50,7 +50,7 @@ public class CardContainerFragment extends Fragment {
         private void setUpView() {
             final Context mContext = getActivity();
 
-            TypedArray typedArray = mContext.getTheme().obtainStyledAttributes(new int[]{com.philips.cdp.uikit.R.attr.baseColor});
+            TypedArray typedArray = mContext.getTheme().obtainStyledAttributes(new int[]{com.philips.cdp.uikit.R.attr.verydarkBaseColor});
             final int color = typedArray.getColor(0, -1);
             typedArray.recycle();
             ImageView cardImage, crossIcon;
