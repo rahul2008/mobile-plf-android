@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.blur;
+package com.philips.cdp.uikit.modalalert;
 
 import android.content.DialogInterface;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.philips.cdp.uikit.blur;
+package com.philips.cdp.uikit.modalalert;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
