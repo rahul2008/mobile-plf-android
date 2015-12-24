@@ -1,5 +1,6 @@
 package com.philips.cdp.ui.catalog.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,7 +40,8 @@ public class TabFragmentListWithoutIcon1 extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), com.philips.cdp.ui.catalog.activity.DummyActivityForListItemClick.class);
+                startActivity(intent); 
             }
         });
 

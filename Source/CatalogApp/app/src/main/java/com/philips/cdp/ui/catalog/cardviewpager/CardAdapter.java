@@ -53,7 +53,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         });
         holder.cardImage.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         if (position == 1) {
-            holder.topLayout.setBackgroundResource(R.drawable.uikit_food);
+         //   holder.topLayout.setBackgroundResource(R.drawable.uikit_food);
         }
     }
 
