@@ -72,11 +72,10 @@ public class UIKitRatingBar extends RatingBar {
     }
 
     public void setProgressDrawableCustom() {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setProgressDrawableTiled(getDrawable());
+            setProgressDrawableTiled(getStarDrawable());
         } else {
-            setProgressDrawable(tileify(this, getDrawable()));
+            setProgressDrawable(tileify(this, getStarDrawable()));
         }
     }
 
@@ -86,25 +85,29 @@ public class UIKitRatingBar extends RatingBar {
         setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0), height);
     }
 
-
-    public Drawable getDrawable() {
+    private Drawable getStarDrawable() {
         Drawable[] d = new Drawable[3];
 
         if (isBigStar) {
-            d[0] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined)));//getDrawable(R.drawable.ic_star_black_48dp);
-            d[1] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined)));//getDrawable(R.drawable.ic_star_half_black_36dp);
-            d[2] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_solid)));//getDrawable(R.drawable.ic_star_black_48dp);
+            d[0] = getBitmapFromVector( R.drawable.uikit_star_outlined);
+            d[1] = d[0];
+            d[2] = getBitmapFromVector( R.drawable.uikit_star_solid);
         } else {
-            d[0] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined_small)));//getDrawable(R.drawable.ic_star_black_48dp);
-            d[1] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined_small)));//getDrawable(R.drawable.ic_star_half_black_36dp);
-            d[2] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_solid_small)));//getDrawable(R.drawable.ic_star_black_48dp);
+            d[0] = getBitmapFromVector( R.drawable.uikit_star_outlined_small);
+            d[1] = d[0];
+            d[2] = getBitmapFromVector( R.drawable.uikit_star_solid_small);
         }
 
-        LayerDrawable l = new LayerDrawable(d);
-        l.setId(0, android.R.id.background);
-        l.setId(1, android.R.id.secondaryProgress);
-        l.setId(2, android.R.id.progress);
-        return l;
+        LayerDrawable star = new LayerDrawable(d);
+        star.setId(0, android.R.id.background);
+        star.setId(1, android.R.id.secondaryProgress);
+        star.setId(2, android.R.id.progress);
+        return star;
+    }
+
+    private BitmapDrawable getBitmapFromVector(int resID) {
+        return new BitmapDrawable(getResources(),
+                drawableToBitmap(VectorDrawable.create(getContext(), resID)));
     }
 
     private Drawable tileify(ProgressBar bar, Drawable d) {
