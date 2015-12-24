@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.modalalert;
 
 import android.content.DialogInterface;
@@ -17,6 +21,10 @@ import android.widget.ImageView;
 
 import com.philips.cdp.uikit.R;
 
+/**
+ * BlurDialogFragment enables you to get Blur background followed by dialog
+ */
+
 public class BlurDialogFragment extends DialogFragment {
 
     private int mAnimDuration;
@@ -32,6 +40,11 @@ public class BlurDialogFragment extends DialogFragment {
         mBgColorResId = R.color.uikit_modal_alert_glass;
     }
 
+    /**
+     * This API enables to do initial resource initialization
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,18 +52,29 @@ public class BlurDialogFragment extends DialogFragment {
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
     }
 
+    /**
+     * Lifecycle method which we override to enable blur effect
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         applyBlur();
     }
 
+    /**
+     * Lifecycle method which we override to start enter animation
+     */
     @Override
     public void onStart() {
         startEnterAnimation();
         super.onStart();
     }
 
+    /**
+     * API which enables to dismiss dialog with exit animation
+     * @param dialog
+     */
     @Override
     public void onDismiss(DialogInterface dialog) {
         startExitAnimation();
@@ -116,14 +140,6 @@ public class BlurDialogFragment extends DialogFragment {
         }
     }
 
-    @Override
-    public void setCancelable(boolean cancelable) {
-        if (cancelable)
-            setOnTouchListener();
-        else
-            super.setCancelable(cancelable);
-    }
-
     private void applyBlurEffect(Rect visibleFrame) {
         Bitmap bitmap = ModalAlertUtil.drawViewToBitmap(mRoot, visibleFrame.right,
                 visibleFrame.bottom, visibleFrame.left, visibleFrame.top, 3);
@@ -149,10 +165,18 @@ public class BlurDialogFragment extends DialogFragment {
         });
     }
 
+    /**
+     * API to set user defined animation duration
+     * @param mAnimDuration
+     */
     public void setAnimDuration(int mAnimDuration) {
         this.mAnimDuration = mAnimDuration;
     }
 
+    /**
+     * API to set user defined animation style
+     * @param mWindowAnimStyle
+     */
     public void setWindowAnimStyle(int mWindowAnimStyle) {
         this.mWindowAnimStyle = mWindowAnimStyle;
     }
