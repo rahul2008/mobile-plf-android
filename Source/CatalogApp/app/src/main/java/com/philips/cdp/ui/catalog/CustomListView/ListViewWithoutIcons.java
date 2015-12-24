@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.CustomListView;
 
 import android.app.Activity;
@@ -14,23 +18,28 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.shamanland.fonticon.FontIconTextView;
 
-
 /**
- * Created by 310213373 on 11/18/2015.
+ * <b></b> ListViewWithIcons is class to demonstrate the use of R.layout.uikit_listview_without_icons with an adapter </b>
+ * <p/>
+ * <b></b> We have total 6 items which can be controlled by setting visibility as VISIBLE or GONE</b></br>
+ * <pre>
+ *  TextView name = (TextView) vi.findViewById(R.id.ifo);
+ * PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
+ * TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
+ * TextView on_off = (TextView) vi.findViewById(R.id.medium);
+ * FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
+ * TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
+ *
+ *        </pre>
  */
 
 
-
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class ListViewWithoutIcons extends BaseAdapter {
     public Activity activity;
     Bundle saveBundle = new Bundle();
-    private LayoutInflater inflater=null;
-    public ListViewWithoutIcons(Activity activity){
+    private LayoutInflater inflater = null;
+
+    public ListViewWithoutIcons(Activity activity) {
         this.activity = activity;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -52,9 +61,9 @@ public class ListViewWithoutIcons extends BaseAdapter {
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
-        View vi=convertView;
+        View vi = convertView;
 
-        if(convertView==null)
+        if (convertView == null)
             vi = inflater.inflate(R.layout.uikit_listview_without_icons, null);
 
 
@@ -65,7 +74,7 @@ public class ListViewWithoutIcons extends BaseAdapter {
         FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
         TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
 
-        if(position==0) {
+        if (position == 0) {
             //name.setVisibility(View.VISIBLE);
             name.setText("Version ");
 
@@ -78,18 +87,17 @@ public class ListViewWithoutIcons extends BaseAdapter {
             arrow.setVisibility(View.GONE);
         }
 
-        if(position==1)
-        { name.setText("Geofence Zone ");
+        if (position == 1) {
+            name.setText("Geofence Zone ");
 
-           value.setVisibility(View.GONE);
-description.setVisibility(View.GONE);
-          //  arrow.setVisibility(View.GONE);
+            value.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
+            //  arrow.setVisibility(View.GONE);
             on_off.setVisibility(View.VISIBLE);
             on_off.setText("Medium");
             arrow.setVisibility(View.VISIBLE);
         }
-        if(position==2)
-        {
+        if (position == 2) {
             name.setText("Enable Analytics ");
             value.setVisibility(View.VISIBLE);
             setSwitchState(value, "s1");
@@ -105,8 +113,7 @@ description.setVisibility(View.GONE);
             //  mBadge.setVisibility(View.VISIBLE);
             arrow.setVisibility(View.GONE);
         }
-        if(position==3)
-        {
+        if (position == 3) {
             name.setText("Language ");
 
             // value.setVisibility(View.VISIBLE);
