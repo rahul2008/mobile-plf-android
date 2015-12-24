@@ -1,10 +1,14 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.ui.catalog.favorites;
 
 import android.provider.BaseColumns;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Class for having all the columns of the Database
  */
 public class FavoritesContract {
 

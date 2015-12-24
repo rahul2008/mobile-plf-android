@@ -14,11 +14,14 @@ import com.philips.cdp.ui.catalog.R;
 
 public class ActionBarLauncher extends CatalogActivity {
 
+    /**
+     * Get the ActionBar and inflate Custom Action Bar and also set onClickListener for the arrow Button
+     * <li>Infalte uikit_action_bar.xml to the Android default Action Bar</li>
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        // requestWindowFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        //   setContentView(R.layout.uikit_action_bar);
 
         ActionBar mActionBar = this.getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);

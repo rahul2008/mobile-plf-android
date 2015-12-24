@@ -122,6 +122,11 @@ public class FavoritesAdapterAll extends BaseAdapter {
         return vi;
     }
 
+    /**
+     * Add the Item as Favorite in the data Base after the User selects that as favorite
+     * @param name
+     * @param isFavorite
+     */
     void addToFavorites(String name, String isFavorite) {
         DataBaseHelper mDbHelper = new DataBaseHelper(activity);
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -140,6 +145,10 @@ public class FavoritesAdapterAll extends BaseAdapter {
         }
     }
 
+    /**
+     * Get all the Values from the DB
+     * @return
+     */
     Cursor getAllValuesFromDB() {
 
         String[] projection = {
@@ -159,6 +168,9 @@ public class FavoritesAdapterAll extends BaseAdapter {
         return c;
     }
 
+    /**
+     * Close the connections once the Activity is destroyed.
+     */
     public void closeConnections(){
         if(mDbHelper!=null)
             mDbHelper.close();

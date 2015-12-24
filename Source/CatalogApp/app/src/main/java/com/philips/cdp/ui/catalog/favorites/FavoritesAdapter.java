@@ -26,6 +26,7 @@ public class FavoritesAdapter extends BaseAdapter {
     public Context activity;
     SQLiteDatabase db ;
     DataBaseHelper mDbHelper;
+
     public FavoritesAdapter(Context activity) {
         this.activity = activity;
         inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
@@ -61,6 +62,13 @@ public class FavoritesAdapter extends BaseAdapter {
         return 0;
     }
 
+    /**
+     * OnClick Of the Star to be Handled here
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         View vi=convertView;
@@ -106,6 +114,10 @@ public class FavoritesAdapter extends BaseAdapter {
         return vi;
     }
 
+    /**
+     * Update Database with the new Value - Favorite or UnFavorite
+     * @param name - The title of the entry that has to be Updated
+     */
     void updateFavInfo(String name){
         DataBaseHelper mDbHelper = new DataBaseHelper(activity);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();// = mDbHelper.getReadableDatabase();
@@ -131,6 +143,10 @@ public class FavoritesAdapter extends BaseAdapter {
         }
     }
 
+    /**
+     * Get All the Values from the DB that are marked as Favorite by the User. Initially All the Values will be false in the DB
+     * @return
+     */
     Cursor getFavFromDB(){
 
         String[] projection = {
@@ -157,6 +173,9 @@ public class FavoritesAdapter extends BaseAdapter {
         return c;
     }
 
+    /**
+     * Close the connection Objects after the activity is destroyed
+     */
     public void closeConnections(){
         if(mDbHelper!=null)
             mDbHelper.close();

@@ -27,6 +27,9 @@ public class Favorites extends Fragment{
         return view;
     }
 
+    /**
+     * All the DB connections should be closed on Destroy of the Fragment
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -34,6 +37,10 @@ public class Favorites extends Fragment{
             adapter.closeConnections();
     }
 
+    /**
+     * When ever the DataSet changes, The changes should be visible to the User. Hence This API is used for setting the Adapter
+     * @param isVisibleToUser
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);

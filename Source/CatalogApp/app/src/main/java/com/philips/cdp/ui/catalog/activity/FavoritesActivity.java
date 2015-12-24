@@ -122,6 +122,9 @@ public class FavoritesActivity extends CatalogActivity {
         }
     }
 
+    /**
+     * Insert Values into the Database
+     */
     public void insertIntoDatabase() {
 
         ContentValues values = new ContentValues();

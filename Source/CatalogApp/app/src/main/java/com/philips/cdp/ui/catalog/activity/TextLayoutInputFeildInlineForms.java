@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.ui.catalog.activity;
 
 import android.app.Activity;
@@ -18,12 +23,11 @@ import com.philips.cdp.uikit.customviews.PhilipsTextInputLayout;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class TextLayoutInputFeildInlineForms extends CatalogActivity {
 
+    /**
+     * For checking the Email Address validity
+     */
     private static final String EMAIL_PATTERN =
             "^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]{2,30}+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,5})$";
@@ -33,8 +37,11 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inline_forms);
         disableActionbarShadow(this);
-        final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.InlineForms);
 
+        /**
+         * The Below Layout acts as one item in the inline form
+         */
+        final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.InlineForms);
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
 
         email.addTextChangedListener(new TextWatcher() {
@@ -52,6 +59,9 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
             public void afterTextChanged(final Editable s) {
                 boolean result = validateEmail(email, email.hasFocus());
                 if (result) {
+                    /**
+                     * Error Layout should be removed after the entered text is verified as the right Email Address
+                     */
                     layout.removeError(email);
                 }
             }
@@ -70,6 +80,10 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         });
     }
 
+    /**
+     * This removes the Shaw present on the Top Layout
+     * @param activity - takes context as the parameter
+     */
     public void disableActionbarShadow(Activity activity) {
         if (activity == null) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -92,6 +106,12 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         }
     }
 
+    /**
+     * Match the Email Pattern and return the result accordingly
+     * @param editText - The Edit text to be validated
+     * @param hasFocus - weather the Edit Text has Focus
+     * @return
+     */
     private boolean validateEmail(View editText, boolean hasFocus) {
         String stringToBeValidated = ((EditText) editText).getText().toString();
         if (stringToBeValidated == null) {

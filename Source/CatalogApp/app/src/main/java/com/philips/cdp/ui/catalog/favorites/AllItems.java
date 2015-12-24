@@ -38,6 +38,10 @@ public class AllItems extends Fragment{
             adapter.closeConnections();
     }
 
+    /**
+     * Whenever the DataSet changes the change should be visible to the User - Hence this API
+     * @param isVisibleToUser
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -48,7 +52,7 @@ public class AllItems extends Fragment{
                 list.setAdapter(adapter);
             }
         }catch (Exception e){
-       //     e.printStackTrace();
+
         }
     }
 
