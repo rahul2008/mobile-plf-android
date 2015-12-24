@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.activity;
 
 import android.app.Activity;
@@ -23,8 +27,23 @@ import com.philips.cdp.ui.catalog.favorites.DataBaseHelper;
 import com.philips.cdp.uikit.utils.TabUtils;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <b></b> FavoritesActivity is class to demonstrate the use of Favorites with the help of adapters (FavoritesAdapter, FavoritesAdapterAll) and Database </b>
+ * <p/>
+ * <b></b> FavoritesAdapter is an Adapter for Favorites List</b>
+ * <p/>
+ * <b></b> FavoritesAdapterAll is an Adapter for showing the Full List</b>
+ * <p/>
+ * <b></b> DataBase Related classes are: DataBaseHelper, FavoritesContract</b>
+ * <p/>
+ * <b></b> Favorites is Demonstrated through Custom TabLayout and ViewPager for swapping of Pages</b>
+ * <p/>
+ * <b></b> In The Layout File Add a style to TabLayout as follows</b>
+ * <p/>
+ * <pre>&lt;android.support.design.widget.TabLayout
+ * android:id="@+id/tab_layout"
+ * style="@style/FavTabLayout"
+ * android:layout_below="@id/some"/&gt;
+ * </pre>
  */
 public class FavoritesActivity extends CatalogActivity {
     TabLayout layout;

@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.favorites;
 
 import android.os.Bundle;
@@ -11,8 +15,8 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.FavoritesActivity;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <b></b> Favorites is class to demonstrate the use of Favorite List with the help of an adapter FavoriteAdapter </b>
+ * <p/>
  */
 public class Favorites extends Fragment{
 

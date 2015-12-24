@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.ui.catalog.favorites;
 
 import android.content.ContentValues;
@@ -19,8 +24,18 @@ import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <b></b> FavoritesAdapterAll is class to demonstrate the use of uikit_favorites_item_layout with an adapter </b>
+ * <p/>
+ * <b></b> This List should only contain all the items - refer API getAllValuesFromDB</b></br>
+ * <p/>
+ * <b></b> On Click Of Star the Item should be added to Favorite List - refer API addToFavorites</b></br>
+ * <pre>
+ * ImageView image = (ImageView) vi.findViewById(R.id.imagefav);
+ * TextView value = (TextView) vi.findViewById(R.id.item_name);
+ * final ImageView favorite = (ImageView) vi.findViewById(R.id.favorite);
+ * FrameLayout frame = (FrameLayout) vi.findViewById(R.id.favoritecontainer);
+ * frame.setOnClickListener(){//your code}
+ * </pre>
  */
 public class FavoritesAdapterAll extends BaseAdapter {
     private LayoutInflater inflater = null;

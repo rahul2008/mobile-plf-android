@@ -11,24 +11,22 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;
 
 /**
- * Activity For Demonstrating Customized Rating Bar
+ * <b></b> RatingBarLauncher is class to demonstrate the use of custom RatingBar (Big or Small) two types of RatingBar</b>
+ * <p/>
+ * <p/>
+ * <b></b>Inorder to use Custom RatingBar include the Following lines in the layout File</b><br>
+ * <pre>&lt;com.philips.cdp.uikit.customviews.UIKitRatingBar
+ *      android:id="@+id/ratingbig"
+ *      android:layout_width="wrap_content"
+ *      android:layout_height="wrap_content"
+ *      android:layout_centerInParent="true"
+ *      app:isratingbarbig="true"/&gt;
+ *
+ * </pre>
+ * <b></b>For Big Star give  <pre>app:isratingbarbig="true"</b><br>
+ * <b></b>For Small Star give  <pre>app:isratingbarbig="false"</b><br>
  */
 public class RatingBarLauncher extends CatalogActivity {
-
-    /**
-     * @param savedInstanceState
-     * <li>Define a RatingBar in the layout file and assign it a unique ID.
-     * <pre>
-     * &lt;com.philips.cdp.uikit.customviews.UIKitRatingBar
-     *      android:id="@+id/ratingbig"
-     *      android:layout_width="wrap_content"
-     *      android:layout_height="wrap_content"
-     *      android:layout_centerInParent="true"
-     *      app:isratingbarbig="true"/&gt;
-     * </pre></li>
-     *  <li>For Big Star give  <pre>app:isratingbarbig="true"</pe></li>
-     *  <li>For Small Star give  <pre>app:isratingbarbig="false"</pe></li>
-     */
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
