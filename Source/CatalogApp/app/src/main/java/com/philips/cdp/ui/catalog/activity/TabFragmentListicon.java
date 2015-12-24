@@ -1,3 +1,8 @@
+
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Intent;
@@ -13,8 +18,10 @@ import com.philips.cdp.ui.catalog.CustomListView.ListViewWithIcons;
 import com.philips.cdp.ui.catalog.R;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <b></b> TabFragmentListicon is class to demonstrate the use of List with icons with the help of an adapter ListViewWithIcons </b>
+ * <p/>
+ * <p/>
+ * <b></b>Make Arrays of Section Headers and Data , and setAdapter() </b><br>
  */
 public class TabFragmentListicon extends Fragment {
 
@@ -24,10 +31,10 @@ public class TabFragmentListicon extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(true);
-        View view =  inflater.inflate(R.layout.listview_icons, container, false);
+        View view = inflater.inflate(R.layout.listview_icons, container, false);
 
 
-        list=(ListView)view.findViewById(R.id.listicon);
+        list = (ListView) view.findViewById(R.id.listicon);
 
         mAdapter = new ListViewWithIcons(getActivity());
         mAdapter.addSectionHeaderItem("Title Pallendia");
