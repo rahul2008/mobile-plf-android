@@ -74,9 +74,9 @@ public class UIKitRatingBar extends RatingBar {
     public void setProgressDrawableCustom() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setProgressDrawableTiled(getDraw());
+            setProgressDrawableTiled(getDrawable());
         } else {
-            setProgressDrawable(tileify(this, getDraw()));
+            setProgressDrawable(tileify(this, getDrawable()));
         }
     }
 
@@ -87,17 +87,17 @@ public class UIKitRatingBar extends RatingBar {
     }
 
 
-    public Drawable getDraw() {
+    public Drawable getDrawable() {
         Drawable[] d = new Drawable[3];
 
         if (isBigStar) {
-            d[0] = new BitmapDrawable(drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined)));//getDrawable(R.drawable.ic_star_black_48dp);
-            d[1] = new BitmapDrawable(drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined)));//getDrawable(R.drawable.ic_star_half_black_36dp);
-            d[2] = new BitmapDrawable(drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_solid)));//getDrawable(R.drawable.ic_star_black_48dp);
+            d[0] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined)));//getDrawable(R.drawable.ic_star_black_48dp);
+            d[1] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined)));//getDrawable(R.drawable.ic_star_half_black_36dp);
+            d[2] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_solid)));//getDrawable(R.drawable.ic_star_black_48dp);
         } else {
-            d[0] = new BitmapDrawable(drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined_small)));//getDrawable(R.drawable.ic_star_black_48dp);
-            d[1] = new BitmapDrawable(drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined_small)));//getDrawable(R.drawable.ic_star_half_black_36dp);
-            d[2] = new BitmapDrawable(drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_solid_small)));//getDrawable(R.drawable.ic_star_black_48dp);
+            d[0] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined_small)));//getDrawable(R.drawable.ic_star_black_48dp);
+            d[1] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_outlined_small)));//getDrawable(R.drawable.ic_star_half_black_36dp);
+            d[2] = new BitmapDrawable(getResources(),drawableToBitmap(VectorDrawable.create(getContext(), R.drawable.uikit_star_solid_small)));//getDrawable(R.drawable.ic_star_black_48dp);
         }
 
         LayerDrawable l = new LayerDrawable(d);

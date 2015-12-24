@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Intent;
@@ -16,8 +20,10 @@ import com.philips.cdp.ui.catalog.CustomListView.ListViewWithOptions;
 import com.philips.cdp.ui.catalog.R;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <b></b> TabFragmentListOption is class to demonstrate the use of List with the help of an adapter ListViewWithOptions </b>
+ * <p/>
+ * <p/>
+ * <b></b>This Does not have any Header</b><br>
  */
 public class TabFragmentListOption extends Fragment {
 

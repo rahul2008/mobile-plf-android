@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.favorites;
 
 import android.os.Bundle;
@@ -10,10 +14,7 @@ import android.widget.ListView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.FavoritesActivity;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public class Favorites extends Fragment{
 
 
@@ -27,6 +28,9 @@ public class Favorites extends Fragment{
         return view;
     }
 
+    /**
+     * All the DB connections should be closed on Destroy of the Fragment
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -34,6 +38,10 @@ public class Favorites extends Fragment{
             adapter.closeConnections();
     }
 
+    /**
+     * When ever the DataSet changes, The changes should be visible to the User. Hence This API is used for setting the Adapter
+     * @param isVisibleToUser
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
