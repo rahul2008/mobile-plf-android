@@ -14,16 +14,16 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.support.v7.widget.ActionBarOverlayLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.philips.cdp.ui.catalog.favorites.FavoritesPagerAdapter;
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.favorites.DataBaseHelper;
 import com.philips.cdp.ui.catalog.favorites.FavoritesContract;
 import com.philips.cdp.ui.catalog.favorites.FavoritesContract.FeedEntry;
-import com.philips.cdp.ui.catalog.favorites.DataBaseHelper;
+import com.philips.cdp.ui.catalog.favorites.FavoritesPagerAdapter;
 import com.philips.cdp.uikit.utils.TabUtils;
 
 /**

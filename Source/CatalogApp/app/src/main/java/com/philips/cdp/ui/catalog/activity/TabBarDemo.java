@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.support.v7.widget.ActionBarOverlayLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
