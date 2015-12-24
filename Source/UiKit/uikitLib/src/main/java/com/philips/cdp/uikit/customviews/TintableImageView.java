@@ -22,17 +22,33 @@ import com.philips.cdp.uikit.R;
 public class TintableImageView extends ImageView {
 
     /**
-     * Same behavior as base Image View
+     * Style NONE has same behavior as base Image View
      */
-    public static int STYLE_NONE = 0;
+
     /**
-     * Default color is white, pressed color will be base color
+     *  Style THEME Default color is white, pressed color will be base color
      */
-    public static int STYLE_THEME = 1;
-    /**
-     * Default color is base color, pressed color will be white color
+     /**
+     * Style Inverted Default color is base color, pressed color will be white color
      */
-    public static int STYLE_INVERTED = 2;
+
+        public enum STYLE {
+        NONE(0), THEME(1), INVERTED(2);
+        private int value;
+
+        STYLE(int value) {
+            this.value = value;
+        }
+
+        public int getValue()
+        {
+            return this.value;
+        }
+    }
+
+    ;
+
+
     Context context;
     int baseColor;
     private ColorStateList tint;
@@ -65,7 +81,7 @@ public class TintableImageView extends ImageView {
         super.drawableStateChanged();
 
         //Same as bsae ImageView
-        if (colorStyle == STYLE_NONE) return;
+        if (colorStyle == STYLE.NONE.getValue()) return;
 
         int[] state = getDrawableState();
         boolean isPressed = false;
@@ -76,13 +92,13 @@ public class TintableImageView extends ImageView {
                 break;
             }
         }
-        if (colorStyle == STYLE_THEME) {
+        if (colorStyle == STYLE.THEME.getValue()) {
             if (isPressed) {
                 setColorFilter(baseColor);
             } else {
                 clearColorFilter();
             }
-        } else if (colorStyle == STYLE_INVERTED) {
+        } else if (colorStyle == STYLE.INVERTED.getValue()) {
             if (isPressed) {
                 clearColorFilter();
             } else {
@@ -100,10 +116,10 @@ public class TintableImageView extends ImageView {
     /**
      * Describes how the tint should be applied to the image.
      *
-     * @param themeStyle One of {@link #STYLE_NONE}, {@link #STYLE_THEME}, {@link #STYLE_INVERTED}
+     * @param themeStyle One of { STYLE}
      */
     public void setStyleTheme(int themeStyle) {
-        if (themeStyle > STYLE_INVERTED || themeStyle < STYLE_NONE) {
+        if (themeStyle > STYLE.INVERTED.getValue() || themeStyle < STYLE.NONE.getValue()) {
             throw new RuntimeException("Wrong theme applied");
         }
         colorStyle = themeStyle;

@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
@@ -9,8 +13,16 @@ import com.philips.cdp.ui.catalog.ModalAlertDemoFragment;
 import com.philips.cdp.ui.catalog.R;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <b>Please find the below steps to use Modal Alert</b><br>
+ *     <pre>
+ *         1. Create Fragment which extends BlurDialogFragment for example <b>ModalAlertDemoFragment</b> and define your required view on onCreateView()
+ *         2. Based on requirement call below code to show modal alert
+ *              <pre>
+ *                  ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
+ modalAlertDemoFragment.show(getSupportFragmentManager(), "dialog");
+ *              </pre>
+ *
+ *     </pre>
  */
 public class ModalAlertDemo extends CatalogActivity {
 

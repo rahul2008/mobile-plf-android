@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 
 public class UikitSpringBoardLayout extends LinearLayout {
 
-    public static int STYLE_THEME = 1;
+
     int baseColor;
     int colorStyle = 1;
     int overlayColor = 0;
@@ -63,8 +63,8 @@ public class UikitSpringBoardLayout extends LinearLayout {
     public void addView(View child, ViewGroup.LayoutParams params) {
         super.addView(child, params);
         selector = getBackgroundSelector();
-        int version = Build.VERSION.SDK_INT;
-        if (version < 16) {
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
             child.setBackgroundDrawable(selector);
         } else {
             child.setBackground(selector);

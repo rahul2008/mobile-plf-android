@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.philips.cdp.uikit.blur.BlurDialogFragment;
+import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

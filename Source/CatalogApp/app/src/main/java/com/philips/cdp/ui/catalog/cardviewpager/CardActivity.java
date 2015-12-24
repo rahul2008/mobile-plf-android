@@ -3,12 +3,7 @@ package com.philips.cdp.ui.catalog.cardviewpager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;
@@ -16,7 +11,7 @@ import com.philips.cdp.ui.catalog.activity.CatalogActivity;
 
 public class CardActivity extends CatalogActivity {
 
-    RecyclerView recyclerView;
+    CustomRecyclerView recyclerView;
     CardAdapter adapter;
 
     @Override
@@ -27,7 +22,7 @@ public class CardActivity extends CatalogActivity {
     }
 
     private void handleOrientationView() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (CustomRecyclerView) findViewById(R.id.recyclerView);
 
         Resources res = getResources();
         Configuration conf = res.getConfiguration();
@@ -38,39 +33,18 @@ public class CardActivity extends CatalogActivity {
 
         switch (orientation) {
             case Configuration.ORIENTATION_PORTRAIT:
-                if (recyclerView != null) {
-                    llm.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(llm);
-                    adapter = new CardAdapter(this);
-                    recyclerView.setAdapter(adapter);
-                }
+                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(llm);
+                adapter = new CardAdapter(this);
+                recyclerView.setAdapter(adapter);
                 break;
             case Configuration.ORIENTATION_LANDSCAPE:
-                CardPagerAdapter cardPagerAdapter = new CardPagerAdapter(getSupportFragmentManager());
-                ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-                viewPager.setAdapter(cardPagerAdapter);
+                llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+                recyclerView.setLayoutManager(llm);
+                adapter = new CardAdapter(this);
+                recyclerView.setAdapter(adapter);
                 break;
         }
     }
 
-    public class CardPagerAdapter extends FragmentPagerAdapter {
-
-        public CardPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            CardContainerFragment cardContainerFragment = new CardContainerFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("index", i);
-            cardContainerFragment.setArguments(bundle);
-            return cardContainerFragment;
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-    }
 }

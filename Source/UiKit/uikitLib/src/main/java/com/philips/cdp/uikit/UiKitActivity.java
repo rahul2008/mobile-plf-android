@@ -9,8 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
-import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -59,7 +59,7 @@ public class UiKitActivity extends AppCompatActivity {
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to imageView.setAlpha(): sticking with deprecated API for now
     private DrawerLayout setLogoAlpha() {
-        VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) findViewById(R.id.philips_logo);
+        ImageView vectorDrawableImageView = (ImageView) findViewById(R.id.philips_logo);
         DrawerLayout philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
         if (vectorDrawableImageView != null)
             vectorDrawableImageView.setAlpha(229);
