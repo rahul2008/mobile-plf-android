@@ -1,3 +1,10 @@
+
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
+
 package com.philips.cdp.uikit;
 
 import android.content.Context;
@@ -13,15 +20,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ *
+ *  Layout class which provides different color for pressed state and normal state <br>
+ *
+ *  Use opacityStyle ( darker , darker_with_opacity) attribute in xml to apply the proper color on
+ * pressed state.
+ *
+ * Darker is just one shade darker of the current color
+ * darker_with_opacity is one shade darker of current base color with opacity of 35 %
+ *
+ * @attr ref com.philips.cdp.uikit.R.attr.opacityStyle
+ *
+ *
  */
 
 public class UikitSpringBoardLayout extends LinearLayout {
 
-    public static int STYLE_THEME = 1;
+
     int baseColor;
     int colorStyle = 1;
     int overlayColor = 0;
@@ -63,8 +79,8 @@ public class UikitSpringBoardLayout extends LinearLayout {
     public void addView(View child, ViewGroup.LayoutParams params) {
         super.addView(child, params);
         selector = getBackgroundSelector();
-        int version = Build.VERSION.SDK_INT;
-        if (version < 16) {
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
             child.setBackgroundDrawable(selector);
         } else {
             child.setBackground(selector);

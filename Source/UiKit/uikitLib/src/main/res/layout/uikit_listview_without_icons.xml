@@ -72,7 +72,9 @@
         android:layout_alignBaseline="@id/medium"
         android:layout_alignParentTop="true"
         android:includeFontPadding="false"
+        android:layout_toLeftOf="@id/medium"
         android:text="Version"
+        android:layout_alignParentLeft="true"
         android:textColor="?attr/listtextselector"
         android:textSize="20sp" />
 

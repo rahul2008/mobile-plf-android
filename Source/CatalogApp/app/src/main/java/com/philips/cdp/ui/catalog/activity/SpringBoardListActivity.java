@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Context;
@@ -6,21 +10,14 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
-import java.util.ArrayList;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
+
 public class SpringBoardListActivity extends CatalogActivity {
 
-
-    Context context;
-    ArrayList prgmName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -20,6 +25,25 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
 
+/**
+ * <b></b>Badge View is a Custom view component which supports to show Badge Count as displayed below</b>
+ * <br>
+ * <img src="../../../../../../img/BadgeView.png"<br>
+ * <p/>
+ * <b>For Example to use Badge View follow the below steps</b><br>
+ * <pre>&lt;com.philips.cdp.uikit.customviews.BadgeView
+ * android:id="@+id/badge_view_square_medium"
+ * style="@style/NotificationLabel"
+ * android:layout_width="wrap_content"
+ * android:layout_height="wrap_content"
+ * android:text="22" /&gt;</pre><br>
+ * <p/>
+ * <b>Use Styles as per your requirement as shown below</b>
+ * <pre>
+ *            1.Use style = "@style/NotificationLabel" to support medium size Badge View
+ *            2.Use style = "@style/NotificationLabel.Small" to support small size Badge View
+ *        </pre>
+ */
 public class BadgeView extends TextView {
 
     private final Resources resources;

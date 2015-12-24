@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Intent;
@@ -7,9 +11,29 @@ import android.widget.Button;
 
 import com.philips.cdp.ui.catalog.R;
 
+
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * The layout for fullblocks is uikit_springboard_fullblocks , set this as content in the activity
+ * Imageviews and Textviews have Ids numbered from 1 to 8 eg. imageView1 , textView1.
+ * setImageDrawable(Drawable) to imageview  and  setText to the view.
+ * in imageview attribute app:"theme / inverted /none " can be applied for selector that inverts the color of image on pressed state
+ *  theme will have basecolor , inverted would have white color and none would do no change to image
+ *  @link ref com.philips.cdp.ui.catalog.activity.SpringBoardFullBlocksActivity
+ *
+ * The layout for SixGrid  is uikit_springboard_sixblocks , set this as content in the activity
+ * Imageviews and Textviews have Ids numbered from 1 to 6 eg. imageView1 , textView1.
+ * setImageDrawable(Drawable) to imageview  and  setText to the view.
+ * in imageview attribute app:"theme / inverted /none " can be applied for selector that inverts the color of image on pressed state
+ *  theme will have basecolor , inverted would have white color and none would do no change to image
+ *   @link ref com.philips.cdp.ui.catalog.activity.SpringBoardSixActivity
+ *
+ *The layout for Lists  is uikit_springboard_list , set this as content in the activity
+ * Imageviews and Textviews have Ids numbered from 1 to 6 eg. imageView1 , textView1.
+ * setImageDrawable(Drawable) to imageview  and  setText to the view.
+ * in imageview attribute app:"theme / inverted /none " can be applied for selector that inverts the color of image on pressed state
+ *  theme will have basecolor , inverted would have white color and none would do no change to image
+ *  @link ref com.philips.cdp.ui.catalog.activity.SpringBoardListActivity
+
  */
 public class SpringBoardsctivity extends CatalogActivity {
     Intent i1, i2, i3;
