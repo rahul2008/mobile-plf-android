@@ -28,8 +28,8 @@ import java.util.concurrent.ConcurrentSkipListSet;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsTextInputLayout extends LinearLayout {
-    final String TAG = PhilipsTextInputLayout.class.getSimpleName();
+public class InlineForms extends LinearLayout {
+    final String TAG = InlineForms.class.getSimpleName();
     boolean isFocused = false;
     int mThemeBaseColor;
     int mFocusedColor;
@@ -70,7 +70,7 @@ public class PhilipsTextInputLayout extends LinearLayout {
         }
     };
 
-    public PhilipsTextInputLayout(final Context context, final AttributeSet attrs) {
+    public InlineForms(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         setOrientation(VERTICAL);
         initColors();

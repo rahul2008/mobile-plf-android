@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.customviews.PhilipsTextInputLayout;
+import com.philips.cdp.uikit.customviews.InlineForms;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +41,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         /**
          * The Below Layout acts as one item in the inline form
          */
-        final PhilipsTextInputLayout layout = (PhilipsTextInputLayout) findViewById(R.id.InlineForms);
+        final InlineForms layout = (InlineForms) findViewById(R.id.InlineForms);
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
 
         email.addTextChangedListener(new TextWatcher() {
@@ -67,7 +67,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
             }
         });
 
-        layout.setValidator(new PhilipsTextInputLayout.Validator() {
+        layout.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(View editText, boolean hasFocus) {
                 if (editText.getId() == R.id.lastnamevalue && hasFocus == false) {
