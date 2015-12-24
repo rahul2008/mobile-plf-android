@@ -14,10 +14,7 @@ import android.widget.ListView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.FavoritesActivity;
 
-/**
- * <b></b> Favorites is class to demonstrate the use of Favorite List with the help of an adapter FavoriteAdapter </b>
- * <p/>
- */
+
 public class Favorites extends Fragment{
 
 

@@ -14,10 +14,6 @@ import android.widget.ListView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.FavoritesActivity;
 
-/**
- * <b></b> AllItems is class to demonstrate the use of the whole List (Favorite and Non-Favorite) with the help of an adapter FavoriteAdapterAll </b>
- * <p/>
- */
 public class AllItems extends Fragment{
 
 

@@ -7,9 +7,6 @@ package com.philips.cdp.ui.catalog.favorites;
 
 import android.provider.BaseColumns;
 
-/**
- * Class for having all the columns of the Database
- */
 public class FavoritesContract {
 
     // To prevent someone from accidentally instantiating the contract class,

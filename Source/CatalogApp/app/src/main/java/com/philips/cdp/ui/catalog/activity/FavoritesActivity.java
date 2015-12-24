@@ -29,15 +29,32 @@ import com.philips.cdp.uikit.utils.TabUtils;
 /**
  * <b></b> FavoritesActivity is class to demonstrate the use of Favorites with the help of adapters (FavoritesAdapter, FavoritesAdapterAll) and Database </b>
  * <p/>
- * <b></b> FavoritesAdapter is an Adapter for Favorites List</b>
+ * <b></b> FavoritesAdapter is class to demonstrate the use of uikit_favorites_item_layout with an adapter </b>
+ * <pre>
+ * ImageView image = (ImageView) vi.findViewById(R.id.imagefav);
+ * TextView value = (TextView) vi.findViewById(R.id.item_name);
+ * final ImageView favorite = (ImageView) vi.findViewById(R.id.favorite);
+ * FrameLayout frame = (FrameLayout) vi.findViewById(R.id.favoritecontainer);
+ * frame.setOnClickListener(new View.OnClickListener() {// your code}
+ * </pre>
  * <p/>
- * <b></b> FavoritesAdapterAll is an Adapter for showing the Full List</b>
+ * <b></b> FavoritesAdapterAll is class to demonstrate the use of uikit_favorites_item_layout with an adapter </b>
+ * <p/>
+ * <pre>
+ * ImageView image = (ImageView) vi.findViewById(R.id.imagefav);
+ * TextView value = (TextView) vi.findViewById(R.id.item_name);
+ * final ImageView favorite = (ImageView) vi.findViewById(R.id.favorite);
+ * FrameLayout frame = (FrameLayout) vi.findViewById(R.id.favoritecontainer);
+ * frame.setOnClickListener(){//your code}
+ * </pre>
  * <p/>
  * <b></b> DataBase Related classes are: DataBaseHelper, FavoritesContract</b>
  * <p/>
  * <b></b> Favorites is Demonstrated through Custom TabLayout and ViewPager for swapping of Pages</b>
  * <p/>
- * <b></b> In The Layout File Add a style to TabLayout as follows</b>
+ * <b></b> In The Layout File Add a style to TabLayout as follows: </b>
+ * <p/>
+ * <b></b> Style Name: style="@style/FavTabLayout </b>
  * <p/>
  * <pre>&lt;android.support.design.widget.TabLayout
  * android:id="@+id/tab_layout"
