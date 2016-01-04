@@ -28,50 +28,52 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
 import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
-import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
 
 import java.util.ArrayList;
 
 /**
- *  <b>Please find the below steps to use Hamburger Menu</b>
+ *  <b> Find the below steps to use Hamburger Menu</b>
  *      <pre>
- *          1.Call API setNoActionBarTheme() before calling super.onCreate(savedInstanceState);
- *          2.On SetContentView , pass the following layout uikit_hamburger_menu, with view id’s being
+ *          1.On SetContentView , pass the following layout uikit_hamburger_menu, with view id’s being
  *               *<b>DrawerLayout</b> - philips_drawer_layout
  *               *<b>Container </b> - frame_container
  *               *<b>ListView</b> - hamburger_list
  *               *<b>ImageView </b> - philips_logo (Footer view - Philips Shield)
  *               *<b>NavigationView</b> - navigation_view
- *          3.Kindly use the PhilipsHamburgerAdapter to set the adaptor with parameters being Context, ArrayList< HamburgerItem>
- *          4.Please find the Documentation for model HamburgerItem {@link com.philips.cdp.uikit.hamburger.HamburgerItem}
- *          5.Kindly call the below code after setting/refreshing the adaptor to resize the Philips Shield.
+ *          2.Use the HamburgerAdapter to set the adapter with parameters being Context, ArrayList< HamburgerItem> as shown below
+ *               <pre>
+ *                  HamburgerAdapter adapter = new HamburgerAdapter(this,hamburgerItems);
+ ListView drawerListView.setAdapter(adapter);
+ *               </pre>
+ *          3.Find the Documentation for model HamburgerItem {@link com.philips.cdp.uikit.hamburger.HamburgerItem}
+ *          4.Call the below code after setting/refreshing the adapter to resize the Philips Shield.
  *              <pre>
  *                  HamburgerUtil  hamburgerUtil = new HamburgerUtil(this,drawerListView);
  hamburgerUtil.updateSmartFooter(footerView);
 
  *              </pre>
- *          6.As we used tool bar to Support Action Bar theming kindly place the below code
+ *          5.As we used tool bar to Support Action Bar theming kindly place the below code
  *              <pre>
  *                  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
  setSupportActionBar(toolbar);
  *              </pre>
- *          7.Use the below snippet required to enable Action Bar
+ *          6.Use the below snippet required to enable Action Bar
  *               <pre>
  *                    actionBar.setDisplayShowCustomEnabled(true);
  actionBar.setCustomView(com.philips.cdp.uikit.R.layout.uikit_action_bar_title); // Set your custom view for Action Bar if Required
  actionBar.setDisplayHomeAsUpEnabled(false);
  actionBar.setDisplayShowTitleEnabled(false);
  *               </pre>
- *          8.Kindly create instance of Action Bar Title, Badge and Hamburger Click using following code
+ *          7.Create instance of Action Bar Title, Badge and Hamburger Click using following code
  *              <pre>
  *                  TextView  actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
  TextView  actionBarCount = (TextView) findViewById(R.id.hamburger_count);
  LinearLayout hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
  *              </pre>
- *          9.Kindly give a click event to open hamburger menu on the view  id being hamburgerClick and call the Api philipsDrawerLayout.openDrawer(navigationView);
- *          10.To Retain the selected list item override on ItemClickListener of listview and set adaptor.setSelectionIndex(position).
+ *          8.To Retain the selected list item override on ItemClickListener of listview and set adapter.setSelectionIndex(position).
  *
  *      </pre>
  */
@@ -87,7 +89,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private Toolbar toolbar;
     private TextView actionBarTitle;
     private ImageView footerView;
-    private PhilipsHamburgerAdapter adapter;
+    private HamburgerAdapter adapter;
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
     private VectorDrawableImageView hamburgerIcon;
@@ -206,7 +208,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     }
 
     private void setDrawerAdaptor() {
-        adapter = new PhilipsHamburgerAdapter(this,
+        adapter = new HamburgerAdapter(this,
                 hamburgerItems);
         drawerListView.setAdapter(adapter);
         actionBarCount.setText(String.valueOf(adapter.getCounterValue()));
