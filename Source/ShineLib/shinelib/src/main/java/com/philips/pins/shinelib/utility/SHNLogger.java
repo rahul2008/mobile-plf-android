@@ -177,10 +177,7 @@ public class SHNLogger {
 
     /**
      * What a Terrible Failure: Report a condition that should never happen.
-     * The error will always be logged at level ASSERT with the call stack.
-     * Depending on system configuration, a report may be added to the
-     * {@link android.os.DropBoxManager} and/or the process may be terminated
-     * immediately with an error dialog.
+     * The error will always be logged at level {@link android.util.Log#ASSERT} with the call stack.
      * @param tag Used to identify the source of a log message.
      * @param msg The message you would like logged.
      */
@@ -241,8 +238,9 @@ public class SHNLogger {
             if (priority == Log.ASSERT) {
                 Log.wtf(tag, msg, tr);
             }
-            else
+            else {
                 Log.println(priority, tag, msg + '\n' + Log.getStackTraceString(tr));
+            }
         }
     }
 }
