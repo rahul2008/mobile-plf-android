@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.utility;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNDevice;
@@ -15,6 +16,16 @@ public class QuickTestConnection {
 
     private SHNDevice.SHNDeviceListener deviceListener;
     private SHNDevice device;
+    private static Handler tempInternalHandler;
+    private final Handler internalHandler;
+
+    public static void setHandler(Handler internalHandler) {
+        tempInternalHandler = internalHandler;
+    }
+
+    public QuickTestConnection() {
+        internalHandler = tempInternalHandler;
+    }
 
     public void execute(@NonNull final SHNDevice device, @NonNull final Listener listener) {
         stop();
@@ -34,16 +45,28 @@ public class QuickTestConnection {
         deviceListener = new SHNDevice.SHNDeviceListener() {
             @Override
             public void onStateUpdated(final SHNDevice shnDevice) {
-                if (SHNDevice.State.Connected == shnDevice.getState()) {
-                    listener.onSuccess();
-                    stop();
-                }
+
+                internalHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (SHNDevice.State.Connected == shnDevice.getState()) {
+                            listener.onSuccess();
+                            stop();
+                        }
+                    }
+                });
             }
 
             @Override
             public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult result) {
-                listener.onFailure();
-                stop();
+
+                internalHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onFailure();
+                        stop();
+                    }
+                });
             }
         };
 

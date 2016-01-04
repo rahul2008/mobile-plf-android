@@ -1,5 +1,7 @@
 package com.philips.pins.shinelib.utility;
 
+import android.os.Handler;
+
 import com.philips.pins.shinelib.SHNDevice;
 
 import org.junit.Before;
@@ -10,6 +12,7 @@ import org.mockito.Mock;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -22,15 +25,27 @@ public class QuickTestConnectionTest {
     @Mock
     QuickTestConnection.Listener listenerMock;
 
+    @Mock
+    Handler internalHandlerMock;
+
     @Captor
     ArgumentCaptor<SHNDevice.SHNDeviceListener> deviceListenerCaptor;
 
+    @Captor
+    private ArgumentCaptor<Runnable> runnableCaptor;
+
     private QuickTestConnection quickTestConnection;
+
+    private Runnable captureHandlerRunnable() {
+        verify(internalHandlerMock).post(runnableCaptor.capture());
+        return runnableCaptor.getValue();
+    }
 
     @Before
     public void setUp() {
         initMocks(this);
 
+        QuickTestConnection.setHandler(internalHandlerMock);
         quickTestConnection = new QuickTestConnection();
     }
 
@@ -49,6 +64,7 @@ public class QuickTestConnectionTest {
 
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
         deviceListener.onFailedToConnect(null, null);
+        captureHandlerRunnable().run();
 
         verify(listenerMock).onFailure();
     }
@@ -73,6 +89,7 @@ public class QuickTestConnectionTest {
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
         deviceListener.onFailedToConnect(null, null);
+        captureHandlerRunnable().run();
 
         verify(deviceMock).unregisterSHNDeviceListener(deviceListener);
     }
@@ -90,15 +107,21 @@ public class QuickTestConnectionTest {
         verify(deviceMock).unregisterSHNDeviceListener(deviceListener);
     }
 
+    private void simulateStateChange(SHNDevice.SHNDeviceListener deviceListener, SHNDevice.State newState) {
+        reset(internalHandlerMock);
+        when(deviceMock.getState()).thenReturn(newState);
+        deviceListener.onStateUpdated(deviceMock);
+        captureHandlerRunnable().run();
+    }
+
     @Test
     public void ShouldInformListenerOnSuccess_WhenDeviceBecomesConnected() {
         quickTestConnection.execute(deviceMock, listenerMock);
 
-        when(deviceMock.getState()).thenReturn(SHNDevice.State.Connected);
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
-
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
-        deviceListener.onStateUpdated(deviceMock);
+
+        simulateStateChange(deviceListener, SHNDevice.State.Connected);
 
         verify(listenerMock).onSuccess();
     }
@@ -107,11 +130,10 @@ public class QuickTestConnectionTest {
     public void ShouldUnregisterDeviceListener_WhenDeviceIsConnected() {
         quickTestConnection.execute(deviceMock, listenerMock);
 
-        when(deviceMock.getState()).thenReturn(SHNDevice.State.Connected);
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
-
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
-        deviceListener.onStateUpdated(deviceMock);
+
+        simulateStateChange(deviceListener, SHNDevice.State.Connected);
 
         verify(deviceMock).unregisterSHNDeviceListener(deviceListener);
     }
@@ -123,15 +145,9 @@ public class QuickTestConnectionTest {
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
-        when(deviceMock.getState()).thenReturn(SHNDevice.State.Disconnected);
-        deviceListener.onStateUpdated(deviceMock);
-
-
-        when(deviceMock.getState()).thenReturn(SHNDevice.State.Disconnecting);
-        deviceListener.onStateUpdated(deviceMock);
-
-        when(deviceMock.getState()).thenReturn(SHNDevice.State.Connecting);
-        deviceListener.onStateUpdated(deviceMock);
+        simulateStateChange(deviceListener, SHNDevice.State.Disconnected);
+        simulateStateChange(deviceListener, SHNDevice.State.Disconnecting);
+        simulateStateChange(deviceListener, SHNDevice.State.Connecting);
 
         verify(deviceMock, never()).unregisterSHNDeviceListener(deviceListener);
     }
