@@ -118,7 +118,9 @@ public enum SHNCapabilityType {
             case TargetHeartrateZone:
             case Targets:
             case UserConfiguration:
+                break;
             case WearingPosition:
+                capabilityType = WEARING_POSITION;
                 break;
             case Battery:
                 capabilityType = BATTERY;
@@ -150,6 +152,9 @@ public enum SHNCapabilityType {
                 break;
             case BATTERY:
                 capabilityType = Battery;
+                break;
+            case WEARING_POSITION:
+                capabilityType = WearingPosition;
                 break;
             case USER_INFORMATION_LIFE_SENSE:
                 capabilityType = UserInformationLifeSense;

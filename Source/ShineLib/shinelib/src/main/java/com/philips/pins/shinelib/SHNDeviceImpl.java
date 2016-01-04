@@ -186,17 +186,24 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     /**
      * Register a capability for this device.
      *
-     * @param shnCapability     An actual implementation for a capability.
-     * @param shnCapabilityType The type of capability the shnCapability implements.
+     * @param shnCapability An actual implementation for a capability.
+     * @param type          The type of capability the shnCapability implements.
      */
-    public void registerCapability(@NonNull final SHNCapability shnCapability, @NonNull final SHNCapabilityType shnCapabilityType) {
-        if(SHNCapabilityType.isDeprecated(shnCapabilityType)){
-            registerCapabilityIgnoreDeprecation(shnCapability, SHNCapabilityType.fixDeprecation(shnCapabilityType));
-        } else{
-            registerCapabilityIgnoreDeprecation(shnCapability, SHNCapabilityType.getDeprecated(shnCapabilityType));
+    public void registerCapability(@NonNull final SHNCapability shnCapability, @NonNull final SHNCapabilityType type) {
+        SHNCapabilityType deprecationCounterpart = getDeprecationCounterpart(type);
+        if (deprecationCounterpart != null) {
+            registerCapabilityIgnoreDeprecation(shnCapability, deprecationCounterpart);
         }
 
-        registerCapabilityIgnoreDeprecation(shnCapability, shnCapabilityType);
+        registerCapabilityIgnoreDeprecation(shnCapability, type);
+    }
+
+    private SHNCapabilityType getDeprecationCounterpart(final @NonNull SHNCapabilityType type) {
+        if (SHNCapabilityType.isDeprecated(type)) {
+            return SHNCapabilityType.fixDeprecation(type);
+        } else {
+            return SHNCapabilityType.getDeprecated(type);
+        }
     }
 
     private void registerCapabilityIgnoreDeprecation(final @NonNull SHNCapability shnCapability, final @NonNull SHNCapabilityType shnCapabilityType) {
@@ -377,19 +384,16 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
     }
 
-    private static String bluetoothStateToString(int bluetoothState)
-    {
-        return (bluetoothState == BluetoothProfile.STATE_CONNECTED)     ? "Connected"     :
-               (bluetoothState == BluetoothProfile.STATE_CONNECTING)    ? "Connecting"    :
-               (bluetoothState == BluetoothProfile.STATE_DISCONNECTED)  ? "Disconnected"  :
-               (bluetoothState == BluetoothProfile.STATE_DISCONNECTING) ? "Disconnecting" : "Unknown";
+    private static String bluetoothStateToString(int bluetoothState) {
+        return (bluetoothState == BluetoothProfile.STATE_CONNECTED) ? "Connected" :
+                (bluetoothState == BluetoothProfile.STATE_CONNECTING) ? "Connecting" :
+                        (bluetoothState == BluetoothProfile.STATE_DISCONNECTED) ? "Disconnected" :
+                                (bluetoothState == BluetoothProfile.STATE_DISCONNECTING) ? "Disconnecting" : "Unknown";
     }
 
-    private static String bondStateToString(int bondState)
-    {
-        return (bondState == BluetoothDevice.BOND_NONE)    ? "None"    :
-               (bondState == BluetoothDevice.BOND_BONDING) ? "Bonding" :
-               (bondState == BluetoothDevice.BOND_BONDED)  ? "Bonded"  : "Unknown";
-
+    private static String bondStateToString(int bondState) {
+        return (bondState == BluetoothDevice.BOND_NONE) ? "None" :
+                (bondState == BluetoothDevice.BOND_BONDING) ? "Bonding" :
+                        (bondState == BluetoothDevice.BOND_BONDED) ? "Bonded" : "Unknown";
     }
 }
