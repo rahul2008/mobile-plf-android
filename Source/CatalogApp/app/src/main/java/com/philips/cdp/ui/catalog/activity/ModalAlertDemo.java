@@ -15,13 +15,22 @@ import com.philips.cdp.ui.catalog.R;
 /**
  * <b>Find the below steps to use Modal Alert</b><br>
  *     <pre>
- *         1. Create Fragment which extends BlurDialogFragment for example <b>ModalAlertDemoFragment</b> and define your required view on onCreateView()
+ *         1. Create new Fragment which extends BlurDialogFragment for example <b>ModalAlertDemoFragment</b> and override onCreateView()
  *         2. Based on requirement call below code to show modal alert
  *              <pre>
  *                  ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
- modalAlertDemoFragment.show(getSupportFragmentManager(), "dialog");
+ *                  modalAlertDemoFragment.show(getSupportFragmentManager(), "dialog");
  *              </pre>
+ *         3. Find below code for reference
+ *              <pre>
  *
+ *                  public class ModalAlertDemoFragment extends BlurDialogFragment {
+
+@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+View v = inflater.inflate(com.philips.cdp.uikit.R.layout.uikit_modal_alert, container, false);
+return v;
+}
+ *              </pre>
  *     </pre>
  */
 public class ModalAlertDemo extends CatalogActivity {
