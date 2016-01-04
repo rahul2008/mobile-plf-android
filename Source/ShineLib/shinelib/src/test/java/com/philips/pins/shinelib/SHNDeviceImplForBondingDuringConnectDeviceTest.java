@@ -419,7 +419,9 @@ public class SHNDeviceImplForBondingDuringConnectDeviceTest {
     public void whenRegisteringACapabilityThenGetSupportedCapabilityTypesReturnsThatType() {
         SHNCapabilityNotifications mockedSHNCapabilityNotifications = Utility.makeThrowingMock(SHNCapabilityNotifications.class);
         shnDevice.registerCapability(mockedSHNCapabilityNotifications, SHNCapabilityType.NOTIFICATIONS);
+
         assertEquals(2, shnDevice.getSupportedCapabilityTypes().size());
+
         assertTrue(shnDevice.getSupportedCapabilityTypes().contains(SHNCapabilityType.NOTIFICATIONS));
         assertNotNull(shnDevice.getCapabilityForType(SHNCapabilityType.NOTIFICATIONS));
         assertTrue(shnDevice.getCapabilityForType(SHNCapabilityType.NOTIFICATIONS) instanceof SHNCapabilityNotificationsWrapper);
@@ -432,10 +434,13 @@ public class SHNDeviceImplForBondingDuringConnectDeviceTest {
     @Test
     public void whenRegisteringADeprecatedCapabilityThenGetSupportedCapabilityTypesReturnsThatType() {
         SHNCapabilityNotifications mockedSHNCapabilityNotifications = (SHNCapabilityNotifications) Utility.makeThrowingMock(SHNCapabilityNotifications.class);
+        shnDevice.registerCapability(mockedSHNCapabilityNotifications, SHNCapabilityType.Notifications);
+
         assertEquals(2, shnDevice.getSupportedCapabilityTypes().size());
 
         assertTrue(shnDevice.getSupportedCapabilityTypes().contains(SHNCapabilityType.NOTIFICATIONS));
         assertNotNull(shnDevice.getCapabilityForType(SHNCapabilityType.NOTIFICATIONS));
+        assertTrue(shnDevice.getCapabilityForType(SHNCapabilityType.NOTIFICATIONS) instanceof SHNCapabilityNotificationsWrapper);
 
         assertTrue(shnDevice.getSupportedCapabilityTypes().contains(SHNCapabilityType.Notifications));
         assertNotNull(shnDevice.getCapabilityForType(SHNCapabilityType.Notifications));
