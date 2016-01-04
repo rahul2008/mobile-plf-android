@@ -8,7 +8,7 @@ package com.philips.pins.shinelib;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
 public enum SHNCapabilityType {
-    
+
     /**
      * Use {@link #DATA_STREAMING} instead.
      */
@@ -129,5 +129,53 @@ public enum SHNCapabilityType {
         }
 
         return capabilityType;
+    }
+
+    public static SHNCapabilityType getDeprecated(SHNCapabilityType capabilityType) {
+        switch (capabilityType) {
+            case DATA_STREAMING:
+                capabilityType = DataStreaming;
+                break;
+            case DEVICE_INFORMATION:
+                capabilityType = DeviceInformation;
+                break;
+            case FIRMWARE_UPDATE:
+                capabilityType = FirmwareUpdate;
+                break;
+            case LOG_SYNCHRONIZATION:
+                capabilityType = LogSynchronization;
+                break;
+            case NOTIFICATIONS:
+                capabilityType = Notifications;
+                break;
+            case BATTERY:
+                capabilityType = Battery;
+                break;
+            case USER_INFORMATION_LIFE_SENSE:
+                capabilityType = UserInformationLifeSense;
+                break;
+        }
+
+        return capabilityType;
+    }
+
+    public static boolean isDeprecated(SHNCapabilityType capabilityType) {
+        switch (capabilityType) {
+            case DataStreaming:
+            case DeviceInformation:
+            case FirmwareUpdate:
+            case LogSynchronization:
+            case Notifications:
+            case Sedentary:
+            case TargetHeartrateZone:
+            case Targets:
+            case UserConfiguration:
+            case WearingPosition:
+            case Battery:
+            case UserInformationLifeSense:
+                return true;
+            default:
+                return false;
+        }
     }
 }

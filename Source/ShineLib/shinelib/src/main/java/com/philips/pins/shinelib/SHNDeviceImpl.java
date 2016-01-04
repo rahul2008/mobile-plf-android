@@ -14,7 +14,6 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
@@ -174,7 +173,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
-        return registeredCapabilities.get(SHNCapabilityType.fixDeprecation(type));
+        return registeredCapabilities.get(type);
     }
 
     /**
@@ -184,16 +183,24 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
      * @param shnCapabilityType The type of capability the shnCapability implements.
      */
     public void registerCapability(@NonNull final SHNCapability shnCapability, @NonNull final SHNCapabilityType shnCapabilityType) {
-        SHNCapabilityType capabilityType = SHNCapabilityType.fixDeprecation(shnCapabilityType);
-        if (registeredCapabilities.containsKey(capabilityType)) {
+        if(SHNCapabilityType.isDeprecated(shnCapabilityType)){
+            registerCapabilityIgnoreDeprecation(shnCapability, SHNCapabilityType.fixDeprecation(shnCapabilityType));
+        } else{
+            registerCapabilityIgnoreDeprecation(shnCapability, SHNCapabilityType.getDeprecated(shnCapabilityType));
+        }
+
+        registerCapabilityIgnoreDeprecation(shnCapability, shnCapabilityType);
+    }
+
+    private void registerCapabilityIgnoreDeprecation(final @NonNull SHNCapability shnCapability, final @NonNull SHNCapabilityType shnCapabilityType) {
+        if (registeredCapabilities.containsKey(shnCapabilityType)) {
             throw new IllegalStateException("Capability already registered");
         }
 
-        SHNCapability shnCapabilityWrapper = null;
-        shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, capabilityType, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
+        SHNCapability shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, shnCapabilityType, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
 
-        registeredCapabilityTypes.add(capabilityType);
-        registeredCapabilities.put(capabilityType, shnCapabilityWrapper);
+        registeredCapabilityTypes.add(shnCapabilityType);
+        registeredCapabilities.put(shnCapabilityType, shnCapabilityWrapper);
     }
 
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
