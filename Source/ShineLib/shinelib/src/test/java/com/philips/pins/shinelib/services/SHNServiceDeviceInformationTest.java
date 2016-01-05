@@ -6,6 +6,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -20,6 +21,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -47,6 +49,11 @@ public class SHNServiceDeviceInformationTest {
         initMocks(this);
 
         deviceInformation = new TestSHNServiceDeviceInformation();
+    }
+
+    @After
+    public void validate() {
+        validateMockitoUsage();
     }
 
     @Test
