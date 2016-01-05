@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.utils;
 
 import android.app.Activity;
@@ -13,7 +17,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.widget.ActionBarOverlayLayout;
+import android.support.v7.widget.ActionBarOverlayLayout;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +32,6 @@ import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.ColorFilterStateListDrawable;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- * <br>
  * Helper class to initialize tabs and adjusts the modes.
  * For custom image or text background, the selector must be set before creating new tabs.
  * <br>
@@ -179,14 +180,21 @@ public class TabUtils {
             title.setTextColor(getTextSelector());
         }
 
-        int tabCount = tabLayout.getTabCount();
-
-        if ((isTablet && tabCount > 0) || (!isTablet && tabCount == 0)) {
+        /*Can we really achieve two side dividers in tablet?
+            That makes tabs to take maxTabWidth which losses the sense of feel of center gravity.
+        */
+  /*
+         int tabCount = tabLayout.getTabCount();
+         if ((isTablet && tabCount > 0) || (!isTablet && tabCount == 0)) {
             customView.findViewById(R.id.tab_divider).setVisibility(View.GONE);
         }
 
         if (isTablet) {
             customView.findViewById(R.id.tab_divider_last).setVisibility(View.VISIBLE);
+        }*/
+
+        if (tabLayout.getTabCount() == 0) {
+            customView.findViewById(R.id.tab_divider).setVisibility(View.GONE);
         }
 
         newTab.setCustomView(customView);

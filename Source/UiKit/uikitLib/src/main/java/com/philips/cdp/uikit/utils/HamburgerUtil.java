@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
+import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 
 /**
  *  Hamburger ModalAlertUtil class to handle Hamburger Philips Logo alignments
@@ -36,7 +36,7 @@ public class HamburgerUtil {
     }
 
     /**
-     * API to control Philips Logo to remain always at bottom, to be called when adaptor is refreshed
+     * API to control Philips Logo to remain always at bottom, to be called when adapter is refreshed
      *
      * @param footerImageView - Instance of Footer view
      */
@@ -45,16 +45,16 @@ public class HamburgerUtil {
             @Override
             public void run() {
                 int heightPixels = getDeviceHeightPixels();
-                int adaptorTotalHeight = getAdaptorTotalHeight();
-                validateLogoView(heightPixels, adaptorTotalHeight, footerImageView);
+                int adapterTotalHeight = getAdaptorTotalHeight();
+                validateLogoView(heightPixels, adapterTotalHeight, footerImageView);
             }
         });
     }
 
-    private void validateLogoView(final int deviceHeight, final int adaptorTotalHeight, ImageView footerImageView) {
+    private void validateLogoView(final int deviceHeight, final int adapterTotalHeight, ImageView footerImageView) {
         int logoDedicatedHeight = getLogoDedicatedHeight();
         int remainingHeight = deviceHeight - logoDedicatedHeight;
-        if (adaptorTotalHeight <= remainingHeight) {
+        if (adapterTotalHeight <= remainingHeight) {
             removeFooterViewIfExists();
             footerImageView.setVisibility(View.VISIBLE);
         } else {
@@ -87,8 +87,8 @@ public class HamburgerUtil {
     private void removeFooterViewIfExists() {
         if (footerView != null) {
             HeaderViewListAdapter headerViewListAdapter = (HeaderViewListAdapter) drawerListView.getAdapter();
-            PhilipsHamburgerAdapter philipsHamburgerAdapter = (PhilipsHamburgerAdapter) headerViewListAdapter.getWrappedAdapter();
-            drawerListView.setAdapter(philipsHamburgerAdapter);
+            HamburgerAdapter hamburgerAdapter = (HamburgerAdapter) headerViewListAdapter.getWrappedAdapter();
+            drawerListView.setAdapter(hamburgerAdapter);
             drawerListView.removeFooterView(footerView);
         }
     }

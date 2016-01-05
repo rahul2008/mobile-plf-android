@@ -53,7 +53,7 @@ public class BlurDialogFragment extends DialogFragment {
     }
 
     /**
-     * Lifecycle method which we override to enable blur effect
+     * Lifecycle method which UIKitLib override to enable blur effect
      * @param savedInstanceState
      */
     @Override
@@ -63,7 +63,7 @@ public class BlurDialogFragment extends DialogFragment {
     }
 
     /**
-     * Lifecycle method which we override to start enter animation
+     * Lifecycle method which UIKitLib override to start enter animation
      */
     @Override
     public void onStart() {

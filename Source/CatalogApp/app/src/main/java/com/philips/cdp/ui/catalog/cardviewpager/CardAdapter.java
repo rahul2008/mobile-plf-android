@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.uikit.R;
+import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {

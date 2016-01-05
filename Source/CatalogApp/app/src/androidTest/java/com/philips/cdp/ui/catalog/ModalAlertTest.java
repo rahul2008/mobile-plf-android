@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.philips.cdp.ui.catalog.activity.ModalAlertDemo;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 import java.util.concurrent.Semaphore;
