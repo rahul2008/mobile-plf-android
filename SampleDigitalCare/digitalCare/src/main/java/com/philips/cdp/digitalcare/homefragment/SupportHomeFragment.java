@@ -46,23 +46,21 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private int ButtonMarginTop = 0;
     private int RegisterButtonMarginTop = 0;
     private boolean mIsFirstScreenLaunch = false;
+    private View mView = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_support, container,
+        mView = inflater.inflate(R.layout.fragment_support, container,
                 false);
-        return view;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mIsFirstScreenLaunch = true;
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
-        synchronized (this) {
-            new PrxProductData(getActivity(), this).executeRequests();
+        if (mIsFirstScreenLaunch) {
+            synchronized (this) {
+                new PrxProductData(getActivity(), this).executeRequests();
+            }
         }
+        return mView;
     }
 
     @Override
@@ -91,6 +89,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
         }
     }
+
 
     @Override
     public void onConfigurationChanged(Configuration config) {
