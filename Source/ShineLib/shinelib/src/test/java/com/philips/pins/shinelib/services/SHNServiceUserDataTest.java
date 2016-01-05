@@ -1,7 +1,6 @@
 package com.philips.pins.shinelib.services;
 
 
-
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNIntegerResultListener;
@@ -17,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -29,14 +27,12 @@ import java.util.UUID;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

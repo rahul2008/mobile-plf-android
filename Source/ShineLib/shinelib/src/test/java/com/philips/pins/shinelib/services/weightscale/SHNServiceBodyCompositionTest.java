@@ -1,7 +1,6 @@
 package com.philips.pins.shinelib.services.weightscale;
 
 
-
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
@@ -14,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Set;
@@ -28,7 +26,6 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**

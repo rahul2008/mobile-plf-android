@@ -10,7 +10,6 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
-import android.os.Build;
 import android.os.Handler;
 
 import com.philips.pins.shinelib.utility.SHNLogger;

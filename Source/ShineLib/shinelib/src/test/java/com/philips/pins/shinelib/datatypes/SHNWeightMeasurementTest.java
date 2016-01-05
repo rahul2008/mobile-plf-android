@@ -1,13 +1,11 @@
 package com.philips.pins.shinelib.datatypes;
 
 
-
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.nio.ByteBuffer;
@@ -17,9 +15,6 @@ import java.text.SimpleDateFormat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

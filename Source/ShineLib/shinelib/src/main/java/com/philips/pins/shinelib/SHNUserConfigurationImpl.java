@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
-
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.Calendar;

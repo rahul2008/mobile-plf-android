@@ -7,7 +7,6 @@ package com.philips.pins.shinelib.capabilities;
 
 import android.support.annotation.NonNull;
 
-
 import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;

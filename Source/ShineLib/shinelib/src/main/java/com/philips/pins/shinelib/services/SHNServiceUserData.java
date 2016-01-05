@@ -7,7 +7,6 @@ package com.philips.pins.shinelib.services;
 
 import android.support.annotation.NonNull;
 
-
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNIntegerResultListener;
@@ -16,8 +15,8 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNStringResultListener;
-import com.philips.pins.shinelib.datatypes.SHNSportTypeForThresholds;
 import com.philips.pins.shinelib.SHNUserConfiguration;
+import com.philips.pins.shinelib.datatypes.SHNSportTypeForThresholds;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.utility.SHNBluetoothDataConverter;

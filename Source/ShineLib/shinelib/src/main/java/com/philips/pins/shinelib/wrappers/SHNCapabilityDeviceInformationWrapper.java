@@ -8,7 +8,6 @@ package com.philips.pins.shinelib.wrappers;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;

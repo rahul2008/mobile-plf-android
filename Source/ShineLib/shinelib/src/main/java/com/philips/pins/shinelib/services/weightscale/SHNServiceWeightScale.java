@@ -7,7 +7,6 @@ package com.philips.pins.shinelib.services.weightscale;
 
 import android.support.annotation.NonNull;
 
-
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
