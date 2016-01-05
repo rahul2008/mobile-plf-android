@@ -56,7 +56,7 @@
 <string name="Social_SignIn_AlmostDone_lbltxt">Σχεδόν τελειώσατε!</string>
 <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Στο παρελθόν είχατε συνδεθεί μέσω του %s, χρησιμοποιώντας τη διεύθυνση %s σε μια εφαρμογή ή ιστότοπο της Philips. Θα συνδέσουμε το %s με το λογαριασμό σας.</string>
 <string name="Social_Merge_Accounts_lbltxt">Για να βεβαιωθούμε ότι είστε όντως εσείς, συνδεθείτε ξανά μέσω του %s.</string>
-<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt">Αν δεν θέλετε να συνδέσετε το %s με το λογαριασμό σας, πατήστε \"Άκυρο\" και συνδεθείτε μέσω του % @.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Αν δεν θέλετε να συνδέσετε το %s με το λογαριασμό σας, πατήστε \"Άκυρο\" και συνδεθείτε μέσω του %s.</string>
 <string name="Social_Merge_Cancel_btntxt">Ακύρωση</string>
 <string name="Account_Merge_lbltxt">Συγχωνεύστε τους λογαριασμούς σας</string>
 <string name="Social_Merge_btntxt">Σύνδεση</string>
@@ -98,7 +98,7 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText">Διαβάστε τους %s και τις % @.</string>
+<string name="LegalNoticeText" formatted="false">Διαβάστε τους %s και τις %s.</string>
 <string name="AgeLimitText">Αν δημιουργήσετε λογαριασμό ή συνδεθείτε, βεβαιώνετε ότι είστε %s ετών και άνω.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Αποδέχομαι τους %s της εφαρμογής</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Αποδεχτείτε τους Όρους και τις προϋποθέσεις</string>
