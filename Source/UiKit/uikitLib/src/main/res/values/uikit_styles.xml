@@ -8,13 +8,13 @@
     </style>
 
     <style name="PhilipsTextInputLayoutStyleEnabled">
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@color/uikit_white</item>
         <item name="android:textColorHint">@color/uikit_enricher4</item>
         <item name="android:enabled">true</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:textSize">16sp</item>
 
-
+<item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_marginTop">6dp</item>
         <item name="android:layout_marginBottom">2dp</item>
 
@@ -23,11 +23,10 @@
     </style>
 
     <style name="PhilipsTextInputLayoutTextViewStyle">
-        <item name="android:background">@android:color/transparent</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:textColor">@color/uikit_enricher4</item>
         <item name="android:textSize">16sp</item>
-
+        <item name="android:layout_marginLeft">19dp</item>
         <item name="android:layout_marginTop">6dp</item>
         <item name="android:layout_marginBottom">2dp</item>
         <item name="android:gravity">center_vertical</item>
@@ -35,12 +34,12 @@
     </style>
 
     <style name="PhilipsTextInputLayoutStyleDisabled">
-        <item name="android:background">@android:color/transparent</item>
         <item name="android:textColorHint">@color/uikit_enricher4</item>
+        <item name="android:background">@color/uikit_enricher7</item>
         <item name="android:enabled">false</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:textSize">16sp</item>
-
+        <item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_marginTop">6dp</item>
         <item name="android:layout_marginBottom">2dp</item>
 
@@ -64,6 +63,24 @@
         <item name="tabMinWidth">@dimen/uikit_tab_minwidth</item>
         <item name="tabIndicatorHeight">0dp</item>
         <item name="android:elevation">@dimen/uikit_tab_shadow</item>
+    </style>
+
+    <style name="FavTabLayout" parent="PTablayout">
+        <item name="android:layout_height">@dimen/uikit_tab_layout_height_without_image</item>
+        <item name="tabBackground">?attr/favoriteTabSelector</item>
+        <item name="tabTextAppearance">@style/FavTextStyle</item>
+        <item name="tabSelectedTextColor">?attr/baseColor</item>
+    </style>
+
+<style name="ListFav" parent="Widget.AppCompat.ListView">
+    <item name="android:listSelector">@android:color/transparent</item>
+</style>
+
+    <style name="FavTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/uikit_white</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
 
     <style name="PTablayout.Image" parent="@style/PTablayout">
@@ -186,4 +203,22 @@
         <item name="android:colorAccent">?attr/baseColor</item>
     </style>
 
+    <style name="PhilipsModalAlertAnimation">
+        <item name="android:windowEnterAnimation">@anim/uikit_modal_alert_zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/uikit_modal_alert_zoom_out</item>
+    </style>
+
+    <style name="PDropDownStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:divider">@drawable/line</item>
+        <item name="android:colorBackground">?attr/veryLightColor</item>
+    </style>
+
+    <style name="PopOverDropdown" parent="android:Widget.ListView.DropDown">
+        <item name="android:textColor">?attr/darkerColor</item>
+        <item name="android:textSize">@dimen/popup_text_size</item>
+    </style>
+
+    <style name="PopOverImageStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:tint">?attr/darkerColor</item>
+    </style>
 </resources>

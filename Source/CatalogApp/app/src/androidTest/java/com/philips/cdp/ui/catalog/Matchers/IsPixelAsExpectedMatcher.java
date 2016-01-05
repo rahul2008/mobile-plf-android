@@ -17,12 +17,16 @@ public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     public static final String TAG = "IsPixelAsExpected";
     private static final int RELAXED_BOUNDARY_PIXELS = 2;
-    private static final int PASS_PERCENTAGE = 10;
+    private static final int PASS_PERCENTAGE = 11;
     private Bitmap expectedBitmap;
 
     public IsPixelAsExpectedMatcher(final Class<? extends View> expectedType, Bitmap expectedBitmap) {
         super(expectedType);
         this.expectedBitmap = expectedBitmap;
+    }
+
+    public static Matcher<View> isImageSimilar(final Bitmap expectedBitmap) {
+        return new IsPixelAsExpectedMatcher(View.class, expectedBitmap);
     }
 
     @Override
@@ -55,9 +59,5 @@ public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
         Log.d(TAG, "mismatchPercentage:" + mismatchPercentage + "% count=" + diff);
 
         return mismatchPercentage <= PASS_PERCENTAGE;
-    }
-
-    public static Matcher<View> isImageSimilar(final Bitmap expectedBitmap) {
-        return new IsPixelAsExpectedMatcher(View.class, expectedBitmap);
     }
 }

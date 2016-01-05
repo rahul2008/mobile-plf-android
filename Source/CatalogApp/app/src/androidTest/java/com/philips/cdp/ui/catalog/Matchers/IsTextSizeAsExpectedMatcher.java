@@ -15,10 +15,16 @@ public class IsTextSizeAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     public static final String TAG = "IsTextSizeAsExpectedMatcher";
     private float expectedSize;
+    private float actualSize;
 
     public IsTextSizeAsExpectedMatcher(final Class<? extends View> expectedType, float expectedSize) {
         super(expectedType);
         this.expectedSize = expectedSize;
+        this.actualSize = actualSize;
+    }
+
+    public static Matcher<View> isTextSizeSimilar(final float expectedSize) {
+        return new IsTextSizeAsExpectedMatcher(View.class, expectedSize);
     }
 
     @Override
@@ -31,16 +37,12 @@ public class IsTextSizeAsExpectedMatcher extends BoundedMatcher<View, View> {
 
         if (view instanceof TextView) {
             TextView actualTextview = (TextView) view;
-
+            actualSize = actualTextview.getTextSize();
             if (Float.compare(actualTextview.getTextSize(), Math.round(expectedSize)) == 0) {
                 return true;
             }
         }
         return false;
-    }
-
-    public static Matcher<View> isTextSizeSimilar(final float expectedSize) {
-        return new IsTextSizeAsExpectedMatcher(View.class, expectedSize);
     }
 }
 

@@ -9,6 +9,7 @@
         <attr name="verydarkBaseColor" format="reference|color"/>
         <attr name="listSelectorBackground" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
+        <attr name="favoriteTabSelector" format="reference|color"/>
         <attr name="errortextcolorinlineforms" format="reference|color"/>
         <attr name="erroriconcolorinlineforms" format="reference|color"/>
         <attr name="gradWindowBackground" format="reference|color"/>
@@ -33,6 +34,18 @@
         <attr name="lighterGradient" format="reference"/>
         <attr name="evenLighterGradient" format="reference"/>
         <attr name="veryLightGradient" format="reference"/>
+        <attr name="veryLightselectoropacityfifteen" format="reference|color"/>
+        <attr name="popoverImageStyle" format="reference"/>
+        <attr name="springBoardButton" format="reference"/>
+        <attr name="springBoardButtonWithIcon" format="reference"/>
+        <attr name="springBoardButtonOutLined" format="reference"/>
+        <attr name="springBoardButtonOutLinedWithIcon" format="reference"/>
+        <attr name="LightColor" format="reference|color"/>
+        <attr name="LighterColorOpacity80" format="reference|color"/>
+        <attr name="LighterColorOpacity60" format="reference|color"/>
+        <attr name="LighterColorOpacity40" format="reference|color"/>
+        <attr name="LighterColorOpacity20" format="reference|color"/>
+
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">
@@ -74,8 +87,6 @@
     </declare-styleable>
 
     <declare-styleable name="InputTextField">
-        <attr name="inputFieldWidth" format="dimension"/>
-        <attr name="inputFieldHeight" format="dimension"/>
         <attr name="singleLine" format="boolean"/>
         <attr name="hintText" format="string"/>
         <attr name="errorText" format="string"/>
@@ -163,5 +174,15 @@
     <declare-styleable name="RangeSeekBar">
         <attr name="absoluteMinValue" format="integer|float"/>
         <attr name="absoluteMaxValue" format="integer|float"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIKitProgressBar">
+        <attr name="uikitsecondaryprogress" format="boolean" />
+        <attr name="uikitwhiteprogress" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="UIKitProgressBarCircular">
+        <attr name="uikitgrayprogress" format="boolean" />
+        <attr name="uikittransparentprogress" format="boolean" />
+        <attr name="uikitcircularprogresssmall" format="boolean" />
     </declare-styleable>
 </resources>

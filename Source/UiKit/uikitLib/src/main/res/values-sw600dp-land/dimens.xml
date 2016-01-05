@@ -11,5 +11,6 @@
     <dimen name="uikit_about_screen_content_right_margin">223dp</dimen>
     <dimen name="uikit_about_screen_version_copyright_left_margin">225dp</dimen><!-- 224 -->
     <dimen name="uikit_about_screen_logo_margin_bottom">53dp</dimen>
-    <dimen name="uikit_about_screen_logo_margin">48dp</dimen><!-- 53dp 1dp iconfont-->
+    <dimen name="uikit_about_screen_logo_margin">48dp</dimen>
+    <!-- 53dp 1dp iconfont-->
 </resources>

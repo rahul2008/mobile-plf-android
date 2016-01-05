@@ -4,7 +4,7 @@
     <style name="Theme.Philips.DarkBlue">
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_blue</item>
-
+        <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_blue</item>
         <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
@@ -16,7 +16,6 @@
         <item name="springBoardDivider">@color/uikit_philips_bright_blue</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_blue_theme</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_blue</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_blue</item>
         <item name="buttonStyle">@style/Button.Solid.DarkBlue</item>
         <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkBlue</item>
@@ -28,6 +27,20 @@
         <item name="darkerColor">@color/uikit_philips_very_dark_blue</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_blue_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkBlue</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkBlue</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkBlue</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkBlue
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_blue</item>
+        <item name="LighterColorOpacity80">@color/uikit_bright_blue_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_bright_blue_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_bright_blue_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_bright_blue_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.DarkBlue.NoActionBar">
@@ -49,7 +62,6 @@
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Purple</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_purple_theme</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_purple</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_purple</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_purple</item>
         <item name="buttonStyle">@style/Button.Solid.DarkPurple</item>
         <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkPurple</item>
@@ -61,6 +73,21 @@
         <item name="darkerColor">@color/uikit_philips_very_dark_purple</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_purple_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkPurple</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkPurple</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkPurple</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkPurple
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_purple</item>
+        <item name="LighterColorOpacity80">@color/uikit_bright_purple_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_bright_purple_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_bright_purple_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_bright_purple_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_purple</item>
     </style>
 
     <style name="Theme.Philips.DarkPurple.NoActionBar">
@@ -74,16 +101,19 @@
         <item name="darkerGradient">@drawable/uikit_grad_green_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_green_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_green_bright_to_light</item>
-        <item name= "verydarkBaseColor">@color/uikit_philips_very_dark_green</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_green</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_green</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_green_color</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme
+        </item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_green_color
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_green</item>
         <item name="springBoardDivider">@color/uikit_philips_bright_green</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Green</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_green_theme</item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_green_theme
+        </item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_green</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_green</item>
         <item name="buttonStyle">@style/Button.Solid.DarkGreen</item>
         <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkGreen</item>
@@ -95,6 +125,21 @@
         <item name="darkerColor">@color/uikit_philips_very_dark_green</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_green_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkGreen</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkGreen</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkGreen</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkGreen
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_green</item>
+        <item name="LighterColorOpacity80">@color/uikit_bright_green_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_bright_green_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_bright_green_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_bright_green_with_opacity_20</item>
+	 <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_green</item>
     </style>
 
     <style name="Theme.Philips.DarkGreen.NoActionBar">
@@ -108,16 +153,19 @@
         <item name="darkerGradient">@drawable/uikit_grad_orange_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_orange_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_orange_bright_to_light</item>
-        <item name= "verydarkBaseColor">@color/uikit_philips_very_dark_orange</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_orange</item>
         <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_orange_color</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme
+        </item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_orange_color
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_orange</item>
         <item name="springBoardDivider">@color/uikit_philips_bright_orange</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_orange_theme</item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_orange_theme
+        </item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_orange</item>
         <item name="buttonStyle">@style/Button.Solid.DarkOrange</item>
         <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkOrange</item>
@@ -131,6 +179,21 @@
         <item name="darkerColor">@color/uikit_philips_very_dark_orange</item>
         <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_orange_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkOrange</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkOrange</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkOrange</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkOrange
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_orange</item>
+        <item name="LighterColorOpacity80">@color/uikit_bright_orange_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_bright_orange_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_bright_orange_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_bright_orange_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_orange</item>
     </style>
 
     <style name="Theme.Philips.DarkOrange.NoActionBar">
@@ -152,7 +215,6 @@
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_aqua</item>
         <item name="buttonStyle">@style/Button.Solid.DarkAqua</item>
         <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkAqua</item>
@@ -164,6 +226,21 @@
         <item name="darkerColor">@color/uikit_philips_very_dark_aqua</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_aqua_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkAqua</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkAqua</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkAqua</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkAqua
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_aqua</item>
+        <item name="LighterColorOpacity80">@color/uikit_bright_aqua_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_bright_aqua_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_bright_aqua_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_bright_aqua_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_aqua</item>
     </style>
 
     <style name="Theme.Philips.DarkAqua.NoActionBar">
@@ -177,16 +254,19 @@
         <item name="darkerGradient">@drawable/uikit_grad_pink_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_pink_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_pink_bright_to_light</item>
-        <item name= "verydarkBaseColor">@color/uikit_philips_very_dark_pink</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_pink</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_pink</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_pink_color</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme
+        </item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_pink_color
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_pink</item>
         <item name="springBoardDivider">@color/uikit_philips_bright_pink</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Pink</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_pink_theme</item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_pink_theme
+        </item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_pink</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_pink</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_pink</item>
         <item name="buttonStyle">@style/Button.Solid.DarkPink</item>
         <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkPink</item>
@@ -198,6 +278,21 @@
         <item name="darkerColor">@color/uikit_philips_very_dark_pink</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_pink_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkPink</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkPink</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkPink</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkPink
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_pink</item>
+        <item name="LighterColorOpacity80">@color/uikit_bright_pink_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_bright_pink_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_bright_pink_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_bright_pink_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_pink</item>
     </style>
 
     <style name="Theme.Philips.DarkPink.NoActionBar">
@@ -220,7 +315,6 @@
         <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
         <item name="actionBarBackground">@drawable/uikit_grad_light_orange_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_orange</item>
         <item name="buttonStyle">@style/Button.Solid.BrightOrange</item>
         <item name="pickerButtonStyle">@style/PickerButton.Solid.BrightOrange</item>
@@ -233,9 +327,24 @@
         <item name="veryLightColor">@color/uikit_philips_very_light_orange</item>
         <item name="brightColor">@color/uikit_philips_light_orange</item>
         <item name="darkerColor">@color/uikit_philips_dark_orange</item>
-
+        <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_orange</item>
         <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_orange_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightOrange</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightOrange
+        </item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightOrange</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedBrightOrange
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_orange</item>
+        <item name="LighterColorOpacity80">@color/uikit_light_orange_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_light_orange_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_light_orange_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_light_orange_with_opacity_20</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.NoActionBar">
@@ -259,7 +368,6 @@
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_aqua</item>
         <item name="actionBarBackground">@drawable/uikit_grad_light_aqua_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_aqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
@@ -271,6 +379,21 @@
         <item name="darkerColor">@color/uikit_philips_dark_aqua</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_aqua_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightAqua</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightAqua</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightAqua</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedBrightAqua
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_aqua</item>
+        <item name="LighterColorOpacity80">@color/uikit_light_aqua_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_light_aqua_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_light_aqua_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_light_aqua_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_aqua</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.NoActionBar">
@@ -285,14 +408,18 @@
         <item name="baseGradient">@drawable/uikit_grad_green_bright_to_light</item>
         <item name="springBoardDivider">@color/uikit_philips_light_green</item>
         <item name="lighterGradient">@drawable/uikit_grad_green_light_to_verylight</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_green</item>
+        <item name="listSelectorBackground">
+            @drawable/uikit_background_lists_selector_bright_green_color
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_green_theme
+        </item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_green</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_green_color</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_green_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Green</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_green</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_green</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightGreen</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentGreen</item>
@@ -304,6 +431,24 @@
         <item name="darkerColor">@color/uikit_philips_dark_green</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_green_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightGreen</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightGreen</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightGreen</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedBrightGreen
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_green</item>
+
+        
+        <item name="LighterColorOpacity80">@color/uikit_light_green_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_light_green_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_light_green_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_light_green_with_opacity_20</item>
+        <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_green</item>
+
     </style>
     <style name="Theme.Philips.BrightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -318,13 +463,17 @@
         <item name="lighterGradient">@drawable/uikit_grad_pink_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_light_pink</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_pink</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_pink</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_pink_color</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_pink_theme</item>
+        <item name="listSelectorBackground">
+            @drawable/uikit_background_lists_selector_bright_pink_color
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_pink_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Pink</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_pink</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_pink</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_pink</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightPink</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPink</item>
@@ -336,6 +485,21 @@
         <item name="darkerColor">@color/uikit_philips_dark_pink</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_pink_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightPink</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightPink</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightPink</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedBrightPink
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_pink</item>
+        <item name="LighterColorOpacity80">@color/uikit_light_pink_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_light_pink_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_light_pink_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_light_pink_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_pink</item>
     </style>
     <style name="Theme.Philips.BrightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -351,13 +515,17 @@
         <item name="lighterGradient">@drawable/uikit_grad_blue_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_light_blue</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_blue</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_blue</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_blue_color</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_blue_theme</item>
+        <item name="listSelectorBackground">
+            @drawable/uikit_background_lists_selector_bright_blue_color
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_blue_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_blue</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_blue</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_blue</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightBlue</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBlue</item>
@@ -369,6 +537,21 @@
         <item name="darkerColor">@color/uikit_philips_dark_blue</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_blue_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightBlue</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightBlue</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightBlue</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedBrightBlue
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_blue</item>
+        <item name="LighterColorOpacity80">@color/uikit_light_orange_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_light_orange_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_light_orange_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_light_orange_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_blue</item>
     </style>
     <style name="Theme.Philips.BrightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -384,13 +567,17 @@
         <item name="lighterGradient">@drawable/uikit_grad_purple_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_light_purple</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_purple</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_purple</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_bright_purple_color</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_purple_theme</item>
+        <item name="listSelectorBackground">
+            @drawable/uikit_background_lists_selector_bright_purple_color
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_purple_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Purple</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_purple</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_purple</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_purple</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightPurple</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPurple</item>
@@ -402,6 +589,25 @@
         <item name="darkerColor">@color/uikit_philips_dark_purple</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_purple_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.BrightPurple</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.BrightPurple
+        </item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedBrightPurple</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedBrightPurple
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_purple</item>
+
+      
+        <item name="LighterColorOpacity80">@color/uikit_light_purple_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_light_purple_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_light_purple_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_light_purple_with_opacity_20</item>
+        <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_bright_purple</item>
+
     </style>
     <style name="Theme.Philips.BrightPurple.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -417,13 +623,16 @@
         <item name="lighterGradient">@drawable/uikit_grad_blue_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_very_light_blue</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_light_blue</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_blue</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_blue</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_blue_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_blue
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_blue_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_blue</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_blue</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_bright_blue</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightBlue</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBlue</item>
@@ -435,6 +644,21 @@
         <item name="darkerColor">@color/uikit_philips_bright_blue</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_blue_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightBlue</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightBlue</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightBlue</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedLightBlue
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_blue</item>
+        <item name="LighterColorOpacity80">@color/uikit_very_light_blue_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_very_light_blue_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_very_light_blue_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_very_light_blue_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_blue</item>
     </style>
     <style name="Theme.Philips.LightBlue.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -449,14 +673,18 @@
         <item name="baseGradient">@drawable/uikit_grad_orange_light_to_verylight</item>
         <item name="lighterGradient">@drawable/uikit_grad_orange_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_very_light_orange</item>
-        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_light_orange</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_light_orange
+        </item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_orange</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_orange</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_orange_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_orange
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_orange_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_bright_orange</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightOrange</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
@@ -470,6 +698,21 @@
         <item name="darkerColor">@color/uikit_philips_bright_orange</item>
         <item name="errortextcolorinlineforms">@color/uikit_enricher_red</item>
         <item name="erroriconcolorinlineforms">@color/uikit_enricher_red</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_orange_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightOrange</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightOrange</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightOrange</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedLightOrange
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_orange</item>
+        <item name="LighterColorOpacity80">@color/uikit_very_light_orange_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_very_light_orange_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_very_light_orange_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_very_light_orange_with_opacity_20</item>
+	 <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_orange</item>
     </style>
     <style name="Theme.Philips.LightOrange.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -485,13 +728,16 @@
         <item name="lighterGradient">@drawable/uikit_grad_aqua_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_very_light_aqua</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_light_aqua</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_aqua</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_aqua</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_aqua
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_aqua_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_bright_aqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightAqua</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
@@ -503,6 +749,21 @@
         <item name="darkerColor">@color/uikit_philips_bright_aqua</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_aqua_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightAqua</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightAqua</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightAqua</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedLightAqua
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_aqua</item>
+        <item name="LighterColorOpacity80">@color/uikit_very_light_aqua_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_very_light_aqua_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_very_light_aqua_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_very_light_aqua_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_aqua</item>
     </style>
     <style name="Theme.Philips.LightAqua.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -518,13 +779,16 @@
         <item name="lighterGradient">@drawable/uikit_grad_green_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_very_light_green</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_light_green</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_green</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_green</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_green_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_green
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_green_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Green</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_green</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_bright_green</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightGreen</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentGreen</item>
@@ -536,6 +800,21 @@
         <item name="darkerColor">@color/uikit_philips_bright_green</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_green_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightGreen</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightGreen</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightGreen</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedLightGreen
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_green</item>
+        <item name="LighterColorOpacity80">@color/uikit_very_light_green_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_very_light_green_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_very_light_green_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_very_light_green_with_opacity_20</item>
+	 <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_green</item>
     </style>
     <style name="Theme.Philips.LightGreen.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -551,13 +830,16 @@
         <item name="lighterGradient">@drawable/uikit_grad_pink_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_very_light_pink</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_light_pink</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme</item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_pink</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_pink</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_pink_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_pink
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_pink_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Pink</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_pink</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_pink</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_bright_pink</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightPink</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPink</item>
@@ -569,6 +851,21 @@
         <item name="darkerColor">@color/uikit_philips_bright_pink</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_pink_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightPink</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightPink</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightPink</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedLightPink
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_pink</item>
+        <item name="LighterColorOpacity80">@color/uikit_very_light_pink_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_very_light_pink_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_very_light_pink_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_very_light_pink_with_opacity_20</item>
+	 <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_pink</item>
     </style>
     <style name="Theme.Philips.LightPink.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -583,14 +880,18 @@
         <item name="baseGradient">@drawable/uikit_grad_purple_light_to_verylight</item>
         <item name="lighterGradient">@drawable/uikit_grad_purple_light_to_verylight</item>
         <item name="springBoardDivider">@color/uikit_philips_very_light_purple</item>
-        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_light_purple</item>
-        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme</item>
+        <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_light_purple
+        </item>
+        <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme
+        </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_purple</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_purple</item>
-        <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_purple_theme</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_purple
+        </item>
+        <item name="gradientColorForListSectionTitle">
+            @drawable/uikit_listview_headers_gradient_purple_theme
+        </item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Purple</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_purple</item>
-        <item name="android:colorBackground">@color/uikit_philips_very_light_purple</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_bright_purple</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightPurple</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPurple</item>
@@ -602,6 +903,21 @@
         <item name="darkerColor">@color/uikit_philips_bright_purple</item>
         <item name="errortextcolorinlineforms">@color/uikit_philips_bright_orange</item>
         <item name="erroriconcolorinlineforms">@color/uikit_philips_bright_orange</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_purple_selector
+        </item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.LightPurple</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.LightPurple</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedLightPurple</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedLightPurple
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_purple</item>
+        <item name="LighterColorOpacity80">@color/uikit_very_light_purple_with_opacity_80</item>
+        <item name="LighterColorOpacity60">@color/uikit_very_light_purple_with_opacity_60</item>
+        <item name="LighterColorOpacity40">@color/uikit_very_light_purple_with_opacity_40</item>
+        <item name="LighterColorOpacity20">@color/uikit_very_light_purple_with_opacity_20</item>
+	<item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_light_purple</item>
     </style>
     <style name="Theme.Philips.LightPurple.NoActionBar">
         <item name="windowActionBar">false</item>

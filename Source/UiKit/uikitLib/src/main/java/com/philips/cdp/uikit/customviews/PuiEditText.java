@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -17,8 +22,40 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.R;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Layout which wraps EditText internally and facilitates to show error.
+ *
+ * Use {@link Validator} interface with {@link PuiEditText#setValidator(Validator)} to enable
+ * error display.
+ *
+ * <p>
+ * <H3>Custom Attributes</H3>
+ * <b>singleLine:</b> EditText will be restricted to a single line.<br>
+ * <b>hintText:</b> EditText hint.<br>
+ * <b>errorText:</b> Text to be displyed below the EditText when input validation fails.<br>
+ * <b>enabled:</b> Enables the EditText (allows user to click and enter the text).<br>
+ * <b>errorTextColor:</b> Do not change unless absolutely necessary. Will be provided by the Theme.
+ * Sets the color of the error text shown.<br>
+ * <b>errorIcon:</b> Do not change unless absolutely necessary. Will be provided by the Theme. The
+ * error icon shown below the EditText.<br>
+ * <b>errorBackground:</b> Do not change unless absolutely necessary. Will be provided by the Theme.
+ * It's a drawable which is set as the background of the EditText when input validation fails.<br>
+ * </p>
+ *
+ * Example
+ * <br>
+ *     <pre>
+ *     &lt;com.philips.cdp.uikit.customviews.PuiEditText
+ *          android:id="@+id/input_field_1"  			    -> Unique id of the PuiEditText to retain value across different config changes
+ *          android:layout_width="wrap_content" 			-> Width of the EditText and layout container
+ *          android:layout_height="wrap_content" 			-> Height of the layout container
+ *          app:errorText="@string/invalid_email_format" 	-> Error text to be shown when validation fails.
+ *          app:hintText="@string/enter_text_here" 		    -> EditText hint text.
+ *          inputText:enabled="false"                       -> Add this if you want to disable the EditText
+ *          app:singleLine="true"/&gt; -> Is EditText restricted to a single line.
+ </pre>
+
+
+ *
  */
 public class PuiEditText extends RelativeLayout {
 
@@ -31,6 +68,39 @@ public class PuiEditText extends RelativeLayout {
     private Drawable themeDrawable;
     private Validator validator;
     private boolean focused;
+
+    /**
+     * Interface to be registered in case app wants to show error message.<br>
+     * Returning true will show the error.
+     * <H3>Sample Code</H3>
+     * <pre>
+     *     puiEditText1 = (PuiEditText) findViewById(R.id.someID);
+     *      puiEditText1.setValidator(new PuiEditText.Validator() {
+     *       public boolean validate(final String inputToBeValidated) {
+     *           return validateEmail(inputToBeValidated);
+     *       }
+     *   });
+     *
+     *    private static final String EMAIL_PATTERN = "^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]{2,30}+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,5})$";
+     *
+     *   private boolean validateEmail(final String email) {
+     *       if (email == null) return false;
+     *       Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+     *       Matcher matcher = pattern.matcher(email);
+     *       return matcher.matches();
+     *   }
+     * </pre>
+     */
+    public interface Validator {
+        /**
+         * App gets the callback with the current string in the editbox.
+         * <br> App can validate the string and return true to show error.
+         * @param inputToBeValidated Current text in edittext.
+         * @return true: Show error , false: no effect
+         */
+        boolean validate(String inputToBeValidated);
+    }
+
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
         @Override
         public void onFocusChange(final View view, final boolean hasFocus) {
@@ -53,8 +123,8 @@ public class PuiEditText extends RelativeLayout {
         inflater.inflate(R.layout.uikit_input_text_field, this, true);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputTextField);
-        int editTextWidth = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldWidth, LayoutParams.WRAP_CONTENT);
-        int editTextHeight = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldHeight, LayoutParams.WRAP_CONTENT);
+//        int editTextWidth = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldWidth, LayoutParams.WRAP_CONTENT);
+//        int editTextHeight = a.getDimensionPixelSize(R.styleable.InputTextField_inputFieldHeight, LayoutParams.WRAP_CONTENT);
         boolean singleLine = a.getBoolean(R.styleable.InputTextField_singleLine, true);
         String editTextHint = a.getString(R.styleable.InputTextField_hintText);
         String errorText = a.getString(R.styleable.InputTextField_errorText);
@@ -65,7 +135,7 @@ public class PuiEditText extends RelativeLayout {
         a.recycle();
 
         setSaveEnabled(true);
-        initEditText(editTextHint, enabled, editTextWidth, singleLine, editTextHeight);
+        initEditText(editTextHint, enabled,/* editTextWidth,*/ singleLine/*, editTextHeight*/);
 
         themeDrawable = editText.getBackground();
 
@@ -83,6 +153,14 @@ public class PuiEditText extends RelativeLayout {
 
     public PuiEditText(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (getWidth() > 0) {
+            editText.setWidth(getWidth());
+        }
     }
 
     /**
@@ -172,10 +250,10 @@ public class PuiEditText extends RelativeLayout {
         errorImage.setImageDrawable(errorIcon);
     }
 
-    private void initEditText(final String editTextHint, final boolean enabled, final int editTextWidth, final boolean singleLine, int editTextHeight) {
+    private void initEditText(final String editTextHint, final boolean enabled, /*final int editTextWidth,*/ final boolean singleLine/*, int editTextHeight*/) {
         editText = (EditText) getChildAt(0);
-        if (editTextWidth > 0) setWidth(editTextWidth);
-        if (editTextHeight > 0) setHeight(editTextHeight);
+/*        if (editTextWidth > 0) setWidth(editTextWidth);
+        if (editTextHeight > 0) setHeight(editTextHeight);*/
         if (focused) editText.requestFocus();
         editText.setSingleLine(singleLine);
         editText.setHint(editTextHint);
@@ -184,6 +262,11 @@ public class PuiEditText extends RelativeLayout {
         editText.setOnFocusChangeListener(onFocusChangeListener);
     }
 
+    /**
+     * Use this to set a validator. Dependign upon the return value, the error message is shown.
+     *
+     * @param validator
+     */
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
@@ -207,6 +290,14 @@ public class PuiEditText extends RelativeLayout {
      */
     public void setHeight(int height) {
         editText.setHeight(height);
+    }
+
+    /**
+     * Sets the hint for the edit text.
+     * @param hint Hint for the edit text
+     */
+    public void setHintText(String hint) {
+        editText.setHint(hint);
     }
 
     /**
@@ -247,10 +338,6 @@ public class PuiEditText extends RelativeLayout {
         }
     }
 
-    public interface Validator {
-        boolean validate(String inputToBeValidated);
-    }
-
     /**
      * Class to save the state of the existing Edittext.
      * We will use this class to restore the state of the Edittext after orientation change.
@@ -258,7 +345,7 @@ public class PuiEditText extends RelativeLayout {
      * variable showError Error visibility state of the destroyed Edittext.
      * variable focused Weather the current Edittext was focused when the view was destroyed.
      */
-    static class SavedState extends BaseSavedState {
+    private static class SavedState extends BaseSavedState {
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {

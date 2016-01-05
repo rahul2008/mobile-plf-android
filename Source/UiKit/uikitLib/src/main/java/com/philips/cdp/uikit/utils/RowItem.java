@@ -13,10 +13,6 @@ public class RowItem {
     private String desc = null;
 
 
-    public int getImageId() {
-        return imageId;
-    }
-
     public RowItem(final Drawable drawable, final String desc) {
         this.drawable = drawable;
         this.desc = desc;
@@ -44,12 +40,22 @@ public class RowItem {
         this.stringId = stringId;
     }
 
+    public RowItem() {
+
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
     public void setImageId(int imageId) {
         this.imageId = imageId;
     }
+
     public String getDesc() {
         return desc;
     }
+
     public void setDesc(String desc) {
         this.desc = desc;
     }
@@ -68,9 +74,5 @@ public class RowItem {
 
     public void setStringId(final int stringId) {
         this.stringId = stringId;
-    }
-
-    public RowItem() {
-
     }
 }

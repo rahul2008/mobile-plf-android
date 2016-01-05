@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
+import com.philips.cdp.ui.catalog.cardviewpager.CardActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 import java.util.HashMap;
@@ -109,7 +110,19 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
 			case 18:
                 startActivity(new Intent(this, TextLayoutInputFeildInlineForms.class));
                 break;
+            case 19:
+                startActivity(new Intent(this, ProgressBarActivity.class));
+                break;
             case 20:
+                startActivity(new Intent(this, CardActivity.class));
+                break;
+            case 21:
+                startActivity(new Intent(this, ModalAlertDemo.class));
+                break;
+			case 22:
+                startActivity(new Intent(this, FavoritesActivity.class));
+                break;
+            case 23:
                 startActivity(new Intent(this, PickerActivity.class));
                 break;
             default:
@@ -172,7 +185,11 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(16, "Pop Over Menu");
         itemsMap.put(17,"Spring Board");       
         itemsMap.put(18, "Inline Forms");
-        itemsMap.put(20, "Pickers");
+		itemsMap.put(19, "ProgressBar");
+        itemsMap.put(20, "Cards");
+        itemsMap.put(21, "Modal Alert");
+        itemsMap.put(22, "Favorites");
+        itemsMap.put(23, "Pickers");
         return itemsMap;
     }
 

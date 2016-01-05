@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:width="159.9dp"
     android:height="120dp"
-    android:viewportWidth="159.9"
     android:viewportHeight="120"
-    app:vc_viewportWidth="159.9"
-    app:vc_viewportHeight="120">
+    android:viewportWidth="159.9"
+    app:vc_viewportHeight="120"
+    app:vc_viewportWidth="159.9">
 
     <path
         android:fillColor="#ffffff"
@@ -14,7 +14,7 @@
 c4.9,0,8.9-4,8.9-8.9V30L80,75"
         app:vc_fillColor="#ffffff"
         app:vc_pathData="M80,75L80,75L80,75L80,75L80,75L80,75L80,75L80,75l-0.1,0l0-0.1L0,30v81c0,4.9,4,8.9,8.9,8.9H151
-c4.9,0,8.9-4,8.9-8.9V30L80,75"/>
+c4.9,0,8.9-4,8.9-8.9V30L80,75" />
     <path
         android:fillColor="#ffffff"
         android:pathData="M80,65l80-45.3V8.9c0-4.9-4-8.9-8.9-8.9H8.9C4,0,0,4,0,8.9v10.4L80,65z"

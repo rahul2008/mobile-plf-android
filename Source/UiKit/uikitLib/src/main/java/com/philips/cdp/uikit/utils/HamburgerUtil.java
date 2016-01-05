@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.utils;
 
 import android.app.Activity;
@@ -8,17 +12,16 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HeaderViewListAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.uikit.hamburger.PhilipsHamburgerAdapter;
+import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ *  Hamburger ModalAlertUtil class to handle Hamburger Philips Logo alignments
  */
 public class HamburgerUtil {
 
@@ -32,21 +35,26 @@ public class HamburgerUtil {
         drawerListView.setFooterDividersEnabled(true);
     }
 
-    public void updateSmartFooter(final VectorDrawableImageView footerImageView) {
+    /**
+     * API to control Philips Logo to remain always at bottom, to be called when adapter is refreshed
+     *
+     * @param footerImageView - Instance of Footer view
+     */
+    public void updateSmartFooter(final ImageView footerImageView) {
         drawerListView.post(new Runnable() {
             @Override
             public void run() {
                 int heightPixels = getDeviceHeightPixels();
-                int adaptorTotalHeight = getAdaptorTotalHeight();
-                validateLogoView(heightPixels, adaptorTotalHeight, footerImageView);
+                int adapterTotalHeight = getAdaptorTotalHeight();
+                validateLogoView(heightPixels, adapterTotalHeight, footerImageView);
             }
         });
     }
 
-    private void validateLogoView(final int deviceHeight, final int adaptorTotalHeight, VectorDrawableImageView footerImageView) {
+    private void validateLogoView(final int deviceHeight, final int adapterTotalHeight, ImageView footerImageView) {
         int logoDedicatedHeight = getLogoDedicatedHeight();
         int remainingHeight = deviceHeight - logoDedicatedHeight;
-        if (adaptorTotalHeight <= remainingHeight) {
+        if (adapterTotalHeight <= remainingHeight) {
             removeFooterViewIfExists();
             footerImageView.setVisibility(View.VISIBLE);
         } else {
@@ -59,7 +67,7 @@ public class HamburgerUtil {
         removeFooterViewIfExists();
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footerView = vi.inflate(R.layout.uikit_footer_view, null);
-        VectorDrawableImageView vectorDrawableImageView = (VectorDrawableImageView) footerView.findViewById(R.id.philips_logo);
+        ImageView vectorDrawableImageView = (ImageView) footerView.findViewById(R.id.philips_logo);
         vectorDrawableImageView.setAlpha(229);
         RelativeLayout.LayoutParams lp = getLayoutParams();
         vectorDrawableImageView.setLayoutParams(lp);
@@ -79,8 +87,8 @@ public class HamburgerUtil {
     private void removeFooterViewIfExists() {
         if (footerView != null) {
             HeaderViewListAdapter headerViewListAdapter = (HeaderViewListAdapter) drawerListView.getAdapter();
-            PhilipsHamburgerAdapter philipsHamburgerAdapter = (PhilipsHamburgerAdapter) headerViewListAdapter.getWrappedAdapter();
-            drawerListView.setAdapter(philipsHamburgerAdapter);
+            HamburgerAdapter hamburgerAdapter = (HamburgerAdapter) headerViewListAdapter.getWrappedAdapter();
+            drawerListView.setAdapter(hamburgerAdapter);
             drawerListView.removeFooterView(footerView);
         }
     }
@@ -106,7 +114,7 @@ public class HamburgerUtil {
         return 0;
     }
 
-    public void setVectorImage(final VectorDrawableImageView vectorDrawableImageView) {
+    private void setVectorImage(final ImageView vectorDrawableImageView) {
         int resID = R.drawable.uikit_philips_logo;
         vectorDrawableImageView.setImageDrawable(VectorDrawable.create(context, resID));
     }

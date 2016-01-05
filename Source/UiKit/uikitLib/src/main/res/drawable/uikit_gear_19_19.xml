@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:width="19dp"
-        android:height="19dp"
-        android:viewportWidth="42.5"
-        android:viewportHeight="42.5"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:width="19dp"
+    android:height="19dp"
+    android:viewportHeight="42.5"
+    android:viewportWidth="42.5"
 
-        app:vc_viewportHeight="42.5"
-        app:vc_viewportWidth="42.5">
+    app:vc_viewportHeight="42.5"
+    app:vc_viewportWidth="42.5">
 
     <path
         android:fillColor="@android:color/white"

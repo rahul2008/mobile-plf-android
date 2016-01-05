@@ -16,11 +16,20 @@ import org.hamcrest.Matcher;
 public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, View> {
 
     public static final String TAG = "IsBackgroundColorAsExpectedMatcher";
+    int actualX;
+    int actualY;
     private String expectedColor;
 
-    public IsBackgroundColorAsExpectedMatcher(final Class<? extends View> expectedType, String expectedColor) {
+
+    public IsBackgroundColorAsExpectedMatcher(final Class<? extends View> expectedType, String expectedColor, final int actualX, final int actualY) {
         super(expectedType);
         this.expectedColor = expectedColor;
+        this.actualX = actualX;
+        this.actualY = actualY;
+    }
+
+    public static Matcher<View> isBackgroundColorSimilar(final String expectedColor, final int actualX, final int actualY) {
+        return new IsBackgroundColorAsExpectedMatcher(View.class, expectedColor, actualX, actualY);
     }
 
     @Override
@@ -34,22 +43,15 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int actualRGB = actualBitmap.getPixel(30, 30);
+        int actualRGB = actualBitmap.getPixel(actualX, actualY);
+
 
         String actualcolor = "#" +
                 Integer.toString(Color.red(actualRGB), 16) +
                 Integer.toString(Color.green(actualRGB), 16) +
                 Integer.toString(Color.blue(actualRGB), 16);
 
-        if (actualcolor.equalsIgnoreCase(expectedColor)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static Matcher<View> isBackgroundColorSimilar(final String expectedColor) {
-        return new IsBackgroundColorAsExpectedMatcher(View.class, expectedColor);
+        return actualcolor.equalsIgnoreCase(expectedColor);
     }
 }
 

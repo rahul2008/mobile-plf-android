@@ -1,99 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-           android:layout_height="fill_parent"
-           android:layout_width="fill_parent"
-           android:minHeight="52dp"
-           android:paddingLeft="31dp"
-           android:paddingRight="32dp"
-           android:paddingTop="11dp"
-           android:paddingBottom="11dp"
-           android:layout_gravity="center_vertical"
-           android:gravity="center"
-    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center"
+    android:minHeight="52dp"
+    android:paddingBottom="11dp"
+    android:paddingLeft="31dp"
+    android:paddingRight="32dp"
+    android:paddingTop="11dp">
 
     <TextView
         android:id="@+id/text_description_without_icons"
+        fontPath="fonts/centralesansbook.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:textColor="?attr/listtextselector"
-        android:text="By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app."
-        android:textSize="16sp"
-        android:layout_below="@+id/switch_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/switch_button"
         android:layout_marginTop="11dp"
-        fontPath="fonts/centralesansbook.ttf"
-        android:visibility="gone"/>
+        android:includeFontPadding="false"
+        android:text="By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app."
+        android:textColor="?attr/listtextselector"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <com.philips.cdp.uikit.customviews.PuiSwitch
+        android:id="@+id/switch_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switch_button"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:visibility="gone"
-        />
+        android:layout_alignParentTop="true"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/medium"
-        android:text="Medium"
+        fontPath="fonts/centralesanslight.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/arrowwithouticons"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="19dp"
+        android:layout_toLeftOf="@+id/arrowwithouticons"
+        android:text="Medium"
         android:textColor="?attr/listtextselector"
-        android:visibility="gone"
         android:textSize="20sp"
-        fontPath="fonts/centralesanslight.ttf"
-        android:layout_marginRight="19dp"/>
-
+        android:visibility="gone" />
 
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrowwithouticons"
+        style="@style/FontIcon.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:layout_alignBaseline="@id/medium"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:layout_marginRight="-3dp"
-        style="@style/FontIcon.Small"
         android:includeFontPadding="false"
         android:text="@string/uikit_fonticon_arrow_right"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:visibility="gone"
-        android:textColor="?attr/listtextselector"
         android:textAlignment="center"
-        android:layout_alignBaseline="@id/medium"
-        />
+        android:textColor="?attr/listtextselector"
+        android:textSize="13sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/ifo"
+        fontPath="fonts/centralesansbook.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        fontPath="fonts/centralesansbook.ttf"
-        android:includeFontPadding="false"
-        android:text="Version"
-        android:layout_alignParentTop="true"
-        android:textColor="?attr/listtextselector"
         android:layout_alignBaseline="@id/medium"
-        />
+        android:layout_alignParentTop="true"
+        android:includeFontPadding="false"
+        android:layout_toLeftOf="@id/medium"
+        android:text="Version"
+        android:layout_alignParentLeft="true"
+        android:textColor="?attr/listtextselector"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/numberwithouticon"
-        android:text="Medium"
+        fontPath="fonts/centralesanslight.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/ifo"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/arrowwithouticons"
-        android:layout_alignParentRight="true"
+        android:text="Medium"
         android:textColor="?attr/listtextselector"
-        android:visibility="gone"
         android:textSize="20sp"
-        fontPath="fonts/centralesanslight.ttf"
-        android:layout_alignBaseline="@id/ifo"
-        />
+        android:visibility="gone" />
 
-    </RelativeLayout>
+</RelativeLayout>

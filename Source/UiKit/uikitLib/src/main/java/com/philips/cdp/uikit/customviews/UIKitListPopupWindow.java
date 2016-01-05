@@ -37,11 +37,7 @@ public class UIKitListPopupWindow extends ListPopupWindow {
     private ColorFilter mVerylightcolor;
     private ColorFilterStateListDrawable mSelector;
 
-    public enum Type
-    {
-        TOPLEFT, TOPRIGHT , LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
-    }
-    public UIKitListPopupWindow(final Context context,final View view, final Type type, List<RowItem> rowItems) {
+    public UIKitListPopupWindow(final Context context, final View view, final Type type, List<RowItem> rowItems) {
         super(context);
         mContext = context;
         setAnchorView(view);
@@ -52,6 +48,21 @@ public class UIKitListPopupWindow extends ListPopupWindow {
         setThemeDrawable();
         setAdapter(adapter);
         setThemeSelector();
+    }
+
+    public UIKitListPopupWindow(final Context context, final AttributeSet attrs) {
+        super(context, attrs);
+        mContext = context;
+    }
+
+    public UIKitListPopupWindow(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        mContext = context;
+    }
+
+    public UIKitListPopupWindow(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        mContext = context;
     }
 
     public void setOffsetValue(Type type) {
@@ -70,7 +81,7 @@ public class UIKitListPopupWindow extends ListPopupWindow {
                 break;
             case RIGHT:
                 setHorizontalOffset(-((mContext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) +
-                                       mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin))));
+                        mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin))));
                 setVerticalOffset(-mView.getHeight());
                 break;
             case BOTTOMLEFT:
@@ -86,26 +97,10 @@ public class UIKitListPopupWindow extends ListPopupWindow {
 
     }
 
-    public UIKitListPopupWindow(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-        mContext = context;
-    }
-
-    public UIKitListPopupWindow(final Context context, final AttributeSet attrs, final int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        mContext = context;
-    }
-
-    public UIKitListPopupWindow(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        mContext = context;
-    }
-
-
     @Override
     public void show() {
         setBackgroundDrawable(new ColorDrawable(0));
-        if(mWidth == 0) {
+        if (mWidth == 0) {
             setWidth((int) mContext.getResources().getDimension(R.dimen.popup_menu_width));
         } else {
             setWidth(mWidth);
@@ -121,11 +116,11 @@ public class UIKitListPopupWindow extends ListPopupWindow {
 
     private void setThemeDrawable() {
 
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor,R.attr.darkerColor});
-        ContextCompat.getColor(mContext,R.color.uikit_philips_very_light_blue);
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor, R.attr.darkerColor});
+        ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue);
         mVerylightthemecolor = a.getColor(0, ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
-        mDarkerColor = a.getColor(1,ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
-        mDrawable = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.pop_over_menu_divider,null);
+        mDarkerColor = a.getColor(1, ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
+        mDrawable = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.pop_over_menu_divider, null);
         mVerylightcolor = new PorterDuffColorFilter(mVerylightthemecolor, PorterDuff.Mode.SRC_ATOP);
         mDrawable.setColorFilter(mVerylightcolor);
         a.recycle();
@@ -154,5 +149,9 @@ public class UIKitListPopupWindow extends ListPopupWindow {
     @Override
     public void setModal(final boolean modal) {
         super.setModal(true);
+    }
+
+    public enum Type {
+        TOPLEFT, TOPRIGHT, LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
     }
 }

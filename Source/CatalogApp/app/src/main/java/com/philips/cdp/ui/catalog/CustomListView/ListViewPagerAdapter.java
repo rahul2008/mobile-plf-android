@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.philips.cdp.ui.catalog.activity.TabFragmentListOption;
 import com.philips.cdp.ui.catalog.activity.TabFragmentListProduct;
-import com.philips.cdp.ui.catalog.activity.TabFragmentListicon;
 import com.philips.cdp.ui.catalog.activity.TabFragmentListWithoutIcon1;
+import com.philips.cdp.ui.catalog.activity.TabFragmentListicon;
 
 
 /**

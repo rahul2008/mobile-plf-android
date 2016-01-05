@@ -3,19 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/gradWindowBackground"
-    >
+    android:background="?attr/gradWindowBackground">
 
     <TextView
         android:id="@+id/title_text"
         fontPath="fonts/centralesanslight.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/center_grids"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="23dp"
         android:includeFontPadding="false"
         android:text="Mobile app"
-        android:layout_above="@+id/center_grids"
-        android:layout_marginBottom="23dp"
         android:textColor="@color/uikit_white"
         android:textSize="33dp" />
 
@@ -24,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="@dimen/springboard_title_text_margin_bottom"
         android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/springboard_title_text_margin_bottom"
         android:orientation="vertical">
 
         <com.philips.cdp.uikit.UikitSpringBoardLayout

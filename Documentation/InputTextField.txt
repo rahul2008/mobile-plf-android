@@ -14,8 +14,7 @@ To access attributes of the PuiEditText.
 
 Attributes defined for PuiEditText :
 
-"inputFieldWidth" : Sets the width of the EditText
-"inputFieldHeight" : Sets the height of the EditText
+
 "singleLine" : EditText will be restricted to a single line.
 "hintText" : EditText hint.
 "errorText" : Text to be displyed below the EditText when input validation fails.
@@ -29,8 +28,8 @@ Sample usage :
 
 <com.philips.cdp.uikit.customviews.PuiEditText
         android:id="@+id/input_field_1"  			-> Unique id of the PuiEditText
-        android:layout_width="wrap_content" 			-> Width of the EditText layout container
-        android:layout_height="wrap_content" 			-> Height of the EditText layout container
+        android:layout_width="wrap_content" 			-> Width of the EditText and layout container
+        android:layout_height="wrap_content" 			-> Height of the EditText and layout container
         android:layout_centerHorizontal="true" 
         android:layout_marginTop="20dp"
         inputText:errorText="@string/invalid_email_format" 	-> Error text to be shown when validation fails.

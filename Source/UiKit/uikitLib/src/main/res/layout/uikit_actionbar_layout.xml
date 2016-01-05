@@ -8,7 +8,7 @@
     <com.philips.cdp.uikit.customviews.VectorDrawableImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:vectorsrc="@drawable/uikit_arrow"
+        app:vectorsrc="@drawable/uikit_right_arrow"
 
         />
 

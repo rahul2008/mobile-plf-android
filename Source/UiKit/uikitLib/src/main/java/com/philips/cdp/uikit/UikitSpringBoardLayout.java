@@ -1,3 +1,10 @@
+
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
+
 package com.philips.cdp.uikit;
 
 import android.content.Context;
@@ -5,30 +12,37 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.customviews.LayerListDrawable;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ *
+ *  Layout class which provides different color for pressed state and normal state <br>
+ *
+ *  Use opacityStyle ( darker , darker_with_opacity) attribute in xml to apply the proper color on
+ * pressed state.
+ *
+ * Darker is just one shade darker of the current color
+ * darker_with_opacity is one shade darker of current base color with opacity of 35 %
+ *
+ * @attr ref com.philips.cdp.uikit.R.attr.opacityStyle
+ *
+ *
  */
 
 public class UikitSpringBoardLayout extends LinearLayout {
 
-    private Drawable selector;
-    public static int STYLE_THEME = 1;
-    int baseColor;
 
+    int baseColor;
     int colorStyle = 1;
     int overlayColor = 0;
     Context mContext;
+    private Drawable selector;
 
     public UikitSpringBoardLayout(Context context) {
         super(context);
@@ -65,8 +79,8 @@ public class UikitSpringBoardLayout extends LinearLayout {
     public void addView(View child, ViewGroup.LayoutParams params) {
         super.addView(child, params);
         selector = getBackgroundSelector();
-        int version = Build.VERSION.SDK_INT;
-        if (version < 16) {
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
             child.setBackgroundDrawable(selector);
         } else {
             child.setBackground(selector);
@@ -106,7 +120,7 @@ public class UikitSpringBoardLayout extends LinearLayout {
 
             d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_gridshape).mutate();
             ((GradientDrawable) d[1]).setColor(overlayColor);
-            return new LayerListDrawable(d);
+            return new LayerDrawable(d);
 
         } else {
             {
@@ -116,7 +130,7 @@ public class UikitSpringBoardLayout extends LinearLayout {
 
                 d[1] = getResources().getDrawable(R.drawable.uikit_springboard_layout_shape).mutate();
                 ((GradientDrawable) d[1]).setColor(overlayColor);
-                return new LayerListDrawable(d);
+                return new LayerDrawable(d);
 
             }
         }

@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -16,8 +20,28 @@ import com.philips.cdp.uikit.dotnavigation.PageIndicator;
 import com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * CircleIndicator is a component which is used associated to Viewpager, we have provided a component named CircleIndicator to support Dot Navigation.
+ * <br>
+ <p>
+ <br>
+ *         Steps to use CircleIndicator:
+ *              <pre>
+
+ <br>
+ 1.Please include in XML with below convention as per your required display metrics
+ <br>
+ &lt;com.philips.cdp.uikit.customviews.CircleIndicator
+ android:layout_height="wrap_content"
+ android:layout_width="wrap_content"
+ android:padding="10dp" </b>/&gt
+ <br>
+ 2.In Activity/Fragment please bind your View pager object as per below code
+ <br>
+ ViewPager pager = (ViewPager) findViewById(R.id.pager);
+ pager.setAdapter(adaptor);
+ CircleIndicator  indicator = (CircleIndicator) findViewById(R.id.indicator);
+ indicator.setViewPager(pager);
+ </p>
  */
 public class CircleIndicator extends LinearLayout implements PageIndicator, com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews {
 
@@ -54,10 +78,6 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
                 R.layout.uikit_indicator, null);
         processAttributes(context, resources);
         reDrawView();
-    }
-
-    public GradientDrawable getUnSelectedDot() {
-        return unSelectedGradientDrawable;
     }
 
     @SuppressWarnings("deprecation")
@@ -100,11 +120,6 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
             }
         });
 
-    }
-
-    public void setFillColor(int color) {
-        themeBaseColor = color;
-        reDrawView();
     }
 
     private void drawDots(final Context context, final int count, final LinearLayout parent) {
@@ -181,6 +196,10 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+
+    /**
+     *This API should be called to bind ViewPager to CircleIndicator
+     * @param view Instance of ViewPager
+     */
     @Override
     public void setViewPager(ViewPager view) {
         if (viewPager == view) {
@@ -197,12 +216,22 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
         reDrawView();
     }
 
+    /**
+     * API to set ViewPager with desired position
+     *
+     * @param view
+     * @param initialPosition
+     */
     @Override
     public void setViewPager(ViewPager view, int initialPosition) {
         setViewPager(view);
         setCurrentItem(initialPosition);
     }
 
+    /**
+     * API to set Current Item
+     * @param item index to Set
+     */
     @Override
     public void setCurrentItem(int item) {
         if (viewPager == null) {
@@ -213,11 +242,18 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
         reDrawView();
     }
 
+    /**
+     * API to Re-draw Dots when required
+     */
     @Override
     public void notifyDataSetChanged() {
         reDrawView();
     }
 
+    /**
+     * Callback When Scroll State is Changed
+     * @param state
+     */
     @Override
     public void onPageScrollStateChanged(int state) {
         scrollState = state;
@@ -227,6 +263,13 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
         }
     }
 
+
+    /**
+     * Callback When Page Scrolled
+     * @param position
+     * @param positionOffset
+     * @param positionOffsetPixels
+     */
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         currentPage = position;
@@ -236,6 +279,10 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
         }
     }
 
+    /**
+     * Callback when Page is Selected
+     * @param position
+     */
     @Override
     public void onPageSelected(int position) {
         if (scrollState == ViewPager.SCROLL_STATE_IDLE) {
@@ -247,46 +294,87 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
         }
     }
 
+    /**
+     * API to register interface for Callbacks
+     * @param listener
+     */
     @Override
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         pageChangeListener = listener;
     }
 
+    /**
+     * API to get Width of Circle which is currently selected
+     * @return Returns value of width
+     */
     public int getSelectedCircleWidth() {
         return selectedCircleWidth;
     }
 
+    /**
+     * API to set Selected Circle width
+     * @param selectedCircleWidth Value of width in integer
+     */
     public void setSelectedCircleWidth(final int selectedCircleWidth) {
         this.selectedCircleWidth = selectedCircleWidth;
+        reDrawView();
     }
 
+    /**
+     * API to get Height of Circle which is currently selected
+     * @return Returns value of height
+     */
     public int getSelectedCircleHeight() {
         return selectedCircleHeight;
     }
 
+    /**
+     * API to set Selected Circle height
+     * @param selectedCircleHeight Value of height in integer
+     */
     public void setSelectedCircleHeight(final int selectedCircleHeight) {
         this.selectedCircleHeight = selectedCircleHeight;
         reDrawView();
     }
 
+    /**
+     * API to get Width of Circle which is not selected
+     * @return Returns value of width
+     */
     public int getUnSelectedCircleWidth() {
         return unSelectedCircleWidth;
     }
 
+    /**
+     * API to set Unselected Circle width
+     * @param unSelectedCircleWidth Value of width in integer
+     */
     public void setUnSelectedCircleWidth(final int unSelectedCircleWidth) {
         this.unSelectedCircleWidth = unSelectedCircleWidth;
         reDrawView();
     }
 
+    /**
+     * API to get Height of Circle which is not selected
+     * @return Returns value of height
+     */
     public int getUnSelectedCircleHeight() {
         return unSelectedCircleHeight;
     }
 
+    /**
+     * API to set Unselected Circle height
+     * @param unSelectedCircleHeight Value of height in integer
+     */
     public void setUnSelectedCircleHeight(final int unSelectedCircleHeight) {
         this.unSelectedCircleHeight = unSelectedCircleHeight;
         reDrawView();
     }
 
+    /**
+     * API to enable Stroke Background
+     * @param enableStrokeBackground
+     */
     public void setEnableStrokeBackground(boolean enableStrokeBackground) {
         this.enableStrokeBackground = enableStrokeBackground;
         reDrawView();
@@ -301,19 +389,49 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
         this.onTouchUnSelectedViews = onTouchUnSelectedViews;
     }
 
+    /**
+     * API to get filled color of circle which is selected
+     * @return Returns the value of color in integer
+     */
     public int getFilledColor() {
         return themeBaseColor;
     }
 
-
+    /**
+     * API to get Stroke color of circle which is selected
+     * @return Returns the value of color in integer
+     */
     public int getStrokeColor() {
         return strokeColor;
     }
 
+    /**
+     * API to set Stroke Color when Stroke is enabled
+     * @param strokeColor
+     */
     public void setStrokeColor(int strokeColor) {
         this.strokeColor = strokeColor;
         reDrawView();
     }
+
+    /**
+     * API to set Color which is selected
+     * @param color
+     */
+    public void setFillColor(int color) {
+        themeBaseColor = color;
+        reDrawView();
+    }
+
+    /**
+     * API used to support automation Testing
+     *
+     * @return
+     */
+    public GradientDrawable getUnSelectedDot() {
+        return unSelectedGradientDrawable;
+    }
+
 
 
 

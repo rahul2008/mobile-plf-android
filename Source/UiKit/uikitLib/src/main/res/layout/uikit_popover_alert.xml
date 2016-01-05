@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/popover_info_layout_height"
-                android:background="?attr/notificationBarGradient">
+    android:background="?attr/notificationBarGradient"
+    android:minHeight="@dimen/popover_info_layout_height">
 
     <TextView
         android:id="@+id/uikit_popover_alert_title"
@@ -32,10 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/uikit_popover_alert_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/popover_alert_progress_margin_top"
         android:layout_marginBottom="@dimen/popover_alert_progress_margin_bottom"
         android:layout_marginLeft="@dimen/popover_alert_progress_margin_left"
         android:layout_marginRight="@dimen/popover_alert_progress_margin_right"
+        android:layout_marginTop="@dimen/popover_alert_progress_margin_top"
         android:progressDrawable="@drawable/uikit_popover_progress_bar_drawable"/>
 
     <ImageView
