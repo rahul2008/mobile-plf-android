@@ -46,27 +46,29 @@ public class QuickTestConnection {
             @Override
             public void onStateUpdated(final SHNDevice shnDevice) {
 
-                internalHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (SHNDevice.State.Connected == shnDevice.getState()) {
+                if (SHNDevice.State.Connected == shnDevice.getState()) {
+                    stop();
+
+                    internalHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
                             listener.onSuccess();
-                            stop();
                         }
-                    }
-                });
+                    });
+                }
             }
 
             @Override
             public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult result) {
+                stop();
 
                 internalHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         listener.onFailure();
-                        stop();
                     }
                 });
+
             }
         };
 
