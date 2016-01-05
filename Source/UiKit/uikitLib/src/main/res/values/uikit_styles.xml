@@ -187,6 +187,7 @@
         <item name="android:colorAccent">?attr/baseColor</item>
         <item name="android:colorControlActivated">?attr/baseColor</item>
         <item name="android:colorControlHighlight">?attr/baseColor</item>
+        <item name="android:textColor">?attr/baseColor</item>
     </style>
 
     <style name="PhilipsTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
@@ -201,6 +202,7 @@
         <item name="android:focusedMonthDateColor">?attr/baseColor</item>
         <item name="android:weekNumberColor">?attr/baseColor</item>
         <item name="android:colorAccent">?attr/baseColor</item>
+        <item name="android:textColor">?attr/baseColor</item>
     </style>
 
     <style name="PhilipsModalAlertAnimation">
