@@ -14,12 +14,10 @@ import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
 import java.util.List;
@@ -44,7 +42,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-@RunWith(PowerMockRunner.class)
 public class SHNCapabilityLogSyncWeightScaleTest {
 
     public static final byte[] TEST_ENCODED_CURRENT_TIME = new byte[]{

@@ -11,12 +11,10 @@ import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasur
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
 
@@ -35,7 +33,6 @@ import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
 public class SHNCapabilityLogSyncHealthThermometerTest {
 
     private SHNCapabilityLogSyncHealthThermometer shnCapabilityLogSyncHealthThermometer;

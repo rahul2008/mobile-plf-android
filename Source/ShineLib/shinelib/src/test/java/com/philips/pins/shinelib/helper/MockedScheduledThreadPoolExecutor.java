@@ -1,8 +1,10 @@
 package com.philips.pins.shinelib.helper;
 
+import org.junit.runner.RunWith;
 import org.mockito.internal.stubbing.answers.ThrowsException;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import static org.mockito.Matchers.anyLong;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
+@RunWith(PowerMockRunner.class)
 public class MockedScheduledThreadPoolExecutor {
     private final ScheduledThreadPoolExecutor mockedScheduledThreadPoolExecutor;
     private final List<ScheduledExecution> scheduledExecutions;

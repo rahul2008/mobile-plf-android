@@ -11,13 +11,10 @@ import com.philips.pins.shinelib.helper.MockedHandler;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Created by 310188215 on 06/05/15.
  */
-@RunWith(PowerMockRunner.class)
 public class SHNCentralTest {
     private SHNCentral shnCentral;
     private MockedHandler mockedUserHandler;

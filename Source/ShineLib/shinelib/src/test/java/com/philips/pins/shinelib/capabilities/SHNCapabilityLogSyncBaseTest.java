@@ -7,11 +7,9 @@ import com.philips.pins.shinelib.datatypes.SHNLogItem;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
 import java.util.List;
@@ -29,7 +27,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
 public class SHNCapabilityLogSyncBaseTest {
 
     private TestSHNCapabilityLogSyncBase testSHNCapabilityLogSyncBase;

@@ -4,9 +4,7 @@ package com.philips.pins.shinelib.datatypes;
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -20,7 +18,6 @@ import static org.junit.Assert.assertTrue;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-@RunWith(PowerMockRunner.class)
 public class SHNWeightMeasurementTest {
 
     private static final byte IMPERIAL_SUPPORTED = 0x01;

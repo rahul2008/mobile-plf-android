@@ -11,9 +11,7 @@ import com.philips.pins.shinelib.framework.SHNFactory;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Set;
 import java.util.UUID;
@@ -32,7 +30,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-@RunWith(PowerMockRunner.class)
 public class SHNServiceWeightScaleTest {
 
     private SHNServiceWeightScale shnServiceWeightScale;
