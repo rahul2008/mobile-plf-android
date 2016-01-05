@@ -52,7 +52,7 @@
         <activity android:name=".activity.RatingBarLauncher" />
         <activity android:name=".activity.ActionBarLauncher" />
         <activity android:name=".activity.DummyActivityForListItemClick" />
-        <activity android:name=".activity.TabViewWithViewPager" />
+        <activity android:name=".activity.ListDemo" />
         <activity android:name=".activity.SocialIconsActivity" />
         <activity android:name=".activity.PopOverMenu"/>
 		<activity android:name=".activity.SpringBoardListActivity" />

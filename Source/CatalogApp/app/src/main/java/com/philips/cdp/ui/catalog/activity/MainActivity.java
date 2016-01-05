@@ -99,7 +99,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
 
             case 15:
-                startActivity(new Intent(this, TabViewWithViewPager.class));
+                startActivity(new Intent(this, ListDemo.class));
                 break;
             case 16:
                 startActivity(new Intent(this, PopOverMenu.class));

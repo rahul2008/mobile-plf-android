@@ -18,7 +18,7 @@ import com.philips.cdp.ui.catalog.CustomListView.ListViewWithOptions;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.utils.TabUtils;
 
-public class TabViewWithViewPager extends CatalogActivity {
+public class ListDemo extends CatalogActivity {
     ListViewWithOptions adapter;
     ListView list;
     TabLayout bottomLayout;
