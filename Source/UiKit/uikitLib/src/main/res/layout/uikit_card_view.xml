@@ -14,8 +14,7 @@
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="?attr/baseColor"
-            android:elevation="6dp">
+            android:background="?attr/baseColor">
 
             <ImageView
                 android:id="@+id/cross"
