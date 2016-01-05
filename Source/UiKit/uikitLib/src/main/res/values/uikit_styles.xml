@@ -70,6 +70,7 @@
         <item name="tabBackground">?attr/favoriteTabSelector</item>
         <item name="tabTextAppearance">@style/FavTextStyle</item>
         <item name="tabSelectedTextColor">?attr/baseColor</item>
+ 		<item name="tabMaxWidth">@null</item>
     </style>
 
 <style name="ListFav" parent="Widget.AppCompat.ListView">
