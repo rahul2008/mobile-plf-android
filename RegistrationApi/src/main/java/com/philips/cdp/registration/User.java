@@ -2,7 +2,6 @@ package com.philips.cdp.registration;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 
 import com.janrain.android.Jump;
@@ -32,6 +31,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
+import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
@@ -606,7 +606,6 @@ public class User {
     private void registerUserForSocial(final String givenName, final String displayName, final String familyName,
                                        final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
                                        final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
-
         DIUserProfile profile = new DIUserProfile();
         profile.setGivenName(givenName);
         profile.setDisplayName(displayName);
@@ -614,7 +613,56 @@ public class User {
         profile.setEmail(userEmail);
         profile.setOlderThanAgeLimit(olderThanAgeLimit);
         profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-        completeSocialProviderLogin(profile, socialProviderLoginHandler, socialRegistrationToken);
+        completeSocialProviderLogin(profile, new SocialProviderLoginHandler() {
+            @Override
+            public void onLoginSuccess() {
+                if (RegistrationHelper.getInstance().isHsdpFlow() && getEmailVerificationStatus(mContext)) {
+                    DIUserProfile userProfile = getUserInstance(mContext);
+
+                    HsdpUser hsdpUser = new HsdpUser(mContext);
+                    hsdpUser.socialLogin(userProfile.getEmail(),getAccessToken(), new SocialLoginHandler() {
+
+                        @Override
+                        public void onLoginSuccess() {
+                            socialProviderLoginHandler.onLoginSuccess();
+                        }
+
+                        @Override
+                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                            socialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                        }
+                    });
+
+                } else {
+                    socialProviderLoginHandler.onLoginSuccess();
+                }
+            }
+
+            @Override
+            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                socialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+            }
+
+            @Override
+            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
+                socialProviderLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,socialRegistrationToken);
+            }
+
+            @Override
+            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+                socialProviderLoginHandler.onLoginFailedWithMergeFlowError(mergeToken,existingProvider,conflictingIdentityProvider,conflictingIdpNameLocalized,existingIdpNameLocalized,emailId);
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginSuccess() {
+                socialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
+            }
+
+            @Override
+            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                socialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+            }
+        }, socialRegistrationToken);
     }
 
     // For Two Step registration

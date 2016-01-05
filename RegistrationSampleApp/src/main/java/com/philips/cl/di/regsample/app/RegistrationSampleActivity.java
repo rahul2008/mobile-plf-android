@@ -62,6 +62,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         if (RegistrationHelper.getInstance().isCoppaFlow()) {
             mBtnResendCoppaMail.setVisibility(View.VISIBLE);
         }
+        user = new User(mContext);
     }
 
     @Override
@@ -212,11 +213,11 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             }
         });
     }
+    User user ;
 
     @Override
     public void onRefreshLoginSessionSuccess() {
         dimissDialog();
-        User user = new User(mContext);
         RLog.d(RLog.HSDP, "RegistrationSampleActivity Access token: "+user.getUserInstance(mContext).getHsdpAccessToken());
         showToast("Success to refresh hsdp access token");
     }

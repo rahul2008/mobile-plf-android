@@ -1,8 +1,6 @@
 package com.philips.dhpclient.test;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.InstrumentationTestCase;
-
 
 import com.philips.dhpclient.DhpApiSigner;
 
@@ -41,5 +39,6 @@ public class DhpApiSignerTest extends InstrumentationTestCase {
         }else{
             assertTrue(false);
         }
+
     }
 }

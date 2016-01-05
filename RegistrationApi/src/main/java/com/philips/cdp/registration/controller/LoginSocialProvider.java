@@ -1,8 +1,6 @@
 
 package com.philips.cdp.registration.controller;
 
-import org.json.JSONObject;
-
 import android.content.Context;
 
 import com.janrain.android.Jump;
@@ -11,11 +9,16 @@ import com.janrain.android.engage.types.JRDictionary;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
+import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
+import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+
+import org.json.JSONObject;
 
 public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
 
@@ -38,13 +41,33 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
     public void onSuccess() {
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
+        DIUserProfile userProfile = user.getUserInstance(mContext);
         user.buildCoppaConfiguration();
+
         if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationHelper.getInstance().isCoppaFlow()) {
             CoppaExtension coppaExtension = new CoppaExtension();
             coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
         }
+
+        if (RegistrationHelper.getInstance().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
+            HsdpUser hsdpUser = new HsdpUser(mContext);
+            hsdpUser.socialLogin(userProfile.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
+
+                @Override
+                public void onLoginSuccess() {
+                    mSocialLoginHandler.onLoginSuccess();
+                }
+
+                @Override
+                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                }
+            });
+
+        } else {
+            mSocialLoginHandler.onLoginSuccess();
+        }
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        mSocialLoginHandler.onLoginSuccess();
     }
 
     @Override
@@ -56,8 +79,8 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
     public void onFailure(SignInError error) {
         if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isMergeFlowError()) {
-            String emailId =null;
-            if(null!=error.auth_info){
+            String emailId = null;
+            if (null != error.auth_info) {
                 JRDictionary profile = error.auth_info.getAsDictionary("profile");
                 emailId = profile.getAsString("email");
             }
@@ -72,7 +95,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
                     .getLocalizedName(conflictingIdentityProvider);
             mSocialLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
                     conflictingIdentityProvider, conflictingIdpNameLocalized,
-                    existingIdpNameLocalized,emailId);
+                    existingIdpNameLocalized, emailId);
         } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isTwoStepRegFlowError()) {
 

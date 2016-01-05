@@ -68,6 +68,20 @@ public class DhpApiClient {
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
+    protected DhpResponse sendSignedRequestForSocialLogin(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
+        String bodyString = asJsonString(body);
+        addSignedDateHeader(headers);
+
+        sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
+        URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
+
+        System.out.println("Social Hsdp URI : "+uri.toString());
+        System.out.println("Social Hsdp httpMethod type : "+httpMethod);
+        System.out.println("Social hsdp headers headers : " + headers);
+        System.out.println("Social hsdp headers body : " + body);
+        return sendRestRequest(httpMethod, uri, headers, bodyString);
+    }
+
     private void addSignedDateHeader(Map<String, String> headers) {
         headers.put("SignedDate", UTCDatetimeAsString());
     }

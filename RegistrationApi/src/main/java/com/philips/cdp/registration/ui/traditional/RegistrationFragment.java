@@ -33,6 +33,8 @@ import com.philips.dhpclient.BuildConfig;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+
 public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
 
 
@@ -247,8 +249,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public void navigateToHome() {
         FragmentManager fragmentManager = getChildFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        for (int i = fragmentCount; i >= 0; i--) {
-            fragmentManager.popBackStack();
+        try {
+            for (int i = fragmentCount; i >= 0; i--) {
+                fragmentManager.popBackStack();
+            }
+        }catch (IllegalStateException ignore){
+        }catch (Exception ignore){
         }
     }
 
