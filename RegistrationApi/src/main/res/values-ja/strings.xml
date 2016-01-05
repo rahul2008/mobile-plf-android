@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">続行</string>
 <string name="EmptyField_ErrorMsg">入力必須フィールドです</string>
-<string name="ForgotPwdEmailResendMsg">お客様のアドレスに、パスワードをリセットするためのメールを送信しました。メールが届くまで少々時間がかかることがあります。</string>
+<string name="ForgotPwdEmailResendMsg">お客様のパスワードをリセットするためのメールが送信されました。メールが届くまで少々時間がかかることがあります。</string>
 <string name="ForgotPwdEmailResendMsg_Title">パスワードをリセット</string>
 <string name="InValid_PwdErrorMsg">パスワードが以下の条件に合っていません。</string>
 <string name="InvalidEmailAdddress_ErrorMsg">メールアドレスが無効です</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">メールが届くまで少々時間がかかることがあります。</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">メールを確認してアカウントをアクティベートしてください。</string>
 <string name="VerifyEmail_Activated_btntxt">アカウントはアクティベート済みです</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">問題が発生した場合\n-  確認メールが届くまで少々時間がかかることがあります\n-  スパムフォルダーも確認してみてください\n- 確認メールが届かない場合は以下の［再送信］ボタンを押してください</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">問題が発生した場合\n-  確認メールが届くまで少々時間がかかることがあります\n-  スパムフォルダーも確認してみてください\n-  確認メールが届かない場合は以下の［再送信］ボタンを押してください</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nメールを送信しました。メール受信まで少々時間がかかる場合があります。\n\nメールを確認してアカウントをアクティベートしてください。\n\nそれまでの間はアプリを使用できます。</string>
 <string name="myphilips">フィリップスアカウント</string>
 <string name="facebook">Facebook</string>
@@ -109,7 +109,7 @@
 <string name="Merge_Account_Title">アカウントをマージ</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8～32 文字</string>
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">大文字小文字を区別</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">特殊文字</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">記号：  _ . @ $</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">数字</string>
 <string name="Philips_News_Description_Normal_lbltxt">お客様にご同意いただいた場合、お客様の嗜好や行動に基づいて、フィリップスグループ各社が、フィリップス製品、サービス、イベント、およびプロモーションについて直接ご連絡させていただく場合があります。\nその方法として、メール、SMS、モバイルアプリやソーシャルメディアなどのその他デジタルチャネルを利用する場合があります。お客様の嗜好や行動に応じて最適な情報をご提供するために、当社では、お客様の個人データを分析したり結びつけたりする場合があります。\n\nそれらのデータには次が含まれます：\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">お客様にご提供いただいたデータ：\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">フィリップスからの通知</string>
 <string name="Philips_News_Back_btntxt">戻る</string>
 <string name="Account_Setting_Titletxt">アカウント設定</string>
-<string name="Create_With_lbltxt">または作成：</string>
+<string name="Create_With_lbltxt">アカウントを作成</string>
+<string name="myphilips_CC">MyPhilips アカウント</string>
 </resources>

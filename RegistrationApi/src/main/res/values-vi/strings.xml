@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Tiếp tục</string>
 <string name="EmptyField_ErrorMsg">Trường không được để trống</string>
-<string name="ForgotPwdEmailResendMsg">Chúng tôi đã gửi một email đến địa chỉ email của bạn để đặt lại mật khẩu. Có thể cần một lúc để email được gửi đến nơi.</string>
+<string name="ForgotPwdEmailResendMsg">Chúng tôi đã gửi cho bạn một email để đặt lại mật khẩu của bạn. Có thể cần một lúc để email được gửi đến nơi.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Đặt lại mật khẩu</string>
 <string name="InValid_PwdErrorMsg">Mật khẩu không tuân theo các hướng dẫn mật khẩu dưới đây.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Địa chỉ email không hợp lệ</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Có thể cần một lúc để email được gửi đến nơi.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Vui lòng kiểm tra email để kích hoạt tài khoản của bạn.</string>
 <string name="VerifyEmail_Activated_btntxt">Tôi đã kích hoạt tài khoản của tôi</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Gặp sự cố?\n-  Có thể cần một lúc để email xác thực được gửi đến nơi\n-  Nhìn vào thư mục rác của bạn\n- Nhấn nút \"Gửi lại\" bên dưới nếu bạn không nhận được email xác thực</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Gặp sự cố?\n-  Có thể cần một lúc để email xác thực được gửi đến nơi\n-  Nhìn vào thư mục rác của bạn\n-  Nhấn nút \"Gửi lại\" bên dưới nếu bạn không nhận được email xác thực</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nChúng tôi đã gửi email. Có thể cần một lúc để email được gửi đến nơi.\n\nVui lòng kiểm tra email để kích hoạt tài khoản của bạn.\n\nBạn có thể dùng ứng dụng trong khi chờ đợi.</string>
 <string name="myphilips">Tài khoản Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Chúng tôi sẽ gửi cho bạn một email để đặt lại mật khẩu của bạn.</string>
 <string name="Merge_Account_Title">Hợp nhất tài khoản của bạn</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 ký tự</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Chữ viết hoa và viết thường</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Ký tự đặc biệt</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Chữ viết hoa hoặc viết thường</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Ký hiệu (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Con số</string>
 <string name="Philips_News_Description_Normal_lbltxt">Với sự chấp thuận của bạn, các công ty thuộc tập đoàn Philips có thể liên hệ với bạn kèm theo các thông tin quảng cáo về các sản phẩm, dịch vụ, sự kiện và các chương trình quảng cáo của Philips dựa theo sở thích và hành vi của bạn. \nChúng tôi có thể liên hệ với bạn qua email, SMS và các kênh kỹ thuật số khác, chẳng hạn như ứng dụng di động và mạng xã hội. Chúng tôi có thể sẽ phân tích và kết hợp dữ liệu cá nhân của bạn nhằm điều chỉnh thích hợp các thông tin theo đúng sở thích và hành vi của bạn, cũng như mang đến cho bạn trải nghiệm tùy chỉnh theo từng cá nhân tốt nhất. \n\nDữ liệu này có thể bao gồm:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Dữ liệu mà bạn đã đưa cho chúng tôi:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Thông báo của Philips</string>
 <string name="Philips_News_Back_btntxt">Quay lại</string>
 <string name="Account_Setting_Titletxt">Thiết đặt tài khoản</string>
-<string name="Create_With_lbltxt">Hoặc tạo bằng</string>
+<string name="Create_With_lbltxt">Hoặc tạo tài khoản</string>
+<string name="myphilips_CC">Tài khoản MyPhilips</string>
 </resources>

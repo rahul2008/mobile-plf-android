@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Fortsett</string>
 <string name="EmptyField_ErrorMsg">Feltet kan ikke stå tomt</string>
-<string name="ForgotPwdEmailResendMsg">Vi har sendt en e-post til deg, slik at du kan tilbakestille passordet. Det kan ta litt tid før du mottar e-posten.</string>
+<string name="ForgotPwdEmailResendMsg">Vi har sendt en e-post til deg slik at du kan tilbakestille passordet ditt. Det kan ta litt tid før du mottar e-posten.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Tilbakestille passord</string>
 <string name="InValid_PwdErrorMsg">Passordet samsvarer ikke med retningslinjene nedenfor.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Ugyldig e-postadresse</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Det kan ta litt tid før du mottar e-posten.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Kontroller e-posten din for å aktivere kontoen.</string>
 <string name="VerifyEmail_Activated_btntxt">Jeg har aktivert kontoen</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Har du problemer?\n- Det kan ta litt tid før du mottar e-posten for bekreftelse \n- Du må også sjekke søppelposten \n- Trykk på "Send på nytt"-knappen nedenfor hvis du ikke har mottatt e-posten for bekreftelse</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Har du problemer?\n-  Det kan ta litt tid før du mottar e-posten for bekreftelse \n-  Du må også sjekke søppelposten \n-  Trykk på \"Send på nytt\"-knappen nedenfor hvis du ikke har mottatt e-posten for bekreftelse</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nVi har sendt en e-post. Det kan ta litt tid før du mottar e-posten.\n\nSjekk e-posten for å aktivere kontoen din.\n\nDu kan bruke appen i mellomtiden.</string>
 <string name="myphilips">Philips-konto</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Vi sender deg en e-post slik at du kan tilbakestille passordet.</string>
 <string name="Merge_Account_Title">Knytt sammen kontoene</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8–32 tegn</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Store og små bokstaver</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Spesialtegn</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Store eller små bokstaver</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symboler (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Siffer</string>
 <string name="Philips_News_Description_Normal_lbltxt">Gruppen av selskaper som Philips er en del av kan som følge av ditt samtykke, kontakte deg med kampanjekommunikasjon – basert på preferanser og forbrukeratferd – om produkter, tjenester, arrangementer og kampanjer fra Philips. \nVi kan kontakte deg via e-post, SMS og andre digitale kanaler, som mobilapper og sosiale medier. Vi kan analysere og kombinere de personlige opplysningene dine for å gi deg en personlig tilpasset opplevelse og skreddersy kommunikasjonen etter preferansene dine og forbrukeratferden din. \n\nDisse opplysningene kan inkludere følgende:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Opplysningene du ga oss:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Kunngjøringer fra Philips</string>
 <string name="Philips_News_Back_btntxt">Tilbake</string>
 <string name="Account_Setting_Titletxt">Kontoinnstillinger</string>
-<string name="Create_With_lbltxt">Eller opprett med</string>
+<string name="Create_With_lbltxt">Eller opprett en konto</string>
+<string name="myphilips_CC">MyPhilips-konto</string>
 </resources>

@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Continuar</string>
 <string name="EmptyField_ErrorMsg">Este campo no puede estar vacío.</string>
-<string name="ForgotPwdEmailResendMsg">Hemos enviado un correo electrónico a tu dirección para restablecer la contraseña. Es posible que tarde un poco en llegar.</string>
+<string name="ForgotPwdEmailResendMsg">Te hemos enviado un correo electrónico para restablecer tu contraseña. Es posible que tarde un poco en llegar.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Restablecer contraseña</string>
 <string name="InValid_PwdErrorMsg">La contraseña no cumple los siguientes requisitos.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Dirección de correo electrónico no válida</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Es posible que el correo electrónico tarde un poco en llegar.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Comprueba tu correo electrónico para activar tu cuenta.</string>
 <string name="VerifyEmail_Activated_btntxt">He activado mi cuenta.</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">¿Tienes problemas?\n-  Es posible que el correo electrónico de verificación tarde un poco en llegar\n-  Consulta tu carpeta de correo no deseado también\n- Pulsa el botón \"Reenviar\" a continuación si no has recibido el correo electrónico de verificación</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">¿Tienes problemas?\n-  Es posible que el correo electrónico de verificación tarde un poco en llegar\n-  Consulta tu carpeta de correo no deseado también\n-  Pulsa el botón \"Reenviar\" a continuación si no has recibido el correo electrónico de verificación</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nTe hemos enviado un correo electrónico, es posible que tarde un poco en llegar.\n\nComprueba tu correo electrónico para activar tu cuenta.\n\nMientras puedes usar la aplicación.</string>
 <string name="myphilips">Cuenta de Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Te enviaremos un correo electrónico para restablecer la contraseña.</string>
 <string name="Merge_Account_Title">Fusionar cuentas</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">De 8 a 32 caracteres</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Letras mayúsculas y minúsculas</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Carácter especial</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Letras mayúsculas o minúsculas</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Símbolos (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Números</string>
 <string name="Philips_News_Description_Normal_lbltxt">Tras haber indicado tu consentimiento, es posible que algunas empresas del grupo Philips se pongan en contacto contigo con motivo de comunicaciones promocionales (en función de tus preferencias y acciones) relacionadas con productos, servicios, eventos y promociones de Philips. \nPodríamos ponernos en contacto contigo por correo electrónico, SMS y otros canales digitales, como aplicaciones móviles y medios sociales. Para poder personalizar las comunicaciones en función de tus preferencias y acciones, y así proporcionarte la mejor experiencia personalizada, podríamos analizar y combinar tus datos personales. \n\nEstos datos podrían incluir:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Los datos que nos has proporcionado:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Información sobre Philips</string>
 <string name="Philips_News_Back_btntxt">Atrás</string>
 <string name="Account_Setting_Titletxt">Ajustes de la cuenta</string>
-<string name="Create_With_lbltxt">O crea una con</string>
+<string name="Create_With_lbltxt">O crear una cuenta</string>
+<string name="myphilips_CC">Cuenta de MyPhilips</string>
 </resources>

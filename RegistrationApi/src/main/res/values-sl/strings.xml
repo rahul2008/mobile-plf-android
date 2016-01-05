@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Za prejem e-poštnega sporočila boste mogoče morali malo počakati.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Preverite e-pošto, da aktivirate račun.</string>
 <string name="VerifyEmail_Activated_btntxt">Aktiviral sem svoj račun</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Imate težave?\n- Za prejem potrditvene e-pošte boste mogoče morali malo počakati\n- Preverite tudi neželeno pošto\n- Pritisnite gumb \"Ponovno pošlji\" spodaj, če niste prejeli potrditvene e-pošte</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Imate težave?\n-  Za prejem potrditvene e-pošte boste mogoče morali malo počakati\n-  Preverite tudi neželeno pošto\n-  Pritisnite gumb \"Ponovno pošlji\" spodaj, če niste prejeli potrditvene e-pošte</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nPoslali smo e-poštno sporočilo. Za prejem boste mogoče morali malo počakati.\n\nPreverite e-pošto, da aktivirate račun.\n\nMedtem lahko uporabite aplikacijo.</string>
 <string name="myphilips">Račun Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Poslali vam bomo e-poštno sporočilo za ponastavitev gesla.</string>
 <string name="Merge_Account_Title">Združite račune</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8–32 znakov</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Velike in male črke</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Posebni znaki</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Velike ali male črke</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simboli (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Številke</string>
 <string name="Philips_News_Description_Normal_lbltxt">Ob vašem soglasju vam družbe iz skupine Philips glede na vaše izbire in vedenje lahko pošiljajo promocijska obvestila o Philipsovih izdelkih, storitvah, dogodkih in promocijah. \nKontaktiramo vas lahko prek e-pošte, sporočil SMS in drugih digitalnih kanalov, kot so mobilne aplikacije in družabna omrežja. Da bomo obvestila lahko prilagodili vašim izbiram in vedenju ter vam nudili najboljše osebno prilagojeno doživetje, lahko analiziramo in združujemo vaše osebne podatke. \n\nTi podatki lahko vključujejo:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Podatke, ki nam jih posredujete:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Philipsova obvestila</string>
 <string name="Philips_News_Back_btntxt">Nazaj</string>
 <string name="Account_Setting_Titletxt">Nastavitve računa</string>
-<string name="Create_With_lbltxt">Ali ustvari z</string>
+<string name="Create_With_lbltxt">Ali ustvarite račun</string>
+<string name="myphilips_CC">Račun MyPhilips</string>
 </resources>

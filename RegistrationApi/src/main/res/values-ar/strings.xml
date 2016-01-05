@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">متابعة</string>
 <string name="EmptyField_ErrorMsg">لا يمكن أن يكون الحقل فارغًا</string>
-<string name="ForgotPwdEmailResendMsg">أرسلنا لك بريدًا إلكترونيًا على عنوان بريدك الإلكتروني لإعادة تعيين كلمة المرور. قد يستغرق وصول البريد الإلكتروني بعض الوقت.</string>
+<string name="ForgotPwdEmailResendMsg">أرسلنا إليك بريدًا إلكترونيًا لإعادة تعيين كلمة المرور. قد يستغرق وصول البريد الإلكتروني بعض الوقت.</string>
 <string name="ForgotPwdEmailResendMsg_Title">إعادة تعيين كلمة المرور</string>
 <string name="InValid_PwdErrorMsg">لا تتوافق كلمة المرور مع إرشادات كلمة المرور أدناه.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">عنوان البريد الإلكتروني غير صالح</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">قد يستغرق البريد الإلكتروني بعض الوقت لتستلمه.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">يرجى التحقق من بريدك الإلكتروني لتنشيط حسابك.</string>
 <string name="VerifyEmail_Activated_btntxt">لقد قمت بتنشيط حسابي</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">هل تواجه مشاكل؟\n-  قد يستغرق وصول البريد الإلكتروني للتحقق بعض الوقت.\n-  تحقق أيضًا من البريد العشوائي\n- اضغط على زر \"إعادة الإرسال\" أدناه في حال لم تستلم البريد الإلكتروني للتحقق.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">هل تواجه مشاكل؟\n-  قد يستغرق وصول البريد الإلكتروني للتحقق بعض الوقت.\n-  تحقق أيضًا من البريد العشوائي\n-  اضغط على زر \"إعادة الإرسال\" أدناه في حال لم تستلم البريد الإلكتروني للتحقق.</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nلقد أرسلنا بريدًا إلكترونيًا. قد تستغرق عملية استلام البريد الإلكتروني بعض الوقت.\n\nيرجى التحقق من بريدك الإلكتروني لتنشيط حسابك.\n\nيمكنك استخدام التطبيق في هذا الوقت.</string>
 <string name="myphilips">حساب Philips</string>
 <string name="facebook">Facebook</string>
@@ -109,7 +109,7 @@
 <string name="Merge_Account_Title">دمج حساباتك</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8 أحرف - 32 حرفًا</string>
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">الأحرف الكبيرة والصغيرة</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">الأحرف الخاصة</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">الرموز: (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">الأرقام</string>
 <string name="Philips_News_Description_Normal_lbltxt">نتيجة لموافقتك، قد تتواصل معك شركات مجموعة Philips عبر التواصل التسويقي لإعلامك بمنتجاتها وخدماتها والأحداث التي تنظمها والعروض الترويجية التي تقدمها، وذلك بالاستناد إلى تفضيلاتك وسلوكك. \nقد نتواصل معك عبر البريد الإلكتروني ورسائل SMS وغيرها من القنوات الرقمية مثل تطبيقات الهاتف المحمول ووسائل التواصل الاجتماعي. وبهدف تخصيص المراسلات بحسب تفضيلاتك وسلكوك وتزويدك بأفضل تجربة مخصصة، قد نحلل بياناتك الشخصية ونجمعها. \n\nوقد تتضمن هذه البيانات:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">بيانات قمت بتزويدنا بها:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">الإعلانات من Philips</string>
 <string name="Philips_News_Back_btntxt">عودة</string>
 <string name="Account_Setting_Titletxt">إعدادات الحساب</string>
-<string name="Create_With_lbltxt">أو الإنشاء بواسطة</string>
+<string name="Create_With_lbltxt">أو إنشاء حساب</string>
+<string name="myphilips_CC">حساب MyPhilips</string>
 </resources>

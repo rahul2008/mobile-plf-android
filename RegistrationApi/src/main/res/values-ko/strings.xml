@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">계속</string>
 <string name="EmptyField_ErrorMsg">필드 입력 필수</string>
-<string name="ForgotPwdEmailResendMsg">암호 재설정을 위해 귀하의 이메일 주소로 이메일을 발송했습니다. 이메일이 도착하기까지 다소 시간이 소요될 수 있습니다.</string>
+<string name="ForgotPwdEmailResendMsg">비밀번호를 재설정하기 위해 이메일을 발송했습니다. 이메일이 도착하기까지 다소 시간이 소요될 수 있습니다.</string>
 <string name="ForgotPwdEmailResendMsg_Title">암호 재설정</string>
 <string name="InValid_PwdErrorMsg">해당 암호는 아래의 암호 지침을 따르지 않았습니다.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">잘못된 이메일 주소</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">이메일을 받아 보시기까지 약간의 시간이 소요될 수 있습니다.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">이메일을 확인하여 계정을 활성화하십시오.</string>
 <string name="VerifyEmail_Activated_btntxt">계정을 활성화했습니다.</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">문제 발생\n-  확인 이메일이 도착하는 데 어느 정도 시간이 걸릴 수 있습니다.\n-  스팸 메일 폴더도 확인해 보십시오.\n- 확인 이메일을 받지 못 한 경우 아래의 \"재전송\" 버튼을 누르십시오.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">문제 발생\n-  확인 이메일이 도착하는 데 어느 정도 시간이 걸릴 수 있습니다.\n-  스팸 메일 폴더도 확인해 보십시오.\n-  확인 이메일을 받지 못 한 경우 아래의 \"재전송\" 버튼을 누르십시오.</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\n이메일이 전송되었습니다. 이메일이 도착하기까지 다소 시간이 소요될 수 있습니다.\n\n이메일을 확인하여 계정을 활성화하십시오.\n\n그 동안에도 앱을 사용할 수 있습니다.</string>
 <string name="myphilips">필립스 계정</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">암호 재설정을 위해 이메일을 발송합니다.</string>
 <string name="Merge_Account_Title">계정 병합</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8 ~ 32자</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">대문자 및 소문자</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">특수 문자</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">대문자 또는 소문자</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">특수 문자(_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">숫자</string>
 <string name="Philips_News_Description_Normal_lbltxt">귀하께서 동의하신 결과로 필립스 그룹은 필립스 제품, 서비스, 이벤트, 프로모션에 관한 귀하의 선호도와 행동 양식을 기반으로 하여 홍보를 위해 귀하께 연락을 드릴 수 있습니다. \n연락 수단은 이메일, SMS를 비롯한 모바일 앱, 소셜 미디어 등 기타 디지털 채널이 될 수 있습니다. 귀하의 선호도와 행동 양식 기반의 맞춤형 커뮤니케이션 및 최상의 개인 맞춤형 경험을 제공하기 위해 귀하의 개인정보를 분석하고 조합할 수 있습니다.\n\n이러한 정보는 다음과 같습니다.\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">제공하신 개인 정보:\n</string>
@@ -119,11 +119,12 @@
 <string name="Philips_News_Description_Withdrawal_Opportunity_lbltxt">언제라도 동의를 철회하실 수 있습니다.</string>
 <string name="Signin_Success_Hello_lbltxt">안녕하십니까?</string>
 <string name="Access_More_Account_Setting_lbltxt">더 많은 계정 설정을 확인하시겠습니까?\n브라우저에서 %s을(를) 방문하세요.</string>
-<string name="Philips_URL_txt">https://www.philips.co.kr</string>
+<string name="Philips_URL_txt">www.philips.co.kr</string>
 <string name="Receive_Philips_News_lbltxt">필립스 소식 받아보기\n%s</string>
 <string name="Receive_Philips_News_Meaning_lbltxt">이는 무슨 의미입니까?</string>
 <string name="Philips_News_Title">필립스 소식</string>
 <string name="Philips_News_Back_btntxt">뒤로</string>
 <string name="Account_Setting_Titletxt">계정 설정</string>
-<string name="Create_With_lbltxt">또는 다음으로 계정 만들기</string>
+<string name="Create_With_lbltxt">또는 계정 만들기</string>
+<string name="myphilips_CC">MyPhilips 계정</string>
 </resources>

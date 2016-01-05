@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Jätka</string>
 <string name="EmptyField_ErrorMsg">Väli ei tohi olla tühi</string>
-<string name="ForgotPwdEmailResendMsg">Saatsime teie aadressile salasõna lähtestamise kohta e-kirja. Selle kohalejõudmine võib veidi aega võtta.</string>
+<string name="ForgotPwdEmailResendMsg">Saatsime teile salasõna lähtestamiseks e-kirja. Selle kohalejõudmine võib veidi aega võtta.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Lähtesta salasõna</string>
 <string name="InValid_PwdErrorMsg">Salasõna ei vasta alltoodud salasõna loomise juhistele.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Vale e-posti aadress</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Selle kohalejõudmine võib veidi aega võtta.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Palun kontrollige oma konto aktiveerimiseks oma e-posti.</string>
 <string name="VerifyEmail_Activated_btntxt">Olen oma konto aktiveerinud</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Kas teil on probleeme?\n-  Kinnitusega e-kirja kohalejõudmine võib veidi aega võtta\n-  Vaadake ka rämpsposti kausta\n- Kui te kinnitusega e-kirja ei saanud, vajutage allpool nuppu \"Saada uuesti\"</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Kas teil on probleeme?\n-  Kinnitusega e-kirja kohalejõudmine võib veidi aega võtta\n-  Vaadake ka rämpsposti kausta\n-  Kui te kinnitusega e-kirja ei saanud, vajutage allpool nuppu \"Saada uuesti\"</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nSaatsime e-kirja. Selle kohalejõudmine võib veidi aega võtta.\n\nPalun kontrollige oma konto aktiveerimiseks oma e-posti.\n\nSaate seni rakendust kasutada.</string>
 <string name="myphilips">Philipsi konto</string>
 <string name="facebook">Facebook</string>
@@ -109,7 +109,7 @@
 <string name="Merge_Account_Title">Siduge oma kontod</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 tähemärki</string>
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Suur- ja väiketähed</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Erisümbol</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Sümbolid: (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Numbrid</string>
 <string name="Philips_News_Description_Normal_lbltxt">Teie nõusoleku alusel võivad Philipsi grupi ettevõtted, lähtuvalt teie eelistustest ja harjumustest, võtta ühendust Philipsi toodete, teenuste, sündmuste ja kampaaniateadete teemal. \nVõime võtta ühendust e-posti, SMS-i ja teiste digikanalite abil, näiteks mobiilirakendused ja suhtlusvõrgustikud. Võime analüüsida ja kombineerida teie isiklikke andmeid, et luua just teie eelistuste ja käitumise jaoks kõige paremini sobiv suhtlusviis. \n\nSelliste isiklike andmete hulka võivad kuuluda alltoodud andmed.\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Andmed, mille meile andsite\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Philipsi teadaanded</string>
 <string name="Philips_News_Back_btntxt">Tagasi</string>
 <string name="Account_Setting_Titletxt">Konto seaded</string>
-<string name="Create_With_lbltxt">Või looge, kasutades</string>
+<string name="Create_With_lbltxt">Või looge konto</string>
+<string name="myphilips_CC">MyPhilipsi konto</string>
 </resources>

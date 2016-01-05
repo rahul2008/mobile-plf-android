@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Tęsti</string>
 <string name="EmptyField_ErrorMsg">Laukas negali būti tuščias</string>
-<string name="ForgotPwdEmailResendMsg">Į jūsų el. paštą išsiuntėme el. laišką, kad galėtumėte iš naujo nustatyti slaptažodį. Gali šiek tiek trukti, kol gausite el. laišką.</string>
+<string name="ForgotPwdEmailResendMsg">Išsiuntėme jums el. laišką, kad galėtumėte iš naujo nustatyti slaptažodį. Gali šiek tiek užtrukti, kol gausite el. laišką.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Nustatyti slaptažodį iš naujo</string>
 <string name="InValid_PwdErrorMsg">Slaptažodis neatitinka žemiau pateiktų slaptažodžio nurodymų.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Neteisingas el.pašto adresas</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Gali šiek tiek užtrukti, kol gausite el. laišką.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Patikrinkite savo el. paštą ir suaktyvinkite paskyrą.</string>
 <string name="VerifyEmail_Activated_btntxt">Aš suaktyvinau savo paskyrą</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Iškilo sunkumų?\n- Gali šiek tiek užtrukti, kol gausite el. laišką\n- Patikrinkite brukalo aplanką\n- Jei patvirtinimo laiško negavote, spustelėkite žemiau esantį mygtuką \„Siųsti iš naujo\“</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Iškilo sunkumų?\n-  Gali šiek tiek užtrukti, kol gausite el. laišką\n-  Patikrinkite brukalo aplanką\n-  Jei patvirtinimo laiško negavote, spustelėkite žemiau esantį mygtuką \„Siųsti iš naujo\“</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nIšsiuntėme el. laišką. Gali šiek tiek užtrukti, kol gausite el. laišką.\n\nPatikrinkite savo el. paštą ir suaktyvinkite paskyrą.\n\nTuo tarpu galite naudotis programa.</string>
 <string name="myphilips">„Philips“ paskyra</string>
 <string name="facebook">„Facebook“</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Atsiųsime el. laišką, kad galėtumėte iš naujo nustatyti slaptažodį.</string>
 <string name="Merge_Account_Title">Sujunkite savo paskyras</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8–32 simboliai</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Didžiosios ir mažosios raidės</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Specialusis simbolis</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Didžiosios ar mažosios raidės</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simboliai (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Skaičiai</string>
 <string name="Philips_News_Description_Normal_lbltxt">Gavę jūsų sutikimą, „Philips group“ priklausančios įmonės gali pateikti jums reklaminių pranešimų (pagal jūsų pomėgius ir požiūrį) apie „Philips“ gaminius, paslaugas, renginius ir reklamines akcijas. \nĮ jus gali būti kreipiamasi el. paštu, SMS žinute arba kitais skaitmeniniais kanalais, pvz., per mobiliesiems skirtas programas ir socialinius tinklus. Siekdami pateikti jūsų poreikius geriausiai atitinkančius pasiūlymus, mes analizuosime ir derinsime jūsų asmeninius duomenis. \n\nŠie duomenys apima:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Jūsų pateikti duomenys:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">„Philips“ pranešimai</string>
 <string name="Philips_News_Back_btntxt">Atgal</string>
 <string name="Account_Setting_Titletxt">Paskyros nustatymai</string>
-<string name="Create_With_lbltxt">Arba sukurti</string>
+<string name="Create_With_lbltxt">Arba sukurti paskyrą</string>
+<string name="myphilips_CC">„MyPhilips“ paskyra</string>
 </resources>

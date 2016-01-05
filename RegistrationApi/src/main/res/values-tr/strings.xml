@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Devam et</string>
 <string name="EmptyField_ErrorMsg">Alan boş bırakılamaz</string>
-<string name="ForgotPwdEmailResendMsg">E-posta adresinize parolanızı sıfırlamanız için bir e-posta gönderdik. Bu e-postanın size ulaşması biraz zaman alabilir.</string>
+<string name="ForgotPwdEmailResendMsg">Parolanızı sıfırlamak için size bir e-posta gönderdik. Bu e-postanın size ulaşması biraz zaman alabilir.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Parolayı Sıfırla</string>
 <string name="InValid_PwdErrorMsg">Parola, aşağıdaki parola yönergelerine uygun değildir.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Geçersiz e-posta adresi</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Bu e-postanın size ulaşması biraz zaman alabilir.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Hesabınızı etkinleştirmek için lütfen e-postanızı kontrol edin.</string>
 <string name="VerifyEmail_Activated_btntxt">Hesabımı etkinleştirdim</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Sorun mu yaşıyorsunuz?\n- Doğrulama e-postasının size ulaşması biraz zaman alabilir\n- Gereksiz klasörünüze bakmayı unutmayın\n- Doğrulama e-postasını almadıysanız aşağıdaki \"Tekrar gönder\" düğmesine basın</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Sorun mu yaşıyorsunuz?\n-  Doğrulama e-postasının size ulaşması biraz zaman alabilir\n-  Gereksiz klasörünüze bakmayı unutmayın\n-  Doğrulama e-postasını almadıysanız aşağıdaki \"Tekrar gönder\" düğmesine basın</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nE-posta gönderildi. E-postanın size ulaşması biraz zaman alabilir.\n\nHesabınızı etkinleştirmek için lütfen e-postanızı kontrol edin.\n\nBu sırada uygulamayı kullanabilirsiniz.</string>
 <string name="myphilips">Philips hesabı</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Size, parolanızı sıfırlayabilmeniz için bir e-posta göndereceğiz.</string>
 <string name="Merge_Account_Title">Hesaplarınızı birleştirin</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 karakter</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Büyük ve küçük harfler</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Özel karakter</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Büyük veya küçük harfler</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simgeler (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Rakamlar</string>
 <string name="Philips_News_Description_Normal_lbltxt">Onayınız doğrultusunda Philips şirketler grubu tercihlerinize ve davranışlarınıza göre Philips ürünleri, hizmetleri, etkinlikleri ve promosyonları ile ilgili sizinle iletişime geçebilir. \nE-posta, SMS ve mobil uygulamalar ve sosyal medya gibi diğer dijital kanallar üzerinden sizinle iletişime geçebiliriz. İletişimleri tercihlerinize ve davranışlarınıza göre şekillendirmek ve sizlere en iyi kişisel deneyimi sunmak için kişisel verilerinizi analiz edebilir ve birleştirebiliriz. \nBu verilere şunlar dahil olabilir:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Veriler bize şunları sunar:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Philips duyuruları</string>
 <string name="Philips_News_Back_btntxt">Geriye</string>
 <string name="Account_Setting_Titletxt">Hesap ayarları</string>
-<string name="Create_With_lbltxt">Veya şununla oluşturun:</string>
+<string name="Create_With_lbltxt">Veya bir hesap oluşturun</string>
+<string name="myphilips_CC">MyPhilips hesabı</string>
 </resources>

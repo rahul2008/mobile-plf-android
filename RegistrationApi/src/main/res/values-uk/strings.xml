@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Продовжити</string>
 <string name="EmptyField_ErrorMsg">Поле не може бути порожнім</string>
-<string name="ForgotPwdEmailResendMsg">Ми надіслали ел. листа на Вашу адресу ел. пошти для скидання пароля. Ел. лист може надійти через деякий час.</string>
+<string name="ForgotPwdEmailResendMsg">Ми надіслали Вам електронного листа для скидання Вашого паролю. Електронний лист може надійти через деякий час.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Скинути пароль</string>
 <string name="InValid_PwdErrorMsg">Пароль не відповідає вказівкам щодо пароля нижче.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Недійсна адреса ел. пошти</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Воно може надійти через деякий час.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Перевірте ел. скриньку, щоб активувати обліковий запис.</string>
 <string name="VerifyEmail_Activated_btntxt">Я активував/-ла свій обліковий запис</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Виникли проблеми?\n- Повідомлення ел. пошти для підтвердження може надійти через деякий час\n- Також зазирніть у папку для спаму\n- Якщо Ви не отримали повідомлення ел. пошти для підтвердження, натисніть кнопку \"Надіслати ще раз\"</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Виникли проблеми?\n-  Повідомлення ел. пошти для підтвердження може надійти через деякий час\n-  Також зазирніть у папку для спаму\n-  Якщо Ви не отримали повідомлення ел. пошти для підтвердження, натисніть кнопку \"Надіслати ще раз\"</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nПовідомлення ел. пошти надіслано. Воно може надійти через деякий час.\n\nПеревірте ел. скриньку, щоб активувати обліковий запис.\n\nТим часом можна використовувати додаток.</string>
 <string name="myphilips">Обліковий запис Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Ми надішлемо Вам ел. листа для скидання пароля.</string>
 <string name="Merge_Account_Title">Об’єднання облікових записів</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8–32 символи</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Літери верхнього та нижнього регістру</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Спеціальні символи</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Літери верхнього чи нижнього регістру</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Символи (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Цифри</string>
 <string name="Philips_News_Description_Normal_lbltxt">За Вашою згодою компанії групи Philips можуть надсилати Вам рекламно-інформаційні повідомлення (залежно від Ваших уподобань і поведінки) щодо виробів Philips, послуг, подій та акційних пропозицій. \nМи можемо контактувати з Вами через електронну пошту, SMS-повідомлення та інші цифрові засоби (наприклад, мобільні додатки та соціальні мережі). Щоб мати змогу підібрати повідомлення відповідно до Ваших інтересів і запропонувати Вам найкраще персоналізоване використання ми можемо аналізувати та поєднувати Ваші особисті дані. \n\nЦі дані можуть включати:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Дані, надані нам Вами:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Повідомлення Philips</string>
 <string name="Philips_News_Back_btntxt">Назад</string>
 <string name="Account_Setting_Titletxt">Налаштування облікового запису</string>
-<string name="Create_With_lbltxt">Або створіть за допомогою</string>
+<string name="Create_With_lbltxt">Або створіть обліковий запис</string>
+<string name="myphilips_CC">Обліковий запис MyPhilips</string>
 </resources>

@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Συνέχεια</string>
 <string name="EmptyField_ErrorMsg">Το πεδίο δεν μπορεί να είναι κενό</string>
-<string name="ForgotPwdEmailResendMsg">Σας έχουμε στείλει ένα email στη διεύθυνση email σας, για να επαναφέρετε τον κωδικό πρόσβασης. Ίσως χρειαστεί λίγη ώρα μέχρι να λάβετε το email.</string>
+<string name="ForgotPwdEmailResendMsg">Σας έχουμε στείλει ένα email για να επαναφέρετε τον κωδικό σας. Ίσως χρειαστεί λίγη ώρα μέχρι να λάβετε το email.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Επαναφορά κωδικού πρόσβασης</string>
 <string name="InValid_PwdErrorMsg">Ο κωδικός πρόσβασης δεν ακολουθεί τις παρακάτω οδηγίες.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Μη έγκυρη διεύθυνση email</string>
@@ -56,7 +56,7 @@
 <string name="Social_SignIn_AlmostDone_lbltxt">Σχεδόν τελειώσατε!</string>
 <string name="Social_Merge_Used_EmailError_lbltxt" formatted="false">Στο παρελθόν είχατε συνδεθεί μέσω του %s, χρησιμοποιώντας τη διεύθυνση %s σε μια εφαρμογή ή ιστότοπο της Philips. Θα συνδέσουμε το %s με το λογαριασμό σας.</string>
 <string name="Social_Merge_Accounts_lbltxt">Για να βεβαιωθούμε ότι είστε όντως εσείς, συνδεθείτε ξανά μέσω του %s.</string>
-<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt" formatted="false">Αν δεν θέλετε να συνδέσετε το %s με το λογαριασμό σας, πατήστε \"Άκυρο\" και συνδεθείτε μέσω του %s.</string>
+<string name="Social_Merge_Cancel_And_Restart_Registration_lbltxt">Αν δεν θέλετε να συνδέσετε το %s με το λογαριασμό σας, πατήστε \"Άκυρο\" και συνδεθείτε μέσω του % @.</string>
 <string name="Social_Merge_Cancel_btntxt">Ακύρωση</string>
 <string name="Account_Merge_lbltxt">Συγχωνεύστε τους λογαριασμούς σας</string>
 <string name="Social_Merge_btntxt">Σύνδεση</string>
@@ -98,7 +98,7 @@
 <string name="vk">VK</string>
 <string name="wordpress">WordPress</string>
 <string name="xing">XING</string>
-<string name="LegalNoticeText" formatted="false">Διαβάστε τους %s και τις %s.</string>
+<string name="LegalNoticeText">Διαβάστε τους %s και τις % @.</string>
 <string name="AgeLimitText">Αν δημιουργήσετε λογαριασμό ή συνδεθείτε, βεβαιώνετε ότι είστε %s ετών και άνω.\n</string>
 <string name="TermsAndConditionsAcceptanceText">Αποδέχομαι τους %s της εφαρμογής</string>
 <string name="TermsAndConditionsAcceptanceText_Error">Αποδεχτείτε τους Όρους και τις προϋποθέσεις</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Θα σας στείλουμε ένα email για να επαναφέρετε τον κωδικό σας.</string>
 <string name="Merge_Account_Title">Συγχωνεύστε τους λογαριασμούς σας</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 χαρακτήρες</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Κεφαλαία και πεζά γράμματα</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Ειδικός χαρακτήρας</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Κεφαλαία ή πεζά γράμματα</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Σύμβολα (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Αριθμοί</string>
 <string name="Philips_News_Description_Normal_lbltxt">Ως αποτέλεσμα της συναίνεσή σας, οι εταιρείες του ομίλου Philips ενδέχεται να επικοινωνήσουν μαζί σας για προωθητικούς σκοπούς σχετικά με προϊόντα, υπηρεσίες, εκδηλώσεις και προσφορές της Philips, με βάση τις προτιμήσεις σας και τη συμπεριφορά σας. \nΕνδέχεται να επικοινωνήσουμε μαζί σας μέσω email, SMS ή άλλων καναλιών ψηφιακής επικοινωνίας, όπως εφαρμογές κινητού και μέσα κοινωνικής δικτύωσης. Για να μπορέσουμε να προσαρμόσουμε την επικοινωνία μας σύμφωνα με τις προτιμήσεις και τη συμπεριφορά σας και για να σας παρέχουμε την καλύτερη δυνατή, εξατομικευμένη εμπειρία, ενδέχεται να αναλύσουμε και να συνδυάσουμε τα προσωπικά σας δεδομένα. \n\nΤα δεδομένα αυτά ενδέχεται να περιλαμβάνουν τα εξής:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Δεδομένα που μας δώσατε:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Ανακοινώσεις της Philips</string>
 <string name="Philips_News_Back_btntxt">Πίσω</string>
 <string name="Account_Setting_Titletxt">Ρυθμίσεις λογαριασμού</string>
-<string name="Create_With_lbltxt">Ή δημιουργία με</string>
+<string name="Create_With_lbltxt">Ή δημιουργήστε λογαριασμό</string>
+<string name="myphilips_CC">Λογαριασμός MyPhilips</string>
 </resources>

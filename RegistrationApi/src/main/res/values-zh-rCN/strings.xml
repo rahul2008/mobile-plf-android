@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">继续</string>
 <string name="EmptyField_ErrorMsg">字段不能为空</string>
-<string name="ForgotPwdEmailResendMsg">我们已向您的电子邮件地址发送一封电子邮件，用于重置您的密码。电子邮件到达可能需要一段时间。</string>
+<string name="ForgotPwdEmailResendMsg">我们已向您发送一封电子邮件，用于重置您的密码。电子邮件到达可能需要一段时间。</string>
 <string name="ForgotPwdEmailResendMsg_Title">重置密码</string>
 <string name="InValid_PwdErrorMsg">此密码不符合以下密码指南。</string>
 <string name="InvalidEmailAdddress_ErrorMsg">无效的电子邮件地址</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">电子邮件到达可能需要一段时间。</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">请查看您的电子邮件以激活您的帐户。</string>
 <string name="VerifyEmail_Activated_btntxt">我已激活自己的帐户</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">遇到问题？\n-  验证电子邮件到达可能需要一段时间\n-  另请查看您的垃圾邮件文件夹\n- 如果您未收到验证电子邮件，请按下面的\“重新发送\”按钮</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">遇到问题？\n-  验证电子邮件到达可能需要一段时间\n-  另请查看您的垃圾邮件文件夹\n-  如果您未收到验证电子邮件，请按下面的\“重新发送\”按钮</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\n我们已发送一封电子邮件。电子邮件到达可能需要一段时间。\n\n请查看您的电子邮件以激活您的帐户。\n\n您可以同时使用此应用程序。</string>
 <string name="myphilips">飞利浦帐户</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">我们将向您发送一封电子邮件，用于重置您的密码。</string>
 <string name="Merge_Account_Title">合并您的帐户</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 个字符</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">大小写字母</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">特殊字符</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">大写或小写字母</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">符号 (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">编号</string>
 <string name="Philips_News_Description_Normal_lbltxt">在您同意的前提下，飞利浦集团公司可能会基于您的偏好和行为，向您提供有关飞利浦产品、服务、活动和促销的促销宣传。\n我们可能会通过电子邮件、短信以及移动应用程序和社交媒体等其他数字渠道与您联系。为了能够根据您的偏好和行为量身定制宣传内容并提供最佳个性化体验，我们可能会分析和合并您的个人资料。\n\n这些资料可能包括：\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">您向我们提供的资料：\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">飞利浦通告</string>
 <string name="Philips_News_Back_btntxt">返回</string>
 <string name="Account_Setting_Titletxt">帐户设置</string>
-<string name="Create_With_lbltxt">或创建</string>
+<string name="Create_With_lbltxt">或创建帐户</string>
+<string name="myphilips_CC">MyPhilips 帐户</string>
 </resources>

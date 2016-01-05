@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Жалғаст-у</string>
 <string name="EmptyField_ErrorMsg">Жол бос болмауы тиіс</string>
-<string name="ForgotPwdEmailResendMsg">Құпия сөзді қайта орнату үшін электрондық пошта мекенжайына электрондық хат жібердік. Электрондық хат келгенше шамалы уақыт кетуі мүмкін.</string>
+<string name="ForgotPwdEmailResendMsg">Құпия сөзді қайта орнату үшін сізге электрондық пошта хабарын жібердік. Электрондық пошта хабары жеткенше шамалы уақыт кетуі мүмкін.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Құпия сөзді қайта орнату</string>
 <string name="InValid_PwdErrorMsg">Құпия сөз төмендегі құпия сөз нұсқауларына сай емес.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Электрондық пошта мекенжайы жарамсыз</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Электрондық хат келгенше шамалы уақыт кетуі мүмкін.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Тіркелгіні іске қосу үшін электрондық поштаны тексеріңіз.</string>
 <string name="VerifyEmail_Activated_btntxt">Тіркелгімді іске қостым</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Мәселе бар ма?\n- Растау хаты біраз уақытта келуі мүмкін\n- Спам қалтасын да қараңыз\n- Растау хаты келмесе, төменде \"Қайта жіберу\" түймесін басыңыз</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Мәселе бар ма?\n- Растау хаты біраз уақытта келуі мүмкін\n- Спам қалтасын да қараңыз\n-  Растау хаты келмесе, төменде \"Қайта жіберу\" түймесін басыңыз</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nХат жіберілді. Хат біраз уақытта келуі мүмкін.\n\nТіркелгіні іске қосу үшін поштаны тексеріңіз.\n\nОл кезде бағдарламаны пайдалануға болады.</string>
 <string name="myphilips">Philips тіркелгісі</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Құпия сөзді қайта орнату үшін электрондық хат жіберіледі.</string>
 <string name="Merge_Account_Title">Тіркелгілерді біріктіру</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 таңба</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Бас және кіші әріптер</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Арнайы таңба</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Үлкен және кіші әріптер</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Таңбалар (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Сандар</string>
 <string name="Philips_News_Description_Normal_lbltxt">Келісім беруіңіздің нәтижесінде Philips тобындағы компаниялары қалауларыңыз бен әрекеттеріңіздің негізінде сізге Philips өнімдері, қызметтері, іс-шаралары мен акциялары туралы жарнамалық байланыстармен хабарласуы мүмкін. \nБіз сізге электрондық пошта, SMS және мобильді қолданбалар және әлеуметтік желі сияқты басқа сандық арналар арқылы хабарласуымыз мүмкін. Байланыстарды сіздің қалауыңызға және әрекетіңізге бейімдей алу және сізге ең жақсы, дербестелген тәжірибені қамтамасыз ету үшін жеке деректеріңізді талдауымыз және біріктіруіміз мүмкін. \n\nБұл деректерге мыналар кіруі мүмкін:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Бізге берген деректеріңіз:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Philips хабарландырулары</string>
 <string name="Philips_News_Back_btntxt">Артқа</string>
 <string name="Account_Setting_Titletxt">Тіркелгі параметрлері</string>
-<string name="Create_With_lbltxt">Не болмаса, келесімен жасаңыз</string>
+<string name="Create_With_lbltxt">Не болмаса, тіркелгі жасаңыз</string>
+<string name="myphilips_CC">Philips тіркелгім</string>
 </resources>

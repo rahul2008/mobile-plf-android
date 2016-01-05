@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">ادامه</string>
 <string name="EmptyField_ErrorMsg">این قسمت نباید خالی باشد</string>
-<string name="ForgotPwdEmailResendMsg">یک ایمیل برای بازنشانی رمز ورودتان به آدرس ایمیل شما ارسال شد. دریافت ایمیل ممکن است مدتی طول بکشد.</string>
+<string name="ForgotPwdEmailResendMsg">یک ایمیل برای بازنشانی رمز ورود شما ارسال شده است. دریافت ایمیل ممکن است مدتی طول بکشد.</string>
 <string name="ForgotPwdEmailResendMsg_Title">بازنشانی رمز ورود</string>
 <string name="InValid_PwdErrorMsg">رمز ورود مطابق با دستورالعمل‌های رمز ورود در زیر نمی‌باشد.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">آدرس ایمیل نامعتبر</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">دریافت ایمیل ممکن است مدتی طول بکشد.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">لطفاً برای فعال‌سازی حساب خود، ایمیل‌تان را بررسی کنید.</string>
 <string name="VerifyEmail_Activated_btntxt">من حسابم را فعال کرده‌ام</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">مشکلی وجود دارد؟\n-  دریافت ایمیل تأیید ممکن است مدتی طول بکشد\n-  پوشه هرزنامه را هم بررسی کنید\n- اگر ایمیل تأیید را دریافت نکردید، دکمه \"ارسال مجدد\" در زیر را فشار دهید.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">مشکلی وجود دارد؟\n-  دریافت ایمیل تأیید ممکن است مدتی طول بکشد\n-  پوشه هرزنامه را هم بررسی کنید\n-  اگر ایمیل تأیید را دریافت نکردید، دکمه \"ارسال مجدد\" در زیر را فشار دهید.</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nیک ایمیل ارسال شد. دریافت ایمیل ممکن است مدتی طول بکشد.\n\nلطفاً برای فعال‌سازی حساب خود، ایمیل‌تان را بررسی کنید.\n\nدر این فاصله می‌توانید از برنامه استفاده کنید.</string>
 <string name="myphilips">حساب Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">یک ایمیل برای بازنشانی رمز ورودتان ارسال خواهیم کرد.</string>
 <string name="Merge_Account_Title">ادغام حساب‌ها</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">۸ تا ۳۲ نویسه</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">حروف بزرگ و کوچک</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">نویسه ویژه</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">حروف بزرگ یا کوچک</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">علامت‌های (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">اعداد</string>
 <string name="Philips_News_Description_Normal_lbltxt">طبق اجازه شما، شرکت‌های گروه Philips ممکن است - برطبق اولویت‌ها و تقاضای شما - پیشنهادات ویژه خود را در خصوص محصولات Philips، سرویس‌ها، رویدادها و فروش ویژه به شما اطلاع دهند. \nما ممکن است از طریق ایمیل، پیامک و سایر کانال‌های دیجیتالی از جمله برنامه‌های تلفن همراه و رسانه‌های اجتماعی با شما تماس بگیریم. برای آنکه بتوانیم سرویس‌های ارتباطی متناسب با اولویت‌ها و تقاضای شما را شناسایی کرده و بهترین تجربه شخصی سازی شده را در اختیار شما قرار دهیم، لازم است داده‌های شخصی شما را تجزیه و تحلیل کرده و با هم ترکیب نماییم. \n\nاین داده‌ها عبارتند از:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">داده‌هایی که شما در اختیار ما قرار می‌دهید:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">اطلاعیه‌های Philips</string>
 <string name="Philips_News_Back_btntxt">برگشت</string>
 <string name="Account_Setting_Titletxt">تنظیمات حساب</string>
-<string name="Create_With_lbltxt">یا ایجاد کردن با</string>
+<string name="Create_With_lbltxt">یا ایجاد یک حساب</string>
+<string name="myphilips_CC">حساب MyPhilips</string>
 </resources>

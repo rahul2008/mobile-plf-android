@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Continuer</string>
 <string name="EmptyField_ErrorMsg">Le champ ne peut être vide</string>
-<string name="ForgotPwdEmailResendMsg">Nous avons envoyé un courriel à votre adresse électronique pour réinitialiser votre mot de passe. La réception du message peut prendre un certain temps.</string>
+<string name="ForgotPwdEmailResendMsg">Nous vous avons envoyé un courriel pour réinitialiser votre mot de passe. La réception du message peut prendre un certain temps.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Réinitialiser le mot de passe</string>
 <string name="InValid_PwdErrorMsg">Le mot de passe ne respecte pas les conditions données ci-dessous.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Adresse courriel non valide</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">La réception du message peut prendre un certain temps.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Veuillez consulter votre courriel pour activer votre compte.</string>
 <string name="VerifyEmail_Activated_btntxt">J\'ai activé mon compte.</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Un problème?\n- La réception du courriel de vérification peut prendre un certain temps\n- Veillez également à consulter votre dossier de courrier indésirable\n- Appuyez sur le bouton \"Renvoyer\" ci-dessous, si vous n\'avez pas reçu le courriel de notification</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Un problème?\n-  La réception du courriel de vérification peut prendre un certain temps\n-  Veillez également à consulter votre dossier de courrier indésirable\n-  Appuyez sur le bouton \"Renvoyer\" ci-dessous, si vous n\'avez pas reçu le courriel de notification</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nUn courriel a été envoyé. La réception du message peut prendre un certain temps.\n\nVeuillez consulter votre courriel pour activer votre compte.\n\nVous pouvez utiliser l\'application en attendant.</string>
 <string name="myphilips">Compte Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Nous allons vous envoyer un courriel pour réinitialiser votre mot de passe.</string>
 <string name="Merge_Account_Title">Fusionner vos comptes</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8 à 32 caractères</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Majuscules et minuscules</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Caractère spécial</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Majuscules ou minuscules</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symboles (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Chiffres</string>
 <string name="Philips_News_Description_Normal_lbltxt">Si vous donnez votre accord, les entreprises du groupe Philips pourraient vous faire parvenir des offres promotionnelles, fondées sur vos préférences et votre utilisation, concernant les produits, les services, les événements, ainsi que les aubaines Philips. \nNous pouvons vous contacter par courriel, messages textes et autres voies numériques, telles que les applications mobiles et les réseaux sociaux. Afin d\'être en mesure d\'adapter nos messages à vos goûts et vos habitudes et de vous offrir une expérience réellement personnalisée, nous pourrions être amenés à analyser et à combiner vos données personnelles. \n\nCelles-ci peuvent inclure :\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Les renseignements que vous nous avez fournis:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Annonces Philips</string>
 <string name="Philips_News_Back_btntxt">Retour</string>
 <string name="Account_Setting_Titletxt">Paramètres du compte</string>
-<string name="Create_With_lbltxt">Ou créer avec</string>
+<string name="Create_With_lbltxt">Vous pouvez aussi créer un compte</string>
+<string name="myphilips_CC">Compte MyPhilips</string>
 </resources>

@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Poate dura ceva timp până vei primi mesajul.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Te rugăm să-ţi verifici e-mailul pentru a-ţi activa contul.</string>
 <string name="VerifyEmail_Activated_btntxt">Mi-am activat contul</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Întâmpini probleme?\n- Poate dura ceva timp până să primeşti mesajul de verificare\n- Consultă şi dosarul de spam\n- Apasă butonul de \"Retrimitere\" de mai jos dacă nu ai primit mesajul de verificare.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Întâmpini probleme?\n-  Poate dura ceva timp până să primeşti mesajul de verificare\n-  Consultă şi dosarul de spam\n-  Apasă butonul de \"Retrimitere\" de mai jos dacă nu ai primit mesajul de verificare.</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nAm expediat un e-mail. Poate dura ceva timp până să primeşti mesajul.\n\nTe rugăm să-ţi verifici e-mailul pentru a-ţi activa contul.\n\nÎntre timp, poţi utiliza aplicaţia.</string>
 <string name="myphilips">Cont Philips</string>
 <string name="facebook">Facebook</string>
@@ -109,7 +109,7 @@
 <string name="Merge_Account_Title">Fuzionează conturile tale</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 de caractere</string>
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Litere mari şi mici</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Caracter special</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simboluri (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Numere</string>
 <string name="Philips_News_Description_Normal_lbltxt">Ca urmare a consimţământului tău, companiile din grupul Philips ar putea să te contacteze cu comunicaţii promoţionale, bazate pe comportamentul şi preferinţele tale despre produsele, serviciile, evenimentele şi promoţiile Philips. \nS-ar putea să te contactăm prin e-mail, SMS şi prin alte canale digitale, precum aplicaţii mobile şi reţele sociale. Pentru a putea să adaptăm comunicaţiile conform comportamentului şi preferinţelor tale şi să îţi oferim cea mai bună experienţă personalizată, vom analiza şi combina datele tale personale. \n\nAceste date pot include:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Datele pe care ni le-ai furnizat:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Anunţuri Philips</string>
 <string name="Philips_News_Back_btntxt">Înapoi</string>
 <string name="Account_Setting_Titletxt">Setările contului</string>
-<string name="Create_With_lbltxt">Sau creează cu</string>
+<string name="Create_With_lbltxt">Sau creează un cont</string>
+<string name="myphilips_CC">Cont MyPhilips</string>
 </resources>

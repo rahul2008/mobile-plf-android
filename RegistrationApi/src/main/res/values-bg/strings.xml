@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Продължи</string>
 <string name="EmptyField_ErrorMsg">Полето не може да е празно</string>
-<string name="ForgotPwdEmailResendMsg">Изпратихме ви имейл, чрез който да смените паролата си. Възможно е да мине известно време, преди имейлът да пристигне.</string>
+<string name="ForgotPwdEmailResendMsg">Изпратихме ви имейл за нулиране на паролата ви. Възможно е да мине известно време, преди имейлът да пристигне.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Смяна на парола</string>
 <string name="InValid_PwdErrorMsg">Паролата не отговаря на насоките за парола по-долу.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Невалиден имейл адрес</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Възможно е да мине известно време, преди имейлът да пристигне.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Проверете имейла си, за да активирате своя акаунт.</string>
 <string name="VerifyEmail_Activated_btntxt">Активирах акаунта си</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Имате проблеми?\n-  Възможно е да мине известно време, преди имейлът да пристигне.\n-  Вижте и в папката с нежелана поща\n- Натиснете бутона \"Повторно изпращане\" по-долу, ако не сте получили имейла за потвърждение</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Имате проблеми?\n-  Възможно е да мине известно време, преди имейлът да пристигне.\n-  Вижте и в папката с нежелана поща\n-  Натиснете бутона \"Повторно изпращане\" по-долу, ако не сте получили имейла за потвърждение</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nИзпратихме имейл. Възможно е да мине известно време, преди имейлът да пристигне..\n\nПроверете имейла си, за да активирате своя акаунт.\n\nМеждувременно можете да използвате приложението.</string>
 <string name="myphilips">Акаунт във Philips</string>
 <string name="facebook">Facebook</string>
@@ -109,7 +109,7 @@
 <string name="Merge_Account_Title">Сливане на акаунтите ви</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8 – 32 символа</string>
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Малки и големи букви</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Специални знаци</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Символи: (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Цифри</string>
 <string name="Philips_News_Description_Normal_lbltxt">В резултат от съгласието ви фирмите от групата Philips могат да се свързват с вас за промоционални известия, базирани на вашите предпочитания и поведение, относно продукти, услуги, събития и промоции на Philips. \nМожем да се свържем с вас чрез имейл, SMS или други цифрови канали, като мобилни приложения и социални медии. За да можем да изберем известия за вашите предпочитания и поведение и за да ви предоставим най-доброто, персонализирано изживяване, можем да анализираме и комбинираме личните ви данни. \n\nТези данни може да включват:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Данните, които сте ни дали:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Съобщения от Philips</string>
 <string name="Philips_News_Back_btntxt">Назад</string>
 <string name="Account_Setting_Titletxt">Настройки на акаунта</string>
-<string name="Create_With_lbltxt">Или създаване с/ъс</string>
+<string name="Create_With_lbltxt">Или създайте акаунт</string>
+<string name="myphilips_CC">Акаунт в MyPhilips</string>
 </resources>

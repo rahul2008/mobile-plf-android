@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Turpināt</string>
 <string name="EmptyField_ErrorMsg">Lauks nevar būt tukšs</string>
-<string name="ForgotPwdEmailResendMsg">Mēs nosūtījām e-pastu uz jūsu e-pasta adresi, lai atiestatītu jūsu paroli. Iespējams, jāuzgaida, līdz e-pasta pienākšanai.</string>
+<string name="ForgotPwdEmailResendMsg">Mēs nosūtījām jums e-pasta ziņojumu, lai atiestatītu paroli. Iespējams, jāuzgaida, līdz e-pasta pienākšanai.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Atiestatīt paroli</string>
 <string name="InValid_PwdErrorMsg">Parole neatbilst tālāk esošajām paroles vadlīnijām.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Nederīga e-pasta adrese</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Iespējams, jāuzgaida, līdz e-pasta pienākšanai.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Lūdzu, pārbaudiet e-pastu, lai aktivizētu kontu.</string>
 <string name="VerifyEmail_Activated_btntxt">Esmu aktivizējis savu kontu</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Vai radušās problēmas?\n-  Iespējams, jāuzgaida, līdz apstiprinājuma e-pasta pienākšanai\n-  Pārbaudiet arī surogātpasta mapi\n- Nospiediet tālāk esošo pogu \"Pārsūtīt\", ja nesaņēmāt apstiprinājuma e-pastu</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Vai radušās problēmas?\n-  Iespējams, jāuzgaida, līdz apstiprinājuma e-pasta pienākšanai\n-  Pārbaudiet arī surogātpasta mapi\n-  Nospiediet tālāk esošo pogu \"Pārsūtīt\", ja nesaņēmāt apstiprinājuma e-pastu</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nMēs nosūtījām e-pastu. Iespējams, jāuzgaida, līdz e-pasta pienākšanai.\n\nLūdzu, pārbaudiet e-pastu, lai aktivizētu kontu.\n\nTikmēr varat izmantot lietotni.</string>
 <string name="myphilips">Philips konts</string>
 <string name="facebook">Facebook</string>
@@ -109,7 +109,7 @@
 <string name="Merge_Account_Title">Sapludināt jūsu kontus</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 rakstzīmes</string>
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Lielie un mazie burti</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Īpaša rakstzīme</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simboli (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Cipari</string>
 <string name="Philips_News_Description_Normal_lbltxt">Pēc jūsu piekrišanas Philips grupas uzņēmumi var ar jums sazināties ar dažādiem reklāmas materiāliem - pielāgoti, pamatojoties uz jūsu izvēlēm un darbību, - par Philips produktiem, pakalpojumiem, notikumiem un akcijām. \nMēs varam sazināties ar jums pa e-pastu, sūtot SMS un citiem digitālajiem kanāliem, piemēram, mobilajām lietotnēm un sociālajiem tīkliem. Lai pielāgotu saziņu jūsu izvēlēm un darbībai un sniegtu jums vislabāko personalizēto pieredzi, mēs varam analizēt un kombinēt jūsu personas datus. \n\nŠie dati var ietvert:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Dati, kurus esat mums sniedzis:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Philips paziņojumi</string>
 <string name="Philips_News_Back_btntxt">Atpakaļ</string>
 <string name="Account_Setting_Titletxt">Konta iestatījumi</string>
-<string name="Create_With_lbltxt">Vai izveidot ar</string>
+<string name="Create_With_lbltxt">Vai izveidojiet kontu</string>
+<string name="myphilips_CC">MyPhilips konts</string>
 </resources>

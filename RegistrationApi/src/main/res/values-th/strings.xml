@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">ดำเนินการต่อ</string>
 <string name="EmptyField_ErrorMsg">ฟิลด์ไม่สามารถปล่อยว่างได้</string>
-<string name="ForgotPwdEmailResendMsg">เราได้ส่งอีเมล์ไปยังอีเมล์แอดเดรสของคุณเพื่อรีเซ็ตรหัสผ่าน อาจจะใช้เวลาสักครู่ก่อนที่อีเมล์จะไปถึง</string>
+<string name="ForgotPwdEmailResendMsg">เราได้ส่งอีเมล์ถึงคุณเพื่อรีเซ็ตรหัสผ่านของคุณ อาจใช้เวลาสักครู่ก่อนที่อีเมล์จะส่งไปถึง</string>
 <string name="ForgotPwdEmailResendMsg_Title">รีเซ็ตรหัสผ่าน</string>
 <string name="InValid_PwdErrorMsg">รหัสผ่านไม่ได้เป็นไปตามแนวทางรหัสผ่านด้านล่าง</string>
 <string name="InvalidEmailAdddress_ErrorMsg">อีเมล์แอดเดรสไม่ถูกต้อง</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">อาจจะใช้เวลาสักครู่ก่อนที่อีเมล์จะไปถึง</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">โปรดตรวจสอบอีเมล์ของคุณเพื่อเปิดใช้บัญชี</string>
 <string name="VerifyEmail_Activated_btntxt">ฉันได้เปิดใช้บัญชีของฉันแล้ว</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">มีปัญหาหรือไม่\n-  อาจจะใช้เวลาสักครู่ก่อนที่อีเมล์การตรวจสอบจะไปถึง\n-  ลองดูในโฟลเดอร์สแปมของคุณด้วย\n- กดปุ่ม \"ส่งอีกครั้ง\" ด้านล่าง หากคุณยังไม่ได้รับอีเมล์การตรวจสอบ</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">มีปัญหาหรือไม่\n-  อาจจะใช้เวลาสักครู่ก่อนที่อีเมล์การตรวจสอบจะไปถึง\n-  ลองดูในโฟลเดอร์สแปมของคุณด้วย\n-  กดปุ่ม \"ส่งอีกครั้ง\" ด้านล่าง หากคุณยังไม่ได้รับอีเมล์การตรวจสอบ</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nเราได้ส่งอีเมล์ไปแล้ว อาจจะใช้เวลาสักครู่ก่อนที่อีเมล์จะไปถึง\n\nโปรดตรวจสอบอีเมล์ของคุณเพื่อเปิดใช้บัญชีของคุณ\n\nคุณสามารถใช้แอปพลิเคชันในระหว่างนี้ไปก่อนได้</string>
 <string name="myphilips">บัญชี Phillips</string>
 <string name="facebook">Facebook</string>
@@ -109,7 +109,7 @@
 <string name="Merge_Account_Title">รวมบัญชีของคุณ</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 อักขระ</string>
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">ตัวอักษรพิมพ์เล็กและพิมพ์ใหญ่</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">อักขระพิเศษ</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">สัญลักษณ์ (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">หมายเลข</string>
 <string name="Philips_News_Description_Normal_lbltxt">อันเนื่องมาจากการยินยอมของคุณ กลุ่มบริษัท Philips อาจติดต่อคุณพร้อมด้วยการสื่อสารเพื่อส่งเสริมการขายโดยมีเนื้อหาเกี่ยวกับผลิตภัณฑ์, บริการ, กิจกรรม และโปรโมชันของ Philips ซึ่งจะอิงตามความต้องการและพฤติกรรมการใช้งานของคุณ \nเราอาจติดต่อคุณผ่านอีเมล, SMS หรือช่องทางดิจิตอลอื่นๆ เช่น แอพมือถือและสื่อสังคมออนไลน์ นอกจากนี้ เราอาจทำการวิเคราะห์และผสานข้อมูลส่วนบุคคลของคุณเพื่อออกแบบการติดต่อสื่อสารให้ตรงกับความต้องการและพฤติกรรมการใช้งานของคุณ และเพื่อส่งมอบประสบการณ์ที่เหมาะสมและดีเยี่ยมสำหรับคุณมากที่สุด \n\nข้อมูลนี้ประกอบด้วย:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">ข้อมูลที่คุณมอบให้เรา:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">ประกาศจาก Philips</string>
 <string name="Philips_News_Back_btntxt">ย้อนกลับ</string>
 <string name="Account_Setting_Titletxt">การตั้งค่าบัญชี</string>
-<string name="Create_With_lbltxt">หรือสร้างด้วย</string>
+<string name="Create_With_lbltxt">หรือสร้างแอคเคาท์ใหม่</string>
+<string name="myphilips_CC">แอคเคาท์ MyPhilips</string>
 </resources>

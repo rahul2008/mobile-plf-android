@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Continuer</string>
 <string name="EmptyField_ErrorMsg">Ce champ ne peut être vide</string>
-<string name="ForgotPwdEmailResendMsg">Nous vous avons envoyé un e-mail pour vous permettre de réinitialiser votre mot de passe. Il peut se passer un certain temps avant que vous ne receviez l\'e-mail.</string>
+<string name="ForgotPwdEmailResendMsg">Nous vous avons envoyé un e-mail pour réinitialiser votre mot de passe. Il peut se passer un certain temps avant que vous ne receviez l\'e-mail.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Réinitialiser le mot de passe</string>
 <string name="InValid_PwdErrorMsg">Le mot de passe ne respecte pas les directives indiquées ci-dessous.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Adresse e-mail non valide</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Nous vous enverrons un e-mail pour vous permettre de réinitialiser votre mot de passe.</string>
 <string name="Merge_Account_Title">Fusionner vos comptes</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 caractères</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Majuscules et minuscules</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Caractère spécial</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Majuscules ou minuscules</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symboles (_ . @ $)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Chiffres</string>
 <string name="Philips_News_Description_Normal_lbltxt">Suite à votre consentement, les entreprises du groupe Philips peuvent vous contacter à des fins publicitaires, selon vos préférences et votre comportement, au sujet des produits, services, événements et promotions Philips. \nNous pouvons vous contacter par e-mail, SMS ou d\'autres médias numériques, par exemple les applications mobiles ou les réseaux sociaux. Afin d\'adapter les communications à vos préférences et à votre comportement, et afin de vous proposer une expérience la plus aboutie et la plus personnalisée possible, nous pouvons analyser et regrouper vos données personnelles. \n\nCes données peuvent inclure :\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Les données que vous nous communiquez :\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Annonces Philips</string>
 <string name="Philips_News_Back_btntxt">Retour</string>
 <string name="Account_Setting_Titletxt">Paramètres du compte</string>
-<string name="Create_With_lbltxt">Ou créer avec</string>
+<string name="Create_With_lbltxt">Ou créer un compte</string>
+<string name="myphilips_CC">Compte MyPhilips</string>
 </resources>

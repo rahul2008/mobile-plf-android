@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Pokračovat</string>
 <string name="EmptyField_ErrorMsg">Pole nemůže být prázdné</string>
-<string name="ForgotPwdEmailResendMsg">Na vaši e-mailovou adresu jsme zaslali e-mail, pomocí kterého lze resetovat heslo. Může chvíli trvat, než e-mail obdržíte.</string>
+<string name="ForgotPwdEmailResendMsg">Zaslali jsme vám e-mail s obnovením hesla. Může chvíli trvat, než e-mail obdržíte.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Resetovat heslo</string>
 <string name="InValid_PwdErrorMsg">Heslo nesplňuje níže uvedené podmínky.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Neplatná e-mailová adresa</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Může chvíli trvat, než e-mail obdržíte.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Pokud chcete aktivovat účet, zkontrolujte svou e-mailovou schránku.</string>
 <string name="VerifyEmail_Activated_btntxt">Mám aktivovaný účet</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Narazili jste na problémy?\n- Může chvíli trvat, než ověřovací e-mail obdržíte\n- Podívejte se i do složky pro spam\n- Pokud jste neobdrželi ověřovací e-mail, stiskněte níže uvedené tlačítko „Poslat znovu“</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Narazili jste na problémy?\n-  Může chvíli trvat, než ověřovací e-mail obdržíte\n-  Podívejte se i do složky pro spam\n-  Pokud jste neobdrželi ověřovací e-mail, stiskněte níže uvedené tlačítko „Poslat znovu“</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nPoslali jsme vám e-mail. Může chvíli trvat, než jej obdržíte.\n\nPokud chcete aktivovat účet, zkontrolujte svou e-mailovou schránku.\n\nMezitím můžete použít aplikaci.</string>
 <string name="myphilips">Účet Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Zašleme vám e-mail, pomocí kterého lze resetovat heslo.</string>
 <string name="Merge_Account_Title">Sloučit účty</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8–32 znaků</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Velká a malá písmena</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Speciální znaky</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Velká nebo malá písmena</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symboly (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Čísla</string>
 <string name="Philips_News_Description_Normal_lbltxt">Na základě vašeho souhlasu vás mohou společnosti skupiny Philips kontaktovat s reklamními zprávami o produktech, službách, událostech či promoakcích vybraných podle vašich priorit a kupních návyků. \nKontaktováni můžete být e-mailem, SMS zprávou či jinými digitálními prostředky, jako jsou například mobilní aplikace nebo sociální média. Abychom vám mohli tyto zprávy přizpůsobit na míru a poskytnout vám tu nejlepší, individuální zkušenost, analyzujeme a kombinujeme vaše osobní údaje. \n\nMezi tyto údaje mohou patřit:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Vámi poskytnuté údaje:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Oznámení Philips</string>
 <string name="Philips_News_Back_btntxt">Zpět</string>
 <string name="Account_Setting_Titletxt">Nastavení účtu</string>
-<string name="Create_With_lbltxt">Nebo vytvořit pomocí</string>
+<string name="Create_With_lbltxt">Nebo si vytvořte účet</string>
+<string name="myphilips_CC">Účet MyPhilips</string>
 </resources>

@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Folytatás</string>
 <string name="EmptyField_ErrorMsg">A mező nem lehet üres</string>
-<string name="ForgotPwdEmailResendMsg">A jelszó visszaállításához küldtünk levelet az e-mail címére. Igénybe vehet egy kis időt, amíg megérkezik.</string>
+<string name="ForgotPwdEmailResendMsg">Jelszava visszaállításához küldtünk Önnek levelet. Igénybe vehet egy kis időt, amíg megérkezik.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Jelszó visszaállítása</string>
 <string name="InValid_PwdErrorMsg">A jelszó nem követi a jelszavakra vonatkozó alábbi irányelveket.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Érvénytelen e-mail cím</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Igénybe vehet egy kis időt, amíg megérkezik.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">A fiók aktiválásához, kérjük, ellenőrizze e-mail címét.</string>
 <string name="VerifyEmail_Activated_btntxt">Aktiváltam a fiókomat</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Problémája van?\n-  Igénybe vehet egy kis időt, amíg megérkezik a megerősítő e-mail\n-  A levélszemetet gyűjtő mappáját is ellenőrizze\n- Nyomja le az alábbi \”Újraküldés\” gombot, ha nem kapott megerősítő e-mailt</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Problémája van?\n-  Igénybe vehet egy kis időt, amíg megérkezik a megerősítő e-mail\n-  A levélszemetet gyűjtő mappáját is ellenőrizze\n-  Nyomja le az alábbi \”Újraküldés\” gombot, ha nem kapott megerősítő e-mailt</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nKüldtünk e-mailt. Igénybe vehet egy kis időt, amíg megérkezik.\n\nKérjük, ellenőrizze az e-mailjét a fiókja aktiválásához.\n\nEközben használhatja az alkalmazást.</string>
 <string name="myphilips">Philips fiók</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Jelszava visszaállításához küldünk Önnek e-mailt.</string>
 <string name="Merge_Account_Title">Egyesítse fiókjait</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 karakter</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Nagybetűk és kisbetűk</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Speciális karakter</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Nagybetűk vagy kisbetűk</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Szimbólumok (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Számok</string>
 <string name="Philips_News_Description_Normal_lbltxt">Az Ön beleegyezésének eredményeként előfordulhat, hogy a Philips csoport vállalatai promóciós céllal felveszik Önnel a kapcsolatot - az Ön érdeklődése és szokásai alapján -, hogy Philips termékekről, szolgáltatásokról, eseményekről és promóciókról beszélgessenek Önnel. \nAz is lehetséges, hogy emailben, SMS-ben és más digitális csatornákon keresztül (pl. mobilalkalmazások és közösségi oldalak) vesszük fel Önnel a kapcsolatot. Hogy az Ön elvárásainak és szokásainak megfelelően alakítsuk ezt a kommunikációt, illetve hogy a legjobb, személyre szabott élményt nyújthassuk, elemezhetjük és összekapcsolhatjuk az Ön személyes adatait. \n\nEzek az adatok az alábbiakat tartalmazhatják:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Az Ön által nekünk megadott adatok:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Philips hírek</string>
 <string name="Philips_News_Back_btntxt">Vissza</string>
 <string name="Account_Setting_Titletxt">Fiókbeállítások</string>
-<string name="Create_With_lbltxt">Vagy hozza létre ezzel:</string>
+<string name="Create_With_lbltxt">Vagy hozzon létre egy fiókot</string>
+<string name="myphilips_CC">MyPhilips fiók</string>
 </resources>

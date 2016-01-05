@@ -2,7 +2,7 @@
 <resources>
     <string name="Continue_Btntxt">Continue</string>
     <string name="EmptyField_ErrorMsg">Field cannot be empty</string>
-    <string name="ForgotPwdEmailResendMsg">We have sent an email to your email address to reset your password. It may take some time for the email to arrive.</string>
+    <string name="ForgotPwdEmailResendMsg">We have sent you an email to reset your password. It may take some time for the email to arrive.</string>
     <string name="ForgotPwdEmailResendMsg_Title">Reset Password</string>
     <string name="InValid_PwdErrorMsg">The password does not follow the password guidelines below.</string>
     <string name="InvalidEmailAdddress_ErrorMsg">Invalid email address</string>
@@ -107,8 +107,8 @@
     <string name="Forgot_Password_description">We will send you an email to reset your password.</string>
     <string name="Merge_Account_Title">Merge your accounts</string>
     <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 characters</string>
-    <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Upper &amp; lower case letters</string>
-    <string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Special character</string>
+    <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Upper or lower case letters</string>
+    <string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symbols (_.@$)</string>
     <string name="Create_Account_PasswordHint_Numbers_lbltxt">Numbers</string>
     <string name="Philips_News_Description_Normal_lbltxt">As a result of your consent, Philips group companies may contact you with promotional communications - based on your preferences and behaviour - about Philips products, services, events and promotions. \nWe may contact you via email, SMS and other digital channels, such as mobile apps and social media. To be able to tailor the communications to your preferences and behavior and provide you with the best, personalized experience, we may analyze and combine your personal data. \n\nThis data may include:\n</string>
     <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Data you gave us:\n</string>
@@ -124,7 +124,8 @@
     <string name="Philips_News_Title">Philips announcements</string>
     <string name="Philips_News_Back_btntxt">Back</string>
     <string name="Account_Setting_Titletxt">Account settings</string>
-    <string name="Create_With_lbltxt">Or create with</string>
+    <string name="Create_With_lbltxt">Or create an account</string>
+    <string name="myphilips_CC">MyPhilips account</string>
 
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>

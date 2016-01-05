@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Jatka</string>
 <string name="EmptyField_ErrorMsg">Kenttä ei voi olla tyhjä</string>
-<string name="ForgotPwdEmailResendMsg">Olemme lähettäneet sinulle sähköpostiviestin salasanan vaihtamista varten. Viestin saapuminen saattaa kestää jonkin aikaa.</string>
+<string name="ForgotPwdEmailResendMsg">Olemme lähettäneet sinulle sähköpostiviestin salasanasi vaihtamista varten. Viestin saapuminen saattaa kestää jonkin aikaa.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Muuta salasana</string>
 <string name="InValid_PwdErrorMsg">Salasana ei ole ohjeiden mukainen.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Sähköpostiosoite ei kelpaa</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Viestin saapuminen voi kestää jonkin aikaa.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Tarkista sähköpostisi ja aktivoi tilisi.</string>
 <string name="VerifyEmail_Activated_btntxt">Olen ottanut tilini käyttöön</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ongelmia?\n- Vahvistusviestin saapuminen voi kestää jonkin aikaa.\n-  Tarkista myös roskapostikansiosi.\n- Paina alla olevaa Lähdetä uudelleen -painiketta, jos et ole saanut vahvistusviestiä.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ongelmia?\n-  Vahvistusviestin saapuminen voi kestää jonkin aikaa.\n-  Tarkista myös roskapostikansiosi.\n-  Paina alla olevaa Lähdetä uudelleen -painiketta, jos et ole saanut vahvistusviestiä.</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nOlemme lähettäneet sähköpostiviestin. Sen saapuminen voi kestää jonkin aikaa.\n\nTarkista sähköpostisi ja aktivoi tilisi.\n\nSillä välin voit käyttää sovellusta.</string>
 <string name="myphilips">Philips-tili</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Lähetämme sinulle sähköpostiviestin salasanan vaihtamista varten.</string>
 <string name="Merge_Account_Title">Yhdistä tilit</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8–32 merkkiä</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Isot ja pienet kirjaimet</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Erikoismerkki</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Isot tai pienet kirjaimet</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Erikoismerkit (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Numerot</string>
 <string name="Philips_News_Description_Normal_lbltxt">Suostumuksesi johdosta Philips-konserniin kuuluvat yritykset voivat lähettää sinulle käyttäytymisesi sekä mieltymystesi perusteella mainosviestejä Philipsin tuotteista, palveluista, tapahtumista ja kampanjoista. \nSaatamme ottaa sinuun yhteyttä sähköpostilla, tekstiviestillä tai muun digitaalisen kanavan, kuten mobiilisovelluksen tai yhteisöpalvelun välityksellä. Saatamme myös analysoida ja yhdistää henkilötietojasi, jotta voimme mukauttaa viestejä mieltymyksiäsi ja ostokäyttäytymistäsi vastaavaksi sekä tarjota juuri sinulle sopivan kokemuksen. \n\nNäitä tietoja voivat olla:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Antamasi tiedot:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Philips-ilmoitukset</string>
 <string name="Philips_News_Back_btntxt">Takaisin</string>
 <string name="Account_Setting_Titletxt">Tilin asetukset</string>
-<string name="Create_With_lbltxt">Tai luo käyttämällä</string>
+<string name="Create_With_lbltxt">Tai luo tili</string>
+<string name="myphilips_CC">MyPhilips-tili</string>
 </resources>

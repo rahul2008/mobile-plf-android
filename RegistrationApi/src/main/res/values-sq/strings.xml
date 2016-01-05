@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Vazhdo</string>
 <string name="EmptyField_ErrorMsg">Fusha nuk mund të jetë bosh</string>
-<string name="ForgotPwdEmailResendMsg">Të kemi dërguar një email në adresën tënde për të rivendosur fjalëkalimin. Mund të duhet pak kohë derisa të mbërrijë emaili.</string>
+<string name="ForgotPwdEmailResendMsg">Të kemi dërguar një email për të rivendosur fjalëkalimin. Mund të duhet pak kohë derisa të mbërrijë emaili.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Rivendos fjalëkalimin</string>
 <string name="InValid_PwdErrorMsg">Fjalëkalimi nuk ndjek udhëzimet e mëposhtme për fjalëkalimet.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Adresë e pavlefshme emaili</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Mund të duhet pak kohë derisa të mbërrijë emaili.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Kontrollo emailin për të aktivizuar llogarinë.</string>
 <string name="VerifyEmail_Activated_btntxt">E kam aktivizuar llogarinë</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ke probleme?\n-  Mund të duhet pak kohë derisa të mbërrijë emaili i verifikimit\n-  Shiko edhe në dosjen e të padëshiruarave\n- Shtyp butonin \"Ridërgo\" më poshtë, nëse nuk e ke marrë emailin e verifikimit</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ke probleme?\n-  Mund të duhet pak kohë derisa të mbërrijë emaili i verifikimit\n-  Shiko edhe në dosjen e të padëshiruarave\n-  Shtyp butonin \"Ridërgo\" më poshtë, nëse nuk e ke marrë emailin e verifikimit</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nKemi dërguar një email. Mund të duhet pak kohë derisa të mbërrijë emaili.\n\nKontrollo emailin për të aktivizuar llogarinë.\n\nMund të përdorësh ndërkohë aplikacionin.</string>
 <string name="myphilips">Llogaria \"Philips\"</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Të kemi dërguar një email për të rivendosur fjalëkalimin.</string>
 <string name="Merge_Account_Title">Bashko llogaritë</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 germa</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Shkronja kapitale dhe jokapitale</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Germë e posaçme</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Shkronja kapitale ose jokapitale</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simbole (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Numra</string>
 <string name="Philips_News_Description_Normal_lbltxt">Pas pranimit nga ana jote, kompanitë e grupit \"Philips\" mund të të kontaktojnë për komunikim promocional - sipas preferencave dhe sjelljes tënde - rreth produkteve, shërbimeve, evenimenteve dhe promocioneve nga \"Philips\". \nNe mund të të kontaktojmë nëpërmjet emailit, SMS-ve dhe kanaleve të tjera dixhitale, si p.sh. nëpërmjet aplikacioneve për pajisje portative dhe mediave sociale. Për të pasur mundësinë të përshtatim komunikimin sipas preferencës dhe sjelljes tënde dhe për të të ofruar përjetimin më të mirë të personalizuar, ne mund të analizojmë dhe të kombinojmë të dhënat e tua. \n\nKëto të dhëna mund të përfshijnë:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Të dhënat që na ke dorëzuar:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Njoftime nga \"Philips\"</string>
 <string name="Philips_News_Back_btntxt">Kthehu</string>
 <string name="Account_Setting_Titletxt">Cilësimet e llogarisë</string>
-<string name="Create_With_lbltxt">Ose krijoje me</string>
+<string name="Create_With_lbltxt">Ose krijo një llogari</string>
+<string name="myphilips_CC">Llogaria ime \"Philips\"</string>
 </resources>

@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Teruskan</string>
 <string name="EmptyField_ErrorMsg">Medan tidak boleh kosong</string>
-<string name="ForgotPwdEmailResendMsg">Kami telah menghantar e-mel ke alamat e-mel anda untuk menetapkan semula kata laluan anda. E-mel tersebut akan mengambil sedikit masa untuk sampai.</string>
+<string name="ForgotPwdEmailResendMsg">Kami telah menghantar e-mel kepada anda untuk menetapkan semula kata laluan anda. E-mel tersebut akan mengambil sedikit masa untuk sampai.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Tetapkan Semula Kata Laluan</string>
 <string name="InValid_PwdErrorMsg">Kata laluan tidak mematuhi garis panduan kata laluan di bawah.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Alamat e-mel tidak sah</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">E-mel tersebut akan mengambil sedikit masa untuk sampai.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Sila semak e-mel anda untuk mengaktifkan akaun anda.</string>
 <string name="VerifyEmail_Activated_btntxt">Saya telah mengaktifkan akaun saya</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ada masalah?\n-  E-mel pengesahan akan mengambil sedikit masa untuk sampai\n-  Lihat dalam folder spam anda juga\n- Tekan butang \"Hantar Semula\" di bawah jika anda belum menerima e-mel pengesahan</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ada masalah?\n-  E-mel pengesahan akan mengambil sedikit masa untuk sampai\n-  Lihat dalam folder spam anda juga\n-  Tekan butang \"Hantar Semula\" di bawah jika anda belum menerima e-mel pengesahan</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nKami telah menghantar e-mel. E-mel tersebut akan mengambil sedikit masa untuk sampai.\n\nSila semak e-mel anda untuk mengaktifkan akaun anda.\n\nSementara itu, anda boleh menggunakan aplikasi.</string>
 <string name="myphilips">Akaun Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Kami akan menghantar e-mel kepada anda untuk menetapkan semula kata laluan anda.</string>
 <string name="Merge_Account_Title">Gabungkan akaun anda</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 aksara</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Huruf besar &amp; kecil</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Aksara khas</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Huruf besar atau kecil</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simbol (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Nombor</string>
 <string name="Philips_News_Description_Normal_lbltxt">Sebagai hasil daripada kebenaran anda, syarikat kumpulan Philips boleh menghantar kepada anda komunikasi promosi - berdasarkan pada keutamaan dan amalan anda - tentang produk, perkhidmatan, acara dan promosi Philips. \nKami boleh menghubungi anda melalui e-mel, SMS dan saluran digital lain seperti aplikasi mudah alih dan media sosial. Kami akan menganalisis dan menggabungkan data peribadi anda agar kami dapat mengubah suai komunikasi menurut keutamaan dan amalan anda untuk memberikan pengalaman diperibadikan yang terbaik kepada anda. \n\nData ini termasuklah:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Data yang anda berikan kepada kami:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Pengumuman Philips</string>
 <string name="Philips_News_Back_btntxt">Balik</string>
 <string name="Account_Setting_Titletxt">Tetapan akaun</string>
-<string name="Create_With_lbltxt">Atau cipta dengan</string>
+<string name="Create_With_lbltxt">Atau cipta akaun</string>
+<string name="myphilips_CC">Akaun MyPhilips</string>
 </resources>

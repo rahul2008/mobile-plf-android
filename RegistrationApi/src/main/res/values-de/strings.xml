@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Weiter</string>
 <string name="EmptyField_ErrorMsg">Feld darf nicht leer sein</string>
-<string name="ForgotPwdEmailResendMsg">Wir haben eine E-Mail zum Zurücksetzen Ihres Passworts an Ihre E-Mail-Adresse gesendet. Es kann einige Zeit dauern, bis die E-Mail bei Ihnen ankommt.</string>
+<string name="ForgotPwdEmailResendMsg">Wir haben Ihnen eine E-Mail zum Zurücksetzen des Passworts gesendet. Es kann einige Zeit dauern, bis die E-Mail bei Ihnen ankommt.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Kennwort zurücksetzen</string>
 <string name="InValid_PwdErrorMsg">Das Passwort entspricht nicht den folgenden Richtlinien.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Ungültige E-Mail-Adresse</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Es kann einige Zeit dauern, bis die E-Mail bei Ihnen ankommt.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Überprüfen Sie Ihr E-Mail-Postfach, um Ihr Konto zu aktivieren.</string>
 <string name="VerifyEmail_Activated_btntxt">Ich habe mein Konto aktiviert</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Treten Probleme auf?\n-  Es kann einige Zeit dauern, bis die Bestätigungs-E-Mail bei Ihnen ankommt.\n-  Sehen Sie auch in Ihrem Spam-Ordner nach.\n- Drücken Sie unten auf die Schaltfläche \"Erneut senden\", wenn Sie keine Bestätigungs-E-Mail erhalten haben.</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Treten Probleme auf?\n-  Es kann einige Zeit dauern, bis die Bestätigungs-E-Mail bei Ihnen ankommt.\n-  Sehen Sie auch in Ihrem Spam-Ordner nach.\n-  Drücken Sie unten auf die Schaltfläche \"Erneut senden\", wenn Sie keine Bestätigungs-E-Mail erhalten haben.</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWir haben eine E-Mail gesendet. Es kann einige Zeit dauern, bis die E-Mail bei Ihnen ankommt.\n\nÜberprüfen Sie Ihr E-Mail-Postfach, um Ihr Konto zu aktivieren.\n\nIn der Zwischenzeit können Sie die App verwenden.</string>
 <string name="myphilips">Philips Konto</string>
 <string name="facebook">Facebook</string>
@@ -109,7 +109,7 @@
 <string name="Merge_Account_Title">Verknüpfen Sie Ihre Konten</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8 bis 32 Zeichen</string>
 <string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Groß- und Kleinbuchstaben</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Sonderzeichen</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symbole (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Zahlen</string>
 <string name="Philips_News_Description_Normal_lbltxt">Mit Ihrer Zustimmung können die Unternehmen der Philips Group Ihnen Werbemitteilungen – basierend auf Ihren Interessen und Ihrem Verhalten – zu Philips Produkten, Services, Veranstaltungen und Werbeaktionen zukommen lassen. \nWir kontaktieren Sie in Form von Werbemitteilungen per E-Mail, SMS und über andere digitale Kanäle, wie mobile Apps und soziale Medien. Damit wir die Mitteilungen an Ihre Interessen und Ihr Verhalten anpassen und Ihnen ein optimal personalisiertes Erlebnis bieten können, analysieren und kombinieren wir möglicherweise Ihre persönlichen Daten. \n\nDiese Daten umfassen Folgendes:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Daten, die Sie uns zur Verfügung gestellt haben:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Benachrichtigungen von Philips</string>
 <string name="Philips_News_Back_btntxt">Zurück</string>
 <string name="Account_Setting_Titletxt">Kontoeinstellungen</string>
-<string name="Create_With_lbltxt">Oder erstellen mit</string>
+<string name="Create_With_lbltxt">Oder Konto erstellen</string>
+<string name="myphilips_CC">MyPhilips-Konto</string>
 </resources>

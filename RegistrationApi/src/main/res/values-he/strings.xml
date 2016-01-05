@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">המשך</string>
 <string name="EmptyField_ErrorMsg">השדה אינו יכול להיות ריק</string>
-<string name="ForgotPwdEmailResendMsg">שלחנו הודעת דוא\"ל לכתובת שלך כדי לאפס את סיסמתך. הגעת ההודעה עשויה לארוך זמן מה.</string>
+<string name="ForgotPwdEmailResendMsg">שלחנו אליך הודעת דוא\"ל כדי לאפס את סיסמתך. הגעת ההודעה עשויה לארוך זמן מה.</string>
 <string name="ForgotPwdEmailResendMsg_Title">אפס סיסמה</string>
 <string name="InValid_PwdErrorMsg">הסיסמה אינה עומדת בהנחיות לגבי יצירת סיסמה שלהלן.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">כתובת דוא\"ל לא חוקית</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">הגעת ההודעה עשויה לארוך זמן מה.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">בדוק את הדוא\"ל שלך כדי להפעיל את חשבונך.</string>
 <string name="VerifyEmail_Activated_btntxt">הפעלתי את חשבוני</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">נתקלת בבעיות?\n– הגעת הודעת האימות עשויה לארוך זמן מה.\n– בדוק גם את תיקיית דואר הזבל שלך\n– אם לא קיבלת את הודעת האימות, לחץ על הלחצן \'שלח שוב\' שלהלן</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">נתקלת בבעיות?\n–  הגעת הודעת האימות עשויה לארוך זמן מה.\n–  בדוק גם את תיקיית דואר הזבל שלך\n–  אם לא קיבלת את הודעת האימות, לחץ על הלחצן \'שלח שוב\' שלהלן</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nשלחנו הודעת דוא\"ל. הגעת הודעת האימות עשויה לארוך זמן מה.\n\nבדוק את הדוא\"ל שלך כדי להפעיל את חשבונך.\n\nבינתיים, תוכל כבר להשתמש ביישום.</string>
 <string name="myphilips">חשבון פיליפס</string>
 <string name="facebook">פייסבוק</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">נשלח לך הודעת דוא\"ל כדי לאפס את סיסמתך.</string>
 <string name="Merge_Account_Title">מזג את חשבונותיך</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8 עד 32 תווים</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">אותיות לועזיות גדולות וקטנות</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">תו מיוחד</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">אותיות לועזיות גדולות או קטנות</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">סמלים (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">ספרות</string>
 <string name="Philips_News_Description_Normal_lbltxt">בעקבות הסכמתך, ייתכן שחברות בקבוצת פיליפס ישלחו לך הודעות קידום מכירות - על סמך העדפותיך והתנהגותך - על מוצרים, שירותים, אירועים ומבצעים של פיליפס.\nייתכן שנפנה אליך בדואר אלקטרוני, ב-SMS ובערוצים דיגיטליים אחרים, כמו אפליקציות לנייד ורשתות חברתיות. כדי שנוכל להתאים את ההודעות להעדפותיך ולהתנהגותך ולספק לך את החוויה המותאמת אישית הטובה ביותר, ייתכן שננתח ונשלב את הנתונים האישיים שלך.\n\nנתונים אלה עשויים לכלול:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">נתונים שמסרת לנו:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">הודעות של פיליפס</string>
 <string name="Philips_News_Back_btntxt">חזרה</string>
 <string name="Account_Setting_Titletxt">הגדרות חשבון</string>
-<string name="Create_With_lbltxt">או צור חשבון באמצעות</string>
+<string name="Create_With_lbltxt">או צור חשבון</string>
+<string name="myphilips_CC">חשבון MyPhilips</string>
 </resources>

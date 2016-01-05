@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Lanjutkan</string>
 <string name="EmptyField_ErrorMsg">Bidang tidak boleh kosong</string>
-<string name="ForgotPwdEmailResendMsg">Kami sudah mengirimkan email ke alamat email Anda untuk mengatur ulang kata sandi. Harap tunggu hingga email masuk.</string>
+<string name="ForgotPwdEmailResendMsg">Kami sudah mengirimkan email bagi Anda untuk mereset kata sandi. Dibutuhkan waktu hingga email masuk.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Atur Ulang Kata Sandi</string>
 <string name="InValid_PwdErrorMsg">Kata sandi tidak mengikuti panduan kata sandi berikut.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Alamat email tidak valid</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Dibutuhkan waktu hingga email masuk.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Harap periksa email untuk mengaktifkan akun Anda.</string>
 <string name="VerifyEmail_Activated_btntxt">Saya telah mengaktifkan akun saya</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ada masalah?\n-  Dibutuhkan waktu hingga email verifikasi masuk\n-  Lihat juga di folder spam Anda\n- Tekan tombol \"Kirim ulang\" di bawah ini jika Anda tidak menerima email verifikasi</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ada masalah?\n-  Dibutuhkan waktu hingga email verifikasi masuk\n-  Lihat juga di folder spam Anda\n-  Tekan tombol \"Kirim ulang\" di bawah ini jika Anda tidak menerima email verifikasi</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nKami telah mengirimkan email. Dibutuhkan waktu hingga email masuk.\n\nHarap periksa email untuk mengaktifkan akun Anda.\n\nAnda dapat memakai aplikasi sementara waktu.</string>
 <string name="myphilips">Akun Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Kami akan mengirimkan email untuk mengatur ulang kata sandi Anda.</string>
 <string name="Merge_Account_Title">Gabungkan akun Anda</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 karakter</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Huruf besar &amp; kecil</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Karakter khusus</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Huruf besar dan kecil</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simbol (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Angka</string>
 <string name="Philips_News_Description_Normal_lbltxt">Sebagai hasil dari persetujuan Anda, perusahaan grup Philips mungkin menghubungi Anda dengan komunikasi promosi - berdasarkan preferensi dan perilaku - tentang produk, layanan, acara, dan promosi Philips. \nKami mungkin menghubungi Anda lewat email, SMS, dan saluran digital lainnya, seperti aplikasi seluler dan media sosial. Agar dapat menyesuaikan komunikasi menurut perilaku dan preferensi Anda serta untuk menyediakan pengalaman personal, kami mungkin menganalisis dan menggabungkan data pribadi Anda. \n\nIni dapat mencakup:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Data yang Anda berikan:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Pengumuman Philips</string>
 <string name="Philips_News_Back_btntxt">Belakang</string>
 <string name="Account_Setting_Titletxt">Pengaturan akun</string>
-<string name="Create_With_lbltxt">Atau buat dengan</string>
+<string name="Create_With_lbltxt">Atau buat akun</string>
+<string name="myphilips_CC">Akun MyPhilips</string>
 </resources>

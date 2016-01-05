@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Продолжи</string>
 <string name="EmptyField_ErrorMsg">Полето не смее да биде празно</string>
-<string name="ForgotPwdEmailResendMsg">Ви испративме e-mail порака на вашата e-mail адреса за да ја ресетирате лозинката. Можеби ќе биде потребно одредено време за да пристигне e-mail пораката.</string>
+<string name="ForgotPwdEmailResendMsg">Ви испративме e-mail порака за да ја ресетирате вашата лозинка. Можеби ќе биде потребно одредено време за да пристигне e-mail пораката.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Ресетирај лозинка</string>
 <string name="InValid_PwdErrorMsg">Лозинката не ги следи упатствата за лозинката кои се наведени подолу.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Невалидна e-mail адреса</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Можеби ќе биде потребно одредено време за да пристигне e-mail пораката.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Проверете ја вашата електронска пошта за да ја активирате вашата сметка.</string>
 <string name="VerifyEmail_Activated_btntxt">Ја активирав мојата сметка</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Имате проблеми?\n-  Можеби ќе биде потребно одредено време за да пристигне e-mail пораката за потврда\n-  Проверете и во вашиот фолдер за спам пораки\n- Притиснете го копчето \"Повторно испраќање\" подолу доколку не сте добиле e-mail порака за потврда</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Имате проблеми?\n-  Можеби ќе биде потребно одредено време за да пристигне e-mail пораката за потврда\n-  Проверете и во вашиот фолдер за спам пораки\n-  Притиснете го копчето \"Повторно испраќање\" подолу доколку не сте добиле e-mail порака за потврда</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nВи испративме e-mail порака. Можеби ќе биде потребно одредено време за да пристигне e-mail пораката.\n\nПроверете ја вашата електронска пошта за да ја активирате вашата сметка.\n\nВо меѓувреме можете да ја користите апликацијата.</string>
 <string name="myphilips">Philips сметка</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Ќе ви испратиме e-mail порака за да ја ресетирате лозинката.</string>
 <string name="Merge_Account_Title">Спојте ги вашите сметки</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 знаци</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Големи и мали букви</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Посебни знаци</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Големи или мали букви</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Симболи (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Броеви</string>
 <string name="Philips_News_Description_Normal_lbltxt">Како резултат на вашето согласување, компаниите од групацијата Philips може да ве контактираат за промотивни цели - врз основа на вашите желби и однесување - во врска со производите, услугите и промоциите на Philips. \nМоже да ве контактираме преку e-mail, SMS и други дигитални канали, како што се мобилните апликации и социјалните мрежи. За да можеме да ја прилагодиме комуникацијата на вашите желби и однесување и со цел да овозможиме најдобро и персонализирано искуство, може да ги анализираме и комбинираме вашите лични податоци. \n\nОвие податоци може да ги вклучуваат:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Податоци кои што сте ни ги дале нам:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Соопштенија од Philips</string>
 <string name="Philips_News_Back_btntxt">Назад</string>
 <string name="Account_Setting_Titletxt">Поставки за сметка</string>
-<string name="Create_With_lbltxt">Или креирајте со</string>
+<string name="Create_With_lbltxt">Или креирајте сметка</string>
+<string name="myphilips_CC">MyPhilips сметка</string>
 </resources>

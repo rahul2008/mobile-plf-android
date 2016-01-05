@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Doorgaan</string>
 <string name="EmptyField_ErrorMsg">Veld mag niet leeg zijn</string>
-<string name="ForgotPwdEmailResendMsg">We hebben een e-mail voor het herstellen van uw wachtwoord naar uw e-mailadres gestuurd. Het kan enige tijd duren voordat deze aankomt.</string>
+<string name="ForgotPwdEmailResendMsg">We hebben u een e-mail gestuurd om uw wachtwoord opnieuw in te stellen. Het kan enige tijd duren voordat deze aankomt.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Wachtwoord opnieuw instellen</string>
 <string name="InValid_PwdErrorMsg">Het wachtwoord voldoet niet aan de wachtwoordrichtlijnen hieronder.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Ongeldig e-mailadres</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Het kan enige tijd duren voordat de e-mail aankomt.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Controleer uw e-mail om uw account te activeren.</string>
 <string name="VerifyEmail_Activated_btntxt">Ik heb mijn account geactiveerd</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Problemen?\n-  Het kan enige tijd duren voor de bevestigingsmail binnenkomt\n-  Kijk ook in uw map met junkmail\n- Druk op de knop \"Opnieuw verzenden\" hieronder als u de verificatiemail niet hebt ontvangen</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Problemen?\n-  Het kan enige tijd duren voor de bevestigingsmail binnenkomt\n-  Kijk ook in uw map met junkmail\n-  Druk op de knop \"Opnieuw verzenden\" hieronder als u de verificatiemail niet hebt ontvangen</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWe hebben een e-mail verzonden. Het kan enige tijd duren voordat de e-mail aankomt.\n\nControleer uw e-mail om uw account te activeren.\n\nU kunt de app in de tussentijd gebruiken.</string>
 <string name="myphilips">Philips-account</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Wij sturen u een e-mail om uw wachtwoord opnieuw in te stellen.</string>
 <string name="Merge_Account_Title">Uw accounts samenvoegen</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8-32 tekens</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Hoofdletters en kleine letters</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Speciaal teken</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Hoofdletters of kleine letters</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symbolen (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Cijfers</string>
 <string name="Philips_News_Description_Normal_lbltxt">Door uw toestemming kunnen de bedrijven uit de Philips-groep u, op basis van uw voorkeuren en gedrag, benaderen over Philips-producten, diensten, evenementen en aanbiedingen voor promotionele doeleinden. \nWe kunnen u benaderen via e-mail, sms en andere digitale kanalen, zoals mobiele apps en social media. Om de berichtgeving te kunnen aanpassen aan uw voorkeuren en gedrag en u de beste persoonlijke ervaring te bieden, kunnen we mogelijk uw persoonsgegevens analyseren en combineren. \n\nDeze gegevens kunnen bestaan uit:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Gegevens die u aan ons hebt verstrekt:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Aankondigingen van Philips</string>
 <string name="Philips_News_Back_btntxt">Terug</string>
 <string name="Account_Setting_Titletxt">Accountinstellingen</string>
-<string name="Create_With_lbltxt">Of maak met</string>
+<string name="Create_With_lbltxt">Of maak een account.</string>
+<string name="myphilips_CC">Mijn Philips-account</string>
 </resources>

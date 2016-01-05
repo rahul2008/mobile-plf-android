@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Nastavi</string>
 <string name="EmptyField_ErrorMsg">Polje ne može da bude prazno</string>
-<string name="ForgotPwdEmailResendMsg">Poslali smo e-poruku za resetovanje lozinke na vašu e-adresu. Možda će biti potrebno određeno vreme da e-poruka stigne.</string>
+<string name="ForgotPwdEmailResendMsg">Poslali smo vam e-poruku za resetovanje lozinke. Možda će biti potrebno određeno vreme da e-poruka stigne.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Resetovanje lozinke</string>
 <string name="InValid_PwdErrorMsg">Lozinka nije u skladu sa donjim smernicama.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Nevažeća e-adresa</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Možda će biti potrebno određeno vreme da e-poruka stigne.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Proverite e-poštu da biste aktivirali nalog.</string>
 <string name="VerifyEmail_Activated_btntxt">Aktivirao/la sam nalog</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Imate problema?\n- Možda će biti potrebno određeno vreme da e-poruka za verifikaciju stigne\n- Proverite i u fascikli za neželjenu e-poštu\n- Pritisnite dugme \"Ponovo pošalji\" ispod ako niste dobili e-poruku za verifikaciju</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Imate problema?\n- Možda će biti potrebno određeno vreme da e-poruka za verifikaciju stigne\n-  Proverite i u fascikli za neželjenu e-poštu\n-  Pritisnite dugme \"Ponovo pošalji\" ispod ako niste dobili e-poruku za verifikaciju</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nPoslali smo e-poruku. Možda će biti potrebno određeno vreme da e-poruka stigne.\n\nProverite e-poštu da biste aktivirali nalog.\n\nU međuvremenu možete da koristite aplikaciju.</string>
 <string name="myphilips">Philips nalog</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Poslaćemo vam e-poruku za resetovanje lozinke.</string>
 <string name="Merge_Account_Title">Objedinjavanje naloga</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8–32 znaka</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Velika i mala slova</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Specijalni znak</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Velika ili mala slova</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Simboli (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Brojevi</string>
 <string name="Philips_News_Description_Normal_lbltxt">Kao rezultat vašeg pristanka, Philips grupa kompanija može da vas kontaktira sa promotivnim ponudama (na osnovu vaših željenih postavki i ponašanja) u vezi sa Philips proizvodima, uslugama, događajima i promocijama. \nMožemo da vas kontaktiramo putem e-pošte, SMS-a i drugih digitalnih kanala, kao što su aplikacije za mobilne uređaje i društvene mreže. Da bismo mogli da prilagodimo ponude vašim željenim postavkama i ponašanju i da vam pružimo najbolji, personalizovani doživljaj, možemo da analiziramo i da kombinujemo vaše lične podatke. \n\nTo može da obuhvata:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Podatke koje nam date:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Philips objave</string>
 <string name="Philips_News_Back_btntxt">Nazad</string>
 <string name="Account_Setting_Titletxt">Postavke naloga</string>
-<string name="Create_With_lbltxt">Ili kreirajte koristeći</string>
+<string name="Create_With_lbltxt">Ili kreirajte nalog</string>
+<string name="myphilips_CC">MyPhilips nalog</string>
 </resources>

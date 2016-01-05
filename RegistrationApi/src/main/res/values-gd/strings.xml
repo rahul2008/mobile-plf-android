@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Ar aghaidh</string>
 <string name="EmptyField_ErrorMsg">Ní féidir leis an réimse seo a bheith folamh</string>
-<string name="ForgotPwdEmailResendMsg">Tá ríomhphost seolta againn chuig do sheoladh ríomhphoist chun do phasfhocal a athshocrú. D\'fhéadfadh roinnt ama a bheith i gceist sula bhfaighidh tú an ríomhphost.</string>
+<string name="ForgotPwdEmailResendMsg">Tá ríomhphost seolta againn chugat chun do phasfhocal a athshocrú. D\'fhéadfadh roinnt ama a bheith i gceist sula bhfaighidh tú é.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Athshocraigh Pasfhocal</string>
 <string name="InValid_PwdErrorMsg">Níl an pasfhocal ag réiteach leis na treoirlínte pasfhocail thíos.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Seoladh ríomhphoist neamhbhailí</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">D\'fhéadfadh roinnt ama a bheith i gceist sula bhfaighidh tú an ríomhphost</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Seiceáil do ríomhphost chun do chuntas a fhíordheimhniú.</string>
 <string name="VerifyEmail_Activated_btntxt">Tá mo chuntas gníomhachtaithe</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">An bhfuil fadhb ann?\n-  D\'fhéadfadh roinnt ama a bheith i gceist sula bhfaighidh tú an ríomhphost fíordheimhnithe\n-  Féach i d\'fhillteán turscair freisin\n- Brúigh an cnaipe\"Seol arís\" thíos mura bhfuil an ríomhphost fíordheimhnithe faighte agat</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">An bhfuil fadhb ann?\n-  D\'fhéadfadh roinnt ama a bheith i gceist sula bhfaighidh tú an ríomhphost fíordheimhnithe\n-  Féach i d\'fhillteán turscair freisin\n-  Brúigh an cnaipe\"Seol arís\" thíos mura bhfuil an ríomhphost fíordheimhnithe faighte agat</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nTá ríomhphost seolta againn chugat. D\'fhéadfadh roinnt ama a bheith i gceist sula bhfaighidh tú é.\n\nSeiceáil do ríomhphost chun do chuntas a ghníomhachtú.\n\nIs féidir leat an feidhmchlár a úsáid san idirthréimhse.</string>
 <string name="myphilips">Cuntas Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Seolfaimid ríomhphost chugat chun do phasfhocal a athshocrú.</string>
 <string name="Merge_Account_Title">Cumasc do chuntais</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">Idir 8-32 carachtar</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Litreacha i gcás uachtair &amp; íochtair</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Carachtar speisialta</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Litreacha i gcás uachtair nó íochtair</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Siombailí (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Uimhreacha</string>
 <string name="Philips_News_Description_Normal_lbltxt">Mar thoradh ar do thoiliú, d\'fhéadfadh comhlachtaí de chuid ghrúpa Philips teagmháil a dhéanamh leat - bunaithe ar do roghanna agus d\'iompar - faoi tháirgí, seirbhísí, imeachtaí agus próimisin Philips. \nD\'fhéadfaimis teagmháil a dhéanamh leat trí ríomhphost, SMS nó trí chainéil dhigiteacha eile, cosúil le feidhmchláir shoghluaiste agus meáin shóisialta. D\'fhéadfaimis anailís a dhéanamh ar do shonraí pearsanta chun na cumarsáidí a chur in oiriúint do do roghanna agus d\'iompar, agus chun an t-eispéireas pearsantaithe is fearr a thabhairt duit. \n\nD\'fhéadfadh an méid seo a leanas a bheith i gceist leis na sonraí sin:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Sonraí a thug tú dúinn:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Fógraí Philips</string>
 <string name="Philips_News_Back_btntxt">Ar ais</string>
 <string name="Account_Setting_Titletxt">Socruithe cuntais</string>
-<string name="Create_With_lbltxt">Nó cruthaigh le</string>
+<string name="Create_With_lbltxt">Nó cruthaigh cuntas</string>
+<string name="myphilips_CC">Cuntas MyPhilips</string>
 </resources>

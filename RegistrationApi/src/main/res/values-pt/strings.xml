@@ -3,7 +3,7 @@
 <resources>
 <string name="Continue_Btntxt">Continuar</string>
 <string name="EmptyField_ErrorMsg">O campo é de preenchimento obrigatório</string>
-<string name="ForgotPwdEmailResendMsg">Enviámos uma mensagem de correio electrónico para o seu endereço para poder repor a sua palavra-passe. Poderá demorar algum tempo a chegar.</string>
+<string name="ForgotPwdEmailResendMsg">Enviámos-lhe uma mensagem de correio electrónico para repor a sua palavra-passe. Poderá demorar algum tempo a chegar.</string>
 <string name="ForgotPwdEmailResendMsg_Title">Repor palavra-passe</string>
 <string name="InValid_PwdErrorMsg">A palavra-passe não segue as directivas relativas às palavras-passe apresentadas abaixo.</string>
 <string name="InvalidEmailAdddress_ErrorMsg">Endereço de correio electrónico inválido</string>
@@ -67,7 +67,7 @@
 <string name="VerifyEmail_EmailTime_lbltxt">Poderá ter de aguardar algum tempo pela mensagem de correio electrónico.</string>
 <string name="VerifyEmail_ActivateInfo_lbltxt">Verifique o seu correio electrónico para activar a sua conta.</string>
 <string name="VerifyEmail_Activated_btntxt">Activei a minha conta</string>
-<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ocorreu algum problema?\n- A mensagem de correio electrónico de verificação pode demorar algum tempo a chegar\n- Procure também na sua pasta de spam\n- Prima o botão \"Reenviar\" disponível abaixo caso não tenha recebido a mensagem de correio electrónico de verificação</string>
+<string name="VerifyEmail_ResendErrorMsg_lbltxt">Ocorreu algum problema?\n-  A mensagem de correio electrónico de verificação pode demorar algum tempo a chegar\n-  Procure também na sua pasta de spam\n-  Prima o botão \"Reenviar\" disponível abaixo caso não tenha recebido a mensagem de correio electrónico de verificação</string>
 <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nEnviámos-lhe uma mensagem de correio electrónico. Esta pode demorar algum tempo a chegar.\n\nVerifique a sua caixa de correio electrónico para activar a sua conta.\n\nEntretanto, pode a utilizar a aplicação.</string>
 <string name="myphilips">Conta Philips</string>
 <string name="facebook">Facebook</string>
@@ -108,8 +108,8 @@
 <string name="Forgot_Password_description">Enviar-lhe-emos uma mensagem de correio electrónico para repor a sua palavra passe.</string>
 <string name="Merge_Account_Title">Ligue as suas contas</string>
 <string name="Create_Account_PasswordHint_Length_lbltxt">8 a 32 caracteres</string>
-<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Letras maiúsculas e minúsculas</string>
-<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Caracter especial</string>
+<string name="Create_Account_PasswordHint_Aplhabets_lbltxt">Letras maiúsculas ou minúsculas</string>
+<string name="Create_Account_PasswordHint_SpecialCharacters_lbltxt">Símbolos (_.@$)</string>
 <string name="Create_Account_PasswordHint_Numbers_lbltxt">Números</string>
 <string name="Philips_News_Description_Normal_lbltxt">No seguimento do seu consentimento, as empresas do grupo Philips poderão contactá-lo com informações promocionais, baseadas nas suas preferências e nos seus comportamentos, relativas a produtos, serviços, eventos e promoções da Philips. \nPoderemos contactá-lo via correio electrónico, SMS e outros canais digitais, como aplicações móveis e redes sociais. Para poder adaptar as comunicações às suas preferências e ao seu comportamento e para lhe fornecer a melhor experiência personalizada, poderemos proceder à análise e combinação dos seus dados pessoais. \n\nEstes dados poderão incluir:\n</string>
 <string name="Philips_News_Description_First_Bulleted_Title_lbltxt">Dados que nos forneceu:\n</string>
@@ -125,5 +125,6 @@
 <string name="Philips_News_Title">Comunicações da Philips</string>
 <string name="Philips_News_Back_btntxt">Voltar</string>
 <string name="Account_Setting_Titletxt">Definições da conta</string>
-<string name="Create_With_lbltxt">Ou criar com</string>
+<string name="Create_With_lbltxt">Ou crie uma conta</string>
+<string name="myphilips_CC">Conta MyPhilips</string>
 </resources>
