@@ -148,12 +148,9 @@ public class QuickTestConnectionTest {
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
-        simulateStateChange(deviceListener, SHNDevice.State.Disconnected, false);
-        verify(internalHandlerMock, never()).post(any(Runnable.class));
-        simulateStateChange(deviceListener, SHNDevice.State.Disconnecting, false);
-        verify(internalHandlerMock, never()).post(any(Runnable.class));
-        simulateStateChange(deviceListener, SHNDevice.State.Connecting, false);
-        verify(internalHandlerMock, never()).post(any(Runnable.class));
+        simulateStateChange(deviceListener, SHNDevice.State.Disconnected, true);
+        simulateStateChange(deviceListener, SHNDevice.State.Disconnecting, true);
+        simulateStateChange(deviceListener, SHNDevice.State.Connecting, true);
 
         verify(deviceMock, never()).unregisterSHNDeviceListener(deviceListener);
     }

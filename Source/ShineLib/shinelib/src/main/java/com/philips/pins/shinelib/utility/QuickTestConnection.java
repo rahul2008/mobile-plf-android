@@ -31,7 +31,33 @@ public class QuickTestConnection {
         } else if (state == SHNDevice.State.Connected) {
             listener.onSuccess();
         } else {
-            registerAndConnect(device, listener);
+            registerAndConnect(device, new Listener() {
+
+                private boolean alreadyReportedResult;
+
+                private boolean shouldReportResult() {
+                    if (!alreadyReportedResult) {
+                        alreadyReportedResult = true;
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+
+                @Override
+                public void onSuccess() {
+                    if (shouldReportResult()) {
+                        listener.onSuccess();
+                    }
+                }
+
+                @Override
+                public void onFailure() {
+                    if (shouldReportResult()) {
+                        listener.onFailure();
+                    }
+                }
+            });
         }
     }
 
@@ -40,26 +66,24 @@ public class QuickTestConnection {
         deviceListener = new SHNDevice.SHNDeviceListener() {
             @Override
             public void onStateUpdated(final SHNDevice shnDevice) {
-
-                if (SHNDevice.State.Connected == shnDevice.getState()) {
-                    stop();
-
-                    internalHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
+                internalHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (SHNDevice.State.Connected == shnDevice.getState()) {
+                            stop();
                             listener.onSuccess();
                         }
-                    });
-                }
+                    }
+                });
             }
 
             @Override
             public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult result) {
-                stop();
 
                 internalHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        stop();
                         listener.onFailure();
                     }
                 });
