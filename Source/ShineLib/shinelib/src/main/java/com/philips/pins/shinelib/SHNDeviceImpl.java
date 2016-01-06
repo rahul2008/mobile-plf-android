@@ -134,14 +134,14 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void connect() {
-        shnCentral.registerBondStatusListenerForAddress(this, getAddress());
         if (internalState == InternalState.Disconnected) {
             SHNLogger.i(TAG, "connect");
             setInternalState(InternalState.Connecting);
+            shnCentral.registerBondStatusListenerForAddress(this, getAddress());
             btGatt = btDevice.connectGatt(applicationContext, false, btGattCallback);
             connectTimer.restart();
         } else {
-            SHNLogger.i(TAG, "ignoring 'connect' call; already connected");
+            SHNLogger.i(TAG, "ignoring 'connect' call; not disconnected");
         }
     }
 
@@ -284,21 +284,23 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onServicesDiscovered(BTGatt gatt, int status) {
-            assert (internalState == InternalState.ConnectedDiscoveringServices);
-
-            SHNLogger.i(TAG, "handleOnServicesDiscovered");
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
-                    SHNService shnService = getSHNService(bluetoothGattService.getUuid());
-                    SHNLogger.i(TAG, "handleOnServicesDiscovered service: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not found" : " connecting"));
-                    if (shnService != null) {
-                        shnService.connectToBLELayer(gatt, bluetoothGattService);
+            if (internalState == InternalState.ConnectedDiscoveringServices) {
+                if (status == BluetoothGatt.GATT_SUCCESS) {
+                    for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
+                        SHNService shnService = getSHNService(bluetoothGattService.getUuid());
+                        SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not found" : " connecting"));
+                        if (shnService != null) {
+                            shnService.connectToBLELayer(gatt, bluetoothGattService);
+                        }
                     }
-                }
 
-                setInternalState(InternalState.ConnectedInitializingServices);
+                    setInternalState(InternalState.ConnectedInitializingServices);
+                } else {
+                    SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
+                    disconnect();
+                }
             } else {
-                disconnect();
+                SHNLogger.w(TAG, "onServicedDiscovered: unexpected call while in state '" + internalState.toString() + "'; ignoring");
             }
         }
 
