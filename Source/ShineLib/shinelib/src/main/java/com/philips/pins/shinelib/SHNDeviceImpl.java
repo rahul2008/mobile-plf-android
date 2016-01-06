@@ -20,9 +20,7 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -33,6 +31,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     private static final String TAG_BASE = SHNDeviceImpl.class.getSimpleName();
+    private final String TAG = TAG_BASE + "@" + Integer.toHexString(hashCode());
+
     private static final long CONNECT_TIMEOUT = 10000l;
     private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000;
     private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3000;
@@ -46,7 +46,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private SHNDeviceListener shnDeviceListener;
     private InternalState internalState = InternalState.Disconnected;
     private String deviceTypeName;
-    private final String TAG = TAG_BASE + "@" + Integer.toHexString(hashCode());
+    private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
         this(btDevice, shnCentral, deviceTypeName, false);
@@ -170,12 +170,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         throw new UnsupportedOperationException("Intended for the external API");
     }
 
-    private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
-    private Set<SHNCapabilityType> registeredCapabilityTypes = new HashSet<>();
 
     @Override
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
-        return Collections.unmodifiableSet(registeredCapabilityTypes);
+        return registeredCapabilities.keySet();
     }
 
     @Override
@@ -190,31 +188,14 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
      * @param type          The type of capability the shnCapability implements.
      */
     public void registerCapability(@NonNull final SHNCapability shnCapability, @NonNull final SHNCapabilityType type) {
-        SHNCapabilityType deprecationCounterpart = getDeprecationCounterpart(type);
-        if (deprecationCounterpart != null) {
-            registerCapabilityIgnoreDeprecation(shnCapability, deprecationCounterpart);
-        }
-
-        registerCapabilityIgnoreDeprecation(shnCapability, type);
-    }
-
-    private SHNCapabilityType getDeprecationCounterpart(final @NonNull SHNCapabilityType type) {
-        if (SHNCapabilityType.isDeprecated(type)) {
-            return SHNCapabilityType.fixDeprecation(type);
-        } else {
-            return SHNCapabilityType.getDeprecated(type);
-        }
-    }
-
-    private void registerCapabilityIgnoreDeprecation(final @NonNull SHNCapability shnCapability, final @NonNull SHNCapabilityType shnCapabilityType) {
-        if (registeredCapabilities.containsKey(shnCapabilityType)) {
+        if (registeredCapabilities.containsKey(type)) {
             throw new IllegalStateException("Capability already registered");
         }
 
-        SHNCapability shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, shnCapabilityType, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
+        SHNCapability shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, type, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
 
-        registeredCapabilityTypes.add(shnCapabilityType);
-        registeredCapabilities.put(shnCapabilityType, shnCapabilityWrapper);
+        registeredCapabilities.put(type, shnCapabilityWrapper);
+        registeredCapabilities.put(SHNCapabilityType.getCounterPart(type), shnCapabilityWrapper);
     }
 
     private Map<UUID, SHNService> registeredServices = new HashMap<>();

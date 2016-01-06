@@ -97,43 +97,7 @@ public enum SHNCapabilityType {
     USER_INFORMATION_LIFE_SENSE,
     DEVICE_DIAGNOSTIC;
 
-    public static SHNCapabilityType fixDeprecation(SHNCapabilityType capabilityType) {
-        switch (capabilityType) {
-            case DataStreaming:
-                capabilityType = DATA_STREAMING;
-                break;
-            case DeviceInformation:
-                capabilityType = DEVICE_INFORMATION;
-                break;
-            case FirmwareUpdate:
-                capabilityType = FIRMWARE_UPDATE;
-                break;
-            case LogSynchronization:
-                capabilityType = LOG_SYNCHRONIZATION;
-                break;
-            case Notifications:
-                capabilityType = NOTIFICATIONS;
-                break;
-            case Sedentary:
-            case TargetHeartrateZone:
-            case Targets:
-            case UserConfiguration:
-                break;
-            case WearingPosition:
-                capabilityType = WEARING_POSITION;
-                break;
-            case Battery:
-                capabilityType = BATTERY;
-                break;
-            case UserInformationLifeSense:
-                capabilityType = USER_INFORMATION_LIFE_SENSE;
-                break;
-        }
-
-        return capabilityType;
-    }
-
-    public static SHNCapabilityType getDeprecated(SHNCapabilityType capabilityType) {
+    public static SHNCapabilityType getCounterPart(SHNCapabilityType capabilityType) {
         switch (capabilityType) {
             case DATA_STREAMING:
                 capabilityType = DataStreaming;
@@ -159,28 +123,40 @@ public enum SHNCapabilityType {
             case USER_INFORMATION_LIFE_SENSE:
                 capabilityType = UserInformationLifeSense;
                 break;
-        }
 
-        return capabilityType;
-    }
-
-    public static boolean isDeprecated(SHNCapabilityType capabilityType) {
-        switch (capabilityType) {
             case DataStreaming:
+                capabilityType = DATA_STREAMING;
+                break;
             case DeviceInformation:
+                capabilityType = DEVICE_INFORMATION;
+                break;
             case FirmwareUpdate:
+                capabilityType = FIRMWARE_UPDATE;
+                break;
             case LogSynchronization:
+                capabilityType = LOG_SYNCHRONIZATION;
+                break;
             case Notifications:
+                capabilityType = NOTIFICATIONS;
+                break;
+            case WearingPosition:
+                capabilityType = WEARING_POSITION;
+                break;
+            case Battery:
+                capabilityType = BATTERY;
+                break;
+            case UserInformationLifeSense:
+                capabilityType = USER_INFORMATION_LIFE_SENSE;
+                break;
+
             case Sedentary:
             case TargetHeartrateZone:
             case Targets:
             case UserConfiguration:
-            case WearingPosition:
-            case Battery:
-            case UserInformationLifeSense:
-                return true;
             default:
-                return false;
+                break;
         }
+
+        return capabilityType;
     }
 }
