@@ -47,8 +47,7 @@ public class QuickTestConnectionTest {
     public void setUp() {
         initMocks(this);
 
-        QuickTestConnection.setHandler(internalHandlerMock);
-        quickTestConnection = new QuickTestConnection();
+        quickTestConnection = new QuickTestConnection(internalHandlerMock);
     }
 
     @Test

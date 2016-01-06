@@ -277,6 +277,6 @@ public class SHNDeviceAssociation {
 
     @NonNull
     QuickTestConnection createQuickTestConnection() {
-        return new QuickTestConnection();
+        return new QuickTestConnection(shnCentral.getInternalHandler());
     }
 }

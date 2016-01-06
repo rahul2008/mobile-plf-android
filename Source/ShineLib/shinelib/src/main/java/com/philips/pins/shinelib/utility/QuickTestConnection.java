@@ -16,15 +16,10 @@ public class QuickTestConnection {
 
     private SHNDevice.SHNDeviceListener deviceListener;
     private SHNDevice device;
-    private static Handler tempInternalHandler;
     private final Handler internalHandler;
 
-    public static void setHandler(Handler internalHandler) {
-        tempInternalHandler = internalHandler;
-    }
-
-    public QuickTestConnection() {
-        internalHandler = tempInternalHandler;
+    public QuickTestConnection(Handler handler) {
+        internalHandler = handler;
     }
 
     public void execute(@NonNull final SHNDevice device, @NonNull final Listener listener) {
