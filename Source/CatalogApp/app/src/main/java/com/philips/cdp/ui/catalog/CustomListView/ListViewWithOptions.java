@@ -18,18 +18,6 @@ import com.philips.cdp.ui.catalog.R;
 
 import java.util.ArrayList;
 
-/**
- * <b></b> ListWithOptions is class to demonstrate the use of uikit_listview_with_options_custom_layout with an adapter </b>
- * <p/>
- * <b></b> We have 2 types Of Such Lists.One with Header and one without Header</b></br>
- * <pre>
- * ImageView image = (ImageView) vi.findViewById(R.id.image);
- * TextView name = (TextView) vi.findViewById(R.id.text1Name);
- * TextView value = (TextView) vi.findViewById(R.id.text2value);
- * TextView from = (TextView) vi.findViewById(R.id.from);
- *
- *        </pre>
- */
 public class
         ListViewWithOptions extends BaseAdapter{
 

@@ -18,22 +18,6 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.shamanland.fonticon.FontIconTextView;
 
-/**
- * <b></b> ListViewWithIcons is class to demonstrate the use of R.layout.uikit_listview_without_icons with an adapter </b>
- * <p/>
- * <b></b> We have total 6 items which can be controlled by setting visibility as VISIBLE or GONE</b></br>
- * <pre>
- *  TextView name = (TextView) vi.findViewById(R.id.ifo);
- * PuiSwitch value = (PuiSwitch) vi.findViewById(R.id.switch_button);
- * TextView number = (TextView) vi.findViewById(R.id.numberwithouticon);
- * TextView on_off = (TextView) vi.findViewById(R.id.medium);
- * FontIconTextView arrow = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
- * TextView description = (TextView) vi.findViewById(R.id.text_description_without_icons);
- *
- *        </pre>
- */
-
-
 public class ListViewWithoutIcons extends BaseAdapter {
     public Activity activity;
     Bundle saveBundle = new Bundle();

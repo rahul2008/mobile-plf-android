@@ -17,20 +17,6 @@ import android.widget.Toast;
 import com.philips.cdp.ui.catalog.CustomListView.ListViewWithOptions;
 import com.philips.cdp.ui.catalog.R;
 
-/**
- * <b></b> TabFragmentListProduct is class to demonstrate the use of List with the help of an adapter ListViewWithOptions </b>
- * <p/>
- * <p/>
- * <b></b>We also add a Header to this kind of a listView</b><br>
- * <pre>
- * LayoutInflater lf;
- * View headerView;
- * lf = getActivity().getLayoutInflater();
- * headerView = (View)lf.inflate(R.layout.uikit_listview_products_header, null, false);
- * list.addHeaderView(headerView, null, false);
- *
- * </pre>
- */
 public class TabFragmentListProduct extends Fragment {
 
     ListViewWithOptions adapter;
