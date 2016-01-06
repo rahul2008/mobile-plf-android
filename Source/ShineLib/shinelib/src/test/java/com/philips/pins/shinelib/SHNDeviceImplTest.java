@@ -228,6 +228,14 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenInStateConnectingAndDisconnectIsCalledThenTheStateBecomesDisconnected() {
+        shnDevice.connect();
+        assertEquals(SHNDeviceImpl.State.Connecting, shnDevice.getState());
+        shnDevice.disconnect();
+        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
+    }
+
+    @Test
     public void whenInStateConnectedDisconnectIsCalledThenTheStateIsChangedToDisconnecting() {
         getDeviceInDisconnectingState();
         assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
@@ -284,8 +292,16 @@ public class SHNDeviceImplTest {
 
     // Test the timeouts during connecting
     @Test
-    public void whenInStateConnectingAfterConnectigATimeoutOccursThenTheStateIsChangedToDisconnecting() {
+    public void whenInStateConnectingAfterConnectingATimeoutOccursThenTheStateIsChangedToDisconnected() {
         shnDevice.connect();
+        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+        mockedInternalHandler.executeFirstScheduledExecution();
+        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
+    }
+
+    @Test
+    public void whenInStateConnectingAndWaitingTillServicesAfterConnectingATimeoutOccursThenTheStateIsChangedToDisconnecting() {
+        connectTillGATTConnected();
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
         mockedInternalHandler.executeFirstScheduledExecution();
         assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
