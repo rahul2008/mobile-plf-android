@@ -220,7 +220,7 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateConnectingTheServiceIndicatesAVailableThenTheStateRemainsConnecting() {
+    public void whenInStateConnectingTheServiceIndicatesAvailableThenTheStateRemainsConnecting() {
         connectTillGATTServicesDiscovered();
         mockedServiceState = SHNService.State.Available;
         shnDevice.onServiceStateChanged(mockedSHNService, mockedServiceState);

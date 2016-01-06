@@ -317,11 +317,11 @@ public class SHNDeviceImplForBondingDuringConnectDeviceTest {
 
     // Test the timeouts during connecting
     @Test
-    public void whenInStateConnectingAfterConnectigATimeoutOccursThenTheStateIsChangedToDisconnecting() {
+    public void whenInStateConnectingAfterConnectigATimeoutOccursThenTheStateIsChangedToDisconnected() {
         shnDevice.connect();
         assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
         mockedInternalHandler.executeFirstScheduledExecution();
-        assertEquals(SHNDeviceImpl.State.Disconnecting, shnDevice.getState());
+        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
     }
 
     @Test
