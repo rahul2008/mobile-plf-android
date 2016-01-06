@@ -15,6 +15,49 @@ import com.philips.cdp.uikit.utils.UikitUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <b>Attributes defined for Action Bar overflow menu customization:</b>
+
+ <br>
+ <b>1)attr for menu item image : Add below line in your theme to override UIKIt style</b>
+
+ <pre><&ltitem name="popoverImageStyle">@style/YourStyle</item></pre>
+
+ Defult is the below style.
+ <br>
+ Example:
+
+ <style name="PopOverImageStyle" parent="android:Widget.ListView.DropDown">
+ <item name="android:tint">?attr/darkerColor</item>
+ </style>
+
+
+ 2) attrs for divider and colorbackground for menu list
+
+ <item name="dropDownListViewStyle">@style/PDropDownStyle</item>
+
+ <br>
+ Example:
+
+ <style name="PDropDownStyle" parent="android:Widget.ListView.DropDown">
+ <item name="android:divider">@drawable/line</item>
+ <item name="android:colorBackground">?attr/veryLightColor</item>
+ </style>
+
+
+
+ 3) attrs for menulist selector
+
+ <item name="veryLightselectoropacityfifteen">@drawable/your_selector</item>
+ <br>
+ Example: Default is below selector
+
+ <selector xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:drawable="@color/uikit_philips_very_light_blue_with_opacity_15" android:state_pressed="true"/>
+ <item android:drawable="@color/uikit_white" android:state_pressed="false"/>
+ </selector>
+ */
+
 public class PopOverMenu extends CatalogActivity {
 
     public final String[] descriptions = new String[]{
@@ -144,6 +187,11 @@ public class PopOverMenu extends CatalogActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * To show image icon in overflow menu should call UikitUtils.menuShowIcon(menu) inside onPrepareOptionsMenu()
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         UikitUtils.menuShowIcon(menu);
