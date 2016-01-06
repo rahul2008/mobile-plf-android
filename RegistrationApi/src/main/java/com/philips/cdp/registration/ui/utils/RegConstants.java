@@ -66,10 +66,6 @@ public class RegConstants {
 
     public static final String REGISTER_EMAIL = "email";
 
-    public static final String VERIFICATIN_SUCCESS = "VERIFICATIN_SUCCESS";
-
-    public static final String IS_FROM_BEGINING = "IS_FROM_BEGINING";
-
     public static final int INVALID_CREDENTIALS_ERROR_CODE = 210;
 
     public static final int INVALID_FIELDS_ERROR_CODE = 390;
@@ -107,6 +103,8 @@ public class RegConstants {
     public static final String REGISTRATION_FRAGMENT_TAG = "Registration_fragment_tag";
 
     public static final String ORIENTAION = "Orientaion";
+
+    public static final String ACCOUNT_SETTINGS = "ACCOUNT_SETTINGS";
 
     public static final String SOCIAL_MERGE_EMAIL = "social_merge_email";
 

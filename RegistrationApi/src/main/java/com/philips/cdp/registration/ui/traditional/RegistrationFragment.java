@@ -50,6 +50,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private int titleResourceID = -99;
 
+    private boolean isAccountSettings = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreate");
@@ -61,6 +63,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         Tagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
+        Bundle bunble = getArguments();
+        if(bunble!=null){
+            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS,true);
+        }
+        System.out.println("isAccountSettings"+isAccountSettings);
         super.onCreate(savedInstanceState);
     }
 
@@ -193,13 +200,30 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
-        if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext()) ) {
-            AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
-            replaceWithLogoutFragment();
-            return;
+
+        //account setting true or no
+        //if true follow bellow else cckech for sign in status and repave with wel come screen on sing els ehome
+        if(isAccountSettings){
+            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext()) ) {
+                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
+                replaceWithLogoutFragment();
+                return;
+            }
+            AppTagging.trackFirstPage(AppTaggingPages.HOME);
+            replaceWithHomeFragment();
+        }else{
+            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext()) ) {
+                AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
+                replaceWithLogoutFragment();
+               // replaceWithLogoutFragment();
+                //replace with welcome
+                replaceWithWelcomeFragment();
+                return;
+            }
+            AppTagging.trackFirstPage(AppTaggingPages.HOME);
+            replaceWithHomeFragment();
         }
-        AppTagging.trackFirstPage(AppTaggingPages.HOME);
-        replaceWithHomeFragment();
+
     }
 
     private void trackPage(String currPage) {
@@ -261,9 +285,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public void addWelcomeFragmentOnVerification() {
         navigateToHome();
         WelcomeFragment welcomeFragment = new WelcomeFragment();
-        Bundle welcomeFragmentBundle = new Bundle();
-        welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS, VERIFICATION_SUCCESS);
-        welcomeFragment.setArguments(welcomeFragmentBundle);
         replaceFragment(welcomeFragment);
     }
 
@@ -283,11 +304,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void replaceWithWelcomeFragment() {
         try {
             WelcomeFragment welcomeFragment = new WelcomeFragment();
-            Bundle welcomeFragmentBundle = new Bundle();
-            welcomeFragmentBundle
-                    .putBoolean(RegConstants.VERIFICATIN_SUCCESS, VERIFICATION_SUCCESS);
-            welcomeFragmentBundle.putBoolean(RegConstants.IS_FROM_BEGINING, true);
-            welcomeFragment.setArguments(welcomeFragmentBundle);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment);
             fragmentTransaction.commitAllowingStateLoss();
@@ -310,6 +326,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                             + e.getMessage());
         }
     }
+
+
 
     public void addAlmostDoneFragment(JSONObject preFilledRecord, String provider,
                                       String registrationToken) {

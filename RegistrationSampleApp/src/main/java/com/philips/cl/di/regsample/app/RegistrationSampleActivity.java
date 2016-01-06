@@ -33,7 +33,8 @@ import net.hockeyapp.android.CrashManagerListener;
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
         UserRegistrationListener, RefreshLoginSessionHandler, ResendCoppaEmailConsentHandler{
 
-    private Button mBtnRegistration;
+    private Button mBtnRegistrationWithAccountSettings;
+    private Button mBtnRegistrationWithOutAccountSettings;
     private Button mBtnHsdpRefreshAccessToken;
     private Button mBtnResendCoppaMail;
     private Context mContext;
@@ -48,8 +49,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
         setContentView(R.layout.activity_main);
         RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-        mBtnRegistration = (Button) findViewById(R.id.btn_registration);
-        mBtnRegistration.setOnClickListener(this);
+        mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
+        mBtnRegistrationWithAccountSettings.setOnClickListener(this);
+
+        mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
+        mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
+
         mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
         mBtnResendCoppaMail = (Button) findViewById(R.id.btn_resend_coppa_email);
@@ -114,9 +119,14 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_registration:
+            case R.id.btn_registration_with_account:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                RegistrationLaunchHelper.launchRegistrationActivity(this);
+                RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
+                break;
+
+            case R.id.btn_registration_without_account:
+                RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+                RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
             case R.id.btn_refresh_token:

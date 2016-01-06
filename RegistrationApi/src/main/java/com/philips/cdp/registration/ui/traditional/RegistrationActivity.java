@@ -24,6 +24,8 @@ import com.philips.cdp.tagging.Tagging;
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
 
+    private  boolean isAccountSettings = true;
+
     private ImageView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -48,7 +50,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            int orientation = bundle.getInt(RegConstants.ORIENTAION);
+            isAccountSettings = bundle.getBoolean(RegConstants.ACCOUNT_SETTINGS,true);
+            int orientation = bundle.getInt(RegConstants.ORIENTAION,-1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -111,9 +114,18 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     private void initUI() {
         ivBack = (ImageView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
+        launchRegistrationFragment(isAccountSettings);
+
+
+    }
+
+    private void launchRegistrationFragment(boolean isAccountSettings) {
         try {
             FragmentManager mFragmentManager = getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(RegConstants.ACCOUNT_SETTINGS,isAccountSettings);
+            registrationFragment.setArguments(bundle);
             registrationFragment.setOnUpdateTitleListener(this);
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
@@ -124,7 +136,6 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
                     "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
                             + e.getMessage());
         }
-
     }
 
 
