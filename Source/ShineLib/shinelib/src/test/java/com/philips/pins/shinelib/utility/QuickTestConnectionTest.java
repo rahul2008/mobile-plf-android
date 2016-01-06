@@ -130,6 +130,18 @@ public class QuickTestConnectionTest {
     }
 
     @Test
+    public void ShouldInformListenerOnFailure_WhenDeviceBecomesDisconnected() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+
+        verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
+        SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
+
+        simulateStateChange(deviceListener, SHNDevice.State.Disconnected, true);
+
+        verify(listenerMock).onFailure();
+    }
+
+    @Test
     public void ShouldUnregisterDeviceListener_WhenDeviceIsConnected() {
         quickTestConnection.execute(deviceMock, listenerMock);
 
@@ -148,7 +160,6 @@ public class QuickTestConnectionTest {
         verify(deviceMock).registerSHNDeviceListener(deviceListenerCaptor.capture());
         SHNDevice.SHNDeviceListener deviceListener = deviceListenerCaptor.getValue();
 
-        simulateStateChange(deviceListener, SHNDevice.State.Disconnected, true);
         simulateStateChange(deviceListener, SHNDevice.State.Disconnecting, true);
         simulateStateChange(deviceListener, SHNDevice.State.Connecting, true);
 

@@ -73,6 +73,10 @@ public class QuickTestConnection {
                             stop();
                             listener.onSuccess();
                         }
+                        else if (SHNDevice.State.Disconnected == shnDevice.getState()) {
+                            stop();
+                            listener.onFailure();
+                        }
                     }
                 });
             }
@@ -87,7 +91,6 @@ public class QuickTestConnection {
                         listener.onFailure();
                     }
                 });
-
             }
         };
 
