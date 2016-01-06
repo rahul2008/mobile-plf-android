@@ -35,25 +35,18 @@ public class QuickTestConnection {
 
                 private boolean alreadyReportedResult;
 
-                private boolean shouldReportResult() {
-                    if (!alreadyReportedResult) {
-                        alreadyReportedResult = true;
-                        return true;
-                    }
-                    else
-                        return false;
-                }
-
                 @Override
                 public void onSuccess() {
-                    if (shouldReportResult()) {
+                    if (!alreadyReportedResult) {
+                        alreadyReportedResult = true;
                         listener.onSuccess();
                     }
                 }
 
                 @Override
                 public void onFailure() {
-                    if (shouldReportResult()) {
+                    if (!alreadyReportedResult) {
+                        alreadyReportedResult = true;
                         listener.onFailure();
                     }
                 }
