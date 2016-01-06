@@ -3,6 +3,7 @@ package com.philips.pins.shinelib.capabilities;
 import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 import com.philips.pins.shinelib.utility.DeviceInformationCache;
 
@@ -45,6 +46,9 @@ public class SHNCapabilityDeviceInformationCachedTest {
 
     @Mock
     private SHNCapabilityDeviceInformation.Listener deviceInformationListenerMock;
+
+    @Mock
+    private SHNStringResultListener stringListenerMock;
 
     @Captor
     private ArgumentCaptor<SHNService.SHNServiceListener> serviceListenerCaptor;
@@ -111,6 +115,21 @@ public class SHNCapabilityDeviceInformationCachedTest {
         listener.onError(INFORMATION_TYPE, result);
 
         verify(deviceInformationListenerMock).onDeviceInformation(INFORMATION_TYPE, TEST_MESSAGE, TEST_DATE);
+    }
+
+    @Test
+    public void shouldInformListener_whenErrorIsReceived_AndHasCachedData_andUsingDeprecatedReadMethod()
+    {
+        when(cacheMock.getValue(INFORMATION_TYPE)).thenReturn(TEST_MESSAGE);
+        when(cacheMock.getDate(INFORMATION_TYPE)).thenReturn(TEST_DATE);
+
+        deviceInformationCached.readDeviceInformation(INFORMATION_TYPE, stringListenerMock);
+
+        verify(capabilityDeviceInformationMock).readDeviceInformation(eq(INFORMATION_TYPE), deviceInformationListenerCaptor.capture());
+        SHNCapabilityDeviceInformation.Listener listener = deviceInformationListenerCaptor.getValue();
+        listener.onError(INFORMATION_TYPE, SHNResult.SHNErrorBluetoothDisabled);
+
+        verify(stringListenerMock).onActionCompleted(eq(TEST_MESSAGE), eq(SHNResult.SHNOk));
     }
 
     @Test

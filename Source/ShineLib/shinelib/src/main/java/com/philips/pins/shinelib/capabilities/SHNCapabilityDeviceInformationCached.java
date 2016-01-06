@@ -43,7 +43,7 @@ public class SHNCapabilityDeviceInformationCached implements SHNCapabilityDevice
 
     @Deprecated
     public void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
-        shnServiceDeviceInformation.readDeviceInformation(shnDeviceInformationType, new Listener() {
+        readDeviceInformation(shnDeviceInformationType, new Listener() {
             @Override
             public void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired) {
                 shnStringResultListener.onActionCompleted(value, SHNResult.SHNOk);
