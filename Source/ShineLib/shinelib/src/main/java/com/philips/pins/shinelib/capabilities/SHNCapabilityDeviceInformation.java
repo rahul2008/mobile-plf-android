@@ -15,11 +15,7 @@ import java.util.Date;
 
 /**
  * Device information provides information such as described by {@link SHNDeviceInformationType}.
- * Depended on the plugin this information may be cached every time the device connects, including association.
- * <p>
- * Plugin developers can opt for a default implementation (link #SHNCapabilityDeviceInformationImpl},
- * and can decorate any implementation with {@link SHNCapabilityDeviceInformationCached} to provide caching functionality.
- * </p>
+ * This information can be queried even if the device is offline, if it has had a successful connection at least once.
  */
 public interface SHNCapabilityDeviceInformation extends SHNCapability {
 
@@ -32,8 +28,8 @@ public interface SHNCapabilityDeviceInformation extends SHNCapability {
          * The requested data has been retrieved successfully.
          *
          * @param deviceInformationType The type of information retrieved.
-         * @param value                 The value of the information, never null.
-         * @param dateWhenAcquired      The date when the value was obtained, since device information is optionally cached.
+         * @param value                 The value of the information.
+         * @param dateWhenAcquired      The date when the value was acquired.
          */
         void onDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final String value, @NonNull final Date dateWhenAcquired);
 
