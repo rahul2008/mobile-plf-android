@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
@@ -169,9 +170,23 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateDisconnectedTheCTheStateChangesToConnectingThenTheOnStateUpdatedGetsCalled() {
+    public void whenInStateDisconnectedTheTheStateChangesToConnectingThenTheOnStateUpdatedGetsCalled() {
         shnDevice.connect();
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
+    }
+
+    @Test
+    public void whenInStateConnectingTheTheStateChangesToDisconnectingThenTheOnStateUpdatedGetsCalled() {
+        shnDevice.connect();
+        shnDevice.disconnect();
+        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
+    }
+
+    @Test
+    public void whenInStateConnectingTheTheStateChangesToDisconnectedThenTheOnStateUpdatedGetsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(null, 0, BluetoothProfile.STATE_DISCONNECTED);
+        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
     }
 
     @Test

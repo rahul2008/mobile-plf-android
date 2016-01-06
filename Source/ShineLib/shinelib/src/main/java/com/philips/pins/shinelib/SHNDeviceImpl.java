@@ -83,8 +83,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             SHNLogger.i(TAG, "State changed ('" + internalState.toString() + "' -> '" + newInternalState.toString() + "')");
             State oldState = getState();
             internalState = newInternalState;
-            if (getState() != oldState) {
-                if (shnDeviceListener != null) {
+            State newState = getState();
+
+            if (shnDeviceListener != null) {
+                if (oldState == State.Connecting && newState != State.Connected) {
+                    shnDeviceListener.onFailedToConnect(this, SHNResult.SHNErrorInvalidState);
+                } else {
                     shnDeviceListener.onStateUpdated(this);
                 }
             }
@@ -169,7 +173,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         throw new UnsupportedOperationException("Intended for the external API");
     }
-
 
     @Override
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
