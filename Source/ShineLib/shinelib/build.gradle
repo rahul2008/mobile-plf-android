@@ -60,28 +60,3 @@ def getLibVersionName(shineLibVersion) {
 
     return "${shineLibVersion}"
 }
-
-task jacocoTestReport(type:JacocoReport, dependsOn: ["assemble","test"]) {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: "${buildDir}/intermediates/classes/debug",
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/*Activity.*',
-                       '**/*Fragment.*',
-                       '**/*$ViewInjector*.*',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*']
-    )
-
-    sourceDirectories = files("${buildDir.parent}/src/main/java")
-    executionData = files("${buildDir}/jacoco/testDebug.exec")
-
-    reports {
-        html.enabled = true
-        xml.enabled = false
-        csv.enabled = false
-    }
-}

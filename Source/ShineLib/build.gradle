@@ -57,3 +57,85 @@ allprojects {
     ext.artifactoryVersion = ext.shineLibVersion
     ext.artifactoryGroup = 'com.philips.cdp.shine'
 }
+
+subprojects {
+    def coverageSourceDirs = ['src/main/java']
+
+    task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+        group = "Reporting"
+
+        description = "Generate Jacoco coverage reports"
+
+        classDirectories = fileTree(dir: 'build/intermediates/classes/debug',
+                excludes: ['**/R.class',
+                           '**/R$*.class',
+                           '**/*$$ViewBinder*.*',
+                           '**/inject/*',
+                           '**/*$InjectAdapter.*',
+                           '**/BuildConfig.*',
+                           '**/Manifest*.*',
+                           '**/Dagger*.*',
+                           '**/*_Provide*Factory.*',
+                           '**/*_Member*Injector.*',
+                           '**/*_Factory.*',
+                           '**/PagerTitleStripV22*.*'])
+
+        additionalSourceDirs = files(coverageSourceDirs)
+        sourceDirectories = files(coverageSourceDirs)
+        executionData = files('build/jacoco/testDebugUnitTest.exec')
+
+        doFirst {
+            new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+                if (file.name.contains('$$')) {
+                    file.renameTo(file.path.replace('$$', '$'))
+                }
+            }
+        }
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+}
+
+def coverageSourceDirs = ['shinelib/src/main/java']
+
+def coverageExcludes = ['**/R.class',
+                        '**/R$*.class',
+                        '**/*$$ViewBinder*.*',
+                        '**/inject/*',
+                        '**/*$InjectAdapter.*',
+                        '**/BuildConfig.*',
+                        '**/Manifest*.*',
+                        '**/Dagger*.*',
+                        '**/*_Provide*Factory.*',
+                        '**/*_Member*Injector.*',
+                        '**/*_Factory.*',
+                        '**/PagerTitleStripV22*.*']
+
+def coverageClassDirectories = [fileTree(dir: 'shinelib/build/intermediates/classes/debug', excludes: coverageExcludes)]
+
+task jacocoRootReport(type: JacocoReport) {
+    dependsOn = subprojects.jacocoTestReport
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    classDirectories = files(coverageClassDirectories)
+    executionData = files(subprojects.jacocoTestReport.executionData)
+
+    reports {
+        html.enabled = true
+        xml.enabled = false
+        csv.enabled = false
+    }
+    onlyIf = {
+        true
+    }
+
+    doFirst {
+        executionData = files(executionData.findAll {
+            it.exists()
+        })
+    }
+}
