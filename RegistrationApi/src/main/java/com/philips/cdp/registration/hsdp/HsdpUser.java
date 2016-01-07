@@ -452,7 +452,6 @@ public class HsdpUser {
         try {
             SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             KeySpec ks = new PBEKeySpec(key,salt,1024,128);
-
             SecretKey s = f.generateSecret(ks);
             secretKey = s.getEncoded();
         }catch (InvalidKeySpecException e) {
