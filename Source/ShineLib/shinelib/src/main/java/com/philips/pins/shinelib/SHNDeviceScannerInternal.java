@@ -125,8 +125,10 @@ public class SHNDeviceScannerInternal implements LeScanCallbackProxy.LeScanCallb
                     }
                 }
                 if(matched) {
-                    SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(bleDeviceFoundInfo.bluetoothDevice, bleDeviceFoundInfo.rssi, bleDeviceFoundInfo.scanRecord, shnDeviceDefinitionInfo);
-                    shnDeviceScannerListener.deviceFound(null, shnDeviceFoundInfo);
+                    if (shnDeviceScannerListener != null) {
+                        SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(bleDeviceFoundInfo.bluetoothDevice, bleDeviceFoundInfo.rssi, bleDeviceFoundInfo.scanRecord, shnDeviceDefinitionInfo);
+                        shnDeviceScannerListener.deviceFound(null, shnDeviceFoundInfo);
+                    }
                     break;
                 }
             }
