@@ -9,10 +9,13 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Matchers.isNull;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -46,6 +49,18 @@ public class QuickTestConnectionTest {
     @Before
     public void setUp() {
         initMocks(this);
+
+        reset(deviceMock);
+
+        when(deviceMock.getState()).thenReturn(SHNDevice.State.Disconnected);
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                SHNDevice.SHNDeviceListener listener = (SHNDevice.SHNDeviceListener) invocation.getArguments()[0];
+                listener.onStateUpdated(deviceMock);
+                return null;
+            }
+        }).when(deviceMock).registerSHNDeviceListener(any(SHNDevice.SHNDeviceListener.class));
 
         quickTestConnection = new QuickTestConnection(internalHandlerMock);
     }

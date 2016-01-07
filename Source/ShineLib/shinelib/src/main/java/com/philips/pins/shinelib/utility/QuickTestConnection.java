@@ -57,8 +57,17 @@ public class QuickTestConnection {
     private void registerAndConnect(final @NonNull SHNDevice device, final @NonNull Listener listener) {
         this.device = device;
         deviceListener = new SHNDevice.SHNDeviceListener() {
+
+            private boolean skippedFirstStateUpdate;
+
             @Override
             public void onStateUpdated(final SHNDevice shnDevice) {
+
+                if (!skippedFirstStateUpdate) {
+                    skippedFirstStateUpdate = true;
+                    return;
+                }
+
                 internalHandler.post(new Runnable() {
                     @Override
                     public void run() {
