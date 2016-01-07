@@ -205,7 +205,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         SHNCapability shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, type, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
 
         registeredCapabilities.put(type, shnCapabilityWrapper);
-        registeredCapabilities.put(SHNCapabilityType.getCounterPart(type), shnCapabilityWrapper);
+
+        SHNCapabilityType counterPart = SHNCapabilityType.getCounterPart(type);
+        if (counterPart != null) {
+            registeredCapabilities.put(counterPart, shnCapabilityWrapper);
+        }
     }
 
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
