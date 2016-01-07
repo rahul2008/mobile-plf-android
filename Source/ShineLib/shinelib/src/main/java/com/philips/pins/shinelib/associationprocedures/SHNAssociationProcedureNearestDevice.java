@@ -106,6 +106,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
 
     @Override
     public void stop() {
+        nearestDeviceIterationTimer.stop();
     }
 
     // implements SHNAssociationProcedure
