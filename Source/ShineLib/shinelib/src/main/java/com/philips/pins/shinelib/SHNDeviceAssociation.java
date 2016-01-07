@@ -267,12 +267,15 @@ public class SHNDeviceAssociation {
 
     private void stopScanning() {
         scanStoppedIndicatesScanTimeout = false;
-        shnCentral.stopScanning();
+        shnCentral.getShnDeviceScannerInternal().stopScanning();
     }
 
     private void startScanning() {
         scanStoppedIndicatesScanTimeout = true;
-        shnCentral.startScanningForDevices(SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
+        if (!shnCentral.getShnDeviceScannerInternal().startScanning(shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, 90000l)) {
+            SHNLogger.e(TAG, "Could not start scanning (already scanning)");
+            reportFailure(SHNResult.SHNErrorInvalidState);
+        }
     }
 
     @NonNull

@@ -20,7 +20,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
@@ -71,6 +71,7 @@ public class SHNDeviceAssociationTest {
 
     @Captor
     private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
+    private SHNDeviceScannerInternal mockedSHNDeviceScannerInternal;
 
     @Before
     public void setUp() {
@@ -81,6 +82,7 @@ public class SHNDeviceAssociationTest {
         mockedSHNDeviceAssociationListener = Utility.makeThrowingMock(SHNDeviceAssociation.SHNDeviceAssociationListener.class);
         mockedSHNAssociationProcedure = Utility.makeThrowingMock(SHNAssociationProcedurePlugin.class);
         mockedSHNCentral = Utility.makeThrowingMock(SHNCentral.class);
+        mockedSHNDeviceScannerInternal = Utility.makeThrowingMock(SHNDeviceScannerInternal.class);
         mockedSHNDeviceDefinitionInfo = Utility.makeThrowingMock(SHNDeviceDefinitionInfo.class);
         mockedSHNDeviceDefinition = Utility.makeThrowingMock(SHNDeviceDefinitionInfo.SHNDeviceDefinition.class);
         mockedSHNDeviceDefinitions = Utility.makeThrowingMock(SHNDeviceDefinitions.class);
@@ -113,13 +115,16 @@ public class SHNDeviceAssociationTest {
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
-        doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
+        doReturn(mockedSHNDeviceScannerInternal).when(mockedSHNCentral).getShnDeviceScannerInternal();
         SHNServiceRegistry.getInstance().add(mockedShinePreferenceWrapper, ShinePreferenceWrapper.class);
-        doNothing().when(mockedSHNCentral).stopScanning();
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
         doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
         SHNDeviceFoundInfo.setSHNCentral(mockedSHNCentral);
+
+        // mockedSHNDeviceScanner
+        doReturn(true).when(mockedSHNDeviceScannerInternal).startScanning(isA(SHNDeviceScanner.SHNDeviceScannerListener.class), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        doNothing().when(mockedSHNDeviceScannerInternal).stopScanning();
 
         // mockedSHNAssociationProcedure
         doReturn(true).when(mockedSHNAssociationProcedure).getShouldScan();
@@ -190,7 +195,7 @@ public class SHNDeviceAssociationTest {
 
         ArgumentCaptor<SHNDeviceScanner.ScannerSettingDuplicates> duplicatesArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.ScannerSettingDuplicates.class);
         ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> scannerListenerArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        verify(mockedSHNCentral).startScanningForDevices(duplicatesArgumentCaptor.capture(), scannerListenerArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerInternal).startScanning(scannerListenerArgumentCaptor.capture(), duplicatesArgumentCaptor.capture(), anyLong());
         assertEquals(SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, duplicatesArgumentCaptor.getValue());
         assertNotNull(scannerListenerArgumentCaptor.getValue());
     }
@@ -202,7 +207,7 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
-        verify(mockedSHNCentral, never()).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
+        verify(mockedSHNDeviceScannerInternal, never()).startScanning(isA(SHNDeviceScanner.SHNDeviceScannerListener.class), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
     }
 
     @Test
@@ -261,7 +266,7 @@ public class SHNDeviceAssociationTest {
 //        reset(mockedSHNDeviceAssociationListener); // clears the doReturn functions
 
         ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> scannerListenerArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        verify(mockedSHNCentral).startScanningForDevices(any(SHNDeviceScanner.ScannerSettingDuplicates.class), scannerListenerArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerInternal).startScanning(scannerListenerArgumentCaptor.capture(), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
 
         BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("11:22:33:44:55:66").when(mockedBluetoothDevice).getAddress();

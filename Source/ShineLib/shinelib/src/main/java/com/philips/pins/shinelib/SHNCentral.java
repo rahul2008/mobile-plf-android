@@ -102,11 +102,9 @@ import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by 310188215 on 02/03/15.
@@ -114,6 +112,7 @@ import java.util.UUID;
 public class SHNCentral {
     private static final String TAG = SHNCentral.class.getSimpleName();
     private SHNUserConfigurationImpl shnUserConfigurationImpl;
+    private final SHNDeviceScanner shnDeviceScanner;
 
     public enum State {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
@@ -149,7 +148,7 @@ public class SHNCentral {
         }
     };
     private List<SHNCentralListener> registeredShnCentralListeners;
-    private SHNDeviceScanner shnDeviceScanner;
+    private SHNDeviceScannerInternal shnDeviceScannerInternal;
     private SHNDeviceAssociation shnDeviceAssociation;
     private State shnCentralState = State.SHNCentralStateNotReady;
     private BTAdapter btAdapter;
@@ -185,7 +184,8 @@ public class SHNCentral {
         setupBondStatusListener();
 
         shnDeviceDefinitions = new SHNDeviceDefinitions();
-        shnDeviceScanner = new SHNDeviceScanner(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
+        shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
+        shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, userHandler);
 
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.start();
@@ -282,8 +282,8 @@ public class SHNCentral {
     public void shutdown() {
         internalHandler.getLooper().quitSafely();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
-        shnDeviceScanner.shutdown();
-        shnDeviceScanner = null;
+        shnDeviceScannerInternal.shutdown();
+        shnDeviceScannerInternal = null;
     }
 
     public Context getApplicationContext() {
@@ -333,6 +333,10 @@ public class SHNCentral {
         return shnDeviceScanner;
     }
 
+    /* package */ SHNDeviceScannerInternal getShnDeviceScannerInternal() {
+        return shnDeviceScannerInternal;
+    }
+
     public SHNDeviceAssociation getShnDeviceAssociation() {
         if (shnDeviceAssociation == null) {
             shnDeviceAssociation = new SHNDeviceAssociation(this);
@@ -346,22 +350,6 @@ public class SHNCentral {
 
     public BTDevice getBTDevice(String address) {
         return btAdapter.getRemoteDevice(address);
-    }
-
-    @Deprecated
-    /**
-     * Use startScanningForDevices without the serviceUUIDs as the first parameter.
-     */
-    public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
-        return startScanningForDevices(scannerSettingDuplicates, shnDeviceScannerListener);
-    }
-
-    public boolean startScanningForDevices(SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
-        return shnDeviceScanner.startScanning(shnDeviceScannerListener, scannerSettingDuplicates, 90000l);
-    }
-
-    public void stopScanning() {
-        shnDeviceScanner.stopScanning();
     }
 
     private Map<String, SHNDevice> createdDevices = new HashMap<>();
