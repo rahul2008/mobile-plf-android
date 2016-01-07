@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
+import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
@@ -49,6 +50,9 @@ public class SHNDeviceImplTest {
 
     @Mock
     private Context mockedContext;
+
+    @Mock
+    private Timer timerMock;
 
     @Mock
     private BTGatt mockedBTGatt;
@@ -170,23 +174,30 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateDisconnectedTheTheStateChangesToConnectingThenTheOnStateUpdatedGetsCalled() {
+    public void whenInStateDisconnectedThenTheStateChangesToConnectingThenTheOnStateUpdatedGetsCalled() {
         shnDevice.connect();
         verify(mockedSHNDeviceListener).onStateUpdated(shnDevice);
     }
 
     @Test
-    public void whenInStateConnectingTheTheStateChangesToDisconnectingThenTheOnStateUpdatedGetsCalled() {
+    public void whenInStateConnectingThenTheStateChangesToDisconnectingThenTheOnFailedToConnectGetsCalled() {
         shnDevice.connect();
         shnDevice.disconnect();
-        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
+        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNAborted);
     }
 
     @Test
-    public void whenInStateConnectingTheTheStateChangesToDisconnectedThenTheOnStateUpdatedGetsCalled() {
+    public void whenInStateConnectingThenTheStateChangesToDisconnectedThenTheOnFailedToConnectGetsCalled() {
         shnDevice.connect();
         btGattCallback.onConnectionStateChange(null, 0, BluetoothProfile.STATE_DISCONNECTED);
         verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
+    }
+    @Test
+    public void whenInStateConnectingAfterConnectingATimeoutOccursThenTheOnFailedToConnectGetsCalled() {
+        shnDevice.connect();
+        assertEquals(1, mockedInternalHandler.getScheduledExecutionCount());
+        mockedInternalHandler.executeFirstScheduledExecution();
+        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorTimeout);
     }
 
     @Test

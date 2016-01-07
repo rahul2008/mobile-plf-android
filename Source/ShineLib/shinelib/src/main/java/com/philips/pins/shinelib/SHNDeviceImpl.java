@@ -62,6 +62,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             @Override
             public void run() {
                 SHNLogger.e(TAG, "connect timeout");
+                shnDeviceListener.onFailedToConnect(SHNDeviceImpl.this, SHNResult.SHNErrorTimeout);
                 disconnect();
             }
         }, CONNECT_TIMEOUT);
@@ -81,16 +82,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private void setInternalState(InternalState newInternalState) {
         if (internalState != newInternalState) {
             SHNLogger.i(TAG, "State changed ('" + internalState.toString() + "' -> '" + newInternalState.toString() + "')");
-            State oldState = getState();
+            State oldExternalState = getState();
             internalState = newInternalState;
-            State newState = getState();
+            State newExternalState = getState();
 
-            if (shnDeviceListener != null) {
-                if (oldState == State.Connecting && newState != State.Connected) {
-                    shnDeviceListener.onFailedToConnect(this, SHNResult.SHNErrorInvalidState);
-                } else {
-                    shnDeviceListener.onStateUpdated(this);
-                }
+            if (shnDeviceListener != null && oldExternalState != newExternalState) {
+                shnDeviceListener.onStateUpdated(this);
             }
         }
     }
@@ -154,10 +151,15 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         if (internalState != InternalState.Disconnected && internalState != InternalState.Disconnecting) {
             SHNLogger.i(TAG, "disconnect");
 
-            if (internalState == InternalState.Connecting)
+            if (getState() != State.Connected) {
+                shnDeviceListener.onFailedToConnect(this, SHNResult.SHNAborted);
+            }
+
+            if (internalState == InternalState.Connecting) {
                 setInternalState(InternalState.Disconnected);
-            else
+            } else {
                 setInternalState(InternalState.Disconnecting);
+            }
 
             connectTimer.stop();
             waitingUntilBondedTimer.stop();
@@ -257,6 +259,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 }
                 for (SHNService shnService : registeredServices.values()) {
                     shnService.disconnectFromBLELayer();
+                }
+                if (getState() == State.Connecting) {
+                    shnDeviceListener.onFailedToConnect(SHNDeviceImpl.this, SHNResult.SHNErrorInvalidState);
                 }
                 setInternalState(InternalState.Disconnected);
                 shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
