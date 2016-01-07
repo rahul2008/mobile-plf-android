@@ -358,6 +358,17 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
+    public void whenRemoveDeviceIsCalled_ThenTheDeviceIsToldToDisconnect() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
+
+        verify(shnDevice).disconnect();
+    }
+
+    @Test
     public void whenDeviceIsNotAssociatedAndRemovedIsCalled_ThenAssociationDeviceListDoesNotChange() {
         String macAddress = "11:22:33:44:55:66";
         SHNDevice shnDevice = mock(SHNDevice.class);
