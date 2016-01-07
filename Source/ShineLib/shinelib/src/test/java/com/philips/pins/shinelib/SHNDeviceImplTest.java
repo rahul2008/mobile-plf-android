@@ -180,13 +180,6 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenInStateConnectingThenTheStateChangesToDisconnectingThenTheOnFailedToConnectGetsCalled() {
-        shnDevice.connect();
-        shnDevice.disconnect();
-        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNAborted);
-    }
-
-    @Test
     public void whenInStateConnectingThenTheStateChangesToDisconnectedThenTheOnFailedToConnectGetsCalled() {
         shnDevice.connect();
         btGattCallback.onConnectionStateChange(null, 0, BluetoothProfile.STATE_DISCONNECTED);

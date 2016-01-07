@@ -151,10 +151,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         if (internalState != InternalState.Disconnected && internalState != InternalState.Disconnecting) {
             SHNLogger.i(TAG, "disconnect");
 
-            if (getState() != State.Connected) {
-                shnDeviceListener.onFailedToConnect(this, SHNResult.SHNAborted);
-            }
-
             if (internalState == InternalState.Connecting) {
                 setInternalState(InternalState.Disconnected);
             } else {
