@@ -68,6 +68,7 @@ public class PopOverMenu extends CatalogActivity {
             R.drawable.uikit_envelope, R.drawable.uikit_ballon,};
     List<RowItem> rowItems1;
     List<RowItem> rowItems2;
+    List<RowItem> rowItems3;
     private UIKitListPopupWindow listpopupwindowTopLeft;
     private UIKitListPopupWindow listpopupwindowTopRight;
     private UIKitListPopupWindow listpopupwindowLeft;
@@ -88,6 +89,7 @@ public class PopOverMenu extends CatalogActivity {
 
         rowItems1 = new ArrayList<RowItem>();
         rowItems2 = new ArrayList<RowItem>();
+        rowItems3 = new ArrayList<RowItem>();
 
         rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear_19_19) , descriptions[0]));
         rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
@@ -106,11 +108,17 @@ public class PopOverMenu extends CatalogActivity {
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
 
 
+        rowItems3.add(new RowItem(descriptions[0]));
+        rowItems3.add(new RowItem(descriptions[1]));
+        rowItems3.add(new RowItem(descriptions[2]));
+        rowItems3.add(new RowItem(descriptions[3]));
+
+
         setContentView(R.layout.activity_pop_over_menu2);
         init();
 
         listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT, rowItems1);
-        listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT, rowItems1);
+        listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT, rowItems3);
         listpopupwindowLeft = new UIKitListPopupWindow(PopOverMenu.this, left, UIKitListPopupWindow.Type.LEFT, rowItems1);
         listpopupwindowRight = new UIKitListPopupWindow(PopOverMenu.this, right, UIKitListPopupWindow.Type.RIGHT, rowItems2);
         listpopupwindowBottomLeft = new UIKitListPopupWindow(PopOverMenu.this, buttomleft, UIKitListPopupWindow.Type.BOTTOMLEFT, rowItems1);
