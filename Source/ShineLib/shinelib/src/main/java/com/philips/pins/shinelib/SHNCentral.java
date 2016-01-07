@@ -333,13 +333,9 @@ public class SHNCentral {
         return shnDeviceScanner;
     }
 
-    /* package */ SHNDeviceScannerInternal getShnDeviceScannerInternal() {
-        return shnDeviceScannerInternal;
-    }
-
     public SHNDeviceAssociation getShnDeviceAssociation() {
         if (shnDeviceAssociation == null) {
-            shnDeviceAssociation = new SHNDeviceAssociation(this);
+            shnDeviceAssociation = new SHNDeviceAssociation(this, shnDeviceScannerInternal);
         }
         return shnDeviceAssociation;
     }

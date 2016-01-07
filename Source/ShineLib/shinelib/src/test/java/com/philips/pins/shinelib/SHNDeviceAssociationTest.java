@@ -115,7 +115,6 @@ public class SHNDeviceAssociationTest {
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
-        doReturn(mockedSHNDeviceScannerInternal).when(mockedSHNCentral).getShnDeviceScannerInternal();
         SHNServiceRegistry.getInstance().add(mockedShinePreferenceWrapper, ShinePreferenceWrapper.class);
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
@@ -141,7 +140,7 @@ public class SHNDeviceAssociationTest {
         doReturn(Collections.emptyList()).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
         doNothing().when(mockedShinePreferenceWrapper).storeAssociatedDeviceInfos(anyList());
 
-        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral);
+        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal);
 
         shnDeviceAssociation.setShnDeviceAssociationListener(mockedSHNDeviceAssociationListener);
     }
@@ -433,8 +432,8 @@ public class SHNDeviceAssociationTest {
 
     private class TestSHNDeviceAssociation extends SHNDeviceAssociation {
 
-        public TestSHNDeviceAssociation(final SHNCentral shnCentral) {
-            super(shnCentral);
+        public TestSHNDeviceAssociation(final SHNCentral shnCentral, SHNDeviceScannerInternal mockedSHNDeviceScannerInternal) {
+            super(shnCentral, mockedSHNDeviceScannerInternal);
         }
 
         @NonNull

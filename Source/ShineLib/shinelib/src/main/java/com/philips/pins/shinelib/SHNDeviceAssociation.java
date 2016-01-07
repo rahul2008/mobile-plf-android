@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class SHNDeviceAssociation {
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
+    private final SHNDeviceScannerInternal shnDeviceScannerInternal;
     private List<SHNDevice> associatedDevices;
     private SHNAssociationProcedurePlugin shnAssociationProcedure;
     private String associatingWithDeviceTypeName;
@@ -117,8 +118,9 @@ public class SHNDeviceAssociation {
         }
     };
 
-    public SHNDeviceAssociation(SHNCentral shnCentral) {
+    public SHNDeviceAssociation(SHNCentral shnCentral, SHNDeviceScannerInternal shnDeviceScannerInternal) {
         this.shnCentral = shnCentral;
+        this.shnDeviceScannerInternal = shnDeviceScannerInternal;
         initAssociatedDevicesList(shnCentral);
     }
 
@@ -267,12 +269,12 @@ public class SHNDeviceAssociation {
 
     private void stopScanning() {
         scanStoppedIndicatesScanTimeout = false;
-        shnCentral.getShnDeviceScannerInternal().stopScanning();
+        shnDeviceScannerInternal.stopScanning();
     }
 
     private void startScanning() {
         scanStoppedIndicatesScanTimeout = true;
-        if (!shnCentral.getShnDeviceScannerInternal().startScanning(shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, 90000l)) {
+        if (!shnDeviceScannerInternal.startScanning(shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, 90000l)) {
             SHNLogger.e(TAG, "Could not start scanning (already scanning)");
             reportFailure(SHNResult.SHNErrorInvalidState);
         }
