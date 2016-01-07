@@ -2,6 +2,7 @@ package com.philips.cdp.registration.hsdp;
 
 import android.content.Context;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
@@ -31,9 +32,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.Map;
 
 import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -53,6 +60,11 @@ public class HsdpUser {
 
     public HsdpUser(Context context) {
         this.mContext = context;
+    }
+
+    private static byte[] secretKey;
+    static{
+        generateSecretKey();
     }
 
     public void login(final String email, final String password, final TraditionalLoginHandler loginHandler) {
@@ -289,7 +301,6 @@ public class HsdpUser {
             byte[] enctText = (byte[]) ois.readObject();
             byte[] decrtext = decrypt(enctText);
             mHsdpUserRecord = (HsdpUserRecord) stringToObject(new String(decrtext));
-
         } catch (Exception e) {
         }
         return mHsdpUserRecord;
@@ -326,13 +337,14 @@ public class HsdpUser {
 
     private byte[] encrypt(String text) {
         try {
-            Key key = (Key) new SecretKeySpec(secretKey.getBytes(), "AES");
+            Key key = (Key) new SecretKeySpec(secretKey, "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encText = cipher.doFinal(text.getBytes());
             return encText;
 
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return null;
     }
@@ -340,7 +352,7 @@ public class HsdpUser {
 
     private byte[] decrypt(byte[] encByte) {
         try {
-            Key key = (Key) new SecretKeySpec(secretKey.getBytes(), "AES");
+            Key key = (Key) new SecretKeySpec(secretKey, "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] decText = cipher.doFinal(encByte);
@@ -351,7 +363,7 @@ public class HsdpUser {
         return null;
     }
 
-    private final String secretKey = "ASecureSecretKey";
+    //private final String secretKey = "ASecureSecretKey";
 
 
     public void socialLogin(final String email, final String accessToken, final SocialLoginHandler loginHandler) {
@@ -384,6 +396,8 @@ public class HsdpUser {
                                     @Override
                                     public void run() {
                                         RLog.i(RLog.HSDP, "Social onHsdpLoginSuccess : response :" + rawResponse.toString());
+                                        HsdpUser hsdpUser = new HsdpUser(mContext);
+                                        if (hsdpUser.getHsdpUserRecord() != null)
                                         loginHandler.onLoginSuccess();
                                     }
                                 });
@@ -430,5 +444,21 @@ public class HsdpUser {
         void onFileWriteSuccess();
 
         void onFileWriteFailure();
+    }
+
+    private static void generateSecretKey(){
+        final byte[] salt = Settings.Secure.ANDROID_ID.getBytes();
+        final char[] key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
+        try {
+            SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            KeySpec ks = new PBEKeySpec(key,salt,1024,128);
+
+            SecretKey s = f.generateSecret(ks);
+            secretKey = s.getEncoded();
+        }catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        }catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
     }
 }
