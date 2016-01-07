@@ -55,13 +55,13 @@ public class OutlineButtonPressedTest extends ActivityInstrumentationTestCase2<B
         buttonsActivity.finish();
     }
 
-    public void testDBThemePressedOButtonOutlineColourAsExpected() {
-        themeUtils.setThemePreferences("blue|false|solid|0");
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
-        setTargetActivity(monitor);
-        setPressed(R.id.outlined_button, true);
-        matchPressedOutlineColor(R.id.outlined_button, "#f204b");
-    }
+//    public void testDBThemePressedOButtonOutlineColourAsExpected() {
+//        themeUtils.setThemePreferences("blue|false|solid|0");
+//        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+//        setTargetActivity(monitor);
+//        setPressed(R.id.outlined_button, true);
+//        matchPressedOutlineColor(R.id.outlined_button, "#f204b");
+//    }
 
     public void testDBThemePressedOButtonTextColourAsExpected() {
         themeUtils.setThemePreferences("blue|false|solid|0");
@@ -72,13 +72,13 @@ public class OutlineButtonPressedTest extends ActivityInstrumentationTestCase2<B
     }
 
 
-    public void testBOThemePressedOButtonOutlineColourAsExpected() {
-        themeUtils.setThemePreferences("orange|false|solid|0");
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
-        setTargetActivity(monitor);
-        setPressed(R.id.outlined_button, true);
-        matchPressedOutlineColor(R.id.outlined_button, "#983222");
-    }
+//    public void testBOThemePressedOButtonOutlineColourAsExpected() {
+//        themeUtils.setThemePreferences("orange|false|solid|0");
+//        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+//        setTargetActivity(monitor);
+//        setPressed(R.id.outlined_button, true);
+//        matchPressedOutlineColor(R.id.outlined_button, "#983222");
+//    }
 
     public void testBOThemePressedOButtonTextColourAsExpected() {
         themeUtils.setThemePreferences("orange|false|solid|0");
@@ -88,13 +88,13 @@ public class OutlineButtonPressedTest extends ActivityInstrumentationTestCase2<B
         matchPressedTextColor(R.id.outlined_button, "#983222");
     }
 
-    public void testBAThemePressedOButtonOutlineColourAsExpected() {
-        themeUtils.setThemePreferences("aqua|false|solid|0");
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
-        setTargetActivity(monitor);
-        setPressed(R.id.outlined_button, true);
-        matchPressedOutlineColor(R.id.outlined_button, "#156570");
-    }
+//    public void testBAThemePressedOButtonOutlineColourAsExpected() {
+//        themeUtils.setThemePreferences("aqua|false|solid|0");
+//        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+//        setTargetActivity(monitor);
+//        setPressed(R.id.outlined_button, true);
+//        matchPressedOutlineColor(R.id.outlined_button, "#156570");
+//    }
 
     public void testBAThemePressedOButtonTextColourAsExpected() {
         themeUtils.setThemePreferences("aqua|false|solid|0");

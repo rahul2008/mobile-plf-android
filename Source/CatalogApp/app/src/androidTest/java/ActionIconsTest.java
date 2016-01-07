@@ -15,7 +15,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -57,7 +56,7 @@ public class ActionIconsTest extends ActivityInstrumentationTestCase2<ActionButt
         onView(withId(R.id.actionIcon2)).check(matches(isDisplayed()));
     }
 
-    public void testBGColorOfActionIconDBTheme() {
+/*    public void testBGColorOfActionIconDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#03478", 20, 15)));
@@ -73,6 +72,5 @@ public class ActionIconsTest extends ActivityInstrumentationTestCase2<ActionButt
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#1e9d8b", 20, 15)));
-    }
-
+    }*/
 }
