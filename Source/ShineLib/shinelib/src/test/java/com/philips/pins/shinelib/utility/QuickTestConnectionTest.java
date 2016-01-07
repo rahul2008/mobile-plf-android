@@ -145,6 +145,13 @@ public class QuickTestConnectionTest {
     }
 
     @Test
+    public void ShouldCancelDeviceConnection_WhenToldToStop() {
+        quickTestConnection.execute(deviceMock, listenerMock);
+        quickTestConnection.stop();
+        verify(deviceMock).disconnect();
+    }
+
+    @Test
     public void ShouldInformListenerOnFailure_WhenDeviceBecomesDisconnected() {
         quickTestConnection.execute(deviceMock, listenerMock);
 

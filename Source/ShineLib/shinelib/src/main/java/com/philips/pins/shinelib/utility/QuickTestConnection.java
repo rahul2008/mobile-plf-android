@@ -103,6 +103,7 @@ public class QuickTestConnection {
     public void stop() {
         if (device != null) {
             device.unregisterSHNDeviceListener(deviceListener);
+            device.disconnect();
             device = null;
             deviceListener = null;
         }
