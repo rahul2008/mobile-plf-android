@@ -125,6 +125,7 @@ public class SHNDeviceWrapper implements SHNDevice {
         synchronized (shnDeviceListeners) {
             if (!shnDeviceListeners.contains(shnDeviceListener)) {
                 shnDeviceListeners.add(shnDeviceListener);
+                shnDeviceListener.onStateUpdated(this);
             }
         }
     }
