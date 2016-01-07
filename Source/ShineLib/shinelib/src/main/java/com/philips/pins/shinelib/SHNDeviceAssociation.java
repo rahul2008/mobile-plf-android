@@ -166,9 +166,8 @@ public class SHNDeviceAssociation {
         boolean removed = removeAssociatedDeviceFromList(shnDeviceToRemove);
         if (removed) {
             persistAssociatedDeviceList();
+            shnDeviceToRemove.disconnect();
         }
-
-        shnDeviceToRemove.disconnect();
     }
 
     private boolean removeAssociatedDeviceFromList(SHNDevice shnDeviceToRemove) {
