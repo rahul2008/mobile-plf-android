@@ -453,4 +453,18 @@ public class SHNDeviceAssociationTest {
             return quickTestConnectionMock;
         }
     }
+
+    @Test
+    public void whenADeviceForAPluginIsPersisted_ButThePluginIsNotRegistered_ThenItShouldNotListTheDevice() {
+        List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfoList = new ArrayList<>();
+        associatedDeviceInfoList.add(new ShinePreferenceWrapper.AssociatedDeviceInfo("11:22:33:44:55:66", DEVICE_TYPE_NAME));
+        associatedDeviceInfoList.add(new ShinePreferenceWrapper.AssociatedDeviceInfo("22:22:33:44:55:66", "NOT_KNOWN"));
+        associatedDeviceInfoList.add(new ShinePreferenceWrapper.AssociatedDeviceInfo("33:22:33:44:55:66", DEVICE_TYPE_NAME));
+
+        doReturn(associatedDeviceInfoList).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
+
+        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal);
+
+        assertEquals(2, shnDeviceAssociation.getAssociatedDevices().size());
+    }
 }

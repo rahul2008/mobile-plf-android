@@ -129,11 +129,21 @@ public class SHNDeviceAssociation {
                 SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class).readAssociatedDeviceInfos();
         associatedDevices = new ArrayList<>();
         for (ShinePreferenceWrapper.AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
-            SHNDevice shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(associatedDeviceInfo.macAddress,
-                    shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(associatedDeviceInfo.deviceTypeName));
-            if (shnDevice != null) {
+            SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(associatedDeviceInfo.deviceTypeName);
+
+            SHNDevice shnDevice = null;
+            if (shnDeviceDefinitionInfo != null) {
+                shnDevice = shnCentral.createSHNDeviceForAddressAndDefinition(associatedDeviceInfo.macAddress,
+                        shnDeviceDefinitionInfo);
+            }
+
+            if (shnDevice == null) {
+                SHNLogger.d(TAG, "Could not create device for mac-address: [" + associatedDeviceInfo.macAddress + "] and type: [" + associatedDeviceInfo.deviceTypeName + "]");
+            }
+            else {
                 associatedDevices.add(shnDevice);
             }
+
         }
     }
 

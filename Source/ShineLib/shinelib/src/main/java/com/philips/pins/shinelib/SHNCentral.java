@@ -90,6 +90,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
@@ -350,7 +351,7 @@ public class SHNCentral {
 
     private Map<String, SHNDevice> createdDevices = new HashMap<>();
 
-    /* package */ SHNDevice createSHNDeviceForAddressAndDefinition(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
+    /* package */ SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
         if (shnDevice == null) {
