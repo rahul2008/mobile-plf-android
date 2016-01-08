@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.customviews.PuiPopoverAlert;
+import com.philips.cdp.uikit.customviews.PopoverAlert;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.FontIconUtils;
@@ -88,7 +88,7 @@ public class ButtonsActivity extends CatalogActivity {
     private PuiSwitch changeButtonState;
     private Button themeButton, outlinedButton, transparentButton, whiteTranspararentButton;
     private Button showNotification;
-    private PuiPopoverAlert puiPopoverAlert;
+    private PopoverAlert puiPopoverAlert;
     private ProgressBar popoverProgress;
     private int progress = 0;
     private AsyncTask notificationTask;
@@ -105,7 +105,7 @@ public class ButtonsActivity extends CatalogActivity {
         transparentButton = (Button) findViewById(R.id.outlined_transparent_button);
         whiteTranspararentButton = (Button) findViewById(R.id.outlined_transparent_white_button);
 
-        puiPopoverAlert = (PuiPopoverAlert) findViewById(R.id.popover_alert);
+        puiPopoverAlert = (PopoverAlert) findViewById(R.id.popover_alert);
 
         showNotification = (Button) findViewById(R.id.show_notification);
 

@@ -12,13 +12,34 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 
+/**
+ * <b></b> ActionBarLauncher is class to demonstrate the use of Action Up Button </b>
+ * <p/>
+ * <p/>
+ * <b></b>Inorder to use Make use of this, infalte the custom Layout (uikit_action_bar.xml) to the Android default layout</b><br>
+ * <pre>
+ * ActionBar mActionBar = this.getSupportActionBar();
+ * mActionBar.setDisplayShowHomeEnabled(false);
+ * mActionBar.setDisplayShowTitleEnabled(false);
+ * ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+ * ActionBar.LayoutParams.MATCH_PARENT,
+ * ActionBar.LayoutParams.WRAP_CONTENT,
+ * Gravity.CENTER);
+ * View mCustomView = LayoutInflater.from(this).inflate(R.layout.uikit_action_bar, null); // layout which contains your button.
+ * mActionBar.setCustomView(mCustomView, params);
+ * mActionBar.setDisplayShowCustomEnabled(true);
+ * </pre>
+ */
 public class ActionBarLauncher extends CatalogActivity {
 
+    /**
+     * Get the ActionBar and inflate Custom Action Bar and also set onClickListener for the arrow Button
+     * <li>Infalte uikit_action_bar.xml to the Android default Action Bar</li>
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        // requestWindowFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        //   setContentView(R.layout.uikit_action_bar);
 
         ActionBar mActionBar = this.getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);

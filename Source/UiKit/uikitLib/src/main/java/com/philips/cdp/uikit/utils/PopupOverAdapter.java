@@ -74,12 +74,14 @@ public class PopupOverAdapter extends ArrayAdapter<RowItem> {
 
             holder.imageView.setImageResource(rowItem.getImageId());
 
-        } else {
+        } else if (rowItem.getDrawable() != null) {
 //            rowItem.getDrawable().mutate().setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP));
             //Drawable d = rowItem.getDrawable().mutate();
             //d.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP));
             holder.imageView.setImageDrawable(rowItem.getDrawable());
 
+        } else {
+            holder.imageView.setVisibility(View.GONE);
         }
 
         if (rowItem.getStringId() != 0) {

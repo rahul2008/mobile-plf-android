@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.favorites;
 
 import android.os.Bundle;
@@ -10,10 +14,6 @@ import android.widget.ListView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.FavoritesActivity;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class AllItems extends Fragment{
 
 
@@ -38,6 +38,10 @@ public class AllItems extends Fragment{
             adapter.closeConnections();
     }
 
+    /**
+     * Whenever the DataSet changes the change should be visible to the User - Hence this API
+     * @param isVisibleToUser
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -48,7 +52,7 @@ public class AllItems extends Fragment{
                 list.setAdapter(adapter);
             }
         }catch (Exception e){
-       //     e.printStackTrace();
+
         }
     }
 

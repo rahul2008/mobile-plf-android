@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -19,10 +23,35 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.R;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Provides information layout which contains progress bar and icons for close and info.<br><br>
+ * If used inside relative layout, it must be the last child.<br><br> If used in LinearLayout it must
+ * the first child.
+ *
+ * <p>
+ * <H3>Custom Attributes</H3>
+ * <b>popover_left_icon:</b> Left icon in the notification.<br>
+ * <b>popover_right_icon:</b> icon in the notification.<br>
+ * <b>popover_title_text:</b> Title to be displayed<br>
+ * </p>
+ * <p>
+ *     Example:
+ *     <pre>
+ *             &lt;com.philips.cdp.uikit.customviews.PopoverAlert
+ *                  android:id="@+id/popover_alert"
+ *                  android:layout_width="match_parent"
+ *                  android:layout_height="wrap_content"
+ *                  app:popover_left_icon="@drawable/gear"
+ *                  app:popover_right_icon="@drawable/apple"
+ *                  app:popover_title_text="Uploading settings"/&gt;
+ *     </pre>
+ * </p>
+ *     <H3>UI Appearance</H3>
+ *      <img src="../../../../../img/popover_alert.png"
+ *      alt="PopOver style." border="0" /></p>
+ *
+ *
  */
-public class PuiPopoverAlert extends RelativeLayout {
+public class PopoverAlert extends RelativeLayout {
 
     private static int viewId = 10050001;
     private Context context;
@@ -33,11 +62,11 @@ public class PuiPopoverAlert extends RelativeLayout {
     private ImageView rightIconImageView;
 
 
-    public PuiPopoverAlert(final Context context) {
+    public PopoverAlert(final Context context) {
         super(context);
     }
 
-    public PuiPopoverAlert(final Context context, final AttributeSet attrs) {
+    public PopoverAlert(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -85,10 +114,13 @@ public class PuiPopoverAlert extends RelativeLayout {
         setVisibility(View.GONE);
     }
 
-    public PuiPopoverAlert(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public PopoverAlert(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
+    /**
+     * Make the alert visible with animation as applied in uikit_popover_fadein
+     */
     public void show() {
         if (!(View.VISIBLE == getVisibility())) {
             setVisibility(View.VISIBLE);
@@ -97,6 +129,9 @@ public class PuiPopoverAlert extends RelativeLayout {
         }
     }
 
+    /**
+     * Hide alert with animation as applied in uikit_popover_fadeout
+     */
     public void dismiss() {
         if ((View.VISIBLE == getVisibility())) {
             setVisibility(View.GONE);
@@ -105,30 +140,58 @@ public class PuiPopoverAlert extends RelativeLayout {
         }
     }
 
+    /**
+     * Returns TextView holding the title.
+     * @return TextView holding the title.
+     */
     public TextView getTitleText() {
         return titleText;
     }
 
+    /**
+     * Sets the title to the string.
+     * @param titleText
+     */
     public void setTitleText(final TextView titleText) {
         this.titleText = titleText;
     }
 
+    /**
+     * Returns ImageView associated with left Icon
+     * @return ImageView associated with left Icon
+     */
     public ImageView getLeftIcon() {
         return leftIconImageView;
     }
 
+    /**
+     * Sets the left icon
+     * @param leftIcon
+     */
     public void setLeftIcon(final Drawable leftIcon) {
         this.leftIconImageView.setImageDrawable(leftIcon);
     }
 
+    /**
+     * Return the ProgressBar instance used in the alert.
+     * @return
+     */
     public ProgressBar getProgressBar() {
         return progressBar;
     }
 
+    /**
+     * Returns ImageView associated with right Icon
+     * @return ImageView associated with right Icon
+     */
     public ImageView getRightIcon() {
         return rightIconImageView;
     }
 
+    /**
+     * Sets the right icon
+     * @param rightIcon
+     */
     public void setRightIcon(final Drawable rightIcon) {
         this.rightIconImageView.setImageDrawable(rightIcon);
     }
@@ -155,7 +218,7 @@ public class PuiPopoverAlert extends RelativeLayout {
         return savedState;
     }
 
-    static class SavedState extends BaseSavedState {
+    private static class SavedState extends BaseSavedState {
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {

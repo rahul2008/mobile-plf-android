@@ -12,18 +12,27 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <br>
+ 1.To use RangeSlider in XML file  include below convention as per your required display metrics
+ <br>
+ <com.philips.cdp.uikit.customviews.RangeSlider
+ android:id="@+id/rangeslider"
+ android:layout_width="269dp"
+ android:layout_height="wrap_content"
+ android:layout_gravity="center"
+ android:layout_marginTop="10dp"
+ app:absoluteMaxValue="300"
+ app:absoluteMinValue="90" />
+ *
+ *
  */
 public class RangeSlider<T extends Number> extends RelativeLayout implements RangeSeekBar.OnRangeSeekBarChangeListener {
 
     private TextView textviewLeft;
     private TextView textviewRight;
     private RangeSeekBar baserangebar;
+    private OnRangeSliderChangeListener<T> listener;
     public RangeSlider(final Context context) {
         super(context);
     }
@@ -75,17 +84,19 @@ public class RangeSlider<T extends Number> extends RelativeLayout implements Ran
 
     @Override
     public void onRangeSeekBarValuesChanged(final RangeSeekBar bar, final Object minValue, final Object maxValue) {
+        if (listener !=null) {
+            listener.onRangeSliderValuesChanged(bar, (T) bar.getSelectedMinValue(), (T) bar.getSelectedMaxValue());
+        }
+    }
 
-
-        Locale netherland = new Locale("nl", "NL");
-        NumberFormat netherlandFormat = NumberFormat.getCurrencyInstance(netherland);
-
-        String minStr = netherlandFormat.format(minValue);
-        String maxStr = netherlandFormat.format(maxValue);
-
-        textviewLeft.setText(minStr);
-        textviewRight.setText(maxStr);
-
+    /**
+     * setText for minimum and maximum value
+     * @param minvalue string minimum value
+     * @param maxvalue string maximum value
+     */
+    public void setText(String minvalue, String maxvalue) {
+        textviewLeft.setText(minvalue);
+        textviewRight.setText(maxvalue);
     }
 
     private void init() {
@@ -99,5 +110,26 @@ public class RangeSlider<T extends Number> extends RelativeLayout implements Ran
     public void setRangeValues(Number minValue, Number maxValue) {
         baserangebar.setRangeValues(minValue, maxValue);
 
+    }
+
+    /**
+     * Registers given listener callback to notify about changed selected values.
+     *
+     * @param listener The listener to notify about changed selected values.
+     */
+    public void setOnRangeSliderChangeListener(OnRangeSliderChangeListener<T> listener) {
+        this.listener = listener;
+    }
+
+
+    /**
+     * Callback listener interface to notify about changed range values.
+     *
+     * @param <T> The Number type the RangeSeekBar has been declared with.
+     */
+
+    public interface OnRangeSliderChangeListener<T> {
+
+        void onRangeSliderValuesChanged(RangeSeekBar<?> bar, T minValue, T maxValue);
     }
 }

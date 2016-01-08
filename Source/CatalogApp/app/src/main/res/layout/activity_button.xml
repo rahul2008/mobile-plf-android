@@ -122,7 +122,7 @@
 
     </ScrollView>
 
-    <com.philips.cdp.uikit.customviews.PuiPopoverAlert
+    <com.philips.cdp.uikit.customviews.PopoverAlert
         android:id="@+id/popover_alert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

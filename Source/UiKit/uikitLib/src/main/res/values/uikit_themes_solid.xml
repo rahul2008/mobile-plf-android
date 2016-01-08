@@ -605,7 +605,7 @@
     <!-- Light Blue theme -->
     <style name="Theme.Philips.LightBlue">
         <item name="baseColor">@color/uikit_philips_light_blue</item>
-        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_blue</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_bright_blue</item>
         <item name="darkerGradient">@drawable/uikit_grad_blue_bright_to_light</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_light_to_verylight</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_light_to_verylight</item>
@@ -655,7 +655,7 @@
     <!-- Light Orange theme -->
     <style name="Theme.Philips.LightOrange">
         <item name="baseColor">@color/uikit_philips_light_orange</item>
-        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_orange</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_bright_orange</item>
         <item name="darkerGradient">@drawable/uikit_grad_orange_bright_to_light</item>
         <item name="baseGradient">@drawable/uikit_grad_orange_light_to_verylight</item>
         <item name="lighterGradient">@drawable/uikit_grad_orange_light_to_verylight</item>
@@ -708,7 +708,7 @@
     <!-- Light Aqua theme -->
     <style name="Theme.Philips.LightAqua">
         <item name="baseColor">@color/uikit_philips_light_aqua</item>
-        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_aqua</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_bright_aqua</item>
         <item name="darkerGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
         <item name="baseGradient">@drawable/uikit_grad_aqua_light_to_verylight</item>
         <item name="lighterGradient">@drawable/uikit_grad_aqua_light_to_verylight</item>
@@ -758,7 +758,7 @@
     <!-- Light Green theme -->
     <style name="Theme.Philips.LightGreen">
         <item name="baseColor">@color/uikit_philips_light_green</item>
-        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_green</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_bright_green</item>
         <item name="darkerGradient">@drawable/uikit_grad_green_bright_to_light</item>
         <item name="baseGradient">@drawable/uikit_grad_green_light_to_verylight</item>
         <item name="lighterGradient">@drawable/uikit_grad_green_light_to_verylight</item>
@@ -808,7 +808,7 @@
     <!-- Light Pink theme -->
     <style name="Theme.Philips.LightPink">
         <item name="baseColor">@color/uikit_philips_light_pink</item>
-        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_pink</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_bright_pink</item>
         <item name="darkerGradient">@drawable/uikit_grad_pink_bright_to_light</item>
         <item name="baseGradient">@drawable/uikit_grad_pink_light_to_verylight</item>
         <item name="lighterGradient">@drawable/uikit_grad_pink_light_to_verylight</item>
@@ -858,7 +858,7 @@
     <!-- Light Purple theme -->
     <style name="Theme.Philips.LightPurple">
         <item name="baseColor">@color/uikit_philips_light_purple</item>
-        <item name="verydarkBaseColor">@color/uikit_philips_very_dark_purple</item>
+        <item name="verydarkBaseColor">@color/uikit_philips_bright_purple</item>
         <item name="darkerGradient">@drawable/uikit_grad_purple_bright_to_light</item>
         <item name="baseGradient">@drawable/uikit_grad_purple_light_to_verylight</item>
         <item name="lighterGradient">@drawable/uikit_grad_purple_light_to_verylight</item>

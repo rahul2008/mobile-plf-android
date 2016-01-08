@@ -20,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="390dp"
             android:layout_above="@+id/bottom_layout"
-            android:background="?attr/baseColor"
-            android:elevation="6dp">
+            android:background="?attr/baseColor">
 
             <ImageView
                 android:id="@+id/cross"
@@ -82,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="33dp"
                 android:layout_marginRight="33dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="31dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
                 android:textColor="?attr/verydarkBaseColor"
                 android:textSize="16sp" />
@@ -94,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="33dp"
                 android:layout_marginLeft="33dp"
-                android:layout_marginTop="29dp"
+                android:layout_marginTop="27dp"
                 android:text="Link dolor elit ›"
                 android:textColor="?attr/brightColor"
                 android:textSize="16sp" />

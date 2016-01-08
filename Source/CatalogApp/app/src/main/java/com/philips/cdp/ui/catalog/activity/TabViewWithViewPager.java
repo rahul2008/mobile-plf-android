@@ -19,10 +19,10 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.utils.TabUtils;
 
 public class TabViewWithViewPager extends CatalogActivity {
-    //LinearLayout ratingBarLayout;
     ListViewWithOptions adapter;
     ListView list;
     TabLayout bottomLayout;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,18 +62,16 @@ public class TabViewWithViewPager extends CatalogActivity {
 
     private void setViewPager() {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new ListViewPagerAdapter(getSupportFragmentManager(),bottomLayout.getTabCount());
-        //   viewPager.setAdapter(new SampleFragmentPagerAdapter(getChildFragmentManager(), getActivity()));
+        final PagerAdapter adapter = new ListViewPagerAdapter(getSupportFragmentManager(), bottomLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(bottomLayout));
         viewPager.setOffscreenPageLimit(4);
-        bottomLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+        bottomLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(final TabLayout.Tab tab) {
-                            viewPager.setCurrentItem(tab.getPosition());
-
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -111,10 +109,6 @@ public class TabViewWithViewPager extends CatalogActivity {
                 " Option");
         bottomLayout.addTab(tab);
 
-    /*    tab = utils.newTab(0, 0, 0);
-        utils.setTitle(tab, "Filter \n" +
-                " Option");
-        bottomLayout.addTab(tab);*/
         bottomLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 }

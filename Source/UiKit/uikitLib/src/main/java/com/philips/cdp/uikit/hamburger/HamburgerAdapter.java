@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.hamburger;
 
 import android.app.Activity;
@@ -18,7 +22,11 @@ import com.philips.cdp.uikit.R;
 
 import java.util.ArrayList;
 
-public class PhilipsHamburgerAdapter extends BaseAdapter {
+/**
+ * <b> Hamburger adaptor is used to set view for Hamburger list
+ */
+
+public class HamburgerAdapter extends BaseAdapter {
 
     public static final int HEADER = 0;
     public static final int CHILD = 1;
@@ -32,7 +40,7 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
     private int baseColor;
     private int groupAlpha = 0;
 
-    public PhilipsHamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
+    public HamburgerAdapter(Context context, ArrayList<HamburgerItem> hamburgerItems) {
         this.context = context;
         this.hamburgerItems = hamburgerItems;
         mInflater = (LayoutInflater)
@@ -42,21 +50,40 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         groupAlpha = adjustAlpha(baseColor, 0.5f);
     }
 
-    public void setSelectedIndex(int ind) {
-        selectedIndex = ind;
+    /**
+     * API to set row as selected
+     *
+     * @param index - index of row to be selected
+     */
+    public void setSelectedIndex(int index) {
+        selectedIndex = index;
         notifyDataSetChanged();
     }
 
+    /**
+     *
+     * @return Returns the count of adapter
+     */
     @Override
     public int getCount() {
         return hamburgerItems.size();
     }
 
+    /**
+     *
+     * @param position - index of row
+     * @return - Returns Object of required index
+     */
     @Override
     public Object getItem(int position) {
         return hamburgerItems.get(position);
     }
 
+    /**
+     *
+     * @param position
+     * @return Returns id of position
+     */
     @Override
     public long getItemId(int position) {
         return position;
@@ -197,10 +224,17 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         txtTitle.setTextColor(color);
     }
 
+    /**
+     *
+     * @return Returns the badge count
+     */
     public int getCounterValue() {
         return totalCount;
     }
 
+    /**
+     * API to be called when Date set is updated
+     */
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
@@ -208,6 +242,9 @@ public class PhilipsHamburgerAdapter extends BaseAdapter {
         calculateCount();
     }
 
+    /**
+     * API to be called to calculate total badge count
+     */
     public void calculateCount() {
         for (HamburgerItem hamburgerItem : hamburgerItems) {
             totalCount += hamburgerItem.getCount();

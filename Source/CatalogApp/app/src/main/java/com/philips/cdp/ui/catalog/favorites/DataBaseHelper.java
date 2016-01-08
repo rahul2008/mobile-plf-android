@@ -1,13 +1,14 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.ui.catalog.favorites;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
