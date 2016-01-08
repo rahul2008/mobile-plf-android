@@ -5,6 +5,7 @@
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_blue</item>
         <item name="favoriteTabSelector">@drawable/uikit_tab_background_selector_dark_blue</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_dark_blue</item>
         <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
@@ -57,6 +58,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_purple_color</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_purple</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_dark_purple</item>
         <item name="springBoardDivider">@color/uikit_philips_bright_purple</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Purple</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_purple_theme</item>
@@ -101,6 +103,7 @@
         <item name="lighterGradient">@drawable/uikit_grad_green_bright_to_light</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_green</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_green</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_dark_green</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme
         </item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_green_color
@@ -152,6 +155,7 @@
         <item name="lighterGradient">@drawable/uikit_grad_orange_bright_to_light</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_orange</item>
         <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_dark_orange</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme
         </item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_orange_color
@@ -204,6 +208,7 @@
         <item name="lighterGradient">@drawable/uikit_grad_aqua_bright_to_light</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_aqua</item>
         <item name="springBoardDivider">@color/uikit_philips_bright_aqua</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_dark_aqua</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_aqua</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_aqua_color</item>
@@ -251,6 +256,7 @@
         <item name="lighterGradient">@drawable/uikit_grad_pink_bright_to_light</item>
         <item name="verydarkBaseColor">@color/uikit_philips_very_dark_pink</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_pink</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_dark_pink</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme
         </item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_pink_color
@@ -304,6 +310,7 @@
         <item name="listtextselector">@drawable/uikit_list_text_selector_orange</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_orange_color</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_orange_theme</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_bright_orange</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
         <item name="springBoardDivider">@color/uikit_philips_light_orange</item>
         <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
@@ -355,6 +362,7 @@
         <item name="lighterGradient">@drawable/uikit_grad_aqua_light_to_verylight</item>
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme</item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_aqua</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_bright_aqua</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_aqua_color</item>
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
@@ -403,6 +411,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_green</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_bright_green</item>
         <item name="listSelectorBackground">
             @drawable/uikit_background_lists_selector_bright_green_color
         </item>
@@ -457,6 +466,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_pink</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_bright_pink</item>
         <item name="listSelectorBackground">
             @drawable/uikit_background_lists_selector_bright_pink_color
         </item>
@@ -508,6 +518,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_blue</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_bright_blue</item>
         <item name="listSelectorBackground">
             @drawable/uikit_background_lists_selector_bright_blue_color
         </item>
@@ -559,6 +570,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_bright_purple</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_bright_purple</item>
         <item name="listSelectorBackground">
             @drawable/uikit_background_lists_selector_bright_purple_color
         </item>
@@ -614,6 +626,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_blue_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_blue</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_light_blue</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_blue
         </item>
         <item name="gradientColorForListSectionTitle">
@@ -665,6 +678,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_orange_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_orange</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_light_orange</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_orange
         </item>
         <item name="gradientColorForListSectionTitle">
@@ -717,6 +731,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_aqua_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_aqua</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_light_aqua</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_aqua
         </item>
         <item name="gradientColorForListSectionTitle">
@@ -767,6 +782,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_green_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_green</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_light_green</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_green
         </item>
         <item name="gradientColorForListSectionTitle">
@@ -817,6 +833,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_pink_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_pink</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_light_pink</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_pink
         </item>
         <item name="gradientColorForListSectionTitle">
@@ -868,6 +885,7 @@
         <item name="gradientColorForListHeader">@drawable/uikit_list_header_gradiant_purple_theme
         </item>
         <item name="listtextselector">@drawable/uikit_list_text_selector_light_purple</item>
+        <item name="favoriteTabTextSelector">@drawable/uikit_tab_text_background_selector_light_purple</item>
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_light_purple
         </item>
         <item name="gradientColorForListSectionTitle">
