@@ -183,4 +183,9 @@
         <attr name="uikittransparentprogress" format="boolean" />
         <attr name="uikitcircularprogresssmall" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="Controls">
+        <attr name="controlCount" format="integer"/>
+        <attr name="controlStyleRef" format="reference"/>
+    </declare-styleable>
 </resources>

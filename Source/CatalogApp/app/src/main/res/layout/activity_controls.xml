@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.philips.cdp.uikit.customviews.MultiStateControls
+        android:id="@+id/controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:entries="@array/controls_array" />
+
+    <com.philips.cdp.uikit.customviews.MultiStateControls
+        android:id="@+id/controls1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/controls"
+        android:entries="@array/controls_array" />
+
+</RelativeLayout>

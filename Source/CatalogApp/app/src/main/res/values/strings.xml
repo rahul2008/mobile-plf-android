@@ -54,6 +54,13 @@
         <item>@drawable/uikit_gear</item>
     </array>
 
+    <string-array name="controls_array">
+        <item>Mer</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+
 
     <string name="title_activity_social_icons">SocialIconsActivity</string>
     <string name="title_activity_list_view_without_icons">ListViewWithoutIcons</string>
@@ -65,4 +72,5 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_cards_spike">CardsSpike</string>
+    <string name="title_activity_controls">ControlsActivity</string>
 </resources>

@@ -178,4 +178,12 @@
     <style name="PopOverImageStyle" parent="android:Widget.ListView.DropDown">
         <item name="android:tint">?attr/darkerColor</item>
     </style>
+
+    <style name="WhiteBoldText" parent="@android:style/Widget">
+        <item name="android:textColor">@color/uikit_white</item>
+    </style>
+
+    <style name="PrimaryNormalText" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">?attr/baseColor</item>
+    </style>
 </resources>
