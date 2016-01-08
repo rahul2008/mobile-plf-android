@@ -2,11 +2,9 @@ package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v7.widget.AppCompatButton;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +20,17 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class MultiStateControls extends ToggleButton {
+public class MultiStateControls extends LinearLayout {
 
     private static final String TAG = MultiStateControls.class.getSimpleName();
-
-    private static final String KEY_BUTTON_STATES = "button_states";
-    private static final String KEY_INSTANCE_STATE = "instance_state";
-
-    List<View> buttons;
-    boolean mMultipleChoice = false;
-    private LinearLayout mainLayout;
+    private List<View> buttons;
+    private boolean isMultipleChoice = false;
+    private LinearLayout parentLayout;
+    private OnButtonStateChangeListener listener;
+    private Context context;
+    private int baseColor;
+    private GradientDrawable unSelectedDrawable;
+    private int whiteColor;
 
     public MultiStateControls(Context context) {
         super(context, null);
@@ -42,17 +41,20 @@ public class MultiStateControls extends ToggleButton {
 
     public MultiStateControls(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = getContext();
         if (this.isInEditMode()) {
             return;
         }
-        int[] set = {
-                android.R.attr.entries
-        };
-        TypedArray a = context.obtainStyledAttributes(attrs, set);
-        CharSequence[] texts = a.getTextArray(0);
+        init();
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.Controls, 0,
+                R.style.Controls_Style);
+        CharSequence[] texts = a.getTextArray(R.styleable.Controls_controlEntries);
+        int count = a.getInt(R.styleable.Controls_controlCount, 1);
+        boolean isSelected = a.getBoolean(R.styleable.Controls_controlSelected, false);
         a.recycle();
 
-        setElements(texts, null, new boolean[texts.length]);
+        drawControls(texts, isSelected, count);
     }
 
     /**
@@ -60,22 +62,14 @@ public class MultiStateControls extends ToggleButton {
      * initial values. Initial states are allowed, but both
      * arrays must be of the same size.
      *
-     * @param texts            An array of CharSequences for the buttons
-     * @param imageResourceIds an optional icon to show, either text, icon or both needs to be set.
-     * @param selected         The default value for the buttons
+     * @param texts    An array of CharSequences for the buttons
+     * @param enableDefaultSelection The default value for the buttons
      */
-    public void setElements(CharSequence[] texts, int[] imageResourceIds, boolean[] selected) {
+    public void drawControls(CharSequence[] texts, boolean enableDefaultSelection, int count) {
         final int textCount = texts != null ? texts.length : 0;
-        final int iconCount = imageResourceIds != null ? imageResourceIds.length : 0;
-        final int elementCount = Math.max(textCount, iconCount);
+        final int elementCount = Math.max(textCount, count);
         if (elementCount == 0) {
-            throw new IllegalArgumentException("neither texts nor images are setup");
-        }
-
-        boolean enableDefaultSelection = true;
-        if (selected == null || elementCount != selected.length) {
-            Log.d(TAG, "Invalid selection array");
-            enableDefaultSelection = false;
+            throw new IllegalArgumentException("neither texts nor count are setup");
         }
 
         setOrientation(LinearLayout.HORIZONTAL);
@@ -83,19 +77,16 @@ public class MultiStateControls extends ToggleButton {
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (mainLayout == null) {
-            mainLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
+        if (parentLayout == null) {
+            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
         }
-        mainLayout.removeAllViews();
+        parentLayout.removeAllViews();
 
         this.buttons = new ArrayList<>();
         for (int i = 0; i < elementCount; i++) {
             Button button;
-            button = (Button) inflater.inflate(R.layout.uikit_toggle_button, mainLayout, false);
+            button = (Button) inflater.inflate(R.layout.uikit_toggle_button, parentLayout, false);
             button.setText(texts != null ? texts[i] : "");
-            if (imageResourceIds != null && imageResourceIds[i] != 0) {
-                button.setCompoundDrawablesWithIntrinsicBounds(imageResourceIds[i], 0, 0, 0);
-            }
             final int position = i;
             button.setOnClickListener(new View.OnClickListener() {
 
@@ -105,32 +96,39 @@ public class MultiStateControls extends ToggleButton {
                 }
 
             });
-            mainLayout.addView(button);
-            if (enableDefaultSelection) {
-                setButtonState(button, selected[i]);
-            }
+            parentLayout.addView(button);
+            setButtonState(button, enableDefaultSelection);
             this.buttons.add(button);
         }
+    }
+
+    private void setUnSelectedState() {
+        unSelectedDrawable = new GradientDrawable();
+        unSelectedDrawable.setStroke(2, baseColor);
+        unSelectedDrawable.setColor(Color.WHITE);
+
     }
 
     public void setButtonState(View button, boolean selected) {
         if (button == null) {
             return;
         }
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.controlCount});
-        int baseColor = typedArray.getColor(0, -1);
-        int whiteColor = context.getResources().getColor(R.color.uikit_white);
-        typedArray.recycle();
         button.setSelected(selected);
         if (selected) {
             button.setBackgroundColor(baseColor);
         } else {
-            button.setBackgroundColor(whiteColor);
+            button.setBackgroundDrawable(unSelectedDrawable);
         }
-        if (button instanceof Button) {
-            int style = selected ? R.style.WhiteBoldText : R.style.PrimaryNormalText;
-            ((AppCompatButton) button).setTextAppearance(this.getContext(), style);
-        }
+        int style = selected ? R.style.WhiteText : R.style.baseText;
+        ((Button) button).setTextAppearance(this.context, style);
+    }
+
+    private void init() {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        baseColor = typedArray.getColor(0, -1);
+        whiteColor = context.getResources().getColor(R.color.uikit_white);
+        typedArray.recycle();
+        setUnSelectedState();
     }
 
     public int getValue() {
@@ -144,7 +142,7 @@ public class MultiStateControls extends ToggleButton {
 
     public void setValue(int position) {
         for (int i = 0; i < this.buttons.size(); i++) {
-            if (mMultipleChoice) {
+            if (isMultipleChoice) {
                 if (i == position) {
                     View b = buttons.get(i);
                     if (b != null) {
@@ -154,12 +152,16 @@ public class MultiStateControls extends ToggleButton {
             } else {
                 if (i == position) {
                     setButtonState(buttons.get(i), true);
-                } else if (!mMultipleChoice) {
+                } else if (!isMultipleChoice) {
                     setButtonState(buttons.get(i), false);
                 }
             }
         }
-        super.setValue(position);
+        setListenerValue(position);
+    }
+
+    public List<View> getButtons() {
+        return buttons;
     }
 
     public boolean[] getStates() {
@@ -177,8 +179,8 @@ public class MultiStateControls extends ToggleButton {
             return;
         }
         int count = 0;
-        for (View b : this.buttons) {
-            setButtonState(b, selected[count]);
+        for (View view : this.buttons) {
+            setButtonState(view, selected[count]);
             count++;
         }
     }
@@ -190,25 +192,67 @@ public class MultiStateControls extends ToggleButton {
      * @param enable
      */
     public void enableMultipleChoice(boolean enable) {
-        this.mMultipleChoice = enable;
+        this.isMultipleChoice = enable;
     }
 
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(KEY_INSTANCE_STATE, super.onSaveInstanceState());
-        bundle.putBooleanArray(KEY_BUTTON_STATES, getStates());
-        return bundle;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof Bundle) {
-            Bundle bundle = (Bundle) state;
-            setStates(bundle.getBooleanArray(KEY_BUTTON_STATES));
-            state = bundle.getParcelable(KEY_INSTANCE_STATE);
+    /**
+     * Set multiple buttons with the specified texts and default
+     * initial values. Initial states are allowed, but both
+     * arrays must be of the same size.
+     *
+     * @param buttons the array of button views to use
+     */
+    public void setUserDefinedButtons(View[] buttons) {
+        final int elementCount = buttons.length;
+        if (elementCount == 0) {
+            throw new IllegalArgumentException("neither texts nor images are setup");
         }
-        super.onRestoreInstanceState(state);
+
+        boolean defaultSelection = false;
+
+        setOrientation(LinearLayout.HORIZONTAL);
+        setGravity(Gravity.CENTER_VERTICAL);
+
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (parentLayout == null) {
+            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
+        }
+        parentLayout.removeAllViews();
+
+        this.buttons = new ArrayList<>();
+        for (int i = 0; i < elementCount; i++) {
+            View b = buttons[i];
+            final int position = i;
+            b.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    setValue(position);
+                }
+
+            });
+            parentLayout.addView(b);
+            if (defaultSelection) {
+                setButtonState(b, defaultSelection);
+            }
+            this.buttons.add(b);
+        }
     }
+
+    public void setListenerValue(int value) {
+        if (this.listener != null) {
+            listener.onButtonStateChanged(value);
+        }
+    }
+
+    public void setOnButtonStateChangedListener(OnButtonStateChangeListener onButtonStateChangeListener) {
+        this.listener = onButtonStateChangeListener;
+    }
+
+    public interface OnButtonStateChangeListener {
+        void onButtonStateChanged(int value);
+    }
+
 
 }

@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.MultiStateControls;
-import com.philips.cdp.uikit.customviews.ToggleButton;
 
 public class ControlsActivity extends AppCompatActivity {
 
@@ -15,11 +14,11 @@ public class ControlsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controls);
 
-        MultiStateControls mstb = (MultiStateControls) this.findViewById(R.id.controls);
-        mstb.enableMultipleChoice(true);
-        mstb.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
+        MultiStateControls controls = (MultiStateControls) this.findViewById(R.id.controls);
+        controls.enableMultipleChoice(true);
+        controls.setOnButtonStateChangedListener(new MultiStateControls.OnButtonStateChangeListener() {
             @Override
-            public void onValueChanged(int position) {
+            public void onButtonStateChanged(int position) {
                 Log.d(getClass() + "", "Position: " + position);
             }
         });

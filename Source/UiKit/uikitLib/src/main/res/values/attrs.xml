@@ -185,7 +185,9 @@
     </declare-styleable>
 
     <declare-styleable name="Controls">
-        <attr name="controlCount" format="integer"/>
-        <attr name="controlStyleRef" format="reference"/>
+        <attr name="controlEntries" format="reference" />
+        <attr name="controlCount" format="integer" />
+        <attr name="controlSelected" format="boolean" />
     </declare-styleable>
+
 </resources>

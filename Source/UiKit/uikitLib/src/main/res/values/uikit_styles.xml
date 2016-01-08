@@ -179,11 +179,16 @@
         <item name="android:tint">?attr/darkerColor</item>
     </style>
 
-    <style name="WhiteBoldText" parent="@android:style/Widget">
+    <style name="WhiteText" parent="@android:style/Widget">
         <item name="android:textColor">@color/uikit_white</item>
     </style>
 
-    <style name="PrimaryNormalText" parent="@android:style/Widget.TextView">
+    <style name="baseText" parent="@android:style/Widget.TextView">
         <item name="android:textColor">?attr/baseColor</item>
+    </style>
+
+    <style name="Controls_Style">
+        <item name="controlSelected">false</item>
+        <item name="controlCount">1</item>
     </style>
 </resources>
