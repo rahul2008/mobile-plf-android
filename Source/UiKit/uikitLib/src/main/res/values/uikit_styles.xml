@@ -54,6 +54,7 @@
         <item name="tabIndicatorColor">@null</item>
         <item name="android:background">?attr/tabBarGradient</item>
         <item name="tabGravity">center</item>
+        <item name="tabBackground">@drawable/uikit_tab_selector_textonly</item>
         <item name="tabMode">scrollable</item>
         <item name="tabPaddingStart">0dp</item>
         <item name="tabPaddingEnd">0dp</item>
@@ -85,6 +86,7 @@
 
     <style name="PTablayout.Image" parent="@style/PTablayout">
         <item name="android:layout_height">@dimen/uikit_tab_layout_height_with_image</item>
+        <item name="tabBackground">@drawable/uikit_tab_selector</item>
     </style>
 
 
