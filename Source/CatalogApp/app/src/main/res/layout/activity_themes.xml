@@ -80,6 +80,7 @@
 
             <RadioButton
                 android:id="@+id/solid"
+                style="@style/Base.TextAppearance.AppCompat.Light.Widget."
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/solid"/>
