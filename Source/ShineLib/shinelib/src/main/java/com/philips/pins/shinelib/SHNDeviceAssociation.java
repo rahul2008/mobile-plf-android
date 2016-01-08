@@ -139,8 +139,7 @@ public class SHNDeviceAssociation {
 
             if (shnDevice == null) {
                 SHNLogger.d(TAG, "Could not create device for mac-address: [" + associatedDeviceInfo.macAddress + "] and type: [" + associatedDeviceInfo.deviceTypeName + "]");
-            }
-            else {
+            } else {
                 associatedDevices.add(shnDevice);
             }
 
