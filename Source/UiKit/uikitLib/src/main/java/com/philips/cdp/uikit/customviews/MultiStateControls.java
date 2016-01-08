@@ -109,6 +109,8 @@ public class MultiStateControls extends LinearLayout {
 
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to setBackgroundColor sticking with deprecated API for now
     public void setButtonState(View button, boolean selected) {
         if (button == null) {
             return;
@@ -123,6 +125,8 @@ public class MultiStateControls extends LinearLayout {
         ((Button) button).setTextAppearance(this.context, style);
     }
 
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to getColor sticking with deprecated API for now
     private void init() {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
         baseColor = typedArray.getColor(0, -1);
