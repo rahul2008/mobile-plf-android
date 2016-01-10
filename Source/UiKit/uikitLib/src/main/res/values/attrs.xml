@@ -188,6 +188,7 @@
         <attr name="controlEntries" format="reference" />
         <attr name="controlCount" format="integer" />
         <attr name="controlSelected" format="boolean" />
+        <attr name="controlMultiChoice" format="boolean" />
     </declare-styleable>
 
 </resources>

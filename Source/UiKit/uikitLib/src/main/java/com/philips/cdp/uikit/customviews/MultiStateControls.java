@@ -9,9 +9,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,11 @@ import java.util.List;
 public class MultiStateControls extends LinearLayout {
 
     private static final String TAG = MultiStateControls.class.getSimpleName();
+    private boolean isSelected;
+    private CharSequence[] texts;
+    private int count;
     private List<View> buttons;
+    private List<View> dividers;
     private boolean isMultipleChoice = false;
     private LinearLayout parentLayout;
     private OnButtonStateChangeListener listener;
@@ -49,9 +56,10 @@ public class MultiStateControls extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.Controls, 0,
                 R.style.Controls_Style);
-        CharSequence[] texts = a.getTextArray(R.styleable.Controls_controlEntries);
-        int count = a.getInt(R.styleable.Controls_controlCount, 1);
-        boolean isSelected = a.getBoolean(R.styleable.Controls_controlSelected, false);
+        texts = a.getTextArray(R.styleable.Controls_controlEntries);
+        count = a.getInt(R.styleable.Controls_controlCount, 0);
+        isSelected = a.getBoolean(R.styleable.Controls_controlSelected, false);
+        isMultipleChoice = a.getBoolean(R.styleable.Controls_controlMultiChoice, false);
         a.recycle();
 
         drawControls(texts, isSelected, count);
@@ -62,12 +70,68 @@ public class MultiStateControls extends LinearLayout {
      * initial values. Initial states are allowed, but both
      * arrays must be of the same size.
      *
-     * @param texts    An array of CharSequences for the buttons
+     * @param texts                  An array of CharSequences for the buttons
      * @param enableDefaultSelection The default value for the buttons
      */
     public void drawControls(CharSequence[] texts, boolean enableDefaultSelection, int count) {
         final int textCount = texts != null ? texts.length : 0;
         final int elementCount = Math.max(textCount, count);
+        if (elementCount == 0) {
+            throw new IllegalArgumentException("Count not set up");
+        }
+
+        setOrientation(LinearLayout.HORIZONTAL);
+        setGravity(Gravity.CENTER_VERTICAL);
+
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (parentLayout == null) {
+            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
+        }
+        parentLayout.removeAllViews();
+
+        this.buttons = new ArrayList<>();
+        this.dividers = new ArrayList<>();
+        for (int i = 0; i < elementCount; i++) {
+            Button button;
+            View view, divider;
+            view = inflater.inflate(R.layout.uikit_toggle_button, null, false);
+            button = (Button) view.findViewById(R.id.control_button);
+            divider = view.findViewById(R.id.divider);
+            divider.setBackgroundColor(adjustAlpha(baseColor, 0.3f));
+            button.setText(texts != null ? texts[i] : "");
+            if (isMultipleChoice && i != elementCount - 1) {
+                divider.setVisibility(View.VISIBLE);
+            }
+            final int position = i;
+            button.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    setValue(position);
+                }
+
+            });
+            parentLayout.addView(view);
+            if (position == 0)
+                setButtonState(button, true);
+            else
+                setButtonState(button, enableDefaultSelection);
+            this.buttons.add(button);
+            this.dividers.add(divider);
+        }
+    }
+
+    /**
+     * Set multiple buttons with the specified texts and default
+     * initial values. Initial states are allowed, but both
+     * arrays must be of the same size.
+     *
+     * @param resIds                 An array of Image Resource Id's for the buttons
+     * @param enableDefaultSelection The default value for the buttons
+     */
+    public void drawControlsWithImageBackground(int[] resIds, boolean enableDefaultSelection) {
+        final int elementCount = resIds != null ? resIds.length : 0;
         if (elementCount == 0) {
             throw new IllegalArgumentException("neither texts nor count are setup");
         }
@@ -83,10 +147,19 @@ public class MultiStateControls extends LinearLayout {
         parentLayout.removeAllViews();
 
         this.buttons = new ArrayList<>();
+        this.dividers = new ArrayList<>();
         for (int i = 0; i < elementCount; i++) {
-            Button button;
-            button = (Button) inflater.inflate(R.layout.uikit_toggle_button, parentLayout, false);
-            button.setText(texts != null ? texts[i] : "");
+            ImageButton button;
+            View view, divider;
+            view = inflater.inflate(R.layout.uikit_toggle_image_button, null, false);
+            button = (ImageButton) view.findViewById(R.id.control_button);
+            button.setScaleType(ImageView.ScaleType.CENTER);
+            divider = view.findViewById(R.id.divider);
+            divider.setBackgroundColor(adjustAlpha(baseColor, 0.3f));
+            button.setImageDrawable(VectorDrawable.create(context, resIds[i]));
+            if (isMultipleChoice && i != elementCount - 1) {
+                divider.setVisibility(View.VISIBLE);
+            }
             final int position = i;
             button.setOnClickListener(new View.OnClickListener() {
 
@@ -96,17 +169,44 @@ public class MultiStateControls extends LinearLayout {
                 }
 
             });
-            parentLayout.addView(button);
-            setButtonState(button, enableDefaultSelection);
+            parentLayout.addView(view);
+            if (position == 0)
+                setButtonState(button, true);
+            else
+                setButtonState(button, enableDefaultSelection);
             this.buttons.add(button);
+            this.dividers.add(divider);
         }
+    }
+
+    private void validateButtonState() {
+        if (isMultipleChoice) {
+            int size = buttons.size();
+            for (int i = 0; i < size; i++) {
+                Button button = (Button) buttons.get(i);
+                if (i == 0 && button.isSelected() && size > 1 && buttons.get(i + 1).isSelected()) {
+                    dividers.get(i).setVisibility(VISIBLE);
+                } else if (i != 0 && button.isSelected() && i != (size - 1) && (size - 1) > i && buttons.get(i + 1).isSelected()) {
+                    dividers.get(i).setVisibility(VISIBLE);
+                } else {
+                    dividers.get(i).setVisibility(GONE);
+                }
+            }
+        }
+    }
+
+    private int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
 
     private void setUnSelectedState() {
         unSelectedDrawable = new GradientDrawable();
         unSelectedDrawable.setStroke(2, baseColor);
         unSelectedDrawable.setColor(Color.WHITE);
-
     }
 
     @SuppressWarnings("deprecation")
@@ -122,7 +222,8 @@ public class MultiStateControls extends LinearLayout {
             button.setBackgroundDrawable(unSelectedDrawable);
         }
         int style = selected ? R.style.WhiteText : R.style.baseText;
-        ((Button) button).setTextAppearance(this.context, style);
+        if (button instanceof Button)
+            ((Button) button).setTextAppearance(this.context, style);
     }
 
     @SuppressWarnings("deprecation")
@@ -161,6 +262,7 @@ public class MultiStateControls extends LinearLayout {
                 }
             }
         }
+        validateButtonState();
         setListenerValue(position);
     }
 
@@ -189,6 +291,11 @@ public class MultiStateControls extends LinearLayout {
         }
     }
 
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+        notifyDataSetChanged();
+    }
+
     /**
      * If multiple choice is enabled, the user can select multiple
      * values simultaneously.
@@ -197,57 +304,28 @@ public class MultiStateControls extends LinearLayout {
      */
     public void enableMultipleChoice(boolean enable) {
         this.isMultipleChoice = enable;
+        notifyDataSetChanged();
     }
 
-    /**
-     * Set multiple buttons with the specified texts and default
-     * initial values. Initial states are allowed, but both
-     * arrays must be of the same size.
-     *
-     * @param buttons the array of button views to use
-     */
-    public void setUserDefinedButtons(View[] buttons) {
-        final int elementCount = buttons.length;
-        if (elementCount == 0) {
-            throw new IllegalArgumentException("neither texts nor images are setup");
-        }
+    public void setTexts(CharSequence[] texts) {
+        this.texts = texts;
+        notifyDataSetChanged();
+    }
 
-        boolean defaultSelection = false;
-
-        setOrientation(LinearLayout.HORIZONTAL);
-        setGravity(Gravity.CENTER_VERTICAL);
-
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (parentLayout == null) {
-            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
-        }
-        parentLayout.removeAllViews();
-
-        this.buttons = new ArrayList<>();
-        for (int i = 0; i < elementCount; i++) {
-            View b = buttons[i];
-            final int position = i;
-            b.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    setValue(position);
-                }
-
-            });
-            parentLayout.addView(b);
-            if (defaultSelection) {
-                setButtonState(b, defaultSelection);
-            }
-            this.buttons.add(b);
-        }
+    private void notifyDataSetChanged() {
+        this.removeAllViews();
+        drawControls(texts, isSelected, count);
     }
 
     public void setListenerValue(int value) {
         if (this.listener != null) {
             listener.onButtonStateChanged(value);
         }
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+        notifyDataSetChanged();
     }
 
     public void setOnButtonStateChangedListener(OnButtonStateChangeListener onButtonStateChangeListener) {
@@ -257,6 +335,5 @@ public class MultiStateControls extends LinearLayout {
     public interface OnButtonStateChangeListener {
         void onButtonStateChanged(int value);
     }
-
 
 }

@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         app:controlEntries="@array/controls_array"
+        app:controlMultiChoice="true"
         app:controlSelected="true"/>
 
     <com.philips.cdp.uikit.customviews.MultiStateControls
@@ -16,6 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/controls"
-        android:entries="@array/controls_array" />
+        app:controlEntries="@array/controls_array" />
 
 </RelativeLayout>
