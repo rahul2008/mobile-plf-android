@@ -23,7 +23,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class MultiStateControls extends LinearLayout {
+public class StateControls extends LinearLayout {
 
     private float buttonWidth, buttonHeight;
     private boolean isSelected;
@@ -38,14 +38,14 @@ public class MultiStateControls extends LinearLayout {
     private int baseColor;
     private GradientDrawable unSelectedDrawable;
 
-    public MultiStateControls(Context context) {
+    public StateControls(Context context) {
         super(context, null);
         if (this.isInEditMode()) {
             return;
         }
     }
 
-    public MultiStateControls(Context context, AttributeSet attrs) {
+    public StateControls(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = getContext();
         if (this.isInEditMode()) {
