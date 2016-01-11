@@ -15,6 +15,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -56,21 +57,21 @@ public class ActionIconsTest extends ActivityInstrumentationTestCase2<ActionButt
         onView(withId(R.id.actionIcon2)).check(matches(isDisplayed()));
     }
 
-/*    public void testBGColorOfActionIconDBTheme() {
+    public void testBGColorOfActionIconDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
-        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#03478", 20, 15)));
+        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#03478", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_icon_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
     public void testBGColorOfActionIconBOTheme() {
         themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
-        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#e9830", 20, 15)));
+        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#e9830", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_icon_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
     public void testBGColorOfActionIconBATheme() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
-        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#1e9d8b", 20, 15)));
-    }*/
+        onView(withId(R.id.actionIcon1)).check(matches(isBackgroundColorSimilar("#1e9d8b", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_icon_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+    }
 }
