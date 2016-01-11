@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class MultiStateControls extends LinearLayout {
 
-    private static final String TAG = MultiStateControls.class.getSimpleName();
     private float buttonWidth, buttonHeight;
     private boolean isSelected;
     private CharSequence[] texts;
@@ -38,7 +37,6 @@ public class MultiStateControls extends LinearLayout {
     private Context context;
     private int baseColor;
     private GradientDrawable unSelectedDrawable;
-    private int whiteColor;
 
     public MultiStateControls(Context context) {
         super(context, null);
@@ -119,8 +117,10 @@ public class MultiStateControls extends LinearLayout {
             parentLayout.addView(view);
             if (position == 0)
                 setButtonState(button, true);
-            else
+            else if (isMultipleChoice)
                 setButtonState(button, enableDefaultSelection);
+            else
+                setButtonState(button, false);
             this.buttons.add(button);
             this.dividers.add(divider);
         }
@@ -178,8 +178,10 @@ public class MultiStateControls extends LinearLayout {
             parentLayout.addView(view);
             if (position == 0)
                 setButtonState(button, true);
-            else
+            else if (isMultipleChoice)
                 setButtonState(button, enableDefaultSelection);
+            else
+                setButtonState(button, false);
             this.buttons.add(button);
             this.dividers.add(divider);
         }
@@ -247,7 +249,6 @@ public class MultiStateControls extends LinearLayout {
     private void init() {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
         baseColor = typedArray.getColor(0, -1);
-        whiteColor = context.getResources().getColor(R.color.uikit_white);
         typedArray.recycle();
         setUnSelectedState();
     }

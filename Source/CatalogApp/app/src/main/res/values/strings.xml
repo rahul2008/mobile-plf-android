@@ -43,7 +43,6 @@
 
     <array name="hamburger_drawer_icons">
         <item>@drawable/uikit_cart</item>
-        <item>@drawable/uikit_cart</item>
         <item>@drawable/uikit_coffee</item>
         <item>@drawable/uikit_stats</item>
         <item>@drawable/uikit_recycle_bin</item>
