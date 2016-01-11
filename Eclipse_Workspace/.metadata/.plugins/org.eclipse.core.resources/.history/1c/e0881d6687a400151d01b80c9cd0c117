@@ -1,7 +1,0 @@
-package com.krish.notice;
-
-public class Spinner {
-	
-	enum color = {"BLACK", ""};
-
-}

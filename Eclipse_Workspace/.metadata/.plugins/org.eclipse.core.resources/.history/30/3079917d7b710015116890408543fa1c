@@ -1,7 +1,0 @@
-package com.listeners;
-
-public interface Packing {
-
-	String pack();
-	
-}

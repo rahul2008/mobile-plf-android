@@ -1,8 +1,0 @@
-package com.krish.notice;
-
-public class Spinner {
-
-	
-	 
-	
-}
