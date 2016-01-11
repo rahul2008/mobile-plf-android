@@ -190,4 +190,5 @@
 
     <dimen name="uikit_controls_default_width">95dp</dimen>
     <dimen name="uikit_controls_default_height">44dp</dimen>
+    <dimen name="uikit_control_default_stroke">1dp</dimen>
 </resources>

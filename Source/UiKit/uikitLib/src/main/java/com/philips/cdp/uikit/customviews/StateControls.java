@@ -224,7 +224,7 @@ public class StateControls extends LinearLayout {
 
     private void setUnSelectedState() {
         unSelectedDrawable = new GradientDrawable();
-        unSelectedDrawable.setStroke(1, baseColor);
+        unSelectedDrawable.setStroke((int) context.getResources().getDimension(R.dimen.uikit_control_default_stroke), baseColor);
         unSelectedDrawable.setColor(Color.WHITE);
     }
 
