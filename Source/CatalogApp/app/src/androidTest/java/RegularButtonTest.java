@@ -17,7 +17,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -104,8 +103,8 @@ public class RegularButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
                 .check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testActionSampleButtonTextSize() {
-        onView(withId(R.id.theme_button))
-                .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.theme_button_text_size))));
-    }
+//    public void testActionSampleButtonTextSize() {
+//        onView(withId(R.id.theme_button))
+//                .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.theme_button_text_size))));
+//    }
 }

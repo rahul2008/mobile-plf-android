@@ -11,7 +11,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsOutlineColorAsExpectedMatcher.isOutlineColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
 
@@ -65,12 +64,12 @@ public class DisabledNoFillButtonTest extends ActivityInstrumentationTestCase2<M
                 .check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.button_size))));
     }
 
-    public void testDOButtonOutlineColourAsExpected() {
+/*    public void testDOButtonOutlineColourAsExpected() {
         onView(withText("Buttons")).perform(click());
         onView(withId(R.id.change_button_state)).perform(click());
         onView(withId(R.id.outlined_button))
                 .check(matches(isOutlineColorSimilar("#b9b9b9")));
-    }
+    }*/
 
 
 }

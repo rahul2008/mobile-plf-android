@@ -18,8 +18,17 @@ import android.widget.SeekBar;
 import com.philips.cdp.uikit.R;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <br>
+ To use BaseSlider in XML file  include below convention as per your required display metrics
+ <br>
+ <com.philips.cdp.uikit.customviews.BaseSlider
+ android:id="@+id/baseslider"
+ android:layout_width="280dp"
+ android:layout_height="wrap_content"
+ android:layout_gravity="center"
+ android:layout_marginTop="10dp"></com.philips.cdp.uikit.customviews.BaseSlider>
+ *
+ *
  */
 public class BaseSlider extends SeekBar {
 
@@ -99,6 +108,10 @@ public class BaseSlider extends SeekBar {
         return ld;
     }
 
+    /**
+     * return thumbDrawable
+     * @return
+     */
     public Drawable getThumbDrawable() {
         return thumb;
     }

@@ -1,10 +1,10 @@
 <resources>
     <!-- Text size -->
-    <dimen name="theme_button_text_size">14dp</dimen>
+    <dimen name="theme_button_text_size">15dp</dimen>
     <dimen name="input_field_text_size">16dp</dimen>
-    <dimen name="about_title_text_size">24sp</dimen>
-    <dimen name="about_version_text_size">16sp</dimen>
-    <dimen name="about_terms_content_text_size">14sp</dimen>
+    <dimen name="about_title_text_size">24dp</dimen>
+    <dimen name="about_version_text_size">16dp</dimen>
+    <dimen name="about_terms_content_text_size">14dp</dimen>
     <dimen name="splash_title_text_size">38dp</dimen>
     <dimen name="splash_title_text_size_tablet">53dp</dimen>
     <dimen name="splash_logo_height">138dp</dimen>
@@ -27,13 +27,13 @@
     <dimen name="ndot_unselected_width">7dp</dimen>
     <dimen name="popover_alert_height">53sp</dimen>
     <dimen name="popover_alert_text_size">14sp</dimen>
-    <dimen name="actionbar_up_width">10sp</dimen>
-    <dimen name="actionbar_up_height">19sp</dimen>
+    <dimen name="actionbar_up_width">10dp</dimen>
+    <dimen name="actionbar_up_height">19dp</dimen>
     <dimen name="badgeview_small_fontsize">14sp</dimen>
     <dimen name="badgeview_large_fontlarge">20sp</dimen>
-    <dimen name="hmenu_listitem_height">53sp</dimen>
-    <dimen name="hmenu_listitem_width">222sp</dimen>
-    <dimen name="hmenu_title_listitem_height">33sp</dimen>
+    <dimen name="hmenu_listitem_height">53dp</dimen>
+    <dimen name="hmenu_listitem_width">222dp</dimen>
+    <dimen name="hmenu_title_listitem_height">33dp</dimen>
     <dimen name="modal_alert_title_size">20sp</dimen>
     <dimen name="modal_alert_description_buttontext_size">14sp</dimen>
     <dimen name="springboard_divider_height">1sp</dimen>
@@ -44,11 +44,11 @@
     <dimen name="springboard_lists_item_size">55dp</dimen>
     <dimen name="springboard_grid_title_font_size">33dp</dimen>
     <dimen name="springboard_grid_font_size">16dp</dimen>
-    <dimen name="socialicons_height">20dp</dimen>
-    <dimen name="socialicons_width">20dp</dimen>
-    <dimen name="socialicons_height_large">32dp</dimen>
-    <dimen name="socialicons_width_large">32dp</dimen>
-    <dimen name="hmenu_fontsize_list_item">16dp</dimen>
+    <dimen name="socialicons_height">20sp</dimen>
+    <dimen name="socialicons_width">20sp</dimen>
+    <dimen name="socialicons_height_large">32sp</dimen>
+    <dimen name="socialicons_width_large">32sp</dimen>
+    <dimen name="hmenu_fontsize_list_item">16sp</dimen>
     <dimen name="sbgrid_testImageBGColorDBTheme_x">5dp</dimen>
     <dimen name="sbgrid_testImageBGColorDBTheme_y">10dp</dimen>
     <dimen name="sbgrid_dividercolor_x">0dp</dimen>
