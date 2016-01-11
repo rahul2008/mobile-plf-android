@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,8 +60,8 @@ public class StateControls extends LinearLayout {
         count = a.getInt(R.styleable.Controls_controlCount, 0);
         isSelected = a.getBoolean(R.styleable.Controls_controlSelected, false);
         isMultipleChoice = a.getBoolean(R.styleable.Controls_controlMultiChoice, false);
-        buttonWidth = a.getDimension(R.styleable.Controls_controlButtonWidth, (int) context.getResources().getDimension(R.dimen.uikit_controls_default_width));
-        buttonHeight = a.getDimension(R.styleable.Controls_controlButtonHeight, (int) context.getResources().getDimension(R.dimen.uikit_controls_default_height));
+        buttonWidth = a.getDimension(R.styleable.Controls_controlButtonWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+        buttonHeight = a.getDimension(R.styleable.Controls_controlButtonHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
         a.recycle();
 
         drawControls(texts, isSelected, count);
