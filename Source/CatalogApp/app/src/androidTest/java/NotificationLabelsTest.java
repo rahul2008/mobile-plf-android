@@ -73,19 +73,19 @@ public class NotificationLabelsTest extends ActivityInstrumentationTestCase2<Act
     public void testNlabelLarge1DigitBGColor() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
-        onView(withId(R.id.badge_view_circle_medium)).check(matches(isBackgroundColorSimilar("#cd202c", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+        onView(withId(R.id.badge_view_circle_medium)).check(matches(isBackgroundColorSimilar("#cd202c", 15, 20)));
     }
 
     public void testNlabelLarge2DigitBGColor() {
-        onView(withId(R.id.badge_view_square_medium)).check(matches(isBackgroundColorSimilar("#cd202c", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+        onView(withId(R.id.badge_view_square_medium)).check(matches(isBackgroundColorSimilar("#cd202c", 15, 15)));
     }
 
     public void testNlabelSmall1DigitBGColor() {
-        onView(withId(R.id.badge_view_circle_small)).check(matches(isBackgroundColorSimilar("#cd202c", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+        onView(withId(R.id.badge_view_circle_small)).check(matches(isBackgroundColorSimilar("#cd202c", 15, 15)));
     }
 
     public void testNlabelSmall2DigitBGColor() {
-        onView(withId(R.id.badge_view_square_small)).check(matches(isBackgroundColorSimilar("#cd202c",(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+        onView(withId(R.id.badge_view_square_small)).check(matches(isBackgroundColorSimilar("#cd202c", 15, 15)));
     }
 
     public void testNlabelSmall1DigitTextColor() {

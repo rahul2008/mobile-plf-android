@@ -17,6 +17,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
@@ -112,12 +113,12 @@ public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<
 //        onView(withText("Telephone ")).check(matches(isTextColorSimilar("#ffffff")));
 //    }
 
-//    public void testTextColorBATheme() {
-//        themeUtils.setThemePreferences("aqua|false|solid|0");
-//        relaunchActivity();
-//        onView(withText("Full Blocks")).perform(click());
-//        onView(withText("Telephone ")).check(matches(isTextColorSimilar("#ffffff")));
-//    }
+    public void testTextColorBATheme() {
+        themeUtils.setThemePreferences("aqua|false|solid|0");
+        relaunchActivity();
+        onView(withText("Full Blocks")).perform(click());
+        onView(withText("Telephone ")).check(matches(isTextColorSimilar("#ffffff")));
+    }
 
     public void testTextFontSize() {
         onView(withText("Full Blocks")).perform(click());
@@ -129,28 +130,26 @@ public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<
 
     }
 
-//    works only on mdpi device due to coordinates
-//    public void testImageBGColorDBTheme() {
-//        themeUtils.setThemePreferences("blue|false|solid|0");
-//        relaunchActivity();
-//        onView(withText("Full Blocks")).perform(click());
-//        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
-//    }
+    public void testImageBGColorDBTheme() {
+        themeUtils.setThemePreferences("blue|false|solid|0");
+        relaunchActivity();
+        onView(withText("Full Blocks")).perform(click());
+        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
+    }
 
-    //    works only on mdpi device due to coordinates
-//    public void testImageBGColorBOTheme() {
-//        themeUtils.setThemePreferences("orange|false|solid|0");
-//        relaunchActivity();
-//        onView(withText("Full Blocks")).perform(click());
-//        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
-//    }
+    public void testImageBGColorBOTheme() {
+        themeUtils.setThemePreferences("orange|false|solid|0");
+        relaunchActivity();
+        onView(withText("Full Blocks")).perform(click());
+        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
+    }
 
-//    public void testImageBGColorBATheme() {
-//        themeUtils.setThemePreferences("aqua|false|solid|0");
-//        relaunchActivity();
-//        onView(withText("Full Blocks")).perform(click());
-//        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
-//    }
+    public void testImageBGColorBATheme() {
+        themeUtils.setThemePreferences("aqua|false|solid|0");
+        relaunchActivity();
+        onView(withText("Full Blocks")).perform(click());
+        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
+    }
 
 
 }

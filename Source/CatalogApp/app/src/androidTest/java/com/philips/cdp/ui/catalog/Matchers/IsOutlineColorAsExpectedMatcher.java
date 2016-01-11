@@ -37,9 +37,7 @@ public class IsOutlineColorAsExpectedMatcher extends BoundedMatcher<View, View> 
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int x = (int) view.getContext().getResources().getDimension(com.philips.cdp.ui.catalog.test.R.dimen.outline_x_cordinate);
-        int y = (int) view.getContext().getResources().getDimension(com.philips.cdp.ui.catalog.test.R.dimen.outline_y_cordinate);
-        int actualRGB = actualBitmap.getPixel(x, y);
+        int actualRGB = actualBitmap.getPixel(0, 5);
 
         String actualcolor = "#" +
                 Integer.toString(Color.red(actualRGB), 16) +

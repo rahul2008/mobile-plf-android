@@ -139,20 +139,20 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<ActionBut
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(isBackgroundColorSimilar("#03478", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+                .check(matches(isBackgroundColorSimilar("#03478", 15, 15)));
     }
 
     public void testBOThemeActionButtonColourAsExpected() {
         themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(isBackgroundColorSimilar("#e9830", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+                .check(matches(isBackgroundColorSimilar("#e9830", 15, 15)));
     }
 
     public void testBAThemeActionButtonColourAsExpected() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(isBackgroundColorSimilar("#1e9d8b", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+                .check(matches(isBackgroundColorSimilar("#1e9d8b", 15, 15)));
     }
 }
