@@ -1,0 +1,25 @@
+
+public class AcadGildSessionTester
+{
+    
+	public static void main(String[] acadgild)
+	{
+		
+		Dhoom mDhoom = new Dhoom();
+		mDhoom.checkMadam();
+
+		
+		Dhoom mDhoom1 = new Dhoom();
+		mDhoom.checkMadam();
+
+		
+		
+		Dhoom mDhoom2 = new Dhoom();
+		mDhoom.checkMadam();
+
+	
+	}
+	
+	
+	
+}

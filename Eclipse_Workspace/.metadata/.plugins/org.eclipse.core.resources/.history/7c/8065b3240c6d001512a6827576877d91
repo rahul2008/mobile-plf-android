@@ -1,0 +1,15 @@
+
+public class AcadGildPractice {
+	
+	public static void main(String[] acadgild)
+	{
+		System.out.println("Hello AcadGild");
+		
+		int x = 10;
+
+		System.out.println("Printing Somthing : " + x);
+	
+	  
+	}
+
+}

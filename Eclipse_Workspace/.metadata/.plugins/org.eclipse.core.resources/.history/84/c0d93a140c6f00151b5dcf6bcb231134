@@ -1,0 +1,14 @@
+
+public class SampleOne {
+	
+   	public static void main (String[]  args)
+   	{
+   		byte mByteValue = 3;
+   		
+   		float mFloatValue = 12.3f;
+
+   		System.out.println("Printing the value here : "+ mFloatValue);
+
+   	}//static void main method.
+}// End Brace for the SampleOne Class.
+

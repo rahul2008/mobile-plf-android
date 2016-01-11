@@ -1,0 +1,39 @@
+
+public class AcadGildTutorialTwo {
+	
+	
+	public static void main(String[] args)
+	{
+		int x = 4;
+		
+		if(x == 2)
+		{
+		  System.out.println(" Hello AcadGild");
+		}else if(x == 3)
+		{
+			System.out.println("I am the answer of second check!!");
+		}else if(x == 4)
+		{
+			System.out.println("I am the answer of Third check!!");
+		
+			int y = 20;
+			
+		    if()
+		
+		}else if(x == 5)
+		{
+			System.out.println("I am the answer of forth check!!");
+		}else if(x == 6)
+		{
+			System.out.println("I am the answer of fifth check!!");
+		}else
+		{
+			System.out.println("I am in else statement boss!! because the boolean statement returned false");
+		}
+		
+		System.out.println("AcadGild trianing is nice!!");
+		
+		
+	}// End Brace of static void main mehtod
+	
+}// End brace of AcadGildTutorialTwo

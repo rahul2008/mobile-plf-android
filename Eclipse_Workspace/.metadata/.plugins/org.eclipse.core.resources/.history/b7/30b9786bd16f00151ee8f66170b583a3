@@ -1,0 +1,19 @@
+
+public class AcadGildTutorialTwo {
+	
+	
+	public static void main(String[] args)
+	{
+		
+		int x = 2;
+		
+	   if()
+	   {
+	   
+	   }
+		
+		
+		
+	}// End Brace of static void main mehtod
+	
+}// End brace of AcadGildTutorialTwo

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-fi/values-fi.xml -->
+    <eat-comment/>
+    <string name="EmptyField_ErrorMsg"> Kenttä ei voi olla tyhjä </string>
+    <string name="Key"> Finish </string>
+    <string name="SocialSharingPostTemplateText"> auttaisitteko seuraavassa: </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-fi/values-fi.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Siirry etusivulle"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s, %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s, %2$s, %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Siirry ylös"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Lisää"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Valmis"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Näytä kaikki"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Valitse sovellus"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"POIS KÄYTÖSTÄ"</string>
+    <string msgid="3405795526292276155" name="abc_capital_on">"KÄYTÖSSÄ"</string>
+    <string msgid="7723749260725869598" name="abc_search_hint">"Haku…"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Tyhjennä kysely"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Hakulauseke"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Haku"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Lähetä kysely"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Puhehaku"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Jakaminen:"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Jakaminen: %s"</string>
+    <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"Kutista"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-fi/values-fi.xml -->
+    <eat-comment/>
+    <string name="actionbar_title_support"> Tuki </string>
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Kirjoita arvostelu </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Kirjoita arvostelu vain itse tuotteesta. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Älä mainitse henkilötietoja, kuten nimiä. </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Ennen kuin aloitat, lue ohjeemme: </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> Selvä! </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Vältä asiakaspalvelun arvostelua. Jos sinulla on kiireellistä asiaa, ota meihin yhteyttä. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Haluamme julkaista arvostelusi, joten noudata seuraavia ohjeita: </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Älä mainitse kilpailijoita tai tuotteen ostohintaa. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Arvostelusi: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> Sähköposti </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Ovatko tiedot oikein? </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Lempinimi: </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Luokitus: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Arvostelu: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Arvostelujen yhteenveto: </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Lähetä tuotearvosteluni </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Kiitos! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Takaisin tukisivulle </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Kiitos arvostelustasi. Luemme sen ja ilmoitamme sinulle, kun se on luettavissa verkossa. </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Olemme vastaanottaneet arvostelusi. Kiitos! </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Arvostelujen yhteenveto </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Kirjoita arvostelu </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Kirjoita arvostelu tähän </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Sähköpostiosoite </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Varmista, että käyttäminen onnistuu </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ei oikeaa nimeäsi </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Valitse lempinimi: </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Esikatselu </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Arvostele tämä tuote </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Olen tutustunut käyttöehtoihin  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> ja hyväksyn ne </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Arvostelusi </string>
+    <string name="call_number"> Soitto </string>
+    <string name="can_we_help_you"> Voimmeko auttaa? </string>
+    <string name="cancel"> Peruuta </string>
+    <string name="chat_desc"> Keskustele asiantuntijamme kanssa englanniksi kaikkina vuorokaudenaikoina. </string>
+    <string name="chat_now"> Keskustele </string>
+    <string name="chat_with_philips"> Philips-chat </string>
+    <string name="check_sim"> SIM-korttia ei tunnisteta. Tarkista, onko kortti oikein paikoillaan </string>
+    <string name="choose_from_library"> Valitse kirjastosta </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/res/values-fi/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="6428604800157361567" name="common_android_wear_notification_needs_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> edellyttää Android Wear -sovelluksen päivittämistä."</string>
+    <string msgid="2453027084525739603" name="common_android_wear_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ei toimi, ellet päivitä Android Wear -sovellusta."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Päivitä Android Wear"</string>
+    <string msgid="6534628256897874213" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> tarvitsee yhtä tai useampaa Google Play Palvelua, jotka eivät ole saatavilla tällä hetkellä. Voit pyytää lisätietoja kehittäjältä."</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Ota Google Play -palv. käyttöön"</string>
+    <string msgid="4896236883690196080" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ei toimi, ellet ota Google Play Palveluita käyttöön."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Ota Google Play Palvelut käyttöön"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"Pyynnön teki <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"Asenna Google Play Palvelut"</string>
+    <string msgid="8836325110837822534" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> ei toimi ilman Google Play Palveluita, jotka puuttuvat puhelimestasi."</string>
+    <string msgid="542176290824754127" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> ei toimi ilman Google Play Palveluita, jotka puuttuvat tabletistasi."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"Asenna Google Play Palvelut"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"Kyseistä tiliä ei ole tällä laitteella. Valitse toinen tili."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"Tili ei kelpaa"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"Ota käyttöön Google Play Palvelut, jotta sovellus toimii."</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"Google Play -palveluiden käyttöön tarvitaan tietoliikenneyhteys."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"Verkkovirhe"</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"Päivitä Google Play Palvelut, jotta sovellus toimii."</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Virhe Google Play -palveluissa"</string>
+    <string msgid="5194079840165204725" name="common_google_play_services_sign_in_failed_text">"Määritettyyn tiliin kirjauduttaessa tapahtui virhe. Valitse toinen tili."</string>
+    <string msgid="8164948898147532159" name="common_google_play_services_sign_in_failed_title">"Kirjautuminen epäonnistui."</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Tuntematon ongelma käytettäessä Google Play -palveluita."</string>
+    <string msgid="7682982632307307938" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> käyttää Google Play Palveluita, joita laitteesi ei tue. Pyydä ohjeita laitteen valmistajalta."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Google Play Palvelut"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"Päivitä"</string>
+    <string msgid="5709479369299147668" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ei toimi, ellet päivitä Google Play Palveluita."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Päivitä Google Play Palvelut"</string>
+    <string msgid="2201289642219771610" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> ei toimi ilman Google Play Palveluita, joita päivitetään tällä hetkellä."</string>
+    <string msgid="815008177440683245" name="common_google_play_services_updating_title">"Google Play Palveluita päivitetään"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"Avaa puhelimessa"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-fi/values-fi.xml -->
+    <eat-comment/>
+    <string name="contact_us"> Yhteystiedot </string>
+    <string name="contact_us_text"> Yhteystiedot: </string>
+    <string name="create_account">  Luo tili > </string>
+    <string name="email">  Sähköpostiosoite </string>
+    <string name="facebook"> Facebook </string>
+    <string name="facebook_login_header"> Facebook-kirjautuminen </string>
+    <string name="feedback"> Kerro mielipiteesi </string>
+    <string name="find_philips_near_you"> Lähin Philips-jälleenmyyjä </string>
+    <string name="forgot_my_password"> Olen unohtanut salasanani >  </string>
+    <string name="get_directions"> Löydä ohjeita </string>
+    <string name="googleplus"> Google Plus </string>
+    <string name="gps_disabled"> GPS ei ole käytössä laitteessasi. Otetaanko käyttöön? </string>
+    <string name="how_can_we_help"> Miten voimme auttaa? </string>
+    <string name="img_description"> kuvaus </string>
+    <string name="kemailFieldErrorText"> Kirjoita kelvollinen sähköpostiosoite. </string>
+    <string name="key"> fi </string>
+    <string name="leave_us_a_message"> Kirjoita meille viesti </string>
+    <string name="linkedin"> LinkedIn </string>
+    <string name="live_chat"> Live Chat </string>
+    <string name="loading"> Ladataan </string>
+    <string name="locate_philips_popup_legal"> Kun käytät tukisivun ”Lähin Philips-jälleenmyyjä” ‑toimintoa, sinua pyydetään jakamaan sijaintitietosi Philipsin kanssa. Sijaintitietojesi perusteella sinut ohjataan sinua lähimpänä sijaitsevaan liikkeeseen tai maasi asiakaspalveluun. </string>
+    <string name="login_to_social_media"> Kirjaudutaanko yhteisöpalvelun tilillä? </string>
+    <string name="login_with_philips_account"> Tai kirjaudu My Philips -tilillä </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/res/values-fi/values-fi.xml -->
+    <eat-comment/>
+    <string msgid="4271159405637008602" name="mr_media_route_button_content_description">"Median äänentoisto"</string>
+    <string msgid="7553005460920830010" name="mr_media_route_chooser_searching">"Etsitään laitteita…"</string>
+    <string msgid="7106830097177242655" name="mr_media_route_chooser_title">"Yhdistä laitteeseen"</string>
+    <string msgid="109793632378378069" name="mr_media_route_controller_disconnect">"Katkaise yhteys"</string>
+    <string msgid="5441529851481176817" name="mr_system_route_name">"Järjestelmä"</string>
+    <string msgid="7498112907524977311" name="mr_user_route_category_name">"Laitteet"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-fi/values-fi.xml -->
+    <eat-comment/>
+    <string name="no_data"> Ei tietoja saatavilla </string>
+    <string name="no_data_available"> Ei tietoja saatavilla </string>
+    <string name="no_internet"> Ei internet-yhteyttä. Tarkista yhteys puhelimen Wi-Fi-asetuksissa tai datayhteysasetuksissa </string>
+    <string name="no_thanks"> Ei kiitos </string>
+    <string name="opening_hours"> Aukioloajat </string>
+    <string name="password"> Salasana </string>
+    <string name="please_wait"> Odota &amp;#8230; </string>
+    <string name="post"> Posti </string>
+    <string name="product_download_manual"> Lataa tuotteen käyttöopas </string>
+    <string name="product_info"> tuotetiedot </string>
+    <string name="product_information"> Tuotetiedot (philips.com) </string>
+    <string name="product_open_manual"> Avaa vuorovaikutteinen opas </string>
+    <string name="product_view_videos"> Tuotevideot </string>
+    <string name="rate_philips_buttontext"> My Philips -kirjautuminen </string>
+    <string name="rate_philips_description"> Kirjoita arvostelu ja auta muita käyttäjiä löytämään sopiva tuote </string>
+    <string name="rate_philips_headertext"> Lähetä tuotearvostelu </string>
+    <string name="rate_playstore_buttontext"> Arvostele sovellus </string>
+    <string name="rate_playstore_headertext"> Arvosanasi tälle sovellukselle? </string>
+    <string name="registration"> Rekisteröi tuotteesi </string>
+    <string name="search"> Haku </string>
+    <string name="send"> Lähetä </string>
+    <string name="send_email"> Sähköposti </string>
+    <string name="send_us_email"> Lähetä sähköpostia </string>
+    <string name="servicecenters_not_found"> Ei paikallisia palvelukeskuksia  </string>
+    <string name="sign_into_my_philips"> My Philips -kirjautuminen </string>
+    <string name="social_post_desc_text"> Lisää tuotetiedot </string>
+    <string name="social_post_failed"> Tapahtui virhe.  </string>
+    <string name="social_post_success"> Viestisi on vastaanotettu. </string>
+    <string name="social_post_to"> Lähetä viesti Philipsille </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-fi/values-fi.xml -->
+    <eat-comment/>
+    <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-fi/values-fi.xml -->
+    <eat-comment/>
+    <string name="support_productinformation"> auttaisitteko seuraavassa: </string>
+    <string name="take_photo"> Ota kuva </string>
+    <string name="twiiter_login_logo_description"> Twitter-logo </string>
+    <string name="twitter"> Twitter </string>
+    <string name="twitter_login_header"> Twitter-kirjautuminen </string>
+    <string name="twitter_login_hint_password"> Salasana </string>
+    <string name="twitter_login_hint_username"> Käyttäjänimi </string>
+    <string name="twitter_post_char_limitation"> Viestin enimmäispituus on 140 merkkiä </string>
+    <string name="twitter_post_progress_message"> Lähetetään viestiä Philipsin Twitter-tukeen... </string>
+    <string name="view_faq"> Lue vastauksia </string>
+    <string name="view_product_details"> Näytä tuotetiedot </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/8.1.0/res/values-fi/wallet_strings.xml -->
+    <eat-comment/>
+    <string msgid="4184147110658930238" name="wallet_buy_button_place_holder">"Maksa Googlen kautta"</string>
+</resources>

@@ -1,0 +1,7 @@
+package com.abstractfood.categories;
+
+import com.listeners.Item;
+
+public abstract class Burger implements Item {
+
+}

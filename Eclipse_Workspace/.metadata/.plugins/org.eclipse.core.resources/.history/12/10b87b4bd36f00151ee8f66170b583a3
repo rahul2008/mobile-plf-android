@@ -1,0 +1,19 @@
+
+public class AcadGildTutorialTwo {
+	public static void main(String[] args)
+	{
+		int x = 10;
+	   System.out.println("We are on start");
+	   System.out.println("-----------------------"); 
+		
+	  
+	  do{
+		  
+	  }while(x < 9);
+		
+		System.out.println("-----------------------");
+	   System.out.println("We are on end");
+		
+	}// End Brace of static void main mehtod
+	
+}// End brace of AcadGildTutorialTwo

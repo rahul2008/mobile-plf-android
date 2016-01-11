@@ -1,0 +1,19 @@
+
+public class AcadGildPractice {
+
+	public static void main(String[] acadgild) {
+
+		System.out.println("Starting Portion");
+		
+		
+		for( initalize ;  condition ;  updation)
+		{
+			System.out.println("Printing AcadGild Session");
+		}
+		
+		System.out.println("End Portion");
+		
+
+	} // This is the end brace of the staic void main method.
+
+} // This is the end brace of the Class

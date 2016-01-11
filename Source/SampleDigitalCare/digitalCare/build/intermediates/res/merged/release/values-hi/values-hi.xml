@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/src/main/res/values-hi/strings.xml -->
+    <eat-comment/>
+    <string name="EmptyField_ErrorMsg"> फ़ील्ड रिक्त नहीं हो सकता </string>
+    <string name="Key"> Hindi </string>
+    <string name="SocialSharingPostTemplateText"> क्या आप इसमें मदद कर सकते हैं </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-hi/values-hi.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"मुख्यपृष्ठ पर नेविगेट करें"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s, %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s, %2$s, %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"ऊपर नेविगेट करें"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"अधिक विकल्प"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"पूर्ण"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"सभी देखें"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"कोई एप्‍लिकेशन चुनें"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"बंद"</string>
+    <string msgid="3405795526292276155" name="abc_capital_on">"चालू"</string>
+    <string msgid="7723749260725869598" name="abc_search_hint">"खोजा जा रहा है…"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"क्‍वेरी साफ़ करें"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"खोज क्वेरी"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"खोजें"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"क्वेरी सबमिट करें"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"ध्वनि खोज"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"इसके द्वारा साझा करें"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"%s के साथ साझा करें"</string>
+    <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"संक्षिप्त करें"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/src/main/res/values-hi/strings.xml -->
+    <eat-comment/>
+    <string name="actionbar_title_support"> समर्थन </string>
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> कोई समीक्षा लिखें </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> अपनी समीक्षा को उत्पाद पर केंद्रित रखें. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> पूरा नाम जैसी कोई भी व्यक्तिगत रूप से पहचानयोग्य जानकारी शामिल नहीं करें. </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> प्रारंभ करने से पूर्व, कृपया हमारे दिशानिर्देश पढ़ें: </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> ठीक है, समझ गए! </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> ग्राहक सेवा के बारे में लिखने से बचें; यदि आपको तत्काल ध्यान देने संबंधी समस्या हैं, तो इसके बजाय हमें संपर्क करें. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> हम समीक्षा प्रकाशित करना चाहते हैं, अतः कृपया इन दिशानिर्देशों का पालन करें: </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> प्रतिस्पर्धी या उत्पाद के लिए स्वयं की भुगतान की गई विशिष्ट राशि का उल्लेख करने से बचें </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> आपकी समीक्षा: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> ईमेल </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> क्या सबकुछ सही है? </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> प्रचलित नाम: </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> मूल्यांकन: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> समीक्षा: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> सारांश की समीक्षा करें: </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> मेरी समीक्षा सबमिट करें </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> धन्यवाद! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> सहायता पर वापस जाएँ </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> यह समीक्षा लिखने हेतु समय देने के लिए धन्यवाद. हम इसकी समीक्षा करेंगे और इसके ऑनलाइन होते ही आपको सूचित करेंगे! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> बढ़िया! हमें आपकी समीक्षा प्राप्त हुई! </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> सारांश की समीक्षा करें </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> कोई समीक्षा लिखें </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> यहाँ अपनी समीक्षा लिखें </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> आपका ईमेल </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> सुनिश्चित करें कि आपके पास पहुँच है </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> अपना वास्तविक नाम नहीं </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> कोई प्रचलित नाम चुनें: </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> पूर्वावलोकन करें </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> कृपया इस उत्पाद का मूल्यांकन करें </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> मैनें नियम और शर्तें पढ़ ली हैं  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> और उनसे सहमत हूँ </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> आपकी समीक्ष </string>
+    <string name="call_number"> कॉल करें </string>
+    <string name="can_we_help_you"> क्या हम आपकी मदद करें? </string>
+    <string name="cancel"> रद्द करें </string>
+    <string name="chat_desc"> हमारे उत्पाद विशेषज्ञ के साथ लाइव चैट प्रारंभ करें. 24/7 अंग्रेज़ी में उपलब्ध </string>
+    <string name="chat_now"> अभी चैट करें </string>
+    <string name="chat_with_philips"> Philips के साथ चैट करें </string>
+    <string name="check_sim"> कोई SIM कार्ड नहीं मिला. कृपया जाँचें कि यह सही ढंग से सम्मिलित है </string>
+    <string name="choose_from_library"> लाइब्रेरी से चुनें </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/res/values-hi/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="6428604800157361567" name="common_android_wear_notification_needs_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> को Android Wear ऐप की नई जानकारी पाने की आवश्यकता है."</string>
+    <string msgid="2453027084525739603" name="common_android_wear_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> तब तक नहीं चलेगा, जब तक कि आप Android Wear ऐप के लिए नई जानकारी प्राप्त नहीं कर लेते."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Android Wear अपडेट करें"</string>
+    <string msgid="6534628256897874213" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> को ऐसी एक या अधिक Google Play सेवाओं की आवश्यकता है जो वर्तमान में उपलब्ध नहीं हैं. कृपया सहायता के लिए डेवलपर से संपर्क करें."</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Google Play सेवाएं सक्षम करें"</string>
+    <string msgid="4896236883690196080" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> तब तक कार्य नहीं करेगा जब तक आप Google Play सेवाओं को सक्षम नहीं करते."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Google Play सेवाएं सक्षम करें"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"<ns1:g id="APP_NAME">%1$s</ns1:g> के द्वारा अनुरोधित"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"Google Play सेवाएं पाएं"</string>
+    <string msgid="8836325110837822534" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> उन Google Play सेवाओं के बिना नहीं चलेगा जो आपके फ़ोन में उपलब्ध नहीं हैं."</string>
+    <string msgid="542176290824754127" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> उन Google Play सेवाओं के बिना नहीं चलेगा जो आपके टैबलेट में उपलब्ध नहीं हैं."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"Google Play सेवाएं पाएं"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"निर्दिष्ट खाता इस डिवाइस पर मौजूद नहीं है. कृपया कोई भिन्न खाता चुनें."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"अमान्य खाता"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"ऐप्लिकेशन के लिए Google Play सेवाएं सक्षम किए जाने की आवश्यकता है."</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"Google Play सेवाओं से कनेक्ट करने के लिए डेटा कनेक्शन की आवश्यकता है."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"नेटवर्क त्रुटि"</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"ऐप्लिकेशन के लिए Google Play सेवाओं में नई जानकारी की आवश्यकता है."</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Google Play सेवाएं त्रुटि"</string>
+    <string msgid="5194079840165204725" name="common_google_play_services_sign_in_failed_text">"निर्दिष्‍ट खाते में प्रवेश करने में त्रुटि. कृपया कोई भिन्‍न खाता चुनें."</string>
+    <string msgid="8164948898147532159" name="common_google_play_services_sign_in_failed_title">"प्रवेश करना विफल रहा"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Google Play सेवाओं के साथ अज्ञात समस्या."</string>
+    <string msgid="7682982632307307938" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> उन Google Play सेवाओं पर निर्भर है जो आपके डिवाइस द्वारा समर्थित नहीं हैं. सहायता के लिए निर्माता से संपर्क करें."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Google Play सेवाएं"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"नई जानकारी पाएं"</string>
+    <string msgid="5709479369299147668" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> तब तक नहीं चलेगा जब तक आप Google Play सेवाओं को अपडेट नहीं करते."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Google Play सेवाएं से नई जानकारी"</string>
+    <string msgid="2201289642219771610" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> उन Google Play सेवाओं के बिना नहीं चलेगा जो वर्तमान में अपडेट हो रही हैं."</string>
+    <string msgid="815008177440683245" name="common_google_play_services_updating_title">"Google Play सेवाएं अपडेट हो रही हैं"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"फ़ोन पर खोलें"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/src/main/res/values-hi/strings.xml -->
+    <eat-comment/>
+    <string name="contact_us"> हमें संपर्क करें </string>
+    <string name="contact_us_text"> हमें संपर्क करें: </string>
+    <string name="create_account">  खाता बनाएँ > </string>
+    <string name="email">  ईमेल पता </string>
+    <string name="facebook"> Facebook पर </string>
+    <string name="facebook_login_header"> Facebook में लॉगिन करें </string>
+    <string name="feedback"> अपने विचार हमें बताएँ </string>
+    <string name="find_philips_near_you"> अपना निकटतम Philips खोजें </string>
+    <string name="forgot_my_password"> मैं अपना पासवर्ड भूल गया >  </string>
+    <string name="get_directions"> निर्देश प्राप्त करें </string>
+    <string name="googleplus"> Google Plus पर </string>
+    <string name="gps_disabled"> आपके डिवाइस में GPS अक्षम है. क्या आप इसे सक्षम करना चाहेंगे? </string>
+    <string name="how_can_we_help"> हम कैसे मदद कर सकते हैं? </string>
+    <string name="img_description"> वर्णन </string>
+    <string name="kemailFieldErrorText"> कृपया मान्य ईमेल पता दर्ज करें. </string>
+    <string name="key"> hi </string>
+    <string name="leave_us_a_message"> हमारे लिए कोई संदेश छोड़ें: </string>
+    <string name="linkedin"> LinkedIn पर </string>
+    <string name="live_chat"> लाइव चैट </string>
+    <string name="loading"> लोड कर रहा है </string>
+    <string name="locate_philips_popup_legal"> आपके द्वारा सहायता पृष्ठ पर ‘अपना निकटतम Philips ढूँढें’ कार्यक्षमता का उपयोग करने पर, आपको Philips के साथ अपना स्थान डेटा साझा करने का अनुरोध किया जाता है. आपके स्थान डेटा के आधार पर आपको आपके निकटतम स्टोर पर या आपके देश के उपभोक्ता सेवा संपर्क विवरण पर निर्देशित किया जाएगा </string>
+    <string name="login_to_social_media"> अपने सामाजिक मीडिया खाते से लॉग इन करें? </string>
+    <string name="login_with_philips_account"> या मेरा Philips खाता से लॉग इन करें </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/res/values-hi/values-hi.xml -->
+    <eat-comment/>
+    <string msgid="4271159405637008602" name="mr_media_route_button_content_description">"मीडिया आउटपुट"</string>
+    <string msgid="7553005460920830010" name="mr_media_route_chooser_searching">"उपकरणों की खोज हो रही है…"</string>
+    <string msgid="7106830097177242655" name="mr_media_route_chooser_title">"उपकरण से कनेक्ट करें"</string>
+    <string msgid="109793632378378069" name="mr_media_route_controller_disconnect">"डिस्कनेक्ट करें"</string>
+    <string msgid="5441529851481176817" name="mr_system_route_name">"सिस्टम"</string>
+    <string msgid="7498112907524977311" name="mr_user_route_category_name">"उपकरण"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/src/main/res/values-hi/strings.xml -->
+    <eat-comment/>
+    <string name="no_data"> कोई डाटा उपलब्ध नहीं </string>
+    <string name="no_data_available"> कोई डाटा उपलब्ध नहीं </string>
+    <string name="no_internet"> कोई इंटरनेट कनेक्शन नहीं. कृपया जाँचें कि आपका कनेक्शन आपके फ़ोन की wifi सेटिंग्स या डेटा सेटिंग्स में कार्य कर रहा है </string>
+    <string name="no_thanks"> नहीं, धन्यवाद </string>
+    <string name="opening_hours"> खुलने का समय </string>
+    <string name="password"> पासवर्ड </string>
+    <string name="please_wait"> कृपया प्रतीक्षा करें &amp;#8230; </string>
+    <string name="post"> पोस्ट करें </string>
+    <string name="product_download_manual"> उत्पाद मैन्युअल डाउनलोड करें </string>
+    <string name="product_info"> उत्पाद जानकारी </string>
+    <string name="product_information"> उत्पाद जानकारी(philips.com पर) </string>
+    <string name="product_open_manual"> सहभागी मैन्युअल खोलें </string>
+    <string name="product_view_videos"> उत्पाद वीडियो </string>
+    <string name="rate_philips_buttontext"> मेरा Philips में साइन इन करें </string>
+    <string name="rate_philips_description"> कोई समीक्षा लिखें और अन्य लोगों को अपने लिए सही पसंद चुनने में मदद करें </string>
+    <string name="rate_philips_headertext"> कोई उत्पाद समीक्षा सबमिट करें </string>
+    <string name="rate_playstore_buttontext"> कोई अनुप्रयोग-समीक्षा लिखें </string>
+    <string name="rate_playstore_headertext"> आप अनुप्रयोग का मूल्यांकन कैसे करेंगे? </string>
+    <string name="registration"> अपना उत्पाद पंजीकृत करें </string>
+    <string name="search"> खोजें </string>
+    <string name="send"> भेजें </string>
+    <string name="send_email"> ईमेल भेजें </string>
+    <string name="send_us_email"> हमें कोई ईमेल भेजें </string>
+    <string name="servicecenters_not_found"> आपके देश में कोई सेवा केंद्र उपलब्ध नहीं है  </string>
+    <string name="sign_into_my_philips"> मेरा Philips में साइन इन करें </string>
+    <string name="social_post_desc_text"> उत्पाद जानकारी शामिल करें </string>
+    <string name="social_post_failed"> कुछ गलत हुआ..  </string>
+    <string name="social_post_success"> आपका संदेश प्राप्त किया गया था! </string>
+    <string name="social_post_to"> Philips को कोई संदेश भेजें </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-hi/values-hi.xml -->
+    <eat-comment/>
+    <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/src/main/res/values-hi/strings.xml -->
+    <eat-comment/>
+    <string name="support_productinformation"> क्या आप इसमें मदद कर सकते हैं </string>
+    <string name="take_photo"> फ़ोटो लें </string>
+    <string name="twiiter_login_logo_description"> Twitter लोगो </string>
+    <string name="twitter"> Twitter पर </string>
+    <string name="twitter_login_header"> Twitter में लॉग इन करें </string>
+    <string name="twitter_login_hint_password"> पासवर्ड </string>
+    <string name="twitter_login_hint_username"> उपयोगकर्तानाम </string>
+    <string name="twitter_post_char_limitation"> कृपया ध्यान दें कि आपका संदेश 140 वर्णों से अधिक नहीं हो सकता है </string>
+    <string name="twitter_post_progress_message"> आपका संदेश Philips Twitter सहायता को भेजा जा रहा है… </string>
+    <string name="view_faq"> FAQ पढ़ें </string>
+    <string name="view_product_details"> उत्पाद जानकारी देखें </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/digitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/8.1.0/res/values-hi/wallet_strings.xml -->
+    <eat-comment/>
+    <string msgid="4184147110658930238" name="wallet_buy_button_place_holder">"Google से खरीदें"</string>
+</resources>

@@ -1,0 +1,13 @@
+
+public class Dhoom {
+	
+
+	
+   public static void checkBoss()
+   {
+	   System.out.println("Printing : "+ mValue);
+   }
+	
+	
+
+}

@@ -1,0 +1,19 @@
+
+public class AcadGildPractice {
+
+	public static void main(String[] acadgild) {
+
+		int acadgild = 15;
+	
+	while()
+	{
+		
+	}
+		
+		
+		
+
+	} // This is the end brace of the staic void main method.
+	
+	
+} // This is the end brace of the Class

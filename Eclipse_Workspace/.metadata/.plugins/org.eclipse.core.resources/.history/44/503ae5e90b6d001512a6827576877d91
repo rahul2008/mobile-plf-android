@@ -1,0 +1,16 @@
+
+public class AcadGildPractice {
+	
+	public static void main(String[] acadgild)
+	{
+		//Control Flows
+		System.out.println("Hello AcadGild");
+		
+		int x = 10;
+		
+		
+		
+		
+	}
+
+}

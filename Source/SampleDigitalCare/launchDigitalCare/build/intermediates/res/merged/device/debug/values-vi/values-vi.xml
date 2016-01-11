@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-vi/values-vi.xml -->
+    <eat-comment/>
+    <string name="EmptyField_ErrorMsg"> Trường không được để trống </string>
+    <string name="Key"> Vietnamesa </string>
+    <string name="SocialSharingPostTemplateText"> bạn có thể giúp tôi bằng </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-vi/values-vi.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Điều hướng về trang chủ"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s, %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s, %2$s, %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Điều hướng lên trên"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Thêm tùy chọn"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Xong"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Xem tất cả"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Chọn một ứng dụng"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"TẮT"</string>
+    <string msgid="3405795526292276155" name="abc_capital_on">"BẬT"</string>
+    <string msgid="7723749260725869598" name="abc_search_hint">"Tìm kiếm…"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Xóa truy vấn"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Tìm kiếm truy vấn"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Tìm kiếm"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Gửi truy vấn"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Tìm kiếm bằng giọng nói"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Chia sẻ với"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Chia sẻ với %s"</string>
+    <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"Thu gọn"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-vi/values-vi.xml -->
+    <eat-comment/>
+    <string name="actionbar_title_support"> Hỗ trợ </string>
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Viết đánh giá </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Đánh giá của bạn phải luôn chú trọng vào sản phẩm. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Không bao gồm bất kỳ thông tin nhận dạng cá nhân nào, ví dụ như tên đầy đủ. </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Trước khi bắt đầu, vui lòng đọc các hướng dẫn này: </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, nhớ rồi! </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Tránh viết về dịch vụ khách hàng; thay vào đó hãy liên hệ với chúng tôi nếu bạn gặp các sự cố đòi hỏi sự chú ý ngay lập tức từ chúng tôi. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Chúng tôi muốn công khai đánh giá của bạn, vì vậy hãy làm theo các hướng dẫn sau: </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Không đề cập đến các sản phẩm cạnh tranh hoặc giá tiền cụ thể mà bạn đã mua sản phẩm đó </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Đánh giá của bạn: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> Email </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Mọi thứ đúng chứ? </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Biệt danh: </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Xếp hạng: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Đánh giá: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Tóm tắt đánh giá: </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Gửi đánh giá của tôi </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Cảm ơn bạn! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Quay lại hỗ trợ </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Cám ơn bạn đã dành thời gian để viết đánh giá này. Chúng tôi sẽ xem xét và cho bạn biết ngay khi bài đánh giá được đăng lên! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Chúng tôi đã nhận được đánh giá của bạn. </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Tóm tắt đánh giá </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Viết đánh giá </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Viết đánh giá của bạn ở đây </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Email của bạn </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Đảm bảo bạn có quyền truy cập </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Không phải tên thật </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Chọn một biệt danh: </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Xem trước </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Vui lòng xếp hạng sản phẩm này </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Tôi đã đọc và đồng ý với  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> Điều khoản và điều kiện </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Đánh giá của bạn </string>
+    <string name="call_number"> Cuộc gọi </string>
+    <string name="can_we_help_you"> Chúng tôi có thể giúp bạn không? </string>
+    <string name="cancel"> Hủy </string>
+    <string name="chat_desc"> Bắt đầu trò chuyện trực tiếp với chuyên gia sản phẩm của chúng tôi. 24/7 bằng Tiếng Anh </string>
+    <string name="chat_now"> Trò chuyện ngay </string>
+    <string name="chat_with_philips"> Trò chuyện với Philips </string>
+    <string name="check_sim"> Không phát hiện thẻ SIM. Kiểm tra xem thẻ SIM có được lắp đúng cách không </string>
+    <string name="choose_from_library"> Chọn từ Thư viện </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/res/values-vi/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="6428604800157361567" name="common_android_wear_notification_needs_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> yêu cầu phải cập nhật lên ứng dụng Android Wear."</string>
+    <string msgid="2453027084525739603" name="common_android_wear_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> sẽ không chạy trừ khi bạn cập nhật ứng dụng Android Wear."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Cập nhật Android Wear"</string>
+    <string msgid="6534628256897874213" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> yêu cầu một hoặc nhiều Dịch vụ của Google Play hiện không có sẵn. Vui lòng liên hệ với nhà phát triển để được hỗ trợ."</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Bật dịch vụ của Google Play"</string>
+    <string msgid="4896236883690196080" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> sẽ không hoạt động trừ khi bạn kích hoạt Dịch vụ của Google Play."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Bật dịch vụ của Google Play"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"Được yêu cầu bởi <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"Cài đặt dịch vụ của Google Play"</string>
+    <string msgid="8836325110837822534" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> sẽ không chạy khi không có Dịch vụ của Google Play bị thiếu trên điện thoại của bạn."</string>
+    <string msgid="542176290824754127" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> sẽ không chạy khi không có Dịch vụ của Google Play bị thiếu trên máy tính bảng của bạn."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"Cài đặt dịch vụ của Google Play"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"Tài khoản đã chỉ định không tồn tại trên thiết bị này. Vui lòng chọn một tài khoản khác."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"Tài khoản không hợp lệ"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"Một ứng dụng yêu cầu bật các dịch vụ của Google Play."</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"Cần có kết nối dữ liệu để kết nối với các dịch vụ của Google Play."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"Lỗi mạng"</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"Một ứng dụng yêu cầu cập nhật đối với các dịch vụ của Google Play."</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Lỗi dịch vụ của Google Play"</string>
+    <string msgid="5194079840165204725" name="common_google_play_services_sign_in_failed_text">"Lỗi khi đăng nhập vào tài khoản được chỉ định. Vui lòng chọn một tài khoản khác."</string>
+    <string msgid="8164948898147532159" name="common_google_play_services_sign_in_failed_title">"Đăng nhập không thành công"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Sự cố không xác định với dịch vụ của Google Play."</string>
+    <string msgid="7682982632307307938" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> chạy trên Dịch vụ của Google Play không được thiết bị của bạn hỗ trợ. Liên hệ với nhà sản xuất để được hỗ trợ."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Dịch vụ của Google Play"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"Cập nhật"</string>
+    <string msgid="5709479369299147668" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> sẽ không chạy trừ khi bạn cập nhật Dịch vụ của Google Play."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Cập nhật dịch vụ của Google Play"</string>
+    <string msgid="2201289642219771610" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> sẽ không chạy khi không có Dịch vụ của Google Play đang cập nhật."</string>
+    <string msgid="815008177440683245" name="common_google_play_services_updating_title">"Dịch vụ của Google Play đang cập nhật"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"Mở trên điện thoại"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-vi/values-vi.xml -->
+    <eat-comment/>
+    <string name="contact_us"> Liên hệ </string>
+    <string name="contact_us_text"> Liên hệ: </string>
+    <string name="create_account">  Tạo tài khoản > </string>
+    <string name="email">  Địa chỉ email </string>
+    <string name="facebook"> Bằng Facebook </string>
+    <string name="facebook_login_header"> Đăng nhập vào Facebook </string>
+    <string name="feedback"> Cho chúng tôi biết bạn nghĩ gì </string>
+    <string name="find_philips_near_you"> Tìm Philips gần bạn </string>
+    <string name="forgot_my_password"> Tôi quên mật khẩu của mình >  </string>
+    <string name="get_directions"> Nhận thông tin dẫn hướng </string>
+    <string name="googleplus"> Bằng Google Plus </string>
+    <string name="gps_disabled"> GPS đã tắt trên thiết bị của bạn. Bạn có muốn bật nó không? </string>
+    <string name="how_can_we_help"> Chúng tôi có thể giúp gì? </string>
+    <string name="img_description"> mô tả </string>
+    <string name="kemailFieldErrorText"> Vui lòng nhập địa chỉ email hợp lệ. </string>
+    <string name="key"> vi </string>
+    <string name="leave_us_a_message"> Để lại lời nhắn: </string>
+    <string name="linkedin"> Bằng LinkedIn </string>
+    <string name="live_chat"> Trò chuyện trực tiếp </string>
+    <string name="loading"> Đang nạp </string>
+    <string name="locate_philips_popup_legal"> Khi bạn dùng chức năng ‘Tìm Philips gần bạn’ trên Trang Hỗ trợ, bạn được yêu cầu chia sẻ dữ liệu vị trí của bạn với Philips. Dựa trên dữ liệu vị trí của bạn, bạn sẽ được chuyển hướng đến cửa hàng nằm gần bạn, hoặc đến thông tin chi tiết liên hệ chăm sóc khách hàng của quốc gia bạn </string>
+    <string name="login_to_social_media"> Đăng nhập bằng tài khoản mạng xã hội của bạn? </string>
+    <string name="login_with_philips_account"> Hoặc đăng nhập bằng tài khoản Philips của tôi </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/res/values-vi/values-vi.xml -->
+    <eat-comment/>
+    <string msgid="4271159405637008602" name="mr_media_route_button_content_description">"Đầu ra phương tiện"</string>
+    <string msgid="7553005460920830010" name="mr_media_route_chooser_searching">"Đang tìm kiếm thiết bị…"</string>
+    <string msgid="7106830097177242655" name="mr_media_route_chooser_title">"Kết nối với thiết bị"</string>
+    <string msgid="109793632378378069" name="mr_media_route_controller_disconnect">"Ngắt kết nối"</string>
+    <string msgid="5441529851481176817" name="mr_system_route_name">"Hệ thống"</string>
+    <string msgid="7498112907524977311" name="mr_user_route_category_name">"Thiết bị"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-vi/values-vi.xml -->
+    <eat-comment/>
+    <string name="no_data"> Không có sẵn dữ liệu </string>
+    <string name="no_data_available"> Không có sẵn dữ liệu </string>
+    <string name="no_internet"> Không có kết nối internet. Kiểm tra xem kết nối của bạn có đang hoạt động trong cài đặt Wi-Fi hoặc cài đặt dữ liệu trên điện thoại của bạn không </string>
+    <string name="no_thanks"> Không, cám ơn </string>
+    <string name="opening_hours"> Giờ làm việc </string>
+    <string name="password"> Mật khẩu </string>
+    <string name="please_wait"> Vui lòng đợi &amp;#8230; </string>
+    <string name="post"> Đăng </string>
+    <string name="product_download_manual"> Tải xuống Hướng dẫn sản phẩm </string>
+    <string name="product_info"> thông tin sản phẩm </string>
+    <string name="product_information"> Thông tin sản phẩm (trên philips.com) </string>
+    <string name="product_open_manual"> Mở tài liệu hướng dẫn tương tác </string>
+    <string name="product_view_videos"> Video sản phẩm </string>
+    <string name="rate_philips_buttontext"> Đăng nhập vào Philips của tôi </string>
+    <string name="rate_philips_description"> Viết đánh giá và giúp người khác lựa chọn đúng </string>
+    <string name="rate_philips_headertext"> Gửi đánh giá sản phẩm </string>
+    <string name="rate_playstore_buttontext"> Viết đánh giá ứng dụng </string>
+    <string name="rate_playstore_headertext"> Bạn đánh giá ứng dụng này như thế nào? </string>
+    <string name="registration"> Đăng ký sản phẩm của bạn </string>
+    <string name="search"> Tìm kiếm </string>
+    <string name="send"> Gửi </string>
+    <string name="send_email"> Gửi email </string>
+    <string name="send_us_email"> Gửi email cho chúng tôi </string>
+    <string name="servicecenters_not_found"> Không có trung tâm dịch vụ tại quốc gia bạn’  </string>
+    <string name="sign_into_my_philips"> Đăng nhập vào Philips của tôi </string>
+    <string name="social_post_desc_text"> Bao gồm thông tin sản phẩm </string>
+    <string name="social_post_failed"> Có gì đó không ổn..  </string>
+    <string name="social_post_success"> Đã nhận được lời nhắn của bạn! </string>
+    <string name="social_post_to"> Gửi lời nhắn đến Philips </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-vi/values-vi.xml -->
+    <eat-comment/>
+    <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-vi/values-vi.xml -->
+    <eat-comment/>
+    <string name="support_productinformation"> bạn có thể giúp tôi bằng </string>
+    <string name="take_photo"> Chụp ảnh </string>
+    <string name="twiiter_login_logo_description"> Logo Twitter </string>
+    <string name="twitter"> Bằng Twitter </string>
+    <string name="twitter_login_header"> Đăng nhập vào Twitter </string>
+    <string name="twitter_login_hint_password"> Mật khẩu </string>
+    <string name="twitter_login_hint_username"> Tên đăng nhập </string>
+    <string name="twitter_post_char_limitation"> Vui lòng lưu ý rằng lời nhắn của bạn không thể dài hơn 140 ký tự </string>
+    <string name="twitter_post_progress_message"> Đang gửi lời nhắn của bạn đến Hỗ trợ Twitter của Philips… </string>
+    <string name="view_faq"> Đọc câu hỏi thường gặp </string>
+    <string name="view_product_details"> Xem thông tin sản phẩm </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/8.1.0/res/values-vi/wallet_strings.xml -->
+    <eat-comment/>
+    <string msgid="4184147110658930238" name="wallet_buy_button_place_holder">"Mua hàng bằng Google"</string>
+</resources>

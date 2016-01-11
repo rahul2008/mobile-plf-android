@@ -1,0 +1,16 @@
+
+public class AcadGildPractice {
+
+	public static void main(String[] acadgild) {
+
+		int acad = 9;
+        int i = 1;
+		
+		while (acad <= 10) {
+			System.out.println("Printing Here" + i++ );
+			break;
+		}
+
+	} // This is the end brace of the staic void main method.
+
+} // This is the end brace of the Class

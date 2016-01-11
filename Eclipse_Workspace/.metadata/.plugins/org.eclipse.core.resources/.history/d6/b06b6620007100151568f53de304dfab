@@ -1,0 +1,29 @@
+
+public class Dhoom {
+	
+	int mValue;
+	
+	//Constructor
+	public Dhoom()
+	{
+		
+	}
+	
+	
+	public Dhoom(int x)
+	{
+		
+	}
+
+	
+	
+	//Method
+	protected int printNameBoss(int y)
+	{
+		int x = (60 + y);
+		return x;
+	}
+	
+	
+
+}

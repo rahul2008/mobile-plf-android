@@ -1,0 +1,9 @@
+
+public class SampleOne {
+	
+   	public static void main (String[]  args)
+   	{
+int a, b = 3, c;
+   	}//static void main method.
+}// End Brace for the SampleOne Class.
+

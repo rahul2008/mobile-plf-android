@@ -1,0 +1,5 @@
+package com.abstractfood.categories;
+
+public abstract class Burger {
+
+}

@@ -1,0 +1,33 @@
+
+public class AcadGildTutorialTwo {
+	public static void main(String[] args)
+	{
+		int x = 7;
+	   System.out.println("We are on start");
+	   System.out.println("-----------------------");
+		
+	   switch(x)
+	   {
+	   case 1: System.out.println("Case one is Pass");
+	            break;
+	   case 2: System.out.println("Case two is Pass");
+	   		    break;
+	   case 3: System.out.println("Case three is Pass");
+	   			break;
+	   case 4: System.out.println("Case four is Pass");
+	            break;
+	   case 51: System.out.println("Case fice is Pass");
+	            break;
+	   case 6: System.out.println("Case six is Pass");
+	            break;
+	   case 7: System.out.println("Case seven is Pass");
+	           break;
+	   
+	   }
+		
+		System.out.println("-----------------------");
+	   System.out.println("We are on end");
+		
+	}// End Brace of static void main mehtod
+	
+}// End brace of AcadGildTutorialTwo

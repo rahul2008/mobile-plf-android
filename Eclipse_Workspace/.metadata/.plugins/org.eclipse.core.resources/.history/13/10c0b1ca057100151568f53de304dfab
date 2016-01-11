@@ -1,0 +1,16 @@
+
+public class Dhoom {
+	
+
+	static int x = 67;
+   
+	
+    public add(int x, int y)
+    {
+    	int z = (x + y); 
+    	System.out.println(z);
+    }
+   
+   
+
+}

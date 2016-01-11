@@ -1,0 +1,12 @@
+
+public class AcadGildTutorialTwo {
+	public static void main(String[] args)
+	{
+		for(int x = 2 ;  x < 5  ; x++ )
+		{
+			
+		}
+		
+	}// End Brace of static void main mehtod
+	
+}// End brace of AcadGildTutorialTwo

@@ -1,0 +1,16 @@
+
+public class SampleOne {
+	
+   	public static void main (String[]  args)
+   	{
+   		byte mByteValue = 3;
+   		
+   		float mFloatValue = 12.3f;
+   		
+   		int mSum = mByteValue;
+
+   		System.out.println("Printing the value here : "+ mSum);
+
+   	}//static void main method.
+}// End Brace for the SampleOne Class.
+

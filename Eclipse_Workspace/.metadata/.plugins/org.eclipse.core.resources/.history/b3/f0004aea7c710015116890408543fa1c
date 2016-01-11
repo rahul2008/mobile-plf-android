@@ -1,0 +1,8 @@
+package com.abstractfood.categories;
+
+public abstract class CoolDrinks implements Item {
+	
+	
+	
+
+}

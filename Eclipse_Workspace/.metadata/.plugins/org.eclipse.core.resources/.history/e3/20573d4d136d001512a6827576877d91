@@ -1,0 +1,24 @@
+
+public class AcadGildPractice {
+
+	public static void main(String[] acadgild) {
+
+		
+		System.out.println("Starting Portion");
+		int i = 1;
+		
+		do
+		{
+			
+			System.out.println("Looping Portion");
+			
+			
+		}while(i > 5);
+		
+		
+		System.out.println("End Portion");
+		
+
+	} // This is the end brace of the staic void main method.
+
+} // This is the end brace of the Class

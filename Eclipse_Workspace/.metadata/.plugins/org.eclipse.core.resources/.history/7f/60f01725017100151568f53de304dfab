@@ -1,0 +1,26 @@
+
+public class Dhoom {
+	
+	double mValue;
+	
+	//Constructor
+	public Dhoom()
+	{
+			
+	}
+	
+	
+	public Dhooms(double x, String s)
+	{
+		mValue =  x;
+	}
+
+	
+   public void checkBoss()
+   {
+	   System.out.println("Printing : "+ mValue);
+   }
+	
+	
+
+}

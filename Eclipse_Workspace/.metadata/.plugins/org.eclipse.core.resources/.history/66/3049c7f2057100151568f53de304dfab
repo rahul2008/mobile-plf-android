@@ -1,0 +1,23 @@
+
+public class Dhoom {
+	
+
+	static int x = 67;
+   
+	
+    public int add(int x, int y)
+    {
+    	int z = (x + y); 
+    	System.out.println(z);
+    	return z;
+    }
+   
+    
+    public void subtract(int x, int y)
+    {
+    	add(x, y);
+    	System.out.println(z);
+    }
+   
+    
+}

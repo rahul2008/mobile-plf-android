@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string name="EmptyField_ErrorMsg"> Feltet kan ikke stå tomt </string>
+    <string name="Key"> Norwegian </string>
+    <string name="SocialSharingPostTemplateText"> kan du hjelpe meg med </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Gå til startsiden"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s – %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s – %2$s – %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Gå opp"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Flere alternativer"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Ferdig"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Se alle"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Velg en app"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"AV"</string>
+    <string msgid="3405795526292276155" name="abc_capital_on">"PÅ"</string>
+    <string msgid="7723749260725869598" name="abc_search_hint">"Søk …"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Slett søket"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Søkeord"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Søk"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Utfør søket"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Talesøk"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Del med"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Del med %s"</string>
+    <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"Skjul"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string name="actionbar_title_support"> Støtte </string>
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Skriv en anmeldelse </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Hold fokus på produktet i anmeldelsen din. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Ikke ta med noen personlig identifiserbar informasjon, som fullt navn. </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Før du begynner, må du lese retningslinjene. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, jeg har forstått dette. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Unngå å skrive om kundeservice. Kontakt oss i stedet dersom du har spørsmål som krever vår umiddelbare oppmerksomhet. </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Vi ønsker å publisere anmeldelsen din, så følg retningslinjene nedenfor: </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Avstå fra å nevne konkurrenter eller den spesifikke prisen du betalte for produktet. </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Din anmeldelse: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-post </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Er alt riktig? </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Kallenavn: </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Vurdering: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Anmeldelse: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Gå gjennom sammendraget: </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Send inn anmeldelsen min </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Tusen takk! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Tilbake til forbrukerstøtte </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Takk for at du tok deg tid til å skrive denne anmeldelsen. Vi vil vurdere den og gi deg beskjed når den ligger ute på nettet. </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Takk, vi har mottatt anmeldelsen din! </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Gå gjennom sammendraget </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Skriv en anmeldelse </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Skriv din anmeldelse her </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> E-postadresse </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Sørg for at du har tilgang </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ikke det faktiske navnet ditt </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Velg et kallenavn: </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Forhåndsvisning </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Vurder dette produktet </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Jeg har lest og godtar  </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text_two"> vilkår og betingelser </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Din anmeldelse </string>
+    <string name="call_number"> Ring </string>
+    <string name="can_we_help_you"> Kan vi hjelpe deg? </string>
+    <string name="cancel"> Avbryt </string>
+    <string name="chat_desc"> Start livechatt med produktspesialist. Tilgjengelig på engelsk døgnet rundt </string>
+    <string name="chat_now"> Chat nå </string>
+    <string name="chat_with_philips"> Chat med Philips </string>
+    <string name="check_sim"> Ingen SIM-kort oppdaget. Sjekk om det er satt inn riktig </string>
+    <string name="choose_from_library"> Velg fra kamerarull </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/res/values-nb/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="6428604800157361567" name="common_android_wear_notification_needs_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> krever en oppdatering av Android Wear-appen."</string>
+    <string msgid="2453027084525739603" name="common_android_wear_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> kjører ikke med mindre du oppdaterer Android Wear-appen."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Oppdater Android Wear"</string>
+    <string msgid="6534628256897874213" name="common_google_play_services_api_unavailable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> krever én eller flere Google Play Tjenester som ikke er tilgjengelige for øyeblikket. Ta kontakt med utvikleren for å få hjelp."</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Aktiver Google Play Tjenester"</string>
+    <string msgid="4896236883690196080" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> fungerer ikke med mindre du slår på Google Play Tjenester."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Aktiver Google Play Tjenester"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"Forespurt av <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"Installer Google Play Tjenester"</string>
+    <string msgid="8836325110837822534" name="common_google_play_services_install_text_phone">"<ns1:g id="APP_NAME">%1$s</ns1:g> kjører ikke uten Google Play Tjenester, som ikke er installert på telefonen din."</string>
+    <string msgid="542176290824754127" name="common_google_play_services_install_text_tablet">"<ns1:g id="APP_NAME">%1$s</ns1:g> kjører ikke uten Google Play Tjenester, som ikke er installert på nettbrettet ditt."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"Installer Google Play Tjenester"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"Den angitte kontoen finnes ikke på enheten. Velg en annen konto."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"Ugyldig konto"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"En app krever Google Play Tjenester for å aktiveres."</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"Du må ha datatilkobling for å koble deg til Google Play Tjenester."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"Nettverksfeil"</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"En app krever at Google Play Tjenester oppdateres."</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Google Play Tjenester-feil"</string>
+    <string msgid="5194079840165204725" name="common_google_play_services_sign_in_failed_text">"Det oppsto en feil ved pålogging til den angitte kontoen. Velg en annen konto."</string>
+    <string msgid="8164948898147532159" name="common_google_play_services_sign_in_failed_title">"Pålogging mislyktes"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Det oppsto et ukjent problem med Google Play Tjenester."</string>
+    <string msgid="7682982632307307938" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> er avhengig av Google Play Tjenester, som ikke støttes av enheten din. Ta kontakt med produsenten for å få hjelp."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Google Play Tjenester"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"Oppdater"</string>
+    <string msgid="5709479369299147668" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> kjører ikke med mindre du oppdaterer Google Play Tjenester."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Oppdater Google Play Tjenester"</string>
+    <string msgid="2201289642219771610" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> kjører ikke uten Google Play Tjenester, som oppdateres akkurat nå."</string>
+    <string msgid="815008177440683245" name="common_google_play_services_updating_title">"Google Play Tjenester oppdateres"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"Åpne på telefonen"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string name="contact_us"> Kontakt oss </string>
+    <string name="contact_us_text"> Kontakt oss: </string>
+    <string name="create_account">  Opprett konto > </string>
+    <string name="email">  E-postadresse </string>
+    <string name="facebook"> På Facebook </string>
+    <string name="facebook_login_header"> Logg inn på Facebook </string>
+    <string name="feedback"> Fortell oss hva du synes </string>
+    <string name="find_philips_near_you"> Finn Philips nær deg </string>
+    <string name="forgot_my_password"> Jeg har glemt passordet >  </string>
+    <string name="get_directions"> Få veibeskrivelser </string>
+    <string name="googleplus"> På Google Plus </string>
+    <string name="gps_disabled"> GPS er deaktivert i enheten din. Vil du aktivere den? </string>
+    <string name="how_can_we_help"> Trenger du hjelp? </string>
+    <string name="img_description"> beskrivelse </string>
+    <string name="kemailFieldErrorText"> Angi en gyldig e-postadresse. </string>
+    <string name="key"> nb </string>
+    <string name="leave_us_a_message"> Legg igjen en beskjed: </string>
+    <string name="linkedin"> På LinkedIn </string>
+    <string name="live_chat"> Livechatt </string>
+    <string name="loading"> Laster </string>
+    <string name="locate_philips_popup_legal"> Når du bruker funksjonen Finn en Philips-butikk i nærheten på siden for forbrukerstøtte, blir du bedt om å dele opplysninger om plasseringen din med Philips. Basert på disse opplysningene får du veibeskrivelsen til nærmeste butikk eller kontaktinformasjon om forbrukerstøtten i landet ditt </string>
+    <string name="login_to_social_media"> Logge på med konto for sosiale medier? </string>
+    <string name="login_with_philips_account"> Eller logg deg på med My Philips-konto </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string msgid="4271159405637008602" name="mr_media_route_button_content_description">"Medieutgang"</string>
+    <string msgid="7553005460920830010" name="mr_media_route_chooser_searching">"Søker etter enheter …"</string>
+    <string msgid="7106830097177242655" name="mr_media_route_chooser_title">"Koble til enheten"</string>
+    <string msgid="109793632378378069" name="mr_media_route_controller_disconnect">"Koble fra"</string>
+    <string msgid="5441529851481176817" name="mr_system_route_name">"System"</string>
+    <string msgid="7498112907524977311" name="mr_user_route_category_name">"Enheter"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string name="no_data"> Ingen informasjon </string>
+    <string name="no_data_available"> Ingen informasjon </string>
+    <string name="no_internet"> Ingen Internett-forbindelse. Sjekk forbindelsen på telefonen din i wifi-innstillinger eller data-innstillinger </string>
+    <string name="no_thanks"> Nei takk </string>
+    <string name="opening_hours"> Åpningstider </string>
+    <string name="password"> Passord </string>
+    <string name="please_wait"> Vent litt &amp;#8230; </string>
+    <string name="post"> Publiser </string>
+    <string name="product_download_manual"> Last ned produkthåndbok </string>
+    <string name="product_info"> produktinformasjon </string>
+    <string name="product_information"> Produktinformasjon (på philips.com) </string>
+    <string name="product_open_manual"> Åpne interaktiv håndbok </string>
+    <string name="product_view_videos"> Produktvideoer </string>
+    <string name="rate_philips_buttontext"> Logg på My Philips </string>
+    <string name="rate_philips_description"> Skriv en anmeldelse, og hjelp andre å ta riktig avgjørelse </string>
+    <string name="rate_philips_headertext"> Send inn produktanmeldelse </string>
+    <string name="rate_playstore_buttontext"> Skriv anmeldelse av app </string>
+    <string name="rate_playstore_headertext"> Hvordan vurderer du denne appen? </string>
+    <string name="registration"> Registrer produktet </string>
+    <string name="search"> Søk </string>
+    <string name="send"> Send </string>
+    <string name="send_email"> Send e-post </string>
+    <string name="send_us_email"> Send oss en e-post </string>
+    <string name="servicecenters_not_found"> Ingen tilgjengelige servicesentre i landet ditt  </string>
+    <string name="sign_into_my_philips"> Logg på My Philips </string>
+    <string name="social_post_desc_text"> Legg til produktinformasjon </string>
+    <string name="social_post_failed"> Noe gikk galt  </string>
+    <string name="social_post_success"> Meldingen din er mottatt. </string>
+    <string name="social_post_to"> Send en melding til Philips </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/SampleDigitalCare/digitalCare/unspecified/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string name="support_productinformation"> kan du hjelpe meg med </string>
+    <string name="take_photo"> Ta bilde </string>
+    <string name="twiiter_login_logo_description"> Twitter-logo </string>
+    <string name="twitter"> På Twitter </string>
+    <string name="twitter_login_header"> Logg på Twitter </string>
+    <string name="twitter_login_hint_password"> Passord </string>
+    <string name="twitter_login_hint_username"> Brukernavn </string>
+    <string name="twitter_post_char_limitation"> Merk: Meldingen kan ikke være lengre enn 140 tegn </string>
+    <string name="twitter_post_progress_message"> Sender meldingen din til Philips Twitter-støtte ... </string>
+    <string name="view_faq"> Les spørsmål </string>
+    <string name="view_product_details"> Se produktinformasjon </string>
+    <!-- From: file:/D:/GIT/DigitalCare/Develop/Source/SampleDigitalCare/launchDigitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/8.1.0/res/values-nb/wallet_strings.xml -->
+    <eat-comment/>
+    <string msgid="4184147110658930238" name="wallet_buy_button_place_holder">"Kjøp med Google"</string>
+</resources>

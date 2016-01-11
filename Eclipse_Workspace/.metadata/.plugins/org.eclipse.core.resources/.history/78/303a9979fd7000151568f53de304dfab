@@ -1,0 +1,28 @@
+
+public class AcadGildSessionTester
+{
+    
+	public static void main(String[] acadgild)
+	{
+		
+		int x = 10;
+		String name = null;
+		Dhoom mDhoom = null;
+		PK mPK = null;
+		
+		System.out.println("This is the ThirdDay Session");
+		
+		mDhoom = new Dhoom();
+		
+	
+		
+		mPK = new PK();
+		
+		System.out.println("Dhoom Value : " + mDhoom);
+		System.out.println("PK Value : " + mPK);
+		
+	}
+	
+	
+	
+}

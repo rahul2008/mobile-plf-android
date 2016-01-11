@@ -1,0 +1,16 @@
+
+public class AcadGildSessionTester
+{
+    
+	public static void main(String[] acadgild)
+	{
+		
+		Dhoom mDhoom = new Dhoom();
+		mDhoom.printNameBoss()
+		// System.out.println("Printing Method : " + mDhoom.printNameBoss());
+		
+	}
+	
+	
+	
+}

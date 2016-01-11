@@ -1,0 +1,13 @@
+
+public class Dhoom {
+	
+
+	protected int printNameBoss(int x)
+	{
+		int x = (60 + x);
+		return x;
+	}
+	
+	
+
+}

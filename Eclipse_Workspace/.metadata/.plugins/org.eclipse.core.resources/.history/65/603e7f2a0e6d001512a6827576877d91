@@ -1,0 +1,30 @@
+
+public class AcadGildPractice {
+
+	public static void main(String[] acadgild) {
+
+		System.out.println("Hello AcadGild");
+
+		byte value = 10;
+
+		if (value == 1)
+		{
+			System.out.println("Yes Boss, Value is 1");
+		} if(value == 2)
+		{
+			System.out.println("Yes Boss, Value is 2");
+		}if(value == 3)
+		{
+			System.out.println("Yes Boss, Value is 3");
+		}
+		if(value == 10)
+		{
+			System.out.println("Yes Boss, Value is 10");
+		}else
+		{
+			System.out.println("I am in else Block boss");
+		}
+
+	}
+
+}

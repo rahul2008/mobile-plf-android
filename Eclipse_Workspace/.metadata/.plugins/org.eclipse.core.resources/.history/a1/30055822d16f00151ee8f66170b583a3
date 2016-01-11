@@ -1,0 +1,13 @@
+
+public class AcadGildTutorialTwo {
+	
+	
+	public static void main(String[] args)
+	{
+		
+		
+		System.out.println("Printing args : " + args[0]);
+		
+	}// End Brace of static void main mehtod
+	
+}// End brace of AcadGildTutorialTwo

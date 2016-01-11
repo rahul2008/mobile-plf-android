@@ -1,0 +1,13 @@
+
+public class SampleOne {
+	
+   	public static void main (String[]  args)
+   	{
+   		
+   	   System.out.println("");
+   		 
+   		
+   	}//static void main method.
+   	
+   	
+}// End Brace for the SampleOne Class.

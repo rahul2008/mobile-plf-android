@@ -1,0 +1,23 @@
+
+public class AcadGildSessionTester
+{
+    
+	public static void main(String[] acadgild)
+	{
+		
+		System.out.println("I am Printing the Tamil Manvie Name");
+		
+		
+		System.out.println("I am printing Telugu Movie name");
+		
+		
+		Dhoom mDhoom = new Dhoom();
+		
+		
+		
+		
+	}
+	
+	
+	
+}
