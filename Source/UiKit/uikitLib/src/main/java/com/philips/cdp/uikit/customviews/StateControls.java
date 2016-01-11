@@ -224,7 +224,7 @@ public class StateControls extends LinearLayout {
 
     private void setUnSelectedState() {
         unSelectedDrawable = new GradientDrawable();
-        unSelectedDrawable.setStroke(2, baseColor);
+        unSelectedDrawable.setStroke(1, baseColor);
         unSelectedDrawable.setColor(Color.WHITE);
     }
 
