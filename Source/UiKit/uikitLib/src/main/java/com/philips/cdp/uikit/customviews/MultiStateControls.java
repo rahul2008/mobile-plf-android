@@ -26,6 +26,7 @@ import java.util.List;
 public class MultiStateControls extends LinearLayout {
 
     private static final String TAG = MultiStateControls.class.getSimpleName();
+    private float buttonWidth, buttonHeight;
     private boolean isSelected;
     private CharSequence[] texts;
     private int count;
@@ -60,6 +61,8 @@ public class MultiStateControls extends LinearLayout {
         count = a.getInt(R.styleable.Controls_controlCount, 0);
         isSelected = a.getBoolean(R.styleable.Controls_controlSelected, false);
         isMultipleChoice = a.getBoolean(R.styleable.Controls_controlMultiChoice, false);
+        buttonWidth = a.getDimension(R.styleable.Controls_controlButtonWidth, (int) context.getResources().getDimension(R.dimen.uikit_controls_default_width));
+        buttonHeight = a.getDimension(R.styleable.Controls_controlButtonHeight, (int) context.getResources().getDimension(R.dimen.uikit_controls_default_height));
         a.recycle();
 
         drawControls(texts, isSelected, count);
@@ -99,6 +102,7 @@ public class MultiStateControls extends LinearLayout {
             button = (Button) view.findViewById(R.id.control_button);
             divider = view.findViewById(R.id.divider);
             divider.setBackgroundColor(adjustAlpha(baseColor, 0.3f));
+            button.setLayoutParams(new LayoutParams((int) buttonWidth, (int) buttonHeight));
             button.setText(texts != null ? texts[i] : "");
             if (isMultipleChoice && i != elementCount - 1) {
                 divider.setVisibility(View.VISIBLE);
@@ -154,6 +158,7 @@ public class MultiStateControls extends LinearLayout {
             View view, divider;
             view = inflater.inflate(R.layout.uikit_toggle_image_button, null, false);
             button = (ImageButton) view.findViewById(R.id.control_button);
+            button.setLayoutParams(new LayoutParams((int) buttonWidth, (int) buttonHeight));
             button.setScaleType(ImageView.ScaleType.CENTER);
             divider = view.findViewById(R.id.divider);
             divider.setBackgroundColor(adjustAlpha(baseColor, 0.3f));
