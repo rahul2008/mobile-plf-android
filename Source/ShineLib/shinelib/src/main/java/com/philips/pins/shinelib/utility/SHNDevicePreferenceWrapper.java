@@ -26,8 +26,13 @@ public class SHNDevicePreferenceWrapper {
         sharedPreferences = context.getSharedPreferences(address + SHN_DEVICE_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
     }
 
+    @NonNull
     public SharedPreferences.Editor edit() {
         return sharedPreferences.edit();
+    }
+
+    public boolean getBoolean(@NonNull final String key) {
+        return sharedPreferences.getBoolean(key, false);
     }
 
     public int getInt(@NonNull final String key) {
@@ -51,5 +56,15 @@ public class SHNDevicePreferenceWrapper {
     @SuppressLint("CommitPrefEdits")
     public void putLong(@NonNull final String key, final long value) {
         sharedPreferences.edit().putLong(key, value).commit();
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    public void putInt(@NonNull final String key, final int value) {
+        sharedPreferences.edit().putInt(key, value).commit();
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    public void putBoolean(@NonNull final String key, final boolean value) {
+        sharedPreferences.edit().putBoolean(key, value).commit();
     }
 }
