@@ -116,7 +116,7 @@ public class SpringBoardGridTest extends ActivityInstrumentationTestCase2<Spring
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withText("6 Grid")).perform(click());
-        onView(withId(R.id.item1)).check(matches(isBackgroundColorSimilar("#1e9d8b", 5, 10)));
+        onView(withId(R.id.item1)).check(matches(isBackgroundColorSimilar("#1e9d8b", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sb_x_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
 }
