@@ -5,6 +5,5 @@
 
 package com.philips.pins.shinelib;
 
-public interface SHNStringResultListener {
-    void onActionCompleted(String value, SHNResult result);
+public interface SHNStringResultListener extends ResultListener<String> {
 }
