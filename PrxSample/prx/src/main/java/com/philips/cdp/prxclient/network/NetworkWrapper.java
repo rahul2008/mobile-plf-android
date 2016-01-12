@@ -36,7 +36,7 @@ public class NetworkWrapper {
     public void executeJsonObjectRequest(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
 
 
-        RequestQueue mVolleyRequest = Volley.newRequestQueue(mContext);
+        RequestQueue mVolleyRequest = VolleyQueue.getInstance().getRequestQueue(mContext);
 
         PrxLogger.d(TAG, "Url : " + prxDataBuilder.getRequestUrl());
         JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(0, prxDataBuilder.getRequestUrl(), new Response.Listener<JSONObject>() {
@@ -53,11 +53,9 @@ public class NetworkWrapper {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error != null) {
-                    try
-                    {
+                    try {
                         listener.onResponseError(error.toString(), error.networkResponse.statusCode);
-                    }catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         PrxLogger.e(TAG, "Volley Error : " + e);
                         listener.onResponseError(error.toString(), 0);
                     }
