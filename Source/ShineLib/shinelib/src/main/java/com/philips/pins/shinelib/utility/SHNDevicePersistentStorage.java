@@ -11,18 +11,18 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class SHNDevicePreferenceWrapper {
+public class SHNDevicePersistentStorage {
 
     public static final String SHN_DEVICE_PREFERENCES_FILE_KEY = "_SHINELIB_DEVICE_PREFERENCES_FILE_KEY";
 
     @NonNull
     private final SharedPreferences sharedPreferences;
 
-    public static SHNDevicePreferenceWrapper createNewSHNDevicePreferenceWrapper(@NonNull final Context context, @NonNull final String address) {
-        return new SHNDevicePreferenceWrapper(context, address);
+    public static SHNDevicePersistentStorage createNewSHNDevicePersistentStorage(@NonNull final Context context, @NonNull final String address) {
+        return new SHNDevicePersistentStorage(context, address);
     }
 
-    private SHNDevicePreferenceWrapper(@NonNull final Context context, @NonNull final String address) {
+    private SHNDevicePersistentStorage(@NonNull final Context context, @NonNull final String address) {
         sharedPreferences = context.getSharedPreferences(address + SHN_DEVICE_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
     }
 

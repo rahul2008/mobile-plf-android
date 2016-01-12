@@ -14,7 +14,7 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNUserConfiguration;
 import com.philips.pins.shinelib.SHNUserConfigurationImpl;
 import com.philips.pins.shinelib.services.SHNServiceUserData;
-import com.philips.pins.shinelib.utility.SHNDevicePreferenceWrapper;
+import com.philips.pins.shinelib.utility.SHNDevicePersistentStorage;
 
 import java.util.Date;
 import java.util.Queue;
@@ -27,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserControlPoint {
 
     private final SHNServiceUserData shnServiceUserData;
-    private final SHNDevicePreferenceWrapper shnDevicePreferenceWrapper;
+    private final SHNDevicePersistentStorage shnDevicePersistentStorage;
     private final SHNUserConfigurationImpl shnUserConfigurationImpl;
 
     private SHNCapabilityUserControlPointListener shnCapabilityUserControlPointListener;
@@ -50,11 +50,11 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
         }
     };
 
-    public SHNCapabilityUserControlPointImpl(SHNServiceUserData shnServiceUserData, SHNUserConfigurationImpl shnUserConfigurationImpl, SHNDevicePreferenceWrapper wrapper) {
+    public SHNCapabilityUserControlPointImpl(SHNServiceUserData shnServiceUserData, SHNUserConfigurationImpl shnUserConfigurationImpl, SHNDevicePersistentStorage shnDevicePersistentStorage) {
         this.shnServiceUserData = shnServiceUserData;
         shnServiceUserData.setShnServiceUserDataListener(shnServiceUserDataListener);
         this.shnUserConfigurationImpl = shnUserConfigurationImpl;
-        this.shnDevicePreferenceWrapper = wrapper;
+        this.shnDevicePersistentStorage = shnDevicePersistentStorage;
     }
 
     @Override
@@ -64,12 +64,12 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     @Override
     public int getCurrentUserIndex() {
-        return shnDevicePreferenceWrapper.getInt(UDS_USER_ID);
+        return shnDevicePersistentStorage.getInt(UDS_USER_ID);
     }
 
     @Override
     public int getCurrentConsentCode() {
-        return shnDevicePreferenceWrapper.getInt(UDS_CONSENT_CODE);
+        return shnDevicePersistentStorage.getInt(UDS_CONSENT_CODE);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     @Override
     public void pushUserConfiguration(SHNResultListener shnResultListener) {
-        new Pusher(shnUserConfigurationImpl, shnServiceUserData, shnDevicePreferenceWrapper).start(shnResultListener);
+        new Pusher(shnUserConfigurationImpl, shnServiceUserData, shnDevicePersistentStorage).start(shnResultListener);
     }
 
     private void autoConsentUser() {
@@ -121,17 +121,17 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
     }
 
     private void storeUserData(int userIndex, int consentCode) {
-        SharedPreferences.Editor editor = shnDevicePreferenceWrapper.edit();
+        SharedPreferences.Editor editor = shnDevicePersistentStorage.edit();
         editor.putInt(UDS_USER_ID, userIndex);
         editor.putInt(UDS_CONSENT_CODE, consentCode);
     }
 
     private int getStoredDataBaseIncrement() {
-        return shnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT);
+        return shnDevicePersistentStorage.getInt(UDS_DATABASE_INCREMENT);
     }
 
     private int getStoredUserConfigurationIncrement() {
-        return shnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT);
+        return shnDevicePersistentStorage.getInt(UC_DATABASE_INCREMENT);
     }
 
     private void checkIncrementMismatch() {
@@ -192,11 +192,11 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
         Queue<Command> commandQueue;
         private SHNResultListener shnEndResultListener;
         private SHNUserConfigurationImpl userConfiguration;
-        private SHNDevicePreferenceWrapper shnDevicePreferenceWrapper;
+        private SHNDevicePersistentStorage shnDevicePersistentStorage;
 
-        private Pusher(SHNUserConfigurationImpl userConfiguration, SHNServiceUserData shnServiceUserData, SHNDevicePreferenceWrapper shnDevicePreferenceWrapper) {
+        private Pusher(SHNUserConfigurationImpl userConfiguration, SHNServiceUserData shnServiceUserData, SHNDevicePersistentStorage shnDevicePersistentStorage) {
             this.userConfiguration = userConfiguration;
-            this.shnDevicePreferenceWrapper = shnDevicePreferenceWrapper;
+            this.shnDevicePersistentStorage = shnDevicePersistentStorage;
             commandQueue = new LinkedBlockingQueue<>();
             commandQueue.add(new AgeCommand(userConfiguration.getAge(), shnServiceUserData));
             commandQueue.add(new RestingHeartRateCommand(userConfiguration.getRestingHeartRate(), shnServiceUserData));
@@ -331,7 +331,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                     public void onActionCompleted(SHNResult result) {
                         shnResultListener.onActionCompleted(result);
                         if (result == SHNResult.SHNOk) {
-                            SharedPreferences.Editor editor = shnDevicePreferenceWrapper.edit();
+                            SharedPreferences.Editor editor = shnDevicePersistentStorage.edit();
                             editor.putInt(UDS_DATABASE_INCREMENT, newIndex);
                             editor.putInt(UC_DATABASE_INCREMENT, userConfiguration.getChangeIncrement());
                         }

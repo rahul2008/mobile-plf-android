@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNUserConfiguration;
 import com.philips.pins.shinelib.SHNUserConfigurationImpl;
 import com.philips.pins.shinelib.services.SHNServiceUserData;
-import com.philips.pins.shinelib.utility.SHNDevicePreferenceWrapper;
+import com.philips.pins.shinelib.utility.SHNDevicePersistentStorage;
 
 import junit.framework.TestCase;
 
@@ -39,7 +39,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     private SHNCapabilityUserControlPoint shnCapabilityUserControlPoint;
     private SHNServiceUserData mockedShnServiceUserData;
     private SHNUserConfigurationImpl mockedShnUserConfigurationImpl;
-    private SHNDevicePreferenceWrapper mockedShnDevicePreferenceWrapper;
+    private SHNDevicePersistentStorage mockedShnDevicePersistentStorage;
     private SharedPreferences.Editor mockedEditor;
 
     ArgumentCaptor<SHNServiceUserData.SHNServiceUserDataListener> SHNServiceUserDataListenerCaptor;
@@ -54,18 +54,18 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         super.setUp();
         mockedShnServiceUserData = mock(SHNServiceUserData.class);
         mockedShnUserConfigurationImpl = mock(SHNUserConfigurationImpl.class);
-        mockedShnDevicePreferenceWrapper = mock(SHNDevicePreferenceWrapper.class);
+        mockedShnDevicePersistentStorage = mock(SHNDevicePersistentStorage.class);
         mockedEditor = mock(SharedPreferences.Editor.class);
-        Mockito.when(mockedShnDevicePreferenceWrapper.edit()).thenReturn(mockedEditor);
+        Mockito.when(mockedShnDevicePersistentStorage.edit()).thenReturn(mockedEditor);
 
-        shnCapabilityUserControlPoint = new SHNCapabilityUserControlPointImpl(mockedShnServiceUserData, mockedShnUserConfigurationImpl, mockedShnDevicePreferenceWrapper);
+        shnCapabilityUserControlPoint = new SHNCapabilityUserControlPointImpl(mockedShnServiceUserData, mockedShnUserConfigurationImpl, mockedShnDevicePersistentStorage);
         SHNServiceUserDataListenerCaptor = ArgumentCaptor.forClass(SHNServiceUserData.SHNServiceUserDataListener.class);
         verify(mockedShnServiceUserData).setShnServiceUserDataListener(SHNServiceUserDataListenerCaptor.capture());
     }
 
     @Test
     public void initTest() {
-        SHNCapabilityUserControlPointImpl shnCapabilityUserControlPoint = new SHNCapabilityUserControlPointImpl(mockedShnServiceUserData, mockedShnUserConfigurationImpl, mockedShnDevicePreferenceWrapper);
+        SHNCapabilityUserControlPointImpl shnCapabilityUserControlPoint = new SHNCapabilityUserControlPointImpl(mockedShnServiceUserData, mockedShnUserConfigurationImpl, mockedShnDevicePersistentStorage);
     }
 
     @Test
@@ -77,14 +77,14 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     public void whenGetCurrentUserIndexIsCalledThanIndexIsRedFromPreferences() {
         shnCapabilityUserControlPoint.getCurrentUserIndex();
 
-        verify(mockedShnDevicePreferenceWrapper).getInt(UDS_USER_INDEX);
+        verify(mockedShnDevicePersistentStorage).getInt(UDS_USER_INDEX);
     }
 
     @Test
     public void whenGetCurrentConsentCodeIsCalledThanIndexIsRedFromPreferences() {
         shnCapabilityUserControlPoint.getCurrentConsentCode();
 
-        verify(mockedShnDevicePreferenceWrapper).getInt(UDS_CONSENT_CODE);
+        verify(mockedShnDevicePersistentStorage).getInt(UDS_CONSENT_CODE);
     }
 
     @Test
@@ -154,7 +154,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int userIndex = 1;
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
-        verify(mockedShnDevicePreferenceWrapper).getInt(UC_DATABASE_INCREMENT);
+        verify(mockedShnDevicePersistentStorage).getInt(UC_DATABASE_INCREMENT);
         verify(mockedShnUserConfigurationImpl).getChangeIncrement();
     }
 
@@ -164,7 +164,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int userIndex = 1;
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNErrorTimeout);
 
-        verify(mockedShnDevicePreferenceWrapper, never()).getInt(UC_DATABASE_INCREMENT);
+        verify(mockedShnDevicePersistentStorage, never()).getInt(UC_DATABASE_INCREMENT);
         verify(mockedShnUserConfigurationImpl, never()).getChangeIncrement();
     }
 
@@ -174,8 +174,8 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int userIndex = 1;
         int userConfiguration = 6;
 
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
-        when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
+        when(mockedShnDevicePersistentStorage.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
         when(mockedShnUserConfigurationImpl.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
@@ -200,14 +200,14 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int userIndex = 1;
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
-        verify(mockedShnDevicePreferenceWrapper).edit();
+        verify(mockedShnDevicePersistentStorage).edit();
         verify(mockedEditor).putInt(UDS_USER_INDEX, userIndex);
         verify(mockedEditor).putInt(UDS_CONSENT_CODE, consentCode);
     }
 
     private void verifyUserConsentWithUserIndexAndConsentCode(int userIndex, int consentCode, int localIncrement, int receivedIncrement) {
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(localIncrement);
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_DATABASE_INCREMENT)).thenReturn(localIncrement);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
 
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
@@ -238,8 +238,8 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int consentCode = 34;
         int userConfiguration = 9;
 
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
-        when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
+        when(mockedShnDevicePersistentStorage.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
         when(mockedShnUserConfigurationImpl.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
@@ -270,14 +270,14 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int consentCode = 34;
         int userConfiguration = 9;
 
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
-        when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
+        when(mockedShnDevicePersistentStorage.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
         when(mockedShnUserConfigurationImpl.getChangeIncrement()).thenReturn(userConfiguration + 1);
 
         consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
         verify(mockedShnCapabilityUserControlPointListener, times(1)).onMismatchedDatabaseIncrement(userIndex);
-        verify(mockedShnDevicePreferenceWrapper, never()).getInt(UDS_DATABASE_INCREMENT);
+        verify(mockedShnDevicePersistentStorage, never()).getInt(UDS_DATABASE_INCREMENT);
     }
 
     private void verifyAgeForTheUser(int userIndex, int localAge, int age){
@@ -340,21 +340,21 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     public void whenServicesBecomesAvailableThanIndexAndConsentCodeAreRedFromPreferences() {
         SHNServiceUserDataListenerCaptor.getValue().onServiceStateChanged(mockedShnServiceUserData, SHNService.State.Available);
 
-        verify(mockedShnDevicePreferenceWrapper).getInt(UDS_USER_INDEX);
-        verify(mockedShnDevicePreferenceWrapper).getInt(UDS_CONSENT_CODE);
+        verify(mockedShnDevicePersistentStorage).getInt(UDS_USER_INDEX);
+        verify(mockedShnDevicePersistentStorage).getInt(UDS_CONSENT_CODE);
     }
 
     @Test
     public void whenServicesBecomesAvailableThanAutoConsentIsPerformedWithStoredValues() {
         int index = 1;
         int consentCode = 336;
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(index);
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_CONSENT_CODE)).thenReturn(consentCode);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_USER_INDEX)).thenReturn(index);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_CONSENT_CODE)).thenReturn(consentCode);
 
         SHNServiceUserDataListenerCaptor.getValue().onServiceStateChanged(mockedShnServiceUserData, SHNService.State.Available);
 
-        verify(mockedShnDevicePreferenceWrapper).getInt(UDS_USER_INDEX);
-        verify(mockedShnDevicePreferenceWrapper).getInt(UDS_CONSENT_CODE);
+        verify(mockedShnDevicePersistentStorage).getInt(UDS_USER_INDEX);
+        verify(mockedShnDevicePersistentStorage).getInt(UDS_CONSENT_CODE);
 
         ArgumentCaptor<Integer> indexCaptor = ArgumentCaptor.forClass(int.class);
         ArgumentCaptor<Integer> consentCodeCaptor = ArgumentCaptor.forClass(int.class);
@@ -366,8 +366,8 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     private void autoConsentUserWithResult(int index, int consentCode, SHNResult result) {
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(index);
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_CONSENT_CODE)).thenReturn(consentCode);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_USER_INDEX)).thenReturn(index);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_CONSENT_CODE)).thenReturn(consentCode);
 
         SHNServiceUserDataListenerCaptor.getValue().onServiceStateChanged(mockedShnServiceUserData, SHNService.State.Available);
 
@@ -420,8 +420,8 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int index = -1;
         int consentCode = -1;
 
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(index);
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_CONSENT_CODE)).thenReturn(consentCode);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_USER_INDEX)).thenReturn(index);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_CONSENT_CODE)).thenReturn(consentCode);
 
         SHNServiceUserDataListenerCaptor.getValue().onServiceStateChanged(mockedShnServiceUserData, SHNService.State.Available);
 
@@ -429,7 +429,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     private void verifyPushUserConfiguration(int increment) {
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(increment);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_DATABASE_INCREMENT)).thenReturn(increment);
 
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
         shnCapabilityUserControlPoint.pushUserConfiguration(mockedShnResultListener);
@@ -739,7 +739,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         verify(mockedShnServiceUserData).setDatabaseIncrement(anyInt(), shnResultListenerArgumentCaptor.capture());
         shnResultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNOk);
 
-        verify(mockedShnDevicePreferenceWrapper).edit();
+        verify(mockedShnDevicePersistentStorage).edit();
         verify(mockedEditor).putInt(UDS_DATABASE_INCREMENT, receivedIncrement+1);
         verify(mockedEditor).putInt(UC_DATABASE_INCREMENT, increment);
     }
@@ -753,7 +753,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(true);
         when(mockedShnUserConfigurationImpl.getAge()).thenReturn(age);
 
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
 
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
         shnCapabilityUserControlPoint.pushUserConfiguration(mockedShnResultListener);
@@ -778,7 +778,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnServiceUserData.hasRestingHeartRateCharacteristic()).thenReturn(true);
         when(mockedShnUserConfigurationImpl.getRestingHeartRate()).thenReturn(beast);
 
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
+        when(mockedShnDevicePersistentStorage.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
 
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
         shnCapabilityUserControlPoint.pushUserConfiguration(mockedShnResultListener);

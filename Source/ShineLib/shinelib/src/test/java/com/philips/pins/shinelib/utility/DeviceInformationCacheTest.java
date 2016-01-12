@@ -24,7 +24,7 @@ public class DeviceInformationCacheTest {
     public static final Date TEST_DATE = new Date();
 
     @Mock
-    private SHNDevicePreferenceWrapper preferenceWrapperMock;
+    private SHNDevicePersistentStorage shnDevicePersistentStorageMock;
 
     private DeviceInformationCache deviceInformationCache;
 
@@ -33,12 +33,12 @@ public class DeviceInformationCacheTest {
         initMocks(this);
 
 
-        deviceInformationCache = new DeviceInformationCache(preferenceWrapperMock);
+        deviceInformationCache = new DeviceInformationCache(shnDevicePersistentStorageMock);
     }
 
     @Test
     public void ShouldReturnValueOfCachedType_WhenQueried() {
-        when(preferenceWrapperMock.getString(INFORMATION_TYPE.name())).thenReturn(TEST_MESSAGE);
+        when(shnDevicePersistentStorageMock.getString(INFORMATION_TYPE.name())).thenReturn(TEST_MESSAGE);
 
         String value = deviceInformationCache.getValue(INFORMATION_TYPE);
 
@@ -47,7 +47,7 @@ public class DeviceInformationCacheTest {
 
     @Test
     public void ShouldReturnDateOfCachedType_WhenQueried() throws ParseException {
-        when(preferenceWrapperMock.getLong(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX)).thenReturn(TEST_DATE.getTime());
+        when(shnDevicePersistentStorageMock.getLong(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX)).thenReturn(TEST_DATE.getTime());
 
         Date date = deviceInformationCache.getDate(INFORMATION_TYPE);
 
@@ -58,8 +58,8 @@ public class DeviceInformationCacheTest {
     public void ShouldPersistValueAndDate_WhenSaveIsCalled() {
         deviceInformationCache.save(INFORMATION_TYPE, TEST_MESSAGE);
 
-        verify(preferenceWrapperMock).putString(INFORMATION_TYPE.name(), TEST_MESSAGE);
-        verify(preferenceWrapperMock).putLong(eq(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX), longThat(new ArgumentMatcher<Long>() {
+        verify(shnDevicePersistentStorageMock).putString(INFORMATION_TYPE.name(), TEST_MESSAGE);
+        verify(shnDevicePersistentStorageMock).putLong(eq(INFORMATION_TYPE.name() + DeviceInformationCache.DATE_SUFFIX), longThat(new ArgumentMatcher<Long>() {
 
             private long max;
             private long min;
