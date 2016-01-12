@@ -36,6 +36,10 @@ android {
             versionName "3.0.1"
         }
     }
+
+    dexOptions {
+        preDexLibraries = false
+    }
 }
 
 calabash {
