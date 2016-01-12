@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ShinePreferenceWrapper {
+public class SHNPersistentStorage {
     public static final String SHINELIB_PREFERENCES_FILE_KEY = "SHINELIB_PREFERENCES";
     public static final String ASSOCIATED_DEVICES = "ASSOCIATED_DEVICES";
 
@@ -30,7 +30,7 @@ public class ShinePreferenceWrapper {
         }
     }
 
-    public ShinePreferenceWrapper(Context context) {
+    public SHNPersistentStorage(Context context) {
         sharedPreferences = context.getSharedPreferences(SHINELIB_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
     }
 

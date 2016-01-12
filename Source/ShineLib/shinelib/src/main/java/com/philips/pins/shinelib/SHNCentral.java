@@ -98,7 +98,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
-import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
+import com.philips.pins.shinelib.utility.SHNPersistentStorage;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
@@ -203,7 +203,7 @@ public class SHNCentral {
 
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(getApplicationContext(), getInternalHandler());
 
-        SHNServiceRegistry.getInstance().add(new ShinePreferenceWrapper(applicationContext));
+        SHNServiceRegistry.getInstance().add(new SHNPersistentStorage(applicationContext));
     }
 
     private void setState(final State state) {

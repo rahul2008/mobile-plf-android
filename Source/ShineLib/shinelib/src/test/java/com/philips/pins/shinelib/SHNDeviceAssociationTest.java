@@ -7,7 +7,7 @@ import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
-import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
+import com.philips.pins.shinelib.utility.SHNPersistentStorage;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -61,7 +61,7 @@ public class SHNDeviceAssociationTest {
     private SHNAssociationProcedurePlugin mockedSHNAssociationProcedure;
     private UUID mockedPrimaryServiceUUID;
     private SHNDeviceDefinitions mockedSHNDeviceDefinitions;
-    private ShinePreferenceWrapper mockedShinePreferenceWrapper;
+    private SHNPersistentStorage mockedSHNPersistentStorage;
     private SHNDevice mockedSHNDevice;
     private MockedHandler mockedInternalHandler;
     private MockedHandler mockedUserHandler;
@@ -86,7 +86,7 @@ public class SHNDeviceAssociationTest {
         mockedSHNDeviceDefinitionInfo = Utility.makeThrowingMock(SHNDeviceDefinitionInfo.class);
         mockedSHNDeviceDefinition = Utility.makeThrowingMock(SHNDeviceDefinitionInfo.SHNDeviceDefinition.class);
         mockedSHNDeviceDefinitions = Utility.makeThrowingMock(SHNDeviceDefinitions.class);
-        mockedShinePreferenceWrapper = Utility.makeThrowingMock(ShinePreferenceWrapper.class);
+        mockedSHNPersistentStorage = Utility.makeThrowingMock(SHNPersistentStorage.class);
         mockedSHNDevice = Utility.makeThrowingMock(SHNDevice.class);
         mockedPrimaryServiceUUID = UUID.randomUUID();
         mockedInternalHandler = new MockedHandler();
@@ -115,7 +115,7 @@ public class SHNDeviceAssociationTest {
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
-        SHNServiceRegistry.getInstance().add(mockedShinePreferenceWrapper, ShinePreferenceWrapper.class);
+        SHNServiceRegistry.getInstance().add(mockedSHNPersistentStorage, SHNPersistentStorage.class);
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
         doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
@@ -137,8 +137,8 @@ public class SHNDeviceAssociationTest {
 
         doReturn(mockedSHNDevice).when(mockedSHNDeviceDefinition).createDeviceFromDeviceAddress(anyString(), any(SHNDeviceDefinitionInfo.class), any(SHNCentral.class));
 
-        doReturn(Collections.emptyList()).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
-        doNothing().when(mockedShinePreferenceWrapper).storeAssociatedDeviceInfos(anyList());
+        doReturn(Collections.emptyList()).when(mockedSHNPersistentStorage).readAssociatedDeviceInfos();
+        doNothing().when(mockedSHNPersistentStorage).storeAssociatedDeviceInfos(anyList());
 
         shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal);
 
@@ -154,7 +154,7 @@ public class SHNDeviceAssociationTest {
     @Test
     public void whenCreated_ThenTheAssociationsAreRead() {
         assertNotNull(shnDeviceAssociation);
-        verify(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
+        verify(mockedSHNPersistentStorage).readAssociatedDeviceInfos();
     }
 
     @Test
@@ -456,12 +456,12 @@ public class SHNDeviceAssociationTest {
 
     @Test
     public void whenADeviceForAPluginIsPersisted_ButThePluginIsNotRegistered_ThenItShouldNotListTheDevice() {
-        List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfoList = new ArrayList<>();
-        associatedDeviceInfoList.add(new ShinePreferenceWrapper.AssociatedDeviceInfo("11:22:33:44:55:66", DEVICE_TYPE_NAME));
-        associatedDeviceInfoList.add(new ShinePreferenceWrapper.AssociatedDeviceInfo("22:22:33:44:55:66", "NOT_KNOWN"));
-        associatedDeviceInfoList.add(new ShinePreferenceWrapper.AssociatedDeviceInfo("33:22:33:44:55:66", DEVICE_TYPE_NAME));
+        List<SHNPersistentStorage.AssociatedDeviceInfo> associatedDeviceInfoList = new ArrayList<>();
+        associatedDeviceInfoList.add(new SHNPersistentStorage.AssociatedDeviceInfo("11:22:33:44:55:66", DEVICE_TYPE_NAME));
+        associatedDeviceInfoList.add(new SHNPersistentStorage.AssociatedDeviceInfo("22:22:33:44:55:66", "NOT_KNOWN"));
+        associatedDeviceInfoList.add(new SHNPersistentStorage.AssociatedDeviceInfo("33:22:33:44:55:66", DEVICE_TYPE_NAME));
 
-        doReturn(associatedDeviceInfoList).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
+        doReturn(associatedDeviceInfoList).when(mockedSHNPersistentStorage).readAssociatedDeviceInfos();
 
         shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal);
 

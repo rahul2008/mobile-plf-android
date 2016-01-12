@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
-import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
+import com.philips.pins.shinelib.utility.SHNPersistentStorage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,10 +125,10 @@ public class SHNDeviceAssociation {
     }
 
     private void initAssociatedDevicesList(SHNCentral shnCentral) {
-        List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos =
-                SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class).readAssociatedDeviceInfos();
+        List<SHNPersistentStorage.AssociatedDeviceInfo> associatedDeviceInfos =
+                SHNServiceRegistry.getInstance().get(SHNPersistentStorage.class).readAssociatedDeviceInfos();
         associatedDevices = new ArrayList<>();
-        for (ShinePreferenceWrapper.AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
+        for (SHNPersistentStorage.AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
             SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(associatedDeviceInfo.deviceTypeName);
 
             SHNDevice shnDevice = null;
@@ -264,11 +264,11 @@ public class SHNDeviceAssociation {
     }
 
     private void persistAssociatedDeviceList() {
-        List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();
+        List<SHNPersistentStorage.AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();
         for (SHNDevice shnDevice : associatedDevices) {
-            associatedDeviceInfos.add(new ShinePreferenceWrapper.AssociatedDeviceInfo(shnDevice.getAddress(), shnDevice.getDeviceTypeName()));
+            associatedDeviceInfos.add(new SHNPersistentStorage.AssociatedDeviceInfo(shnDevice.getAddress(), shnDevice.getDeviceTypeName()));
         }
-        SHNServiceRegistry.getInstance().get(ShinePreferenceWrapper.class).storeAssociatedDeviceInfos(associatedDeviceInfos);
+        SHNServiceRegistry.getInstance().get(SHNPersistentStorage.class).storeAssociatedDeviceInfos(associatedDeviceInfos);
     }
 
     private void handleStopAssociation() {
