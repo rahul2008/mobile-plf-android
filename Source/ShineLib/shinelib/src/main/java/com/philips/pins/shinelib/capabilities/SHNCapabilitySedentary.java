@@ -12,9 +12,9 @@ import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapability;
 
 public interface SHNCapabilitySedentary extends SHNCapability {
-    void setSedentaryPeriodInMinutes(@IntRange(from = 0, to = 255) final short minutes, @NonNull final ResultListener<Integer> shnResultListener);
+    void setSedentaryPeriodInMinutes(@IntRange(from = 0, to = 255) final short minutes, @NonNull final ResultListener<Short> shnResultListener);
 
-    void getSedentaryPeriodInMinutes(@NonNull final ResultListener<Integer> resultListener);
+    void getSedentaryPeriodInMinutes(@NonNull final ResultListener<Short> resultListener);
 
     void setSedentaryNotificationEnabled(final boolean enabled, @NonNull final ResultListener<Boolean> shnResultListener);
 
