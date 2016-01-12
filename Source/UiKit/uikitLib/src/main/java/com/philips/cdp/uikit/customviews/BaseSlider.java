@@ -21,12 +21,12 @@ import com.philips.cdp.uikit.R;
  * <br>
  To use BaseSlider in XML file  include below convention as per your required display metrics
  <br>
- <com.philips.cdp.uikit.customviews.BaseSlider
+ &lt;com.philips.cdp.uikit.customviews.BaseSlider
  android:id="@+id/baseslider"
  android:layout_width="280dp"
  android:layout_height="wrap_content"
  android:layout_gravity="center"
- android:layout_marginTop="10dp"></com.philips.cdp.uikit.customviews.BaseSlider>
+ android:layout_marginTop="10dp"&gt;&lt;/com.philips.cdp.uikit.customviews.BaseSlider&gt;
  *
  *
  */

@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Placeholder to start PhilipsTheme definition -->
-    <style name="Theme.Philips" parent="Theme.AppCompat.Light">
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>

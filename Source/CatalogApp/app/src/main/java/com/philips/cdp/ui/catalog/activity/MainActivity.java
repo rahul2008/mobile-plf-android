@@ -21,6 +21,34 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Class to demo available features with UIKit.
+ * Refer below demo classes for further documentation about usage and features.
+ * <br>
+ *  <ol type="1">
+ *     <li>ActionButtonsActivity : {@link ActionButtonsActivity}</li>
+ *     <li>Splash screen : {@link SplashLauncher}</li>
+ *     <li>Buttons : {@link ButtonsActivity}</li>
+ *     <li>DotNavigation : {@link DotNavigation} for usage in demo app, and {@link com.philips.cdp.uikit.customviews.CircleIndicator} for implementation </li>
+ *     <li>InputTextFieldsActivity :{@link InputTextFieldsActivity} for usage in demo app, and {@link com.philips.cdp.uikit.customviews.PuiEditText} for implementation </li>
+ *     <li>ActionButtonsActivity : {@link ActionButtonsActivity}</li>
+ *     <li>About Screen : {@link AboutScreenLauncher}</li>
+ *     <li>TabBar : {@link TabBarDemo}</li>
+ *     <li>Rating bar/stars : {@link RatingBarLauncher}</li>
+ *     <li>Action Bar : {@link ActionBarLauncher}</li>
+ *     <li>Hamburger Menu : {@link HamburgerMenuDemo}</li>
+ *     <li>Soical icons : {@link SocialIconsActivity}</li>
+ *     <li>PopOverMenu : {@link PopOverMenu}</li>
+ *     <li>Springboard : {@link SpringBoardsctivity}</li>
+ *     <li>Inline forms :{@link TextLayoutInputFeildInlineForms} and {@link com.philips.cdp.uikit.customviews.InlineForms} from lib</li>
+ *     <li>Slider:{@link SliderActivity} for usage in app and {@link com.philips.cdp.uikit.customviews.BaseSlider}, {@link com.philips.cdp.uikit.customviews.DiscreteSlider},
+ *                {@link com.philips.cdp.uikit.customviews.IndicatorSlider}, {@link com.philips.cdp.uikit.customviews.RangeSlider}, </li>
+ *     <li>Progress bar : {@link ProgressBarActivity} for demo app and {@link com.philips.cdp.uikit.customviews.PUIProgressBar}</li>
+ *     <li>Model alert : {@link ModalAlertDemo}</li>
+ *     <li>Favorites : {@link FavoritesActivity}</li>
+ *     <li>Badge count view : {@link com.philips.cdp.uikit.customviews.BadgeView}</li>
+ *   </ol>
+ */
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_CODE = 10;
