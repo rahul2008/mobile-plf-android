@@ -40,7 +40,7 @@ public class DisabledButtonTest extends ActivityInstrumentationTestCase2<MainAct
         onView(withText("Buttons")).perform(click());
         onView(withId(R.id.change_button_state)).perform(click());
         onView(withId(R.id.theme_button))
-                .check(matches(isBackgroundColorSimilar("#b9b9b9", 15, 15)));
+                .check(matches(isBackgroundColorSimilar("#b9b9b9", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
     public void testDButtonTextSize() {

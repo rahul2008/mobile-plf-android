@@ -3,6 +3,8 @@
     <declare-styleable name="PhilipsUIKit">
         <attr name="actionBarBackground" format="reference|color"/>
         <attr name="outlinedButtonStyle" format="reference"/>
+        <attr name="pickerOutlinedButtonStyle" format="reference"/>
+        <attr name="pickerButtonStyle" format="reference"/>
         <attr name="baseColor" format="reference|color"/>
         <attr name="verydarkBaseColor" format="reference|color"/>
         <attr name="listSelectorBackground" format="reference|color"/>

@@ -81,7 +81,7 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.outlined_button))
-                .check(matches(isBackgroundColorSimilar("#ffffff", 15, 15)));
+                .check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
 //    public void testBOThemeOButtonOutlineColorAsExpected() {
@@ -97,13 +97,13 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
         onView(withId(R.id.outlined_button))
                 .check(matches(isTextColorSimilar("#e9830")));
     }
-//
-//    public void testBOThemeOButtonBGColor() {
-//        themeUtils.setThemePreferences("orange|false|solid|0");
-//        relaunchActivity();
-//        onView(withId(R.id.outlined_button))
-//                .check(matches(isBackgroundColorSimilar("#ffffff", 15, 15)));
-//    }
+
+    public void testBOThemeOButtonBGColor() {
+        themeUtils.setThemePreferences("orange|false|solid|0");
+        relaunchActivity();
+        onView(withId(R.id.outlined_button))
+                .check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
+    }
 
 //    public void testBAThemeOButtonOutlineColorAsExpected() {
 //        themeUtils.setThemePreferences("aqua|false|solid|0");
@@ -123,6 +123,6 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.outlined_button))
-                .check(matches(isBackgroundColorSimilar("#ffffff", 15, 15)));
+                .check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 }

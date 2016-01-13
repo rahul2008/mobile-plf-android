@@ -16,7 +16,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsOpacityValueAsExpectedMatcher.isOpacityValueSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsOutlineColorAsExpectedMatcher.isOutlineColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 
 /**
@@ -60,12 +59,12 @@ public class TransparentButtonTest extends ActivityInstrumentationTestCase2<Butt
                 .check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.button_size))));
     }
 
-    public void testDBThemeTButtonOutlineColourAsExpected() {
-        themeUtils.setThemePreferences("blue|false|solid|0");
-        relaunchActivity();
-        onView(withId(R.id.outlined_transparent_button))
-                .check(matches(isOutlineColorSimilar("#b3c8e6")));
-    }
+//    public void testDBThemeTButtonOutlineColourAsExpected() {
+//        themeUtils.setThemePreferences("blue|false|solid|0");
+//        relaunchActivity();
+//        onView(withId(R.id.outlined_transparent_button))
+//                .check(matches(isOutlineColorSimilar("#b3c8e6")));
+//    }
 
     public void testDBThemeTButtonTextColor() {
         themeUtils.setThemePreferences("blue|false|solid|0");
@@ -81,12 +80,12 @@ public class TransparentButtonTest extends ActivityInstrumentationTestCase2<Butt
                 .check(matches(isOpacityValueSimilar(0, 30, 30)));
     }
 
-    public void testBOThemeTButtonOutlineColorAsExpected() {
-        themeUtils.setThemePreferences("orange|false|solid|0");
-        relaunchActivity();
-        onView(withId(R.id.outlined_transparent_button))
-                .check(matches(isOutlineColorSimilar("#fbd476")));
-    }
+//    public void testBOThemeTButtonOutlineColorAsExpected() {
+//        themeUtils.setThemePreferences("orange|false|solid|0");
+//        relaunchActivity();
+//        onView(withId(R.id.outlined_transparent_button))
+//                .check(matches(isOutlineColorSimilar("#fbd476")));
+//    }
 
     public void testBOThemeTButtonTextColor() {
         themeUtils.setThemePreferences("orange|false|solid|0");

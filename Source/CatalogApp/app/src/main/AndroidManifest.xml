@@ -21,6 +21,7 @@
         </activity>
         <activity
             android:name=".activity.ActionButtonsActivity"
+
             android:label="@string/app_name" >
         </activity>
         <activity
@@ -53,8 +54,8 @@
         <activity android:name=".activity.DummyActivityForListItemClick" />
         <activity android:name=".activity.TabViewWithViewPager" />
         <activity android:name=".activity.SocialIconsActivity" />
-        <activity android:name=".activity.PopOverMenu" />
-        <activity android:name=".activity.SpringBoardListActivity" />
+        <activity android:name=".activity.PopOverMenu"/>
+		<activity android:name=".activity.SpringBoardListActivity" />
         <activity android:name=".activity.ProgressBarActivity" />
         <activity
             android:name=".activity.SpringboardFullBlocksActivity"
@@ -63,13 +64,11 @@
         <activity
             android:name=".activity.SpringBoardSixGridActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TextLayoutInputFeildInlineForms" />
+        <activity android:name=".activity.TextLayoutInputFeildInlineForms"/>
         <activity android:name=".cardviewpager.CardActivity" />
         <activity android:name=".activity.ModalAlertDemo" />
-        <activity android:name=".activity.FavoritesActivity" />
-        <activity
-            android:name=".activity.ControlsActivity"
-            android:label="@string/title_activity_controls"></activity>
+        <activity android:name=".activity.FavoritesActivity"/>
+        <activity android:name=".activity.PickerActivity"/>
     </application>
 
 </manifest>

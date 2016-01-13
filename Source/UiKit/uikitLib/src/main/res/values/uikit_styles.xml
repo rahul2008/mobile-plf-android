@@ -162,6 +162,51 @@
         <item name="color">@android:color/black</item>
     </style>
 
+    <style name="PhilipsDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/PhilipsDatePickerStyle</item>
+        <item name="android:colorAccent">?attr/baseColor</item>
+        <item name="android:buttonBarNegativeButtonStyle">?attr/outlinedButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">?attr/pickerButtonStyle</item>
+        <item name="android:textColor">?attr/baseColor</item>
+
+    </style>
+
+    <style name="PhilipsTimePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:timePickerStyle">@style/PhilipsTimePickerStyle</item>
+        <item name="android:colorAccent">?attr/veryLightColor</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:buttonBarNegativeButtonStyle">?attr/outlinedButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">?attr/pickerButtonStyle</item>
+    </style>
+
+    <style name="PhilipsDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">?attr/baseColor</item>
+        <item name="android:dayOfWeekBackground">?attr/baseColor</item>
+        <item name="android:yearListSelectorColor">?attr/baseColor</item>
+        <item name="android:focusedMonthDateColor">?attr/baseColor</item>
+        <item name="android:calendarViewStyle">@style/PhilipsCalendarViewStyle</item>
+        <item name="android:calendarTextColor">?attr/baseColor</item>
+        <item name="android:colorAccent">?attr/baseColor</item>
+        <item name="android:colorControlActivated">?attr/baseColor</item>
+        <item name="android:colorControlHighlight">?attr/baseColor</item>
+        <item name="android:textColor">?attr/baseColor</item>
+    </style>
+
+    <style name="PhilipsTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="android:headerBackground">?attr/baseColor</item>
+        <item name="android:amPmTextColor">?attr/baseColor</item>
+        <item name="android:colorAccent">?attr/veryLightColor</item>
+        <item name="android:numbersTextColor">?attr/baseColor</item>
+    </style>
+
+
+    <style name="PhilipsCalendarViewStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:focusedMonthDateColor">?attr/baseColor</item>
+        <item name="android:weekNumberColor">?attr/baseColor</item>
+        <item name="android:colorAccent">?attr/baseColor</item>
+        <item name="android:textColor">?attr/baseColor</item>
+    </style>
+
     <style name="PhilipsModalAlertAnimation">
         <item name="android:windowEnterAnimation">@anim/uikit_modal_alert_zoom_in</item>
         <item name="android:windowExitAnimation">@anim/uikit_modal_alert_zoom_out</item>
