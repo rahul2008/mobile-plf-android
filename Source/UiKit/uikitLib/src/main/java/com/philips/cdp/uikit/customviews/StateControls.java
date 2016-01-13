@@ -3,6 +3,7 @@ package com.philips.cdp.uikit.customviews;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -15,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cdp.uikit.R;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,11 +133,11 @@ public class StateControls extends LinearLayout {
      * initial values. Initial states are allowed, but both
      * arrays must be of the same size.
      *
-     * @param resIds                 An array of Image Resource Id's for the buttons
+     * @param drawables                 An array of Drawable's for the buttons
      * @param enableDefaultSelection The default value for the buttons
      */
-    public void drawControlsWithImageBackground(int[] resIds, boolean enableDefaultSelection) {
-        final int elementCount = resIds != null ? resIds.length : 0;
+    public void drawControlsWithImageBackground(Drawable[] drawables, boolean enableDefaultSelection) {
+        final int elementCount = drawables != null ? drawables.length : 0;
         if (elementCount == 0) {
             throw new IllegalArgumentException("neither texts nor count are setup");
         }
@@ -163,7 +163,7 @@ public class StateControls extends LinearLayout {
             button.setScaleType(ImageView.ScaleType.CENTER);
             divider = view.findViewById(R.id.divider);
             divider.setBackgroundColor(adjustAlpha(baseColor, 0.3f));
-            button.setImageDrawable(VectorDrawable.create(context, resIds[i]));
+            button.setImageDrawable(drawables[i]);
             if (isMultipleChoice && i != elementCount - 1) {
                 divider.setVisibility(View.VISIBLE);
             }
@@ -230,7 +230,7 @@ public class StateControls extends LinearLayout {
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to setBackgroundColor sticking with deprecated API for now
-    public void setButtonState(View button, boolean selected) {
+    private void setButtonState(View button, boolean selected) {
         if (button == null) {
             return;
         }
@@ -252,6 +252,11 @@ public class StateControls extends LinearLayout {
         baseColor = typedArray.getColor(0, -1);
         typedArray.recycle();
         setUnSelectedState();
+    }
+
+    private void notifyDataSetChanged() {
+        this.removeAllViews();
+        drawControls(texts, isSelected, count);
     }
 
     public int getValue() {
@@ -328,11 +333,6 @@ public class StateControls extends LinearLayout {
     public void setTexts(CharSequence[] texts) {
         this.texts = texts;
         notifyDataSetChanged();
-    }
-
-    private void notifyDataSetChanged() {
-        this.removeAllViews();
-        drawControls(texts, isSelected, count);
     }
 
     public void setListenerValue(int value) {

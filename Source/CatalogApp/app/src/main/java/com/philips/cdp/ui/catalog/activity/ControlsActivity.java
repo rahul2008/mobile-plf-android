@@ -1,11 +1,13 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.StateControls;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class ControlsActivity extends CatalogActivity {
 
@@ -18,12 +20,12 @@ public class ControlsActivity extends CatalogActivity {
         controls.enableMultipleChoice(false);
         TypedArray controlIcons = getResources()
                 .obtainTypedArray(R.array.control_icons);
-        int[] resIds = new int[controlIcons.length()];
+        Drawable[] drawables = new Drawable[controlIcons.length()];
         for (int i = 0; i < controlIcons.length(); i++) {
-            resIds[i] = controlIcons.getResourceId(i, -1);
+            drawables[i] = VectorDrawable.create(this, controlIcons.getResourceId(i, -1));
         }
         controlIcons.recycle();
-        controls.drawControlsWithImageBackground(resIds, true);
+        controls.drawControlsWithImageBackground(drawables, true);
         controls.setOnButtonStateChangedListener(new StateControls.OnButtonStateChangeListener() {
             @Override
             public void onButtonStateChanged(int position) {
