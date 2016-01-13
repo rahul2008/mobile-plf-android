@@ -81,26 +81,36 @@ public class SHNPersistentStorage {
         return ASSOCIATED_DEVICES + macAddress;
     }
 
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
+
+    @Deprecated
     public SharedPreferences.Editor edit() {
         return sharedPreferences.edit();
     }
 
+    @Deprecated
     public long getLong(String key) {
         return sharedPreferences.getLong(key, -1);
     }
 
+    @Deprecated
     public int getInt(String key) {
         return sharedPreferences.getInt(key, -1);
     }
 
+    @Deprecated
     public float getFloat(String key) {
         return sharedPreferences.getFloat(key, Float.NaN);
     }
 
+    @Deprecated
     public String getString(String key) {
         return sharedPreferences.getString(key, null);
     }
 
+    @Deprecated
     public Boolean getBoolean(String key) {
         if (sharedPreferences.contains(key)) {
             return sharedPreferences.getBoolean(key, false);
