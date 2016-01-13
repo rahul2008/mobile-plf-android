@@ -3,6 +3,7 @@ package com.philips.pins.shinelib;
 import android.content.SharedPreferences;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.utility.SHNPersistentStorage;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,12 +27,10 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * Created by 310188215 on 21/10/15.
- */
 public class SHNUserConfigurationImplTest {
 
     private SHNUserConfigurationImpl shnUserConfiguration;
+    private SHNPersistentStorage mockedShnPersistentStorage;
     private SharedPreferences mockedSharedPreferences;
     private SharedPreferences.Editor mockedEditor;
     private MockedHandler mockedHandler;
@@ -39,6 +38,7 @@ public class SHNUserConfigurationImplTest {
 
     @Before
     public void setUp() throws Exception {
+        mockedShnPersistentStorage = mock(SHNPersistentStorage.class);
         mockedSharedPreferences = mock(SharedPreferences.class);
         mockedEditor = mock(SharedPreferences.Editor.class);
         mockedObserver = mock(Observer.class);
@@ -51,7 +51,9 @@ public class SHNUserConfigurationImplTest {
         when(mockedSharedPreferences.getString(anyString(), anyString())).thenReturn(null);
         when(mockedSharedPreferences.edit()).thenReturn(mockedEditor);
 
-        shnUserConfiguration = new SHNUserConfigurationImpl(mockedSharedPreferences, mockedHandler.getMock());
+        when(mockedShnPersistentStorage.getSharedPreferences()).thenReturn(mockedSharedPreferences);
+
+        shnUserConfiguration = new SHNUserConfigurationImpl(mockedShnPersistentStorage, mockedHandler.getMock());
         shnUserConfiguration.addObserver(mockedObserver);
     }
 
@@ -213,7 +215,7 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenWeightInKgIsSetThenListenerIsNotified() {
-         shnUserConfiguration.setWeightInKg(78.7);
+        shnUserConfiguration.setWeightInKg(78.7);
 
         verify(mockedObserver).update(shnUserConfiguration, null);
     }
@@ -318,7 +320,7 @@ public class SHNUserConfigurationImplTest {
         when(mockedSharedPreferences.getString(SHNUserConfigurationImpl.USER_CONFIG_DECIMAL_SEPARATOR, null)).thenReturn(",");
         when(mockedSharedPreferences.getInt(SHNUserConfigurationImpl.USER_CONFIG_INCREMENT, -1)).thenReturn(3456);
 
-        shnUserConfiguration = new SHNUserConfigurationImpl(mockedSharedPreferences, mockedHandler.getMock());
+        shnUserConfiguration = new SHNUserConfigurationImpl(mockedShnPersistentStorage, mockedHandler.getMock());
         assertEquals(SHNUserConfiguration.Sex.Male, shnUserConfiguration.getSex());
         assertEquals((Integer) 220, shnUserConfiguration.getMaxHeartRate());
         assertEquals((Integer) 60, shnUserConfiguration.getRestingHeartRate());

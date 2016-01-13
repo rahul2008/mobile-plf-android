@@ -5,29 +5,24 @@
 
 package com.philips.pins.shinelib;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
+import com.philips.pins.shinelib.utility.SHNPersistentStorage;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Observable;
 
-/**
- * Created by 310188215 on 02/06/15.
- */
 public class SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
 
     public static final char DEFAULT_DECIMAL_SEPARATOR = '.';
-    public static final Boolean DEFAULT_USE_METRIC_SYSTEM = Boolean.FALSE;
     private final Handler internalHandler;
 
     private static final String TAG = SHNUserConfigurationImpl.class.getSimpleName();
-    private static final String SHINELIB_PREFERENCES_FILE_KEY = SHNUserConfigurationImpl.class.getSimpleName() + "_preferences";
 
     /* package */ static final String USER_CONFIG_DATE_OF_BIRTH = "USER_CONFIG_DATE_OF_BIRTH";
     /* package */ static final String USER_CONFIG_MAX_HEART_RATE = "USER_CONFIG_MAX_HEART_RATE";
@@ -40,6 +35,16 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     /* package */ static final String USER_CONFIG_USE_METRIC_SYSTEM = "USER_CONFIG_USE_METRIC_SYSTEM";
     /* package */ static final String USER_CONFIG_DECIMAL_SEPARATOR = "USER_CONFIG_DECIMAL_SEPARATOR";
     /* package */ static final String USER_CONFIG_INCREMENT = "USER_CONFIG_INCREMENT";
+
+    private static final long DEFAULT_LONG_VALUE = -1L;
+    private static final int DEFAULT_INT_VALUE = -1;
+    private static final Boolean DEFAULT_USE_METRIC_SYSTEM = Boolean.FALSE;
+    private static final float DEFAULT_FLOAT_VALUE = Float.NaN;
+    private static final String DEFAULT_STRING_VALUE = null;
+    private static final Boolean DEFAULT_BOOLEAN_VALUE = null;
+    private static final Character DEFAULT_CHAR_VALUE = null;
+    private static final Sex DEFAULT_SEX_VALUE = Sex.Unspecified;
+    private static final Handedness DEFAULT_HANDEDNESS_VALUE = Handedness.Unknown;
 
     private final SharedPreferences sharedPreferences;
     private Sex sex = Sex.Unspecified;
@@ -55,14 +60,10 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     private int changeIncrement;
 
-    /* package */ SHNUserConfigurationImpl(SharedPreferences sharedPreferences, Handler internalHandler) { // Added for testing only!!
-        this.sharedPreferences = sharedPreferences;
+    /* package */ SHNUserConfigurationImpl(SHNPersistentStorage shnPersistentStorage, Handler internalHandler) {
+        this.sharedPreferences = shnPersistentStorage.getSharedPreferences();
         this.internalHandler = internalHandler;
         retrieveFromPreferences();
-    }
-
-    /* package */ SHNUserConfigurationImpl(Context context, Handler internalHandler) {
-        this(context.getSharedPreferences(SHINELIB_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE), internalHandler);
     }
 
     @Override
@@ -412,7 +413,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         if (value != null && value.length() > 0) {
             return value.charAt(0);
         }
-        return null;
+        return DEFAULT_CHAR_VALUE;
     }
 
     @Nullable
@@ -421,7 +422,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         if (stringValue != null) {
             return Handedness.valueOf(stringValue);
         }
-        return Handedness.Unknown;
+        return DEFAULT_HANDEDNESS_VALUE;
     }
 
     @Nullable
@@ -430,13 +431,13 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         if (stringValue != null) {
             return Sex.valueOf(stringValue);
         }
-        return Sex.Unspecified;
+        return DEFAULT_SEX_VALUE;
     }
 
     @Nullable
     private Date readDateFromPersistentStorage(String key) {
-        long value = sharedPreferences.getLong(key, -1L);
-        if (value != -1L) {
+        long value = sharedPreferences.getLong(key, DEFAULT_LONG_VALUE);
+        if (value != DEFAULT_LONG_VALUE) {
             return new Date(value);
         }
         return null;
@@ -444,8 +445,8 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     @Nullable
     private Integer readIntegerFromPersistentStorage(String key) {
-        int value = sharedPreferences.getInt(key, -1);
-        if (value != -1) {
+        int value = sharedPreferences.getInt(key, DEFAULT_INT_VALUE);
+        if (value != DEFAULT_INT_VALUE) {
             return value;
         }
         return null;
@@ -453,7 +454,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     @Nullable
     private Double readDoubleFromPersistentStorage(String key) {
-        float value = sharedPreferences.getFloat(key, Float.NaN);
+        float value = sharedPreferences.getFloat(key, DEFAULT_FLOAT_VALUE);
         if (!Float.isNaN(value)) {
             return (double) value;
         }
@@ -462,7 +463,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     @Nullable
     private String readStringFromPersistentStorage(String key) {
-        return sharedPreferences.getString(key, null);
+        return sharedPreferences.getString(key, DEFAULT_STRING_VALUE);
     }
 
     @Nullable
@@ -470,6 +471,6 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         if (sharedPreferences.contains(key)) {
             return sharedPreferences.getBoolean(key, false);
         }
-        return null;
+        return DEFAULT_BOOLEAN_VALUE;
     }
 }

@@ -201,9 +201,10 @@ public class SHNCentral {
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
-        shnUserConfigurationImpl = new SHNUserConfigurationImpl(getApplicationContext(), getInternalHandler());
+        SHNPersistentStorage shnPersistentStorage = new SHNPersistentStorage(applicationContext);
+        shnUserConfigurationImpl = new SHNUserConfigurationImpl(shnPersistentStorage, getInternalHandler());
 
-        SHNServiceRegistry.getInstance().add(new SHNPersistentStorage(applicationContext));
+        SHNServiceRegistry.getInstance().add(shnPersistentStorage);
     }
 
     private void setState(final State state) {
