@@ -15,8 +15,19 @@ import android.widget.ProgressBar;
 import com.philips.cdp.uikit.R;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <br>
+ *1.To use Linear Progressbar in XML file  include below convention as per your required display
+ * metrics
+ * <br>
+ *&lt;com.philips.cdp.uikit.customviews.PUIProgressBar
+ *android:id="@+id/progressbar"
+ *style="@android:style/Widget.ProgressBar.Horizontal"
+ *android:layout_width="292dp"
+ *android:layout_height="wrap_content"
+ *android:layout_gravity="center"
+ *android:layout_marginTop="30dp"
+ *android:indeterminate="false"
+ *android:indeterminateBehavior="repeat" /&gt;
  */
 class PUIProgressBar extends ProgressBar {
 

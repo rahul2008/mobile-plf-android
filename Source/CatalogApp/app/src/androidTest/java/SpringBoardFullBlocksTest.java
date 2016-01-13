@@ -106,12 +106,12 @@ public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<
         onView(withText("Telephone ")).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-//    public void testTextColorBOTheme(){
-//        themeUtils.setThemePreferences("orange|false|solid|0");
-//        relaunchActivity();
-//        onView(withText("Full Blocks")).perform(click());
-//        onView(withText("Telephone ")).check(matches(isTextColorSimilar("#ffffff")));
-//    }
+    public void testTextColorBOTheme(){
+        themeUtils.setThemePreferences("orange|false|solid|0");
+        relaunchActivity();
+        onView(withText("Full Blocks")).perform(click());
+        onView(withText("Telephone ")).check(matches(isTextColorSimilar("#ffffff")));
+    }
 
     public void testTextColorBATheme() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
@@ -130,25 +130,26 @@ public class SpringBoardFullBlocksTest extends ActivityInstrumentationTestCase2<
 
     }
 
+//    works only on mdpi device due to coordinates
     public void testImageBGColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withText("Full Blocks")).perform(click());
-        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
+        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sb_x_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
     public void testImageBGColorBOTheme() {
         themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
         onView(withText("Full Blocks")).perform(click());
-        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
+        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sb_x_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
     public void testImageBGColorBATheme() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withText("Full Blocks")).perform(click());
-        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", 5, 10)));
+        onView(withId(R.id.imageView6)).check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.sb_x_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
 

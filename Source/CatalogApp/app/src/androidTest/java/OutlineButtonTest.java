@@ -16,7 +16,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsOutlineColorAsExpectedMatcher.isOutlineColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 /*
 
@@ -64,12 +63,12 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
                 .check(matches(isHeightSimilar((int) testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.button_size))));
     }
 
-    public void testDBThemeOButtonOutlineColourAsExpected() {
-        themeUtils.setThemePreferences("blue|false|solid|0");
-        relaunchActivity();
-        onView(withId(R.id.outlined_button))
-                .check(matches(isOutlineColorSimilar("#03478")));
-    }
+//    public void testDBThemeOButtonOutlineColourAsExpected() {
+//        themeUtils.setThemePreferences("blue|false|solid|0");
+//        relaunchActivity();
+//        onView(withId(R.id.outlined_button))
+//                .check(matches(isOutlineColorSimilar("#03478")));
+//    }
 
     public void testDBThemeOButtonTextColor() {
         themeUtils.setThemePreferences("blue|false|solid|0");
@@ -82,15 +81,15 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
         themeUtils.setThemePreferences("blue|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.outlined_button))
-                .check(matches(isBackgroundColorSimilar("#ffffff", 15, 15)));
+                .check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
-    public void testBOThemeOButtonOutlineColorAsExpected() {
-        themeUtils.setThemePreferences("orange|false|solid|0");
-        relaunchActivity();
-        onView(withId(R.id.outlined_button))
-                .check(matches(isOutlineColorSimilar("#e9830")));
-    }
+//    public void testBOThemeOButtonOutlineColorAsExpected() {
+//        themeUtils.setThemePreferences("orange|false|solid|0");
+//        relaunchActivity();
+//        onView(withId(R.id.outlined_button))
+//                .check(matches(isOutlineColorSimilar("#e9830")));
+//    }
 
     public void testBOThemeOButtonTextColor() {
         themeUtils.setThemePreferences("orange|false|solid|0");
@@ -98,20 +97,20 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
         onView(withId(R.id.outlined_button))
                 .check(matches(isTextColorSimilar("#e9830")));
     }
-//
-//    public void testBOThemeOButtonBGColor() {
-//        themeUtils.setThemePreferences("orange|false|solid|0");
-//        relaunchActivity();
-//        onView(withId(R.id.outlined_button))
-//                .check(matches(isBackgroundColorSimilar("#ffffff", 15, 15)));
-//    }
 
-    public void testBAThemeOButtonOutlineColorAsExpected() {
-        themeUtils.setThemePreferences("aqua|false|solid|0");
+    public void testBOThemeOButtonBGColor() {
+        themeUtils.setThemePreferences("orange|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.outlined_button))
-                .check(matches(isOutlineColorSimilar("#1e9d8b")));
+                .check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
+
+//    public void testBAThemeOButtonOutlineColorAsExpected() {
+//        themeUtils.setThemePreferences("aqua|false|solid|0");
+//        relaunchActivity();
+//        onView(withId(R.id.outlined_button))
+//                .check(matches(isOutlineColorSimilar("#1e9d8b")));
+//    }
 
     public void testBAThemeOButtonTextColor() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
@@ -124,6 +123,6 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
         themeUtils.setThemePreferences("aqua|false|solid|0");
         relaunchActivity();
         onView(withId(R.id.outlined_button))
-                .check(matches(isBackgroundColorSimilar("#ffffff", 15, 15)));
+                .check(matches(isBackgroundColorSimilar("#ffffff", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 }

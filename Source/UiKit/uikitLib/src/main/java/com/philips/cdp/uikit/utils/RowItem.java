@@ -40,6 +40,15 @@ public class RowItem {
         this.stringId = stringId;
     }
 
+
+    public RowItem(final String desc) {
+        this.desc = desc;
+    }
+
+    public RowItem(final int stringId) {
+        this.stringId = stringId;
+    }
+
     public RowItem() {
 
     }

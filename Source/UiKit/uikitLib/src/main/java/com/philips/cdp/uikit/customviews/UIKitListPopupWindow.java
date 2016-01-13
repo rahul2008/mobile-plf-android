@@ -99,7 +99,8 @@ public class UIKitListPopupWindow extends ListPopupWindow {
 
     @Override
     public void show() {
-        setBackgroundDrawable(new ColorDrawable(0));
+        //setBackgroundDrawable(new ColorDrawable(0));
+        setBackgroundDrawable(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.popovermenu, null));
         if (mWidth == 0) {
             setWidth((int) mContext.getResources().getDimension(R.dimen.popup_menu_width));
         } else {
@@ -111,6 +112,7 @@ public class UIKitListPopupWindow extends ListPopupWindow {
             getListView().setDivider(mDrawable);
             getListView().setBackgroundColor(Color.WHITE);
             getListView().setSelector(mSelector);
+            getListView().setVerticalScrollBarEnabled(false);
         }
     }
 
