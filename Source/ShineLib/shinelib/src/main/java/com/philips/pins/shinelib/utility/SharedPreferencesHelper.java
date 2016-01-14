@@ -10,6 +10,7 @@ import java.util.Set;
 public class SharedPreferencesHelper implements SharedPreferences {
 
     private static final String SHORT_VALUE = "SHORT_VALUE";
+    public static final String ENUM_NAME = "ENUM_NAME";
 
     @NonNull
     private SharedPreferences sharedPreferences;
@@ -38,6 +39,21 @@ public class SharedPreferencesHelper implements SharedPreferences {
 
         if (value instanceof Boolean) {
             edit.putBoolean(key, (Boolean) value);
+        } else if (value instanceof Integer) {
+            edit.putInt(key, (Integer) value);
+        } else if (value instanceof Float) {
+            edit.putFloat(key, (Float) value);
+        } else if (value instanceof Long) {
+            edit.putLong(key, (Long) value);
+        } else if (value instanceof String) {
+            edit.putString(key, (String) value);
+        } else if (value instanceof Set<?>) {
+            edit.putStringSet(key, (Set<String>) value);
+        } else if (value instanceof Integer) {
+            edit.putInt(key, (Integer) value);
+        } else if (value instanceof Enum<?>) {
+            edit.putInt(key, ((Enum<?>) value).ordinal());
+            edit.putString(key + ENUM_NAME, ((Enum<?>) value).getClass().getName());
         } else if (value instanceof Short) {
             edit.putInt(key, (Short) value);
             edit.putBoolean(key + SHORT_VALUE, true);
@@ -59,14 +75,23 @@ public class SharedPreferencesHelper implements SharedPreferences {
 
     public <T> T get(final String key) {
         boolean isShort = contains(key + SHORT_VALUE);
+        boolean isEnum = contains(key + ENUM_NAME);
 
-        Object o = getAll().get(key);
+        Object value = getAll().get(key);
         if (isShort) {
-            Integer integer = (Integer) o;
-            o = integer.shortValue();
+            Integer integer = (Integer) value;
+            value = integer.shortValue();
+        } else if (isEnum) {
+            try {
+                Class clazz = Class.forName((String) get(key + ENUM_NAME));
+                Object[] enumConstants = clazz.getEnumConstants();
+                value = enumConstants[(Integer) value];
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
-        return (T) o;
+        return (T) value;
     }
 
     // Pass through methods
