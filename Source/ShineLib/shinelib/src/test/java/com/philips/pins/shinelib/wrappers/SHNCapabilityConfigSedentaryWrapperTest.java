@@ -4,7 +4,7 @@ import android.os.Handler;
 
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.capabilities.SHNCapabilitySedentary;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class SHNCapabilityConfigSedentaryWrapperTest {
     private SHNCapabilityConfigSedentaryWrapper sedentaryWrapper;
 
     @Mock
-    private SHNCapabilitySedentary capabilityMock;
+    private SHNCapabilityConfigSedentary capabilityMock;
 
     @Mock
     private ResultListener listenerMock;

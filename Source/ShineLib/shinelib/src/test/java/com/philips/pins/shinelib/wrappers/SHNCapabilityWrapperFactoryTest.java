@@ -7,8 +7,8 @@ package com.philips.pins.shinelib.wrappers;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceDiagnostics;
-import com.philips.pins.shinelib.capabilities.SHNCapabilitySedentary;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class SHNCapabilityWrapperFactoryTest {
     private SHNCapabilityDeviceDiagnostics deviceDiagnosticsMock;
 
     @Mock
-    private SHNCapabilitySedentary sedentaryMock;
+    private SHNCapabilityConfigSedentary sedentaryMock;
 
     @Before
     public void setUp() {
