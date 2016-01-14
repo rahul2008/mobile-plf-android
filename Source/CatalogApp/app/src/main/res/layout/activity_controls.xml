@@ -21,7 +21,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         app:controlButtonHeight="44dp"
-        app:controlButtonWidth="113dp"
+        app:controlButtonWidth="143dp"
         app:controlEntries="@array/controls_array2"
         app:controlMultiChoice="true"
         app:controlSelected="true" />
