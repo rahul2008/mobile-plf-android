@@ -1,0 +1,20 @@
+<resources>
+
+    <string name="app_name">DigitalCareSample</string>
+
+
+    <string name="dummytext">Dummy View</string>
+    <string name="dummyTitle">Dummy Actionbar Title</string>
+    <string name="app_description">This is just an sample launcher app for  launching the MultiProduct Component.</string>
+    <string name="launch_button_as_activity">Launch DigitalCare as Activity</string>
+    <string name="launch_button_as_fragment">Launch DigitalCare as Fragment</string>
+    <string name="app_not_description">Demo app for QA Team.</string>
+    <string name="app_note">Note:</string>
+    <string name="lanuauge">Langauage :</string>
+    <string name="country">Country :</string>
+
+
+
+
+
+</resources>
