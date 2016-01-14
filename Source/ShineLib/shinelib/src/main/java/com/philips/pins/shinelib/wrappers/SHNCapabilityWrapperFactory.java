@@ -17,6 +17,7 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
+import com.philips.pins.shinelib.capabilities.SHNCapabilitySedentary;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityUserInformationLifeSense;
 
 public class SHNCapabilityWrapperFactory {
@@ -84,6 +85,13 @@ public class SHNCapabilityWrapperFactory {
                         (SHNCapabilityDeviceDiagnostics) shnCapability,
                         internalHandler,
                         userHandler);
+                break;
+            case Sedentary:
+                shnCapabilityWrapper = new SHNCapabilitySedentaryWrapper(
+                        (SHNCapabilitySedentary) shnCapability,
+                        internalHandler,
+                        userHandler
+                );
                 break;
             default:
                 throw new IllegalStateException("No wrapper for capability: " + shnCapabilityType);
