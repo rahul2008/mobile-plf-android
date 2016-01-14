@@ -352,7 +352,10 @@ public class SHNCentral {
 
     private Map<String, SHNDevice> createdDevices = new HashMap<>();
 
-    /* package */ SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
+    // TEMPORARY HACK TO ENABLE VERIFICATION TESTS WITH BLE SECURITY ENABLED
+    // TODO: Remove this once the ShineVerificationApp uses DeviceAssociation.
+    @Deprecated
+    public SHNDevice createSHNDeviceForAddressAndDefinition(@NonNull String deviceAddress, @NonNull SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         String key = deviceAddress + shnDeviceDefinitionInfo.getDeviceTypeName();
         SHNDevice shnDevice = createdDevices.get(key);
         if (shnDevice == null) {
