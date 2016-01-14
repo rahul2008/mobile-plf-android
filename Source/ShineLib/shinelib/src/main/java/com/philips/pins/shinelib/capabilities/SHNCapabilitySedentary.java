@@ -5,17 +5,9 @@
 
 package com.philips.pins.shinelib.capabilities;
 
-import android.support.annotation.NonNull;
-
-import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapability;
+import com.philips.pins.shinelib.SHNResultListener;
 
 public interface SHNCapabilitySedentary extends SHNCapability {
-    void setSedentaryPeriodInMinutes(final short minutes, @NonNull final ResultListener<Short> shnResultListener);
-
-    void getSedentaryPeriodInMinutes(@NonNull final ResultListener<Short> resultListener);
-
-    void setSedentaryNotificationEnabled(final boolean enabled, @NonNull final ResultListener<Boolean> shnResultListener);
-
-    void getSedentaryNotificationEnabled(@NonNull final ResultListener<Boolean> shnResultListener);
+    void setSedentaryPeriod(short minutes, SHNResultListener shnResultListener);
 }

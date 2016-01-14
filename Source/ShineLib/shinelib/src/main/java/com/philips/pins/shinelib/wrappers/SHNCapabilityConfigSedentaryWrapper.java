@@ -5,15 +5,15 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
-import com.philips.pins.shinelib.capabilities.SHNCapabilitySedentary;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 
-public class SHNCapabilitySedentaryWrapper implements SHNCapabilitySedentary {
+public class SHNCapabilityConfigSedentaryWrapper implements SHNCapabilityConfigSedentary {
 
-    private final SHNCapabilitySedentary wrappedShnCapability;
+    private final SHNCapabilityConfigSedentary wrappedShnCapability;
     private final Handler userHandler;
     private final Handler internalHandler;
 
-    public SHNCapabilitySedentaryWrapper(SHNCapabilitySedentary shnCapability, Handler internalHandler, Handler userHandler) {
+    public SHNCapabilityConfigSedentaryWrapper(SHNCapabilityConfigSedentary shnCapability, Handler internalHandler, Handler userHandler) {
         wrappedShnCapability = shnCapability;
         this.userHandler = userHandler;
         this.internalHandler = internalHandler;

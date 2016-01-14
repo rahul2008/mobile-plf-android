@@ -10,6 +10,7 @@ import android.os.Handler;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigWearingPosition;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceDiagnostics;
@@ -17,7 +18,6 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
-import com.philips.pins.shinelib.capabilities.SHNCapabilitySedentary;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityUserInformationLifeSense;
 
 public class SHNCapabilityWrapperFactory {
@@ -87,8 +87,8 @@ public class SHNCapabilityWrapperFactory {
                         userHandler);
                 break;
             case Sedentary:
-                shnCapabilityWrapper = new SHNCapabilitySedentaryWrapper(
-                        (SHNCapabilitySedentary) shnCapability,
+                shnCapabilityWrapper = new SHNCapabilityConfigSedentaryWrapper(
+                        (SHNCapabilityConfigSedentary) shnCapability,
                         internalHandler,
                         userHandler
                 );
