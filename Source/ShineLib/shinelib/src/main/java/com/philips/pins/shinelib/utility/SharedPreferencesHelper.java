@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class SharedPreferencesHelper implements SharedPreferences {
+    private static final String TAG = "SharedPreferencesHelper";
 
     private static final String SHORT_VALUE = "SHORT_VALUE";
     public static final String ENUM_NAME = "ENUM_NAME";
@@ -49,8 +50,6 @@ public class SharedPreferencesHelper implements SharedPreferences {
             edit.putString(key, (String) value);
         } else if (value instanceof Set<?>) {
             edit.putStringSet(key, (Set<String>) value);
-        } else if (value instanceof Integer) {
-            edit.putInt(key, (Integer) value);
         } else if (value instanceof Enum<?>) {
             edit.putInt(key, ((Enum<?>) value).ordinal());
             edit.putString(key + ENUM_NAME, ((Enum<?>) value).getClass().getName());
@@ -87,7 +86,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
                 Object[] enumConstants = clazz.getEnumConstants();
                 value = enumConstants[(Integer) value];
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                SHNLogger.wtf(TAG, "Could not instantiate " + get(key + ENUM_NAME), e);
             }
         }
 
