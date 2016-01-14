@@ -38,6 +38,11 @@ public class MultiProductConfigManager {
         return mDigitalCareInstance;
     }
 
+    public Locale getLocale()
+    {
+        return mLocale;
+    }
+
 
     /**
      * Returs the Context used in the DigitalCare Component
