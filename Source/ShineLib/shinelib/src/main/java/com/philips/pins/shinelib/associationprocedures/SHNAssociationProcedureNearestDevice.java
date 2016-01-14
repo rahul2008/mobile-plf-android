@@ -46,7 +46,10 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
         discoveredDevices.clear();
         boolean finished = false;
 
-        if ((nearestDevice != null) && (nearestDeviceInPreviousIteration != null) && (nearestDevice.getAddress().equals(nearestDeviceInPreviousIteration.getAddress()))) {
+        if ((nearestDevice != null) &&
+                        (((nearestDeviceInPreviousIteration != null) && (nearestDevice.getAddress().equals(nearestDeviceInPreviousIteration.getAddress())))
+                        ||
+                        (successivelyNearestDeviceCount == 0 && deviceIsSufficientlyOftenNearest(1)))) {
             SHNLogger.i(TAG, "associateWithNearestDeviceIfPossible address matched with previous iteration");
 
             ++successivelyNearestDeviceCount;
