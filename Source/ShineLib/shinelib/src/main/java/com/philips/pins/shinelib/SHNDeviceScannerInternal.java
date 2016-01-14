@@ -52,6 +52,7 @@ public class SHNDeviceScannerInternal implements LeScanCallbackProxy.LeScanCallb
         scanning = leScanCallbackProxy.startLeScan(this, null);
 
         if (scanning) {
+            SHNLogger.i(TAG, "Started scanning");
             scanningTimer = new Runnable() {
                 @Override
                 public void run() {
@@ -61,6 +62,8 @@ public class SHNDeviceScannerInternal implements LeScanCallbackProxy.LeScanCallb
             shnCentral.getInternalHandler().postDelayed(scanningTimer, stopScanningAfterMS);
 
             startScanningRestartTimer();
+        } else {
+            SHNLogger.e(TAG, "Error starting scanning");
         }
 
         return scanning;
@@ -73,7 +76,7 @@ public class SHNDeviceScannerInternal implements LeScanCallbackProxy.LeScanCallb
                 leScanCallbackProxy.stopLeScan(SHNDeviceScannerInternal.this);
                 startScanningRestartTimer();
                 if (!leScanCallbackProxy.startLeScan(SHNDeviceScannerInternal.this, null)) {
-                    SHNLogger.w(TAG, "Error starting scanning.");
+                    SHNLogger.w(TAG, "Error restarting scanning");
                 }
             }
         };
@@ -91,6 +94,7 @@ public class SHNDeviceScannerInternal implements LeScanCallbackProxy.LeScanCallb
             leScanCallbackProxy = null;
             shnDeviceScannerListener.scanStopped(null);
             shnDeviceScannerListener = null;
+            SHNLogger.i(TAG, "Stopped scanning");
         }
     }
 
@@ -124,7 +128,9 @@ public class SHNDeviceScannerInternal implements LeScanCallbackProxy.LeScanCallb
                         }
                     }
                 }
-                if(matched) {
+                if (matched) {
+                    SHNLogger.i(TAG, String.format("Found device (mac address = %s)", bleDeviceFoundInfo.getDeviceAddress()));
+
                     if (shnDeviceScannerListener != null) {
                         SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(bleDeviceFoundInfo.bluetoothDevice, bleDeviceFoundInfo.rssi, bleDeviceFoundInfo.scanRecord, shnDeviceDefinitionInfo);
                         shnDeviceScannerListener.deviceFound(null, shnDeviceFoundInfo);
