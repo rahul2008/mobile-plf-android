@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Placeholder to start PhilipsTheme definition -->
-    <style name="Theme.Philips" parent="Theme.AppCompat.Light">
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
         <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
@@ -31,6 +31,8 @@
         <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color
         </item>
         <item name="android:listChoiceBackgroundIndicator">?attr/listSelectorBackground</item>
+        <item name="android:datePickerDialogTheme">@style/PhilipsDatePickerDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/PhilipsTimePickerDialogTheme</item>
         <item name="dropDownListViewStyle">@style/PDropDownStyle</item>
         <item name="actionBarPopupTheme">@style/PDropDownStyle</item>
         <item name="veryLightselectoropacityfifteen">
@@ -44,6 +46,7 @@
             @style/SpringBoardButtonIcon.OutlinedDarkBlue
         </item>
         <item name="LightColor">@color/uikit_philips_light_blue</item>
+        <item name="colorControlHighlight">?attr/LightColor</item>
     </style>
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">

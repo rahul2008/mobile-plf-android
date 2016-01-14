@@ -78,9 +78,9 @@
             android:layout_margin="10dp"
             android:orientation="horizontal">
 
-            <RadioButton
+            <com.philips.cdp.uikit.customviews.UIKitRadioButton
                 android:id="@+id/solid"
-                style="@style/Base.TextAppearance.AppCompat.Light.Widget."
+                android:backgroundTint="?attr/baseColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/solid"/>

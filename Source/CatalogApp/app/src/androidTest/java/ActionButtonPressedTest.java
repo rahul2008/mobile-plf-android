@@ -102,7 +102,7 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ac
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, expectedBitmapID);
         acquire();
         onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(isBackgroundColorSimilar(expectedColor, 15, 15)));
+                .check(matches(isBackgroundColorSimilar(expectedColor, (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
         release();
         expectedBitmap.recycle();
     }

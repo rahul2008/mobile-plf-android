@@ -76,12 +76,13 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/uikit_cards_message_text"
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="33dp"
                 android:layout_marginRight="33dp"
-                android:layout_marginTop="31dp"
+                android:layout_marginTop="21dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
                 android:textColor="?attr/verydarkBaseColor"
                 android:textSize="16sp" />

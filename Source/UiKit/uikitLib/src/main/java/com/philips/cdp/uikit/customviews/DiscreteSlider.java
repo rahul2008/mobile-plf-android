@@ -15,14 +15,14 @@ import com.philips.cdp.uikit.R;
  * <br>
  1.To use DiscreteSlider in XML file  include below convention as per your required display metrics
  <br>
- <com.philips.cdp.uikit.customviews.DiscreteSlider
+ &lt;com.philips.cdp.uikit.customviews.DiscreteSlider
  android:id="@+id/discreteslider"
  android:layout_width="269dp"
  android:layout_height="wrap_content"
  android:layout_gravity="center"
  android:layout_marginTop="10dp"
- app:discreteValue="7">
- </com.philips.cdp.uikit.customviews.DiscreteSlider>
+ app:discreteValue="7"&gt;
+ &lt;/com.philips.cdp.uikit.customviews.DiscreteSlider&gt;
  *
  *
  */

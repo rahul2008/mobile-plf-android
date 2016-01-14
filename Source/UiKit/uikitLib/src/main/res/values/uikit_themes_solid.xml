@@ -18,6 +18,7 @@
         <item name="android:windowBackground">@color/uikit_philips_very_light_blue</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_blue</item>
         <item name="buttonStyle">@style/Button.Solid.DarkBlue</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkBlue</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedDarkBlue</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBlue</item>
         <item name="editTextStyle">@style/InputStyle.DarkBlue</item>
@@ -63,6 +64,7 @@
         <item name="android:windowBackground">@color/uikit_philips_very_light_purple</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_purple</item>
         <item name="buttonStyle">@style/Button.Solid.DarkPurple</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkPurple</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedDarkPurple</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPurple</item>
         <item name="editTextStyle">@style/InputStyle.DarkPurple</item>
@@ -114,6 +116,7 @@
         <item name="android:windowBackground">@color/uikit_philips_very_light_green</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_green</item>
         <item name="buttonStyle">@style/Button.Solid.DarkGreen</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkGreen</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedDarkGreen</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentGreen</item>
         <item name="editTextStyle">@style/InputStyle.DarkGreen</item>
@@ -165,6 +168,7 @@
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_orange</item>
         <item name="buttonStyle">@style/Button.Solid.DarkOrange</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkOrange</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedDarkOrange</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
         <item name="editTextStyle">@style/InputStyle.DarkOrange</item>
@@ -213,6 +217,7 @@
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_aqua</item>
         <item name="buttonStyle">@style/Button.Solid.DarkAqua</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkAqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedDarkAqua</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
         <item name="editTextStyle">@style/InputStyle.DarkAqua</item>
@@ -264,6 +269,7 @@
         <item name="android:windowBackground">@color/uikit_philips_very_light_pink</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_very_dark_pink</item>
         <item name="buttonStyle">@style/Button.Solid.DarkPink</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.DarkPink</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedDarkPink</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPink</item>
         <item name="editTextStyle">@style/InputStyle.DarkPink</item>
@@ -311,6 +317,7 @@
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_orange</item>
         <item name="buttonStyle">@style/Button.Solid.BrightOrange</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.BrightOrange</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightOrange</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
         <item name="editTextStyle">@style/InputStyle.BrightOrange</item>
@@ -365,6 +372,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
         <item name="buttonStyle">@style/Button.Solid.BrightAqua</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.BrightAqua</item>
         <item name="editTextStyle">@style/InputStyle.BrightAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="brightColor">@color/uikit_philips_light_aqua</item>
@@ -416,6 +424,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightGreen</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentGreen</item>
         <item name="buttonStyle">@style/Button.Solid.BrightGreen</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.BrightGreen</item>
         <item name="editTextStyle">@style/InputStyle.BrightGreen</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
         <item name="brightColor">@color/uikit_philips_light_green</item>
@@ -469,6 +478,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightPink</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPink</item>
         <item name="buttonStyle">@style/Button.Solid.BrightPink</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.BrightPink</item>
         <item name="editTextStyle">@style/InputStyle.BrightPink</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_pink</item>
         <item name="brightColor">@color/uikit_philips_light_pink</item>
@@ -520,6 +530,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightBlue</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBlue</item>
         <item name="buttonStyle">@style/Button.Solid.BrightBlue</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.BrightBlue</item>
         <item name="editTextStyle">@style/InputStyle.BrightBlue</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="brightColor">@color/uikit_philips_light_blue</item>
@@ -571,6 +582,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightPurple</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPurple</item>
         <item name="buttonStyle">@style/Button.Solid.BrightPurple</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.BrightPurple</item>
         <item name="editTextStyle">@style/InputStyle.BrightPurple</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_purple</item>
         <item name="brightColor">@color/uikit_philips_light_purple</item>
@@ -625,6 +637,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightBlue</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentBlue</item>
         <item name="buttonStyle">@style/Button.Solid.LightBlue</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.LightBlue</item>
         <item name="editTextStyle">@style/InputStyle.LightBlue</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
         <item name="brightColor">@color/uikit_philips_very_light_blue</item>
@@ -676,6 +689,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightOrange</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentOrange</item>
         <item name="buttonStyle">@style/Button.Solid.LightOrange</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.LightOrange</item>
         <item name="editTextStyle">@style/InputStyle.LightOrange</item>
         <item name="errorTextColor">@color/uikit_enricher_red</item>
         <item name="errorIcon">@drawable/uikit_error_cross_red</item>
@@ -728,6 +742,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightAqua</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentAqua</item>
         <item name="buttonStyle">@style/Button.Solid.LightAqua</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.LightAqua</item>
         <item name="editTextStyle">@style/InputStyle.LightAqua</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_aqua</item>
         <item name="brightColor">@color/uikit_philips_very_light_aqua</item>
@@ -778,6 +793,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightGreen</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentGreen</item>
         <item name="buttonStyle">@style/Button.Solid.LightGreen</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.LightGreen</item>
         <item name="editTextStyle">@style/InputStyle.LightGreen</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_green</item>
         <item name="brightColor">@color/uikit_philips_very_light_green</item>
@@ -828,6 +844,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightPink</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPink</item>
         <item name="buttonStyle">@style/Button.Solid.LightPink</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.LightPink</item>
         <item name="editTextStyle">@style/InputStyle.LightPink</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_pink</item>
         <item name="brightColor">@color/uikit_philips_very_light_pink</item>
@@ -879,6 +896,7 @@
         <item name="outlinedButtonStyle">@style/Button.OutlinedLightPurple</item>
         <item name="outlinedButtonTransparentStyle">@style/Button.TransparentPurple</item>
         <item name="buttonStyle">@style/Button.Solid.LightPurple</item>
+        <item name="pickerButtonStyle">@style/PickerButton.Solid.LightPurple</item>
         <item name="editTextStyle">@style/InputStyle.LightPurple</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_purple</item>
         <item name="brightColor">@color/uikit_philips_very_light_purple</item>

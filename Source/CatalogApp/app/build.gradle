@@ -48,7 +48,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:support-annotations:22.2.0'
+    compile 'com.android.support:support-annotations:23.2.0'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.android.support:design:23.1.1'
@@ -71,7 +71,7 @@ spoon {
     debug = true
 
     // To run a single test class
-    className = 'com.philips.cdp.ui.catalog.InputFieldTest'
+    className = 'com.philips.cdp.ui.catalog.HamburgerMenuTest'
 //    className = 'com.philips.cdp.ui.catalog.RegularButtonPressedTest'
 //    className = 'com.philips.cdp.ui.catalog.OutlineButtonTest'
 //    className = 'com.philips.cdp.ui.catalog.OutlineButtonPressedTest'

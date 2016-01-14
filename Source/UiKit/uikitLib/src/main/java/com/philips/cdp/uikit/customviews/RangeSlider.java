@@ -16,14 +16,14 @@ import com.philips.cdp.uikit.R;
  * <br>
  1.To use RangeSlider in XML file  include below convention as per your required display metrics
  <br>
- <com.philips.cdp.uikit.customviews.RangeSlider
+ &lt;com.philips.cdp.uikit.customviews.RangeSlider
  android:id="@+id/rangeslider"
  android:layout_width="269dp"
  android:layout_height="wrap_content"
  android:layout_gravity="center"
  android:layout_marginTop="10dp"
  app:absoluteMaxValue="300"
- app:absoluteMinValue="90" />
+ app:absoluteMinValue="90" /&gt;
  *
  *
  */

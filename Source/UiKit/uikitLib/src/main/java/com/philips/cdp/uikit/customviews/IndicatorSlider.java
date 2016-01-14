@@ -17,12 +17,12 @@ import com.philips.cdp.uikit.R;
  * <br>
  1.To use IndicatorSlider in XML file  include below convention as per your required display metrics
  <br>
- <com.philips.cdp.uikit.customviews.IndicatorSlider
+ &lt;com.philips.cdp.uikit.customviews.IndicatorSlider
  android:id="@+id/indicatorslider"
  android:layout_width="280dp"
  android:layout_height="wrap_content"
  android:layout_gravity="center"
- android:layout_marginTop="10dp"></com.philips.cdp.uikit.customviews.IndicatorSlider>
+ android:layout_marginTop="10dp"></com.philips.cdp.uikit.customviews.IndicatorSlider&gt;
  *
  *
  */
