@@ -75,7 +75,9 @@ public class SHNCharacteristic {
             pendingCompletions.add(resultReporter);
         } else {
             SHNLogger.i(TAG, "Error write; characteristic not active: " + uuid);
-            resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
+            if (resultReporter != null) {
+                resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
+            }
         }
     }
 
