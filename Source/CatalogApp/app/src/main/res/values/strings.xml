@@ -43,6 +43,7 @@
 
     <array name="hamburger_drawer_icons">
         <item>@drawable/uikit_cart</item>
+        <item>@drawable/uikit_cart</item>
         <item>@drawable/uikit_coffee</item>
         <item>@drawable/uikit_stats</item>
         <item>@drawable/uikit_recycle_bin</item>
@@ -57,6 +58,11 @@
         <item>Option 1</item>
         <item>Option 2</item>
         <item>Option 3</item>
+    </string-array>
+
+    <string-array name="controls_array2">
+        <item>Option 1</item>
+        <item>Option 2</item>
     </string-array>
 
     <string name="title_activity_social_icons">SocialIconsActivity</string>
