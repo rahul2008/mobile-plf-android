@@ -99,6 +99,7 @@ import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.SHNPersistentStorage;
+import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
@@ -189,6 +190,7 @@ public class SHNCentral {
         shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, userHandler);
 
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
+        thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
         thread.start();
         try {
             internalHandler = new Handler(thread.getLooper());
