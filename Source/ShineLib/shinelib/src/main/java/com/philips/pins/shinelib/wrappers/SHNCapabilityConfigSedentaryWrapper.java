@@ -21,46 +21,42 @@ public class SHNCapabilityConfigSedentaryWrapper implements SHNCapabilityConfigS
 
     @Override
     public void setSedentaryPeriodInMinutes(final short minutes, @NonNull final ResultListener<Short> resultListener) {
-        Runnable command = new Runnable() {
+        internalHandler.post(new Runnable() {
             @Override
             public void run() {
                 wrappedShnCapability.setSedentaryPeriodInMinutes(minutes, createResultListener(resultListener));
             }
-        };
-        internalHandler.post(command);
+        });
     }
 
     @Override
     public void getSedentaryPeriodInMinutes(@NonNull final ResultListener<Short> resultListener) {
-        Runnable command = new Runnable() {
+        internalHandler.post(new Runnable() {
             @Override
             public void run() {
                 wrappedShnCapability.getSedentaryPeriodInMinutes(createResultListener(resultListener));
             }
-        };
-        internalHandler.post(command);
+        });
     }
 
     @Override
     public void setSedentaryNotificationEnabled(final boolean enabled, @NonNull final ResultListener<Boolean> resultListener) {
-        Runnable command = new Runnable() {
+        internalHandler.post(new Runnable() {
             @Override
             public void run() {
                 wrappedShnCapability.setSedentaryNotificationEnabled(enabled, createResultListener(resultListener));
             }
-        };
-        internalHandler.post(command);
+        });
     }
 
     @Override
     public void getSedentaryNotificationEnabled(@NonNull final ResultListener<Boolean> resultListener) {
-        Runnable command = new Runnable() {
+        internalHandler.post(new Runnable() {
             @Override
             public void run() {
                 wrappedShnCapability.getSedentaryNotificationEnabled(createResultListener(resultListener));
             }
-        };
-        internalHandler.post(command);
+        });
     }
 
     @NonNull
