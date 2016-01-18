@@ -26,9 +26,4 @@
             android:contentDescription="@string/img_description" />
     </RelativeLayout>
 
-    <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
-        android:id="@+id/action_bar_title"
-        style="@style/actionbarFontTextView"
-        android:layout_toRightOf="@+id/action_bar_icon_parent"
-        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />
 </RelativeLayout>
