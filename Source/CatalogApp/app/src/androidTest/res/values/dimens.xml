@@ -5,7 +5,7 @@
     <dimen name="sb_x_cordinate">5sp</dimen>
     <dimen name="outline_x_cordinate">0sp</dimen>
     <dimen name="outline_y_cordinate">5sp</dimen>
-    <dimen name="theme_button_text_size">15dp</dimen>
+    <dimen name="theme_button_text_size">15sp</dimen>
     <dimen name="input_field_text_size">16dp</dimen>
     <dimen name="about_title_text_size">24dp</dimen>
     <dimen name="about_version_text_size">16dp</dimen>

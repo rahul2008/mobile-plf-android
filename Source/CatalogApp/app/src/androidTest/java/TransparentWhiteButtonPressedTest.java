@@ -40,18 +40,18 @@ public class TransparentWhiteButtonPressedTest extends ActivityInstrumentationTe
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testDBThemePressedTWButtonOutlineColourAsExpected() {
-        onView(withText("Change Theme")).perform(click());
-        onView(withText("Blue Theme")).perform(click());
-        onView(withId(R.id.colorSwitch)).perform(click());
-        pressBack();
-
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
-        onView(withText("Buttons")).perform(click());
-        setTargetActivity(monitor);
-        setPressed(R.id.outlined_transparent_white_button, true);
-        matchPressedOutlineColor(R.id.outlined_transparent_white_button, "#ffffff");
-    }
+//    public void testDBThemePressedTWButtonOutlineColourAsExpected() {
+//        onView(withText("Change Theme")).perform(click());
+//        onView(withText("Blue Theme")).perform(click());
+//        onView(withId(R.id.colorSwitch)).perform(click());
+//        pressBack();
+//
+//        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+//        onView(withText("Buttons")).perform(click());
+//        setTargetActivity(monitor);
+//        setPressed(R.id.outlined_transparent_white_button, true);
+//        matchPressedOutlineColor(R.id.outlined_transparent_white_button, "#ffffff");
+//    }
 
     public void testDBThemePressedTWButtonTextColourAsExpected() {
         onView(withText("Change Theme")).perform(click());
@@ -79,18 +79,18 @@ public class TransparentWhiteButtonPressedTest extends ActivityInstrumentationTe
         matchPressedOpacityValue(R.id.outlined_transparent_white_button, 26);
     }
 
-    public void testBOThemePressedTWButtonOutlineColourAsExpected() {
-        onView(withText("Change Theme")).perform(click());
-        onView(withText("Orange Theme")).perform(click());
-        onView(withId(R.id.colorSwitch)).perform(click());
-        pressBack();
-
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
-        onView(withText("Buttons")).perform(click());
-        setTargetActivity(monitor);
-        setPressed(R.id.outlined_transparent_white_button, true);
-        matchPressedOutlineColor(R.id.outlined_transparent_white_button, "#ffffff");
-    }
+//    public void testBOThemePressedTWButtonOutlineColourAsExpected() {
+//        onView(withText("Change Theme")).perform(click());
+//        onView(withText("Orange Theme")).perform(click());
+//        onView(withId(R.id.colorSwitch)).perform(click());
+//        pressBack();
+//
+//        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+//        onView(withText("Buttons")).perform(click());
+//        setTargetActivity(monitor);
+//        setPressed(R.id.outlined_transparent_white_button, true);
+//        matchPressedOutlineColor(R.id.outlined_transparent_white_button, "#ffffff");
+//    }
 
     public void testBOThemePressedTWButtonTextColourAsExpected() {
         onView(withText("Change Theme")).perform(click());
@@ -118,18 +118,18 @@ public class TransparentWhiteButtonPressedTest extends ActivityInstrumentationTe
         matchPressedOpacityValue(R.id.outlined_transparent_white_button, 26);
     }
 
-    public void testBAThemePressedTWButtonOutlineColourAsExpected() {
-        onView(withText("Change Theme")).perform(click());
-        onView(withText("Aqua Theme")).perform(click());
-        onView(withId(R.id.colorSwitch)).perform(click());
-        pressBack();
-
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
-        onView(withText("Buttons")).perform(click());
-        setTargetActivity(monitor);
-        setPressed(R.id.outlined_transparent_white_button, true);
-        matchPressedOutlineColor(R.id.outlined_transparent_white_button, "#ffffff");
-    }
+//    public void testBAThemePressedTWButtonOutlineColourAsExpected() {
+//        onView(withText("Change Theme")).perform(click());
+//        onView(withText("Aqua Theme")).perform(click());
+//        onView(withId(R.id.colorSwitch)).perform(click());
+//        pressBack();
+//
+//        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+//        onView(withText("Buttons")).perform(click());
+//        setTargetActivity(monitor);
+//        setPressed(R.id.outlined_transparent_white_button, true);
+//        matchPressedOutlineColor(R.id.outlined_transparent_white_button, "#ffffff");
+//    }
 
     public void testBAThemePressedTWButtonTextColourAsExpected() {
         onView(withText("Change Theme")).perform(click());
