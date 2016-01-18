@@ -54,7 +54,7 @@ public class TabViewWithViewPager extends CatalogActivity {
                 ((ViewGroup) content.getParent()).setWillNotDraw(true);
 
                 if (content instanceof FrameLayout) {
-                    content.setForeground(null);
+                    ((FrameLayout)content).setForeground(null);
                 }
             }
         }
