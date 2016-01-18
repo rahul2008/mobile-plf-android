@@ -70,12 +70,12 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<ButtonsA
 //                .check(matches(isOutlineColorSimilar("#03478")));
 //    }
 
-    public void testDBThemeOButtonTextColor() {
-        themeUtils.setThemePreferences("blue|false|solid|0");
-        relaunchActivity();
-        onView(withId(R.id.outlined_button))
-                .check(matches(isTextColorSimilar("#03478")));
-    }
+//    public void testDBThemeOButtonTextColor() {
+//        themeUtils.setThemePreferences("blue|false|solid|0");
+//        relaunchActivity();
+//        onView(withId(R.id.outlined_button))
+//                .check(matches(isTextColorSimilar("#03478")));
+//    }
 
     public void testDBThemeOButtonBGColor() {
         themeUtils.setThemePreferences("blue|false|solid|0");

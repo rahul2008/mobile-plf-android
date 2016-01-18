@@ -111,13 +111,13 @@ public class TransparentButtonPressedTest extends ActivityInstrumentationTestCas
 //        matchPressedOutlineColor(R.id.outlined_transparent_button, "#5bbbb7");
 //    }
 
-    public void testBAThemePressedTButtonTextColourAsExpected() {
-        themeUtils.setThemePreferences("aqua|false|solid|0");
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
-        setTargetActivity(monitor);
-        setPressed(R.id.outlined_transparent_button, true);
-        matchPressedTextColor(R.id.outlined_transparent_button, "#5bbbb7");
-    }
+//    public void testBAThemePressedTButtonTextColourAsExpected() {
+//        themeUtils.setThemePreferences("aqua|false|solid|0");
+//        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
+//        setTargetActivity(monitor);
+//        setPressed(R.id.outlined_transparent_button, true);
+//        matchPressedTextColor(R.id.outlined_transparent_button, "#5bbbb7");
+//    }
 
     public void testBAThemePressedTButtonOpacityValueAsExpected() {
         themeUtils.setThemePreferences("aqua|false|solid|0");
