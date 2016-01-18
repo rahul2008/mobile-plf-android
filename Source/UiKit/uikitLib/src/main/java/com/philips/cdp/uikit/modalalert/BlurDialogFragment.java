@@ -48,7 +48,7 @@ public class BlurDialogFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAnimDuration = getActivity().getResources().getInteger(android.R.integer.config_mediumAnimTime);
+        mAnimDuration = getActivity().getResources().getInteger(R.integer.config_mediumAnimTime);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
     }
 
