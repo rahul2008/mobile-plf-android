@@ -100,7 +100,7 @@ artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = 'libs-snapshot-local-android'
             username = 'admin'
             password = 'password'
             publishPom = true
@@ -115,8 +115,22 @@ artifactory {
     }
 }
 
+
+sourceSets {
+    main{
+        java {
+            srcDirs '../../Source/SampleDigitalCare/launchDigitalCare/src/main/java'
+        }
+        resources {
+
+            srcDirs '../../Source/SampleDigitalCare/launchDigitalCare/src/main/res'
+        }
+    }
+}
+
 task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
+    from sourceSets.main.java.srcDirs
+   // from('../../Source/SampleDigitalCare/launchDigitalCare/src/main/res')
     classifier 'sources'
 }
 
