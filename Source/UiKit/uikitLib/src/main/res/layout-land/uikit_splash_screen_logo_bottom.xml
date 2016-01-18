@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/uikit_splash_title_margin_top"
         android:text="@string/uikit_splash_title" />
 
-    <VectorDrawableImageView
+    <ImageView
         android:id="@+id/splash_logo"
         android:layout_width="@dimen/uikit_splash_logo_width"
         android:layout_height="@dimen/uikit_splash_logo_height"

@@ -12,6 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * <br>
@@ -104,10 +105,14 @@ public class IndicatorSlider extends LinearLayout {
     private void init(Context context) {
         seekbar = (BaseSlider) findViewById(R.id.slider);
         indicatorImage = (ImageView) findViewById(R.id.slider_indicator);
+        indicatorImage.setImageDrawable(VectorDrawable.create(context, R.drawable.uikit_slider_bubble));
         sliderFramelayout = (FrameLayout) findViewById(R.id.slider_framelayout);
         indicatorText = (TextView) findViewById(R.id.indicator_text);
     }
 
+    public void setOnIndicatorSliderChangeListener(OnIndicatorSliderChangeListener listener) {
+        this.listener = listener;
+    }
 
 
     /**
@@ -142,11 +147,6 @@ public class IndicatorSlider extends LinearLayout {
          * @param seekBar The SeekBar in which the touch gesture began
          */
         void onStopTrackingTouch(SeekBar seekBar);
-    }
-
-
-    public void setOnIndicatorSliderChangeListener(OnIndicatorSliderChangeListener listener) {
-        this.listener = listener;
     }
 
 

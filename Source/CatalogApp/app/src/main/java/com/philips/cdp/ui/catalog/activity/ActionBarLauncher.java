@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * <b></b> ActionBarLauncher is class to demonstrate the use of Action Up Button </b>
@@ -62,8 +63,9 @@ public class ActionBarLauncher extends CatalogActivity {
             }
         });
 
-        ImageView imageButton = (ImageView) mCustomView
+        ImageView arrowImage = (ImageView) mCustomView
                 .findViewById(R.id.arrow);
+        arrowImage.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
 
         mActionBar.setCustomView(mCustomView, params);
         mActionBar.setDisplayShowCustomEnabled(true);
