@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -91,7 +90,6 @@ public class BlurDialogFragment extends DialogFragment {
 
         applyBlurEffect(visibleFrame);
 
-        setOnTouchListener();
     }
 
     private void setUpBlurImage() {
@@ -125,19 +123,6 @@ public class BlurDialogFragment extends DialogFragment {
             mBlurContainer.setPadding(visibleFrame.left, visibleFrame.top, 0, 0);
         }
         return visibleFrame;
-    }
-
-    private void setOnTouchListener() {
-        View view = getView();
-        if (view != null) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    dismiss();
-                    return true;
-                }
-            });
-        }
     }
 
     private void applyBlurEffect(Rect visibleFrame) {
