@@ -6,7 +6,7 @@
     <dimen name="outline_x_cordinate">0sp</dimen>
     <dimen name="outline_y_cordinate">5sp</dimen>
     <dimen name="theme_button_text_size">15sp</dimen>
-    <dimen name="input_field_text_size">16dp</dimen>
+    <dimen name="input_field_text_size">16sp</dimen>
     <dimen name="about_title_text_size">24dp</dimen>
     <dimen name="about_version_text_size">16dp</dimen>
     <dimen name="about_terms_content_text_size">14dp</dimen>
@@ -41,14 +41,14 @@
     <dimen name="hmenu_title_listitem_height">33dp</dimen>
     <dimen name="modal_alert_title_size">20sp</dimen>
     <dimen name="modal_alert_description_buttontext_size">14sp</dimen>
-    <dimen name="springboard_divider_height">1sp</dimen>
+    <dimen name="springboard_divider_height">1dp</dimen>
     <dimen name="springboard_font_size">16sp</dimen>
-    <dimen name="springboard_list_title_font_size">38sp</dimen>
+    <dimen name="springboard_list_title_font_size">38dp</dimen>
 
     <dimen name="springboard__lists_font_size">20dp</dimen>
     <dimen name="springboard_lists_item_size">55dp</dimen>
     <dimen name="springboard_grid_title_font_size">33dp</dimen>
-    <dimen name="springboard_grid_font_size">16dp</dimen>
+    <dimen name="springboard_grid_font_size">16sp</dimen>
     <dimen name="socialicons_height">20sp</dimen>
     <dimen name="socialicons_width">20sp</dimen>
     <dimen name="socialicons_height_large">32sp</dimen>

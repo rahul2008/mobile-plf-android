@@ -94,10 +94,10 @@ public class SpringBoardListsTest extends ActivityInstrumentationTestCase2<Sprin
         onView(withText("Shop ")).check(matches(isTextColorSimilar("#ffffff")));
     }
 
-    public void testTextFontSize() {
-        onView(withText("Lists")).perform(click());
-        onView(withText("Shop ")).check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard__lists_font_size))));
-    }
+//    public void testTextFontSize() {
+//        onView(withText("Lists")).perform(click());
+//        onView(withText("Shop ")).check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.springboard__lists_font_size))));
+//    }
 
     public void testImageBGColorDBTheme() {
         themeUtils.setThemePreferences("blue|false|solid|0");
