@@ -38,7 +38,7 @@ public class SHNCapabilityWrapperFactoryTest {
 
     @Test
     public void ShouldCreateSHNCapabilitySedentaryWrapper_WhenSedentaryIsProvided() {
-        SHNCapability capabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(sedentaryMock, SHNCapabilityType.Sedentary, null, null);
+        SHNCapability capabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(sedentaryMock, SHNCapabilityType.CONFIG_SEDENTARY, null, null);
         assertThat(capabilityWrapper).isInstanceOf(SHNCapabilityConfigSedentaryWrapper.class);
     }
 }
