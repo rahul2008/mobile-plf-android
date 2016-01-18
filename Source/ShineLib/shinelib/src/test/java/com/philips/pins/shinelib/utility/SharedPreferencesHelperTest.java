@@ -2,7 +2,6 @@ package com.philips.pins.shinelib.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNCapabilityType;
@@ -19,10 +18,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricGradleTestRunner.class)
@@ -30,7 +25,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class SharedPreferencesHelperTest {
 
     public static final String KEY = "KEY";
-    public static final String TAG = "TAG";
 
     @Mock
     private SHNLogger.LoggerImplementation loggerMock;
@@ -115,54 +109,5 @@ public class SharedPreferencesHelperTest {
         Set<String> res = preferencesHelper.get(KEY);
 
         assertThat(res).isEqualTo(value);
-    }
-
-    @Test
-    public void whenShortValueIsAlreadyPresent_thenPutIfValueChangedWillReturnFalse() {
-        short value = (short) 111;
-        preferencesHelper.put(KEY, value);
-        boolean valueChanged = preferencesHelper.putIfValueChanged(KEY, value);
-
-        assertThat(valueChanged).isFalse();
-    }
-
-    @Test
-    public void whenShortValueIsNotAlreadyPresent_thenPutIfValueChangedWillReturnFalse() {
-        short value = (short) 111;
-        preferencesHelper.put(KEY, value);
-        boolean valueChanged = preferencesHelper.putIfValueChanged(KEY, value + 1);
-
-        assertThat(valueChanged).isTrue();
-    }
-
-    @Test
-    public void whenAssureCorrectPersistenceIsCalled_AndNotAlreadyPresent_thenValueIsPut() {
-        preferencesHelper.assureCorrectPersistence("", KEY, true);
-
-        boolean res = preferencesHelper.get(KEY);
-
-        assertThat(res).isTrue();
-    }
-
-    @Test
-    public void whenAssureCorrectPersistenceIsCalled_AndAlreadyPresent_thenValueIsNotPut() {
-        preferencesHelper.put(KEY, true);
-        preferencesHelper.assureCorrectPersistence("", KEY, false);
-
-        boolean res = preferencesHelper.get(KEY);
-
-        assertThat(res).isTrue();
-    }
-
-    @Test
-    public void whenAssureCorrectPersistenceIsCalled_AndAlreadyPresent_thenLogAssertIsCalled() {
-        SHNLogger.registerLogger(loggerMock);
-
-        preferencesHelper.put(KEY, true);
-        preferencesHelper.assureCorrectPersistence(TAG, KEY, false);
-
-        verify(loggerMock).logLine(eq(Log.ASSERT), eq(TAG), anyString(), any(Throwable.class));
-
-        SHNLogger.unregisterLogger(loggerMock);
     }
 }

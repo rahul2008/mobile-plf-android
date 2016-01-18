@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,23 +17,8 @@ public class SharedPreferencesHelper implements SharedPreferences {
     @NonNull
     private SharedPreferences sharedPreferences;
 
-    public SharedPreferencesHelper(final SharedPreferences sharedPreferences) {
+    public SharedPreferencesHelper(@NonNull final SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
-    }
-
-    public <T> void assureCorrectPersistence(
-            @NonNull final String TAG,
-            @NonNull final String key,
-            @NonNull final T value) {
-        if (!contains(key)) {
-            put(key, value);
-        } else {
-            T local = get(key);
-            if (local != value) {
-                SHNLogger.wtf(TAG,
-                        "IConfigEvents returned " + value + " for " + key + ", but locally stored is " + local);
-            }
-        }
     }
 
     public <T> void put(final String key, final T value) {
@@ -49,7 +35,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
         } else if (value instanceof String) {
             edit.putString(key, (String) value);
         } else if (value instanceof Set<?>) {
-            edit.putStringSet(key, (Set<String>) value);
+            putStringSet(key, value, edit, (Set<?>) value);
         } else if (value instanceof Enum<?>) {
             edit.putInt(key, ((Enum<?>) value).ordinal());
             edit.putString(key + ENUM_NAME, ((Enum<?>) value).getClass().getName());
@@ -61,15 +47,17 @@ public class SharedPreferencesHelper implements SharedPreferences {
         edit.apply();
     }
 
-    public <T> boolean putIfValueChanged(final String key, final T value) {
-        T oldValue = get(key);
-        boolean valueChanged = oldValue != value;
-
-        if (valueChanged) {
-            put(key, value);
+    private <T> void putStringSet(final String key, final T value, final Editor edit, final Set<?> set) {
+        if (set.isEmpty()) {
+            edit.putStringSet(key, new HashSet<String>());
+        } else {
+            if ((set.iterator().next() instanceof String)) {
+                Set<String> values = uncheckedCast(value);
+                edit.putStringSet(key, values);
+            } else {
+                SHNLogger.wtf(TAG, "Set should be a set of Strings");
+            }
         }
-
-        return valueChanged;
     }
 
     public <T> T get(final String key) {
@@ -90,7 +78,17 @@ public class SharedPreferencesHelper implements SharedPreferences {
             }
         }
 
-        return (T) value;
+        return uncheckedCast(value);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T uncheckedCast(final Object value) {
+        try {
+            return (T) value;
+        } catch (ClassCastException e) {
+            SHNLogger.wtf(TAG, "uncheckedCast " + value, e);
+        }
+        return null;
     }
 
     // Pass through methods
