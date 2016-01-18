@@ -1,6 +1,20 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'com.jfrog.artifactory-upload'
+
+def libVersionNumber = new File('../../VERSION').text.trim()
+libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
+    }
+}
 
 android {
     compileSdkVersion 23
@@ -76,4 +90,40 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         xml.enabled = true
         html.enabled = false
     }
+}
+
+//maven configuration stuff required for artifactory plugin
+group = 'com.philips.cdp'
+version = libVersionNumber
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = 'libs-release-local'
+            username = 'admin'
+            password = 'password'
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = false
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+artifactoryPublish {
+    dependsOn sourceJar
+}
+
+artifacts {
+    archives sourceJar
 }
