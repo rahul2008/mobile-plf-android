@@ -70,9 +70,12 @@ public class SharedPreferencesHelper implements SharedPreferences {
             value = integer.shortValue();
         } else if (isEnum) {
             try {
-                Class clazz = Class.forName((String) get(key + ENUM_NAME));
-                Object[] enumConstants = clazz.getEnumConstants();
-                value = enumConstants[(Integer) value];
+                String className = get(key + ENUM_NAME);
+                Class<?> clazz = Class.forName(className);
+                if (clazz.isEnum()) {
+                    Object[] enumConstants = clazz.getEnumConstants();
+                    value = enumConstants[(Integer) value];
+                }
             } catch (ClassNotFoundException e) {
                 SHNLogger.wtf(TAG, "Could not instantiate " + get(key + ENUM_NAME), e);
             }
