@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.SupportHomeFragment;
-import com.philips.multiproduct.utils.MLogger;
 import com.philips.multiproduct.utils.Constants;
 
 
@@ -18,14 +17,9 @@ public class MultiProductActivity extends MultiProductBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digi_care);
-        try {
-            initActionBar();
-        } catch (ClassCastException e) {
-            MLogger.e(TAG, "Actionbar: " + e.getMessage());
-        }
+
         animateThisScreen();
         showFragment(new SupportHomeFragment());
-        enableActionBarHome();
     }
 
     private void animateThisScreen() {

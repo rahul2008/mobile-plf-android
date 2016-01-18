@@ -21,7 +21,6 @@ import android.widget.ImageView;
 
 import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.customview.CustomFontTextView;
 import com.philips.multiproduct.customview.NetworkAlertView;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 import com.philips.multiproduct.listeners.NetworkStateListener;
@@ -43,20 +42,12 @@ public abstract class BaseFragment extends Fragment implements
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    protected int mLeftRightMarginPort = 0;
-    protected int mLeftRightMarginLand = 0;
     private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
-    private ImageView mBackToHome = null;
-    private ImageView mHomeIcon = null;
 
     public synchronized static void setStatus(boolean connection) {
-        if (connection)
-            isConnectionAvailable = true;
-        else {
-            isConnectionAvailable = false;
-        }
+        isConnectionAvailable = connection;
     }
 
     public abstract void setViewParams(Configuration config);
@@ -98,10 +89,6 @@ public abstract class BaseFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
-                .getDimension(R.dimen.activity_margin_port);
-        mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
-                .getDimension(R.dimen.activity_margin_land);
     }
 
     @Override
@@ -124,7 +111,6 @@ public abstract class BaseFragment extends Fragment implements
         MLogger.i(MLogger.FRAGMENT, "OnResume on "
                 + this.getClass().getSimpleName());
         super.onResume();
-        setActionbarTitle();
     }
 
     @Override
@@ -252,15 +238,6 @@ public abstract class BaseFragment extends Fragment implements
         getAppName();
     }
 
-    private void enableActionBarLeftArrow() {
-        mBackToHome = (ImageView) mFragmentActivityContext
-                .findViewById(R.id.back_to_home_img);
-        mHomeIcon = (ImageView) mFragmentActivityContext
-                .findViewById(R.id.home_icon);
-        mHomeIcon.setVisibility(View.GONE);
-        mBackToHome.setVisibility(View.VISIBLE);
-        mBackToHome.bringToFront();
-    }
 
 	/*
      * This method can be called directly from outside and helps to invoke the
@@ -291,7 +268,6 @@ public abstract class BaseFragment extends Fragment implements
             containerId = mContainerId;
             mFragmentActivityContext = mActivityContext;
         } else {
-            enableActionBarLeftArrow();
             InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (mFragmentActivityContext.getWindow() != null
@@ -325,16 +301,11 @@ public abstract class BaseFragment extends Fragment implements
         if (mContainerId == 0) {
             if (this.getClass().getSimpleName()
                     .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-                enableActionBarHome();
+
             }
         }
     }
 
-    private void enableActionBarHome() {
-        mBackToHome.setVisibility(View.GONE);
-        mHomeIcon.setVisibility(View.VISIBLE);
-        mHomeIcon.bringToFront();
-    }
 
     public void showFragment(FragmentActivity context, int parentContainer,
                              Fragment fragment, ActionbarUpdateListener actionbarUpdateListener,
@@ -423,18 +394,6 @@ public abstract class BaseFragment extends Fragment implements
         }
     }
 
-    /**
-     * Updating action bar title. The text has to be updated at each fragment
-     * seletion/creation.
-     */
-    private void setActionbarTitle() {
-        if (mContainerId == 0) {
-            ((CustomFontTextView) getActivity().findViewById(
-                    R.id.action_bar_title)).setText(getActionbarTitle());
-        } else {
-            updateActionbar();
-        }
-    }
 
     private void updateActionbar() {
         if (this.getClass().getSimpleName()
