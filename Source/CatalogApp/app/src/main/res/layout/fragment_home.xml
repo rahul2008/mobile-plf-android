@@ -12,7 +12,7 @@
         android:text="Home View"
         android:textSize="16dp"/>
 
-    <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+    <ImageView
         android:id="@+id/frag_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

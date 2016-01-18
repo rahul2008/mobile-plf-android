@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
-import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -92,7 +91,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private HamburgerAdapter adapter;
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
-    private VectorDrawableImageView hamburgerIcon;
+    private ImageView hamburgerIcon;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -260,7 +259,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
         actionBarCount = (TextView) findViewById(R.id.hamburger_count);
-        hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
+        hamburgerIcon = (ImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         LinearLayout hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
 
