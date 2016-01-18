@@ -95,6 +95,7 @@ public enum SHNCapabilityType {
     WEARING_POSITION,
     BATTERY,
     USER_INFORMATION_LIFE_SENSE,
+    CONFIG_SEDENTARY,
     DEVICE_DIAGNOSTIC;
 
     public static SHNCapabilityType getCounterPart(SHNCapabilityType capabilityType) {
