@@ -206,6 +206,43 @@ public class SHNDeviceImplTest {
     }
 
     @Test
+    public void whenInStateConnectingTheGattCallbackIndicatesConnectedWithStatusFailureThenDisconnectIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_FAILURE, BluetoothGatt.STATE_CONNECTED);
+        verify(mockedBTGatt).disconnect();
+    }
+
+    @Test
+    public void whenInStateConnectingTheGattCallbackIndicatesConnectedWithStatusFailureThenCloseIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_FAILURE, BluetoothGatt.STATE_CONNECTED);
+        verify(mockedBTGatt).close();
+    }
+
+    @Test
+    public void whenInStateConnectingTheGattCallbackIndicatesConnectedWithStatusFailureThenDisconnectFromBLELayerIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_FAILURE, BluetoothGatt.STATE_CONNECTED);
+        verify(mockedSHNService).disconnectFromBLELayer();
+        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
+        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
+    }
+
+    @Test
+    public void whenInStateConnectingTheGattCallbackIndicatesConnectedWithStatusFailureThenOnFailedToConnectIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_FAILURE, BluetoothGatt.STATE_CONNECTED);
+        verify(mockedSHNDeviceListener).onFailedToConnect(shnDevice, SHNResult.SHNErrorInvalidState);
+    }
+
+    @Test
+    public void whenInStateConnectingTheGattCallbackIndicatesConnectedWithStatusFailureThenTheStateIsDisconnected() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_FAILURE, BluetoothGatt.STATE_CONNECTED);
+        assertEquals(SHNDeviceImpl.State.Disconnected, shnDevice.getState());
+    }
+
+    @Test
     public void whenInStateConnectingTheGattCallbackIndicatesServicesDiscoveredThenGetServicesIsCalled() {
         connectTillGATTServicesDiscovered();
         verify(mockedBTGatt).getServices();

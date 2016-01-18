@@ -252,8 +252,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
             SHNLogger.i(TAG, "BTGattCallback - onConnectionStateChange (newState = '" + bluetoothStateToString(newState) + "', status = " + status + ")");
 
-            if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            if (status != BluetoothGatt.GATT_SUCCESS || newState == BluetoothProfile.STATE_DISCONNECTED) {
                 if (btGatt != null) {
+                    btGatt.disconnect();    // It's not a problem to call disconnect when already disconnected.
                     btGatt.close();
                     btGatt = null;
                 }
@@ -265,6 +266,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 }
                 setInternalState(InternalState.Disconnected);
                 shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
+                connectTimer.stop();
             } else if (newState == BluetoothProfile.STATE_CONNECTED) {
                 if (shouldWaitUntilBonded()) {
                     setInternalState(InternalState.ConnectedWaitingUntilBonded);
