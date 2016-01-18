@@ -48,8 +48,17 @@ public class SharedPreferencesHelperTest {
     }
 
     @Test
-    public void whenShortIsPut_thenIsCanBeReturnedUsingGet() {
-        short value = (short) 111;
+    public void whenShortMaxIsPut_thenIsCanBeReturnedUsingGet() {
+        short value = Short.MAX_VALUE;
+        preferencesHelper.put(KEY, value);
+        short res = preferencesHelper.get(KEY);
+
+        assertThat(res).isEqualTo(value);
+    }
+
+    @Test
+    public void whenShortMinIsPut_thenIsCanBeReturnedUsingGet() {
+        short value = Short.MIN_VALUE;
         preferencesHelper.put(KEY, value);
         short res = preferencesHelper.get(KEY);
 
