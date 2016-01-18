@@ -86,7 +86,7 @@ public class SHNCapabilityWrapperFactory {
                         internalHandler,
                         userHandler);
                 break;
-            case Sedentary:
+            case CONFIG_SEDENTARY:
                 shnCapabilityWrapper = new SHNCapabilityConfigSedentaryWrapper(
                         (SHNCapabilityConfigSedentary) shnCapability,
                         internalHandler,
