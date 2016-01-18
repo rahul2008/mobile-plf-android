@@ -12,7 +12,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.Matchers.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsHeightAsExpectedMatcher.isHeightSimilar;
 import static com.philips.cdp.ui.catalog.Matchers.IsTextColorAsExpectedMatcher.isTextColorSimilar;
-import static com.philips.cdp.ui.catalog.Matchers.IsTextSizeAsExpectedMatcher.isTextSizeSimilar;
 /*
 *
  * (C) Koninklijke Philips N.V., 2015.
@@ -43,12 +42,12 @@ public class DisabledButtonTest extends ActivityInstrumentationTestCase2<MainAct
                 .check(matches(isBackgroundColorSimilar("#b9b9b9", (int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate),(int)testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.action_button_cordinate))));
     }
 
-    public void testDButtonTextSize() {
-        onView(withText("Buttons")).perform(click());
-        onView(withId(R.id.change_button_state)).perform(click());
-        onView(withId(R.id.theme_button))
-                .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.theme_button_text_size))));
-    }
+//    public void testDButtonTextSize() {
+//        onView(withText("Buttons")).perform(click());
+//        onView(withId(R.id.change_button_state)).perform(click());
+//        onView(withId(R.id.theme_button))
+//                .check(matches(isTextSizeSimilar(testResources.getDimension(com.philips.cdp.ui.catalog.test.R.dimen.theme_button_text_size))));
+//    }
 
     public void testDButtonTextColor() {
         onView(withText("Buttons")).perform(click());
