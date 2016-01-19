@@ -34,7 +34,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        android:layout_gravity="center"
+            android:layout_gravity="center"
             android:background="?attr/baseColor"
             android:gravity="center"
             android:orientation="vertical"
@@ -61,7 +61,7 @@
                 android:layout_marginTop="30dp"
                 app:uikitsecondaryprogress="true"
                 app:uikitwhiteprogress="true" />
-</LinearLayout>
+        </LinearLayout>
 
         <com.philips.cdp.uikit.customviews.PUIProgressBar
             android:id="@+id/indeterminateprogressbar"
@@ -142,25 +142,27 @@
                 app:uikitgrayprogress="true" />
 
 
-
-
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content">
-        <com.philips.cdp.uikit.customviews.CircularLineProgressBar
-            android:layout_width="86dp"
-            android:layout_below="@+id/progressBar1"
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="80dp"
-            android:layout_height="86dp" />
-        <com.philips.cdp.uikit.customviews.CircularLineProgressBar
-            android:layout_width="43dp"
-            android:layout_below="@+id/progressBar1"
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="80dp"
-            android:layout_height="43dp" />
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:paddingTop="10dp">
+
+            <com.philips.cdp.uikit.customviews.CircularLineProgressBar
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:layout_below="@+id/progressBar1"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="10dp" />
+
+            <com.philips.cdp.uikit.customviews.CircularLineProgressBar
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:layout_below="@+id/progressBar1"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
