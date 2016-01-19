@@ -3,21 +3,49 @@
     <declare-styleable name="PhilipsUIKit">
         <attr name="actionBarBackground" format="reference|color"/>
         <attr name="outlinedButtonStyle" format="reference"/>
+        <attr name="pickerOutlinedButtonStyle" format="reference"/>
+        <attr name="pickerButtonStyle" format="reference"/>
         <attr name="baseColor" format="reference|color"/>
+        <attr name="verydarkBaseColor" format="reference|color"/>
         <attr name="listSelectorBackground" format="reference|color"/>
-        <attr name="listiconselector" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
-        <attr name="gradBackground" format="reference|color"/>
+        <attr name="favoriteTabSelector" format="reference|color"/>
+        <attr name="errortextcolorinlineforms" format="reference|color"/>
+        <attr name="erroriconcolorinlineforms" format="reference|color"/>
+        <attr name="gradWindowBackground" format="reference|color"/>
         <attr name="listDividerColor" format="reference|color"/>
+        <attr name="springBoardDivider" format="reference|color"/>
         <attr name="outlinedButtonTransparentStyle" format="reference"/>
+        <attr name="springBoardTextColor" format="reference|color"/>
         <attr name="themeSwitch" format="reference"/>
         <attr name="switchOffColor" format="color"/>
-        <attr name="veryLightColor" format="color"/>
+        <attr name="veryLightColor" format="reference|color"/>
         <attr name="brightColor" format="color" />
         <attr name="splashGradient" format="reference"/>
-        <attr name="veryDarkToDark" format="reference" />
         <attr name="gradientColorForListHeader" format="reference|color"/>
         <attr name="gradientColorForListSectionTitle" format="reference|color"/>
+        <attr name="darkerColor" format="reference|color"/>
+        <attr name="notificationBarGradient" format="reference"/>
+        <attr name="tabBarGradient" format="reference"/>
+        <attr name="hamburgerGradient" format="reference"/>
+        <!--  Definiton of these gradients vary as per the theme -->
+        <attr name="baseGradient" format="reference"/>
+        <attr name="darkerGradient" format="reference"/>
+        <attr name="lighterGradient" format="reference"/>
+        <attr name="evenLighterGradient" format="reference"/>
+        <attr name="veryLightGradient" format="reference"/>
+        <attr name="veryLightselectoropacityfifteen" format="reference|color"/>
+        <attr name="popoverImageStyle" format="reference"/>
+        <attr name="springBoardButton" format="reference"/>
+        <attr name="springBoardButtonWithIcon" format="reference"/>
+        <attr name="springBoardButtonOutLined" format="reference"/>
+        <attr name="springBoardButtonOutLinedWithIcon" format="reference"/>
+        <attr name="LightColor" format="reference|color"/>
+        <attr name="LighterColorOpacity80" format="reference|color"/>
+        <attr name="LighterColorOpacity60" format="reference|color"/>
+        <attr name="LighterColorOpacity40" format="reference|color"/>
+        <attr name="LighterColorOpacity20" format="reference|color"/>
+
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">
@@ -25,6 +53,14 @@
             <enum name="none" value="0"/>
             <enum name="theme" value="1"/>
             <enum name="inverted" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="UikitSpringBoardLayout">
+        <attr name="opacityStyle" format="enum">
+            <enum name="darker_color" value="0"/>
+            <enum name="darker_with_opacity" value="1"/>
+
         </attr>
     </declare-styleable>
 
@@ -42,17 +78,11 @@
 
     <attr name="splashTitleStyle" format="reference"/>
 
-    <declare-styleable name="VectorDrawableImageView">
-        <attr name="vectorsrc" format="reference"/>
-    </declare-styleable>
-
     <declare-styleable name="RatingBarView">
         <attr name="isratingbarbig" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="InputTextField">
-        <attr name="inputFieldWidth" format="dimension"/>
-        <attr name="inputFieldHeight" format="dimension"/>
         <attr name="singleLine" format="boolean"/>
         <attr name="hintText" format="string"/>
         <attr name="errorText" format="string"/>
@@ -140,5 +170,15 @@
     <declare-styleable name="RangeSeekBar">
         <attr name="absoluteMinValue" format="integer|float"/>
         <attr name="absoluteMaxValue" format="integer|float"/>
+    </declare-styleable>
+
+    <declare-styleable name="UIKitProgressBar">
+        <attr name="uikitsecondaryprogress" format="boolean" />
+        <attr name="uikitwhiteprogress" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="UIKitProgressBarCircular">
+        <attr name="uikitgrayprogress" format="boolean" />
+        <attr name="uikittransparentprogress" format="boolean" />
+        <attr name="uikitcircularprogresssmall" format="boolean" />
     </declare-styleable>
 </resources>

@@ -1,27 +1,51 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Placeholder to start PhilipsTheme definition -->
-    <style name="Theme.Philips" parent="Theme.AppCompat.Light">
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="darkerGradient">@drawable/uikit_grad_blue_verydark_to_dark</item>
+        <item name="baseGradient">@drawable/uikit_grad_blue_dark_to_bright</item>
+        <item name="lighterGradient">@drawable/uikit_grad_blue_bright_to_light</item>
+        <item name="gradWindowBackground">?attr/lighterGradient</item>
+        <item name="splashGradient">?attr/lighterGradient</item>
+        <item name="notificationBarGradient">?attr/darkerGradient</item>
+        <item name="actionBarBackground">?attr/baseGradient</item>
+        <item name="tabBarGradient">?attr/baseGradient</item>
+        <item name="hamburgerGradient">?attr/darkerGradient</item>
+        <item name="errorTextColor">@color/uikit_philips_bright_orange</item>
+        <item name="errorIcon">@drawable/uikit_error_cross_orange</item>
+        <item name="errorBackground">@drawable/uikit_edittext_error_bg</item>
         <item name="actionBarStyle">@style/HoloActionBar</item>
-        <item name="actionBarBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="splashTitleStyle">@style/SplashTitle</item>
         <item name="actionButtonStyleRef">@style/Philips.ActionButton</item>
-        <item name="actionButtonBgColor">@color/uikit_philips_dark_blue</item>
+        <item name="actionButtonBgColor">?attr/baseColor</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_light_blue</item>
         <item name="android:textAppearance">@style/TextAppearance</item>
         <item name="baseColor">@color/uikit_philips_dark_blue</item>
-        <item name="gradBackground">@drawable/uikit_grad_dark_blue_background</item>
         <item name="veryLightColor">@color/uikit_philips_very_light_blue</item>
-        <item name="splashGradient">@drawable/uikit_grad_blue_bright_to_light</item>
-        <item name="veryDarkToDark">@drawable/uikit_grad_blue_verydark_to_dark</item>
         <item name="enableStroke">false</item>
         <item name="android:seekBarStyle">@style/Slider</item>
-        <item name="colorPrimaryDark">?attr/gradBackground</item>
+        <item name="colorPrimaryDark">?attr/actionBarBackground</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/baseColor</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color</item>
+        <item name="listSelectorBackground">@drawable/uikit_background_lists_selector_blue_color
+        </item>
         <item name="android:listChoiceBackgroundIndicator">?attr/listSelectorBackground</item>
+        <item name="android:datePickerDialogTheme">@style/PhilipsDatePickerDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/PhilipsTimePickerDialogTheme</item>
+        <item name="dropDownListViewStyle">@style/PDropDownStyle</item>
+        <item name="actionBarPopupTheme">@style/PDropDownStyle</item>
+        <item name="veryLightselectoropacityfifteen">
+            @drawable/uikit_popup_very_light_blue_selector
+        </item>
+        <item name="popoverImageStyle">@style/PopOverImageStyle</item>
+        <item name="springBoardButton">@style/SpringBoardButton.Solid.DarkBlue</item>
+        <item name="springBoardButtonWithIcon">@style/SpringBoardButtonIcon.Solid.DarkBlue</item>
+        <item name="springBoardButtonOutLined">@style/SpringBoardButton.OutlinedDarkBlue</item>
+        <item name="springBoardButtonOutLinedWithIcon">
+            @style/SpringBoardButtonIcon.OutlinedDarkBlue
+        </item>
+        <item name="LightColor">@color/uikit_philips_light_blue</item>
     </style>
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">

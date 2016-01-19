@@ -70,10 +70,59 @@
                 android:text="Show notification"/>
 
 
+            <!-- Springboard buttons-->
+            <Button
+                android:id="@+id/spButton"
+                style="?attr/springBoardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/show_notification"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/spButtonIcon"
+                style="?attr/springBoardButtonWithIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/spButtonOutLined"
+                style="?attr/springBoardButtonOutLined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spButtonIcon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
+            <com.philips.cdp.uikit.customviews.UIKitButton
+                android:id="@+id/spButtonOutlinedWithIcon"
+                style="?attr/springBoardButtonOutLinedWithIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spButtonOutLined"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Sample button"
+                android:textAllCaps="false" />
+
         </RelativeLayout>
+
     </ScrollView>
 
-    <com.philips.cdp.uikit.customviews.PuiPopoverAlert
+    <com.philips.cdp.uikit.customviews.PopoverAlert
         android:id="@+id/popover_alert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

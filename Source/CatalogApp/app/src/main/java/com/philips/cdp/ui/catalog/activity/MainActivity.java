@@ -14,12 +14,41 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
+import com.philips.cdp.ui.catalog.cardviewpager.CardActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Class to demo available features with UIKit.
+ * Refer below demo classes for further documentation about usage and features.
+ * <br>
+ *  <ol type="1">
+ *     <li>ActionButtonsActivity : {@link ActionButtonsActivity}</li>
+ *     <li>Splash screen : {@link SplashLauncher}</li>
+ *     <li>Buttons : {@link ButtonsActivity}</li>
+ *     <li>DotNavigation : {@link DotNavigation} for usage in demo app, and {@link com.philips.cdp.uikit.customviews.CircleIndicator} for implementation </li>
+ *     <li>InputTextFieldsActivity :{@link InputTextFieldsActivity} for usage in demo app, and {@link com.philips.cdp.uikit.customviews.PuiEditText} for implementation </li>
+ *     <li>ActionButtonsActivity : {@link ActionButtonsActivity}</li>
+ *     <li>About Screen : {@link AboutScreenLauncher}</li>
+ *     <li>TabBar : {@link TabBarDemo}</li>
+ *     <li>Rating bar/stars : {@link RatingBarLauncher}</li>
+ *     <li>Action Bar : {@link ActionBarLauncher}</li>
+ *     <li>Hamburger Menu : {@link HamburgerMenuDemo}</li>
+ *     <li>Soical icons : {@link SocialIconsActivity}</li>
+ *     <li>PopOverMenu : {@link PopOverMenu}</li>
+ *     <li>Springboard : {@link SpringBoardsctivity}</li>
+ *     <li>Inline forms :{@link TextLayoutInputFeildInlineForms} and {@link com.philips.cdp.uikit.customviews.InlineForms} from lib</li>
+ *     <li>Slider:{@link SliderActivity} for usage in app and {@link com.philips.cdp.uikit.customviews.BaseSlider}, {@link com.philips.cdp.uikit.customviews.DiscreteSlider},
+ *                {@link com.philips.cdp.uikit.customviews.IndicatorSlider}, {@link com.philips.cdp.uikit.customviews.RangeSlider}, </li>
+ *     <li>Progress bar : {@link ProgressBarActivity} for demo app and {@link com.philips.cdp.uikit.customviews.PUIProgressBar}</li>
+ *     <li>Model alert : {@link ModalAlertDemo}</li>
+ *     <li>Favorites : {@link FavoritesActivity}</li>
+ *     <li>Badge count view : {@link com.philips.cdp.uikit.customviews.BadgeView}</li>
+ *   </ol>
+ */
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_CODE = 10;
@@ -100,6 +129,30 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
             case 15:
                 startActivity(new Intent(this, TabViewWithViewPager.class));
                 break;
+            case 16:
+                startActivity(new Intent(this, PopOverMenu.class));
+                break;
+            case 17:
+                startActivity(new Intent(this, SpringBoardsctivity.class));
+				break;
+			case 18:
+                startActivity(new Intent(this, TextLayoutInputFeildInlineForms.class));
+                break;
+            case 19:
+                startActivity(new Intent(this, ProgressBarActivity.class));
+                break;
+            case 20:
+                startActivity(new Intent(this, CardActivity.class));
+                break;
+            case 21:
+                startActivity(new Intent(this, ModalAlertDemo.class));
+                break;
+			case 22:
+                startActivity(new Intent(this, FavoritesActivity.class));
+                break;
+            case 23:
+                startActivity(new Intent(this, PickerActivity.class));
+                break;
             default:
                 break;
         }
@@ -157,7 +210,14 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
         itemsMap.put(13,"Hamburger Menu");
         itemsMap.put(14,"Social Media Icons");
         itemsMap.put(15, "Lists View Demo");
-
+        itemsMap.put(16, "Pop Over Menu");
+        itemsMap.put(17,"Spring Board");       
+        itemsMap.put(18, "Inline Forms");
+		itemsMap.put(19, "ProgressBar");
+        itemsMap.put(20, "Cards");
+        itemsMap.put(21, "Modal Alert");
+        itemsMap.put(22, "Favorites");
+        itemsMap.put(23, "Pickers");
         return itemsMap;
     }
 

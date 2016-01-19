@@ -1,14 +1,12 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:width="34dp"
-        android:height="34dp"
-        android:viewportHeight="34"
-        android:viewportWidth="34"
-        app:vc_viewportHeight="34"
-        app:vc_viewportWidth="34"
-    >
-    <group
-        android:name="phone">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:width="34dp"
+    android:height="34dp"
+    android:viewportHeight="34"
+    android:viewportWidth="34"
+    app:vc_viewportHeight="34"
+    app:vc_viewportWidth="34">
+    <group android:name="phone">
         <path
             android:name="phone"
             android:fillColor="?attr/baseColor"
@@ -27,7 +25,6 @@
 			C3.9,0.1,3.7,0.4,3.5,0.6c-0.4,0.5-0.8,1-1.2,1.5c-0.7,1-1.4,2-1.8,3.1C0,6.7-0.1,8.2,0.2,9.7c0.3,1.1,0.8,2.2,1.3,3.2
 			c0.7,1.2,1.4,2.4,2.2,3.6c1.9,2.7,4.2,5.1,6.5,7.5l0,0c2.3,2.3,4.8,4.6,7.5,6.5c1.1,0.8,2.3,1.5,3.6,2.2c1,0.5,2.1,1.1,3.2,1.3
 			c1.5,0.3,3,0.2,4.5-0.3c1.1-0.4,2.1-1.1,3.1-1.8c0.5-0.4,1-0.8,1.5-1.2c0.3-0.2,0.5-0.4,0.6-0.7c0-0.2,0-0.4,0-0.5
-			C34,29.2,33.8,29,33.6,28.8z"
-            />
+			C34,29.2,33.8,29,33.6,28.8z" />
     </group>
 </vector>

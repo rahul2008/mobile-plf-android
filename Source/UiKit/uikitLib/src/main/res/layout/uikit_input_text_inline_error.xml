@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/errorlayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
+    android:paddingLeft="20dp"
+    >
+
+    <FrameLayout
+        android:id="@+id/error_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <com.shamanland.fonticon.FontIconTextView
+            android:id="@+id/error_image_inside"
+            fontPath="fonts/puicon.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="9dp"
+            android:text="@string/uikit_fonticon_cross"
+            android:textColor="?attr/erroriconcolorinlineforms"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/error_image"
+        android:layout_toRightOf="@+id/error_image"
+        android:fontFamily="fonts/centralesansbook.ttf"
+        android:includeFontPadding="false"
+        android:text="@string/invalid_email_format"
+        android:textColor="?attr/errortextcolorinlineforms"
+        android:textSize="16sp" />
+
+
+</RelativeLayout>
+

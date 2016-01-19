@@ -7,12 +7,54 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="PhilipsTextInputLayoutStyleEnabled">
+        <item name="android:background">@color/uikit_white</item>
+        <item name="android:textColorHint">@color/uikit_enricher4</item>
+        <item name="android:enabled">true</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">16sp</item>
+
+<item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_marginLeft">-13dp</item>
+    </style>
+
+    <style name="PhilipsTextInputLayoutTextViewStyle">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textColor">@color/uikit_enricher4</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginLeft">19dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="PhilipsTextInputLayoutStyleDisabled">
+        <item name="android:textColorHint">@color/uikit_enricher4</item>
+        <item name="android:background">@color/uikit_enricher7</item>
+        <item name="android:enabled">false</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_marginLeft">-13dp</item>
+
+    </style>
+
     <style name="PTablayout" parent="Widget.Design.TabLayout">
         <item name="android:layout_height">@dimen/uikit_tab_layout_height_without_image</item>
         <item name="android:layout_width">match_parent</item>
         <item name="tabIndicatorColor">@null</item>
-        <item name="android:background">?attr/gradBackground</item>
+        <item name="android:background">?attr/tabBarGradient</item>
         <item name="tabGravity">center</item>
+        <item name="tabBackground">@drawable/uikit_tab_selector_textonly</item>
         <item name="tabMode">scrollable</item>
         <item name="tabPaddingStart">0dp</item>
         <item name="tabPaddingEnd">0dp</item>
@@ -21,10 +63,30 @@
         <item name="tabPadding">0dp</item>
         <item name="tabMinWidth">@dimen/uikit_tab_minwidth</item>
         <item name="tabIndicatorHeight">0dp</item>
+        <item name="android:elevation">@dimen/uikit_tab_shadow</item>
+    </style>
+
+    <style name="FavTabLayout" parent="PTablayout">
+        <item name="android:layout_height">@dimen/uikit_tab_layout_height_without_image</item>
+        <item name="tabBackground">?attr/favoriteTabSelector</item>
+        <item name="tabTextAppearance">@style/FavTextStyle</item>
+        <item name="tabSelectedTextColor">?attr/baseColor</item>
+    </style>
+
+<style name="ListFav" parent="Widget.AppCompat.ListView">
+    <item name="android:listSelector">@android:color/transparent</item>
+</style>
+
+    <style name="FavTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/uikit_white</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
 
     <style name="PTablayout.Image" parent="@style/PTablayout">
         <item name="android:layout_height">@dimen/uikit_tab_layout_height_with_image</item>
+        <item name="tabBackground">@drawable/uikit_tab_selector</item>
     </style>
 
 
@@ -100,4 +162,67 @@
         <item name="color">@android:color/black</item>
     </style>
 
+    <style name="PhilipsDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/PhilipsDatePickerStyle</item>
+        <item name="android:colorAccent">?attr/baseColor</item>
+        <item name="android:buttonBarNegativeButtonStyle">?attr/outlinedButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">?attr/pickerButtonStyle</item>
+        <item name="android:textColor">?attr/baseColor</item>
+
+    </style>
+
+    <style name="PhilipsTimePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:timePickerStyle">@style/PhilipsTimePickerStyle</item>
+        <item name="android:colorAccent">?attr/veryLightColor</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:buttonBarNegativeButtonStyle">?attr/outlinedButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">?attr/pickerButtonStyle</item>
+    </style>
+
+    <style name="PhilipsDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">?attr/baseColor</item>
+        <item name="android:dayOfWeekBackground">?attr/baseColor</item>
+        <item name="android:yearListSelectorColor">?attr/baseColor</item>
+        <item name="android:focusedMonthDateColor">?attr/baseColor</item>
+        <item name="android:calendarViewStyle">@style/PhilipsCalendarViewStyle</item>
+        <item name="android:calendarTextColor">?attr/baseColor</item>
+        <item name="android:colorAccent">?attr/baseColor</item>
+        <item name="android:colorControlActivated">?attr/baseColor</item>
+        <item name="android:colorControlHighlight">?attr/baseColor</item>
+        <item name="android:textColor">?attr/baseColor</item>
+    </style>
+
+    <style name="PhilipsTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="android:headerBackground">?attr/baseColor</item>
+        <item name="android:amPmTextColor">?attr/baseColor</item>
+        <item name="android:colorAccent">?attr/veryLightColor</item>
+        <item name="android:numbersTextColor">?attr/baseColor</item>
+    </style>
+
+
+    <style name="PhilipsCalendarViewStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:focusedMonthDateColor">?attr/baseColor</item>
+        <item name="android:weekNumberColor">?attr/baseColor</item>
+        <item name="android:colorAccent">?attr/baseColor</item>
+        <item name="android:textColor">?attr/baseColor</item>
+    </style>
+
+    <style name="PhilipsModalAlertAnimation">
+        <item name="android:windowEnterAnimation">@anim/uikit_modal_alert_zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/uikit_modal_alert_zoom_out</item>
+    </style>
+
+    <style name="PDropDownStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:divider">@drawable/line</item>
+        <item name="android:colorBackground">?attr/veryLightColor</item>
+    </style>
+
+    <style name="PopOverDropdown" parent="android:Widget.ListView.DropDown">
+        <item name="android:textColor">?attr/darkerColor</item>
+        <item name="android:textSize">@dimen/popup_text_size</item>
+    </style>
+
+    <style name="PopOverImageStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:tint">?attr/darkerColor</item>
+    </style>
 </resources>

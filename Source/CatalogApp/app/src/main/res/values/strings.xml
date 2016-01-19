@@ -16,10 +16,17 @@
     <string name="misc_shadow_message">Miscellaneous Buttons with Shadow</string>
     <string name="action_icons">Action Icons</string>
     <string name="enter_text_here">Enter text here</string>
-    <string name="invalid_email_format">Invalid email</string>
+    <string name="FirstName">First Name</string>
+    <string name="LastName">Last Name</string>
+    <string name="FullName">Full Name</string>
+    <string name="EmailAddress">Email Address</string>
+    <string name="invalid_email_format">Incorrect email format</string>
     <string name="invalid_pwd_format">Invalid password format</string>
     <string name="sample_button">Sample button</string>
     <string name="uikit_hamburger">Hamburger</string>
+    <string name="share">Share</string>
+    <string name="mail">Mail</string>
+    <string name="chat">Chat</string>
 
     <string-array name="hamburger_drawer_items">
         <item>Title Long</item>
@@ -50,4 +57,12 @@
 
     <string name="title_activity_social_icons">SocialIconsActivity</string>
     <string name="title_activity_list_view_without_icons">ListViewWithoutIcons</string>
+    <string name="title_activity_pop_over_menu">PopOverMenu</string>
+
+    <string name="title_activity_spring_boardsctivity">SpringBoardsctivity</string>
+    <string name="title_activity_spring_board_six_grid">SpringBoardSixGridActivity</string>
+    <string name="title_activity_cards">CardsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_cards_spike">CardsSpike</string>
 </resources>

@@ -9,7 +9,7 @@ BUILDSCRIPTDIR=`dirname "$0"`
 WORKSPACE="${BUILDSCRIPTDIR}/../"
 
 #todo: take from git branch/tag name instead
-VERSION_NUMBER="`cat ${WORKSPACE}/VERSION | sed 's/-SNAPSHOT//g'`"
+VERSION_NUMBER="`cat ${WORKSPACE}/VERSION`"
 STAGINGDIR="${WORKSPACE}/Staging"
 RELEASEDIR="${STAGINGDIR}/${VERSION_NUMBER}"
 ARCHIVEDIR="${STAGINGDIR}/Archive"
@@ -23,6 +23,8 @@ cp "${WORKSPACE}/Documentation/ReleaseNotes.md" "${RELEASEDIR}" || fatal "Failed
 cp "${WORKSPACE}/Documentation/ReleaseNotes.md" "${ARCHIVEDIR}" || fatal "Failed to copy release notes to archive dir"
 
 #todo: copy documentation
+cp -R "${WORKSPACE}/Documents/External/" "${RELEASEDIR}"
+cp -R "${WORKSPACE}/Documents/External/" "${ARCHIVEDIR}"
 #todo: copy javadoc
 
 #copy CatalogApp to archive dir

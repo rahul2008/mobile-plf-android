@@ -16,7 +16,7 @@
     </style>
 
     <style name="Philips.ActionButton.Square.Arrow">
-        <item name="actionButtonImageDrawable">@drawable/uikit_arrow</item>
+        <item name="actionButtonImageDrawable">@drawable/uikit_right_arrow</item>
     </style>
 
     <style name="Philips.ActionButton.Square.Plus">
@@ -36,7 +36,7 @@
     </style>
 
     <style name="Philips.ActionButton.Circle.Arrow">
-        <item name="actionButtonImageDrawable">@drawable/uikit_arrow</item>
+        <item name="actionButtonImageDrawable">@drawable/uikit_right_arrow</item>
     </style>
 
     <style name="Philips.ActionButton.Circle.Plus">
@@ -64,7 +64,7 @@
     </style>
 
     <style name="Philips.ActionButton.Circle.Float.Plus">
-        <item name="actionButtonImageDrawable">@drawable/uikit_plus</item>
+        <item name="actionButtonImageDrawable">@drawable/uikit_action_icon_plus</item>
     </style>
 
     <style name="Philips.ActionButton.Circle.Float.Pencil">
