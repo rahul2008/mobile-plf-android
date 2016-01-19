@@ -34,8 +34,8 @@ public enum SHNDataType {
     HeartBeatsMoonshine,
     ActivityCounts,
     ActivityCountsDebug,
-    StepsDebug,
-    EnergyExpenditureDebug,
+    CadenceDebug,
+    ActiveEnergyExpenditureDebug,
     CardioFitnessIndex,
     Vo2Max,
     LightSensorData,
@@ -50,6 +50,7 @@ public enum SHNDataType {
     UserConfigChangedEventHandedness,
     UserConfigChangedEventSensingPosition,
     UserConfigChangedEventLanguage,
+    UserConfigChangedEventRestingHeartRate,
     ActivitySession,
     DayTotals,
     Battery,
@@ -62,5 +63,5 @@ public enum SHNDataType {
     UserConfigChangedEventEnergyIntake,
     ChangeTime,
     FatPercentage,
-    Raw, BloodOxygenLevel
+    Raw, WeSTDataBlob, TotalEnergyExpenditure, ActiveMinutes, BloodOxygenLevel
 }
