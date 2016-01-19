@@ -1,15 +1,19 @@
 package com.philips.cdp.uikit;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
@@ -22,6 +26,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class UiKitActivity extends AppCompatActivity {
 
+    private TextView titleText;
+
     @Override
     protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -32,6 +38,16 @@ public class UiKitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFontIconLib();
+        setActionBarDefault(getSupportActionBar());
+    }
+
+    private void setActionBarDefault(ActionBar actionBar) {
+        if (actionBar != null) {
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(R.layout.uikit_default_action_bar);
+            titleText = (TextView) findViewById(R.id.defaultActionBarText);
+            titleText.setText(getActivityTitle());
+        }
     }
 
     @Override
@@ -87,5 +103,31 @@ public class UiKitActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void setTitle(CharSequence title) {
+        if (titleText != null)
+            titleText.setText(title);
+        else
+            super.setTitle(title);
+    }
 
+    @Override
+    public void setTitle(int titleId) {
+        if (titleText != null)
+            titleText.setText(titleId);
+        else
+            super.setTitle(titleId);
+    }
+
+    private String getActivityTitle() {
+        String title = "";
+        try {
+            PackageManager PM = getApplicationContext().getPackageManager();
+            PackageInfo PI = getPackageManager().getPackageInfo(getPackageName(), 0);
+            title = PI.applicationInfo.loadLabel(PM).toString();
+        } catch (PackageManager.NameNotFoundException exception) {
+            exception.printStackTrace();
+        }
+        return title;
+    }
 }
