@@ -20,6 +20,8 @@ import com.philips.cdp.ui.catalog.activity.CatalogActivity;
  *     <pre>
  *          ViewGroup group = (ViewGroup) findViewById(<font color="red">R.id.splash_layout</font>);
  *          group.setBackgroundResource(R.drawable.uikit_food);
+ *          ImageView logo = (ImageView) findViewById(R.id.splash_logo);
+ logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
  *     </pre>
  *
  * </p>

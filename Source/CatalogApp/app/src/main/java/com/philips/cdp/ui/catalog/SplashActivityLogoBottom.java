@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * <H1>Dev Guide</H1>
@@ -53,7 +55,8 @@ public class SplashActivityLogoBottom extends CatalogActivity {
 //        findViewById(R.id.splash_layout).setBackground(ResourcesCompat.getDrawable(this, R.drawable.uikit_food));
         ViewGroup group = (ViewGroup) findViewById(R.id.splash_layout);
         group.setBackgroundResource(R.drawable.uikit_food);
-
+        ImageView logo = (ImageView) findViewById(R.id.splash_logo);
+        logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
 
     }
 }

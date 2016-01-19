@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.modalalert;
 
 import android.animation.Animator;
@@ -17,11 +21,6 @@ import android.view.ViewPropertyAnimator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
-/**
- * ModalAlertUtil.java
- *
- * @author Manabu-GT on 6/12/14.
- */
 public class ModalAlertUtil {
 
     public static Bitmap drawViewToBitmap(View view, int width, int height, float translateX,

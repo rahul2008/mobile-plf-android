@@ -78,10 +78,6 @@
 
     <attr name="splashTitleStyle" format="reference"/>
 
-    <declare-styleable name="VectorDrawableImageView">
-        <attr name="vectorsrc" format="reference"/>
-    </declare-styleable>
-
     <declare-styleable name="RatingBarView">
         <attr name="isratingbarbig" format="boolean"/>
     </declare-styleable>

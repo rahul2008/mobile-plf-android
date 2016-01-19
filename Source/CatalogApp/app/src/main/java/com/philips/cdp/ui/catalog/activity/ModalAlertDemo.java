@@ -61,8 +61,8 @@ public class ModalAlertDemo extends CatalogActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {

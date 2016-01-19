@@ -21,7 +21,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 
 /**
- *  Hamburger ModalAlertUtil class to handle Hamburger Philips Logo alignments
+ *  HamburgerUtil class to handle Hamburger Philips Logo alignments
  */
 public class HamburgerUtil {
 
