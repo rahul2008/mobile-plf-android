@@ -7,12 +7,16 @@ package com.philips.pins.shinelib;
 
 import android.os.Handler;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+
 /**
  * Created by 310188215 on 02/03/15.
  */
 public class SHNDeviceScanner {
     private final SHNDeviceScannerInternal shnDeviceScannerInternal;
     private final Handler userHandler;
+    private final Handler internalHandler;
 
     public enum ScannerSettingDuplicates {
         DuplicatesNotAllowed, DuplicatesAllowed
@@ -23,13 +27,14 @@ public class SHNDeviceScanner {
         void scanStopped(SHNDeviceScanner shnDeviceScanner);
     }
 
-    /* package */ SHNDeviceScanner(SHNDeviceScannerInternal shnDeviceScannerInternal, Handler userHandler) {
+    /* package */ SHNDeviceScanner(SHNDeviceScannerInternal shnDeviceScannerInternal, Handler internalHandler, Handler userHandler) {
         this.shnDeviceScannerInternal = shnDeviceScannerInternal;
         this.userHandler = userHandler;
+        this.internalHandler = internalHandler;
     }
 
-    public boolean startScanning(final SHNDeviceScannerListener shnDeviceScannerListener, ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
-        SHNDeviceScannerListener wrappedSHNDeviceScannerListener = new SHNDeviceScannerListener() {
+    protected FutureTask<Boolean> startScanningWithFuture(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
+        final SHNDeviceScannerListener wrappedSHNDeviceScannerListener = new SHNDeviceScannerListener() {
             @Override
             public void deviceFound(SHNDeviceScanner shnDeviceScanner, final SHNDeviceFoundInfo shnDeviceFoundInfo) {
                 userHandler.post(new Runnable() {
@@ -54,10 +59,38 @@ public class SHNDeviceScanner {
                 });
             }
         };
-        return shnDeviceScannerInternal.startScanning(wrappedSHNDeviceScannerListener, scannerSettingDuplicates, stopScanningAfterMS);
+
+        Callable<Boolean> booleanCallable = new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return shnDeviceScannerInternal.startScanning(wrappedSHNDeviceScannerListener, scannerSettingDuplicates, stopScanningAfterMS);
+            }
+        };
+        FutureTask<Boolean> futureTask = new FutureTask<Boolean>(booleanCallable);
+
+        internalHandler.post(futureTask);
+
+        return futureTask;
+    }
+
+    public boolean startScanning(final SHNDeviceScannerListener shnDeviceScannerListener, final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS) {
+        FutureTask<Boolean> futureTask = startScanningWithFuture(shnDeviceScannerListener, scannerSettingDuplicates, stopScanningAfterMS);
+
+        boolean result = false;
+        try {
+            result = futureTask.get().booleanValue();
+        } catch (Exception e) {
+            assert(e == null); // Should not occur ever...
+        }
+        return result;
     }
 
     public void stopScanning() {
-        shnDeviceScannerInternal.stopScanning();
+        internalHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                shnDeviceScannerInternal.stopScanning();
+            }
+        });
     }
 }

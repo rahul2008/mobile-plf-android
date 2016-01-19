@@ -186,8 +186,6 @@ public class SHNCentral {
         setupBondStatusListener();
 
         shnDeviceDefinitions = new SHNDeviceDefinitions();
-        shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
-        shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, userHandler);
 
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
@@ -198,6 +196,9 @@ public class SHNCentral {
         } catch (RuntimeException e) {
             // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
         }
+
+        shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
+        shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, internalHandler, userHandler);
 
         SHNDeviceWrapper.setHandlers(internalHandler, userHandler);
 
