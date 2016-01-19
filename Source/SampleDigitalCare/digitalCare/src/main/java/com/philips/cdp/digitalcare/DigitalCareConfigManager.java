@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.component.ActivityComponentBuilder;
+import com.philips.cdp.digitalcare.component.ComponentBuilder;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
@@ -39,6 +41,7 @@ public class DigitalCareConfigManager {
     private static Locale mLocale = null;
     private static Locale mLocaleMatchWithCountryFallBack = null;
     private static Locale mLocaleMatchWithLanguageFallBack = null;
+    private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private MainMenuListener mMainMenuListener = null;
     private ProductMenuListener mProductMenuListener = null;
@@ -46,7 +49,6 @@ public class DigitalCareConfigManager {
     private String mAppID = null;
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
-    private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
     private ViewProductDetailsModel mProductDetailsModel = null;
 
     /*
@@ -115,10 +117,10 @@ public class DigitalCareConfigManager {
      * @param enterAnim               Animation resource ID.
      * @param exitAnim                Animation resource ID.
      */
-    public void invokeDigitalCareAsFragment(FragmentActivity context,
-                                            int parentContainerResId,
-                                            ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
-                                            int exitAnim) {
+    private void invokeDigitalCareAsFragment(FragmentActivity context,
+                                             int parentContainerResId,
+                                             ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
+                                             int exitAnim) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
@@ -136,6 +138,25 @@ public class DigitalCareConfigManager {
                 actionbarUpdateListener, enterAnim, exitAnim);
     }
 
+    /**
+     * Please make sure to use {@link ActivityComponentBuilder}  or {@link com.philips.cdp.digitalcare.component.FragmentComponentBuilder} as objects to invoke the consumerCare module.
+     * <p/>
+     * Note: "ActivityComponentBuilder" Object is for invoking the ConsumerCare module as Activity Component & the "FragmentComponentBuilder" Object is for attaching the ConsumerCare module to
+     * your Fragment Manager.
+     *
+     * @param componentBuilder
+     */
+    public void invokeConsumerCareModule(ComponentBuilder componentBuilder) {
+        if (componentBuilder instanceof ActivityComponentBuilder)
+
+            invokeDigitalCareAsActivity(componentBuilder.getEnterAnimation(), componentBuilder.getExitAnimation(), componentBuilder.getScreenOrientation());
+
+        else
+            invokeDigitalCareAsFragment(componentBuilder.getFragmentActivity(), componentBuilder.getLayoutResourceID(),
+                    componentBuilder.getActionbarUpdateListener(), componentBuilder.getEnterAnimation(), componentBuilder.getExitAnimation());
+
+    }
+
 
     /**
      * <p> Invoking DigitalCare Component from the Intent. </p>
@@ -145,7 +166,7 @@ public class DigitalCareConfigManager {
      * @param endAnimation   Animation Resource ID.
      * @param orientation    {@link com.philips.cdp.digitalcare.DigitalCareConfigManager.ActivityOrientation} flag.
      */
-    public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
+    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
@@ -364,6 +385,28 @@ public class DigitalCareConfigManager {
         return BuildConfig.VERSION_NAME;
     }
 
+    public ViewProductDetailsModel getViewProductDetailsData() {
+        return mProductDetailsModel;
+    }
+
+    /*public boolean isBazaarVoiceRequired() {
+        if (mContext != null) {
+            return mContext.getResources().getBoolean(R.bool.productreview_required);
+        }
+        return false;
+    }
+
+    public boolean isProductionEnvironment() {
+        if (mContext != null) {
+            return mContext.getResources().getBoolean(R.bool.production_environment);
+        }
+        return false;
+    }*/
+
+    public void setViewProductDetailsData(ViewProductDetailsModel detailsObject) {
+        mProductDetailsModel = detailsObject;
+    }
+
     /**
      * These are Flags used for setting/controlling screen orientation.
      * <p>This method helps only you are using the DigitalCare component from the Intent</p>
@@ -395,28 +438,6 @@ public class DigitalCareConfigManager {
         private int getOrientationValue() {
             return value;
         }
-    }
-
-    /*public boolean isBazaarVoiceRequired() {
-        if (mContext != null) {
-            return mContext.getResources().getBoolean(R.bool.productreview_required);
-        }
-        return false;
-    }
-
-    public boolean isProductionEnvironment() {
-        if (mContext != null) {
-            return mContext.getResources().getBoolean(R.bool.production_environment);
-        }
-        return false;
-    }*/
-
-    public void setViewProductDetailsData(ViewProductDetailsModel detailsObject) {
-        mProductDetailsModel = detailsObject;
-    }
-
-    public ViewProductDetailsModel getViewProductDetailsData() {
-        return mProductDetailsModel;
     }
 
 }
