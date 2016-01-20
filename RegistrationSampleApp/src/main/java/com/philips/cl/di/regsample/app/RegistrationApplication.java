@@ -3,8 +3,7 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
 
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.ConfigurationMap;
+
 import com.philips.cdp.registration.configuration.Flow;
 import com.philips.cdp.registration.configuration.HSDPClientInfo;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
