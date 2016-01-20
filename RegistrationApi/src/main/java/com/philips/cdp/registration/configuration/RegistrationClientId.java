@@ -13,6 +13,22 @@ public class RegistrationClientId {
 
     private String stagingId;
 
+    public String getRegistrationClientId() {
+        return registrationClientId;
+    }
+
+    private String registrationClientId;
+
+    RegistrationClientId(){
+
+        }
+
+    public RegistrationClientId(final String id){
+        this.registrationClientId = id;
+
+    }
+
+
     public String getProductionId() {
         return productionId;
     }

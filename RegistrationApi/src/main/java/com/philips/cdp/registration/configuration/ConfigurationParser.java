@@ -136,7 +136,9 @@ public class ConfigurationParser {
         return configuration;
     }
 
-    private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
+
+
+    /*private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
         HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
         HashMap<String, HSDPClientInfo> hsdpClientInfos = new HashMap<>();
         Iterator<String> iterator = hsdpConfiguartion.keys();
@@ -157,28 +159,63 @@ public class ConfigurationParser {
         }
         hsdpConfiguration.setHsdpClientInfos(hsdpClientInfos);
         return hsdpConfiguration;
+    }*/
+    private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
+        HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
+        HashMap<String, HSDPClientInfo> hsdpClientInfos = new HashMap<>();
+        Iterator<String> iterator = hsdpConfiguartion.keys();
+        String shared = null;
+        String secret = null;
+        while (iterator.hasNext()) {
+            String registrationEnv = iterator.next();
+
+            HSDPClientInfo hsdpClientInfo = new HSDPClientInfo();
+            JSONObject hsdpConfiguartionJSONObject = hsdpConfiguartion.getJSONObject(registrationEnv);
+            Iterator<String> hsdpIdIterator = hsdpConfiguartionJSONObject.keys();
+            HashMap<String, String> hsdpInfos = new HashMap<String, String>();
+            while (hsdpIdIterator.hasNext()) {
+                String key = hsdpIdIterator.next();
+                String value = hsdpConfiguartionJSONObject.getString(key);
+                if("ApplicationName".equals(key)){
+                    hsdpClientInfo.setApplicationName(hsdpConfiguartionJSONObject.getString(key));
+                }else if("BaseURL".equals(key)){
+                    hsdpClientInfo.setBaseURL(value);
+                }else if("Shared".equals(key)){
+                    hsdpClientInfo.setShared(value);
+                }else if("Secret".equals(key)){
+                    hsdpClientInfo.setSecret(value);
+                }
+                //hsdpInfos.put(key, hsdpConfiguartionJSONObject.getString(key));
+            }
+            //hsdpClientInfo.setInfos(hsdpInfos);
+            hsdpClientInfos.put(registrationEnv, hsdpClientInfo);
+
+        }
+        hsdpConfiguration.setHsdpClientInfos(hsdpClientInfos);
+        return hsdpConfiguration;
     }
 
     private JanRainConfiguration parseJanRainConfiguration(JSONObject janRainConfiguration)
             throws JSONException {
         JanRainConfiguration configuration = new JanRainConfiguration();
-        RegistrationClientId registrationClientId = new RegistrationClientId();
+        RegistrationClientId registrationClientId = null;
         JSONObject regIds = janRainConfiguration.getJSONObject(REGISTRATION_CLIENT_ID);
         if (!regIds.isNull(RegistrationEnvironmentConstants.DEV)) {
+            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.DEV));
             registrationClientId.setDevelopmentId(regIds.getString(RegistrationEnvironmentConstants.DEV));
         }
         if (!regIds.isNull(RegistrationEnvironmentConstants.EVAL)) {
-            registrationClientId.setEvaluationId(regIds.getString(RegistrationEnvironmentConstants.EVAL));
+            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.EVAL));
         }
         if (!regIds.isNull(RegistrationEnvironmentConstants.PROD)) {
-            registrationClientId.setProductionId(regIds.getString(RegistrationEnvironmentConstants.PROD));
+            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.PROD));
         }
         if (!regIds.isNull(RegistrationEnvironmentConstants.TESTING)) {
-            registrationClientId.setTestingId(regIds.getString(RegistrationEnvironmentConstants.TESTING));
+            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.TESTING));
         }
 
         if (!regIds.isNull(RegistrationEnvironmentConstants.STAGING)) {
-            registrationClientId.setStagingId(regIds.getString(RegistrationEnvironmentConstants.STAGING));
+            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.STAGING));
         }
 
         configuration.setClientIds(registrationClientId);

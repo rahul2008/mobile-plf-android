@@ -217,7 +217,7 @@ public class RegistrationHelper {
         mReceivedDownloadFlowSuccess = false;
         mContext = context.getApplicationContext();
         NetworkUtility.isNetworkAvailable(mContext);
-        RegistrationConfiguration.getInstance().setSocialProviders(null);
+       // RegistrationConfiguration.getInstance().setSocialProviders(null);
         setCountryCode(mlocale.getCountry());
         final String initLocale = mlocale.toString();
         RLog.i("LOCALE", "App JAnrain Init locale :" + initLocale);
@@ -226,7 +226,7 @@ public class RegistrationHelper {
 
             @Override
             public void run() {
-                parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
+                //parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
 
                 if (isHsdpAvailable()) {
                     isHsdpFlow = true;
@@ -281,18 +281,21 @@ public class RegistrationHelper {
                     if (RegistrationEnvironmentConstants.EVAL.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getEvaluationId());
+                                .getClientIds().getRegistrationClientId());
+                        RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
+                                + RegistrationConfiguration.getInstance().getPilConfiguration()
+                                .getCampaignID());
                         initEvalSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getEvaluationId(),
+                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
                     }
                     if (RegistrationEnvironmentConstants.PROD.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getProductionId());
+                                .getClientIds().getRegistrationClientId());
                         initProdSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getProductionId(),
+                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
 
@@ -300,9 +303,9 @@ public class RegistrationHelper {
                     if (RegistrationEnvironmentConstants.DEV.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getDevelopmentId());
+                                .getClientIds().getRegistrationClientId());
                         initDevSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getDevelopmentId(),
+                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
                     }
@@ -310,9 +313,12 @@ public class RegistrationHelper {
                     if (RegistrationEnvironmentConstants.TESTING.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getTestingId());
+                                .getClientIds().getRegistrationClientId());
+                        RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
+                                + RegistrationConfiguration.getInstance().getPilConfiguration()
+                                .getCampaignID());
                         initTesting(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getTestingId(),
+                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
                     }
@@ -321,9 +327,9 @@ public class RegistrationHelper {
                     if (RegistrationEnvironmentConstants.STAGING.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getStagingId());
+                                .getClientIds().getRegistrationClientId());
                         initStaging(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getStagingId(),
+                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
                     }
@@ -332,7 +338,7 @@ public class RegistrationHelper {
         }).start();
     }
 
-    private boolean isHsdpAvailable() {
+    /*private boolean isHsdpAvailable() {
         HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
         if (hsdpConfiguration == null) {
             return false;
@@ -386,6 +392,62 @@ public class RegistrationHelper {
         return (null != hsdpClientInfo.getApplicationName() && null != hsdpClientInfo.getSharedId()
                 && null != hsdpClientInfo.getSecretId()
                 && null != hsdpClientInfo.getBaseUrl());
+    }*/
+
+    private boolean isHsdpAvailable() {
+        HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
+        if (hsdpConfiguration == null) {
+            return false;
+        }
+        String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
+        if (environment == null) {
+            return false;
+        }
+
+        HSDPClientInfo hsdpClientInfo = hsdpConfiguration.getHSDPClientInfo(environment);
+        if (hsdpClientInfo == null) {
+            throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment ");
+        }
+        if (null != hsdpConfiguration && null != hsdpClientInfo) {
+
+            String exception = null;
+
+            if (hsdpClientInfo.getHSDPApplicationName() == null) {
+                exception += "Application Name";
+            }
+
+            if (hsdpClientInfo.getShared() == null) {
+                if (null != exception) {
+                    exception += ",shared key ";
+                } else {
+                    exception += "shared key ";
+                }
+            }
+            if (hsdpClientInfo.getSecret() == null) {
+                if (null != exception) {
+                    exception += ",Secret key ";
+                } else {
+                    exception += "Secret key ";
+                }
+            }
+
+            if (hsdpClientInfo.getBaseURL() == null) {
+                if (null != exception) {
+                    exception += ",Base Url ";
+                } else {
+                    exception += "Base Url ";
+                }
+            }
+
+            if (null != exception) {
+                throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment for " + exception.toString().substring(4));
+            }
+        }
+
+
+        return (null != hsdpClientInfo.getHSDPApplicationName() && null != hsdpClientInfo.getShared()
+                && null != hsdpClientInfo.getSecret()
+                && null != hsdpClientInfo.getBaseURL());
     }
 
     private void parseConfigurationJson(Context context, String path) {

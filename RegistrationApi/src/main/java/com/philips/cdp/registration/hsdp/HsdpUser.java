@@ -268,13 +268,15 @@ public class HsdpUser {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
         String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
         HSDPClientInfo hsdpClientInfo = RegistrationConfiguration.getInstance().getHsdpConfiguration().getHSDPClientInfo(environment);
-        if (null != hsdpClientInfo && null != hsdpClientInfo.getBaseUrl() && null != hsdpClientInfo.getSecretId() && null != hsdpClientInfo.getSharedId()
-                && null != hsdpClientInfo.getApplicationName()) {
-            dhpApiClientConfiguration = new DhpApiClientConfiguration(
+        if (null != hsdpClientInfo && null != hsdpClientInfo.getBaseURL() && null != hsdpClientInfo.getSecret() && null != hsdpClientInfo.getShared()
+                && null != hsdpClientInfo.getHSDPApplicationName()) {
+           /* dhpApiClientConfiguration = new DhpApiClientConfiguration(
                     hsdpClientInfo.getBaseUrl(),
                     hsdpClientInfo.getApplicationName(),
                     hsdpClientInfo.getSharedId(),
-                    hsdpClientInfo.getSecretId());
+                    hsdpClientInfo.getSecretId());*/
+            RLog.i(RLog.HSDP, "Social base URL " + hsdpClientInfo.getBaseURL());
+            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpClientInfo.getBaseURL(),hsdpClientInfo.getHSDPApplicationName(),hsdpClientInfo.getShared(),hsdpClientInfo.getSecret());
         }
         return dhpApiClientConfiguration;
     }

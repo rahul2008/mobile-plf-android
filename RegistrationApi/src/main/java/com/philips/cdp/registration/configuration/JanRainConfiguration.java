@@ -9,7 +9,14 @@ public class JanRainConfiguration {
 		return clientIds;
 	}
 
-	public void setClientIds(RegistrationClientId clientIds) {
+	JanRainConfiguration(){
+
+	}
+	public  JanRainConfiguration(RegistrationClientId clientIds){
+		this.clientIds = clientIds;
+	}
+
+	 void setClientIds(RegistrationClientId clientIds) {
 		this.clientIds = clientIds;
 	}
 
