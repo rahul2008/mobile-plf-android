@@ -8,8 +8,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 
 import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
@@ -22,6 +24,26 @@ public abstract class MultiProductBaseActivity extends FragmentActivity {
 
     private FragmentManager fragmentManager = null;
     private MultiProductConfigManager mMultiProductConfigManager = null;
+
+    private ImageView mActionBarArrow = null;
+    private View.OnClickListener actionBarClickListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            int _id = view.getId();
+            if (_id == R.id.back_to_home_img)
+                backstackFragment();
+        }
+    };
+
+    protected void initActionBar() throws ClassCastException {
+        mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);
+        mActionBarArrow.setVisibility(View.VISIBLE);
+        mActionBarArrow.bringToFront();
+//        mActionBarTitle = (DigitalCareFontTextView) findViewById(R.id.action_bar_title);
+
+        mActionBarArrow.setOnClickListener(actionBarClickListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -9,9 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.multiproduct.MultiProductConfigManager;
 
-public class Launcher extends FragmentActivity implements View.OnClickListener {
+public class Launcher extends UiKitActivity implements View.OnClickListener {
 
     private Button mButton = null;
     private MultiProductConfigManager mConfigManager = null;
@@ -25,7 +26,6 @@ public class Launcher extends FragmentActivity implements View.OnClickListener {
         mConfigManager = MultiProductConfigManager.getInstance();
         mConfigManager.initializeDigitalCareLibrary(this);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -44,6 +44,6 @@ public class Launcher extends FragmentActivity implements View.OnClickListener {
 
     private void launchMultiProductModule() {
         mConfigManager.setLocale("en", "GB");
-        mConfigManager.invokeDigitalCareAsActivity(R.anim.abc_fade_in, R.anim.abc_fade_out, MultiProductConfigManager.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
+        mConfigManager.invokeDigitalCareAsActivity(R.anim.abc_fade_in, R.anim.abc_fade_out, MultiProductConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 }
