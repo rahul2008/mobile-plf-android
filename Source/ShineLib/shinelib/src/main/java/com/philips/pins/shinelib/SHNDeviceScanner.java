@@ -8,6 +8,7 @@ package com.philips.pins.shinelib;
 import android.os.Handler;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 /**
@@ -79,7 +80,9 @@ public class SHNDeviceScanner {
         boolean result = false;
         try {
             result = futureTask.get().booleanValue();
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
+            assert(e == null); // Should not occur ever...
+        } catch (ExecutionException e) {
             assert(e == null); // Should not occur ever...
         }
         return result;
