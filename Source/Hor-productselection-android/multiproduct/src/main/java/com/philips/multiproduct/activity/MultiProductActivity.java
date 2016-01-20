@@ -18,7 +18,7 @@ public class MultiProductActivity extends MultiProductBaseActivity {
         setContentView(R.layout.activity_digi_care);
 
         animateThisScreen();
-        showFragment(new SupportHomeFragment());
+        showFragment(new WelcomeScreenFragment());
     }
 
     private void animateThisScreen() {
