@@ -54,6 +54,10 @@ dependencies {
     compile 'com.google.android.gms:play-services:+'
 
     compile files('libs/HockeySDK-3.0.2.jar')
+    /*
+     * This is for Philips Stndard UI_Kit Artifactory.
+     */
+    compile 'com.philips.cdp:uikitLib:1.0.0'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
@@ -86,6 +90,24 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     reports {
         xml.enabled = true
         html.enabled = false
+    }
+}
+
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+/*
+ * This is for Philips Stndard UI_Kit Artifactory.
+ */
+allprojects {
+    repositories {
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+        }
     }
 }
 
