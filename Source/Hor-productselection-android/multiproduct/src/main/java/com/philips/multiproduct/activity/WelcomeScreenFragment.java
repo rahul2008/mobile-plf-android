@@ -13,7 +13,7 @@ import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
  * WelcomeScreenFragment class is used as a welcome screen when CTN is not been choosen.
  *
  * @author : ritesh.jha@philips.com
- * @since : 20 Jan 2015
+ * @since : 20 Jan 2016
  */
 public class WelcomeScreenFragment extends MultiProductBaseFragment {
 
