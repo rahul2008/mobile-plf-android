@@ -180,7 +180,7 @@
     </style>
 
     <style name="PhilipsDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
-        <item name="android:headerBackground">?attr/baseColor</item>
+        <item name="android:headerBackground">?attr/brightColor</item>
         <item name="android:dayOfWeekBackground">?attr/baseColor</item>
         <item name="android:yearListSelectorColor">?attr/baseColor</item>
         <item name="android:focusedMonthDateColor">?attr/baseColor</item>
@@ -193,7 +193,7 @@
     </style>
 
     <style name="PhilipsTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
-        <item name="android:headerBackground">?attr/baseColor</item>
+        <item name="android:headerBackground">?attr/brightColor</item>
         <item name="android:amPmTextColor">?attr/baseColor</item>
         <item name="android:colorAccent">?attr/veryLightColor</item>
         <item name="android:numbersTextColor">?attr/baseColor</item>
