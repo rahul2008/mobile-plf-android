@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -48,7 +47,6 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
@@ -451,28 +449,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
 
-        String privacyPolicyText = getString(R.string.LegalNoticeText);
-        privacyPolicyText = String.format(privacyPolicyText, getString(R.string.PrivacyPolicyText), getString(R.string.TermsAndConditionsText));
+        String privacyPolicyText = getString(R.string.LegalNoticeForPrivacy);
+        privacyPolicyText = String.format(privacyPolicyText, getString(R.string.PrivacyPolicyText));
         mTvWelcomeDesc.setText(privacyPolicyText);
 
-        //String privacyPolicyText = getResources().getString(R.string.LegalNoticeText);
-        String terms = mContext.getResources().getString(R.string.TermsAndConditionsText);
         String privacy = mContext.getResources().getString(R.string.PrivacyPolicyText);
         SpannableString spanableString = new SpannableString(privacyPolicyText);
 
-
-        int termStartIndex = privacyPolicyText.toLowerCase().indexOf(
-                terms.toLowerCase());
         int privacyStartIndex = privacyPolicyText.toLowerCase().indexOf(
                 privacy.toLowerCase());
-
-        spanableString.setSpan(new ClickableSpan() {
-
-            @Override
-            public void onClick(View widget) {
-                handleTermsCondition();
-            }
-        }, termStartIndex, termStartIndex + terms.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         spanableString.setSpan(new ClickableSpan() {
 

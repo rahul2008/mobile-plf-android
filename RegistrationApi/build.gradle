@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 23
-        versionName "4.0.0-rc.9"
+        versionName "4.0.0.1"
         testApplicationId "com.philips.cdp.registration.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
