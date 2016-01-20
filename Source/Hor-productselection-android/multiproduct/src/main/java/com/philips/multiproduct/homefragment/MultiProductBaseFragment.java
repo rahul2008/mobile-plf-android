@@ -29,10 +29,10 @@ import com.philips.multiproduct.utils.NetworkReceiver;
 
 import java.util.Locale;
 
-public abstract class BaseFragment extends Fragment implements
+public abstract class MultiProductBaseFragment extends Fragment implements
         OnClickListener, NetworkStateListener {
 
-    private static String TAG = BaseFragment.class.getSimpleName();
+    private static String TAG = MultiProductBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;
     private static int mContainerId = 0;
     private static ActionbarUpdateListener mActionbarUpdateListener = null;
@@ -298,12 +298,12 @@ public abstract class BaseFragment extends Fragment implements
         super.onHiddenChanged(hidden);
         MLogger.d(MLogger.FRAGMENT, "onHiddenChanged : " + hidden
                 + " ---class " + this.getClass().getSimpleName());
-        if (mContainerId == 0) {
-            if (this.getClass().getSimpleName()
-                    .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-
-            }
-        }
+//        if (mContainerId == 0) {
+//            if (this.getClass().getSimpleName()
+//                    .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
+//
+//            }
+//        }
     }
 
 
@@ -395,14 +395,14 @@ public abstract class BaseFragment extends Fragment implements
     }
 
 
-    private void updateActionbar() {
-        if (this.getClass().getSimpleName()
-                .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
-        } else {
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
-        }
-    }
+//    private void updateActionbar() {
+//        if (this.getClass().getSimpleName()
+//                .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
+//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
+//        } else {
+//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
+//        }
+//    }
 
     protected String getPreviousName() {
         return mPreviousPageName;

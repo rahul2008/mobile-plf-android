@@ -3,7 +3,6 @@ package com.philips.multiproduct.activity;
 import android.os.Bundle;
 
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.homefragment.SupportHomeFragment;
 import com.philips.multiproduct.utils.Constants;
 
 
