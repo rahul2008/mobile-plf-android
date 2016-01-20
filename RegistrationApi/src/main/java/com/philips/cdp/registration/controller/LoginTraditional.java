@@ -10,6 +10,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -45,7 +46,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     @Override
     public void onSuccess() {
         Jump.saveToDisk(mContext);
-        User user = new User(mContext);
+        final User user = new User(mContext);
         user.buildCoppaConfiguration();
         if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationHelper.getInstance().isCoppaFlow()) {
             CoppaExtension coppaExtension = new CoppaExtension();
@@ -63,6 +64,17 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    user.logout(new LogoutHandler() {
+                        @Override
+                        public void onLogoutSuccess() {
+
+                        }
+
+                        @Override
+                        public void onLogoutFailure(int responseCode, String message) {
+
+                        }
+                    });
                     mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
                 }
             });

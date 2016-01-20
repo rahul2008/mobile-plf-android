@@ -9,6 +9,7 @@ import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
 import com.philips.cdp.registration.controller.ForgotPassword;
@@ -106,8 +107,12 @@ public class User {
     private ScheduledExecutorService mScheduledExecutorService;
 
 
+    HsdpUser hsdpUser = null;
+
+
     public User(Context context) {
         mContext = context;
+        hsdpUser = new HsdpUser(context);
         mUpdateUserRecordHandler = new UpdateUserRecord(context);
         mRegistrationHelper = RegistrationHelper.getInstance();
     }
@@ -620,7 +625,7 @@ public class User {
                     DIUserProfile userProfile = getUserInstance(mContext);
 
                     HsdpUser hsdpUser = new HsdpUser(mContext);
-                    hsdpUser.socialLogin(userProfile.getEmail(),getAccessToken(), new SocialLoginHandler() {
+                    hsdpUser.socialLogin(userProfile.getEmail(), getAccessToken(), new SocialLoginHandler() {
 
                         @Override
                         public void onLoginSuccess() {
@@ -645,12 +650,12 @@ public class User {
 
             @Override
             public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-                socialProviderLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,socialRegistrationToken);
+                socialProviderLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord, socialRegistrationToken);
             }
 
             @Override
             public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-                socialProviderLoginHandler.onLoginFailedWithMergeFlowError(mergeToken,existingProvider,conflictingIdentityProvider,conflictingIdpNameLocalized,existingIdpNameLocalized,emailId);
+                socialProviderLoginHandler.onLoginFailedWithMergeFlowError(mergeToken, existingProvider, conflictingIdentityProvider, conflictingIdpNameLocalized, existingIdpNameLocalized, emailId);
             }
 
             @Override
@@ -766,16 +771,26 @@ public class User {
     }
 
     public boolean isUserSignIn(Context context) {
+
+        boolean signedIn = true;
+        if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+            signedIn = signedIn && getEmailVerificationStatus(context);
+        }
         if (RegistrationHelper.getInstance().isHsdpFlow()) {
             HsdpUser hsdpUser = new HsdpUser(context);
-            if (hsdpUser.getHsdpUserRecord() != null) {
-                return true;
-            }
-        } else {
-            CaptureRecord captured = CaptureRecord.loadFromDisk(context);
-            if (captured != null) {
-                return true;
-            }
+
+            signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
+        }
+        if (RegistrationConfiguration.getInstance().getJanRainConfiguration() != null) {
+            signedIn = signedIn && getAccessToken()!=null;
+        }
+        return signedIn;
+    }
+
+    private boolean isJanrainUserRecord(){
+        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+        if (captured != null) {
+            return true;
         }
         return false;
     }

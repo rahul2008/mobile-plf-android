@@ -1,4 +1,4 @@
-include ':localeMatch', ':adobeMobileLibrary-4.5.1', ':hsdp', ':jackson-annotations-2.6.0', ':jackson-core-2.6.1', ':jackson-databind-2.6.1', ':mockito-all-1.10.8', ':dexmaker-1.0', ':dexmaker-mockito-1.0', ':HockeySDK-3.0.2', ':org.apache.http.legacy', ':Tagging'
+include ':localeMatch', ':adobeMobileLibrary-4.5.1', ':hsdp', ':jackson-annotations-2.6.0', ':jackson-core-2.6.1', ':jackson-databind-2.6.1', ':HockeySDK-3.0.2', ':org.apache.http.legacy', ':Tagging', ':dexmaker-mockito-1.4', ':dexmaker-1.4', ':dexmaker-dx-1.4', ':mockito-all-1.10.19'
 include ':jump'
 include ':registrationApi'
 include ':registrationSampleApp'

@@ -460,4 +460,13 @@ public class HsdpUser {
             e.printStackTrace();
         }
     }
+
+    public boolean isHsdpUserSignedIn(){
+
+        if(getHsdpUserRecord().getAccessCredential().getRefreshToken()!=null && getHsdpUserRecord().getUserUUID()!=null
+                && getHsdpUserRecord().getAccessCredential().getAccessToken()!=null){
+            return true;
+        }
+        return false;
+    }
 }
