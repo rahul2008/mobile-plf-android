@@ -23,7 +23,7 @@ New feature under development:
 
 Version - 1.0.0								Date:04-12-2015	
 ----------------------------------------------------------------
-Git: http://ingbtcpic2lx253.blr.pin.philips.com:8080/scm/git/hor-philipsuikit-android 
+Git: http://pww.cljenkins.pic.philips.com:9000/scm/git/hor-philipsuikit-android 
 
 First release of Android UIKit.
 
