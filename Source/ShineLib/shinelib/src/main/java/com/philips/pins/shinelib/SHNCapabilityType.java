@@ -96,7 +96,8 @@ public enum SHNCapabilityType {
     BATTERY,
     USER_INFORMATION_LIFE_SENSE,
     CONFIG_SEDENTARY,
-    DEVICE_DIAGNOSTIC;
+    DEVICE_DIAGNOSTIC,
+    CONFIG_TARGETS;
 
     public static SHNCapabilityType getCounterPart(SHNCapabilityType capabilityType) {
         switch (capabilityType) {
@@ -154,6 +155,7 @@ public enum SHNCapabilityType {
             case TargetHeartrateZone:
             case Targets:
             case UserConfiguration:
+            case CONFIG_TARGETS:
             default:
                 break;
         }

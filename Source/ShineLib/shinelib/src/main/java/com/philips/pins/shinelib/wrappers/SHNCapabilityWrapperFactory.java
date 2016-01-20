@@ -11,6 +11,7 @@ import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigTargets;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigWearingPosition;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceDiagnostics;
@@ -89,6 +90,13 @@ public class SHNCapabilityWrapperFactory {
             case CONFIG_SEDENTARY:
                 shnCapabilityWrapper = new SHNCapabilityConfigSedentaryWrapper(
                         (SHNCapabilityConfigSedentary) shnCapability,
+                        internalHandler,
+                        userHandler
+                );
+                break;
+            case CONFIG_TARGETS:
+                shnCapabilityWrapper = new SHNCapabilityConfigTargetsWrapper(
+                        (SHNCapabilityConfigTargets) shnCapability,
                         internalHandler,
                         userHandler
                 );
