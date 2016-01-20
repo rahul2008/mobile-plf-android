@@ -173,9 +173,8 @@ public class SHNCentral {
         }
 
         // Check that the adapter is enabled.
-        if (!(bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled())) {
-            BleUtilities.startEnableBluetoothActivity();
-        } else {
+        bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled();
+        if (bluetoothAdapterEnabled) {
             shnCentralState = State.SHNCentralStateReady;
         }
 
