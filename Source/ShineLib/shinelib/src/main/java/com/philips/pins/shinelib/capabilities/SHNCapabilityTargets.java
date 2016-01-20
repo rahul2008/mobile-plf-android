@@ -5,35 +5,15 @@
 
 package com.philips.pins.shinelib.capabilities;
 
-import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapability;
+import com.philips.pins.shinelib.SHNResultListener;
+import com.philips.pins.shinelib.SHNSetResultListener;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 
-import java.util.Set;
-
+/**
+ * Created by 310188215 on 10/06/15.
+ */
 public interface SHNCapabilityTargets extends SHNCapability {
-
-    class Target {
-        private final SHNDataType shnDataType;
-        private final double targetValue;
-
-        public Target(final SHNDataType shnDataType, final double targetValue) {
-            this.shnDataType = shnDataType;
-            this.targetValue = targetValue;
-        }
-
-        public SHNDataType getShnDataType() {
-            return shnDataType;
-        }
-
-        public double getTargetValue() {
-            return targetValue;
-        }
-    }
-
-    void getSupportedDataTypes(ResultListener<Set<SHNDataType>> shnSetResultListener);
-
-    void getTargetForType(SHNDataType type, ResultListener<Target> shnResultListener);
-
-    void setTarget(Target target, ResultListener<Target> shnResultListener);
+    void getSupportedTargets(SHNSetResultListener<SHNDataType> shnSetResultListener);
+    void setTarget(SHNDataType shnDataType, double target, SHNResultListener shnResultListener);
 }
