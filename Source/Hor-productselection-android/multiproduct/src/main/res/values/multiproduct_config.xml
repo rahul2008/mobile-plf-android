@@ -3,8 +3,6 @@
 
     <!-- Activity -->
     <color name="mp_activity_background_color">#FFFFFF</color>
-    <color name="mp_text_color">#003478</color>
-
     <style name="multiprod_theme" parent="Theme.Philips.DarkBlue.Gradient.WhiteBackground"/>
 
 </resources>
