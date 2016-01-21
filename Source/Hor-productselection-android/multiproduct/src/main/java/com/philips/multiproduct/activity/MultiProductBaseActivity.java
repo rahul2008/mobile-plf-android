@@ -6,11 +6,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.utils.MLogger;
@@ -18,10 +29,10 @@ import com.philips.multiproduct.utils.MLogger;
 
 public abstract class MultiProductBaseActivity extends UiKitActivity {
     private static String TAG = MultiProductBaseActivity.class.getSimpleName();
-
-
     private FragmentManager fragmentManager = null;
     private MultiProductConfigManager mMultiProductConfigManager = null;
+    protected ThemeUtils themeUtils;
+    private int noActionBarTheme = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +41,54 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         MLogger.i(TAG, "onCreate");
         MultiProductConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
+        if (noActionBarTheme > 0) {
+            setTheme(noActionBarTheme);
+        } else {
+            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
+                    Context.MODE_PRIVATE));
+            setTheme(themeUtils.getTheme());
+        }
+        initActionBar();
     }
 
+    private void initActionBar(){
+        ActionBar mActionBar = this.getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        Toast.makeText(this, "Testing", Toast.LENGTH_SHORT).show();
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER);
+
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.uikit_action_bar, null); // layout which contains your button.
+
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
+
+        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                finish();
+            }
+        });
+
+        ImageView arrowImage = (ImageView) mCustomView
+                .findViewById(R.id.arrow);
+        arrowImage.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
+        arrowImage.bringToFront();
+        mActionBar.setCustomView(mCustomView, params);
+        mActionBar.setDisplayShowCustomEnabled(true);
+
+        Toolbar parent = (Toolbar) mCustomView.getParent();
+        parent.setContentInsetsAbsolute(0, 0);
+    }
+
+    protected void setNoActionBarTheme() {
+        themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
+                Context.MODE_PRIVATE));
+        noActionBarTheme = themeUtils.getNoActionBarTheme();
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
