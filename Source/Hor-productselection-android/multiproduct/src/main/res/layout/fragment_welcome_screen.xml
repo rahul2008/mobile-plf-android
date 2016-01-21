@@ -5,7 +5,7 @@
     android:fillViewport="false">
 
     <LinearLayout
-        android:id="@+id/product_preview_container_one"
+        android:id="@+id/welcome_screen_parent_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -14,16 +14,33 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/welcome_screen_image_height"
             android:src="@drawable/temp_icon"
-            android:layout_marginTop="15dp"
             android:scaleType="fitXY"/>
 
         <TextView
             android:id="@+id/welcome_screen_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin"
             android:text="In order to give you better support, could you tell us which product you use?"
-            android:textSize="@dimen/title_text_size_small" />
+            android:textSize="@dimen/title_text_size_medium"
+            android:textColor="@color/multiprod_text_color"/>
+
+            <RelativeLayout
+                android:id="@+id/welcome_screen_parent_two"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/actionbar_height">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/mp_search"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
     </LinearLayout>
+
 </ScrollView>

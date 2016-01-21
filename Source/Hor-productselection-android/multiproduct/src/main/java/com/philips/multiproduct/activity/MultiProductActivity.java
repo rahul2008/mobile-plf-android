@@ -15,7 +15,7 @@ public class MultiProductActivity extends MultiProductBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_digi_care);
+        setContentView(R.layout.activity_multi_product);
 
         animateThisScreen();
         showFragment(new WelcomeScreenFragment());
@@ -47,4 +47,8 @@ public class MultiProductActivity extends MultiProductBaseActivity {
         overridePendingTransition(mEnterAnimation, mExitAnimation);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

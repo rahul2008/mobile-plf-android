@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
 import com.philips.hor_productselection_android.view.CustomDialog;
@@ -19,7 +20,7 @@ import java.util.Random;
 
 import com.philips.multiproduct.MultiProductConfigManager;
 
-public class Launcher extends FragmentActivity implements View.OnClickListener {
+public class Launcher extends UiKitActivity implements View.OnClickListener {
 
     private final String TAG = Launcher.class.getSimpleName();
     private Button mButton, mAdd = null;
@@ -106,6 +107,6 @@ public class Launcher extends FragmentActivity implements View.OnClickListener {
 
     private void launchMultiProductModule() {
         mConfigManager.setLocale("en", "GB");
-        mConfigManager.invokeDigitalCareAsActivity(R.anim.abc_fade_in, R.anim.abc_fade_out, MultiProductConfigManager.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
+        mConfigManager.invokeDigitalCareAsActivity(R.anim.abc_fade_in, R.anim.abc_fade_out, MultiProductConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 }

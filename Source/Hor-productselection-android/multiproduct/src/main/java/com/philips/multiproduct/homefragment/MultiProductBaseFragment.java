@@ -298,12 +298,12 @@ public abstract class MultiProductBaseFragment extends Fragment implements
         super.onHiddenChanged(hidden);
         MLogger.d(MLogger.FRAGMENT, "onHiddenChanged : " + hidden
                 + " ---class " + this.getClass().getSimpleName());
-//        if (mContainerId == 0) {
+        if (mContainerId == 0) {
 //            if (this.getClass().getSimpleName()
 //                    .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
 //
 //            }
-//        }
+        }
     }
 
 
