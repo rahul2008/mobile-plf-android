@@ -465,7 +465,7 @@ public class HsdpUser {
 
     public boolean isHsdpUserSignedIn(){
 
-        if(getHsdpUserRecord().getAccessCredential().getRefreshToken()!=null && getHsdpUserRecord().getUserUUID()!=null
+        if(getHsdpUserRecord() != null && getHsdpUserRecord().getAccessCredential().getRefreshToken()!=null && getHsdpUserRecord().getUserUUID()!=null
                 && getHsdpUserRecord().getAccessCredential().getAccessToken()!=null){
             return true;
         }
