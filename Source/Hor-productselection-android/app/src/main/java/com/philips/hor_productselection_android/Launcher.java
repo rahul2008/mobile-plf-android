@@ -24,7 +24,7 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
 
     private final String TAG = Launcher.class.getSimpleName();
     private Button mButton, mAdd = null;
-    private ArrayList<Product> mList = null;
+    private static ArrayList<Product> mList = null;
     private RecyclerView mRecyclerView = null;
     private MultiProductConfigManager mConfigManager = null;
     SampleAdapter adapter = null;
@@ -33,9 +33,11 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        mList = new ArrayList<Product>();
+        if (mList == null)
+            mList = new ArrayList<Product>();
         initUIReferences();
-        addDummyData();
+        if (mList.size() == 0)
+            addDummyData();
 
         if (adapter == null)
             adapter = new SampleAdapter(mList);
@@ -83,7 +85,7 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
     private void addDummyData() {
         for (int i = 0; i < 2; i++) {
             Product product = new Product();
-            product.setmCtn((new Random().nextInt(9) + 7000) + "/dummy");
+            product.setmCtn((new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "/dummy");
             product.setmCatalog("B2C");
             product.setmCategory("CARE");
             mList.add(product);
