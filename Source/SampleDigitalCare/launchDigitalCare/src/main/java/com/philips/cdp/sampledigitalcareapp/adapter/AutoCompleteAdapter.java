@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcareapp;
+package com.philips.cdp.sampledigitalcareapp.adapter;
 
 /**
  * AutoCompleteAdapter For Filtering Autocompeletion TextView

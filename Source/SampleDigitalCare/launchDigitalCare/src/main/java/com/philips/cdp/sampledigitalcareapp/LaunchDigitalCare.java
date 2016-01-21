@@ -13,10 +13,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.cdp.digitalcare.component.ActivityComponentBuilder;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.sampledigitalcareapp.adapter.AutoCompleteAdapter;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -260,10 +262,13 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mLaunchAsFragment.setVisibility(View.INVISIBLE);
 
                 if (setConsumerProductInfo()) {
-                    DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(R.anim.slide_in_bottom,
-                            R.anim.slide_out_bottom,
-                            DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED
-                    );
+                    ActivityComponentBuilder activityComponentBuilder = new ActivityComponentBuilder();
+                    activityComponentBuilder.setEnterAnimation(R.anim.slide_in_bottom);
+                    activityComponentBuilder.setExitAnimation(R.anim.slide_out_bottom);
+                    activityComponentBuilder.setScreenOrientation(DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+
+                    DigitalCareConfigManager.getInstance().invokeConsumerCareModule(activityComponentBuilder);
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Set Consumer Product Info", Toast.LENGTH_SHORT).show();
                 }

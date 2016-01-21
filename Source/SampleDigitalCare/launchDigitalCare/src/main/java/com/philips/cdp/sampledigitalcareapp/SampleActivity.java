@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.cdp.digitalcare.component.FragmentComponentBuilder;
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -21,12 +22,24 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @author : Ritesh.jha@philips.com
  * @since : 6 Aug 2015
  */
-public class SampleActivity extends FragmentActivity implements View.OnClickListener{
+public class SampleActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = SampleActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
     private FragmentManager fragmentManager = null;
+    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+
+        @Override
+        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+            mActionBarTitle.setText(titleActionbar);
+            if (hamburgerIconAvailable) {
+                enableActionBarHome();
+            } else {
+                enableActionBarLeftArrow();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +47,16 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         DigiCareLogger.i(TAG, " SampleActivity onCreate");
         setContentView(R.layout.activity_sample);
-        DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
-                R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+       /* DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
+                R.anim.slide_in_bottom, R.anim.slide_out_bottom);*/
+        FragmentComponentBuilder componentBuilder = new FragmentComponentBuilder();
+        componentBuilder.setActionbarUpdateListener(actionBarClickListener);
+        componentBuilder.setEnterAnimation(R.anim.slide_in_bottom);
+        componentBuilder.setExitAnimation(R.anim.slide_out_bottom);
+        componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
+        componentBuilder.setFragmentActivity(this);
+
+        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(componentBuilder);
         try {
             initActionBar();
         } catch (ClassCastException e) {
@@ -91,20 +112,6 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         mActionBarArrow.setVisibility(View.GONE);
     }
 
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            mActionBarTitle.setText(titleActionbar);
-            if(hamburgerIconAvailable){
-                enableActionBarHome();
-            }
-            else{
-                enableActionBarLeftArrow();
-            }
-        }
-    };
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -118,9 +125,9 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         int _id = view.getId();
-          if (_id == R.id.sample_home_icon) {
-              finish();
-            } else if (_id == R.id.sample_back_to_home_img)
-                backstackFragment();
-        }
+        if (_id == R.id.sample_home_icon) {
+            finish();
+        } else if (_id == R.id.sample_back_to_home_img)
+            backstackFragment();
+    }
 }
