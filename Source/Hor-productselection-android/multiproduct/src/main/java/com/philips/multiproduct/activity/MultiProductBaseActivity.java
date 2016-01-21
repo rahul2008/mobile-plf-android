@@ -41,13 +41,14 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         MLogger.i(TAG, "onCreate");
         MultiProductConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
-        if (noActionBarTheme > 0) {
-            setTheme(noActionBarTheme);
-        } else {
-            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
-                    Context.MODE_PRIVATE));
-            setTheme(themeUtils.getTheme());
-        }
+        setTheme(R.style.multiprod_theme);
+//        if (noActionBarTheme > 0) {
+//            setTheme(noActionBarTheme);
+//        } else {
+//            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
+//                    Context.MODE_PRIVATE));
+//            setTheme(themeUtils.getTheme());
+//        }
         initActionBar();
     }
 
@@ -55,7 +56,6 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         ActionBar mActionBar = this.getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
-        Toast.makeText(this, "Testing", Toast.LENGTH_SHORT).show();
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,

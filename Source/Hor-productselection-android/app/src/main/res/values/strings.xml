@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Hor-productselection-android</string>
-
+    <string name="app_name_multi_product">MultiProduct Sample</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 </resources>

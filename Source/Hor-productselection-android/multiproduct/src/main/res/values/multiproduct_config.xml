@@ -2,16 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
     <!-- Activity -->
-    <color name="activity_background_color">#FFFFFF</color>
+    <color name="mp_activity_background_color">#FFFFFF</color>
 
-    <!-- Actionbar related -->
-    <color name="multiprod_actionbar_background_start_color">#003478</color>
-    <color name="multiprod_actionbar_background_end_color">#0066A1</color>
-    <color name="multiprod_actionbar_title_color">#FFFFFF</color>
-    <color name="multiprod_text_color">@color/multiprod_actionbar_background_end_color</color>
 
-    <!-- Action bar back arrow button -->
-    <style name="multiprod_actionbar_back_button">
-        <item name="android:src">@drawable/actionbar_back_arrow_white</item>
-    </style>
+    <style name="multiprod_theme" parent="Theme.Philips.DarkBlue.Gradient.WhiteBackground"/>
 </resources>
