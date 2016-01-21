@@ -3,6 +3,7 @@ package com.philips.multiproduct;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.util.Size;
 
 
 import com.philips.multiproduct.activity.MultiProductActivity;
@@ -17,6 +18,7 @@ public class MultiProductConfigManager {
 
     private static final String TAG = MultiProductConfigManager.class.getSimpleName();
     private static MultiProductConfigManager mDigitalCareInstance = null;
+    private static int mMultiProductSize;
     private static Context mContext = null;
     private static Locale mLocale = null;
 
@@ -38,8 +40,7 @@ public class MultiProductConfigManager {
         return mDigitalCareInstance;
     }
 
-    public Locale getLocale()
-    {
+    public Locale getLocale() {
         return mLocale;
     }
 
@@ -77,6 +78,13 @@ public class MultiProductConfigManager {
         }
     }
 
+    public  int getMultiProductSize() {
+        return mMultiProductSize;
+    }
+
+    public  void setMultiProductSize(int mMultiProductSize) {
+        MultiProductConfigManager.mMultiProductSize = mMultiProductSize;
+    }
 
     public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
         if (mContext == null || mLocale == null) {
