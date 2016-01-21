@@ -17,7 +17,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -31,7 +30,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
     private static String TAG = MultiProductBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private MultiProductConfigManager mMultiProductConfigManager = null;
-    protected ThemeUtils themeUtils;
+    protected static ThemeUtils themeUtils;
     private int noActionBarTheme = 0;
 
     @Override
@@ -41,18 +40,17 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         MLogger.i(TAG, "onCreate");
         MultiProductConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
-        setTheme(R.style.multiprod_theme);
-//        if (noActionBarTheme > 0) {
-//            setTheme(noActionBarTheme);
-//        } else {
-//            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
-//                    Context.MODE_PRIVATE));
-//            setTheme(themeUtils.getTheme());
-//        }
+//        setTheme(R.style.multiprod_theme);
+
+        if (themeUtils == null) {
+            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
+                    Context.MODE_PRIVATE));
+        }
+        setTheme(themeUtils.getTheme());
         initActionBar();
     }
 
-    private void initActionBar(){
+    private void initActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);

@@ -1,38 +1,50 @@
 package com.philips.hor_productselection_android;
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
 import com.philips.hor_productselection_android.view.CustomDialog;
+import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.activity.MultiProductBaseActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.philips.multiproduct.MultiProductConfigManager;
-
-public class Launcher extends UiKitActivity implements View.OnClickListener {
+public class Launcher extends MultiProductBaseActivity implements View.OnClickListener {
 
     private final String TAG = Launcher.class.getSimpleName();
     private Button mButton, mAdd = null;
     private static ArrayList<Product> mList = null;
     private RecyclerView mRecyclerView = null;
     private MultiProductConfigManager mConfigManager = null;
-    SampleAdapter adapter = null;
+    private SampleAdapter adapter = null;
+    private static int RESULT_CODE_THEME_UPDATED = 1;
+
+    private Button change_theme = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        if(themeUtils == null) {
+            themeUtils = new ThemeUtils(this.getSharedPreferences(
+                    this.getString(R.string.app_name_multiproduct), Context.MODE_PRIVATE));
+        }
+        change_theme = (Button) findViewById(R.id.change_theme);
+        change_theme.setOnClickListener(this);
+        setViewState();
         if (mList == null)
             mList = new ArrayList<Product>();
         initUIReferences();
@@ -51,6 +63,14 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
 
         mConfigManager = MultiProductConfigManager.getInstance();
         mConfigManager.initializeDigitalCareLibrary(this);
+    }
+
+    private void relaunchActivity() {
+        Intent intent;
+        setResult(RESULT_CODE_THEME_UPDATED);
+        intent = new Intent(this, Launcher.class);
+        startActivity(intent);
+        finish();
     }
 
     @NonNull
@@ -92,6 +112,11 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
         }
     }
 
+    private void setViewState() {
+//        String preferences = themeUtils.getThemePreferences();
+//        ArrayList<String> prefData = themeUtils.getThemeTokens(preferences);
+//        themeUtils.setColorString(prefData.get(0));
+    }
 
     @Override
     public void onClick(View v) {
@@ -102,6 +127,31 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
                 break;
             case R.id.add_product:
                 launchDialog();
+                break;
+
+            case R.id.change_theme:
+                String preferences = null;
+                int themeValue = (int) (Math.random() * (4 - 0)) + 0;
+                switch (themeValue){
+                    case 0:
+                        themeUtils.setThemePreferences(false);
+                        break;
+                    case 1:
+                        preferences = "blue|false|solid|0";
+                        themeUtils.setThemePreferences(preferences);
+                        break;
+                    case 2:
+                        preferences = "orange|false|solid|0";
+                        themeUtils.setThemePreferences(preferences);
+                        break;
+
+                    case 3:
+                        preferences = "aqua|false|solid|0";
+                        themeUtils.setThemePreferences(preferences);
+                        break;
+                }
+
+                relaunchActivity();
                 break;
         }
     }

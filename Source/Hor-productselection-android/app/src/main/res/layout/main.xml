@@ -10,21 +10,31 @@
 
     <Button
         android:id="@+id/activitybutton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="10dp"
         android:text="launch Module" />
+
+    <Button
+        android:id="@+id/change_theme"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:onClick="changeBackground"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/activitybutton"
+        android:text="Change theme"/>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activitybutton"
+        android:layout_below="@id/change_theme"
         android:layout_marginTop="10dp">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Add Product"
             android:id="@+id/add_product"
