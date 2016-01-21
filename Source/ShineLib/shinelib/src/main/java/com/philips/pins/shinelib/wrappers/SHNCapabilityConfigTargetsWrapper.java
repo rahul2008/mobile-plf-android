@@ -17,7 +17,7 @@ public class SHNCapabilityConfigTargetsWrapper implements SHNCapabilityConfigTar
     private final Handler userHandler;
     private final Handler internalHandler;
 
-    public SHNCapabilityConfigTargetsWrapper(SHNCapabilityConfigTargets wrappedShnCapability, Handler userHandler, Handler internalHandler) {
+    public SHNCapabilityConfigTargetsWrapper(SHNCapabilityConfigTargets wrappedShnCapability, Handler internalHandler, Handler userHandler) {
         this.wrappedShnCapability = wrappedShnCapability;
         this.userHandler = userHandler;
         this.internalHandler = internalHandler;
