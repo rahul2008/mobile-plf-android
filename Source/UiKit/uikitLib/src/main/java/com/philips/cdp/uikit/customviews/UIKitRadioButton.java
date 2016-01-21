@@ -20,30 +20,32 @@ public class UIKitRadioButton extends AppCompatRadioButton{
         this.context=context;
 
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.LightColor});
-      int   baseColor = ar.getInt(0, R.attr.brightColor);
-        int lightColor=ar.getInt(1,R.attr.LightColor);
-       // int red=getResources().getColor(R.color.uikit_enricher_red);
+      int   baseColor = ar.getInt(0, R.attr.baseColor);
+        int overlayColor = Color.argb(127, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor));
+      //  int lightColor=ar.getInt(1,R.attr.veryLightColor);
+     //  int red=getResources().getColor(R.color.uikit_enricher_red);
         ar.recycle();
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
 
-                        new int[]{android.R.attr.state_pressed}, //disabled
-                        new int[]{android.R.attr.state_enabled} //enabled
+                        new int[]{-android.R.attr.state_checked}, //disabled
+                        new int[]{android.R.attr.state_checked} //enabled
                 },
                 new int[] {
 
-                        lightColor //disabled
+                        overlayColor //disabled
                         , baseColor //enabled
 
                 }
         );
 
-   //     this.setButtonTintList(colorStateList);
+    //this.setButtonTintList(colorStateList);
       //    setBackgroundTintList();
 
       //  setBackgroundTintList(colorStateList);
-    //  setSupportButtonTintList(colorStateList);
-        setButtonDrawable(R.drawable.uikit_radio_button);
+     setSupportButtonTintList(colorStateList);
+//getCompoundDrawables().
+      //  setButtonDrawable(R.drawable.uikit_radio_button);
     //    setCompoundDrawableTintList(colorStateList);
        // this.getButtonDrawable().setColorFilter();
     }
