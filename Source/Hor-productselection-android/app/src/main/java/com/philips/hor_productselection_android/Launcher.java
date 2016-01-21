@@ -110,5 +110,6 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
     private void launchMultiProductModule() {
         mConfigManager.setLocale("en", "GB");
         mConfigManager.invokeDigitalCareAsActivity(R.anim.abc_fade_in, R.anim.abc_fade_out, MultiProductConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        mConfigManager.setMultiProductSize(mList.size());
     }
 }

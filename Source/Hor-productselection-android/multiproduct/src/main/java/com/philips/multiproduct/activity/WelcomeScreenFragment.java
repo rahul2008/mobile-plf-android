@@ -2,7 +2,6 @@ package com.philips.multiproduct.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +10,14 @@ import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 
 /**
- * WelcomeScreenFragment class is used as a welcome screen when CTN is not been choosen.
+ * DirectFragment class is used as a welcome screen when CTN is not been choosen.
  *
  * @author : ritesh.jha@philips.com
  * @since : 20 Jan 2016
  */
 public class WelcomeScreenFragment extends MultiProductBaseFragment{
 
-    private String TAG = WelcomeScreenFragment.class.getSimpleName();
+    private String TAG = DirectFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

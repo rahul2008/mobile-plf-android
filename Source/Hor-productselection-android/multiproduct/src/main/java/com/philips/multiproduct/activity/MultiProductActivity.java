@@ -2,6 +2,7 @@ package com.philips.multiproduct.activity;
 
 import android.os.Bundle;
 
+import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.utils.Constants;
 
@@ -18,7 +19,11 @@ public class MultiProductActivity extends MultiProductBaseActivity {
         setContentView(R.layout.activity_multi_product);
 
         animateThisScreen();
-        showFragment(new WelcomeScreenFragment());
+        if (MultiProductConfigManager.getInstance().getMultiProductSize() > 1)
+            showFragment(new WelcomeScreenFragment());
+        else
+            showFragment(new DirectFragment());
+
     }
 
     private void animateThisScreen() {
