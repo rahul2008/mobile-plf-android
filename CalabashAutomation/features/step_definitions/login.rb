@@ -1,7 +1,7 @@
 When(/^I enter password fulfilling password hint criteria$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 1
 sheet2=book.worksheet 'Sheet1'
@@ -23,7 +23,7 @@ end
 When(/^I enter email and password that are not verified$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 3
 sheet2=book.worksheet 'Sheet1'
@@ -61,7 +61,7 @@ id2="et_reg_email"
 id3="et_reg_password"
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -110,7 +110,7 @@ id2="et_reg_email"
 id3="et_reg_password"
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -160,7 +160,7 @@ id2="et_reg_email"
 id3="et_reg_password"
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -209,7 +209,7 @@ id2="et_reg_email"
 id3="et_reg_password"
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -258,7 +258,7 @@ id2="et_reg_email"
 id3="et_reg_password"
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -308,7 +308,7 @@ id2="et_reg_email"
 id3="et_reg_password"
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -352,7 +352,7 @@ Then(/^I enter valid name, email and password in create account$/) do
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -394,7 +394,7 @@ When(/^I enter credentials for verification$/) do
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -436,7 +436,7 @@ When(/^I enter credentials for verification of continue$/) do
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -478,7 +478,7 @@ Then(/^I enter valid credentials in create account checking Terms & conditions$/
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -520,7 +520,7 @@ When(/^I enter credentials for resend button verification$/) do
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -562,7 +562,7 @@ Then(/^I enter invalid name,email and password in create account$/) do
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 1
 sheet2=book.worksheet 'Sheet1'
@@ -605,7 +605,7 @@ Then(/^I enter name,valid email and password in create account page$/) do
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -646,7 +646,7 @@ end
 Then(/^I enter name,invalid email and password in create account page$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 1
 sheet2=book.worksheet 'Sheet1'
@@ -686,7 +686,7 @@ When(/^I enter name, existing social mail and password in create account page$/)
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 1
 sheet2=book.worksheet 'Sheet1'
@@ -726,7 +726,7 @@ Then(/^I enter name, existing mail and password in create account page$/) do
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 1
 sheet2=book.worksheet 'Sheet1'
@@ -766,7 +766,7 @@ Then(/^I enter name,email and min_condition password in create account page$/) d
 index=1
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -805,7 +805,7 @@ end
 Then(/^I enter name,email and valid password in create account page$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 0
 sheet2=book.worksheet 'Sheet1'
@@ -852,7 +852,7 @@ end
 Then(/^I enter name,email and invalid password in create account page$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 1
 sheet2=book.worksheet 'Sheet1'
@@ -899,7 +899,7 @@ end
 When(/^I enter email and password after successful activation$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 2
 sheet2=book.worksheet 'Sheet1'
@@ -930,7 +930,7 @@ end
 When(/^I enter email for password resetting$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 2
 sheet2=book.worksheet 'Sheet1'
@@ -961,7 +961,7 @@ end
 When(/^I enter invalid email for password resetting$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 3
 sheet2=book.worksheet 'Sheet1'
@@ -992,7 +992,7 @@ end
 When(/^I enter valid email and password in philips account$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 2
 sheet2=book.worksheet 'Sheet1'
@@ -1024,7 +1024,7 @@ end
 When(/^I enter invalid email and password in philips account$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 3
 sheet2=book.worksheet 'Sheet1'
@@ -1056,7 +1056,7 @@ end
 When(/^I leave email field empty$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 2
 sheet2=book.worksheet 'Sheet1'
@@ -1088,7 +1088,7 @@ end
 When(/^I leave password field empty$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 3
 sheet2=book.worksheet 'Sheet1'
@@ -1120,7 +1120,7 @@ end
 When(/^I enter valid email and invalid password in philips account$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 3
 sheet2=book.worksheet 'Sheet1'
@@ -1152,7 +1152,7 @@ end
 When(/^I enter invalid email and invalid password$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 3
 sheet2=book.worksheet 'Sheet1'
@@ -1184,7 +1184,7 @@ end
 When(/^I enter email in philips account$/) do
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open('C:\Calabash\worksheet.xls')
+book = Spreadsheet.open('..\CalabashAutomation\worksheet.xls')
 book.worksheets
 sheet1=book.worksheet 2
 sheet2=book.worksheet 'Sheet1'
