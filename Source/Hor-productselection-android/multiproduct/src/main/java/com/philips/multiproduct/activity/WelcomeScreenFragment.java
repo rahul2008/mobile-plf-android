@@ -2,6 +2,7 @@ package com.philips.multiproduct.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
  * @author : ritesh.jha@philips.com
  * @since : 20 Jan 2016
  */
-public class WelcomeScreenFragment extends MultiProductBaseFragment {
+public class WelcomeScreenFragment extends MultiProductBaseFragment{
 
     private String TAG = WelcomeScreenFragment.class.getSimpleName();
 

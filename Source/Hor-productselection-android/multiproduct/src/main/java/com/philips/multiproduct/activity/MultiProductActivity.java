@@ -50,6 +50,5 @@ public class MultiProductActivity extends MultiProductBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initActionBar();
     }
 }

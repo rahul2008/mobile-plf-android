@@ -8,7 +8,7 @@
     <color name="multiprod_actionbar_background_start_color">#003478</color>
     <color name="multiprod_actionbar_background_end_color">#0066A1</color>
     <color name="multiprod_actionbar_title_color">#FFFFFF</color>
-    <color name="multiprod_button_text_color">@color/multiprod_actionbar_title_color</color>
+    <color name="multiprod_text_color">@color/multiprod_actionbar_background_end_color</color>
 
     <!-- Action bar back arrow button -->
     <style name="multiprod_actionbar_back_button">
