@@ -99,15 +99,15 @@ repositories {
         dirs 'libs'
     }
 }
-
-/*
- * This is for Philips Stndard UI_Kit Artifactory.
- */
-allprojects {
-    repositories {
-        maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
-        }
-    }
-}
+//
+///*
+// * This is for Philips Stndard UI_Kit Artifactory.
+// */
+//allprojects {
+//    repositories {
+//        maven {
+//            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+//        }
+//    }
+//}
 
