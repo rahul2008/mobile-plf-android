@@ -5,16 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class HamburgerFragment extends Fragment {
 
     private TextView textView;
-    private VectorDrawableImageView imageView;
+    private ImageView imageView;
 
     public HamburgerFragment() {
     }
@@ -25,7 +25,7 @@ public class HamburgerFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         textView = (TextView)rootView.findViewById(R.id.txtLabel);
-        imageView = (VectorDrawableImageView)rootView.findViewById(R.id.frag_icon);
+        imageView = (ImageView) rootView.findViewById(R.id.frag_icon);
 
         setDateToView();
 

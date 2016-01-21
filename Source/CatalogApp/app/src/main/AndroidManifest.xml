@@ -68,6 +68,7 @@
         <activity android:name=".cardviewpager.CardActivity" />
         <activity android:name=".activity.ModalAlertDemo" />
         <activity android:name=".activity.FavoritesActivity"/>
+        <activity android:name=".activity.PickerActivity"/>
     </application>
 
 </manifest>

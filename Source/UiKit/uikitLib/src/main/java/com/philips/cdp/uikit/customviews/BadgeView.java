@@ -28,7 +28,7 @@ import com.philips.cdp.uikit.R;
 /**
  * <b></b>Badge View is a Custom view component which supports to show Badge Count as displayed below</b>
  * <br>
- * <img src="../../../../../../img/BadgeView.png"<br>
+ * <img src="../../../../../img/BadgeView.png"<br>
  * <p/>
  * <b>For Example to use Badge View follow the below steps</b><br>
  * <pre>&lt;com.philips.cdp.uikit.customviews.BadgeView

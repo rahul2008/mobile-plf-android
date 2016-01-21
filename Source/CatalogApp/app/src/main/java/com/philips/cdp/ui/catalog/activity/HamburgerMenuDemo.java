@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.hamburgerfragments.HamburgerFragment;
-import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -92,7 +91,8 @@ public class HamburgerMenuDemo extends CatalogActivity {
     private HamburgerAdapter adapter;
     private TextView actionBarCount;
     private HamburgerUtil hamburgerUtil;
-    private VectorDrawableImageView hamburgerIcon;
+    private ImageView hamburgerIcon;
+    private int feature;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -100,6 +100,8 @@ public class HamburgerMenuDemo extends CatalogActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.uikit_hamburger_menu);
+        feature = getIntent().getIntExtra("feature", -1);
+
         initViews();
         initActionBar(getSupportActionBar());
         configureDrawer();
@@ -137,9 +139,18 @@ public class HamburgerMenuDemo extends CatalogActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(com.philips.cdp.uikit.R.menu.uikit_hamburger_menu_item, menu);
-        MenuItem reload = menu.findItem(com.philips.cdp.uikit.R.id.action_reload);
-        reload.setIcon(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_reload));
+        if (feature == 2) {
+            getMenuInflater().inflate(com.philips.cdp.uikit.R.menu.uikit_hamburger_menu_item, menu);
+            MenuItem reload = menu.findItem(com.philips.cdp.uikit.R.id.action_reload);
+            reload.setIcon(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_reload));
+
+            MenuItem info = menu.findItem(com.philips.cdp.uikit.R.id.action_info);
+            info.setIcon(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_info));
+        } else {
+            getMenuInflater().inflate(com.philips.cdp.uikit.R.menu.uikit_hamburger_menu_single_item, menu);
+            MenuItem info = menu.findItem(com.philips.cdp.uikit.R.id.action_info);
+            info.setIcon(VectorDrawable.create(this, com.philips.cdp.uikit.R.drawable.uikit_info));
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -163,7 +174,6 @@ public class HamburgerMenuDemo extends CatalogActivity {
     }
 
     private void setHamburgerAdaptor() {
-        int feature = getIntent().getIntExtra("feature", -1);
         if (feature == 1)
             addDrawerItems();
         else if (feature == 2)
@@ -248,6 +258,9 @@ public class HamburgerMenuDemo extends CatalogActivity {
             case R.id.action_reload:
                 Toast.makeText(this, "clicked reload", Toast.LENGTH_LONG).show();
                 return true;
+            case R.id.action_info:
+                Toast.makeText(this, "clicked info", Toast.LENGTH_LONG).show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -260,7 +273,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBarTitle = (TextView) findViewById(R.id.hamburger_title);
         actionBarCount = (TextView) findViewById(R.id.hamburger_count);
-        hamburgerIcon = (VectorDrawableImageView) findViewById(R.id.hamburger_icon);
+        hamburgerIcon = (ImageView) findViewById(R.id.hamburger_icon);
         hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_hamburger_icon));
         LinearLayout hamburgerClick = (LinearLayout) findViewById(R.id.hamburger_click);
 

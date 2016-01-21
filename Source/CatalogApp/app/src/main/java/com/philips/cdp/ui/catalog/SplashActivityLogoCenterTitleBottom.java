@@ -8,8 +8,10 @@ package com.philips.cdp.ui.catalog;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 /**
  * <H1>Dev Guide</H1>
@@ -50,5 +52,7 @@ public class SplashActivityLogoCenterTitleBottom extends CatalogActivity {
         //Hide the Action bar
         getSupportActionBar().hide();
         setContentView(com.philips.cdp.uikit.R.layout.uikit_splash_screen_logo_center_tb);
+        ImageView logo = (ImageView) findViewById(R.id.splash_logo);
+        logo.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_philips_logo));
     }
 }

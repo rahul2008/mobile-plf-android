@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize">
 
@@ -13,13 +12,12 @@
         android:layout_centerVertical="true"
         android:orientation="horizontal">
 
-    <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+        <ImageView
         android:id="@+id/hamburger_icon"
         android:layout_width="18dp"
         android:layout_height="12dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/uikit_hamburger_icon_left_margin"
-        app:vectorsrc="@drawable/uikit_hamburger_icon" />
+            android:layout_marginLeft="@dimen/uikit_hamburger_icon_left_margin" />
 
         <com.philips.cdp.uikit.customviews.BadgeView
         android:id="@+id/hamburger_count"

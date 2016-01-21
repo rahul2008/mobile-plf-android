@@ -15,21 +15,19 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.favorites.DataBaseHelper;
-import com.philips.cdp.ui.catalog.favorites.FavoritesContract;
-import com.philips.cdp.uikit.customviews.VectorDrawableImageView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class FavoritesAdapter extends BaseAdapter {
-    private LayoutInflater inflater=null;
     public Context activity;
     SQLiteDatabase db ;
     DataBaseHelper mDbHelper;
+    private LayoutInflater inflater = null;
 
     public FavoritesAdapter(Context activity) {
         this.activity = activity;
-        inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         mDbHelper = new DataBaseHelper(activity);
         db = mDbHelper.getReadableDatabase();

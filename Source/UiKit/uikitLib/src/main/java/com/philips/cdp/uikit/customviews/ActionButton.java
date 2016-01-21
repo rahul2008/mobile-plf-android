@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.utils.UikitUtils;
 
 /**
  * <b>Action Buttons are available in 2 shapes</b>
@@ -156,7 +157,7 @@ public class ActionButton extends ImageButton {
     private int getResID(final TypedArray typedArray) {
         String resPath = typedArray.getString(R.styleable.ActionButton_actionButtonImageDrawable);
         if (resPath != null)
-            return VectorDrawableImageView.getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
+            return UikitUtils.getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
         else
             return 0;
     }
