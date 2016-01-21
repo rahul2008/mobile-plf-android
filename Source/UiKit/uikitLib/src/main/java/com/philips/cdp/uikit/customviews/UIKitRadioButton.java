@@ -22,7 +22,7 @@ public class UIKitRadioButton extends AppCompatRadioButton{
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.LightColor});
       int   baseColor = ar.getInt(0, R.attr.brightColor);
         int lightColor=ar.getInt(1,R.attr.LightColor);
-        int red=getResources().getColor(R.color.uikit_enricher_red);
+       // int red=getResources().getColor(R.color.uikit_enricher_red);
         ar.recycle();
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
@@ -32,18 +32,19 @@ public class UIKitRadioButton extends AppCompatRadioButton{
                 },
                 new int[] {
 
-                        red //disabled
+                        lightColor //disabled
                         , baseColor //enabled
 
                 }
         );
 
    //     this.setButtonTintList(colorStateList);
-          //setBackgroundTintList(colorStateList)
+      //    setBackgroundTintList();
 
       //  setBackgroundTintList(colorStateList);
-   //     setSupportButtonTintList(colorStateList);
-       // setCompoundDrawableTintList(colorStateList);
+    //  setSupportButtonTintList(colorStateList);
+        setButtonDrawable(R.drawable.uikit_radio_button);
+    //    setCompoundDrawableTintList(colorStateList);
        // this.getButtonDrawable().setColorFilter();
     }
 }

@@ -30,4 +30,9 @@
     <string name="uikit_modal_alert_positive_button_text">Always</string>
 
     <string name="invalid_email_format">Incorrect email format</string>
+
+    <array name="control_icons">
+        <item>@drawable/uikit_arrow_up</item>
+        <item>@drawable/uikit_arrow_down</item>
+    </array>
 </resources>

@@ -15,7 +15,7 @@
             android:shape="ring"
             android:thicknessRatio="15"
             android:useLevel="true">
-            <solid android:color="@android:color/darker_gray" />
+            <solid android:color="@color/uikit_enricher6" />
         </shape>
     </item>
 </layer-list>

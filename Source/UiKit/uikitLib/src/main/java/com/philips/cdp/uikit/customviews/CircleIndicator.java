@@ -115,7 +115,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
                     return;
                 }
 
-                final LinearLayout parent = getParentLayout(context);
+                final LinearLayout parent = getParentLayout();
                 drawDots(context, count, parent);
             }
         });
@@ -175,7 +175,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
     }
 
     @NonNull
-    private LinearLayout getParentLayout(final Context context) {
+    private LinearLayout getParentLayout() {
         this.removeAllViews();
         this.addView(parentView);
         final LinearLayout linearLayout = (LinearLayout) parentView.findViewById(R.id.uikit_linear);
