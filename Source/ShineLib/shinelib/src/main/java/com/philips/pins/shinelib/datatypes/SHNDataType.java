@@ -61,7 +61,6 @@ public enum SHNDataType {
     UserConfigChangedEventSedentaryNotification,
     AccelerometerData,
     CM3HeartRate,
-    CM3RestingHeartRateDataMoonshine,
     UserConfigChangedEventEnergyIntake,
     ChangeTime,
     FatPercentage,
@@ -70,5 +69,7 @@ public enum SHNDataType {
     TotalEnergyExpenditure,
     ActiveEnergyExpenditureDebug,
     ActiveMinutes,
-    BloodOxygenLevel
+    BloodOxygenLevel,
+    CM3RestingHeartRateDataMoonshine,
+    EnergyIntakeMoonshine
 }
