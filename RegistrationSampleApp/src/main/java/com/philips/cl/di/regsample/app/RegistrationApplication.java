@@ -38,6 +38,8 @@ public class RegistrationApplication extends Application {
 			@Override
 			public void onSuccess() {
 				initRegistration();
+			//	RegistrationHelper.getInstance().intializeRegistrationSettings(getApplicationContext(), Locale.getDefault());
+			//	Tagging.init(Locale.getDefault(), getApplicationContext());
 
 			}
 
@@ -52,12 +54,12 @@ public class RegistrationApplication extends Application {
 
 	private void initRegistration() {
 		//Configure JanRain
-		RegistrationConfiguration.getInstance().getJanRainConfiguration().setClientId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+		RegistrationConfiguration.getInstance().getJanRainConfiguration().setClientId("4r36zdbeycca933nufcknn2hnpsz6gxu");
 
 		//Configure PIL
 		RegistrationConfiguration.getInstance().getPilConfiguration().setCampaignID("CL20150501_PC_TB_COPPA");
 		RegistrationConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
-		RegistrationConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.STAGING);
+		RegistrationConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.EVALUATION);
 
 		//Configure Flow
 		RegistrationConfiguration.getInstance().getFlow().setEmailVerificationRequired(true);
@@ -87,8 +89,8 @@ public class RegistrationApplication extends Application {
 		RegistrationConfiguration.getInstance().getHsdpConfiguration().setApplicationName("uGrowApp");
 		RegistrationConfiguration.getInstance().getHsdpConfiguration().setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
 		RegistrationConfiguration.getInstance().getHsdpConfiguration().setSecret("f129b5a8-55f4-11e5-885d-feff819cdc9f");
-		RegistrationConfiguration.getInstance().getHsdpConfiguration().setBaseURL("http://ugrow-userregistration1412.cloud.pcftest.com");
-		RegistrationConfiguration.getInstance().getHsdpConfiguration().setEnvironment(Configuration.STAGING);
+		RegistrationConfiguration.getInstance().getHsdpConfiguration().setBaseURL("http://ugrow-userregistration15.cloud.pcftest.com");
+		RegistrationConfiguration.getInstance().getHsdpConfiguration().setEnvironment(Configuration.EVALUATION);
 
 
 		RegistrationHelper.getInstance().intializeRegistrationSettings(this, Locale.getDefault());
