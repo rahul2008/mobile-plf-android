@@ -41,7 +41,7 @@ public class UIKITCheckBox extends AppCompatCheckBox {
 
         //setBackgroundTintList(colorStateList);
       setSupportButtonTintList(colorStateList);
-        setButtonDrawable(R.drawable.uikit_radio_button);
+     //   setButtonDrawable(R.drawable.uikit_radio_button);
         // setCompoundDrawableTintList(colorStateList);
         // this.getButtonDrawable().setColorFilter();
 

@@ -13,25 +13,24 @@ import com.philips.cdp.uikit.R;
 /**
  * Created by 310213373 on 1/13/2016.
  */
-public class UIKitRadioButton extends AppCompatRadioButton{
+public class UIKitRadioButton extends AppCompatRadioButton {
     Context context;
+
     public UIKitRadioButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context=context;
+        this.context = context;
 
         TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.LightColor});
-      int   baseColor = ar.getInt(0, R.attr.baseColor);
+        int baseColor = ar.getInt(0, R.attr.baseColor);
         int overlayColor = Color.argb(127, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor));
-      //  int lightColor=ar.getInt(1,R.attr.veryLightColor);
-     //  int red=getResources().getColor(R.color.uikit_enricher_red);
         ar.recycle();
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
 
-                        new int[]{-android.R.attr.state_checked}, //disabled
-                        new int[]{android.R.attr.state_checked} //enabled
+                        new int[]{-android.R.attr.state_enabled}, //disabled
+                        new int[]{android.R.attr.state_enabled} //enabled
                 },
-                new int[] {
+                new int[]{
 
                         overlayColor //disabled
                         , baseColor //enabled
@@ -39,14 +38,8 @@ public class UIKitRadioButton extends AppCompatRadioButton{
                 }
         );
 
-    //this.setButtonTintList(colorStateList);
-      //    setBackgroundTintList();
 
-      //  setBackgroundTintList(colorStateList);
-     setSupportButtonTintList(colorStateList);
-//getCompoundDrawables().
-      //  setButtonDrawable(R.drawable.uikit_radio_button);
-    //    setCompoundDrawableTintList(colorStateList);
-       // this.getButtonDrawable().setColorFilter();
+        setSupportButtonTintList(colorStateList);
+
     }
 }
