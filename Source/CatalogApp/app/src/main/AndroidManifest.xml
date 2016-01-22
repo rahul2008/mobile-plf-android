@@ -69,7 +69,9 @@
         <activity android:name=".activity.ModalAlertDemo" />
         <activity android:name=".activity.FavoritesActivity"/>
         <activity android:name=".activity.PickerActivity"/>
-        <activity android:name=".activity.ControlsActivity" />
+        <activity
+            android:name=".activity.ControlsActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation" />
     </application>
 
 </manifest>
