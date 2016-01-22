@@ -1,8 +1,6 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,7 +8,6 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
-import com.philips.cdp.uikit.utils.UikitUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,34 +178,5 @@ public class PopOverMenu extends CatalogActivity {
         right = (Button)findViewById(R.id.right);
         buttomleft = (Button) findViewById(R.id.bottomleft);
         buttomright = (Button) findViewById(R.id.bottomright);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_pop_over_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * To show image icon in overflow menu should call UikitUtils.menuShowIcon(menu) inside onPrepareOptionsMenu()
-     * @param menu
-     * @return
-     */
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        UikitUtils.menuShowIcon(menu);
-        menu.getItem(0).setIcon(VectorDrawable.create(this, R.drawable.uikit_gear_19_19));
-        menu.getItem(1).setIcon(VectorDrawable.create(this, R.drawable.uikit_share));
-        menu.getItem(2).setIcon(VectorDrawable.create(this, R.drawable.uikit_envelope));
-        menu.getItem(3).setIcon(VectorDrawable.create(this, R.drawable.uikit_ballon));
-
-        return super.onPrepareOptionsMenu(menu);
-
     }
 }

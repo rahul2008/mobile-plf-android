@@ -2,7 +2,9 @@ package com.philips.cdp.uikit.utils;
 
 import android.view.Menu;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -25,5 +27,21 @@ public class UikitUtils {
             }
         }
 
+    }
+
+    public static int getResourceID(String resName, Class<?> resourceClass) {
+        Field target = null;
+        int resourceID = -1;
+        try {
+            target = resourceClass.getField(resName);
+            try {
+                resourceID = target.getInt(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resourceID;
     }
 }

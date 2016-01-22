@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ratingtheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -12,12 +11,11 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
 
-        <com.philips.cdp.uikit.customviews.VectorDrawableImageView
+        <ImageView
             android:id="@+id/arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            app:vectorsrc="@drawable/uikit_up_arrow" />
+            android:layout_gravity="center_vertical" />
     </FrameLayout>
 
 
