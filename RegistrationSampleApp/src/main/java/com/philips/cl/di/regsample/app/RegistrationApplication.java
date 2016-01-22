@@ -31,7 +31,7 @@ public class RegistrationApplication extends Application {
 		Tagging.enableAppTagging(true);
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
-		RegistrationHelper.getInstance().setCoppaFlow(true);
+		RegistrationHelper.getInstance().setCoppaFlow(false);
 		RegistrationHelper.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 
 		RegistrationConfiguration.getInstance().initialize(getApplicationContext(),new RegistrationConfigurationListener() {
