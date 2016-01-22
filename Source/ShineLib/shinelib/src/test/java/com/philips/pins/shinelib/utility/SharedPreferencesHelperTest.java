@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricGradleTestRunner.class)
@@ -45,6 +46,15 @@ public class SharedPreferencesHelperTest {
         boolean res = preferencesHelper.get(KEY);
 
         assertThat(res).isTrue();
+    }
+
+    @Test
+    public void whenDoubleIsPut_thenItCanBeRetrievedUsingGet() {
+        double value = 35.1356;
+        preferencesHelper.put(KEY, value);
+        double result = preferencesHelper.get(KEY);
+
+        assertThat(result).isEqualTo(value, within(0.01));
     }
 
     @Test
