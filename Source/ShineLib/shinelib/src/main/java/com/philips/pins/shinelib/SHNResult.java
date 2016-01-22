@@ -27,6 +27,7 @@ public enum SHNResult {
     SHNErrorBluetoothDisabled,
     SHNErrorUserConfigurationIncomplete,
     SHNErrorUserConfigurationInvalid,
+    SHNErrorUnsupportedDataType,
     SHNErrorProcedureAlreadyInProgress,
     SHNErrorReceptionInterrupted
 }
