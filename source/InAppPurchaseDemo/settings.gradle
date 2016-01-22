@@ -1,0 +1,4 @@
+include ':app'
+
+include ':iap'
+project(':iap').projectDir = new File('../InAppPurchase/iap')
