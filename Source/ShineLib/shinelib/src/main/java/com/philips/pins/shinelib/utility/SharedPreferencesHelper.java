@@ -35,7 +35,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
         } else if (value instanceof String) {
             edit.putString(key, (String) value);
         } else if (value instanceof Set<?>) {
-            putStringSet(key, value, edit, (Set<?>) value);
+            putStringSet(key, edit, (Set<?>) value);
         } else if (value instanceof Enum<?>) {
             edit.putInt(key, ((Enum<?>) value).ordinal());
             edit.putString(key + ENUM_NAME, ((Enum<?>) value).getClass().getName());
@@ -47,12 +47,12 @@ public class SharedPreferencesHelper implements SharedPreferences {
         edit.apply();
     }
 
-    private <T> void putStringSet(final String key, final T value, final Editor edit, final Set<?> set) {
+    private <T> void putStringSet(final String key, final Editor edit, final Set<?> set) {
         if (set.isEmpty()) {
             edit.putStringSet(key, new HashSet<String>());
         } else {
             if ((set.iterator().next() instanceof String)) {
-                Set<String> values = uncheckedCast(value);
+                Set<String> values = uncheckedCast(set);
                 edit.putStringSet(key, values);
             } else {
                 SHNLogger.wtf(TAG, "Set should be a set of Strings");
