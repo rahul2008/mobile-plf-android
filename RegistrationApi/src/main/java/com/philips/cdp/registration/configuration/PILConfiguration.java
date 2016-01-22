@@ -21,9 +21,14 @@ public class PILConfiguration {
 		return registrationEnvironment;
 	}
 
-	public void setRegistrationEnvironment(String registrationEnvironment) {
+	 void setRegistrationEnvironment(final String registrationEnvironment) {
 		this.registrationEnvironment = registrationEnvironment;
 	}
+
+	public void setRegistrationEnvironment(final Configuration registrationEnvironment) {
+		this.registrationEnvironment = registrationEnvironment.getValue();
+	}
+
 
 	public String getCampaignID() {
 		return campaignID;

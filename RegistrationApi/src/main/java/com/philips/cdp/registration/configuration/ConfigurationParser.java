@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 
 public class ConfigurationParser {
 
@@ -160,8 +159,8 @@ public class ConfigurationParser {
         hsdpConfiguration.setHsdpClientInfos(hsdpClientInfos);
         return hsdpConfiguration;
     }*/
-    private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
-        HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
+    private CurrentHSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
+        CurrentHSDPConfiguration hsdpConfiguration = new CurrentHSDPConfiguration();
         HashMap<String, HSDPClientInfo> hsdpClientInfos = new HashMap<>();
         Iterator<String> iterator = hsdpConfiguartion.keys();
         String shared = null;

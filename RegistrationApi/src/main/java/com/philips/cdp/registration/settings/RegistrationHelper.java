@@ -28,6 +28,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.dhpclient.util.ServerTime;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +65,8 @@ public class RegistrationHelper {
     private boolean isCoppaFlow = false;
 
     private boolean isHsdpFlow;
+
+    private boolean isJsonRead;
 
     private boolean mIsInitializationInProgress;
 
@@ -222,11 +225,20 @@ public class RegistrationHelper {
         final String initLocale = mlocale.toString();
         RLog.i("LOCALE", "App JAnrain Init locale :" + initLocale);
 
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ServerTime.refreshOffset();
+            }
+        }).start();*/
+
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                //parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
+              /*  if(!isJsonRead) {
+                    parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
+                }*/
 
                 if (isHsdpAvailable()) {
                     isHsdpFlow = true;
@@ -395,7 +407,7 @@ public class RegistrationHelper {
     }*/
 
     private boolean isHsdpAvailable() {
-        HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
+        HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getCurrentHSDPConfiguration();
         if (hsdpConfiguration == null) {
             return false;
         }
@@ -450,25 +462,9 @@ public class RegistrationHelper {
                 && null != hsdpClientInfo.getBaseURL());
     }
 
-    private void parseConfigurationJson(Context context, String path) {
-        AssetManager assetManager = context.getAssets();
-        try {
-            JSONObject configurationJson = new JSONObject(
-                    convertStreamToString(assetManager.open(path)));
-            ConfigurationParser configurationParser = new ConfigurationParser();
-            configurationParser.parse(configurationJson);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static String convertStreamToString(InputStream is) {
-        Scanner s = new Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
+
 
 
     private void initEvalSettings(Context context, String captureClientId, String microSiteId,

@@ -4,23 +4,22 @@ package com.philips.cl.di.regsample.app;
 import android.app.Application;
 
 
-import com.philips.cdp.registration.configuration.Flow;
-import com.philips.cdp.registration.configuration.HSDPClientInfo;
-import com.philips.cdp.registration.configuration.HSDPConfiguration;
-import com.philips.cdp.registration.configuration.JanRainConfiguration;
-import com.philips.cdp.registration.configuration.PILConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationClientId;
+import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.SigninProviders;
+import com.philips.cdp.registration.listener.RegistrationConfigurationListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.tagging.Tagging;
+import com.philips.dhpclient.util.ServerTime;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
+import java.util.TimeZone;
 
 public class RegistrationApplication extends Application {
 
@@ -28,32 +27,43 @@ public class RegistrationApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-		RLog.d(RLog.JANRAIN_INITIALIZE,
-				"RegistrationApplication : Janrain initialization with locale : "
-						+ Locale.getDefault());
+		RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
 		Tagging.enableAppTagging(true);
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
-		RegistrationHelper.getInstance().setCoppaFlow(false);
+		RegistrationHelper.getInstance().setCoppaFlow(true);
 		RegistrationHelper.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-			//Configure JanRain
-		RegistrationClientId clientId = new RegistrationClientId("4r36zdbeycca933nufcknn2hnpsz6gxu");
-		JanRainConfiguration janRainConfiguration = new JanRainConfiguration(clientId);
-		RegistrationConfiguration.getInstance().setJanRainConfiguration(janRainConfiguration);
+
+		RegistrationConfiguration.getInstance().initialize(getApplicationContext(),new RegistrationConfigurationListener() {
+			@Override
+			public void onSuccess() {
+				initRegistration();
+
+			}
+
+			@Override
+			public void onFailuer() {
+
+			}
+		});
+
+
+	}
+
+	private void initRegistration() {
+		//Configure JanRain
+		RegistrationConfiguration.getInstance().getJanRainConfiguration().setClientId("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+
 		//Configure PIL
-		PILConfiguration pilConfiguration = new PILConfiguration();
-		pilConfiguration.setCampaignID("CL20150501_PC_TB_COPPA");
-		pilConfiguration.setMicrositeId("77000");
-		pilConfiguration.setRegistrationEnvironment("Evaluation");
-		RegistrationConfiguration.getInstance().setPilConfiguration(pilConfiguration);
+		RegistrationConfiguration.getInstance().getPilConfiguration().setCampaignID("CL20150501_PC_TB_COPPA");
+		RegistrationConfiguration.getInstance().getPilConfiguration().setMicrositeId("77000");
+		RegistrationConfiguration.getInstance().getPilConfiguration().setRegistrationEnvironment(Configuration.STAGING);
 
 		//Configure Flow
-		Flow flow = new Flow();
-		flow.setTermsAndConditionsAcceptanceRequired(true);
-		flow.setEmailVerificationRequired(true);
-		RegistrationConfiguration.getInstance().setFlow(flow);
+		RegistrationConfiguration.getInstance().getFlow().setEmailVerificationRequired(true);
+		RegistrationConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(true);
+
 		//Configure Signin Providers
-		SigninProviders signinProviders = new SigninProviders();
 		HashMap<String, ArrayList<String>> providers = new HashMap<String, ArrayList<String>>();
 		ArrayList<String> values1 = new ArrayList<String>();
 		ArrayList<String> values2 = new ArrayList<String>();
@@ -67,28 +77,22 @@ public class RegistrationApplication extends Application {
 		values3.add("googleplus");
 		values3.add("facebook");
 		values3.add("twitter");
+
 		providers.put("NL", values1);
 		providers.put("US", values2);
 		providers.put("DEFAULT", values3);
-		signinProviders.setProviders(providers);
-		RegistrationConfiguration.getInstance().setSocialProviders(signinProviders);
+		RegistrationConfiguration.getInstance().getSocialProviders().setProviders(providers);
 
 		//Configure HSDP
+		RegistrationConfiguration.getInstance().getHsdpConfiguration().setApplicationName("uGrowApp");
+		RegistrationConfiguration.getInstance().getHsdpConfiguration().setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
+		RegistrationConfiguration.getInstance().getHsdpConfiguration().setSecret("f129b5a8-55f4-11e5-885d-feff819cdc9f");
+		RegistrationConfiguration.getInstance().getHsdpConfiguration().setBaseURL("http://ugrow-userregistration1412.cloud.pcftest.com");
+		RegistrationConfiguration.getInstance().getHsdpConfiguration().setEnvironment(Configuration.STAGING);
 
-		HSDPClientInfo hsdpClientInfo = new HSDPClientInfo("f129afcc-55f4-11e5-885d-feff819cdc9f", "f129b5a8-55f4-11e5-885d-feff819cdc9f");
-		hsdpClientInfo.setApplicationName("uGrowApp");
-		hsdpClientInfo.setBaseURL("http://ugrow-userregistration15.cloud.pcftest.com");
-		HashMap<String, HSDPClientInfo> hsdpClientInfos = new HashMap<>();
-		hsdpClientInfos.put("Evaluation", hsdpClientInfo);
-		HSDPConfiguration hsdpConfiguration = new HSDPConfiguration(hsdpClientInfos);
-		RegistrationConfiguration.getInstance().setHsdpConfiguration(hsdpConfiguration);
 
-		RegistrationHelper.getInstance().intializeRegistrationSettings(this,
-				Locale.getDefault());
+		RegistrationHelper.getInstance().intializeRegistrationSettings(this, Locale.getDefault());
 		Tagging.init(Locale.getDefault(), this);
-
 	}
-
-
 
 }

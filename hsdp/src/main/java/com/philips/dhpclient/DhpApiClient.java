@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.response.DhpResponseVerifier;
+import com.philips.dhpclient.util.ServerTime;
 
 import org.json.JSONException;
 
@@ -192,12 +193,17 @@ public class DhpApiClient {
         }
     }
 
+    /*public static String UTCDatetimeAsString(){
+        return ServerTime.getCurrentTime();
+    }*/
+
     public static String UTCDatetimeAsString()
     {
+
         final SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         final String utcTime = sdf.format(new Date());
-
+        System.out.println("UTCDatetimeAsString " +utcTime);
         return utcTime;
     }
 

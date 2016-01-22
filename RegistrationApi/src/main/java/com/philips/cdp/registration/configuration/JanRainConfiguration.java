@@ -20,4 +20,9 @@ public class JanRainConfiguration {
 		this.clientIds = clientIds;
 	}
 
+	public void setClientId(final String pClientID){
+		clientIds = new RegistrationClientId(pClientID);
+
+	}
+
 }

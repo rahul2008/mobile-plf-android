@@ -1,6 +1,26 @@
 
 package com.philips.cdp.registration.configuration;
 
+import android.content.Context;
+import android.content.IntentFilter;
+import android.content.res.AssetManager;
+import android.support.v4.content.LocalBroadcastManager;
+
+import com.janrain.android.Jump;
+import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.listener.RegistrationConfigurationListener;
+import com.philips.cdp.registration.settings.RegistrationEnvironmentConstants;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
+
 public class RegistrationConfiguration {
 
 	private JanRainConfiguration janRainConfiguration;
@@ -13,9 +33,13 @@ public class RegistrationConfiguration {
 
 	private static RegistrationConfiguration registrationConfiguration;
 
-	private HSDPConfiguration hsdpConfiguration;
+	private CurrentHSDPConfiguration hsdpConfiguration;
 
 	private RegistrationConfiguration() {
+		janRainConfiguration = new JanRainConfiguration();
+		pilConfiguration = new PILConfiguration();
+		socialProviders = new SigninProviders();
+		flow = new Flow();
 
 	}
 
@@ -24,6 +48,47 @@ public class RegistrationConfiguration {
 			registrationConfiguration = new RegistrationConfiguration();
 		}
 		return registrationConfiguration;
+	}
+
+	public static String convertStreamToString(InputStream is) {
+		Scanner s = new Scanner(is).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
+	}
+
+	private void parseConfigurationJson(Context context, String path, RegistrationConfigurationListener registrationConfigurationListener) {
+		AssetManager assetManager = context.getAssets();
+		try {
+			JSONObject configurationJson = new JSONObject(
+					convertStreamToString(assetManager.open(path)));
+			ConfigurationParser configurationParser = new ConfigurationParser();
+			configurationParser.parse(configurationJson);
+			registrationConfigurationListener.onSuccess();
+
+		} catch (IOException e) {
+			registrationConfigurationListener.onFailuer();
+			e.printStackTrace();
+		} catch (JSONException e) {
+			registrationConfigurationListener.onFailuer();
+			e.printStackTrace();
+		}
+	}
+
+	public void initialize(final Context context, final RegistrationConfigurationListener registrationConfigurationListener){
+
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+					parseConfigurationJson(context, RegConstants.CONFIGURATION_JSON_PATH,registrationConfigurationListener );
+
+
+
+
+
+			}
+		}).start();
+
 	}
 
 	public JanRainConfiguration getJanRainConfiguration() {
@@ -58,11 +123,21 @@ public class RegistrationConfiguration {
 		this.flow = flow;
 	}
 
-	public HSDPConfiguration getHsdpConfiguration() {
+	public CurrentHSDPConfiguration getHsdpConfiguration() {
+		if(hsdpConfiguration == null) {
+			hsdpConfiguration = new CurrentHSDPConfiguration();
+		}
+
 		return hsdpConfiguration;
 	}
 
-	public void setHsdpConfiguration(HSDPConfiguration hsdpConfiguration) {
+
+
+	public void setHsdpConfiguration(CurrentHSDPConfiguration hsdpConfiguration) {
 		this.hsdpConfiguration = hsdpConfiguration;
+	}
+
+	public HSDPConfiguration getCurrentHSDPConfiguration(){
+		return hsdpConfiguration;
 	}
 }

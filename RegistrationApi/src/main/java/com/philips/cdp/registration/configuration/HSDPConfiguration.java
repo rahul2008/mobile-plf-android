@@ -1,32 +1,22 @@
 package com.philips.cdp.registration.configuration;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
- * Created by 310190722 on 8/25/2015.
+ * Created by 310202337 on 1/22/2016.
  */
-public class HSDPConfiguration {
+public abstract class HSDPConfiguration {
 
-    private HashMap<String, HSDPClientInfo> hsdpClientInfos;
+    protected HashMap<String, HSDPClientInfo> hsdpClientInfos;
+    protected HSDPClientInfo hsdpClientInfo;
+    protected Configuration mEnv;
 
-    HSDPConfiguration(){
+    protected abstract void checkandSetConfiguration(final HSDPClientInfo hsdpClientInfo);
 
-    }
-
-    public HSDPConfiguration(final HashMap<String, HSDPClientInfo> pHsdpClientInfo){
-        this.hsdpClientInfos = pHsdpClientInfo;
-
-    }
-
-    public void setHsdpClientInfos(HashMap<String, HSDPClientInfo> hsdpClientInfos) {
-        this.hsdpClientInfos = hsdpClientInfos;
-    }
-
-    public HSDPClientInfo getHSDPClientInfo(String environmentType) {
+    public    HSDPClientInfo getHSDPClientInfo(String environmentType){
         if (hsdpClientInfos == null) {
             return null;
         }
         return hsdpClientInfos.get(environmentType);
-    }
+    };
 }

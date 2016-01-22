@@ -60,6 +60,10 @@ public class HSDPClientInfo {
 
     }
 
+    boolean isRequiredConfigSet(){
+        return (getBaseURL()  != null) && (getHSDPApplicationName() != null) && (getShared() != null) && (getSecret() != null);
+    }
+
     public HSDPClientInfo(final String pShared, final String pSecret){
         this.shared = pShared;
         this.secret = pSecret;
