@@ -175,7 +175,7 @@
         <item name="android:timePickerStyle">@style/PhilipsTimePickerStyle</item>
         <item name="android:colorAccent">?attr/veryLightColor</item>
         <item name="android:textColor">?attr/baseColor</item>
-        <item name="android:buttonBarNegativeButtonStyle">?attr/outlinedButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">?attr/pickerOutlinedButtonStyle</item>
         <item name="android:buttonBarPositiveButtonStyle">?attr/pickerButtonStyle</item>
     </style>
 
