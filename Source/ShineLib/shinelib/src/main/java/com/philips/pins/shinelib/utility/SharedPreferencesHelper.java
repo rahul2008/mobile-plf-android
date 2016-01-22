@@ -13,6 +13,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
 
     private static final String SHORT_VALUE = "SHORT_VALUE";
     public static final String ENUM_NAME = "ENUM_NAME";
+    public static final String DOUBLE_VALUE = "DOUBLE_VALUE";
 
     @NonNull
     private SharedPreferences sharedPreferences;
@@ -30,6 +31,9 @@ public class SharedPreferencesHelper implements SharedPreferences {
             edit.putInt(key, (Integer) value);
         } else if (value instanceof Float) {
             edit.putFloat(key, (Float) value);
+        } else if (value instanceof Double) {
+            edit.putLong(key, Double.doubleToLongBits((Double) value));
+            edit.putBoolean(key + DOUBLE_VALUE, true);
         } else if (value instanceof Long) {
             edit.putLong(key, (Long) value);
         } else if (value instanceof String) {
@@ -42,6 +46,9 @@ public class SharedPreferencesHelper implements SharedPreferences {
         } else if (value instanceof Short) {
             edit.putInt(key, (Short) value);
             edit.putBoolean(key + SHORT_VALUE, true);
+        } else {
+            SHNLogger.e(TAG, "Trying to store an unsupported data type in Shared preferences!");
+            assert false;
         }
 
         edit.apply();
@@ -63,9 +70,13 @@ public class SharedPreferencesHelper implements SharedPreferences {
     public <T> T get(final String key) {
         boolean isShort = contains(key + SHORT_VALUE);
         boolean isEnum = contains(key + ENUM_NAME);
+        boolean isDouble = contains(key + DOUBLE_VALUE);
 
         Object value = getAll().get(key);
-        if (isShort) {
+        if (isDouble) {
+            Long longValue = (Long) value;
+            value = Double.longBitsToDouble(longValue);
+        } else if (isShort) {
             Integer integer = (Integer) value;
             value = integer.shortValue();
         } else if (isEnum) {
