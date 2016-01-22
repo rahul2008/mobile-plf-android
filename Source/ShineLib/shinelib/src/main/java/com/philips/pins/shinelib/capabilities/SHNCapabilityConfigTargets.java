@@ -15,9 +15,9 @@ public interface SHNCapabilityConfigTargets extends SHNCapability {
 
     class Target {
         private final SHNDataType shnDataType;
-        private final short targetValue;
+        private final double targetValue;
 
-        public Target(final SHNDataType shnDataType, final short targetValue) {
+        public Target(final SHNDataType shnDataType, final double targetValue) {
             this.shnDataType = shnDataType;
             this.targetValue = targetValue;
         }
@@ -26,7 +26,7 @@ public interface SHNCapabilityConfigTargets extends SHNCapability {
             return shnDataType;
         }
 
-        public short getTargetValue() {
+        public double getTargetValue() {
             return targetValue;
         }
     }
