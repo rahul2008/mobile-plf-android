@@ -165,7 +165,7 @@
     <style name="PhilipsDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
         <item name="android:datePickerStyle">@style/PhilipsDatePickerStyle</item>
         <item name="android:colorAccent">?attr/baseColor</item>
-        <item name="android:buttonBarNegativeButtonStyle">?attr/outlinedButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">?attr/pickerOutlinedButtonStyle</item>
         <item name="android:buttonBarPositiveButtonStyle">?attr/pickerButtonStyle</item>
         <item name="android:textColor">?attr/baseColor</item>
 
