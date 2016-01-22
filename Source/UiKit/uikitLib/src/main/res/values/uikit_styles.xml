@@ -173,7 +173,7 @@
 
     <style name="PhilipsTimePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
         <item name="android:timePickerStyle">@style/PhilipsTimePickerStyle</item>
-        <item name="android:colorAccent">?attr/veryLightColor</item>
+        <item name="android:colorAccent">?attr/baseColor</item>
         <item name="android:textColor">?attr/baseColor</item>
         <item name="android:buttonBarNegativeButtonStyle">?attr/pickerOutlinedButtonStyle</item>
         <item name="android:buttonBarPositiveButtonStyle">?attr/pickerButtonStyle</item>
@@ -195,7 +195,7 @@
     <style name="PhilipsTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
         <item name="android:headerBackground">?attr/brightColor</item>
         <item name="android:amPmTextColor">?attr/baseColor</item>
-        <item name="android:colorAccent">?attr/veryLightColor</item>
+        <item name="android:colorAccent">?attr/baseColor</item>
         <item name="android:numbersTextColor">?attr/baseColor</item>
     </style>
 
