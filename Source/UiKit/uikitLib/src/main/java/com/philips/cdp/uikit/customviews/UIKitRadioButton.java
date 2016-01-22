@@ -27,13 +27,19 @@ public class UIKitRadioButton extends AppCompatRadioButton {
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
 
-                        new int[]{-android.R.attr.state_enabled}, //disabled
-                        new int[]{android.R.attr.state_enabled} //enabled
+                        new int[]{-android.R.attr.state_enabled},
+                        new int[]{-android.R.attr.state_checked},
+                         //disabled
+                        new int[]{android.R.attr.state_enabled},
+                        new int[]{android.R.attr.checked}//enabled
                 },
                 new int[]{
 
                         overlayColor //disabled
-                        , baseColor //enabled
+                        ,
+                        overlayColor //disabled
+                        ,baseColor,
+                         baseColor//enabled
 
                 }
         );

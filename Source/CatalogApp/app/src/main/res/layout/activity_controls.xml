@@ -66,5 +66,12 @@
             android:text="Three"/>
     </RadioGroup>
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+           android:theme="@style/WhiteCheck" />
+
+
+
 
 </LinearLayout>

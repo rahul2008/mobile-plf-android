@@ -238,4 +238,12 @@
         <item name="controlSelected">false</item>
         <item name="controlCount">1</item>
     </style>
+
+
+    <style name="WhiteCheck" parent="Theme.AppCompat">
+
+        <item name="android:colorBackground">@color/uikit_enricher_red</item>
+        <item name="android:textColorSecondary">?attr/LightColor</item>
+        <item name="android:textColor">@color/uikit_enricher_red</item>
+    </style>
 </resources>

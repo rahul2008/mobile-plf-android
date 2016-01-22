@@ -3,6 +3,7 @@ package com.philips.cdp.uikit.customviews;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 
@@ -17,33 +18,31 @@ public class UIKITCheckBox extends AppCompatCheckBox {
         super(context, attrs);
         this.context=context;
 
-        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.LightColor});
-        int   baseColor = ar.getInt(0, R.attr.brightColor);
+        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.LightColor});
+        int   baseColor = ar.getInt(0, R.attr.baseColor);
         int lightColor=ar.getInt(1, R.attr.LightColor);
-        // int red=getResources().getColor(R.color.uikit_enricher_red);
+        int white=getResources().getColor(R.color.uikit_white);
         ar.recycle();
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
 
-
+                        new int[]{-android.R.attr.state_enabled},
                         new int[]{android.R.attr.state_enabled} //enabled
                 },
                 new int[] {
 
 
-                        baseColor //enabled
+                        lightColor,
+                         white//enabled
 
                 }
         );
 
-        //     this.setButtonTintList(colorStateList);
-        //   setBackgroundTintList(colorStateList);
 
-        //setBackgroundTintList(colorStateList);
-      setSupportButtonTintList(colorStateList);
-     //   setButtonDrawable(R.drawable.uikit_radio_button);
-        // setCompoundDrawableTintList(colorStateList);
-        // this.getButtonDrawable().setColorFilter();
+setBackgroundColor(white);
+        setTextColor(lightColor);
+
+    //setSupportButtonTintMode(PorterDuff.Mode.SRC_ATOP,colorStateList);
 
     }
 }
