@@ -1,50 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:width="50dp"
-    android:height="50dp"
-    android:viewportHeight="99.9"
-    android:viewportWidth="99.9"
-    app:vc_viewportHeight="50"
-    app:vc_viewportWidth="50">
-    <group android:name="philipsLogo">
-        <path
-            android:name="v"
-            android:fillColor="?attr/brightColor"
-            android:pathData="M51.9,0v18.2c7.3,0.4,14,3.3,19.1,7.9l12.9-12.9C75.4,5.4,64.2,0.5,51.9,0z" />
-        <path
-            android:name="v"
-            android:fillColor="?attr/brightColor"
-            android:pathData="M73.8,28.9c4.6,5.2,7.5,11.8,7.9,19.1h18.2c-0.5-12.3-5.4-23.5-13.2-32L73.8,28.9z" />
-        <path
-            android:name="v"
-            android:fillColor="?attr/brightColor"
-            android:pathData="M81.7,51.9c-0.4,7.3-3.3,14-7.9,19.1l12.9,12.9c7.8-8.5,12.8-19.6,13.2-32H81.7z" />
-        <path
-            android:name="v"
-            android:fillColor="?attr/brightColor"
-            android:pathData="M71,73.8c-5.2,4.6-11.8,7.5-19.1,7.9v18.2c12.3-0.5,23.5-5.4,32-13.2L71,73.8z"
-            />
-        <path
-            android:name="v"
-            android:fillColor="?attr/LighterColorOpacity80"
-            android:pathData="M48,81.7c-7.3-0.4-13.9-3.3-19.1-7.9L16,86.7c8.5,7.8,19.6,12.8,32,13.2V81.7z"
-            />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="172dp"
+    android:height="172dp"
+    android:viewportHeight="172"
+    android:viewportWidth="172"
+    app:vc_viewportHeight="172"
+    app:vc_viewportWidth="172"
+    tools:targetApi="21">
 
-        <path
-            android:name="v"
-            android:fillColor="?attr/LighterColorOpacity60"
-            android:pathData="M26.1,71c-4.6-5.2-7.5-11.8-7.9-19.1H0c0.5,12.3,5.4,23.5,13.2,32L26.1,71z"
-            />
 
-        <path
-            android:name="v"
-            android:fillColor="?attr/LighterColorOpacity40"
-            android:pathData="M18.2,48c0.4-7.3,3.3-14,7.9-19.1L13.2,16C5.4,24.5,0.4,35.6,0,48H18.2z"
-            />
-        <path
-            android:name="v"
-            android:fillColor="?attr/LighterColorOpacity20"
-            android:pathData="M28.8,26.1c5.2-4.6,11.8-7.5,19.1-7.9V0c-12.3,0.5-23.5,5.4-32,13.2L28.8,26.1z"/>
 
-    </group>
+    <path
+        android:fillColor="?attr/LightColor"
+        android:pathData="M90,52c0,2.2-1.8,4-4,4l0,0c-2.2,0-4-1.8-4-4V4c0-2.2,1.8-4,4-4l0,0c2.2,0,4,1.8,4,4V52z"
+        app:vc_fillColor="?attr/LightColor"
+        app:vc_pathData="M90,52c0,2.2-1.8,4-4,4l0,0c-2.2,0-4-1.8-4-4V4c0-2.2,1.8-4,4-4l0,0c2.2,0,4,1.8,4,4V52z" />
+
+    <path
+        android:fillColor="?attr/LightColor"
+        android:pathData="M146.5,31.2c1.6-1.6,1.6-4.1,0-5.7l0,0c-1.6-1.6-4.1-1.6-5.7,0l-33.9,33.9c-1.6,1.6-1.6,4.1,0,5.7l0,0
+c1.6,1.6,4.1,1.6,5.7,0L146.5,31.2z"
+        app:vc_fillColor="?attr/LightColor"
+        app:vc_pathData="M146.5,31.2c1.6-1.6,1.6-4.1,0-5.7l0,0c-1.6-1.6-4.1-1.6-5.7,0l-33.9,33.9c-1.6,1.6-1.6,4.1,0,5.7l0,0
+c1.6,1.6,4.1,1.6,5.7,0L146.5,31.2z" />
+    <path
+        android:fillColor="?attr/LightColor"
+        android:pathData="M168,82c2.2,0,4,1.8,4,4l0,0c0,2.2-1.8,4-4,4h-48c-2.2,0-4-1.8-4-4l0,0c0-2.2,1.8-4,4-4H168z"
+        app:vc_fillColor="?attr/LightColor"
+        app:vc_pathData="M168,82c2.2,0,4,1.8,4,4l0,0c0,2.2-1.8,4-4,4h-48c-2.2,0-4-1.8-4-4l0,0c0-2.2,1.8-4,4-4H168z" />
+
+    <path
+        android:fillColor="?attr/LightColor"
+        android:pathData="M146.5,140.8c1.6,1.6,1.6,4.1,0,5.7l0,0c-1.6,1.6-4.1,1.6-5.7,0l-33.9-33.9c-1.6-1.6-1.6-4.1,0-5.7l0,0
+c1.6-1.6,4.1-1.6,5.7,0L146.5,140.8z"
+        app:vc_fillColor="?attr/LightColor"
+        app:vc_pathData="M146.5,140.8c1.6,1.6,1.6,4.1,0,5.7l0,0c-1.6,1.6-4.1,1.6-5.7,0l-33.9-33.9c-1.6-1.6-1.6-4.1,0-5.7l0,0
+c1.6-1.6,4.1-1.6,5.7,0L146.5,140.8z" />
+
+    <path
+        android:fillColor="?attr/LighterColorOpacity80"
+        android:pathData="M90,120c0-2.2-1.8-4-4-4l0,0c-2.2,0-4,1.8-4,4v48c0,2.2,1.8,4,4,4l0,0c2.2,0,4-1.8,4-4V120z"
+        app:vc_fillColor="?attr/LighterColorOpacity80"
+        app:vc_pathData="M90,120c0-2.2-1.8-4-4-4l0,0c-2.2,0-4,1.8-4,4v48c0,2.2,1.8,4,4,4l0,0c2.2,0,4-1.8,4-4V120z" />
+    <path
+        android:fillColor="?attr/LighterColorOpacity60"
+        android:pathData="M25.5,140.8c-1.6,1.6-1.6,4.1,0,5.7l0,0c1.6,1.6,4.1,1.6,5.7,0l33.9-33.9c1.6-1.6,1.6-4.1,0-5.7l0,0
+c-1.6-1.6-4.1-1.6-5.7,0L25.5,140.8z"
+        app:vc_fillColor="?attr/LighterColorOpacity60"
+        app:vc_pathData="M25.5,140.8c-1.6,1.6-1.6,4.1,0,5.7l0,0c1.6,1.6,4.1,1.6,5.7,0l33.9-33.9c1.6-1.6,1.6-4.1,0-5.7l0,0
+c-1.6-1.6-4.1-1.6-5.7,0L25.5,140.8z" />
+    <path
+        android:fillColor="?attr/LighterColorOpacity40"
+        android:pathData="M4,82c-2.2,0-4,1.8-4,4l0,0c0,2.2,1.8,4,4,4h48c2.2,0,4-1.8,4-4l0,0c0-2.2-1.8-4-4-4H4z"
+        app:vc_fillColor="?attr/LighterColorOpacity40"
+        app:vc_pathData="M4,82c-2.2,0-4,1.8-4,4l0,0c0,2.2,1.8,4,4,4h48c2.2,0,4-1.8,4-4l0,0c0-2.2-1.8-4-4-4H4z" />
+
+    <path
+        android:fillColor="?attr/LighterColorOpacity20"
+        android:pathData="M25.5,31.2c-1.6-1.6-1.6-4.1,0-5.7l0,0c1.6-1.6,4.1-1.6,5.7,0l33.9,33.9c1.6,1.6,1.6,4.1,0,5.7l0,0
+c-1.6,1.6-4.1,1.6-5.7,0L25.5,31.2z"
+        app:vc_fillColor="?attr/LighterColorOpacity20"
+        app:vc_pathData="M25.5,31.2c-1.6-1.6-1.6-4.1,0-5.7l0,0c1.6-1.6,4.1-1.6,5.7,0l33.9,33.9c1.6,1.6,1.6,4.1,0,5.7l0,0
+c-1.6,1.6-4.1,1.6-5.7,0L25.5,31.2z" />
+
 </vector>
