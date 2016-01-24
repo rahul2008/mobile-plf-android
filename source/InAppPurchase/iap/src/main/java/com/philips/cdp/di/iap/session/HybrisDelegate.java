@@ -20,7 +20,7 @@ public class HybrisDelegate {
         return delegate;
     }
 
-    static int getCartItemCount(final String janRainID, final String userID) {
+    static int getCartItemCount(Context context,final String janRainID, final String userID) {
         return 0;
     }
 }
