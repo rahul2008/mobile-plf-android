@@ -5,9 +5,11 @@
 
 package com.philips.cdp.di.iap.session;
 
+import android.content.Context;
+
 public class InAppPurchase {
 
-    public static int getCartItemCount(String janRainID, String userID) {
-        return HybrisDelegate.getCartItemCount(janRainID, userID);
+    public static int getCartItemCount(Context context,String janRainID, String userID) {
+        return HybrisDelegate.getCartItemCount(context, janRainID, userID);
     }
 }
