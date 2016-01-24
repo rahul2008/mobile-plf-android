@@ -5,10 +5,12 @@
 
 package com.philips.cdp.di.iap.session;
 
+import android.content.Context;
+
 public class HybrisDelegate {
 
     private static HybrisDelegate delegate = new HybrisDelegate();
-    private OAuthHandler oAuthHandler;
+    private static OAuthHandler oAuthHandler;
 
     private HybrisDelegate() {
         oAuthHandler = new TestEnvOAuthHandler();
