@@ -44,13 +44,13 @@ public class SHNCapabilityConfigTargetsWrapper implements SHNCapabilityConfigTar
     }
 
     @Override
-    public void getTargetForType(final SHNDataType type, final ResultListener<Target> shnResultListener) {
+    public void getTargetForType(final SHNDataType type, final ResultListener<Double> shnResultListener) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getTargetForType(type, new ResultListener<Target>() {
+                wrappedShnCapability.getTargetForType(type, new ResultListener<Double>() {
                     @Override
-                    public void onActionCompleted(final Target value, @NonNull final SHNResult result) {
+                    public void onActionCompleted(final Double value, @NonNull final SHNResult result) {
                         userHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -64,13 +64,13 @@ public class SHNCapabilityConfigTargetsWrapper implements SHNCapabilityConfigTar
     }
 
     @Override
-    public void setTarget(final Target target, final ResultListener<Target> shnResultListener) {
+    public void setTarget(final SHNDataType type, final double value, final ResultListener<Double> shnResultListener) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setTarget(target, new ResultListener<Target>() {
+                wrappedShnCapability.setTarget(type, value, new ResultListener<Double>() {
                     @Override
-                    public void onActionCompleted(final Target value, @NonNull final SHNResult result) {
+                    public void onActionCompleted(final Double value, @NonNull final SHNResult result) {
                         userHandler.post(new Runnable() {
                             @Override
                             public void run() {

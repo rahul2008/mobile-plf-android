@@ -13,27 +13,9 @@ import java.util.Set;
 
 public interface SHNCapabilityConfigTargets extends SHNCapability {
 
-    class Target {
-        private final SHNDataType shnDataType;
-        private final double targetValue;
-
-        public Target(final SHNDataType shnDataType, final double targetValue) {
-            this.shnDataType = shnDataType;
-            this.targetValue = targetValue;
-        }
-
-        public SHNDataType getShnDataType() {
-            return shnDataType;
-        }
-
-        public double getTargetValue() {
-            return targetValue;
-        }
-    }
-
     void getSupportedDataTypes(ResultListener<Set<SHNDataType>> shnSetResultListener);
 
-    void getTargetForType(SHNDataType type, ResultListener<Target> shnResultListener);
+    void getTargetForType(SHNDataType type, ResultListener<Double> shnResultListener);
 
-    void setTarget(Target target, ResultListener<Target> shnResultListener);
+    void setTarget(SHNDataType type, double value, ResultListener<Double> shnResultListener);
 }
