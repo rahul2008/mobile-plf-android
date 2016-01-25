@@ -55,12 +55,12 @@ android {
         simulator {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "4.0.0.1"
+            versionName "4.0.0.2"
         }
         device {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 5
-            versionName "4.0.0.1"
+            versionName "4.0.0.2"
         }
     }
 }
