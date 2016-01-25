@@ -1,6 +1,7 @@
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import com.philips.cdp.uikit.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,7 +39,6 @@ public class StateControls extends LinearLayout {
     private OnButtonStateChangeListener listener;
     private Context context;
     private int baseColor;
-    private GradientDrawable unSelectedDrawable;
 
     public StateControls(Context context) {
         super(context, null);
@@ -91,17 +92,21 @@ public class StateControls extends LinearLayout {
             parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
         }
         parentLayout.removeAllViews();
+        View[] buttons = new Button[elementCount];
+        View[] dividers = new View[elementCount];
+        this.buttons = Arrays.asList(buttons);
+        this.dividers = Arrays.asList(dividers);
 
-        this.buttons = new ArrayList<>();
-        this.dividers = new ArrayList<>();
+        int baseColorAlpha = adjustAlpha(baseColor, 0.3f);
+        LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
         for (int i = 0; i < elementCount; i++) {
-            Button button;
             View view, divider;
+            Button button;
             view = inflater.inflate(R.layout.uikit_toggle_button, null, false);
             button = (Button) view.findViewById(R.id.control_button);
             divider = view.findViewById(R.id.divider);
-            divider.setBackgroundColor(adjustAlpha(baseColor, 0.3f));
-            button.setLayoutParams(new LayoutParams((int) buttonWidth, (int) buttonHeight));
+            divider.setBackgroundColor(baseColorAlpha);
+            button.setLayoutParams(buttonParams);
             button.setText(texts != null ? texts[i] : "");
             if (isMultipleChoice && i != elementCount - 1) {
                 divider.setVisibility(View.VISIBLE);
@@ -117,13 +122,13 @@ public class StateControls extends LinearLayout {
             });
             parentLayout.addView(view);
             if (position == 0)
-                setButtonState(button, true);
+                setButtonState(button, true,position);
             else if (isMultipleChoice)
-                setButtonState(button, enableDefaultSelection);
+                setButtonState(button, enableDefaultSelection,position);
             else
-                setButtonState(button, false);
-            this.buttons.add(button);
-            this.dividers.add(divider);
+                setButtonState(button, false,position);
+            buttons[i] = button;
+            dividers[i] = divider;
         }
         validateButtonState();
     }
@@ -136,7 +141,7 @@ public class StateControls extends LinearLayout {
      * @param drawables                 An array of Drawable's for the buttons
      * @param enableDefaultSelection The default value for the buttons
      */
-    public void drawControlsWithImageBackground(Drawable[] drawables, boolean enableDefaultSelection) {
+    public void drawControls(Drawable[] drawables, boolean enableDefaultSelection) {
         final int elementCount = drawables != null ? drawables.length : 0;
         if (elementCount == 0) {
             throw new IllegalArgumentException("neither texts nor count are setup");
@@ -152,17 +157,22 @@ public class StateControls extends LinearLayout {
         }
         parentLayout.removeAllViews();
 
-        this.buttons = new ArrayList<>();
-        this.dividers = new ArrayList<>();
+        View[] buttons = new ImageButton[elementCount];
+        View[] dividers = new View[elementCount];
+        this.buttons = Arrays.asList(buttons);
+        this.dividers = Arrays.asList(dividers);
+
+        int baseColorAlpha = adjustAlpha(baseColor, 0.3f);
+        LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
         for (int i = 0; i < elementCount; i++) {
             ImageButton button;
             View view, divider;
             view = inflater.inflate(R.layout.uikit_toggle_image_button, null, false);
             button = (ImageButton) view.findViewById(R.id.control_button);
-            button.setLayoutParams(new LayoutParams((int) buttonWidth, (int) buttonHeight));
+            button.setLayoutParams(buttonParams);
             button.setScaleType(ImageView.ScaleType.CENTER);
             divider = view.findViewById(R.id.divider);
-            divider.setBackgroundColor(adjustAlpha(baseColor, 0.3f));
+            divider.setBackgroundColor(baseColorAlpha);
             button.setImageDrawable(drawables[i]);
             if (isMultipleChoice && i != elementCount - 1) {
                 divider.setVisibility(View.VISIBLE);
@@ -178,13 +188,13 @@ public class StateControls extends LinearLayout {
             });
             parentLayout.addView(view);
             if (position == 0)
-                setButtonState(button, true);
+                setButtonState(button, true,position);
             else if (isMultipleChoice)
-                setButtonState(button, enableDefaultSelection);
+                setButtonState(button, enableDefaultSelection,position);
             else
-                setButtonState(button, false);
-            this.buttons.add(button);
-            this.dividers.add(divider);
+                setButtonState(button, false,position);
+            buttons[i] = button;
+            dividers[i] = divider;
         }
         validateButtonState();
     }
@@ -222,27 +232,41 @@ public class StateControls extends LinearLayout {
         return Color.argb(alpha, red, green, blue);
     }
 
-    private void setUnSelectedState() {
-        unSelectedDrawable = new GradientDrawable();
-        unSelectedDrawable.setStroke((int) context.getResources().getDimension(R.dimen.uikit_control_default_stroke), baseColor);
-        unSelectedDrawable.setColor(Color.WHITE);
-    }
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to setBackgroundColor sticking with deprecated API for now
-    private void setButtonState(View button, boolean selected) {
+    private void setButtonState(View button, boolean selected, int position) {
         if (button == null) {
             return;
         }
         button.setSelected(selected);
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        validateCorners(gradientDrawable, position);
         if (selected) {
-            button.setBackgroundColor(baseColor);
+            gradientDrawable.setColor(baseColor);
+            button.setBackgroundDrawable(gradientDrawable);
         } else {
-            button.setBackgroundDrawable(unSelectedDrawable);
+            gradientDrawable.setStroke((int) context.getResources().getDimension(R.dimen.uikit_control_default_stroke), baseColor);
+            gradientDrawable.setColor(Color.WHITE);
+            button.setBackgroundDrawable(gradientDrawable);
         }
         int style = selected ? R.style.WhiteText : R.style.baseText;
         if (button instanceof Button)
             ((Button) button).setTextAppearance(this.context, style);
+    }
+
+    private void validateCorners(GradientDrawable gradientDrawable, int position) {
+        Resources resources = context.getResources();
+        float dimension = resources.getDimension(R.dimen.uikit_button_corner_rounding);
+        int lastPosition = this.buttons.size() - 1;
+
+        if (lastPosition < 0 || position != lastPosition) {
+            return;
+        } else if (position == 0) {
+            gradientDrawable.setCornerRadii(new float[]{dimension, dimension, 0, 0, 0, 0, dimension, dimension});
+        } else if (position == lastPosition) {
+            gradientDrawable.setCornerRadii(new float[]{0, 0, dimension, dimension, dimension, dimension, 0, 0});
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -251,7 +275,6 @@ public class StateControls extends LinearLayout {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
         baseColor = typedArray.getColor(0, -1);
         typedArray.recycle();
-        setUnSelectedState();
     }
 
     private void notifyDataSetChanged() {
@@ -274,14 +297,14 @@ public class StateControls extends LinearLayout {
                 if (i == position) {
                     View b = buttons.get(i);
                     if (b != null) {
-                        setButtonState(b, !b.isSelected());
+                        setButtonState(b, !b.isSelected(),i);
                     }
                 }
             } else {
                 if (i == position) {
-                    setButtonState(buttons.get(i), true);
+                    setButtonState(buttons.get(i), true,i);
                 } else if (!isMultipleChoice) {
-                    setButtonState(buttons.get(i), false);
+                    setButtonState(buttons.get(i), false,i);
                 }
             }
         }
@@ -308,8 +331,8 @@ public class StateControls extends LinearLayout {
             return;
         }
         int count = 0;
-        for (View view : this.buttons) {
-            setButtonState(view, selected[count]);
+        for (int i = 0; i < this.buttons.size(); i++) {
+            setButtonState(this.buttons.get(i), selected[count],i);
             count++;
         }
     }

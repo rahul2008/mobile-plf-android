@@ -48,7 +48,7 @@ public class ControlsActivity extends CatalogActivity {
             drawables[i] = VectorDrawable.create(this, controlIcons.getResourceId(i, -1));
         }
         controlIcons.recycle();
-        controls.drawControlsWithImageBackground(drawables, true);
+        controls.drawControls(drawables, true);
         controls.setOnButtonStateChangedListener(new StateControls.OnButtonStateChangeListener() {
             @Override
             public void onButtonStateChanged(int position) {
