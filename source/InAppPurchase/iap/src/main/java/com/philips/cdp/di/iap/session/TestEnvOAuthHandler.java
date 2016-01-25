@@ -53,19 +53,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
             con.setRequestMethod("POST");
             con.setDoOutput(true);
-            con.setHostnameVerifier(new HostnameVerifier() {
-
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    boolean result = false;
-                    try {
-                        result = session.getPeerCertificates()[0].equals(testCertificate);
-                    } catch (SSLPeerUnverifiedException e) {
-                        e.printStackTrace();
-                    }
-                    return result;
-                }
-            });
+            con.setHostnameVerifier(hostnameVerifier);
 
             con.setRequestProperty("Authorization", "Basic bW9iaWxlX2FuZHJvaWQ6c2VjcmV0");
             con.setSSLSocketFactory(buildSslSocketFactory(context));
@@ -94,7 +82,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         access_token = result.access_token;
     }
 
-    private SSLSocketFactory buildSslSocketFactory(Context context) {
+    public SSLSocketFactory buildSslSocketFactory(Context context) {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
 			InputStream is = context.getResources().getAssets().open("test.crt");
@@ -155,4 +143,18 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             return new X509Certificate[]{(X509Certificate) testCertificate};
         }
     }
+
+    public HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            boolean result = false;
+            try {
+                result = session.getPeerCertificates()[0].equals(testCertificate);
+            } catch (SSLPeerUnverifiedException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    };
+
 }
