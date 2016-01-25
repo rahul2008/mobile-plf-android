@@ -18,6 +18,7 @@ import com.philips.pins.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -28,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.isA;
@@ -203,6 +205,23 @@ public class SHNDeviceImplTest {
     public void whenInStateConnectingTheGattCallbackIndicatesConnectedThenDiscoverServicesIsCalled() {
         connectTillGATTConnected();
         verify(mockedBTGatt).discoverServices();
+    }
+
+    @Test
+    public void whenServicesAreDiscoveredAndDirectlyBecomeReadyThenTheDeviceBecomesConnected() {
+        Mockito.doAnswer(
+                new Answer() {
+                    @Override
+                    public Object answer(InvocationOnMock invocation) throws Throwable {
+                        mockedServiceState = SHNService.State.Ready;
+                        shnDevice.onServiceStateChanged(mockedSHNService, mockedServiceState);
+                        return null;
+                    }
+                }
+        ).when(mockedSHNService).connectToBLELayer(any(BTGatt.class), any(BluetoothGattService.class));
+        connectTillGATTServicesDiscovered();
+
+        assertEquals(SHNDevice.State.Connected, shnDevice.getState());
     }
 
     @Test

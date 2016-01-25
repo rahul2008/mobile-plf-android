@@ -282,6 +282,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         public void onServicesDiscovered(BTGatt gatt, int status) {
             if (internalState == InternalState.ConnectedDiscoveringServices) {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
+
+                    setInternalState(InternalState.ConnectedInitializingServices);
+
                     for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
                         SHNService shnService = getSHNService(bluetoothGattService.getUuid());
                         SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not found" : " connecting"));
@@ -290,7 +293,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                         }
                     }
 
-                    setInternalState(InternalState.ConnectedInitializingServices);
                 } else {
                     SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
                     disconnect();
