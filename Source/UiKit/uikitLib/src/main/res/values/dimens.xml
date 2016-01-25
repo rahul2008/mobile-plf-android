@@ -187,5 +187,7 @@
     <dimen name="uikit_springboard_button_text_size">20sp</dimen>
     <dimen name="uikit_sprinboard_icon_offset">12dp</dimen>
     <dimen name="uikit_control_default_stroke">2dp</dimen>
+    <dimen name="uikit_controls_default_width">95dp</dimen>
+    <dimen name="uikit_controls_default_height">44dp</dimen>
     <dimen name="uikit_modal_alert_bottom_layout_margin">10dp</dimen>
 </resources>
