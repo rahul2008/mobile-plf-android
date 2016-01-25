@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 
 import com.philips.cdp.uikit.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +27,9 @@ import java.util.List;
  */
 public class StateControls extends LinearLayout {
 
+    public interface OnButtonStateChangeListener {
+        void onButtonStateChanged(int value);
+    }
     private float buttonWidth, buttonHeight;
     private boolean isSelected;
     private CharSequence[] texts;
@@ -118,15 +120,14 @@ public class StateControls extends LinearLayout {
                 public void onClick(View v) {
                     setValue(position);
                 }
-
             });
             parentLayout.addView(view);
             if (position == 0)
-                setButtonState(button, true,position);
+                setButtonState(button, true, position);
             else if (isMultipleChoice)
-                setButtonState(button, enableDefaultSelection,position);
+                setButtonState(button, enableDefaultSelection, position);
             else
-                setButtonState(button, false,position);
+                setButtonState(button, false, position);
             buttons[i] = button;
             dividers[i] = divider;
         }
@@ -138,7 +139,7 @@ public class StateControls extends LinearLayout {
      * initial values. Initial states are allowed, but both
      * arrays must be of the same size.
      *
-     * @param drawables                 An array of Drawable's for the buttons
+     * @param drawables              An array of Drawable's for the buttons
      * @param enableDefaultSelection The default value for the buttons
      */
     public void drawControls(Drawable[] drawables, boolean enableDefaultSelection) {
@@ -184,15 +185,14 @@ public class StateControls extends LinearLayout {
                 public void onClick(View v) {
                     setValue(position);
                 }
-
             });
             parentLayout.addView(view);
             if (position == 0)
-                setButtonState(button, true,position);
+                setButtonState(button, true, position);
             else if (isMultipleChoice)
-                setButtonState(button, enableDefaultSelection,position);
+                setButtonState(button, enableDefaultSelection, position);
             else
-                setButtonState(button, false,position);
+                setButtonState(button, false, position);
             buttons[i] = button;
             dividers[i] = divider;
         }
@@ -200,28 +200,28 @@ public class StateControls extends LinearLayout {
     }
 
     private void validateButtonState() {
-            int size = buttons.size();
-            for (int i = 0; i < size; i++) {
-                if (buttons.get(i) instanceof ImageButton) {
-                    ImageButton button = (ImageButton) buttons.get(i);
-                    if (i == 0 && button.isSelected() && size > 1 && buttons.get(i + 1).isSelected()) {
-                        dividers.get(i).setVisibility(VISIBLE);
-                    } else if (i != 0 && button.isSelected() && i != (size - 1) && (size - 1) > i && buttons.get(i + 1).isSelected()) {
-                        dividers.get(i).setVisibility(VISIBLE);
-                    } else {
-                        dividers.get(i).setVisibility(GONE);
-                    }
+        int size = buttons.size();
+        for (int i = 0; i < size; i++) {
+            if (buttons.get(i) instanceof ImageButton) {
+                ImageButton button = (ImageButton) buttons.get(i);
+                if (i == 0 && button.isSelected() && size > 1 && buttons.get(i + 1).isSelected()) {
+                    dividers.get(i).setVisibility(VISIBLE);
+                } else if (i != 0 && button.isSelected() && i != (size - 1) && (size - 1) > i && buttons.get(i + 1).isSelected()) {
+                    dividers.get(i).setVisibility(VISIBLE);
                 } else {
-                    Button button = (Button) buttons.get(i);
-                    if (i == 0 && button.isSelected() && size > 1 && buttons.get(i + 1).isSelected()) {
-                        dividers.get(i).setVisibility(VISIBLE);
-                    } else if (i != 0 && button.isSelected() && i != (size - 1) && (size - 1) > i && buttons.get(i + 1).isSelected()) {
-                        dividers.get(i).setVisibility(VISIBLE);
-                    } else {
-                        dividers.get(i).setVisibility(GONE);
-                    }
+                    dividers.get(i).setVisibility(GONE);
+                }
+            } else {
+                Button button = (Button) buttons.get(i);
+                if (i == 0 && button.isSelected() && size > 1 && buttons.get(i + 1).isSelected()) {
+                    dividers.get(i).setVisibility(VISIBLE);
+                } else if (i != 0 && button.isSelected() && i != (size - 1) && (size - 1) > i && buttons.get(i + 1).isSelected()) {
+                    dividers.get(i).setVisibility(VISIBLE);
+                } else {
+                    dividers.get(i).setVisibility(GONE);
                 }
             }
+        }
     }
 
     private int adjustAlpha(int color, float factor) {
@@ -231,7 +231,6 @@ public class StateControls extends LinearLayout {
         int blue = Color.blue(color);
         return Color.argb(alpha, red, green, blue);
     }
-
 
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to setBackgroundColor sticking with deprecated API for now
@@ -260,9 +259,7 @@ public class StateControls extends LinearLayout {
         float dimension = resources.getDimension(R.dimen.uikit_button_corner_rounding);
         int lastPosition = this.buttons.size() - 1;
 
-        if (lastPosition < 0 || position != lastPosition) {
-            return;
-        } else if (position == 0) {
+        if (position == 0) {
             gradientDrawable.setCornerRadii(new float[]{dimension, dimension, 0, 0, 0, 0, dimension, dimension});
         } else if (position == lastPosition) {
             gradientDrawable.setCornerRadii(new float[]{0, 0, dimension, dimension, dimension, dimension, 0, 0});
@@ -282,29 +279,20 @@ public class StateControls extends LinearLayout {
         drawControls(texts, isSelected, count);
     }
 
-    public int getValue() {
-        for (int i = 0; i < this.buttons.size(); i++) {
-            if (buttons.get(i).isSelected()) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public void setValue(int position) {
         for (int i = 0; i < this.buttons.size(); i++) {
             if (isMultipleChoice) {
                 if (i == position) {
                     View b = buttons.get(i);
                     if (b != null) {
-                        setButtonState(b, !b.isSelected(),i);
+                        setButtonState(b, !b.isSelected(), i);
                     }
                 }
             } else {
                 if (i == position) {
-                    setButtonState(buttons.get(i), true,i);
+                    setButtonState(buttons.get(i), true, i);
                 } else if (!isMultipleChoice) {
-                    setButtonState(buttons.get(i), false,i);
+                    setButtonState(buttons.get(i), false, i);
                 }
             }
         }
@@ -332,7 +320,7 @@ public class StateControls extends LinearLayout {
         }
         int count = 0;
         for (int i = 0; i < this.buttons.size(); i++) {
-            setButtonState(this.buttons.get(i), selected[count],i);
+            setButtonState(this.buttons.get(i), selected[count], i);
             count++;
         }
     }
@@ -372,9 +360,4 @@ public class StateControls extends LinearLayout {
     public void setOnButtonStateChangedListener(OnButtonStateChangeListener onButtonStateChangeListener) {
         this.listener = onButtonStateChangeListener;
     }
-
-    public interface OnButtonStateChangeListener {
-        void onButtonStateChanged(int value);
-    }
-
 }
