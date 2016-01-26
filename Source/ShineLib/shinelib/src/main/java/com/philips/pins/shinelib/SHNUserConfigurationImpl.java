@@ -7,10 +7,12 @@ package com.philips.pins.shinelib;
 
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SHNPersistentStorage;
+import com.philips.pins.shinelib.utility.SharedPreferencesHelper;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -46,7 +48,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     private static final Sex DEFAULT_SEX_VALUE = Sex.Unspecified;
     private static final Handedness DEFAULT_HANDEDNESS_VALUE = Handedness.Unknown;
 
-    private final SharedPreferences sharedPreferences;
+    private final SharedPreferencesHelper sharedPreferences;
     private Sex sex = Sex.Unspecified;
     private Integer maxHeartRate;
     private Integer restingHeartRate;
@@ -61,7 +63,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     private int changeIncrement;
 
     /* package */ SHNUserConfigurationImpl(SHNPersistentStorage shnPersistentStorage, Handler internalHandler) {
-        this.sharedPreferences = shnPersistentStorage.getSharedPreferences();
+        this.sharedPreferences = new SharedPreferencesHelper(shnPersistentStorage.getSharedPreferences());
         this.internalHandler = internalHandler;
         retrieveFromPreferences();
     }
@@ -267,6 +269,37 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
             result = (int) baseMetabolicRate;
         }
         return result;
+    }
+
+    @Override
+    public ClockFormat getClockFormat() {
+        ClockFormat clockFormat = sharedPreferences.get("ClockFormat", ClockFormat.TWENTY_FOUR_HOURS);
+        return clockFormat;
+    }
+
+    @Override
+    public void setClockFormat(@NonNull final ClockFormat clockFormat) {
+        sharedPreferences.put("ClockFormat", clockFormat);
+        incrementChangeIncrementAndNotifyModifiedListeners();
+    }
+
+    @Override
+    public Locale getLocale() {
+        String language = sharedPreferences.get("LocaleLanguage");
+        String country = sharedPreferences.get("LocaleCountry");
+
+        if (language != null && country != null) {
+            return new Locale(language, country);
+        } else {
+            return Locale.getDefault();
+        }
+    }
+
+    @Override
+    public void setLocale(final Locale locale) {
+        sharedPreferences.put("LocaleLanguage", locale.getLanguage());
+        sharedPreferences.put("LocaleCountry", locale.getCountry());
+        incrementChangeIncrementAndNotifyModifiedListeners();
     }
 
     private void setChangeIncrement(int changeIncrement) {

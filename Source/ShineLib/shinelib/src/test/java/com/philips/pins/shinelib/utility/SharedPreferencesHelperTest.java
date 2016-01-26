@@ -129,4 +129,12 @@ public class SharedPreferencesHelperTest {
 
         assertThat(res).isEqualTo(value);
     }
+
+    @Test
+    public void whenGetIsCalledForUnknownKey_thenDefaultValueIsReturned() {
+        Object expected = new Object();
+        Object actual = preferencesHelper.get("SomeRandomKey", expected);
+
+        assertThat(actual).isEqualTo(expected);
+    }
 }

@@ -67,6 +67,11 @@ public class SharedPreferencesHelper implements SharedPreferences {
         }
     }
 
+    public <T> T get(final String key, T defaultValue) {
+        T value = get(key);
+        return (value != null ? value : defaultValue);
+    }
+
     public <T> T get(final String key) {
         boolean isShort = contains(key + SHORT_VALUE);
         boolean isEnum = contains(key + ENUM_NAME);

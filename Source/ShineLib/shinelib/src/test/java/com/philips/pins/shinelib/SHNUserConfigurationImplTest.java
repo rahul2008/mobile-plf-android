@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
@@ -7,10 +8,17 @@ import com.philips.pins.shinelib.utility.SHNPersistentStorage;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.Observer;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -24,25 +32,32 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class SHNUserConfigurationImplTest {
 
-    private SHNUserConfigurationImpl shnUserConfiguration;
-    private SHNPersistentStorage mockedShnPersistentStorage;
+    @Mock
+    private SHNPersistentStorage persistentStorageMock;
+
+    @Mock
     private SharedPreferences mockedSharedPreferences;
+
+    @Mock
     private SharedPreferences.Editor mockedEditor;
-    private MockedHandler mockedHandler;
+
+    private MockedHandler mockedHandler = new MockedHandler();
+
+    @Mock
     private Observer mockedObserver;
+
+    private SHNUserConfigurationImpl shnUserConfiguration;
 
     @Before
     public void setUp() throws Exception {
-        mockedShnPersistentStorage = mock(SHNPersistentStorage.class);
-        mockedSharedPreferences = mock(SharedPreferences.class);
-        mockedEditor = mock(SharedPreferences.Editor.class);
-        mockedObserver = mock(Observer.class);
-        mockedHandler = new MockedHandler();
+        initMocks(this);
 
         when(mockedSharedPreferences.getInt(anyString(), anyInt())).thenReturn(-1);
         when(mockedSharedPreferences.getLong(anyString(), anyLong())).thenReturn(-1L);
@@ -51,9 +66,9 @@ public class SHNUserConfigurationImplTest {
         when(mockedSharedPreferences.getString(anyString(), anyString())).thenReturn(null);
         when(mockedSharedPreferences.edit()).thenReturn(mockedEditor);
 
-        when(mockedShnPersistentStorage.getSharedPreferences()).thenReturn(mockedSharedPreferences);
+        when(persistentStorageMock.getSharedPreferences()).thenReturn(mockedSharedPreferences);
 
-        shnUserConfiguration = new SHNUserConfigurationImpl(mockedShnPersistentStorage, mockedHandler.getMock());
+        shnUserConfiguration = new SHNUserConfigurationImpl(persistentStorageMock, mockedHandler.getMock());
         shnUserConfiguration.addObserver(mockedObserver);
     }
 
@@ -320,7 +335,7 @@ public class SHNUserConfigurationImplTest {
         when(mockedSharedPreferences.getString(SHNUserConfigurationImpl.USER_CONFIG_DECIMAL_SEPARATOR, null)).thenReturn(",");
         when(mockedSharedPreferences.getInt(SHNUserConfigurationImpl.USER_CONFIG_INCREMENT, -1)).thenReturn(3456);
 
-        shnUserConfiguration = new SHNUserConfigurationImpl(mockedShnPersistentStorage, mockedHandler.getMock());
+        shnUserConfiguration = new SHNUserConfigurationImpl(persistentStorageMock, mockedHandler.getMock());
         assertEquals(SHNUserConfiguration.Sex.Male, shnUserConfiguration.getSex());
         assertEquals((Integer) 220, shnUserConfiguration.getMaxHeartRate());
         assertEquals((Integer) 60, shnUserConfiguration.getRestingHeartRate());
@@ -332,5 +347,76 @@ public class SHNUserConfigurationImplTest {
         assertTrue(shnUserConfiguration.getUseMetricSystem());
         assertEquals((Character) ',', shnUserConfiguration.getDecimalSeparator());
         assertEquals(3456, shnUserConfiguration.getChangeIncrement());
+    }
+
+    // ------------------
+
+    private void setupNewPreferenceFormat() {
+        SharedPreferences sharedPreferences = RuntimeEnvironment.application.getSharedPreferences("testPreferences", Context.MODE_PRIVATE);
+        when(persistentStorageMock.getSharedPreferences()).thenReturn(sharedPreferences);
+        shnUserConfiguration = new SHNUserConfigurationImpl(persistentStorageMock, mockedHandler.getMock());
+        shnUserConfiguration.addObserver(mockedObserver);
+    }
+
+    @Test
+    public void whenLocaleIsSet_ThenListenerIsNotified() {
+        setupNewPreferenceFormat();
+
+        shnUserConfiguration.setLocale(Locale.getDefault());
+
+        verify(mockedObserver).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenLocaleHasNotBeenSet_ThenGetReturnDefaultLocale() {
+        setupNewPreferenceFormat();
+
+        Locale expectedLocale = Locale.getDefault();
+        Locale actualLocale = shnUserConfiguration.getLocale();
+
+        assertThat(actualLocale).isEqualTo(expectedLocale);
+    }
+
+    @Test
+    public void whenLocaleHasBeenSet_ThenGetReturnsThatLocale() {
+        setupNewPreferenceFormat();
+
+        Locale expectedLocale = new Locale("eg","EG");
+        shnUserConfiguration.setLocale(expectedLocale);
+
+        Locale actualLocale = shnUserConfiguration.getLocale();
+
+        assertThat(actualLocale).isEqualTo(expectedLocale);
+    }
+
+
+    @Test
+    public void whenClockFormatIsSet_ThenListenerIsNotified() {
+        setupNewPreferenceFormat();
+
+        shnUserConfiguration.setClockFormat(SHNUserConfiguration.ClockFormat.AM_PM);
+
+        verify(mockedObserver).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenClockFormatHasNotBeenSet_ThenGetReturn24HoursClockFormat() {
+        setupNewPreferenceFormat();
+
+        SHNUserConfiguration.ClockFormat actualClockFormat = shnUserConfiguration.getClockFormat();
+
+        assertThat(actualClockFormat).isEqualTo(SHNUserConfiguration.ClockFormat.TWENTY_FOUR_HOURS);
+    }
+
+    @Test
+    public void whenClockFormatHasBeenSet_ThenGetReturnsThatClockFormat() {
+        setupNewPreferenceFormat();
+
+        SHNUserConfiguration.ClockFormat expectedClockFormat = SHNUserConfiguration.ClockFormat.AM_PM;
+        shnUserConfiguration.setClockFormat(expectedClockFormat);
+
+        SHNUserConfiguration.ClockFormat actualClockFormat = shnUserConfiguration.getClockFormat();
+
+        assertThat(actualClockFormat).isEqualTo(expectedClockFormat);
     }
 }
