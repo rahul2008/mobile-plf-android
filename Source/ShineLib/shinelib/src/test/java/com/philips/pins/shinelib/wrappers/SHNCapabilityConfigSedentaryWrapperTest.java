@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
-public class SHNCapabilityConfigSedentaryWrapperTest {
+public class SHNCapabilityConfigSedentaryWrapperTest extends SHNCapabilityWrapperBase {
 
     private static final SHNResult EXPECTED_RESULT = SHNResult.SHNOk;
     private static final short EXPECTED_SEDENTARY_MINUTES = 60;
@@ -33,34 +33,13 @@ public class SHNCapabilityConfigSedentaryWrapperTest {
     private ResultListener listenerMock;
 
     @Captor
-    private ArgumentCaptor<Runnable> runnableCaptor;
-
-    @Captor
     private ArgumentCaptor<ResultListener> resultListenerArgumentCaptor;
-
-    private Handler internalHandlerMock;
-    private Handler userHandlerMock;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-        internalHandlerMock = mock(Handler.class);
-        userHandlerMock = mock(Handler.class);
-
         sedentaryWrapper = new SHNCapabilityConfigSedentaryWrapper(capabilityMock, internalHandlerMock, userHandlerMock);
-    }
-
-    private Runnable captureInternalHandlerRunnable() {
-        verify(internalHandlerMock).post(runnableCaptor.capture());
-
-        return runnableCaptor.getValue();
-    }
-
-    private Runnable captureUserHandlerRunnable() {
-        verify(userHandlerMock).post(runnableCaptor.capture());
-
-        return runnableCaptor.getValue();
     }
 
     @Test
