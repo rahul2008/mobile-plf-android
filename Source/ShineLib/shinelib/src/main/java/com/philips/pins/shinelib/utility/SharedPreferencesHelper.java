@@ -29,6 +29,10 @@ public class SharedPreferencesHelper implements SharedPreferences {
 
     public <T> void put(final String key, final T value) {
         SharedPreferences.Editor edit = edit();
+        put(key, edit, value);
+    }
+
+    public <T> void put(final String key, final Editor edit, final T value) {
 
         if (value instanceof Boolean) {
             edit.putBoolean(key, (Boolean) value);
@@ -140,11 +144,12 @@ public class SharedPreferencesHelper implements SharedPreferences {
             return;
         }
 
-        put(getListSizeKey(key), values.size());
+        put(getListSizeKey(key), edit, values.size());
         for (int i = 0; i < values.size(); i++) {
-            put(getListEntryKey(key, i), values.get(i));
+            put(getListEntryKey(key, i), edit, values.get(i));
         }
-        put(key, LIST_BASE);
+        put(key, edit, LIST_BASE);
+        edit.apply();
     }
 
     private void removeList(String key, Editor edit) {
