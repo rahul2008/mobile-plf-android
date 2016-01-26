@@ -21,7 +21,7 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SHNCapabilityDeviceDiagnosticsWrapperTest extends SHNCapabilityWrapperBase {
+public class SHNCapabilityDeviceDiagnosticsWrapperTest extends SHNCapabilityWrapperTestBase {
 
     private SHNCapabilityDeviceDiagnosticsWrapper diagnosticsWrapper;
 

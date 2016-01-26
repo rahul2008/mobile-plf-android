@@ -1,7 +1,5 @@
 package com.philips.pins.shinelib.wrappers;
 
-import android.os.Handler;
-
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
@@ -18,7 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
-public class SHNCapabilityConfigSedentaryWrapperTest extends SHNCapabilityWrapperBase {
+public class SHNCapabilityConfigSedentaryWrapperTest extends SHNCapabilityWrapperTestBase {
 
     private static final SHNResult EXPECTED_RESULT = SHNResult.SHNOk;
     private static final short EXPECTED_SEDENTARY_MINUTES = 60;

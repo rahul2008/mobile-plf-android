@@ -20,7 +20,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SHNCapabilityConfigHeartRateZonesWrapperTest extends SHNCapabilityWrapperBase {
+public class SHNCapabilityConfigHeartRateZonesWrapperTest extends SHNCapabilityWrapperTestBase {
 
     public static final Integer EXPECTED_THRESHOLDS_COUNT = 6;
     public static final SHNResult EXPECTED_RESULT = SHNResult.SHNErrorLogSyncBufferFormat;
