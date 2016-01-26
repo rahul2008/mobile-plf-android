@@ -14,11 +14,14 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
+import static org.junit.Assert.assertNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricGradleTestRunner.class)
@@ -136,5 +139,24 @@ public class SharedPreferencesHelperTest {
         Object actual = preferencesHelper.get("SomeRandomKey", expected);
 
         assertThat(actual).isEqualTo(expected);
+    }
+	
+	@Test
+    public void whenNoListIsSet_thenNullIsReturnedWhenUsingGet() {
+        List<Integer> res = preferencesHelper.get(KEY);
+        assertNull(res);
+    }
+
+    @Test
+    public void whenAListOfValuesIsSet_thenItCanBeReturnedUsingGet() {
+        List<Integer> testList = new ArrayList<>();
+        testList.add(4);
+        testList.add(2);
+        testList.add(923);
+        preferencesHelper.put(KEY, testList);
+
+        List<Integer> res = preferencesHelper.get(KEY);
+
+        assertThat(res).isEqualTo(testList);
     }
 }

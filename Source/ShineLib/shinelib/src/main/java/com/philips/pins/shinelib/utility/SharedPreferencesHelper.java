@@ -4,7 +4,9 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +16,9 @@ public class SharedPreferencesHelper implements SharedPreferences {
     private static final String SHORT_VALUE = "SHORT_VALUE";
     public static final String ENUM_NAME = "ENUM_NAME";
     public static final String DOUBLE_VALUE = "DOUBLE_VALUE";
+    public static final String LIST_VALUE = "LIST_VALUE";
+    public static final String LIST_BASE = "_LIST_";
+    public static final String SIZE = "SIZE";
 
     @NonNull
     private SharedPreferences sharedPreferences;
@@ -38,6 +43,8 @@ public class SharedPreferencesHelper implements SharedPreferences {
             edit.putLong(key, (Long) value);
         } else if (value instanceof String) {
             edit.putString(key, (String) value);
+        } else if (value instanceof List<?>) {
+            putList(key, edit, (List<?>) value);
         } else if (value instanceof Set<?>) {
             putStringSet(key, edit, (Set<?>) value);
         } else if (value instanceof Enum<?>) {
@@ -73,6 +80,11 @@ public class SharedPreferencesHelper implements SharedPreferences {
     }
 
     public <T> T get(final String key) {
+        boolean isList = contains(getListSizeKey(key));
+        if (isList) {
+            return uncheckedCast(getList(key));
+        }
+
         boolean isShort = contains(key + SHORT_VALUE);
         boolean isEnum = contains(key + ENUM_NAME);
         boolean isDouble = contains(key + DOUBLE_VALUE);
@@ -109,6 +121,60 @@ public class SharedPreferencesHelper implements SharedPreferences {
         }
         return null;
     }
+
+    @NonNull
+    private String getListEntryKey(String baseKey, int i) {
+        return baseKey + LIST_BASE + i;
+    }
+
+    @NonNull
+    private String getListSizeKey(String baseKey) {
+        return baseKey + LIST_BASE + SIZE;
+    }
+
+    private <T> void putList(String key, Editor edit, List<T> values) {
+        removeList(key, edit);
+        edit.remove(key);
+
+        if (values == null) {
+            return;
+        }
+
+        put(getListSizeKey(key), values.size());
+        for (int i = 0; i < values.size(); i++) {
+            put(getListEntryKey(key, i), values.get(i));
+        }
+    }
+
+    private void removeList(String key, Editor edit) {
+        String listSizeKey = getListSizeKey(key);
+        if (contains(listSizeKey)) {
+            int listSize = get(listSizeKey);
+
+            for (int i = 0; i < listSize; i++) {
+                edit.remove(getListEntryKey(key, i));
+            }
+            edit.remove(listSizeKey);
+        }
+    }
+
+    private <T> List<T> getList(final String key) {
+        String listSizeKey = getListSizeKey(key);
+        if (!contains(listSizeKey)) {
+            return null;
+        }
+
+        int listSize = get(listSizeKey);
+        List<T> storedList = new ArrayList<>();
+
+        for (int i = 0; i < listSize; i++) {
+            T value = get( getListEntryKey(key, i) );
+            storedList.add(value);
+        }
+
+        return storedList;
+    }
+
 
     // Pass through methods
 
