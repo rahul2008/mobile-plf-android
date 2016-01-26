@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class SHNCapabilityConfigTargetsWrapper implements SHNCapabilityConfigTargets {
 
-    private static final String TAG = SHNCapabilityBatteryWrapper.class.getSimpleName();
+    private static final String TAG = SHNCapabilityConfigTargets.class.getSimpleName();
     private final SHNCapabilityConfigTargets wrappedShnCapability;
     private final Handler userHandler;
     private final Handler internalHandler;

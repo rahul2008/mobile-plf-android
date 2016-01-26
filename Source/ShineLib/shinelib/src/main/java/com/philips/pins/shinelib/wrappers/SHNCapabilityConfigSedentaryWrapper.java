@@ -10,8 +10,8 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 public class SHNCapabilityConfigSedentaryWrapper implements SHNCapabilityConfigSedentary {
 
     private final SHNCapabilityConfigSedentary wrappedShnCapability;
-    private final Handler userHandler;
     private final Handler internalHandler;
+    private final Handler userHandler;
 
     public SHNCapabilityConfigSedentaryWrapper(SHNCapabilityConfigSedentary shnCapability, Handler internalHandler, Handler userHandler) {
         wrappedShnCapability = shnCapability;
