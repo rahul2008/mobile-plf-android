@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.wrappers;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigHeartRateZones;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceDiagnostics;
 
@@ -25,6 +26,9 @@ public class SHNCapabilityWrapperFactoryTest {
     @Mock
     private SHNCapabilityConfigSedentary sedentaryMock;
 
+    @Mock
+    private SHNCapabilityConfigHeartRateZones heartRateZonesMock;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -40,5 +44,11 @@ public class SHNCapabilityWrapperFactoryTest {
     public void ShouldCreateSHNCapabilitySedentaryWrapper_WhenSedentaryIsProvided() {
         SHNCapability capabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(sedentaryMock, SHNCapabilityType.CONFIG_SEDENTARY, null, null);
         assertThat(capabilityWrapper).isInstanceOf(SHNCapabilityConfigSedentaryWrapper.class);
+    }
+
+    @Test
+    public void ShouldCreateSHNCapabilityConfigHeartRateZonesWrapper_WhenHeartRateZonesIsProvided() {
+        SHNCapability capabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(heartRateZonesMock, SHNCapabilityType.CONFIG_HEARTRATE_ZONES, null, null);
+        assertThat(capabilityWrapper).isInstanceOf(SHNCapabilityConfigHeartRateZonesWrapper.class);
     }
 }

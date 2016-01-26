@@ -97,6 +97,7 @@ public enum SHNCapabilityType {
     USER_INFORMATION_LIFE_SENSE,
     CONFIG_SEDENTARY,
     DEVICE_DIAGNOSTIC,
+    CONFIG_HEARTRATE_ZONES,
     CONFIG_TARGETS;
 
     public static SHNCapabilityType getCounterPart(SHNCapabilityType capabilityType) {
@@ -156,6 +157,7 @@ public enum SHNCapabilityType {
             case Targets:
             case UserConfiguration:
             case CONFIG_TARGETS:
+            case CONFIG_HEARTRATE_ZONES:
             default:
                 break;
         }
