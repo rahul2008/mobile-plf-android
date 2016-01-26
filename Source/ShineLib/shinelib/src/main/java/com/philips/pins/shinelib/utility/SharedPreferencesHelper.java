@@ -144,6 +144,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
         for (int i = 0; i < values.size(); i++) {
             put(getListEntryKey(key, i), values.get(i));
         }
+        put(key, LIST_BASE);
     }
 
     private void removeList(String key, Editor edit) {
