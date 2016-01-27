@@ -53,7 +53,7 @@ public class RegistrationApplication extends Application {
 	}
 
 	private void initRegistration() {
-		//Configure JanRain
+		/*//Configure JanRain
 		RegistrationConfiguration.getInstance().getJanRainConfiguration().setClientId("4r36zdbeycca933nufcknn2hnpsz6gxu");
 
 		//Configure PIL
@@ -90,7 +90,7 @@ public class RegistrationApplication extends Application {
 		RegistrationConfiguration.getInstance().getHsdpConfiguration().setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
 		RegistrationConfiguration.getInstance().getHsdpConfiguration().setSecret("f129b5a8-55f4-11e5-885d-feff819cdc9f");
 		RegistrationConfiguration.getInstance().getHsdpConfiguration().setBaseURL("http://ugrow-userregistration15.cloud.pcftest.com");
-		RegistrationConfiguration.getInstance().getHsdpConfiguration().setEnvironment(Configuration.EVALUATION);
+		RegistrationConfiguration.getInstance().getHsdpConfiguration().setEnvironment(Configuration.EVALUATION);*/
 
 
 		RegistrationHelper.getInstance().intializeRegistrationSettings(this, Locale.getDefault());
