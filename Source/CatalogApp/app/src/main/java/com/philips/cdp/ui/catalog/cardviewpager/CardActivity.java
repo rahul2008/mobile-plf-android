@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;
@@ -36,7 +37,7 @@ import com.philips.cdp.ui.catalog.activity.CatalogActivity;
  */
 public class CardActivity extends CatalogActivity {
 
-    CustomRecyclerView recyclerView;
+    RecyclerView recyclerView;
     CardAdapter adapter;
 
     @Override
@@ -47,7 +48,7 @@ public class CardActivity extends CatalogActivity {
     }
 
     private void handleOrientationView() {
-        recyclerView = (CustomRecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         Resources res = getResources();
         Configuration conf = res.getConfiguration();
