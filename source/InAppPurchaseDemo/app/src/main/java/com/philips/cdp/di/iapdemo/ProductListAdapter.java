@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iapdemo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +62,7 @@ public class ProductListAdapter extends BaseAdapter {
                 if (Utility.isInternetConnected(mContext)) {
                     ((DemoAppActivity) mContext).addToCart();
                 } else {
-                    Utility.showNetworkError(mContext);
+                    Utility.showNetworkError(((Activity)mContext), false);
                 }
 
             }

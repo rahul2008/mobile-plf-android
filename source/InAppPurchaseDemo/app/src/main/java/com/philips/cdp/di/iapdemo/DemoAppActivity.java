@@ -31,7 +31,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
     private ArrayList<Product> mProductArrayList = new ArrayList<>();
 
-    String[] mCatalogNumbers = {"HX8331/11", "HX8372/51", "HX8071/10", "HX6064/26", "HX6064/33", "HX9044/26"};
+    String[] mCatalogNumbers = {"HX8331/11"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +61,10 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
-        if (mIapSharedPreference.getString(IapConstants.key.CART_NUMBER) != null) {
-                InAppPurchase.getCartHybrisServerRequest(mIapSharedPreference.getString(IapConstants.key.CART_NUMBER), this, this);
+        if(Utility.isInternetConnected(this)) {
+            InAppPurchase.getCurrentCartHybrisServerRequest(this);
+        }else{
+            Utility.showNetworkError(this, true);
         }
     }
 
@@ -79,15 +81,10 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
     }
 
     /**
-     * Update the count of the product
+     * Add to the current cart
      */
-    public void addToCart(){
-        Utility.showProgressDialog(this, "Adding to cart");
-        if (mIapSharedPreference.getString(IapConstants.key.CART_NUMBER) != null) {
-            InAppPurchase.addToCartHybrisServerRequest(mIapSharedPreference.getString(IapConstants.key.CART_NUMBER), this, this);
-        } else {
-            InAppPurchase.createCartHybrisServerRequest(this, this);
-        }
+    public void addToCart() {
+        InAppPurchase.addToCartHybrisServerRequest(this);
     }
 
     @Override

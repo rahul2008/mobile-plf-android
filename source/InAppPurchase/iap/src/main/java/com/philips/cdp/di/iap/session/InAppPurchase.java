@@ -59,11 +59,11 @@ public class InAppPurchase {
 
 
     /**
-     * Get the cart info for the
-     *
-     * @return Cart count
+     * Get the current cart info for the user
      */
-    public static void getCartHybrisServerRequest(final String mCartNumber, final Context context, final AsyncTaskCompleteListener callback) {
+    public static void getCurrentCartHybrisServerRequest(final Context context) {
+
+        mContext = context;
 
         new AsyncTask<Void, Void, Void>() {
 
@@ -77,13 +77,13 @@ public class InAppPurchase {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Utility.dismissProgressDialog();
-                callback.onTaskComplete();
+                ((AsyncTaskCompleteListener) context).onTaskComplete();
             }
 
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    URL url = new URL(NetworkConstants.getCartUrl + "/" + mCartNumber);
+                    URL url = new URL(NetworkConstants.getCurrentCartUrl);
                     HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setDoInput(true);
@@ -101,14 +101,16 @@ public class InAppPurchase {
 
                         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         String inputLine;
-                        StringBuffer response = new StringBuffer();
+                        StringBuilder response = new StringBuilder();
 
                         while ((inputLine = in.readLine()) != null) {
                             response.append(inputLine);
                         }
                         in.close();
 
-                        parseGetCartResponse(response.toString());
+                        parseGetCurrentCartResponse(response.toString());
+                    } else if (responseCode == 400) {
+                        createCartHybrisServerRequest(mContext);
                     }
                 } catch (Exception e) {
                     System.out.println("Exception");
@@ -263,12 +265,21 @@ public class InAppPurchase {
 
 
 
-    public static void parseGetCartResponse(String inputString) {
+   /*
+     * Parse current cart response
+     *
+     * @param inputString Input string
+     */
+    public static void parseGetCurrentCartResponse(String inputString) {
         try {
             JSONObject jsonObject = new JSONObject(inputString);
 
-            if (jsonObject.has("totalItems")) {
-                String mCartCount = jsonObject.get("totalItems").toString();
+            JSONArray entriesArray = jsonObject.getJSONArray("entries");
+
+            JSONObject quantityJsonObject = entriesArray.getJSONObject(0);
+
+            if (quantityJsonObject.has("quantity")) {
+                String mCartCount = quantityJsonObject.getString("quantity");
                 new IapSharedPreference(mContext).setString(IapConstants.key.CART_COUNT, mCartCount);
             }
         } catch (JSONException e) {
@@ -280,7 +291,7 @@ public class InAppPurchase {
     /**
      * Create Cart Hybris Server Request
      */
-    public static void createCartHybrisServerRequest(final Context context, final AsyncTaskCompleteListener callback) {
+    public static void createCartHybrisServerRequest(final Context context) {
 
         mContext = context;
 
@@ -294,14 +305,12 @@ public class InAppPurchase {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Utility.dismissProgressDialog();
-                callback.onTaskComplete();
             }
 
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    URL url = new URL(NetworkConstants.getCartUrl);
+                    URL url = new URL(NetworkConstants.createCartUrl);
                     HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
@@ -328,32 +337,6 @@ public class InAppPurchase {
                     int responseCode = conn.getResponseCode();
                     System.out.println("\nSending request to URL : " + url);
                     System.out.println("Response Code : " + responseCode);
-
-                    if (responseCode == 201) {
-
-                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        String inputLine;
-                        StringBuffer response = new StringBuffer();
-
-                        while ((inputLine = in.readLine()) != null) {
-                            response.append(inputLine);
-                        }
-                        in.close();
-
-                        parseCreateCartResponse(response.toString());
-                        addToCartHybrisServerRequest(new IapSharedPreference(context).getString(IapConstants.key.CART_NUMBER), context, ((AsyncTaskCompleteListener)context));
-                    }
-
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    System.out.println(response.toString());
                 } catch (Exception e) {
                     System.out.println("Exception");
 
@@ -363,48 +346,32 @@ public class InAppPurchase {
         }.execute();
     }
 
-
-    /**
-     * Parse the get cart response from hybris server
-     *
-     * @param inputString Input string to parse
-     * @return cart number
-     */
-    public static void parseCreateCartResponse(String inputString) {
-        try {
-            JSONObject jsonObject = new JSONObject(inputString);
-
-            if (jsonObject.has("code")) {
-                String mCartNumber = jsonObject.get("code").toString();
-                new IapSharedPreference(mContext).setString(IapConstants.key.CART_NUMBER, mCartNumber);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Add to cart hybris server request
-     *
-     * @param mCartNumber
      */
-    public static void addToCartHybrisServerRequest(final String mCartNumber, Context context, final AsyncTaskCompleteListener callback) {
+    public static void addToCartHybrisServerRequest(final Context context) {
 
         mContext = context;
 
         new AsyncTask<Void, Void, Void>() {
 
             @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                Utility.showProgressDialog(context, "Adding to cart");
+            }
+
+            @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Utility.dismissProgressDialog();
-                callback.onTaskComplete();
+                ((AsyncTaskCompleteListener) context).onTaskComplete();
             }
 
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    URL url = new URL(NetworkConstants.addToCartUrl + "/" + mCartNumber + "/entries");
+                    URL url = new URL(NetworkConstants.addToCartUrl);
                     HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
@@ -435,7 +402,7 @@ public class InAppPurchase {
                     if (responseCode == 200) {
                         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         String inputLine;
-                        StringBuffer response = new StringBuffer();
+                        StringBuilder response = new StringBuilder();
 
                         while ((inputLine = in.readLine()) != null) {
                             response.append(inputLine);
@@ -457,7 +424,6 @@ public class InAppPurchase {
      * Parse Add to cart response
      *
      * @param inputString response string
-     * @return cart count
      */
     public static void parseAddToCartResponse(String inputString) {
         try {
