@@ -26,6 +26,7 @@ android {
         versionName libVersionNumber
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
+        generatedDensities = []
     }
 
     buildTypes {
