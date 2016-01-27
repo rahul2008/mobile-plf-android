@@ -131,7 +131,7 @@ public class StateControls extends LinearLayout {
             buttons[i] = button;
             dividers[i] = divider;
         }
-        validateButtonState();
+        handleButtonState();
     }
 
     /**
@@ -196,10 +196,10 @@ public class StateControls extends LinearLayout {
             buttons[i] = button;
             dividers[i] = divider;
         }
-        validateButtonState();
+        handleButtonState();
     }
 
-    private void validateButtonState() {
+    private void handleButtonState() {
         int size = buttons.size();
         for (int i = 0; i < size; i++) {
             if (buttons.get(i) instanceof ImageButton) {
@@ -240,7 +240,7 @@ public class StateControls extends LinearLayout {
         }
         button.setSelected(selected);
         GradientDrawable gradientDrawable = new GradientDrawable();
-        validateCorners(gradientDrawable, position);
+        handleCorners(gradientDrawable, position);
         if (selected) {
             gradientDrawable.setColor(baseColor);
             button.setBackgroundDrawable(gradientDrawable);
@@ -254,7 +254,7 @@ public class StateControls extends LinearLayout {
             ((Button) button).setTextAppearance(this.context, style);
     }
 
-    private void validateCorners(GradientDrawable gradientDrawable, int position) {
+    private void handleCorners(GradientDrawable gradientDrawable, int position) {
         Resources resources = context.getResources();
         float dimension = resources.getDimension(R.dimen.uikit_button_corner_rounding);
         int lastPosition = this.buttons.size() - 1;
@@ -296,7 +296,7 @@ public class StateControls extends LinearLayout {
                 }
             }
         }
-        validateButtonState();
+        handleButtonState();
         setListenerValue(position);
     }
 
