@@ -55,9 +55,9 @@
     </array>
 
     <string-array name="controls_array">
-        <item>Option1</item>
-        <item>Option2</item>
-        <item>Option3</item>
+        <item>Option 1</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
     </string-array>
 
     <string-array name="controls_array2">

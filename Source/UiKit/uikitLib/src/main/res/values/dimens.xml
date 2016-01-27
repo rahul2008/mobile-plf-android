@@ -189,5 +189,6 @@
     <dimen name="uikit_control_default_stroke">2dp</dimen>
     <dimen name="uikit_controls_default_width">95dp</dimen>
     <dimen name="uikit_controls_default_height">44dp</dimen>
+    <dimen name="uikit_controls_button_corner_rounding">2dp</dimen>
     <dimen name="uikit_modal_alert_bottom_layout_margin">10dp</dimen>
 </resources>
