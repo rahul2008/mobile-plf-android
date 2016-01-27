@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
@@ -249,16 +250,17 @@ public class StateControls extends LinearLayout {
             gradientDrawable.setColor(Color.WHITE);
             button.setBackgroundDrawable(gradientDrawable);
         }
-
+        int color = selected ? Color.WHITE : baseColor;
         if (button instanceof Button) {
-            int textColor = selected ? Color.WHITE : baseColor;
-            ((Button) button).setTextColor(textColor);
+            ((Button) button).setTextColor(color);
+        } else if (button instanceof ImageButton) {
+            ((ImageButton) button).getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         }
     }
 
     private void handleCorners(GradientDrawable gradientDrawable, int position) {
         Resources resources = context.getResources();
-        float dimension = resources.getDimension(R.dimen.uikit_button_corner_rounding);
+        float dimension = resources.getDimension(R.dimen.uikit_controls_button_corner_rounding);
         int lastPosition = this.buttons.size() - 1;
 
         if (position == 0) {

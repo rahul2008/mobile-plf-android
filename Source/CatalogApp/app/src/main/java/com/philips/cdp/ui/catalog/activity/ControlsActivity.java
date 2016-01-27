@@ -5,13 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.StateControls;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -40,15 +37,19 @@ public class ControlsActivity extends CatalogActivity {
 
 
         StateControls controls = (StateControls) this.findViewById(R.id.controls);
+        StateControls controls0 = (StateControls) this.findViewById(R.id.controls0);
         controls.enableMultipleChoice(false);
         TypedArray controlIcons = getResources()
                 .obtainTypedArray(R.array.control_icons);
         Drawable[] drawables = new Drawable[controlIcons.length()];
+        Drawable[] drawables2 = new Drawable[controlIcons.length()];
         for (int i = 0; i < controlIcons.length(); i++) {
             drawables[i] = VectorDrawable.create(this, controlIcons.getResourceId(i, -1));
+            drawables2[i] = VectorDrawable.create(this, controlIcons.getResourceId(i, -1));
         }
         controlIcons.recycle();
         controls.drawControls(drawables, true);
+        controls0.drawControls(drawables2, true);
         controls.setOnButtonStateChangedListener(new StateControls.OnButtonStateChangeListener() {
             @Override
             public void onButtonStateChanged(int position) {
