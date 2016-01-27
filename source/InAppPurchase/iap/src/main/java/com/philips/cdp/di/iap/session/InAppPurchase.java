@@ -144,7 +144,7 @@ public class InAppPurchase {
                         //     httpsURLConnection.setSSLSocketFactory(InAppPurchase.getSSLSoketFactory(context));
                         httpsURLConnection.setHostnameVerifier(authHandler.hostnameVerifier);
                         httpsURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                        httpsURLConnection.setRequestProperty("Authorization", "Bearer " + authHandler.generateToken(mContext, "", "")); //Header
+                        httpsURLConnection.setRequestProperty("Authorization", "Bearer " + authHandler.generateToken(context, "", "")); //Header
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -206,7 +206,36 @@ public class InAppPurchase {
         }.execute();
     }
 
-    public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary){
+
+    public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary) {
+        try {
+            JSONObject jsonObject = new JSONObject(inputString);
+            if (jsonObject.has("entries")) {
+                JSONArray itemList = new JSONArray(jsonObject.get("entries").toString());
+                for(int i=0;i<itemList.length();i++){
+                    JSONObject object = itemList.getJSONObject(i);
+                    if(object.has("quantity")){
+                        summary.quantity = object.get("quantity").toString();
+                    }
+                    if(object.has("totalPrice")){
+                        JSONObject jsonPrice = new JSONObject(jsonObject.get("totalPrice").toString());
+                        if (jsonPrice.has("currencyIso")) {
+                            summary.Currency = jsonPrice.get("currencyIso").toString();
+                        }
+                        if (jsonPrice.has("value")) {
+                            summary.price = jsonPrice.get("value").toString();
+                        }
+                       // summary.price = object.get("totalPrice").toString();
+                    }
+                }
+                callback.updateProductInfo(summary);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+   /* public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary){
         Log.i(TAG,inputString);
         try{
             JSONObject jsonObject = new JSONObject(inputString);
@@ -227,10 +256,10 @@ public class InAppPurchase {
         }catch (JSONException e){
             e.printStackTrace();
         }
-      /*  summary.quantity = 2;
-        summary.price = "188";*/
+      *//*  summary.quantity = 2;
+        summary.price = "188";*//*
         callback.updateProductInfo(summary);
-    }
+    }*/
 
 
 

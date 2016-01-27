@@ -3,6 +3,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.ExpandedMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -51,6 +52,11 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_cart_view);
         mContext = this;
+
+        listBelow = (ListView) findViewById(R.id.withouticon);
+        mAdapter = new ShoppingCartPriceAdapter(ShoppingCartView.this);
+        listBelow.setAdapter(mAdapter);
+
         productInfo = new ProductSummary();
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
 
@@ -89,8 +95,17 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     @Override
     protected void onStart() {
         super.onStart();
+        InAppPurchase.getCartCurrentCartRequest(this, this, productInfo);
 
-        InAppPurchase.getCartCurrentCartRequest(mContext,this,productInfo);
+
+
+    }
+
+    @Override
+    public void updateProductInfo(final ProductSummary summary) {
+        summary.price = "€ " + productInfo.price;
+        summary.quantity = productInfo.quantity;
+        Toast.makeText(mContext,"productInfo = " + "price = " + summary.price + "quantity = " + summary.quantity,Toast.LENGTH_SHORT).show();
 
         PrxLogger.enablePrxLogger(true);
         ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
@@ -117,14 +132,11 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
 
                 productInfo.ImageURL = data.getImageURL();
                 productInfo.productTitle = data.getProductTitle();
-               // productInfo.quantity = 2;
-                productInfo.price = "€ " + data.getPrice().getProductPrice();
-
-                listBelow = (ListView) findViewById(R.id.withouticon);
-                mAdapter = new ShoppingCartPriceAdapter(ShoppingCartView.this);
-                listBelow.setAdapter(mAdapter);
+                // productInfo.quantity = 2;
+                // productInfo.price = "€ " + data.getPrice().getProductPrice();
 
                 mAdapter.addItem(productInfo);
+                listBelow.invalidate();
             }
 
             @Override
@@ -133,12 +145,5 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
             }
         });
 
-    }
-
-    @Override
-    public void updateProductInfo(final ProductSummary summary) {
-        summary.price = productInfo.price;
-        summary.quantity = productInfo.quantity;
-        Toast.makeText(mContext,"productInfo = " + "price = " + summary.price + "quantity = " + summary.quantity,Toast.LENGTH_SHORT).show();
     }
 }

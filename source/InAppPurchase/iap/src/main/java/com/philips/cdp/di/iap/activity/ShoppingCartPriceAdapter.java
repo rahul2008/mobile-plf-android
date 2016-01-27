@@ -112,7 +112,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                 holder.from.setText("Quantity");
                 holder.nameOption.setText(summary.productTitle);
                 holder.price.setText(summary.price);
-                holder.valueOption.setText(summary.quantity + "2");
+                holder.valueOption.setText(summary.quantity);
 
                 new DownloadAsyncTask().execute(holder);
 
