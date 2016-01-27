@@ -1,13 +1,18 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.Product;
+import com.philips.cdp.di.iap.activity.ShoppingCartView;
 import com.philips.cdp.di.iap.activity.Utility;
 import com.philips.cdp.di.iap.session.AsyncTaskCompleteListener;
 import com.philips.cdp.di.iap.session.InAppPurchase;
@@ -20,6 +25,10 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
     private TextView mCountText = null;
 
+    FrameLayout shoppingCart = null;
+
+    Context mContext = null;
+
     private ArrayList<Product> mProductArrayList = new ArrayList<>();
 
     String[] mCatalogNumbers = {"HX8331/11", "HX8372/51", "HX8071/10", "HX6064/26", "HX6064/33", "HX9044/26"};
@@ -29,9 +38,21 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
 
+        mContext = this;
+
         mIapSharedPreference = new IapSharedPreference(this);
 
         ListView mProductListView = (ListView) findViewById(R.id.product_list);
+
+        shoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
+
+        shoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Intent myIntent = new Intent(mContext, ShoppingCartView.class);
+                mContext.startActivity(myIntent);
+            }
+        });
 
         populateProduct();
 
