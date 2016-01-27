@@ -249,9 +249,11 @@ public class StateControls extends LinearLayout {
             gradientDrawable.setColor(Color.WHITE);
             button.setBackgroundDrawable(gradientDrawable);
         }
-        int style = selected ? R.style.WhiteText : R.style.baseText;
-        if (button instanceof Button)
-            ((Button) button).setTextAppearance(this.context, style);
+
+        if (button instanceof Button) {
+            int textColor = selected ? Color.WHITE : baseColor;
+            ((Button) button).setTextColor(textColor);
+        }
     }
 
     private void handleCorners(GradientDrawable gradientDrawable, int position) {
