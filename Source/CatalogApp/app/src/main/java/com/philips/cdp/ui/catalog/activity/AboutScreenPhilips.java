@@ -1,6 +1,7 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.philips.cdp.ui.catalog.R;
@@ -16,6 +17,7 @@ public class AboutScreenPhilips extends UiKitActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.uikit_about_screen);
+        setActionBar(getSupportActionBar());
         findViewById(R.id.UpButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -23,5 +25,12 @@ public class AboutScreenPhilips extends UiKitActivity {
             }
         });
         findViewById(R.id.aboutscreen_close).setVisibility(View.GONE);
+    }
+
+    private void setActionBar(ActionBar actionBar) {
+        if (actionBar != null) {
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(R.layout.uikit_about_screen_actionbar);
+        }
     }
 }

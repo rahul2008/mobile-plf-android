@@ -19,12 +19,30 @@ import com.philips.cdp.ui.catalog.R;
  * <pre>
  *     android:theme="@style/AboutScreenTheme"/
  *     layout: R.layout.uikit_about_screen
+ *
+ *     <b> Use below code to support About Screen specific action bar</b>
+ *          <pre>
+ *              ActionBar actionBar = getSupportActionBar();
+ *              if (actionBar != null) {
+ *                   actionBar.setDisplayShowCustomEnabled(true);
+ *                   actionBar.setCustomView(R.layout.uikit_about_screen_actionbar);
+ *                 }
+ *          </pre>
  * </pre>
  *
  * <H4>Maker's mark</H4>
  * <pre>
  * android:theme="@style/AboutScreenTheme.MM"
  * layout: R.layout.uikit_about_screen_mm
+ *
+ *  <b> Use below code to support About Screen specific action bar</b>
+ *          <pre>
+ *              ActionBar actionBar = getSupportActionBar();
+ *              if (actionBar != null) {
+ *                   actionBar.setDisplayShowCustomEnabled(true);
+ *                   actionBar.setCustomView(R.layout.uikit_about_screen_actionbar_mm);
+ *                 }
+ *          </pre>
  * </pre>
  *
  * The ids are mapped as:
