@@ -157,13 +157,13 @@ public class InAppPurchase {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                Utility.showProgressDialog(context, "getting Cart Info");
+               // Utility.showProgressDialog(context, "getting Cart Info");
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Utility.dismissProgressDialog();
+               // Utility.dismissProgressDialog();
 
             }
 
@@ -183,8 +183,8 @@ public class InAppPurchase {
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            //mTextView.setText("That didn't work!");
                             Log.i(TAG,"error = " + error);
+                            callback.updateProductInfo(null);
                         }
 
                     }
@@ -201,7 +201,7 @@ public class InAppPurchase {
                     queue.add(stringRequest);
                 } catch (Exception e) {
                     System.out.println("Exception");
-
+                    callback.updateProductInfo(null);
                 }
                 return null;
             }

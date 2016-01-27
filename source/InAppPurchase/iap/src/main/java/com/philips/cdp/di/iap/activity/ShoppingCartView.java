@@ -95,17 +95,20 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     @Override
     protected void onStart() {
         super.onStart();
+        Utility.showProgressDialog(mContext,"getting cart details");
         InAppPurchase.getCartCurrentCartRequest(this, this, productInfo);
-
-
-
     }
 
     @Override
     public void updateProductInfo(final ProductSummary summary) {
+        if(summary == null){
+            Utility.dismissProgressDialog();
+            Toast.makeText(mContext,"Network Error",Toast.LENGTH_LONG).show();
+            return;
+        }
         summary.price = "€ " + productInfo.price;
         summary.quantity = productInfo.quantity;
-        Toast.makeText(mContext,"productInfo = " + "price = " + summary.price + "quantity = " + summary.quantity,Toast.LENGTH_SHORT).show();
+       // Toast.makeText(mContext,"productInfo = " + "price = " + summary.price + "quantity = " + summary.quantity,Toast.LENGTH_SHORT).show();
 
         PrxLogger.enablePrxLogger(true);
         ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
@@ -142,8 +145,10 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
             @Override
             public void onResponseError(String error, int code) {
                 Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
+                Toast.makeText(mContext,"Network Error",Toast.LENGTH_LONG).show();
+                Utility.dismissProgressDialog();
             }
         });
-
     }
+
 }

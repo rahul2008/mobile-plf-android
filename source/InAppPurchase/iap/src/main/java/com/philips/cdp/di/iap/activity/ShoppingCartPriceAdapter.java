@@ -109,7 +109,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
 
                 holder.imageUrl = "http://images.philips.com/is/image/PhilipsConsumer/HX8372_51-IMS-en_GB";
 
-                holder.from.setText("Quantity");
+                holder.from.setText("Quantity: ");
                 holder.nameOption.setText(summary.productTitle);
                 holder.price.setText(summary.price);
                 holder.valueOption.setText(summary.quantity);
@@ -132,7 +132,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                     holder.name.setText("VAT");
 
                     holder.number.setVisibility(View.VISIBLE);
-                    holder.number.setText("€ 12,99");
+                    holder.number.setText("0");
 
                     holder.description.setVisibility(View.VISIBLE);
                     holder.description.setText("Total (3items)");
@@ -144,7 +144,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                     holder.name.setText("Delivery via UPS Parcel");
 
                     holder.number.setVisibility(View.VISIBLE);
-                    holder.number.setText("€ 1,99");
+                    holder.number.setText("0");
 
                     holder.description.setVisibility(View.VISIBLE);
                     holder.description.setText("Delivery is free when you spend € 100 or more");
@@ -201,7 +201,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Utility.showProgressDialog(activity, "getting Cart Info");
+           // Utility.showProgressDialog(activity, "getting Cart Info");
         }
 
         @Override
