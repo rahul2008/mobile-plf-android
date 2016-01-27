@@ -39,6 +39,7 @@
         android:visibility="gone"
         android:textColor="#7ba4d9"
         android:layout_alignBaseline="@id/medium"
+        android:tint="@android:color/holo_blue_dark"
         />
 
 
