@@ -57,7 +57,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
-                new PrxProductData(getActivity(), this).executeRequests();
+                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null)
+                    new PrxProductData(getActivity(), this).executeRequests();
             }
         }
         return mView;
