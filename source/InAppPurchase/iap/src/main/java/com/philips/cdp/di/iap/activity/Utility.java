@@ -92,7 +92,7 @@ public class Utility {
      *
      * @param context Current context
      */
-    public static void showNetworkError(final Context context) {
+    public static void showNetworkError(final Activity context, final boolean finish) {
         String alertTitle = "Network Error";
         String alertBody = "No network available. Please check your network settings and try again.";
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -103,6 +103,10 @@ public class Utility {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+
+                        if (finish) {
+                            context.finish();
+                        }
                     }
                 });
         alert.show();
