@@ -1,4 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
+
+def libVersionNumber = new File('../../VERSION').text.trim()
+libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
+    }
+}
 
 android {
     compileSdkVersion 23
@@ -8,12 +22,19 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.0"
+        versionName libVersionNumber
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources true
+            testCoverageEnabled true
         }
     }
 }
@@ -32,4 +53,54 @@ allprojects {
 }
 
 
+
+//maven configuration stuff required for artifactory plugin
+group = 'com.philips.cdp'
+version = libVersionNumber
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = 'libs-snapshot-local-android'
+            username = 'admin'
+            password = 'password'
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = false
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+}
+
+
+sourceSets {
+    main{
+        java {
+            srcDirs '../../Source/Hor-productselection-android/app/src/main/java'
+        }
+        resources {
+
+            srcDirs '../../Source/Hor-productselection-android/app/src/main/res'
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.java.srcDirs
+    // from('../../Source/SampleDigitalCare/launchDigitalCare/src/main/res')
+    classifier 'sources'
+}
+
+artifactoryPublish {
+    dependsOn sourceJar
+}
+
+artifacts {
+    archives sourceJar
+}
 
