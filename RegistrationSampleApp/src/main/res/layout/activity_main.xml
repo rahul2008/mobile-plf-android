@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
-            android:text="Registration with Account Setting" />
+            android:text="Account Setting" />
 
         <Button
             android:id="@+id/btn_registration_without_account"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
-            android:text="Registration without Account Setting" />
+            android:text="Registration" />
 
         <Button
             android:id="@+id/btn_refresh_token"
