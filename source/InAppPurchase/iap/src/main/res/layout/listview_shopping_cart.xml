@@ -42,6 +42,7 @@
         fontPath="fonts/centralesansbook.ttf"
         android:textSize="16sp"
         android:layout_alignParentRight="true"
+        android:textColor="@color/colorDarkBlue"
         />
 
     <TextView
@@ -54,6 +55,7 @@
         android:scrollHorizontally="false"
         android:layout_toLeftOf="@id/price"
         android:textSize="16sp"
+        android:textColor="@color/colorDarkBlue"
         />
 
     <TextView
@@ -68,6 +70,7 @@
         android:layout_below="@+id/text1Name"
         android:layout_toRightOf="@+id/from"
         android:layout_toEndOf="@+id/from"
+        android:textColor="@color/colorDarkBlue"
         />
 
     <TextView
@@ -80,6 +83,7 @@
         android:textSize="10sp"
        android:layout_alignBaseline="@id/text2value"
         android:layout_marginRight="3dp"
+        android:textColor="@color/colorDarkBlue"
         />
 
 

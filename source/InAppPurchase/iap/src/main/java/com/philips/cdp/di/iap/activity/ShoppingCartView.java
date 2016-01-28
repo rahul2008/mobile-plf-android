@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.AsyncTaskCompleteListener;
+import com.philips.cdp.di.iap.session.CartInfo;
 import com.philips.cdp.di.iap.session.InAppPurchase;
 import com.philips.cdp.di.iap.session.UpdateProductInfoFromHybris;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -46,6 +47,7 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     private String mCatalogCode = "CONSUMER";
     private String mRequestTag = null;
     ProductSummary productInfo;
+    CartInfo cartInfo;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -55,9 +57,11 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
 
         listBelow = (ListView) findViewById(R.id.withouticon);
         mAdapter = new ShoppingCartPriceAdapter(ShoppingCartView.this);
-        listBelow.setAdapter(mAdapter);
+      //  listBelow.setAdapter(mAdapter);
 
         productInfo = new ProductSummary();
+        cartInfo = CartInfo.getInstance();
+
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
 
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -96,17 +100,17 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     protected void onStart() {
         super.onStart();
         Utility.showProgressDialog(mContext,"getting cart details");
-        InAppPurchase.getCartCurrentCartRequest(this, this, productInfo);
+        InAppPurchase.getCartCurrentCartRequest(this, this, productInfo,cartInfo);
     }
 
     @Override
-    public void updateProductInfo(final ProductSummary summary) {
+    public void updateProductInfo(final ProductSummary summary, final CartInfo cartInfo) {
         if(summary == null){
             Utility.dismissProgressDialog();
             Toast.makeText(mContext,"Network Error",Toast.LENGTH_LONG).show();
             return;
         }
-        summary.price = "€ " + productInfo.price;
+        summary.price = productInfo.price;
         summary.quantity = productInfo.quantity;
        // Toast.makeText(mContext,"productInfo = " + "price = " + summary.price + "quantity = " + summary.quantity,Toast.LENGTH_SHORT).show();
 
@@ -135,11 +139,9 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
 
                 productInfo.ImageURL = data.getImageURL();
                 productInfo.productTitle = data.getProductTitle();
-                // productInfo.quantity = 2;
-                // productInfo.price = "€ " + data.getPrice().getProductPrice();
 
                 mAdapter.addItem(productInfo);
-                listBelow.invalidate();
+                listBelow.setAdapter(mAdapter);
             }
 
             @Override
