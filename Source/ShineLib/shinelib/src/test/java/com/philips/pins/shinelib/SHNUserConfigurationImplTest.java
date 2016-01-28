@@ -20,10 +20,8 @@ import java.util.Observer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyInt;
@@ -88,7 +86,6 @@ public class SHNUserConfigurationImplTest {
         assertEquals(SHNUserConfiguration.Handedness.Unknown, shnUserConfiguration.getHandedness());
         assertEquals("en", shnUserConfiguration.getIsoLanguageCode());
         assertEquals((Character) '.', shnUserConfiguration.getDecimalSeparator());
-        assertFalse(shnUserConfiguration.getUseMetricSystem());
 
         assertEquals(0, shnUserConfiguration.getChangeIncrement());
     }
@@ -278,27 +275,6 @@ public class SHNUserConfigurationImplTest {
     }
 
     @Test
-    public void whenUseMetricSystemIsSetTheWrapperIsCalledWithTheProperValue() {
-        shnUserConfiguration.setUseMetricSystem(true);
-        verify(mockedSharedPreferences, times(1)).edit();
-        verify(mockedEditor).putBoolean(SHNUserConfigurationImpl.USER_CONFIG_USE_METRIC_SYSTEM, Boolean.TRUE);
-        assertEquals(1, shnUserConfiguration.getChangeIncrement());
-
-        shnUserConfiguration.setUseMetricSystem(false);
-        verify(mockedSharedPreferences, times(2)).edit();
-        verify(mockedEditor).putBoolean(SHNUserConfigurationImpl.USER_CONFIG_USE_METRIC_SYSTEM, Boolean.FALSE);
-        assertEquals(2, shnUserConfiguration.getChangeIncrement());
-
-        shnUserConfiguration.setUseMetricSystem(true);
-        reset(mockedEditor);
-
-        shnUserConfiguration.setUseMetricSystem(null);
-        verify(mockedSharedPreferences, times(4)).edit();
-        verify(mockedEditor).putBoolean(SHNUserConfigurationImpl.USER_CONFIG_USE_METRIC_SYSTEM, Boolean.FALSE);
-        assertEquals(4, shnUserConfiguration.getChangeIncrement());
-    }
-
-    @Test
     public void whenDecimalSeparatorIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setDecimalSeparator(',');
         verify(mockedSharedPreferences, times(1)).edit();
@@ -344,7 +320,6 @@ public class SHNUserConfigurationImplTest {
         assertEquals(now.getTime(), shnUserConfiguration.getDateOfBirth().getTime());
         assertEquals(SHNUserConfiguration.Handedness.LeftHanded, shnUserConfiguration.getHandedness());
         assertEquals("nl", shnUserConfiguration.getIsoLanguageCode());
-        assertTrue(shnUserConfiguration.getUseMetricSystem());
         assertEquals((Character) ',', shnUserConfiguration.getDecimalSeparator());
         assertEquals(3456, shnUserConfiguration.getChangeIncrement());
     }
@@ -400,12 +375,12 @@ public class SHNUserConfigurationImplTest {
     }
 
     @Test
-    public void whenClockFormatHasNotBeenSet_ThenGetReturn24HoursClockFormat() {
+    public void whenClockFormatHasNotBeenSet_ThenItIsNull() {
         setupNewPreferenceFormat();
 
         SHNUserConfiguration.ClockFormat actualClockFormat = shnUserConfiguration.getClockFormat();
 
-        assertThat(actualClockFormat).isEqualTo(SHNUserConfiguration.ClockFormat.TWENTY_FOUR_HOURS);
+        assertThat(actualClockFormat).isNull();
     }
 
     @Test
@@ -418,5 +393,34 @@ public class SHNUserConfigurationImplTest {
         SHNUserConfiguration.ClockFormat actualClockFormat = shnUserConfiguration.getClockFormat();
 
         assertThat(actualClockFormat).isEqualTo(expectedClockFormat);
+    }
+
+
+    @Test
+    public void whenUseMetricSystemIsSet_ThenListenerIsNotified() {
+        setupNewPreferenceFormat();
+
+        shnUserConfiguration.setUseMetricSystem(false);
+
+        verify(mockedObserver).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenUseMetricSystemHasNotBeenSet_ThenItReturnsTrue() {
+        setupNewPreferenceFormat();
+
+        boolean useMetricSystem = shnUserConfiguration.getUseMetricSystem();
+
+        assertThat(useMetricSystem).isTrue();
+    }
+
+    @Test
+    public void whenUseMetricSystemHasBeenSetToFalse_ThenItReturnsFalse() {
+        setupNewPreferenceFormat();
+
+        shnUserConfiguration.setUseMetricSystem(false);
+        boolean useMetricSystem = shnUserConfiguration.getUseMetricSystem();
+
+        assertThat(useMetricSystem).isFalse();
     }
 }

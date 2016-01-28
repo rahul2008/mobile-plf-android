@@ -40,7 +40,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     private static final long DEFAULT_LONG_VALUE = -1L;
     private static final int DEFAULT_INT_VALUE = -1;
-    private static final Boolean DEFAULT_USE_METRIC_SYSTEM = Boolean.FALSE;
+    private static final Boolean DEFAULT_USE_METRIC_SYSTEM = Boolean.TRUE;
     private static final float DEFAULT_FLOAT_VALUE = Float.NaN;
     private static final String DEFAULT_STRING_VALUE = null;
     private static final Boolean DEFAULT_BOOLEAN_VALUE = null;
@@ -62,7 +62,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     private int changeIncrement;
 
-    /* package */ SHNUserConfigurationImpl(SHNPersistentStorage shnPersistentStorage, Handler internalHandler) {
+    public SHNUserConfigurationImpl(SHNPersistentStorage shnPersistentStorage, Handler internalHandler) {
         this.sharedPreferences = new SharedPreferencesHelper(shnPersistentStorage.getSharedPreferences());
         this.internalHandler = internalHandler;
         retrieveFromPreferences();
@@ -216,18 +216,13 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     @Override
     public synchronized Boolean getUseMetricSystem() {
-        return useMetricSystem;
+        return sharedPreferences.get("UseMetricSystem", true);
     }
 
     @Override
     public synchronized void setUseMetricSystem(Boolean useMetricSystem) {
-        if (useMetricSystem == null) {
-            useMetricSystem = DEFAULT_USE_METRIC_SYSTEM;
-        }
-        if (!isEqualTo(this.useMetricSystem, useMetricSystem)) {
-            this.useMetricSystem = useMetricSystem;
-            incrementChangeIncrementAndNotifyModifiedListeners();
-        }
+        sharedPreferences.put("UseMetricSystem", useMetricSystem);
+        incrementChangeIncrementAndNotifyModifiedListeners();
     }
 
     @Override
@@ -273,8 +268,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
 
     @Override
     public ClockFormat getClockFormat() {
-        ClockFormat clockFormat = sharedPreferences.get("ClockFormat", ClockFormat.TWENTY_FOUR_HOURS);
-        return clockFormat;
+        return sharedPreferences.get("ClockFormat");
     }
 
     @Override
