@@ -10,6 +10,7 @@ import android.os.Handler;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigHeartRateZones;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigTargets;
@@ -105,6 +106,13 @@ public class SHNCapabilityWrapperFactory {
             case CONFIG_HEARTRATE_ZONES:
                 shnCapabilityWrapper = new SHNCapabilityConfigHeartRateZonesWrapper(
                         (SHNCapabilityConfigHeartRateZones) shnCapability,
+                        internalHandler,
+                        userHandler
+                );
+                break;
+            case CONFIG_ENERGY_INTAKE:
+                shnCapabilityWrapper = new SHNCapabilityConfigEnergyIntakeWrapper(
+                        (SHNCapabilityConfigEnergyIntake) shnCapability,
                         internalHandler,
                         userHandler
                 );

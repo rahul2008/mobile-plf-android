@@ -98,7 +98,8 @@ public enum SHNCapabilityType {
     CONFIG_SEDENTARY,
     DEVICE_DIAGNOSTIC,
     CONFIG_HEARTRATE_ZONES,
-    CONFIG_TARGETS;
+    CONFIG_TARGETS,
+    CONFIG_ENERGY_INTAKE;
 
     public static SHNCapabilityType getCounterPart(SHNCapabilityType capabilityType) {
         switch (capabilityType) {
@@ -158,6 +159,7 @@ public enum SHNCapabilityType {
             case UserConfiguration:
             case CONFIG_TARGETS:
             case CONFIG_HEARTRATE_ZONES:
+            case CONFIG_ENERGY_INTAKE:
             default:
                 break;
         }
