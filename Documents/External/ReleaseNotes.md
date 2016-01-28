@@ -11,6 +11,16 @@ defaultConfig {
     generatedDensities = []
 }
 
+This will block generating PNG from vector resource.
+UIKIT support backward compatibility for vector support.
+
+	It can be used via programmatically.
+	Example: -> Drawable d = 
+	com.philips.cdp.uikit.drawable.VectorDrawable.create(context, R.drawable.xyz);
+
+	imageView.setImageDrawable(d);
+
+
 
 Version - 1.1.0                               Date:18-01-2015
 ---------------------------------------------------------------
