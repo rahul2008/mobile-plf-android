@@ -2,29 +2,28 @@
 package com.philips.cdp.registration.configuration;
 
 import java.util.HashMap;
-import java.util.Locale;
 
 public class Flow {
 
-    private boolean emailVerificationRequired;
+    private Boolean emailVerificationRequired;
 
-    private boolean termsAndConditionsAcceptanceRequired;
+    private Boolean termsAndConditionsAcceptanceRequired;
 
     private HashMap<String, String> minAgeLimit;
 
-    public boolean isEmailVerificationRequired() {
+    public Boolean isEmailVerificationRequired() {
         return emailVerificationRequired;
     }
 
-    public void setEmailVerificationRequired(boolean emailVerificationRequired) {
+    public void setEmailVerificationRequired(Boolean emailVerificationRequired) {
         this.emailVerificationRequired = emailVerificationRequired;
     }
 
-    public boolean isTermsAndConditionsAcceptanceRequired() {
+    public Boolean isTermsAndConditionsAcceptanceRequired() {
         return termsAndConditionsAcceptanceRequired;
     }
 
-    public void setTermsAndConditionsAcceptanceRequired(boolean termsAndConditionsAcceptanceRequired) {
+    public void setTermsAndConditionsAcceptanceRequired(Boolean termsAndConditionsAcceptanceRequired) {
         this.termsAndConditionsAcceptanceRequired = termsAndConditionsAcceptanceRequired;
     }
 

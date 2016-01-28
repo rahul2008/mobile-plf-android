@@ -8,7 +8,7 @@ import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.configuration.HSDPClientInfo;
+import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -18,6 +18,7 @@ import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
@@ -267,17 +268,12 @@ public class HsdpUser {
     private DhpApiClientConfiguration getDhpApiClientConfiguration() {
         DhpApiClientConfiguration dhpApiClientConfiguration = null;
         String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
-       // HSDPClientInfo hsdpClientInfo = RegistrationConfiguration.getInstance().getHsdpConfiguration().getHSDPClientInfo(environment);
-        HSDPClientInfo hsdpClientInfo = RegistrationConfiguration.getInstance().getCurrentHSDPConfiguration().getHSDPClientInfo(environment);
-        if (null != hsdpClientInfo && null != hsdpClientInfo.getBaseURL() && null != hsdpClientInfo.getSecret() && null != hsdpClientInfo.getShared()
-                && null != hsdpClientInfo.getHSDPApplicationName()) {
-           /* dhpApiClientConfiguration = new DhpApiClientConfiguration(
-                    hsdpClientInfo.getBaseUrl(),
-                    hsdpClientInfo.getApplicationName(),
-                    hsdpClientInfo.getSharedId(),
-                    hsdpClientInfo.getSecretId());*/
-            RLog.i(RLog.HSDP, "Social base URL " + hsdpClientInfo.getBaseURL());
-            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpClientInfo.getBaseURL(),hsdpClientInfo.getHSDPApplicationName(),hsdpClientInfo.getShared(),hsdpClientInfo.getSecret());
+        HSDPInfo hsdpInfo = RegistrationConfiguration.getInstance().getHsdpConfiguration().getHSDPInfo(RegUtility.getConfiguration(environment));
+        if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null != hsdpInfo.getSecretId() && null != hsdpInfo.getSharedId()
+                && null != hsdpInfo.getApplicationName()) {
+
+            RLog.i(RLog.HSDP, "Social base URL " + hsdpInfo.getBaseURL());
+            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(), hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecretId());
         }
         return dhpApiClientConfiguration;
     }

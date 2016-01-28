@@ -1,12 +1,12 @@
 
 package com.philips.cdp.registration.coppa;
 
+import com.janrain.android.Jump;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.janrain.android.Jump;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 public class CoppaConfiguration {
 
@@ -76,7 +76,7 @@ public class CoppaConfiguration {
 					if (!consentObj.isNull(CAMPAIGN_ID)
 					        && !consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(NULL)
 					        && consentObj.optString(CAMPAIGN_ID).equalsIgnoreCase(
-					                RegistrationConfiguration.getInstance().getPilConfiguration().getCampaignID())) {
+							RegistrationConfiguration.getInstance().getPilConfiguration().getCampaignID())) {
 						consent.setConfirmationGiven(consentObj.optString(CONFIRMATION_GIVEN));
 						consent.setMicroSiteID(consentObj.optString(MICRO_SITE_ID));
 						consent.setCommunicationSentAt(consentObj.optString(COMMUNICATION_SENT_AT));

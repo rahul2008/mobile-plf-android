@@ -3,16 +3,10 @@ package com.philips.cdp.registration;
 import android.support.v4.util.Pair;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.google.dexmaker.dx.rop.annotation.NameValuePair;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.mockito.Mockito.mock;
 
 /**
  * Created by 310202337 on 11/23/2015.

@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 
 import java.util.Locale;
@@ -133,5 +134,22 @@ public class RegUtility {
     public static void handleTermsCondition(Activity activity) {
         RegistrationHelper.getInstance().getUserRegistrationListener()
                 .notifyOnTermsAndConditionClickEventOccurred(activity);
+    }
+
+
+    public static Configuration getConfiguration(String registrationEnv) {
+        if (registrationEnv.equalsIgnoreCase(Configuration.DEVELOPMENT.getValue()))
+            return Configuration.DEVELOPMENT;
+
+        if (registrationEnv.equalsIgnoreCase(Configuration.PRODUCTION.getValue()))
+            return Configuration.PRODUCTION;
+
+        if (registrationEnv.equalsIgnoreCase(Configuration.STAGING.getValue()))
+            return Configuration.STAGING;
+
+        if (registrationEnv.equalsIgnoreCase(Configuration.TESTING.getValue()))
+            return Configuration.TESTING;
+
+        return Configuration.EVALUATION;
     }
 }

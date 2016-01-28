@@ -5,19 +5,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SyncStatusObserver;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.configuration.ConfigurationParser;
-import com.philips.cdp.registration.configuration.HSDPClientInfo;
+import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -27,16 +28,10 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.tagging.Tagging;
-import com.philips.dhpclient.util.ServerTime;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
-import java.util.Scanner;
 
 public class RegistrationHelper {
 
@@ -60,7 +55,7 @@ public class RegistrationHelper {
 
     private String countryCode;
 
-    private final int  CALL_AFTER_DELAY = 500;
+    private final int CALL_AFTER_DELAY = 500;
 
     private boolean isCoppaFlow = false;
 
@@ -72,7 +67,7 @@ public class RegistrationHelper {
 
     private JumpFlowDownloadStatusListener mJumpFlowDownloadStatusListener;
 
-    public boolean isJumpInitializationInProgress(){
+    public boolean isJumpInitializationInProgress() {
         return mIsInitializationInProgress;
     }
 
@@ -99,11 +94,11 @@ public class RegistrationHelper {
         return mRegistrationHelper;
     }
 
-    public void registerJumpFlowDownloadListener(JumpFlowDownloadStatusListener pJumpFlowDownloadStatusListener){
+    public void registerJumpFlowDownloadListener(JumpFlowDownloadStatusListener pJumpFlowDownloadStatusListener) {
         this.mJumpFlowDownloadStatusListener = pJumpFlowDownloadStatusListener;
     }
 
-    public void unregisterJumpFlowDownloadListener(){
+    public void unregisterJumpFlowDownloadListener() {
         this.mJumpFlowDownloadStatusListener = null;
     }
 
@@ -117,23 +112,23 @@ public class RegistrationHelper {
 
             if (intent != null) {
                 Bundle extras = intent.getExtras();
-                if(extras.getString("message").equalsIgnoreCase("Download flow Success!!")){
+                if (extras.getString("message").equalsIgnoreCase("Download flow Success!!")) {
                     // mJumpDownloadFlow++;
                     mReceivedDownloadFlowSuccess = true;
                     RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = mJumpDownloadFlow" + mJumpDownloadFlow);
-                }else if(extras.getString("message").equalsIgnoreCase("Provider flow Success!!")){
+                } else if (extras.getString("message").equalsIgnoreCase("Provider flow Success!!")) {
                     mReceivedProviderFlowSuccess = true;
                 }
                 RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = " + intent.toString());
                 if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()) || Jump.JR_PROVIDER_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()))
                         && (null != extras)) {
 
-                    if(mReceivedDownloadFlowSuccess && mReceivedProviderFlowSuccess){
+                    if (mReceivedDownloadFlowSuccess && mReceivedProviderFlowSuccess) {
                         mJanrainIntialized = true;
                         mIsInitializationInProgress = false;
                         mReceivedDownloadFlowSuccess = false;
                         mReceivedProviderFlowSuccess = false;
-                        if(mJumpFlowDownloadStatusListener != null) {
+                        if (mJumpFlowDownloadStatusListener != null) {
                             mHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -153,7 +148,7 @@ public class RegistrationHelper {
                     mJanrainIntialized = false;
                     mReceivedDownloadFlowSuccess = false;
                     mReceivedProviderFlowSuccess = false;
-                    if(mJumpFlowDownloadStatusListener != null){
+                    if (mJumpFlowDownloadStatusListener != null) {
                         mHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -171,7 +166,7 @@ public class RegistrationHelper {
         }
     };
 
-    public void resetInitializationState(){
+    public void resetInitializationState() {
         mIsInitializationInProgress = false;
         mReceivedDownloadFlowSuccess = false;
         mReceivedProviderFlowSuccess = false;
@@ -181,19 +176,19 @@ public class RegistrationHelper {
 
     private Locale mUILocale;
 
-    public void setUiLocale(String languageCode , String countryCode){
-        if(languageCode == null || languageCode.length() != 2 ){
+    public void setUiLocale(String languageCode, String countryCode) {
+        if (languageCode == null || languageCode.length() != 2) {
             throw new RuntimeException("Please set language code correctly . Please pass valid locale");
         }
 
-        if(languageCode == null || languageCode.length() != 2 ){
+        if (languageCode == null || languageCode.length() != 2) {
             throw new RuntimeException("Please set country code correctly .  Please pass valid locale");
         }
 
-        mUILocale = new Locale(languageCode,countryCode);
+        mUILocale = new Locale(languageCode, countryCode);
     }
 
-    public Locale getUiLocale(){
+    public Locale getUiLocale() {
         return mUILocale;
     }
 
@@ -211,7 +206,7 @@ public class RegistrationHelper {
 
         Locale mlocale = locale;
         if (isCoppaFlow()) {
-            mlocale = new Locale("en","US");
+            mlocale = new Locale("en", "US");
         }
         setLocale(mlocale);
         mIsInitializationInProgress = false;
@@ -220,48 +215,22 @@ public class RegistrationHelper {
         mReceivedDownloadFlowSuccess = false;
         mContext = context.getApplicationContext();
         NetworkUtility.isNetworkAvailable(mContext);
-       // RegistrationConfiguration.getInstance().setSocialProviders(null);
         setCountryCode(mlocale.getCountry());
         final String initLocale = mlocale.toString();
         RLog.i("LOCALE", "App JAnrain Init locale :" + initLocale);
 
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ServerTime.refreshOffset();
-            }
-        }).start();*/
 
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-              /*  if(!isJsonRead) {
-                    parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
-                }*/
+                if (!isJsonRead) {
+                    isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
+                }
 
                 if (isHsdpAvailable()) {
                     isHsdpFlow = true;
                 }
-
-                /*EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
-
-                IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
-                flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-                LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,t
-                        flowFilter);
-
-                String mMicrositeId = RegistrationConfiguration.getInstance().getPilConfiguration()
-                        .getMicrositeId();
-
-                RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + mMicrositeId);
-
-                String mRegistrationType = RegistrationConfiguration.getInstance()
-                        .getPilConfiguration().getRegistrationEnvironment();
-                RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
-
-                boolean mIsInitialize = mJanrainIntialized;
-                mJanrainIntialized = false;*/
 
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -271,7 +240,7 @@ public class RegistrationHelper {
 
                     flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
                     flowFilter.addAction("com.janrain.android.Jump.PROVIDER_FLOW_SUCCESS");
-                    if(janrainStatusReceiver != null){
+                    if (janrainStatusReceiver != null) {
                         LocalBroadcastManager.getInstance(context).unregisterReceiver(janrainStatusReceiver);
                     }
                     LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
@@ -293,21 +262,21 @@ public class RegistrationHelper {
                     if (RegistrationEnvironmentConstants.EVAL.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getRegistrationClientId());
+                                .getClientIds().getEvaluationId());
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
                                 + RegistrationConfiguration.getInstance().getPilConfiguration()
                                 .getCampaignID());
                         initEvalSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
+                                        .getJanRainConfiguration().getClientIds().getEvaluationId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
                     }
                     if (RegistrationEnvironmentConstants.PROD.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getRegistrationClientId());
+                                .getClientIds().getProductionId());
                         initProdSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
+                                        .getJanRainConfiguration().getClientIds().getProductionId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
 
@@ -315,9 +284,9 @@ public class RegistrationHelper {
                     if (RegistrationEnvironmentConstants.DEV.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getRegistrationClientId());
+                                .getClientIds().getDevelopmentId());
                         initDevSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
+                                        .getJanRainConfiguration().getClientIds().getDevelopmentId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
                     }
@@ -325,12 +294,12 @@ public class RegistrationHelper {
                     if (RegistrationEnvironmentConstants.TESTING.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getRegistrationClientId());
+                                .getClientIds().getTestingId());
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
                                 + RegistrationConfiguration.getInstance().getPilConfiguration()
                                 .getCampaignID());
                         initTesting(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
+                                        .getJanRainConfiguration().getClientIds().getTestingId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
                     }
@@ -339,9 +308,9 @@ public class RegistrationHelper {
                     if (RegistrationEnvironmentConstants.STAGING.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
                                 + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getRegistrationClientId());
+                                .getClientIds().getStagingId());
                         initStaging(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getRegistrationClientId(),
+                                        .getJanRainConfiguration().getClientIds().getStagingId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                         return;
                     }
@@ -350,7 +319,7 @@ public class RegistrationHelper {
         }).start();
     }
 
-    /*private boolean isHsdpAvailable() {
+    private boolean isHsdpAvailable() {
         HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
         if (hsdpConfiguration == null) {
             return false;
@@ -360,26 +329,31 @@ public class RegistrationHelper {
             return false;
         }
 
-        HSDPClientInfo hsdpClientInfo = hsdpConfiguration.getHSDPClientInfo(environment);
-        if (hsdpClientInfo == null) {
-            throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment ");
+
+        Configuration configuration =RegUtility.getConfiguration(environment);
+
+        System.out.println("Value"+configuration.getValue());
+
+        HSDPInfo hsdpInfo = hsdpConfiguration.getHSDPInfo(RegUtility.getConfiguration(environment));
+        if (hsdpInfo == null) {
+            throw new RuntimeException("HSDP configuration is not configured for " + environment + " environment ");
         }
-        if (null != hsdpConfiguration && null != hsdpClientInfo) {
+        if (null != hsdpConfiguration && null != hsdpInfo) {
 
             String exception = null;
 
-            if (hsdpClientInfo.getApplicationName() == null) {
+            if (hsdpInfo.getApplicationName() == null) {
                 exception += "Application Name";
             }
 
-            if (hsdpClientInfo.getSharedId() == null) {
+            if (hsdpInfo.getSharedId() == null) {
                 if (null != exception) {
                     exception += ",shared key ";
                 } else {
                     exception += "shared key ";
                 }
             }
-            if (hsdpClientInfo.getSecretId() == null) {
+            if (hsdpInfo.getSecretId() == null) {
                 if (null != exception) {
                     exception += ",Secret key ";
                 } else {
@@ -387,7 +361,7 @@ public class RegistrationHelper {
                 }
             }
 
-            if (hsdpClientInfo.getBaseUrl() == null) {
+            if (hsdpInfo.getBaseURL() == null) {
                 if (null != exception) {
                     exception += ",Base Url ";
                 } else {
@@ -401,70 +375,10 @@ public class RegistrationHelper {
         }
 
 
-        return (null != hsdpClientInfo.getApplicationName() && null != hsdpClientInfo.getSharedId()
-                && null != hsdpClientInfo.getSecretId()
-                && null != hsdpClientInfo.getBaseUrl());
-    }*/
-
-    private boolean isHsdpAvailable() {
-        HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getCurrentHSDPConfiguration();
-        if (hsdpConfiguration == null) {
-            return false;
-        }
-        String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
-        if (environment == null) {
-            return false;
-        }
-
-        HSDPClientInfo hsdpClientInfo = hsdpConfiguration.getHSDPClientInfo(environment);
-        if (hsdpClientInfo == null) {
-            throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment ");
-        }
-        if (null != hsdpConfiguration && null != hsdpClientInfo) {
-
-            String exception = null;
-
-            if (hsdpClientInfo.getHSDPApplicationName() == null) {
-                exception += "Application Name";
-            }
-
-            if (hsdpClientInfo.getShared() == null) {
-                if (null != exception) {
-                    exception += ",shared key ";
-                } else {
-                    exception += "shared key ";
-                }
-            }
-            if (hsdpClientInfo.getSecret() == null) {
-                if (null != exception) {
-                    exception += ",Secret key ";
-                } else {
-                    exception += "Secret key ";
-                }
-            }
-
-            if (hsdpClientInfo.getBaseURL() == null) {
-                if (null != exception) {
-                    exception += ",Base Url ";
-                } else {
-                    exception += "Base Url ";
-                }
-            }
-
-            if (null != exception) {
-                throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment for " + exception.toString().substring(4));
-            }
-        }
-
-
-        return (null != hsdpClientInfo.getHSDPApplicationName() && null != hsdpClientInfo.getShared()
-                && null != hsdpClientInfo.getSecret()
-                && null != hsdpClientInfo.getBaseURL());
+        return (null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
+                && null != hsdpInfo.getSecretId()
+                && null != hsdpInfo.getBaseURL());
     }
-
-
-
-
 
 
     private void initEvalSettings(Context context, String captureClientId, String microSiteId,
@@ -539,7 +453,6 @@ public class RegistrationHelper {
     }
 
 
-
     public void registerNetworkStateListener(NetworStateListener networStateListener) {
         NetworkStateHelper.getInstance().registerEventNotification(networStateListener);
     }
@@ -588,7 +501,6 @@ public class RegistrationHelper {
     public boolean isHsdpFlow() {
         return isHsdpFlow;
     }
-
 
 
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;

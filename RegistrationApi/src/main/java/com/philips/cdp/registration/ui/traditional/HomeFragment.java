@@ -174,14 +174,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void handleSocialProviders(final String countryCode) {
         RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
-        if (null != RegistrationConfiguration.getInstance().getSocialProviders()) {
+        if (null != RegistrationConfiguration.getInstance().getSignInProviders()) {
             mLlSocialProviderBtnContainer.post(new Runnable() {
 
                 @Override
                 public void run() {
                     mLlSocialProviderBtnContainer.removeAllViews();
                     ArrayList<String> providers = new ArrayList<String>();
-                    providers = RegistrationConfiguration.getInstance().getSocialProviders()
+                    providers = RegistrationConfiguration.getInstance().getSignInProviders()
                             .getProvidersForCountry(countryCode);
                     if (null != providers) {
                         for (int i = 0; i < providers.size(); i++) {
@@ -407,7 +407,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void handleSocialProvider() {
-        RegistrationConfiguration.getInstance().getSocialProviders();
+        RegistrationConfiguration.getInstance().getSignInProviders();
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
     }
 

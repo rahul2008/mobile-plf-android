@@ -1,143 +1,145 @@
 
 package com.philips.cdp.registration.configuration;
 
-import android.content.Context;
-import android.content.IntentFilter;
-import android.content.res.AssetManager;
-import android.support.v4.content.LocalBroadcastManager;
-
-import com.janrain.android.Jump;
-import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.listener.RegistrationConfigurationListener;
-import com.philips.cdp.registration.settings.RegistrationEnvironmentConstants;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RegistrationConfiguration {
 
-	private JanRainConfiguration janRainConfiguration;
+    private static RegistrationConfiguration registrationConfiguration;
 
-	private PILConfiguration pilConfiguration;
+    private RegistrationConfiguration() {
+    }
 
-	private SigninProviders socialProviders;
-
-	private Flow flow;
-
-	private static RegistrationConfiguration registrationConfiguration;
-
-	private CurrentHSDPConfiguration hsdpConfiguration;
-
-	private RegistrationConfiguration() {
-		janRainConfiguration = new JanRainConfiguration();
-		pilConfiguration = new PILConfiguration();
-		socialProviders = new SigninProviders();
-		flow = new Flow();
-
-	}
-
-	public static RegistrationConfiguration getInstance() {
-		if (registrationConfiguration == null) {
-			registrationConfiguration = new RegistrationConfiguration();
-		}
-		return registrationConfiguration;
-	}
-
-	public static String convertStreamToString(InputStream is) {
-		Scanner s = new Scanner(is).useDelimiter("\\A");
-		return s.hasNext() ? s.next() : "";
-	}
-
-	private void parseConfigurationJson(Context context, String path, RegistrationConfigurationListener registrationConfigurationListener) {
-		AssetManager assetManager = context.getAssets();
-		try {
-			JSONObject configurationJson = new JSONObject(
-					convertStreamToString(assetManager.open(path)));
-			ConfigurationParser configurationParser = new ConfigurationParser();
-			configurationParser.parse(configurationJson);
-			registrationConfigurationListener.onSuccess();
-
-		} catch (IOException e) {
-			registrationConfigurationListener.onFailuer();
-			e.printStackTrace();
-		} catch (JSONException e) {
-			registrationConfigurationListener.onFailuer();
-			e.printStackTrace();
-		}
-	}
-
-	public void initialize(final Context context, final RegistrationConfigurationListener registrationConfigurationListener){
+    public static RegistrationConfiguration getInstance() {
+        if (registrationConfiguration == null) {
+            registrationConfiguration = new RegistrationConfiguration();
+        }
+        return registrationConfiguration;
+    }
 
 
-		new Thread(new Runnable() {
+    public JanRainConfiguration getJanRainConfiguration() {
+        JanRainConfiguration dynJanRainConfiguration = RegistrationDynamicConfiguration.getInstance().getJanRainConfiguration();
+        if (null == dynJanRainConfiguration.getClientIds()) {
+            return RegistrationStaticConfiguration.getInstance().getJanRainConfiguration();
+        }
 
-			@Override
-			public void run() {
-					parseConfigurationJson(context, RegConstants.CONFIGURATION_JSON_PATH,registrationConfigurationListener );
+        JanRainConfiguration janRainConfiguration = new JanRainConfiguration();
 
+        RegistrationClientId registrationClientId = RegistrationStaticConfiguration.getInstance().getJanRainConfiguration().getClientIds();
 
-
-
-
-			}
-		}).start();
-
-	}
-
-	public JanRainConfiguration getJanRainConfiguration() {
-		return janRainConfiguration;
-	}
-
-	public void setJanRainConfiguration(JanRainConfiguration janRainConfiguration) {
-		this.janRainConfiguration = janRainConfiguration;
-	}
-
-	public PILConfiguration getPilConfiguration() {
-		return pilConfiguration;
-	}
-
-	public void setPilConfiguration(PILConfiguration pilConfiguration) {
-		this.pilConfiguration = pilConfiguration;
-	}
-
-	public SigninProviders getSocialProviders() {
-		return socialProviders;
-	}
-
-	public void setSocialProviders(SigninProviders socialProviders) {
-		this.socialProviders = socialProviders;
-	}
-
-	public Flow getFlow() {
-		return flow;
-	}
-
-	public void setFlow(Flow flow) {
-		this.flow = flow;
-	}
-
-	public CurrentHSDPConfiguration getHsdpConfiguration() {
-		if(hsdpConfiguration == null) {
-			hsdpConfiguration = new CurrentHSDPConfiguration();
-		}
-
-		return hsdpConfiguration;
-	}
+        if (null != dynJanRainConfiguration.getClientIds().getEvaluationId()) {
+            registrationClientId.setEvaluationId(dynJanRainConfiguration.getClientIds().getEvaluationId());
+        }
+        if (null != dynJanRainConfiguration.getClientIds().getStagingId()) {
+            registrationClientId.setStagingId(dynJanRainConfiguration.getClientIds().getStagingId());
+        }
+        if (null != dynJanRainConfiguration.getClientIds().getTestingId()) {
+            registrationClientId.setTestingId(dynJanRainConfiguration.getClientIds().getTestingId());
+        }
+        if (null != dynJanRainConfiguration.getClientIds().getDevelopmentId()) {
+            registrationClientId.setDevelopmentId(dynJanRainConfiguration.getClientIds().getDevelopmentId());
+        }
+        if (null != dynJanRainConfiguration.getClientIds().getProductionId()) {
+            registrationClientId.setProductionId(dynJanRainConfiguration.getClientIds().getProductionId());
+        }
+        janRainConfiguration.setClientIds(registrationClientId);
+        return janRainConfiguration;
+    }
 
 
+    public PILConfiguration getPilConfiguration() {
+        PILConfiguration pilConfiguration = new PILConfiguration();
 
-	public void setHsdpConfiguration(CurrentHSDPConfiguration hsdpConfiguration) {
-		this.hsdpConfiguration = hsdpConfiguration;
-	}
+        if (null != RegistrationStaticConfiguration.getInstance().getPilConfiguration()) {
+            pilConfiguration = RegistrationStaticConfiguration.getInstance().getPilConfiguration();
+        }
 
-	public HSDPConfiguration getCurrentHSDPConfiguration(){
-		return hsdpConfiguration;
-	}
+
+        if (null != RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getCampaignID()) {
+            pilConfiguration.setCampaignID(RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getCampaignID());
+        }
+
+        if (null != RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getMicrositeId()) {
+            pilConfiguration.setMicrositeId(RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        }
+
+        if (null != RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment()) {
+            pilConfiguration.setRegistrationEnvironment(RegistrationDynamicConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment());
+        }
+
+
+        return pilConfiguration;
+    }
+
+    public Flow getFlow() {
+        Flow flow = RegistrationStaticConfiguration.getInstance().getFlow();
+
+        Flow dynFlow = RegistrationDynamicConfiguration.getInstance().getFlow();
+
+        if (null != dynFlow.isEmailVerificationRequired()) {
+            flow.setEmailVerificationRequired(dynFlow.isEmailVerificationRequired());
+        } else if (null == flow.isEmailVerificationRequired()) {
+            flow.setEmailVerificationRequired(false);
+        }
+
+        if (null != dynFlow.isTermsAndConditionsAcceptanceRequired()) {
+            flow.setTermsAndConditionsAcceptanceRequired(dynFlow.isTermsAndConditionsAcceptanceRequired());
+        } else if (null == flow.isTermsAndConditionsAcceptanceRequired()) {
+            flow.setTermsAndConditionsAcceptanceRequired(false);
+        }
+
+        if (null != dynFlow.getMinAgeLimit()) {
+            if (null != flow.getMinAgeLimit()) {
+                HashMap<String, String> temp = flow.getMinAgeLimit();
+                temp.putAll(dynFlow.getMinAgeLimit());
+                flow.setMinAgeLimit(temp);
+            } else {
+                flow.setMinAgeLimit(dynFlow.getMinAgeLimit());
+            }
+        }
+        return flow;
+    }
+
+    public SigninProviders getSignInProviders() {
+
+        if (RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders() == null) {
+            return RegistrationStaticConfiguration.getInstance().getSignInProviders();
+        }
+
+        HashMap<String, ArrayList<String>> temp = new HashMap<>();
+        if (RegistrationStaticConfiguration.getInstance().getSignInProviders().getProviders() != null) {
+            temp.putAll(RegistrationStaticConfiguration.getInstance().getSignInProviders().getProviders());
+        }
+
+        temp.putAll(RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders());
+
+        SigninProviders signinProviders = new SigninProviders();
+        signinProviders.setProviders(temp);
+
+        return signinProviders;
+    }
+
+
+    public HSDPConfiguration getHsdpConfiguration() {
+        if (RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().getHsdpInfos().size() == 0) {
+            return RegistrationStaticConfiguration.getInstance().getHsdpConfiguration();
+        }
+
+
+        HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
+        HashMap<Configuration, HSDPInfo> hsdpClientInfos = new HashMap<>();
+        if (RegistrationStaticConfiguration.getInstance().getHsdpConfiguration().getHsdpInfos().size() > 0) {
+            hsdpClientInfos = RegistrationStaticConfiguration.getInstance().getHsdpConfiguration().getHsdpInfos();
+        }
+
+        hsdpClientInfos.putAll(RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().getHsdpInfos());
+        hsdpConfiguration.setHsdpInfos(hsdpClientInfos);
+
+
+        return hsdpConfiguration;
+    }
+
+
 }

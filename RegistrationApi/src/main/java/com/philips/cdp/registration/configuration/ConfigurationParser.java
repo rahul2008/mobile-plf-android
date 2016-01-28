@@ -2,6 +2,7 @@
 package com.philips.cdp.registration.configuration;
 
 import com.philips.cdp.registration.settings.RegistrationEnvironmentConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +40,7 @@ public class ConfigurationParser {
 
 
     public void parse(JSONObject configurationJson) {
-        RegistrationConfiguration registrationConfiguration = RegistrationConfiguration
+        RegistrationStaticConfiguration registrationConfiguration = RegistrationStaticConfiguration
                 .getInstance();
         try {
             if (!configurationJson.isNull(JAN_RAIN_CONFIGURATION)) {
@@ -55,7 +56,7 @@ public class ConfigurationParser {
             }
             if (!configurationJson.isNull(SIGNIN_PROVIDERS)) {
                 JSONObject socialProviders = configurationJson.getJSONObject(SIGNIN_PROVIDERS);
-                registrationConfiguration.setSocialProviders(parseSocialProviders(socialProviders));
+                registrationConfiguration.setSignInProviders(parseSocialProviders(socialProviders));
             }
 
             if (!configurationJson.isNull(FLOW)) {
@@ -135,86 +136,64 @@ public class ConfigurationParser {
         return configuration;
     }
 
-
-
-    /*private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
+    private HSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
         HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
-        HashMap<String, HSDPClientInfo> hsdpClientInfos = new HashMap<>();
-        Iterator<String> iterator = hsdpConfiguartion.keys();
-        while (iterator.hasNext()) {
-            String registrationEnv = iterator.next();
-
-            HSDPClientInfo hsdpClientInfo = new HSDPClientInfo();
-            JSONObject hsdpConfiguartionJSONObject = hsdpConfiguartion.getJSONObject(registrationEnv);
-            Iterator<String> hsdpIdIterator = hsdpConfiguartionJSONObject.keys();
-            HashMap<String, String> hsdpInfos = new HashMap<String, String>();
-            while (hsdpIdIterator.hasNext()) {
-                String key = hsdpIdIterator.next();
-                hsdpInfos.put(key, hsdpConfiguartionJSONObject.getString(key));
-            }
-            hsdpClientInfo.setInfos(hsdpInfos);
-            hsdpClientInfos.put(registrationEnv, hsdpClientInfo);
-
-        }
-        hsdpConfiguration.setHsdpClientInfos(hsdpClientInfos);
-        return hsdpConfiguration;
-    }*/
-    private CurrentHSDPConfiguration parseHsdpConfiguration(JSONObject hsdpConfiguartion) throws JSONException {
-        CurrentHSDPConfiguration hsdpConfiguration = new CurrentHSDPConfiguration();
-        HashMap<String, HSDPClientInfo> hsdpClientInfos = new HashMap<>();
+        HashMap<Configuration, HSDPInfo> hsdpClientInfos = new HashMap<>();
         Iterator<String> iterator = hsdpConfiguartion.keys();
         String shared = null;
         String secret = null;
         while (iterator.hasNext()) {
             String registrationEnv = iterator.next();
 
-            HSDPClientInfo hsdpClientInfo = new HSDPClientInfo();
+            HSDPInfo hsdpInfo = new HSDPInfo();
             JSONObject hsdpConfiguartionJSONObject = hsdpConfiguartion.getJSONObject(registrationEnv);
             Iterator<String> hsdpIdIterator = hsdpConfiguartionJSONObject.keys();
             HashMap<String, String> hsdpInfos = new HashMap<String, String>();
             while (hsdpIdIterator.hasNext()) {
                 String key = hsdpIdIterator.next();
                 String value = hsdpConfiguartionJSONObject.getString(key);
-                if("ApplicationName".equals(key)){
-                    hsdpClientInfo.setApplicationName(hsdpConfiguartionJSONObject.getString(key));
-                }else if("BaseURL".equals(key)){
-                    hsdpClientInfo.setBaseURL(value);
-                }else if("Shared".equals(key)){
-                    hsdpClientInfo.setShared(value);
-                }else if("Secret".equals(key)){
-                    hsdpClientInfo.setSecret(value);
+                if ("ApplicationName".equals(key)) {
+                    hsdpInfo.setApplicationName(hsdpConfiguartionJSONObject.getString(key));
+                } else if ("BaseURL".equals(key)) {
+                    hsdpInfo.setBaseURL(value);
+                } else if ("Shared".equals(key)) {
+                    hsdpInfo.setSharedId(value);
+                } else if ("Secret".equals(key)) {
+                    hsdpInfo.setSecretId(value);
                 }
-                //hsdpInfos.put(key, hsdpConfiguartionJSONObject.getString(key));
+
             }
-            //hsdpClientInfo.setInfos(hsdpInfos);
-            hsdpClientInfos.put(registrationEnv, hsdpClientInfo);
+            hsdpClientInfos.put(RegUtility.getConfiguration(registrationEnv), hsdpInfo);
 
         }
-        hsdpConfiguration.setHsdpClientInfos(hsdpClientInfos);
+
+        System.out.println(hsdpClientInfos.size());
+
+        hsdpConfiguration.setHsdpInfos(hsdpClientInfos);
         return hsdpConfiguration;
     }
+
 
     private JanRainConfiguration parseJanRainConfiguration(JSONObject janRainConfiguration)
             throws JSONException {
         JanRainConfiguration configuration = new JanRainConfiguration();
-        RegistrationClientId registrationClientId = null;
+        RegistrationClientId registrationClientId = new RegistrationClientId();
         JSONObject regIds = janRainConfiguration.getJSONObject(REGISTRATION_CLIENT_ID);
         if (!regIds.isNull(RegistrationEnvironmentConstants.DEV)) {
-            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.DEV));
             registrationClientId.setDevelopmentId(regIds.getString(RegistrationEnvironmentConstants.DEV));
         }
         if (!regIds.isNull(RegistrationEnvironmentConstants.EVAL)) {
-            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.EVAL));
+            registrationClientId.setEvaluationId(regIds.getString(RegistrationEnvironmentConstants.EVAL));
         }
         if (!regIds.isNull(RegistrationEnvironmentConstants.PROD)) {
-            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.PROD));
+            registrationClientId.setProductionId(regIds.getString(RegistrationEnvironmentConstants.PROD));
         }
         if (!regIds.isNull(RegistrationEnvironmentConstants.TESTING)) {
-            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.TESTING));
+            registrationClientId.setTestingId(regIds.getString(RegistrationEnvironmentConstants.TESTING));
         }
 
         if (!regIds.isNull(RegistrationEnvironmentConstants.STAGING)) {
-            registrationClientId = new RegistrationClientId(regIds.getString(RegistrationEnvironmentConstants.STAGING));
+            registrationClientId.setStagingId(regIds.getString(RegistrationEnvironmentConstants.STAGING));
         }
 
         configuration.setClientIds(registrationClientId);
