@@ -1,6 +1,17 @@
 PhilipsUIKit for Android Release Notes
 ======================================
 
+Version - 1.2.0                               Date:28-01-2015
+---------------------------------------------------------------
+Supporting gradle version 1.5.0
+
+Add below line inside defultConfig in app build.gradle file 
+defaultConfig {
+
+    generatedDensities = []
+}
+
+
 Version - 1.1.0                               Date:18-01-2015
 ---------------------------------------------------------------
 Documentation available in java doc format.

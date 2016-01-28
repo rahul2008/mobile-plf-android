@@ -26,6 +26,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
+        generatedDensities = []
     }
     buildTypes {
         release {
