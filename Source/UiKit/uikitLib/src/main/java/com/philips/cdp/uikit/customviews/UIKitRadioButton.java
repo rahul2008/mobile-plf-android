@@ -6,13 +6,9 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
-import android.widget.RadioButton;
 
 import com.philips.cdp.uikit.R;
 
-/**
- * Created by 310213373 on 1/13/2016.
- */
 public class UIKitRadioButton extends AppCompatRadioButton {
     Context context;
 
@@ -20,7 +16,7 @@ public class UIKitRadioButton extends AppCompatRadioButton {
         super(context, attrs);
         this.context = context;
 
-        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor, R.attr.LightColor});
+        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.LightColor});
         int baseColor = ar.getInt(0, R.attr.baseColor);
         int overlayColor = Color.argb(127, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor));
         ar.recycle();

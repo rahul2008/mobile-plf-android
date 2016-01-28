@@ -229,12 +229,4 @@
         <item name="android:textColor">@color/uikit_enricher_red</item>
     </style>
 
-    <style name="WhiteText" parent="@style/Button">
-        <item name="android:textColor">@color/uikit_white</item>
-    </style>
-
-    <style name="baseText" parent="@style/Button">
-        <item name="android:textColor">?attr/baseColor</item>
-    </style>
-
 </resources>
