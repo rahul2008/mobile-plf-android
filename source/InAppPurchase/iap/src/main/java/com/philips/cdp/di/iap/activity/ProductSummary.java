@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.activity;
  */
 public class ProductSummary {
     String productTitle;
-    String ImageURL;
+    String ImageURL; 
     public String quantity;
     public String price;
     public String Currency;

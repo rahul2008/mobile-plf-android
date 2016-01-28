@@ -7,5 +7,5 @@ import com.philips.cdp.di.iap.activity.ProductSummary;
  * All rights reserved.
  */
 public interface UpdateProductInfoFromHybris {
-    void updateProductInfo(ProductSummary summary);
+    void updateProductInfo(ProductSummary summary, CartInfo cartInfo);
 }

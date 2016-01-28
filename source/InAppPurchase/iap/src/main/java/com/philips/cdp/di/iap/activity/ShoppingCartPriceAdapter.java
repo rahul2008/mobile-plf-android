@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.session.CartInfo;
 
 import java.io.IOException;
 import java.net.URL;
@@ -111,7 +112,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
 
                 holder.from.setText("Quantity: ");
                 holder.nameOption.setText(summary.productTitle);
-                holder.price.setText(summary.price);
+                holder.price.setText(summary.Currency + " " +summary.price);
                 holder.valueOption.setText(summary.quantity);
 
                 new DownloadAsyncTask().execute(holder);
@@ -125,6 +126,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                 holder.on_off = (TextView) convertView.findViewById(R.id.medium);
                 holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
                 holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
+                holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
 
                 if(position == mData.size()-1){
                 //Last Row
@@ -135,7 +137,10 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                     holder.number.setText("0");
 
                     holder.description.setVisibility(View.VISIBLE);
-                    holder.description.setText("Total (3items)");
+                    holder.description.setText("Total (" + CartInfo.getTotalItems() + ")");
+
+                    holder.totoalcost.setVisibility(View.VISIBLE);
+                    holder.totoalcost.setText(CartInfo.getCurrency() + " " + CartInfo.getTotalCost());
 
                 }
                 if(position == mData.size()-2){
@@ -152,7 +157,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                 if(position == mData.size() - 3){
                     //3rd Last Row
                     holder.name.setVisibility(View.VISIBLE);
-                    holder.name.setText("Claim Vochur");
+                    holder.name.setText("Claim voucher");
 
                     holder.arrow.setVisibility(View.VISIBLE);
                 }
@@ -186,6 +191,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
         TextView on_off;// = (TextView) vi.findViewById(R.id.medium);
         ImageView arrow;// = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
         TextView description;// = (TextView) vi.findViewById(R.id.text_description_without_icons);
+        TextView totoalcost;
 
         ImageView image;// = (ImageView) vi.findViewById(R.id.image);
         TextView nameOption;// = (TextView) vi.findViewById(R.id.text1Name);
