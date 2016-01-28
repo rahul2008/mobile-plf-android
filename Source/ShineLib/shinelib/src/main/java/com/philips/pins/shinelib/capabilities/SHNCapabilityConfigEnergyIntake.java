@@ -31,7 +31,7 @@ public interface SHNCapabilityConfigEnergyIntake extends SHNCapability {
         public static final int DEFAULT_ENERGY_INTAKE = 0;
         private Map<SHNMealSize, Integer> mealSizeToEnergyIntakeMap;
 
-        MealConfiguration(Map<SHNMealSize, Integer> mealSizeToEnergyIntakeMap) {
+        public MealConfiguration(Map<SHNMealSize, Integer> mealSizeToEnergyIntakeMap) {
             this.mealSizeToEnergyIntakeMap = new HashMap<>(mealSizeToEnergyIntakeMap);
         }
 
