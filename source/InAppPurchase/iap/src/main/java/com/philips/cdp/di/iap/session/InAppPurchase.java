@@ -126,7 +126,7 @@ public class InAppPurchase {
      *
      * @return Cart count
      */
-    public static void getCartCurrentCartRequest(final Context context, final UpdateProductInfoFromHybris callback, final ProductSummary summary) {
+    public static void getCartCurrentCartRequest(final Context context, final UpdateProductInfoFromHybris callback, final ProductSummary summary, final CartInfo cartInfo) {
 
         new AsyncTask<Void, Void, Void>() {
 
@@ -178,13 +178,13 @@ public class InAppPurchase {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    parseCurrentCartInfo(response,callback,summary);
+                                    parseCurrentCartInfo(response,callback,summary,cartInfo);
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.i(TAG,"error = " + error);
-                            callback.updateProductInfo(null);
+                            callback.updateProductInfo(null,null);
                         }
 
                     }
@@ -201,7 +201,7 @@ public class InAppPurchase {
                     queue.add(stringRequest);
                 } catch (Exception e) {
                     System.out.println("Exception");
-                    callback.updateProductInfo(null);
+                    callback.updateProductInfo(null,null);
                 }
                 return null;
             }
@@ -209,9 +209,24 @@ public class InAppPurchase {
     }
 
 
-    public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary) {
+    public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary, CartInfo cartInfo) {
         try {
             JSONObject jsonObject = new JSONObject(inputString);
+
+            if (jsonObject.has("totalItems")) {
+                cartInfo.totalItems = jsonObject.get("totalItems").toString();
+            }
+
+            if (jsonObject.has("totalPriceWithTax")) {
+                JSONObject jsonPrice = new JSONObject(jsonObject.get("totalPriceWithTax").toString());
+                if (jsonPrice.has("currencyIso")) {
+                    cartInfo.currency = jsonPrice.get("currencyIso").toString();
+                }
+                if (jsonPrice.has("value")) {
+                    cartInfo.totalCost = jsonPrice.get("value").toString();
+                }
+            }
+
             if (jsonObject.has("entries")) {
                 JSONArray itemList = new JSONArray(jsonObject.get("entries").toString());
                 for(int i=0;i<itemList.length();i++){
@@ -230,7 +245,7 @@ public class InAppPurchase {
                        // summary.price = object.get("totalPrice").toString();
                     }
                 }
-                callback.updateProductInfo(summary);
+                callback.updateProductInfo(summary,cartInfo);
             }
         } catch (JSONException e) {
             e.printStackTrace();
