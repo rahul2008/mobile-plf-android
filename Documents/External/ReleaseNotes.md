@@ -19,6 +19,11 @@ UIKIT support backward compatibility for vector support.
 	com.philips.cdp.uikit.drawable.VectorDrawable.create(context, R.drawable.xyz);
 
 	imageView.setImageDrawable(d);
+	
+### Bugs Fixed
+
+DE9720 : Crash issue fixed for PUI switch.
+
 
 
 Version - 1.1.0                               Date:18-01-2015
