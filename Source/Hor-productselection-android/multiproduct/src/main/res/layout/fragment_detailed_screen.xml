@@ -1,0 +1,30 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mp_activity_background_color">
+
+    <LinearLayout
+        android:id="@+id/detailed_screen_parent_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_image_navigation" />
+
+
+        <TextView
+
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="jamie Oliver Food Processor" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HR7781/01" />
+
+
+    </LinearLayout>
+
+</ScrollView>

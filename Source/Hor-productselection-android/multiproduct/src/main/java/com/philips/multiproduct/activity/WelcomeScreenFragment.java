@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
+import com.philips.multiproduct.productscreen.DetailedFragment;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.
@@ -15,20 +17,31 @@ import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
  * @author : ritesh.jha@philips.com
  * @since : 20 Jan 2016
  */
-public class WelcomeScreenFragment extends MultiProductBaseFragment{
+public class WelcomeScreenFragment extends MultiProductBaseFragment {
 
     private String TAG = DirectFragment.class.getSimpleName();
+    private ImageView mImageView = null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
+        mImageView = (ImageView) view.findViewById(R.id.welcome_screen_arrow);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(new DetailedFragment());
+            }
+        });
+
     }
 
     @Override
@@ -53,4 +66,6 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment{
     public void onDestroy() {
         super.onDestroy();
     }
+
+
 }
