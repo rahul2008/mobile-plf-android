@@ -26,7 +26,7 @@
       "ApplicationName": "uGrowApp",
       "Shared": "f129afcc-55f4-11e5-885d-feff819cdc9f",
       "Secret": "f129b5a8-55f4-11e5-885d-feff819cdc9f",
-      "BaseURL": "http://ugrow-userregistration1412.cloud.pcftest.com/"
+      "BaseURL": "http://ugrow-userregistration1412.cloud.pcftest.com"
     }
   },
   "SigninProviders": {

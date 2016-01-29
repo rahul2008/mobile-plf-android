@@ -20,9 +20,12 @@ public class SigninProviders {
 	}
 
 	public ArrayList<String> getProvidersForCountry(String countryCode) {
-		ArrayList<String> signinProviders = providers.get(countryCode.toUpperCase());
-		if (null == signinProviders) {
-			signinProviders = providers.get(DEFAULT.toUpperCase());
+		ArrayList<String> signinProviders = null;
+		if(providers != null) {
+			signinProviders = providers.get(countryCode.toUpperCase());
+			if (null == signinProviders) {
+				signinProviders = providers.get(DEFAULT.toUpperCase());
+			}
 		}
 		return signinProviders;
 	}
