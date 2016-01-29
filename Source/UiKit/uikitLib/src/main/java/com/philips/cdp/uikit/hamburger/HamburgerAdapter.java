@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.utils.UikitUtils;
 
 import java.util.ArrayList;
 
@@ -170,11 +171,7 @@ public class HamburgerAdapter extends BaseAdapter {
 
 
     private int adjustAlpha(int color, float factor) {
-        int alpha = Math.round(Color.alpha(color) * factor);
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        return Color.argb(alpha, red, green, blue);
+        return UikitUtils.adjustAlpha(color, factor);
     }
 
     private void setValuesToViews(final int position, final ImageView imgIcon, TextView txtTitle, final TextView txtCount, final HamburgerItem hamburgerItem, final View convertView) {

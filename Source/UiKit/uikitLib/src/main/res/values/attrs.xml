@@ -192,4 +192,9 @@
         <attr name="controlButtonHeight" format="reference|dimension" />
     </declare-styleable>
 
+    <declare-styleable name="UiKit_CheckBox">
+        <attr name="checked" format="boolean"/>
+        <attr name="textValue" format="string"/>
+    </declare-styleable>
+
 </resources>

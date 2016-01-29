@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.uikit.customviews.PuiCheckBox;
 import com.philips.cdp.uikit.customviews.StateControls;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -54,6 +55,13 @@ public class ControlsActivity extends CatalogActivity {
             @Override
             public void onButtonStateChanged(int position) {
                 Log.d(getClass() + "", "Position: " + position);
+            }
+        });
+        PuiCheckBox puiCheckBox = (PuiCheckBox) findViewById(R.id.checkBox);
+        puiCheckBox.setOnCheckedChangeListener(new PuiCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final View view, final boolean checked) {
+                Log.d(getClass() + "", "checked state: " + checked);
             }
         });
 
