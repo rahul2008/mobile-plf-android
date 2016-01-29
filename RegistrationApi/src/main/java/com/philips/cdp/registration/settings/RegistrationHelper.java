@@ -321,7 +321,11 @@ public class RegistrationHelper {
 
     private boolean isHsdpAvailable() {
         HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
-        if (hsdpConfiguration == null) {
+        if (hsdpConfiguration == null  ) {
+            return false;
+        }
+
+        if (hsdpConfiguration.getHsdpInfos().size()==0) {
             return false;
         }
         String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
@@ -332,7 +336,7 @@ public class RegistrationHelper {
 
         Configuration configuration =RegUtility.getConfiguration(environment);
 
-        System.out.println("Value"+configuration.getValue());
+
 
         HSDPInfo hsdpInfo = hsdpConfiguration.getHSDPInfo(RegUtility.getConfiguration(environment));
         if (hsdpInfo == null) {
