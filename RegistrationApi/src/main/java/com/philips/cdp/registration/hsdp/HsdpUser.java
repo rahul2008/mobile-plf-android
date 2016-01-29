@@ -2,9 +2,6 @@ package com.philips.cdp.registration.hsdp;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Base64;
-import android.util.Base64InputStream;
-import android.util.Base64OutputStream;
 
 import com.janrain.android.utils.SecureUtility;
 import com.philips.cdp.registration.R;
@@ -24,19 +21,11 @@ import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.security.Key;
 import java.util.Map;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by 310190722 on 9/15/2015.
@@ -271,8 +260,8 @@ public class HsdpUser {
         try {
             FileOutputStream fos = mContext.openFileOutput(HSDP_RECORD_FILE, 0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = objectToString(mHsdpUserRecord);
-            byte[] ectext = encrypt(objectPlainString);
+            String objectPlainString = SecureUtility.objectToString(mHsdpUserRecord);
+            byte[] ectext = SecureUtility.encrypt(objectPlainString);
             oos.writeObject(ectext);
             oos.close();
             fos.close();
@@ -287,8 +276,8 @@ public class HsdpUser {
             FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
             byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = decrypt(enctText);
-            mHsdpUserRecord = (HsdpUserRecord) stringToObject(new String(decrtext));
+            byte[] decrtext = SecureUtility.decrypt(enctText);
+            mHsdpUserRecord = (HsdpUserRecord) SecureUtility.stringToObject(new String(decrtext));
         } catch (Exception e) {
         }
         return mHsdpUserRecord;
@@ -298,61 +287,6 @@ public class HsdpUser {
         mContext.deleteFile(HSDP_RECORD_FILE);
         mHsdpUserRecord = null;
     }
-
-    private String objectToString(Serializable obj) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(
-                    new Base64OutputStream(baos, Base64.NO_PADDING
-                            | Base64.NO_WRAP));
-            oos.writeObject(obj);
-            oos.close();
-            return baos.toString("UTF-8");
-        } catch (IOException e) {
-        }
-        return null;
-    }
-
-    private Object stringToObject(String str) {
-        try {
-            return new ObjectInputStream(new Base64InputStream(
-                    new ByteArrayInputStream(str.getBytes()), Base64.NO_PADDING
-                    | Base64.NO_WRAP)).readObject();
-        } catch (Exception e) {
-        }
-        return null;
-    }
-
-    private byte[] encrypt(String text) {
-        try {
-            Key key = (Key) new SecretKeySpec(SecureUtility.SECRET_KEY, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encText = cipher.doFinal(text.getBytes());
-            return encText;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-
-    private byte[] decrypt(byte[] encByte) {
-        try {
-            Key key = (Key) new SecretKeySpec(SecureUtility.SECRET_KEY, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] decText = cipher.doFinal(encByte);
-            return decText;
-
-        } catch (Exception ex) {
-        }
-        return null;
-    }
-
-    //private final String secretKey = "ASecureSecretKey";
-
 
     public void socialLogin(final String email, final String accessToken, final SocialLoginHandler loginHandler) {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
