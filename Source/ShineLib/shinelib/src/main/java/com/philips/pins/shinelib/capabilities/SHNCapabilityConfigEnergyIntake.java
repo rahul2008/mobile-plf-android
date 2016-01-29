@@ -39,6 +39,22 @@ public interface SHNCapabilityConfigEnergyIntake extends SHNCapability {
             Integer energyIntake = mealSizeToEnergyIntakeMap.get(mealSize);
             return (energyIntake != null) ? energyIntake : DEFAULT_ENERGY_INTAKE;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            MealConfiguration that = (MealConfiguration) o;
+
+            return !(mealSizeToEnergyIntakeMap != null ? !mealSizeToEnergyIntakeMap.equals(that.mealSizeToEnergyIntakeMap) : that.mealSizeToEnergyIntakeMap != null);
+
+        }
+
+        @Override
+        public int hashCode() {
+            return mealSizeToEnergyIntakeMap != null ? mealSizeToEnergyIntakeMap.hashCode() : 0;
+        }
     }
 
     void getSupportedMealTypes(ResultListener<Set<SHNMealType>> resultListener);
