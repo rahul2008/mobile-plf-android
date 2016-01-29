@@ -1091,6 +1091,7 @@ public class User {
 
     private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
         try {
+            diUserProfile.setPassword(null);
             FileOutputStream fos = mContext.openFileOutput(DI_PROFILE_FILE, 0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             String objectPlainString = SecureUtility.objectToString(diUserProfile);
