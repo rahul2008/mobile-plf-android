@@ -1,6 +1,5 @@
 package com.philips.pins.shinelib.capabilities;
 
-
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
@@ -285,8 +284,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyTemperature));
-        shnLogArgumentCaptor.getValue().getContainedDataTypes().remove(SHNDataType.BodyTemperature);
-        assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().isEmpty());
+        assertEquals(1, shnLogArgumentCaptor.getValue().getContainedDataTypes().size());
     }
 
     @Test

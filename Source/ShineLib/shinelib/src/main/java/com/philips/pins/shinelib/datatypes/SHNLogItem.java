@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.datatypes;
 
 import android.support.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -38,12 +39,12 @@ public class SHNLogItem {
 
     @NonNull
     public Set<SHNDataType> getContainedDataTypes() {
-        return containedDataTypes;
+        return Collections.unmodifiableSet(containedDataTypes);
     }
 
     @NonNull
     public Map<SHNDataType, SHNData> getDataByDataTypeMap() {
-        return dataByDataTypeMap;
+        return Collections.unmodifiableMap(dataByDataTypeMap);
 
     }
 }

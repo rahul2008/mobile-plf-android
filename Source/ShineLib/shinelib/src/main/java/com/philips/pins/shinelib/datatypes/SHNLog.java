@@ -64,12 +64,12 @@ public class SHNLog {
 
     @NonNull
     public List<SHNLogItem> getLogItems() {
-        return logItems;
+        return Collections.unmodifiableList(logItems);
     }
 
     @NonNull
     public Set<SHNDataType> getContainedDataTypes() {
-        return containedDataTypes;
+        return Collections.unmodifiableSet(containedDataTypes);
     }
 
     @NonNull
@@ -82,7 +82,7 @@ public class SHNLog {
             }
         }
 
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
     public SHNLogItem getLogItemAtTimeOffset(long offset) {

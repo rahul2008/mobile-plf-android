@@ -1,6 +1,5 @@
 package com.philips.pins.shinelib.capabilities;
 
-
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
@@ -274,7 +273,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         Date[] dates = {new Date(100L), new Date(80L), null, new Date(110L)};
         generateDataAndSendIt(dates);
 
-       shnCapabilityLogSyncWeightScale.abortSynchronization();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
@@ -293,7 +292,6 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         shnServiceWeightScaleListener.onServiceStateChanged(mockedShnServiceWeightScale, SHNService.State.Unavailable);
 
-
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(
                 isA(SHNCapabilityLogSyncWeightScale.class),
                 isA(SHNLog.class),
@@ -309,15 +307,14 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         Date[] dates = {new Date(100L), new Date(80L), null, new Date(110L)};
         generateDataAndSendIt(dates);
 
-       shnCapabilityLogSyncWeightScale.abortSynchronization();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyWeight));
-        shnLogArgumentCaptor.getValue().getContainedDataTypes().remove(SHNDataType.BodyWeight);
-        assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().isEmpty());
+        assertEquals(1, shnLogArgumentCaptor.getValue().getContainedDataTypes().size());
     }
 
     @Test
@@ -359,7 +356,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
 
-       shnCapabilityLogSyncWeightScale.abortSynchronization();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
@@ -393,7 +390,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
 
-       shnCapabilityLogSyncWeightScale.abortSynchronization();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);

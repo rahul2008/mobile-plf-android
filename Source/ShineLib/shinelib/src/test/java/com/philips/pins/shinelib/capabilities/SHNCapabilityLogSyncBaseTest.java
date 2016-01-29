@@ -374,8 +374,8 @@ public class SHNCapabilityLogSyncBaseTest {
 
         List<SHNLogItem> secondLog = shnLogArgumentCaptor.getValue().getLogItems();
 
-        boolean modified = secondLog.removeAll(firstLog);
-        assertFalse(modified);
+        boolean containsAll = secondLog.containsAll(firstLog);
+        assertFalse(containsAll);
     }
 
     //--------------------
