@@ -21,11 +21,11 @@ public class SHNDataDebug extends SHNData {
 
     @Override
     public SHNDataType getSHNDataType() {
-        return SHNDataType.Debug;
+        return SHNDataType.DebugMoonshine;
     }
 
     @Override
     public String toString() {
-        return "Debug: " + getData();
+        return "DebugMoonshine: " + getData();
     }
 }

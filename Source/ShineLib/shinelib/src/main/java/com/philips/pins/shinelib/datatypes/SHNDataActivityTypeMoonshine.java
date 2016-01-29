@@ -8,7 +8,7 @@ package com.philips.pins.shinelib.datatypes;
 /**
  * Created by 310188215 on 13/05/15.
  */
-public class SHNDataActivityType extends SHNData {
+public class SHNDataActivityTypeMoonshine extends SHNData {
     public enum SHNCM3ActivityType {
         SHNCM3ActivityTypeUnspecified,
         SHNCM3ActivityTypeOther,
@@ -23,7 +23,7 @@ public class SHNDataActivityType extends SHNData {
     private final SHNActivityType manualActivityType;
     private final SHNCM3ActivityType cm3ActivityType;
 
-    public SHNDataActivityType(SHNActivityType wearableActivityType, SHNActivityType manualActivityType, SHNCM3ActivityType cm3ActivityType) {
+    public SHNDataActivityTypeMoonshine(SHNActivityType wearableActivityType, SHNActivityType manualActivityType, SHNCM3ActivityType cm3ActivityType) {
         this.wearableActivityType = wearableActivityType;
         this.manualActivityType = manualActivityType;
         this.cm3ActivityType = cm3ActivityType;
@@ -43,11 +43,11 @@ public class SHNDataActivityType extends SHNData {
 
     @Override
     public SHNDataType getSHNDataType() {
-        return SHNDataType.ActivityType;
+        return SHNDataType.ActivityTypeMoonshine;
     }
 
     @Override
     public String toString() {
-        return "ActivityType Wearable: " + getWearableActivityType().name() + " Manual: " + getManualActivityType().name() + " CM3: " + getCm3ActivityType().name();
+        return "ActivityTypeMoonshine Wearable: " + getWearableActivityType().name() + " Manual: " + getManualActivityType().name() + " CM3: " + getCm3ActivityType().name();
     }
 }
