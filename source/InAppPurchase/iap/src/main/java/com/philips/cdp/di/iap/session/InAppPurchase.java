@@ -136,7 +136,7 @@ public class InAppPurchase {
 
         new AsyncTask<Void, Void, Void>() {
 
-            HurlStack.UrlRewriter hurl= new HurlStack.UrlRewriter() {
+            HurlStack.UrlRewriter hurl = new HurlStack.UrlRewriter() {
                 @Override
                 public String rewriteUrl(final String originalUrl) {
                     return NetworkConstants.getCurrentCart;
@@ -144,7 +144,7 @@ public class InAppPurchase {
             };
 
 
-            HurlStack hurlStack = new HurlStack(hurl,authHandler.buildSslSocketFactory(context)) {
+            HurlStack hurlStack = new HurlStack(hurl, authHandler.buildSslSocketFactory(context)) {
                 @Override
                 protected HttpURLConnection createConnection(URL url) throws IOException {
                     HttpsURLConnection httpsURLConnection = (HttpsURLConnection) super.createConnection(url);
@@ -165,15 +165,10 @@ public class InAppPurchase {
             }
 
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-            }
-
-            @Override
             protected Void doInBackground(Void... params) {
                 try {
                     // Instantiate the RequestQueue.
-                    RequestQueue queue = Volley.newRequestQueue(context,hurlStack);
+                    RequestQueue queue = Volley.newRequestQueue(context, hurlStack);
 
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, NetworkConstants.getCurrentCart,
@@ -185,12 +180,11 @@ public class InAppPurchase {
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.i(TAG,"error = " + error);
-                            callback.updateProductInfo(null,null);
+                            Log.i(TAG, "error = " + error);
+                            callback.updateProductInfo(null, null);
                         }
                     });
 
-                    // Add the request to the RequestQueue.
                     queue.add(stringRequest);
                 } catch (Exception e) {
                     System.out.println("Exception");
@@ -235,7 +229,6 @@ public class InAppPurchase {
     }
 
     public static void getEntryDetails(JSONObject jsonObject, final UpdateProductInfoFromHybris callback, CartInfo cartInfo){
-
         String code = null;
         try{
         if (jsonObject.has("entries")) {
@@ -264,7 +257,6 @@ public class InAppPurchase {
                     }
                 }
                 getProductDetailsFromPRX(code,summary,callback,cartInfo);
-
             }
         }
         }catch (JSONException e){
@@ -323,24 +315,34 @@ public class InAppPurchase {
     }
 
 
-
-   /*
-     * Parse current cart response
-     *
-     * @param inputString Input string
-     */
+    /*
+      * Parse current cart response
+      *
+      * @param inputString Input string
+      */
     public static void parseGetCurrentCartResponse(String inputString) {
         try {
             JSONObject jsonObject = new JSONObject(inputString);
 
-            JSONArray entriesArray = jsonObject.getJSONArray("entries");
+            int totalItems = 0;
 
-            JSONObject quantityJsonObject = entriesArray.getJSONObject(0);
-
-            if (quantityJsonObject.has("quantity")) {
-                String mCartCount = quantityJsonObject.getString("quantity");
-                new IapSharedPreference(mContext).setString(IapConstants.key.CART_COUNT, mCartCount);
+            if (jsonObject.has("totalItems")) {
+                totalItems = Integer.parseInt(jsonObject.getString("totalItems"));
             }
+
+            if (totalItems > 0) {
+                JSONArray entriesArray = jsonObject.getJSONArray("entries");
+
+                JSONObject quantityJsonObject = entriesArray.getJSONObject(0);
+
+                if (quantityJsonObject.has("quantity")) {
+                    String mCartCount = quantityJsonObject.getString("quantity");
+                    new IapSharedPreference(mContext).setString(IapConstants.key.CART_COUNT, mCartCount);
+                }
+            } else {
+                new IapSharedPreference(mContext).setString(IapConstants.key.CART_COUNT, "0");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
