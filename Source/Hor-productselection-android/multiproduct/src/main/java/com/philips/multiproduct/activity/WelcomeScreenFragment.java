@@ -37,7 +37,7 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment {
         mSelectProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFragment(new ProductListingFragment());
+                showFragment(new DetailedFragment());
             }
         });
 
