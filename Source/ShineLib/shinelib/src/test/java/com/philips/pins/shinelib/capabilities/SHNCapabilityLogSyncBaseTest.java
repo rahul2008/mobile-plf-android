@@ -1,7 +1,8 @@
 package com.philips.pins.shinelib.capabilities;
 
-
+import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
 
@@ -331,7 +332,7 @@ public class SHNCapabilityLogSyncBaseTest {
         testSHNCapabilityLogSyncBase.startSynchronizationFromToken(null);
 
         generateDataAndSendIt(new Date[]{new Date()});
-       testSHNCapabilityLogSyncBase.abortSynchronization();
+        testSHNCapabilityLogSyncBase.abortSynchronization();
 
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), any(SHNLog.class), any(SHNResult.class));
     }
@@ -401,5 +402,21 @@ public class SHNCapabilityLogSyncBaseTest {
         public void setResult(SHNResult result) {
             this.result = result;
         }
+    }
+
+    @Test
+    public void whenSetValueForOptionIsCalledThenUnsupportedResultIsReturned() {
+        SHNResultListener shnResultListener = mock(SHNResultListener.class);
+        testSHNCapabilityLogSyncBase.setValueForOption(0, SHNCapabilityLogSynchronization.Option.AutomaticSynchronizationEnabled, shnResultListener);
+
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNErrorUnsupportedOperation);
+    }
+
+    @Test
+    public void whenGetValueForOptionIsCalledThenUnsupportedResultIsReturned() {
+        SHNIntegerResultListener shnResultListener = mock(SHNIntegerResultListener.class);
+        testSHNCapabilityLogSyncBase.getValueForOption(SHNCapabilityLogSynchronization.Option.AutomaticSynchronizationEnabled, shnResultListener);
+
+        verify(shnResultListener).onActionCompleted(0, SHNResult.SHNErrorUnsupportedOperation);
     }
 }

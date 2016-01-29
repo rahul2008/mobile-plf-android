@@ -84,12 +84,12 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
 
     @Override
     public void getValueForOption(Option option, SHNIntegerResultListener shnResultListener) {
-        throw new UnsupportedOperationException();
+        shnResultListener.onActionCompleted(0, SHNResult.SHNErrorUnsupportedOperation);
     }
 
     @Override
     public void setValueForOption(int value, Option option, SHNResultListener shnResultListener) {
-        throw new UnsupportedOperationException();
+        shnResultListener.onActionCompleted(SHNResult.SHNErrorUnsupportedOperation);
     }
 
     protected void setState(State state) {
