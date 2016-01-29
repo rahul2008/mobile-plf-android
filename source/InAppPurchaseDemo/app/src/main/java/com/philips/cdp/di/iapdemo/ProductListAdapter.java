@@ -73,8 +73,12 @@ public class ProductListAdapter extends BaseAdapter {
         mViewHolder.buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(mContext, ShoppingCartView.class);
-                mContext.startActivity(myIntent);
+                if (Utility.isInternetConnected(mContext)) {
+                    Intent myIntent = new Intent(mContext, ShoppingCartView.class);
+                    mContext.startActivity(myIntent);
+                } else {
+                    Utility.showNetworkError(((Activity)mContext), false);
+                }
             }
         });
 

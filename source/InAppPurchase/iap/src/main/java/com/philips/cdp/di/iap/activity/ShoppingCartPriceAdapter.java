@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.CartInfo;
+import com.philips.cdp.di.iap.session.ProductSummary;
 
 import java.io.IOException;
 import java.net.URL;
