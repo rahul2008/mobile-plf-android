@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,8 +21,14 @@ import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.NetworkConstants;
-import com.philips.cdp.di.iap.activity.ProductSummary;
 import com.philips.cdp.di.iap.activity.Utility;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
+import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.prxclient.response.ResponseListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +45,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -50,9 +56,9 @@ public class InAppPurchase {
     private static String TAG = InAppPurchase.class.getName();
 
 
-    public static int getCartItemCount(Context context, String janRainID, String userID) {
+   /* public static int getCartItemCount(Context context, String janRainID, String userID) {
         return HybrisDelegate.getCartItemCount(context, janRainID, userID);
-    }
+    }*/
 
 
     /**
@@ -61,6 +67,9 @@ public class InAppPurchase {
     public static void getCurrentCartHybrisServerRequest(final Context context) {
 
         mContext = context;
+
+        //Needs to be implemented
+       // HybrisDelegate.getInstance(mContext).sendRequest();
 
         new AsyncTask<Void, Void, Void>() {
 
@@ -119,11 +128,13 @@ public class InAppPurchase {
     }
 
     /**
-     * Get the cart info for the
+     * Get Shooping Cart Info from Hybris
      *
      * @return Cart count
      */
-    public static void getCartCurrentCartRequest(final Context context, final UpdateProductInfoFromHybris callback, final ProductSummary summary, final CartInfo cartInfo) {
+    public static void getCartCurrentCartRequest(final Context context, final UpdateProductInfoFromHybris callback, final CartInfo cartInfo) {
+
+        mContext = context;
 
         new AsyncTask<Void, Void, Void>() {
 
@@ -140,7 +151,6 @@ public class InAppPurchase {
                 protected HttpURLConnection createConnection(URL url) throws IOException {
                     HttpsURLConnection httpsURLConnection = (HttpsURLConnection) super.createConnection(url);
                     try {
-                        //     httpsURLConnection.setSSLSocketFactory(InAppPurchase.getSSLSoketFactory(context));
                         httpsURLConnection.setHostnameVerifier(authHandler.hostnameVerifier);
                         httpsURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                         httpsURLConnection.setRequestProperty("Authorization", "Bearer " + authHandler.generateToken(context, "", "")); //Header
@@ -154,14 +164,6 @@ public class InAppPurchase {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                // Utility.showProgressDialog(context, "getting Cart Info");
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                // Utility.dismissProgressDialog();
-
             }
 
             @Override
@@ -170,12 +172,12 @@ public class InAppPurchase {
                     // Instantiate the RequestQueue.
                     RequestQueue queue = Volley.newRequestQueue(context, hurlStack);
 
-// Request a string response from the provided URL.
+                    // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, NetworkConstants.getCurrentCart,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    parseCurrentCartInfo(response, callback, summary, cartInfo);
+                                    parseCurrentCartInfo(response,callback,cartInfo);
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -183,18 +185,8 @@ public class InAppPurchase {
                             Log.i(TAG, "error = " + error);
                             callback.updateProductInfo(null, null);
                         }
+                    });
 
-                    }
-                    ) {
-                        @Override
-                        public HashMap<String, String> getParams() {
-                            HashMap<String, String> params = new HashMap<String, String>();
-                            params.put("Authorization", "Bearer 0b732480-9625-4c18-b93b-0e1d7bc66640");
-                            return params;
-                        }
-                    };
-
-// Add the request to the RequestQueue.
                     queue.add(stringRequest);
                 } catch (Exception e) {
                     System.out.println("Exception");
@@ -206,10 +198,20 @@ public class InAppPurchase {
     }
 
 
-    public static void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary, CartInfo cartInfo) {
+    public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, CartInfo cartInfo) {
         try {
             JSONObject jsonObject = new JSONObject(inputString);
 
+            getTotalItemAndTotalPrice(jsonObject, cartInfo);
+            getEntryDetails(jsonObject,callback,cartInfo);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getTotalItemAndTotalPrice(JSONObject jsonObject, CartInfo cartInfo){
+        try {
             if (jsonObject.has("totalItems")) {
                 cartInfo.totalItems = jsonObject.get("totalItems").toString();
             }
@@ -223,57 +225,96 @@ public class InAppPurchase {
                     cartInfo.totalCost = jsonPrice.get("value").toString();
                 }
             }
-
-            if (jsonObject.has("entries")) {
-                JSONArray itemList = new JSONArray(jsonObject.get("entries").toString());
-                for (int i = 0; i < itemList.length(); i++) {
-                    JSONObject object = itemList.getJSONObject(i);
-                    if (object.has("quantity")) {
-                        summary.quantity = object.get("quantity").toString();
-                    }
-                    if (object.has("totalPrice")) {
-                        JSONObject jsonPrice = new JSONObject(jsonObject.get("totalPrice").toString());
-                        if (jsonPrice.has("currencyIso")) {
-                            summary.Currency = jsonPrice.get("currencyIso").toString();
-                        }
-                        if (jsonPrice.has("value")) {
-                            summary.price = jsonPrice.get("value").toString();
-                        }
-                        // summary.price = object.get("totalPrice").toString();
-                    }
-                }
-                callback.updateProductInfo(summary, cartInfo);
-            }
-        } catch (JSONException e) {
+        }catch (JSONException e){
             e.printStackTrace();
         }
     }
 
-   /* public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary){
-        Log.i(TAG,inputString);
+    public static void getEntryDetails(JSONObject jsonObject, final UpdateProductInfoFromHybris callback, CartInfo cartInfo){
+        String code = null;
         try{
-            JSONObject jsonObject = new JSONObject(inputString);
-            if (jsonObject.has("totalItems")) {
-                summary.quantity = jsonObject.get("totalItems").toString();
-            }
-
-            if (jsonObject.has("totalPriceWithTax")) {
-                JSONObject jsonPrice = new JSONObject(jsonObject.get("totalPriceWithTax").toString());
-                if (jsonPrice.has("currencyIso")) {
-                    summary.Currency = jsonPrice.get("currencyIso").toString();
+        if (jsonObject.has("entries")) {
+            JSONArray itemList = new JSONArray(jsonObject.get("entries").toString());
+            for (int i = 0; i < itemList.length(); i++) {
+                JSONObject object = itemList.getJSONObject(i);
+                ProductSummary summary = new ProductSummary();
+                if (object.has("quantity")) {
+                    summary.quantity = object.get("quantity").toString();
                 }
-                if (jsonPrice.has("value")) {
-                    summary.price = jsonPrice.get("value").toString();
+                if (object.has("totalPrice")) {
+                    JSONObject jsonPrice = new JSONObject(jsonObject.get("totalPrice").toString());
+                    if (jsonPrice.has("currencyIso")) {
+                        summary.Currency = jsonPrice.get("currencyIso").toString();
+                    }
+                    if (jsonPrice.has("value")) {
+                        summary.price = jsonPrice.get("value").toString();
+                    }
                 }
+                if(object.has("product")) {
+                    JSONObject product = new JSONObject(object.get("product").toString());
+                    if(product.has("code")){
+                        code = product.get("code").toString();
+                        summary.productCode = code;
+                        Log.i(TAG,"code = " + code);
+                    }
+                }
+                getProductDetailsFromPRX(code,summary,callback,cartInfo);
             }
-
+        }
         }catch (JSONException e){
             e.printStackTrace();
         }
-      *//*  summary.quantity = 2;
-        summary.price = "188";*//*
-        callback.updateProductInfo(summary);
-    }*/
+
+    }
+
+
+
+
+    static void getProductDetailsFromPRX(String code,final ProductSummary productInfo,final UpdateProductInfoFromHybris callback,final CartInfo cartInfo){
+        String mCtn = code.replaceAll("_", "/");
+        String mSectorCode = "B2C";
+        String mLocale = "en_US";
+        String mCatalogCode = "CONSUMER";
+        String mRequestTag = null;
+
+        PrxLogger.enablePrxLogger(true);
+        ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
+        mProductAssetBuilder.setmSectorCode(mSectorCode);
+        mProductAssetBuilder.setmLocale(mLocale);
+        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+
+        RequestManager mRequestManager = new RequestManager();
+        mRequestManager.init(mContext);
+        mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+
+                SummaryModel mAssetModel = (SummaryModel) responseData;
+
+                Log.d(TAG, "Positive Response Data : " + mAssetModel.isSuccess());
+
+                Data data = mAssetModel.getData();
+                data.getImageURL();
+                Log.i(TAG, data.getProductTitle());
+                Log.i(TAG, data.getProductURL());
+                Log.i(TAG, data.getPrice().toString());
+                Log.i(TAG, data.getPriority() + "");
+
+                productInfo.ImageURL = data.getImageURL();
+                productInfo.productTitle = data.getProductTitle();
+
+                callback.updateProductInfo(productInfo, cartInfo);
+            }
+
+            @Override
+            public void onResponseError(String error, int code) {
+                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
+                Toast.makeText(mContext, "Network Error", Toast.LENGTH_LONG).show();
+                callback.updateProductInfo(null,null);
+            }
+        });
+
+    }
 
 
     /*
