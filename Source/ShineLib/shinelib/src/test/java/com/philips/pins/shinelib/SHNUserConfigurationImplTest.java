@@ -255,26 +255,6 @@ public class SHNUserConfigurationImplTest {
     }
 
     @Test
-    public void whenLanguageCodeIsSetTheWrapperIsCalledWithTheProperValue() {
-        shnUserConfiguration.setIsoLanguageCode("nl");
-        verify(mockedSharedPreferences, times(1)).edit();
-        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_ISO_LANGUAGE_CODE, "nl");
-        assertEquals(1, shnUserConfiguration.getChangeIncrement());
-
-        shnUserConfiguration.setIsoLanguageCode(null);
-        verify(mockedSharedPreferences, times(2)).edit();
-        verify(mockedEditor).putString(SHNUserConfigurationImpl.USER_CONFIG_ISO_LANGUAGE_CODE, "en");
-        assertEquals(2, shnUserConfiguration.getChangeIncrement());
-    }
-
-    @Test
-    public void whenLanguageIsSetThenListenerIsNotified() {
-        shnUserConfiguration.setIsoLanguageCode("nl");
-
-        verify(mockedObserver).update(shnUserConfiguration, null);
-    }
-
-    @Test
     public void whenDecimalSeparatorIsSetTheWrapperIsCalledWithTheProperValue() {
         shnUserConfiguration.setDecimalSeparator(',');
         verify(mockedSharedPreferences, times(1)).edit();
@@ -319,7 +299,6 @@ public class SHNUserConfigurationImplTest {
         assertEquals((Double) 80.5, shnUserConfiguration.getWeightInKg());
         assertEquals(now.getTime(), shnUserConfiguration.getDateOfBirth().getTime());
         assertEquals(SHNUserConfiguration.Handedness.LeftHanded, shnUserConfiguration.getHandedness());
-        assertEquals("nl", shnUserConfiguration.getIsoLanguageCode());
         assertEquals((Character) ',', shnUserConfiguration.getDecimalSeparator());
         assertEquals(3456, shnUserConfiguration.getChangeIncrement());
     }
@@ -334,34 +313,66 @@ public class SHNUserConfigurationImplTest {
     }
 
     @Test
-    public void whenLocaleIsSet_ThenListenerIsNotified() {
+    public void whenLanguageIsSet_ThenListenerIsNotified() {
         setupNewPreferenceFormat();
 
-        shnUserConfiguration.setLocale(Locale.getDefault());
+        shnUserConfiguration.setIsoLanguageCode("TEST");
 
         verify(mockedObserver).update(shnUserConfiguration, null);
     }
 
     @Test
-    public void whenLocaleHasNotBeenSet_ThenGetReturnDefaultLocale() {
+    public void whenIsoLanguageCodeHasNotBeenSet_ThenGetReturnDefaultIsoLanguageCode() {
         setupNewPreferenceFormat();
 
-        Locale expectedLocale = Locale.getDefault();
-        Locale actualLocale = shnUserConfiguration.getLocale();
+        String expectedIsoLanguageCode = Locale.getDefault().getLanguage();
+        String actualIsoLanguageCode = shnUserConfiguration.getIsoLanguageCode();
 
-        assertThat(actualLocale).isEqualTo(expectedLocale);
+        assertThat(actualIsoLanguageCode).isEqualTo(expectedIsoLanguageCode);
     }
 
     @Test
-    public void whenLocaleHasBeenSet_ThenGetReturnsThatLocale() {
+    public void whenIsoLanguageCodeHasBeenSet_ThenGetReturnsThatIsoLanguageCode() {
         setupNewPreferenceFormat();
 
-        Locale expectedLocale = new Locale("eg","EG");
-        shnUserConfiguration.setLocale(expectedLocale);
+        String expectedIsoLanguageCode = "TEST";
+        shnUserConfiguration.setIsoLanguageCode(expectedIsoLanguageCode);
 
-        Locale actualLocale = shnUserConfiguration.getLocale();
+        String actualIsoLanguageCode = shnUserConfiguration.getIsoLanguageCode();
 
-        assertThat(actualLocale).isEqualTo(expectedLocale);
+        assertThat(actualIsoLanguageCode).isEqualTo(expectedIsoLanguageCode);
+    }
+
+
+    @Test
+    public void whenCountryIsSet_ThenListenerIsNotified() {
+        setupNewPreferenceFormat();
+
+        shnUserConfiguration.setIsoCountryCode("TEST");
+
+        verify(mockedObserver).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenIsoCountryCodeHasNotBeenSet_ThenGetReturnDefaultIsoCountryCode() {
+        setupNewPreferenceFormat();
+
+        String expectedIsoCountryCode = Locale.getDefault().getCountry();
+        String actualIsoCountryCode = shnUserConfiguration.getIsoCountryCode();
+
+        assertThat(actualIsoCountryCode).isEqualTo(expectedIsoCountryCode);
+    }
+
+    @Test
+    public void whenIsoCountryCodeHasBeenSet_ThenGetReturnsThatIsoCountryCode() {
+        setupNewPreferenceFormat();
+
+        String expectedIsoCountryCode = "TEST";
+        shnUserConfiguration.setIsoCountryCode(expectedIsoCountryCode);
+
+        String actualIsoCountryCode = shnUserConfiguration.getIsoCountryCode();
+
+        assertThat(actualIsoCountryCode).isEqualTo(expectedIsoCountryCode);
     }
 
 

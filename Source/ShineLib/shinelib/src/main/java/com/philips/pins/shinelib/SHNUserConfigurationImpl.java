@@ -22,6 +22,12 @@ import java.util.Observable;
 public class SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
 
     public static final char DEFAULT_DECIMAL_SEPARATOR = '.';
+
+    public static final String CLOCK_FORMAT_KEY = "CLOCK_FORMAT_KEY";
+    public static final String ISO_LANGUAGE_CODE_KEY = "ISO_LANGUAGE_CODE_KEY";
+    public static final String ISO_COUNTRY_CODE_KEY = "ISO_COUNTRY_CODE_KEY";
+    public static final String USE_METRIC_SYSTEM_KEY = "USE_METRIC_SYSTEM_KEY";
+
     private final Handler internalHandler;
 
     private static final String TAG = SHNUserConfigurationImpl.class.getSimpleName();
@@ -199,33 +205,6 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     }
 
     @Override
-    public synchronized String getIsoLanguageCode() {
-        return isoLanguageCode;
-    }
-
-    @Override
-    public synchronized void setIsoLanguageCode(String isoLanguageCode) {
-        if (isoLanguageCode == null) {
-            isoLanguageCode = getDefaultLanguage();
-        }
-        if (!isEqualTo(this.isoLanguageCode, isoLanguageCode)) {
-            this.isoLanguageCode = isoLanguageCode;
-            incrementChangeIncrementAndNotifyModifiedListeners();
-        }
-    }
-
-    @Override
-    public synchronized Boolean getUseMetricSystem() {
-        return sharedPreferences.get("UseMetricSystem", true);
-    }
-
-    @Override
-    public synchronized void setUseMetricSystem(Boolean useMetricSystem) {
-        sharedPreferences.put("UseMetricSystem", useMetricSystem);
-        incrementChangeIncrementAndNotifyModifiedListeners();
-    }
-
-    @Override
     public synchronized Character getDecimalSeparator() {
         return decimalSeparator;
     }
@@ -264,36 +243,6 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
             result = (int) baseMetabolicRate;
         }
         return result;
-    }
-
-    @Override
-    public ClockFormat getClockFormat() {
-        return sharedPreferences.get("ClockFormat");
-    }
-
-    @Override
-    public void setClockFormat(@NonNull final ClockFormat clockFormat) {
-        sharedPreferences.put("ClockFormat", clockFormat);
-        incrementChangeIncrementAndNotifyModifiedListeners();
-    }
-
-    @Override
-    public Locale getLocale() {
-        String language = sharedPreferences.get("LocaleLanguage");
-        String country = sharedPreferences.get("LocaleCountry");
-
-        if (language != null && country != null) {
-            return new Locale(language, country);
-        } else {
-            return Locale.getDefault();
-        }
-    }
-
-    @Override
-    public void setLocale(final Locale locale) {
-        sharedPreferences.put("LocaleLanguage", locale.getLanguage());
-        sharedPreferences.put("LocaleCountry", locale.getCountry());
-        incrementChangeIncrementAndNotifyModifiedListeners();
     }
 
     private void setChangeIncrement(int changeIncrement) {
@@ -499,5 +448,49 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
             return sharedPreferences.getBoolean(key, false);
         }
         return DEFAULT_BOOLEAN_VALUE;
+    }
+
+    @Override
+    public ClockFormat getClockFormat() {
+        return sharedPreferences.get(CLOCK_FORMAT_KEY);
+    }
+
+    @Override
+    public void setClockFormat(@NonNull final ClockFormat clockFormat) {
+        sharedPreferences.put(CLOCK_FORMAT_KEY, clockFormat);
+        incrementChangeIncrementAndNotifyModifiedListeners();
+    }
+
+    @Override
+    public synchronized String getIsoLanguageCode() {
+        return sharedPreferences.get(ISO_LANGUAGE_CODE_KEY, Locale.getDefault().getLanguage());
+    }
+
+    @Override
+    public synchronized void setIsoLanguageCode(String isoLanguageCode) {
+        sharedPreferences.put(ISO_LANGUAGE_CODE_KEY, isoLanguageCode);
+        incrementChangeIncrementAndNotifyModifiedListeners();
+    }
+
+    @Override
+    public String getIsoCountryCode() {
+        return sharedPreferences.get(ISO_COUNTRY_CODE_KEY, Locale.getDefault().getCountry());
+    }
+
+    @Override
+    public void setIsoCountryCode(final String isoCountryCode) {
+        sharedPreferences.put(ISO_COUNTRY_CODE_KEY, isoCountryCode);
+        incrementChangeIncrementAndNotifyModifiedListeners();
+    }
+
+    @Override
+    public synchronized Boolean getUseMetricSystem() {
+        return sharedPreferences.get(USE_METRIC_SYSTEM_KEY, true);
+    }
+
+    @Override
+    public synchronized void setUseMetricSystem(Boolean useMetricSystem) {
+        sharedPreferences.put(USE_METRIC_SYSTEM_KEY, useMetricSystem);
+        incrementChangeIncrementAndNotifyModifiedListeners();
     }
 }

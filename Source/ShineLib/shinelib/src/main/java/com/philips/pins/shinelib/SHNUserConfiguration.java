@@ -6,7 +6,6 @@
 package com.philips.pins.shinelib;
 
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by 310188215 on 27/10/15.
@@ -65,6 +64,10 @@ public interface SHNUserConfiguration {
 
     void setIsoLanguageCode(String isoLanguageCode);
 
+    String getIsoCountryCode();
+
+    void setIsoCountryCode(String isoCountryCode);
+
     Boolean getUseMetricSystem();
 
     void setUseMetricSystem(Boolean useMetricSystem);
@@ -78,8 +81,4 @@ public interface SHNUserConfiguration {
     ClockFormat getClockFormat();
 
     void setClockFormat(ClockFormat clockFormat);
-
-    Locale getLocale();
-
-    void setLocale(Locale locale);
 }
