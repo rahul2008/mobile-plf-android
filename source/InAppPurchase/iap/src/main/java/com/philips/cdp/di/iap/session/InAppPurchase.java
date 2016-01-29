@@ -69,7 +69,7 @@ public class InAppPurchase {
         mContext = context;
 
         //Needs to be implemented
-       // HybrisDelegate.getInstance(mContext).sendRequest();
+       // HybrisDelegate.getInstance(mContext).sendHybrisRequest();
 
         new AsyncTask<Void, Void, Void>() {
 

@@ -32,6 +32,6 @@ public class HybrisDelegate {
     }
 
     public void sendRequest(int requestCode, final RequestListener requestListener) {
-        controller.sendRequest(requestCode,requestListener);
+        controller.sendHybrisRequest(requestCode, requestListener);
     }
 }
