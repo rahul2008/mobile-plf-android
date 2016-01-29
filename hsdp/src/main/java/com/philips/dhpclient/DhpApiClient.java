@@ -3,9 +3,9 @@ package com.philips.dhpclient;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.philips.cdp.servertime.ServerTime;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.response.DhpResponseVerifier;
-import com.philips.dhpclient.util.ServerTime;
 
 import org.json.JSONException;
 
@@ -193,11 +193,11 @@ public class DhpApiClient {
         }
     }
 
-    /*public static String UTCDatetimeAsString(){
-        return ServerTime.getCurrentTime();
-    }*/
+    public static String UTCDatetimeAsString(){
+        return ServerTime.getInstance().getCurrentTime();
+    }
 
-    public static String UTCDatetimeAsString()
+    /*public static String UTCDatetimeAsString()
     {
 
         final SimpleDateFormat sdf = new SimpleDateFormat(DATE_TIME_FORMAT);
@@ -205,7 +205,7 @@ public class DhpApiClient {
         final String utcTime = sdf.format(new Date());
         System.out.println("UTCDatetimeAsString " +utcTime);
         return utcTime;
-    }
+    }*/
 
     public void setResponseVerifier(DhpResponseVerifier responseVerifier) {
         this.responseVerifier = responseVerifier;

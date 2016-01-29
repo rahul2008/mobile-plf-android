@@ -29,6 +29,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.tagging.Tagging;
 
 import java.util.Locale;
@@ -224,6 +225,7 @@ public class RegistrationHelper {
         mReceivedProviderFlowSuccess = false;
         mReceivedDownloadFlowSuccess = false;
         mContext = context.getApplicationContext();
+        ServerTime.init(mContext);
         NetworkUtility.isNetworkAvailable(mContext);
         setCountryCode(mlocale.getCountry());
         final String initLocale = mlocale.toString();
@@ -237,6 +239,8 @@ public class RegistrationHelper {
                 if (!isJsonRead) {
                     isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
                 }
+
+                ServerTime.getInstance().refreshOffset();
 
                 if (isHsdpAvailable()) {
                     isHsdpFlow = true;
