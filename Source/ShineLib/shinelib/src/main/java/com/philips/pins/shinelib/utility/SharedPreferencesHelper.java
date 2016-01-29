@@ -16,7 +16,6 @@ public class SharedPreferencesHelper implements SharedPreferences {
     private static final String SHORT_VALUE = "SHORT_VALUE";
     public static final String ENUM_NAME = "ENUM_NAME";
     public static final String DOUBLE_VALUE = "DOUBLE_VALUE";
-    public static final String LIST_VALUE = "LIST_VALUE";
     public static final String LIST_BASE = "_LIST_";
     public static final String SIZE = "SIZE";
 
@@ -27,13 +26,16 @@ public class SharedPreferencesHelper implements SharedPreferences {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public <T> void put(final String key, final T value) {
+    public <T> void put(@NonNull final String key, @Nullable final T value) {
         SharedPreferences.Editor edit = edit();
-        put(key, edit, value);
+        if (value == null) {
+            edit.remove(key).apply();
+        } else {
+            put(key, edit, value);
+        }
     }
 
-    public <T> void put(final String key, final Editor edit, final T value) {
-
+    private <T> void put(@NonNull final String key, @NonNull final Editor edit, @NonNull final T value) {
         if (value instanceof Boolean) {
             edit.putBoolean(key, (Boolean) value);
         } else if (value instanceof Integer) {
@@ -58,14 +60,13 @@ public class SharedPreferencesHelper implements SharedPreferences {
             edit.putInt(key, (Short) value);
             edit.putBoolean(key + SHORT_VALUE, true);
         } else {
-            SHNLogger.e(TAG, "Trying to store an unsupported data type in Shared preferences!");
-            assert false;
+            SHNLogger.wtf(TAG, "Trying to store an unsupported data type in Shared preferences!");
         }
 
         edit.apply();
     }
 
-    private <T> void putStringSet(final String key, final Editor edit, final Set<?> set) {
+    private <T> void putStringSet(@NonNull final String key, @NonNull final Editor edit, @NonNull final Set<?> set) {
         if (set.isEmpty()) {
             edit.putStringSet(key, new HashSet<String>());
         } else {
@@ -78,12 +79,12 @@ public class SharedPreferencesHelper implements SharedPreferences {
         }
     }
 
-    public <T> T get(final String key, T defaultValue) {
+    public <T> T get(@NonNull final String key, @Nullable T defaultValue) {
         T value = get(key);
         return (value != null ? value : defaultValue);
     }
 
-    public <T> T get(final String key) {
+    public <T> T get(@NonNull final String key) {
         boolean isList = contains(getListSizeKey(key));
         if (isList) {
             return uncheckedCast(getList(key));
@@ -174,13 +175,12 @@ public class SharedPreferencesHelper implements SharedPreferences {
         List<T> storedList = new ArrayList<>();
 
         for (int i = 0; i < listSize; i++) {
-            T value = get( getListEntryKey(key, i) );
+            T value = get(getListEntryKey(key, i));
             storedList.add(value);
         }
 
         return storedList;
     }
-
 
     // Pass through methods
 

@@ -159,4 +159,15 @@ public class SharedPreferencesHelperTest {
 
         assertThat(res).isEqualTo(testList);
     }
+
+    @Test
+    public void whenNullIsPassedForAIntKey_thenTheIntWillBeDeleted() {
+        int value = 222;
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        Integer res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
 }
