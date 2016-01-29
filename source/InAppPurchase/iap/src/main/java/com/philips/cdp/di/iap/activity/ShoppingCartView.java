@@ -34,7 +34,7 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     String TAG = "SPOORTI";
 
     //private String mCtn = "RQ1250/17";
-    ProductSummary productInfo;
+    //ProductSummary productInfo;
     CartInfo cartInfo;
 
     @Override
@@ -45,7 +45,7 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
 
         listBelow = (ListView) findViewById(R.id.withouticon);
         mAdapter = new ShoppingCartPriceAdapter(ShoppingCartView.this);
-        productInfo = new ProductSummary();
+       // productInfo = new ProductSummary();
       //  listBelow.setAdapter(mAdapter);
 
 
