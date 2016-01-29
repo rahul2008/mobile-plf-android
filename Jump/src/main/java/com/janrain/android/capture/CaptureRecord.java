@@ -41,6 +41,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
+import com.janrain.android.utils.SecureUtility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +50,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -121,7 +124,10 @@ public class CaptureRecord extends JSONObject {
         FileInputStream fis = null;
         try {
             fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-            fileContents = CaptureStringUtils.readAndClose(fis);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            byte[] enctText = (byte[]) ois.readObject();
+            byte[] decrtext = SecureUtility.decrypt(enctText);
+            fileContents = new String(decrtext);
             fis = null;
             return inflateCaptureRecord(fileContents);
         } catch (FileNotFoundException ignore) {
@@ -129,6 +135,10 @@ public class CaptureRecord extends JSONObject {
         } catch (JSONException ignore) {
             throwDebugException(new RuntimeException("Bad CaptureRecord file contents:\n" + fileContents,
                     ignore));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } finally {
             if (fis != null) try {
                 fis.close();
@@ -140,6 +150,7 @@ public class CaptureRecord extends JSONObject {
     }
 
     private static CaptureRecord inflateCaptureRecord(String jsonifiedRecord) throws JSONException {
+
         JSONObject serializedVersion = new JSONObject(jsonifiedRecord);
         CaptureRecord inflatedRecord = new CaptureRecord();
         inflatedRecord.original = serializedVersion.getJSONObject("original");
@@ -157,7 +168,10 @@ public class CaptureRecord extends JSONObject {
         FileOutputStream fos = null;
         try {
             fos = applicationContext.openFileOutput(JR_CAPTURE_SIGNED_IN_USER_FILENAME, 0);
-            fos.write(deflateCaptureRecord());
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(deflateCaptureRecord());
+            oos.close();
+            fos.close();
         } catch (JSONException e) {
             throwDebugException(new RuntimeException("Unexpected", e));
         } catch (UnsupportedEncodingException e) {
@@ -178,7 +192,7 @@ public class CaptureRecord extends JSONObject {
         serializedVersion.put("original", original);
         serializedVersion.put("accessToken", accessToken);
         serializedVersion.put("this", this);
-        return serializedVersion.toString().getBytes("UTF-8");
+        return SecureUtility.encrypt(serializedVersion.toString());
     }
 
     /**
@@ -458,9 +472,6 @@ public class CaptureRecord extends JSONObject {
             }
         });
     }
-
-
-
 
     /**
      * @internal

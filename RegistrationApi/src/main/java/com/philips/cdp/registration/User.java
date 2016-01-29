@@ -9,6 +9,7 @@ import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
+import com.janrain.android.utils.SecureUtility;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
@@ -106,9 +107,7 @@ public class User {
 
     private ScheduledExecutorService mScheduledExecutorService;
 
-
-    HsdpUser hsdpUser = null;
-
+    private HsdpUser hsdpUser = null;
 
     public User(Context context) {
         mContext = context;
@@ -145,11 +144,11 @@ public class User {
 
     }
 
-    private boolean isJumpInitializated() {
+    private boolean isJumpInitializated(){
         return !mRegistrationHelper.isJumpInitializationInProgress() && mRegistrationHelper.isJanrainIntialized();
     }
 
-    private boolean isJumpInitializationInProgress() {
+    private boolean isJumpInitializationInProgress(){
         return mRegistrationHelper.isJumpInitializationInProgress() && !mRegistrationHelper.isJanrainIntialized();
 
     }
@@ -162,7 +161,7 @@ public class User {
             @Override
             public void onFlowDownloadSuccess() {
                 RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, now performing traditional login");
-                if (traditionalLoginHandler != null) {
+                if(traditionalLoginHandler != null) {
                     loginTraditionally(emailAddress, password, traditionalLoginHandler);
                 }
                 mRegistrationHelper.unregisterJumpFlowDownloadListener();
@@ -171,7 +170,7 @@ public class User {
             @Override
             public void onFlowDownloadFailure() {
                 RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (traditionalLoginHandler != null) {
+                if(traditionalLoginHandler != null) {
                     UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
                     userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
                     userRegistrationFailureInfo.setErrorCode(RegConstants.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR);
@@ -181,15 +180,13 @@ public class User {
             }
         });
 
-        if (isJumpInitializated()) {
+        if(isJumpInitializated()){
             loginTraditionally(emailAddress, password, traditionalLoginHandler);
             mRegistrationHelper.unregisterJumpFlowDownloadListener();
             return;
-        } else if (!isJumpInitializationInProgress()) {
+        }else  if(!isJumpInitializationInProgress()){
             mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
         }
-
-
     }
 
     private void loginIntoHsdp(final String emailAddress, String password, final TraditionalLoginHandler traditionalLoginHandler) {
@@ -218,7 +215,7 @@ public class User {
                     socialLoginHandler, mContext, mUpdateUserRecordHandler);
             Jump.showSignInDialog(activity, providerName, loginSocialResultHandler, mergeToken);
         } else {
-            if (socialLoginHandler != null) {
+            if(socialLoginHandler != null) {
                 UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
                 userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
                 socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
@@ -252,19 +249,17 @@ public class User {
                 mRegistrationHelper.unregisterJumpFlowDownloadListener();
             }
         });
-        if (isJumpInitializated()) {
+        if(isJumpInitializated()) {
             RLog.i(LOG_TAG, "Jump  initialized ");
-            if (socialLoginHandler != null) {
+            if(socialLoginHandler != null) {
                 loginUserWithSocialProvider(activity, providerName, socialLoginHandler, mergeToken);
                 mRegistrationHelper.unregisterJumpFlowDownloadListener();
             }
             return;
-        } else if (!isJumpInitializationInProgress()) {
+        }else if(!isJumpInitializationInProgress()){
             RLog.i(LOG_TAG, "Jump  not initialized, initializing again ");
             mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
         }
-
-
     }
 
     // moved app logic to set user info (traditional login) in diuserprofile to
@@ -295,7 +290,7 @@ public class User {
         mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
             @Override
             public void onFlowDownloadSuccess() {
-                if (traditionalRegistrationHandler != null) {
+                if(traditionalRegistrationHandler != null) {
                     RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, registering user");
                     registerNewUserUsingTraditional(profile, traditionalRegistrationHandler);
                 }
@@ -305,7 +300,7 @@ public class User {
             @Override
             public void onFlowDownloadFailure() {
                 RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (traditionalRegistrationHandler != null) {
+                if(traditionalRegistrationHandler != null) {
                     UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
                     userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
                     userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_TRADITIONAL_FAILED_SERVER_ERROR);
@@ -315,14 +310,14 @@ public class User {
             }
         });
 
-        if (isJumpInitializated()) {
-            if (traditionalRegisterHandler != null) {
+        if(isJumpInitializated()){
+            if(traditionalRegisterHandler != null) {
                 RLog.i(LOG_TAG, "Jump initialized, registering");
                 registerNewUserUsingTraditional(profile, traditionalRegistrationHandler);
             }
             return;
 
-        } else if (!isJumpInitializationInProgress()) {
+        }else if(!isJumpInitializationInProgress()) {
             RLog.i(LOG_TAG, "Jump not initialized, initializing");
             mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
         }
@@ -404,7 +399,7 @@ public class User {
                 performForgotPassword(emailAddress, forgotPasswordHandler);
             }
             return;
-        } else if (!isJumpInitializationInProgress()) {
+        }else if(!isJumpInitializationInProgress()) {
             mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
         }
 
@@ -477,7 +472,7 @@ public class User {
         mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
             @Override
             public void onFlowDownloadSuccess() {
-                if (resendVerificationEmail != null) {
+                if(resendVerificationEmail != null) {
                     RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, resending mail now");
                     resendMail(emailAddress, resendVerificationEmail);
                 }
@@ -487,7 +482,7 @@ public class User {
             @Override
             public void onFlowDownloadFailure() {
                 RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (resendVerificationEmail != null) {
+                if(resendVerificationEmail != null) {
                     UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
                     userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
                     userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
@@ -497,12 +492,12 @@ public class User {
             }
         });
 
-        if (isJumpInitializated()) {
-            if (resendVerificationEmail != null) {
+        if(isJumpInitializated()){
+            if(resendVerificationEmail != null) {
                 resendMail(emailAddress, resendVerificationEmail);
             }
             return;
-        } else if (!isJumpInitializationInProgress()) {
+        }else if(!isJumpInitializationInProgress()) {
             mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
         }
 
@@ -593,12 +588,12 @@ public class User {
             }
         });
 
-        if (isJumpInitializated()) {
-            if (socialProviderLoginHandler != null) {
+        if(isJumpInitializated()){
+            if(socialProviderLoginHandler != null) {
                 registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialProviderLoginHandler, socialRegistrationToken);
             }
             return;
-        } else if (!isJumpInitializationInProgress()) {
+        }else if(!isJumpInitializationInProgress()){
             mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
         }
     }
@@ -777,12 +772,12 @@ public class User {
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
         }
         if (RegistrationConfiguration.getInstance().getJanRainConfiguration() != null) {
-            signedIn = signedIn && getAccessToken() != null;
+            signedIn = signedIn && getAccessToken()!=null;
         }
         return signedIn;
     }
 
-    private boolean isJanrainUserRecord() {
+    private boolean isJanrainUserRecord(){
         CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
         if (captured != null) {
             return true;
@@ -847,13 +842,13 @@ public class User {
         });
 
 
-        if (isJumpInitializated()) {
-            if (updateReceiveMarketingEmail != null) {
+        if(isJumpInitializated()){
+            if(updateReceiveMarketingEmail != null) {
                 refreshReceiveMarketignEmail(updateReceiveMarketingEmail, receiveMarketingEmail);
             }
             return;
-        } else if (!isJumpInitializationInProgress()) {
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+        }else if(!isJumpInitializationInProgress()){
+            mRegistrationHelper.intializeRegistrationSettings(mContext,mRegistrationHelper.getLocale());
         }
 
     }
@@ -955,7 +950,7 @@ public class User {
         return captureRecord.getAccessToken();
     }
 
-    private void refreshandUpdateUser(final Context context, final RefreshUserHandler handler) {
+    private void refreshandUpdateUser(final Context context, final RefreshUserHandler handler ){
         if (Jump.getSignedInUser() == null) {
             handler.onRefreshUserFailed(0);
             return;
@@ -1027,13 +1022,13 @@ public class User {
                 mRegistrationHelper.unregisterJumpFlowDownloadListener();
             }
         });
-        if (isJumpInitializated()) {
-            if (handler != null) {
-                refreshandUpdateUser(context, handler);
+        if(isJumpInitializated()){
+            if(handler != null) {
+                refreshandUpdateUser(context,handler);
             }
             return;
-        } else if (!isJumpInitializationInProgress()) {
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+        }else if(!isJumpInitializationInProgress()){
+            mRegistrationHelper.intializeRegistrationSettings(mContext,mRegistrationHelper.getLocale());
         }
 
 
@@ -1086,7 +1081,7 @@ public class User {
         deleteDIUserProfileFromDisk();
         CoppaConfiguration.clearConfiguration();
 
-        if (JRSession.getInstance() != null) {
+        if( JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
         CaptureRecord.deleteFromDisk(mContext);
@@ -1098,7 +1093,9 @@ public class User {
         try {
             FileOutputStream fos = mContext.openFileOutput(DI_PROFILE_FILE, 0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(diUserProfile);
+            String objectPlainString = SecureUtility.objectToString(diUserProfile);
+            byte[] ectext = SecureUtility.encrypt(objectPlainString);
+            oos.writeObject(ectext);
             oos.close();
             fos.close();
         } catch (Exception e) {
@@ -1111,8 +1108,9 @@ public class User {
         try {
             FileInputStream fis = mContext.openFileInput(DI_PROFILE_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            diUserProfile = (DIUserProfile) ois.readObject();
-
+            byte[] enctText = (byte[]) ois.readObject();
+            byte[] decrtext = SecureUtility.decrypt(enctText);
+            diUserProfile = (DIUserProfile) SecureUtility.stringToObject(new String(decrtext));
         } catch (Exception e) {
             e.printStackTrace();
         }

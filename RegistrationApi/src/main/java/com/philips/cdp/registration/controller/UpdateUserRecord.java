@@ -1,14 +1,6 @@
 
 package com.philips.cdp.registration.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -19,8 +11,15 @@ import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureApiError;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
-import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettings;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class UpdateUserRecord implements UpdateUserRecordHandler {
 
