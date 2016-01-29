@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,8 +26,6 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
     FrameLayout shoppingCart = null;
 
-    Context mContext = null;
-
     private ArrayList<Product> mProductArrayList = new ArrayList<>();
 
     String[] mCatalogNumbers = {"HX8331/11"};
@@ -37,8 +34,6 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
-
-        mContext = this;
 
         mIapSharedPreference = new IapSharedPreference(this);
 
@@ -49,8 +44,13 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
         shoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Intent myIntent = new Intent(mContext, ShoppingCartView.class);
-                mContext.startActivity(myIntent);
+
+                if (Utility.isInternetConnected(DemoAppActivity.this)) {
+                    Intent myIntent = new Intent(DemoAppActivity.this, ShoppingCartView.class);
+                    startActivity(myIntent);
+                } else {
+                    Utility.showNetworkError(DemoAppActivity.this, false);
+                }
             }
         });
 
@@ -61,9 +61,9 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
-        if(Utility.isInternetConnected(this)) {
+        if (Utility.isInternetConnected(this)) {
             InAppPurchase.getCurrentCartHybrisServerRequest(this);
-        }else{
+        } else {
             Utility.showNetworkError(this, true);
         }
     }

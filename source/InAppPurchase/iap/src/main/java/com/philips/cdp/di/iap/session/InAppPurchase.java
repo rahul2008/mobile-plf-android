@@ -41,16 +41,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSocketFactory;
 
 public class InAppPurchase {
 
     private static Context mContext;
     private static TestEnvOAuthHandler authHandler = new TestEnvOAuthHandler();
     private static String TAG = InAppPurchase.class.getName();
-
 
 
     public static int getCartItemCount(Context context, String janRainID, String userID) {
@@ -130,7 +127,7 @@ public class InAppPurchase {
 
         new AsyncTask<Void, Void, Void>() {
 
-            HurlStack.UrlRewriter hurl= new HurlStack.UrlRewriter() {
+            HurlStack.UrlRewriter hurl = new HurlStack.UrlRewriter() {
                 @Override
                 public String rewriteUrl(final String originalUrl) {
                     return NetworkConstants.getCurrentCart;
@@ -138,7 +135,7 @@ public class InAppPurchase {
             };
 
 
-            HurlStack hurlStack = new HurlStack(hurl,authHandler.buildSslSocketFactory(context)) {
+            HurlStack hurlStack = new HurlStack(hurl, authHandler.buildSslSocketFactory(context)) {
                 @Override
                 protected HttpURLConnection createConnection(URL url) throws IOException {
                     HttpsURLConnection httpsURLConnection = (HttpsURLConnection) super.createConnection(url);
@@ -157,13 +154,13 @@ public class InAppPurchase {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-               // Utility.showProgressDialog(context, "getting Cart Info");
+                // Utility.showProgressDialog(context, "getting Cart Info");
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-               // Utility.dismissProgressDialog();
+                // Utility.dismissProgressDialog();
 
             }
 
@@ -171,24 +168,24 @@ public class InAppPurchase {
             protected Void doInBackground(Void... params) {
                 try {
                     // Instantiate the RequestQueue.
-                    RequestQueue queue = Volley.newRequestQueue(context,hurlStack);
+                    RequestQueue queue = Volley.newRequestQueue(context, hurlStack);
 
 // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, NetworkConstants.getCurrentCart,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    parseCurrentCartInfo(response,callback,summary,cartInfo);
+                                    parseCurrentCartInfo(response, callback, summary, cartInfo);
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.i(TAG,"error = " + error);
-                            callback.updateProductInfo(null,null);
+                            Log.i(TAG, "error = " + error);
+                            callback.updateProductInfo(null, null);
                         }
 
                     }
-                    ){
+                    ) {
                         @Override
                         public HashMap<String, String> getParams() {
                             HashMap<String, String> params = new HashMap<String, String>();
@@ -201,7 +198,7 @@ public class InAppPurchase {
                     queue.add(stringRequest);
                 } catch (Exception e) {
                     System.out.println("Exception");
-                    callback.updateProductInfo(null,null);
+                    callback.updateProductInfo(null, null);
                 }
                 return null;
             }
@@ -209,7 +206,7 @@ public class InAppPurchase {
     }
 
 
-    public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary, CartInfo cartInfo) {
+    public static void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, ProductSummary summary, CartInfo cartInfo) {
         try {
             JSONObject jsonObject = new JSONObject(inputString);
 
@@ -229,12 +226,12 @@ public class InAppPurchase {
 
             if (jsonObject.has("entries")) {
                 JSONArray itemList = new JSONArray(jsonObject.get("entries").toString());
-                for(int i=0;i<itemList.length();i++){
+                for (int i = 0; i < itemList.length(); i++) {
                     JSONObject object = itemList.getJSONObject(i);
-                    if(object.has("quantity")){
+                    if (object.has("quantity")) {
                         summary.quantity = object.get("quantity").toString();
                     }
-                    if(object.has("totalPrice")){
+                    if (object.has("totalPrice")) {
                         JSONObject jsonPrice = new JSONObject(jsonObject.get("totalPrice").toString());
                         if (jsonPrice.has("currencyIso")) {
                             summary.Currency = jsonPrice.get("currencyIso").toString();
@@ -242,10 +239,10 @@ public class InAppPurchase {
                         if (jsonPrice.has("value")) {
                             summary.price = jsonPrice.get("value").toString();
                         }
-                       // summary.price = object.get("totalPrice").toString();
+                        // summary.price = object.get("totalPrice").toString();
                     }
                 }
-                callback.updateProductInfo(summary,cartInfo);
+                callback.updateProductInfo(summary, cartInfo);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -279,24 +276,34 @@ public class InAppPurchase {
     }*/
 
 
-
-   /*
-     * Parse current cart response
-     *
-     * @param inputString Input string
-     */
+    /*
+      * Parse current cart response
+      *
+      * @param inputString Input string
+      */
     public static void parseGetCurrentCartResponse(String inputString) {
         try {
             JSONObject jsonObject = new JSONObject(inputString);
 
-            JSONArray entriesArray = jsonObject.getJSONArray("entries");
+            int totalItems = 0;
 
-            JSONObject quantityJsonObject = entriesArray.getJSONObject(0);
-
-            if (quantityJsonObject.has("quantity")) {
-                String mCartCount = quantityJsonObject.getString("quantity");
-                new IapSharedPreference(mContext).setString(IapConstants.key.CART_COUNT, mCartCount);
+            if (jsonObject.has("totalItems")) {
+                totalItems = Integer.parseInt(jsonObject.getString("totalItems"));
             }
+
+            if (totalItems > 0) {
+                JSONArray entriesArray = jsonObject.getJSONArray("entries");
+
+                JSONObject quantityJsonObject = entriesArray.getJSONObject(0);
+
+                if (quantityJsonObject.has("quantity")) {
+                    String mCartCount = quantityJsonObject.getString("quantity");
+                    new IapSharedPreference(mContext).setString(IapConstants.key.CART_COUNT, mCartCount);
+                }
+            } else {
+                new IapSharedPreference(mContext).setString(IapConstants.key.CART_COUNT, "0");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
