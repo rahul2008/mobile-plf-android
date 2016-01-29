@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.philips.multiproduct.R;
 
@@ -36,8 +35,8 @@ public final class DotNavigationTestFragment extends Fragment {
         ImageView imageView = new ImageView(getActivity());
         imageView.setBackgroundResource(R.drawable.navigation_image);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
-        imageView.setPadding(20, 20, 20, 20);
 
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
