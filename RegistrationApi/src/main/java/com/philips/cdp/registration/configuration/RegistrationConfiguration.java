@@ -26,8 +26,12 @@ public class RegistrationConfiguration {
         }
 
         JanRainConfiguration janRainConfiguration = new JanRainConfiguration();
+        RegistrationClientId registrationClientId = new RegistrationClientId();
 
-        RegistrationClientId registrationClientId = RegistrationStaticConfiguration.getInstance().getJanRainConfiguration().getClientIds();
+        if(null!=RegistrationStaticConfiguration.getInstance().getJanRainConfiguration().getClientIds()){
+            registrationClientId = RegistrationStaticConfiguration.getInstance().getJanRainConfiguration().getClientIds();
+        }
+
 
         if (null != dynJanRainConfiguration.getClientIds().getEvaluationId()) {
             registrationClientId.setEvaluationId(dynJanRainConfiguration.getClientIds().getEvaluationId());
@@ -74,7 +78,16 @@ public class RegistrationConfiguration {
     }
 
     public Flow getFlow() {
-        Flow flow = RegistrationStaticConfiguration.getInstance().getFlow();
+
+        if(RegistrationDynamicConfiguration.getInstance().getFlow() == null){
+           return RegistrationStaticConfiguration.getInstance().getFlow();
+        }
+
+        Flow flow = new Flow();
+
+        if(null!=RegistrationStaticConfiguration.getInstance().getFlow()){
+            flow = RegistrationStaticConfiguration.getInstance().getFlow();
+        }
 
         Flow dynFlow = RegistrationDynamicConfiguration.getInstance().getFlow();
 
@@ -84,12 +97,11 @@ public class RegistrationConfiguration {
             flow.setEmailVerificationRequired(false);
         }
 
-        if (null != dynFlow.isTermsAndConditionsAcceptanceRequired()) {
+       if (null != dynFlow.isTermsAndConditionsAcceptanceRequired()) {
             flow.setTermsAndConditionsAcceptanceRequired(dynFlow.isTermsAndConditionsAcceptanceRequired());
         } else if (null == flow.isTermsAndConditionsAcceptanceRequired()) {
             flow.setTermsAndConditionsAcceptanceRequired(false);
         }
-
         if (null != dynFlow.getMinAgeLimit()) {
             if (null != flow.getMinAgeLimit()) {
                 HashMap<String, String> temp = flow.getMinAgeLimit();

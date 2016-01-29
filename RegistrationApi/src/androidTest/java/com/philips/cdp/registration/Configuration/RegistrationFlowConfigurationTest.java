@@ -63,7 +63,7 @@ public class RegistrationFlowConfigurationTest extends ActivityInstrumentationTe
 
     public void testFlowConfigurationFlieldsWithDynamicMerge() {
 
-        RegistrationDynamicConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(false);
+        RegistrationDynamicConfiguration.getInstance().getFlow().setEmailVerificationRequired(false);
         RegistrationDynamicConfiguration.getInstance().getFlow().setTermsAndConditionsAcceptanceRequired(false);
         //Age mapping
         HashMap<String, String> map = new HashMap<>();

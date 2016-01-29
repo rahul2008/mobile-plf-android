@@ -64,7 +64,7 @@ public class RegistrationJanrainConfigurationTest extends ActivityInstrumentatio
             assertTrue(false);
         }
 
-        if(!janRainConfiguration.getClientIds().getEvaluationId().equalsIgnoreCase("4r36zdbeycca933nufcknn2hnpsz6gxu")){
+        if(!janRainConfiguration.getClientIds().getEvaluationId().equalsIgnoreCase("4r36zdbeycca933nufcknn2hnpsz6gxu==")){
             assertTrue(false);
         }
 
