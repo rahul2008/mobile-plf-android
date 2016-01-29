@@ -7,7 +7,6 @@ package com.philips.cdp.uikit.customviews;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -22,6 +21,7 @@ import android.widget.LinearLayout;
 import com.philips.cdp.uikit.R;
 import com.philips.cdp.uikit.dotnavigation.PageIndicator;
 import com.philips.cdp.uikit.dotnavigation.onTouchUnSelectedViews;
+import com.philips.cdp.uikit.utils.UikitUtils;
 
 /**
  * ImageIndicator is a component which is used associated to Viewpager, we have provided a component named ImageIndicator to support Image Navigation.
@@ -163,11 +163,7 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     }
 
     private int adjustAlpha(int color, float factor) {
-        int alpha = Math.round(Color.alpha(color) * factor);
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        return Color.argb(alpha, red, green, blue);
+        return UikitUtils.adjustAlpha(color, factor);
     }
 
     @NonNull

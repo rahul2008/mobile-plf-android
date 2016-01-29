@@ -77,11 +77,12 @@
             android:text="Three"/>
     </RadioGroup>
 
-    <CheckBox
+    <com.philips.cdp.uikit.customviews.PuiCheckBox
+        android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/WhiteCheck"/>
-
+        app:textValue="testing"
+        />
 
 
 

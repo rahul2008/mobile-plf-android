@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.utils.UikitUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -100,7 +101,7 @@ public class StateControls extends LinearLayout {
         this.buttons = Arrays.asList(buttons);
         this.dividers = Arrays.asList(dividers);
 
-        int baseColorAlpha = adjustAlpha(baseColor, 0.3f);
+        int baseColorAlpha = UikitUtils.adjustAlpha(baseColor, 0.3f);
         LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
         for (int i = 0; i < elementCount; i++) {
             View view, divider;
@@ -164,7 +165,7 @@ public class StateControls extends LinearLayout {
         this.buttons = Arrays.asList(buttons);
         this.dividers = Arrays.asList(dividers);
 
-        int baseColorAlpha = adjustAlpha(baseColor, 0.3f);
+        int baseColorAlpha = UikitUtils.adjustAlpha(baseColor, 0.3f);
         LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
         for (int i = 0; i < elementCount; i++) {
             ImageButton button;
@@ -223,14 +224,6 @@ public class StateControls extends LinearLayout {
                 }
             }
         }
-    }
-
-    private int adjustAlpha(int color, float factor) {
-        int alpha = Math.round(Color.alpha(color) * factor);
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        return Color.argb(alpha, red, green, blue);
     }
 
     @SuppressWarnings("deprecation")

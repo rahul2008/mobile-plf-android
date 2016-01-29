@@ -1,5 +1,6 @@
 package com.philips.cdp.uikit.utils;
 
+import android.graphics.Color;
 import android.view.Menu;
 
 import java.lang.reflect.Field;
@@ -43,5 +44,13 @@ public class UikitUtils {
             e.printStackTrace();
         }
         return resourceID;
+    }
+
+    public static int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
 }
