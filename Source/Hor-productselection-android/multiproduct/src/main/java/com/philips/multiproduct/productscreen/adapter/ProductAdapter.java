@@ -15,7 +15,7 @@ import com.philips.multiproduct.productscreen.DotNavigationTestFragment;
 public class ProductAdapter extends FragmentPagerAdapter {
 
 
-    protected static final String[] CONTENT = new String[]{"Naveen", "Ritesha", "Krishna", "Sameera Reddy",};
+    protected static final String[] CONTENT = new String[]{"one", "two", "three", "four",};
 
     private int mCount = CONTENT.length;
 

@@ -6,9 +6,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+
+import com.philips.multiproduct.R;
 
 public final class DotNavigationTestFragment extends Fragment {
     private static final String KEY_CONTENT = "DotNavigationTestFragment:Content";
@@ -30,16 +33,16 @@ public final class DotNavigationTestFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        TextView text = new TextView(getActivity());
-        text.setGravity(Gravity.CENTER);
-        text.setText(message);
-        text.setTextSize(20 * getResources().getDisplayMetrics().density);
-        text.setPadding(20, 20, 20, 20);
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setBackgroundResource(R.drawable.navigation_image);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        imageView.setPadding(20, 20, 20, 20);
 
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         layout.setGravity(Gravity.CENTER);
-        layout.addView(text);
+        layout.addView(imageView);
 
         return layout;
     }
