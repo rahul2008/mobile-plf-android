@@ -29,7 +29,12 @@ public class SharedPreferencesHelper implements SharedPreferences {
     public <T> void put(@NonNull final String key, @Nullable final T value) {
         SharedPreferences.Editor edit = edit();
         if (value == null) {
-            edit.remove(key).apply();
+            edit.remove(key);
+            edit.remove(key + SHORT_VALUE);
+            edit.remove(key + ENUM_NAME);
+            edit.remove(key + DOUBLE_VALUE);
+            removeList(key, edit);
+            edit.apply();
         } else {
             put(key, edit, value);
         }

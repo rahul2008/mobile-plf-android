@@ -140,8 +140,8 @@ public class SharedPreferencesHelperTest {
 
         assertThat(actual).isEqualTo(expected);
     }
-	
-	@Test
+
+    @Test
     public void whenNoListIsSet_thenNullIsReturnedWhenUsingGet() {
         List<Integer> res = preferencesHelper.get(KEY);
         assertNull(res);
@@ -161,12 +161,113 @@ public class SharedPreferencesHelperTest {
     }
 
     @Test
+    public void whenNullIsPassedForABooleanKey_thenTheIntWillBeDeleted() {
+        boolean value = true;
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        Boolean res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
     public void whenNullIsPassedForAIntKey_thenTheIntWillBeDeleted() {
         int value = 222;
         preferencesHelper.put(KEY, value);
         preferencesHelper.put(KEY, null);
 
         Integer res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
+    public void whenNullIsPassedForAFloatKey_thenTheIntWillBeDeleted() {
+        float value = 222.f;
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        Float res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
+    public void whenNullIsPassedForADoubleKey_thenTheIntWillBeDeleted() {
+        double value = 222.0;
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        Double res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
+    public void whenNullIsPassedForALongKey_thenTheIntWillBeDeleted() {
+        long value = 222;
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        Long res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
+    public void whenNullIsPassedForAStringKey_thenTheIntWillBeDeleted() {
+        String value = "TEST";
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        String res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
+    public void whenNullIsPassedForAShortKey_thenTheIntWillBeDeleted() {
+        short value = 222;
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        Short res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
+    public void whenNullIsPassedForAEnumKey_thenTheIntWillBeDeleted() {
+        SHNCapabilityType value = SHNCapabilityType.DATA_STREAMING;
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        Short res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
+    public void whenNullIsPassedForASetKey_thenTheIntWillBeDeleted() {
+        HashSet<String> value = new HashSet<>();
+        value.add("TEST");
+        preferencesHelper.put(KEY, value);
+        preferencesHelper.put(KEY, null);
+
+        Set res = preferencesHelper.get(KEY);
+
+        assertThat(res).isNull();
+    }
+
+    @Test
+    public void whenNullIsPassedForAListKey_thenTheIntWillBeDeleted() {
+        List<Integer> testList = new ArrayList<>();
+        testList.add(923);
+        preferencesHelper.put(KEY, testList);
+        preferencesHelper.put(KEY, null);
+
+        Set res = preferencesHelper.get(KEY);
 
         assertThat(res).isNull();
     }
