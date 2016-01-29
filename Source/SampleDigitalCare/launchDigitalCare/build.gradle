@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: '../extra/calabash.gradle'
 
-def libVersionNumber = new File('../../VERSION').text.trim()
-libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
-
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -29,13 +26,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 137
-            versionName libVersionNumber
+            versionCode 138
+            versionName "3.0.2"
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 137
-            versionName libVersionNumber
+            versionCode 138
+            versionName "3.0.2"
         }
     }
 
