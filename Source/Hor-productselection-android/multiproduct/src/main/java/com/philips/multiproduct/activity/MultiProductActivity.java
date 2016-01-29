@@ -22,7 +22,7 @@ public class MultiProductActivity extends MultiProductBaseActivity {
         if (MultiProductConfigManager.getInstance().getMultiProductSize() > 1)
             showFragment(new WelcomeScreenFragment());
         else
-            showFragment(new DirectFragment());
+            showFragment(new WelcomeScreenFragment());
 
     }
 
