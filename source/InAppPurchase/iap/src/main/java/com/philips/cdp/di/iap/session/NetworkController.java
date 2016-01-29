@@ -1,11 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Message;
 
 import com.android.volley.RequestQueue;
@@ -15,7 +11,14 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
+import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.model.ModelQuery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.Set;
 
 public class NetworkController {
     RequestQueue volleyQueue;
@@ -32,6 +35,7 @@ public class NetworkController {
     }
 
     private JsonObjectRequest createRequest(final int requestCode, final ModelQuery modelQuery , final RequestListener requestListener) {
+
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
@@ -52,12 +56,47 @@ public class NetworkController {
             }
         };
 
-        return new JsonObjectRequest(modelQuery.getMethod(), modelQuery.getUrl(requestCode),
-                modelQuery.reqeustBody(), response,error);
+        return new JsonObjectRequest(modelQuery.getMethod(requestCode), modelQuery.getUrl(requestCode),
+                getJsonParams(modelQuery.requestBody()), response, error);
     }
 
     //Add model specific implementation
     private ModelQuery getModel(final int requestCode) {
-        return null;
+        switch(requestCode){
+            case RequestCode.GET_CART:
+                return new CartModel();
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Forms the json object with the payload passed
+     * @param mParams payload bundle
+     * @return JsonObject
+     */
+    private JSONObject getJsonParams(Bundle mParams) {
+        JSONObject params = null;
+
+        try {
+            if (mParams != null) {
+                Set<String> keys = mParams.keySet();
+
+                if (keys.size() > 0) {
+                    params = new JSONObject();
+
+                    for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+                        String key = (String) iterator.next();
+                        String value = mParams.getString(key);
+                        params.put(key, value);
+                    }
+
+                    return params;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return params;
     }
 }

@@ -5,12 +5,14 @@
 
 package com.philips.cdp.di.iap.model;
 
+import android.os.Bundle;
+
 public interface ModelQuery {
-    public String getUrl(int reqeuestCode);
+    String getUrl(int requestCode);
 
-    public Object parseResponse(Object response);
+    Object parseResponse(Object response);
 
-    public int getMethod();
+    int getMethod(int requestCode);
 
-    public String reqeustBody();
+    Bundle requestBody();
 }

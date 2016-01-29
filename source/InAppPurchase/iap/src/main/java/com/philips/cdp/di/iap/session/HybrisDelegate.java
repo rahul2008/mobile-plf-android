@@ -19,8 +19,8 @@ public class HybrisDelegate {
         oAuthHandler = new TestEnvOAuthHandler();
     }
 
-    static HybrisDelegate getInstance(Context context) {
-        if(context == null) {
+    public static HybrisDelegate getInstance(Context context) {
+        if(delegate.context == null) {
             delegate.context = context;
             delegate.controller = new NetworkController(context);
         }
