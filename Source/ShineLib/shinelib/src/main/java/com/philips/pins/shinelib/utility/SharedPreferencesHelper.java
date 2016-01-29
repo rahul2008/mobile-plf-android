@@ -95,22 +95,15 @@ public class SharedPreferencesHelper implements SharedPreferences {
             return null;
         }
 
-        boolean isList = contains(getListSizeKey(key));
-        if (isList) {
-            return uncheckedCast(getList(key));
-        }
-
-        boolean isShort = contains(key + SHORT_VALUE);
-        boolean isEnum = contains(key + ENUM_NAME);
-        boolean isDouble = contains(key + DOUBLE_VALUE);
-
-        if (isDouble) {
+        if (contains(getListSizeKey(key))) {
+            value = getList(key);
+        } else if (contains(key + DOUBLE_VALUE)) {
             Long longValue = (Long) value;
             value = Double.longBitsToDouble(longValue);
-        } else if (isShort) {
+        } else if (contains(key + SHORT_VALUE)) {
             Integer integer = (Integer) value;
             value = integer.shortValue();
-        } else if (isEnum) {
+        } else if (contains(key + ENUM_NAME)) {
             try {
                 String className = get(key + ENUM_NAME);
                 Class<?> clazz = Class.forName(className);
