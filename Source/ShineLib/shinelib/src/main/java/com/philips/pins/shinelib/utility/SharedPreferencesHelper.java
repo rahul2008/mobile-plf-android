@@ -90,6 +90,11 @@ public class SharedPreferencesHelper implements SharedPreferences {
     }
 
     public <T> T get(@NonNull final String key) {
+        Object value = getAll().get(key);
+        if (value == null) {
+            return null;
+        }
+
         boolean isList = contains(getListSizeKey(key));
         if (isList) {
             return uncheckedCast(getList(key));
@@ -99,7 +104,6 @@ public class SharedPreferencesHelper implements SharedPreferences {
         boolean isEnum = contains(key + ENUM_NAME);
         boolean isDouble = contains(key + DOUBLE_VALUE);
 
-        Object value = getAll().get(key);
         if (isDouble) {
             Long longValue = (Long) value;
             value = Double.longBitsToDouble(longValue);
