@@ -155,7 +155,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                     holder.number.setText("0");
 
                     holder.description.setVisibility(View.VISIBLE);
-                    holder.description.setText("Delivery is free when you spend € 100 or more");
+                    holder.description.setText("Delivery is free when you spend USD 100 or more");
                 }
                 if(position == mData.size() - 3){
                     //3rd Last Row

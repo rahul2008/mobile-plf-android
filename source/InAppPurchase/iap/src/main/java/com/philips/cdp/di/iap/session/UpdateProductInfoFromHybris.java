@@ -5,5 +5,5 @@ package com.philips.cdp.di.iap.session;
  * All rights reserved.
  */
 public interface UpdateProductInfoFromHybris {
-    void updateProductInfo(ProductSummary summary, CartInfo cartInfo);
+    void updateProductInfo(ProductSummary summary, CartInfo cartInfo, String hasCartItems);
 }

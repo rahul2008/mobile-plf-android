@@ -93,11 +93,14 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     }
 
     @Override
-    public void updateProductInfo(final ProductSummary summary, final CartInfo cartInfo) {
+    public void updateProductInfo(final ProductSummary summary, final CartInfo cartInfo,String hasCartItems) {
         if(summary == null){
             Utility.dismissProgressDialog();
             Toast.makeText(mContext,"Network Error",Toast.LENGTH_LONG).show();
             return;
+        }
+        if(hasCartItems.equalsIgnoreCase(Constants.CART_EMPTY)){
+            Toast.makeText(mContext,"ShoppingCart Empty", Toast.LENGTH_LONG).show();
         }
         ProductSummary item = new ProductSummary();
         item.price = summary.price;
