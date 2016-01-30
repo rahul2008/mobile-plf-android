@@ -21,7 +21,6 @@ import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.NetworkConstants;
-import com.philips.cdp.di.iap.activity.Product;
 import com.philips.cdp.di.iap.activity.Utility;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
@@ -57,9 +56,9 @@ public class InAppPurchase {
     private static String TAG = InAppPurchase.class.getName();
 
 
-    public static int getCartItemCount(Context context, String janRainID, String userID) {
+   /* public static int getCartItemCount(Context context, String janRainID, String userID) {
         return HybrisDelegate.getCartItemCount(context, janRainID, userID);
-    }
+    }*/
 
 
     /**
@@ -68,6 +67,9 @@ public class InAppPurchase {
     public static void getCurrentCartHybrisServerRequest(final Context context) {
 
         mContext = context;
+
+        //Needs to be implemented
+       // HybrisDelegate.getInstance(mContext).sendHybrisRequest();
 
         new AsyncTask<Void, Void, Void>() {
 
