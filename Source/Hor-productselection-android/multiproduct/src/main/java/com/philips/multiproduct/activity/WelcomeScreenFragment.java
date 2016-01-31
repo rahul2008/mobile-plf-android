@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
+import com.philips.multiproduct.productscreen.DetailedScreenFragment;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.
@@ -37,7 +38,7 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment {
         mSelectProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFragment(new DetailedFragment());
+                showFragment(new ProductListingFragment());
             }
         });
 
