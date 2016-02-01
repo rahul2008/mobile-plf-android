@@ -229,4 +229,12 @@
         <item name="android:textSize">13dp</item>
     </style>
 
+    <style name="WhiteText" parent="@style/Button">
+        <item name="android:textColor">@color/uikit_white</item>
+    </style>
+
+    <style name="baseText" parent="@style/Button">
+        <item name="android:textColor">?attr/baseColor</item>
+    </style>
+
 </resources>

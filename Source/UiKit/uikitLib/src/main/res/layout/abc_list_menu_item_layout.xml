@@ -15,7 +15,7 @@
 
 <android.support.v7.view.menu.ListMenuItemView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?attr/listPreferredItemHeightSmall"
+    android:layout_height="@dimen/uikit_action_bar_Pop_Height"
     android:itemBackground="?attr/veryLightselectoropacityfifteen"
     android:itemTextAppearance="@style/PopOverDropdown">
 
