@@ -1,4 +1,4 @@
-include ':sampleApp'
+include ':sampleApp', ':ssdp'
 
 def localDiCommLibDir = '../DICommClient/dicommClientLib'
 if (new File(localDiCommLibDir).exists()) {
