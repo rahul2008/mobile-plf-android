@@ -97,7 +97,6 @@ public class SecureUtility {
             KeySpec ks = new PBEKeySpec(key, salt, 1024, 128);
             SecretKey s = f.generateSecret(ks);
             SECRET_KEY = s.getEncoded();
-            System.out.println("************ Modified SECRET_KEY :  "+SECRET_KEY);
         } catch (InvalidKeySpecException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
