@@ -33,7 +33,7 @@ import com.philips.cl.di.common.ssdp.util.SSDPUtils;
  */
 public class SsdpService extends HandlerThread {
 	private static SsdpService sInstance = null;
-	
+
 	private MessageController mMessageController = null;
 
 	private Handler mMessageHandler = null;
@@ -43,7 +43,7 @@ public class SsdpService extends HandlerThread {
 	private DiscoveryServiceState mServiceState = DiscoveryServiceState.STOPPED;
 
 	private boolean mSocketOpen;
-	
+
 	private final BaseUrlParser mBaseParser;
 
 	private DeviceListModel mDeviceListModel;
@@ -53,18 +53,19 @@ public class SsdpService extends HandlerThread {
 	private final Set<String> mDiscoveredDevicesSet;
 	private final Map<String, Integer> mDeviceDiscoverdCounterMap;
 
-	
+
 	static {
 		try {
 			System.loadLibrary("ssdpJNI"); // $codepro.audit.disable relativeLibraryPath
 		} catch (final UnsatisfiedLinkError e) {
 			Log.e(ConnectionLibContants.LOG_TAG, "failed to load libssdpJNI Interface library" + e.getMessage());
+			throw e;
 		}
 	}
 
 	/**
 	 * Method getInstance.
-	 * 
+	 *
 	 * @return SSDP
 	 */
 	public static SsdpService getInstance() {
@@ -86,7 +87,7 @@ public class SsdpService extends HandlerThread {
 		/** */
 		private int loopCount = 0;
 		/** */
-		
+
 
 		@Override
 		public void run() {
@@ -106,12 +107,12 @@ public class SsdpService extends HandlerThread {
 							mDeviceDiscoverdCounterMap.put(usn, discoveryCounter);
 						}
 					}
-					
+
 					if (!mDiscoveredDevicesSet.contains(usn)) {
 						lostDevices.add(usn);
 					}
 				}
-				
+
 				for (final String usn : lostDevices) {
 					Log.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + usn);
 					mMessageController.sendInternalMessage(DiscoveryMessageID.DEVICE_LOST, mDeviceListModel.getDevice(usn));
@@ -129,16 +130,6 @@ public class SsdpService extends HandlerThread {
 	};
 
 
-	/**
-	 * Constructor for SSDP.
-	 * 
-	 * @param name
-	 *            String
-	 * @param m_messageController
-	 *            MessageController
-	 * @param context
-	 *            Context
-	 */
 	private SsdpService() {
 		super(SsdpService.class.getSimpleName());
 	}
@@ -152,27 +143,21 @@ public class SsdpService extends HandlerThread {
 		mDeviceListModel = new DeviceListModel();
 	}
 
-	/**
-	 * Method addDevice.
-	 * 
-	 * @param ssdpPacket
-	 *            SSDPPacket
-	 */
 	private  void addDevice(DeviceModel device) {
 		if (null != device) {
-			if ((null == device.getNts()) 
+			if ((null == device.getNts())
 					|| device.getNts().contains(ConnectionLibContants.SSDP_ALIVE)) {
-				
+
 				mDeviceDiscoverdCounterMap.put(device.getUsn(), 0);
 				mDiscoveredDevicesSet.add(device.getUsn());
-				
+
 				DeviceModel disciveredDeviceModel = mDeviceListModel.getAliveDevicesMap().get(device.getUsn());
 				String bootId = "";
 				if (disciveredDeviceModel != null) {
 					bootId = disciveredDeviceModel.getBootID();
 				}
 				Log.i(ConnectionLibContants.LOG_TAG, "Old bootId : " + bootId + " New bootId: "+device.getBootID());
-				
+
 				if (!mDeviceListModel.getAliveDevicesMap().containsKey(device.getUsn())
 						|| (device.getBootID()!= null && !device.getBootID().equals(bootId))) {
 					Log.i(ConnectionLibContants.LOG_TAG, "Device alive : " + device.getUsn());
@@ -191,11 +176,11 @@ public class SsdpService extends HandlerThread {
 									mMessageController.sendInternalMessage(
 											DiscoveryMessageID.DEVICE_DISCOVERED, device);
 									mDeviceListModel.addNewDevice(device.getUsn(), device);
-									
+
 								} else {
-									Log.d(ConnectionLibContants.LOG_TAG, 
+									Log.d(ConnectionLibContants.LOG_TAG,
 											"[addDevice]%% device is not philips ");
-									
+
 								}
 							}
 						} catch (final Exception e) {
@@ -203,14 +188,14 @@ public class SsdpService extends HandlerThread {
 							        "[MalformedURLException] MalformedURLException " + e.getMessage());
 						}
 					} else {
-						Log.d(ConnectionLibContants.LOG_TAG, 
+						Log.d(ConnectionLibContants.LOG_TAG,
 								"ssdpPacket.LOCATION " + device.getLocation());
 					}
 				} else {
 					Log.d(ConnectionLibContants.LOG_TAG,
 							"Handle message DEVICE_DISCOVERED all ready sent USN: " + device.getUsn());
 				}
-			} else if ((null != device.getNts()) 
+			} else if ((null != device.getNts())
 					&& device.getNts().contains(ConnectionLibContants.SSDP_BYEBYE)) {
 				Log.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + device.getUsn() +":" + device.getNts());
 				DeviceModel lostDevice = mDeviceListModel.getDevice(device.getUsn());
@@ -222,9 +207,6 @@ public class SsdpService extends HandlerThread {
 		}
 	}
 
-	/**
-	 * Method closeSocket.
-	 */
 	private native void closeSocket();
 
 	/**
@@ -232,7 +214,7 @@ public class SsdpService extends HandlerThread {
 	 * This API returns HashSet of DeviceModel Object or null if service is not running
 	 * each Device object contains information about currently available/active devices in a network
 	 * which supports SSDP protocol
-	 * 
+	 *
 	 * @return Set<DeviceModel>
 	 */
 	public Set<DeviceModel> getAliveDeviceList() {
@@ -264,14 +246,14 @@ public class SsdpService extends HandlerThread {
 
 	/**
 	 * Method openSocket.
-	 * 
+	 *
 	 * @return int
 	 */
 	private native int openSocket();
 
 	/**
 	 * Method registerCallback.
-	 * 
+	 *
 	 * @param pcallbackHandler
 	 *            Callback
 	 */
@@ -292,7 +274,7 @@ public class SsdpService extends HandlerThread {
 
 	/**
 	 * Method registerHandler.
-	 * 
+	 *
 	 * @param pHandler
 	 *            Handler
 	 */
@@ -312,21 +294,21 @@ public class SsdpService extends HandlerThread {
 
 	/**
 	 * Method registerListener.
-	 * 
+	 *
 	 * @return int
 	 */
 	private native int registerListener();
 
 	/**
 	 * Method sendBroadcastMX3.
-	 * 
+	 *
 	 * @return int
 	 */
 	private native int sendBroadcastMX3();
 
 	/**
 	 * Method sendBroadcastMX5.
-	 * 
+	 *
 	 * @return int
 	 */
 	private native int sendBroadcastMX5();
@@ -369,7 +351,7 @@ public class SsdpService extends HandlerThread {
 
 	/**
 	 * Method startDeviceDiscovery.
-	 * 
+	 *
 	 * @param callback
 	 *            Callback
 	 */
@@ -382,7 +364,7 @@ public class SsdpService extends HandlerThread {
 
 	/**
 	 * Method startDeviceDiscovery.
-	 * 
+	 *
 	 * @param pHandler
 	 *            Handler
 	 */
@@ -424,13 +406,13 @@ public class SsdpService extends HandlerThread {
 
 	/**
 	 * Method startDiscovery.
-	 * 
+	 *
 	 * @return int
 	 */
 	private native int startDiscovery();
 
 	/**
-	 * This API is used to safely stop device discovery service which 
+	 * This API is used to safely stop device discovery service which
 	 * intern takes care of removing registered handlers from broadcasting list
 	 */
 	public void stopDeviceDiscovery() {
@@ -441,34 +423,34 @@ public class SsdpService extends HandlerThread {
 			if ((null != mMessageController) && (null != mMessageHandler)) {
 				mMessageController.removeMessageHandler(mMessageHandler);
 			}
-			
-			if (mSocketOpen) {				
+
+			if (mSocketOpen) {
 				mServiceState = DiscoveryServiceState.STOPPED;
 				mSocketOpen = false;
 				mRunDiscovery = false;
 				closeSocket();
 				stopDiscovery();
-				
+
 			}
-			
+
 			if (mDiscoveredDevicesSet != null) {
 				mDiscoveredDevicesSet.clear();
 			}
-			
+
 			if (mDeviceDiscoverdCounterMap != null) {
 				mDeviceDiscoverdCounterMap.clear();
 			}
-			
+
 			if (lostDevices != null) {
 				lostDevices.clear();
 			}
-			
-			if (mDeviceListModel != null 
+
+			if (mDeviceListModel != null
 					&& mDeviceListModel.getAliveDevicesMap() != null) {
 				mDeviceListModel.getAliveDevicesMap().clear();
 			}
-			
-			if (mDeviceListModel != null 
+
+			if (mDeviceListModel != null
 					&& mDeviceListModel.getAliveDevices() != null) {
 				mDeviceListModel.getAliveDevices().clear();
 			}
