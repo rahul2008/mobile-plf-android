@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mp_activity_background_color">
@@ -14,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/welcome_screen_image_height"
             android:scaleType="fitXY"
-            android:src="@drawable/temp_view_product" />
+            android:src="@drawable/welcomescreen_image" />
 
         <TextView
             android:id="@+id/welcome_screen_text"
@@ -23,17 +22,17 @@
             android:layout_marginTop="35dp"
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin"
-            android:textColor="?attr/baseColor"
             android:text="In order to give you better support, could you tell us which product you use?"
+            android:textColor="?attr/baseColor"
             android:textSize="@dimen/title_text_size_medium" />
 
         <RelativeLayout
             android:id="@+id/welcome_screen_parent_two"
             android:layout_width="match_parent"
             android:layout_height="@dimen/actionbar_height"
+            android:layout_marginTop="35dp"
             android:background="#ffffff"
-            android:elevation="10dp"
-            android:layout_marginTop="35dp">
+            android:elevation="10dp">
 
             <ImageView
                 android:id="@+id/welcome_screen_find_product_search"
@@ -47,21 +46,21 @@
                 android:id="@+id/welcome_screen_find_product_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/mp_find_product"
-                android:textSize="@dimen/title_text_size_large"
-                android:paddingLeft="@dimen/activity_margin"
-                android:textColor="?attr/baseColor"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/welcome_screen_find_product_search"
-                android:layout_centerVertical="true"/>
+                android:paddingLeft="@dimen/activity_margin"
+                android:text="@string/mp_find_product"
+                android:textColor="?attr/baseColor"
+                android:textSize="@dimen/title_text_size_large" />
 
             <ImageView
                 android:id="@+id/welcome_screen_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/find_prod_right_arrow"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:paddingRight="@dimen/activity_margin"
-                android:layout_centerVertical="true"/>
+                android:src="@drawable/find_prod_right_arrow" />
 
         </RelativeLayout>
 
