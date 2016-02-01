@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -23,10 +27,7 @@ import com.philips.cdp.uikit.utils.UikitUtils;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public class StateControls extends LinearLayout {
 
     public interface OnButtonStateChangeListener {
@@ -405,7 +406,7 @@ public class StateControls extends LinearLayout {
      * If multiple choice is enabled, the user can select multiple
      * values simultaneously.
      *
-     * @param enable
+     * @param enable - boolean value to either enable or disable multi choice
      */
     public void enableMultipleChoice(boolean enable) {
         this.isMultipleChoice = enable;
@@ -415,7 +416,7 @@ public class StateControls extends LinearLayout {
     /**
      * API to set text's programmatically
      *
-     * @param texts
+     * @param texts - Value of texts as array of Strings
      */
     public void setTexts(String[] texts) {
         this.texts = texts;
@@ -433,7 +434,7 @@ public class StateControls extends LinearLayout {
 
     /**
      * Callback to be registered when state of buttons are changed
-     * @param onButtonStateChangeListener
+     * @param onButtonStateChangeListener - Listener of type OnButtonStateChangeListener
      */
     public void setOnButtonStateChangedListener(OnButtonStateChangeListener onButtonStateChangeListener) {
         this.listener = onButtonStateChangeListener;
