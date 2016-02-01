@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
-import com.janrain.android.utils.SecureUtility;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
@@ -67,16 +66,6 @@ public class RegistrationHelper {
     private boolean mIsInitializationInProgress;
 
     private JumpFlowDownloadStatusListener mJumpFlowDownloadStatusListener;
-
-    static{
-        generateSecretKey();
-    }
-
-    private static void generateSecretKey() {
-        if(SecureUtility.SECRET_KEY == null){
-            SecureUtility.generateSecretKey();
-        }
-    }
 
     public boolean isJumpInitializationInProgress() {
         return mIsInitializationInProgress;

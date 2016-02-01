@@ -26,19 +26,8 @@ public class SecureUtility {
 
     public static byte[] SECRET_KEY;
 
-    public static void generateSecretKey() {
-        final byte[] salt = Settings.Secure.ANDROID_ID.getBytes();
-        final char[] key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
-        try {
-            SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            KeySpec ks = new PBEKeySpec(key, salt, 1024, 128);
-            SecretKey s = f.generateSecret(ks);
-            SECRET_KEY = s.getEncoded();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+    static{
+        generateSecretKey();
     }
 
     public static byte[] encrypt(String text) {
@@ -92,5 +81,27 @@ public class SecureUtility {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    private static void generateSecretKey() {
+        if (SECRET_KEY == null) {
+            storeSecretKey();
+        }
+    }
+
+    private static void storeSecretKey() {
+        final byte[] salt = Settings.Secure.ANDROID_ID.getBytes();
+        final char[] key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
+        try {
+            SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            KeySpec ks = new PBEKeySpec(key, salt, 1024, 128);
+            SecretKey s = f.generateSecret(ks);
+            SECRET_KEY = s.getEncoded();
+            System.out.println("************ Modified SECRET_KEY :  "+SECRET_KEY);
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }
