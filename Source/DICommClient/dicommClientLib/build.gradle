@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
 
-def libVersionNumber = '1.0.4'
+def libVersionNumber = '1.0.5'
 
 buildscript {
     repositories {
@@ -42,8 +42,7 @@ android {
 }
 
 dependencies {
-    compile files('libs/ICPClientInterface.jar')
-    compile files('libs/ssdp_2.3.jar')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile 'com.google.code.gson:gson:2.3'
 
