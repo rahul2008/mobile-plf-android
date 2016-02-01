@@ -5,8 +5,6 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
-import org.json.JSONObject;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -45,12 +43,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         Gson gson = new GsonBuilder().create();
 
 		try {
-			JSONObject jsonObj = new JSONObject(response) ;
-			JSONObject firmwareEventJson = jsonObj.optJSONObject("data") ;
-			if( firmwareEventJson != null ) {
-				jsonObj = firmwareEventJson ;
-			}
-			FirmwarePortProperties firmwarePortInfo = gson.fromJson(jsonObj.toString(), FirmwarePortProperties.class);
+			FirmwarePortProperties firmwarePortInfo = gson.fromJson(response, FirmwarePortProperties.class);
 			if (firmwarePortInfo.isValid()) {
 				return firmwarePortInfo;
 			}

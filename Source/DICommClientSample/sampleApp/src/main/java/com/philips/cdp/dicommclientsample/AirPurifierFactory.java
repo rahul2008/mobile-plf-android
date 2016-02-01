@@ -1,7 +1,8 @@
 package com.philips.cdp.dicommclientsample;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.communication.LocalStrategy;
+import com.philips.cdp.dicommclient.communication.CommunicationMarshal;
+import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
 
@@ -24,7 +25,7 @@ class AirPurifierFactory extends DICommApplianceFactory<AirPurifier> {
     @Override
     public AirPurifier createApplianceForNode(NetworkNode networkNode) {
         if (networkNode.getModelName().equals(AirPurifier.MODELNAME)) {
-            LocalStrategy communicationStrategy = new LocalStrategy(new DISecurity());
+            CommunicationStrategy communicationStrategy = new CommunicationMarshal(new DISecurity());
             return new AirPurifier(networkNode, communicationStrategy);
         }
         return null;
