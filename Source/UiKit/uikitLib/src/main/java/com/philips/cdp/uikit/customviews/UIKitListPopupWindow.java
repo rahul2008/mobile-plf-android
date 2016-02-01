@@ -28,7 +28,7 @@ import java.util.List;
 public class UIKitListPopupWindow extends ListPopupWindow {
 
     private Context mContext;
-    private Type mType;
+    private UIKIT_Type mUIKITType;
     private View mView;
     private int mVerylightthemecolor;
     private int mDarkerColor;
@@ -37,11 +37,11 @@ public class UIKitListPopupWindow extends ListPopupWindow {
     private ColorFilter mVerylightcolor;
     private ColorFilterStateListDrawable mSelector;
 
-    public UIKitListPopupWindow(final Context context, final View view, final Type type, List<RowItem> rowItems) {
+    public UIKitListPopupWindow(final Context context, final View view, final UIKIT_Type UIKITType, List<RowItem> rowItems) {
         super(context);
         mContext = context;
         setAnchorView(view);
-        mType = type;
+        mUIKITType = UIKITType;
         mView = view;
 
         PopupOverAdapter adapter = new PopupOverAdapter(mContext, R.layout.uikit_simple_list_image_text, rowItems);
@@ -65,29 +65,29 @@ public class UIKitListPopupWindow extends ListPopupWindow {
         mContext = context;
     }
 
-    public void setOffsetValue(Type type) {
+    public void setOffsetValue(UIKIT_Type UIKITType) {
 
-        switch (type) {
-            case TOPLEFT:
+        switch (UIKITType) {
+            case UIKIT_TOPLEFT:
                 setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
-            case TOPRIGHT:
+            case UIKIT_TOPRIGHT:
                 setHorizontalOffset(-(mContext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) - mView.getWidth()));
                 setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
-            case LEFT:
+            case UIKIT_LEFT:
                 setHorizontalOffset(mView.getWidth() + (mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin)));
                 setVerticalOffset(-mView.getHeight());
                 break;
-            case RIGHT:
+            case UIKIT_RIGHT:
                 setHorizontalOffset(-((mContext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) +
                         mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin))));
                 setVerticalOffset(-mView.getHeight());
                 break;
-            case BOTTOMLEFT:
+            case UIKIT_BOTTOMLEFT:
                 setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
-            case BOTTOMRIGHT:
+            case UIKIT_BOTTOMRIGHT:
                 setHorizontalOffset(-(mContext.getResources().getDimensionPixelSize(R.dimen.popup_menu_width) - mView.getWidth()));
                 setVerticalOffset(mContext.getResources().getDimensionPixelSize(R.dimen.popup_top_margin));
                 break;
@@ -106,7 +106,7 @@ public class UIKitListPopupWindow extends ListPopupWindow {
         } else {
             setWidth(mWidth);
         }
-        setOffsetValue(mType);
+        setOffsetValue(mUIKITType);
         super.show();
         if (isShowing()) {
             getListView().setDivider(mDrawable);
@@ -153,7 +153,7 @@ public class UIKitListPopupWindow extends ListPopupWindow {
         super.setModal(true);
     }
 
-    public enum Type {
-        TOPLEFT, TOPRIGHT, LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
+    public enum UIKIT_Type {
+        UIKIT_TOPLEFT, UIKIT_TOPRIGHT, UIKIT_LEFT, UIKIT_RIGHT, UIKIT_BOTTOMLEFT, UIKIT_BOTTOMRIGHT
     }
 }

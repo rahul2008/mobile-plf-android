@@ -5,6 +5,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.utils.UikitUtils;
 
 /**
  * <b></b> ActionBarLauncher is class to demonstrate the use of Action Up Button </b>
@@ -72,5 +75,29 @@ public class ActionBarLauncher extends CatalogActivity {
 
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_pop_over_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        UikitUtils.menuShowIcon(menu);
+        menu.getItem(0).setIcon(VectorDrawable.create(this, R.drawable.uikit_gear_19_19));
+        menu.getItem(1).setIcon(VectorDrawable.create(this, R.drawable.uikit_share_19_18));
+        menu.getItem(2).setIcon(VectorDrawable.create(this, R.drawable.uikit_envelope));
+        menu.getItem(3).setIcon(VectorDrawable.create(this, R.drawable.uikit_ballon));
+
+        return super.onPrepareOptionsMenu(menu);
+
     }
 }

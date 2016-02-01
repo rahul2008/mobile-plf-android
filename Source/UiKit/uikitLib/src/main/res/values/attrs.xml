@@ -176,9 +176,25 @@
         <attr name="uikitsecondaryprogress" format="boolean" />
         <attr name="uikitwhiteprogress" format="boolean" />
     </declare-styleable>
+
     <declare-styleable name="UIKitProgressBarCircular">
         <attr name="uikitgrayprogress" format="boolean" />
         <attr name="uikittransparentprogress" format="boolean" />
         <attr name="uikitcircularprogresssmall" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="Controls">
+        <attr name="controlEntries" format="reference" />
+        <attr name="controlCount" format="integer" />
+        <attr name="controlSelected" format="boolean" />
+        <attr name="controlMultiChoice" format="boolean" />
+        <attr name="controlButtonWidth" format="reference|dimension" />
+        <attr name="controlButtonHeight" format="reference|dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="UiKit_CheckBox">
+        <attr name="checked" format="boolean"/>
+        <attr name="textValue" format="string"/>
+    </declare-styleable>
+
 </resources>

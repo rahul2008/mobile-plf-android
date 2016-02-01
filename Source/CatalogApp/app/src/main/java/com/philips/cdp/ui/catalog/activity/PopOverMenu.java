@@ -1,8 +1,6 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,7 +8,6 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
-import com.philips.cdp.uikit.utils.UikitUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +61,7 @@ public class PopOverMenu extends CatalogActivity {
             "Setting",
             "Share", "Mail",
             "Chat"};
-    public Integer[] images = {R.drawable.uikit_apple, R.drawable.uikit_share,
+    public Integer[] images = {R.drawable.uikit_apple, R.drawable.uikit_share_19_18,
             R.drawable.uikit_envelope, R.drawable.uikit_ballon,};
     List<RowItem> rowItems1;
     List<RowItem> rowItems2;
@@ -81,6 +78,7 @@ public class PopOverMenu extends CatalogActivity {
     private Button right;
     private Button buttomleft;
     private Button buttomright;
+    private Type type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,18 +90,18 @@ public class PopOverMenu extends CatalogActivity {
         rowItems3 = new ArrayList<RowItem>();
 
         rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear_19_19) , descriptions[0]));
-        rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
+        rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share_19_18) , descriptions[1]));
         rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
         rowItems1.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
 
 
 
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear_19_19) , descriptions[0]));
-        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share_19_18) , descriptions[1]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_gear_19_19) , descriptions[0]));
-        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share) , descriptions[1]));
+        rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_share_19_18) , descriptions[1]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_envelope) , descriptions[2]));
         rowItems2.add(new RowItem(VectorDrawable.create(this, R.drawable.uikit_ballon) , descriptions[3]));
 
@@ -117,12 +115,12 @@ public class PopOverMenu extends CatalogActivity {
         setContentView(R.layout.activity_pop_over_menu2);
         init();
 
-        listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.Type.TOPLEFT, rowItems1);
-        listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright,UIKitListPopupWindow.Type.TOPRIGHT, rowItems3);
-        listpopupwindowLeft = new UIKitListPopupWindow(PopOverMenu.this, left, UIKitListPopupWindow.Type.LEFT, rowItems1);
-        listpopupwindowRight = new UIKitListPopupWindow(PopOverMenu.this, right, UIKitListPopupWindow.Type.RIGHT, rowItems2);
-        listpopupwindowBottomLeft = new UIKitListPopupWindow(PopOverMenu.this, buttomleft, UIKitListPopupWindow.Type.BOTTOMLEFT, rowItems1);
-        listpopupwindowBottomRight = new UIKitListPopupWindow(PopOverMenu.this,buttomright,UIKitListPopupWindow.Type.BOTTOMRIGHT, rowItems1);
+        listpopupwindowTopLeft = new UIKitListPopupWindow(PopOverMenu.this, topleft, UIKitListPopupWindow.UIKIT_Type.UIKIT_TOPLEFT, rowItems1);
+        listpopupwindowTopRight = new UIKitListPopupWindow(PopOverMenu.this,topright, UIKitListPopupWindow.UIKIT_Type.UIKIT_TOPRIGHT, rowItems3);
+        listpopupwindowLeft = new UIKitListPopupWindow(PopOverMenu.this, left, UIKitListPopupWindow.UIKIT_Type.UIKIT_LEFT, rowItems1);
+        listpopupwindowRight = new UIKitListPopupWindow(PopOverMenu.this, right, UIKitListPopupWindow.UIKIT_Type.UIKIT_RIGHT, rowItems2);
+        listpopupwindowBottomLeft = new UIKitListPopupWindow(PopOverMenu.this, buttomleft, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems1);
+        listpopupwindowBottomRight = new UIKitListPopupWindow(PopOverMenu.this,buttomright, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMRIGHT, rowItems1);
 
 
 
@@ -171,8 +169,68 @@ public class PopOverMenu extends CatalogActivity {
                 listpopupwindowBottomRight.show();
             }
         });
+
+        if (savedInstanceState != null) {
+            type = (Type)savedInstanceState.getSerializable("TYPE");
+        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+     if (type != null)
+        switch (type) {
+            case TOPLEFT:
+                topleft.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listpopupwindowTopLeft.show();
+                    }
+                });
+                break;
+            case TOPRIGHT:
+                topright.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listpopupwindowTopRight.show();
+                    }
+                });
+                break;
+            case LEFT:
+                left.post(new Runnable() {
+                    @Override
+                    public void run() {
+                            listpopupwindowLeft.show();
+                    }
+                });
+                break;
+            case RIGHT:
+                right.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listpopupwindowRight.show();
+                    }
+                });
+                break;
+            case BOTTOMLEFT:
+                buttomleft.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listpopupwindowBottomLeft.show();
+                    }
+                });
+                break;
+            case BOTTOMRIGHT:
+                buttomright.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listpopupwindowBottomRight.show();
+                    }
+                });
+                break;
+            default:
+        }
+    }
 
     void init() {
         topleft = (Button)findViewById(R.id.topleft);
@@ -184,31 +242,28 @@ public class PopOverMenu extends CatalogActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    protected void onSaveInstanceState(final Bundle outState) {
+            super.onSaveInstanceState(outState);
 
-        getMenuInflater().inflate(R.menu.menu_pop_over_menu, menu);
-        return true;
+
+            type = null;
+            if (listpopupwindowTopLeft.isShowing()) {
+                type = Type.TOPLEFT;
+            }else if (listpopupwindowTopRight.isShowing()) {
+                type = Type.TOPRIGHT;
+            }else if (listpopupwindowLeft.isShowing()) {
+                type = Type.LEFT;
+            }else if (listpopupwindowRight.isShowing()) {
+                type = Type.RIGHT;
+            }else if (listpopupwindowBottomLeft.isShowing()) {
+                type = Type.BOTTOMLEFT;
+            }else if (listpopupwindowBottomRight.isShowing()) {
+                type = Type.BOTTOMRIGHT;
+            }
+        outState.putSerializable("TYPE",type);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * To show image icon in overflow menu should call UikitUtils.menuShowIcon(menu) inside onPrepareOptionsMenu()
-     * @param menu
-     * @return
-     */
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        UikitUtils.menuShowIcon(menu);
-        menu.getItem(0).setIcon(VectorDrawable.create(this, R.drawable.uikit_gear_19_19));
-        menu.getItem(1).setIcon(VectorDrawable.create(this, R.drawable.uikit_share));
-        menu.getItem(2).setIcon(VectorDrawable.create(this, R.drawable.uikit_envelope));
-        menu.getItem(3).setIcon(VectorDrawable.create(this, R.drawable.uikit_ballon));
-
-        return super.onPrepareOptionsMenu(menu);
-
+    public enum Type {
+        TOPLEFT, TOPRIGHT, LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
     }
 }

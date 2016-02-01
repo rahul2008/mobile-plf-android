@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/error_text"
-        fontPath="fonts/centralesans_book.ttf"
+        fontPath="fonts/centralesansbook.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/error_image"
