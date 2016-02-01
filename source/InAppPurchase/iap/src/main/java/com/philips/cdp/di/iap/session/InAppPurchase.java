@@ -56,6 +56,11 @@ public class InAppPurchase {
     private static TestEnvOAuthHandler authHandler = new TestEnvOAuthHandler();
     private static String TAG = InAppPurchase.class.getName();
 
+    public static void initApp(Context context, String userName, String janRainID) {
+        //We register with app context to avoid any memory leaks
+        Context appContext = context.getApplicationContext();
+        HybrisDelegate.getInstance(appContext).initStore(userName,janRainID);
+    }
 
    /* public static int getCartItemCount(Context context, String janRainID, String userID) {
         return HybrisDelegate.getCartItemCount(context, janRainID, userID);
