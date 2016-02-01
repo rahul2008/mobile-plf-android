@@ -10,7 +10,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
@@ -20,25 +19,25 @@ import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.activity.MultiProductBaseActivity;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
+import java.util.List;
 
 public class Launcher extends MultiProductBaseActivity implements View.OnClickListener {
 
+    private static ArrayList<Product> mList = null;
+    private static int RESULT_CODE_THEME_UPDATED = 1;
     private final String TAG = Launcher.class.getSimpleName();
     private Button mButton, mAdd = null;
-    private static ArrayList<Product> mList = null;
     private RecyclerView mRecyclerView = null;
     private MultiProductConfigManager mConfigManager = null;
     private SampleAdapter adapter = null;
-    private static int RESULT_CODE_THEME_UPDATED = 1;
-
     private Button change_theme = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        if(themeUtils == null) {
+        if (themeUtils == null) {
             themeUtils = new ThemeUtils(this.getSharedPreferences(
                     this.getString(R.string.app_name_multiproduct), Context.MODE_PRIVATE));
         }
@@ -103,9 +102,14 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
 
 
     private void addDummyData() {
-        for (int i = 0; i < 2; i++) {
+
+        List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
+
+
+        for (int i = 0; i < mCtnList.size(); i++) {
             Product product = new Product();
-            product.setmCtn((new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "/dummy");
+            //  product.setmCtn((new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "/dummy");
+            product.setmCtn(mCtnList.get(i));
             product.setmCatalog("B2C");
             product.setmCategory("CARE");
             mList.add(product);
@@ -132,7 +136,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
             case R.id.change_theme:
                 String preferences = null;
                 int themeValue = (int) (Math.random() * (4 - 0)) + 0;
-                switch (themeValue){
+                switch (themeValue) {
                     case 0:
                         themeUtils.setThemePreferences(false);
                         break;
