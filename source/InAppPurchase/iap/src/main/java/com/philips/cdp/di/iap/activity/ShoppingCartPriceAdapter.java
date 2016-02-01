@@ -97,6 +97,8 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
         switch (rowType) {
             case TYPE_ITEM:
                 ProductSummary summary = mData.get(position);
+                int quantity = Integer.parseInt(summary.quantity);
+                int individualPrice = Integer.parseInt(summary.price)/quantity;
                 try {
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
                 } catch (Exception e) {
@@ -113,7 +115,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
 
                 holder.from.setText("Quantity: ");
                 holder.nameOption.setText(summary.productTitle);
-                holder.price.setText(summary.Currency + " " +summary.price);
+                holder.price.setText(summary.Currency + " " +individualPrice);
                 holder.valueOption.setText(summary.quantity);
 
                 new DownloadAsyncTask().execute(holder);
@@ -153,7 +155,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                     holder.number.setText("0");
 
                     holder.description.setVisibility(View.VISIBLE);
-                    holder.description.setText("Delivery is free when you spend € 100 or more");
+                    holder.description.setText("Delivery is free when you spend USD 100 or more");
                 }
                 if(position == mData.size() - 3){
                     //3rd Last Row

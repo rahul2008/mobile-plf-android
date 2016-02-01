@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.session.ProductSummary;
 import com.philips.cdp.di.iap.session.UpdateProductInfoFromHybris;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -32,6 +33,7 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     ListView listBelow;
     Context mContext;
     String TAG = "SPOORTI";
+    LinkedList<ProductSummary> productList;
 
     //private String mCtn = "RQ1250/17";
     //ProductSummary productInfo;
@@ -45,7 +47,7 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
 
         listBelow = (ListView) findViewById(R.id.withouticon);
         mAdapter = new ShoppingCartPriceAdapter(ShoppingCartView.this);
-       // productInfo = new ProductSummary();
+       productList = new LinkedList<ProductSummary>();
       //  listBelow.setAdapter(mAdapter);
 
 
@@ -88,16 +90,19 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     @Override
     protected void onStart() {
         super.onStart();
-        Utility.showProgressDialog(mContext, "getting cart details");
+        Utility.showProgressDialog(mContext, "Getting Cart Details");
         InAppPurchase.getCartCurrentCartRequest(this, this, cartInfo);
     }
 
     @Override
-    public void updateProductInfo(final ProductSummary summary, final CartInfo cartInfo) {
+    public void updateProductInfo(final ProductSummary summary, final CartInfo cartInfo,String hasCartItems) {
         if(summary == null){
             Utility.dismissProgressDialog();
             Toast.makeText(mContext,"Network Error",Toast.LENGTH_LONG).show();
             return;
+        }
+        if(hasCartItems.equalsIgnoreCase(Constants.CART_EMPTY)){
+            Toast.makeText(mContext,"ShoppingCart Empty", Toast.LENGTH_LONG).show();
         }
         ProductSummary item = new ProductSummary();
         item.price = summary.price;
@@ -106,10 +111,22 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
         item.ImageURL = summary.ImageURL;
         item.Currency = summary.Currency;
         item.productCode = summary.productCode;
-       // Toast.makeText(mContext,"productInfo = " + "price = " + summary.price + "quantity = " + summary.quantity,Toast.LENGTH_SHORT).show();
-       // productInfo.add(item);
-        mAdapter.addItem(item);
+
+        if(!checkDuplicateValues(item)) {
+            productList.add(item);
+            mAdapter.addItem(item);
+        }
         listBelow.setAdapter(mAdapter);
+    }
+
+    boolean checkDuplicateValues(ProductSummary item){
+        String ctn = item.productCode;
+        for(int i=0;i<productList.size();i++) {
+            if (productList.get(i).productCode.equalsIgnoreCase(ctn)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
