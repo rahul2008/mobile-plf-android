@@ -43,7 +43,7 @@ android {
 
 dependencies {
     compile files('libs/ICPClientInterface.jar')
-    compile files('libs/ssdp_2.3.jar')
+    compile project(':ssdp')
 
     compile 'com.google.code.gson:gson:2.3'
 
