@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.ui.catalog.activity;
 
 import android.content.res.TypedArray;
@@ -13,6 +17,34 @@ import com.philips.cdp.uikit.customviews.PuiCheckBox;
 import com.philips.cdp.uikit.customviews.StateControls;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
+/**
+ * <b>Find the below steps to use Controls</b><br>
+ * <br>
+ * <pre> <b>XML Approach</b>
+ * &lt;com.philips.cdp.uikit.customviews.StateControls
+ * android:id="@+id/controls"
+ * android:layout_width="wrap_content"
+ * android:layout_height="wrap_content"
+ * android:layout_gravity="center_horizontal"
+ * android:layout_marginTop="20dp"
+ * app:controlButtonHeight="44dp"
+ * app:controlButtonWidth="42dp"
+ * app:controlEntries="@array/controls_array"
+ * app:controlMultiChoice="true"/&gt;
+ * <p/>
+ * 1. As Shown above use attribute controlButtonHeight and controlButtonWidth for setting button height and width, by default it's wrap_content.
+ * 2. Use attribute controlMultiChoice to enable multi choice on buttons
+ * 3. Use attribute controlEntries to refer button text through Array of String
+ * 4. Use attribute controlCount for setting buttons count
+ * </pre>
+ * <br>
+ * <pre> <b>Java Code Approach</b>
+ * StateControls controls = (StateControls) this.findViewById(R.id.controls);
+ * controls.drawControls(drawables, false); // To draw controls with Image Icons
+ * controls.drawControls(strings[], false); // To draw controls with Strings
+ * <p/>
+ * </pre>
+ */
 public class ControlsActivity extends CatalogActivity {
     private RadioButton gradientRadioButton , solidRadioButton;
     private RadioGroup radioGroup;
@@ -49,8 +81,8 @@ public class ControlsActivity extends CatalogActivity {
             drawables2[i] = VectorDrawable.create(this, controlIcons.getResourceId(i, -1));
         }
         controlIcons.recycle();
-        controls.drawControls(drawables, true);
-        controls0.drawControls(drawables2, true);
+        controls.drawControls(drawables, false);
+        controls0.drawControls(drawables2, false);
         controls.setOnButtonStateChangedListener(new StateControls.OnButtonStateChangeListener() {
             @Override
             public void onButtonStateChanged(int position) {

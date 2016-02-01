@@ -219,7 +219,6 @@
     </style>
 
     <style name="Controls_Style">
-        <item name="controlSelected">false</item>
         <item name="controlCount">1</item>
     </style>
 

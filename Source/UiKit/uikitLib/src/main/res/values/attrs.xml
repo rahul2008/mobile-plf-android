@@ -186,7 +186,6 @@
     <declare-styleable name="Controls">
         <attr name="controlEntries" format="reference" />
         <attr name="controlCount" format="integer" />
-        <attr name="controlSelected" format="boolean" />
         <attr name="controlMultiChoice" format="boolean" />
         <attr name="controlButtonWidth" format="reference|dimension" />
         <attr name="controlButtonHeight" format="reference|dimension" />
