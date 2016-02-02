@@ -1,1 +1,1 @@
-include ':app', ':multiproduct'
+include ':app', ':multiproduct', ':prx-v1'
