@@ -380,7 +380,7 @@ public class SHNUserConfigurationImplTest {
     public void whenClockFormatIsSet_ThenListenerIsNotified() {
         setupNewPreferenceFormat();
 
-        shnUserConfiguration.setClockFormat(SHNUserConfiguration.ClockFormat.AM_PM);
+        shnUserConfiguration.setClockFormat(SHNUserConfiguration.ClockFormat._12H);
 
         verify(mockedObserver).update(shnUserConfiguration, null);
     }
@@ -398,7 +398,7 @@ public class SHNUserConfigurationImplTest {
     public void whenClockFormatHasBeenSet_ThenGetReturnsThatClockFormat() {
         setupNewPreferenceFormat();
 
-        SHNUserConfiguration.ClockFormat expectedClockFormat = SHNUserConfiguration.ClockFormat.AM_PM;
+        SHNUserConfiguration.ClockFormat expectedClockFormat = SHNUserConfiguration.ClockFormat._12H;
         shnUserConfiguration.setClockFormat(expectedClockFormat);
 
         SHNUserConfiguration.ClockFormat actualClockFormat = shnUserConfiguration.getClockFormat();
