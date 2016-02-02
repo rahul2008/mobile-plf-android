@@ -39,17 +39,17 @@ public class CircularLineProgressBar extends ProgressBar {
         ColorFilter BaseColorProgressFilter = new PorterDuffColorFilter(baseColor, PorterDuff.Mode.SRC_ATOP);
         AnimationDrawable ad = (AnimationDrawable) ContextCompat.getDrawable(context, R.drawable.uikit_circular_line_progress);
 
-        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner1)), 100);
-        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner2)), 100);
-        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner3)), 100);
-        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner4)), 100);
-        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner5)), 100);
-        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner6)), 100);
-        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner7)), 100);
-        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner8)), 100);
+        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner1)), 250);
+        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner2)), 250);
+        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner3)), 250);
+        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner4)), 250);
+        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner5)), 250);
+        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner6)), 250);
+        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner7)), 250);
+        ad.addFrame((VectorDrawable.create(context, R.drawable.uikit_progressbar_spinner8)), 250);
 
         setIndeterminateDrawable(ad);
-        //  setRotation((-getProgress() / 100f * 360f) - 90f);
+        
         ad.start();
 
 
