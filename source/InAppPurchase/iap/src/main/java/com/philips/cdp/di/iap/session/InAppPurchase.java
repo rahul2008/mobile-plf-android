@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.philips.cdp.di.iap.activity.Constants;
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.NetworkConstants;
@@ -55,6 +56,11 @@ public class InAppPurchase {
     private static TestEnvOAuthHandler authHandler = new TestEnvOAuthHandler();
     private static String TAG = InAppPurchase.class.getName();
 
+    public static void initApp(Context context, String userName, String janRainID) {
+        //We register with app context to avoid any memory leaks
+        Context appContext = context.getApplicationContext();
+        HybrisDelegate.getInstance(appContext).initStore(userName,janRainID);
+    }
 
    /* public static int getCartItemCount(Context context, String janRainID, String userID) {
         return HybrisDelegate.getCartItemCount(context, janRainID, userID);
@@ -69,7 +75,7 @@ public class InAppPurchase {
         mContext = context;
 
         //Needs to be implemented
-       // HybrisDelegate.getInstance(mContext).sendRequest();
+       // HybrisDelegate.getInstance(mContext).sendHybrisRequest();
 
         new AsyncTask<Void, Void, Void>() {
 
@@ -183,14 +189,14 @@ public class InAppPurchase {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.i(TAG, "error = " + error);
-                            callback.updateProductInfo(null, null);
+                            callback.updateProductInfo(null, null, Constants.CART_HAS_ITEMS);
                         }
                     });
 
                     queue.add(stringRequest);
                 } catch (Exception e) {
                     System.out.println("Exception");
-                    callback.updateProductInfo(null, null);
+                    callback.updateProductInfo(null, null,Constants.CART_HAS_ITEMS);
                 }
                 return null;
             }
@@ -235,6 +241,11 @@ public class InAppPurchase {
         try{
         if (jsonObject.has("entries")) {
             JSONArray itemList = new JSONArray(jsonObject.get("entries").toString());
+            if(itemList.length() == 0){
+                //No Entries
+                callback.updateProductInfo(null,null,Constants.CART_EMPTY);
+                return;
+            }
             for (int i = 0; i < itemList.length(); i++) {
                 JSONObject object = itemList.getJSONObject(i);
                 ProductSummary summary = new ProductSummary();
@@ -303,14 +314,14 @@ public class InAppPurchase {
                 productInfo.ImageURL = data.getImageURL();
                 productInfo.productTitle = data.getProductTitle();
 
-                callback.updateProductInfo(productInfo, cartInfo);
+                callback.updateProductInfo(productInfo, cartInfo,Constants.CART_HAS_ITEMS);
             }
 
             @Override
             public void onResponseError(String error, int code) {
                 Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
                 Toast.makeText(mContext, "Network Error", Toast.LENGTH_LONG).show();
-                callback.updateProductInfo(null,null);
+                callback.updateProductInfo(null,null,Constants.CART_HAS_ITEMS);
             }
         });
 

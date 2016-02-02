@@ -9,7 +9,6 @@ import android.content.Context;
 
 public class HybrisDelegate {
 
-    private Context context;
     private static HybrisDelegate delegate = new HybrisDelegate();
     private static OAuthHandler oAuthHandler;
 
@@ -20,8 +19,7 @@ public class HybrisDelegate {
     }
 
     public static HybrisDelegate getInstance(Context context) {
-        if(delegate.context == null) {
-            delegate.context = context;
+        if(delegate.controller == null) {
             delegate.controller = new NetworkController(context);
         }
         return delegate;
@@ -32,6 +30,10 @@ public class HybrisDelegate {
     }
 
     public void sendRequest(int requestCode, final RequestListener requestListener) {
-        controller.sendRequest(requestCode,requestListener);
+        controller.sendHybrisRequest(requestCode, requestListener);
+    }
+
+    public void initStore(final String userName, final String janRainID) {
+        controller.initStore(userName, janRainID);
     }
 }
