@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.utils.Constants;
+import com.philips.multiproduct.utils.MLogger;
 
 
 public class MultiProductActivity extends MultiProductBaseActivity {
@@ -19,7 +20,9 @@ public class MultiProductActivity extends MultiProductBaseActivity {
         setContentView(R.layout.activity_multi_product);
 
         animateThisScreen();
-        if (MultiProductConfigManager.getInstance().getMultiProductSize() > 1)
+        int ctnSize = MultiProductConfigManager.getInstance().getMultiProductCtnList().size();
+        MLogger.d(TAG, "Size of the Ctn is : " + ctnSize);
+        if (ctnSize > 1)
             showFragment(new WelcomeScreenFragment());
         else
             showFragment(new DirectFragment());

@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.multiproduct.R;
@@ -38,7 +37,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment {
 
         mViewpager = (ViewPager) view.findViewById(R.id.detailedscreen_pager);
         mIndicater = (CircleIndicator) view.findViewById(R.id.detailedscreen_indicator);
-        mProductName = (CustomFontTextView)view.findViewById(R.id.detailed_screen_productname);
+        mProductName = (CustomFontTextView) view.findViewById(R.id.detailed_screen_productname);
         return view;
     }
 
@@ -66,8 +65,5 @@ public class DetailedScreenFragment extends MultiProductBaseFragment {
         return null;
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
 }

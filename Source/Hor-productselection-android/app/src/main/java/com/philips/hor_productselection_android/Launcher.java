@@ -17,6 +17,7 @@ import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCal
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.activity.MultiProductBaseActivity;
+import com.philips.multiproduct.utils.MLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -164,6 +165,15 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     private void launchMultiProductModule() {
         mConfigManager.setLocale("en", "GB");
         mConfigManager.invokeDigitalCareAsActivity(R.anim.abc_fade_in, R.anim.abc_fade_out, MultiProductConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-        mConfigManager.setMultiProductSize(mList.size());
+
+        List<String> list = new ArrayList<String>();
+
+        for (Product product : mList) {
+            list.add(product
+                    .getmCtn());
+        }
+        mConfigManager.setMultiProductCtnList(list);
+        MLogger.enableLogging();
+
     }
 }

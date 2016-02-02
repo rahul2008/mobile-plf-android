@@ -11,6 +11,11 @@ import android.widget.ListView;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.productscreen.DetailedScreenFragment;
+import com.philips.multiproduct.prx.ProductData;
+import com.philips.multiproduct.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ProductListingFragment class is used to showcase all possible CTNs and its details.
@@ -23,13 +28,15 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     private String TAG = ProductListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
     private ListViewWithOptions mProductAdapter = null;
-//    private ImageView mImageView = null;
+    private List<ProductData> mProductList = null;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_listview, container, false);
+        Bundle bundle = getArguments();
+        mProductList = (ArrayList<ProductData>) bundle.getSerializable(Constants.PRODUCT_DATA_KEY);
         return view;
     }
 
@@ -37,7 +44,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mProductListView = (ListView) getActivity().findViewById(R.id.productListView);
-        mProductAdapter = new ListViewWithOptions(getActivity());
+        mProductAdapter = new ListViewWithOptions(getActivity(), mProductList);
         mProductListView.setAdapter(mProductAdapter);
 
         mProductListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -53,9 +60,6 @@ public class ProductListingFragment extends MultiProductBaseFragment {
         return getResources().getString(R.string.abc_search_hint);
     }
 
-    @Override
-    public void onClick(View v) {
-    }
 
     @Override
     public void setViewParams(Configuration config) {

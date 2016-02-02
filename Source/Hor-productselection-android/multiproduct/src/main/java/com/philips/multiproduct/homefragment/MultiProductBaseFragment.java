@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -30,7 +29,7 @@ import com.philips.multiproduct.utils.NetworkReceiver;
 import java.util.Locale;
 
 public abstract class MultiProductBaseFragment extends Fragment implements
-        OnClickListener, NetworkStateListener {
+        NetworkStateListener {
 
     private static String TAG = MultiProductBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;

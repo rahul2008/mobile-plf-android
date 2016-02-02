@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 
 /**
@@ -62,9 +61,6 @@ public class DirectFragment extends MultiProductBaseFragment {
         return "Single Product";
     }
 
-    @Override
-    public void onClick(View v) {
-    }
 
     @Override
     public void setViewParams(Configuration config) {

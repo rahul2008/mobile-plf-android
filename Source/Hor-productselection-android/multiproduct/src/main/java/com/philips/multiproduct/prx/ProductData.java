@@ -29,7 +29,7 @@ public class ProductData {
         this.mProductName = productName;
     }
 
-    public String getProduuctVariant() {
+    public String getProductVariant() {
         return mProductVariant;
     }
 

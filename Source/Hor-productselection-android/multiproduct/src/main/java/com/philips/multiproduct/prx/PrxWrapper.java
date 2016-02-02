@@ -11,7 +11,10 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.multiproduct.utils.MLogger;
 
 /**
- * Created by 310190678 on 01-Feb-16.
+ * This is the wrapper Class , which holds responsibility to hit the PRX component by getting the relevant input's from the
+ * COniguration file of the MultiProduct Module.
+ * <p/>
+ * Created by naveen@philips.com on 01-Feb-16.
  */
 public class PrxWrapper {
 
@@ -21,22 +24,19 @@ public class PrxWrapper {
     private String mSectorCode = "B2C";
     private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
-    private Callback mListener = null;
     private Context mContext = null;
 
 
-    public PrxWrapper(String ctn, String sectorCode, String locale, String catalog) {
-
+    public PrxWrapper(Context context, String ctn, String sectorCode, String locale, String catalog) {
+        this.mContext = context;
         this.mCtn = ctn;
         this.mSectorCode = sectorCode;
         this.mLocale = locale;
         this.mCatalogCode = catalog;
     }
 
-    public void requestPrxSummaryData(final Callback listener, String requestTag) {
-        if (listener != null)
-            mListener = listener;
-        else
+    public void requestPrxSummaryData(final Callback listener, final String requestTag) {
+        if (listener == null)
             throw new IllegalStateException("Callback listener is null");
 
         final ProductSummaryBuilder summaryBuilder = new ProductSummaryBuilder(mCtn, requestTag);
