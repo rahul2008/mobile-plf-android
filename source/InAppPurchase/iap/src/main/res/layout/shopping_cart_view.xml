@@ -17,7 +17,7 @@
 
 
     <Button
-        android:id="@+id/checkout"
+        android:id="@+id/checkout_btn"
         android:layout_above="@id/continues"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
@@ -31,7 +31,7 @@
         android:id="@+id/withouticon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/checkout"
+        android:layout_above="@id/checkout_btn"
         android:layout_alignParentTop="true"
         >
     </ListView>

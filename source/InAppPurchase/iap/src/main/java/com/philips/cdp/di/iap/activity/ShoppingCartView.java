@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,31 +20,33 @@ import com.philips.cdp.di.iap.session.InAppPurchase;
 import com.philips.cdp.di.iap.session.ProductSummary;
 import com.philips.cdp.di.iap.session.UpdateProductInfoFromHybris;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ShoppingCartView extends AppCompatActivity implements UpdateProductInfoFromHybris{
+public class ShoppingCartView extends AppCompatActivity implements View.OnClickListener, UpdateProductInfoFromHybris{
 
     ShoppingCartPriceAdapter mAdapter;
     ListView list;
     ListView listBelow;
     Context mContext;
-    String TAG = "SPOORTI";
     LinkedList<ProductSummary> productList;
 
     //private String mCtn = "RQ1250/17";
     //ProductSummary productInfo;
     CartInfo cartInfo;
 
+    private Button mCheckoutBtn = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_cart_view);
         mContext = this;
+
+        mCheckoutBtn = (Button)findViewById(R.id.checkout_btn);
 
         listBelow = (ListView) findViewById(R.id.withouticon);
         mAdapter = new ShoppingCartPriceAdapter(ShoppingCartView.this);
@@ -135,4 +138,10 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
         return false;
     }
 
+    @Override
+    public void onClick(View v) {
+        if(v == mCheckoutBtn){
+            Toast.makeText(ShoppingCartView.this, "Navigate to shipping View", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
