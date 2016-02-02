@@ -10,6 +10,7 @@ import android.os.Handler;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 
 import java.util.ArrayList;
@@ -104,6 +105,16 @@ public class SHNDeviceWrapper implements SHNDevice {
             @Override
             public void run() {
                 shnDevice.connect();
+            }
+        };
+        internalHandler.post(runnable);
+    }
+
+    public void connect(final boolean withTimeout, final long timeoutInMS) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                ((SHNDeviceImpl)shnDevice).connect(withTimeout, timeoutInMS);
             }
         };
         internalHandler.post(runnable);
