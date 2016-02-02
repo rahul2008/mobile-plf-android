@@ -5,19 +5,26 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private Button mBtnUserRegistration;
+    private Button mBtnProductRegistration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        mBtnUserRegistration = (Button) findViewById(R.id.btn_user_registration);
+        mBtnUserRegistration.setOnClickListener(this);
+
+        mBtnProductRegistration = (Button) findViewById(R.id.btn_product_registration);
+        mBtnProductRegistration.setOnClickListener(this);
 
     }
 
@@ -41,5 +48,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_user_registration:
+                Log.w("On Click", "User Registration");
+                break;
+            case R.id.btn_product_registration:
+                Log.w("On Click", "Production Registration");
+                break;
+            default:
+                break;
+        }
     }
 }
