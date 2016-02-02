@@ -20,17 +20,14 @@ import java.util.Locale;
 import java.util.Observable;
 
 public class SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
+    private static final String TAG = SHNUserConfigurationImpl.class.getSimpleName();
 
-    public static final char DEFAULT_DECIMAL_SEPARATOR = '.';
 
     public static final String CLOCK_FORMAT_KEY = "CLOCK_FORMAT_KEY";
     public static final String ISO_LANGUAGE_CODE_KEY = "ISO_LANGUAGE_CODE_KEY";
     public static final String ISO_COUNTRY_CODE_KEY = "ISO_COUNTRY_CODE_KEY";
     public static final String USE_METRIC_SYSTEM_KEY = "USE_METRIC_SYSTEM_KEY";
 
-    private final Handler internalHandler;
-
-    private static final String TAG = SHNUserConfigurationImpl.class.getSimpleName();
 
     /* package */ static final String USER_CONFIG_DATE_OF_BIRTH = "USER_CONFIG_DATE_OF_BIRTH";
     /* package */ static final String USER_CONFIG_MAX_HEART_RATE = "USER_CONFIG_MAX_HEART_RATE";
@@ -53,8 +50,14 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     private static final Character DEFAULT_CHAR_VALUE = null;
     private static final Sex DEFAULT_SEX_VALUE = Sex.Unspecified;
     private static final Handedness DEFAULT_HANDEDNESS_VALUE = Handedness.Unknown;
+    public static final char DEFAULT_DECIMAL_SEPARATOR = '.';
 
+    @NonNull
     private final SharedPreferencesHelper sharedPreferences;
+
+    @NonNull
+    private final Handler internalHandler;
+
     private Sex sex = Sex.Unspecified;
     private Integer maxHeartRate;
     private Integer restingHeartRate;
@@ -62,13 +65,11 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     private Double weightInKg;
     private Date dateOfBirth;
     private Handedness handedness = Handedness.Unknown;
-    private String isoLanguageCode;
-    private Boolean useMetricSystem;
     private Character decimalSeparator;
 
     private int changeIncrement;
 
-    public SHNUserConfigurationImpl(SHNPersistentStorage shnPersistentStorage, Handler internalHandler) {
+    public SHNUserConfigurationImpl(@NonNull final SHNPersistentStorage shnPersistentStorage, @NonNull final Handler internalHandler) {
         this.sharedPreferences = new SharedPreferencesHelper(shnPersistentStorage.getSharedPreferences());
         this.internalHandler = internalHandler;
         retrieveFromPreferences();
@@ -269,17 +270,10 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
             @Override
             public void run() {
                 saveToPreferences();
+                setChanged();
+                notifyObservers();
             }
         });
-        if (internalHandler != null) {
-            internalHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    setChanged();
-                    notifyObservers();
-                }
-            });
-        }
     }
 
     private synchronized void saveToPreferences() {
@@ -359,14 +353,6 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         weightInKg = readDoubleFromPersistentStorage(USER_CONFIG_WEIGHT_IN_KG);
         sex = readSexFromPersistentStorage(USER_CONFIG_SEX);
         handedness = readHandednessFromPersistentStorage(USER_CONFIG_HANDEDNESS);
-        isoLanguageCode = readStringFromPersistentStorage(USER_CONFIG_ISO_LANGUAGE_CODE);
-        if (isoLanguageCode == null) {
-            isoLanguageCode = getDefaultLanguage();
-        }
-        useMetricSystem = readBooleanFromPersistentStorage(USER_CONFIG_USE_METRIC_SYSTEM);
-        if (useMetricSystem == null) {
-            useMetricSystem = DEFAULT_USE_METRIC_SYSTEM;
-        }
         decimalSeparator = readCharacterFromPersistentStorage(USER_CONFIG_DECIMAL_SEPARATOR);
         if (decimalSeparator == null) {
             decimalSeparator = DEFAULT_DECIMAL_SEPARATOR;
