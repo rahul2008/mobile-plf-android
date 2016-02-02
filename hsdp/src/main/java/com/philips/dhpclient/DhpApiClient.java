@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philips.cdp.servertime.ServerTime;
+import com.philips.cdp.servertime.constants.ServerTimeConstants;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.response.DhpResponseVerifier;
 
@@ -194,7 +195,7 @@ public class DhpApiClient {
     }
 
     public static String UTCDatetimeAsString(){
-        return ServerTime.getInstance().getCurrentTime();
+        return ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT);
     }
 
     /*public static String UTCDatetimeAsString()

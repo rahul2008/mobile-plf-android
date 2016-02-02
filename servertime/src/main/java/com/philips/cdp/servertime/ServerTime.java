@@ -84,6 +84,11 @@ public class ServerTime {
 
     }
 
+    private long getElapsedOffset(){
+        return  mSharedPreferences.getLong(ServerTimeConstants.OFFSET_ELAPSED, 0L);
+
+    }
+
     private final String[] serverPool = {"0.asia.pool.ntp.org","1.asia.pool.ntp.org","2.asia.pool.ntp.org","3.asia.pool.ntp.org"};
 
     private boolean requestTime(String host, int timeout) {
@@ -153,13 +158,41 @@ public class ServerTime {
         sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
 
         final String utcTime = sdf.format(date);
-        System.out.println("UTC Time in Server Time " +utcTime);
+        return utcTime;
+    }
+
+    private long getCurrentElapsedDifference(){
+        return System.currentTimeMillis() - SystemClock.elapsedRealtime();
+    }
+
+    public  String getCurrentUTCTimeWithFormat(final String pFormat){
+        long diffElapsedOffset = getCurrentElapsedDifference() -  getElapsedOffset() ;
+        final SimpleDateFormat sdf = new SimpleDateFormat(pFormat);
+        Date date = null;
+        if(isRefreshInProgress) {
+             date = new Date(getOffset() + diffElapsedOffset + System.currentTimeMillis());
+        }else{
+            date = new Date(getOffset() + System.currentTimeMillis());
+        }
+        sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
+        final String utcTime = sdf.format(date);
         return utcTime;
     }
 
 
+    private boolean isRefreshInProgress;
+
+    private void saveElapsedOffset(final long offSetMilliseconds){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putLong(ServerTimeConstants.OFFSET_ELAPSED, offSetMilliseconds);
+        editor.commit();
+    }
 
     public  void  refreshOffset(){
+        isRefreshInProgress = true;
+        long elapsedTime = SystemClock.elapsedRealtime();
+        long currentTime = System.currentTimeMillis();
+
         long nowAsPerDeviceTimeZone = 0;
         for(int i=0 ; i < ServerTimeConstants.POOL_SIZE ; i++){
             if (this.requestTime(serverPool[i], 30000)) {
@@ -172,6 +205,8 @@ public class ServerTime {
         long deviceTime = System.currentTimeMillis();
         mOffset = mNTPTime - deviceTime ;
         saveOffset(mOffset);
+        saveElapsedOffset(currentTime - elapsedTime);
+        isRefreshInProgress = false;
 
     }
 

@@ -42,6 +42,8 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.SecureUtility;
+import com.philips.cdp.servertime.ServerTime;
+import com.philips.cdp.servertime.constants.ServerTimeConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -392,12 +394,16 @@ public class CaptureRecord extends JSONObject {
         return JsonUtils.collectionToJson(preregAttributes);
     }
 
-    private String getUTCdatetimeAsString() {
+ /*   private String getUTCdatetimeAsString() {
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         final String utcTime = sdf.format(new Date());
+System.out.println("UTC time " +utcTime);
+       return utcTime;
+}*/
 
-        return utcTime;
+    private String getUTCdatetimeAsString() {
+       return  ServerTime.getInstance().getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
     }
 
     /**
