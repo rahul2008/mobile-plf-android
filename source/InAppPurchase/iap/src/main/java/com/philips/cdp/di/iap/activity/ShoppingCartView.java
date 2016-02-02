@@ -97,9 +97,15 @@ public class ShoppingCartView extends AppCompatActivity implements UpdateProduct
     @Override
     public void updateProductInfo(final ProductSummary summary, final CartInfo cartInfo,String hasCartItems) {
         if(summary == null){
-            Utility.dismissProgressDialog();
-            Toast.makeText(mContext,"Network Error",Toast.LENGTH_LONG).show();
-            return;
+            if(hasCartItems.equalsIgnoreCase(Constants.CART_EMPTY)){
+                Utility.dismissProgressDialog();
+                Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
+                return;
+            }else {
+                Utility.dismissProgressDialog();
+                Toast.makeText(mContext, "Network Error", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
         if(hasCartItems.equalsIgnoreCase(Constants.CART_EMPTY)){
             Toast.makeText(mContext,"ShoppingCart Empty", Toast.LENGTH_LONG).show();

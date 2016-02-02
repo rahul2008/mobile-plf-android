@@ -83,8 +83,8 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
     /**
      * Add to the current cart
      */
-    public void addToCart() {
-        InAppPurchase.addToCartHybrisServerRequest(this);
+    public void addToCart(boolean isCountZero) {
+        InAppPurchase.addToCartHybrisServerRequest(this,isCountZero);
     }
 
     @Override
