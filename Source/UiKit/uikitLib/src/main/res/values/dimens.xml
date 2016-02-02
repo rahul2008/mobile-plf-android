@@ -193,5 +193,5 @@
     <dimen name="uikit_modal_alert_bottom_layout_margin">10dp</dimen>
 
     <!--Actionbar PopUp-->
-    <dimen name="uikit_action_bar_Pop_Height">50dp</dimen>
+    <dimen name="uikit_action_bar_Pop_Height">53dp</dimen>
 </resources>
