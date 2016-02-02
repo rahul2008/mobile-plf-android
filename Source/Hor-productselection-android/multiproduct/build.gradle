@@ -44,6 +44,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.philips.cdp:uikitLib:1.0.0'
     compile 'com.shamanland:fonticon:0.1.8'
+    compile 'com.mcxiaoke.volley:library:1.0.17'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    compile 'com.google.code.gson:gson:2.2.4'
     compile project(':prx-v1')
 }
 allprojects {
@@ -53,8 +57,6 @@ allprojects {
         }
     }
 }
-
-
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
@@ -81,7 +83,7 @@ artifactory {
 
 
 sourceSets {
-    main{
+    main {
         java {
             srcDirs '../../Source/Hor-productselection-android/app/src/main/java'
         }

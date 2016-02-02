@@ -3,14 +3,13 @@ package com.philips.multiproduct;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.util.Size;
-
 
 import com.philips.multiproduct.activity.MultiProductActivity;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
-import com.philips.multiproduct.utils.MLogger;
 import com.philips.multiproduct.utils.Constants;
+import com.philips.multiproduct.utils.MLogger;
 
+import java.util.List;
 import java.util.Locale;
 
 
@@ -18,9 +17,12 @@ public class MultiProductConfigManager {
 
     private static final String TAG = MultiProductConfigManager.class.getSimpleName();
     private static MultiProductConfigManager mDigitalCareInstance = null;
-    private static int mMultiProductSize;
+    private static List<String> mMultiProductCtn;
     private static Context mContext = null;
     private static Locale mLocale = null;
+    private static String mCtn = "RQ1250/17";
+    private static String mSectorCode = "B2C";
+    private static String mCatalogCode = "CONSUMER";
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -78,12 +80,12 @@ public class MultiProductConfigManager {
         }
     }
 
-    public  int getMultiProductSize() {
-        return mMultiProductSize;
+    public List<String> getMultiProductCtnList() {
+        return mMultiProductCtn;
     }
 
-    public  void setMultiProductSize(int mMultiProductSize) {
-        MultiProductConfigManager.mMultiProductSize = mMultiProductSize;
+    public void setMultiProductCtnList(List<String> mMultiProductSize) {
+        MultiProductConfigManager.mMultiProductCtn = mMultiProductSize;
     }
 
     public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
@@ -109,8 +111,32 @@ public class MultiProductConfigManager {
     }
 
 
-    public String getDigitalCareLibVersion() {
+    public String getMultiProductModuleLibVersion() {
         return BuildConfig.VERSION_NAME;
+    }
+
+    public String getCtn() {
+        return mCtn;
+    }
+
+    public void setCtn(String ctn) {
+        this.mCtn = ctn;
+    }
+
+    public String getSectorCode() {
+        return mSectorCode;
+    }
+
+    public void setSectorCode(String sectorCode) {
+        this.mSectorCode = sectorCode;
+    }
+
+    public String getCatalogCode() {
+        return mCatalogCode;
+    }
+
+    public void setCatalogCode(String catalogCode) {
+        this.mCatalogCode = catalogCode;
     }
 
     /**
@@ -145,5 +171,6 @@ public class MultiProductConfigManager {
             return value;
         }
     }
+
 
 }

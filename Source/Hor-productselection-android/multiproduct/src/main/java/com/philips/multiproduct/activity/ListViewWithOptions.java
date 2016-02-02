@@ -6,72 +6,44 @@
 package com.philips.multiproduct.activity;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.view.Gravity;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.philips.multiproduct.R;
-import com.shamanland.fonticon.FontIconTextView;
+import com.philips.multiproduct.prx.MySingleton;
+import com.philips.multiproduct.prx.ProductData;
+import com.philips.multiproduct.utils.MLogger;
 
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * <b></b> ListWithOptions is class to demonstrate the use of uikit_listview_with_options_custom_layout with an adapter </b>
- * <p/>
- * <b></b> We have 2 types Of Such Lists.One with Header and one without Header</b></br>
- * <pre>
- * ImageView image = (ImageView) vi.findViewById(R.id.image);
- * TextView name = (TextView) vi.findViewById(R.id.text1Name);
- * TextView value = (TextView) vi.findViewById(R.id.text2value);
- * TextView from = (TextView) vi.findViewById(R.id.from);
- *
- *        </pre>
- */
+
 public class ListViewWithOptions extends BaseAdapter {
 
+    private static final String TAG = ListViewWithOptions.class.getSimpleName();
     private LayoutInflater inflater = null;
     private ArrayList<String> listOfItems = null;
-    private ArrayList<Integer> images = new ArrayList<>(9);
-    private Context mContext = null;
-    private  FontIconTextView mArrowRight = null;
+    private List<ProductData> mProductsList = null;
+    private Activity mActivity = null;
 
-    public ListViewWithOptions(Activity activity) {
+    public ListViewWithOptions(Activity activity, List<ProductData> data) {
         inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
-
-        mContext = activity;
-
-        images.add(R.drawable.image);
-        images.add(R.drawable.toothbrush);
-        images.add(R.drawable.image);
-        images.add(R.drawable.toothbrush);
-        images.add(R.drawable.image);
-        images.add(R.drawable.toothbrush);
-        images.add(R.drawable.image);
-        images.add(R.drawable.toothbrush);
-        images.add(R.drawable.toothbrush);
-
-        listOfItems = new ArrayList<>(9);
-        listOfItems.add("DiamondClean");
-        listOfItems.add("Sonicare for Kids");
-        listOfItems.add("HealthyWhite");
-        listOfItems.add("Sonicare FlexCare+");
-        listOfItems.add("Sonicare FlexCare Platinum");
-        listOfItems.add("DiamondClean");
-        listOfItems.add("Sonicare for Kids");
-        listOfItems.add("HealthyWhite");
-        listOfItems.add("Sonicare FlexCare+");
+        this.mActivity = activity;
+        mProductsList = data;
+        MLogger.v(TAG, "Product data loaded from CTN are : " + mProductsList.size());
     }
 
     @Override
     public int getCount() {
-        return 9;
+        return mProductsList.size();
     }
 
     @Override
@@ -84,28 +56,37 @@ public class ListViewWithOptions extends BaseAdapter {
         return position;
     }
 
-    private RelativeLayout mRelativeLayout = null;
-
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         View vi = convertView;
 
 
-        if (convertView == null) {
-            vi = inflater.inflate(R.layout.uikit_listview_with_options_multiproduct, null);
-        }
+        if (convertView == null)
+            vi = inflater.inflate(R.layout.uikit_listview_with_options_custom_layout, null);
 
-        ImageView image = (ImageView) vi.findViewById(R.id.image);
+        ProductData data = mProductsList.get(position);
+        final ImageView image = (ImageView) vi.findViewById(R.id.image);
         TextView name = (TextView) vi.findViewById(R.id.text1Name);
         TextView value = (TextView) vi.findViewById(R.id.text2value);
         TextView from = (TextView) vi.findViewById(R.id.from);
-        image.setImageResource(images.get(position));
-        //image.setColorFilter(Color.GREEN);
-        name.setText(listOfItems.get(position));
-        value.setText("€ 209,99*");
+
+        ImageRequest request = new ImageRequest(data.getImage(),
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        image.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        MySingleton.getInstance(mActivity).addToRequestQueue(request);
+        name.setText(data.getProductName());
+        value.setText(data.getProductVariant());
         from.setText("from");
         vi.setTag(position);
-
         return vi;
     }
 }
