@@ -11,8 +11,10 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
+import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartModel;
-import com.philips.cdp.di.iap.model.ModelQuery;
+import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.DebugUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +42,11 @@ public class NetworkController {
     RequestQueue hybirsVolleyQueue;
     Context context;
     RequestQueue prxVolleyQueue;
+    private Store store;
+    String hostPort;
+    String webRoot;
+    private static OAuthHandler oAuthHandler;
+
 
     NetworkController(Context context) {
         this.context = context;
@@ -47,17 +54,22 @@ public class NetworkController {
         prxVolleyQueue = Volley.newRequestQueue(context);
     }
 
+    //Package level access
+    void initStore(String userName, String janRainID) {
+        store = new Store(hostPort,webRoot,userName,janRainID);
+    }
+
     public void sendPRXRequest(int requestCode, final RequestListener requestListener) {
-        ModelQuery model = getModel(requestCode);
+        AbstractModel model = getModel(requestCode);
         prxVolleyQueue.add(createRequest(requestCode, model,requestListener));
     }
 
     public void sendHybrisRequest(int requestCode, final RequestListener requestListener) {
-        ModelQuery model = getModel(requestCode);
+        AbstractModel model = getModel(requestCode);
         hybirsVolleyQueue.add(createRequest(requestCode, model, requestListener));
     }
 
-    private JsonObjectRequest createRequest(final int requestCode, final ModelQuery modelQuery , final RequestListener requestListener) {
+    private JsonObjectRequest createRequest(final int requestCode, final AbstractModel model , final RequestListener requestListener) {
 
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
@@ -74,20 +86,28 @@ public class NetworkController {
             public void onResponse(final JsonObject response) {
                 Message msg = Message.obtain();
                 msg.what = requestCode;
-                msg.obj = modelQuery.parseResponse(response);
+                msg.obj = model.parseResponse(response);
                 requestListener.onSuccess(msg);
             }
         };
 
-        return new JsonObjectRequest(modelQuery.getMethod(requestCode), modelQuery.getUrl(requestCode),
-                getJsonParams(modelQuery.requestBody()), response, error);
+        String url = getTargetUrl(model,requestCode);
+        return new JsonObjectRequest(model.getMethod(requestCode), url,
+                getJsonParams(model.requestBody()), response, error);
+    }
+
+    private String getTargetUrl(AbstractModel model, int requestCode) {
+        if(DebugUtils.TEST_MODE) {
+            return model.getTestUrl(requestCode);
+        }
+        return model.getUrl(requestCode);
     }
 
     //Add model specific implementation
-    private ModelQuery getModel(final int requestCode) {
+    private AbstractModel getModel(final int requestCode) {
         switch(requestCode){
             case RequestCode.GET_CART:
-                return new CartModel();
+                return new CartModel(store);
             default:
                 return null;
         }

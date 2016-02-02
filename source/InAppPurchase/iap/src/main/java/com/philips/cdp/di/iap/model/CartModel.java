@@ -5,12 +5,17 @@ import android.os.Bundle;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.activity.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.store.Store;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class CartModel implements ModelQuery {
+public class CartModel extends AbstractModel {
+    public CartModel(final Store store) {
+        super(store);
+    }
+
     @Override
     public String getUrl(int requestCode) {
         switch (requestCode) {
@@ -39,4 +44,12 @@ public class CartModel implements ModelQuery {
         Bundle params = null;
         return params;
     }
+
+    @Override
+    public String getTestUrl(final int requestCode) {
+        switch (requestCode) {
+            case RequestCode.GET_CART:
+                return NetworkConstants.getCurrentCartUrl;
+        }
+        return null;}
 }
