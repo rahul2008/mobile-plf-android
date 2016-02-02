@@ -97,9 +97,9 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
         switch (rowType) {
             case TYPE_ITEM:
                 ProductSummary summary = mData.get(position);
-                int quantity = Integer.parseInt(summary.quantity);
+             //   int quantity = Integer.parseInt(summary.quantity);
                 String imageURL = summary.ImageURL;
-                int individualPrice = Integer.parseInt(summary.price)/quantity;
+               // int individualPrice = Integer.parseInt(summary.price)/quantity;
                 try {
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
                 } catch (Exception e) {
@@ -116,7 +116,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
 
                 holder.from.setText("Quantity: ");
                 holder.nameOption.setText(summary.productTitle);
-                holder.price.setText(summary.Currency + " " +individualPrice);
+                holder.price.setText(summary.Currency + " " + summary.price);
                 holder.valueOption.setText(summary.quantity);
 
                 new DownloadAsyncTask().execute(holder);
