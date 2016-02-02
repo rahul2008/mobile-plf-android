@@ -98,6 +98,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
             case TYPE_ITEM:
                 ProductSummary summary = mData.get(position);
                 int quantity = Integer.parseInt(summary.quantity);
+                String imageURL = summary.ImageURL;
                 int individualPrice = Integer.parseInt(summary.price)/quantity;
                 try {
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
@@ -111,7 +112,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                 holder.from = (TextView) convertView.findViewById(R.id.from);
                 holder.price = (TextView)convertView.findViewById(R.id.price);
 
-                holder.imageUrl = "http://images.philips.com/is/image/PhilipsConsumer/HX8372_51-IMS-en_GB";
+                holder.imageUrl = imageURL;
 
                 holder.from.setText("Quantity: ");
                 holder.nameOption.setText(summary.productTitle);
