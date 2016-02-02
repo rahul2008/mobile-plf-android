@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.cdp.di.iap.activity.IapConstants;
+import com.philips.cdp.di.iap.activity.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.Product;
 import com.philips.cdp.di.iap.activity.ShoppingCartView;
 import com.philips.cdp.di.iap.activity.Utility;
@@ -64,7 +66,7 @@ public class ProductListAdapter extends BaseAdapter {
                 if (Utility.isInternetConnected(mContext)) {
                     ((DemoAppActivity) mContext).addToCart();
                 } else {
-                    Utility.showNetworkError(((Activity)mContext), false);
+                    Utility.showNetworkError(((Activity) mContext), false);
                 }
 
             }
@@ -74,10 +76,16 @@ public class ProductListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (Utility.isInternetConnected(mContext)) {
+
+                    int cartCount = Integer.parseInt(new IapSharedPreference(mContext).getString(IapConstants.key.CART_COUNT));
+                    if (cartCount == 0) {
+                        ((DemoAppActivity) mContext).addToCart();
+                    }
                     Intent myIntent = new Intent(mContext, ShoppingCartView.class);
                     mContext.startActivity(myIntent);
+
                 } else {
-                    Utility.showNetworkError(((Activity)mContext), false);
+                    Utility.showNetworkError(((Activity) mContext), false);
                 }
             }
         });
