@@ -503,4 +503,12 @@ public class SHNDeviceImplForBondingDuringConnectDeviceTest {
         verify(mockedBTGatt).disconnect();
         verify(mockedBTGatt).close();
     }
+
+    @Test
+    public void testForDefectDE9795() {
+        connectTillGATTConnected();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
+        mockedInternalHandler.executeFirstScheduledExecution();
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+    }
 }

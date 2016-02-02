@@ -278,6 +278,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                 setInternalState(InternalState.Disconnected);
                 shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
                 connectTimer.stop();
+                waitingUntilBondedTimer.stop();
             } else if (newState == BluetoothProfile.STATE_CONNECTED) {
                 if (shouldWaitUntilBonded()) {
                     setInternalState(InternalState.ConnectedWaitingUntilBonded);
