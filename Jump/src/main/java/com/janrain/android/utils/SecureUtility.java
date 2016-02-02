@@ -24,7 +24,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class SecureUtility {
 
-    public static byte[] SECRET_KEY;
+    private static byte[] SECRET_KEY;
 
     static{
         generateSecretKey();
