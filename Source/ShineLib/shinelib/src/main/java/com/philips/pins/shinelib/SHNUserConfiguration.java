@@ -25,8 +25,8 @@ public interface SHNUserConfiguration {
     }
 
     enum ClockFormat {
-        TWENTY_FOUR_HOURS,
-        AM_PM
+        _24H,
+        _12H
     }
 
     Sex getSex();
