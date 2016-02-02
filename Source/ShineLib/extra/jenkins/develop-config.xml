@@ -67,9 +67,12 @@
       <fromRootBuildScriptDir>true</fromRootBuildScriptDir>
       <useWorkspaceAsHome>false</useWorkspaceAsHome>
     </hudson.plugins.gradle.Gradle>
+    <hudson.tasks.Shell>
+      <command>#export TICSPROJECT=ShineLib-Android #export TICSBRANCHNAME=develop #export TICSBRANCHDIR=/home/build/jenkins/workspace/Android-ShineLib-develop/ # #export COVSTREAM="PInS $TICSPROJECT" #export COVUSER=nly95984 #export COVPWD=***** #export COVSERVER=coverity-01.ta.philips.com #export COVPORT=8080 #export COVINSTALLDIR=/home/build/cov-analysis-linux64-7.7.0 #export COVROOTDIR=/home/build/coverity-analysis #export COVDIR=$COVROOTDIR/$TICSPROJECT/$TICSBRANCHNAME # #cd $TICSBRANCHDIR/Source/ShineLib #rm -rf shinelib/build #$COVINSTALLDIR/bin/cov-build --dir $COVDIR ./gradlew testDebug lintDebug jacocoRootReport #$COVINSTALLDIR/bin/cov-analyze --dir $COVDIR #$COVINSTALLDIR/bin/cov-commit-defects --host $COVSERVER --port $COVPORT --user $COVUSER --password $COVPWD --dir $COVDIR --stream "$COVSTREAM" --strip-path $TICSBRANCHDIR #</command>
+    </hudson.tasks.Shell>
     <hudson.plugins.tics.TicsAnalyzer plugin="tics@1.0.5">
-      <ticsPath>/home/build/tiobe/tics/BuildServer</ticsPath>
-      <ticsConfiguration>/home/build/tiobe/tics/FileServer/cfg_shine</ticsConfiguration>
+      <ticsPath>/media/windowsshare/Wrapper</ticsPath>
+      <ticsConfiguration>/media/windowsshare/FileServer/cfg</ticsConfiguration>
       <projectName>ShineLib-Android</projectName>
       <branchName>develop</branchName>
       <branchDirectory/>
