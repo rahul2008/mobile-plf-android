@@ -26,10 +26,6 @@ public class SecureUtility {
 
     private static byte[] SECRET_KEY;
 
-    static{
-        generateSecretKey();
-    }
-
     public static byte[] encrypt(String text) {
         try {
             Key key = (Key) new SecretKeySpec(SECRET_KEY, "AES");
@@ -83,7 +79,7 @@ public class SecureUtility {
         return null;
     }
 
-    private static void generateSecretKey() {
+    public static void generateSecretKey() {
         if (SECRET_KEY == null) {
             storeSecretKey();
         }
