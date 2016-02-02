@@ -135,12 +135,23 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void connect() {
+        connect(true, -1L);
+    }
+
+    public void connect(boolean withTimeout, long timeoutInMS) {
         if (internalState == InternalState.Disconnected) {
             SHNLogger.i(TAG, "connect");
             setInternalState(InternalState.Connecting);
             shnCentral.registerBondStatusListenerForAddress(this, getAddress());
-            btGatt = btDevice.connectGatt(applicationContext, false, btGattCallback);
-            connectTimer.restart();
+            if (withTimeout) {
+                if (timeoutInMS > 0) {
+                    connectTimer.setTimeoutInMS(timeoutInMS);
+                }
+                btGatt = btDevice.connectGatt(applicationContext, false, btGattCallback);
+                connectTimer.restart();
+            } else {
+                btGatt = btDevice.connectGatt(applicationContext, true, btGattCallback);
+            }
         } else {
             SHNLogger.i(TAG, "ignoring 'connect' call; not disconnected");
         }

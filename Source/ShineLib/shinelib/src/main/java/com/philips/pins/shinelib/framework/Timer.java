@@ -15,6 +15,7 @@ public class Timer {
     private final Handler handler;
     private final Runnable runnable;
     private final long timeoutTimeMS;
+    private long timeoutInMS;
 
     public static Timer createTimer(Runnable runnable, long timeoutTimeMS) {
         return new Timer(Timer.tempStaticHandler, runnable, timeoutTimeMS);
@@ -41,5 +42,9 @@ public class Timer {
 
     public void stop() {
         handler.removeCallbacks(runnable);
+    }
+
+    public void setTimeoutInMS(long timeoutInMS) {
+        this.timeoutInMS = timeoutInMS;
     }
 }

@@ -17,6 +17,7 @@ import com.philips.pins.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -80,6 +81,7 @@ public class SHNDeviceImplTest {
     private List<BluetoothGattService> discoveredServices;
     private SHNService.State mockedServiceState;
     public static final String ADDRESS_STRING = "DE:AD:CO:DE:12:34";
+    private boolean useTimeoutConnect = true;
 
     @Before
     public void setUp() {
@@ -123,7 +125,10 @@ public class SHNDeviceImplTest {
     }
 
     private void connectTillGATTConnected() {
-        shnDevice.connect();
+        if (useTimeoutConnect)
+            shnDevice.connect();
+        else
+            shnDevice.connect(false, -1L);
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
     }
 
@@ -499,5 +504,31 @@ public class SHNDeviceImplTest {
         btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_FAILURE);
         verify(mockedBTGatt).disconnect();
         assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
+    }
+
+    // Tests for the connect without timeout
+    @Test
+    public void whenConnectWithoutTimeoutThenNoTimeoutIsSet() {
+        shnDevice.connect(false, -1L);
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+    }
+
+    @Test
+    public void whenConnectWithoutTimeoutThenConnectGattIsCalledWithAutoConnect() {
+        shnDevice.connect(false, -1L);
+        ArgumentCaptor<Boolean> booleanArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
+        verify(mockedBTDevice).connectGatt(isA(Context.class), booleanArgumentCaptor.capture(), isA(BTGatt.BTGattCallback.class));
+        assertEquals(true, booleanArgumentCaptor.getValue());
+    }
+
+    @Test
+    public void whenConnectWithoutTimeoutAndRemoteDisconnectsThenDisconnectGattIsCalledWithAutoConnect() {
+        useTimeoutConnect = false;
+        getDeviceInConnectedState();
+        assertEquals(SHNDevice.State.Connected, shnDevice.getState());
+
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
+        verify(mockedBTGatt).disconnect();
+        verify(mockedBTGatt).close();
     }
 }
