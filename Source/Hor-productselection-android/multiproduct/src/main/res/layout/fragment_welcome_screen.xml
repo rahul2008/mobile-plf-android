@@ -54,14 +54,20 @@
                 android:layout_toRightOf="@id/welcome_screen_find_product_search"
                 android:layout_centerVertical="true"/>
 
-            <ImageView
+<!--            <ImageView
                 android:id="@+id/welcome_screen_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/find_prod_right_arrow"
                 android:layout_alignParentRight="true"
                 android:paddingRight="@dimen/activity_margin"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"/>-->
+
+            <com.shamanland.fonticon.FontIconTextView
+                android:id="@+id/welcome_screen_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ui_kit_arrow_right" />
 
         </RelativeLayout>
 

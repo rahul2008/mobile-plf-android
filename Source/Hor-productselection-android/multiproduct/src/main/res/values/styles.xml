@@ -40,4 +40,16 @@
         <item name="android:textColor">?attr/baseColor</item>
         <item name="android:textSize">@dimen/title_text_size_small</item>
     </style>
+
+    <style name="ui_kit_arrow_right" parent="FontIcon.Small">
+        <item name="android:layout_alignParentRight"> true</item>
+        <item name="android:layout_centerInParent">true </item>
+        <item name="android:layout_marginRight">@dimen/activity_margin </item>
+        <item name="android:gravity">right </item>
+        <item name="android:includeFontPadding">false </item>
+        <item name="android:text"> @string/uikit_fonticon_arrow_right</item>
+        <item name="android:textStyle">bold </item>
+        <item name="android:textColor">?attr/listtextselector </item>
+    </style>
+
 </resources>
