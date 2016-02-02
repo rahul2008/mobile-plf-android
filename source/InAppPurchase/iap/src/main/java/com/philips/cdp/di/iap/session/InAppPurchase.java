@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
@@ -22,6 +23,7 @@ import com.philips.cdp.di.iap.activity.Constants;
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.NetworkConstants;
+import com.philips.cdp.di.iap.activity.ShoppingCartView;
 import com.philips.cdp.di.iap.activity.Utility;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
@@ -59,7 +61,7 @@ public class InAppPurchase {
     public static void initApp(Context context, String userName, String janRainID) {
         //We register with app context to avoid any memory leaks
         Context appContext = context.getApplicationContext();
-        HybrisDelegate.getInstance(appContext).initStore(userName,janRainID);
+        HybrisDelegate.getInstance(appContext).initStore(userName, janRainID);
     }
 
    /* public static int getCartItemCount(Context context, String janRainID, String userID) {
@@ -241,11 +243,6 @@ public class InAppPurchase {
         try{
         if (jsonObject.has("entries")) {
             JSONArray itemList = new JSONArray(jsonObject.get("entries").toString());
-            if(itemList.length() == 0){
-                //No Entries
-                callback.updateProductInfo(null,null,Constants.CART_EMPTY);
-                return;
-            }
             for (int i = 0; i < itemList.length(); i++) {
                 JSONObject object = itemList.getJSONObject(i);
                 ProductSummary summary = new ProductSummary();
@@ -271,6 +268,9 @@ public class InAppPurchase {
                 }
                 getProductDetailsFromPRX(code,summary,callback,cartInfo);
             }
+        }else{
+            callback.updateProductInfo(null,null,Constants.CART_EMPTY);
+            return;
         }
         }catch (JSONException e){
             e.printStackTrace();
@@ -423,7 +423,7 @@ public class InAppPurchase {
     /**
      * Add to cart hybris server request
      */
-    public static void addToCartHybrisServerRequest(final Context context) {
+    public static void addToCartHybrisServerRequest(final Context context, final boolean isCartCountZero) {
 
         mContext = context;
 
@@ -440,6 +440,10 @@ public class InAppPurchase {
                 super.onPostExecute(aVoid);
                 Utility.dismissProgressDialog();
                 ((AsyncTaskCompleteListener) context).onTaskComplete();
+                if(isCartCountZero){
+                    Intent myIntent = new Intent(context, ShoppingCartView.class);
+                    context.startActivity(myIntent);
+                }
             }
 
             @Override

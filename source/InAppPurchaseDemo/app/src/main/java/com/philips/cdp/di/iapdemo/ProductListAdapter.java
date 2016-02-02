@@ -64,7 +64,7 @@ public class ProductListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (Utility.isInternetConnected(mContext)) {
-                    ((DemoAppActivity) mContext).addToCart();
+                    ((DemoAppActivity) mContext).addToCart(false);
                 } else {
                     Utility.showNetworkError(((Activity) mContext), false);
                 }
@@ -79,10 +79,11 @@ public class ProductListAdapter extends BaseAdapter {
 
                     int cartCount = Integer.parseInt(new IapSharedPreference(mContext).getString(IapConstants.key.CART_COUNT));
                     if (cartCount == 0) {
-                        ((DemoAppActivity) mContext).addToCart();
+                        ((DemoAppActivity) mContext).addToCart(true);
+                    }else {
+                        Intent myIntent = new Intent(mContext, ShoppingCartView.class);
+                        mContext.startActivity(myIntent);
                     }
-                    Intent myIntent = new Intent(mContext, ShoppingCartView.class);
-                    mContext.startActivity(myIntent);
 
                 } else {
                     Utility.showNetworkError(((Activity) mContext), false);
