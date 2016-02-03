@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,8 +17,10 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.CartInfo;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.InAppPurchase;
 import com.philips.cdp.di.iap.session.ProductSummary;
+import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.UpdateProductInfoFromHybris;
 
 import java.util.LinkedList;
@@ -94,7 +97,8 @@ public class ShoppingCartView extends AppCompatActivity implements View.OnClickL
     protected void onStart() {
         super.onStart();
         Utility.showProgressDialog(mContext, "Getting Cart Details");
-        InAppPurchase.getCartCurrentCartRequest(this, this, cartInfo);
+       // InAppPurchase.getCartCurrentCartRequest(this, this, cartInfo);
+        HybrisDelegate.getInstance(this).sendRequest(RequestCode.GET_CART,this);
     }
 
     @Override
@@ -143,5 +147,15 @@ public class ShoppingCartView extends AppCompatActivity implements View.OnClickL
         if(v == mCheckoutBtn){
             Toast.makeText(ShoppingCartView.this, "Navigate to shipping View", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onSuccess(final Message msg) {
+
+    }
+
+    @Override
+    public void onError(final Message msg) {
+
     }
 }

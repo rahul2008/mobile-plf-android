@@ -16,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -25,10 +27,14 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.CartInfo;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.session.ProductSummary;
+import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.utils.RowItem;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingCartPriceAdapter extends BaseAdapter {
     public Activity activity;
@@ -38,6 +44,10 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SHIPPING_DETAILS = 1;
+
+    enum Type {
+        TOPLEFT, TOPRIGHT, LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
+    }
 
     public ShoppingCartPriceAdapter(Activity activity) {
         this.activity = activity;
@@ -96,6 +106,8 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
         int rowType = getItemViewType(position);
 
 
+
+
         holder = new ViewHolder();
         switch (rowType) {
             case TYPE_ITEM:
@@ -115,6 +127,8 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                 holder.valueOption = (TextView) convertView.findViewById(R.id.text2value);
                 holder.from = (TextView) convertView.findViewById(R.id.from);
                 holder.price = (TextView)convertView.findViewById(R.id.price);
+                holder.dots = (ImageView) convertView.findViewById(R.id.dots);
+                FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
 
                 holder.imageUrl = imageURL;
 
@@ -133,6 +147,29 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                                 .ic_dialog_alert));
                 holder.image.setImageUrl(imageURL, mImageLoader);
                 Utility.dismissProgressDialog();
+                List<RowItem> rowItems1 = new ArrayList<RowItem>();
+
+                final String[] descriptions = new String[]{
+                        "Setting",
+                        "Share", "Mail",
+                        "Chat"};
+
+
+
+                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_gear_19_19) , descriptions[0]));
+                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_share), descriptions[1]));
+                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_envelope), descriptions[2]));
+                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_ballon), descriptions[3]));
+
+                final UIKitListPopupWindow listpopupwindowTopLeft =  new UIKitListPopupWindow(activity.getBaseContext(), holder.dots, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems1);;
+
+                frameLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        Toast.makeText(activity,"Clicked",Toast.LENGTH_LONG).show();
+                        listpopupwindowTopLeft.show();
+                    }
+                });
 
                 //new DownloadAsyncTask().execute(holder);
 
@@ -212,6 +249,7 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
         TextView description;// = (TextView) vi.findViewById(R.id.text_description_without_icons);
         TextView totoalcost;
         NetworkImageView image;
+        ImageView dots;
         //ImageView image;// = (ImageView) vi.findViewById(R.id.image);
         TextView nameOption;// = (TextView) vi.findViewById(R.id.text1Name);
         TextView valueOption;// = (TextView) vi.findViewById(R.id.text2value);
