@@ -111,7 +111,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 if (position == 1) {
 
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
 
@@ -126,7 +126,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 }
                 if (position == 2) {
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.mImage.setVisibility(View.VISIBLE);
 
                     holder.value.setVisibility(View.VISIBLE);
@@ -140,7 +140,7 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.textView.setText(mData.get(position));
                 }
                 if (position == 3) {
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Off");
                     holder.arrow.setVisibility(View.VISIBLE);
@@ -154,14 +154,14 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("On");
                     holder.arrow.setVisibility(View.VISIBLE);
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
 
                 }
 
                 if (position == 5) {
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.arrow.setVisibility(View.VISIBLE);
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));

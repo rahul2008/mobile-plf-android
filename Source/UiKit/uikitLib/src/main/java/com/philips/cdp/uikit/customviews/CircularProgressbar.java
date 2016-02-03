@@ -30,7 +30,7 @@ public class CircularProgressbar extends ProgressBar {
     public CircularProgressbar(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
-        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor});
+        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor ,R.attr.LightColor});
         baseColor = ar.getInt(0, R.attr.brightColor);
         ar.recycle();
         final TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.UIKitProgressBarCircular, 0, 0);

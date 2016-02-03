@@ -46,6 +46,7 @@
             @style/SpringBoardButtonIcon.OutlinedDarkBlue
         </item>
         <item name="LightColor">@color/uikit_philips_light_blue</item>
+        <item name="colorControlHighlight">?attr/veryLightColor</item>
     </style>
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
@@ -53,7 +54,7 @@
     </style>
 
     <style name="TextAppearance" parent="android:TextAppearance">
-        <item name="fontPath">fonts/centralesans_book.ttf</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
     <style name="HoloActionBar" parent="Widget.AppCompat.ActionBar">

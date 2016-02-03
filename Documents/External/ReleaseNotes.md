@@ -1,6 +1,31 @@
 PhilipsUIKit for Android Release Notes
 ======================================
 
+Version - 1.2.0                               Date:28-01-2015
+---------------------------------------------------------------
+Supporting gradle version 1.5.0
+
+Add below line inside defultConfig in app build.gradle file 
+defaultConfig {
+
+    generatedDensities = []
+}
+
+This will block generating PNG from vector resource.
+UIKIT support backward compatibility for vector support.
+
+	It can be used via programmatically.
+	Example: -> Drawable d = 
+	com.philips.cdp.uikit.drawable.VectorDrawable.create(context, R.drawable.xyz);
+
+	imageView.setImageDrawable(d);
+	
+### Bugs Fixed
+
+DE9720 : Crash issue fixed for PUI switch.
+
+
+
 Version - 1.1.0                               Date:18-01-2015
 ---------------------------------------------------------------
 Documentation available in java doc format.

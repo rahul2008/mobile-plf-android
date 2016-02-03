@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="InputStyle" parent="Widget.AppCompat.EditText">
-        <item name="fontPath">fonts/centralesans_book.ttf</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:minHeight">44dp</item>
         <item name="android:paddingRight">12dp</item>

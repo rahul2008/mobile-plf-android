@@ -93,7 +93,7 @@ public class ActionBarLauncher extends CatalogActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         UikitUtils.menuShowIcon(menu);
         menu.getItem(0).setIcon(VectorDrawable.create(this, R.drawable.uikit_gear_19_19));
-        menu.getItem(1).setIcon(VectorDrawable.create(this, R.drawable.uikit_share));
+        menu.getItem(1).setIcon(VectorDrawable.create(this, R.drawable.uikit_share_19_18));
         menu.getItem(2).setIcon(VectorDrawable.create(this, R.drawable.uikit_envelope));
         menu.getItem(3).setIcon(VectorDrawable.create(this, R.drawable.uikit_ballon));
 
