@@ -59,28 +59,35 @@ public class NetworkController {
         hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null,
                 buildSslSocketFactory(context)) {
             @Override
-            protected HttpsURLConnection createConnection(final URL url) throws IOException {
+            protected HttpURLConnection createConnection(final URL url) throws IOException {
                 HttpURLConnection connection = super.createConnection(url);
-                ((HttpsURLConnection)connection).setHostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(final String hostname, final SSLSession session) {
-                        return hostname.equals("tst.admin.shop.philips.com");
-                    }
-                });
+                if (connection instanceof HttpsURLConnection) {
+                    ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
+                        @Override
+                        public boolean verify(final String hostname, final SSLSession session) {
+                            return hostname.contains("philips.com");
+                        }
+                    });
+
+                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    connection.setRequestProperty("Authorization", "Bearer " + "4fb0b0b6-5fe3-4dc1-a3d7-6194ebd4f04c");
+                }
+                return connection;
             }
         });
         prxVolleyQueue = Volley.newRequestQueue(context);
     }
 
     //Package level access
-    void initStore(String userName, String janRainID) {
+
+    void initStore(Context context, String userName, String janRainID) {
         store = new Store(context, hostPort,webRoot,userName,janRainID);
         store.setAuthHandler(oAuthHandler);
     }
 
     public void sendPRXRequest(int requestCode, final RequestListener requestListener) {
         AbstractModel model = getModel(requestCode);
-        prxVolleyQueue.add(createRequest(requestCode, model,requestListener));
+        prxVolleyQueue.add(createRequest(requestCode, model, requestListener));
     }
 
     public void sendHybrisRequest(int requestCode, final RequestListener requestListener) {
@@ -88,7 +95,7 @@ public class NetworkController {
         hybirsVolleyQueue.add(createRequest(requestCode, model, requestListener));
     }
 
-    private JsonObjectRequest createRequest(final int requestCode, final AbstractModel model , final RequestListener requestListener) {
+    private JsonObjectRequest createRequest(final int requestCode, final AbstractModel model, final RequestListener requestListener) {
 
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
@@ -99,10 +106,10 @@ public class NetworkController {
             }
         };
 
-        Response.Listener response = new Response.Listener<JsonObject>() {
+        Response.Listener response = new Response.Listener<JSONObject>(){
 
             @Override
-            public void onResponse(final JsonObject response) {
+            public void onResponse(final JSONObject response) {
                 Message msg = Message.obtain();
                 msg.what = requestCode;
                 msg.obj = model.parseResponse(requestCode, response);
@@ -110,7 +117,7 @@ public class NetworkController {
             }
         };
 
-        String url = getTargetUrl(model,requestCode);
+        String url = getTargetUrl(model, requestCode);
         int requestMethod = model.getMethod(requestCode);
         JSONObject jsonPayloadRequest = null;
 
@@ -123,7 +130,7 @@ public class NetworkController {
     }
 
     private String getTargetUrl(AbstractModel model, int requestCode) {
-        if(DebugUtils.TEST_MODE) {
+        if (DebugUtils.TEST_MODE) {
             return model.getTestUrl(requestCode);
         }
         return model.getUrl(requestCode);
@@ -131,7 +138,7 @@ public class NetworkController {
 
     //Add model specific implementation
     private AbstractModel getModel(final int requestCode) {
-        switch(requestCode){
+        switch (requestCode) {
             case RequestCode.GET_CART:
                 return new CartModel(store);
             default:
@@ -184,6 +191,7 @@ public class NetworkController {
 
     /**
      * Forms the json object with the payload passed
+     *
      * @param mParams payload bundle
      * @return JsonObject
      */
@@ -197,7 +205,7 @@ public class NetworkController {
                 if (keys.size() > 0) {
                     params = new JSONObject();
 
-                    for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+                    for (Iterator<String> iterator = keys.iterator(); iterator.hasNext(); ) {
                         String key = (String) iterator.next();
                         String value = mParams.getString(key);
                         params.put(key, value);

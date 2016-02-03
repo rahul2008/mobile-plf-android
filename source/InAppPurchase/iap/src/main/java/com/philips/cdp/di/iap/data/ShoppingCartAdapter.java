@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.activity;
+package com.philips.cdp.di.iap.data;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,17 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.session.CartInfo;
+import com.philips.cdp.di.iap.activity.Utility;
+import com.philips.cdp.di.iap.data.ProductData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
-import com.philips.cdp.di.iap.session.ProductSummary;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
@@ -36,35 +34,36 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCartPriceAdapter extends BaseAdapter {
+public class ShoppingCartAdapter extends BaseAdapter {
     public Activity activity;
     Bundle saveBundle = new Bundle();
    // private LayoutInflater inflater = null;
-    private ArrayList<ProductSummary> mData = new ArrayList<ProductSummary>();
+    private ArrayList<ProductData> mData = new ArrayList<ProductData>();
     private LayoutInflater mInflater;
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SHIPPING_DETAILS = 1;
+    ProductData summary;
 
     enum Type {
         TOPLEFT, TOPRIGHT, LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
     }
 
-    public ShoppingCartPriceAdapter(Activity activity) {
+    public ShoppingCartAdapter(Activity activity) {
         this.activity = activity;
         mInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         addShippingItem();
     }
 
-    public void addItem(final ProductSummary item) {
-        mData.add(mData.size()-3,item);
+    public void addItem(final ProductData item) {
+        mData.add(mData.size() - 3, item);
          Log.i("SPOORTI", "mData = " + mData.toString());
         notifyDataSetChanged();
     }
 
 
     public void addShippingItem() {
-        ProductSummary summary = new ProductSummary();
-        summary.productTitle = "**shippingItem**";
+        ProductData summary = new ProductData();
+        summary.setProductTitle("**shippingItem**");
         mData.add(summary);
 
         mData.add(summary);
@@ -89,8 +88,8 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        ProductSummary summary = mData.get(position);
-        if(summary.productTitle.contains("*")){
+        ProductData summary = mData.get(position);
+        if(summary.getProductTitle().contains("*")){
             return TYPE_SHIPPING_DETAILS;
         }else{
             return TYPE_ITEM;
@@ -104,15 +103,11 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
 
         ViewHolder holder = null;
         int rowType = getItemViewType(position);
-
-
-
-
         holder = new ViewHolder();
         switch (rowType) {
             case TYPE_ITEM:
-                ProductSummary summary = mData.get(position);
-                String imageURL = summary.ImageURL;
+                summary = mData.get(position);
+                String imageURL = summary.getImageURL();
 
                 try {
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
@@ -128,14 +123,14 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                 holder.from = (TextView) convertView.findViewById(R.id.from);
                 holder.price = (TextView)convertView.findViewById(R.id.price);
                 holder.dots = (ImageView) convertView.findViewById(R.id.dots);
-                FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
+//                FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
 
                 holder.imageUrl = imageURL;
 
                 holder.from.setText("Quantity: ");
-                holder.nameOption.setText(summary.productTitle);
-                holder.price.setText(summary.Currency + " " + summary.price);
-                holder.valueOption.setText(summary.quantity);
+                holder.nameOption.setText(summary.getProductTitle());
+                holder.price.setText(summary.getCurrency() + " " + summary.getPrice());
+//                holder.valueOption.setText(summary.quantity);
 
                 ImageLoader mImageLoader;
                 // Instantiate the RequestQueue.
@@ -163,13 +158,13 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
 
                 final UIKitListPopupWindow listpopupwindowTopLeft =  new UIKitListPopupWindow(activity.getBaseContext(), holder.dots, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems1);;
 
-                frameLayout.setOnClickListener(new View.OnClickListener() {
+  /*              frameLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         Toast.makeText(activity,"Clicked",Toast.LENGTH_LONG).show();
                         listpopupwindowTopLeft.show();
                     }
-                });
+                });*/
 
                 //new DownloadAsyncTask().execute(holder);
 
@@ -193,10 +188,10 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                     holder.number.setText("0");
 
                     holder.description.setVisibility(View.VISIBLE);
-                    holder.description.setText("Total (" + CartInfo.getTotalItems() + ")");
+                    holder.description.setText("Total (" + summary.getTotalItems() + ")");
 
                     holder.totoalcost.setVisibility(View.VISIBLE);
-                    holder.totoalcost.setText(CartInfo.getCurrency() + " " + CartInfo.getTotalCost());
+                    holder.totoalcost.setText(summary.getCurrency() + " " + summary.getPrice());
 
                 }
                 if(position == mData.size()-2){

@@ -3,18 +3,24 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.philips.cdp.di.iap.Response.Cart.GetCart.GetCartData;
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
-import com.philips.cdp.di.iap.activity.Product;
-import com.philips.cdp.di.iap.activity.ShoppingCartView;
+import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.activity.Utility;
+import com.philips.cdp.di.iap.data.ProductData;
 import com.philips.cdp.di.iap.session.AsyncTaskCompleteListener;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.InAppPurchase;
+import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.session.RequestListener;
 
 import java.util.ArrayList;
 
@@ -26,7 +32,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
     FrameLayout shoppingCart = null;
 
-    private ArrayList<Product> mProductArrayList = new ArrayList<>();
+    private ArrayList<ProductData> mProductArrayList = new ArrayList<>();
 
     String[] mCatalogNumbers = {"HX8331/11"};
 
@@ -46,7 +52,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
             public void onClick(final View v) {
 
                 if (Utility.isInternetConnected(DemoAppActivity.this)) {
-                    Intent myIntent = new Intent(DemoAppActivity.this, ShoppingCartView.class);
+                    Intent myIntent = new Intent(DemoAppActivity.this, ShoppingCartActivity.class);
                     startActivity(myIntent);
                 } else {
                     Utility.showNetworkError(DemoAppActivity.this, false);
@@ -61,6 +67,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
+        HybrisDelegate.getInstance(DemoAppActivity.this).initStore(this,"", "");
     }
 
     @Override
@@ -68,14 +75,15 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
         super.onResume();
 
         if (Utility.isInternetConnected(this)) {
-            InAppPurchase.getCurrentCartHybrisServerRequest(this);
+//            InAppPurchase.getCurrentCartHybrisServerRequest(this);
 
-           /* HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,
+            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,
                     new RequestListener() {
                         @Override
                         public void onSuccess(Message msg) {
                             GetCartData data = (GetCartData) msg.obj;
-                            mCountText.setText(data.getEntries().get(0).getQuantity());
+                       //     Toast.makeText(DemoAppActivity.this, ""+data.getEntries().get(0).getQuantity(), Toast.LENGTH_SHORT).show();
+                           // mCountText.setText(data.getEntries().get(0).getQuantity());
                         }
 
                         @Override
@@ -83,7 +91,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
                             Toast.makeText(DemoAppActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                             Utility.dismissProgressDialog();
                         }
-                    });*/
+                    });
         } else {
             Utility.showNetworkError(this, true);
         }
@@ -95,7 +103,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
     private void populateProduct() {
 
         for (String mCatalogNumber : mCatalogNumbers) {
-            Product product = new Product();
+            ProductData product = new ProductData();
             product.setCtnNumber(mCatalogNumber);
             mProductArrayList.add(product);
         }

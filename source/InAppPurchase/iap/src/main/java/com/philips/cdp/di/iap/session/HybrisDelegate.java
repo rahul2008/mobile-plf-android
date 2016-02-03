@@ -33,7 +33,7 @@ public class HybrisDelegate {
         controller.sendHybrisRequest(requestCode, requestListener);
     }
 
-    public void initStore(final String userName, final String janRainID) {
-        controller.initStore(userName, janRainID);
+    public void initStore(Context context, final String userName, final String janRainID) {
+        controller.initStore(context, userName, janRainID);
     }
 }

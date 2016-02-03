@@ -12,18 +12,18 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
-import com.philips.cdp.di.iap.activity.Product;
-import com.philips.cdp.di.iap.activity.ShoppingCartView;
+import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.activity.Utility;
+import com.philips.cdp.di.iap.data.ProductData;
 
 import java.util.ArrayList;
 
 public class ProductListAdapter extends BaseAdapter {
-    ArrayList<Product> mProductList = new ArrayList<>();
+    ArrayList<ProductData> mProductList = new ArrayList<>();
     LayoutInflater inflater;
     Context mContext;
 
-    public ProductListAdapter(Context context, ArrayList<Product> productList) {
+    public ProductListAdapter(Context context, ArrayList<ProductData> productList) {
         this.mProductList = productList;
         this.mContext = context;
         inflater = LayoutInflater.from(this.mContext);
@@ -35,7 +35,7 @@ public class ProductListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Product getItem(int position) {
+    public ProductData getItem(int position) {
         return mProductList.get(position);
     }
 
@@ -56,7 +56,7 @@ public class ProductListAdapter extends BaseAdapter {
             mViewHolder = (ProductViewHolder) convertView.getTag();
         }
 
-        final Product currentProduct = getItem(position);
+        final ProductData currentProduct = getItem(position);
 
         mViewHolder.name.setText(currentProduct.getCtnNumber());
 
@@ -81,7 +81,7 @@ public class ProductListAdapter extends BaseAdapter {
                     if (cartCount == 0) {
                         ((DemoAppActivity) mContext).addToCart(true);
                     }else {
-                        Intent myIntent = new Intent(mContext, ShoppingCartView.class);
+                        Intent myIntent = new Intent(mContext, ShoppingCartActivity.class);
                         mContext.startActivity(myIntent);
                     }
 
