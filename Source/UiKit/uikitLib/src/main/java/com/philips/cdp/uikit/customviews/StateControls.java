@@ -33,7 +33,8 @@ public class StateControls extends LinearLayout {
     public interface OnButtonStateChangeListener {
         void onButtonStateChanged(int value);
     }
-    private float buttonWidth, buttonHeight;
+
+    private int buttonWidth, buttonHeight;
     private String[] texts;
     private int count;
     private List<View> buttons;
@@ -43,6 +44,7 @@ public class StateControls extends LinearLayout {
     private OnButtonStateChangeListener listener;
     private Context context;
     private int baseColor;
+    private LayoutInflater inflater;
 
     public StateControls(Context context) {
         super(context, null);
@@ -64,11 +66,11 @@ public class StateControls extends LinearLayout {
         CharSequence[] texts = a.getTextArray(R.styleable.Controls_controlEntries);
         count = a.getInt(R.styleable.Controls_controlCount, 0);
         isMultipleChoice = a.getBoolean(R.styleable.Controls_controlMultiChoice, false);
-        buttonWidth = a.getDimension(R.styleable.Controls_controlButtonWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-        buttonHeight = a.getDimension(R.styleable.Controls_controlButtonHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
+        buttonWidth = (int) a.getDimension(R.styleable.Controls_controlButtonWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+        buttonHeight = (int) a.getDimension(R.styleable.Controls_controlButtonHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
         a.recycle();
 
-        drawControls(texts, false, count);
+        drawControls(texts, false);
     }
 
     /**
@@ -79,57 +81,18 @@ public class StateControls extends LinearLayout {
      * @param texts                  An array of CharSequences for the buttons
      * @param enableDefaultSelection The default value for the buttons
      */
-    public void drawControls(CharSequence[] texts, boolean enableDefaultSelection, int count) {
+    public void drawControls(CharSequence[] texts, boolean enableDefaultSelection) {
         final int textCount = texts != null ? texts.length : 0;
         final int elementCount = Math.max(textCount, count);
         if (elementCount == 0) {
             throw new IllegalArgumentException("Count not set up");
-        }
-
-        setOrientation(LinearLayout.HORIZONTAL);
-        setGravity(Gravity.CENTER_VERTICAL);
-
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (parentLayout == null) {
-            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
         }
         parentLayout.removeAllViews();
         View[] buttons = new Button[elementCount];
         View[] dividers = new View[elementCount];
         this.buttons = Arrays.asList(buttons);
         this.dividers = Arrays.asList(dividers);
-
-        int baseColorAlpha = UikitUtils.adjustAlpha(baseColor, 0.3f);
-        LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
-        for (int i = 0; i < elementCount; i++) {
-            View view, divider;
-            Button button;
-            view = inflater.inflate(R.layout.uikit_toggle_button, null, false);
-            button = (Button) view.findViewById(R.id.control_button);
-            divider = view.findViewById(R.id.divider);
-            divider.setBackgroundColor(baseColorAlpha);
-            button.setLayoutParams(buttonParams);
-            button.setText(texts != null ? texts[i] : "");
-            if (isMultipleChoice && i != elementCount - 1) {
-                divider.setVisibility(View.VISIBLE);
-            }
-            final int position = i;
-            button.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    setValue(position);
-                }
-            });
-            parentLayout.addView(view);
-            if (isMultipleChoice)
-                setButtonState(button, enableDefaultSelection, position);
-            else
-                setButtonState(button, false, position);
-            buttons[i] = button;
-            dividers[i] = divider;
-        }
+        iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
         handleButtonState();
     }
 
@@ -141,57 +104,18 @@ public class StateControls extends LinearLayout {
      * @param texts                  An array of Strings for the buttons
      * @param enableDefaultSelection The default value for the buttons
      */
-    public void drawControls(String[] texts, boolean enableDefaultSelection, int count) {
+    public void drawControls(String[] texts, boolean enableDefaultSelection) {
         final int textCount = texts != null ? texts.length : 0;
         final int elementCount = Math.max(textCount, count);
         if (elementCount == 0) {
             throw new IllegalArgumentException("Count not set up");
-        }
-
-        setOrientation(LinearLayout.HORIZONTAL);
-        setGravity(Gravity.CENTER_VERTICAL);
-
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (parentLayout == null) {
-            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
         }
         parentLayout.removeAllViews();
         View[] buttons = new Button[elementCount];
         View[] dividers = new View[elementCount];
         this.buttons = Arrays.asList(buttons);
         this.dividers = Arrays.asList(dividers);
-
-        int baseColorAlpha = UikitUtils.adjustAlpha(baseColor, 0.3f);
-        LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
-        for (int i = 0; i < elementCount; i++) {
-            View view, divider;
-            Button button;
-            view = inflater.inflate(R.layout.uikit_toggle_button, null, false);
-            button = (Button) view.findViewById(R.id.control_button);
-            divider = view.findViewById(R.id.divider);
-            divider.setBackgroundColor(baseColorAlpha);
-            button.setLayoutParams(buttonParams);
-            button.setText(texts != null ? texts[i] : "");
-            if (isMultipleChoice && i != elementCount - 1) {
-                divider.setVisibility(View.VISIBLE);
-            }
-            final int position = i;
-            button.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    setValue(position);
-                }
-            });
-            parentLayout.addView(view);
-            if (isMultipleChoice)
-                setButtonState(button, enableDefaultSelection, position);
-            else
-                setButtonState(button, false, position);
-            buttons[i] = button;
-            dividers[i] = divider;
-        }
+        iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
         handleButtonState();
     }
 
@@ -208,39 +132,40 @@ public class StateControls extends LinearLayout {
         if (elementCount == 0) {
             throw new IllegalArgumentException("neither texts nor count are setup");
         }
-
-        setOrientation(LinearLayout.HORIZONTAL);
-        setGravity(Gravity.CENTER_VERTICAL);
-
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (parentLayout == null) {
-            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
-        }
         parentLayout.removeAllViews();
-
         View[] buttons = new ImageButton[elementCount];
         View[] dividers = new View[elementCount];
         this.buttons = Arrays.asList(buttons);
         this.dividers = Arrays.asList(dividers);
+        iterateViews(drawables, enableDefaultSelection, buttons, dividers, elementCount, true);
+        handleButtonState();
+    }
 
+    private void iterateViews(final Object[] data, final boolean enableDefaultSelection, final View[] buttons, final View[] dividers, final int elementCount, boolean isDrawable) {
+        LayoutParams buttonParams = new LayoutParams(buttonWidth, buttonHeight);
         int baseColorAlpha = UikitUtils.adjustAlpha(baseColor, 0.3f);
-        LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
         for (int i = 0; i < elementCount; i++) {
-            ImageButton button;
-            View view, divider;
-            view = inflater.inflate(R.layout.uikit_toggle_image_button, null, false);
-            button = (ImageButton) view.findViewById(R.id.control_button);
-            button.setLayoutParams(buttonParams);
-            button.setScaleType(ImageView.ScaleType.CENTER);
-            divider = view.findViewById(R.id.divider);
-            divider.setBackgroundColor(baseColorAlpha);
-            button.setImageDrawable(drawables[i]);
-            if (isMultipleChoice && i != elementCount - 1) {
-                divider.setVisibility(View.VISIBLE);
+            View view, divider, button;
+            if (isDrawable) {
+                view = inflater.inflate(R.layout.uikit_toggle_image_button, null, false);
+                button = view.findViewById(R.id.control_button);
+                ImageButton imageButton = (ImageButton) button;
+                imageButton.setScaleType(ImageView.ScaleType.CENTER);
+                divider = view.findViewById(R.id.divider);
+                Drawable drawable = (Drawable) data[i];
+                imageButton.setImageDrawable(drawable);
+            } else {
+                view = inflater.inflate(R.layout.uikit_toggle_button, null, false);
+                button = view.findViewById(R.id.control_button);
+                divider = view.findViewById(R.id.divider);
+                Button buttonCast = (Button) button;
+                String dataValue = data != null ? (String) data[i] : "";
+                buttonCast.setText(dataValue);
             }
+            button.setLayoutParams(buttonParams);
+            divider.setBackgroundColor(baseColorAlpha);
             final int position = i;
-            button.setOnClickListener(new View.OnClickListener() {
+            button.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -255,7 +180,6 @@ public class StateControls extends LinearLayout {
             buttons[i] = button;
             dividers[i] = divider;
         }
-        handleButtonState();
     }
 
     private void handleButtonState() {
@@ -326,11 +250,18 @@ public class StateControls extends LinearLayout {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
         baseColor = typedArray.getColor(0, -1);
         typedArray.recycle();
+        setOrientation(LinearLayout.HORIZONTAL);
+        setGravity(Gravity.CENTER_VERTICAL);
+        inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (parentLayout == null) {
+            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
+        }
     }
 
     private void notifyDataSetChanged() {
         this.removeAllViews();
-        drawControls(texts, false, count);
+        drawControls(texts, false);
     }
 
     private void setListenerValue(int value) {
@@ -438,5 +369,39 @@ public class StateControls extends LinearLayout {
      */
     public void setOnButtonStateChangedListener(OnButtonStateChangeListener onButtonStateChangeListener) {
         this.listener = onButtonStateChangeListener;
+    }
+
+    /**
+     * @return Return button width as integer
+     */
+    public int getButtonWidth() {
+        return buttonWidth;
+    }
+
+    /**
+     * Set button width programmatically
+     *
+     * @param buttonWidth
+     */
+    public void setButtonWidth(final int buttonWidth) {
+        this.buttonWidth = buttonWidth;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * @return Return button height as integer
+     */
+    public int getButtonHeight() {
+        return buttonHeight;
+    }
+
+    /**
+     * Set button height programmatically
+     *
+     * @param buttonHeight
+     */
+    public void setButtonHeight(final int buttonHeight) {
+        this.buttonHeight = buttonHeight;
+        notifyDataSetChanged();
     }
 }
