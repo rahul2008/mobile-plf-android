@@ -1,8 +1,3 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 package com.philips.cdp.di.iap.model;
 
 import android.os.Bundle;
@@ -18,7 +13,7 @@ public abstract class AbstractModel {
 
     public abstract String getUrl(int requestCode);
 
-    public abstract Object parseResponse(Object response);
+    public abstract Object parseResponse(int requestCode, Object response);
 
     public abstract int getMethod(int requestCode);
 
