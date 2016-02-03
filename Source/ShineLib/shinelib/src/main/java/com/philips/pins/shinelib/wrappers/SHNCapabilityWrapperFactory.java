@@ -10,6 +10,7 @@ import android.os.Handler;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityClearUserData;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigEnergyIntake;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigHeartRateZones;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
@@ -113,6 +114,13 @@ public class SHNCapabilityWrapperFactory {
             case CONFIG_ENERGY_INTAKE:
                 shnCapabilityWrapper = new SHNCapabilityConfigEnergyIntakeWrapper(
                         (SHNCapabilityConfigEnergyIntake) shnCapability,
+                        internalHandler,
+                        userHandler
+                );
+                break;
+            case CLEAR_USER_DATA:
+                shnCapabilityWrapper = new SHNCapabilityClearUserDataWrapper(
+                        (SHNCapabilityClearUserData) shnCapability,
                         internalHandler,
                         userHandler
                 );
