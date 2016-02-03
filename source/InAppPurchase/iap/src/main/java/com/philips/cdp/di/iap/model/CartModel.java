@@ -3,14 +3,16 @@ package com.philips.cdp.di.iap.model;
 import android.os.Bundle;
 
 import com.android.volley.Request;
+import com.google.gson.Gson;
+import com.philips.cdp.di.iap.Response.Cart.GetCart.GetCartData;
 import com.philips.cdp.di.iap.activity.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * Created by 310228564 on 2/3/2016.
  */
+
 public class CartModel extends AbstractModel {
     public CartModel(final Store store) {
         super(store);
@@ -26,8 +28,8 @@ public class CartModel extends AbstractModel {
     }
 
     @Override
-    public Object parseResponse(final Object response) {
-        return null;
+    public Object parseResponse(int requestCode, Object response) {
+        return new Gson().fromJson(response.toString(), GetCartData.class);
     }
 
     @Override
@@ -35,6 +37,10 @@ public class CartModel extends AbstractModel {
         switch (requestCode) {
             case RequestCode.GET_CART:
                 return Request.Method.GET;
+            case RequestCode.CREATE_CART:
+                return Request.Method.POST;
+            case RequestCode.ADD_TO_CART:
+                return Request.Method.POST;
         }
         return 0;
     }

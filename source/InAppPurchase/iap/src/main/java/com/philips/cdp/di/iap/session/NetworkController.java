@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -87,14 +88,21 @@ public class NetworkController {
             public void onResponse(final JsonObject response) {
                 Message msg = Message.obtain();
                 msg.what = requestCode;
-                msg.obj = model.parseResponse(response);
+                msg.obj = model.parseResponse(requestCode, response);
                 requestListener.onSuccess(msg);
             }
         };
 
         String url = getTargetUrl(model,requestCode);
+        int requestMethod = model.getMethod(requestCode);
+        JSONObject jsonPayloadRequest = null;
+
+        if (requestMethod == Request.Method.POST) {
+            jsonPayloadRequest = getJsonParams(model.requestBody());
+        }
+
         return new JsonObjectRequest(model.getMethod(requestCode), url,
-                getJsonParams(model.requestBody()), response, error);
+                jsonPayloadRequest, response, error);
     }
 
     private String getTargetUrl(AbstractModel model, int requestCode) {
