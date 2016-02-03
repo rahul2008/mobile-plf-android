@@ -11,11 +11,11 @@ android {
 
 
     defaultConfig {
-        applicationId "com.philips.cl.di.regsample.app"
+        applicationId "com.philips.cdp.registration"
         minSdkVersion 10
         targetSdkVersion 23
 
-        testApplicationId "com.philips.cl.di.regsample.app.test"
+        testApplicationId "com.philips.cdp.registration.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
@@ -53,14 +53,14 @@ android {
 
     productFlavors {
         simulator {
-            applicationId 'com.philips.cl.di.regsample.app'
+            applicationId 'com.philips.cdp.registration'
             versionCode 5
-            versionName "4.0.0.4"
+            versionName "4.0.0.5"
         }
         device {
-            applicationId 'com.philips.cl.di.regsample.app'
+            applicationId 'com.philips.cdp.registration'
             versionCode 5
-            versionName "4.0.0.4"
+            versionName "4.0.0.5"
         }
     }
 }
