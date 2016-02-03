@@ -23,6 +23,8 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -33,7 +35,10 @@ import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
@@ -51,7 +56,19 @@ public class NetworkController {
 
     NetworkController(Context context) {
         this.context = context;
-        hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null, buildSslSocketFactory(context)));
+        hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null,
+                buildSslSocketFactory(context)) {
+            @Override
+            protected HttpsURLConnection createConnection(final URL url) throws IOException {
+                HttpURLConnection connection = super.createConnection(url);
+                ((HttpsURLConnection)connection).setHostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(final String hostname, final SSLSession session) {
+                        return hostname.equals("tst.admin.shop.philips.com");
+                    }
+                });
+            }
+        });
         prxVolleyQueue = Volley.newRequestQueue(context);
     }
 
