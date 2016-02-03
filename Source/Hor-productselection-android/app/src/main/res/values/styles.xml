@@ -37,4 +37,41 @@
         <item name="android:shadowRadius">0.9</item>
     </style>
 
+    <style name="sampleactionbarIconHomeImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:src">@drawable/actionbar_home_icon_white</item>
+        <item name="android:paddingLeft">12dp</item>
+    </style>
+
+    <style name="sampleactionbarFontTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">@string/actionbar_title_support</item>
+        <item name="android:textColor">@color/actionbar_title_color</item>
+        <item name="android:textSize">@dimen/actionbar_title_text_size</item>
+        <item name="android:layout_toRightOf">@+id/sample_back_to_home_img</item>
+    </style>
+
+    <style name="sampleactionbarIconArrowImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:src">@drawable/actionbar_back_arrow_white</item>
+        <item name="android:paddingLeft">12dp</item>
+    </style>
+
+
 </resources>

@@ -9,12 +9,21 @@
     tools:context=".Launcher">
 
     <Button
-        android:id="@+id/activitybutton"
+        android:id="@+id/buttonActivity"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="launch Module" />
+        android:text="launch as Activity" />
+
+    <Button
+        android:id="@+id/buttonFragment"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/buttonActivity"
+        android:text="launch as Fragment" />
 
     <Button
         android:id="@+id/change_theme"
@@ -23,7 +32,7 @@
         android:layout_centerHorizontal="true"
         android:onClick="changeBackground"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/activitybutton"
+        android:layout_below="@id/buttonFragment"
         android:text="Change theme"/>
 
 

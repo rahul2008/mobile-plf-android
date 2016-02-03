@@ -7,6 +7,7 @@ import android.util.Size;
 
 
 import com.philips.multiproduct.activity.MultiProductActivity;
+import com.philips.multiproduct.activity.WelcomeScreenFragment;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 import com.philips.multiproduct.utils.MLogger;
 import com.philips.multiproduct.utils.Constants;
@@ -76,6 +77,19 @@ public class MultiProductConfigManager {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
+
+        //TODO: Include Tagging
+//        if (mTaggingEnabled) {
+//            if (mAppID == null || mAppID.equals("")) {
+//                throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
+//            }
+//        }
+
+        //  AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
+
+        WelcomeScreenFragment welcomeScreenFragment = new WelcomeScreenFragment();
+        welcomeScreenFragment.showFragment(context, parentContainerResId, welcomeScreenFragment,
+                actionbarUpdateListener, enterAnim, exitAnim);
     }
 
     public  int getMultiProductSize() {
