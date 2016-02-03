@@ -191,6 +191,7 @@
     <dimen name="uikit_controls_default_height">44dp</dimen>
     <dimen name="uikit_controls_button_corner_rounding">2dp</dimen>
     <dimen name="uikit_modal_alert_bottom_layout_margin">10dp</dimen>
+    <dimen name="uikit_controls_checkbox_stroke">1dp</dimen>
 
     <!--Actionbar PopUp-->
     <dimen name="uikit_action_bar_Pop_Height">53dp</dimen>
