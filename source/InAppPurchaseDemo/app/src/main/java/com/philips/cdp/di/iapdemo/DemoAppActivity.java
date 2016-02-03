@@ -3,18 +3,24 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.philips.cdp.di.iap.Response.Cart.GetCart.GetCartData;
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.Product;
 import com.philips.cdp.di.iap.activity.ShoppingCartView;
 import com.philips.cdp.di.iap.activity.Utility;
 import com.philips.cdp.di.iap.session.AsyncTaskCompleteListener;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.InAppPurchase;
+import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.session.RequestListener;
 
 import java.util.ArrayList;
 
@@ -61,6 +67,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
+        HybrisDelegate.getInstance(DemoAppActivity.this).initStore("", "");
     }
 
     @Override
@@ -68,9 +75,9 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
         super.onResume();
 
         if (Utility.isInternetConnected(this)) {
-            InAppPurchase.getCurrentCartHybrisServerRequest(this);
+//            InAppPurchase.getCurrentCartHybrisServerRequest(this);
 
-           /* HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,
+            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,
                     new RequestListener() {
                         @Override
                         public void onSuccess(Message msg) {
@@ -83,7 +90,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
                             Toast.makeText(DemoAppActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                             Utility.dismissProgressDialog();
                         }
-                    });*/
+                    });
         } else {
             Utility.showNetworkError(this, true);
         }
