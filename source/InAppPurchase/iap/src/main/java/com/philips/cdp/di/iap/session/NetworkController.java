@@ -59,14 +59,16 @@ public class NetworkController {
         hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null,
                 buildSslSocketFactory(context)) {
             @Override
-            protected HttpsURLConnection createConnection(final URL url) throws IOException {
+            protected HttpURLConnection createConnection(final URL url) throws IOException {
                 HttpURLConnection connection = super.createConnection(url);
+                if(connection instanceof HttpsURLConnection)
                 ((HttpsURLConnection)connection).setHostnameVerifier(new HostnameVerifier() {
                     @Override
                     public boolean verify(final String hostname, final SSLSession session) {
-                        return hostname.equals("tst.admin.shop.philips.com");
+                        return hostname.contains("philips.com");
                     }
                 });
+                return connection;
             }
         });
         prxVolleyQueue = Volley.newRequestQueue(context);
