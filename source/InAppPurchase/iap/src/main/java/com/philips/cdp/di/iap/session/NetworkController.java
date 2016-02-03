@@ -70,7 +70,7 @@ public class NetworkController {
                     });
 
                     connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    connection.setRequestProperty("Authorization", "Bearer " + "4fb0b0b6-5fe3-4dc1-a3d7-6194ebd4f04c");
+                    connection.setRequestProperty("Authorization", "Bearer " + store.getAuthToken());
                 }
                 return connection;
             }
