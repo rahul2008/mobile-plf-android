@@ -67,7 +67,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
-        HybrisDelegate.getInstance(DemoAppActivity.this).initStore("", "");
+        InAppPurchase.initApp(this,"", "");
     }
 
     @Override
