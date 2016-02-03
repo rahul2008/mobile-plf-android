@@ -61,8 +61,29 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         if (Utility.isInternetConnected(this)) {
             InAppPurchase.getCurrentCartHybrisServerRequest(this);
+
+           /* HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,
+                    new RequestListener() {
+                        @Override
+                        public void onSuccess(Message msg) {
+                            GetCartData data = (GetCartData) msg.obj;
+                            mCountText.setText(data.getEntries().get(0).getQuantity());
+                        }
+
+                        @Override
+                        public void onError(Message msg) {
+                            Toast.makeText(DemoAppActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            Utility.dismissProgressDialog();
+                        }
+                    });*/
         } else {
             Utility.showNetworkError(this, true);
         }
@@ -84,7 +105,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
      * Add to the current cart
      */
     public void addToCart(boolean isCountZero) {
-        InAppPurchase.addToCartHybrisServerRequest(this,isCountZero);
+        InAppPurchase.addToCartHybrisServerRequest(this, isCountZero);
     }
 
     @Override
