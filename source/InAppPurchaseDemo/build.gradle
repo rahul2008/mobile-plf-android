@@ -24,6 +24,15 @@ allprojects {
     }
 }
 
+allprojects {
+    repositories {
+        maven {
+//            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+            url 'http://130.145.245.193:8081/artifactory/simple/libs-release-local-android'
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

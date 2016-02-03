@@ -39,6 +39,9 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.google.code.gson:gson:2.2.4'
     compile(name:'prx-release', ext:'aar')
+
+    //uikit lib
+    compile 'com.philips.cdp:uikitLib:1.2.0'
 }
 
     repositories {
@@ -77,4 +80,5 @@ dependencies {
         xml.enabled = true
         html.enabled = false
         }
+
 }

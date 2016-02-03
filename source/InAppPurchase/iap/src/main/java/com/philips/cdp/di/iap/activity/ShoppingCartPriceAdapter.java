@@ -19,8 +19,11 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.CartInfo;
+import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.session.ProductSummary;
 
 import java.io.IOException;
@@ -97,16 +100,17 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
         switch (rowType) {
             case TYPE_ITEM:
                 ProductSummary summary = mData.get(position);
-             //   int quantity = Integer.parseInt(summary.quantity);
                 String imageURL = summary.ImageURL;
-               // int individualPrice = Integer.parseInt(summary.price)/quantity;
+
                 try {
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                holder.image = (ImageView) convertView.findViewById(R.id.image);
+
+
+                holder.image = (NetworkImageView) convertView.findViewById(R.id.image);
                 holder.nameOption = (TextView) convertView.findViewById(R.id.text1Name);
                 holder.valueOption = (TextView) convertView.findViewById(R.id.text2value);
                 holder.from = (TextView) convertView.findViewById(R.id.from);
@@ -119,7 +123,18 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
                 holder.price.setText(summary.Currency + " " + summary.price);
                 holder.valueOption.setText(summary.quantity);
 
-                new DownloadAsyncTask().execute(holder);
+                ImageLoader mImageLoader;
+                // Instantiate the RequestQueue.
+                mImageLoader = NetworkImageLoader.getInstance(activity)
+                        .getImageLoader();
+
+                mImageLoader.get(imageURL, ImageLoader.getImageListener(holder.image,
+                        R.drawable.toothbrush, android.R.drawable
+                                .ic_dialog_alert));
+                holder.image.setImageUrl(imageURL, mImageLoader);
+                Utility.dismissProgressDialog();
+
+                //new DownloadAsyncTask().execute(holder);
 
                 break;
 
@@ -196,8 +211,8 @@ public class ShoppingCartPriceAdapter extends BaseAdapter {
         ImageView arrow;// = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
         TextView description;// = (TextView) vi.findViewById(R.id.text_description_without_icons);
         TextView totoalcost;
-
-        ImageView image;// = (ImageView) vi.findViewById(R.id.image);
+        NetworkImageView image;
+        //ImageView image;// = (ImageView) vi.findViewById(R.id.image);
         TextView nameOption;// = (TextView) vi.findViewById(R.id.text1Name);
         TextView valueOption;// = (TextView) vi.findViewById(R.id.text2value);
         TextView from;// = (TextView) vi.findViewById(R.id.from);
