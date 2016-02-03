@@ -13,7 +13,6 @@ import org.mockito.Mock;
 
 import java.util.Set;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anySet;
 import static org.mockito.Matchers.eq;
@@ -24,7 +23,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class SHNCapabilityConfigEnergyIntakeWrapperTest extends SHNCapabilityWrapperTestBase {
 
-    private static final SHNCapabilityConfigEnergyIntake.SHNMealType TEST_MEAL_TYPE = SHNCapabilityConfigEnergyIntake.SHNMealType.Lunch;
+    private static final SHNCapabilityConfigEnergyIntake.MealType TEST_MEAL_TYPE = SHNCapabilityConfigEnergyIntake.MealType.LUNCH;
     private static final SHNResult TEST_RESULT = SHNResult.SHNErrorBluetoothDisabled;
 
     @Mock
@@ -34,7 +33,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapperTest extends SHNCapabilityWra
     private SHNCapabilityConfigEnergyIntake capabilityMock;
 
     @Mock
-    private ResultListener<Set<SHNCapabilityConfigEnergyIntake.SHNMealType>> mealTypeListenerMock;
+    private ResultListener<Set<SHNCapabilityConfigEnergyIntake.MealType>> mealTypeListenerMock;
 
     @Mock
     private ResultListener<SHNCapabilityConfigEnergyIntake.MealConfiguration> mealConfigurationListenerMock;
@@ -43,7 +42,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapperTest extends SHNCapabilityWra
     private SHNResultListener shnResultListenerMock;
 
     @Mock
-    private Set<SHNCapabilityConfigEnergyIntake.SHNMealType> mealTypeSetMock;
+    private Set<SHNCapabilityConfigEnergyIntake.MealType> mealTypeSetMock;
 
     @Captor
     private ArgumentCaptor<ResultListener> resultListenerArgumentCaptor;
@@ -68,7 +67,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapperTest extends SHNCapabilityWra
         capabilityWrapper.setMealConfiguration(mealConfigurationMock, TEST_MEAL_TYPE, shnResultListenerMock);
         verify(capabilityMock, never()).setMealConfiguration(
                 any(SHNCapabilityConfigEnergyIntake.MealConfiguration.class),
-                any(SHNCapabilityConfigEnergyIntake.SHNMealType.class),
+                any(SHNCapabilityConfigEnergyIntake.MealType.class),
                 any(SHNResultListener.class));
 
         captureInternalHandlerRunnable().run();
@@ -77,7 +76,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapperTest extends SHNCapabilityWra
     private void callGetMealConfigurationOnInternalHandler() {
         capabilityWrapper.getMealConfiguration(TEST_MEAL_TYPE, mealConfigurationListenerMock);
         verify(capabilityMock, never()).getMealConfiguration(
-                any(SHNCapabilityConfigEnergyIntake.SHNMealType.class),
+                any(SHNCapabilityConfigEnergyIntake.MealType.class),
                 any(ResultListener.class));
 
         captureInternalHandlerRunnable().run();

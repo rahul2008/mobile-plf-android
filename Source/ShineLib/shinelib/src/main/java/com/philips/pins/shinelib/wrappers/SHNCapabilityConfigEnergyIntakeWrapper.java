@@ -23,13 +23,13 @@ public class SHNCapabilityConfigEnergyIntakeWrapper implements SHNCapabilityConf
     }
 
     @Override
-    public void getSupportedMealTypes(final ResultListener<Set<SHNMealType>> resultListener) {
+    public void getSupportedMealTypes(final ResultListener<Set<MealType>> resultListener) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getSupportedMealTypes(new ResultListener<Set<SHNMealType>>() {
+                wrappedShnCapability.getSupportedMealTypes(new ResultListener<Set<MealType>>() {
                     @Override
-                    public void onActionCompleted(final Set<SHNMealType> value, @NonNull final SHNResult result) {
+                    public void onActionCompleted(final Set<MealType> value, @NonNull final SHNResult result) {
                         userHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -43,7 +43,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapper implements SHNCapabilityConf
     }
 
     @Override
-    public void setMealConfiguration(final MealConfiguration mealConfiguration, final SHNMealType mealType, final SHNResultListener resultListener) {
+    public void setMealConfiguration(final MealConfiguration mealConfiguration, final MealType mealType, final SHNResultListener resultListener) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -63,7 +63,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapper implements SHNCapabilityConf
     }
 
     @Override
-    public void getMealConfiguration(final SHNMealType type, final ResultListener<MealConfiguration> resultListener) {
+    public void getMealConfiguration(final MealType type, final ResultListener<MealConfiguration> resultListener) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {

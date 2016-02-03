@@ -10,32 +10,32 @@ import java.util.Set;
 
 public interface SHNCapabilityConfigEnergyIntake extends SHNCapability {
 
-    enum SHNMealType {
-        Unknown,
-        Breakfast,
-        Lunch,
-        Dinner,
-        Snack,
-        Drink
+    enum MealType {
+        UNKNOWN,
+        BREAKFAST,
+        LUNCH,
+        DINNER,
+        SNACK,
+        DRINK
     }
 
-    enum SHNMealSize {
-        Unknown,
-        Small,
-        Medium,
-        Large
+    enum MealSize {
+        UNKNOWN,
+        SMALL,
+        MEDIUM,
+        LARGE
     }
 
     class MealConfiguration {
 
         public static final int DEFAULT_ENERGY_INTAKE = 0;
-        private Map<SHNMealSize, Integer> mealSizeToEnergyIntakeMap;
+        private Map<MealSize, Integer> mealSizeToEnergyIntakeMap;
 
-        public MealConfiguration(Map<SHNMealSize, Integer> mealSizeToEnergyIntakeMap) {
+        public MealConfiguration(Map<MealSize, Integer> mealSizeToEnergyIntakeMap) {
             this.mealSizeToEnergyIntakeMap = new HashMap<>(mealSizeToEnergyIntakeMap);
         }
 
-        public int energyIntakeForMealSize(SHNMealSize mealSize) {
+        public int energyIntakeForMealSize(MealSize mealSize) {
             Integer energyIntake = mealSizeToEnergyIntakeMap.get(mealSize);
             return (energyIntake != null) ? energyIntake : DEFAULT_ENERGY_INTAKE;
         }
@@ -57,9 +57,9 @@ public interface SHNCapabilityConfigEnergyIntake extends SHNCapability {
         }
     }
 
-    void getSupportedMealTypes(ResultListener<Set<SHNMealType>> resultListener);
+    void getSupportedMealTypes(ResultListener<Set<MealType>> resultListener);
 
-    void setMealConfiguration(MealConfiguration mealConfiguration, SHNMealType mealType, SHNResultListener resultListener);
+    void setMealConfiguration(MealConfiguration mealConfiguration, MealType mealType, SHNResultListener resultListener);
 
-    void getMealConfiguration(SHNMealType type, ResultListener<MealConfiguration> resultListener);
+    void getMealConfiguration(MealType type, ResultListener<MealConfiguration> resultListener);
 }
