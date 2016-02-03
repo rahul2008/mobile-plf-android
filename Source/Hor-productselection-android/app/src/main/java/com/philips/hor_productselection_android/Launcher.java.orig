@@ -19,7 +19,11 @@ import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivity;
 import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.activity.MultiProductBaseActivity;
+<<<<<<< HEAD
 import com.philips.multiproduct.utils.MLogger;
+=======
+import com.philips.multiproduct.listeners.ActionbarUpdateListener;
+>>>>>>> launch_as_fragment
 
 import java.util.ArrayList;
 import java.util.Arrays;

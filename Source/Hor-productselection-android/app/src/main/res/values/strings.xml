@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="dummyTitleMultiProduct">Dummy Actionbar Title MP</string>
 
     <string-array name="ctn_list">
         <item>RQ1250/17</item>
