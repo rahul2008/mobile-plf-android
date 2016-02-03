@@ -1,8 +1,8 @@
 package com.philips.hor_productselection_android.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -12,8 +12,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.hor_productselection_android.R;
 import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.activity.MultiProductBaseActivity;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 
 /**
@@ -22,7 +24,7 @@ import com.philips.multiproduct.listeners.ActionbarUpdateListener;
  * @author : Ritesh.jha@philips.com
  * @since : 2 Feb 2016
  */
-public class SampleActivity extends FragmentActivity implements View.OnClickListener {
+public class SampleActivity extends MultiProductBaseActivity implements View.OnClickListener {
     private static final String TAG = SampleActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
@@ -46,7 +48,15 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        setNoActionBarTheme();
         Log.i(TAG, " Multiproduct - SampleActivity onCreate");
+
+        /*
+        This module is integrated with Philips Standard UI_Kit. So here Theme is as per UI_Kit only. Vertical apps are free to use
+        their apps specific themes.
+         */
+        setTheme(getUiKitThemeUtil().getTheme());
+
         setContentView(R.layout.activity_multiproduct_sample);
        /* DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
                 R.anim.slide_in_bottom, R.anim.slide_out_bottom);*/
@@ -63,24 +73,24 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
 
 
 //        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(componentBuilder);
-        try {
-            initActionBar();
-        } catch (ClassCastException e) {
-            Log.e(TAG, "SampleActivity Actionbar: " + e.getMessage());
-        }
-        enableActionBarHome();
+//        try {
+//            initActionBar();
+//        } catch (ClassCastException e) {
+//            Log.e(TAG, "SampleActivity Actionbar: " + e.getMessage());
+//        }
+//        enableActionBarHome();
 
         fragmentManager = getSupportFragmentManager();
     }
 
-    protected void initActionBar() throws ClassCastException {
-        mActionBarMenuIcon = (ImageView) findViewById(R.id.sample_home_icon);
-        mActionBarArrow = (ImageView) findViewById(R.id.sample_back_to_home_img);
-        mActionBarTitle = (TextView) findViewById(R.id.sample_action_bar_title);
-
-        mActionBarMenuIcon.setOnClickListener(this);
-        mActionBarArrow.setOnClickListener(this);
-    }
+//    protected void initActionBar() throws ClassCastException {
+//        mActionBarMenuIcon = (ImageView) findViewById(R.id.sample_home_icon);
+//        mActionBarArrow = (ImageView) findViewById(R.id.sample_back_to_home_img);
+//        mActionBarTitle = (TextView) findViewById(R.id.sample_action_bar_title);
+//
+//        mActionBarMenuIcon.setOnClickListener(this);
+//        mActionBarArrow.setOnClickListener(this);
+//    }
 
     private boolean backstackFragment() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {

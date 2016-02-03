@@ -5,13 +5,12 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent" >
 
-    <include layout="@layout/sample_action_bar"/>
+   <!-- <include layout="@layout/sample_action_bar" />-->
 
     <RelativeLayout
         android:id="@+id/sampleMultiProductContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="@dimen/actionbar_height"
         android:background="@color/mp_sample_activity_background_color"
         android:orientation="vertical" >
     </RelativeLayout>

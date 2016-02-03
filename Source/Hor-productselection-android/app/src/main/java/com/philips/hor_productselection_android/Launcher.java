@@ -41,10 +41,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        if (themeUtils == null) {
-            themeUtils = new ThemeUtils(this.getSharedPreferences(
-                    this.getString(R.string.app_name_multiproduct), Context.MODE_PRIVATE));
-        }
+
         change_theme = (Button) findViewById(R.id.change_theme);
         change_theme.setOnClickListener(this);
         setViewState();
@@ -132,12 +129,12 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonActivity:
-                Toast.makeText(this, "Launch as Activity ", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Launch as Activity. ", Toast.LENGTH_LONG).show();
                 launchMultiProductAsActivity();
                 break;
 
             case R.id.buttonFragment:
-                Toast.makeText(this, "Launch as Fragment. Actionbar is not UI_Kit enabled. ", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Launch as Fragment. ", Toast.LENGTH_LONG).show();
                 launchMultiProductAsFragment();
                 break;
 
@@ -150,20 +147,20 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
                 int themeValue = (int) (Math.random() * (4 - 0)) + 0;
                 switch (themeValue) {
                     case 0:
-                        themeUtils.setThemePreferences(false);
+                        getUiKitThemeUtil().setThemePreferences(false);
                         break;
                     case 1:
                         preferences = "blue|false|solid|0";
-                        themeUtils.setThemePreferences(preferences);
+                        getUiKitThemeUtil().setThemePreferences(preferences);
                         break;
                     case 2:
                         preferences = "orange|false|solid|0";
-                        themeUtils.setThemePreferences(preferences);
+                        getUiKitThemeUtil().setThemePreferences(preferences);
                         break;
 
                     case 3:
                         preferences = "aqua|false|solid|0";
-                        themeUtils.setThemePreferences(preferences);
+                        getUiKitThemeUtil().setThemePreferences(preferences);
                         break;
                 }
 
