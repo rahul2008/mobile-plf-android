@@ -5,6 +5,10 @@
 
 package com.philips.cdp.di.iap.store;
 
+import android.content.Context;
+
+import com.philips.cdp.di.iap.session.OAuthHandler;
+
 public class Store {
 
     private final String BASEURL_FORMAT = "https://%s/%s";
@@ -15,7 +19,12 @@ public class Store {
     private String userName;
     private String baseURl;
 
-    public Store(final String hostPort, final String webRoot, final String userID, final String janRainID) {
+    private OAuthHandler oAuthHandler;
+    private Context context;
+
+    public Store(Context context, final String hostPort, final String webRoot, final String userID,
+                 final String janRainID) {
+        this.context = context;
         this.hostPort = hostPort;
         this.webRoot = webRoot;
         this.janRainID = janRainID;
@@ -35,5 +44,13 @@ public class Store {
 
     public String getJanRainToken() {
         return janRainID;
+    }
+
+    public String getAuthToken() {
+        return oAuthHandler.generateToken(context, janRainID, userName);
+    }
+
+    public void setAuthHandler(final OAuthHandler oAuthHandler) {
+        this.oAuthHandler = oAuthHandler;
     }
 }

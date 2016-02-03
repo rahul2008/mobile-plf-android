@@ -7,7 +7,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
-interface OAuthHandler {
+public interface OAuthHandler {
     /**
      * Api to generate the oauth token
      *
