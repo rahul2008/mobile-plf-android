@@ -8,7 +8,7 @@
     android:minHeight="85dp"
     >
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_centerVertical="true"
