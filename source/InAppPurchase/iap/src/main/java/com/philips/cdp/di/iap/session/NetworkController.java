@@ -79,8 +79,9 @@ public class NetworkController {
     }
 
     //Package level access
-    void initStore(String userName, String janRainID) {
-        store = new Store(context, hostPort, webRoot, userName, janRainID);
+
+    void initStore(Context context, String userName, String janRainID) {
+        store = new Store(context, hostPort,webRoot,userName,janRainID);
         store.setAuthHandler(oAuthHandler);
     }
 
