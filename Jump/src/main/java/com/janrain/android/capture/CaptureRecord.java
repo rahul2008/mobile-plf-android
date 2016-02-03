@@ -127,9 +127,9 @@ public class CaptureRecord extends JSONObject {
         try {
             fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = SecureUtility.decrypt(enctText);
-            fileContents = new String(decrtext);
+           byte[] enctText = (byte[]) ois.readObject();
+           byte[] decrtext = SecureUtility.decrypt(enctText);
+           fileContents = new String(decrtext);
             fis = null;
             return inflateCaptureRecord(fileContents);
         } catch (FileNotFoundException ignore) {

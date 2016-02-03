@@ -275,9 +275,9 @@ public class HsdpUser {
         try {
             FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = SecureUtility.decrypt(enctText);
-            mHsdpUserRecord = (HsdpUserRecord) SecureUtility.stringToObject(new String(decrtext));
+           byte[] enctText = (byte[]) ois.readObject();
+           byte[] decrtext = SecureUtility.decrypt(enctText);
+           mHsdpUserRecord = (HsdpUserRecord) SecureUtility.stringToObject(new String(decrtext));
         } catch (Exception e) {
         }
         return mHsdpUserRecord;

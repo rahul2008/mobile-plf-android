@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
+import com.janrain.android.utils.SecureUtility;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.coppa.CoppaConfiguration;

@@ -32,6 +32,15 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.tagging.Tagging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
 import java.util.Locale;
 
 public class RegistrationHelper {
@@ -193,6 +202,59 @@ public class RegistrationHelper {
         return mUILocale;
     }
 
+    public  boolean isFileEncryptionDone(final String pFileName ){
+        FileInputStream fis = null;
+        boolean isEncryptionDone = true;
+        try {
+            fis =mContext.openFileInput(pFileName);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Object plainTextString =  ois.readObject();
+            if("jr_capture_signed_in_user".equals(pFileName)){
+                byte[] sss = (byte[])plainTextString;
+                String s = new String(sss);
+                JSONObject jsonObject = new JSONObject(s);
+
+            }else{
+                if(plainTextString instanceof String){
+                    isEncryptionDone = false;
+                }
+            }
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            isEncryptionDone = false;
+            e.printStackTrace();
+        }
+
+        return isEncryptionDone;
+    }
+
+    private void checkFileEncryptionStatus(){
+        if(isFileEncryptionDone("jr_capture_signed_in_user")){
+            SecureUtility.migrateUserData("jr_capture_signed_in_user");
+        }
+
+        if(isFileEncryptionDone("hsdpRecord")){
+            SecureUtility.migrateUserData("hsdpRecord");
+
+        }
+
+        if(isFileEncryptionDone("diProfile")){
+            SecureUtility.migrateUserData("diProfile");
+        }
+    }
+
     /*
      * Initialize Janrain
      * @param isInitialized true for initialize and false for reinitialize
@@ -205,7 +267,7 @@ public class RegistrationHelper {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
         }
 
-        SecureUtility.generateSecretKey();
+
         Locale mlocale = locale;
         if (isCoppaFlow()) {
             mlocale = new Locale("en", "US");
@@ -217,6 +279,10 @@ public class RegistrationHelper {
         mReceivedDownloadFlowSuccess = false;
         mContext = context.getApplicationContext();
         ServerTime.init(mContext);
+        SecureUtility.init(mContext);
+        SecureUtility.generateSecretKey();
+
+
         NetworkUtility.isNetworkAvailable(mContext);
         setCountryCode(mlocale.getCountry());
         final String initLocale = mlocale.toString();
@@ -236,6 +302,8 @@ public class RegistrationHelper {
                 if (isHsdpAvailable()) {
                     isHsdpFlow = true;
                 }
+
+                checkFileEncryptionStatus();
 
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {

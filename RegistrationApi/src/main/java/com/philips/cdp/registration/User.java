@@ -126,6 +126,7 @@ public class User {
                 new TraditionalLoginHandler() {
                     @Override
                     public void onLoginSuccess() {
+
                         DIUserProfile diUserProfile = getUserInstance(mContext);
                         diUserProfile.setPassword(password);
                         saveDIUserProfileToDisk(diUserProfile);
@@ -415,7 +416,7 @@ public class User {
         captureRecord.refreshAccessToken(new RefreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                if (!RegistrationHelper.getInstance().isHsdpFlow()) {
+                if (RegistrationHelper.getInstance().isHsdpFlow()) {
                     refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
                     return;
                 }
@@ -1085,6 +1086,7 @@ public class User {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
         CaptureRecord.deleteFromDisk(mContext);
+        mContext.deleteFile(DI_PROFILE_FILE);
     }
 
     private final String DI_PROFILE_FILE = "diProfile";
@@ -1096,7 +1098,7 @@ public class User {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             String objectPlainString = SecureUtility.objectToString(diUserProfile);
             byte[] ectext = SecureUtility.encrypt(objectPlainString);
-            oos.writeObject(ectext);
+           oos.writeObject(ectext);
             oos.close();
             fos.close();
         } catch (Exception e) {
@@ -1105,6 +1107,7 @@ public class User {
     }
 
     private DIUserProfile getDIUserProfileFromDisk() {
+        System.out.println("*********** getDIUserProfileFromDisk");
         DIUserProfile diUserProfile = null;
         try {
             FileInputStream fis = mContext.openFileInput(DI_PROFILE_FILE);
@@ -1112,6 +1115,7 @@ public class User {
             byte[] enctText = (byte[]) ois.readObject();
             byte[] decrtext = SecureUtility.decrypt(enctText);
             diUserProfile = (DIUserProfile) SecureUtility.stringToObject(new String(decrtext));
+            fis.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
