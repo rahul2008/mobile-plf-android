@@ -106,10 +106,10 @@ public class NetworkController {
             }
         };
 
-        Response.Listener response = new Response.Listener<JsonObject>() {
+        Response.Listener response = new Response.Listener<JSONObject>(){
 
             @Override
-            public void onResponse(final JsonObject response) {
+            public void onResponse(final JSONObject response) {
                 Message msg = Message.obtain();
                 msg.what = requestCode;
                 msg.obj = model.parseResponse(requestCode, response);

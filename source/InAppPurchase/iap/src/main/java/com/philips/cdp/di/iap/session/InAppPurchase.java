@@ -8,30 +8,13 @@ package com.philips.cdp.di.iap.session;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Pair;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.philips.cdp.di.iap.activity.Constants;
 import com.philips.cdp.di.iap.activity.IapConstants;
 import com.philips.cdp.di.iap.activity.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.NetworkConstants;
-import com.philips.cdp.di.iap.activity.ShoppingCartView;
+import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.activity.Utility;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
-import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.prxclient.response.ResponseListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,12 +22,10 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -61,7 +42,7 @@ public class InAppPurchase {
     public static void initApp(Context context, String userName, String janRainID) {
         //We register with app context to avoid any memory leaks
         Context appContext = context.getApplicationContext();
-        HybrisDelegate.getInstance(appContext).initStore(appContext,userName, janRainID);
+        HybrisDelegate.getInstance(appContext).initStore(appContext, userName, janRainID);
     }
 
    /* public static int getCartItemCount(Context context, String janRainID, String userID) {
@@ -134,199 +115,6 @@ public class InAppPurchase {
             }
         }.execute();
     }
-
-    /**
-     * Get Shooping Cart Info from Hybris
-     *
-     * @return Cart count
-     */
-    public static void getCartCurrentCartRequest(final Context context, final UpdateProductInfoFromHybris callback, final CartInfo cartInfo) {
-
-        mContext = context;
-
-        new AsyncTask<Void, Void, Void>() {
-
-            HurlStack.UrlRewriter hurl = new HurlStack.UrlRewriter() {
-                @Override
-                public String rewriteUrl(final String originalUrl) {
-                    return NetworkConstants.getCurrentCart;
-                }
-            };
-
-
-            HurlStack hurlStack = new HurlStack(hurl, authHandler.buildSslSocketFactory(context)) {
-                @Override
-                protected HttpURLConnection createConnection(URL url) throws IOException {
-                    HttpsURLConnection httpsURLConnection = (HttpsURLConnection) super.createConnection(url);
-                    try {
-                        httpsURLConnection.setHostnameVerifier(authHandler.hostnameVerifier);
-                        httpsURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                        httpsURLConnection.setRequestProperty("Authorization", "Bearer " + authHandler.generateToken(context, "", "")); //Header
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return httpsURLConnection;
-                }
-            };
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    // Instantiate the RequestQueue.
-                    RequestQueue queue = Volley.newRequestQueue(context, hurlStack);
-
-                    // Request a string response from the provided URL.
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, NetworkConstants.getCurrentCart,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    parseCurrentCartInfo(response,callback,cartInfo);
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.i(TAG, "error = " + error);
-                            callback.updateProductInfo(null, null, Constants.CART_HAS_ITEMS);
-                        }
-                    });
-
-                    queue.add(stringRequest);
-                } catch (Exception e) {
-                    System.out.println("Exception");
-                    callback.updateProductInfo(null, null,Constants.CART_HAS_ITEMS);
-                }
-                return null;
-            }
-        }.execute();
-    }
-
-
-    public static  void parseCurrentCartInfo(String inputString, final UpdateProductInfoFromHybris callback, CartInfo cartInfo) {
-        try {
-            JSONObject jsonObject = new JSONObject(inputString);
-
-            getTotalItemAndTotalPrice(jsonObject, cartInfo);
-            getEntryDetails(jsonObject,callback,cartInfo);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void getTotalItemAndTotalPrice(JSONObject jsonObject, CartInfo cartInfo){
-        try {
-            if (jsonObject.has("totalItems")) {
-                cartInfo.totalItems = jsonObject.get("totalItems").toString();
-            }
-
-            if (jsonObject.has("totalPriceWithTax")) {
-                JSONObject jsonPrice = new JSONObject(jsonObject.get("totalPriceWithTax").toString());
-                if (jsonPrice.has("currencyIso")) {
-                    cartInfo.currency = jsonPrice.get("currencyIso").toString();
-                }
-                if (jsonPrice.has("value")) {
-                    cartInfo.totalCost = jsonPrice.get("value").toString();
-                }
-            }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
-
-    public static void getEntryDetails(JSONObject jsonObject, final UpdateProductInfoFromHybris callback, CartInfo cartInfo){
-        String code = null;
-        try{
-        if (jsonObject.has("entries")) {
-            JSONArray itemList = new JSONArray(jsonObject.get("entries").toString());
-            for (int i = 0; i < itemList.length(); i++) {
-                JSONObject object = itemList.getJSONObject(i);
-                ProductSummary summary = new ProductSummary();
-                if (object.has("quantity")) {
-                    summary.quantity = object.get("quantity").toString();
-                }
-                if (object.has("totalPrice")) {
-                    JSONObject jsonPrice = new JSONObject(jsonObject.get("totalPrice").toString());
-                    if (jsonPrice.has("currencyIso")) {
-                        summary.Currency = jsonPrice.get("currencyIso").toString();
-                    }
-                    if (jsonPrice.has("value")) {
-                        summary.price = jsonPrice.get("value").toString();
-                    }
-                }
-                if(object.has("product")) {
-                    JSONObject product = new JSONObject(object.get("product").toString());
-                    if(product.has("code")){
-                        code = product.get("code").toString();
-                        summary.productCode = code;
-                        Log.i(TAG,"code = " + code);
-                    }
-                }
-                getProductDetailsFromPRX(code,summary,callback,cartInfo);
-            }
-        }else{
-            callback.updateProductInfo(null,null,Constants.CART_EMPTY);
-            return;
-        }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-
-    }
-
-
-
-
-    static void getProductDetailsFromPRX(String code,final ProductSummary productInfo,final UpdateProductInfoFromHybris callback,final CartInfo cartInfo){
-        String mCtn = code.replaceAll("_", "/");
-        String mSectorCode = "B2C";
-        String mLocale = "en_US";
-        String mCatalogCode = "CONSUMER";
-        String mRequestTag = null;
-
-        PrxLogger.enablePrxLogger(true);
-        ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
-        mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setmLocale(mLocale);
-        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
-
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(mContext);
-        mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
-            @Override
-            public void onResponseSuccess(ResponseData responseData) {
-
-                SummaryModel mAssetModel = (SummaryModel) responseData;
-
-                Log.d(TAG, "Positive Response Data : " + mAssetModel.isSuccess());
-
-                Data data = mAssetModel.getData();
-                data.getImageURL();
-                Log.i(TAG, data.getProductTitle());
-                Log.i(TAG, data.getProductURL());
-                Log.i(TAG, data.getPrice().toString());
-                Log.i(TAG, data.getPriority() + "");
-
-                productInfo.ImageURL = data.getImageURL();
-                productInfo.productTitle = data.getProductTitle();
-
-                callback.updateProductInfo(productInfo, cartInfo,Constants.CART_HAS_ITEMS);
-            }
-
-            @Override
-            public void onResponseError(String error, int code) {
-                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
-                Toast.makeText(mContext, "Network Error", Toast.LENGTH_LONG).show();
-                callback.updateProductInfo(null,null,Constants.CART_HAS_ITEMS);
-            }
-        });
-
-    }
-
 
     /*
       * Parse current cart response
@@ -441,7 +229,7 @@ public class InAppPurchase {
                 Utility.dismissProgressDialog();
                 ((AsyncTaskCompleteListener) context).onTaskComplete();
                 if(isCartCountZero){
-                    Intent myIntent = new Intent(context, ShoppingCartView.class);
+                    Intent myIntent = new Intent(context, ShoppingCartActivity.class);
                     context.startActivity(myIntent);
                 }
             }
