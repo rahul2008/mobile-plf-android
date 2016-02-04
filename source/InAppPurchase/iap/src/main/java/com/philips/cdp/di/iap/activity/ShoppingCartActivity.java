@@ -135,7 +135,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements View.OnCl
                             Toast.makeText(ShoppingCartActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                             Utility.dismissProgressDialog();
                         }
-                    });
+                    }, null);
         } else {
             Utility.showNetworkError(this, true);
         }

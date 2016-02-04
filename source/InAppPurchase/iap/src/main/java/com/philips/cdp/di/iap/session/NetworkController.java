@@ -11,7 +11,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonObject;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.store.Store;
@@ -85,13 +84,13 @@ public class NetworkController {
         store.setAuthHandler(oAuthHandler);
     }
 
-    public void sendPRXRequest(int requestCode, final RequestListener requestListener) {
-        AbstractModel model = getModel(requestCode);
+    public void sendPRXRequest(int requestCode, final RequestListener requestListener, Bundle bundle) {
+        AbstractModel model = getModel(requestCode, bundle);
         prxVolleyQueue.add(createRequest(requestCode, model, requestListener));
     }
 
-    public void sendHybrisRequest(int requestCode, final RequestListener requestListener) {
-        AbstractModel model = getModel(requestCode);
+    public void sendHybrisRequest(int requestCode, final RequestListener requestListener, Bundle bundle) {
+        AbstractModel model = getModel(requestCode, bundle);
         hybirsVolleyQueue.add(createRequest(requestCode, model, requestListener));
     }
 
@@ -122,7 +121,7 @@ public class NetworkController {
         JSONObject jsonPayloadRequest = null;
 
         if (requestMethod == Request.Method.POST) {
-            jsonPayloadRequest = getJsonParams(model.requestBody());
+            jsonPayloadRequest = getJsonParams(model.requestBody(requestCode));
         }
 
         return new JsonObjectRequest(model.getMethod(requestCode), url,
@@ -137,12 +136,13 @@ public class NetworkController {
     }
 
     //Add model specific implementation
-    private AbstractModel getModel(final int requestCode) {
-        switch (requestCode) {
-            case RequestCode.GET_CART:
-                return new CartModel(store);
-            default:
-                return null;
+    private AbstractModel getModel(final int requestCode, Bundle bundle) {
+                switch (requestCode) {
+                    case RequestCode.GET_CART:
+                    case RequestCode.UPDATE_PRODUCT_COUNT:
+                        return new CartModel(store,null);
+                    default:
+                        return null;
         }
     }
 

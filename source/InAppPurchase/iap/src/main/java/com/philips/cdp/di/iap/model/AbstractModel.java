@@ -6,9 +6,11 @@ import com.philips.cdp.di.iap.store.Store;
 
 public abstract class AbstractModel {
     final protected Store store;
+    protected Bundle extras;
 
-    public AbstractModel(Store store) {
+    public AbstractModel(Store store, Bundle bundle) {
         this.store = store;
+        this.extras = bundle;
     }
 
     public abstract String getUrl(int requestCode);
@@ -17,7 +19,7 @@ public abstract class AbstractModel {
 
     public abstract int getMethod(int requestCode);
 
-    public abstract Bundle requestBody();
+    public abstract Bundle requestBody(int requestCode);
 
     public abstract String getTestUrl(int requestCode);
 }
