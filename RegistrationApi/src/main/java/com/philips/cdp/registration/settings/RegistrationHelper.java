@@ -212,7 +212,9 @@ public class RegistrationHelper {
             if("jr_capture_signed_in_user".equals(pFileName)){
                 byte[] sss = (byte[])plainTextString;
                 String s = new String(sss);
-                JSONObject jsonObject = new JSONObject(s);
+               if(s.contains("access")){
+                   isEncryptionDone = false;
+               }
 
             }else{
                 if(plainTextString instanceof String){
@@ -232,25 +234,28 @@ public class RegistrationHelper {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+        } /*catch (JSONException e) {
             isEncryptionDone = false;
             e.printStackTrace();
-        }
+        }*/
 
         return isEncryptionDone;
     }
 
     private void checkFileEncryptionStatus(){
         if(!isFileEncryptionDone("jr_capture_signed_in_user")){
+            System.out.println("***** no encrypted jr_capture_signed_in_user");
             SecureUtility.migrateUserData("jr_capture_signed_in_user");
         }
 
         if(!isFileEncryptionDone("hsdpRecord")){
+            System.out.println("***** no encrypted hsdpRecord");
             SecureUtility.migrateUserData("hsdpRecord");
 
         }
 
         if(!isFileEncryptionDone("diProfile")){
+            System.out.println("***** no encrypted hsdpRecord");
             SecureUtility.migrateUserData("diProfile");
         }
     }

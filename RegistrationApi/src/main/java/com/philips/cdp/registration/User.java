@@ -417,10 +417,12 @@ public class User {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 if (RegistrationHelper.getInstance().isHsdpFlow()) {
-                    refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+                   // refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+                    refreshHsdpAccessToken(context, refreshLoginSessionHandler);
                     return;
                 }
-                refreshHsdpAccessToken(context, refreshLoginSessionHandler);
+                refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+
             }
 
             @Override
