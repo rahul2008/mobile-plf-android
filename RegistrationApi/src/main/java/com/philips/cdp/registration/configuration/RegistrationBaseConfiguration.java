@@ -22,7 +22,6 @@ public class RegistrationBaseConfiguration {
         pilConfiguration = new PILConfiguration();
         signinProviders = new SigninProviders();
         flow = new Flow();
-
     }
 
 
@@ -31,39 +30,83 @@ public class RegistrationBaseConfiguration {
         return s.hasNext() ? s.next() : "";
     }
 
-
+    /**
+     * Get Janrain Configuration
+     *
+     * @return RegistrationDynamicConfiguration
+     */
     public JanRainConfiguration getJanRainConfiguration() {
         return janRainConfiguration;
     }
 
+    /**
+     * Set Janrain Configuration
+     *
+     * @param janRainConfiguration
+     */
     public void setJanRainConfiguration(JanRainConfiguration janRainConfiguration) {
         this.janRainConfiguration = janRainConfiguration;
     }
 
+    /**
+     * Get PIL Configuration
+     *
+     * @return PILConfiguration
+     */
     public PILConfiguration getPilConfiguration() {
         return pilConfiguration;
     }
 
+    /**
+     * Set PIL Configuration
+     *
+     * @param pilConfiguration
+     */
     public void setPilConfiguration(PILConfiguration pilConfiguration) {
         this.pilConfiguration = pilConfiguration;
     }
 
+    /**
+     * Get Sign in providers
+     *
+     * @return SigninProviders
+     */
     public SigninProviders getSignInProviders() {
         return signinProviders;
     }
 
+    /**
+     * Set Social providers
+     *
+     * @param socialProviders
+     */
     public void setSignInProviders(SigninProviders socialProviders) {
         this.signinProviders = socialProviders;
     }
 
+    /**
+     * Get Flow
+     *
+     * @return Flow
+     */
     public Flow getFlow() {
         return flow;
     }
 
+    /**
+     * Set Flow
+     *
+     * @param flow
+     */
     public void setFlow(Flow flow) {
         this.flow = flow;
     }
 
+    /**
+     * Get HSDP configuration
+     *
+     * @return HSDPConfiguration
+     */
     public HSDPConfiguration getHsdpConfiguration() {
         if (hsdpConfiguration == null) {
             hsdpConfiguration = new HSDPConfiguration();
@@ -72,7 +115,11 @@ public class RegistrationBaseConfiguration {
         return hsdpConfiguration;
     }
 
-
+    /**
+     * Set HSDP configuration
+     *
+     * @param hsdpConfiguration
+     */
     public void setHsdpConfiguration(HSDPConfiguration hsdpConfiguration) {
         this.hsdpConfiguration = hsdpConfiguration;
     }

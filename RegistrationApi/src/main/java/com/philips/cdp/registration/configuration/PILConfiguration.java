@@ -3,39 +3,56 @@ package com.philips.cdp.registration.configuration;
 
 public class PILConfiguration {
 
-	private String micrositeId;
+    private String micrositeId;
 
-	private String registrationEnvironment;
+    private String registrationEnvironment;
 
-	private String campaignID;
+    private String campaignID;
 
-	public String getMicrositeId() {
-		return micrositeId;
-	}
+    /**
+     * Get Microsite Id
+     *
+     * @return String
+     */
+    public String getMicrositeId() {
+        return micrositeId;
+    }
 
-	public void setMicrositeId(String micrositeId) {
-		this.micrositeId = micrositeId;
-	}
+    /**
+     * Set Microsite Id
+     *
+     * @param micrositeId String
+     */
+    public void setMicrositeId(String micrositeId) {
+        this.micrositeId = micrositeId;
+    }
 
-	public String getRegistrationEnvironment() {
-		return registrationEnvironment;
-	}
-
-	 void setRegistrationEnvironment(final String registrationEnvironment) {
-		this.registrationEnvironment = registrationEnvironment;
-	}
-
-	public void setRegistrationEnvironment(final Configuration registrationEnvironment) {
-		this.registrationEnvironment = registrationEnvironment.getValue();
-	}
+    /**
+     * Get Registarion Environment
+     *
+     * @return String
+     */
+    public String getRegistrationEnvironment() {
+        return registrationEnvironment;
+    }
 
 
-	public String getCampaignID() {
-		return campaignID;
-	}
+    /**
+     * Set Registration Environment
+     *
+     * @param registrationEnvironment
+     */
+    public void setRegistrationEnvironment(final Configuration registrationEnvironment) {
+        this.registrationEnvironment = registrationEnvironment.getValue();
+    }
 
-	public void setCampaignID(String campaignID) {
-		this.campaignID = campaignID;
-	}
+
+    public String getCampaignID() {
+        return campaignID;
+    }
+
+    public void setCampaignID(String campaignID) {
+        this.campaignID = campaignID;
+    }
 
 }
