@@ -40,6 +40,14 @@ public class PILConfiguration {
     /**
      * Set Registration Environment
      *
+     * @param registrationEnvironment String
+     */
+    public void setRegistrationEnvironment(final String registrationEnvironment) {
+        this.registrationEnvironment = registrationEnvironment;
+    }
+    /**
+     * Set Registration Environment
+     *
      * @param registrationEnvironment
      */
     public void setRegistrationEnvironment(final Configuration registrationEnvironment) {
