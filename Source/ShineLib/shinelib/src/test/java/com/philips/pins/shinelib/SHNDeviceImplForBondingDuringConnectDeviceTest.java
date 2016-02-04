@@ -505,7 +505,7 @@ public class SHNDeviceImplForBondingDuringConnectDeviceTest {
     }
 
     @Test
-    public void testForDefectDE9795() {
+    public void testDE9795_StopBondingTimerWhenDeviceDisconnectsDuringBonding() {
         connectTillGATTConnected();
         btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_DISCONNECTED);
         mockedInternalHandler.executeFirstScheduledExecution();
