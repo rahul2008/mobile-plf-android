@@ -115,7 +115,7 @@ task pmd(type: Pmd) {
     group 'verification'
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('Registry4ationApi/src/main/java/com')
+    source = fileTree('RegistrationApi/src/main/java/com')
 
 
     reports {

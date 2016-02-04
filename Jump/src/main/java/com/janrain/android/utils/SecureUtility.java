@@ -50,9 +50,6 @@ public class SecureUtility {
     private static byte[] SECRET_KEY;
 
     public static byte[] encrypt(String text) {
-        if(SECRET_KEY == null) {
-            storeSecretKey();
-        }
         try {
             Key key = (Key) new SecretKeySpec(SECRET_KEY, "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -104,8 +101,8 @@ public class SecureUtility {
             ois.close();
             mContext.deleteFile(pFileName);
 
-            //Generate New Key
-            refreshKey("feakl9joke4ngicfcrbag8hute");
+            //Generate New Key and Encrypt data
+            refreshSecretKey("feakl9joke4ngicfcrbag8hute");
             key = "feakl9joke4ngicfcrbag8hute".toCharArray();
             FileOutputStream fos = mContext.openFileOutput(pFileName,0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -200,11 +197,20 @@ public class SecureUtility {
 
 
 
-    public static void refreshKey(final String pKey){
-        oldKey = key;
+    private static void refreshSecretKey(final String pKey){
         key = pKey.toCharArray();
-        storeSecretKey();
+        try {
+            SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            KeySpec ks = new PBEKeySpec(key, Settings.Secure.ANDROID_ID.getBytes(), 1024, 128);
+            SecretKey s = f.generateSecret(ks);
+            SECRET_KEY = s.getEncoded();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
+
 
 
     public static String objectToString(Serializable obj) {
@@ -221,19 +227,6 @@ public class SecureUtility {
         return null;
     }
 
-    public static String objectToString(Object obj) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(
-                    new Base64OutputStream(baos, Base64.NO_PADDING
-                            | Base64.NO_WRAP));
-            oos.writeObject(obj);
-            oos.close();
-            return baos.toString("UTF-8");
-        } catch (IOException e) {
-        }
-        return null;
-    }
 
     public static Object stringToObject(String str) {
         try {
