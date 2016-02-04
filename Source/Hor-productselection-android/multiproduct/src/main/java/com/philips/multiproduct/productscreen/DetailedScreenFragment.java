@@ -7,12 +7,14 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.CustomFontTextView;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.productscreen.adapter.ProductAdapter;
+import com.philips.multiproduct.savedscreen.SavedScreenFragment;
 
 /**
  * This Fragments takes responsibility to show the complete detailed description of the
@@ -23,12 +25,13 @@ import com.philips.multiproduct.productscreen.adapter.ProductAdapter;
  * @author naveen@philips.com
  * @Date 28/01/2016
  */
-public class DetailedScreenFragment extends MultiProductBaseFragment {
+public class DetailedScreenFragment extends MultiProductBaseFragment implements View.OnClickListener {
 
 
     private ViewPager mViewpager;
     private CircleIndicator mIndicater;
     private CustomFontTextView mProductName = null;
+    private Button mSelectButton = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment {
         mViewpager = (ViewPager) view.findViewById(R.id.detailedscreen_pager);
         mIndicater = (CircleIndicator) view.findViewById(R.id.detailedscreen_indicator);
         mProductName = (CustomFontTextView) view.findViewById(R.id.detailed_screen_productname);
+        mSelectButton = (Button) view.findViewById(R.id.detailedscreen_select_button);
         return view;
     }
 
@@ -47,6 +51,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment {
         mViewpager.setAdapter(new ProductAdapter(getChildFragmentManager()));
         mIndicater.setViewPager(mViewpager);
         mProductName.setTypeface(Typeface.DEFAULT_BOLD);
+        mSelectButton.setOnClickListener(this);
 
     }
 
@@ -66,4 +71,9 @@ public class DetailedScreenFragment extends MultiProductBaseFragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.detailedscreen_select_button)
+            showFragment(new SavedScreenFragment());
+    }
 }
