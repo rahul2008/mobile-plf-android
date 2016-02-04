@@ -75,14 +75,6 @@ public class PuiCheckBox extends LinearLayout {
         });
     }
 
-    private void setChecked(final boolean isChecked) {
-        if (isChecked) {
-            checkBoxTick.setVisibility(VISIBLE);
-        } else {
-            checkBoxTick.setVisibility(GONE);
-        }
-    }
-
     private void changeBackGround(final Resources resources) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setStroke((int) resources.getDimension(R.dimen.uikit_controls_checkbox_stroke), UikitUtils.adjustAlpha(baseColor, 0.5f));
@@ -120,5 +112,17 @@ public class PuiCheckBox extends LinearLayout {
 
     public void setOnCheckedChangeListener(final OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    private void setChecked(final boolean isChecked) {
+        if (isChecked) {
+            checkBoxTick.setVisibility(VISIBLE);
+        } else {
+            checkBoxTick.setVisibility(GONE);
+        }
     }
 }
