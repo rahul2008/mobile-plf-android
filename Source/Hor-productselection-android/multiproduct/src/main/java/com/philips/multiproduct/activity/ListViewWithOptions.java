@@ -6,6 +6,7 @@
 package com.philips.multiproduct.activity;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.prx.ProductData;
 import com.philips.multiproduct.prx.VolleyWrapper;
+import com.philips.multiproduct.utils.MLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +75,13 @@ public class ListViewWithOptions extends BaseAdapter {
         TextView value = (TextView) vi.findViewById(R.id.text2value);
         TextView from = (TextView) vi.findViewById(R.id.from);
 
-        ImageRequest request = new ImageRequest(data.getImage(),
+        String imagepath = data.getImage();
+        int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
+        imagepath = imagepath + "?wid=" + imageWidth + "&;";
+
+        MLogger.v(TAG, "Image : " + imagepath);
+
+        ImageRequest request = new ImageRequest(imagepath,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
