@@ -93,7 +93,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
                             Toast.makeText(DemoAppActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                             Utility.dismissProgressDialog();
                         }
-                    });
+                    },null);
         } else {
             Utility.showNetworkError(this, true);
         }
