@@ -44,7 +44,7 @@ public class Timer {
         handler.removeCallbacks(runnable);
     }
 
-    public void setTimeoutInMS(long timeoutInMS) {
+    public void setTimeoutForSubsequentRestartsInMS(long timeoutInMS) {
         this.timeoutInMS = timeoutInMS;
     }
 }

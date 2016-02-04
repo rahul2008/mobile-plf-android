@@ -145,7 +145,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             shnCentral.registerBondStatusListenerForAddress(this, getAddress());
             if (withTimeout) {
                 if (timeoutInMS > 0) {
-                    connectTimer.setTimeoutInMS(timeoutInMS);
+                    connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
                 }
                 btGatt = btDevice.connectGatt(applicationContext, false, btGattCallback);
                 connectTimer.restart();
