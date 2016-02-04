@@ -9,6 +9,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+/**
+ * VolleyWrapper class holds the queue logic & canceling the request methods & LRU caching features
+ *
+ * @author naveen@philips.com
+ * @Date 04/02/2016
+ */
 public class VolleyWrapper {
     private static VolleyWrapper mInstance;
     private static Context mCtx;
@@ -49,6 +55,15 @@ public class VolleyWrapper {
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
+    }
+
+    public boolean cleanRequestQueue() {
+        if (mRequestQueue != null) {
+            getRequestQueue().stop();
+            mRequestQueue = null;
+            return true;
+        }
+        return false;
     }
 
     public <T> void addToRequestQueue(Request<T> req) {

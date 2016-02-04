@@ -18,8 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.prx.VolleyWrapper;
 import com.philips.multiproduct.prx.ProductData;
+import com.philips.multiproduct.prx.VolleyWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,8 @@ public class ListViewWithOptions extends BaseAdapter {
     private Activity mActivity = null;
 
     public ListViewWithOptions(Activity activity, List<ProductData> data) {
-        inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
+        if (activity != null)
+            inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
         this.mActivity = activity;
         mProductsList = data;
     }
