@@ -107,11 +107,11 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
                         mProductAdapter = new ListViewWithOptions(getActivity(), productList);
                         mProductListView.setAdapter(mProductAdapter);
-                        if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
-                            mSummaryDialog.dismiss();
-                            mSummaryDialog.cancel();
-
-                        }
+                        if (getActivity() != null)
+                            if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
+                                mSummaryDialog.dismiss();
+                                mSummaryDialog.cancel();
+                            }
                     }
                 }
             }, TAG);
