@@ -20,6 +20,22 @@
       "GB": 16,
       "default": 16
     }
-  }
+  },"SigninProviders": {
+  "NL": [
+    "googleplus",
+    "facebook",
+    "twitter"
+  ],
+  "US": [
+    "facebook",
+    "googleplus",
+    "twitter"
+  ],
+  "default": [
+    "facebook",
+    "googleplus",
+    "twitter"
+  ]
+}
 }
 
