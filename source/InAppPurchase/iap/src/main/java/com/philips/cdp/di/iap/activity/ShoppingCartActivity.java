@@ -1,4 +1,5 @@
 package com.philips.cdp.di.iap.activity;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -17,10 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.Response.Cart.Entries;
-import com.philips.cdp.di.iap.Response.Cart.GetCart.GetCartData;
 import com.philips.cdp.di.iap.data.ProductData;
 import com.philips.cdp.di.iap.data.ShoppingCartAdapter;
+import com.philips.cdp.di.iap.response.cart.Entries;
+import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;

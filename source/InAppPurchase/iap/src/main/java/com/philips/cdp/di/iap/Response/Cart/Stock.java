@@ -1,13 +1,10 @@
-package com.philips.cdp.di.iap.Response.Cart;
 /**
- * Created by 310228564 on 2/2/2016.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
+package com.philips.cdp.di.iap.response.cart;
 public class Stock {
     private int stockLevel;
-
-    public void setStockLevel(int stockLevel) {
-        this.stockLevel = stockLevel;
-    }
 
     public int getStockLevel() {
         return stockLevel;
