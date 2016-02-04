@@ -25,12 +25,18 @@ import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.utils.MLogger;
 
-
+/**
+ * MultiProductBaseActivity is the main container class which can contain Digital Care fragments.
+ *
+ * @author : Ritesh.jha@philips.com
+ *         naveen@philips.com
+ * @since : 20 Jan 2016
+ */
 public abstract class MultiProductBaseActivity extends UiKitActivity {
     private static String TAG = MultiProductBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private MultiProductConfigManager mMultiProductConfigManager = null;
-    protected static ThemeUtils themeUtils;
+    private static ThemeUtils themeUtils;
     private int noActionBarTheme = 0;
 
     @Override
@@ -40,7 +46,6 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         MLogger.i(TAG, "onCreate");
         MultiProductConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
-//        setTheme(R.style.multiprod_theme);
 
         if (themeUtils == null) {
             themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
@@ -48,6 +53,15 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         }
         setTheme(themeUtils.getTheme());
         initActionBar();
+    }
+
+    protected ThemeUtils getUiKitThemeUtil(){
+        if (themeUtils == null) {
+            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
+                    Context.MODE_PRIVATE));
+        }
+
+        return themeUtils;
     }
 
     private void initActionBar() {

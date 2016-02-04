@@ -18,6 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.philips.hor_productselection_android.view.SampleActivity"
+            android:configChanges="orientation|screenSize">
+        </activity>
+
     </application>
 
 </manifest>

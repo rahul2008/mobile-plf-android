@@ -53,14 +53,11 @@
                 android:textColor="?attr/baseColor"
                 android:textSize="@dimen/title_text_size_large" />
 
-            <ImageView
+            <com.shamanland.fonticon.FontIconTextView
                 android:id="@+id/welcome_screen_arrow"
+                style="@style/ui_kit_arrow_right"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="@dimen/activity_margin"
-                android:src="@drawable/find_prod_right_arrow" />
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 
