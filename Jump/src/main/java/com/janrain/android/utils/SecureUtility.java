@@ -94,7 +94,6 @@ public class SecureUtility {
             String plainText = new String(decryptBytes);
             if(stringToObject(new String(decryptBytes)) instanceof Serializable){
                 serializableObject = (Serializable) stringToObject(new String(decryptBytes));
-                System.out.println("********** serialized object " +serializableObject);
                 isSerialized = true;
             }
             fis.close();
@@ -102,8 +101,8 @@ public class SecureUtility {
             mContext.deleteFile(pFileName);
 
             //Generate New Key and Encrypt data
-            refreshSecretKey("feakl9joke4ngicfcrbag8hute");
-            key = "feakl9joke4ngicfcrbag8hute".toCharArray();
+            refreshSecretKey("feakl9joke4ngicfcrbag8hute"); //This new key is just a dummy key. This will be replaced with actual key and then data migration from old key to new will happen
+            key = "feakl9joke4ngicfcrbag8hute".toCharArray();// Since we don't have a way to store key in file, the new key will be saved as constant in this file and proguard obfuscated.
             FileOutputStream fos = mContext.openFileOutput(pFileName,0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             if(isSerialized) {
@@ -150,12 +149,10 @@ public class SecureUtility {
             if(object instanceof String) {
 
                 plainTextString = (String) object;
-                System.out.println("***************** before mogration" + stringToObject(plainTextString));
             }
 
             if(object instanceof byte[]){
                 plainBytes = (byte[])object;
-                System.out.println("***************** before mogration" + new String(plainBytes));
             }
 
 
@@ -288,6 +285,7 @@ public class SecureUtility {
 
     }
 
+    //To be discussed about below approach to stire key in a keystore file
     private static char[] getStoredKey(){
         InputStream readStream = null;
         Key key = null;
@@ -332,8 +330,8 @@ public class SecureUtility {
 
     private static void storeSecretKey() {
         final byte[] salt = Settings.Secure.ANDROID_ID.getBytes();
-        key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
-        oldKey = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
+        key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray(); // Since we don't have a way to store key in file unlike iOS who have keychain, the  key will be saved as constant in this file and proguard obfuscated.
+        oldKey = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();// Since we don't have a way to store key in file unlike iOS who have keychain, the  key will be saved as constant in this file and proguard obfuscated.
         try {
             SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             KeySpec ks = new PBEKeySpec(key, salt, 1024, 128);
