@@ -16,8 +16,8 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="5dp"
-        android:backgroundTint="?attr/baseColor"
-        android:src="@drawable/toothbrush" />
+        android:scaleType="fitXY"
+        android:backgroundTint="?attr/baseColor"/>
 
 
     <com.shamanland.fonticon.FontIconTextView
@@ -59,7 +59,7 @@
             android:layout_toEndOf="@+id/from"
             android:layout_toRightOf="@+id/from"
             android:includeFontPadding="false"
-            android:text="€ 209,99*"
+            android:text=""
             android:textColor="?attr/listtextselector"
             android:textSize="16sp" />
 
@@ -74,6 +74,7 @@
             android:layout_toRightOf="@+id/image"
             android:includeFontPadding="false"
             android:text="from"
+            android:visibility="gone"
             android:textColor="?attr/listtextselector"
             android:textSize="10sp" />
 
