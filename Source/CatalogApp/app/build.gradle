@@ -21,7 +21,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 20
-        versionName "1.0.20"
+        versionName "1.0.21"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 23
