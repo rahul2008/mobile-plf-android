@@ -1,3 +1,4 @@
+/*
 package com.philips.multiproduct;
 
 import android.content.Context;
@@ -7,11 +8,13 @@ import com.philips.multiproduct.prx.Callback;
 import com.philips.multiproduct.prx.ProductData;
 import com.philips.multiproduct.prx.PrxWrapper;
 
+*/
 /**
  * This is the Unittestig class to test the PRX relevant data.
  * <p/>
  * Created by 310190678 on 04-Feb-16.
- */
+ *//*
+
 public class PrxWrapperTest extends InstrumentationTestCase {
 
 
@@ -48,3 +51,4 @@ public class PrxWrapperTest extends InstrumentationTestCase {
         }, "tag");
     }
 }
+*/
