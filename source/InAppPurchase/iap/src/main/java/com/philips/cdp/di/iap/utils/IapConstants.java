@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.activity;
+package com.philips.cdp.di.iap.utils;
 
 public interface IapConstants {
     interface key {

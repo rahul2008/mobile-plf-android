@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.activity;
+package com.philips.cdp.di.iap.session;
 
 public final class NetworkConstants {
     public static String getCurrentCart = "https://tst.admin.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/inapp@2/carts/current";
