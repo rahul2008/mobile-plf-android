@@ -10,11 +10,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.philips.cdp.di.iap.activity.IapConstants;
-import com.philips.cdp.di.iap.activity.IapSharedPreference;
-import com.philips.cdp.di.iap.activity.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IapConstants;
+import com.philips.cdp.di.iap.utils.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
-import com.philips.cdp.di.iap.activity.Utility;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;

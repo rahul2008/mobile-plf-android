@@ -10,10 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.activity.IapConstants;
-import com.philips.cdp.di.iap.activity.IapSharedPreference;
+import com.philips.cdp.di.iap.utils.IapConstants;
+import com.philips.cdp.di.iap.utils.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
-import com.philips.cdp.di.iap.activity.Utility;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.data.ProductData;
 
 import java.util.ArrayList;

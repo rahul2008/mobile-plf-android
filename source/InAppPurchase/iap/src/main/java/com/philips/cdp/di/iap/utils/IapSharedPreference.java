@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.activity;
+package com.philips.cdp.di.iap.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
