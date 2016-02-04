@@ -62,7 +62,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
 
     @Override
     public String getActionbarTitle()  {
-        return getResources().getString(R.string.product);
+        return "Jamie Oliver Food Processor";
     }
 
     @Override
