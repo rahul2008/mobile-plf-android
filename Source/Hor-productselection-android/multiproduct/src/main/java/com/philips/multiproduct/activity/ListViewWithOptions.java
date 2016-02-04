@@ -65,7 +65,7 @@ public class ListViewWithOptions extends BaseAdapter {
 
 
         if (convertView == null)
-            vi = inflater.inflate(R.layout.uikit_listview_with_options_custom_layout, null);
+            vi = inflater.inflate(R.layout.uikit_listview_with_options_multiproduct, null);
 
         ProductData data = mProductsList.get(position);
         final ImageView image = (ImageView) vi.findViewById(R.id.image);
@@ -88,7 +88,7 @@ public class ListViewWithOptions extends BaseAdapter {
         VolleyWrapper.getInstance(mActivity).addToRequestQueue(request);
         name.setText(data.getProductName());
         value.setText(data.getProductVariant());
-        from.setText("from");
+       /* from.setText("from");*/
         vi.setTag(position);
         return vi;
     }
