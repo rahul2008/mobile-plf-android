@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
 
 //def libVersionNumber = new File('../../VERSION').text.trim()
 //libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
@@ -16,13 +18,14 @@ buildscript {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 2
         versionName "1.0.1"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
         release {
@@ -91,6 +94,40 @@ sourceSets {
 
             srcDirs '../../Source/Hor-productselection-android/app/src/main/res'
         }
+    }
+}
+
+
+task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/simulator/debug')
+    source = fileTree('src/main/java')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("findbugs-exclude.xml")
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd, dependsOn: assembleDebug) {
+
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('src/main/java')
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
     }
 }
 
