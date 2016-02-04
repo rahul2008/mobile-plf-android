@@ -241,16 +241,16 @@ public class RegistrationHelper {
     }
 
     private void checkFileEncryptionStatus(){
-        if(isFileEncryptionDone("jr_capture_signed_in_user")){
+        if(!isFileEncryptionDone("jr_capture_signed_in_user")){
             SecureUtility.migrateUserData("jr_capture_signed_in_user");
         }
 
-        if(isFileEncryptionDone("hsdpRecord")){
+        if(!isFileEncryptionDone("hsdpRecord")){
             SecureUtility.migrateUserData("hsdpRecord");
 
         }
 
-        if(isFileEncryptionDone("diProfile")){
+        if(!isFileEncryptionDone("diProfile")){
             SecureUtility.migrateUserData("diProfile");
         }
     }

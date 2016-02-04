@@ -76,7 +76,6 @@ public class SecureUtility {
         boolean isSerialized = false;
 
         final byte[] salt = Settings.Secure.ANDROID_ID.getBytes();
-        //key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
         oldKey = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
         try {
             SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -99,11 +98,7 @@ public class SecureUtility {
             if(stringToObject(new String(decryptBytes)) instanceof Serializable){
                 serializableObject = (Serializable) stringToObject(new String(decryptBytes));
                 System.out.println("********** serialized object " +serializableObject);
-                //  object = stringToObject(new String(decryptBytes));
                 isSerialized = true;
-            }else {
-                System.out.println("*************** plaintext" + plainText);
-                System.out.println("************ old key" + new String(SECRET_KEY));
             }
             fis.close();
             ois.close();
@@ -111,7 +106,7 @@ public class SecureUtility {
 
             //Generate New Key
             refreshKey("feakl9joke4ngicfcrbag8hute");
-            System.out.println("************ new key" + new String(SECRET_KEY));
+            key = "feakl9joke4ngicfcrbag8hute".toCharArray();
             FileOutputStream fos = mContext.openFileOutput(pFileName,0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             if(isSerialized) {
@@ -124,6 +119,7 @@ public class SecureUtility {
             }
             fos.close();
             oos.close();
+           oldKey =  "feakl9joke4ngicfcrbag8hute".toCharArray();
 
 
         } catch (FileNotFoundException e) {
@@ -147,58 +143,55 @@ public class SecureUtility {
     //meant to migrate unencrypted data to encrypted one
     public static void migrateUserData(final String pFileName){
 
-            try {
-                //Read from file
-                FileInputStream fis = mContext.openFileInput(pFileName);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                Object object = ois.readObject();
-                String plainTextString = null;
-                byte[] plainBytes = null;
-                if(object instanceof String) {
+        try {
+            //Read from file
+            FileInputStream fis = mContext.openFileInput(pFileName);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Object object = ois.readObject();
+            String plainTextString = null;
+            byte[] plainBytes = null;
+            if(object instanceof String) {
 
-                    plainTextString = (String) object;
-                    System.out.println("***************** before mogration" + stringToObject(plainTextString));
-                }
-
-                if(object instanceof byte[]){
-                    plainBytes = (byte[])object;
-                    System.out.println("***************** before mogration" + new String(plainBytes));
-                }
-
-                //String plainTextString = new String(plainTextBytes);
-
-                mContext.deleteFile(pFileName);
-                fis.close();
-                ois.close();
-
-                //Encrypt the contents of file
-                FileOutputStream fos = mContext.openFileOutput(pFileName, 0);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                byte[] ectext = null;
-                if(plainTextString != null) {
-                    ectext = SecureUtility.encrypt(plainTextString);
-                }
-                if(plainBytes != null){
-                    ectext = SecureUtility.encrypt(new String(plainBytes));
-                    System.out.println("***************** after migration" + new String(ectext));
-                    byte[] decr = SecureUtility.decrypt(ectext);
-                    System.out.println("***************** after migration decrypt" + (new String(decr)));
-                }
-
-                oos.writeObject(ectext);
-                oos.close();
-                fos.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (OptionalDataException e) {
-                e.printStackTrace();
-            } catch (StreamCorruptedException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                plainTextString = (String) object;
+                System.out.println("***************** before mogration" + stringToObject(plainTextString));
             }
+
+            if(object instanceof byte[]){
+                plainBytes = (byte[])object;
+                System.out.println("***************** before mogration" + new String(plainBytes));
+            }
+
+
+            mContext.deleteFile(pFileName);
+            fis.close();
+            ois.close();
+
+            //Encrypt the contents of file
+            FileOutputStream fos = mContext.openFileOutput(pFileName, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            byte[] ectext = null;
+            if(plainTextString != null) {
+                ectext = SecureUtility.encrypt(plainTextString);
+            }
+            if(plainBytes != null){
+                ectext = SecureUtility.encrypt(new String(plainBytes));
+                byte[] decr = SecureUtility.decrypt(ectext);
+            }
+
+            oos.writeObject(ectext);
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -311,10 +304,9 @@ public class SecureUtility {
             readStream = mContext.openFileInput("keys");
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
             ks.load(readStream, "jlapp7jokj4ngiafcrbna8nutu".toCharArray());
-             key = ks.getKey("keyAlias", "jlapp7jokj4ngiafcrbna8nutu".toCharArray());
+            key = ks.getKey("keyAlias", "jlapp7jokj4ngiafcrbna8nutu".toCharArray());
             if(key instanceof SecretKey){
                 keyString = new String(((SecretKey) key).getEncoded());
-                Log.i("AAAAA", "KeyStore " +keyString );
             }
             readStream.close();
         } catch (FileNotFoundException e) {
@@ -347,7 +339,7 @@ public class SecureUtility {
 
     private static void storeSecretKey() {
         final byte[] salt = Settings.Secure.ANDROID_ID.getBytes();
-         key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
+        key = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
         oldKey = "jlapp7jokj4ngiafcrbna8nutu".toCharArray();
         try {
             SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
