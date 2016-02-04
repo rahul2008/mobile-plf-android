@@ -76,7 +76,7 @@
 -keep public class com.philips.cdp.tagging.** {*;}
 
 #Janrain lib
--keepnames public class com.janrain.android.** {*;}
+-keep public class com.janrain.android.** {*;}
 
 #Locale match
 -keep public class com.philips.cdp.localematch.** {*;}
