@@ -20,21 +20,21 @@
         android:id="@+id/buttonFragment"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/buttonActivity"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/buttonActivity"
-        android:visibility="gone"
-        android:text="launch as Fragment" />
+        android:text="launch as Fragment"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/change_theme"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:onClick="changeBackground"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/buttonFragment"
-        android:text="Change theme"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:onClick="changeBackground"
+        android:text="Change theme" />
 
 
     <RelativeLayout
@@ -44,23 +44,34 @@
         android:layout_marginTop="10dp">
 
         <Button
+            android:id="@+id/add_product"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Add Product"
-            android:id="@+id/add_product"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:text="Add Product"
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:background="@color/button_material_light"
-            android:layout_below="@+id/add_product"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/add_product"
+            android:background="@color/button_material_light" />
 
+        <ImageButton
+            android:id="@+id/addimageButton"
+            android:layout_width="@dimen/savedscreen_top_container_height"
+            android:layout_height="@dimen/savedscreen_top_container_height"
+            android:layout_alignBottom="@+id/recycler_view"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/button_plus_red"
+            android:scaleType="fitXY" />
 
 
     </RelativeLayout>
