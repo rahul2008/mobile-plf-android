@@ -1,5 +1,6 @@
 package com.philips.multiproduct.activity;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     private String TAG = ProductListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
     private ListViewWithOptions mProductAdapter = null;
-
+    private ProgressDialog mSummaryDialog = null;
     private ArrayList<ProductData> productList = null;
 
 
@@ -58,6 +59,15 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     }
 
     private void getSummaryDataFromPRX() {
+
+        if (mSummaryDialog == null)
+            mSummaryDialog = new ProgressDialog(getActivity(), R.style.loaderTheme);
+        mSummaryDialog.setProgressStyle(android.R.style.Widget_Material_ProgressBar_Large);
+        mSummaryDialog.setIndeterminateDrawable(getResources().getDrawable(R.drawable.loader));
+        mSummaryDialog.setCancelable(true);
+        if (!(getActivity().isFinishing()))
+            mSummaryDialog.show();
+
         final int ctnSize = MultiProductConfigManager.getInstance().getMultiProductCtnList().size();
 
         productList = new ArrayList<ProductData>();
@@ -79,6 +89,12 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
                         mProductAdapter = new ListViewWithOptions(getActivity(), productList);
                         mProductListView.setAdapter(mProductAdapter);
+                        if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
+                            mSummaryDialog.dismiss();
+                            mSummaryDialog.cancel();
+
+                        }
+
                     }
                 }
 
@@ -90,6 +106,11 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
                         mProductAdapter = new ListViewWithOptions(getActivity(), productList);
                         mProductListView.setAdapter(mProductAdapter);
+                        if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
+                            mSummaryDialog.dismiss();
+                            mSummaryDialog.cancel();
+
+                        }
                     }
                 }
             }, TAG);
