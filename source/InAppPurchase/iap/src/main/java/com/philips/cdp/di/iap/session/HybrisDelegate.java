@@ -21,7 +21,7 @@ public class HybrisDelegate {
 
     public static HybrisDelegate getInstance(Context context) {
         if(delegate.controller == null) {
-            delegate.controller = new NetworkController(context);
+            delegate.controller = new NetworkController(context,oAuthHandler);
         }
         return delegate;
     }

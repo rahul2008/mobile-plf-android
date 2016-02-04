@@ -53,8 +53,9 @@ public class NetworkController {
     private static OAuthHandler oAuthHandler;
 
 
-    NetworkController(Context context) {
+    NetworkController(Context context, OAuthHandler ouAuthHandler) {
         this.context = context;
+        this.oAuthHandler = oAuthHandler;
         hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null,
                 buildSslSocketFactory(context)) {
             @Override
