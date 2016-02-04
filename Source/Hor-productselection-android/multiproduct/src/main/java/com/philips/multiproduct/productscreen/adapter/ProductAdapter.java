@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.philips.multiproduct.productscreen.DotNavigationTestFragment;
+import com.philips.multiproduct.productscreen.NavigationFragment;
 
 /**
  * This is the adapter class to keep all the image contents storing
@@ -15,7 +15,7 @@ import com.philips.multiproduct.productscreen.DotNavigationTestFragment;
 public class ProductAdapter extends FragmentPagerAdapter {
 
 
-    protected static final String[] CONTENT = new String[]{"one", "two", "three", "four",};
+    protected static final String[] CONTENT = new String[]{"one", "two", "three", "four", "five", "Six", "Seven"};
 
     private int mCount = CONTENT.length;
 
@@ -26,7 +26,7 @@ public class ProductAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return DotNavigationTestFragment.newInstance(CONTENT[position % CONTENT.length]);
+        return NavigationFragment.newInstance(CONTENT[position % CONTENT.length]);
     }
 
     @Override

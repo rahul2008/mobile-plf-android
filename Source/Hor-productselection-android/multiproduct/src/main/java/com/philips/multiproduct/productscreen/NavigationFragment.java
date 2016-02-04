@@ -12,12 +12,12 @@ import android.widget.LinearLayout.LayoutParams;
 
 import com.philips.multiproduct.R;
 
-public final class DotNavigationTestFragment extends Fragment {
-    private static final String KEY_CONTENT = "DotNavigationTestFragment:Content";
+public final class NavigationFragment extends Fragment {
+    private static final String KEY_CONTENT = "NavigationFragment:Content";
     private String message = "???";
 
-    public static DotNavigationTestFragment newInstance(String message) {
-        DotNavigationTestFragment fragment = new DotNavigationTestFragment();
+    public static NavigationFragment newInstance(String message) {
+        NavigationFragment fragment = new NavigationFragment();
         fragment.message = message;
         return fragment;
     }

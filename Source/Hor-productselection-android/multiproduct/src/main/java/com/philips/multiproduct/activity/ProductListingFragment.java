@@ -8,14 +8,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.productscreen.DetailedScreenFragment;
+import com.philips.multiproduct.prx.Callback;
 import com.philips.multiproduct.prx.ProductData;
-import com.philips.multiproduct.utils.Constants;
+import com.philips.multiproduct.prx.PrxWrapper;
+import com.philips.multiproduct.utils.MLogger;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * ProductListingFragment class is used to showcase all possible CTNs and its details.
@@ -28,15 +30,14 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     private String TAG = ProductListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
     private ListViewWithOptions mProductAdapter = null;
-    private List<ProductData> mProductList = null;
+
+    private ArrayList<ProductData> productList = null;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_listview, container, false);
-        Bundle bundle = getArguments();
-        mProductList = (ArrayList<ProductData>) bundle.getSerializable(Constants.PRODUCT_DATA_KEY);
         return view;
     }
 
@@ -44,16 +45,58 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mProductListView = (ListView) getActivity().findViewById(R.id.productListView);
-        mProductAdapter = new ListViewWithOptions(getActivity(), mProductList);
-        mProductListView.setAdapter(mProductAdapter);
 
+
+        getSummaryDataFromPRX();
         mProductListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                showFragment(new DetailedScreenFragment());
+                if (isConnectionAvailable())
+                    showFragment(new DetailedScreenFragment());
             }
         });
     }
+
+    private void getSummaryDataFromPRX() {
+        final int ctnSize = MultiProductConfigManager.getInstance().getMultiProductCtnList().size();
+
+        productList = new ArrayList<ProductData>();
+
+        for (int i = 0; i < ctnSize; i++) {
+            final String ctn = MultiProductConfigManager.getInstance().getMultiProductCtnList().get(i);
+            PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), MultiProductConfigManager.getInstance().getMultiProductCtnList().get(i),
+                    MultiProductConfigManager.getInstance().getSectorCode(),
+                    MultiProductConfigManager.getInstance().getLocale().toString(),
+                    MultiProductConfigManager.getInstance().getCatalogCode());
+
+            prxWrapperCode.requestPrxSummaryData(new Callback() {
+                @Override
+                public void onSuccess(ProductData productData) {
+
+                    productList.add(productData);
+
+                    if (ctn == MultiProductConfigManager.getInstance().getMultiProductCtnList().get(ctnSize - 1)) {
+
+                        mProductAdapter = new ListViewWithOptions(getActivity(), productList);
+                        mProductListView.setAdapter(mProductAdapter);
+                    }
+                }
+
+
+                @Override
+                public void onFail(String errorMessage) {
+                    MLogger.e(TAG, " Error : " + errorMessage);
+                    if (ctn == MultiProductConfigManager.getInstance().getMultiProductCtnList().get(ctnSize - 1)) {
+
+                        mProductAdapter = new ListViewWithOptions(getActivity(), productList);
+                        mProductListView.setAdapter(mProductAdapter);
+                    }
+                }
+            }, TAG);
+        }
+
+    }
+
 
     @Override
     public String getActionbarTitle() {

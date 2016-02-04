@@ -7,16 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
-import com.philips.multiproduct.prx.Callback;
-import com.philips.multiproduct.prx.ProductData;
-import com.philips.multiproduct.prx.PrxWrapper;
-import com.philips.multiproduct.utils.Constants;
-import com.philips.multiproduct.utils.MLogger;
-
-import java.util.ArrayList;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.
@@ -28,7 +20,6 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment implements V
 
     private String TAG = WelcomeScreenFragment.class.getSimpleName();
     private RelativeLayout mSelectProduct = null;
-    private ArrayList<ProductData> productList = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,53 +47,10 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment implements V
 
         if (v.getId() == R.id.welcome_screen_parent_two)
             if (isConnectionAvailable())
-                getSummaryDataFromPRX();
+                showFragment(new ProductListingFragment());
 
     }
 
-    private void getSummaryDataFromPRX() {
-        final int ctnSize = MultiProductConfigManager.getInstance().getMultiProductCtnList().size();
-        final int sizeToLaunch = ctnSize - 1;
-
-        productList = new ArrayList<ProductData>();
-
-        for (int i = 0; i < ctnSize; i++) {
-            final String ctn = MultiProductConfigManager.getInstance().getMultiProductCtnList().get(i);
-            PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), MultiProductConfigManager.getInstance().getMultiProductCtnList().get(i),
-                    MultiProductConfigManager.getInstance().getSectorCode(),
-                    MultiProductConfigManager.getInstance().getLocale().toString(),
-                    MultiProductConfigManager.getInstance().getCatalogCode());
-
-            prxWrapperCode.requestPrxSummaryData(new Callback() {
-                @Override
-                public void onSuccess(ProductData productData) {
-
-                    productList.add(productData);
-
-                    if (ctn == MultiProductConfigManager.getInstance().getMultiProductCtnList().get(ctnSize - 1))
-                        launchProductListScreen();
-
-                }
-
-
-                @Override
-                public void onFail(String errorMessage) {
-                    MLogger.e(TAG, " Error : " + errorMessage);
-                    if (ctn == MultiProductConfigManager.getInstance().getMultiProductCtnList().get(ctnSize - 1))
-                        launchProductListScreen();
-                }
-            }, TAG);
-        }
-
-    }
-
-    private void launchProductListScreen() {
-        ProductListingFragment productListingFragment = new ProductListingFragment();
-        Bundle prxProductData = new Bundle();
-        prxProductData.putSerializable(Constants.PRODUCT_DATA_KEY, productList);
-        productListingFragment.setArguments(prxProductData);
-        showFragment(productListingFragment);
-    }
 
     @Override
     public void setViewParams(Configuration config) {

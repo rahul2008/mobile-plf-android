@@ -18,9 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.prx.MySingleton;
+import com.philips.multiproduct.prx.VolleyWrapper;
 import com.philips.multiproduct.prx.ProductData;
-import com.philips.multiproduct.utils.MLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +37,15 @@ public class ListViewWithOptions extends BaseAdapter {
         inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
         this.mActivity = activity;
         mProductsList = data;
-        MLogger.v(TAG, "Product data loaded from CTN are : " + mProductsList.size());
     }
 
     @Override
     public int getCount() {
-        return mProductsList.size();
+
+        if (mProductsList.size() > 10)
+            return 10;
+        else
+            return mProductsList.size();
     }
 
     @Override
@@ -82,7 +84,7 @@ public class ListViewWithOptions extends BaseAdapter {
 
                     }
                 });
-        MySingleton.getInstance(mActivity).addToRequestQueue(request);
+        VolleyWrapper.getInstance(mActivity).addToRequestQueue(request);
         name.setText(data.getProductName());
         value.setText(data.getProductVariant());
         from.setText("from");

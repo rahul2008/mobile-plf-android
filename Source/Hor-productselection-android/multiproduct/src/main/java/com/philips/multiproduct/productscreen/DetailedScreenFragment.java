@@ -74,6 +74,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.detailedscreen_select_button)
-            showFragment(new SavedScreenFragment());
+            if (isConnectionAvailable())
+                showFragment(new SavedScreenFragment());
     }
 }
