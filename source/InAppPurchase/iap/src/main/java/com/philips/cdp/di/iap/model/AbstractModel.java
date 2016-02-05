@@ -6,9 +6,11 @@ import java.util.Map;
 
 public abstract class AbstractModel {
     final protected Store store;
+    protected Map<String,String> params;
 
-    public AbstractModel(Store store) {
+    public AbstractModel(Store store, Map<String,String> query) {
         this.store = store;
+        this.params = query;
     }
 
     public abstract String getUrl(int requestCode);
@@ -17,7 +19,7 @@ public abstract class AbstractModel {
 
     public abstract int getMethod(int requestCode);
 
-    public abstract Map<String, String> requestBody();
+    public abstract Map<String, String> requestBody(int requestCode);
 
     public abstract String getTestUrl(int requestCode);
 }

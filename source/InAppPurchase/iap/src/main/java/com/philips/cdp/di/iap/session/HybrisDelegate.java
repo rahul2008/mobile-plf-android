@@ -7,7 +7,9 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
-public class HybrisDelegate {
+import java.util.Map;
+
+public final class HybrisDelegate {
 
     private static HybrisDelegate delegate = new HybrisDelegate();
     private OAuthHandler oAuthHandler;
@@ -29,8 +31,9 @@ public class HybrisDelegate {
         return 0;
     }
 
-    public void sendRequest(int requestCode, final RequestListener requestListener) {
-        controller.sendHybrisRequest(requestCode, requestListener);
+    public void sendRequest(int requestCode, final RequestListener requestListener,
+                            Map<String,String> query) {
+        controller.sendHybrisRequest(requestCode, requestListener, query);
     }
 
     public void initStore(Context context, final String userName, final String janRainID) {

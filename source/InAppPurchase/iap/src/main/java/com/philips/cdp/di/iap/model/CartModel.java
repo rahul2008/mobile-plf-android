@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.model;
 
+
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
@@ -13,17 +14,22 @@ import java.util.Map;
 
 
 public class CartModel extends AbstractModel {
-    public CartModel(final Store store) {
-        super(store);
+    public final static String PRODUCT_CODE = "code";
+    public final static String PRODUCT_QUANTITY = "qty";
+
+    public CartModel(final Store store, Map<String,String> query) {
+        super(store,query);
     }
 
     @Override
     public String getUrl(int requestCode) {
         switch (requestCode) {
-            case RequestCode.GET_CART:
-                return NetworkConstants.getCurrentCartUrl;
             case RequestCode.ADD_TO_CART:
                 return NetworkConstants.addToCartUrl;
+
+            case RequestCode.UPDATE_PRODUCT_COUNT:
+                //TODO : Need to update real time url
+                return null;
         }
         return null;
     }
@@ -45,15 +51,36 @@ public class CartModel extends AbstractModel {
             case RequestCode.GET_CART:
                 return Request.Method.GET;
             case RequestCode.CREATE_CART:
-                return Request.Method.POST;
             case RequestCode.ADD_TO_CART:
                 return Request.Method.POST;
+            case RequestCode.UPDATE_PRODUCT_COUNT:
+                return Request.Method.PUT;
         }
         return 0;
     }
 
     @Override
-    public Map<String, String> requestBody() {
+    public Map<String, String> requestBody(int requestCode) {
+        //TODO: Move this with params validation
+        if(requestCode == RequestCode.ADD_TO_CART) {
+            return getAddToCartPayload();
+        }
+        if (this.params != null) {
+            if (requestCode == RequestCode.UPDATE_PRODUCT_COUNT) {
+                return getProductCountUpdatePayload();
+            }
+        }
+        return null;
+    }
+
+    private Map<String, String> getProductCountUpdatePayload() {
+        Map<String, String> params = new HashMap<String,String>();
+        params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
+        params.put(PRODUCT_QUANTITY, this.params.get(PRODUCT_CODE));
+        return params;
+    }
+
+    private Map<String, String> getAddToCartPayload() {
         Map<String, String> params = new HashMap<String, String>();
         params.put("code", "HX8331_11");
         return params;
@@ -66,6 +93,14 @@ public class CartModel extends AbstractModel {
                 return NetworkConstants.getCurrentCartUrl;
             case RequestCode.ADD_TO_CART:
                 return NetworkConstants.addToCartUrl;
+            case RequestCode.UPDATE_PRODUCT_COUNT:
+                if (params == null || !params.containsKey(PRODUCT_CODE) ||
+                        !params.containsKey(PRODUCT_QUANTITY)) {
+                    throw new RuntimeException("product code and quantity must be supplied");
+                }
+                String productCode = params.get(PRODUCT_CODE);
+                return String.format(NetworkConstants.updateProductCount, productCode);
         }
-        return null;}
+        return null;
+    }
 }

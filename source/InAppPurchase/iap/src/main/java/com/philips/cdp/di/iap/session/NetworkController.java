@@ -27,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -37,7 +38,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-public class NetworkController {
+public final class NetworkController {
     RequestQueue hybirsVolleyQueue;
     Context context;
     private Store store;
@@ -74,8 +75,11 @@ public class NetworkController {
         store.setAuthHandler(oAuthHandler);
     }
 
-    public void sendHybrisRequest(final int requestCode, final RequestListener requestListener) {
-        final AbstractModel model = getModel(requestCode);
+
+    public void sendHybrisRequest(final int requestCode, final RequestListener requestListener,
+                                  Map<String,String> query) {
+        final AbstractModel model = getModel(requestCode, query);
+
 
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
@@ -97,8 +101,8 @@ public class NetworkController {
             }
         };
 
-        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(requestCode), model.getTestUrl(requestCode),
-                model.requestBody(), response, error);
+        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(requestCode), getTargetUrl(model,requestCode),
+                model.requestBody(requestCode), response, error);
         hybirsVolleyQueue.add(jsObjRequest);
     }
 
@@ -118,14 +122,16 @@ public class NetworkController {
      * @param requestCode
      * @return
      */
-    private AbstractModel getModel(final int requestCode) {
+    private AbstractModel getModel(final int requestCode, Map<String,String> query) {
         switch (requestCode) {
             case RequestCode.GET_CART:
-                return new CartModel(store);
+                return new CartModel(store, query);
             case RequestCode.ADD_TO_CART:
-                return new CartModel(store);
-            default:
-                return null;
+                return new CartModel(store,query);
+            case RequestCode.UPDATE_PRODUCT_COUNT:
+				return new CartModel(store,query);
+                default:
+                        return null;
         }
     }
 

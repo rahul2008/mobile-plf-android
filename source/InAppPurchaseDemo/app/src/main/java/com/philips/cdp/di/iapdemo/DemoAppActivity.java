@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.data.ProductData;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
+import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.InAppPurchase;
@@ -21,6 +22,7 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DemoAppActivity extends Activity implements RequestListener {
 
@@ -71,7 +73,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
         if (Utility.isInternetConnected(this)) {
             Utility.showProgressDialog(this, "Loading Cart");
-            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART, this);
+            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,this, null);
         } else {
             Utility.showNetworkError(this, true);
         }
@@ -95,15 +97,16 @@ public class DemoAppActivity extends Activity implements RequestListener {
         switch (msg.what) {
             case RequestCode.GET_CART:
                 GetCartData getCartData = (GetCartData) msg.obj;
-                mCountText.setText(String.valueOf(getCartData.getEntries().get(0).getQuantity()));
+                List<Entries> entries = getCartData.getEntries();
+                if(entries!= null && entries.size() > 0) {
+                    mCountText.setText(String.valueOf(getCartData.getEntries().get(0).getQuantity()));
+                }
                 break;
             case RequestCode.ADD_TO_CART:
                 AddToCartData addToCartData = (AddToCartData) msg.obj;
                 mCountText.setText(String.valueOf(addToCartData.getEntry().getQuantity()));
                 break;
         }
-
-
     }
 
     @Override

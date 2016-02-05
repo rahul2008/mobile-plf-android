@@ -9,6 +9,17 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
 
+
+import com.philips.cdp.di.iap.utils.IapConstants;
+import com.philips.cdp.di.iap.utils.IapSharedPreference;
+import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
+import com.philips.cdp.di.iap.utils.Utility;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -100,7 +111,7 @@ public class InAppPurchase {
      * Get Query string i.e payload format
      *
      * @param valuePair payload value pair
-     * @return query string
+     * @return params string
      * @throws UnsupportedEncodingException
      */
     private static String getQuery(List<Pair<String, String>> valuePair) throws UnsupportedEncodingException {

@@ -67,7 +67,8 @@ public class ProductListAdapter extends BaseAdapter {
                 if (Utility.isInternetConnected(mContext)) {
 //                    ((DemoAppActivity) mContext).addToCart(false);
                     Utility.showProgressDialog(mContext, "Adding To Cart");
-                    HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.ADD_TO_CART, (RequestListener)mContext);
+                    HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.ADD_TO_CART,
+                            (RequestListener)mContext, null);
                 } else {
                     Utility.showNetworkError(((Activity) mContext), false);
                 }
