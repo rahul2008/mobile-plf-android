@@ -129,7 +129,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 holder.from.setText("Quantity: ");
                 holder.nameOption.setText(summary.getProductTitle());
                 holder.price.setText(summary.getCurrency() + " " + summary.getPrice());
-//                holder.valueOption.setText(summary.quantity);
+                holder.valueOption.setText(summary.getQuantity()+"");
 
                 ImageLoader mImageLoader;
                 // Instantiate the RequestQueue.
