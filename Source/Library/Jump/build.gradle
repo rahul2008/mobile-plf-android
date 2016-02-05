@@ -1,4 +1,30 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
+    }
+    dependencies {
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+    }
+}
+
+repositories {
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+}
+
+group = 'com.philips.cdp'
+version = "5.0.1"
 
 android {
     compileSdkVersion 23
@@ -19,7 +45,7 @@ android {
 }
 
 dependencies {
-    compile project(':localeMatch')
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.1', ext: 'aar')
     compile 'com.android.support:appcompat-v7:23+'
     compile project(':org.apache.http.legacy')
     compile project (':servertime')

@@ -1,5 +1,30 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
 
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
+    }
+    dependencies {
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing: true
+    }
+}
+
+repositories {
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+}
+
+group = 'com.philips.cdp'
+version = "1.0.2"
 
 android {
     compileSdkVersion 23
@@ -42,11 +67,10 @@ android {
 }
 
 
-
 dependencies {
-    compile project(':jackson-annotations-2.6.0')
-    compile project(':jackson-core-2.6.1')
-    compile project(':jackson-databind-2.6.1')
+    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.6.0')
+    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.6.1')
+    compile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.6.1')
     compile project (':servertime')
     androidTestCompile project(':dexmaker-mockito-1.4')
     androidTestCompile project(':dexmaker-1.4')
