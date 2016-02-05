@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'maven'
 
 buildscript {
     repositories {
@@ -18,6 +19,11 @@ buildscript {
     }
 }
 
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+
 repositories {
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
@@ -26,6 +32,26 @@ repositories {
 group = 'com.philips.cdp'
 version = "5.0.1"
 
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = true
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+}
+
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -33,7 +59,7 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 11
-        versionName "5.0.1"
+        versionName version
     }
 
     buildTypes {
