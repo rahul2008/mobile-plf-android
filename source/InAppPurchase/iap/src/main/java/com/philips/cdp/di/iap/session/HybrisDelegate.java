@@ -10,7 +10,7 @@ import android.content.Context;
 public class HybrisDelegate {
 
     private static HybrisDelegate delegate = new HybrisDelegate();
-    private static OAuthHandler oAuthHandler;
+    private OAuthHandler oAuthHandler;
 
     private NetworkController controller;
 
@@ -20,7 +20,7 @@ public class HybrisDelegate {
 
     public static HybrisDelegate getInstance(Context context) {
         if(delegate.controller == null) {
-            delegate.controller = new NetworkController(context);
+            delegate.controller = new NetworkController(context, delegate.oAuthHandler);
         }
         return delegate;
     }

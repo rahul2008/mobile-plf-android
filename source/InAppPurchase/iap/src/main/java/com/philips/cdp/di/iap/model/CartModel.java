@@ -1,13 +1,15 @@
 package com.philips.cdp.di.iap.model;
 
-import android.os.Bundle;
-
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class CartModel extends AbstractModel {
@@ -20,13 +22,21 @@ public class CartModel extends AbstractModel {
         switch (requestCode) {
             case RequestCode.GET_CART:
                 return NetworkConstants.getCurrentCartUrl;
+            case RequestCode.ADD_TO_CART:
+                return NetworkConstants.addToCartUrl;
         }
         return null;
     }
 
     @Override
     public Object parseResponse(int requestCode, Object response) {
-        return new Gson().fromJson(response.toString(), GetCartData.class);
+        switch (requestCode){
+            case RequestCode.GET_CART:
+                return new Gson().fromJson(response.toString(), GetCartData.class);
+            case RequestCode.ADD_TO_CART:
+                return new Gson().fromJson(response.toString(), AddToCartData.class);
+        }
+        return null;
     }
 
     @Override
@@ -43,8 +53,9 @@ public class CartModel extends AbstractModel {
     }
 
     @Override
-    public Bundle requestBody() {
-        Bundle params = null;
+    public Map<String, String> requestBody() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("code", "HX8331_11");
         return params;
     }
 
@@ -53,6 +64,8 @@ public class CartModel extends AbstractModel {
         switch (requestCode) {
             case RequestCode.GET_CART:
                 return NetworkConstants.getCurrentCartUrl;
+            case RequestCode.ADD_TO_CART:
+                return NetworkConstants.addToCartUrl;
         }
         return null;}
 }

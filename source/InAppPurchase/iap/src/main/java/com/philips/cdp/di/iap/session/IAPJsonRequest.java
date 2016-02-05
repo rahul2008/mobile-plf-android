@@ -1,0 +1,72 @@
+package com.philips.cdp.di.iap.session;
+import android.support.annotation.NonNull;
+
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+
+public class IAPJsonRequest extends Request<JSONObject> {
+
+    private Listener<JSONObject> mResponseListener;
+    private ErrorListener mErrorListener;
+    private Map<String, String> params;
+
+    public IAPJsonRequest(int method, String url, Map<String, String> params,
+                          Listener<JSONObject> responseListener, ErrorListener errorListener) {
+        super(method, url, errorListener);
+        this.mResponseListener = responseListener;
+        mErrorListener = errorListener;
+        this.params = params;
+    }
+
+    protected Map<String, String> getParams()
+            throws com.android.volley.AuthFailureError {
+        return params;
+    }
+
+    @Override
+    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+        if(response.statusCode == HttpsURLConnection.HTTP_OK){
+            return parseSuccessResponse(response);
+        }else{
+            return Response.error(new VolleyError(response));
+        }
+    }
+
+    @NonNull
+    private Response<JSONObject> parseSuccessResponse(NetworkResponse response) {
+        try {
+            String jsonString = new String(response.data,
+                    HttpHeaderParser.parseCharset(response.headers));
+            return Response.success(new JSONObject(jsonString),
+                    HttpHeaderParser.parseCacheHeaders(response));
+        } catch (UnsupportedEncodingException exception) {
+            return Response.error(new ParseError(exception));
+        } catch (JSONException jsonException) {
+            return Response.error(new ParseError(jsonException));
+        }
+    }
+
+    @Override
+    protected void deliverResponse(JSONObject response) {
+        mResponseListener.onResponse(response);
+    }
+
+    @Override
+    public void deliverError(VolleyError error) {
+        mErrorListener.onErrorResponse(error);
+    }
+}

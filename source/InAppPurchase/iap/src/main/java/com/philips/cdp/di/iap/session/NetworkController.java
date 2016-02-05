@@ -1,23 +1,18 @@
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Message;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonObject;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.DebugUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -32,8 +27,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.Iterator;
-import java.util.Set;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -47,15 +40,14 @@ import javax.net.ssl.X509TrustManager;
 public class NetworkController {
     RequestQueue hybirsVolleyQueue;
     Context context;
-    RequestQueue prxVolleyQueue;
     private Store store;
     String hostPort;
     String webRoot;
-    private static OAuthHandler oAuthHandler;
+    private OAuthHandler oAuthHandler;
 
-
-    NetworkController(Context context) {
+    NetworkController(Context context, OAuthHandler oAuthHandler) {
         this.context = context;
+        this.oAuthHandler = oAuthHandler;
         hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null,
                 buildSslSocketFactory(context)) {
             @Override
@@ -68,34 +60,22 @@ public class NetworkController {
                             return hostname.contains("philips.com");
                         }
                     });
-
-                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                     connection.setRequestProperty("Authorization", "Bearer " + store.getAuthToken());
                 }
                 return connection;
             }
         });
-        prxVolleyQueue = Volley.newRequestQueue(context);
     }
 
     //Package level access
 
     void initStore(Context context, String userName, String janRainID) {
-        store = new Store(context, hostPort,webRoot,userName,janRainID);
+        store = new Store(context, hostPort, webRoot, userName, janRainID);
         store.setAuthHandler(oAuthHandler);
     }
 
-    public void sendPRXRequest(int requestCode, final RequestListener requestListener) {
-        AbstractModel model = getModel(requestCode);
-        prxVolleyQueue.add(createRequest(requestCode, model, requestListener));
-    }
-
-    public void sendHybrisRequest(int requestCode, final RequestListener requestListener) {
-        AbstractModel model = getModel(requestCode);
-        hybirsVolleyQueue.add(createRequest(requestCode, model, requestListener));
-    }
-
-    private JsonObjectRequest createRequest(final int requestCode, final AbstractModel model, final RequestListener requestListener) {
+    public void sendHybrisRequest(final int requestCode, final RequestListener requestListener) {
+        final AbstractModel model = getModel(requestCode);
 
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
@@ -106,7 +86,7 @@ public class NetworkController {
             }
         };
 
-        Response.Listener response = new Response.Listener<JSONObject>(){
+        Response.Listener response = new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(final JSONObject response) {
@@ -117,18 +97,16 @@ public class NetworkController {
             }
         };
 
-        String url = getTargetUrl(model, requestCode);
-        int requestMethod = model.getMethod(requestCode);
-        JSONObject jsonPayloadRequest = null;
-
-        if (requestMethod == Request.Method.POST) {
-            jsonPayloadRequest = getJsonParams(model.requestBody());
-        }
-
-        return new JsonObjectRequest(model.getMethod(requestCode), url,
-                jsonPayloadRequest, response, error);
+        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(requestCode), model.getTestUrl(requestCode),
+                model.requestBody(), response, error);
+        hybirsVolleyQueue.add(jsObjRequest);
     }
 
+    /**
+     * @param model
+     * @param requestCode
+     * @return Url String
+     */
     private String getTargetUrl(AbstractModel model, int requestCode) {
         if (DebugUtils.TEST_MODE) {
             return model.getTestUrl(requestCode);
@@ -136,10 +114,15 @@ public class NetworkController {
         return model.getUrl(requestCode);
     }
 
-    //Add model specific implementation
+    /**
+     * @param requestCode
+     * @return
+     */
     private AbstractModel getModel(final int requestCode) {
         switch (requestCode) {
             case RequestCode.GET_CART:
+                return new CartModel(store);
+            case RequestCode.ADD_TO_CART:
                 return new CartModel(store);
             default:
                 return null;
@@ -187,37 +170,6 @@ public class NetworkController {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * Forms the json object with the payload passed
-     *
-     * @param mParams payload bundle
-     * @return JsonObject
-     */
-    private JSONObject getJsonParams(Bundle mParams) {
-        JSONObject params = null;
-
-        try {
-            if (mParams != null) {
-                Set<String> keys = mParams.keySet();
-
-                if (keys.size() > 0) {
-                    params = new JSONObject();
-
-                    for (Iterator<String> iterator = keys.iterator(); iterator.hasNext(); ) {
-                        String key = (String) iterator.next();
-                        String value = mParams.getString(key);
-                        params.put(key, value);
-                    }
-
-                    return params;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return params;
     }
 
     private static class TestTrustManager implements X509TrustManager {
