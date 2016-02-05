@@ -28,11 +28,15 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
     private TextView mCountText = null;
 
-    FrameLayout shoppingCart = null;
+    FrameLayout mShoppingCart = null;
 
     private ArrayList<ProductData> mProductArrayList = new ArrayList<>();
 
     String[] mCatalogNumbers = {"HX8331/11"};
+
+    int mCount = 0;
+
+    boolean mIsFromBuy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +45,9 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
         ListView mProductListView = (ListView) findViewById(R.id.product_list);
 
-        shoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
+        mShoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
 
-        shoppingCart.setOnClickListener(new View.OnClickListener() {
+        mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
@@ -83,7 +87,6 @@ public class DemoAppActivity extends Activity implements RequestListener {
      * Populate the product to the list with catalog numbers
      */
     private void populateProduct() {
-
         for (String mCatalogNumber : mCatalogNumbers) {
             ProductData product = new ProductData();
             product.setCtnNumber(mCatalogNumber);
@@ -95,16 +98,28 @@ public class DemoAppActivity extends Activity implements RequestListener {
     public void onSuccess(Message msg) {
         Utility.dismissProgressDialog();
         switch (msg.what) {
-            case RequestCode.GET_CART:
+            case RequestCode.GET_CART: {
                 GetCartData getCartData = (GetCartData) msg.obj;
-                List<Entries> entries = getCartData.getEntries();
-                if(entries!= null && entries.size() > 0) {
-                    mCountText.setText(String.valueOf(getCartData.getEntries().get(0).getQuantity()));
+                if (getCartData.getEntries() != null) {
+                    mCount = getCartData.getEntries().get(0).getQuantity();
+                } else {
+                    HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.CREATE_CART, this, null);
+                }
+                mCountText.setText(String.valueOf(mCount));
+                break;
+            }
+            case RequestCode.ADD_TO_CART: {
+                AddToCartData addToCartData = (AddToCartData) msg.obj;
+                mCount = addToCartData.getEntry().getQuantity();
+                mCountText.setText(String.valueOf(mCount));
+                if (getCount() == 1 && mIsFromBuy) {
+                    Intent shoppingCartIntent = new Intent(this, ShoppingCartActivity.class);
+                    startActivity(shoppingCartIntent);
                 }
                 break;
-            case RequestCode.ADD_TO_CART:
-                AddToCartData addToCartData = (AddToCartData) msg.obj;
-                mCountText.setText(String.valueOf(addToCartData.getEntry().getQuantity()));
+            }
+            case RequestCode.CREATE_CART:
+                mCountText.setText(String.valueOf(mCount));
                 break;
         }
     }
@@ -113,5 +128,24 @@ public class DemoAppActivity extends Activity implements RequestListener {
     public void onError(Message msg) {
         Utility.dismissProgressDialog();
         Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Returns the current cart mCount
+     *
+     * @return mCount as integer
+     */
+    int getCount() {
+        return mCount;
+    }
+
+    /**
+     * Add to cart
+     * @param isFromBuy
+     */
+    void addToCart(boolean isFromBuy) {
+        Utility.showProgressDialog(this, "Adding To Cart");
+        HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, null);
+        mIsFromBuy = isFromBuy;
     }
 }

@@ -4,6 +4,7 @@ package com.philips.cdp.di.iap.model;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
+import com.philips.cdp.di.iap.response.cart.CreateCartData;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -36,11 +37,13 @@ public class CartModel extends AbstractModel {
 
     @Override
     public Object parseResponse(int requestCode, Object response) {
-        switch (requestCode){
+        switch (requestCode) {
             case RequestCode.GET_CART:
                 return new Gson().fromJson(response.toString(), GetCartData.class);
             case RequestCode.ADD_TO_CART:
                 return new Gson().fromJson(response.toString(), AddToCartData.class);
+            case RequestCode.CREATE_CART:
+                return new Gson().fromJson(response.toString(), CreateCartData.class);
         }
         return null;
     }
@@ -100,6 +103,8 @@ public class CartModel extends AbstractModel {
                 }
                 String productCode = params.get(PRODUCT_CODE);
                 return String.format(NetworkConstants.updateProductCount, productCode);
+            case RequestCode.CREATE_CART:
+                return NetworkConstants.createCartUrl;
         }
         return null;
     }

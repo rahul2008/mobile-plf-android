@@ -127,11 +127,13 @@ public final class NetworkController {
             case RequestCode.GET_CART:
                 return new CartModel(store, query);
             case RequestCode.ADD_TO_CART:
-                return new CartModel(store,query);
+                return new CartModel(store, query);
             case RequestCode.UPDATE_PRODUCT_COUNT:
-				return new CartModel(store,query);
-                default:
-                        return null;
+				return new CartModel(store, query);
+            case RequestCode.CREATE_CART:
+                return new CartModel(store, query);
+            default:
+                return null;
         }
     }
 
