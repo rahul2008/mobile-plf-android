@@ -1,4 +1,4 @@
-package example.com.product_registration_lib;
+package com.philips.cdp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

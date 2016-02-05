@@ -15,7 +15,11 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+//            maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local/'
+//            }
     }
+
+
 }
 
 task clean(type: Delete) {
