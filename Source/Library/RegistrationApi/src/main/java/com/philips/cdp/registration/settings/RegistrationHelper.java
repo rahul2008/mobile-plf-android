@@ -19,11 +19,13 @@ import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
+import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
+import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -37,8 +39,10 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.util.Locale;
@@ -217,7 +221,9 @@ public class RegistrationHelper {
                }
 
             }else{
-                if(plainTextString instanceof String){
+                if(plainTextString instanceof HsdpUserRecord){
+                    isEncryptionDone = false;
+                }if(plainTextString instanceof DIUserProfile){
                     isEncryptionDone = false;
                 }
             }
@@ -242,6 +248,57 @@ public class RegistrationHelper {
         return isEncryptionDone;
     }
 
+    private  void migrateFileData(final String pFileName) {
+
+        try {
+            //Read from file
+            FileInputStream fis = mContext.openFileInput(pFileName);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Object object = ois.readObject();
+            String plainTextString = null;
+            HsdpUserRecord hsdpUserRecord = null;
+            DIUserProfile diUserProfile = null;
+            if (object instanceof HsdpUserRecord) {
+
+                hsdpUserRecord = (HsdpUserRecord) object;
+                plainTextString = SecureUtility.objectToString(hsdpUserRecord);
+            }
+            if (object instanceof DIUserProfile) {
+                diUserProfile = (DIUserProfile) object;
+                plainTextString = SecureUtility.objectToString(diUserProfile);
+            }
+
+
+            mContext.deleteFile(pFileName);
+            fis.close();
+            ois.close();
+
+            //Encrypt the contents of file
+            FileOutputStream fos = mContext.openFileOutput(pFileName, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            byte[] ectext = null;
+
+            if (plainTextString != null) {
+                ectext = SecureUtility.encrypt(plainTextString);
+            }
+
+
+            oos.writeObject(ectext);
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (OptionalDataException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void checkFileEncryptionStatus(){
         if(!isFileEncryptionDone("jr_capture_signed_in_user")){
             System.out.println("***** no encrypted jr_capture_signed_in_user");
@@ -250,13 +307,15 @@ public class RegistrationHelper {
 
         if(!isFileEncryptionDone("hsdpRecord")){
             System.out.println("***** no encrypted hsdpRecord");
-            SecureUtility.migrateUserData("hsdpRecord");
+            migrateFileData("hsdpRecord");
+            //SecureUtility.migrateUserData("hsdpRecord");
 
         }
 
         if(!isFileEncryptionDone("diProfile")){
             System.out.println("***** no encrypted hsdpRecord");
-            SecureUtility.migrateUserData("diProfile");
+            migrateFileData("diProfile");
+           // SecureUtility.migrateUserData("diProfile");
         }
     }
 

@@ -146,10 +146,10 @@ public class SecureUtility {
             Object object = ois.readObject();
             String plainTextString = null;
             byte[] plainBytes = null;
-            if(object instanceof String) {
+           /* if(object instanceof String) {
 
                 plainTextString = (String) object;
-            }
+            }*/
 
             if(object instanceof byte[]){
                 plainBytes = (byte[])object;
