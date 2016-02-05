@@ -35,7 +35,6 @@ apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-version = objcdp.getVersion()
 
 android {
     signingConfigs {
@@ -96,6 +95,28 @@ android {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
             versionName objcdp.getVersionWithHash()
+        }
+    }
+}
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = true
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
         }
     }
 }
