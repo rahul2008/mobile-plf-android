@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/input_field_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,16 +11,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginBottom="33dp"
             android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:text="Shipping Adress"
+            android:text="Shipping Address"
+            android:textColor="?attr/baseColor"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -213,39 +214,36 @@
                 android:layout_weight="0.5"
                 android:text="Billing address is the same" />
 
-            <ToggleButton
+            <com.philips.cdp.uikit.customviews.PuiSwitch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginRight="31dp"
+                android:layout_marginBottom="33dp"
+                android:layout_marginTop="11dp" />
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="12dp"
-        android:orientation="vertical">
-
         <Button
             android:id="@+id/continue_btn"
-            android:layout_width="fill_parent"
-            android:layout_height="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="Continue" />
 
 
         <Button
             android:id="@+id/cancel_btn"
-            android:layout_width="fill_parent"
-            android:layout_height="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            style="?attr/outlinedButtonStyle"
             android:layout_above="@id/continue_btn"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="Cancel" />
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>

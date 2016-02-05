@@ -12,9 +12,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.data.ProductData;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.RequestCode;
-import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -65,10 +62,7 @@ public class ProductListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (Utility.isInternetConnected(mContext)) {
-//                    ((DemoAppActivity) mContext).addToCart(false);
-                    Utility.showProgressDialog(mContext, "Adding To Cart");
-                    HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.ADD_TO_CART,
-                            (RequestListener)mContext, null);
+                    ((DemoAppActivity) mContext).addToCart(false);
                 } else {
                     Utility.showNetworkError(((Activity) mContext), false);
                 }
@@ -80,17 +74,12 @@ public class ProductListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (Utility.isInternetConnected(mContext)) {
-
-                    /*if (cartCount == 0) {
-                    }else {
+                    if (((DemoAppActivity) mContext).getCount() == 0) {
+                        ((DemoAppActivity) mContext).addToCart(true);
+                    } else {
                         Intent myIntent = new Intent(mContext, ShoppingCartActivity.class);
                         mContext.startActivity(myIntent);
-                    }*/
-//                    Utility.showProgressDialog(mContext, "Adding To Cart");
-//                    HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.ADD_TO_CART, (RequestListener) mContext);
-
-                    Intent myIntent = new Intent(mContext, ShoppingCartActivity.class);
-                    mContext.startActivity(myIntent);
+                    }
                 } else {
                     Utility.showNetworkError(((Activity) mContext), false);
                 }
