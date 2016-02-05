@@ -1,27 +1,32 @@
 package com.philips.cdp.di.iap.model;
 
-import android.os.Bundle;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class CartModel extends AbstractModel {
     public final static String PRODUCT_CODE = "code";
     public final static String PRODUCT_QUANTITY = "qty";
 
-    public CartModel(final Store store, Bundle bundle) {
-        super(store,bundle);
+    public CartModel(final Store store, Map<String,String> query) {
+        super(store,query);
     }
 
     @Override
     public String getUrl(int requestCode) {
         switch (requestCode) {
-            case RequestCode.GET_CART:
-                return NetworkConstants.getCurrentCartUrl;
+            case RequestCode.ADD_TO_CART:
+                return NetworkConstants.addToCartUrl;
+
             case RequestCode.UPDATE_PRODUCT_COUNT:
                 //TODO : Need to update real time url
                 return null;
@@ -31,7 +36,13 @@ public class CartModel extends AbstractModel {
 
     @Override
     public Object parseResponse(int requestCode, Object response) {
-        return new Gson().fromJson(response.toString(), GetCartData.class);
+        switch (requestCode){
+            case RequestCode.GET_CART:
+                return new Gson().fromJson(response.toString(), GetCartData.class);
+            case RequestCode.ADD_TO_CART:
+                return new Gson().fromJson(response.toString(), AddToCartData.class);
+        }
+        return null;
     }
 
     @Override
@@ -49,20 +60,29 @@ public class CartModel extends AbstractModel {
     }
 
     @Override
-    public Bundle requestBody(int requestCode) {
-        if (extras != null) {
+    public Map<String, String> requestBody(int requestCode) {
+        //TODO: Move this with params validation
+        if(requestCode == RequestCode.ADD_TO_CART) {
+            return getAddToCartPayload();
+        }
+        if (this.params != null) {
             if (requestCode == RequestCode.UPDATE_PRODUCT_COUNT) {
-                return getProductCountUpdateBody();
+                return getProductCountUpdatePayload();
             }
         }
-
         return null;
     }
 
-    private Bundle getProductCountUpdateBody() {
-        Bundle params = new Bundle();
-        params.putString(PRODUCT_CODE,extras.getString(PRODUCT_CODE));
-        params.putString(PRODUCT_QUANTITY,extras.getString(PRODUCT_CODE));
+    private Map<String, String> getProductCountUpdatePayload() {
+        Map<String, String> params = new HashMap<String,String>();
+        params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
+        params.put(PRODUCT_QUANTITY, this.params.get(PRODUCT_CODE));
+        return params;
+    }
+
+    private Map<String, String> getAddToCartPayload() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("code", "HX8331_11");
         return params;
     }
 
@@ -71,14 +91,14 @@ public class CartModel extends AbstractModel {
         switch (requestCode) {
             case RequestCode.GET_CART:
                 return NetworkConstants.getCurrentCartUrl;
+            case RequestCode.ADD_TO_CART:
+                return NetworkConstants.addToCartUrl;
             case RequestCode.UPDATE_PRODUCT_COUNT:
-                if (extras == null || !extras.containsKey("PRODUCT_CODE") ||
-                        !extras.containsKey("PRODUCT_QUANTITY")) {
+                if (params == null || !params.containsKey(PRODUCT_CODE) ||
+                        !params.containsKey(PRODUCT_QUANTITY)) {
                     throw new RuntimeException("product code and quantity must be supplied");
                 }
-                String productCode = extras.getString(PRODUCT_CODE);
-                int quantity = extras.getInt(PRODUCT_QUANTITY);
-
+                String productCode = params.get(PRODUCT_CODE);
                 return String.format(NetworkConstants.updateProductCount, productCode);
         }
         return null;

@@ -6,12 +6,13 @@
 package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
-import android.os.Bundle;
 
-public class HybrisDelegate {
+import java.util.Map;
+
+public final class HybrisDelegate {
 
     private static HybrisDelegate delegate = new HybrisDelegate();
-    private static OAuthHandler oAuthHandler;
+    private OAuthHandler oAuthHandler;
 
     private NetworkController controller;
 
@@ -21,7 +22,7 @@ public class HybrisDelegate {
 
     public static HybrisDelegate getInstance(Context context) {
         if(delegate.controller == null) {
-            delegate.controller = new NetworkController(context,oAuthHandler);
+            delegate.controller = new NetworkController(context, delegate.oAuthHandler);
         }
         return delegate;
     }
@@ -30,8 +31,9 @@ public class HybrisDelegate {
         return 0;
     }
 
-    public void sendRequest(int requestCode, final RequestListener requestListener, Bundle bundle) {
-        controller.sendHybrisRequest(requestCode, requestListener, bundle);
+    public void sendRequest(int requestCode, final RequestListener requestListener,
+                            Map<String,String> query) {
+        controller.sendHybrisRequest(requestCode, requestListener, query);
     }
 
     public void initStore(Context context, final String userName, final String janRainID) {

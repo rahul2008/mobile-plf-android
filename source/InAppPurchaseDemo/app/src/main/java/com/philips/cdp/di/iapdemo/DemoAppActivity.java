@@ -10,23 +10,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.utils.IapConstants;
-import com.philips.cdp.di.iap.utils.IapSharedPreference;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
-import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.data.ProductData;
+import com.philips.cdp.di.iap.response.cart.AddToCartData;
+import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
-import com.philips.cdp.di.iap.session.AsyncTaskCompleteListener;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.InAppPurchase;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DemoAppActivity extends Activity implements AsyncTaskCompleteListener {
-
-    private IapSharedPreference mIapSharedPreference = null;
+public class DemoAppActivity extends Activity implements RequestListener {
 
     private TextView mCountText = null;
 
@@ -40,8 +38,6 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
-
-        mIapSharedPreference = new IapSharedPreference(this);
 
         ListView mProductListView = (ListView) findViewById(R.id.product_list);
 
@@ -67,8 +63,7 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
-
-        InAppPurchase.initApp(this,"", "");
+        InAppPurchase.initApp(this, "", "");
 
     }
 
@@ -77,23 +72,8 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
         super.onResume();
 
         if (Utility.isInternetConnected(this)) {
-//            InAppPurchase.getCurrentCartHybrisServerRequest(this);
-
-            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,
-                    new RequestListener() {
-                        @Override
-                        public void onSuccess(Message msg) {
-                            GetCartData data = (GetCartData) msg.obj;
-                       //     Toast.makeText(DemoAppActivity.this, ""+data.getEntries().get(0).getQuantity(), Toast.LENGTH_SHORT).show();
-                           // mCountText.setText(data.getEntries().get(0).getQuantity());
-                        }
-
-                        @Override
-                        public void onError(Message msg) {
-                            Toast.makeText(DemoAppActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-                            Utility.dismissProgressDialog();
-                        }
-                    },null);
+            Utility.showProgressDialog(this, "Loading Cart");
+            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,this, null);
         } else {
             Utility.showNetworkError(this, true);
         }
@@ -111,15 +91,27 @@ public class DemoAppActivity extends Activity implements AsyncTaskCompleteListen
         }
     }
 
-    /**
-     * Add to the current cart
-     */
-    public void addToCart(boolean isCountZero) {
-        InAppPurchase.addToCartHybrisServerRequest(this, isCountZero);
+    @Override
+    public void onSuccess(Message msg) {
+        Utility.dismissProgressDialog();
+        switch (msg.what) {
+            case RequestCode.GET_CART:
+                GetCartData getCartData = (GetCartData) msg.obj;
+                List<Entries> entries = getCartData.getEntries();
+                if(entries!= null && entries.size() > 0) {
+                    mCountText.setText(String.valueOf(getCartData.getEntries().get(0).getQuantity()));
+                }
+                break;
+            case RequestCode.ADD_TO_CART:
+                AddToCartData addToCartData = (AddToCartData) msg.obj;
+                mCountText.setText(String.valueOf(addToCartData.getEntry().getQuantity()));
+                break;
+        }
     }
 
     @Override
-    public void onTaskComplete() {
-        mCountText.setText(mIapSharedPreference.getString(IapConstants.key.CART_COUNT));
+    public void onError(Message msg) {
+        Utility.dismissProgressDialog();
+        Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
     }
 }

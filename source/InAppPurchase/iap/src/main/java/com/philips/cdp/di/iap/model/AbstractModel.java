@@ -1,16 +1,16 @@
 package com.philips.cdp.di.iap.model;
 
-import android.os.Bundle;
-
 import com.philips.cdp.di.iap.store.Store;
+
+import java.util.Map;
 
 public abstract class AbstractModel {
     final protected Store store;
-    protected Bundle extras;
+    protected Map<String,String> params;
 
-    public AbstractModel(Store store, Bundle bundle) {
+    public AbstractModel(Store store, Map<String,String> query) {
         this.store = store;
-        this.extras = bundle;
+        this.params = query;
     }
 
     public abstract String getUrl(int requestCode);
@@ -19,7 +19,7 @@ public abstract class AbstractModel {
 
     public abstract int getMethod(int requestCode);
 
-    public abstract Bundle requestBody(int requestCode);
+    public abstract Map<String, String> requestBody(int requestCode);
 
     public abstract String getTestUrl(int requestCode);
 }
