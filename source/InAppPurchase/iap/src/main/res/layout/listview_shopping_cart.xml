@@ -81,7 +81,7 @@
         android:layout_toRightOf="@+id/from"
         android:layout_toEndOf="@+id/from"
         android:textColor="@color/colorDarkBlue"
-        />
+        android:drawablePadding="@dimen/iap_count_drop_down_padding"/>
 
     <TextView
         android:id="@+id/from"

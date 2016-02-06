@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,16 +23,18 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.di.iap.model.CartModel;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
-import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
+import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.uikit.utils.RowItem;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class ShoppingCartAdapter extends BaseAdapter {
     public Activity activity;
@@ -43,6 +46,8 @@ public class ShoppingCartAdapter extends BaseAdapter {
     private static final int TYPE_SHIPPING_DETAILS = 1;
     ProductData summary;
 
+    private final Drawable countArrow;
+
     enum Type {
         TOPLEFT, TOPRIGHT, LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
     }
@@ -50,6 +55,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
     public ShoppingCartAdapter(Activity activity) {
         this.activity = activity;
         mInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        countArrow = VectorDrawable.create(activity, R.drawable.iap_product_count_drop_down);
         addShippingItem();
     }
 
@@ -128,6 +134,8 @@ public class ShoppingCartAdapter extends BaseAdapter {
 
                 holder.from.setText("Quantity: ");
                 holder.nameOption.setText(summary.getProductTitle());
+                //Add arrow mark
+                holder.nameOption.setCompoundDrawables(null,null,countArrow,null);
                 holder.price.setText(summary.getCurrency() + " " + summary.getPrice());
                 holder.valueOption.setText(summary.getQuantity()+"");
 
@@ -141,32 +149,9 @@ public class ShoppingCartAdapter extends BaseAdapter {
                                 .ic_dialog_alert));
                 holder.image.setImageUrl(imageURL, mImageLoader);
                 Utility.dismissProgressDialog();
-                List<RowItem> rowItems1 = new ArrayList<RowItem>();
 
-                final String[] descriptions = new String[]{
-                        "Setting",
-                        "Share", "Mail",
-                        "Chat"};
-
-
-
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_gear_19_19) , descriptions[0]));
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_share), descriptions[1]));
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_envelope), descriptions[2]));
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_ballon), descriptions[3]));
-
-                final UIKitListPopupWindow listpopupwindowTopLeft =  new UIKitListPopupWindow(activity.getBaseContext(), holder.dots, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems1);;
-
-  /*              frameLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        Toast.makeText(activity,"Clicked",Toast.LENGTH_LONG).show();
-                        listpopupwindowTopLeft.show();
-                    }
-                });*/
-
-                //new DownloadAsyncTask().execute(holder);
-
+                //Bind count drop down with view
+                bindCountView(holder.valueOption, position);
                 break;
 
             case TYPE_SHIPPING_DETAILS:
@@ -288,5 +273,33 @@ public class ShoppingCartAdapter extends BaseAdapter {
             }
             Utility.dismissProgressDialog();
         }
+    }
+
+    private void bindCountView(final View view, final int position) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                ProductData data = mData.get(position);
+
+                CountDropDown countPopUp= new CountDropDown(v, data.getTotalItems(), data
+                        .getQuantity(), new CountDropDown.CountUpdateListener() {
+                            @Override
+                            public void countUpdate(final int oldCount, final int newCount) {
+                                updateProductCount(position,newCount);
+                            }
+                        });
+                countPopUp.show();
+            }
+        });
+    }
+
+    //Should be moved to container view
+    void updateProductCount(int position, int count) {
+        ProductData product = mData.get(position);
+        HashMap<String,String> params = new HashMap<String, String>();
+        params.put(CartModel.PRODUCT_CODE, product.getCtnNumber());
+        params.put(CartModel.PRODUCT_QUANTITY,String.valueOf(count));
+        HybrisDelegate.getInstance(activity.getApplicationContext())
+                .sendRequest(RequestCode.UPDATE_PRODUCT_COUNT,null,params);
     }
 }

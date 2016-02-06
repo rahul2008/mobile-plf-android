@@ -79,7 +79,7 @@ public class CartModel extends AbstractModel {
     private Map<String, String> getProductCountUpdatePayload() {
         Map<String, String> params = new HashMap<String,String>();
         params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
-        params.put(PRODUCT_QUANTITY, this.params.get(PRODUCT_CODE));
+        params.put(PRODUCT_QUANTITY, this.params.get(PRODUCT_QUANTITY));
         return params;
     }
 

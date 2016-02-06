@@ -1,0 +1,20 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:width="@dimen/iap_count_drop_down_width"
+        android:height="@dimen/iap_count_drop_down_height"
+        android:viewportWidth="10"
+        android:viewportHeight="5"
+        app:vc_viewportWidth="10"
+        app:vc_viewportHeight="5"
+    >
+    <group
+        android:name="picker">
+        <path
+            android:name="arrow"
+            android:fillColor="?attr/baseColor"
+            android:pathData="M-0.000,0.000 L10.000,0.000 L5.000,5.000 L-0.000,0.000 Z"
+
+            app:vc_fillColor="?attr/baseColor"
+            app:vc_pathData="M-0.000,0.000 L10.000,0.000 L5.000,5.000 L-0.000,0.000 Z"/>
+    </group>
+</vector>
