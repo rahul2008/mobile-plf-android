@@ -22,6 +22,8 @@ public enum Catalog {
 	
 	MOBILE,
 	
-	EXTENDEDCONSENT
+	EXTENDEDCONSENT,
+
+	COPPA
 	 
 }

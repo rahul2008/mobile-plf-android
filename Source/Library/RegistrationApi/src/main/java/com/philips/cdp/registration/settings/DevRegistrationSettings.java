@@ -26,7 +26,7 @@ public class DevRegistrationSettings extends RegistrationSettings {
 
     private String DEV_REGISTER_FORGOT_MAIL_URL = "https://www.qat1.consumer.philips.com/myphilips/resetPassword.jsp";
 
-    private static String DEV_PRX_RESEND_CONSENT_URL = "http://10.128.41.113:4503/registration/resendConsentMail";
+    private static String DEV_PRX_RESEND_CONSENT_URL = "https://dev.philips.com/prx/registration/resendConsentMail";
 
     private static String DEV_REGISTER_COPPA_ACTIVATION_URL = "http://10.128.41.111:4503/content/B2C/en_US/user-registration/coppa-consent.html";
 

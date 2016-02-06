@@ -34,9 +34,6 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.tagging.Tagging;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -333,9 +330,7 @@ public class RegistrationHelper {
 
 
         Locale mlocale = locale;
-        if (isCoppaFlow()) {
-            mlocale = new Locale("en", "US");
-        }
+
         setLocale(mlocale);
         mIsInitializationInProgress = false;
         mJanrainIntialized = false;

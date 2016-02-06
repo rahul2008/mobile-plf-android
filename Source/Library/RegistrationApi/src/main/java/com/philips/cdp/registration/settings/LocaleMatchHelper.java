@@ -15,72 +15,81 @@ import com.philips.cdp.registration.errormapping.CheckLocale;
 
 public class LocaleMatchHelper implements LocaleMatchListener {
 
-	private String mCountryCode;
+    private String mCountryCode;
 
-	private String mLanguageCode;
+    private String mLanguageCode;
 
-	private Context mContext = null;
+    private Context mContext = null;
 
-	private String LOG_TAG = "RegistrationAPI";
+    private String LOG_TAG = "RegistrationAPI";
 
-	RegistrationHelper mHelper = RegistrationHelper.getInstance();
+    RegistrationHelper mHelper = RegistrationHelper.getInstance();
 
-	public LocaleMatchHelper(Context mContext, String mLanguageCode, String mCountryCode) {
-		super();
-		this.mCountryCode = mCountryCode;
-		this.mLanguageCode = mLanguageCode;
-		this.mContext = mContext;
+    public LocaleMatchHelper(Context mContext, String mLanguageCode, String mCountryCode) {
+        super();
+        this.mCountryCode = mCountryCode;
+        this.mLanguageCode = mLanguageCode;
+        this.mContext = mContext;
 
-		refreshLocale();
-	}
+        refreshLocale();
+    }
 
-	private void refreshLocale() {
-		PILLocaleManager localeManager = new PILLocaleManager();
-		localeManager.init(mContext, this);
-		localeManager.refresh(mContext, mLanguageCode, mCountryCode);
-	}
+    private void refreshLocale() {
+        PILLocaleManager localeManager = new PILLocaleManager();
+        localeManager.init(mContext, this);
+        localeManager.refresh(mContext, mLanguageCode, mCountryCode);
+    }
 
-	@Override
-	public void onLocaleMatchRefreshed(String locale) {
+    @Override
+    public void onLocaleMatchRefreshed(String locale) {
 
-		PILLocaleManager manager = new PILLocaleManager();
-		PILLocale pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext,locale,
-		        Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
-
-		if (null != pilLocaleInstance) {
-			Log.i(LOG_TAG,
-			        "REGAPI, onLocaleMatchRefreshed from app RESULT = "
-			                + pilLocaleInstance.getCountrycode()
-			                + pilLocaleInstance.getLanguageCode()
-			                + pilLocaleInstance.getLocaleCode());
-
-			mHelper.getRegistrationSettings().initialiseConfigParameters(
-			        pilLocaleInstance.getLanguageCode().toLowerCase() + "-"
-			                + pilLocaleInstance.getCountrycode().toUpperCase());
-		} else {
-			Log.i(LOG_TAG, "REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-			String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
-			mHelper.getRegistrationSettings().initialiseConfigParameters(verifiedLocale);
-		}
-
-	}
-
-	@Override
-	public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
-		String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
-		mHelper.getRegistrationSettings().initialiseConfigParameters(verifiedLocale);
-	}
+        PILLocaleManager manager = new PILLocaleManager();
 
 
-	private String verifyInputLocale(String locale) {
-		CheckLocale checkLocale = new CheckLocale();
-		String localeCode = checkLocale.checkLanguage(locale);
+        PILLocale pilLocaleInstance;
+        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+            pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
+                    Platform.JANRAIN, Sector.B2C, Catalog.COPPA);
+        } else {
+            pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
+                    Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
+        }
 
-		if ("zh-TW".equals(localeCode)) {
-			localeCode = "zh-HK";
-		}
-		return localeCode;
-	}
+
+        if (null != pilLocaleInstance) {
+            Log.i(LOG_TAG,
+                    "REGAPI, onLocaleMatchRefreshed from app RESULT = "
+                            + pilLocaleInstance.getCountrycode()
+                            + pilLocaleInstance.getLanguageCode()
+                            + pilLocaleInstance.getLocaleCode());
+
+            mHelper.getRegistrationSettings().initialiseConfigParameters(
+                    pilLocaleInstance.getLanguageCode().toLowerCase() + "-"
+                            + pilLocaleInstance.getCountrycode().toUpperCase());
+        } else {
+            Log.i(LOG_TAG, "REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
+            String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
+            mHelper.getRegistrationSettings().initialiseConfigParameters(verifiedLocale);
+        }
+
+    }
+
+    @Override
+    public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
+        Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
+        String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
+        mHelper.getRegistrationSettings().initialiseConfigParameters(verifiedLocale);
+    }
+
+
+    private String verifyInputLocale(String locale) {
+        CheckLocale checkLocale = new CheckLocale();
+        String localeCode = checkLocale.checkLanguage(locale);
+
+        if ("zh-TW".equals(localeCode)) {
+            localeCode = "zh-HK";
+        }
+        return localeCode;
+    }
 
 }
