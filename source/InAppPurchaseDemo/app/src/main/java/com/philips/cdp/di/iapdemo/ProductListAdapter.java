@@ -11,17 +11,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
-import com.philips.cdp.di.iap.data.ProductData;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
 public class ProductListAdapter extends BaseAdapter {
-    ArrayList<ProductData> mProductList = new ArrayList<>();
+    ArrayList<ShoppingCartData> mProductList = new ArrayList<>();
     LayoutInflater inflater;
     Context mContext;
 
-    public ProductListAdapter(Context context, ArrayList<ProductData> productList) {
+    public ProductListAdapter(Context context, ArrayList<ShoppingCartData> productList) {
         this.mProductList = productList;
         this.mContext = context;
         inflater = LayoutInflater.from(this.mContext);
@@ -33,7 +33,7 @@ public class ProductListAdapter extends BaseAdapter {
     }
 
     @Override
-    public ProductData getItem(int position) {
+    public ShoppingCartData getItem(int position) {
         return mProductList.get(position);
     }
 
@@ -54,7 +54,7 @@ public class ProductListAdapter extends BaseAdapter {
             mViewHolder = (ProductViewHolder) convertView.getTag();
         }
 
-        final ProductData currentProduct = getItem(position);
+        final ShoppingCartData currentProduct = getItem(position);
 
         mViewHolder.name.setText(currentProduct.getCtnNumber());
 

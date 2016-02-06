@@ -1,12 +1,10 @@
-package com.philips.cdp.di.iap.data;
-
-import java.util.LinkedList;
+package com.philips.cdp.di.iap.ShoppingCart;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductData {
+public class ShoppingCartData {
 
     private String ctnNumber;
     private String productTitle;
@@ -15,6 +13,24 @@ public class ProductData {
     private int price;
     private String currency;
     private static int totalItems;
+    private static int entryNumber;
+    private static String CartNumber;
+
+    public static String getCartNumber() {
+        return CartNumber;
+    }
+
+    public static void setCartNumber(String cartNumber) {
+        CartNumber = cartNumber;
+    }
+
+    public static int getEntryNumber() {
+        return entryNumber;
+    }
+
+    public static void setEntryNumber(int entryNumber) {
+        ShoppingCartData.entryNumber = entryNumber;
+    }
 
     public String getCtnNumber() {
         return ctnNumber;
