@@ -6,10 +6,12 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
@@ -36,6 +38,7 @@ public class ShoppingCartPresenter {
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
+    private Resources mResources;
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
@@ -45,6 +48,7 @@ public class ShoppingCartPresenter {
         mContext = context;
         mProductData = new ArrayList<ShoppingCartData>();
         mLoadListener = listener;
+        mResources = mContext.getResources();
     }
 
     //TODO: fix with TAG
@@ -169,9 +173,8 @@ public class ShoppingCartPresenter {
     public void deleteProduct(final ShoppingCartData summary) {
         Utility.showProgressDialog(mContext, "Getting Cart Details");
         Map<String,String> query = new HashMap<>();
-        //TODO: Replace with String constants
-        query.put("code", summary.getCartNumber());
-        query.put("entrynumber", String.valueOf(summary.getEntryNumber()));
+        query.put(mResources.getString(R.string.iap_code), summary.getCartNumber());
+        query.put(mResources.getString(R.string.iap_entry_number), String.valueOf(summary.getEntryNumber()));
 
             HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_ENTRY,
                     new RequestListener() {

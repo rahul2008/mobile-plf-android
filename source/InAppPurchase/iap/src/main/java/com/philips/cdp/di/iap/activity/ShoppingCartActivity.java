@@ -59,10 +59,10 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
 
-            View mCustomView = LayoutInflater.from(this).inflate(R.layout.uikit_action_bar, null); // layout which contains your button.
+            View mCustomView = LayoutInflater.from(this).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
 
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-        mTitleTextView.setText(getString(R.string.shopping_cart));
+        mTitleTextView.setText(getString(R.string.iap_shopping_cart));
 
         FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +87,7 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
     @Override
     protected void onStart() {
         super.onStart();
-        Utility.showProgressDialog(this, getString(R.string.get_cart_details));
+        Utility.showProgressDialog(this, getString(R.string.iap_get_cart_details));
     }
 
     @Override
@@ -104,7 +104,6 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
         if(v == mCheckoutBtn){
             Intent lIntent = new Intent(ShoppingCartActivity.this, ShoppingCartActivity.class);
             this.startActivity(lIntent);
-            //startActivity(new Intent(ShoppingCartActivity.this, ShippingAddressActivity.class));
         }
     }
 }

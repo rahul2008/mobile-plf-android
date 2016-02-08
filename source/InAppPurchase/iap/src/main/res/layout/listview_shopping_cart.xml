@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="85dp"
+    android:paddingBottom="3dp"
     >
 
         <com.android.volley.toolbox.NetworkImageView
@@ -27,15 +28,14 @@
     android:layout_toEndOf="@+id/image"
     android:layout_centerVertical="true"
     android:gravity="center_vertical"
-    android:layout_marginTop="13dp"
-    android:paddingRight="20dp">
+    >
 
 <FrameLayout
     android:id="@+id/frame"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="85dp"
     android:layout_alignParentRight="true"
-    android:background="@color/uikit_philips_bright_orange">
+    >
 
     <ImageView
         android:id="@+id/dots"
@@ -45,6 +45,8 @@
         android:paddingLeft="13dp"
         android:paddingTop="3dp"
         android:layout_gravity="right"
+        android:paddingRight="20dp"
+        android:layout_marginTop="13dp"
         />
 </FrameLayout>
 
@@ -53,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="13dp"
         android:text="€ 209,99"
         fontPath="fonts/centralesansbook.ttf"
         android:textSize="16sp"
@@ -73,6 +75,7 @@
         android:layout_toLeftOf="@id/price"
         android:textSize="16sp"
         android:textColor="@color/colorDarkBlue"
+        android:layout_marginTop="13dp"
         />
 
     <TextView
