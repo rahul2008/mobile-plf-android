@@ -27,3 +27,11 @@ RegistrationApiTest/bin/
 Jump/gen/
 LocaleMatch/gen/
 RegistrationApi/gen/
+*.class
+Source/Library/RegistrationSampleApp/build/
+/Source/Library/build
+/Source/Library/.idea
+/Source/Library/RegistrationApi/build/
+Source/Library/LocaleMatch/build/
+Source/Library/hsdp/build/
+Source/Library/Jump/build/
