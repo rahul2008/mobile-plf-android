@@ -82,9 +82,8 @@ public class ShoppingCartPresenter {
                             List<Entries> list = data.getEntries();
                             for (int i = 0; i < list.size(); i++) {
                                 getProductDetails(item, list.get(i));
-                            item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
-                                    .getStockLevel());
-
+                                item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
+                                        .getStockLevel());
                             }
                         }
 
@@ -183,6 +182,7 @@ public class ShoppingCartPresenter {
                             removeItemFromList(summary);
                             Utility.dismissProgressDialog();
                             refreshList(mProductData);
+                            checkIfCartIsEmpty();
                         }
 
                         @Override
@@ -192,6 +192,12 @@ public class ShoppingCartPresenter {
                             Utility.dismissProgressDialog();
                         }
                     }, query);
+    }
+
+    private void checkIfCartIsEmpty() {
+        if(mProductData.size()<=3){
+            Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void removeItemFromList(ShoppingCartData pProductdata) {
