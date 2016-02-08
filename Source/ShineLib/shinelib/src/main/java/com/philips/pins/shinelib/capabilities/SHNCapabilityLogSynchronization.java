@@ -26,7 +26,10 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
 
         // Sunshine-specific options; these will be discarded in the Moonshine impl.
         ShouldClear,
-        ShouldReadHighResolutionData
+        ShouldReadHighResolutionData,
+
+        // Moonshine-specific option;
+        StoreToSynchronize
     }
 
     interface SHNCapabilityLogSynchronizationListener {
