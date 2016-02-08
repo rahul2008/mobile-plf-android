@@ -70,11 +70,10 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         return position;
     }
 
-    //TODO:
     @Override
     public int getItemViewType(int position) {
         ShoppingCartData summary = mData.get(position);
-        if(summary.getProductTitle().contains("*")){
+        if(summary.getCtnNumber()==null){
             return TYPE_SHIPPING_DETAILS;
         }else{
             return TYPE_ITEM;

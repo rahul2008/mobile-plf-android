@@ -50,14 +50,8 @@ public class ShoppingCartPresenter {
     //TODO: fix with TAG
     private void addShippingCostRowToTheList() {
         ShoppingCartData summary = new ShoppingCartData();
-        summary.setProductTitle("**shippingItem**");
-        summary.setCtnNumber(1 + "");
         mProductData.add(summary);
-
-        summary.setCtnNumber(2 + "");
         mProductData.add(summary);
-
-        summary.setCtnNumber(3 + "");
         mProductData.add(summary);
     }
 
