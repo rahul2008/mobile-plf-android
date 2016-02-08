@@ -6,84 +6,85 @@ package com.philips.cdp.di.iap.ShoppingCart;
  */
 public class ShoppingCartData {
 
-    private String ctnNumber;
-    private String productTitle;
-    private String imageURL;
-    private int quantity;
-    private int price;
-    private String currency;
-    private static int totalItems;
-    private static int entryNumber;
-    private static String CartNumber;
+    private String mCtnNumber;
+    private String mProductTitle;
+    private String mImageURL;
+    private int mQuantity;
+    private int mPrice;
+    private String mCurrency;
+    private int mTotalItems;
+    private int mEntryNumber;
+    private String mCartNumber;
 
-    public static String getCartNumber() {
-        return CartNumber;
+    public String getCartNumber() {
+        return mCartNumber;
     }
 
-    public static void setCartNumber(String cartNumber) {
-        CartNumber = cartNumber;
+    public void setCartNumber(String cartNumber) {
+        mCartNumber = cartNumber;
     }
 
-    public static int getEntryNumber() {
-        return entryNumber;
+    public int getEntryNumber() {
+        return mEntryNumber;
     }
 
-    public static void setEntryNumber(int entryNumber) {
-        ShoppingCartData.entryNumber = entryNumber;
+    public void setEntryNumber(int entryNumber) {
+        mEntryNumber = entryNumber;
     }
 
     public String getCtnNumber() {
-        return ctnNumber;
+        return mCtnNumber;
     }
+
     public void setCtnNumber(String ctnNumber) {
-        this.ctnNumber = ctnNumber;
+        mCtnNumber = ctnNumber;
     }
 
-    public void setProductTitle(String product_title){
-        productTitle = product_title;
+    public void setProductTitle(String productTitle) {
+        mProductTitle = productTitle;
     }
 
-    public String getProductTitle(){
-        return productTitle;
+    public String getProductTitle() {
+        return mProductTitle;
     }
 
-    public void setImageUrl(String url){
-        imageURL = url;
+    public void setImageUrl(String url) {
+        mImageURL = url;
     }
 
-    public String getImageURL(){
-        return imageURL;
+    public String getImageURL() {
+        return mImageURL;
     }
 
-    public void setQuantity(int quantity_of_items){
-        quantity = quantity_of_items;
+    public void setQuantity(int items) {
+        mQuantity = items;
     }
 
-    public int getQuantity(){
-        return quantity;
+    public int getQuantity() {
+        return mQuantity;
     }
 
-    public void setPrice(int totalprice){
-        price = totalprice;
+    public void setTotalPrice(int price) {
+        mPrice = price;
     }
 
-    public int getPrice(){
-        return price;
+    public int getTotalPrice() {
+        return mPrice;
     }
 
-    public void setCurrency(String currency1){
-        currency = currency1;
+    public void setCurrency(String currency) {
+        mCurrency = currency;
     }
 
-    public String getCurrency(){
-        return currency;
+    public String getCurrency() {
+        return mCurrency;
     }
 
-    public void setTotalItems(int totalItems1){
-        totalItems = totalItems1;
+    public void setTotalItems(int totalItems) {
+        mTotalItems = totalItems;
     }
 
-    public int getTotalItems(){
-        return totalItems;
+    public int getTotalItems() {
+        return mTotalItems;
     }
 }

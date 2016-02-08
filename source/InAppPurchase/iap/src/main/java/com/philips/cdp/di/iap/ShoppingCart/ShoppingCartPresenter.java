@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
@@ -25,22 +30,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public class ShoppingCartPresenter {
     private static final  String TAG = ShoppingCartPresenter.class.getName();
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
-    ShoppingCartActivity mActivity;
+    private LoadListener mLoadListener;
 
-    public ShoppingCartPresenter(ShoppingCartActivity activity){
-        mContext = activity.getApplicationContext();
-        mProductData = new ArrayList<ShoppingCartData>();
-        mActivity = activity;
+    public interface LoadListener {
+        void onLoadFinished(ArrayList<ShoppingCartData> data);
     }
 
+    public ShoppingCartPresenter(Context context, LoadListener listener){
+        mContext = context;
+        mProductData = new ArrayList<ShoppingCartData>();
+        mLoadListener = listener;
+    }
+
+    //TODO: fix with TAG
     private void addShippingCostRowToTheList() {
         ShoppingCartData summary = new ShoppingCartData();
         summary.setProductTitle("**shippingItem**");
@@ -69,7 +76,7 @@ public class ShoppingCartPresenter {
 
                             ShoppingCartData item = new ShoppingCartData();
                             item.setQuantity(data.getEntries().get(0).getQuantity());
-                            item.setPrice(data.getTotalPrice().getValue());
+                            item.setTotalPrice(data.getTotalPrice().getValue());
                             item.setCurrency(data.getTotalPrice().getCurrencyIso());
                             item.setTotalItems(data.getTotalItems());
                             item.setCartNumber(data.getCode());
@@ -89,6 +96,7 @@ public class ShoppingCartPresenter {
     }
 
     public void getProductDetails(final ShoppingCartData summary, final Entries entry){
+        //TODO: Should be coming from configuration xml
         if (Utility.isInternetConnected(mContext)) {
             final String code = entry.getProduct().getCode();
             String mCtn = code.replaceAll("_", "/");
@@ -148,20 +156,23 @@ public class ShoppingCartPresenter {
         if(!checkDuplicateValues(summary)) {
             mProductData.add(summary);
             addShippingCostRowToTheList();
-            mActivity.addToCart(mProductData);
+            refreshList(mProductData);
         }else{
             Utility.dismissProgressDialog();
         }
     }
 
-    public void refreshList(){
-        mActivity.mAdapter.notifyDataSetChanged();
+    public void refreshList(ArrayList<ShoppingCartData> data){
+        if(mLoadListener != null) {
+            mLoadListener.onLoadFinished(data);
+        }
     }
 
 
     public void deleteProduct(final ShoppingCartData summary) {
-        Utility.showProgressDialog(mActivity, "Getting Cart Details");
+        Utility.showProgressDialog(mContext, "Getting Cart Details");
         Map<String,String> query = new HashMap<>();
+        //TODO: Replace with String constants
         query.put("code", summary.getCartNumber());
         query.put("entrynumber", String.valueOf(summary.getEntryNumber()));
 
@@ -169,17 +180,15 @@ public class ShoppingCartPresenter {
                     new RequestListener() {
                         @Override
                         public void onSuccess(Message msg) {
-                            Toast.makeText(mContext, "Delete Request Success", Toast.LENGTH_SHORT).show();
                             removeItemFromList(summary);
-                            mActivity.mAdapter.dismissListPopUp();
                             Utility.dismissProgressDialog();
-                            refreshList();
+                            refreshList(mProductData);
                         }
 
                         @Override
                         public void onError(Message msg) {
                             Toast.makeText(mContext, "Delete Request Error" + msg.getData().toString(), Toast.LENGTH_SHORT).show();
-                            refreshList();
+                            refreshList(mProductData);
                             Utility.dismissProgressDialog();
                         }
                     }, query);

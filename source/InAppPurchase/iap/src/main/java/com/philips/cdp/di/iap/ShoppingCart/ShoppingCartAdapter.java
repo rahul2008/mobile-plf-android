@@ -5,9 +5,10 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
@@ -32,30 +32,27 @@ import com.philips.cdp.uikit.utils.RowItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCartAdapter extends BaseAdapter {
+public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPresenter.LoadListener{
     private static final int DELETE = 0;
     private static final int INFO = 1;
-    public ShoppingCartActivity activity;
-    Bundle saveBundle = new Bundle();
-   // private LayoutInflater inflater = null;
-    private ArrayList<ShoppingCartData> mData = new ArrayList<ShoppingCartData>();
-    private LayoutInflater mInflater;
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SHIPPING_DETAILS = 1;
-    UIKitListPopupWindow listpopupwindowTopLeft;
+
+    private Context mContext;
+    private Resources mResources;
+    // private LayoutInflater inflater = null;
+    private ArrayList<ShoppingCartData> mData = new ArrayList<ShoppingCartData>();
+    private LayoutInflater mInflater;
+    private ShoppingCartPresenter mPresenter;
     //ShoppingCartData summary;
 
-    public ShoppingCartAdapter(ShoppingCartActivity activity, ArrayList<ShoppingCartData> shoppingCartData) {
-        this.activity = activity;
-        mInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
+        mContext = context;
+        mResources = context.getResources();
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
+        mPresenter = new ShoppingCartPresenter(context, this);
     }
-
-    /*public void addItem(final ShoppingCartData item) {
-        mData.add(mData.size() - 3, item);
-         Log.i("SPOORTI", "mData = " + mData.toString());
-        notifyDataSetChanged();
-    }*/
 
     @Override
     public int getCount() {
@@ -64,7 +61,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(final int position) {
-        return position;
+        return mData.get(position);
     }
 
     @Override
@@ -72,6 +69,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
         return position;
     }
 
+    //TODO:
     @Override
     public int getItemViewType(int position) {
         ShoppingCartData summary = mData.get(position);
@@ -80,20 +78,19 @@ public class ShoppingCartAdapter extends BaseAdapter {
         }else{
             return TYPE_ITEM;
         }
-        //int i =  sectionHeader.contains(position) ? TYPE_SHIPPING_DETAILS : TYPE_ITEM;
-        //return i;
     }
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
 
+        //TODO: Fix the holder optimization
         ViewHolder holder = null;
-        final ShoppingCartData lShoppingCartData = mData.get(position);
+        final ShoppingCartData cartData = mData.get(position);
         int rowType = getItemViewType(position);
         holder = new ViewHolder();
         switch (rowType) {
             case TYPE_ITEM:
-                String imageURL = lShoppingCartData.getImageURL();
+                String imageURL = cartData.getImageURL();
 
                 try {
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
@@ -111,14 +108,15 @@ public class ShoppingCartAdapter extends BaseAdapter {
 
                 holder.imageUrl = imageURL;
 
-                holder.from.setText("Quantity: ");
-                holder.nameOption.setText(lShoppingCartData.getProductTitle());
-                holder.price.setText(lShoppingCartData.getCurrency() + " " + lShoppingCartData.getPrice());
-                holder.valueOption.setText(lShoppingCartData.getQuantity()+"");
+                holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
+                holder.nameOption.setText(cartData.getProductTitle());
+                holder.price.setText(cartData.getCurrency() + " " + cartData.getTotalPrice());
+                holder.valueOption.setText(cartData.getQuantity()+"");
 
+                //TODO: Fix it
                 ImageLoader mImageLoader;
                 // Instantiate the RequestQueue.
-                mImageLoader = NetworkImageLoader.getInstance(activity)
+                mImageLoader = NetworkImageLoader.getInstance(mContext)
                         .getImageLoader();
 
                 mImageLoader.get(imageURL, ImageLoader.getImageListener(holder.image,
@@ -126,41 +124,12 @@ public class ShoppingCartAdapter extends BaseAdapter {
                                 .ic_dialog_alert));
                 holder.image.setImageUrl(imageURL, mImageLoader);
                 Utility.dismissProgressDialog();
-                List<RowItem> rowItems1 = new ArrayList<RowItem>();
-
-                final String[] descriptions = new String[]{
-                        "Delete",
-                        "Info"};
-
-
-
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_gear_19_19) , descriptions[0]));
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_share), descriptions[1]));
-
-                listpopupwindowTopLeft =  new UIKitListPopupWindow(activity.getBaseContext(), holder.dots, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems1);;
-
-                frameLayout.setOnClickListener(new View.OnClickListener() {
+                holder.dots.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(final View v) {
-                        listpopupwindowTopLeft.show();
+                    public void onClick(final View view) {
+                        bindDeleteOrInfoPopUP(view);
                     }
                 });
-
-                listpopupwindowTopLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                     switch (position){
-                         case DELETE:
-                             activity.deleteEntryFromCart(lShoppingCartData);
-                             break;
-                         case INFO:
-                             Toast.makeText(activity.getApplicationContext(),"Details Screen Not Implemented",Toast.LENGTH_SHORT).show();
-                             break;
-                         default:
-                     }
-                    }
-                });
-
                 break;
 
             case TYPE_SHIPPING_DETAILS:
@@ -172,6 +141,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
                 holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
 
+                //TODO: Fix with getTag while setting
                 if(position == mData.size()-1){
                 //Last Row
                     ShoppingCartData data=null;
@@ -181,6 +151,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                         holder.name.setVisibility(View.VISIBLE);
                         holder.name.setText("VAT");
 
+                        //TODO: Fix count form server request
                         holder.number.setVisibility(View.VISIBLE);
                         holder.number.setText("0");
 
@@ -188,7 +159,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
                         holder.description.setText("Total (" + data.getTotalItems() + ")");
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
-                        holder.totoalcost.setText(data.getCurrency() + " " + data.getPrice());
+                        holder.totoalcost.setText(data.getCurrency() + " " + data.getTotalPrice());
                     }
                 }
                 if(position == mData.size()-2){
@@ -212,32 +183,45 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 break;
         }
         convertView.setTag(holder);
-
-        holder = (ViewHolder) convertView.getTag();
-
-
         return convertView;
     }
 
-    public Bundle getSavedBundle() {
-        return saveBundle;
+    private void bindDeleteOrInfoPopUP(final View view) {
+        List<RowItem> rowItems = new ArrayList<RowItem>();
+
+        String delete = mResources.getString(R.string.iap_delete);
+        String info = mResources.getString(R.string.iap_info);
+        final String[] descriptions = new String[]{delete,info};
+
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_gear_19_19), descriptions[0]));
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_share), descriptions[1]));
+        final UIKitListPopupWindow popUP =  new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+
+        popUP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                switch (position) {
+                    case DELETE:
+                        mPresenter.deleteProduct(mData.get(position));
+                        popUP.dismiss();
+                        break;
+                    case INFO:
+                        Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                }
+            }
+        });
+        popUP.show();
     }
 
-    public void setSavedBundle(Bundle bundle) {
-        saveBundle = bundle;
+    @Override
+    public void onLoadFinished(ArrayList<ShoppingCartData> data) {
+        mData = data;
+        notifyDataSetChanged();
     }
 
-    private void setSwitchState(CompoundButton toggleSwitch, String code) {
-        if (saveBundle.containsKey(code)) {
-            toggleSwitch.setChecked(saveBundle.getBoolean(code));
-        }
-    }
-
-    public void dismissListPopUp(){
-        listpopupwindowTopLeft.dismiss();
-    }
-
-    public static class ViewHolder {
+    private static class ViewHolder {
         TextView name;// = (TextView) vi.findViewById(R.id.ifo);
         TextView number;// = (TextView) vi.findViewById(R.id.numberwithouticon);
         TextView on_off;// = (TextView) vi.findViewById(R.id.medium);
@@ -254,5 +238,4 @@ public class ShoppingCartAdapter extends BaseAdapter {
         String imageUrl;
         Bitmap bitmap;
     }
-
 }

@@ -18,6 +18,7 @@ import java.util.Map;
  */
 public class EntryModel extends AbstractModel{
 
+    //TODO: Merge with CartModel
     public final static String PRODUCT_CODE = "code";
     public final static String ENTRY_CODE = "entrynumber";
 
@@ -30,12 +31,12 @@ public class EntryModel extends AbstractModel{
         switch (requestCode) {
             case RequestCode.DELETE_ENTRY:
                 if (params == null) {
-                    throw new RuntimeException("product code and quantity must be supplied");
+                    throw new RuntimeException("Cart ID and Entry Number has to be supplied");
                 }
                 String productCode = params.get(PRODUCT_CODE);
-                int entrynumber = Integer.parseInt(params.get(ENTRY_CODE));
+                int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
 
-                return String.format(NetworkConstants.deleteProductEntry, productCode,entrynumber);
+                return String.format(NetworkConstants.deleteProductEntry, productCode,entryNumber);
         }
         return null;
     }
@@ -69,11 +70,11 @@ public class EntryModel extends AbstractModel{
             switch (requestCode) {
                 case RequestCode.DELETE_ENTRY:
                     if (params == null) {
-                        throw new RuntimeException("product code and quantity must be supplied");
+                        throw new RuntimeException("Cart ID and Entry Number has to be supplied");
                     }
                     String productCode = params.get(PRODUCT_CODE);
-                    int entrynumber = Integer.parseInt(params.get(ENTRY_CODE));
-                    return String.format(NetworkConstants.deleteProductEntry, productCode,String.valueOf(entrynumber));
+                    int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
+                    return String.format(NetworkConstants.deleteProductEntry, productCode,String.valueOf(entryNumber));
             }
             return null;
         }

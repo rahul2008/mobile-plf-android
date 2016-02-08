@@ -32,7 +32,6 @@ public class ShoppingCartActivity extends AppCompatActivity implements View.OnCl
     public ShoppingCartAdapter mAdapter;
     public ListView mListView;
     Context mContext;
-    ShoppingCartPresenter mShoppingCartPresenter;
 
     private static final String TAG = ShoppingCartActivity.class.getName();
     private Button mCheckoutBtn = null;
@@ -44,6 +43,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements View.OnCl
         mContext = this;
 
         mCheckoutBtn = (Button)findViewById(R.id.checkout_btn);
+
 
         mCheckoutBtn.setOnClickListener(this);
         mListView = (ListView) findViewById(R.id.withouticon);
@@ -62,7 +62,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements View.OnCl
             View mCustomView = LayoutInflater.from(this).inflate(R.layout.uikit_action_bar, null); // layout which contains your button.
 
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-        mTitleTextView.setText("Shopping Cart");
+        mTitleTextView.setText(getString(R.string.shopping_cart));
 
         FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -81,14 +81,22 @@ public class ShoppingCartActivity extends AppCompatActivity implements View.OnCl
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
-        mShoppingCartPresenter = new ShoppingCartPresenter(this);
+        mAdapter = new ShoppingCartAdapter(this, new ArrayList<ShoppingCartData>());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Utility.showProgressDialog(this, "Getting Cart Details");
-        mShoppingCartPresenter.getCurrentCartDetails();
+        Utility.showProgressDialog(this, getString(R.string.get_cart_details));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ShoppingCartPresenter presenter = new ShoppingCartPresenter(this,mAdapter);
+        presenter.getCurrentCartDetails();
+        mListView.setAdapter(mAdapter);
     }
 
     @Override
@@ -99,16 +107,4 @@ public class ShoppingCartActivity extends AppCompatActivity implements View.OnCl
             //startActivity(new Intent(ShoppingCartActivity.this, ShippingAddressActivity.class));
         }
     }
-
-    public void addToCart(ArrayList<ShoppingCartData> pShoppingCartDatas) {
-        mAdapter = new ShoppingCartAdapter(this,pShoppingCartDatas);
-        mListView.setAdapter(mAdapter);
-        mShoppingCartPresenter.refreshList();
-        Utility.dismissProgressDialog();
-    }
-
-    public void deleteEntryFromCart(ShoppingCartData summary){
-        mShoppingCartPresenter.deleteProduct(summary);
-    }
-
 }
