@@ -2,22 +2,23 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.data;
+package com.philips.cdp.di.iap.ShoppingCart;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -28,46 +29,29 @@ import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCartAdapter extends BaseAdapter {
-    public Activity activity;
-    Bundle saveBundle = new Bundle();
-   // private LayoutInflater inflater = null;
-    private ArrayList<ProductData> mData = new ArrayList<ProductData>();
-    private LayoutInflater mInflater;
+public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPresenter.LoadListener{
+    private static final int DELETE = 0;
+    private static final int INFO = 1;
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SHIPPING_DETAILS = 1;
-    ProductData summary;
 
-    enum Type {
-        TOPLEFT, TOPRIGHT, LEFT, RIGHT, BOTTOMLEFT, BOTTOMRIGHT
-    }
+    private Context mContext;
+    private Resources mResources;
+    // private LayoutInflater inflater = null;
+    private ArrayList<ShoppingCartData> mData = new ArrayList<ShoppingCartData>();
+    private LayoutInflater mInflater;
+    private ShoppingCartPresenter mPresenter;
+    //ShoppingCartData summary;
 
-    public ShoppingCartAdapter(Activity activity) {
-        this.activity = activity;
-        mInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        addShippingItem();
-    }
-
-    public void addItem(final ProductData item) {
-        mData.add(mData.size() - 3, item);
-         Log.i("SPOORTI", "mData = " + mData.toString());
-        notifyDataSetChanged();
-    }
-
-
-    public void addShippingItem() {
-        ProductData summary = new ProductData();
-        summary.setProductTitle("**shippingItem**");
-        mData.add(summary);
-
-        mData.add(summary);
-        mData.add(summary);
-        notifyDataSetChanged();
+    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
+        mContext = context;
+        mResources = context.getResources();
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mData = shoppingCartData;
+        mPresenter = new ShoppingCartPresenter(context, this);
     }
 
     @Override
@@ -77,7 +61,7 @@ public class ShoppingCartAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(final int position) {
-        return position;
+        return mData.get(position);
     }
 
     @Override
@@ -85,28 +69,28 @@ public class ShoppingCartAdapter extends BaseAdapter {
         return position;
     }
 
+    //TODO:
     @Override
     public int getItemViewType(int position) {
-        ProductData summary = mData.get(position);
+        ShoppingCartData summary = mData.get(position);
         if(summary.getProductTitle().contains("*")){
             return TYPE_SHIPPING_DETAILS;
         }else{
             return TYPE_ITEM;
         }
-        //int i =  sectionHeader.contains(position) ? TYPE_SHIPPING_DETAILS : TYPE_ITEM;
-        //return i;
     }
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
 
+        //TODO: Fix the holder optimization
         ViewHolder holder = null;
+        final ShoppingCartData cartData = mData.get(position);
         int rowType = getItemViewType(position);
         holder = new ViewHolder();
         switch (rowType) {
             case TYPE_ITEM:
-                summary = mData.get(position);
-                String imageURL = summary.getImageURL();
+                String imageURL = cartData.getImageURL();
 
                 try {
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
@@ -114,26 +98,25 @@ public class ShoppingCartAdapter extends BaseAdapter {
                     e.printStackTrace();
                 }
 
-
-
                 holder.image = (NetworkImageView) convertView.findViewById(R.id.image);
                 holder.nameOption = (TextView) convertView.findViewById(R.id.text1Name);
                 holder.valueOption = (TextView) convertView.findViewById(R.id.text2value);
                 holder.from = (TextView) convertView.findViewById(R.id.from);
                 holder.price = (TextView)convertView.findViewById(R.id.price);
                 holder.dots = (ImageView) convertView.findViewById(R.id.dots);
-//                FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
+                FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
 
                 holder.imageUrl = imageURL;
 
-                holder.from.setText("Quantity: ");
-                holder.nameOption.setText(summary.getProductTitle());
-                holder.price.setText(summary.getCurrency() + " " + summary.getPrice());
-                holder.valueOption.setText(summary.getQuantity()+"");
+                holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
+                holder.nameOption.setText(cartData.getProductTitle());
+                holder.price.setText(cartData.getCurrency() + " " + cartData.getTotalPrice());
+                holder.valueOption.setText(cartData.getQuantity()+"");
 
+                //TODO: Fix it
                 ImageLoader mImageLoader;
                 // Instantiate the RequestQueue.
-                mImageLoader = NetworkImageLoader.getInstance(activity)
+                mImageLoader = NetworkImageLoader.getInstance(mContext)
                         .getImageLoader();
 
                 mImageLoader.get(imageURL, ImageLoader.getImageListener(holder.image,
@@ -141,32 +124,12 @@ public class ShoppingCartAdapter extends BaseAdapter {
                                 .ic_dialog_alert));
                 holder.image.setImageUrl(imageURL, mImageLoader);
                 Utility.dismissProgressDialog();
-                List<RowItem> rowItems1 = new ArrayList<RowItem>();
-
-                final String[] descriptions = new String[]{
-                        "Setting",
-                        "Share", "Mail",
-                        "Chat"};
-
-
-
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_gear_19_19) , descriptions[0]));
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_share), descriptions[1]));
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_envelope), descriptions[2]));
-                rowItems1.add(new RowItem(VectorDrawable.create(activity, R.drawable.uikit_ballon), descriptions[3]));
-
-                final UIKitListPopupWindow listpopupwindowTopLeft =  new UIKitListPopupWindow(activity.getBaseContext(), holder.dots, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems1);;
-
-  /*              frameLayout.setOnClickListener(new View.OnClickListener() {
+                holder.dots.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(final View v) {
-                        Toast.makeText(activity,"Clicked",Toast.LENGTH_LONG).show();
-                        listpopupwindowTopLeft.show();
+                    public void onClick(final View view) {
+                        bindDeleteOrInfoPopUP(view);
                     }
-                });*/
-
-                //new DownloadAsyncTask().execute(holder);
-
+                });
                 break;
 
             case TYPE_SHIPPING_DETAILS:
@@ -178,20 +141,26 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
                 holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
 
+                //TODO: Fix with getTag while setting
                 if(position == mData.size()-1){
                 //Last Row
-                    holder.name.setVisibility(View.VISIBLE);
-                    holder.name.setText("VAT");
+                    ShoppingCartData data=null;
+                    if(mData.get(0)!=null) {
+                        data = mData.get(0);
 
-                    holder.number.setVisibility(View.VISIBLE);
-                    holder.number.setText("0");
+                        holder.name.setVisibility(View.VISIBLE);
+                        holder.name.setText("VAT");
 
-                    holder.description.setVisibility(View.VISIBLE);
-                    holder.description.setText("Total (" + summary.getTotalItems() + ")");
+                        //TODO: Fix count form server request
+                        holder.number.setVisibility(View.VISIBLE);
+                        holder.number.setText("0");
 
-                    holder.totoalcost.setVisibility(View.VISIBLE);
-                    holder.totoalcost.setText(summary.getCurrency() + " " + summary.getPrice());
+                        holder.description.setVisibility(View.VISIBLE);
+                        holder.description.setText("Total (" + data.getTotalItems() + ")");
 
+                        holder.totoalcost.setVisibility(View.VISIBLE);
+                        holder.totoalcost.setText(data.getCurrency() + " " + data.getTotalPrice());
+                    }
                 }
                 if(position == mData.size()-2){
                 //2nd Last Row
@@ -214,28 +183,45 @@ public class ShoppingCartAdapter extends BaseAdapter {
                 break;
         }
         convertView.setTag(holder);
-
-        holder = (ViewHolder) convertView.getTag();
-
-
         return convertView;
     }
 
-    public Bundle getSavedBundle() {
-        return saveBundle;
+    private void bindDeleteOrInfoPopUP(final View view) {
+        List<RowItem> rowItems = new ArrayList<RowItem>();
+
+        String delete = mResources.getString(R.string.iap_delete);
+        String info = mResources.getString(R.string.iap_info);
+        final String[] descriptions = new String[]{delete,info};
+
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_gear_19_19), descriptions[0]));
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_share), descriptions[1]));
+        final UIKitListPopupWindow popUP =  new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+
+        popUP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                switch (position) {
+                    case DELETE:
+                        mPresenter.deleteProduct(mData.get(position));
+                        popUP.dismiss();
+                        break;
+                    case INFO:
+                        Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                }
+            }
+        });
+        popUP.show();
     }
 
-    public void setSavedBundle(Bundle bundle) {
-        saveBundle = bundle;
+    @Override
+    public void onLoadFinished(ArrayList<ShoppingCartData> data) {
+        mData = data;
+        notifyDataSetChanged();
     }
 
-    private void setSwitchState(CompoundButton toggleSwitch, String code) {
-        if (saveBundle.containsKey(code)) {
-            toggleSwitch.setChecked(saveBundle.getBoolean(code));
-        }
-    }
-
-    public static class ViewHolder {
+    private static class ViewHolder {
         TextView name;// = (TextView) vi.findViewById(R.id.ifo);
         TextView number;// = (TextView) vi.findViewById(R.id.numberwithouticon);
         TextView on_off;// = (TextView) vi.findViewById(R.id.medium);
@@ -251,42 +237,5 @@ public class ShoppingCartAdapter extends BaseAdapter {
         TextView price;
         String imageUrl;
         Bitmap bitmap;
-    }
-
-    private class DownloadAsyncTask extends AsyncTask<ViewHolder, Void, ViewHolder> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-           // Utility.showProgressDialog(activity, "getting Cart Info");
-        }
-
-        @Override
-        protected ViewHolder doInBackground(ViewHolder... params) {
-            //load image directly
-            ViewHolder viewHolder = params[0];
-
-            try {
-                URL imageURL = new URL(viewHolder.imageUrl);
-                viewHolder.bitmap = BitmapFactory.decodeStream(imageURL.openStream());
-            } catch (IOException e) {
-                // TODO: handle exception
-                Log.e("error", "Downloading Image Failed");
-                viewHolder.bitmap = null;
-            }
-
-            return viewHolder;
-        }
-
-        @Override
-        protected void onPostExecute(ViewHolder result) {
-            // TODO Auto-generated method stub
-            if (result.bitmap == null) {
-                result.image.setImageResource(R.drawable.toothbrush);
-            } else {
-                result.image.setImageBitmap(result.bitmap);
-            }
-            Utility.dismissProgressDialog();
-        }
     }
 }

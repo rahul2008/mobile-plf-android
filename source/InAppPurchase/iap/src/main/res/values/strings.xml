@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">InAppPurchase</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="get_cart_details">Getting Cart Details</string>
+    <string name="iap_product_item_quantity">Quantity: </string>
+    <string name="iap_delete">Delete</string>
+    <string name="iap_info">Info</string>
+    <string name="iap_product_vat">VAT</string>
 </resources>

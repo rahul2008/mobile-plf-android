@@ -11,9 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
-import com.philips.cdp.di.iap.data.ProductData;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
-import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.InAppPurchase;
@@ -22,7 +21,6 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DemoAppActivity extends Activity implements RequestListener {
 
@@ -30,7 +28,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
     FrameLayout mShoppingCart = null;
 
-    private ArrayList<ProductData> mProductArrayList = new ArrayList<>();
+    private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
 
     String[] mCatalogNumbers = {"HX8331/11"};
 
@@ -88,7 +86,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
      */
     private void populateProduct() {
         for (String mCatalogNumber : mCatalogNumbers) {
-            ProductData product = new ProductData();
+            ShoppingCartData product = new ShoppingCartData();
             product.setCtnNumber(mCatalogNumber);
             mProductArrayList.add(product);
         }
