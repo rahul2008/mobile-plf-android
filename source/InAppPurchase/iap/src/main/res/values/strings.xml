@@ -10,4 +10,5 @@
     <string name="iap_entry_number">entrynumber</string>
     <string name="iap_continue_shopping">Continue shopping</string>
     <string name="iap_checkout">Checkout</string>
+    <string name="iap_empty_cart">Your Shopping Cart is Currently Empty</string>
 </resources>

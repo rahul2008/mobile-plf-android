@@ -6,12 +6,14 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
@@ -67,7 +69,8 @@ public class ShoppingCartPresenter {
                             GetCartData data = (GetCartData) msg.obj;
 
                             if (data.getEntries() == null) {
-                                Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(mContext, EmptyCartActivity.class);
+                                mContext.startActivity(intent);
                                 Utility.dismissProgressDialog();
                                 return;
                             }
@@ -196,7 +199,8 @@ public class ShoppingCartPresenter {
 
     private void checkIfCartIsEmpty() {
         if(mProductData.size()<=3){
-            Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(mContext, EmptyCartActivity.class);
+            mContext.startActivity(intent);
         }
     }
 
@@ -221,7 +225,8 @@ public class ShoppingCartPresenter {
                         GetCartData data = (GetCartData) msg.obj;
 
                         if (data.getEntries() == null) {
-                            Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(mContext, EmptyCartActivity.class);
+                            mContext.startActivity(intent);
                             Utility.dismissProgressDialog();
                             return;
                         }
@@ -244,7 +249,7 @@ public class ShoppingCartPresenter {
 
                     @Override
                     public void onError(Message msg) {
-                        Toast.makeText(mContext, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Something went wrong!" + msg.obj.toString(), Toast.LENGTH_SHORT).show();
                         Utility.dismissProgressDialog();
                     }
                 }, params);
