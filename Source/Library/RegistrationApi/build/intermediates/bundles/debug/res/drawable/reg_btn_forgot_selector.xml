@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/reg_btn_pressed_forgot_rect" android:state_pressed="true"/>
-    <item android:drawable="@drawable/reg_btn_forgot_rect" android:state_focused="true"/>
-    <item android:drawable="@drawable/reg_btn_forgot_disabled_rect" android:state_enabled="false"/>
-    <item android:drawable="@drawable/reg_btn_forgot_rect"/>
-</selector>
-<!-- From: file:/C:/Users/310221907/Desktop/Benit/PINS/MySourceTreeWork/hor-registration-android/Source/Library/RegistrationApi/src/main/res/drawable/reg_btn_forgot_selector.xml -->
