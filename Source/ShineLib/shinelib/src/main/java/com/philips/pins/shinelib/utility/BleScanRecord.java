@@ -72,8 +72,8 @@ public class BleScanRecord {
                 case 0x02: // Partial list of 16-bit UUIDs
                 case 0x03: // Complete list of 16-bit UUIDs
                     while (len > 1) {
-                        int uuid16 = advertisedData[offset++];
-                        uuid16 += (advertisedData[offset++] << 8);
+                        int uuid16 = (advertisedData[offset++] & 0xFF);
+                        uuid16 += ((advertisedData[offset++] & 0xFF) << 8);
                         len -= 2;
                         uuids.add(UUID.fromString(String.format("%08x-0000-1000-8000-00805f9b34fb", uuid16)));
                     }
