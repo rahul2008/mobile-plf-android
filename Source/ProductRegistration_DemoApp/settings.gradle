@@ -1,4 +1,0 @@
-include ':app'
-include ':product-registration-lib'
-project(':product-registration-lib').projectDir = new File('../ProductRegistration_Library/product-registration-lib')
-
