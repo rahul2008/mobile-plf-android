@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -201,8 +202,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         String info = mResources.getString(R.string.iap_info);
         final String[] descriptions = new String[]{delete,info};
 
-        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_gear_19_19), descriptions[0]));
-        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_share), descriptions[1]));
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.iap_trash_bin), descriptions[0]));
+        rowItems.add(new RowItem(ContextCompat.getDrawable(mContext,R.drawable.iap_info), descriptions[1]));
         final UIKitListPopupWindow popUP =  new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
         popUP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
