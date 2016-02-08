@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.philips.cdp.test.R;
+import com.philips.cdp.demo.R;
 
 public class MainActivity extends ProductRegistrationActivity implements View.OnClickListener {
     private Button mBtnUserRegistration;
