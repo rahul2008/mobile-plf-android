@@ -67,6 +67,7 @@ public enum SHNDataType {
     Raw,
     WeSTDataMoonshine,
     DailyCumulativeTotalEnergyExpenditure,
+    DailyCumulativeSteps,
     ActiveEnergyExpenditureDebugMoonshine,
     ActiveMinutes,
     BloodOxygenLevel,
