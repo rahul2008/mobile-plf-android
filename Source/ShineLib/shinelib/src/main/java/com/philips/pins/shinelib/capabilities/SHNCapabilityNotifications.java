@@ -5,17 +5,35 @@
 
 package com.philips.pins.shinelib.capabilities;
 
+import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNResultListener;
 
-/**
- * Created by 310188215 on 03/03/15.
- */
 public interface SHNCapabilityNotifications extends SHNCapability {
-    public  enum SHNNotificationType {
-        SHNNotificationTypeEmail
+    public  enum Type {
+        EMAIL,
+        IMAGE
     }
 
-    void showNotificationForType(SHNNotificationType shnNotificationType, SHNResultListener shnResultListener);
-    void hideNotificationForType(SHNNotificationType shnNotificationType, SHNResultListener shnResultListener);
+    public static class ImageSize {
+        private final int width;
+        private final int height;
+
+        public ImageSize (int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+    }
+
+    void showNotificationForType(Type type, byte[] imageData, SHNResultListener shnResultListener);
+    void hideNotificationForType(Type type, SHNResultListener shnResultListener);
+    void getMaxImageSizeForType(Type type, ResultListener<ImageSize> resultListener);
 }
