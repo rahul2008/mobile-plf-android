@@ -10,6 +10,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartModel;
+import com.philips.cdp.di.iap.model.EntryModel;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.DebugUtils;
 
@@ -80,7 +81,6 @@ public class NetworkController {
                                   Map<String,String> query) {
         final AbstractModel model = getModel(requestCode, query);
 
-
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
@@ -136,6 +136,8 @@ public class NetworkController {
 				return new CartModel(store, query);
             case RequestCode.CREATE_CART:
                 return new CartModel(store, query);
+            case RequestCode.DELETE_ENTRY:
+                return new EntryModel(store, query);
             default:
                 return null;
         }

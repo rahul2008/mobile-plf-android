@@ -39,10 +39,22 @@ public class IAPJsonRequest extends Request<JSONObject> {
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-        if(response.statusCode == HttpsURLConnection.HTTP_OK){
-            return parseSuccessResponse(response);
-        }else{
-            return Response.error(new VolleyError(response));
+
+        try {
+            String jsonString = new String(response.data,
+                    HttpHeaderParser.parseCharset(response.headers));
+
+            JSONObject result = null;
+
+            if (jsonString != null && jsonString.length() > 0)
+                result = new JSONObject(jsonString);
+
+            return Response.success(result,
+                    HttpHeaderParser.parseCacheHeaders(response));
+        } catch (UnsupportedEncodingException e) {
+            return Response.error(new ParseError(e));
+        } catch (JSONException je) {
+            return Response.error(new ParseError(je));
         }
     }
 
