@@ -15,6 +15,7 @@ public class ShoppingCartData {
     private int mTotalItems;
     private int mEntryNumber;
     private String mCartNumber;
+    private int mStockLevel;
 
     public String getCartNumber() {
         return mCartNumber;
@@ -86,5 +87,13 @@ public class ShoppingCartData {
 
     public int getTotalItems() {
         return mTotalItems;
+    }
+
+    public void setStockLevel(final int stockLevel) {
+        mStockLevel = stockLevel;
+    }
+
+    public int getStockLevel() {
+        return mStockLevel;
     }
 }

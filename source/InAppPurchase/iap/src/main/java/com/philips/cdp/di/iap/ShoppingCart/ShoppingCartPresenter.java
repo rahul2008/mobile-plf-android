@@ -10,7 +10,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
+import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -84,6 +84,9 @@ public class ShoppingCartPresenter {
                             List<Entries> list = data.getEntries();
                             for (int i = 0; i < list.size(); i++) {
                                 getProductDetails(item, list.get(i));
+                            item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
+                                    .getStockLevel());
+
                             }
                         }
 
@@ -200,5 +203,47 @@ public class ShoppingCartPresenter {
         }else {
             mProductData.remove(pProductdata);
         }
+    }
+
+    public void updateProductQuantity(ShoppingCartData product, int count) {
+        HashMap<String,String> params = new HashMap<String, String>();
+        params.put(CartModel.PRODUCT_CODE, product.getCtnNumber());
+        params.put(CartModel.PRODUCT_QUANTITY, String.valueOf(count));
+        params.put(CartModel.PRODUCT_ENTRYCODE, String.valueOf(product.getEntryNumber()));
+        HybrisDelegate.getInstance(mContext)
+                .sendRequest(RequestCode.UPDATE_PRODUCT_COUNT, new RequestListener() {
+                    @Override
+                    public void onSuccess(Message msg) {
+                        Utility.showProgressDialog(mContext, "Updating cart");
+                        GetCartData data = (GetCartData) msg.obj;
+
+                        if (data.getEntries() == null) {
+                            Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
+                            Utility.dismissProgressDialog();
+                            return;
+                        }
+
+                        ShoppingCartData item = new ShoppingCartData();
+                        item.setQuantity(data.getEntries().get(0).getQuantity());
+                        item.setTotalPrice(data.getTotalPrice().getValue());
+                        item.setCurrency(data.getTotalPrice().getCurrencyIso());
+                        item.setTotalItems(data.getTotalItems());
+                        item.setCartNumber(data.getCode());
+
+                        List<Entries> list = data.getEntries();
+                        for (int i = 0; i < list.size(); i++) {
+                            getProductDetails(item, list.get(i));
+                            item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
+                                    .getStockLevel());
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Message msg) {
+                        Toast.makeText(mContext, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Utility.dismissProgressDialog();
+                    }
+                }, params);
     }
 }

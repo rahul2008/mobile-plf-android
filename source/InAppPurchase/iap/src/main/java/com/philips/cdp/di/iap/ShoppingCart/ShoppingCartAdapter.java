@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
@@ -41,6 +43,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private ArrayList<ShoppingCartData> mData = new ArrayList<ShoppingCartData>();
     private LayoutInflater mInflater;
     private ShoppingCartPresenter mPresenter;
+    private final Drawable countArrow;
     //ShoppingCartData summary;
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
@@ -49,6 +52,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
         mPresenter = new ShoppingCartPresenter(context, this);
+        countArrow = VectorDrawable.create(context, R.drawable.iap_product_count_drop_down);
     }
 
     @Override
@@ -127,6 +131,10 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         bindDeleteOrInfoPopUP(view);
                     }
                 });
+
+                //Add arrow mark
+                holder.valueOption.setCompoundDrawables(null,null,countArrow,null);
+                bindCountView(holder.valueOption,position);
                 break;
 
             case TYPE_SHIPPING_DETAILS:
@@ -210,6 +218,24 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
             }
         });
         popUP.show();
+    }
+
+    private void bindCountView(final View view, final int position) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final ShoppingCartData data = mData.get(position);
+
+                CountDropDown countPopUp= new CountDropDown(v, data.getStockLevel(), data
+                        .getQuantity(), new CountDropDown.CountUpdateListener() {
+                    @Override
+                    public void countUpdate(final int oldCount, final int newCount) {
+                        mPresenter.updateProductQuantity(data, newCount);
+                    }
+                });
+                countPopUp.show();
+            }
+        });
     }
 
     @Override

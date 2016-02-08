@@ -87,6 +87,7 @@ public class NetworkController {
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
+                    msg.obj = error;
                     requestListener.onError(msg);
                 }
             }

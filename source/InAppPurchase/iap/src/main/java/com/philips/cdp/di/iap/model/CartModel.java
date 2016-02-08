@@ -17,6 +17,7 @@ import java.util.Map;
 public class CartModel extends AbstractModel {
     public final static String PRODUCT_CODE = "code";
     public final static String PRODUCT_QUANTITY = "qty";
+    public final static String PRODUCT_ENTRYCODE = "entrycode";
 
     public CartModel(final Store store, Map<String,String> query) {
         super(store,query);
@@ -39,6 +40,7 @@ public class CartModel extends AbstractModel {
     public Object parseResponse(int requestCode, Object response) {
         switch (requestCode) {
             case RequestCode.GET_CART:
+            case RequestCode.UPDATE_PRODUCT_COUNT:
                 return new Gson().fromJson(response.toString(), GetCartData.class);
             case RequestCode.ADD_TO_CART:
                 return new Gson().fromJson(response.toString(), AddToCartData.class);
@@ -101,8 +103,8 @@ public class CartModel extends AbstractModel {
                         !params.containsKey(PRODUCT_QUANTITY)) {
                     throw new RuntimeException("product code and quantity must be supplied");
                 }
-                String productCode = params.get(PRODUCT_CODE);
-                return String.format(NetworkConstants.updateProductCount, productCode);
+                String entrycode = params.get(PRODUCT_ENTRYCODE);
+                return String.format(NetworkConstants.updateProductCount, entrycode);
             case RequestCode.CREATE_CART:
                 return NetworkConstants.createCartUrl;
         }
