@@ -80,16 +80,10 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-
-        //TODO: Fix the holder optimization
         ViewHolder holder = null;
         final ShoppingCartData cartData = mData.get(position);
         int rowType = getItemViewType(position);
 
-
-
-
-  //      holder = new ViewHolder();
         switch (rowType) {
             case TYPE_ITEM:
                 String imageURL = cartData.getImageURL();
