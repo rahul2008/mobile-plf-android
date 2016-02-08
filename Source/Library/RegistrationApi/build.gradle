@@ -78,6 +78,22 @@ artifactory {
     }
 }
 
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -120,25 +136,6 @@ android {
         }
     }
 }
-
-//=======To zip and upload "Documents/External" ==STARTS=============
-def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-artifacts {
-    archives zipDoc
-}
-
-task zipDocuments(type: Zip) {
-    doFirst {
-        def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
-        def docfiles = docpath + File.separator + "Documents" + File.separator + "External"
-        from files(docfiles) {
-            baseName = project.name
-            classifier 'docs'
-        }
-    }
-}
-artifactoryPublish.dependsOn zipDocuments
-//=======To zip and upload "Documents/External" ==ENDS=============
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -185,5 +182,3 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         html.enabled = false
     }
 }
-
-
