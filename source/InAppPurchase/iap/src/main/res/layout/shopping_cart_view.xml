@@ -6,6 +6,7 @@
 
     <Button
         android:id="@+id/continues"
+        style="?attr/outlinedButtonTransparentStyle"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_centerHorizontal="true"
@@ -13,7 +14,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="40dp"
-        android:text="Continue shopping"/>
+        android:text="@string/iap_continue_shopping"/>
 
 
     <Button
@@ -25,7 +26,9 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="12dp"
-        android:text="Checkout"/>
+        android:background="@color/uikit_philips_bright_orange"
+        android:text="@string/iap_checkout"
+        />
 
     <ListView
         android:id="@+id/withouticon"

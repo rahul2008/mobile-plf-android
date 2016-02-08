@@ -8,4 +8,6 @@
     <string name="iap_product_vat">VAT</string>
     <string name="iap_code">code</string>
     <string name="iap_entry_number">entrynumber</string>
+    <string name="iap_continue_shopping">Continue shopping</string>
+    <string name="iap_checkout">Checkout</string>
 </resources>

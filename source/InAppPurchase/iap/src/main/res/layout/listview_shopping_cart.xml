@@ -60,7 +60,7 @@
         fontPath="fonts/centralesansbook.ttf"
         android:textSize="16sp"
         android:layout_toLeftOf="@id/frame"
-        android:textColor="@color/colorDarkBlue"
+        android:textColor="?attr/baseColor"
         />
 
 
@@ -74,7 +74,7 @@
         android:scrollHorizontally="false"
         android:layout_toLeftOf="@id/price"
         android:textSize="16sp"
-        android:textColor="@color/colorDarkBlue"
+        android:textColor="?attr/baseColor"
         android:layout_marginTop="13dp"
         />
 
@@ -90,7 +90,7 @@
         android:layout_below="@+id/text1Name"
         android:layout_toRightOf="@+id/from"
         android:layout_toEndOf="@+id/from"
-        android:textColor="@color/colorDarkBlue"
+        android:textColor="?attr/baseColor"
         android:drawablePadding="@dimen/iap_count_drop_down_padding"/>
 
     <TextView
@@ -103,7 +103,7 @@
         android:textSize="10sp"
        android:layout_alignBaseline="@id/text2value"
         android:layout_marginRight="3dp"
-        android:textColor="@color/colorDarkBlue"
+        android:textColor="?attr/baseColor"
         />
 
 
