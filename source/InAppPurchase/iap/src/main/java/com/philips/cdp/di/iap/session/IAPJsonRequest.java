@@ -56,12 +56,6 @@ public class IAPJsonRequest extends Request<JSONObject> {
         } catch (JSONException je) {
             return Response.error(new ParseError(je));
         }
-
-        /*if(response.statusCode == HttpsURLConnection.HTTP_OK){
-            return parseSuccessResponse(response);
-        }else{
-            return Response.error(new VolleyError(response));
-        }*/
     }
 
     @NonNull
