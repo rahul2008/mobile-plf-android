@@ -39,12 +39,10 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
     private Context mContext;
     private Resources mResources;
-    // private LayoutInflater inflater = null;
     private ArrayList<ShoppingCartData> mData = new ArrayList<ShoppingCartData>();
     private LayoutInflater mInflater;
     private ShoppingCartPresenter mPresenter;
     private final Drawable countArrow;
-    //ShoppingCartData summary;
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
         mContext = context;
@@ -87,26 +85,31 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         ViewHolder holder = null;
         final ShoppingCartData cartData = mData.get(position);
         int rowType = getItemViewType(position);
-        holder = new ViewHolder();
+
+
+
+
+  //      holder = new ViewHolder();
         switch (rowType) {
             case TYPE_ITEM:
                 String imageURL = cartData.getImageURL();
 
-                try {
+                if (convertView == null) {
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    holder = new ViewHolder();
+                    holder.image = (NetworkImageView) convertView.findViewById(R.id.image);
+                    holder.nameOption = (TextView) convertView.findViewById(R.id.text1Name);
+                    holder.valueOption = (TextView) convertView.findViewById(R.id.text2value);
+                    holder.from = (TextView) convertView.findViewById(R.id.from);
+                    holder.price = (TextView)convertView.findViewById(R.id.price);
+                    holder.dots = (ImageView) convertView.findViewById(R.id.dots);
+                    FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
+                    holder.imageUrl = imageURL;
+                    convertView.setTag(holder);
                 }
-
-                holder.image = (NetworkImageView) convertView.findViewById(R.id.image);
-                holder.nameOption = (TextView) convertView.findViewById(R.id.text1Name);
-                holder.valueOption = (TextView) convertView.findViewById(R.id.text2value);
-                holder.from = (TextView) convertView.findViewById(R.id.from);
-                holder.price = (TextView)convertView.findViewById(R.id.price);
-                holder.dots = (ImageView) convertView.findViewById(R.id.dots);
-                FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
-
-                holder.imageUrl = imageURL;
+                else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
 
                 holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
@@ -137,15 +140,22 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 break;
 
             case TYPE_SHIPPING_DETAILS:
-                convertView = mInflater.inflate(R.layout.shopping_cart_price, null);
-                holder.name = (TextView) convertView.findViewById(R.id.ifo);
-                holder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
-                holder.on_off = (TextView) convertView.findViewById(R.id.medium);
-                holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
-                holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
-                holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
 
-                //TODO: Fix with getTag while setting
+                if (convertView == null) {
+                    convertView = mInflater.inflate(R.layout.shopping_cart_price, null);
+                    holder = new ViewHolder();
+                    holder.name = (TextView) convertView.findViewById(R.id.ifo);
+                    holder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
+                    holder.on_off = (TextView) convertView.findViewById(R.id.medium);
+                    holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
+                    holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
+                    holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
+                    convertView.setTag(holder);
+                }
+                else {
+                    holder = (ViewHolder) convertView.getTag();
+                }
+
                 if(position == mData.size()-1){
                 //Last Row
                     ShoppingCartData data=null;
@@ -186,7 +196,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 }
                 break;
         }
-        convertView.setTag(holder);
+
         return convertView;
     }
 
@@ -244,18 +254,17 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     }
 
     private static class ViewHolder {
-        TextView name;// = (TextView) vi.findViewById(R.id.ifo);
-        TextView number;// = (TextView) vi.findViewById(R.id.numberwithouticon);
-        TextView on_off;// = (TextView) vi.findViewById(R.id.medium);
-        ImageView arrow;// = (FontIconTextView) vi.findViewById(R.id.arrowwithouticons);
-        TextView description;// = (TextView) vi.findViewById(R.id.text_description_without_icons);
+        TextView name;
+        TextView number;
+        TextView on_off;
+        ImageView arrow;
+        TextView description;
         TextView totoalcost;
         NetworkImageView image;
         ImageView dots;
-        //ImageView image;// = (ImageView) vi.findViewById(R.id.image);
-        TextView nameOption;// = (TextView) vi.findViewById(R.id.text1Name);
-        TextView valueOption;// = (TextView) vi.findViewById(R.id.text2value);
-        TextView from;// = (TextView) vi.findViewById(R.id.from);
+        TextView nameOption;
+        TextView valueOption;
+        TextView from;
         TextView price;
         String imageUrl;
         Bitmap bitmap;
