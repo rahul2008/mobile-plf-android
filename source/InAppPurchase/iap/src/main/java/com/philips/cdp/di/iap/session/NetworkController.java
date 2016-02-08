@@ -39,7 +39,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-public final class NetworkController {
+public class NetworkController {
     RequestQueue hybirsVolleyQueue;
     Context context;
     private Store store;
@@ -47,7 +47,7 @@ public final class NetworkController {
     String webRoot;
     private OAuthHandler oAuthHandler;
 
-    NetworkController(Context context, OAuthHandler oAuthHandler) {
+    public NetworkController(Context context, OAuthHandler oAuthHandler) {
         this.context = context;
         this.oAuthHandler = oAuthHandler;
         hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null,
@@ -81,14 +81,15 @@ public final class NetworkController {
                                   Map<String,String> query) {
         final AbstractModel model = getModel(requestCode, query);
 
-
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                Message msg = Message.obtain();
-                msg.what = requestCode;
-                msg.obj = error;
-                requestListener.onError(msg);
+                if (requestListener != null) {
+                    Message msg = Message.obtain();
+                    msg.what = requestCode;
+                    msg.obj = error;
+                    requestListener.onError(msg);
+                }
             }
         };
 
@@ -96,10 +97,12 @@ public final class NetworkController {
 
             @Override
             public void onResponse(final JSONObject response) {
-                Message msg = Message.obtain();
-                msg.what = requestCode;
-                msg.obj = model.parseResponse(requestCode, response);
-                requestListener.onSuccess(msg);
+                if (requestListener != null) {
+                    Message msg = Message.obtain();
+                    msg.what = requestCode;
+                    msg.obj = model.parseResponse(requestCode, response);
+                    requestListener.onSuccess(msg);
+                }
             }
         };
 
