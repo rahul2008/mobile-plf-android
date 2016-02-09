@@ -1,3 +1,8 @@
 build/*
 .idea/*
 .gradle/*
+RegistrationApi/build
+Jump/build
+hsdp/build
+RegistrationSampleApp/build
+
