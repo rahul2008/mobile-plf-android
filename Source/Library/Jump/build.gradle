@@ -71,7 +71,7 @@ android {
 }
 
 dependencies {
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.1', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.0', ext: 'aar')
     compile 'com.android.support:appcompat-v7:23+'
     compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
     compile project (':servertime')
