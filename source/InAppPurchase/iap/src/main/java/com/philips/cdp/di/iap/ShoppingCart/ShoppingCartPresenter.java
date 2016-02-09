@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
@@ -248,9 +247,9 @@ public class ShoppingCartPresenter {
                         }*/
 
                         if((data.getStatusCode().equalsIgnoreCase("success"))){
-                            ((ShoppingCartActivity)mContext).updateOutOfStock(false);
+                            //Make out of stock textview gone
                         }else{
-                            ((ShoppingCartActivity)mContext).updateOutOfStock(true);
+                            //Make out of stock textview visible
                         }
 
                     }

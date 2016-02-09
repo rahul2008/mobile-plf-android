@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -218,7 +217,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
             public void onClick(final View v) {
                 final ShoppingCartData data = mData.get(position);
 
-                CountDropDown countPopUp= new CountDropDown(v, data.getStockLevel(), data
+                CountDropDown countPopUp = new CountDropDown(v, data.getStockLevel(), data
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
@@ -251,5 +250,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         TextView price;
         String imageUrl;
         ImageView quantitydropdown;
+        TextView outOfStock;
     }
 }
