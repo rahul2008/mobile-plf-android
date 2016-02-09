@@ -11,6 +11,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNSetResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
+import com.philips.pins.shinelib.datatypes.SHNData;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 
 import java.util.Set;
@@ -56,7 +57,18 @@ public class SHNCapabilityDataStreamingWrapper implements SHNCapabilityDataStrea
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedSHNCapabilityDataStreaming.setDataListener(listener);
+                wrappedSHNCapabilityDataStreaming.setDataListener(new SHNCapabilityDataStreamingListener() {
+                    @Override
+                    public void onReceiveData(final SHNData data) {
+                        Runnable dataCallbackRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.onReceiveData(data);
+                            }
+                        };
+                        userHandler.post(dataCallbackRunnable);
+                    }
+                });
             }
         };
         internalHandler.post(command);
