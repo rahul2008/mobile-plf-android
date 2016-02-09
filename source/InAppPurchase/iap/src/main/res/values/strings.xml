@@ -12,4 +12,5 @@
     <string name="iap_checkout">Checkout</string>
     <string name="iap_empty_cart">Your Shopping Cart is Currently Empty</string>
     <string name="iap_address">Address</string>
+    <string name="out_of_stock">Out of stock</string>
 </resources>
