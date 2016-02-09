@@ -1,3 +1,4 @@
+/*
 package com.cdp.digitalcaretest;
 
 import android.app.Instrumentation;
@@ -7,11 +8,13 @@ import android.test.mock.MockContext;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 
+*/
 /**
  * Description :
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 09-Dec-15.
- */
+ *//*
+
 public class LocateMatchHandlerTest extends InstrumentationTestCase {
 
     private static final String TAG = LocateMatchHandlerTest.class.getSimpleName();
@@ -47,3 +50,4 @@ public class LocateMatchHandlerTest extends InstrumentationTestCase {
         return super.getName();
     }
 }
+*/

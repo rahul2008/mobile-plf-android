@@ -1,6 +1,8 @@
 package com.philips.cdp.digitalcare.locatephilips.test;
+/*
 
 import org.mockito.Mockito;
+*/
 
 
 import android.content.Context;

@@ -1,6 +1,6 @@
 package com.philips.cdp.digitalcare.test;
 
-import static org.mockito.Mockito.mock;
+/*import static org.mockito.Mockito.mock;*/
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;

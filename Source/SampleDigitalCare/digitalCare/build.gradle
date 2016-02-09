@@ -49,13 +49,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23+'
     compile project(':adobeMobileLibrary')
     compile project(':localeMatch-v1.1.0')
-    androidTestCompile files('libs/dexmaker-1.0.jar')
-    androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
-    androidTestCompile files('libs/junit-4.12.jar')
-    androidTestCompile files('libs/mockito-all-1.10.8.jar')
     compile project(':gson')
     compile 'com.mcxiaoke.volley:library:1.0.17'
     compile project(':Prx')
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.9.5'
     compile 'com.philips.cdp:uikitLib:1.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.shamanland:fonticon:0.1.8'

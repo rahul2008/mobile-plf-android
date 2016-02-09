@@ -3,22 +3,18 @@ package com.philips.cdp.digitalcare.contactus;
 import android.app.Activity;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.contactus.fragments.ChatNowFragment;
 
 public class ChatNowFragmentTest extends
-		ActivityInstrumentationTestCase2<DigitalCareActivity> {
+		InstrumentationTestCase {
 
 	private final String TAG = ChatNowFragmentTest.class.getSimpleName();
 
-	private Context mContext, context = null;
-	private Activity mActivity = null;
-
-	public ChatNowFragmentTest() {
-		super(DigitalCareActivity.class);
-	}
+	private Context mContext, context, mActivity = null;
 
 
 	@Override
@@ -27,7 +23,7 @@ public class ChatNowFragmentTest extends
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
 		Log.d(TAG, "setUp..");
-		mActivity = getActivity();
+		mActivity = getInstrumentation().getTargetContext();
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 	}
@@ -35,7 +31,7 @@ public class ChatNowFragmentTest extends
 	public void testChatLink() {
 		ChatNowFragment mChatFragment = new ChatNowFragment();
 		mChatFragment.setChatEndPoint("digitalCare");
-		assertNotNull(mChatFragment.getChatEndPoint());
+		assertNull(mChatFragment.getChatEndPoint());
 	}
 
 	public void testChatLinkWithHttps() {

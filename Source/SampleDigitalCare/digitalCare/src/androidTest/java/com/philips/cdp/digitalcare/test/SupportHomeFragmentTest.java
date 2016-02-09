@@ -1,6 +1,6 @@
 package com.philips.cdp.digitalcare.test;
 
-import static org.mockito.Mockito.mock;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
