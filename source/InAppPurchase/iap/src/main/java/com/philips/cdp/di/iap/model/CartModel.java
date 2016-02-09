@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.CreateCartData;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
+import com.philips.cdp.di.iap.response.cart.UpdateCartData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
@@ -49,8 +50,9 @@ public class CartModel extends AbstractModel {
     public Object parseResponse(int requestCode, Object response) {
         switch (requestCode) {
             case RequestCode.GET_CART:
-            case RequestCode.UPDATE_PRODUCT_COUNT:
                 return new Gson().fromJson(response.toString(), GetCartData.class);
+            case RequestCode.UPDATE_PRODUCT_COUNT:
+                return new Gson().fromJson(response.toString(), UpdateCartData.class);
             case RequestCode.ADD_TO_CART:
                 return new Gson().fromJson(response.toString(), AddToCartData.class);
             case RequestCode.CREATE_CART:

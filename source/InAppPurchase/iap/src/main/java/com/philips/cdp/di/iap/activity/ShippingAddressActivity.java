@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,12 +18,14 @@ import com.philips.cdp.uikit.UiKitActivity;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ShippingAddressActivity extends UiKitActivity{
+public class ShippingAddressActivity extends UiKitActivity implements View.OnClickListener{
+
+    Button mCancelBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shipping_address_layout);
-
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
 
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -54,6 +57,14 @@ public class ShippingAddressActivity extends UiKitActivity{
 
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
+        mCancelBtn = (Button)findViewById(R.id.cancel_btn);
+        mCancelBtn.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        if(v == mCancelBtn){
+            finish();
+        }
     }
 }
