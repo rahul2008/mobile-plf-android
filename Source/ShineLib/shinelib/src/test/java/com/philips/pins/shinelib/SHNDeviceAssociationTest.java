@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
-import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.SHNPersistentStorage;
+import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -338,6 +339,20 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
 
         assertTrue(shnDeviceAssociation.getAssociatedDevices().isEmpty());
+    }
+
+    @Test
+    public void whenRemoveAllDevicesIsCalled_ThenAllDeviceAreRemoved() {
+        String macAddress1 = "11:11:11:11:11:11";
+        String macAddress2 = "22:22:22:22:22:22";
+        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        SHNDevice shnDevice2 = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
+        startAssociationAndCompleteWithDevice(macAddress2, shnDevice2, 2);
+
+        shnDeviceAssociation.removeAllAssociatedDevices();
+
+        assertThat(shnDeviceAssociation.getAssociatedDevices()).isEmpty();
     }
 
     @Test

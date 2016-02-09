@@ -10,8 +10,8 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.utility.SHNPersistentStorage;
+import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -142,7 +142,6 @@ public class SHNDeviceAssociation {
             } else {
                 associatedDevices.add(shnDevice);
             }
-
         }
     }
 
@@ -169,6 +168,12 @@ public class SHNDeviceAssociation {
 
     public List<SHNDevice> getAssociatedDevices() {
         return Collections.unmodifiableList(associatedDevices);
+    }
+
+    public void removeAllAssociatedDevices() {
+        while (!associatedDevices.isEmpty()) {
+            removeAssociatedDevice(associatedDevices.get(0));
+        }
     }
 
     public void removeAssociatedDevice(SHNDevice shnDeviceToRemove) {
