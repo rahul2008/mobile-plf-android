@@ -6,10 +6,14 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
@@ -36,6 +40,7 @@ public class ShoppingCartPresenter {
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
+    private Resources mResources;
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
@@ -45,19 +50,14 @@ public class ShoppingCartPresenter {
         mContext = context;
         mProductData = new ArrayList<ShoppingCartData>();
         mLoadListener = listener;
+        mResources = mContext.getResources();
     }
 
     //TODO: fix with TAG
     private void addShippingCostRowToTheList() {
         ShoppingCartData summary = new ShoppingCartData();
-        summary.setProductTitle("**shippingItem**");
-        summary.setCtnNumber(1 + "");
         mProductData.add(summary);
-
-        summary.setCtnNumber(2 + "");
         mProductData.add(summary);
-
-        summary.setCtnNumber(3 + "");
         mProductData.add(summary);
     }
 
@@ -69,7 +69,8 @@ public class ShoppingCartPresenter {
                             GetCartData data = (GetCartData) msg.obj;
 
                             if (data.getEntries() == null) {
-                                Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(mContext, EmptyCartActivity.class);
+                                mContext.startActivity(intent);
                                 Utility.dismissProgressDialog();
                                 return;
                             }
@@ -84,9 +85,8 @@ public class ShoppingCartPresenter {
                             List<Entries> list = data.getEntries();
                             for (int i = 0; i < list.size(); i++) {
                                 getProductDetails(item, list.get(i));
-                            item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
-                                    .getStockLevel());
-
+                                item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
+                                        .getStockLevel());
                             }
                         }
 
@@ -175,9 +175,8 @@ public class ShoppingCartPresenter {
     public void deleteProduct(final ShoppingCartData summary) {
         Utility.showProgressDialog(mContext, "Getting Cart Details");
         Map<String,String> query = new HashMap<>();
-        //TODO: Replace with String constants
-        query.put("code", summary.getCartNumber());
-        query.put("entrynumber", String.valueOf(summary.getEntryNumber()));
+        query.put(mResources.getString(R.string.iap_code), summary.getCartNumber());
+        query.put(mResources.getString(R.string.iap_entry_number), String.valueOf(summary.getEntryNumber()));
 
             HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_ENTRY,
                     new RequestListener() {
@@ -186,6 +185,7 @@ public class ShoppingCartPresenter {
                             removeItemFromList(summary);
                             Utility.dismissProgressDialog();
                             refreshList(mProductData);
+                            checkIfCartIsEmpty();
                         }
 
                         @Override
@@ -195,6 +195,13 @@ public class ShoppingCartPresenter {
                             Utility.dismissProgressDialog();
                         }
                     }, query);
+    }
+
+    private void checkIfCartIsEmpty() {
+        if(mProductData.size()<=3){
+            Intent intent = new Intent(mContext, EmptyCartActivity.class);
+            mContext.startActivity(intent);
+        }
     }
 
     private void removeItemFromList(ShoppingCartData pProductdata) {
@@ -218,7 +225,8 @@ public class ShoppingCartPresenter {
                         GetCartData data = (GetCartData) msg.obj;
 
                         if (data.getEntries() == null) {
-                            Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(mContext, EmptyCartActivity.class);
+                            mContext.startActivity(intent);
                             Utility.dismissProgressDialog();
                             return;
                         }
@@ -241,7 +249,7 @@ public class ShoppingCartPresenter {
 
                     @Override
                     public void onError(Message msg) {
-                        Toast.makeText(mContext, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Something went wrong!" + msg.obj.toString(), Toast.LENGTH_SHORT).show();
                         Utility.dismissProgressDialog();
                     }
                 }, params);

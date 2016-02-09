@@ -18,6 +18,7 @@ public class CartModel extends AbstractModel {
     public final static String PRODUCT_CODE = "code";
     public final static String PRODUCT_QUANTITY = "qty";
     public final static String PRODUCT_ENTRYCODE = "entrycode";
+    public final static String ENTRY_CODE = "entrynumber";
 
     public CartModel(final Store store, Map<String,String> query) {
         super(store,query);
@@ -32,6 +33,14 @@ public class CartModel extends AbstractModel {
             case RequestCode.UPDATE_PRODUCT_COUNT:
                 //TODO : Need to update real time url
                 return null;
+            case RequestCode.DELETE_ENTRY:
+                if (params == null) {
+                    throw new RuntimeException("Cart ID and Entry Number has to be supplied");
+                }
+                String productCode = params.get(PRODUCT_CODE);
+                int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
+
+                return String.format(NetworkConstants.deleteProductEntry, productCode,entryNumber);
         }
         return null;
     }
@@ -60,6 +69,8 @@ public class CartModel extends AbstractModel {
                 return Request.Method.POST;
             case RequestCode.UPDATE_PRODUCT_COUNT:
                 return Request.Method.PUT;
+            case RequestCode.DELETE_ENTRY:
+                return Request.Method.DELETE;
         }
         return 0;
     }
@@ -74,6 +85,9 @@ public class CartModel extends AbstractModel {
             if (requestCode == RequestCode.UPDATE_PRODUCT_COUNT) {
                 return getProductCountUpdatePayload();
             }
+        }
+        if (requestCode == RequestCode.DELETE_ENTRY) {
+            return getEntryCartDetails();
         }
         return null;
     }
@@ -107,7 +121,22 @@ public class CartModel extends AbstractModel {
                 return String.format(NetworkConstants.updateProductCount, entrycode);
             case RequestCode.CREATE_CART:
                 return NetworkConstants.createCartUrl;
+            case RequestCode.DELETE_ENTRY:
+                if (params == null) {
+                    throw new RuntimeException("Cart ID and Entry Number has to be supplied");
+                }
+                String productCode = params.get(PRODUCT_CODE);
+                int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
+                return String.format(NetworkConstants.deleteProductEntry, productCode,String.valueOf(entryNumber));
+
         }
         return null;
+    }
+
+    private Map<String, String> getEntryCartDetails() {
+        Map<String, String> params = new HashMap<>();
+        params.put(PRODUCT_CODE,params.get(PRODUCT_CODE));
+        params.put(ENTRY_CODE,params.get(ENTRY_CODE));
+        return params;
     }
 }

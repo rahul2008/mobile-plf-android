@@ -18,5 +18,7 @@
         <activity
             android:name=".activity.ShippingAddressActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.EmptyCartActivity"/>
     </application>
 </manifest>
