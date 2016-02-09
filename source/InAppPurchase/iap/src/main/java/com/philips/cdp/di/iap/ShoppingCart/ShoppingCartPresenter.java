@@ -166,9 +166,8 @@ public class ShoppingCartPresenter {
             mProductData.add(summary);
             addShippingCostRowToTheList();
             refreshList(mProductData);
-        }else{
-            Utility.dismissProgressDialog();
         }
+            Utility.dismissProgressDialog();
     }
 
     public void refreshList(ArrayList<ShoppingCartData> data){
