@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
+import com.philips.cdp.di.iap.response.cart.UpdateCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -212,7 +213,7 @@ public class ShoppingCartPresenter {
         }
     }
 
-    public void updateProductQuantity(ShoppingCartData product, int count) {
+    public void updateProductQuantity(ShoppingCartData product, final int count) {
         HashMap<String,String> params = new HashMap<String, String>();
         params.put(CartModel.PRODUCT_CODE, product.getCtnNumber());
         params.put(CartModel.PRODUCT_QUANTITY, String.valueOf(count));
@@ -221,10 +222,9 @@ public class ShoppingCartPresenter {
                 .sendRequest(RequestCode.UPDATE_PRODUCT_COUNT, new RequestListener() {
                     @Override
                     public void onSuccess(Message msg) {
-                        Utility.showProgressDialog(mContext, "Updating cart");
-                        GetCartData data = (GetCartData) msg.obj;
+                        UpdateCartData data = (UpdateCartData) msg.obj;
 
-                        if (data.getEntries() == null) {
+                       /* if (data.getEntries() == null) {
                             Intent intent = new Intent(mContext, EmptyCartActivity.class);
                             mContext.startActivity(intent);
                             Utility.dismissProgressDialog();
@@ -244,7 +244,12 @@ public class ShoppingCartPresenter {
                             item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
                                     .getStockLevel());
 
+                        }*/
+
+                        if(!(data.getStatusCode().equalsIgnoreCase("success"))){
+                            Toast.makeText(mContext, "No Stock", Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override

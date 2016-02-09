@@ -108,12 +108,17 @@ public class DemoAppActivity extends Activity implements RequestListener {
             }
             case RequestCode.ADD_TO_CART: {
                 AddToCartData addToCartData = (AddToCartData) msg.obj;
-                mCount = addToCartData.getEntry().getQuantity();
-                mCountText.setText(String.valueOf(mCount));
-                if (getCount() == 1 && mIsFromBuy) {
-                    Intent shoppingCartIntent = new Intent(this, ShoppingCartActivity.class);
-                    startActivity(shoppingCartIntent);
+                if(addToCartData.getStatusCode().equalsIgnoreCase("success")){
+                    mCount = addToCartData.getEntry().getQuantity();
+                    mCountText.setText(String.valueOf(mCount));
+                    if (getCount() == 1 && mIsFromBuy) {
+                        Intent shoppingCartIntent = new Intent(this, ShoppingCartActivity.class);
+                        startActivity(shoppingCartIntent);
+                    }
+                }else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")){
+                    Toast.makeText(this, "No Stock", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
             }
             case RequestCode.CREATE_CART:

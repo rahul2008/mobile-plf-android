@@ -1,6 +1,5 @@
 package com.philips.cdp.di.iap.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -27,30 +26,28 @@ import java.util.ArrayList;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ShoppingCartActivity extends UiKitActivity implements View.OnClickListener{
-
-    public ShoppingCartAdapter mAdapter;
-    public ListView mListView;
-    Context mContext;
+public class ShoppingCartActivity extends UiKitActivity implements View.OnClickListener {
 
     private static final String TAG = ShoppingCartActivity.class.getName();
+    public ShoppingCartAdapter mAdapter;
+    public ListView mListView;
     private Button mCheckoutBtn = null;
+    private Button mContinueBtn = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_cart_view);
-        mContext = this;
 
-        mCheckoutBtn = (Button)findViewById(R.id.checkout_btn);
-
-
+        mCheckoutBtn = (Button) findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
+
+        mContinueBtn = (Button) findViewById(R.id.continues);
+        mContinueBtn.setOnClickListener(this);
+
         mListView = (ListView) findViewById(R.id.withouticon);
 
-
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
-
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
 
@@ -59,7 +56,7 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
 
-            View mCustomView = LayoutInflater.from(this).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
 
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
         mTitleTextView.setText(getString(R.string.iap_shopping_cart));
@@ -94,16 +91,18 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
     protected void onResume() {
         super.onResume();
 
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(this,mAdapter);
+        ShoppingCartPresenter presenter = new ShoppingCartPresenter(this, mAdapter);
         presenter.getCurrentCartDetails();
         mListView.setAdapter(mAdapter);
     }
 
     @Override
     public void onClick(View v) {
-        if(v == mCheckoutBtn){
+        if (v == mCheckoutBtn) {
             Intent lIntent = new Intent(ShoppingCartActivity.this, ShippingAddressActivity.class);
             this.startActivity(lIntent);
+        } else if (v == mContinueBtn) {
+            finish();
         }
     }
 }
