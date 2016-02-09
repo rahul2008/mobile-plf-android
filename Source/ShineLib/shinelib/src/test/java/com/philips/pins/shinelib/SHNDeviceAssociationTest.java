@@ -464,6 +464,7 @@ public class SHNDeviceAssociationTest {
 
         public TestSHNDeviceAssociation(final SHNCentral shnCentral, SHNDeviceScannerInternal mockedSHNDeviceScannerInternal) {
             super(shnCentral, mockedSHNDeviceScannerInternal);
+            initAssociatedDevicesList();
         }
 
         @NonNull
