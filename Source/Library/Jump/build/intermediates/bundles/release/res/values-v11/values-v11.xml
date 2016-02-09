@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/310221907/Desktop/Benit/PINS/MySourceTreeWork/hor-registration-android/Source/Library/Jump/src/main/res/values-v11/styles.xml -->
+    <!-- From: file:/D:/RegistrationFeb9/Source/Library/Jump/src/main/res/values-v11/styles.xml -->
     <eat-comment/>
     <style name="Theme.Janrain" parent="@android:style/Theme.Holo"/>
     <style name="Theme.Janrain.Dialog" parent="@android:style/Theme.Holo.DialogWhenLarge.NoActionBar"/>

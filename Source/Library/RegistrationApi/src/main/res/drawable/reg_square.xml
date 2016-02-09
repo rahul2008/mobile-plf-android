@@ -1,0 +1,10 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <solid android:color="@color/reg_header_bg_start_color"/>
+    <corners
+        android:bottomLeftRadius="@dimen/reg_button_corner_rounding"
+        android:bottomRightRadius="@dimen/reg_button_corner_rounding"
+        android:topLeftRadius="@dimen/reg_button_corner_rounding"
+        android:topRightRadius="@dimen/reg_button_corner_rounding"/>
+
+</shape>
