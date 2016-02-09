@@ -127,10 +127,9 @@ public class SHNDeviceAssociation {
     public SHNDeviceAssociation(SHNCentral shnCentral, SHNDeviceScannerInternal shnDeviceScannerInternal) {
         this.shnCentral = shnCentral;
         this.shnDeviceScannerInternal = shnDeviceScannerInternal;
-        initAssociatedDevicesList(shnCentral);
     }
 
-    private void initAssociatedDevicesList(SHNCentral shnCentral) {
+    void initAssociatedDevicesList() {
         List<SHNPersistentStorage.AssociatedDeviceInfo> associatedDeviceInfos =
                 SHNServiceRegistry.getInstance().get(SHNPersistentStorage.class).readAssociatedDeviceInfos();
         associatedDevices = new ArrayList<>();
