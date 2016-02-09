@@ -78,20 +78,17 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
             return TYPE_ITEM;
         }
     }
-
+//TODO
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder holder = null;
         final ShoppingCartData cartData = mData.get(position);
         int rowType = getItemViewType(position);
-
+        holder = new ViewHolder();
         switch (rowType) {
             case TYPE_ITEM:
-                String imageURL = cartData.getImageURL();
-
-                if (convertView == null) {
+                    String imageURL = cartData.getImageURL();
                     convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
-                    holder = new ViewHolder();
                     holder.image = (NetworkImageView) convertView.findViewById(R.id.image);
                     holder.nameOption = (TextView) convertView.findViewById(R.id.text1Name);
                     holder.valueOption = (TextView) convertView.findViewById(R.id.text2value);
@@ -101,10 +98,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
                     holder.imageUrl = imageURL;
                     convertView.setTag(holder);
-                }
-                else {
-                    holder = (ViewHolder) convertView.getTag();
-                }
+
+
 
                 holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
@@ -136,9 +131,9 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
             case TYPE_SHIPPING_DETAILS:
 
-                if (convertView == null) {
+
                     convertView = mInflater.inflate(R.layout.shopping_cart_price, null);
-                    holder = new ViewHolder();
+
                     holder.name = (TextView) convertView.findViewById(R.id.ifo);
                     holder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
                     holder.on_off = (TextView) convertView.findViewById(R.id.medium);
@@ -146,10 +141,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
                     holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
                     convertView.setTag(holder);
-                }
-                else {
-                    holder = (ViewHolder) convertView.getTag();
-                }
+
 
                 if(position == mData.size()-1){
                 //Last Row
