@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/reg_about_selection_on" android:state_checked="true"/>
+    <item android:drawable="@drawable/reg_about_selection_off" android:state_checked="false"/>
+
+</selector><!-- From: file:/D:/RegistrationFeb9/Source/Library/RegistrationApi/src/main/res/drawable/reg_checkbox_selector.xml --><!-- From: file:/D:/RegistrationFeb9/Source/Library/RegistrationSampleApp/build/intermediates/exploded-aar/com.philips.cdp/registrationApi/4.1.0-SNAPSHOT/res/drawable/reg_checkbox_selector.xml -->

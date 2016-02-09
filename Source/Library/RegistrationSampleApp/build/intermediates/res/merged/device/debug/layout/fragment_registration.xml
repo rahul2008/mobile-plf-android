@@ -1,0 +1,6 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:id="@+id/fl_reg_fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+<!-- From: file:/D:/RegistrationFeb9/Source/Library/RegistrationApi/src/main/res/layout/fragment_registration.xml --><!-- From: file:/D:/RegistrationFeb9/Source/Library/RegistrationSampleApp/build/intermediates/exploded-aar/com.philips.cdp/registrationApi/4.1.0-SNAPSHOT/res/layout/fragment_registration.xml -->

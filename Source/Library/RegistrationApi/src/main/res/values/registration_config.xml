@@ -87,7 +87,7 @@
     <!-- Socila merge UI blocker color -->
     <color name="reg_social_to_social_ui_blocker_bg">@android:color/white</color>
 
-   <!-- Create account password hint correct and incorrect symbol colors-->
+    <!-- Create account password hint correct and incorrect symbol colors-->
     <color name="reg_password_hint_correct_ic_color">#5B8F22</color>
     <color name="reg_password_hint_incorrect_ic_color">#C4C4C4</color>
 
@@ -95,5 +95,10 @@
     <!-- Create account password mask enable and dosable  symbol colors-->
     <color name="reg_password_mask_enable_ic_color">@android:color/black</color>
     <color name="reg_password_mask_disable_ic_color">#C4C4C4</color>
+
+    <color name="reg_exclamation_color">#FFFFFF</color>
+    <color name="reg_check_box_color">#E88200</color>
+    <color name="reg_back_arrow_color">#FFFFFF</color>
+    <color name="reg_provider_icon_color">#FFFFFF</color>
 
 </resources>

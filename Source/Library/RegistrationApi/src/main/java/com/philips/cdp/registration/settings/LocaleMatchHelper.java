@@ -46,10 +46,10 @@ public class LocaleMatchHelper implements LocaleMatchListener {
         PILLocaleManager manager = new PILLocaleManager();
 
 
-        PILLocale pilLocaleInstance;
+        PILLocale pilLocaleInstance = null;
         if (RegistrationHelper.getInstance().isCoppaFlow()) {
-            pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
-                    Platform.JANRAIN, Sector.B2C, Catalog.COPPA);
+         /*  pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
+                    Platform.JANRAIN, Sector.B2C, Catalog.COPPA);*/
         } else {
             pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
                     Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);

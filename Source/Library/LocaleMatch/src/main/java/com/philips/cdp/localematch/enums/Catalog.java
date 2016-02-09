@@ -25,5 +25,5 @@ public enum Catalog {
 	EXTENDEDCONSENT,
 
 	COPPA
-	 
+
 }
