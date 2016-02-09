@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/jr_force_reauth"
-          android:title="force reauth" />
-</menu><!-- From: file:/D:/RegistrationFeb9/Source/Library/Jump/src/main/res/menu/jr_provider_listview_row_menu.xml --><!-- From: file:/D:/RegistrationFeb9/Source/Library/RegistrationApi/build/intermediates/exploded-aar/com.philips.cdp/jump/5.0.1/res/menu/jr_provider_listview_row_menu.xml -->
