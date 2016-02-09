@@ -48,16 +48,13 @@ calabash {
 
 dependencies {
     compile project(':digitalCare')
+    compile 'com.google.android.gms:play-services:+'
 
     compile files('libs/HockeySDK-3.0.2.jar')
     /*
      * This is for Philips Stndard UI_Kit Artifactory.
      */
-    compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.philips.cdp:uikitLib:1.0.0'
-    compile 'com.google.android.gms:play-services-ads:8.4.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
