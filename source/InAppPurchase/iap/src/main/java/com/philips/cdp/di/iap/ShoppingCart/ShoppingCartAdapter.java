@@ -95,11 +95,9 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     holder.from = (TextView) convertView.findViewById(R.id.from);
                     holder.price = (TextView)convertView.findViewById(R.id.price);
                     holder.dots = (ImageView) convertView.findViewById(R.id.dots);
+                    holder.quantitydropdown = (ImageView) convertView.findViewById(R.id.quantity_drop_down);
                     FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
                     holder.imageUrl = imageURL;
-                    convertView.setTag(holder);
-
-
 
                 holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
@@ -125,8 +123,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 });
 
                 //Add arrow mark
-                holder.valueOption.setCompoundDrawables(null,null,countArrow,null);
-                bindCountView(holder.valueOption,position);
+                //holder.quantitydropdown.setCompoundDrawables(null, null, countArrow, null);
+                bindCountView(holder.quantitydropdown,position);
                 break;
 
             case TYPE_SHIPPING_DETAILS:
@@ -140,8 +138,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
                     holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
                     holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
-                    convertView.setTag(holder);
-
 
                 if(position == mData.size()-1){
                 //Last Row
@@ -169,7 +165,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     holder.name.setText("Delivery via UPS Parcel");
 
                     holder.number.setVisibility(View.VISIBLE);
-                    holder.number.setText("0");
+                    holder.number.setText("TBD");
 
                     holder.description.setVisibility(View.VISIBLE);
                     holder.description.setText("Delivery is free when you spend USD 100 or more");
@@ -254,6 +250,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         TextView from;
         TextView price;
         String imageUrl;
-        Bitmap bitmap;
+        ImageView quantitydropdown;
     }
 }
