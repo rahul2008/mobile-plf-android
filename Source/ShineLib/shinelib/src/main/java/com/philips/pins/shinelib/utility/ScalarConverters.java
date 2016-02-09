@@ -5,9 +5,6 @@
 
 package com.philips.pins.shinelib.utility;
 
-/**
- * Created by 310188215 on 07/05/15.
- */
 public class ScalarConverters {
     public static int ubyteToInt(byte value) {
         int retval = 0;
@@ -42,4 +39,9 @@ public class ScalarConverters {
         return retval;
     }
 
+    public static int longTouint(long value) {
+        int retval = 0;
+        retval |= value;
+        return retval;
+    }
 }
