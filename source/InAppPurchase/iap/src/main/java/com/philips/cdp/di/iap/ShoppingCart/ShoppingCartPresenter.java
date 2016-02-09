@@ -43,6 +43,8 @@ public class ShoppingCartPresenter {
     ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
     private Resources mResources;
+    private final String UPDATE = "update";
+    private final String ADD = "add";
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
@@ -86,7 +88,7 @@ public class ShoppingCartPresenter {
 
                             List<Entries> list = data.getEntries();
                             for (int i = 0; i < list.size(); i++) {
-                                getProductDetails(item, list.get(i));
+                                getProductDetails(item, list.get(i),ADD);
                                 item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
                                         .getStockLevel());
                             }
@@ -100,8 +102,7 @@ public class ShoppingCartPresenter {
                     }, null);
     }
 
-    public void getProductDetails(final ShoppingCartData summary, final Entries entry){
-        //TODO: Should be coming from configuration xml
+    public void getProductDetails(final ShoppingCartData summary, final Entries entry, final String update){
         if (Utility.isInternetConnected(mContext)) {
             final String code = entry.getProduct().getCode();
             String mCtn = code.replaceAll("_", "/");
@@ -130,8 +131,11 @@ public class ShoppingCartPresenter {
                     summary.setProductTitle(data.getProductTitle());
                     summary.setCtnNumber(code);
                     summary.setEntryNumber(entry.getEntryNumber());
-
-                    addItem(summary);
+                    if(update.equalsIgnoreCase(ADD)) {
+                        addItem(summary);
+                    }else{
+                        updateItem(summary,getPositionOfItem(summary));
+                    }
                 }
 
                 @Override
@@ -175,7 +179,7 @@ public class ShoppingCartPresenter {
 
 
     public void deleteProduct(final ShoppingCartData summary) {
-        Utility.showProgressDialog(mContext, "Getting Cart Details");
+        Utility.showProgressDialog(mContext, "Deleting Item");
         Map<String,String> query = new HashMap<>();
         query.put(mResources.getString(R.string.iap_code), summary.getCartNumber());
         query.put(mResources.getString(R.string.iap_entry_number), String.valueOf(summary.getEntryNumber()));
@@ -192,7 +196,7 @@ public class ShoppingCartPresenter {
 
                         @Override
                         public void onError(Message msg) {
-                            Toast.makeText(mContext, "Delete Request Error" + msg.getData().toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Delete Request Error", Toast.LENGTH_SHORT).show();
                             refreshList(mProductData);
                             Utility.dismissProgressDialog();
                         }
@@ -214,7 +218,9 @@ public class ShoppingCartPresenter {
         }
     }
 
-    public void updateProductQuantity(ShoppingCartData product, final int count) {
+    public void updateProductQuantity(final ArrayList<ShoppingCartData> array, final int position, final int count) {
+        mProductData = array;
+        ShoppingCartData product = array.get(position);
         HashMap<String,String> params = new HashMap<String, String>();
         params.put(CartModel.PRODUCT_CODE, product.getCtnNumber());
         params.put(CartModel.PRODUCT_QUANTITY, String.valueOf(count));
@@ -225,34 +231,22 @@ public class ShoppingCartPresenter {
                     public void onSuccess(Message msg) {
                         UpdateCartData data = (UpdateCartData) msg.obj;
 
-                       /* if (data.getEntries() == null) {
+                        if (data.getEntry() == null) {
                             Intent intent = new Intent(mContext, EmptyCartActivity.class);
                             mContext.startActivity(intent);
                             Utility.dismissProgressDialog();
                             return;
                         }
+                        Entries entry = data.getEntry();
 
                         ShoppingCartData item = new ShoppingCartData();
-                        item.setQuantity(data.getEntries().get(0).getQuantity());
-                        item.setTotalPrice(data.getTotalPrice().getValue());
-                        item.setCurrency(data.getTotalPrice().getCurrencyIso());
-                        item.setTotalItems(data.getTotalItems());
-                        item.setCartNumber(data.getCode());
+                        item = array.get(position);
 
-                        List<Entries> list = data.getEntries();
-                        for (int i = 0; i < list.size(); i++) {
-                            getProductDetails(item, list.get(i));
-                            item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
-                                    .getStockLevel());
-
-                        }*/
-
-                        if((data.getStatusCode().equalsIgnoreCase("success"))){
-                            ((ShoppingCartActivity)mContext).updateOutOfStock(false);
-                        }else{
-                            ((ShoppingCartActivity)mContext).updateOutOfStock(true);
-                        }
-
+                        item.setQuantity(entry.getQuantity());
+                        item.setTotalPrice(entry.getTotalPrice().getValue());
+                        item.setCurrency(entry.getTotalPrice().getCurrencyIso());
+                        item.setTotalItems(data.getQuantityAdded());
+                        getProductDetails(item, entry, UPDATE);
                     }
 
                     @Override
@@ -262,4 +256,22 @@ public class ShoppingCartPresenter {
                     }
                 }, params);
     }
+
+    private void updateItem(final ShoppingCartData data, int position) {
+        mProductData.set(position,data);
+        refreshList(mProductData);
+        Utility.dismissProgressDialog();
+    }
+
+    private int getPositionOfItem(ShoppingCartData data){
+        int position = 0;
+        for(int i=0;i<mProductData.size();i++){
+            if(mProductData.get(i).getCtnNumber()!=null && mProductData.get(i).getCtnNumber().equalsIgnoreCase(data.getCtnNumber())){
+                position = i;
+                break;
+            }
+        }
+        return position;
+    }
+
 }

@@ -153,7 +153,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         holder.number.setText("0");
 
                         holder.description.setVisibility(View.VISIBLE);
-                        holder.description.setText("Total (" + data.getTotalItems() + ")");
+                        int totalItems = mData.size()-3;
+                        holder.description.setText("Total (" + totalItems + ")");
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
                         holder.totoalcost.setText(data.getCurrency() + " " + data.getTotalPrice());
@@ -222,7 +223,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        mPresenter.updateProductQuantity(data, newCount);
+                        Utility.showProgressDialog(mContext,"Updating Cart Details");
+                        mPresenter.updateProductQuantity(mData,position, newCount);
                     }
                 });
                 countPopUp.show();
