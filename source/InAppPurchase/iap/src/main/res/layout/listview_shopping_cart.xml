@@ -1,130 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/ratingtheme"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ratingtheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="85dp"
-    android:paddingBottom="3dp"
-    >
+    android:paddingBottom="3dp">
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/image"
-            android:layout_width="85dp"
-            android:layout_height="75dp"
-            android:src="@drawable/toothbrush"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/image"
+        android:layout_width="85dp"
+        android:layout_height="75dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/toothbrush" />
 
 
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_toRightOf="@+id/image"
-    android:layout_toEndOf="@+id/image"
-    android:layout_centerVertical="true"
-    android:gravity="center_vertical"
-    >
-
-<FrameLayout
-    android:id="@+id/frame"
-    android:layout_width="wrap_content"
-    android:layout_height="85dp"
-    android:layout_alignParentRight="true"
-    >
-
-    <ImageView
-        android:id="@+id/dots"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/dots"
-        android:paddingLeft="13dp"
-        android:paddingTop="3dp"
-        android:layout_gravity="right"
-        android:paddingRight="20dp"
-        android:layout_marginTop="13dp"
-        />
-</FrameLayout>
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/image"
+        android:layout_toRightOf="@+id/image"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:layout_marginTop="13dp"
-        android:text="€ 209,99"
-        fontPath="fonts/centralesansbook.ttf"
-        android:textSize="16sp"
-        android:layout_toLeftOf="@id/frame"
-        android:textColor="?attr/baseColor"
-        />
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="wrap_content"
+            android:layout_height="85dp"
+            android:layout_alignParentRight="true">
 
+            <ImageView
+                android:id="@+id/dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="13dp"
+                android:paddingLeft="13dp"
+                android:paddingRight="20dp"
+                android:paddingTop="3dp"
+                android:src="@drawable/dots" />
+        </FrameLayout>
 
-    <TextView
-        android:id="@+id/text1Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:text="DiamondClean"
-        fontPath="fonts/centralesansbold.ttf"
-        android:scrollHorizontally="false"
-        android:layout_toLeftOf="@id/price"
-        android:textSize="16sp"
-        android:textColor="?attr/baseColor"
-        android:layout_marginTop="13dp"
-        />
-
-    <TextView
-        android:id="@+id/text2value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:layout_marginTop="3dp"
-        android:text="2"
-        fontPath="fonts/centralesansbook.ttf"
-        android:textSize="10sp"
-        android:layout_below="@+id/text1Name"
-        android:layout_toRightOf="@+id/from"
-        android:layout_toEndOf="@+id/from"
-        android:textColor="?attr/baseColor"
-        android:drawablePadding="@dimen/iap_count_drop_down_padding"/>
-
-<FrameLayout android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_below="@+id/text1Name"
-             android:layout_toRightOf="@+id/text2value"
-    >
-    <ImageView
-        android:id="@+id/quantity_drop_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:paddingTop="3dp"
-        fontPath="fonts/centralesansbook.ttf"
-        android:paddingLeft="17dp"
-        android:paddingBottom="20dp"
-        android:paddingRight="20dp"
-        android:src="@drawable/iap_quantity_arrow"
-        android:drawablePadding="@dimen/iap_count_drop_down_padding"/>
-</FrameLayout>
-    <TextView
-        android:id="@+id/from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:text="from"
-        fontPath="fonts/centralesansbook.ttf"
-        android:textSize="10sp"
-       android:layout_alignBaseline="@id/text2value"
-        android:layout_marginRight="3dp"
-        android:textColor="?attr/baseColor"
-        />
+        <TextView
+            android:id="@+id/price"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@id/frame"
+            android:includeFontPadding="false"
+            android:text="€ 209,99"
+            android:textColor="?attr/baseColor"
+            android:textSize="16sp" />
 
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/text1Name"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@id/price"
+            android:includeFontPadding="false"
+            android:scrollHorizontally="false"
+            android:text="DiamondClean"
+            android:textColor="?attr/baseColor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text2value"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text1Name"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@+id/from"
+            android:layout_toRightOf="@+id/from"
+            android:drawablePadding="@dimen/iap_count_drop_down_padding"
+            android:includeFontPadding="false"
+            android:text="2"
+            android:textColor="?attr/baseColor"
+            android:textSize="10sp" />
+
+        <FrameLayout
+            android:id="@+id/quantity_fl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text1Name"
+            android:layout_toRightOf="@+id/text2value">
+
+            <ImageView
+                android:id="@+id/quantity_drop_down"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/iap_count_drop_down_padding"
+                android:includeFontPadding="false"
+                android:paddingBottom="20dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="20dp"
+                android:paddingTop="3dp"
+                android:src="@drawable/iap_quantity_arrow" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/out_of_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/quantity_fl"
+            android:textColor="@android:color/holo_red_dark"
+            android:visibility="gone"
+            android:text="@string/out_of_stock"/>
+
+        <TextView
+            android:id="@+id/from"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/text2value"
+            android:layout_marginRight="3dp"
+            android:includeFontPadding="false"
+            android:text="from"
+            android:textColor="?attr/baseColor"
+            android:textSize="10sp" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
