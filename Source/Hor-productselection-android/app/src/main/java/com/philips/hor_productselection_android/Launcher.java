@@ -10,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
@@ -32,6 +33,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     private final String TAG = Launcher.class.getSimpleName();
     private Button mButtonActivity, mAdd = null;
     private Button mButtonFragment = null;
+    private ImageButton mAddButton = null ;
     private RecyclerView mRecyclerView = null;
     private MultiProductConfigManager mConfigManager = null;
     private SampleAdapter adapter = null;
@@ -43,6 +45,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
         setContentView(R.layout.main);
 
         change_theme = (Button) findViewById(R.id.change_theme);
+        mAddButton = (ImageButton) findViewById(R.id.addimageButton);
         change_theme.setOnClickListener(this);
         setViewState();
         if (mList == null)
@@ -101,6 +104,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
         mButtonActivity.setOnClickListener(this);
         mButtonFragment.setOnClickListener(this);
         mAdd.setOnClickListener(this);
+        mAddButton.setOnClickListener(this);
     }
 
 
@@ -129,7 +133,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonActivity:
-                Toast.makeText(this, "Launch as Activity. ", Toast.LENGTH_LONG).show();
+               // Toast.makeText(this, "Launch as Activity. ", Toast.LENGTH_LONG).show();
                 launchMultiProductAsActivity();
                 break;
 
@@ -138,7 +142,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
                 launchMultiProductAsFragment();
                 break;
 
-            case R.id.add_product:
+            case R.id.addimageButton:
                 launchDialog();
                 break;
 

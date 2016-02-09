@@ -61,8 +61,8 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     }
 
     @Override
-    public String getActionbarTitle() {
-        return null;
+    public String getActionbarTitle()  {
+        return "Jamie Oliver Food Processor";
     }
 
     @Override

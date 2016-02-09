@@ -39,7 +39,7 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment implements V
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.abc_search_hint);
+        return getResources().getString(R.string.select_product);
     }
 
     @Override

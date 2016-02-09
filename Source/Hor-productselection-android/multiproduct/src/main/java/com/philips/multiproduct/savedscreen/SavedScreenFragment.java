@@ -61,8 +61,8 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
     }
 
     @Override
-    public String getActionbarTitle() {
-        return null;
+    public String getActionbarTitle()   {
+        return getResources().getString(R.string.confirmation);
     }
 
     @Override

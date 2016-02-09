@@ -121,8 +121,8 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
 
     @Override
-    public String getActionbarTitle() {
-        return getResources().getString(R.string.abc_search_hint);
+    public String getActionbarTitle()  {
+        return getResources().getString(R.string.product);
     }
 
 

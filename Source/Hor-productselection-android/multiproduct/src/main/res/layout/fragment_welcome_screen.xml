@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mp_activity_background_color">
+    android:background="?attr/veryLightColor">
 
     <LinearLayout
         android:id="@+id/welcome_screen_parent_one"
@@ -24,7 +24,7 @@
             android:paddingRight="@dimen/activity_margin"
             android:text="In order to give you better support, could you tell us which product you use?"
             android:textColor="?attr/baseColor"
-            android:textSize="@dimen/title_text_size_medium" />
+            android:textSize="@dimen/title_text_size_small" />
 
         <RelativeLayout
             android:id="@+id/welcome_screen_parent_two"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:paddingLeft="@dimen/activity_margin"
+                android:paddingLeft="@dimen/savedscreen_productcontainer_marigin"
                 android:src="@drawable/mp_search" />
 
             <TextView
@@ -48,10 +48,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/welcome_screen_find_product_search"
-                android:paddingLeft="@dimen/activity_margin"
+                android:paddingLeft="@dimen/savedscreen_productcontainer_marigin"
                 android:text="@string/mp_find_product"
                 android:textColor="?attr/baseColor"
-                android:textSize="@dimen/title_text_size_large" />
+                android:textSize="@dimen/title_text_size_medium" />
 
             <com.shamanland.fonticon.FontIconTextView
                 android:id="@+id/welcome_screen_arrow"

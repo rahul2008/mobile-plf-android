@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.philips.multiproduct.MultiProductConfigManager;
 import com.philips.multiproduct.R;
@@ -44,6 +45,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
+    private TextView mActionBarTitle = null;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -62,6 +64,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
+        mActionBarTitle = (TextView) getActivity().findViewById(R.id.actionbarTitle);
         registerNetWorkReceiver();
         setLocaleLanguage();
     }
@@ -110,6 +113,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
         MLogger.i(MLogger.FRAGMENT, "OnResume on "
                 + this.getClass().getSimpleName());
         super.onResume();
+        mActionBarTitle.setText(getActionbarTitle());
     }
 
     @Override
