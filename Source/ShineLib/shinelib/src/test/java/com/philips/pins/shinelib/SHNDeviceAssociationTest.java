@@ -70,8 +70,12 @@ public class SHNDeviceAssociationTest {
     @Mock
     private QuickTestConnection quickTestConnectionMock;
 
+    @Mock
+    private SHNDeviceAssociation.DeviceRemovedListener deviceRemovedListenerMock;
+
     @Captor
     private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
+
     private SHNDeviceScannerInternal mockedSHNDeviceScannerInternal;
 
     @Before
@@ -481,5 +485,17 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal);
 
         assertEquals(2, shnDeviceAssociation.getAssociatedDevices().size());
+    }
+    @Test
+
+    public void ShouldInformDeviceRemovedListener_WhenDeviceIsRemoved() {
+        String macAddress1 = "11:11:11:11:11:11";
+        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
+
+        shnDeviceAssociation.addDeviceRemovedListeners(deviceRemovedListenerMock);
+        shnDeviceAssociation.removeAllAssociatedDevices();
+
+        verify(deviceRemovedListenerMock).onAssociatedDeviceRemoved(shnDevice1);
     }
 }

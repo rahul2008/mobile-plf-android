@@ -43,6 +43,12 @@ public class SHNDeviceAssociation {
         void onAssociatedDevicesUpdated();
     }
 
+    public interface DeviceRemovedListener {
+        void onAssociatedDeviceRemoved(@NonNull final SHNDevice device);
+    }
+
+    private List<DeviceRemovedListener> deviceRemovedListeners = new ArrayList<>();
+
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
     private final SHNCentral shnCentral;
 
@@ -194,6 +200,11 @@ public class SHNDeviceAssociation {
         boolean removed = false;
         if (matchedSHNDevice != null) {
             removed = associatedDevices.remove(matchedSHNDevice);
+
+            for (final DeviceRemovedListener listener : deviceRemovedListeners) {
+                listener.onAssociatedDeviceRemoved(matchedSHNDevice);
+            }
+
         }
         return removed;
     }
@@ -298,5 +309,13 @@ public class SHNDeviceAssociation {
     @NonNull
     QuickTestConnection createQuickTestConnection() {
         return new QuickTestConnection(shnCentral.getInternalHandler());
+    }
+
+    public void addDeviceRemovedListeners(@NonNull final DeviceRemovedListener listener) {
+        deviceRemovedListeners.add(listener);
+    }
+
+    public void removeDeviceRemovedListeners(@NonNull final DeviceRemovedListener listener) {
+        deviceRemovedListeners.remove(listener);
     }
 }
