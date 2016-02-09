@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Observable;
 
-public class SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
+public class  SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
     private static final String TAG = SHNUserConfigurationImpl.class.getSimpleName();
 
 

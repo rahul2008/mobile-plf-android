@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SharedPreferencesHelper implements SharedPreferences {
+class PersistentStorage implements SharedPreferences {
     private static final String TAG = "SharedPreferencesHelper";
 
     private static final String SHORT_VALUE = "SHORT_VALUE";
@@ -22,7 +22,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
     @NonNull
     private SharedPreferences sharedPreferences;
 
-    public SharedPreferencesHelper(@NonNull final SharedPreferences sharedPreferences) {
+    public PersistentStorage(@NonNull final SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
