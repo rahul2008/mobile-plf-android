@@ -17,7 +17,6 @@ import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
-import com.philips.cdp.di.iap.response.cart.Product;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -39,7 +38,7 @@ import java.util.Map;
 public class ShoppingCartPresenter {
     private static final  String TAG = ShoppingCartPresenter.class.getName();
     Context mContext;
-    public ArrayList<ShoppingCartData> mProductData;
+    ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
     private Resources mResources;
 
@@ -60,10 +59,6 @@ public class ShoppingCartPresenter {
         mProductData.add(summary);
         mProductData.add(summary);
         mProductData.add(summary);
-    }
-
-    public ArrayList<ShoppingCartData> getProductList(){
-        return mProductData;
     }
 
     public void getCurrentCartDetails(){
@@ -178,7 +173,7 @@ public class ShoppingCartPresenter {
 
 
     public void deleteProduct(final ShoppingCartData summary) {
-        Utility.showProgressDialog(mContext, "Deleting Product");
+        Utility.showProgressDialog(mContext, "Getting Cart Details");
         Map<String,String> query = new HashMap<>();
         query.put(mResources.getString(R.string.iap_code), summary.getCartNumber());
         query.put(mResources.getString(R.string.iap_entry_number), String.valueOf(summary.getEntryNumber()));
