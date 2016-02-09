@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anySet;
@@ -83,7 +84,7 @@ public class PersistentStorageFactoryTest {
     public void ShouldSaveKeyForDevicePreferences_WhenGetPersistentStorageForDeviceIsCalled() {
         persistentStorageFactory.getPersistentStorageForDevice(shnDeviceMock);
 
-        HashSet<String> keySet = getKeySet(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY + TEST_ADDRESS);
+        Set<String> keySet = getKeySet(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY + TEST_ADDRESS);
         verify(persistentStorageMock).put(PersistentStorageFactory.DEVICE_KEY, keySet);
     }
 
@@ -104,13 +105,13 @@ public class PersistentStorageFactoryTest {
 
         persistentStorageFactory.getPersistentStorageForDeviceCapability(shnDeviceMock, capabilityType);
 
-        HashSet<String> keySet = getKeySet(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY + TEST_ADDRESS + capabilityType.name());
+        Set<String> keySet = getKeySet(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY + TEST_ADDRESS + capabilityType.name());
         verify(persistentStorageMock).put(PersistentStorageFactory.DEVICE_KEY, keySet);
     }
 
     @Test
     public void ShouldNotRenewKeystore_WhenKeyIsAlreadyPresent() {
-        HashSet<String> keySet = getKeySet(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.SANDBOX_KEY);
+        Set<String> keySet = getKeySet(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.SANDBOX_KEY);
         when(persistentStorageMock.getStringSet(eq(PersistentStorageFactory.DEVICE_KEY), anySet())).thenReturn(keySet);
 
         persistentStorageFactory.getPersistentStorage();
@@ -148,18 +149,19 @@ public class PersistentStorageFactoryTest {
 
         verify(persistentStorageMock, times(3)).clear();
 
-        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY);
-        assertThat(keyList.get(1)).isEqualTo(key1);
-        assertThat(keyList.get(2)).isEqualTo(key2);
+        assertThat(keyList).hasSize(3);
+        assertThat(keyList).contains(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY, key1, key2);
     }
 
     @Test
     public void ShouldClearAllData_WhenAsked() {
         persistentStorageFactory.clearAllData();
 
-        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY);
-        assertThat(keyList.get(1)).isEqualTo(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.USER_KEY);
-        assertThat(keyList.get(2)).isEqualTo(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.SANDBOX_KEY);
+        assertThat(keyList).hasSize(3);
+        assertThat(keyList).contains(
+                PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY,
+                PersistentStorageFactory.SHINELIB + PersistentStorageFactory.USER_KEY,
+                PersistentStorageFactory.SHINELIB + PersistentStorageFactory.SANDBOX_KEY);
 
         verify(persistentStorageMock, times(3)).clear();
     }
@@ -167,8 +169,8 @@ public class PersistentStorageFactoryTest {
     // -----------
 
     @NonNull
-    private HashSet<String> getKeySet(final String... keys) {
-        HashSet<String> keySet = new HashSet<>();
+    private Set<String> getKeySet(final String... keys) {
+        Set<String> keySet = new HashSet<>();
         Collections.addAll(keySet, keys);
         return keySet;
     }
