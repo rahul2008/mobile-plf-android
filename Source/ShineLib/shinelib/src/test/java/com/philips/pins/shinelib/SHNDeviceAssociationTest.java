@@ -486,8 +486,8 @@ public class SHNDeviceAssociationTest {
 
         assertEquals(2, shnDeviceAssociation.getAssociatedDevices().size());
     }
-    @Test
 
+    @Test
     public void ShouldInformDeviceRemovedListener_WhenDeviceIsRemoved() {
         String macAddress1 = "11:11:11:11:11:11";
         SHNDevice shnDevice1 = mock(SHNDevice.class);
@@ -497,5 +497,18 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.removeAllAssociatedDevices();
 
         verify(deviceRemovedListenerMock).onAssociatedDeviceRemoved(shnDevice1);
+    }
+
+    @Test
+    public void ShouldNotInformDeviceRemovedListener_WhenDeviceIsRemovedAndTheListenerHasBeenRemoved() {
+        String macAddress1 = "11:11:11:11:11:11";
+        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
+
+        shnDeviceAssociation.addDeviceRemovedListeners(deviceRemovedListenerMock);
+        shnDeviceAssociation.removeDeviceRemovedListeners(deviceRemovedListenerMock);
+        shnDeviceAssociation.removeAllAssociatedDevices();
+
+        verify(deviceRemovedListenerMock, never()).onAssociatedDeviceRemoved(shnDevice1);
     }
 }
