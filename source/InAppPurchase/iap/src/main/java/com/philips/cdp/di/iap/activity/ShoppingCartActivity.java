@@ -84,13 +84,12 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
     @Override
     protected void onStart() {
         super.onStart();
-        Utility.showProgressDialog(this, getString(R.string.iap_get_cart_details));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        Utility.showProgressDialog(this, getString(R.string.iap_get_cart_details));
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(this, mAdapter);
         presenter.getCurrentCartDetails();
         mListView.setAdapter(mAdapter);
