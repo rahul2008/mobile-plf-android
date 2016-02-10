@@ -33,14 +33,11 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
     public ListView mListView;
     private Button mCheckoutBtn = null;
     private Button mContinueBtn = null;
-    private TextView mOutOfStockTxt = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_cart_view);
-
-        mOutOfStockTxt = (TextView)findViewById(R.id.out_of_stock);
 
         mCheckoutBtn = (Button) findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
@@ -109,14 +106,11 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
     }
 
     /**
-     * Update stock availability of the product
-     * @param isOutOfStock boolean
+     * Set the checkout button state i.e enable / disable based on the stock availability
+     *
+     * @param isEnable bool
      */
-    public void updateOutOfStock(boolean isOutOfStock){
-        if(isOutOfStock) {
-            mOutOfStockTxt.setVisibility(View.VISIBLE);
-        }else{
-            mOutOfStockTxt.setVisibility(View.GONE);
-        }
+    public void setCheckoutBtnState(boolean isEnable) {
+        mCheckoutBtn.setEnabled(isEnable);
     }
 }

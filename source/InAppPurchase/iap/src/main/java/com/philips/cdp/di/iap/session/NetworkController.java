@@ -136,7 +136,7 @@ public class NetworkController {
 				return new CartModel(store, query);
             case RequestCode.CREATE_CART:
                 return new CartModel(store, query);
-            case RequestCode.DELETE_ENTRY:
+            case RequestCode.DELETE_PRODUCT:
                 return new CartModel(store, query);
             default:
                 return null;

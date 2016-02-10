@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
@@ -48,6 +47,7 @@ public class ShoppingCartPresenter {
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
+        void updateStock(boolean isOutOfStock);
     }
 
     public ShoppingCartPresenter(Context context, LoadListener listener){
@@ -183,7 +183,7 @@ public class ShoppingCartPresenter {
         query.put(mResources.getString(R.string.iap_code), summary.getCartNumber());
         query.put(mResources.getString(R.string.iap_entry_number), String.valueOf(summary.getEntryNumber()));
 
-            HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_ENTRY,
+            HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_PRODUCT,
                     new RequestListener() {
                         @Override
                         public void onSuccess(Message msg) {
@@ -237,7 +237,6 @@ public class ShoppingCartPresenter {
                             return;
                         }
                         Entries entry = data.getEntry();
-
                         ShoppingCartData item = array.get(position);
 
                         item.setQuantity(entry.getQuantity());
@@ -245,6 +244,16 @@ public class ShoppingCartPresenter {
                         item.setCurrency(entry.getTotalPrice().getCurrencyIso());
                         item.setTotalItems(data.getQuantityAdded());
                         getProductDetails(item, entry, UPDATE);
+
+                        if((data.getStatusCode().equalsIgnoreCase("success"))){
+                            if(mLoadListener != null) {
+                                mLoadListener.updateStock(false);
+                            }
+                        }else{
+                            if(mLoadListener != null) {
+                                mLoadListener.updateStock(true);
+                            }
+                        }
                     }
 
                     @Override
