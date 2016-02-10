@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -26,6 +25,10 @@ public class ShippingAddressActivity extends UiKitActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shipping_address_layout);
+
+        mCancelBtn = (Button)findViewById(R.id.cancel_btn);
+        mCancelBtn.setOnClickListener(this);
+
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
 
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -49,16 +52,11 @@ public class ShippingAddressActivity extends UiKitActivity implements View.OnCli
             }
         });
 
-        ImageView imageButton = (ImageView) mCustomView
-                .findViewById(R.id.arrow);
-
         mActionBar.setCustomView(mCustomView, params);
         mActionBar.setDisplayShowCustomEnabled(true);
 
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
-        mCancelBtn = (Button)findViewById(R.id.cancel_btn);
-        mCancelBtn.setOnClickListener(this);
     }
 
     @Override

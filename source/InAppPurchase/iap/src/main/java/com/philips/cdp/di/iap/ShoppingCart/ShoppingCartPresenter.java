@@ -38,7 +38,7 @@ import java.util.Map;
 
 
 public class ShoppingCartPresenter {
-    private static final  String TAG = ShoppingCartPresenter.class.getName();
+    private static final String TAG = ShoppingCartPresenter.class.getName();
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
@@ -48,10 +48,11 @@ public class ShoppingCartPresenter {
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
+
         void updateStock(boolean isOutOfStock);
     }
 
-    public ShoppingCartPresenter(Context context, LoadListener listener){
+    public ShoppingCartPresenter(Context context, LoadListener listener) {
         mContext = context;
         mProductData = new ArrayList<ShoppingCartData>();
         mLoadListener = listener;
@@ -66,44 +67,58 @@ public class ShoppingCartPresenter {
         mProductData.add(summary);
     }
 
-    public void getCurrentCartDetails(){
-            HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.GET_CART,
-                    new RequestListener() {
-                        @Override
-                        public void onSuccess(Message msg) {
+    public void getCurrentCartDetails() {
+        HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.GET_CART,
+                new RequestListener() {
+                    @Override
+                    public void onSuccess(Message msg) {
 
-                            GetCartData data = (GetCartData) msg.obj;
-                            if (data.getEntries() == null) {
-                                Intent intent = new Intent(mContext, EmptyCartActivity.class);
-                                mContext.startActivity(intent);
-                                Utility.dismissProgressDialog();
-                                return;
-                            }
-
-                            ShoppingCartData item = new ShoppingCartData();
-                            item.setTotalPrice(data.getTotalPrice().getValue());
-                            item.setCurrency(data.getTotalPrice().getCurrencyIso());
-                            item.setTotalItems(data.getTotalItems());
-                            item.setCartNumber(data.getCode());
-
-                            List<Entries> list = data.getEntries();
-                            for (int i = 0; i < list.size(); i++) {
-                                item.setQuantity(data.getEntries().get(i).getQuantity());
-                                getProductDetails(item, list.get(i));
-                                item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
-                                        .getStockLevel());
-                            }
-                        }
-
-                        @Override
-                        public void onError(Message msg) {
-                            Toast.makeText(mContext, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        GetCartData data = (GetCartData) msg.obj;
+                        if (data.getEntries() == null) {
+                            Intent intent = new Intent(mContext, EmptyCartActivity.class);
+                            mContext.startActivity(intent);
                             Utility.dismissProgressDialog();
+                            return;
                         }
-                    }, null);
+
+                        ShoppingCartData item = new ShoppingCartData();
+                        item.setTotalPrice(data.getTotalPrice().getValue());
+                        item.setCurrency(data.getTotalPrice().getCurrencyIso());
+                        item.setTotalItems(data.getTotalItems());
+                        item.setCartNumber(data.getCode());
+
+                        List<Entries> list = data.getEntries();
+
+                        for (int i = 0; i < list.size(); i++) {
+
+                            int quantity = data.getEntries().get(i).getQuantity();
+                            int stockLevel = data.getEntries().get(i).getProduct().getStock()
+                                    .getStockLevel();
+                            item.setQuantity(quantity);
+                            getProductDetails(item, list.get(i));
+                            item.setStockLevel(stockLevel);
+
+                            if (mLoadListener != null) {
+                                if (quantity > stockLevel) {
+                                    mLoadListener.updateStock(true);
+                                } else {
+                                    mLoadListener.updateStock(false);
+                                }
+                            }
+                        }
+
+                        Utility.dismissProgressDialog();
+                    }
+
+                    @Override
+                    public void onError(Message msg) {
+                        Toast.makeText(mContext, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        Utility.dismissProgressDialog();
+                    }
+                }, null);
     }
 
-    public void getProductDetails(final ShoppingCartData summary, final Entries entry){
+    public void getProductDetails(final ShoppingCartData summary, final Entries entry) {
         if (Utility.isInternetConnected(mContext)) {
             final String code = entry.getProduct().getCode();
             String mCtn = code.replaceAll("_", "/");
@@ -132,7 +147,7 @@ public class ShoppingCartPresenter {
                     summary.setProductTitle(data.getProductTitle());
                     summary.setCtnNumber(code);
                     summary.setEntryNumber(entry.getEntryNumber());
-                        addItem(summary);
+                    addItem(summary);
                 }
 
                 @Override
@@ -148,27 +163,27 @@ public class ShoppingCartPresenter {
         }
     }
 
-    boolean checkDuplicateValues(ShoppingCartData item){
+    boolean checkDuplicateValues(ShoppingCartData item) {
         String ctn = item.getCtnNumber();
-        for(int i=0;i<mProductData.size();i++) {
-            if (mProductData.get(i).getCtnNumber().equalsIgnoreCase(ctn)){
+        for (int i = 0; i < mProductData.size(); i++) {
+            if (mProductData.get(i).getCtnNumber().equalsIgnoreCase(ctn)) {
                 return true;
             }
         }
         return false;
     }
 
-    void addItem(ShoppingCartData summary){
-        if(!checkDuplicateValues(summary)) {
+    void addItem(ShoppingCartData summary) {
+        if (!checkDuplicateValues(summary)) {
             mProductData.add(summary);
             addShippingCostRowToTheList();
             refreshList(mProductData);
         }
-            Utility.dismissProgressDialog();
+        Utility.dismissProgressDialog();
     }
 
-    public void refreshList(ArrayList<ShoppingCartData> data){
-        if(mLoadListener != null) {
+    public void refreshList(ArrayList<ShoppingCartData> data) {
+        if (mLoadListener != null) {
             mLoadListener.onLoadFinished(data);
         }
     }
@@ -176,40 +191,40 @@ public class ShoppingCartPresenter {
 
     public void deleteProduct(final ShoppingCartData summary) {
         Utility.showProgressDialog(mContext, "Deleting Item");
-        Map<String,String> query = new HashMap<>();
+        Map<String, String> query = new HashMap<>();
         query.put(mResources.getString(R.string.iap_code), summary.getCartNumber());
         query.put(mResources.getString(R.string.iap_entry_number), String.valueOf(summary.getEntryNumber()));
 
-            HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_PRODUCT,
-                    new RequestListener() {
-                        @Override
-                        public void onSuccess(Message msg) {
-                            removeItemFromList(summary);
-                            refreshList(mProductData);
-                            Utility.dismissProgressDialog();
-                            checkIfCartIsEmpty();
-                        }
+        HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_PRODUCT,
+                new RequestListener() {
+                    @Override
+                    public void onSuccess(Message msg) {
+                        removeItemFromList(summary);
+                        Utility.dismissProgressDialog();
+                        refreshList(mProductData);
+                        checkIfCartIsEmpty();
+                    }
 
-                        @Override
-                        public void onError(Message msg) {
-                            Toast.makeText(mContext, "Delete Request Error", Toast.LENGTH_SHORT).show();
-                            refreshList(mProductData);
-                            Utility.dismissProgressDialog();
-                        }
-                    }, query);
+                    @Override
+                    public void onError(Message msg) {
+                        Toast.makeText(mContext, "Delete Request Error", Toast.LENGTH_SHORT).show();
+                        refreshList(mProductData);
+                        Utility.dismissProgressDialog();
+                    }
+                }, query);
     }
 
     private void checkIfCartIsEmpty() {
-        if(mProductData.size()<=3){
+        if (mProductData.size() <= 3) {
             Intent intent = new Intent(mContext, EmptyCartActivity.class);
             mContext.startActivity(intent);
         }
     }
 
     private void removeItemFromList(ShoppingCartData pProductdata) {
-        if(mProductData.size()<=4){
+        if (mProductData.size() <= 4) {
             mProductData.removeAll(mProductData);
-        }else {
+        } else {
             mProductData.remove(pProductdata);
         }
     }
@@ -217,7 +232,7 @@ public class ShoppingCartPresenter {
     public void updateProductQuantity(final ArrayList<ShoppingCartData> array, final int position, final int count) {
         mProductData = array;
         ShoppingCartData product = array.get(position);
-        HashMap<String,String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<String, String>();
         params.put(CartModel.PRODUCT_CODE, product.getCtnNumber());
         params.put(CartModel.PRODUCT_QUANTITY, String.valueOf(count));
         params.put(CartModel.PRODUCT_ENTRYCODE, String.valueOf(product.getEntryNumber()));
@@ -234,17 +249,16 @@ public class ShoppingCartPresenter {
                         item.setTotalPrice(entry.getTotalPrice().getValue());
                         item.setCurrency(entry.getTotalPrice().getCurrencyIso());
                         item.setTotalItems(data.getQuantityAdded());
-                        updateItem(item,getPositionOfItem(item));
+                        updateItem(item, getPositionOfItem(item));
 
-                        if((data.getStatusCode().equalsIgnoreCase("success"))){
-                            if(mLoadListener != null) {
+                        if (mLoadListener != null) {
+                            if ((data.getStatusCode().equalsIgnoreCase("success"))) {
                                 mLoadListener.updateStock(false);
-                            }
-                        }else{
-                            if(mLoadListener != null) {
+                            } else {
                                 mLoadListener.updateStock(true);
                             }
                         }
+                        Utility.dismissProgressDialog();
                     }
 
                     @Override
@@ -256,15 +270,15 @@ public class ShoppingCartPresenter {
     }
 
     private void updateItem(final ShoppingCartData data, int position) {
-        mProductData.set(position,data);
+        mProductData.set(position, data);
         refreshList(mProductData);
         Utility.dismissProgressDialog();
     }
 
-    private int getPositionOfItem(ShoppingCartData data){
+    private int getPositionOfItem(ShoppingCartData data) {
         int position = 0;
-        for(int i=0;i<mProductData.size();i++){
-            if(mProductData.get(i).getCtnNumber()!=null && mProductData.get(i).getCtnNumber().equalsIgnoreCase(data.getCtnNumber())){
+        for (int i = 0; i < mProductData.size(); i++) {
+            if (mProductData.get(i).getCtnNumber() != null && mProductData.get(i).getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
                 position = i;
                 break;
             }
