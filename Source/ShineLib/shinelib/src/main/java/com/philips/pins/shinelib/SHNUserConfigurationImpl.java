@@ -10,24 +10,22 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philips.pins.shinelib.utility.PersistentStorage;
+import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.utility.SHNPersistentStorage;
-import com.philips.pins.shinelib.utility.SharedPreferencesHelper;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Observable;
 
-public class  SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
+public class SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
     private static final String TAG = SHNUserConfigurationImpl.class.getSimpleName();
-
 
     public static final String CLOCK_FORMAT_KEY = "CLOCK_FORMAT_KEY";
     public static final String ISO_LANGUAGE_CODE_KEY = "ISO_LANGUAGE_CODE_KEY";
     public static final String ISO_COUNTRY_CODE_KEY = "ISO_COUNTRY_CODE_KEY";
     public static final String USE_METRIC_SYSTEM_KEY = "USE_METRIC_SYSTEM_KEY";
-
 
     /* package */ static final String USER_CONFIG_DATE_OF_BIRTH = "USER_CONFIG_DATE_OF_BIRTH";
     /* package */ static final String USER_CONFIG_MAX_HEART_RATE = "USER_CONFIG_MAX_HEART_RATE";
@@ -53,7 +51,7 @@ public class  SHNUserConfigurationImpl extends Observable implements SHNUserConf
     public static final char DEFAULT_DECIMAL_SEPARATOR = '.';
 
     @NonNull
-    private final SharedPreferencesHelper sharedPreferences;
+    private final PersistentStorage persistentStorage;
 
     @NonNull
     private final Handler internalHandler;
@@ -69,8 +67,8 @@ public class  SHNUserConfigurationImpl extends Observable implements SHNUserConf
 
     private int changeIncrement;
 
-    public SHNUserConfigurationImpl(@NonNull final SHNPersistentStorage shnPersistentStorage, @NonNull final Handler internalHandler) {
-        this.sharedPreferences = new SharedPreferencesHelper(shnPersistentStorage.getSharedPreferences());
+    public SHNUserConfigurationImpl(@NonNull final PersistentStorageFactory persistentStorageFactory, @NonNull final Handler internalHandler) {
+        this.persistentStorage = persistentStorageFactory.getPersistentStorageForUser();
         this.internalHandler = internalHandler;
         retrieveFromPreferences();
     }
@@ -277,7 +275,7 @@ public class  SHNUserConfigurationImpl extends Observable implements SHNUserConf
     }
 
     private synchronized void saveToPreferences() {
-        SharedPreferences.Editor edit = sharedPreferences.edit();
+        SharedPreferences.Editor edit = persistentStorage.edit();
 
         Date dateOfBirth = getDateOfBirth();
         updatePersistentStorage(edit, USER_CONFIG_DATE_OF_BIRTH, ((dateOfBirth == null) ? null : dateOfBirth.getTime()));
@@ -398,7 +396,7 @@ public class  SHNUserConfigurationImpl extends Observable implements SHNUserConf
 
     @Nullable
     private Date readDateFromPersistentStorage(String key) {
-        long value = sharedPreferences.getLong(key, DEFAULT_LONG_VALUE);
+        long value = persistentStorage.getLong(key, DEFAULT_LONG_VALUE);
         if (value != DEFAULT_LONG_VALUE) {
             return new Date(value);
         }
@@ -407,7 +405,7 @@ public class  SHNUserConfigurationImpl extends Observable implements SHNUserConf
 
     @Nullable
     private Integer readIntegerFromPersistentStorage(String key) {
-        int value = sharedPreferences.getInt(key, DEFAULT_INT_VALUE);
+        int value = persistentStorage.getInt(key, DEFAULT_INT_VALUE);
         if (value != DEFAULT_INT_VALUE) {
             return value;
         }
@@ -416,7 +414,7 @@ public class  SHNUserConfigurationImpl extends Observable implements SHNUserConf
 
     @Nullable
     private Double readDoubleFromPersistentStorage(String key) {
-        float value = sharedPreferences.getFloat(key, DEFAULT_FLOAT_VALUE);
+        float value = persistentStorage.getFloat(key, DEFAULT_FLOAT_VALUE);
         if (!Float.isNaN(value)) {
             return (double) value;
         }
@@ -425,58 +423,66 @@ public class  SHNUserConfigurationImpl extends Observable implements SHNUserConf
 
     @Nullable
     private String readStringFromPersistentStorage(String key) {
-        return sharedPreferences.getString(key, DEFAULT_STRING_VALUE);
+        return persistentStorage.getString(key, DEFAULT_STRING_VALUE);
     }
 
     @Nullable
     private Boolean readBooleanFromPersistentStorage(String key) {
-        if (sharedPreferences.contains(key)) {
-            return sharedPreferences.getBoolean(key, false);
+        if (persistentStorage.contains(key)) {
+            return persistentStorage.getBoolean(key, false);
         }
         return DEFAULT_BOOLEAN_VALUE;
     }
 
     @Override
     public ClockFormat getClockFormat() {
-        return sharedPreferences.get(CLOCK_FORMAT_KEY);
+        return persistentStorage.get(CLOCK_FORMAT_KEY);
     }
 
     @Override
     public void setClockFormat(@NonNull final ClockFormat clockFormat) {
-        sharedPreferences.put(CLOCK_FORMAT_KEY, clockFormat);
+        persistentStorage.put(CLOCK_FORMAT_KEY, clockFormat);
+        incrementChangeIncrementAndNotifyModifiedListeners();
+    }
+
+    @Override
+    public void clear() {
+        persistentStorage.clear();
+        retrieveFromPreferences();
         incrementChangeIncrementAndNotifyModifiedListeners();
     }
 
     @Override
     public synchronized String getIsoLanguageCode() {
-        return sharedPreferences.get(ISO_LANGUAGE_CODE_KEY, Locale.getDefault().getLanguage());
+        String s = persistentStorage.get(ISO_LANGUAGE_CODE_KEY, Locale.getDefault().getLanguage());
+        return s;
     }
 
     @Override
     public synchronized void setIsoLanguageCode(String isoLanguageCode) {
-        sharedPreferences.put(ISO_LANGUAGE_CODE_KEY, isoLanguageCode);
+        persistentStorage.put(ISO_LANGUAGE_CODE_KEY, isoLanguageCode);
         incrementChangeIncrementAndNotifyModifiedListeners();
     }
 
     @Override
     public String getIsoCountryCode() {
-        return sharedPreferences.get(ISO_COUNTRY_CODE_KEY, Locale.getDefault().getCountry());
+        return persistentStorage.get(ISO_COUNTRY_CODE_KEY, Locale.getDefault().getCountry());
     }
 
     @Override
     public void setIsoCountryCode(final String isoCountryCode) {
-        sharedPreferences.put(ISO_COUNTRY_CODE_KEY, isoCountryCode);
+        persistentStorage.put(ISO_COUNTRY_CODE_KEY, isoCountryCode);
         incrementChangeIncrementAndNotifyModifiedListeners();
     }
 
     @Override
     public synchronized Boolean getUseMetricSystem() {
-        return sharedPreferences.get(USE_METRIC_SYSTEM_KEY, true);
+        return persistentStorage.get(USE_METRIC_SYSTEM_KEY, true);
     }
 
     @Override
     public synchronized void setUseMetricSystem(Boolean useMetricSystem) {
-        sharedPreferences.put(USE_METRIC_SYSTEM_KEY, useMetricSystem);
+        persistentStorage.put(USE_METRIC_SYSTEM_KEY, useMetricSystem);
         incrementChangeIncrementAndNotifyModifiedListeners();
     }
 }

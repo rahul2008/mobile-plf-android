@@ -81,4 +81,6 @@ public interface SHNUserConfiguration {
     ClockFormat getClockFormat();
 
     void setClockFormat(ClockFormat clockFormat);
+
+    void clear();
 }
