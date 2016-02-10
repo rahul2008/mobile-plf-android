@@ -1,5 +1,7 @@
 <resources>
     <string name="iap_name">InAppPurchase</string>
+    <string name="add_to_cart">Adding To Cart</string>
+    <string name="loading_cart">Loading Cart</string>
     <string name="iap_shopping_cart">Shopping Cart</string>
     <string name="iap_get_cart_details">Getting Cart Details</string>
     <string name="iap_product_item_quantity">Quantity: </string>
@@ -13,4 +15,6 @@
     <string name="iap_empty_cart">Your Shopping Cart is Currently Empty</string>
     <string name="iap_address">Address</string>
     <string name="out_of_stock">Out of stock</string>
+    <string name="no_stock">No stock</string>
+    <string name="something_went_wrong">Something went wrong!</string>
 </resources>
