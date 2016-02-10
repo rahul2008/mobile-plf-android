@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.response.cart.Entry;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.response.cart.UpdateCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -122,9 +123,9 @@ public class ShoppingCartPresenter {
         if (Utility.isInternetConnected(mContext)) {
             final String code = entry.getProduct().getCode();
             String mCtn = code.replaceAll("_", "/");
-            String mSectorCode = "B2C";
-            String mLocale = "en_US";
-            String mCatalogCode = "CONSUMER";
+            String mSectorCode = NetworkConstants.PRX_SECTOR_CODE;
+            String mLocale = NetworkConstants.PRX_LOCALE;
+            String mCatalogCode = NetworkConstants.PRX_CATALOG_CODE;
             String mRequestTag = null;
 
             PrxLogger.enablePrxLogger(true);
