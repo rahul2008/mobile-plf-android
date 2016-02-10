@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
@@ -50,8 +51,13 @@ public class DemoAppActivity extends Activity implements RequestListener {
             public void onClick(final View v) {
 
                 if (Utility.isInternetConnected(DemoAppActivity.this)) {
-                    Intent myIntent = new Intent(DemoAppActivity.this, ShoppingCartActivity.class);
-                    startActivity(myIntent);
+                    if(mCount == 0){
+                        Intent intent = new Intent(DemoAppActivity.this, EmptyCartActivity.class);
+                        startActivity(intent);
+                    }else {
+                        Intent myIntent = new Intent(DemoAppActivity.this, ShoppingCartActivity.class);
+                        startActivity(myIntent);
+                    }
                 } else {
                     Utility.showNetworkError(DemoAppActivity.this, false);
                 }
