@@ -192,7 +192,6 @@ public class ShoppingCartPresenter {
     public void deleteProduct(final ShoppingCartData summary) {
         Utility.showProgressDialog(mContext, "Deleting Item");
         Map<String, String> query = new HashMap<>();
-        query.put(mResources.getString(R.string.iap_code), summary.getCartNumber());
         query.put(mResources.getString(R.string.iap_entry_number), String.valueOf(summary.getEntryNumber()));
 
         HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_PRODUCT,

@@ -132,9 +132,8 @@ public class CartModel extends AbstractModel {
                 if (params == null) {
                     throw new RuntimeException("Cart ID and Entry Number has to be supplied");
                 }
-                String productCode = params.get(PRODUCT_CODE);
                 int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
-                return String.format(NetworkConstants.deleteProductUrl, productCode,String.valueOf(entryNumber));
+                return String.format(NetworkConstants.deleteProductUrl, String.valueOf(entryNumber));
 
         }
         return null;
