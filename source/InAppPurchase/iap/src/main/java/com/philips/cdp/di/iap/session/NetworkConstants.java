@@ -1,23 +1,23 @@
 package com.philips.cdp.di.iap.session;
 
-public final class NetworkConstants {
-    public static String getCurrentCartUrl = "https://tst.admin.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/inapp@2/carts/current";
-    public static String createCartUrl = "https://tst.admin.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/inapp@2/carts";
-    public static String addToCartUrl = "https://tst.admin.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/inapp@2/carts/current/entries";
-    public static String deleteProductUrl = "https://tst.admin.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/inapp@2/carts/%s/entries/%s";
+public class NetworkConstants {
 
-    public static String updateQuantityUrl = "https://tst.admin.shop.philips" +
-            ".com/pilcommercewebservices/v2/US_Tuscany/users/inapp@2/carts/current/entries/%s";
+    public static final String HOST_URL = "https://tst.pl.shop.philips.com/";
+    public static final String WEB_ROOT = "pilcommercewebservices/";
+    public static final String V2 = "v2/";
+    public static final String APP_CONFIG = "US_Tuscany/";
+    public static final String BASE_URL = HOST_URL + WEB_ROOT + V2 + APP_CONFIG;
+    public static final String CURRENT_CART = "carts/current";
 
-    public static String protocol = "https://";
-    public static String hostport = "tst.pl.shop.philips.com/";
-    public static String webroot = "pilcommercewebservices/";
-    public static String v2 = "v2/";
-    public static String appConfig = "US_Tuscany/";
+   /* public static final String LOCALE = "en_US";
+    public static final String PROPOSITION_ID = "Tuscany2016";
+    public static final String CLIENT_ID = "mobile_android";
+    public static final String CLIENT_SECRET = "secret";*/
 
-    public static String locale = "en_US";
-    public static String propositionId = "Tuscany2016";
-    public static String client_id = "mobile_android";
-    public static String client_secret = "secret";
+    public static final String GET_CURRENT_CART_URL = BASE_URL + "users/inapp@2/" + CURRENT_CART;
+    public static final String CREATE_CART_URL = BASE_URL + "users/inapp@2/carts";
+    public static final String ADD_TO_CART_URL = BASE_URL + "users/inapp@2/" + CURRENT_CART + "/entries";
+    public static final String DELETE_PRODUCT_URL = BASE_URL + "users/inapp@2/" + CURRENT_CART + "/entries/%s";
+    public static final String UPDATE_QUANTITY_URL = BASE_URL + "users/inapp@2/" + CURRENT_CART + "/entries/%s";
 }
 

@@ -29,7 +29,7 @@ public class CartModel extends AbstractModel {
     public String getUrl(int requestCode) {
         switch (requestCode) {
             case RequestCode.ADD_TO_CART:
-                return NetworkConstants.addToCartUrl;
+                return NetworkConstants.ADD_TO_CART_URL;
 
             case RequestCode.UPDATE_PRODUCT_COUNT:
                 //TODO : Need to update real time url
@@ -41,7 +41,7 @@ public class CartModel extends AbstractModel {
                 String productCode = params.get(PRODUCT_CODE);
                 int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
 
-                return String.format(NetworkConstants.deleteProductUrl, productCode,entryNumber);
+                return String.format(NetworkConstants.DELETE_PRODUCT_URL, productCode,entryNumber);
         }
         return null;
     }
@@ -112,13 +112,13 @@ public class CartModel extends AbstractModel {
         switch (requestCode) {
 
             case RequestCode.CREATE_CART:
-                return NetworkConstants.createCartUrl;
+                return NetworkConstants.CREATE_CART_URL;
 
             case RequestCode.GET_CART:
-                return NetworkConstants.getCurrentCartUrl;
+                return NetworkConstants.GET_CURRENT_CART_URL;
 
             case RequestCode.ADD_TO_CART:
-                return NetworkConstants.addToCartUrl;
+                return NetworkConstants.ADD_TO_CART_URL;
 
             case RequestCode.UPDATE_PRODUCT_COUNT:
                 if (params == null || !params.containsKey(PRODUCT_CODE) ||
@@ -126,14 +126,14 @@ public class CartModel extends AbstractModel {
                     throw new RuntimeException("product code and quantity must be supplied");
                 }
                 String entrycode = params.get(PRODUCT_ENTRYCODE);
-                return String.format(NetworkConstants.updateQuantityUrl, entrycode);
+                return String.format(NetworkConstants.UPDATE_QUANTITY_URL, entrycode);
 
             case RequestCode.DELETE_PRODUCT:
                 if (params == null) {
                     throw new RuntimeException("Cart ID and Entry Number has to be supplied");
                 }
                 int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
-                return String.format(NetworkConstants.deleteProductUrl, String.valueOf(entryNumber));
+                return String.format(NetworkConstants.DELETE_PRODUCT_URL, String.valueOf(entryNumber));
 
         }
         return null;

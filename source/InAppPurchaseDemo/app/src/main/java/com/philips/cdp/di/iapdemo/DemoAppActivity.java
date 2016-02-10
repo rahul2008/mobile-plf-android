@@ -150,10 +150,10 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
     /**
      * Add to cart
-     * @param isFromBuy
+     * @param isFromBuy bool
      */
     void addToCart(boolean isFromBuy) {
-        Utility.showProgressDialog(this, getString(R.string.add_to_cart));
+        Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
         HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, null);
         mIsFromBuy = isFromBuy;
     }

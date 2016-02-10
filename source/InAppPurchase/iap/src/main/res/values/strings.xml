@@ -1,6 +1,6 @@
 <resources>
     <string name="iap_name">InAppPurchase</string>
-    <string name="add_to_cart">Adding To Cart</string>
+    <string name="adding_to_cart">Adding To Cart</string>
     <string name="loading_cart">Loading Cart</string>
     <string name="iap_shopping_cart">Shopping Cart</string>
     <string name="iap_get_cart_details">Getting Cart Details</string>
