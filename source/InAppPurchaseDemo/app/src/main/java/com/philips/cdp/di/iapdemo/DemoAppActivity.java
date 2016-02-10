@@ -128,9 +128,11 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
                 break;
             }
-            case RequestCode.CREATE_CART:
-                mCountText.setText(String.valueOf(0));
+            case RequestCode.CREATE_CART: {
+                mCount = 0;
+                mCountText.setText(String.valueOf(mCount));
                 break;
+            }
         }
         Utility.dismissProgressDialog();
     }
