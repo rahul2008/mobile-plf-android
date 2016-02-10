@@ -238,8 +238,7 @@ public class ShoppingCartPresenter {
                         }
                         Entries entry = data.getEntry();
 
-                        ShoppingCartData item = new ShoppingCartData();
-                        item = array.get(position);
+                        ShoppingCartData item = array.get(position);
 
                         item.setQuantity(entry.getQuantity());
                         item.setTotalPrice(entry.getTotalPrice().getValue());
