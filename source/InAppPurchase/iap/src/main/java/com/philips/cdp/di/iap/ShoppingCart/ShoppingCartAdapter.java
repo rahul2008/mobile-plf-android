@@ -123,7 +123,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         R.drawable.toothbrush, android.R.drawable
                                 .ic_dialog_alert));
                 holder.image.setImageUrl(imageURL, mImageLoader);
-                Utility.dismissProgressDialog();
                 holder.dots.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {

@@ -93,8 +93,6 @@ public class ShoppingCartPresenter {
                                 item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
                                         .getStockLevel());
                             }
-
-                            Utility.dismissProgressDialog();
                         }
 
                         @Override
@@ -187,8 +185,8 @@ public class ShoppingCartPresenter {
                         @Override
                         public void onSuccess(Message msg) {
                             removeItemFromList(summary);
-                            Utility.dismissProgressDialog();
                             refreshList(mProductData);
+                            Utility.dismissProgressDialog();
                             checkIfCartIsEmpty();
                         }
 
@@ -247,7 +245,6 @@ public class ShoppingCartPresenter {
                                 mLoadListener.updateStock(true);
                             }
                         }
-                        Utility.dismissProgressDialog();
                     }
 
                     @Override
