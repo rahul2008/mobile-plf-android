@@ -39,6 +39,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @Config(constants = BuildConfig.class, sdk = 21)
 public class SHNUserConfigurationImplTest {
 
+    public static final String TEST_KEY = "TEST_KEY";
+    public static final String TEST_VALUE = "TEST_VALUE";
     @Mock
     private PersistentStorageFactory persistentStorageFactoryMock;
 
@@ -356,7 +358,6 @@ public class SHNUserConfigurationImplTest {
         assertThat(actualIsoLanguageCode).isEqualTo(expectedIsoLanguageCode);
     }
 
-
     @Test
     public void whenCountryIsSet_ThenListenerIsNotified() {
         setupNewPreferenceFormat();
@@ -388,7 +389,6 @@ public class SHNUserConfigurationImplTest {
         assertThat(actualIsoCountryCode).isEqualTo(expectedIsoCountryCode);
     }
 
-
     @Test
     public void whenClockFormatIsSet_ThenListenerIsNotified() {
         setupNewPreferenceFormat();
@@ -419,7 +419,6 @@ public class SHNUserConfigurationImplTest {
         assertThat(actualClockFormat).isEqualTo(expectedClockFormat);
     }
 
-
     @Test
     public void whenUseMetricSystemIsSet_ThenListenerIsNotified() {
         setupNewPreferenceFormat();
@@ -446,5 +445,28 @@ public class SHNUserConfigurationImplTest {
         boolean useMetricSystem = shnUserConfiguration.getUseMetricSystem();
 
         assertThat(useMetricSystem).isFalse();
+    }
+
+    @Test
+    public void whenClearIsCalled_ThenDataIsCleared() {
+        setupNewPreferenceFormat();
+        persistentStorageFactoryMock.getPersistentStorageForUser().put(TEST_KEY, TEST_VALUE);
+        assertThat(persistentStorageFactoryMock.getPersistentStorageForUser().contains(TEST_KEY)).isTrue();
+
+        shnUserConfiguration.clear();
+
+        assertThat(persistentStorageFactoryMock.getPersistentStorageForUser().contains(TEST_KEY)).isFalse();
+
+        verify(mockedObserver).update(shnUserConfiguration, null);
+    }
+
+    @Test
+    public void whenClearIsCalled_ThenListenerIsNotified() {
+        setupNewPreferenceFormat();
+        persistentStorageFactoryMock.getPersistentStorageForUser().put(TEST_KEY, TEST_VALUE);
+
+        shnUserConfiguration.clear();
+
+        verify(mockedObserver).update(shnUserConfiguration, null);
     }
 }
