@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
@@ -127,17 +128,30 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
                 break;
             }
-            case RequestCode.CREATE_CART:
+            case RequestCode.CREATE_CART: {
+                mCount = 0;
                 mCountText.setText(String.valueOf(mCount));
                 break;
+            }
         }
         Utility.dismissProgressDialog();
     }
 
     @Override
     public void onError(Message msg) {
-        Utility.dismissProgressDialog();
-        Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+        switch (msg.what) {
+            case RequestCode.GET_CART:
+                VolleyError error = (VolleyError) msg.obj;
+                if (error.networkResponse.statusCode == 400) {
+                    HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.CREATE_CART, this, null);
+                }
+                break;
+            default: {
+                Utility.dismissProgressDialog();
+                Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     /**
