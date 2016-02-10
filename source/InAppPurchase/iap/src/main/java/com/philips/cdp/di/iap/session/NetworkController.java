@@ -119,7 +119,7 @@ public class NetworkController {
         if (DebugUtils.TEST_MODE) {
             return model.getTestUrl(requestCode);
         }
-        return model.getUrl(requestCode);
+        return model.getProductionUrl(requestCode);
     }
 
     /**
