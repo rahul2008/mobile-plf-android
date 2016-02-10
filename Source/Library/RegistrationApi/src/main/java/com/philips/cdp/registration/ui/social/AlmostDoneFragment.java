@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -31,12 +29,12 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XButton;
+import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -50,7 +48,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, CompoundButton.OnCheckedChangeListener {
+        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener, XCheckBox.OnCheckedChangeListener {
 
     private TextView mTvSignInWith;
 
@@ -60,13 +58,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private LinearLayout mLlAcceptTermsContainer;
 
-    private CheckBox mCbAcceptTerms;
+    private XCheckBox mCbAcceptTerms;
 
     private XRegError mRegAccptTermsError;
 
     private RelativeLayout mRlContinueBtnContainer;
 
-    private CheckBox mCbTerms;
+    private XCheckBox mCbTerms;
 
     private XRegError mRegError;
 
@@ -271,12 +269,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mRlContinueBtnContainer = (RelativeLayout) view
                 .findViewById(R.id.rl_reg_btn_continue_container);
 
-        mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
+        mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
+        //FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
         TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
-        mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
+        mCbAcceptTerms = (XCheckBox) view.findViewById(R.id.cb_reg_accept_terms);
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
 
         TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
@@ -594,23 +592,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         updateUiStatus();
     }
 
+    //called on click of back
+    public void clearUserData() {
+        if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
+            User user = new User(mContext);
+            user.logout(null);
+        }
+    }
+
     @Override
-    public void onCheckedChanged(CompoundButton viewId, boolean isChecked) {
-        int id = viewId.getId();
+    public void onCheckedChanged(View view, boolean isChecked) {
+        int id = mCbAcceptTerms.getId();
         if (id == R.id.cb_reg_accept_terms) {
             if (isChecked) {
                 mRegAccptTermsError.setVisibility(View.GONE);
             } else {
                 mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
             }
-        }
-    }
-
-    //called on click of back
-    public void clearUserData() {
-        if (null != mCbAcceptTerms && !mCbAcceptTerms.isChecked() && RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            User user = new User(mContext);
-            user.logout(null);
         }
     }
 }

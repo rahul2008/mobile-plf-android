@@ -14,9 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -32,21 +29,21 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class LogoutFragment extends RegistrationBaseFragment implements OnClickListener,
-        UpdateReceiveMarketingEmailHandler, OnCheckedChangeListener, NetworStateListener, LogoutHandler {
+        UpdateReceiveMarketingEmailHandler, NetworStateListener, LogoutHandler, XCheckBox.OnCheckedChangeListener {
 
     private TextView mTvWelcome;
 
     private TextView mTvSignInEmail;
 
-    private CheckBox mCbTerms;
+    private XCheckBox mCbTerms;
 
     private LinearLayout mLlContinueBtnContainer;
 
@@ -176,8 +173,8 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
         mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_continue_id);
-        mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
-        FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
+        mCbTerms = (XCheckBox) view.findViewById(R.id.cb_reg_receive_philips_news);
+        //FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
         mCbTerms.setVisibility(view.VISIBLE);
         mCbTerms.setChecked(mUser.getUserInstance(mContext).getReceiveMarketingEmail());
@@ -221,11 +218,11 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
 
-    @Override
+  /*  @Override
     public void onCheckedChanged(
             CompoundButton buttonView, boolean isChecked) {
         handleUpdate();
-    }
+    }*/
 
     private void handleUpdate() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -363,4 +360,9 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
         }
     };
+
+    @Override
+    public void onCheckedChanged(View view, boolean checked) {
+        handleUpdate();
+    }
 }

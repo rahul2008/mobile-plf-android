@@ -12,13 +12,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
-
 
 public class XProviderButton extends RelativeLayout {
 
@@ -28,8 +26,6 @@ public class XProviderButton extends RelativeLayout {
 
     private int mProviderNameStringID = -1;
 
-    private int mProviderLogoID = -1;
-
     private int mProviderBackgroundID = -1;
 
     private int mProviderTextColorID = -1;
@@ -38,7 +34,7 @@ public class XProviderButton extends RelativeLayout {
 
     private FrameLayout mFlProvider;
 
-    private ImageView mIvProviderLogo;
+    private TextView mIvProviderLogo;
 
     private TextView mTvProvider;
 
@@ -55,7 +51,6 @@ public class XProviderButton extends RelativeLayout {
         mProviderNameStringID = attrs.getAttributeResourceValue(XProviderButton.XMLNS,
                 "providerName", -1);
 
-        mProviderLogoID = attrs.getAttributeResourceValue(XProviderButton.XMLNS, "providerLogo", 0);
         mProviderBackgroundID = attrs.getAttributeResourceValue(XProviderButton.XMLNS,
                 "providerBackground", 0);
         mProviderTextColorID = attrs.getAttributeResourceValue(XProviderButton.XMLNS,
@@ -70,15 +65,11 @@ public class XProviderButton extends RelativeLayout {
         li.inflate(resourceId, this, true);
 
         mFlProvider = (FrameLayout) findViewById(R.id.fl_reg_provider_bg);
-        mIvProviderLogo = (ImageView) findViewById(R.id.iv_reg_provider_logo);
+        mIvProviderLogo = (TextView) findViewById(R.id.iv_reg_provider_logo);
         mTvProvider = (TextView) findViewById(R.id.tv_reg_provider_name);
         mPbSpinner = (ProgressBar) findViewById(R.id.pb_reg_spinner);
         if (mProviderNameStringID != -1) {
             mTvProvider.setText(mContext.getResources().getString(mProviderNameStringID));
-        }
-
-        if (mProviderLogoID != -1) {
-            mIvProviderLogo.setImageResource(mProviderLogoID);
         }
 
         if (mProviderBackgroundID != -1) {
@@ -107,11 +98,11 @@ public class XProviderButton extends RelativeLayout {
     }
 
     public void setProviderLogoID(int providerLogoID) {
-        mIvProviderLogo.setImageResource(providerLogoID);
+        mIvProviderLogo.setText(providerLogoID);
+        //mIvProviderLogo.setTextColor(Color.parseColor("#bdbdbd"));
     }
 
     public void setProviderTextColor(int providerTextColorID) {
         mTvProvider.setTextColor(mContext.getResources().getColor(providerTextColorID));
     }
-
 }

@@ -51,4 +51,12 @@
 
     <string name="ic_reg_maskPassword">\uE619</string>
 
+    <string name="reg_twitter_ic">\uE61f</string>
+
+    <string name="reg_facebook_ic">\uE61a</string>
+
+    <string name="reg_googleplus_ic">\uE61b</string>
+
+    <string name="uikit_fonticon_tick_light">&#xe600;</string>
+
 </resources>

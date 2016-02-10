@@ -3,17 +3,18 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/reg_layout_bg"
+    android:background="@android:color/transparent"
     android:orientation="horizontal" >
 
-    <ImageView
+    <com.philips.cdp.registration.ui.customviews.XErrorAlertIcon
         android:layout_width="@dimen/reg_err_alert_width"
         android:layout_height="@dimen/reg_err_alert_width"
         android:layout_gravity="top"
         android:layout_marginRight="@dimen/reg_err_mapping_margin_right"
         android:layout_marginTop="@dimen/reg_err_mapping_mergin_top"
-        android:contentDescription="@string/content_desc"
-        android:src="@drawable/reg_err_alert" />
+        android:textSize="@dimen/reg_error_alert_size"
+        android:textStyle="bold"
+        android:text="!"/>
 
     <ImageView
         android:layout_width="@dimen/reg_err_alert_width"

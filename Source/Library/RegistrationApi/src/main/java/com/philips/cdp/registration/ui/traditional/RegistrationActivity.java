@@ -26,7 +26,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     private  boolean isAccountSettings = true;
 
-    private ImageView ivBack;
+    private TextView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -112,7 +112,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     }
 
     private void initUI() {
-        ivBack = (ImageView) findViewById(R.id.iv_reg_back);
+        ivBack = (TextView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
         launchRegistrationFragment(isAccountSettings);
 

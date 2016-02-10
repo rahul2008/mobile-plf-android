@@ -23,7 +23,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
     private Context mContext;
 
-    private ImageView mIvPasswordErrAlert;
+    private TextView mIvPasswordErrAlert;
 
     private ImageView mIvArrowUpView;
 
@@ -57,7 +57,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     public final void initUi(int resourceId) {
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
-        mIvPasswordErrAlert = (ImageView) findViewById(R.id.iv_reg_password_error_alert);
+        mIvPasswordErrAlert = (TextView) findViewById(R.id.iv_reg_password_error_alert);
         mIvPasswordErrAlert.setOnClickListener(this);
         mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
         mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_password_err);
