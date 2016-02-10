@@ -8,6 +8,7 @@ package com.philips.pins.shinelib;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SHNPersistentStorage;
@@ -21,11 +22,15 @@ import java.util.List;
  * Created by 310188215 on 02/03/15.
  */
 public class SHNDeviceAssociation {
+
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
     private final SHNDeviceScannerInternal shnDeviceScannerInternal;
     private List<SHNDevice> associatedDevices;
     private SHNAssociationProcedurePlugin shnAssociationProcedure;
     private String associatingWithDeviceTypeName;
+
+    @NonNull
+    private final PersistentStorageFactory persistentStorageFactory;
 
     public enum State {
         Idle, Associating
@@ -124,9 +129,10 @@ public class SHNDeviceAssociation {
         }
     };
 
-    public SHNDeviceAssociation(SHNCentral shnCentral, SHNDeviceScannerInternal shnDeviceScannerInternal) {
+    public SHNDeviceAssociation(SHNCentral shnCentral, SHNDeviceScannerInternal shnDeviceScannerInternal, final @NonNull PersistentStorageFactory persistentStorageFactory) {
         this.shnCentral = shnCentral;
         this.shnDeviceScannerInternal = shnDeviceScannerInternal;
+        this.persistentStorageFactory = persistentStorageFactory;
     }
 
     void initAssociatedDevicesList() {
@@ -185,7 +191,12 @@ public class SHNDeviceAssociation {
         boolean removed = removeAssociatedDeviceFromList(shnDeviceToRemove);
         if (removed) {
             persistAssociatedDeviceList();
+            persistentStorageFactory.clearDeviceData(shnDeviceToRemove);
             shnDeviceToRemove.disconnect();
+
+            for (final DeviceRemovedListener listener : deviceRemovedListeners) {
+                listener.onAssociatedDeviceRemoved(shnDeviceToRemove);
+            }
         }
     }
 
@@ -199,11 +210,6 @@ public class SHNDeviceAssociation {
         boolean removed = false;
         if (matchedSHNDevice != null) {
             removed = associatedDevices.remove(matchedSHNDevice);
-
-            for (final DeviceRemovedListener listener : deviceRemovedListeners) {
-                listener.onAssociatedDeviceRemoved(matchedSHNDevice);
-            }
-
         }
         return removed;
     }

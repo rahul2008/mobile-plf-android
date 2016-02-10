@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
+import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNPersistentStorage;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
@@ -72,6 +73,9 @@ public class SHNDeviceAssociationTest {
 
     @Mock
     private SHNDeviceAssociation.DeviceRemovedListener deviceRemovedListenerMock;
+
+    @Mock
+    private PersistentStorageFactory persistentStorageFactoryMock;
 
     @Captor
     private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
@@ -145,7 +149,7 @@ public class SHNDeviceAssociationTest {
         doReturn(Collections.emptyList()).when(mockedSHNPersistentStorage).readAssociatedDeviceInfos();
         doNothing().when(mockedSHNPersistentStorage).storeAssociatedDeviceInfos(anyList());
 
-        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal);
+        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal, persistentStorageFactoryMock);
 
         shnDeviceAssociation.setShnDeviceAssociationListener(mockedSHNDeviceAssociationListener);
     }
@@ -462,8 +466,8 @@ public class SHNDeviceAssociationTest {
 
     private class TestSHNDeviceAssociation extends SHNDeviceAssociation {
 
-        public TestSHNDeviceAssociation(final SHNCentral shnCentral, SHNDeviceScannerInternal mockedSHNDeviceScannerInternal) {
-            super(shnCentral, mockedSHNDeviceScannerInternal);
+        public TestSHNDeviceAssociation(final SHNCentral shnCentral, SHNDeviceScannerInternal mockedSHNDeviceScannerInternal, final PersistentStorageFactory persistentStorageFactory) {
+            super(shnCentral, mockedSHNDeviceScannerInternal, persistentStorageFactory);
             initAssociatedDevicesList();
         }
 
@@ -483,7 +487,7 @@ public class SHNDeviceAssociationTest {
 
         doReturn(associatedDeviceInfoList).when(mockedSHNPersistentStorage).readAssociatedDeviceInfos();
 
-        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal);
+        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal, persistentStorageFactoryMock);
 
         assertEquals(2, shnDeviceAssociation.getAssociatedDevices().size());
     }

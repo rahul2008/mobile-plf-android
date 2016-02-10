@@ -98,6 +98,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
+import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.SHNPersistentStorage;
 import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
@@ -156,6 +157,7 @@ public class SHNCentral {
     private BTAdapter btAdapter;
     private Handler internalHandler;
     private SHNDeviceDefinitions shnDeviceDefinitions;
+    private PersistentStorageFactory persistentStorageFactory;
 
     public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
@@ -203,6 +205,7 @@ public class SHNCentral {
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
+        persistentStorageFactory = new PersistentStorageFactory(this);
         SHNPersistentStorage shnPersistentStorage = new SHNPersistentStorage(applicationContext);
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(shnPersistentStorage, getInternalHandler());
 
@@ -338,7 +341,7 @@ public class SHNCentral {
 
     public SHNDeviceAssociation getShnDeviceAssociation() {
         if (shnDeviceAssociation == null) {
-            shnDeviceAssociation = new SHNDeviceAssociation(this, shnDeviceScannerInternal);
+            shnDeviceAssociation = new SHNDeviceAssociation(this, shnDeviceScannerInternal, persistentStorageFactory);
             shnDeviceAssociation.initAssociatedDevicesList();
         }
         return shnDeviceAssociation;
