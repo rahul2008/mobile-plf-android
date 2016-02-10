@@ -26,23 +26,7 @@ public class CartModel extends AbstractModel {
     }
 
     @Override
-    public String getUrl(int requestCode) {
-        switch (requestCode) {
-            case RequestCode.ADD_TO_CART:
-                return NetworkConstants.ADD_TO_CART_URL;
-
-            case RequestCode.UPDATE_PRODUCT_COUNT:
-                //TODO : Need to update real time url
-                return null;
-            case RequestCode.DELETE_PRODUCT:
-                if (params == null) {
-                    throw new RuntimeException("Cart ID and Entry Number has to be supplied");
-                }
-                String productCode = params.get(PRODUCT_CODE);
-                int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
-
-                return String.format(NetworkConstants.DELETE_PRODUCT_URL, productCode,entryNumber);
-        }
+    public String getProductionUrl(int requestCode) {
         return null;
     }
 
