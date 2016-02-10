@@ -74,7 +74,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
         super.onResume();
 
         if (Utility.isInternetConnected(this)) {
-            Utility.showProgressDialog(this, "Loading Cart");
+            Utility.showProgressDialog(this, getString(R.string.loading_cart));
             HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,this, null);
         } else {
             Utility.showNetworkError(this, true);
@@ -94,7 +94,6 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
     @Override
     public void onSuccess(Message msg) {
-        Utility.dismissProgressDialog();
         switch (msg.what) {
             case RequestCode.GET_CART: {
                 GetCartData getCartData = (GetCartData) msg.obj;
@@ -116,7 +115,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
                         startActivity(shoppingCartIntent);
                     }
                 }else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")){
-                    Toast.makeText(this, "No Stock", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -125,12 +124,13 @@ public class DemoAppActivity extends Activity implements RequestListener {
                 mCountText.setText(String.valueOf(mCount));
                 break;
         }
+        Utility.dismissProgressDialog();
     }
 
     @Override
     public void onError(Message msg) {
         Utility.dismissProgressDialog();
-        Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -147,7 +147,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
      * @param isFromBuy
      */
     void addToCart(boolean isFromBuy) {
-        Utility.showProgressDialog(this, "Adding To Cart");
+        Utility.showProgressDialog(this, getString(R.string.add_to_cart));
         HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, null);
         mIsFromBuy = isFromBuy;
     }

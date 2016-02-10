@@ -70,8 +70,8 @@ public class ShoppingCartPresenter {
                     new RequestListener() {
                         @Override
                         public void onSuccess(Message msg) {
-                            GetCartData data = (GetCartData) msg.obj;
 
+                            GetCartData data = (GetCartData) msg.obj;
                             if (data.getEntries() == null) {
                                 Intent intent = new Intent(mContext, EmptyCartActivity.class);
                                 mContext.startActivity(intent);
@@ -92,6 +92,8 @@ public class ShoppingCartPresenter {
                                 item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
                                         .getStockLevel());
                             }
+
+                            Utility.dismissProgressDialog();
                         }
 
                         @Override
@@ -254,6 +256,7 @@ public class ShoppingCartPresenter {
                                 mLoadListener.updateStock(true);
                             }
                         }
+                        Utility.dismissProgressDialog();
                     }
 
                     @Override
