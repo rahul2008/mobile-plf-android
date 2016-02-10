@@ -104,7 +104,7 @@
                 android:paddingLeft="17dp"
                 android:paddingRight="20dp"
                 android:paddingTop="3dp"
-                android:src="@drawable/iap_quantity_arrow" />
+                 />
         </FrameLayout>
 
         <TextView
