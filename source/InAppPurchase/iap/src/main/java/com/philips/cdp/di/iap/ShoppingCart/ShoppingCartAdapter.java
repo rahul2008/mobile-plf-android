@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
@@ -31,7 +32,7 @@ import com.philips.cdp.uikit.utils.RowItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPresenter.LoadListener{
+public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPresenter.LoadListener {
     private static final int DELETE = 0;
     private static final int INFO = 1;
     private static final int TYPE_ITEM = 0;
@@ -43,6 +44,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private LayoutInflater mInflater;
     private ShoppingCartPresenter mPresenter;
     private final Drawable countArrow;
+    private boolean mIsOutOfStock;
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
         mContext = context;
@@ -71,13 +73,14 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     @Override
     public int getItemViewType(int position) {
         ShoppingCartData summary = mData.get(position);
-        if(summary.getCtnNumber()==null){
+        if (summary.getCtnNumber() == null) {
             return TYPE_SHIPPING_DETAILS;
-        }else{
+        } else {
             return TYPE_ITEM;
         }
     }
-//TODO
+
+    //TODO
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder holder = null;
@@ -86,22 +89,29 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         holder = new ViewHolder();
         switch (rowType) {
             case TYPE_ITEM:
-                    String imageURL = cartData.getImageURL();
-                    convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
-                    holder.image = (NetworkImageView) convertView.findViewById(R.id.image);
-                    holder.nameOption = (TextView) convertView.findViewById(R.id.text1Name);
-                    holder.valueOption = (TextView) convertView.findViewById(R.id.text2value);
-                    holder.from = (TextView) convertView.findViewById(R.id.from);
-                    holder.price = (TextView)convertView.findViewById(R.id.price);
-                    holder.dots = (ImageView) convertView.findViewById(R.id.dots);
-                    holder.quantitydropdown = (ImageView) convertView.findViewById(R.id.quantity_drop_down);
-                    FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
-                    holder.imageUrl = imageURL;
+                String imageURL = cartData.getImageURL();
+                convertView = mInflater.inflate(R.layout.listview_shopping_cart, null);
+                holder.image = (NetworkImageView) convertView.findViewById(R.id.image);
+                holder.nameOption = (TextView) convertView.findViewById(R.id.text1Name);
+                holder.valueOption = (TextView) convertView.findViewById(R.id.text2value);
+                holder.from = (TextView) convertView.findViewById(R.id.from);
+                holder.price = (TextView) convertView.findViewById(R.id.price);
+                holder.dots = (ImageView) convertView.findViewById(R.id.dots);
+                holder.quantitydropdown = (ImageView) convertView.findViewById(R.id.quantity_drop_down);
+
+                holder.outOfStock = (TextView) convertView.findViewById(R.id.out_of_stock);
+                if(mIsOutOfStock)
+                    holder.outOfStock.setVisibility(View.VISIBLE);
+                else
+                    holder.outOfStock.setVisibility(View.GONE);
+
+                FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
+                holder.imageUrl = imageURL;
 
                 holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
                 holder.price.setText(cartData.getCurrency() + " " + cartData.getTotalPrice());
-                holder.valueOption.setText(cartData.getQuantity()+"");
+                holder.valueOption.setText(cartData.getQuantity() + "");
 
                 //TODO: Fix it
                 ImageLoader mImageLoader;
@@ -123,25 +133,25 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 //Add arrow mark
                 //holder.quantitydropdown.setCompoundDrawables(null, null, countArrow, null);
-                bindCountView(holder.quantitydropdown,position);
+                bindCountView(holder.quantitydropdown, position);
                 break;
 
             case TYPE_SHIPPING_DETAILS:
 
 
-                    convertView = mInflater.inflate(R.layout.shopping_cart_price, null);
+                convertView = mInflater.inflate(R.layout.shopping_cart_price, null);
 
-                    holder.name = (TextView) convertView.findViewById(R.id.ifo);
-                    holder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
-                    holder.on_off = (TextView) convertView.findViewById(R.id.medium);
-                    holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
-                    holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
-                    holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
+                holder.name = (TextView) convertView.findViewById(R.id.ifo);
+                holder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
+                holder.on_off = (TextView) convertView.findViewById(R.id.medium);
+                holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
+                holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
+                holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
 
-                if(position == mData.size()-1){
-                //Last Row
-                    ShoppingCartData data=null;
-                    if(mData.get(0)!=null) {
+                if (position == mData.size() - 1) {
+                    //Last Row
+                    ShoppingCartData data = null;
+                    if (mData.get(0) != null) {
                         data = mData.get(0);
 
                         holder.name.setVisibility(View.VISIBLE);
@@ -158,8 +168,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         holder.totoalcost.setText(data.getCurrency() + " " + data.getTotalPrice());
                     }
                 }
-                if(position == mData.size()-2){
-                //2nd Last Row
+                if (position == mData.size() - 2) {
+                    //2nd Last Row
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Delivery via UPS Parcel");
 
@@ -169,7 +179,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     holder.description.setVisibility(View.VISIBLE);
                     holder.description.setText("Delivery is free when you spend USD 100 or more");
                 }
-                if(position == mData.size() - 3){
+                if (position == mData.size() - 3) {
                     //3rd Last Row
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Claim voucher");
@@ -187,11 +197,11 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
         String delete = mResources.getString(R.string.iap_delete);
         String info = mResources.getString(R.string.iap_info);
-        final String[] descriptions = new String[]{delete,info};
+        final String[] descriptions = new String[]{delete, info};
 
         rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.iap_trash_bin), descriptions[0]));
-        rowItems.add(new RowItem(ContextCompat.getDrawable(mContext,R.drawable.iap_info), descriptions[1]));
-        final UIKitListPopupWindow popUP =  new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+        rowItems.add(new RowItem(ContextCompat.getDrawable(mContext, R.drawable.iap_info), descriptions[1]));
+        final UIKitListPopupWindow popUP = new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
         popUP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -233,6 +243,14 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     public void onLoadFinished(ArrayList<ShoppingCartData> data) {
         mData = data;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateStock(boolean isOutOfStock) {
+        mIsOutOfStock = isOutOfStock;
+        notifyDataSetChanged();
+
+        ((ShoppingCartActivity)mContext).setCheckoutBtnState(!isOutOfStock);
     }
 
     private static class ViewHolder {

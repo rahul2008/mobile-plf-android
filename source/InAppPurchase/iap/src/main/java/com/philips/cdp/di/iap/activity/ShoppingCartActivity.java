@@ -104,4 +104,13 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
             finish();
         }
     }
+
+    /**
+     * Set the checkout button state i.e enable / disable based on the stock availability
+     *
+     * @param isEnable bool
+     */
+    public void setCheckoutBtnState(boolean isEnable) {
+        mCheckoutBtn.setEnabled(isEnable);
+    }
 }

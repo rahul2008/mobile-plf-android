@@ -45,6 +45,7 @@ public class ShoppingCartPresenter {
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
+        void updateStock(boolean isOutOfStock);
     }
 
     public ShoppingCartPresenter(Context context, LoadListener listener){
@@ -179,7 +180,7 @@ public class ShoppingCartPresenter {
         query.put(mResources.getString(R.string.iap_code), summary.getCartNumber());
         query.put(mResources.getString(R.string.iap_entry_number), String.valueOf(summary.getEntryNumber()));
 
-            HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_ENTRY,
+            HybrisDelegate.getInstance(mContext).sendRequest(RequestCode.DELETE_PRODUCT,
                     new RequestListener() {
                         @Override
                         public void onSuccess(Message msg) {
@@ -247,9 +248,13 @@ public class ShoppingCartPresenter {
                         }*/
 
                         if((data.getStatusCode().equalsIgnoreCase("success"))){
-                            //Make out of stock textview gone
+                            if(mLoadListener != null) {
+                                mLoadListener.updateStock(false);
+                            }
                         }else{
-                            //Make out of stock textview visible
+                            if(mLoadListener != null) {
+                                mLoadListener.updateStock(true);
+                            }
                         }
 
                     }
