@@ -1,20 +1,35 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory-upload'
-
-//def libVersionNumber = new File('../../VERSION').text.trim()
-//libVersionNumber = libVersionNumber.replaceAll('-SNAPSHOT', '')
+apply plugin: 'maven'
 
 buildscript {
     repositories {
         jcenter()
+
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+            credentials {
+                username = "readonly"
+                password = "readonly"
+            }
+        }
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing:true
     }
 }
+
+apply plugin: 'com.android.library'
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
 
 android {
     compileSdkVersion 23
@@ -22,7 +37,11 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        versionName "3.0.1"
+        versionName objcdp.getVersionWithHash()
+        targetSdkVersion 22
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
+        generatedDensities = []
         multiDexEnabled true
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -95,36 +114,38 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
-version = "3.1.0"
+version = objcdp.getVersion()
 
 artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory' /* I
+am working to fetch this url also via api */
     publish {
         repository {
-            repoKey = 'libs-snapshot-local-android'
-            username = 'admin'
-            password = 'password'
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
             publishPom = true
             publishIvy = false
-            publishBuildInfo = false
+            publishBuildInfo = true
+            maven = true
         }
     }
     resolve {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = 'libs-release-local-android'
         }
     }
 }
 
 
 sourceSets {
-    main{
+    main {
         java {
-            srcDirs '../../Source/SampleDigitalCare/launchDigitalCare/src/main/java'
+            srcDirs '../../Source/Hor-productselection-android/app/src/main/java'
         }
         resources {
 
-            srcDirs '../../Source/SampleDigitalCare/launchDigitalCare/src/main/res'
+            srcDirs '../../Source/Hor-productselection-android/app/src/main/res'
         }
     }
 }
