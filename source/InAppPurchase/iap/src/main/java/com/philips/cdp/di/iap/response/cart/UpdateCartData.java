@@ -4,13 +4,13 @@ package com.philips.cdp.di.iap.response.cart;
  * Created by 310228564 on 2/9/2016.
  */
 public class UpdateCartData {
-    private Entries entry;
+    private Entry entry;
     private int quantity;
     private int quantityAdded;
     private String statusCode;
 
 
-    public Entries getEntry() {
+    public Entry getEntry() {
         return entry;
     }
 

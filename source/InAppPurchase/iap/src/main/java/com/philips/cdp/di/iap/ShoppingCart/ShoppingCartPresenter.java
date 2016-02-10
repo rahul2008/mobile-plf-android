@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
+import com.philips.cdp.di.iap.response.cart.Entry;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.response.cart.UpdateCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -80,7 +81,6 @@ public class ShoppingCartPresenter {
                             }
 
                             ShoppingCartData item = new ShoppingCartData();
-                            item.setQuantity(data.getEntries().get(0).getQuantity());
                             item.setTotalPrice(data.getTotalPrice().getValue());
                             item.setCurrency(data.getTotalPrice().getCurrencyIso());
                             item.setTotalItems(data.getTotalItems());
@@ -88,7 +88,8 @@ public class ShoppingCartPresenter {
 
                             List<Entries> list = data.getEntries();
                             for (int i = 0; i < list.size(); i++) {
-                                getProductDetails(item, list.get(i),ADD);
+                                item.setQuantity(data.getEntries().get(i).getQuantity());
+                                getProductDetails(item, list.get(i));
                                 item.setStockLevel(data.getEntries().get(i).getProduct().getStock()
                                         .getStockLevel());
                             }
@@ -104,7 +105,7 @@ public class ShoppingCartPresenter {
                     }, null);
     }
 
-    public void getProductDetails(final ShoppingCartData summary, final Entries entry, final String update){
+    public void getProductDetails(final ShoppingCartData summary, final Entries entry){
         if (Utility.isInternetConnected(mContext)) {
             final String code = entry.getProduct().getCode();
             String mCtn = code.replaceAll("_", "/");
@@ -133,11 +134,7 @@ public class ShoppingCartPresenter {
                     summary.setProductTitle(data.getProductTitle());
                     summary.setCtnNumber(code);
                     summary.setEntryNumber(entry.getEntryNumber());
-                    if(update.equalsIgnoreCase(ADD)) {
                         addItem(summary);
-                    }else{
-                        updateItem(summary,getPositionOfItem(summary));
-                    }
                 }
 
                 @Override
@@ -232,20 +229,14 @@ public class ShoppingCartPresenter {
                     public void onSuccess(Message msg) {
                         UpdateCartData data = (UpdateCartData) msg.obj;
 
-                        if (data.getEntry() == null) {
-                            Intent intent = new Intent(mContext, EmptyCartActivity.class);
-                            mContext.startActivity(intent);
-                            Utility.dismissProgressDialog();
-                            return;
-                        }
-                        Entries entry = data.getEntry();
+                        Entry entry = data.getEntry();
                         ShoppingCartData item = array.get(position);
 
                         item.setQuantity(entry.getQuantity());
                         item.setTotalPrice(entry.getTotalPrice().getValue());
                         item.setCurrency(entry.getTotalPrice().getCurrencyIso());
                         item.setTotalItems(data.getQuantityAdded());
-                        getProductDetails(item, entry, UPDATE);
+                        updateItem(item,getPositionOfItem(item));
 
                         if((data.getStatusCode().equalsIgnoreCase("success"))){
                             if(mLoadListener != null) {
