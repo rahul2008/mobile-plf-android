@@ -19,5 +19,9 @@ public class NetworkConstants {
     public static final String ADD_TO_CART_URL = BASE_URL + "users/inapp@2/" + CURRENT_CART + "/entries";
     public static final String DELETE_PRODUCT_URL = BASE_URL + "users/inapp@2/" + CURRENT_CART + "/entries/%s";
     public static final String UPDATE_QUANTITY_URL = BASE_URL + "users/inapp@2/" + CURRENT_CART + "/entries/%s";
+
+    public static String PRX_SECTOR_CODE = "B2C";
+    public static String PRX_LOCALE = "en_US";
+    public static String PRX_CATALOG_CODE = "CONSUMER";
 }
 
