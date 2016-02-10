@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationClientId;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -25,8 +26,8 @@ public class RegistrationApplication extends Application {
 		Tagging.enableAppTagging(true);
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
-		RegistrationHelper.getInstance().setCoppaFlow(false);
-		RegistrationHelper.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+		RegistrationConfiguration.getInstance().setCoppaFlow(false);
+		RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 
 
 				initRegistration();

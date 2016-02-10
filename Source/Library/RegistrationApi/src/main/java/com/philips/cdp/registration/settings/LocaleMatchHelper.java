@@ -11,6 +11,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.LocaleMatchError;
 import com.philips.cdp.localematch.enums.Platform;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.errormapping.CheckLocale;
 
 public class LocaleMatchHelper implements LocaleMatchListener {
@@ -47,7 +48,7 @@ public class LocaleMatchHelper implements LocaleMatchListener {
 
 
         PILLocale pilLocaleInstance = null;
-        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
          /*  pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(mContext, locale,
                     Platform.JANRAIN, Sector.B2C, Catalog.COPPA);*/
         } else {

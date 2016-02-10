@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.configuration.ConfigurationParser;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -44,7 +45,7 @@ public class ParseConfigurationTest extends ActivityInstrumentationTestCase2<Reg
         Tagging.setLaunchingPageName("demoapp:home");
         mRegistrationHelper = RegistrationHelper.getInstance();
        // mRegistrationHelper.intializeRegistrationSettings(getInstrumentation().getTargetContext(), locale);
-        mRegistrationHelper.setCoppaFlow(true);
+        RegistrationConfiguration.getInstance().setCoppaFlow(true);
         //mEmailValidator = mock(EmailValidator.class);
     }
 

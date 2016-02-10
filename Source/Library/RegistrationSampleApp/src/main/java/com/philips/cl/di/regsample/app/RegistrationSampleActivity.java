@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.coppa.CoppaResendError;
 import com.philips.cdp.registration.coppa.ResendCoppaEmailConsentHandler;
@@ -64,7 +65,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
      //   if (RegistrationHelper.getInstance().isHsdpFlow()) {
             mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
       //  }
-        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
             mBtnResendCoppaMail.setVisibility(View.VISIBLE);
         }
         user = new User(mContext);
@@ -130,7 +131,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 break;
 
             case R.id.btn_refresh_token:
-                if (RegistrationHelper.getInstance().isHsdpFlow()) {
+                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
                     User user = new User(mContext);
                     if (!user.isUserSignIn(mContext)) {
                         Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();

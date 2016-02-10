@@ -14,9 +14,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.janrain.android.Jump;
 import com.janrain.android.utils.SecureUtility;
 import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.HSDPConfiguration;
-import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.dao.DIUserProfile;
@@ -30,7 +27,6 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.tagging.Tagging;
 
@@ -68,9 +64,7 @@ public class RegistrationHelper {
 
     private final int CALL_AFTER_DELAY = 500;
 
-    private boolean isCoppaFlow = false;
 
-    private boolean isHsdpFlow;
 
     private boolean isJsonRead;
 
@@ -358,8 +352,8 @@ public class RegistrationHelper {
 
                 ServerTime.getInstance().refreshOffset();
 
-                if (isHsdpAvailable()) {
-                    isHsdpFlow = true;
+                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpAvailable()) {
+                    RegistrationConfiguration.getInstance().getHsdpConfiguration().setHsdpFlow(true);
                 }
 
                 checkFileEncryptionStatus();
@@ -449,71 +443,6 @@ public class RegistrationHelper {
                 }
             }
         }).start();
-    }
-
-    private boolean isHsdpAvailable() {
-        HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
-        if (hsdpConfiguration == null  ) {
-            return false;
-        }
-
-        if (hsdpConfiguration.getHsdpInfos().size()==0) {
-            return false;
-        }
-        String environment = RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment();
-        if (environment == null) {
-            return false;
-        }
-
-
-        Configuration configuration =RegUtility.getConfiguration(environment);
-
-
-
-        HSDPInfo hsdpInfo = hsdpConfiguration.getHSDPInfo(RegUtility.getConfiguration(environment));
-        if (hsdpInfo == null) {
-            throw new RuntimeException("HSDP configuration is not configured for " + environment + " environment ");
-        }
-        if (null != hsdpConfiguration && null != hsdpInfo) {
-
-            String exception = null;
-
-            if (hsdpInfo.getApplicationName() == null) {
-                exception += "Application Name";
-            }
-
-            if (hsdpInfo.getSharedId() == null) {
-                if (null != exception) {
-                    exception += ",shared key ";
-                } else {
-                    exception += "shared key ";
-                }
-            }
-            if (hsdpInfo.getSecretId() == null) {
-                if (null != exception) {
-                    exception += ",Secret key ";
-                } else {
-                    exception += "Secret key ";
-                }
-            }
-
-            if (hsdpInfo.getBaseURL() == null) {
-                if (null != exception) {
-                    exception += ",Base Url ";
-                } else {
-                    exception += "Base Url ";
-                }
-            }
-
-            if (null != exception) {
-                throw new RuntimeException("HSDP configuration is not configured for " + RegistrationConfiguration.getInstance().getPilConfiguration().getRegistrationEnvironment() + " environment for " + exception.toString().substring(4));
-            }
-        }
-
-
-        return (null != hsdpInfo.getApplicationName() && null != hsdpInfo.getSharedId()
-                && null != hsdpInfo.getSecretId()
-                && null != hsdpInfo.getBaseURL());
     }
 
 
@@ -614,13 +543,13 @@ public class RegistrationHelper {
         return appVersion;
     }
 
-    public boolean isCoppaFlow() {
-        return isCoppaFlow;
-    }
 
-    public void setCoppaFlow(boolean isCoppaFlow) {
-        this.isCoppaFlow = isCoppaFlow;
-    }
+
+
+
+
+
+
 
     public Locale getLocale() {
         return mLocale;
@@ -634,19 +563,8 @@ public class RegistrationHelper {
         return BuildConfig.VERSION_NAME;
     }
 
-    public boolean isHsdpFlow() {
-        return isHsdpFlow;
-    }
 
 
-    private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
-    public void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
-        this.prioritisedFunction = prioritisedFunction;
-    }
-
-    public RegistrationFunction getPrioritisedFunction() {
-        return prioritisedFunction;
-    }
 
 }

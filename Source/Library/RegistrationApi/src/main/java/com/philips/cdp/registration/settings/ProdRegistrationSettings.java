@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 public class ProdRegistrationSettings extends RegistrationSettings {
 
@@ -119,7 +120,7 @@ public class ProdRegistrationSettings extends RegistrationSettings {
             countryCode = "US";
         }
 
-        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
             jumpConfig.captureRedirectUri = PROD_REGISTER_COPPA_ACTIVATION_URL;
         } else {
             jumpConfig.captureRedirectUri = PROD_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;

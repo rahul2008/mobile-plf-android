@@ -416,7 +416,7 @@ public class User {
         captureRecord.refreshAccessToken(new RefreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                if (RegistrationHelper.getInstance().isHsdpFlow()) {
+                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
                    // refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
                     refreshHsdpAccessToken(context, refreshLoginSessionHandler);
                     return;
@@ -614,7 +614,7 @@ public class User {
         completeSocialProviderLogin(profile, new SocialProviderLoginHandler() {
             @Override
             public void onLoginSuccess() {
-                if (RegistrationHelper.getInstance().isHsdpFlow() && getEmailVerificationStatus(mContext)) {
+                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && getEmailVerificationStatus(mContext)) {
                     DIUserProfile userProfile = getUserInstance(mContext);
 
                     HsdpUser hsdpUser = new HsdpUser(mContext);
@@ -728,7 +728,7 @@ public class User {
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(mObject.getString(CONSUMER_PREFERED_LANGUAGE));
 
-            if (RegistrationHelper.getInstance().isHsdpFlow()) {
+            if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
                 HsdpUser hsdpUser = new HsdpUser(mContext);
                 HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
                 if (hsdpUserRecord != null) {
@@ -769,7 +769,7 @@ public class User {
         if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
             signedIn = signedIn && getEmailVerificationStatus(context);
         }
-        if (RegistrationHelper.getInstance().isHsdpFlow()) {
+        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
             HsdpUser hsdpUser = new HsdpUser(context);
 
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
@@ -932,7 +932,7 @@ public class User {
     // For Log out
     public void logout(LogoutHandler logoutHandler) {
         HsdpUser hsdpUser = new HsdpUser(mContext);
-        if (RegistrationHelper.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
+        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
             logoutHsdp(logoutHandler);
         } else {
             logoutJanrainUser();
@@ -964,7 +964,7 @@ public class User {
             public void onSuccess(JSONObject response) {
                 Jump.saveToDisk(context);
                 buildCoppaConfiguration();
-                if (!RegistrationHelper.getInstance().isHsdpFlow()) {
+                if (!RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
                     return;
                 }

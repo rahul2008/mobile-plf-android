@@ -3,6 +3,8 @@ package com.philips.cdp.registration.settings;
 
 import android.content.Context;
 
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+
 public abstract class RegistrationSettings {
 
     private static final String FLOW_STANDARD = "standard";
@@ -55,7 +57,7 @@ public abstract class RegistrationSettings {
     }
 
     public String getFlowName() {
-        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+        if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
             return FLOW_COPPA;
         } else {
             return FLOW_STANDARD;
