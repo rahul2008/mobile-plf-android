@@ -51,10 +51,10 @@ public class DemoAppActivity extends Activity implements RequestListener {
             public void onClick(final View v) {
 
                 if (Utility.isInternetConnected(DemoAppActivity.this)) {
-                    if(mCount == 0){
+                    if (mCount == 0) {
                         Intent intent = new Intent(DemoAppActivity.this, EmptyCartActivity.class);
                         startActivity(intent);
-                    }else {
+                    } else {
                         Intent myIntent = new Intent(DemoAppActivity.this, ShoppingCartActivity.class);
                         startActivity(myIntent);
                     }
@@ -81,7 +81,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
         if (Utility.isInternetConnected(this)) {
             Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART,this, null);
+            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART, this, null);
         } else {
             Utility.showNetworkError(this, true);
         }
@@ -103,24 +103,25 @@ public class DemoAppActivity extends Activity implements RequestListener {
         switch (msg.what) {
             case RequestCode.GET_CART: {
                 GetCartData getCartData = (GetCartData) msg.obj;
-                if (getCartData.getEntries() != null) {
+
+                if (getCartData.getTotalItems() != 0 && getCartData.getEntries() != null) {
                     mCount = getCartData.getEntries().get(0).getQuantity();
-                } else {
-                    HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.CREATE_CART, this, null);
+                } else if (getCartData.getTotalItems() == 0) {
+                    mCount = 0;
                 }
                 mCountText.setText(String.valueOf(mCount));
                 break;
             }
             case RequestCode.ADD_TO_CART: {
                 AddToCartData addToCartData = (AddToCartData) msg.obj;
-                if(addToCartData.getStatusCode().equalsIgnoreCase("success")){
+                if (addToCartData.getStatusCode().equalsIgnoreCase("success")) {
                     mCount = addToCartData.getEntry().getQuantity();
                     mCountText.setText(String.valueOf(mCount));
                     if (getCount() == 1 && mIsFromBuy) {
                         Intent shoppingCartIntent = new Intent(this, ShoppingCartActivity.class);
                         startActivity(shoppingCartIntent);
                     }
-                }else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")){
+                } else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")) {
                     Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
                 }
 
@@ -150,6 +151,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
     /**
      * Add to cart
+     *
      * @param isFromBuy bool
      */
     void addToCart(boolean isFromBuy) {
