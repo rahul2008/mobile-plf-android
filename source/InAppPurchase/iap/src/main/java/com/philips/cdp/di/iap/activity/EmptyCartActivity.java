@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class EmptyCartActivity extends UiKitActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_empty_shopping_cart);
+        Button button = (Button) findViewById(R.id.continues);
 
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
 
@@ -57,6 +59,12 @@ public class EmptyCartActivity extends UiKitActivity{
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                backPressed();
+            }
+        });
 
     }
 
