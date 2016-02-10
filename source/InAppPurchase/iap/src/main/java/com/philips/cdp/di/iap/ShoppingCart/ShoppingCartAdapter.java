@@ -132,6 +132,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 //Add arrow mark
                 //holder.quantitydropdown.setCompoundDrawables(null, null, countArrow, null);
+                holder.quantitydropdown.setImageDrawable(countArrow);
                 bindCountView(holder.quantitydropdown, position);
                 break;
 
