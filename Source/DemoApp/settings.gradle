@@ -1,4 +1,4 @@
 include ':app'
 include ':product-registration-lib'
 project(':product-registration-lib').projectDir = new File('../Library/product-registration-lib')
-
+include ':localeMatch', ':jump', ':org.apache.http.legacy', ':HockeySDK-3.0.2', ':dexmaker-mockito-1.4', ':dexmaker-dx-1.4', ':dexmaker-1.4', ':mockito-all-1.10.19', ':servertime', ':Tagging', ':jackson-databind-2.6.1', ':hsdp', ':adobeMobileLibrary-4.5.1', ':registrationApi', ':jackson-core-2.6.1', ':jackson-annotations-2.6.0'
