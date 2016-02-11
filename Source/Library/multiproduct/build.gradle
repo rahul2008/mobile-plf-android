@@ -43,6 +43,7 @@ android {
         generatedDensities = []
         versionCode 3
         versionName objcdp.getVersionWithHash()
+        multiDexEnabled true
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
