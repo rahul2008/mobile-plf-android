@@ -46,7 +46,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     private void sendOAuthRequest(final Context context) {
 
         String url = "https://tst.admin.shop.philips" +
-                ".com/pilcommercewebservices/oauth/token?username=inapp@2&password=philips@123&grant_type=password&client_id=mobile_android&client_secret=secret";
+                ".com/pilcommercewebservices/oauth/token?username=inapp@3&password=philips@123&grant_type=password&client_id=mobile_android&client_secret=secret";
 
         try {
             URL obj = new URL(url);
