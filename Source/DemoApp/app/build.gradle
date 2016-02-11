@@ -32,6 +32,11 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -41,5 +46,10 @@ dependencies {
     compile project(':product-registration-lib')
     compile project(':HockeySDK-3.0.2')
     compile project(':registrationApi')
+    compile project(':localeMatch')
+    compile project(':jump')
+    compile files('libs/adobeMobileLibrary-v4.5.1.jar')
+    compile files('libs/org.apache.http.legacy.jar')
+
     //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
 }
