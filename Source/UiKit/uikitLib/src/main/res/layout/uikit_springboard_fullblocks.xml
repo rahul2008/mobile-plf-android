@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
+    android:clickable="true"
     android:background="?attr/baseGradient"
     android:orientation="vertical">
 
@@ -11,6 +12,7 @@
         android:id="@+id/row_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:layout_marginBottom="0dp"
         android:layout_weight="0.25"
         android:orientation="horizontal">
@@ -30,9 +32,9 @@
                 android:layout_width="53dp"
                 android:layout_height="53dp"
                 android:layout_gravity="center"
+                android:duplicateParentState="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-
                 app:themeStyle="theme" />
 
             <TextView
@@ -42,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="1dp"
+                android:duplicateParentState="true"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
                 android:textColor="?attr/springBoardTextColor"
@@ -73,6 +76,7 @@
                 android:layout_height="53dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
+                android:duplicateParentState="true"
 
                 app:themeStyle="theme" />
 
@@ -83,6 +87,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="1dp"
+                android:duplicateParentState="true"
+
                 android:layout_marginTop="10dp"
                 android:text="TextView"
                 android:textColor="?attr/springBoardTextColor"
@@ -124,6 +130,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
+                android:duplicateParentState="true"
 
                 app:themeStyle="theme" />
 
@@ -136,6 +143,8 @@
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
+                android:duplicateParentState="true"
+
                 android:textColor="?attr/springBoardTextColor"
                 android:textSize="16sp" />
 
@@ -166,6 +175,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
+                android:duplicateParentState="true"
 
                 app:themeStyle="theme" />
 
@@ -178,6 +188,8 @@
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
+                android:duplicateParentState="true"
+
                 android:textColor="?attr/springBoardTextColor"
                 android:textSize="16sp" />
 
@@ -218,6 +230,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
+                android:duplicateParentState="true"
 
                 app:themeStyle="theme" />
 
@@ -231,6 +244,8 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="TextView"
+                android:duplicateParentState="true"
+
                 android:textColor="?attr/springBoardTextColor"
                 android:textSize="16sp" />
 
@@ -258,6 +273,8 @@
                 android:layout_width="53dp"
                 android:layout_height="53dp"
                 android:layout_gravity="center"
+                android:duplicateParentState="true"
+
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
                 app:themeStyle="theme" />
@@ -272,6 +289,8 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="TextView"
+                android:duplicateParentState="true"
+
                 android:textColor="?attr/springBoardTextColor"
                 android:textSize="16sp" />
 
@@ -310,6 +329,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
+                android:duplicateParentState="true"
 
                 app:themeStyle="theme" />
 
@@ -322,6 +342,8 @@
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
+                android:duplicateParentState="true"
+
                 android:textColor="?attr/springBoardTextColor"
                 android:textSize="16sp" />
 
@@ -352,6 +374,8 @@
                 android:layout_height="53dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
+                android:duplicateParentState="true"
+
                 android:layout_marginTop="5dp"
                 app:themeStyle="theme" />
 
@@ -364,6 +388,8 @@
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
+                android:duplicateParentState="true"
+
                 android:textColor="?attr/springBoardTextColor"
                 android:textSize="16sp" />
 
