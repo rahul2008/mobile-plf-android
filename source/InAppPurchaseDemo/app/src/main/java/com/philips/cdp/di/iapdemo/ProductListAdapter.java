@@ -62,7 +62,7 @@ public class ProductListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (Utility.isInternetConnected(mContext)) {
-                    ((DemoAppActivity) mContext).addToCart(false);
+                    ((DemoAppActivity) mContext).addToCart(false, currentProduct.getCtnNumber());
                 } else {
                     Utility.showNetworkError(((Activity) mContext), false);
                 }
@@ -75,7 +75,7 @@ public class ProductListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (Utility.isInternetConnected(mContext)) {
                     if (((DemoAppActivity) mContext).getCount() == 0) {
-                        ((DemoAppActivity) mContext).addToCart(true);
+                        ((DemoAppActivity) mContext).addToCart(true, currentProduct.getCtnNumber());
                     } else {
                         Intent myIntent = new Intent(mContext, ShoppingCartActivity.class);
                         mContext.startActivity(myIntent);

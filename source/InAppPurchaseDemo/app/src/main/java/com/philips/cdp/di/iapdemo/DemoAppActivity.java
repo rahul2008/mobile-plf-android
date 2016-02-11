@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -24,6 +25,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DemoAppActivity extends UiKitActivity implements RequestListener {
 
@@ -176,11 +178,15 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
      *
      * @param isFromBuy bool
      */
-    void addToCart(boolean isFromBuy) {
+    void addToCart(boolean isFromBuy, String ctnNumber) {
         if (!(Utility.isProgressDialogShowing())) {
             if (Utility.isInternetConnected(this)) {
                 Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
-                HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, null);
+
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put(CartModel.PRODUCT_CODE, ctnNumber);
+
+                HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, params);
             } else {
                 Utility.showNetworkError(this, true);
             }
