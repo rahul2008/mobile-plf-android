@@ -96,4 +96,19 @@ public class ShoppingCartData {
     public int getStockLevel() {
         return mStockLevel;
     }
+
+    @Override
+    public String toString() {
+        return "ShoppingCartData == " +
+                "CTN Number = " + mCtnNumber +
+                "Product title =" + mProductTitle +
+                "Image URL =" + mImageURL +
+                "Quantity = " + mQuantity +
+                "Price = " + mPrice +
+                "Currnecy =" + mCurrency +
+                "Total Item" + mTotalItems +
+                "EntryNumber =" + mEntryNumber +
+                "CartNumber =" + mCartNumber +
+                "StockLevel" + mStockLevel;
+    }
 }

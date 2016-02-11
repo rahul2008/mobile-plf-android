@@ -24,5 +24,7 @@ public class NetworkConstants {
     public static String PRX_SECTOR_CODE = "B2C";
     public static String PRX_LOCALE = "en_US";
     public static String PRX_CATALOG_CODE = "CONSUMER";
+    public static String EXTRA_ANIMATIONTYPE = "EXTRA_ANIMATIONTYPE";
+    public static String IS_ONLINE = "IS_ONLINE";
 }
 

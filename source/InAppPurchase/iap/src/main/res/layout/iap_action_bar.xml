@@ -1,9 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/ratingtheme"
+<RelativeLayout android:id="@+id/ratingtheme"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/UpButton"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -15,9 +15,8 @@
             android:id="@+id/arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/uikit_up_arrow"
-            android:layout_gravity="center_vertical" />
-    </FrameLayout>
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 
 
     <TextView
@@ -28,6 +27,6 @@
         android:layout_centerInParent="true"
         android:text="Settings"
         android:textColor="#FFFFFF"
-        android:textSize="20dp" />
+        android:textSize="20dp"/>
 
 </RelativeLayout>

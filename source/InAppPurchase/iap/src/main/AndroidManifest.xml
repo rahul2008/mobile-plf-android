@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.cdp.di.iap">
+<manifest package="com.philips.cdp.di.iap"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -13,13 +13,21 @@
 
         <activity
             android:name=".activity.ShoppingCartActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.ShippingAddressActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.EmptyCartActivity"
-                  android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MainActivity"/>
+        <activity
+            android:name=".activity.EmptyCartActivity"
+            android:screenOrientation="portrait"/>
+        <!-- Network state change receiver -->
+        <receiver android:name="com.philips.cdp.di.iapdemo.receiver.NetworkStateReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

@@ -4,6 +4,7 @@
  */
 
 package com.philips.cdp.di.iap.response.cart;
+
 public class Entries {
     private int entryNumber;
     private Product product;
@@ -26,4 +27,8 @@ public class Entries {
         return totalPrice;
     }
 
+    @Override
+    public String toString() {
+        return "entryNumber = " + entryNumber + " product =" + product + "quantity = " + quantity + "totalPrice" + totalPrice;
+    }
 }

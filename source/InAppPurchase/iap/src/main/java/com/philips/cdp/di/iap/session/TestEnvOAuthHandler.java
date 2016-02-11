@@ -42,6 +42,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         sendOAuthRequest(context);
         return access_token;
     }
+
     // HTTP GET request
     private void sendOAuthRequest(final Context context) {
 
@@ -65,7 +66,6 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             String inputLine;
             StringBuffer response = new StringBuffer();
 
-
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
@@ -85,7 +85,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     public SSLSocketFactory buildSslSocketFactory(Context context) {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
-			InputStream is = context.getResources().getAssets().open("test.crt");
+            InputStream is = context.getResources().getAssets().open("test.crt");
             InputStream caInput = new BufferedInputStream(is);
             Certificate ca;
             try {
@@ -111,7 +111,6 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             TrustManager[] mngrs = new TrustManager[]{new TestTrustManager()};//tmf.getTrustManagers();
             sslContext.init(null, mngrs, null);
             return sslContext.getSocketFactory();
-
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (KeyStoreException e) {
@@ -156,5 +155,4 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             return result;
         }
     };
-
 }
