@@ -21,10 +21,11 @@ import com.philips.cdp.di.iap.session.InAppPurchase;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.ArrayList;
 
-public class DemoAppActivity extends Activity implements RequestListener {
+public class DemoAppActivity extends UiKitActivity implements RequestListener {
 
     private TextView mCountText = null;
 
@@ -35,7 +36,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
     String[] mCatalogNumbers = {"HX8331/11"};
 
     int mCount = 0;
-
+    private ModalAlertDemoFragment modalAlertDemoFragment;
     boolean mIsFromBuy;
 
     @Override
@@ -74,6 +75,11 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
         InAppPurchase.initApp(this, "", "");
 
+    }
+
+    private void showAlert() {
+        modalAlertDemoFragment = new ModalAlertDemoFragment();
+        modalAlertDemoFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     @Override
@@ -123,7 +129,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
                         startActivity(shoppingCartIntent);
                     }
                 } else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")) {
-                    Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
+                    showAlert();
                 }
 
                 break;

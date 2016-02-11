@@ -15,6 +15,7 @@
     <string name="iap_empty_cart">Your Shopping Cart is Currently Empty</string>
     <string name="iap_address">Address</string>
     <string name="out_of_stock">Out of stock</string>
-    <string name="no_stock">No stock</string>
+    <string name="iap_add_to_cart">Add to cart</string>
+    <string name="no_stock_description">No enough stock</string>
     <string name="something_went_wrong">Something went wrong!</string>
 </resources>
