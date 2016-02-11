@@ -17,7 +17,7 @@
             android:layout_height="@dimen/savedscreen_top_container_height"
             android:background="?attr/veryLightColor">
 
-            <com.philips.productselection.customview.CustomFontTextView
+            <com.philips.multiproduct.customview.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/savedscreen_productcontainer_marigin"
@@ -52,7 +52,7 @@
                 android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
                 android:layout_weight="2">
 
-                <com.philips.productselection.customview.CustomFontTextView
+                <com.philips.multiproduct.customview.CustomFontTextView
                     android:id="@+id/savedscreen_productname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                     custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
 
-                <com.philips.productselection.customview.CustomFontTextView
+                <com.philips.multiproduct.customview.CustomFontTextView
                     android:id="@+id/savedscreen_productvariant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

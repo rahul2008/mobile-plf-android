@@ -23,14 +23,14 @@
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin">
 
-            <com.philips.productselection.customview.CustomFontTextView
+            <com.philips.multiproduct.customview.CustomFontTextView
                 android:id="@+id/detailed_screen_productname"
                 style="@style/detailedscreeen_product_name"
                 android:text="Jamie Oliver Food Processor"
 
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
-            <com.philips.productselection.customview.CustomFontTextView
+            <com.philips.multiproduct.customview.CustomFontTextView
                 style="@style/detailedscreeen_product_variant"
                 android:text="HR7781/01"
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
@@ -45,18 +45,18 @@
                 android:text="Select this product" />
 
 
-            <com.philips.productselection.customview.CustomFontTextView
+            <com.philips.multiproduct.customview.CustomFontTextView
 
                 style="@style/detailedscreeen_product_spec1"
                 android:text="1000 W"
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
 
-            <com.philips.productselection.customview.CustomFontTextView
+            <com.philips.multiproduct.customview.CustomFontTextView
                 style="@style/detailedscreeen_product_spec2"
                 android:text="3.4 L Bowl"
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
 
-            <com.philips.productselection.customview.CustomFontTextView
+            <com.philips.multiproduct.customview.CustomFontTextView
 
                 style="@style/detailedscreeen_product_spec3"
                 android:text="8 accessories"

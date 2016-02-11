@@ -11,7 +11,7 @@
         android:largeHeap="true"
         android:theme="@style/multiprod_theme">
         <activity
-            android:name="com.philips.productselection.activity.MultiProductActivity"
+            android:name=".activity.MultiProductActivity"
             android:configChanges="orientation|screenSize|locale"
             android:exported="true">
 
@@ -23,7 +23,7 @@
         </activity>
 
         <receiver
-            android:name="com.philips.productselection.utils.NetworkReceiver"
+            android:name=".utils.NetworkReceiver"
             android:exported="false">
             <intent-filter android:priority="999">
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

@@ -33,6 +33,7 @@
         android:layout_below="@id/buttonFragment"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:onClick="changeBackground"
         android:text="Change theme" />
 
 

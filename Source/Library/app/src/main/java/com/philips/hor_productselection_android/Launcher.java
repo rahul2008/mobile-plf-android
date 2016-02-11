@@ -1,5 +1,6 @@
 package com.philips.hor_productselection_android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,13 +13,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivity;
-import com.philips.productselection.MultiProductConfigManager;
-import com.philips.productselection.activity.MultiProductBaseActivity;
-import com.philips.productselection.utils.MLogger;
+import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.activity.MultiProductBaseActivity;
+import com.philips.multiproduct.utils.MLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;

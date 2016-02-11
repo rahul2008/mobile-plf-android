@@ -17,12 +17,12 @@ import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivity;
-import productselection.MultiProductConfigManager;
-import productselection.activity.MultiProductBaseActivity;
+import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.activity.MultiProductBaseActivity;
 <<<<<<< HEAD
-import productselection.utils.MLogger;
+import com.philips.multiproduct.utils.MLogger;
 =======
-import productselection.listeners.ActionbarUpdateListener;
+import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 >>>>>>> launch_as_fragment
 
 import java.util.ArrayList;
