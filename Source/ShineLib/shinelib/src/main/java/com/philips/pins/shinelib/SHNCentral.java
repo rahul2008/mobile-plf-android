@@ -207,7 +207,7 @@ public class SHNCentral {
 
         persistentStorageFactory = new PersistentStorageFactory(this);
         SHNPersistentStorage shnPersistentStorage = new SHNPersistentStorage(applicationContext);
-        shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler());
+        shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
 
         SHNServiceRegistry.getInstance().add(shnPersistentStorage);
     }
