@@ -49,6 +49,7 @@
         <item>@string/find_philips_near_you</item>
         <item>@string/feedback</item>
         <item>@string/sign_into_my_philips</item>
+        <item>@string/product_selection</item>
     </array>
 
     <!--
@@ -60,6 +61,7 @@
         <item>@drawable/contact_us</item>
         <item>@drawable/find_philips_near_you</item>
         <item>@drawable/feedback</item>
+        <item>@drawable/philips_logo</item>
         <item>@drawable/philips_logo</item>
     </array>
 

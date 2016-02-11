@@ -54,7 +54,7 @@ dependencies {
     /*
      * This is for Philips Stndard UI_Kit Artifactory.
      */
-    compile 'com.philips.cdp:uikitLib:1.0.0'
+//    compile 'com.philips.cdp:uikitLib:1.0.0'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
