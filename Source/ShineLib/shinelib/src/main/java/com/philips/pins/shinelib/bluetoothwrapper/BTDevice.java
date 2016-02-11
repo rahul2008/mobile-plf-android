@@ -35,7 +35,7 @@ public class BTDevice {
 
     public BTGatt connectGatt(final Context context, boolean autoConnect, final BTGatt.BTGattCallback callback) {
         btGatt = new BTGatt(callback, handler);
-        BluetoothGatt bluetoothGatt = device.connectGatt(context, false, btGatt);
+        BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
         btGatt.setBluetoothGatt(bluetoothGatt);
         return btGatt;
     }
