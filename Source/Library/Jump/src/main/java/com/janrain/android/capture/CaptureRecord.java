@@ -41,7 +41,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
-import com.janrain.android.utils.SecureUtility;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.servertime.ServerTime;
 import com.philips.cdp.servertime.constants.ServerTimeConstants;
 
@@ -59,7 +59,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -128,7 +127,7 @@ public class CaptureRecord extends JSONObject {
             fis = applicationContext.openFileInput(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
             ObjectInputStream ois = new ObjectInputStream(fis);
            byte[] enctText = (byte[]) ois.readObject();
-           byte[] decrtext = SecureUtility.decrypt(enctText);
+           byte[] decrtext = SecureStorage.decrypt(enctText);
            fileContents = new String(decrtext);
             fis = null;
             return inflateCaptureRecord(fileContents);
@@ -194,7 +193,7 @@ public class CaptureRecord extends JSONObject {
         serializedVersion.put("original", original);
         serializedVersion.put("accessToken", accessToken);
         serializedVersion.put("this", this);
-        return SecureUtility.encrypt(serializedVersion.toString());
+        return SecureStorage.encrypt(serializedVersion.toString());
     }
 
     /**

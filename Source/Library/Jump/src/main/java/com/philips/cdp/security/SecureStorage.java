@@ -1,11 +1,10 @@
-package com.janrain.android.utils;
+package com.philips.cdp.security;
 
 import android.content.Context;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.Base64OutputStream;
-import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +27,6 @@ import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Random;
@@ -39,7 +37,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class SecureUtility {
+public class SecureStorage {
 
     private static Context mContext;
 
@@ -165,11 +163,11 @@ public class SecureUtility {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             byte[] ectext = null;
             if(plainTextString != null) {
-                ectext = SecureUtility.encrypt(plainTextString);
+                ectext = SecureStorage.encrypt(plainTextString);
             }
             if(plainBytes != null){
-                ectext = SecureUtility.encrypt(new String(plainBytes));
-                byte[] decr = SecureUtility.decrypt(ectext);
+                ectext = SecureStorage.encrypt(new String(plainBytes));
+                byte[] decr = SecureStorage.decrypt(ectext);
             }
 
             oos.writeObject(ectext);

@@ -3,7 +3,7 @@ package com.philips.cdp.registration.hsdp;
 import android.content.Context;
 import android.os.Handler;
 
-import com.janrain.android.utils.SecureUtility;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -260,8 +260,8 @@ public class HsdpUser {
         try {
             FileOutputStream fos = mContext.openFileOutput(HSDP_RECORD_FILE, 0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = SecureUtility.objectToString(mHsdpUserRecord);
-            byte[] ectext = SecureUtility.encrypt(objectPlainString);
+            String objectPlainString = SecureStorage.objectToString(mHsdpUserRecord);
+            byte[] ectext = SecureStorage.encrypt(objectPlainString);
             oos.writeObject(ectext);
             oos.close();
             fos.close();
@@ -276,8 +276,8 @@ public class HsdpUser {
             FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
            byte[] enctText = (byte[]) ois.readObject();
-           byte[] decrtext = SecureUtility.decrypt(enctText);
-           mHsdpUserRecord = (HsdpUserRecord) SecureUtility.stringToObject(new String(decrtext));
+           byte[] decrtext = SecureStorage.decrypt(enctText);
+           mHsdpUserRecord = (HsdpUserRecord) SecureStorage.stringToObject(new String(decrtext));
         } catch (Exception e) {
         }
         return mHsdpUserRecord;

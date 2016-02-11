@@ -9,7 +9,7 @@ import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
-import com.janrain.android.utils.SecureUtility;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
@@ -1098,8 +1098,8 @@ public class User {
             diUserProfile.setPassword(null);
             FileOutputStream fos = mContext.openFileOutput(DI_PROFILE_FILE, 0);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = SecureUtility.objectToString(diUserProfile);
-            byte[] ectext = SecureUtility.encrypt(objectPlainString);
+            String objectPlainString = SecureStorage.objectToString(diUserProfile);
+            byte[] ectext = SecureStorage.encrypt(objectPlainString);
            oos.writeObject(ectext);
             oos.close();
             fos.close();
@@ -1115,8 +1115,8 @@ public class User {
             FileInputStream fis = mContext.openFileInput(DI_PROFILE_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
             byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = SecureUtility.decrypt(enctText);
-            diUserProfile = (DIUserProfile) SecureUtility.stringToObject(new String(decrtext));
+            byte[] decrtext = SecureStorage.decrypt(enctText);
+            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
             fis.close();
         } catch (Exception e) {
             e.printStackTrace();

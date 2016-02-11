@@ -12,7 +12,8 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
-import com.janrain.android.utils.SecureUtility;
+import com.philips.cdp.registration.datamigration.DataMigration;
+import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
@@ -197,118 +198,6 @@ public class RegistrationHelper {
         return mUILocale;
     }
 
-    public  boolean isFileEncryptionDone(final String pFileName ){
-        FileInputStream fis = null;
-        boolean isEncryptionDone = true;
-        try {
-            fis =mContext.openFileInput(pFileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Object plainTextString =  ois.readObject();
-            if("jr_capture_signed_in_user".equals(pFileName)){
-                byte[] sss = (byte[])plainTextString;
-                String s = new String(sss);
-               if(s.contains("access")){
-                   isEncryptionDone = false;
-               }
-
-            }else{
-                if(plainTextString instanceof HsdpUserRecord){
-                    isEncryptionDone = false;
-                }if(plainTextString instanceof DIUserProfile){
-                    isEncryptionDone = false;
-                }
-            }
-
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (OptionalDataException e) {
-            e.printStackTrace();
-        } catch (StreamCorruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } /*catch (JSONException e) {
-            isEncryptionDone = false;
-            e.printStackTrace();
-        }*/
-
-        return isEncryptionDone;
-    }
-
-    private  void migrateFileData(final String pFileName) {
-
-        try {
-            //Read from file
-            FileInputStream fis = mContext.openFileInput(pFileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Object object = ois.readObject();
-            String plainTextString = null;
-            HsdpUserRecord hsdpUserRecord = null;
-            DIUserProfile diUserProfile = null;
-            if (object instanceof HsdpUserRecord) {
-
-                hsdpUserRecord = (HsdpUserRecord) object;
-                plainTextString = SecureUtility.objectToString(hsdpUserRecord);
-            }
-            if (object instanceof DIUserProfile) {
-                diUserProfile = (DIUserProfile) object;
-                plainTextString = SecureUtility.objectToString(diUserProfile);
-            }
-
-
-            mContext.deleteFile(pFileName);
-            fis.close();
-            ois.close();
-
-            //Encrypt the contents of file
-            FileOutputStream fos = mContext.openFileOutput(pFileName, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            byte[] ectext = null;
-
-            if (plainTextString != null) {
-                ectext = SecureUtility.encrypt(plainTextString);
-            }
-
-
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (OptionalDataException e) {
-            e.printStackTrace();
-        } catch (StreamCorruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void checkFileEncryptionStatus(){
-        if(!isFileEncryptionDone("jr_capture_signed_in_user")){
-            System.out.println("***** no encrypted jr_capture_signed_in_user");
-            SecureUtility.migrateUserData("jr_capture_signed_in_user");
-        }
-
-        if(!isFileEncryptionDone("hsdpRecord")){
-            System.out.println("***** no encrypted hsdpRecord");
-            migrateFileData("hsdpRecord");
-            //SecureUtility.migrateUserData("hsdpRecord");
-
-        }
-
-        if(!isFileEncryptionDone("diProfile")){
-            System.out.println("***** no encrypted hsdpRecord");
-            migrateFileData("diProfile");
-           // SecureUtility.migrateUserData("diProfile");
-        }
-    }
 
     /*
      * Initialize Janrain
@@ -332,11 +221,10 @@ public class RegistrationHelper {
         mReceivedDownloadFlowSuccess = false;
         mContext = context.getApplicationContext();
         ServerTime.init(mContext);
-        SecureUtility.init(mContext);
-        SecureUtility.generateSecretKey();
-
-
+        SecureStorage.init(mContext);
+        SecureStorage.generateSecretKey();
         NetworkUtility.isNetworkAvailable(mContext);
+        new DataMigration(mContext).checkFileEncryptionStatus();
         setCountryCode(mlocale.getCountry());
         final String initLocale = mlocale.toString();
         RLog.i("LOCALE", "App JAnrain Init locale :" + initLocale);
@@ -354,7 +242,7 @@ public class RegistrationHelper {
 
 
 
-                checkFileEncryptionStatus();
+
 
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -540,14 +428,6 @@ public class RegistrationHelper {
         }
         return appVersion;
     }
-
-
-
-
-
-
-
-
 
     public Locale getLocale() {
         return mLocale;

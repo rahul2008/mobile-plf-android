@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
-import com.janrain.android.utils.SecureUtility;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -16,7 +15,6 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;

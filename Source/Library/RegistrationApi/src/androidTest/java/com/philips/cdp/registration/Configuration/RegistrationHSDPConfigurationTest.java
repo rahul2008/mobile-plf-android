@@ -100,6 +100,26 @@ public class RegistrationHSDPConfigurationTest extends ActivityInstrumentationTe
 
     }
 
+    public void testHSDPAvailability(){
+
+        HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
+        //Override value
+        HSDPInfo hsdpInfo = new HSDPInfo();
+        hsdpInfo.setApplicationName("Appname");
+        hsdpInfo.setBaseURL("url");
+        hsdpInfo.setSecretId("secreteid");
+        hsdpInfo.setSharedId("sharedid");
+
+        hsdpConfiguration.setHSDPInfo(Configuration.STAGING, hsdpInfo);
+
+        RegistrationDynamicConfiguration.getInstance().setHsdpConfiguration(hsdpConfiguration);
+
+        hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
+        assertTrue(hsdpConfiguration.isHsdpFlow());
+        RegistrationDynamicConfiguration.getInstance().resetDynamicConfiguration();
+
+    }
+
     public void testHSDPConfigurationFlieldsWithDynamicAdd() {
 
         HSDPConfiguration hsdpConfiguration = new HSDPConfiguration();
