@@ -87,7 +87,7 @@ public class CartModel extends AbstractModel {
 
     private Map<String, String> getAddToCartPayload() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("code", "HX8331_11");
+        params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
         return params;
     }
 
@@ -124,9 +124,9 @@ public class CartModel extends AbstractModel {
     }
 
     private Map<String, String> getEntryCartDetails() {
-        Map<String, String> params = new HashMap<>();
-        params.put(PRODUCT_CODE,params.get(PRODUCT_CODE));
-        params.put(ENTRY_CODE,params.get(ENTRY_CODE));
-        return params;
+        Map<String, String> payload = new HashMap<>();
+        payload.put(PRODUCT_CODE, params.get(PRODUCT_CODE));
+        payload.put(ENTRY_CODE, params.get(ENTRY_CODE));
+        return payload;
     }
 }
