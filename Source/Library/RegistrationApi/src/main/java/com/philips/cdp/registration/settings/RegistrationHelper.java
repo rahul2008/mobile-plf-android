@@ -352,9 +352,7 @@ public class RegistrationHelper {
 
                 ServerTime.getInstance().refreshOffset();
 
-                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpAvailable()) {
-                    RegistrationConfiguration.getInstance().getHsdpConfiguration().setHsdpFlow(true);
-                }
+
 
                 checkFileEncryptionStatus();
 

@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 public class HSDPConfiguration {
 
-    private boolean isHsdpFlow;
 
     private HashMap<Configuration, HSDPInfo> hsdpInfos = new HashMap<>();
 
@@ -52,7 +51,7 @@ public class HSDPConfiguration {
     }
 
 
-    public boolean isHsdpAvailable() {
+    public boolean isHsdpFlow() {
         HSDPConfiguration hsdpConfiguration = RegistrationConfiguration.getInstance().getHsdpConfiguration();
         if (hsdpConfiguration == null) {
             return false;
@@ -116,15 +115,4 @@ public class HSDPConfiguration {
         }
         return exception;
     }
-
-
-    public boolean isHsdpFlow() {
-        return isHsdpFlow;
-    }
-
-    public void setHsdpFlow(boolean isHsdpFlow) {
-        this.isHsdpFlow = isHsdpFlow;
-    }
-
-
 }
