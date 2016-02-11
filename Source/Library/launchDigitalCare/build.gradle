@@ -9,7 +9,10 @@ android {
         applicationId "com.philips.cdp.sampledigitalcareapp"
         minSdkVersion 15
         targetSdkVersion 23
-
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
+        generatedDensities = []
+        multiDexEnabled true
     }
 
     lintOptions {

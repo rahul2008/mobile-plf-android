@@ -29,6 +29,12 @@ import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.utils.MLogger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * SupportHomeFragment is the first screen of Support app. This class will give
@@ -47,6 +53,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private int RegisterButtonMarginTop = 0;
     private boolean mIsFirstScreenLaunch = false;
     private View mView = null;
+    private ArrayList<Product> mList = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -272,7 +279,49 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             if (isConnectionAvailable())
                 showFragment(new RateThisAppFragment());
         }
+        else if (tag.equals(getStringKey(R.string.product_selection))) {
+//            if (isConnectionAvailable())
+                launchMultiProductAsActivity();
+        }
     }
+
+    private MultiProductConfigManager mConfigManager = null;
+
+    private void launchMultiProductAsActivity() {
+        MultiProductConfigManager mConfigManager = null;
+        mConfigManager = MultiProductConfigManager.getInstance();
+        mConfigManager.initializeDigitalCareLibrary(getActivity());
+        mConfigManager.setLocale("en", "GB");
+        mConfigManager.invokeDigitalCareAsActivity(R.anim.left_in, R.anim.right_out, MultiProductConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+
+        List<String> list = new ArrayList<String>();
+        mList = new ArrayList<Product>();
+        if (mList.size() == 0)
+            addDummyData();
+
+        for (Product product : mList) {
+            list.add(product
+                    .getmCtn());
+        }
+        mConfigManager.setMultiProductCtnList(list);
+        MLogger.enableLogging();
+    }
+
+    private void addDummyData() {
+
+        List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
+
+
+        for (int i = 0; i < mCtnList.size(); i++) {
+            Product product = new Product();
+            //  product.setmCtn((new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "/dummy");
+            product.setmCtn(mCtnList.get(i));
+            product.setmCatalog("B2C");
+            product.setmCategory("CARE");
+            mList.add(product);
+        }
+    }
+
 
     @Override
     public String getActionbarTitle() {
