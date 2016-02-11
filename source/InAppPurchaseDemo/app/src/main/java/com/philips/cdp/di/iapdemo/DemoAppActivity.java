@@ -80,11 +80,13 @@ public class DemoAppActivity extends Activity implements RequestListener {
     protected void onResume() {
         super.onResume();
 
-        if (Utility.isInternetConnected(this)) {
-            Utility.showProgressDialog(this, getString(R.string.loading_cart));
-            HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART, this, null);
-        } else {
-            Utility.showNetworkError(this, true);
+        if (!(Utility.isProgressDialogShowing())) {
+            if (Utility.isInternetConnected(this)) {
+                Utility.showProgressDialog(this, getString(R.string.loading_cart));
+                HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART, this, null);
+            } else {
+                Utility.showNetworkError(this, true);
+            }
         }
     }
 
@@ -169,8 +171,14 @@ public class DemoAppActivity extends Activity implements RequestListener {
      * @param isFromBuy bool
      */
     void addToCart(boolean isFromBuy) {
-        Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
-        HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, null);
+        if (!(Utility.isProgressDialogShowing())) {
+            if (Utility.isInternetConnected(this)) {
+                Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
+                HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, null);
+            } else {
+                Utility.showNetworkError(this, true);
+            }
+        }
         mIsFromBuy = isFromBuy;
     }
 }
