@@ -1,6 +1,5 @@
 package com.philips.hor_productselection_android.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,11 +11,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.hor_productselection_android.R;
-import com.philips.multiproduct.MultiProductConfigManager;
-import com.philips.multiproduct.activity.MultiProductBaseActivity;
-import com.philips.multiproduct.listeners.ActionbarUpdateListener;
+import com.philips.productselection.MultiProductConfigManager;
+import com.philips.productselection.activity.MultiProductBaseActivity;
+import com.philips.productselection.listeners.ActionbarUpdateListener;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.

@@ -1,0 +1,62 @@
+package com.philips.productselection.activity;
+
+import android.os.Bundle;
+
+import com.philips.productselection.MultiProductConfigManager;
+import com.philips.productselection.R;
+import com.philips.productselection.utils.Constants;
+import com.philips.productselection.utils.MLogger;
+
+
+public class MultiProductActivity extends MultiProductBaseActivity {
+    private static final String TAG = MultiProductActivity.class.getSimpleName();
+    private static int mEnterAnimation = -1;
+    private static int mExitAnimation = -1;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_multi_product);
+
+        animateThisScreen();
+        int ctnSize = MultiProductConfigManager.getInstance().getMultiProductCtnList().size();
+        MLogger.d(TAG, "Size of the Ctn is : " + ctnSize);
+        if (ctnSize > 1)
+            showFragment(new WelcomeScreenFragment());
+        else
+            showFragment(new DirectFragment());
+
+    }
+
+    private void animateThisScreen() {
+        Bundle bundleExtras = getIntent().getExtras();
+
+        String startAnim = null;
+        String endAnim = null;
+
+        int startAnimation = bundleExtras.getInt(Constants.START_ANIMATION_ID);
+        int endAnimation = bundleExtras.getInt(Constants.STOP_ANIMATION_ID);
+        int orientation = bundleExtras.getInt(Constants.SCREEN_ORIENTATION);
+
+        if (startAnimation == 0 && endAnimation == 0) {
+            return;
+        }
+
+        startAnim = getResources().getResourceName(startAnimation);
+        endAnim = getResources().getResourceName(endAnimation);
+
+        String packageName = getPackageName();
+        mEnterAnimation = getApplicationContext().getResources().getIdentifier(startAnim,
+                "anim", packageName);
+        mExitAnimation = getApplicationContext().getResources().getIdentifier(endAnim, "anim",
+                packageName);
+        setRequestedOrientation(orientation);
+        overridePendingTransition(mEnterAnimation, mExitAnimation);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+}
