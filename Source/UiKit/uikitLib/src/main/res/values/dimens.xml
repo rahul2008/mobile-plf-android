@@ -178,6 +178,8 @@
     <dimen name="springboard_grid_margin_right">31dp</dimen>
     <dimen name="activity_horizontal_margin">5dp</dimen>
     <dimen name="activity_vertical_margin">5dp</dimen>
+    <dimen name="springboard_list_left_margin">121dp</dimen>
+    <dimen name="springboard_list_right_margin">120dp</dimen>
 
     <!-- SpringBoard Buttons -->
     <dimen name="uikit_springboard_button_padding">33dp</dimen>
