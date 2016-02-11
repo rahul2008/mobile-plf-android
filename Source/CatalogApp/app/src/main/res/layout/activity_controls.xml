@@ -52,6 +52,7 @@
         android:id="@+id/radioGroup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="15dp"
         android:orientation="vertical">
 
@@ -59,19 +60,26 @@
             android:id="@+id/radioButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_marginBottom="5dp"
             android:text="One " />
 
         <com.philips.cdp.uikit.customviews.UIKitRadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="Two" />
 
         <com.philips.cdp.uikit.customviews.UIKitRadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="Three"/>
+
+
+
     </RadioGroup>
 
     <com.philips.cdp.uikit.customviews.PuiCheckBox

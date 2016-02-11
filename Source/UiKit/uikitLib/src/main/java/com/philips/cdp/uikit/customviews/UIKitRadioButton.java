@@ -25,21 +25,20 @@ public class UIKitRadioButton extends AppCompatRadioButton {
         int baseColor = ar.getInt(0, R.attr.baseColor);
         int overlayColor = Color.argb(127, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor));
         ar.recycle();
+
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
 
-                        new int[]{-android.R.attr.state_enabled},
+
                         new int[]{-android.R.attr.state_checked},
                         //disabled
-                        new int[]{android.R.attr.state_enabled},
+
                         new int[]{android.R.attr.state_checked}//enabled
                 },
                 new int[]{
 
-                        overlayColor //disabled
-                        ,
-                        overlayColor //disabled
-                        , baseColor,
+                        overlayColor, //disabled
+
                         baseColor//enabled
 
                 }
@@ -52,8 +51,7 @@ public class UIKitRadioButton extends AppCompatRadioButton {
             setButtonTintList(colorStateList);
 
         }
-
+        setButtonDrawable(R.drawable.uikit_custom_radio_button);
     }
 
-
-}
+    }

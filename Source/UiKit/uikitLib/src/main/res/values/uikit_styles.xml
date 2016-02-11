@@ -249,4 +249,7 @@
         <item name="android:textColor">?attr/baseColor</item>
     </style>
 
+    <style name="RadioButtonStyle">
+        <item name ="android:button">@drawable/uikit_custom_radio_button</item>
+    </style>
 </resources>
