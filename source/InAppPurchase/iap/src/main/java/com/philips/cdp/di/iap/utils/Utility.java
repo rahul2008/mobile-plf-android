@@ -38,6 +38,14 @@ public class Utility {
         }
     }
 
+    public static boolean isProgressDialogShowing(){
+        if (mProgressDialog != null && mProgressDialog.isShowing()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * Checks for internet connection
      *
