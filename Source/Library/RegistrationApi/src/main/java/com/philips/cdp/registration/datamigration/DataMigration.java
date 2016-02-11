@@ -18,9 +18,9 @@ import java.io.StreamCorruptedException;
 
 public class DataMigration {
 
-    public static final String JR_CAPTURE_SIGNED_IN_USER = "jr_capture_signed_in_user";
-    public static final String HSDP_RECORD = "hsdpRecord";
-    public static final String DI_PROFILE = "diProfile";
+    private  final String JR_CAPTURE_SIGNED_IN_USER = "jr_capture_signed_in_user";
+    private  final String HSDP_RECORD = "hsdpRecord";
+    private  final String DI_PROFILE = "diProfile";
     private Context mContext;
 
     public DataMigration(final Context context) {
