@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.utils.TabUtils;
 import com.philips.cdp.uikit.utils.UikitUtils;
 
 /**
@@ -81,6 +82,7 @@ public class ActionBarLauncher extends CatalogActivity {
 
         setContentView(R.layout.action_bar_hide_scroll);
         mActionBar.setHideOnContentScrollEnabled(true);
+        TabUtils.disableActionbarShadow(this);
 
     }
 
