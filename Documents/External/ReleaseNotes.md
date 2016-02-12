@@ -1,5 +1,25 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+Version - 2.0.0                               Date:12-02-2015
+---------------------------------------------------------------
+Feature completed 
+
+Action bar / Toolbar
+Social Icon
+Spring Board
+Lists
+Inline Forms
+Springboard Buttons and Springboard Buttons with icon
+Progress bar / spinner
+Controls
+Tab bar
+Modal Alert
+Pop Overmenu
+Cards
+Favorites
+Picker View
+
+
 
 Version - 1.2.0                               Date:28-01-2015
 ---------------------------------------------------------------
