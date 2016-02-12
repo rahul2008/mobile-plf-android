@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
+import com.philips.pins.shinelib.utility.PersistencyClearing;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNPersistentStorage;
@@ -17,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -76,6 +78,9 @@ public class SHNDeviceAssociationTest {
 
     @Mock
     private PersistentStorageFactory persistentStorageFactoryMock;
+
+    @Mock
+    private PersistencyClearing persistencyClearingMock;
 
     @Captor
     private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
@@ -148,6 +153,8 @@ public class SHNDeviceAssociationTest {
 
         doReturn(Collections.emptyList()).when(mockedSHNPersistentStorage).readAssociatedDeviceInfos();
         doNothing().when(mockedSHNPersistentStorage).storeAssociatedDeviceInfos(anyList());
+
+        PowerMockito.when(persistentStorageFactoryMock.getPersistencyClearing()).thenReturn(persistencyClearingMock);
 
         shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal, persistentStorageFactoryMock);
 
@@ -378,6 +385,17 @@ public class SHNDeviceAssociationTest {
         assertFalse(shnDeviceAssociation.getAssociatedDevices().isEmpty());
         assertEquals(1, shnDeviceAssociation.getAssociatedDevices().size());
         assertEquals(macAddress2, shnDeviceAssociation.getAssociatedDevices().get(0).getAddress());
+    }
+
+    @Test
+    public void whenRemoveDeviceIsCalled_ThenDataIsCleared() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
+
+        verify(persistencyClearingMock).clearDeviceData(shnDevice);
     }
 
     @Test
