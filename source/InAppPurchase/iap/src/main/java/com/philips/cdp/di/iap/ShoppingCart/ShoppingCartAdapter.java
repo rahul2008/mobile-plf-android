@@ -232,8 +232,10 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        Utility.showProgressDialog(mContext,"Updating Cart Details");
-                        mPresenter.updateProductQuantity(mData,position, newCount);
+                        if(!Utility.isProgressDialogShowing()) {
+                            Utility.showProgressDialog(mContext, "Updating Cart Details");
+                            mPresenter.updateProductQuantity(mData, position, newCount);
+                        }
                     }
                 });
                 countPopUp.show();
