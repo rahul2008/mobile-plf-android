@@ -37,6 +37,7 @@ import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XProviderButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -222,7 +223,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         providerBtn.setEnabled(true);
         if (NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             providerBtn.setEnabled(true);
         } else {
             providerBtn.setEnabled(false);
@@ -303,10 +304,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void handleJanrainInitPb() {
         if (NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             mPbJanrainInit.setVisibility(View.GONE);
         } else if (NetworkUtility.isNetworkAvailable(mContext)
-                && !RegistrationHelper.getInstance().isJanrainIntialized()) {
+                && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             mPbJanrainInit.setVisibility(View.VISIBLE);
         } else {
             mPbJanrainInit.setVisibility(View.GONE);

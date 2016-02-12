@@ -27,6 +27,7 @@ import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -220,7 +221,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
                 mBtnActivate.setEnabled(true);
                 mBtnResend.setEnabled(true);

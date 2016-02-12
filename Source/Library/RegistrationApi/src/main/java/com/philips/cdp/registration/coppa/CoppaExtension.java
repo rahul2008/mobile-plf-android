@@ -11,6 +11,7 @@ import com.philips.cdp.registration.HttpClient;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import org.json.JSONException;
@@ -96,7 +97,7 @@ public class CoppaExtension implements CoppaExtensionHandler {
                 /*String response = client.postData(RegistrationHelper.getInstance()
 				        .getRegistrationSettings().getResendConsentUrl(),
 				        geResendMailParams(mailType, email), accessToken);*/
-                String response = client.callPost(RegistrationHelper.getInstance()
+                String response = client.callPost(UserRegistrationInitializer.getInstance()
                                 .getRegistrationSettings().getResendConsentUrl(),
                         getResendMailParameters(mailType, email), accessToken);
 
@@ -190,9 +191,9 @@ public class CoppaExtension implements CoppaExtensionHandler {
                 .getPilConfiguration().getCampaignID()));
         params.add(new Pair("email", email));
         params.add(new Pair("mailType", mailtype));
-        params.add(new Pair("redirect_uri", RegistrationHelper.getInstance()
+        params.add(new Pair("redirect_uri", UserRegistrationInitializer.getInstance()
                 .getRegistrationSettings().getRegisterCoppaActivationUrl()));
-        params.add(new Pair("flow_name", RegistrationHelper.getInstance()
+        params.add(new Pair("flow_name", UserRegistrationInitializer.getInstance()
                 .getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "resendConsentForm"));
         params.add(new Pair("emailFieldName", "traditionalSignIn_emailAddress"));
@@ -218,9 +219,9 @@ public class CoppaExtension implements CoppaExtensionHandler {
         params.add(new Pair("client_id", Jump.getCaptureClientId()));
         params.add(new Pair("locale", Jump.getCaptureLocale()));
         params.add(new Pair("response_type", "token"));
-        params.add(new Pair("redirect_uri", RegistrationHelper.getInstance()
+        params.add(new Pair("redirect_uri", UserRegistrationInitializer.getInstance()
                 .getRegistrationSettings().getRegisterCoppaActivationUrl()));
-        params.add(new Pair("flow", RegistrationHelper.getInstance()
+        params.add(new Pair("flow", UserRegistrationInitializer.getInstance()
                 .getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "socialSignInConsentCheckForm"));
         params.add(new Pair("traditionalSignIn_emailAddress", email));
@@ -237,9 +238,9 @@ public class CoppaExtension implements CoppaExtensionHandler {
         params.add(new Pair("client_id", Jump.getCaptureClientId()));
         params.add(new Pair("locale", Jump.getCaptureLocale()));
         params.add(new Pair("response_type", "token"));
-        params.add(new Pair("redirect_uri", RegistrationHelper.getInstance()
+        params.add(new Pair("redirect_uri", UserRegistrationInitializer.getInstance()
                 .getRegistrationSettings().getRegisterCoppaActivationUrl()));
-        params.add(new Pair("flow", RegistrationHelper.getInstance()
+        params.add(new Pair("flow", UserRegistrationInitializer.getInstance()
                 .getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "socialSignInConsentCheckForm"));
         params.add(new Pair("traditionalSignIn_emailAddress", email));

@@ -11,6 +11,7 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.LocaleMatchError;
 import com.philips.cdp.localematch.enums.Platform;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.errormapping.CheckLocale;
 
@@ -24,8 +25,7 @@ public class LocaleMatchHelper implements LocaleMatchListener {
 
     private String LOG_TAG = "RegistrationAPI";
 
-    RegistrationHelper mHelper = RegistrationHelper.getInstance();
-
+    UserRegistrationInitializer mHelper = UserRegistrationInitializer.getInstance();
     public LocaleMatchHelper(Context mContext, String mLanguageCode, String mCountryCode) {
         super();
         this.mCountryCode = mCountryCode;

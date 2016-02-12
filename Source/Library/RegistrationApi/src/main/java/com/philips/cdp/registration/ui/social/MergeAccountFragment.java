@@ -26,6 +26,7 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XPassword;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -274,7 +275,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private void handleUiErrorState() {
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
-			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+			if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
 				mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -290,7 +291,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		RLog.i("MergeAccountFragment", "updateUiStatus");
 		if (mEtPassword.isValidPassword()
 				&& NetworkUtility.isNetworkAvailable(mContext)
-				&& RegistrationHelper.getInstance().isJanrainIntialized()) {
+				&& UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
 			mBtnMerge.setEnabled(true);
 			mBtnForgotPassword.setEnabled(true);
 			mRegError.hideError();

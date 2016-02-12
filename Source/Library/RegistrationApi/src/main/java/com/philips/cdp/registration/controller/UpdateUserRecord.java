@@ -13,6 +13,7 @@ import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,7 +109,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 // PrimaryAddress
                 JSONObject primaryAddressObject = new JSONObject();
 
-                primaryAddressObject.put(CONSUMER_COUNTRY, userSettings.getRegistrationSettings()
+                primaryAddressObject.put(CONSUMER_COUNTRY, UserRegistrationInitializer.getInstance().getRegistrationSettings()
                         .getPreferredCountryCode());
                 primaryAddressObject.put(CONSUMER_ADDRESS1, "");
                 primaryAddressObject.put(CONSUMER_ADDRESS2, "");
@@ -127,7 +128,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
                 updatedUser.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
                 updatedUser.put(CONSUMER_ROLES, rolesArray);
-                updatedUser.put(CONSUMER_PREFERED_LANGUAGE, userSettings.getRegistrationSettings()
+                updatedUser.put(CONSUMER_PREFERED_LANGUAGE, UserRegistrationInitializer.getInstance().getRegistrationSettings()
                         .getPreferredLangCode());
                 updatedUser.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
                 if (!(originalUserInfo.getBoolean(OLDER_THAN_AGE_LIMIT) && updatedUser.getBoolean(OLDER_THAN_AGE_LIMIT))) {

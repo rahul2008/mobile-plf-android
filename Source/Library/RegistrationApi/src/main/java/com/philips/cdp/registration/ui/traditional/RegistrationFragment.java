@@ -23,6 +23,7 @@ import com.philips.cdp.registration.apptagging.AppTaggingPages;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
@@ -406,12 +407,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        if(!isOnline && !RegistrationHelper.getInstance().isJanrainIntialized()){
+        if(!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()){
 
-            RegistrationHelper.getInstance().resetInitializationState();
+            UserRegistrationInitializer.getInstance().resetInitializationState();
 
         }
-        if (!RegistrationHelper.getInstance().isJanrainIntialized() && !RegistrationHelper.getInstance().isJumpInitializationInProgress()) {
+        if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() && !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings

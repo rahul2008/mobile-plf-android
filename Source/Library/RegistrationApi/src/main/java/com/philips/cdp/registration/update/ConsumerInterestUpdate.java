@@ -13,6 +13,7 @@ import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.UpdateConsumerInterestHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -28,7 +29,7 @@ public class ConsumerInterestUpdate {
     private Context mContext;
     public void updateConsumerInterest(Context context, UpdateConsumerInterestHandler updateConsumerInterestHandler,
                                        ArrayList<ConsumerInterest> consumerInterests) {
-        baseUrl = RegistrationHelper.getInstance().getRegistrationSettings().getmRegisterBaseCaptureUrl()+"/entity.replace";
+        baseUrl = UserRegistrationInitializer.getInstance().getRegistrationSettings().getmRegisterBaseCaptureUrl()+"/entity.replace";
         mContext = context;
         startUpdateTask(updateConsumerInterestHandler, convertConsumerArrayToJOSNString(consumerInterests));
     }

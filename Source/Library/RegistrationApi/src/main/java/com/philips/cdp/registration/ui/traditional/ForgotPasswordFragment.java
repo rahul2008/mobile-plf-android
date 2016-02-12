@@ -23,6 +23,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XEmail;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -177,7 +178,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
                 mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -191,7 +192,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private void updateUiStatus() {
         if (NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
+                && UserRegistrationInitializer.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
             mBtnContinue.setEnabled(true);
             mRegError.hideError();
         } else {

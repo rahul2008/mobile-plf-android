@@ -20,6 +20,7 @@ import com.philips.cdp.registration.handlers.ProductRegistrationHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettings;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -97,8 +98,8 @@ public class UserWithProduct extends User implements LocaleMatchListener {
             countryCode = "US";
         }
 
-        RegistrationHelper userSettings = RegistrationHelper.getInstance();
-
+       // RegistrationHelper userSettings = RegistrationHelper.getInstance();
+        UserRegistrationInitializer userSettings = UserRegistrationInitializer.getInstance();
         mProdInfo = prodRegInfo;
         mProdRegHandler = productRegisterHandler;
         mProdRegBaseUrl = userSettings.getRegistrationSettings().getProductRegisterUrl();

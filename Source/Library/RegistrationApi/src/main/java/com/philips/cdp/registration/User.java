@@ -9,6 +9,7 @@ import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
@@ -103,7 +104,7 @@ public class User {
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-    private RegistrationHelper mRegistrationHelper;
+    private UserRegistrationInitializer mRegistrationHelper;
 
     private ScheduledExecutorService mScheduledExecutorService;
 
@@ -113,7 +114,8 @@ public class User {
         mContext = context;
         hsdpUser = new HsdpUser(context);
         mUpdateUserRecordHandler = new UpdateUserRecord(context);
-        mRegistrationHelper = RegistrationHelper.getInstance();
+     //   mRegistrationHelper = RegistrationHelper.getInstance();
+        mRegistrationHelper = UserRegistrationInitializer.getInstance();
     }
 
     private void loginTraditionally(final String emailAddress, final String password,
@@ -146,6 +148,7 @@ public class User {
     }
 
     private boolean isJumpInitializated(){
+
         return !mRegistrationHelper.isJumpInitializationInProgress() && mRegistrationHelper.isJanrainIntialized();
     }
 
@@ -186,7 +189,7 @@ public class User {
             mRegistrationHelper.unregisterJumpFlowDownloadListener();
             return;
         }else  if(!isJumpInitializationInProgress()){
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }
 
@@ -259,7 +262,7 @@ public class User {
             return;
         }else if(!isJumpInitializationInProgress()){
             RLog.i(LOG_TAG, "Jump  not initialized, initializing again ");
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }
 
@@ -320,7 +323,7 @@ public class User {
 
         }else if(!isJumpInitializationInProgress()) {
             RLog.i(LOG_TAG, "Jump not initialized, initializing");
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
 
     }
@@ -401,7 +404,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()) {
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
 
 
@@ -501,7 +504,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()) {
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
 
     }
@@ -556,7 +559,7 @@ public class User {
             }
             return;
         } else if (!isJumpInitializationInProgress()) {
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
 
     }
@@ -597,7 +600,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()){
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }
 
@@ -851,7 +854,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()){
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
 
     }
@@ -1031,7 +1034,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()){
-            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
 
 

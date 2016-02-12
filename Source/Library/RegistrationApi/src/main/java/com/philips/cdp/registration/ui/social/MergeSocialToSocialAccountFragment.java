@@ -25,6 +25,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.onUpdateListener;
@@ -253,7 +254,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private void handleUiErrorState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
                 mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -268,7 +269,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     private void updateUiStatus() {
         RLog.i("MergeSocialToSocialAccountFragment", "updateUiStatus");
         if (NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             mBtnMerge.setEnabled(true);
             mBtnCancel.setEnabled(true);
             mRegError.hideError();

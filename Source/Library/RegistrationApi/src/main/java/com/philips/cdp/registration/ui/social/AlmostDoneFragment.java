@@ -28,6 +28,7 @@ import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XCheckBox;
 import com.philips.cdp.registration.ui.customviews.XEmail;
@@ -329,7 +330,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            if (RegistrationHelper.getInstance().isJanrainIntialized()) {
+            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();
             } else {
                 mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -365,7 +366,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     private void updateUiStatus() {
         if (isEmailExist) {
             if (NetworkUtility.isNetworkAvailable(mContext)
-                    && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                    && UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             } else {
@@ -373,7 +374,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             }
         } else {
             if (NetworkUtility.isNetworkAvailable(mContext)
-                    && RegistrationHelper.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
+                    && UserRegistrationInitializer.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
                 mBtnContinue.setEnabled(true);
                 mRegError.hideError();
             } else {
