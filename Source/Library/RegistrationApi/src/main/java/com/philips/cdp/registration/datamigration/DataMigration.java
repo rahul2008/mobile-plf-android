@@ -15,58 +15,22 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 
-/**
- * Created by 310202337 on 2/11/2016.
- */
+
 public class DataMigration {
 
-    private Context context;
+    private  final String JR_CAPTURE_SIGNED_IN_USER = "jr_capture_signed_in_user";
+    private  final String HSDP_RECORD = "hsdpRecord";
+    private  final String DI_PROFILE = "diProfile";
+    private Context mContext;
 
-    public DataMigration(final Context context){
-        this.context = context;
+    public DataMigration(final Context context) {
+        mContext = context;
     }
 
-
-
-    private  void migrateFileData(final String fileName) {
-
+    private void migrateFileData(final String fileName) {
         try {
-            //Read from file
-
-            FileInputStream fis = context.openFileInput(fileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Object object = ois.readObject();
-            String plainTextString;
-            HsdpUserRecord hsdpUserRecord;
-            DIUserProfile diUserProfile;
-            if (object instanceof HsdpUserRecord) {
-
-                hsdpUserRecord = (HsdpUserRecord) object;
-                plainTextString = SecureStorage.objectToString(hsdpUserRecord);
-            }
-            if (object instanceof DIUserProfile) {
-                diUserProfile = (DIUserProfile) object;
-                plainTextString = SecureStorage.objectToString(diUserProfile);
-            }
-
-
-            context.deleteFile(fileName);
-            fis.close();
-            ois.close();
-
-            //Encrypt the contents of file
-            FileOutputStream fos = context.openFileOutput(fileName, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            byte[] ectext = null;
-
-            if (plainTextString != null) {
-                ectext = SecureStorage.encrypt(plainTextString);
-            }
-
-
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
+            String plainText = readDataAndDeleteFile(fileName);
+            writeDataToFile(fileName, plainText);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -80,48 +44,79 @@ public class DataMigration {
         }
     }
 
-
-    public void checkFileEncryptionStatus(){
-        if(!isFileEncryptionDone("jr_capture_signed_in_user")){
-            SecureStorage.migrateUserData("jr_capture_signed_in_user");
+    private String readDataAndDeleteFile(String fileName) throws IOException, ClassNotFoundException {
+        FileInputStream fis = mContext.openFileInput(fileName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Object object = ois.readObject();
+        String plainText = null;
+        HsdpUserRecord hsdpUserRecord = null;
+        DIUserProfile diUserProfile = null;
+        if (object instanceof HsdpUserRecord) {
+            hsdpUserRecord = (HsdpUserRecord) object;
+            plainText = SecureStorage.objectToString(hsdpUserRecord);
+        }
+        if (object instanceof DIUserProfile) {
+            diUserProfile = (DIUserProfile) object;
+            plainText = SecureStorage.objectToString(diUserProfile);
         }
 
-        if(!isFileEncryptionDone("hsdpRecord")){
-            migrateFileData("hsdpRecord");
-            //SecureUtility.migrateUserData("hsdpRecord");
+        mContext.deleteFile(fileName);
+        fis.close();
+        ois.close();
+        return plainText;
+    }
 
+    private void writeDataToFile(String fileName, String plainTextString) throws IOException {
+        FileOutputStream fos = mContext.openFileOutput(fileName, 0);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        byte[] ectext = null;
+
+        if (plainTextString != null) {
+            ectext = SecureStorage.encrypt(plainTextString);
+        }
+        oos.writeObject(ectext);
+        oos.close();
+        fos.close();
+    }
+
+
+    public void checkFileEncryptionStatus() {
+        if (!isFileEncryptionDone(JR_CAPTURE_SIGNED_IN_USER)) {
+            SecureStorage.migrateUserData("JR_CAPTURE_SIGNED_IN_USER");
         }
 
-        if(!isFileEncryptionDone("diProfile")){
-            migrateFileData("diProfile");
-            // SecureUtility.migrateUserData("diProfile");
+        if (!isFileEncryptionDone(HSDP_RECORD)) {
+            migrateFileData(HSDP_RECORD);
+        }
+
+        if (!isFileEncryptionDone(DI_PROFILE)) {
+            migrateFileData(DI_PROFILE);
         }
     }
 
 
-    private  boolean isFileEncryptionDone(final String pFileName ){
+    private boolean isFileEncryptionDone(final String pFileName) {
         FileInputStream fis = null;
         boolean isEncryptionDone = true;
         try {
-            fis =context.openFileInput(pFileName);
+            fis = mContext.openFileInput(pFileName);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            Object plainTextString =  ois.readObject();
-            if("jr_capture_signed_in_user".equals(pFileName)){
-                byte[] sss = (byte[])plainTextString;
+            Object plainText = ois.readObject();
+            if (JR_CAPTURE_SIGNED_IN_USER.equals(pFileName)) {
+                byte[] sss = (byte[]) plainText;
                 String s = new String(sss);
-                if(s.contains("access")){
+                if (s.contains("access")) {
                     isEncryptionDone = false;
                 }
 
-            }else{
-                if(plainTextString instanceof HsdpUserRecord){
+            } else {
+                if (plainText instanceof HsdpUserRecord) {
                     isEncryptionDone = false;
-                }if(plainTextString instanceof DIUserProfile){
+                }
+                if (plainText instanceof DIUserProfile) {
                     isEncryptionDone = false;
                 }
             }
-
-
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
