@@ -23,6 +23,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
@@ -30,8 +31,10 @@ import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPresenter.LoadListener {
     private static final int DELETE = 0;
@@ -111,7 +114,9 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
-                holder.price.setText(cartData.getCurrency() + " " + cartData.getTotalPrice());
+                String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
+
+                holder.price.setText(cartData.getCurrency() + " " + price);
                 holder.price.setTypeface(null, Typeface.BOLD);
                 holder.valueOption.setText(cartData.getQuantity() + "");
 
@@ -169,7 +174,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         holder.description.setTypeface(null, Typeface.BOLD);
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
-                        holder.totoalcost.setText(data.getCurrency() + " " + data.getTotalPrice());
+                        String totalprice = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(data.getTotalPrice());
+                        holder.totoalcost.setText(data.getCurrency() + " " + totalprice);
                         holder.totoalcost.setTypeface(null, Typeface.BOLD);
                     }
                 }

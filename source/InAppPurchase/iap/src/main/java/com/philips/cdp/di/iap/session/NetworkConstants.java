@@ -1,5 +1,7 @@
 package com.philips.cdp.di.iap.session;
 
+import java.util.Locale;
+
 public class NetworkConstants {
 
     public static final String HOST_URL = "https://tst.pl.shop.philips.com/";
@@ -24,5 +26,6 @@ public class NetworkConstants {
     public static String PRX_SECTOR_CODE = "B2C";
     public static String PRX_LOCALE = "en_US";
     public static String PRX_CATALOG_CODE = "CONSUMER";
+    public static Locale STORE_LOCALE = Locale.US;
 }
 
