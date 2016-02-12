@@ -46,27 +46,16 @@ public class NetworkController {
     String hostPort;
     String webRoot;
     private OAuthHandler oAuthHandler;
+    HurlStack mTestEnvHurlStack;
 
     public NetworkController(Context context, OAuthHandler oAuthHandler) {
         this.context = context;
         this.oAuthHandler = oAuthHandler;
-        hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null,
-                buildSslSocketFactory(context)) {
-            @Override
-            protected HttpURLConnection createConnection(final URL url) throws IOException {
-                HttpURLConnection connection = super.createConnection(url);
-                if (connection instanceof HttpsURLConnection) {
-                    ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
-                        @Override
-                        public boolean verify(final String hostname, final SSLSession session) {
-                            return hostname.contains("philips.com");
-                        }
-                    });
-                    connection.setRequestProperty("Authorization", "Bearer " + store.getAuthToken());
-                }
-                return connection;
-            }
-        });
+        hybrisVolleyCreateConnection(context);
+    }
+
+    private void hybrisVolleyCreateConnection(Context context) {
+        hybirsVolleyQueue = Volley.newRequestQueue(context,getTestEnvHurlStack(context));
     }
 
     //Package level access
@@ -185,6 +174,25 @@ public class NetworkController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private HurlStack getTestEnvHurlStack(Context context) {
+       return new HurlStack(null, buildSslSocketFactory(context)) {
+            @Override
+            protected HttpURLConnection createConnection(final URL url) throws IOException {
+                HttpURLConnection connection = super.createConnection(url);
+                if (connection instanceof HttpsURLConnection) {
+                    ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
+                        @Override
+                        public boolean verify(final String hostname, final SSLSession session) {
+                            return hostname.contains("philips.com");
+                        }
+                    });
+                    connection.setRequestProperty("Authorization", "Bearer " + store.getAuthToken());
+                }
+                return connection;
+            }
+        };
     }
 
     private static class TestTrustManager implements X509TrustManager {

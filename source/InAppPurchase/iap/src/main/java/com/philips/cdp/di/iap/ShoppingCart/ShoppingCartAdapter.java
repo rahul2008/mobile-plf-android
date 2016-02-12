@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
@@ -133,7 +132,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 //Add arrow mark
                 //holder.quantitydropdown.setCompoundDrawables(null, null, countArrow, null);
-                holder.quantitydropdown.setImageDrawable(countArrow);
+//                holder.quantitydropdown.setImageDrawable(countArrow);
+                holder.valueOption.setCompoundDrawables(countArrow,null,null,null);
                 bindCountView(holder.quantitydropdown, position);
                 break;
 
@@ -259,7 +259,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         mIsOutOfStock = isOutOfStock;
         notifyDataSetChanged();
 
-        ((ShoppingCartActivity)mContext).setCheckoutBtnState(!isOutOfStock);
+        //((ShoppingCartActivity)mContext).setCheckoutBtnState(!isOutOfStock);
     }
 
     private static class ViewHolder {

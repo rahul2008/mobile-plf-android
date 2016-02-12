@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.Fragments.ShoppingCartBaseFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class MainActivity extends BaseFragmentActivity implements RequestListener {
 
@@ -44,11 +45,14 @@ public class MainActivity extends BaseFragmentActivity implements RequestListene
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
         mTitleTextView.setText(getString(R.string.iap_shopping_cart));
 
+        ImageView backButton = (ImageView) mCustomView.findViewById(R.id.arrow);
+        backButton.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
+
         FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                finish();
+               onBackPressed();
             }
         });
 
@@ -70,5 +74,10 @@ public class MainActivity extends BaseFragmentActivity implements RequestListene
     @Override
     public void onError(final Message msg) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
