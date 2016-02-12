@@ -22,7 +22,7 @@ public class PersistentStorage implements SharedPreferences {
     @NonNull
     private SharedPreferences sharedPreferences;
 
-    public PersistentStorage(@NonNull final SharedPreferences sharedPreferences) {
+    PersistentStorage(@NonNull final SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 

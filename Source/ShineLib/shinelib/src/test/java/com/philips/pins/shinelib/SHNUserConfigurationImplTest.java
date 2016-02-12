@@ -1,10 +1,6 @@
 package com.philips.pins.shinelib;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.philips.pins.shinelib.helper.MockedHandler;
-import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 
 import org.junit.After;
@@ -34,8 +30,6 @@ public class SHNUserConfigurationImplTest {
     public static final String TEST_KEY = "TEST_KEY";
     public static final String TEST_VALUE = "TEST_VALUE";
 
-    @Mock
-    private PersistentStorageFactory persistentStorageFactoryMock;
 
     @Mock
     private SHNUserConfigurationCalculations calculationsMock;
@@ -43,6 +37,7 @@ public class SHNUserConfigurationImplTest {
     @Mock
     private Observer observerMock;
 
+    private PersistentStorageFactory persistentStorageFactory;
     private SHNUserConfigurationImpl shnUserConfiguration;
     private Locale defaultLocale;
 
@@ -53,10 +48,9 @@ public class SHNUserConfigurationImplTest {
         defaultLocale = Locale.getDefault();
         Locale.setDefault(Locale.US);
 
-        SharedPreferences sharedPreferences = RuntimeEnvironment.application.getSharedPreferences("testPreferences", Context.MODE_PRIVATE);
-        PersistentStorage persistentStorage = new PersistentStorage(sharedPreferences);
-        when(persistentStorageFactoryMock.getPersistentStorageForUser()).thenReturn(persistentStorage);
-        shnUserConfiguration = new SHNUserConfigurationImpl(persistentStorageFactoryMock, new MockedHandler().getMock(), calculationsMock);
+        persistentStorageFactory = new PersistentStorageFactory(RuntimeEnvironment.application);
+
+        shnUserConfiguration = new SHNUserConfigurationImpl(persistentStorageFactory, new MockedHandler().getMock(), calculationsMock);
         shnUserConfiguration.addObserver(observerMock);
     }
 
@@ -69,19 +63,19 @@ public class SHNUserConfigurationImplTest {
 
     @Test
     public void whenClearIsCalled_ThenDataIsCleared() {
-        persistentStorageFactoryMock.getPersistentStorageForUser().put(TEST_KEY, TEST_VALUE);
-        assertThat(persistentStorageFactoryMock.getPersistentStorageForUser().contains(TEST_KEY)).isTrue();
+        persistentStorageFactory.getPersistentStorageForUser().put(TEST_KEY, TEST_VALUE);
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().contains(TEST_KEY)).isTrue();
 
         shnUserConfiguration.clear();
 
-        assertThat(persistentStorageFactoryMock.getPersistentStorageForUser().contains(TEST_KEY)).isFalse();
+        assertThat(persistentStorageFactory.getPersistentStorageForUser().contains(TEST_KEY)).isFalse();
 
         verify(observerMock).update(shnUserConfiguration, null);
     }
 
     @Test
     public void whenClearIsCalled_ThenListenerIsNotified() {
-        persistentStorageFactoryMock.getPersistentStorageForUser().put(TEST_KEY, TEST_VALUE);
+        persistentStorageFactory.getPersistentStorageForUser().put(TEST_KEY, TEST_VALUE);
 
         shnUserConfiguration.clear();
 

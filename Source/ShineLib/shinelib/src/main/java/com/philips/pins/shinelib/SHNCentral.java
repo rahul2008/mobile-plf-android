@@ -205,7 +205,7 @@ public class SHNCentral {
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
-        persistentStorageFactory = new PersistentStorageFactory(this);
+        persistentStorageFactory = new PersistentStorageFactory(applicationContext);
         SHNPersistentStorage shnPersistentStorage = new SHNPersistentStorage(applicationContext);
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
 

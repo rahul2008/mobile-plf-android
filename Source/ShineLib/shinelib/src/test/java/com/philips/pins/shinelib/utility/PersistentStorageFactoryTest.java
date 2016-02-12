@@ -29,6 +29,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class PersistentStorageFactoryTest {
 
     public static final String TEST_ADDRESS = "TEST_ADDRESS";
+
     @Mock
     private Context context;
 
@@ -52,7 +53,7 @@ public class PersistentStorageFactoryTest {
         when(shnCentralMock.getApplicationContext()).thenReturn(context);
         when(shnDeviceMock.getAddress()).thenReturn(TEST_ADDRESS);
 
-        persistentStorageFactory = new TestPersistentStorageFactory(shnCentralMock);
+        persistentStorageFactory = new TestPersistentStorageFactory(context);
     }
 
     @Test
@@ -177,8 +178,8 @@ public class PersistentStorageFactoryTest {
 
     private class TestPersistentStorageFactory extends PersistentStorageFactory {
 
-        public TestPersistentStorageFactory(@NonNull final SHNCentral shnCentral) {
-            super(shnCentral);
+        public TestPersistentStorageFactory(@NonNull final Context context) {
+            super(context);
         }
 
         @NonNull

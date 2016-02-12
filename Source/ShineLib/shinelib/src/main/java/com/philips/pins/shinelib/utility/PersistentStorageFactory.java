@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCapabilityType;
-import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 
 import java.util.HashSet;
@@ -18,10 +17,10 @@ public class PersistentStorageFactory {
     public static final String DEVICE_KEY = "DEVICE";
 
     @NonNull
-    private final SHNCentral shnCentral;
+    private final Context context;
 
-    public PersistentStorageFactory(@NonNull final SHNCentral shnCentral) {
-        this.shnCentral = shnCentral;
+    public PersistentStorageFactory(@NonNull final Context context) {
+        this.context = context;
     }
 
     public PersistentStorage getPersistentStorage() {
@@ -55,7 +54,7 @@ public class PersistentStorageFactory {
 
     @NonNull
     protected PersistentStorage createPersistentStorage(@NonNull final String key) {
-        return new PersistentStorage(shnCentral.getApplicationContext().getSharedPreferences(key, Context.MODE_PRIVATE));
+        return new PersistentStorage(context.getSharedPreferences(key, Context.MODE_PRIVATE));
     }
 
     public void clearUserData() {
