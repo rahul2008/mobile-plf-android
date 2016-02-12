@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -111,6 +112,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
                 holder.price.setText(cartData.getCurrency() + " " + cartData.getTotalPrice());
+                holder.price.setTypeface(null, Typeface.BOLD);
                 holder.valueOption.setText(cartData.getQuantity() + "");
 
                 //TODO: Fix it
@@ -143,7 +145,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 holder.name = (TextView) convertView.findViewById(R.id.ifo);
                 holder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
-                holder.on_off = (TextView) convertView.findViewById(R.id.medium);
+               // holder.on_off = (TextView) convertView.findViewById(R.id.medium);
                 holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
                 holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
                 holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
@@ -163,19 +165,23 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                         holder.description.setVisibility(View.VISIBLE);
                         int totalItems = mData.size()-3;
-                        holder.description.setText("Total (" + totalItems + ")");
+                        holder.description.setText("Total (" + totalItems + " items" + ")");
+                        holder.description.setTypeface(null, Typeface.BOLD);
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
                         holder.totoalcost.setText(data.getCurrency() + " " + data.getTotalPrice());
+                        holder.totoalcost.setTypeface(null, Typeface.BOLD);
                     }
                 }
                 if (position == mData.size() - 2) {
                     //2nd Last Row
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Delivery via UPS Parcel");
+                    holder.name.setTypeface(null, Typeface.BOLD);
 
                     holder.number.setVisibility(View.VISIBLE);
                     holder.number.setText("TBD");
+                    holder.number.setTypeface(null, Typeface.BOLD);
 
                     holder.description.setVisibility(View.VISIBLE);
                     holder.description.setText("Delivery is free when you spend USD 100 or more");
@@ -183,8 +189,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 if (position == mData.size() - 3) {
                     //3rd Last Row
                     holder.name.setVisibility(View.VISIBLE);
-                    holder.name.setText("Claim voucher");
-
+                    holder.name.setText("Redeem voucher");
                     holder.arrow.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -258,7 +263,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private static class ViewHolder {
         TextView name;
         TextView number;
-        TextView on_off;
+       // TextView on_off;
         ImageView arrow;
         TextView description;
         TextView totoalcost;
