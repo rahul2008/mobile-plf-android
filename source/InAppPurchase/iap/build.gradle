@@ -1,17 +1,74 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+//apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'maven'
+
+//buildscript {
+//    repositories {
+//        jcenter()
+//        maven {
+//            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
+//            credentials {
+//                username = "readonly"
+//                password = "readonly"
+//            }
+//        }
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath 'com.android.tools.build:gradle:1.5.0'
+//        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.2'
+//        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '0.1.0', changing:true
+//    }
+//}
+
+//apply plugin: 'cdpSCM'
+//import com.philips.cdp.cdpSCM
+//
+//def objcdp = new cdpSCM()
+//objcdp.setProjectDir(projectDir)
+//
+//repositories {
+////    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+//    maven {
+//        url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+//    }
+//}
+//
+//group = 'com.philips.cdp'
+//version = objcdp.getVersion()
+//
+//artifactory {
+//    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+//    publish {
+//        repository {
+//            repoKey = objcdp.getArtifactoryRepoKey('android')
+//            username = objcdp.getArtifactoryUploadUser()
+//            password = objcdp.getArtifactoryUploadPwd()
+//            publishPom = true
+//            publishIvy = false
+//            publishBuildInfo = true
+//            maven = true
+//        }
+//    }
+//    resolve {
+//        repository {
+//            repoKey = 'libs-release-local-android'
+//        }
+//    }
+//}
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         generatedDensities = []
     }
     buildTypes {
@@ -22,53 +79,83 @@ android {
         debug {
             debuggable true
             testCoverageEnabled true
-            }
         }
+    }
     lintOptions {
         abortOnError false
+    }
+    adbOptions {
+        timeOutInMs 5 * 60 * 1000 // 5 minutes
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
     }
 }
 
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.mcxiaoke.volley:library:1.0.17'
-    testCompile "org.mockito:mockito-core:1.9.5"
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile(name:'prx-release', ext:'aar')
-
+    // Support libraries
+    compile "com.android.support:appcompat-v7:${supportLibraryVer}"
+    compile "com.mcxiaoke.volley:library:${volleyVer}"
+    compile "com.android.support:design:${supportDesignVer}"
+    compile "com.google.code.gson:gson:${gsonVer}"
+    compile(name: 'prx-release', ext: 'aar')
     //uikit lib
-    compile 'com.philips.cdp:uikitLib:1.2.0'
+    compile "com.philips.cdp:uikitLib:${uikitLibVer}"
+
+    // Other
+    compile "com.jakewharton:butterknife:${butterKnifeVer}"
+    compile "net.hockeyapp.android:HockeySDK:${hockeySdkVer}"
+    // Tests
+    compile "junit:junit:${junitVer}"
+//    compile "org.mockito:mockito-all:${mockitoVer}"
+//    compile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
+//    compile 'com.android.support:multidex:1.0.0'
+//    compile("org.robolectric:robolectric:${robolectricVer}") {
+//        exclude group: 'commons-logging', module: 'commons-logging'
+//        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+//    }
+//    compile("org.robolectric:shadows-support-v4:${robolectricVer}") {
+//        exclude group: 'commons-logging', module: 'commons-logging'
+//        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+//    }
 }
 
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
+
+
+
+
+
+task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/debug/com/philips/cdp/di/iap')
+    source = fileTree('src/main/java')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("findbugs-exclude.xml")
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
     }
-    task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+}
 
-            description 'Run findbugs'
-            group 'verification'
-            ignoreFailures = true
-            classes = fileTree('build/intermediates/classes/debug/com/philips/cdp/di/iap')
-            source = fileTree('src/main/java')
-            classpath = files()
-
-            effort = 'max'
-
-            excludeFilter = file("findbugs-exclude.xml")
-
-            reports {
-                xml.enabled = true
-                html.enabled = false
-            }
-        }
-
-    task pmd(type: Pmd, dependsOn: assembleDebug) {
+task pmd(type: Pmd, dependsOn: assembleDebug) {
 
     description 'Run pmd'
     group 'verification'
@@ -79,6 +166,6 @@ dependencies {
     reports {
         xml.enabled = true
         html.enabled = false
-        }
+    }
 
 }

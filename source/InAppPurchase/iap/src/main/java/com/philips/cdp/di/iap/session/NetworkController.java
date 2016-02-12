@@ -10,9 +10,9 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartModel;
-import com.philips.cdp.di.iap.model.EntryModel;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.DebugUtils;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 
@@ -76,9 +76,8 @@ public class NetworkController {
         store.setAuthHandler(oAuthHandler);
     }
 
-
     public void sendHybrisRequest(final int requestCode, final RequestListener requestListener,
-                                  Map<String,String> query) {
+                                  Map<String, String> query) {
         final AbstractModel model = getModel(requestCode, query);
 
         Response.ErrorListener error = new Response.ErrorListener() {
@@ -89,6 +88,7 @@ public class NetworkController {
                     msg.what = requestCode;
                     msg.obj = error;
                     requestListener.onError(msg);
+                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + msg);
                 }
             }
         };
@@ -102,11 +102,12 @@ public class NetworkController {
                     msg.what = requestCode;
                     msg.obj = model.parseResponse(requestCode, response);
                     requestListener.onSuccess(msg);
+                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg);
                 }
             }
         };
 
-        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(requestCode), getTargetUrl(model,requestCode),
+        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(requestCode), getTargetUrl(model, requestCode),
                 model.requestBody(requestCode), response, error);
         hybirsVolleyQueue.add(jsObjRequest);
     }
@@ -120,25 +121,25 @@ public class NetworkController {
         if (DebugUtils.TEST_MODE) {
             return model.getTestUrl(requestCode);
         }
-        return model.getUrl(requestCode);
+        return model.getProductionUrl(requestCode);
     }
 
     /**
      * @param requestCode
      * @return
      */
-    private AbstractModel getModel(final int requestCode, Map<String,String> query) {
+    private AbstractModel getModel(final int requestCode, Map<String, String> query) {
         switch (requestCode) {
             case RequestCode.GET_CART:
                 return new CartModel(store, query);
             case RequestCode.ADD_TO_CART:
                 return new CartModel(store, query);
             case RequestCode.UPDATE_PRODUCT_COUNT:
-				return new CartModel(store, query);
+                return new CartModel(store, query);
             case RequestCode.CREATE_CART:
                 return new CartModel(store, query);
-            case RequestCode.DELETE_ENTRY:
-                return new EntryModel(store, query);
+            case RequestCode.DELETE_PRODUCT:
+                return new CartModel(store, query);
             default:
                 return null;
         }
@@ -172,7 +173,6 @@ public class NetworkController {
             TrustManager[] mngrs = new TrustManager[]{new TestTrustManager()};//tmf.getTrustManagers();
             sslContext.init(null, mngrs, null);
             return sslContext.getSocketFactory();
-
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (KeyStoreException e) {

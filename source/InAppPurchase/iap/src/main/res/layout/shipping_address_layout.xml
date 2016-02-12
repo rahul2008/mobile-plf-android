@@ -16,9 +16,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="33dp"
             android:layout_marginLeft="19dp"
             android:layout_marginTop="33dp"
-            android:layout_marginBottom="33dp"
             android:gravity="center_horizontal"
             android:text="Shipping Address"
             android:textColor="?attr/baseColor"
@@ -217,9 +217,10 @@
             <com.philips.cdp.uikit.customviews.PuiSwitch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="31dp"
                 android:layout_marginBottom="33dp"
-                android:layout_marginTop="11dp" />
+                android:layout_marginRight="31dp"
+                android:layout_marginTop="11dp"
+                android:checked="true" />
 
         </LinearLayout>
 
@@ -236,9 +237,9 @@
 
         <Button
             android:id="@+id/cancel_btn"
+            style="?attr/outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            style="?attr/outlinedButtonStyle"
             android:layout_above="@id/continue_btn"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"

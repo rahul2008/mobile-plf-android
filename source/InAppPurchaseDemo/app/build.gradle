@@ -6,11 +6,12 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
         versionCode 1
         versionName "0.0.1"
         generatedDensities = []
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -22,16 +23,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.mcxiaoke.volley:library:1.0.17'
-    testCompile "org.mockito:mockito-core:1.9.5"
-    compile 'com.google.code.gson:gson:2.2.4'
-	
     compile project(':iap')
-	
-	
-    //uikit lib
-    compile 'com.philips.cdp:uikitLib:1.2.0'
 }
 

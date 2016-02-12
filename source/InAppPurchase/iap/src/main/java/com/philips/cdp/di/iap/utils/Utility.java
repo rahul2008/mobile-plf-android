@@ -38,6 +38,14 @@ public class Utility {
         }
     }
 
+    public static boolean isProgressDialogShowing(){
+        if (mProgressDialog != null && mProgressDialog.isShowing()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * Checks for internet connection
      *
@@ -92,7 +100,7 @@ public class Utility {
      *
      * @param context Current context
      */
-    public static void showNetworkError(final Activity context, final boolean finish) {
+    public static void showNetworkError(final Context context, final boolean finish) {
         String alertTitle = "Network Error";
         String alertBody = "No network available. Please check your network settings and try again.";
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -104,9 +112,9 @@ public class Utility {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
 
-                        if (finish) {
-                            context.finish();
-                        }
+//                        if (finish) {
+//                            context.finish();
+//                        }
                     }
                 });
         alert.show();

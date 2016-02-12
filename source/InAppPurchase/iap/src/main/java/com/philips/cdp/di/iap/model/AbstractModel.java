@@ -13,7 +13,7 @@ public abstract class AbstractModel {
         this.params = query;
     }
 
-    public abstract String getUrl(int requestCode);
+    public abstract String getProductionUrl(int requestCode);
 
     public abstract Object parseResponse(int requestCode, Object response);
 

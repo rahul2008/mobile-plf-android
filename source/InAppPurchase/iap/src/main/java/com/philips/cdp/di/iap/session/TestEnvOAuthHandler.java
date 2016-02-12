@@ -42,11 +42,12 @@ public class TestEnvOAuthHandler implements OAuthHandler {
         sendOAuthRequest(context);
         return access_token;
     }
+
     // HTTP GET request
     private void sendOAuthRequest(final Context context) {
 
         String url = "https://tst.admin.shop.philips" +
-                ".com/pilcommercewebservices/oauth/token?username=inapp@2&password=philips@123&grant_type=password&client_id=mobile_android&client_secret=secret";
+                ".com/pilcommercewebservices/oauth/token?username=inapp@3&password=philips@123&grant_type=password&client_id=mobile_android&client_secret=secret";
 
         try {
             URL obj = new URL(url);
@@ -64,7 +65,6 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuffer response = new StringBuffer();
-
 
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
@@ -85,7 +85,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     public SSLSocketFactory buildSslSocketFactory(Context context) {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
-			InputStream is = context.getResources().getAssets().open("test.crt");
+            InputStream is = context.getResources().getAssets().open("test.crt");
             InputStream caInput = new BufferedInputStream(is);
             Certificate ca;
             try {
@@ -111,7 +111,6 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             TrustManager[] mngrs = new TrustManager[]{new TestTrustManager()};//tmf.getTrustManagers();
             sslContext.init(null, mngrs, null);
             return sslContext.getSocketFactory();
-
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (KeyStoreException e) {
@@ -156,5 +155,4 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             return result;
         }
     };
-
 }
