@@ -223,7 +223,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     }
 
     private void incrementChangeIncrementAndNotifyModifiedListeners() {
-        int changeIncrement = persistentStorage.get(CHANGE_INCREMENT_KEY, 0);
+        int changeIncrement = getChangeIncrement();
         changeIncrement++;
         persistentStorage.put(CHANGE_INCREMENT_KEY, changeIncrement);
 
@@ -234,5 +234,9 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
                 notifyObservers();
             }
         });
+    }
+
+    public int getChangeIncrement() {
+        return persistentStorage.get(CHANGE_INCREMENT_KEY, 0);
     }
 }
