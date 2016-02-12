@@ -41,7 +41,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private ArrayList<ShoppingCartData> mData = new ArrayList<ShoppingCartData>();
     private LayoutInflater mInflater;
     private ShoppingCartPresenter mPresenter;
-    private final Drawable countArrow;
+    private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
     //ShoppingCartData summary;
     private boolean mIsOutOfStock;
@@ -52,7 +52,14 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
         mPresenter = new ShoppingCartPresenter(context, this);
+        setCountArrow(context);
+    }
+
+    private void setCountArrow(final Context context) {
         countArrow = VectorDrawable.create(context, R.drawable.iap_product_count_drop_down);
+        int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
+        int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
+        countArrow.setBounds(0,0,width,height);
     }
 
     @Override
@@ -97,7 +104,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 holder.from = (TextView) convertView.findViewById(R.id.from);
                 holder.price = (TextView) convertView.findViewById(R.id.price);
                 holder.dots = (ImageView) convertView.findViewById(R.id.dots);
-                holder.quantitydropdown = (ImageView) convertView.findViewById(R.id.quantity_drop_down);
 
                 holder.outOfStock = (TextView) convertView.findViewById(R.id.out_of_stock);
                 if(mIsOutOfStock)
@@ -131,10 +137,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 });
 
                 //Add arrow mark
-                //holder.quantitydropdown.setCompoundDrawables(null, null, countArrow, null);
-//                holder.quantitydropdown.setImageDrawable(countArrow);
-                holder.valueOption.setCompoundDrawables(countArrow,null,null,null);
-                bindCountView(holder.quantitydropdown, position);
+                holder.valueOption.setCompoundDrawables(null,null,countArrow,null);
+                bindCountView(holder.valueOption, position);
                 break;
 
             case TYPE_SHIPPING_DETAILS:
@@ -276,7 +280,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         TextView from;
         TextView price;
         String imageUrl;
-        ImageView quantitydropdown;
         TextView outOfStock;
     }
 }
