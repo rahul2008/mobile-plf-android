@@ -3,14 +3,23 @@ package com.philips.cdp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.model.ProductResponse;
+import com.philips.cdp.productbuilder.RegistrationBuilder;
+import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserWithProduct;
 import com.philips.cdp.registration.dao.ProductRegistrationInfo;
 import com.philips.cdp.registration.handlers.ProductRegistrationHandler;
@@ -19,6 +28,13 @@ import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 public class MainActivity extends ProductRegistrationActivity implements View.OnClickListener {
     private Button mBtnUserRegistration;
     private Button mBtnProductRegistration;
+
+    private String mCtn = "RQ1250/17";
+    private String mSectorCode = "B2C";
+    private String mLocale = "en_GB";
+    private String mCatalogCode = "CONSUMER";
+    private String mRequestTag = null;
+    private String TAG = getClass().toString();
 
     private static void launchProductActivity(Context context) {
         Intent registrationIntent = new Intent(context, ProductActivity.class);
@@ -59,16 +75,29 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
         return super.onOptionsItemSelected(item);
     }
 
-   /* private void test(final String response) {
-        ProductLog.producrlog(ProductLog.ONCLICK, "On Click : User Registration");
-//                RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
-        new Thread(new Runnable() {
+    private void registerProduct() {
+        PrxLogger.enablePrxLogger(true);
+
+        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, mRequestTag);
+        registrationBuilder.setmSectorCode(mSectorCode);
+        registrationBuilder.setmLocale(mLocale);
+        registrationBuilder.setmCatalogCode(mCatalogCode);
+
+        RequestManager mRequestManager = new RequestManager();
+        mRequestManager.init(getApplicationContext());
+        mRequestManager.executeRequest(registrationBuilder, new ResponseListener() {
             @Override
-            public void run() {
-                makeRequest(response);
+            public void onResponseSuccess(ResponseData responseData) {
+                ProductResponse productResponse = (ProductResponse) responseData;
+                Log.d(TAG, "Positive Response Data : " + productResponse.isSuccess());
             }
-        }).start();
-    }*/
+
+            @Override
+            public void onResponseError(String error, int code) {
+                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
@@ -78,22 +107,13 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
                 RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
                 break;
             case R.id.btn_product_registration:
-                ProductLog.producrlog(ProductLog.ONCLICK, "On Click : Production Registration");
-                launchProductActivity(this);
-              /*  UserWithProduct userWithProduct = new UserWithProduct(this);
-                userWithProduct.getRefreshedAccessToken(new ProductRegistrationHandler() {
-                    @Override
-                    public void onRegisterSuccess(final String response) {
-                        ProductLog.producrlog(ProductLog.ONCLICK, "Access token---"+response);
-                        test(response);
-                    }
-
-                    @Override
-                    public void onRegisterFailedWithFailure(final int error) {
-
-                    }
-                });*/
-
+                User mUser = new User(this);
+                if (mUser.isUserSignIn(this)) {
+                    Toast.makeText(this, "user signed in", Toast.LENGTH_SHORT).show();
+                    registerProduct();
+                } else {
+                    Toast.makeText(this, "user not signed in", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;
