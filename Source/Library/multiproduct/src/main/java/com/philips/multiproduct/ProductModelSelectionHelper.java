@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.multiproduct.activity.MultiProductActivity;
-import com.philips.multiproduct.activity.WelcomeScreenFragment;
+import com.philips.multiproduct.base.MultiProductActivity;
+import com.philips.multiproduct.base.ProductModelSelectionType;
+import com.philips.multiproduct.welcomefragment.WelcomeScreenFragment;
+import com.philips.multiproduct.component.ActivityLauncher;
+import com.philips.multiproduct.component.UiLauncher;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 import com.philips.multiproduct.utils.Constants;
 import com.philips.multiproduct.utils.MLogger;
@@ -24,6 +27,8 @@ public class ProductModelSelectionHelper {
     private static String mCtn = "RQ1250/17";
     private static String mSectorCode = "B2C";
     private static String mCatalogCode = "CONSUMER";
+
+    public static ProductModelSelectionType mProductModelSelectionType = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -72,10 +77,27 @@ public class ProductModelSelectionHelper {
     }
 
 
-    public void invokeDigitalCareAsFragment(FragmentActivity context,
-                                            int parentContainerResId,
-                                            ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
-                                            int exitAnim) {
+    public void invokeProductSelectionModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+
+        if (productModelSelectionType != null)
+            mProductModelSelectionType = productModelSelectionType;
+        else
+            throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
+        if (uiLauncher instanceof ActivityLauncher)
+
+            invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
+
+        else
+            invokeAsFragment(uiLauncher.getFragmentActivity(), uiLauncher.getLayoutResourceID(),
+                    uiLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+
+    }
+
+
+    private void invokeAsFragment(FragmentActivity context,
+                                  int parentContainerResId,
+                                  ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
+                                  int exitAnim) {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
@@ -102,9 +124,9 @@ public class ProductModelSelectionHelper {
         ProductModelSelectionHelper.mMultiProductCtn = mMultiProductSize;
     }
 
-    public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
+    private void invokeAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
         if (mContext == null || mLocale == null) {
-            throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
+            throw new RuntimeException("Please initialise context, locale before component invocation");
         }
 
         Intent intent = new Intent(this.getContext(), MultiProductActivity.class);

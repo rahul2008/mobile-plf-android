@@ -1,13 +1,13 @@
 package com.philips.multiproduct.prx;
 
 /**
- * This is the Callback class to receive the data from the Multiple Prx data requests.
+ * This is the PrxSummaryDataListener class to receive the data from the Multiple Prx data requests.
  * This callback class  is used to manage to multiple data requests in the many data requests scenario.
  * <p/>
  * <p/>
  * Created by naveen@philips.com on 01-Feb-16.
  */
-public interface Callback {
+public interface PrxSummaryDataListener {
 
     /**
      * onprxData Successfull scenario's - it gives the loaded data.

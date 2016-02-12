@@ -12,12 +12,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
+import com.philips.hor_productselection_android.products.HardcodedProductList;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivity;
 import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.activity.MultiProductBaseActivity;
+import com.philips.multiproduct.base.MultiProductBaseActivity;
+import com.philips.multiproduct.base.ProductModelSelectionType;
+import com.philips.multiproduct.component.ActivityLauncher;
+import com.philips.multiproduct.component.UiLauncher;
 import com.philips.multiproduct.utils.MLogger;
 
 import java.util.ArrayList;
@@ -31,7 +37,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     private final String TAG = Launcher.class.getSimpleName();
     private Button mButtonActivity, mAdd = null;
     private Button mButtonFragment = null;
-    private ImageButton mAddButton = null ;
+    private ImageButton mAddButton = null;
     private RecyclerView mRecyclerView = null;
     private ProductModelSelectionHelper mConfigManager = null;
     private SampleAdapter adapter = null;
@@ -131,7 +137,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonActivity:
-               // Toast.makeText(this, "Launch as Activity. ", Toast.LENGTH_LONG).show();
+                // Toast.makeText(this, "Launch as Activity. ", Toast.LENGTH_LONG).show();
                 launchMultiProductAsActivity();
                 break;
 
@@ -174,8 +180,15 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
 
     private void launchMultiProductAsActivity() {
         mConfigManager.setLocale("en", "GB");
-        mConfigManager.invokeDigitalCareAsActivity(R.anim.abc_fade_in, R.anim.abc_fade_out, ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
 
+        ProductModelSelectionType productsSelection = new HardcodedProductList();
+        productsSelection.setCatalog(Catalog.CARE);
+        productsSelection.setSector(Sector.B2C);
+        productsSelection.setHardCodedProductList(new String[2]);
+        UiLauncher uiLauncher = new ActivityLauncher();
+        uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
+        uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        ProductModelSelectionHelper.getInstance().invokeProductSelectionModule(uiLauncher, productsSelection);
         List<String> list = new ArrayList<String>();
 
         for (Product product : mList) {

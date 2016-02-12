@@ -1,4 +1,4 @@
-package com.philips.multiproduct.activity;
+package com.philips.multiproduct.welcomefragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
+import com.philips.multiproduct.listfragment.ProductListingFragment;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.

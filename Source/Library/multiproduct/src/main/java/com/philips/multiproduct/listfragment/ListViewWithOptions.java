@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.multiproduct.activity;
+package com.philips.multiproduct.listfragment;
 
 import android.app.Activity;
 import android.content.res.Resources;
