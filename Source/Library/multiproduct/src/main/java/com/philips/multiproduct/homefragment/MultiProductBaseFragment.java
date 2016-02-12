@@ -19,7 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.NetworkAlertView;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
@@ -70,7 +70,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     }
 
     private void setLocaleLanguage() {
-        Locale locale = MultiProductConfigManager.getInstance().getLocale();
+        Locale locale = ProductModelSelectionHelper.getInstance().getLocale();
         if (locale != null) {
             Locale.setDefault(locale);
             Configuration config = new Configuration();

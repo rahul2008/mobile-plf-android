@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.utils.MLogger;
 
@@ -35,7 +35,7 @@ import com.philips.multiproduct.utils.MLogger;
 public abstract class MultiProductBaseActivity extends UiKitActivity {
     private static String TAG = MultiProductBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
-    private MultiProductConfigManager mMultiProductConfigManager = null;
+    private ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private static ThemeUtils themeUtils;
     private int noActionBarTheme = 0;
 
@@ -44,7 +44,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         MLogger.i(TAG, "onCreate");
-        MultiProductConfigManager.getInstance();
+        ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
 
         if (themeUtils == null) {
@@ -132,8 +132,8 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
     protected void onDestroy() {
 
         super.onDestroy();
-        if (mMultiProductConfigManager != null) {
-            mMultiProductConfigManager = null;
+        if (mProductModelSelectionHelper != null) {
+            mProductModelSelectionHelper = null;
         }
     }
 
