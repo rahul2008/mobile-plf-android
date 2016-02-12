@@ -11,6 +11,4 @@
 /launchDigitalCare.iml
 /gradle
 /gradle.properties
-**/build/*
-**/.idea/*
 local.properties
