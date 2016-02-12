@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.activity;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -13,9 +14,10 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.ShoppingCartBaseFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
-public class MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseFragmentActivity implements RequestListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,5 +60,15 @@ public class MainActivity extends BaseFragmentActivity {
 
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
+    }
+
+    @Override
+    public void onSuccess(final Message msg) {
+
+    }
+
+    @Override
+    public void onError(final Message msg) {
+
     }
 }
