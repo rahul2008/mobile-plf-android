@@ -33,8 +33,6 @@ import com.philips.dhpclient.BuildConfig;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Field;
-
 public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
 
 
@@ -417,7 +415,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
-                    .intializeRegistrationSettings(mActivity
+                    .initializeUserRegistration(mActivity
                             .getApplicationContext(), RegistrationHelper.getInstance().getLocale());
             RLog.d(RLog.JANRAIN_INITIALIZE,
                     "RegistrationFragment : Janrain reinitialization with locale : "

@@ -66,7 +66,6 @@ public class RegistrationHelper {
     private final int CALL_AFTER_DELAY = 500;
 
 
-
     private boolean isJsonRead;
 
     private boolean mIsInitializationInProgress;
@@ -96,7 +95,6 @@ public class RegistrationHelper {
             mRegistrationHelper = new RegistrationHelper();
 
         }
-        //  RLog.i(RLog.ACTIVITY_LIFECYCLE,"mRegistrationHelper " +mRegistrationHelper);
         return mRegistrationHelper;
     }
 
@@ -181,8 +179,8 @@ public class RegistrationHelper {
      * @param isInitialized true for initialize and false for reinitialize
      * Janrain
      */
-    public void intializeRegistrationSettings(final Context context,
-                                              Locale locale) {
+    public void initializeUserRegistration(final Context context,
+                                           Locale locale) {
 
         if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
@@ -201,7 +199,7 @@ public class RegistrationHelper {
         SecureStorage.generateSecretKey();
         //NetworkUtility.isNetworkAvailable(mContext);
         new DataMigration(mContext).checkFileEncryptionStatus();
-        setCountryCode(mlocale.getCountry());
+        countryCode = mlocale.getCountry();
         final String initLocale = mlocale.toString();
         RLog.i("LOCALE", "App JAnrain Init locale :" + initLocale);
 
@@ -361,9 +359,6 @@ public class RegistrationHelper {
         return countryCode;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
 
     public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         UserRegistrationHelper.getInstance().registerEventNotification(userRegistrationListener);
@@ -390,29 +385,14 @@ public class RegistrationHelper {
         return NetworkStateHelper.getInstance();
     }
 
-    public String getAppVersion() {
-        String appVersion = null;
-        try {
-            PackageInfo packageInfo = mContext.getPackageManager().getPackageInfo(
-                    mContext.getPackageName(), 0);
-
-            appVersion = packageInfo.versionName;
-        } catch (NameNotFoundException e) {
-
-        }
-        return appVersion;
-    }
-
+   
     public Locale getLocale() {
         return mLocale;
     }
-    
+
     public static String getRegistrationApiVersion() {
         return BuildConfig.VERSION_NAME;
     }
-
-
-
 
 
 }

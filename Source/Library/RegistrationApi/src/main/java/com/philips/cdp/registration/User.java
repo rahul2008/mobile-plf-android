@@ -186,7 +186,7 @@ public class User {
             mRegistrationHelper.unregisterJumpFlowDownloadListener();
             return;
         }else  if(!isJumpInitializationInProgress()){
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
     }
 
@@ -259,7 +259,7 @@ public class User {
             return;
         }else if(!isJumpInitializationInProgress()){
             RLog.i(LOG_TAG, "Jump  not initialized, initializing again ");
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
     }
 
@@ -320,7 +320,7 @@ public class User {
 
         }else if(!isJumpInitializationInProgress()) {
             RLog.i(LOG_TAG, "Jump not initialized, initializing");
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
 
     }
@@ -401,7 +401,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()) {
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
 
 
@@ -501,7 +501,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()) {
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
 
     }
@@ -556,7 +556,7 @@ public class User {
             }
             return;
         } else if (!isJumpInitializationInProgress()) {
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
 
     }
@@ -597,7 +597,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()){
-            mRegistrationHelper.intializeRegistrationSettings(mContext, mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
     }
 
@@ -851,7 +851,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()){
-            mRegistrationHelper.intializeRegistrationSettings(mContext,mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
 
     }
@@ -1031,7 +1031,7 @@ public class User {
             }
             return;
         }else if(!isJumpInitializationInProgress()){
-            mRegistrationHelper.intializeRegistrationSettings(mContext,mRegistrationHelper.getLocale());
+            mRegistrationHelper.initializeUserRegistration(mContext, mRegistrationHelper.getLocale());
         }
 
 

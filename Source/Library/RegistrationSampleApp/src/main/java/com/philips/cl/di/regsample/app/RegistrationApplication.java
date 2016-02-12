@@ -3,17 +3,12 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
 
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationClientId;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.tagging.Tagging;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class RegistrationApplication extends Application {
@@ -31,7 +26,7 @@ public class RegistrationApplication extends Application {
 
 
 				initRegistration();
-			//	RegistrationHelper.getInstance().intializeRegistrationSettings(getApplicationContext(), Locale.getDefault());
+			//	RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
 			//	Tagging.init(Locale.getDefault(), getApplicationContext());
 
 
@@ -85,7 +80,7 @@ public class RegistrationApplication extends Application {
 
 
 
-		RegistrationHelper.getInstance().intializeRegistrationSettings(this, Locale.getDefault());
+		RegistrationHelper.getInstance().initializeUserRegistration(this, Locale.getDefault());
 		Tagging.init(Locale.getDefault(), this);
 	}
 
