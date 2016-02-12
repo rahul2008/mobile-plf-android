@@ -89,10 +89,14 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        Utility.showProgressDialog(this, getString(R.string.iap_get_cart_details));
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(this, mAdapter);
-        presenter.getCurrentCartDetails();
-        mListView.setAdapter(mAdapter);
+        if (Utility.isInternetConnected(this)) {
+            Utility.showProgressDialog(this, getString(R.string.iap_get_cart_details));
+            ShoppingCartPresenter presenter = new ShoppingCartPresenter(this, mAdapter);
+            presenter.getCurrentCartDetails();
+            mListView.setAdapter(mAdapter);
+        }else {
+            Utility.showNetworkError(this, true);
+        }
     }
 
     @Override

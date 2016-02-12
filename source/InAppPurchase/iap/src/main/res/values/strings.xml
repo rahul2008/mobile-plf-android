@@ -12,7 +12,7 @@
     <string name="iap_entry_number">entrynumber</string>
     <string name="iap_continue_shopping">Continue shopping</string>
     <string name="iap_checkout">Checkout</string>
-    <string name="iap_empty_cart">Your Shopping Cart is Currently Empty</string>
+    <string name="iap_empty_cart">Your shopping cart is currently empty</string>
     <string name="iap_address">Address</string>
     <string name="out_of_stock">Out of stock</string>
     <string name="iap_add_to_cart">Add to cart</string>
