@@ -35,9 +35,9 @@ public class PrxWrapper {
         this.mCatalogCode = catalog;
     }
 
-    public void requestPrxSummaryData(final Callback listener, final String requestTag) {
+    public void requestPrxSummaryData(final PrxSummaryDataListener listener, final String requestTag) {
         if (listener == null)
-            throw new IllegalStateException("Callback listener is null");
+            throw new IllegalStateException("PrxSummaryDataListener listener is null");
 
         final ProductSummaryBuilder summaryBuilder = new ProductSummaryBuilder(mCtn, requestTag);
         summaryBuilder.setmSectorCode(mSectorCode);

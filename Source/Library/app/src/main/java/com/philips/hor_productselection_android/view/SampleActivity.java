@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.philips.hor_productselection_android.R;
 import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.activity.MultiProductBaseActivity;
+import com.philips.multiproduct.base.MultiProductBaseActivity;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 
 /**
@@ -66,11 +66,11 @@ public class SampleActivity extends MultiProductBaseActivity implements View.OnC
 //        componentBuilder.setFragmentActivity(this);
 
         ProductModelSelectionHelper.getInstance().setLocale("en", "GB");
-        ProductModelSelectionHelper.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMultiProductContainer, null /*actionBarClickListener*/, R.anim.uikit_popover_fadein, R.anim.uikit_popover_fadeout);
+        //ProductModelSelectionHelper.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMultiProductContainer, null /*actionBarClickListener*/, R.anim.uikit_popover_fadein, R.anim.uikit_popover_fadeout);
 //        ProductModelSelectionHelper.getInstance().setMultiProductSize(mList.size());
 
 
-//        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(componentBuilder);
+//        DigitalCareConfigManager.getInstance().invokeProductSelectionModule(componentBuilder);
 //        try {
 //            initActionBar();
 //        } catch (ClassCastException e) {

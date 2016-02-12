@@ -75,6 +75,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.9.5'
     compile 'com.google.code.gson:gson:2.2.4'
     compile project(':prx-v1')
+    compile project(':localeMatch-v1.1.0')
 }
 allprojects {
     repositories {

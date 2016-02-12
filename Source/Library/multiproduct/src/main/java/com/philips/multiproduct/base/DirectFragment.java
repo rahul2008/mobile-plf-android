@@ -1,4 +1,4 @@
-package com.philips.multiproduct.activity;
+package com.philips.multiproduct.base;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

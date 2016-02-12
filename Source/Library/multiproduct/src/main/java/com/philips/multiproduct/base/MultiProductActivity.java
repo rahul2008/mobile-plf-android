@@ -1,4 +1,4 @@
-package com.philips.multiproduct.activity;
+package com.philips.multiproduct.base;
 
 import android.os.Bundle;
 
@@ -6,6 +6,7 @@ import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.utils.Constants;
 import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.welcomefragment.WelcomeScreenFragment;
 
 
 public class MultiProductActivity extends MultiProductBaseActivity {

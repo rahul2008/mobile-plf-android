@@ -1,4 +1,4 @@
-package com.philips.multiproduct.activity;
+package com.philips.multiproduct.listfragment;
 
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
@@ -13,7 +13,7 @@ import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.productscreen.DetailedScreenFragment;
-import com.philips.multiproduct.prx.Callback;
+import com.philips.multiproduct.prx.PrxSummaryDataListener;
 import com.philips.multiproduct.prx.ProductData;
 import com.philips.multiproduct.prx.PrxWrapper;
 import com.philips.multiproduct.utils.MLogger;
@@ -79,7 +79,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
                     ProductModelSelectionHelper.getInstance().getLocale().toString(),
                     ProductModelSelectionHelper.getInstance().getCatalogCode());
 
-            prxWrapperCode.requestPrxSummaryData(new Callback() {
+            prxWrapperCode.requestPrxSummaryData(new PrxSummaryDataListener() {
                 @Override
                 public void onSuccess(ProductData productData) {
 

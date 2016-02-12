@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.activity.ProductListingFragment;
+import com.philips.multiproduct.listfragment.ProductListingFragment;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 
 /**
