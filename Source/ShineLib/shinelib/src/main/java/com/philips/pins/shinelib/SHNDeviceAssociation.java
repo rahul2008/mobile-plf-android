@@ -194,7 +194,8 @@ public class SHNDeviceAssociation {
             persistentStorageFactory.clearDeviceData(shnDeviceToRemove);
             shnDeviceToRemove.disconnect();
 
-            for (final DeviceRemovedListener listener : deviceRemovedListeners) {
+            ArrayList<DeviceRemovedListener> copyOfDeviceRemovedListeners = new ArrayList<>(this.deviceRemovedListeners);
+            for (final DeviceRemovedListener listener : copyOfDeviceRemovedListeners) {
                 listener.onAssociatedDeviceRemoved(shnDeviceToRemove);
             }
         }
