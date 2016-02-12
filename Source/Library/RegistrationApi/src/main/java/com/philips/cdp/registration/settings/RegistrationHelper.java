@@ -190,8 +190,7 @@ public class RegistrationHelper {
 
 
         Locale mlocale = locale;
-
-        setLocale(mlocale);
+        mLocale = locale;
         mIsInitializationInProgress = false;
         mJanrainIntialized = false;
         mReceivedProviderFlowSuccess = false;
@@ -407,11 +406,7 @@ public class RegistrationHelper {
     public Locale getLocale() {
         return mLocale;
     }
-
-    public void setLocale(Locale mLocale) {
-        this.mLocale = mLocale;
-    }
-
+    
     public static String getRegistrationApiVersion() {
         return BuildConfig.VERSION_NAME;
     }
