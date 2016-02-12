@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
+import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.model.CartModel;
@@ -58,7 +59,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
                         Intent intent = new Intent(DemoAppActivity.this, EmptyCartActivity.class);
                         startActivity(intent);
                     } else {
-                        Intent myIntent = new Intent(DemoAppActivity.this, ShoppingCartActivity.class);
+                        Intent myIntent = new Intent(DemoAppActivity.this, MainActivity.class);
                         startActivity(myIntent);
                     }
                 } else {

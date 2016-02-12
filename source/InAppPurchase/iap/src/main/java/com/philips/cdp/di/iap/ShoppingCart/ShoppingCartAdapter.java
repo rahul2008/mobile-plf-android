@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
@@ -44,6 +42,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private LayoutInflater mInflater;
     private ShoppingCartPresenter mPresenter;
     private final Drawable countArrow;
+    private UIKitListPopupWindow mPopupWindow;
+    //ShoppingCartData summary;
     private boolean mIsOutOfStock;
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
@@ -132,7 +132,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 //Add arrow mark
                 //holder.quantitydropdown.setCompoundDrawables(null, null, countArrow, null);
-                holder.quantitydropdown.setImageDrawable(countArrow);
+//                holder.quantitydropdown.setImageDrawable(countArrow);
+                holder.valueOption.setCompoundDrawables(countArrow,null,null,null);
                 bindCountView(holder.quantitydropdown, position);
                 break;
 
@@ -200,17 +201,17 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         String info = mResources.getString(R.string.iap_info);
         final String[] descriptions = new String[]{delete, info};
 
-        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.iap_trash_bin), descriptions[0]));
-        rowItems.add(new RowItem(ContextCompat.getDrawable(mContext, R.drawable.iap_info), descriptions[1]));
-        final UIKitListPopupWindow popUP = new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_gear_19_19), descriptions[0]));
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_share), descriptions[1]));
+        mPopupWindow =  new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
-        popUP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
                         mPresenter.deleteProduct(mData.get(position));
-                        popUP.dismiss();
+                        mPopupWindow.dismiss();
                         break;
                     case INFO:
                         Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
@@ -219,7 +220,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 }
             }
         });
-        popUP.show();
+        mPopupWindow.show();
     }
 
     private void bindCountView(final View view, final int position) {
@@ -236,6 +237,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         mPresenter.updateProductQuantity(mData,position, newCount);
                     }
                 });
+                mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
         });
@@ -247,12 +249,17 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         notifyDataSetChanged();
     }
 
+    public void onStop() {
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+    }
     @Override
     public void updateStock(boolean isOutOfStock) {
         mIsOutOfStock = isOutOfStock;
         notifyDataSetChanged();
 
-        ((ShoppingCartActivity)mContext).setCheckoutBtnState(!isOutOfStock);
+        //((ShoppingCartActivity)mContext).setCheckoutBtnState(!isOutOfStock);
     }
 
     private static class ViewHolder {
