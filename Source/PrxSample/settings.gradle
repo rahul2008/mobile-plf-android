@@ -1,0 +1,2 @@
+rootProject.name = 'PRXClient'
+include ':app', ':prx'
