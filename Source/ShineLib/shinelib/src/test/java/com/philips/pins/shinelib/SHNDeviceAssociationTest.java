@@ -89,8 +89,6 @@ public class SHNDeviceAssociationTest {
 
     @Before
     public void setUp() {
-        SHNServiceRegistry.releaseInstance();
-
         initMocks(this);
 
         mockedSHNDeviceAssociationListener = Utility.makeThrowingMock(SHNDeviceAssociation.SHNDeviceAssociationListener.class);
