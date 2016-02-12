@@ -65,8 +65,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     private void setCustomLocale() {
         Locale locale;
-        if (RegistrationHelper.getInstance().getUiLocale() != null) {
-            locale = RegistrationHelper.getInstance().getUiLocale();
+        if (RegistrationHelper.getInstance().getLocale() != null) {
+            locale = RegistrationHelper.getInstance().getLocale();
         } else {
             locale = RegistrationHelper.getInstance().getLocale();
         }

@@ -61,6 +61,9 @@ android {
         targetSdkVersion 11
         versionName version
     }
+    lintOptions {
+        abortOnError false
+    }
 
     buildTypes {
         release {

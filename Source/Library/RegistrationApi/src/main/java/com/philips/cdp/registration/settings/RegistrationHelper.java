@@ -108,7 +108,6 @@ public class RegistrationHelper {
         this.mJumpFlowDownloadStatusListener = null;
     }
 
-    private int mJumpDownloadFlow;
     private boolean mReceivedDownloadFlowSuccess;
     private boolean mReceivedProviderFlowSuccess;
     private final BroadcastReceiver janrainStatusReceiver = new BroadcastReceiver() {
@@ -119,9 +118,7 @@ public class RegistrationHelper {
             if (intent != null) {
                 Bundle extras = intent.getExtras();
                 if (extras.getString("message").equalsIgnoreCase("Download flow Success!!")) {
-                    // mJumpDownloadFlow++;
                     mReceivedDownloadFlowSuccess = true;
-                    RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = mJumpDownloadFlow" + mJumpDownloadFlow);
                 } else if (extras.getString("message").equalsIgnoreCase("Provider flow Success!!")) {
                     mReceivedProviderFlowSuccess = true;
                 }
@@ -163,8 +160,7 @@ public class RegistrationHelper {
                         }, CALL_AFTER_DELAY);
 
                     }
-                    EventHelper.getInstance()
-                            .notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
 
 
                 }
@@ -179,25 +175,6 @@ public class RegistrationHelper {
     }
 
     private Locale mLocale;
-
-    private Locale mUILocale;
-
-    public void setUiLocale(String languageCode, String countryCode) {
-        if (languageCode == null || languageCode.length() != 2) {
-            throw new RuntimeException("Please set language code correctly . Please pass valid locale");
-        }
-
-        if (languageCode == null || languageCode.length() != 2) {
-            throw new RuntimeException("Please set country code correctly .  Please pass valid locale");
-        }
-
-        mUILocale = new Locale(languageCode, countryCode);
-    }
-
-    public Locale getUiLocale() {
-        return mUILocale;
-    }
-
 
     /*
      * Initialize Janrain
@@ -223,7 +200,7 @@ public class RegistrationHelper {
         ServerTime.init(mContext);
         SecureStorage.init(mContext);
         SecureStorage.generateSecretKey();
-        NetworkUtility.isNetworkAvailable(mContext);
+        //NetworkUtility.isNetworkAvailable(mContext);
         new DataMigration(mContext).checkFileEncryptionStatus();
         setCountryCode(mlocale.getCountry());
         final String initLocale = mlocale.toString();
@@ -239,12 +216,6 @@ public class RegistrationHelper {
                 }
 
                 ServerTime.getInstance().refreshOffset();
-
-
-
-
-
-
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
 
@@ -271,64 +242,68 @@ public class RegistrationHelper {
                     mJanrainIntialized = false;
                     mIsInitializationInProgress = true;
 
-                    if (RegistrationEnvironmentConstants.EVAL.equalsIgnoreCase(mRegistrationType)) {
-                        RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                                + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getEvaluationId());
-                        RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
-                                + RegistrationConfiguration.getInstance().getPilConfiguration()
-                                .getCampaignID());
-                        initEvalSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getEvaluationId(),
-                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
-                        return;
-                    }
-                    if (RegistrationEnvironmentConstants.PROD.equalsIgnoreCase(mRegistrationType)) {
-                        RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                                + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getProductionId());
-                        initProdSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getProductionId(),
-                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
-                        return;
-
-                    }
-                    if (RegistrationEnvironmentConstants.DEV.equalsIgnoreCase(mRegistrationType)) {
-                        RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                                + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getDevelopmentId());
-                        initDevSettings(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getDevelopmentId(),
-                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
-                        return;
-                    }
-
-                    if (RegistrationEnvironmentConstants.TESTING.equalsIgnoreCase(mRegistrationType)) {
-                        RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                                + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getTestingId());
-                        RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
-                                + RegistrationConfiguration.getInstance().getPilConfiguration()
-                                .getCampaignID());
-                        initTesting(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getTestingId(),
-                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
-                        return;
-                    }
-
-
-                    if (RegistrationEnvironmentConstants.STAGING.equalsIgnoreCase(mRegistrationType)) {
-                        RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                                + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                                .getClientIds().getStagingId());
-                        initStaging(mContext, RegistrationConfiguration.getInstance()
-                                        .getJanRainConfiguration().getClientIds().getStagingId(),
-                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
-                        return;
-                    }
+                    initializeConfiguredEnvironment(mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                 }
             }
         }).start();
+    }
+
+    private void initializeConfiguredEnvironment(String micrositeId, String registrationType, boolean isInitialize, String initLocale) {
+        if (RegistrationEnvironmentConstants.EVAL.equalsIgnoreCase(registrationType)) {
+            RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+                    + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+                    .getClientIds().getEvaluationId());
+            RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
+                    + RegistrationConfiguration.getInstance().getPilConfiguration()
+                    .getCampaignID());
+            initEvalSettings(mContext, RegistrationConfiguration.getInstance()
+                            .getJanRainConfiguration().getClientIds().getEvaluationId(),
+                    micrositeId, registrationType, isInitialize, initLocale);
+            return;
+        }
+        if (RegistrationEnvironmentConstants.PROD.equalsIgnoreCase(registrationType)) {
+            RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+                    + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+                    .getClientIds().getProductionId());
+            initProdSettings(mContext, RegistrationConfiguration.getInstance()
+                            .getJanRainConfiguration().getClientIds().getProductionId(),
+                    micrositeId, registrationType, isInitialize, initLocale);
+            return;
+
+        }
+        if (RegistrationEnvironmentConstants.DEV.equalsIgnoreCase(registrationType)) {
+            RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+                    + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+                    .getClientIds().getDevelopmentId());
+            initDevSettings(mContext, RegistrationConfiguration.getInstance()
+                            .getJanRainConfiguration().getClientIds().getDevelopmentId(),
+                    micrositeId, registrationType, isInitialize, initLocale);
+            return;
+        }
+
+        if (RegistrationEnvironmentConstants.TESTING.equalsIgnoreCase(registrationType)) {
+            RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+                    + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+                    .getClientIds().getTestingId());
+            RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
+                    + RegistrationConfiguration.getInstance().getPilConfiguration()
+                    .getCampaignID());
+            initTesting(mContext, RegistrationConfiguration.getInstance()
+                            .getJanRainConfiguration().getClientIds().getTestingId(),
+                    micrositeId, registrationType, isInitialize, initLocale);
+            return;
+        }
+
+
+        if (RegistrationEnvironmentConstants.STAGING.equalsIgnoreCase(registrationType)) {
+            RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+                    + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+                    .getClientIds().getStagingId());
+            initStaging(mContext, RegistrationConfiguration.getInstance()
+                            .getJanRainConfiguration().getClientIds().getStagingId(),
+                    micrositeId, registrationType, isInitialize, initLocale);
+            return;
+        }
     }
 
 
