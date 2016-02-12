@@ -44,10 +44,36 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
  * controls.drawControls(strings[], false); // To draw controls with Strings
  * <p/>
  * </pre>
+ *
+ * <b> Find steps below to use Radio button </b><br>
+ * <pre> <b>XML Approach</b>
+ * &lt;com.philips.cdp.uikit.customviews.UIKitRadioButton
+ * <com.philips.cdp.uikit.customviews.UIKitRadioButton
+ *android:id="@+id/radioButton1"
+ *android:layout_width="wrap_content"
+ *android:layout_height="wrap_content"
+ *android:layout_marginBottom="5dp"
+ *android:text="One " /&gt;
+ *
+ *</p>
+ * 1. group multiple radio buttons in a radio group
+ * 2. To change width or height provide it in height and width attribute
+ * </pre>
+ *
+ * <b> Find steps below to use Check Box </b><br>
+ * <pre> <b>XML Approach</b>
+ * &lt;com.philips.cdp.uikit.customviews.PuiCheckBox
+ *android:id="@+id/checkBox"
+ *android:layout_width="wrap_content"
+ *android:layout_height="wrap_content"/&gt;
+ *
+ *</p>
+ * 1. To change width or height provide it in height and width attribute
+ * </pre>
+ *
  */
 public class ControlsActivity extends CatalogActivity {
-    private RadioButton gradientRadioButton , solidRadioButton;
-    private RadioGroup radioGroup;
+     private RadioGroup radioGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
