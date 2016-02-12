@@ -14,8 +14,8 @@ public class DeviceInformationCache {
     @NonNull
     private final PersistentStorage persistentStorage;
 
-    public DeviceInformationCache(@NonNull final PersistentStorage preferenceWrapper) {
-        this.persistentStorage = preferenceWrapper;
+    public DeviceInformationCache(@NonNull final PersistentStorage persistentStorage) {
+        this.persistentStorage = persistentStorage;
     }
 
     public void save(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType, @NonNull final String value) {
