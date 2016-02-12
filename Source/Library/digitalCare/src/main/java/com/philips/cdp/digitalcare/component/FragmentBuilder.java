@@ -12,19 +12,14 @@ import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
  * @author naveen@philips.com
  * @date 19/january/2015
  */
-public class FragmentComponentBuilder extends ComponentBuilder {
+public class FragmentBuilder extends UiLauncher {
 
 
     @Override
-    public void setEnterAnimation(int enterAnimation) {
+    public void setAnimation(int enterAnimation, int exitAnimation) {
         super.mEnterAnimation = enterAnimation;
-    }
-
-    @Override
-    public void setExitAnimation(int exitAnimation) {
         super.mExitAnimation = exitAnimation;
     }
-
     @Override
     public void setmLayoutResourceID(int layoutResourceID) {
         super.mLayoutResourceID = layoutResourceID;

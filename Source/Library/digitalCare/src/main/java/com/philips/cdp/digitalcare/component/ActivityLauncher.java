@@ -12,15 +12,11 @@ import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
  * @author naveen@philips.com
  * @date 19/january/2015
  */
-public class ActivityComponentBuilder extends ComponentBuilder {
+public class ActivityLauncher extends UiLauncher {
 
     @Override
-    public void setEnterAnimation(int enterAnimation) {
+    public void setAnimation(int enterAnimation, int exitAnimation) {
         super.mEnterAnimation = enterAnimation;
-    }
-
-    @Override
-    public void setExitAnimation(int exitAnimation) {
         super.mExitAnimation = exitAnimation;
     }
 

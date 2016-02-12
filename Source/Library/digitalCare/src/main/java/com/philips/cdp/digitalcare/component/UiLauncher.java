@@ -12,7 +12,7 @@ import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
  * @author naveen@philips.com
  * @date 19/january/2015
  */
-public abstract class ComponentBuilder {
+public abstract class UiLauncher {
 
     /**
      * Enter {@Link android.view.animation} of the ConsumerCare Component Screens
@@ -53,13 +53,11 @@ public abstract class ComponentBuilder {
         return mEnterAnimation;
     }
 
-    public abstract void setEnterAnimation(int mEnterAnimation);
+    public abstract void setAnimation(int mEnterAnimation, int mExitAnimation);
 
     public int getExitAnimation() {
         return mExitAnimation;
     }
-
-    public abstract void setExitAnimation(int mExitAnimation);
 
     public int getLayoutResourceID() {
         return mLayoutResourceID;

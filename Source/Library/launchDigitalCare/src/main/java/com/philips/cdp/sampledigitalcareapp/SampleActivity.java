@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.component.FragmentComponentBuilder;
+import com.philips.cdp.digitalcare.component.FragmentBuilder;
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -49,10 +49,9 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         setContentView(R.layout.activity_sample);
        /* DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
                 R.anim.slide_in_bottom, R.anim.slide_out_bottom);*/
-        FragmentComponentBuilder componentBuilder = new FragmentComponentBuilder();
+        FragmentBuilder componentBuilder = new FragmentBuilder();
         componentBuilder.setActionbarUpdateListener(actionBarClickListener);
-        componentBuilder.setEnterAnimation(R.anim.slide_in_bottom);
-        componentBuilder.setExitAnimation(R.anim.slide_out_bottom);
+        componentBuilder.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
         componentBuilder.setFragmentActivity(this);
 

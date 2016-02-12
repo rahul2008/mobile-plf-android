@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.component.ActivityComponentBuilder;
+import com.philips.cdp.digitalcare.component.ActivityLauncher;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
@@ -262,9 +262,9 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mLaunchAsFragment.setVisibility(View.INVISIBLE);
 
                 if (setConsumerProductInfo()) {
-                    ActivityComponentBuilder activityComponentBuilder = new ActivityComponentBuilder();
-                    activityComponentBuilder.setEnterAnimation(R.anim.slide_in_bottom);
-                    activityComponentBuilder.setExitAnimation(R.anim.slide_out_bottom);
+                    ActivityLauncher activityComponentBuilder = new ActivityLauncher();
+                    activityComponentBuilder.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+
                     activityComponentBuilder.setScreenOrientation(DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
 
                     DigitalCareConfigManager.getInstance().invokeConsumerCareModule(activityComponentBuilder);

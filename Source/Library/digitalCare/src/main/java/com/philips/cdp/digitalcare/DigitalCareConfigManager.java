@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cdp.digitalcare.component.ActivityComponentBuilder;
-import com.philips.cdp.digitalcare.component.ComponentBuilder;
+import com.philips.cdp.digitalcare.component.ActivityLauncher;
+import com.philips.cdp.digitalcare.component.FragmentBuilder;
+import com.philips.cdp.digitalcare.component.UiLauncher;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
@@ -139,21 +140,21 @@ public class DigitalCareConfigManager {
     }
 
     /**
-     * Please make sure to use {@link ActivityComponentBuilder}  or {@link com.philips.cdp.digitalcare.component.FragmentComponentBuilder} as objects to invoke the consumerCare module.
+     * Please make sure to use {@link ActivityLauncher}  or {@link FragmentBuilder} as objects to invoke the consumerCare module.
      * <p/>
-     * Note: "ActivityComponentBuilder" Object is for invoking the ConsumerCare module as Activity Component & the "FragmentComponentBuilder" Object is for attaching the ConsumerCare module to
+     * Note: "ActivityLauncher" Object is for invoking the ConsumerCare module as Activity Component & the "FragmentBuilder" Object is for attaching the ConsumerCare module to
      * your Fragment Manager.
      *
-     * @param componentBuilder
+     * @param uiLauncher
      */
-    public void invokeConsumerCareModule(ComponentBuilder componentBuilder) {
-        if (componentBuilder instanceof ActivityComponentBuilder)
+    public void invokeConsumerCareModule(UiLauncher uiLauncher) {
+        if (uiLauncher instanceof ActivityLauncher)
 
-            invokeDigitalCareAsActivity(componentBuilder.getEnterAnimation(), componentBuilder.getExitAnimation(), componentBuilder.getScreenOrientation());
+            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
 
         else
-            invokeDigitalCareAsFragment(componentBuilder.getFragmentActivity(), componentBuilder.getLayoutResourceID(),
-                    componentBuilder.getActionbarUpdateListener(), componentBuilder.getEnterAnimation(), componentBuilder.getExitAnimation());
+            invokeDigitalCareAsFragment(uiLauncher.getFragmentActivity(), uiLauncher.getLayoutResourceID(),
+                    uiLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
 
     }
 
