@@ -8,19 +8,15 @@ package com.philips.pins.shinelib;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.utility.SHNPersistentStorage;
-import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by 310188215 on 02/03/15.
- */
 public class SHNDeviceAssociation {
 
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
@@ -136,10 +132,10 @@ public class SHNDeviceAssociation {
     }
 
     void initAssociatedDevicesList() {
-        List<SHNPersistentStorage.AssociatedDeviceInfo> associatedDeviceInfos =
-                SHNServiceRegistry.getInstance().get(SHNPersistentStorage.class).readAssociatedDeviceInfos();
+        SHNDeviceAssociationHelper associationHelper = getShnDeviceAssociationHelper();
+        List<SHNDeviceAssociationHelper.AssociatedDeviceInfo> associatedDeviceInfos = associationHelper.readAssociatedDeviceInfos();
         associatedDevices = new ArrayList<>();
-        for (SHNPersistentStorage.AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
+        for (SHNDeviceAssociationHelper.AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
             SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(associatedDeviceInfo.deviceTypeName);
 
             SHNDevice shnDevice = null;
@@ -154,6 +150,12 @@ public class SHNDeviceAssociation {
                 associatedDevices.add(shnDevice);
             }
         }
+    }
+
+    @NonNull
+    SHNDeviceAssociationHelper getShnDeviceAssociationHelper() {
+        PersistentStorage persistentStorage = persistentStorageFactory.getPersistentStorage();
+        return new SHNDeviceAssociationHelper(persistentStorage);
     }
 
     public State getState() {
@@ -286,11 +288,12 @@ public class SHNDeviceAssociation {
     }
 
     private void persistAssociatedDeviceList() {
-        List<SHNPersistentStorage.AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();
+        List<SHNDeviceAssociationHelper.AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();
         for (SHNDevice shnDevice : associatedDevices) {
-            associatedDeviceInfos.add(new SHNPersistentStorage.AssociatedDeviceInfo(shnDevice.getAddress(), shnDevice.getDeviceTypeName()));
+            associatedDeviceInfos.add(new SHNDeviceAssociationHelper.AssociatedDeviceInfo(shnDevice.getAddress(), shnDevice.getDeviceTypeName()));
         }
-        SHNServiceRegistry.getInstance().get(SHNPersistentStorage.class).storeAssociatedDeviceInfos(associatedDeviceInfos);
+        SHNDeviceAssociationHelper associationHelper = getShnDeviceAssociationHelper();
+        associationHelper.storeAssociatedDeviceInfos(associatedDeviceInfos);
     }
 
     private void handleStopAssociation() {

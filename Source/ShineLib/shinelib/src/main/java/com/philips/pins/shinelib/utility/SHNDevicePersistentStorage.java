@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+@Deprecated
 public class SHNDevicePersistentStorage {
 
     public static final String SHN_DEVICE_PREFERENCES_FILE_KEY = "_SHINELIB_DEVICE_PREFERENCES_FILE_KEY";
@@ -18,15 +19,18 @@ public class SHNDevicePersistentStorage {
     @NonNull
     private final SharedPreferences sharedPreferences;
 
+    @Deprecated
     public static SHNDevicePersistentStorage createNewSHNDevicePersistentStorage(@NonNull final Context context, @NonNull final String address) {
         return new SHNDevicePersistentStorage(context, address);
     }
 
+    @Deprecated
     public SHNDevicePersistentStorage(@NonNull final Context context, @NonNull final String address) {
         sharedPreferences = context.getSharedPreferences(address + SHN_DEVICE_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
     }
 
     @NonNull
+    @Deprecated
     public SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }

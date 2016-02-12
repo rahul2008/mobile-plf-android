@@ -12,20 +12,20 @@ public class DeviceInformationCache {
     public static final String DATE_SUFFIX = "date";
 
     @NonNull
-    private final SHNDevicePersistentStorage shnDevicePersistentStorage;
+    private final PersistentStorage persistentStorage;
 
-    public DeviceInformationCache(@NonNull final SHNDevicePersistentStorage preferenceWrapper) {
-        this.shnDevicePersistentStorage = preferenceWrapper;
+    public DeviceInformationCache(@NonNull final PersistentStorage preferenceWrapper) {
+        this.persistentStorage = preferenceWrapper;
     }
 
     public void save(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType, @NonNull final String value) {
-        shnDevicePersistentStorage.putString(informationType.name(), value);
-        shnDevicePersistentStorage.putLong(informationType.name() + DATE_SUFFIX, (new Date()).getTime());
+        persistentStorage.put(informationType.name(), value);
+        persistentStorage.put(informationType.name() + DATE_SUFFIX, (new Date()).getTime());
     }
 
     @Nullable
     public Date getDate(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType) {
-        long dateMillis = shnDevicePersistentStorage.getLong(informationType.name() + DATE_SUFFIX);
+        long dateMillis = persistentStorage.get(informationType.name() + DATE_SUFFIX, 0L);
         Date date = null;
 
         if (dateMillis > 0) {
@@ -37,6 +37,6 @@ public class DeviceInformationCache {
 
     @Nullable
     public String getValue(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType informationType) {
-        return shnDevicePersistentStorage.getString(informationType.name());
+        return persistentStorage.get(informationType.name());
     }
 }

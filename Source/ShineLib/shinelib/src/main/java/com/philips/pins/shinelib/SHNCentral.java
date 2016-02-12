@@ -99,8 +99,6 @@ import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
-import com.philips.pins.shinelib.utility.SHNPersistentStorage;
-import com.philips.pins.shinelib.utility.SHNServiceRegistry;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
@@ -206,10 +204,7 @@ public class SHNCentral {
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
         persistentStorageFactory = new PersistentStorageFactory(applicationContext);
-        SHNPersistentStorage shnPersistentStorage = new SHNPersistentStorage(applicationContext);
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
-
-        SHNServiceRegistry.getInstance().add(shnPersistentStorage);
     }
 
     private void setState(final State state) {
