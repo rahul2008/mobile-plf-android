@@ -197,4 +197,7 @@
         <attr name="textValue" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="UiKit_ProgressSpinner">
+        <attr name="duration" format="integer"/>
+    </declare-styleable>
 </resources>
