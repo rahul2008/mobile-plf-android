@@ -48,6 +48,7 @@ dependencies {
     compile project(':registrationApi')
     compile project(':localeMatch')
     compile project(':jump')
+    compile project(':prx')
     compile files('libs/adobeMobileLibrary-v4.5.1.jar')
     compile files('libs/org.apache.http.legacy.jar')
 
