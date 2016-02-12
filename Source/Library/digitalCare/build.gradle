@@ -77,6 +77,7 @@ dependencies {
     compile 'com.philips.cdp:multi-selection:1.0.2'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.shamanland:fonticon:0.1.8'
+    compile 'com.android.support:support-v4:23.1.1'
 }
 
 
