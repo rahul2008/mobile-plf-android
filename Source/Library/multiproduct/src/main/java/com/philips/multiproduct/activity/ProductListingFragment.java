@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.productscreen.DetailedScreenFragment;
@@ -68,16 +68,16 @@ public class ProductListingFragment extends MultiProductBaseFragment {
         if (!(getActivity().isFinishing()))
             mSummaryDialog.show();
 
-        final int ctnSize = MultiProductConfigManager.getInstance().getMultiProductCtnList().size();
+        final int ctnSize = ProductModelSelectionHelper.getInstance().getMultiProductCtnList().size();
 
         productList = new ArrayList<ProductData>();
 
         for (int i = 0; i < ctnSize; i++) {
-            final String ctn = MultiProductConfigManager.getInstance().getMultiProductCtnList().get(i);
-            PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), MultiProductConfigManager.getInstance().getMultiProductCtnList().get(i),
-                    MultiProductConfigManager.getInstance().getSectorCode(),
-                    MultiProductConfigManager.getInstance().getLocale().toString(),
-                    MultiProductConfigManager.getInstance().getCatalogCode());
+            final String ctn = ProductModelSelectionHelper.getInstance().getMultiProductCtnList().get(i);
+            PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), ProductModelSelectionHelper.getInstance().getMultiProductCtnList().get(i),
+                    ProductModelSelectionHelper.getInstance().getSectorCode(),
+                    ProductModelSelectionHelper.getInstance().getLocale().toString(),
+                    ProductModelSelectionHelper.getInstance().getCatalogCode());
 
             prxWrapperCode.requestPrxSummaryData(new Callback() {
                 @Override
@@ -85,7 +85,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
                     productList.add(productData);
 
-                    if (ctn == MultiProductConfigManager.getInstance().getMultiProductCtnList().get(ctnSize - 1)) {
+                    if (ctn == ProductModelSelectionHelper.getInstance().getMultiProductCtnList().get(ctnSize - 1)) {
 
                         mProductAdapter = new ListViewWithOptions(getActivity(), productList);
                         mProductListView.setAdapter(mProductAdapter);
@@ -103,7 +103,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
                 @Override
                 public void onFail(String errorMessage) {
                     MLogger.e(TAG, " Error : " + errorMessage);
-                    if (ctn == MultiProductConfigManager.getInstance().getMultiProductCtnList().get(ctnSize - 1)) {
+                    if (ctn == ProductModelSelectionHelper.getInstance().getMultiProductCtnList().get(ctnSize - 1)) {
 
                         mProductAdapter = new ListViewWithOptions(getActivity(), productList);
                         mProductListView.setAdapter(mProductAdapter);

@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class MultiProductConfigManager {
+public class ProductModelSelectionHelper {
 
-    private static final String TAG = MultiProductConfigManager.class.getSimpleName();
-    private static MultiProductConfigManager mDigitalCareInstance = null;
+    private static final String TAG = ProductModelSelectionHelper.class.getSimpleName();
+    private static ProductModelSelectionHelper mDigitalCareInstance = null;
     private static List<String> mMultiProductCtn;
     private static Context mContext = null;
     private static Locale mLocale = null;
@@ -30,15 +30,15 @@ public class MultiProductConfigManager {
      * Hosting app, which will integrate this DigitalCare, has to pass app
      * context.
      */
-    private MultiProductConfigManager() {
+    private ProductModelSelectionHelper() {
     }
 
     /*
      * Singleton pattern.
      */
-    public static MultiProductConfigManager getInstance() {
+    public static ProductModelSelectionHelper getInstance() {
         if (mDigitalCareInstance == null) {
-            mDigitalCareInstance = new MultiProductConfigManager();
+            mDigitalCareInstance = new ProductModelSelectionHelper();
         }
         return mDigitalCareInstance;
     }
@@ -66,7 +66,7 @@ public class MultiProductConfigManager {
      */
     public void initializeDigitalCareLibrary(Context applicationContext) {
         if (mContext == null) {
-            MultiProductConfigManager.mContext = applicationContext;
+            ProductModelSelectionHelper.mContext = applicationContext;
 
         }
     }
@@ -99,7 +99,7 @@ public class MultiProductConfigManager {
     }
 
     public void setMultiProductCtnList(List<String> mMultiProductSize) {
-        MultiProductConfigManager.mMultiProductCtn = mMultiProductSize;
+        ProductModelSelectionHelper.mMultiProductCtn = mMultiProductSize;
     }
 
     public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {

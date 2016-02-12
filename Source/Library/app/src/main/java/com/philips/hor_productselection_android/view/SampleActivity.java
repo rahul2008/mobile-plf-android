@@ -1,6 +1,5 @@
 package com.philips.hor_productselection_android.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,9 +11,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.hor_productselection_android.R;
-import com.philips.multiproduct.MultiProductConfigManager;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.activity.MultiProductBaseActivity;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 
@@ -67,9 +65,9 @@ public class SampleActivity extends MultiProductBaseActivity implements View.OnC
 //        componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
 //        componentBuilder.setFragmentActivity(this);
 
-        MultiProductConfigManager.getInstance().setLocale("en", "GB");
-        MultiProductConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMultiProductContainer, null /*actionBarClickListener*/, R.anim.uikit_popover_fadein, R.anim.uikit_popover_fadeout);
-//        MultiProductConfigManager.getInstance().setMultiProductSize(mList.size());
+        ProductModelSelectionHelper.getInstance().setLocale("en", "GB");
+        ProductModelSelectionHelper.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMultiProductContainer, null /*actionBarClickListener*/, R.anim.uikit_popover_fadein, R.anim.uikit_popover_fadeout);
+//        ProductModelSelectionHelper.getInstance().setMultiProductSize(mList.size());
 
 
 //        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(componentBuilder);
