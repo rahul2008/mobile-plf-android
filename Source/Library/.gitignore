@@ -1,3 +1,4 @@
+
 /Library.iml
 /Prx/Prx.iml
 
@@ -9,6 +10,7 @@
 /.gradle
 /launchDigitalCare.iml
 /gradle
-/build
-/.idea
 /gradle.properties
+**/build/*
+**/.idea/*
+local.properties
