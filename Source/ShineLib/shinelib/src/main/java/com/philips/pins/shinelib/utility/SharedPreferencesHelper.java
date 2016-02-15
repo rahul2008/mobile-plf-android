@@ -34,7 +34,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
             edit.remove(key + ENUM_NAME);
             edit.remove(key + DOUBLE_VALUE);
             removeList(key, edit);
-            edit.apply();
+            edit.commit();
         } else {
             put(key, edit, value);
         }
@@ -68,7 +68,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
             SHNLogger.wtf(TAG, "Trying to store an unsupported data type in Shared preferences!");
         }
 
-        edit.apply();
+        edit.commit();
     }
 
     private <T> void putStringSet(@NonNull final String key, @NonNull final Editor edit, @NonNull final Set<?> set) {
@@ -152,7 +152,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
             put(getListEntryKey(key, i), edit, values.get(i));
         }
         put(key, edit, LIST_BASE);
-        edit.apply();
+        edit.commit();
     }
 
     private void removeList(String key, Editor edit) {
@@ -185,7 +185,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
     }
 
     public void clear() {
-        edit().clear().apply();
+        edit().clear().commit();
     }
 
     // Pass through methods
