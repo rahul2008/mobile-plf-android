@@ -48,7 +48,7 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
     private void registerProduct(final String accessToken, final String serialNumber) {
         PrxLogger.enablePrxLogger(true);
 
-        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, accessToken, serialNumber);
+        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, accessToken, serialNumber, RequestConstants.REGISTER);
         registrationBuilder.setmSectorCode(mSectorCode);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
