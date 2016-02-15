@@ -41,13 +41,13 @@
             android:layout_below="@+id/launchDigitalCare"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="10dp"
-            android:visibility="gone"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/blue_button"
             android:text="@string/launch_button_as_fragment"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/textView2"
@@ -119,110 +119,47 @@
         </GridLayout>
 
         <TextView
-            android:layout_marginTop="20dp"
             android:id="@+id/textview6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/gridlayout1"
-            android:text="Set Product Info"
+            android:layout_marginTop="20dp"
+            android:text="Add Ctn's"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="visible" />
 
-
-        <GridLayout
-            android:id="@+id/gridlayout2"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="300dp"
             android:layout_below="@+id/textview6"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
-            android:columnCount="2"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:rowCount="2">
+            android:layout_marginTop="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Category : "
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp" />
 
-            <AutoCompleteTextView
-                android:id="@+id/category"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textAutoComplete|textAutoCorrect"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp"></AutoCompleteTextView>
+
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/add_product"
+                android:background="@color/button_material_light" />
+
+            <ImageButton
+                android:id="@+id/addimageButton"
+                android:layout_width="@dimen/savedscreen_top_container_height"
+                android:layout_height="@dimen/savedscreen_top_container_height"
+                android:layout_alignBottom="@+id/recycler_view"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/button_plus_red"
+                android:scaleType="fitXY" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SubCategory : "
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp" />
-
-            <AutoCompleteTextView
-                android:id="@+id/subcategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textAutoComplete|textAutoCorrect"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp"></AutoCompleteTextView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CTN : "
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp" />
-
-            <AutoCompleteTextView
-                android:id="@+id/ctn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textAutoComplete|textAutoCorrect"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp"></AutoCompleteTextView>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ProductTitle : "
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp" />
-
-            <AutoCompleteTextView
-                android:id="@+id/product_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textAutoComplete|textAutoCorrect"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18sp"></AutoCompleteTextView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ProdReviewUrl : "
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:visibility="gone"
-                android:textSize="18sp" />
-
-            <AutoCompleteTextView
-                android:id="@+id/product_review_url"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textAutoComplete|textAutoCorrect"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:visibility="gone"
-                android:textSize="18sp"></AutoCompleteTextView>
-
-        </GridLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

@@ -19,6 +19,7 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.multiproduct.base.ProductModelSelectionType;
 
 import java.util.Locale;
 
@@ -51,6 +52,9 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
+
+    public static ProductModelSelectionType mProductModelSelectionType = null;
+    public static String[] mCtnList = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -147,7 +151,12 @@ public class DigitalCareConfigManager {
      *
      * @param uiLauncher
      */
-    public void invokeConsumerCareModule(UiLauncher uiLauncher) {
+    public void invokeConsumerCareModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+        if (productModelSelectionType != null) {
+            mProductModelSelectionType = productModelSelectionType;
+        } else
+            throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
+
         if (uiLauncher instanceof ActivityLauncher)
 
             invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
@@ -406,6 +415,10 @@ public class DigitalCareConfigManager {
 
     public void setViewProductDetailsData(ViewProductDetailsModel detailsObject) {
         mProductDetailsModel = detailsObject;
+    }
+
+   public  ProductModelSelectionType getProductModelSelectionType() {
+        return mProductModelSelectionType;
     }
 
     /**

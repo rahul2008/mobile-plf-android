@@ -28,6 +28,7 @@ public class ProductModelSelectionHelper {
     private static String mSectorCode = "B2C";
     private static String mCatalogCode = "CONSUMER";
 
+
     public static ProductModelSelectionType mProductModelSelectionType = null;
 
     /*

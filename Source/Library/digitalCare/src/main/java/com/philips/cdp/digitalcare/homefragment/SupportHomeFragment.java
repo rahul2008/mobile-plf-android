@@ -31,14 +31,13 @@ import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.multiproduct.*;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.component.ActivityLauncher;
 import com.philips.multiproduct.component.UiLauncher;
 import com.philips.multiproduct.productselection.HardcodedProductList;
 import com.philips.multiproduct.utils.MLogger;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,6 +60,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private boolean mIsFirstScreenLaunch = false;
     private View mView = null;
     private ProductModelSelectionHelper mConfigManager = null;
+    private static boolean isWelcomeScreenDisplayed = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -286,8 +286,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             if (isConnectionAvailable())
                 showFragment(new RateThisAppFragment());
         } else if (tag.equals(getStringKey(R.string.product_selection))) {
-//            if (isConnectionAvailable())
-            launchMultiProductAsActivity();
+            if (isConnectionAvailable())
+                launchMultiProductAsActivity();
         }
     }
 
@@ -295,21 +295,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private void launchMultiProductAsActivity() {
         mConfigManager = ProductModelSelectionHelper.getInstance();
         mConfigManager.initializeDigitalCareLibrary(getActivity());
-        mConfigManager.setLocale("en", "GB");
+        mConfigManager.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage());
 
-        ProductModelSelectionType productsSelection = new HardcodedProductList();
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
-        List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
-        String[] ctnList = new String[mCtnList.size()];
-        for (int i = 0; i < mCtnList.size(); i++)
-            ctnList[i] = mCtnList.get(i);
 
-        productsSelection.setHardCodedProductList(ctnList);
         UiLauncher uiLauncher = new ActivityLauncher();
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
         uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-        ProductModelSelectionHelper.getInstance().invokeProductSelectionModule(uiLauncher, productsSelection);
+        ProductModelSelectionHelper.getInstance().invokeProductSelectionModule(uiLauncher, DigitalCareConfigManager.getInstance()
+                .getProductModelSelectionType());
         MLogger.enableLogging();
     }
 
@@ -352,6 +345,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResponseReceived(boolean isAvailable) {
         createMainMenu();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!isWelcomeScreenDisplayed) {
+            launchMultiProductAsActivity();
+            isWelcomeScreenDisplayed = true;
+        }
     }
 
     @Override

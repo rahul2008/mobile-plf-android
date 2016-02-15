@@ -253,7 +253,7 @@
         <item>STRAIGHTENER_SU</item>
     </string-array>
 
-    <string-array name="ctn">
+    <string-array name="productselection_ctnlist">
         <item>Multiple CTN</item>
         <item>RQ1250/17</item>
         <item>HD3197/03</item>

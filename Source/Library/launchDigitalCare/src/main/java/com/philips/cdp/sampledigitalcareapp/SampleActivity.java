@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.sampledigitalcareapp;
 
 import android.os.Bundle;
@@ -16,12 +17,14 @@ import com.philips.cdp.digitalcare.component.FragmentBuilder;
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
+*/
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
  *
  * @author : Ritesh.jha@philips.com
  * @since : 6 Aug 2015
- */
+ *//*
+
 public class SampleActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = SampleActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
@@ -47,8 +50,10 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         DigiCareLogger.i(TAG, " SampleActivity onCreate");
         setContentView(R.layout.activity_sample);
-       /* DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
-                R.anim.slide_in_bottom, R.anim.slide_out_bottom);*/
+       */
+/* DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
+                R.anim.slide_in_bottom, R.anim.slide_out_bottom);*//*
+
         FragmentBuilder componentBuilder = new FragmentBuilder();
         componentBuilder.setActionbarUpdateListener(actionBarClickListener);
         componentBuilder.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
@@ -130,3 +135,4 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
             backstackFragment();
     }
 }
+*/
