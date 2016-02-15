@@ -10,11 +10,10 @@ import java.util.Set;
 
 public class PersistentStorageFactory {
 
-    public static final String SHINELIB = "SHINELIB_PREFERENCES_";
-    public static final String SANDBOX_KEY = "SANDBOX";
-    public static final String USER_KEY = "USER";
-    public static final String DEVICE_KEY = "DEVICE_";
-    public static final String DEVICE_ADDRESS_KEY = "DEVICE_ADDRESS";
+    public static final String SHINELIB_KEY = "SHINELIB_PREFERENCES";
+    public static final String DEVICE_KEY = "_SHINELIB_DEVICE_PREFERENCES_FILE_KEY";
+    public static final String USER_KEY = "SHNUserConfigurationImpl_preferences";
+    public static final String DEVICE_ADDRESS_KEY = "SHINELIB_DEVICE_ADDRESS";
 
     @NonNull
     private final Context context;
@@ -25,12 +24,12 @@ public class PersistentStorageFactory {
 
     @NonNull
     public PersistentStorage getPersistentStorage() {
-        return createPersistentStorage(SHINELIB + SANDBOX_KEY);
+        return createPersistentStorage(SHINELIB_KEY);
     }
 
     @NonNull
     public PersistentStorage getPersistentStorageForUser() {
-        return createPersistentStorage(SHINELIB + USER_KEY);
+        return createPersistentStorage(USER_KEY);
     }
 
     @NonNull
@@ -47,7 +46,7 @@ public class PersistentStorageFactory {
 
     @NonNull
     private String getDeviceKey(@NonNull final String address) {
-        return SHINELIB + DEVICE_KEY + address;
+        return address + DEVICE_KEY;
     }
 
     private void saveAddress(@NonNull final String deviceAddress) {
@@ -61,7 +60,7 @@ public class PersistentStorageFactory {
 
     @NonNull
     PersistentStorage getPersistentStorageForDeviceAddresses() {
-        return createPersistentStorage(SHINELIB + DEVICE_ADDRESS_KEY);
+        return createPersistentStorage(DEVICE_ADDRESS_KEY);
     }
 
     @NonNull

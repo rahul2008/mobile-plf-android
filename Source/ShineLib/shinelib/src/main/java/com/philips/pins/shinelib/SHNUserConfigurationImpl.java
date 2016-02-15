@@ -17,19 +17,20 @@ import java.util.Observable;
 
 public class SHNUserConfigurationImpl extends Observable implements SHNUserConfiguration {
 
-    public static final String CLOCK_FORMAT_KEY = "CLOCK_FORMAT_KEY";
-    public static final String ISO_LANGUAGE_CODE_KEY = "ISO_LANGUAGE_CODE_KEY";
+    public static final String CLOCK_FORMAT_KEY = "ClockFormat";
+    public static final String DATE_OF_BIRTH_KEY = "USER_CONFIG_DATE_OF_BIRTH";
+    public static final String DECIMAL_SEPARATOR_KEY = "USER_CONFIG_DECIMAL_SEPARATOR";
+    public static final String HANDEDNESS_KEY = "USER_CONFIG_HANDEDNESS";
+    public static final String HEIGHT_IN_CM_KEY = "USER_CONFIG_HEIGHT_IN_CM";
+    public static final String ISO_LANGUAGE_CODE_KEY = "USER_CONFIG_ISO_LANGUAGE_CODE";
     public static final String ISO_COUNTRY_CODE_KEY = "ISO_COUNTRY_CODE_KEY";
-    public static final String USE_METRIC_SYSTEM_KEY = "USE_METRIC_SYSTEM_KEY";
-    public static final String SEX_KEY = "SEX_KEY";
-    public static final String RESTING_HEART_RATE_KEY = "RESTING_HEART_RATE_KEY";
-    public static final String HEIGHT_IN_CM_KEY = "HEIGHT_IN_CM_KEY";
-    public static final String WEIGHT_IN_KG_KEY = "WEIGHT_IN_KG_KEY";
-    public static final String DECIMAL_SEPARATOR_KEY = "DECIMAL_SEPARATOR_KEY";
-    public static final String HANDEDNESS_KEY = "HANDEDNESS_KEY";
-    public static final String DATE_OF_BIRTH_KEY = "DATE_OF_BIRTH_KEY";
-    public static final String MAX_HEART_RATE_KEY = "MAX_HEART_RATE_KEY";
-    public static final String CHANGE_INCREMENT_KEY = "CHANGE_INCREMENT_KEY";
+    public static final String MAX_HEART_RATE_KEY = "USER_CONFIG_MAX_HEART_RATE";
+    public static final String RESTING_HEART_RATE_KEY = "USER_CONFIG_RESTING_HEART_RATE";
+    public static final String SEX_KEY = "USER_CONFIG_SEX";
+    public static final String USE_METRIC_SYSTEM_KEY = "USER_CONFIG_USE_METRIC_SYSTEM";
+    public static final String WEIGHT_IN_KG_KEY = "USER_CONFIG_WEIGHT_IN_KG";
+
+    public static final String CHANGE_INCREMENT_KEY = "USER_CONFIG_INCREMENT";
 
     public static final char DEFAULT_DECIMAL_SEPARATOR = '.';
     public static final Handedness DEFAULT_HANDEDNESS = Handedness.Unknown;

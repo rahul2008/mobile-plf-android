@@ -59,7 +59,7 @@ public class PersistentStorageFactoryTest {
         PersistentStorage persistentStorage = persistentStorageFactory.getPersistentStorage();
 
         assertThat(persistentStorage).isSameAs(persistentStorageMock);
-        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.SANDBOX_KEY);
+        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.SHINELIB_KEY);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class PersistentStorageFactoryTest {
         PersistentStorage persistentStorage = persistentStorageFactory.getPersistentStorageForUser();
 
         assertThat(persistentStorage).isSameAs(persistentStorageMock);
-        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.USER_KEY);
+        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.USER_KEY);
     }
 
     @Test
@@ -75,8 +75,8 @@ public class PersistentStorageFactoryTest {
         PersistentStorage persistentStorage = persistentStorageFactory.getPersistentStorageForDevice(shnDeviceMock);
 
         assertThat(persistentStorage).isSameAs(persistentStorageMock);
-        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_ADDRESS_KEY);
-        assertThat(keyList.get(1)).isEqualTo(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.DEVICE_KEY + TEST_ADDRESS);
+        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.DEVICE_ADDRESS_KEY);
+        assertThat(keyList.get(1)).isEqualTo(TEST_ADDRESS + PersistentStorageFactory.DEVICE_KEY);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class PersistentStorageFactoryTest {
 
     @Test
     public void ShouldNotRenewKeystore_WhenKeyIsAlreadyPresent() {
-        Set<String> keySet = getKeySet(PersistentStorageFactory.SHINELIB + PersistentStorageFactory.SANDBOX_KEY);
+        Set<String> keySet = getKeySet(PersistentStorageFactory.SHINELIB_KEY);
         when(persistentStorageMock.getStringSet(eq(PersistentStorageFactory.DEVICE_KEY), anySet())).thenReturn(keySet);
 
         persistentStorageFactory.getPersistentStorage();

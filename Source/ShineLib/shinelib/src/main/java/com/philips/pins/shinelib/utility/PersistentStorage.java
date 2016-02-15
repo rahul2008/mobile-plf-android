@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class PersistentStorage implements SharedPreferences {
-    private static final String TAG = "SharedPreferencesHelper";
+    private static final String TAG = "PersistentStorage";
 
     private static final String SHORT_VALUE = "SHORT_VALUE";
     public static final String ENUM_NAME = "ENUM_NAME";
