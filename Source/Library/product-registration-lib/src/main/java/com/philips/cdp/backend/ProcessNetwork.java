@@ -43,7 +43,7 @@ public class ProcessNetwork {
     protected void productRegistrationRequest(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
 
         PrxLogger.d(TAG, "Url : " + prxDataBuilder.getRequestUrl());
-        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, prxDataBuilder.getRequestUrl(), new Response.Listener<JSONObject>() {
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(Request.Method.POST, prxDataBuilder.getRequestUrl(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ResponseData responseData = prxDataBuilder.getResponseData(response);

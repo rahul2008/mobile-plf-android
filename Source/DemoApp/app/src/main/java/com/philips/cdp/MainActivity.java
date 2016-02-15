@@ -10,17 +10,12 @@ import android.widget.Toast;
 
 import com.philips.cdp.backend.RegistrationRequestManager;
 import com.philips.cdp.demo.R;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserWithProduct;
-import com.philips.cdp.registration.dao.ProductRegistrationInfo;
-import com.philips.cdp.registration.handlers.ProductRegistrationHandler;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 public class MainActivity extends ProductRegistrationActivity implements View.OnClickListener {
@@ -95,38 +90,5 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
             default:
                 break;
         }
-    }
-
-    private void makeRequest(final String response) {
-        /*HttpClient httpClient = new HttpClient();
-        Pair p1 = new Pair("productSerialNumber","rt234556778777");
-        Pair p2 = new Pair("purchaseDate","2015-12-02");
-        Pair p3 = new Pair("registrationChannel","MS81376");
-        List<Pair<String,String>> al = new ArrayList<Pair<String,String>>();
-        al.add(p1);
-        al.add(p2);
-        al.add(p3);
-        httpClient.callPost("https://www.philips.co.uk/prx/registration/B2C/en_GB/CARE/products/HD8978/01.register.type.product", al, response);*/
-
-        ProductRegistrationInfo productRegistrationInfo = new ProductRegistrationInfo();
-        productRegistrationInfo.setCatalog(Catalog.CONSUMER);
-        productRegistrationInfo.setSector(Sector.B2C);
-        productRegistrationInfo.setProductSerialNumber("rt234556778777");
-//        productRegistrationInfo.setProductModelNumber(mModelNo);
-        productRegistrationInfo.setPurchaseDate("2015-12-02");
-        productRegistrationInfo.setRegistrationChannel("MS81376");
-        UserWithProduct userWithProduct = new UserWithProduct(this);
-        userWithProduct.register(productRegistrationInfo, new ProductRegistrationHandler() {
-            @Override
-            public void onRegisterSuccess(final String response) {
-                ProductLog.producrlog(ProductLog.ONCLICK, "Access token response ---" + response);
-            }
-
-            @Override
-            public void onRegisterFailedWithFailure(final int error) {
-                Toast.makeText(MainActivity.this, "Failed to get access token", Toast.LENGTH_SHORT).show();
-            }
-        }, "en_GB", this);
-
     }
 }
