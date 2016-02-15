@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDataModelDebugging;
@@ -24,21 +25,35 @@ public class SHNCapabilityDataModelDebuggingWrapper implements SHNCapabilityData
     }
 
     @Override
-    public void setEnabled(final boolean enabled, @NonNull final ResultListener<Boolean> listener) {
+    public void setEnabled(final boolean enabled) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                capability.setEnabled(enabled, new WrappedResultListener<>(userHandler, listener));
+                capability.setEnabled(enabled);
             }
         });
     }
 
     @Override
-    public void writeInput(@NonNull final String message, @NonNull final ResultListener<String> listener) {
+    public void writeInput(@NonNull final String message) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                capability.writeInput(message, new WrappedResultListener<>(userHandler, listener));
+                capability.writeInput(message);
+            }
+        });
+    }
+
+    @Override
+    public void setOutputListener(@Nullable final ResultListener<String> listener) {
+        internalHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                WrappedResultListener<String> wrappedResultListener = null;
+                if (listener != null) {
+                    wrappedResultListener = new WrappedResultListener<>(userHandler, listener);
+                }
+                capability.setOutputListener(wrappedResultListener);
             }
         });
     }
