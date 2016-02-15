@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
-import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 
 public class SHNCapabilityConfigSedentaryWrapper implements SHNCapabilityConfigSedentary {
@@ -24,7 +23,7 @@ public class SHNCapabilityConfigSedentaryWrapper implements SHNCapabilityConfigS
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setSedentaryPeriodInMinutes(minutes, createResultListener(resultListener));
+                wrappedShnCapability.setSedentaryPeriodInMinutes(minutes, new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }
@@ -34,7 +33,7 @@ public class SHNCapabilityConfigSedentaryWrapper implements SHNCapabilityConfigS
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getSedentaryPeriodInMinutes(createResultListener(resultListener));
+                wrappedShnCapability.getSedentaryPeriodInMinutes(new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }
@@ -44,7 +43,7 @@ public class SHNCapabilityConfigSedentaryWrapper implements SHNCapabilityConfigS
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setSedentaryNotificationEnabled(enabled, createResultListener(resultListener));
+                wrappedShnCapability.setSedentaryNotificationEnabled(enabled, new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }
@@ -54,24 +53,8 @@ public class SHNCapabilityConfigSedentaryWrapper implements SHNCapabilityConfigS
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getSedentaryNotificationEnabled(createResultListener(resultListener));
+                wrappedShnCapability.getSedentaryNotificationEnabled(new WrappedResultListener<>(userHandler, resultListener));
             }
         });
-    }
-
-    @NonNull
-    private <T> ResultListener<T> createResultListener(@NonNull final ResultListener<T> resultListener) {
-        return new ResultListener<T>() {
-            @Override
-            public void onActionCompleted(final T value, @NonNull final SHNResult result) {
-                Runnable resultRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        resultListener.onActionCompleted(value, result);
-                    }
-                };
-                userHandler.post(resultRunnable);
-            }
-        };
     }
 }

@@ -16,7 +16,6 @@ public class SHNCapabilityDataModelDebuggingMoonshineWrapper implements SHNCapab
     private final SHNCapabilityDataModelDebuggingMoonshine capability;
     private final Handler internalHandler;
     private final Handler userHandler;
-    private ResultListener<Boolean> listenerInformer;
 
     public SHNCapabilityDataModelDebuggingMoonshineWrapper(SHNCapabilityDataModelDebuggingMoonshine capability, Handler internalHandler, Handler userHandler) {
         this.capability = capability;
