@@ -11,10 +11,8 @@ import org.json.JSONObject;
  */
 public abstract class RegistrationDataBuilder extends PrxDataBuilder {
 
-    private String mServerInfo = "www.philips.com/prx";
-    private String mSectorCode = null;
-    private String mLocale = null;
-    private String mCatalogCode = null;
+    protected String accessToken;
+    private String mServerInfo = "www.philips.com/prx/registration";
     private String productSerialNumber;
     private String purchaseDate;
     private String registrationChannel;
@@ -27,37 +25,19 @@ public abstract class RegistrationDataBuilder extends PrxDataBuilder {
     private String state;
     private String country;
 
-    public String getServerInfo() {
-        return mServerInfo;
-    }
+    public abstract String getAccessToken();
 
-    public String getSectorCode() {
-        return mSectorCode;
-    }
-
-    public void setmSectorCode(String mSectorCode) {
-        this.mSectorCode = mSectorCode;
-    }
-
-    public String getLocale() {
-        return mLocale;
-    }
-
-    public void setmLocale(String mLocale) {
-        this.mLocale = mLocale;
-    }
-
-    public String getCatalogCode() {
-        return mCatalogCode;
-    }
-
-    public void setmCatalogCode(String mCatalogCode) {
-        this.mCatalogCode = mCatalogCode;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public abstract ResponseData getResponseData(JSONObject jsonObject);
 
     public abstract String getRequestUrl();
+
+    public String getServerInfo() {
+        return mServerInfo;
+    }
 
     public String getProductSerialNumber() {
         return productSerialNumber;

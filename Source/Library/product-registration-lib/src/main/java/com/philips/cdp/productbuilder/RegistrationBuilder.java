@@ -1,6 +1,5 @@
 package com.philips.cdp.productbuilder;
 
-
 import android.net.Uri;
 import android.util.Log;
 
@@ -15,43 +14,49 @@ import org.json.JSONObject;
  */
 public class RegistrationBuilder extends RegistrationDataBuilder {
 
+    protected static final int ACCESS_TOKEN_INVALID_CODE = 403;
+    protected static final int INTERNAL_SERVER_ERROR_CODE = 500;
+    protected static final int INVALID_VALIDATION_CODE = 422;
+    protected static final int INVALID_PRODUCT_CODE = 400;
     private static final String PRX_REQUEST_URL = "https://acc.philips.co.uk/prx/registration/";
     private String mCtn = null;
     private String mRequestTag = null;
+    private String TAG = getClass() + "";
 
-    public RegistrationBuilder(String ctn, String requestTag) {
+    public RegistrationBuilder(String ctn, String accessToken, final String serialNumber) {
         this.mCtn = ctn;
-        this.mRequestTag = requestTag;
+        this.accessToken = accessToken;
+        setProductSerialNumber(serialNumber);
+    }
+
+    @Override
+    public String getAccessToken() {
+        return accessToken;
     }
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-//        generateUrl();
         return new ProductResponse().parseJsonResponseData(jsonObject);
     }
 
     @Override
     public String getRequestUrl() {
-        return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(), getLocale(),
-                getCatalogCode(), mCtn);
+        return generateUrl();
     }
 
-    private void generateUrl() {
-        Uri.Builder builder = new Uri.Builder();
-//        Uri.Builder builder = Uri.parse(getServerInfo());
-        builder.scheme("http")
-                .authority("www.lapi.transitchicago.com")
-                .appendPath("api")
-                .appendPath("1.0")
-                .appendPath("ttarrivals.aspx")
-                .appendQueryParameter("key", "[redacted]")
-                .appendQueryParameter("mapid", "yogesh");
-
-        Uri builtUri = Uri.parse(getServerInfo())
+    private String generateUrl() {
+        Uri builtUri = Uri.parse(PRX_REQUEST_URL)
                 .buildUpon()
-                .appendQueryParameter("key", "[redacted]")
-                .appendQueryParameter("mapid", "yogesh")
+                .appendPath(getSectorCode())
+                .appendPath(getLocale())
+                .appendPath(getCatalogCode())
+                .appendPath("products")
+                .appendPath(mCtn + ".register.type.product")
+                .appendQueryParameter("productSerialNumber", getProductSerialNumber())
+                .appendQueryParameter("purchaseDate", getPurchaseDate())
+                .appendQueryParameter("registrationChannel", getRegistrationChannel())
                 .build();
         Log.d(getClass() + "", builtUri.toString());
+        return builtUri.toString();
     }
 }

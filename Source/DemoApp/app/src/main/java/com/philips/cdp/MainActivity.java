@@ -10,13 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.philips.cdp.backend.RegistrationRequestManager;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
-import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
@@ -29,10 +29,10 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
     private Button mBtnUserRegistration;
     private Button mBtnProductRegistration;
 
-    private String mCtn = "RQ1250/17";
+    private String mCtn = "HD8967/01";
     private String mSectorCode = "B2C";
     private String mLocale = "en_GB";
-    private String mCatalogCode = "CONSUMER";
+    private String mCatalogCode = "CARE";
     private String mRequestTag = null;
     private String TAG = getClass().toString();
 
@@ -75,16 +75,17 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
         return super.onOptionsItemSelected(item);
     }
 
-    private void registerProduct() {
+    private void registerProduct(final String accessToken) {
         PrxLogger.enablePrxLogger(true);
 
-        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, mRequestTag);
+        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, accessToken, "AB1234567891012");
         registrationBuilder.setmSectorCode(mSectorCode);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
+        registrationBuilder.setRegistrationChannel("MS81376");
+        registrationBuilder.setPurchaseDate("2016-12-02");
 
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(getApplicationContext());
+        RegistrationRequestManager mRequestManager = new RegistrationRequestManager(this);
         mRequestManager.executeRequest(registrationBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -95,6 +96,7 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
             @Override
             public void onResponseError(String error, int code) {
                 Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
+                Toast.makeText(MainActivity.this, "error in response", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -107,13 +109,27 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
                 RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
                 break;
             case R.id.btn_product_registration:
-                User mUser = new User(this);
-                if (mUser.isUserSignIn(this)) {
-                    Toast.makeText(this, "user signed in", Toast.LENGTH_SHORT).show();
-                    registerProduct();
-                } else {
-                    Toast.makeText(this, "user not signed in", Toast.LENGTH_SHORT).show();
-                }
+
+                UserWithProduct userWithProduct = new UserWithProduct(this);
+                userWithProduct.getRefreshedAccessToken(new ProductRegistrationHandler() {
+                    @Override
+                    public void onRegisterSuccess(final String response) {
+
+                        User mUser = new User(MainActivity.this);
+                        if (mUser.isUserSignIn(MainActivity.this) && mUser.getEmailVerificationStatus(MainActivity.this)) {
+                            Toast.makeText(MainActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
+                            registerProduct(response);
+                        } else {
+                            Toast.makeText(MainActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onRegisterFailedWithFailure(final int error) {
+                        Toast.makeText(MainActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 break;
             default:
                 break;
@@ -147,7 +163,7 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
 
             @Override
             public void onRegisterFailedWithFailure(final int error) {
-
+                Toast.makeText(MainActivity.this, "Failed to get access token", Toast.LENGTH_SHORT).show();
             }
         }, "en_GB", this);
 
