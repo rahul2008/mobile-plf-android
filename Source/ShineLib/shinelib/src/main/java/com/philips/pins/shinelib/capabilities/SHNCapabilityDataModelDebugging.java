@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNCapability;
 
-public interface SHNCapabilityDataModelDebuggingMoonshine extends SHNCapability {
+public interface SHNCapabilityDataModelDebugging extends SHNCapability {
 
     void setEnabled(final boolean enabled, @NonNull final ResultListener<Boolean> listener);
 

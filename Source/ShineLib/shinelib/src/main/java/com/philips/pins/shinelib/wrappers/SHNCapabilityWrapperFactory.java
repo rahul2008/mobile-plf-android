@@ -16,7 +16,7 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigHeartRateZones;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigSedentary;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigTargets;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigWearingPosition;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityDataModelDebuggingMoonshine;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityDataModelDebugging;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceDiagnostics;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
@@ -126,9 +126,9 @@ public class SHNCapabilityWrapperFactory {
                         userHandler
                 );
                 break;
-            case DATA_MODEL_DEBUG_MOONSHINE:
-                shnCapabilityWrapper = new SHNCapabilityDataModelDebuggingMoonshineWrapper(
-                        (SHNCapabilityDataModelDebuggingMoonshine) shnCapability,
+            case DATA_MODEL_DEBUG:
+                shnCapabilityWrapper = new SHNCapabilityDataModelDebuggingWrapper(
+                        (SHNCapabilityDataModelDebugging) shnCapability,
                         internalHandler,
                         userHandler
                 );

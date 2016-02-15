@@ -9,15 +9,15 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityDataModelDebuggingMoonshine;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityDataModelDebugging;
 
-public class SHNCapabilityDataModelDebuggingMoonshineWrapper implements SHNCapabilityDataModelDebuggingMoonshine {
+public class SHNCapabilityDataModelDebuggingWrapper implements SHNCapabilityDataModelDebugging {
 
-    private final SHNCapabilityDataModelDebuggingMoonshine capability;
+    private final SHNCapabilityDataModelDebugging capability;
     private final Handler internalHandler;
     private final Handler userHandler;
 
-    public SHNCapabilityDataModelDebuggingMoonshineWrapper(SHNCapabilityDataModelDebuggingMoonshine capability, Handler internalHandler, Handler userHandler) {
+    public SHNCapabilityDataModelDebuggingWrapper(SHNCapabilityDataModelDebugging capability, Handler internalHandler, Handler userHandler) {
         this.capability = capability;
         this.internalHandler = internalHandler;
         this.userHandler = userHandler;
