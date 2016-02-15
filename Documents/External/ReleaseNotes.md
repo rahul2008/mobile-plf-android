@@ -19,6 +19,19 @@ Cards
 Favorites
 Picker View
 
+UIKit 2.0 release removes ThemeUtils class. 
+If your app using this class for set theme, Refer BasicSetUp.docx (set theme)  
+
+Please refer JavaDoc.zip for Documentation.
+(Unzip JavaDoc.zip ,open index.html search MainActivity then search for required components)
+
+Please refer below file for Theming
+Theming in Android PhilipsUIKit.pptx 
+
+Please refer below docs for initial setup
+BasicSetUp.docx    
+
+
 
 
 Version - 1.2.0                               Date:28-01-2015
