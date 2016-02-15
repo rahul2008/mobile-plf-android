@@ -14,14 +14,8 @@ import org.json.JSONObject;
  */
 public class RegistrationBuilder extends RegistrationDataBuilder {
 
-    protected static final int ACCESS_TOKEN_INVALID_CODE = 403;
-    protected static final int INTERNAL_SERVER_ERROR_CODE = 500;
-    protected static final int INVALID_VALIDATION_CODE = 422;
-    protected static final int INVALID_PRODUCT_CODE = 400;
-    private static final String PRX_REQUEST_URL = "https://acc.philips.co.uk/prx/registration/";
+    private static final String PRX_REQUEST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
     private String mCtn = null;
-    private String mRequestTag = null;
-    private String TAG = getClass() + "";
 
     public RegistrationBuilder(String ctn, String accessToken, final String serialNumber) {
         this.mCtn = ctn;

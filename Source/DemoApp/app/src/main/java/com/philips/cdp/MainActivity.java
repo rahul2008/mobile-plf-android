@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -33,7 +31,6 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
     private String mSectorCode = "B2C";
     private String mLocale = "en_GB";
     private String mCatalogCode = "CARE";
-    private String mRequestTag = null;
     private String TAG = getClass().toString();
 
     private static void launchProductActivity(Context context) {
@@ -53,32 +50,10 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
         mBtnProductRegistration.setOnClickListener(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void registerProduct(final String accessToken) {
+    private void registerProduct(final String accessToken, final String serialNumber) {
         PrxLogger.enablePrxLogger(true);
 
-        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, accessToken, "AB1234567891012");
+        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, accessToken, serialNumber);
         registrationBuilder.setmSectorCode(mSectorCode);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
@@ -109,27 +84,13 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
                 RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
                 break;
             case R.id.btn_product_registration:
-
-                UserWithProduct userWithProduct = new UserWithProduct(this);
-                userWithProduct.getRefreshedAccessToken(new ProductRegistrationHandler() {
-                    @Override
-                    public void onRegisterSuccess(final String response) {
-
-                        User mUser = new User(MainActivity.this);
-                        if (mUser.isUserSignIn(MainActivity.this) && mUser.getEmailVerificationStatus(MainActivity.this)) {
-                            Toast.makeText(MainActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
-                            registerProduct(response);
-                        } else {
-                            Toast.makeText(MainActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onRegisterFailedWithFailure(final int error) {
-                        Toast.makeText(MainActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                final User mUser = new User(this);
+                if (mUser.isUserSignIn(MainActivity.this) && mUser.getEmailVerificationStatus(MainActivity.this)) {
+                    Toast.makeText(MainActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
+                    registerProduct(mUser.getAccessToken(), "AB1234567891012");
+                } else {
+                    Toast.makeText(MainActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;
