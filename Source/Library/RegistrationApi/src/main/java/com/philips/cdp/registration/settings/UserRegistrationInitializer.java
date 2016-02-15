@@ -10,244 +10,156 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import java.util.Locale;
 
- public  class UserRegistrationInitializer {
+public class UserRegistrationInitializer {
 
-     private static UserRegistrationInitializer mUserRegistrationInitializer;
+    private static UserRegistrationInitializer mUserRegistrationInitializer;
 
     private UserRegistrationInitializer() {
         mHandler = new Handler();
     }
 
-     public void resetInitializationState() {
-         mIsJumpInitializationInProgress = false;
-         mReceivedDownloadFlowSuccess = false;
-         mReceivedProviderFlowSuccess = false;
-     }
-     private final int CALL_AFTER_DELAY = 500;
-     private Handler mHandler;
+    public void resetInitializationState() {
+        mIsJumpInitializationInProgress = false;
+        mReceivedDownloadFlowSuccess = false;
+        mReceivedProviderFlowSuccess = false;
+    }
 
-     public boolean isJumpInitializationInProgress() {
-         return mIsJumpInitializationInProgress;
-     }
+    private final int CALL_AFTER_DELAY = 500;
+    private Handler mHandler;
 
-     public void setJumpInitializationInProgress(boolean isInitializationInProgress) {
-         this.mIsJumpInitializationInProgress = isInitializationInProgress;
-     }
+    public boolean isJumpInitializationInProgress() {
+        return mIsJumpInitializationInProgress;
+    }
 
-     private boolean mIsJumpInitializationInProgress;
-     private boolean mReceivedDownloadFlowSuccess;
-     private boolean mReceivedProviderFlowSuccess;
+    public void setJumpInitializationInProgress(boolean isInitializationInProgress) {
+        this.mIsJumpInitializationInProgress = isInitializationInProgress;
+    }
 
-
-
-
-     private boolean mJanrainIntialized = false;
-     public JumpFlowDownloadStatusListener mJumpFlowDownloadStatusListener;
-     private EvalRegistrationSettings mEvalRegistrationSettings;
-
-     private DevRegistrationSettings mDevRegistrationSettings;
-
-     private ProdRegistrationSettings mProdRegistrationSettings;
-
-     private TestingRegistrationSettings mTestingRegistrationSettings;
-
-     private StaginglRegistrationSettings mStagingRegistrationSettings;
-
-     private RegistrationSettings mRegistrationSettings;
+    private boolean mIsJumpInitializationInProgress;
+    private boolean mReceivedDownloadFlowSuccess;
+    private boolean mReceivedProviderFlowSuccess;
 
 
-
-     public boolean isJanrainIntialized() {
-         return mJanrainIntialized;
-     }
-
-     public void setJanrainIntialized(boolean janrainIntializationStatus) {
-         mJanrainIntialized = janrainIntializationStatus;
-     }
-
-     public void registerJumpFlowDownloadListener(JumpFlowDownloadStatusListener pJumpFlowDownloadStatusListener) {
-         this.mJumpFlowDownloadStatusListener = pJumpFlowDownloadStatusListener;
-     }
-
-     public void unregisterJumpFlowDownloadListener() {
-         this.mJumpFlowDownloadStatusListener = null;
-     }
-
-     public final BroadcastReceiver janrainStatusReceiver = new BroadcastReceiver() {
-
-         @Override
-         public void onReceive(Context context, Intent intent) {
-
-             if (intent != null) {
-                 Bundle extras = intent.getExtras();
-                 if (extras.getString("message").equalsIgnoreCase("Download flow Success!!")) {
-                     mReceivedDownloadFlowSuccess = true;
-                 } else if (extras.getString("message").equalsIgnoreCase("Provider flow Success!!")) {
-                     mReceivedProviderFlowSuccess = true;
-                 }
-                 RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = " + intent.toString());
-                 if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()) || Jump.JR_PROVIDER_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()))
-                         && (null != extras)) {
-
-                     if (mReceivedDownloadFlowSuccess && mReceivedProviderFlowSuccess) {
-                         mJanrainIntialized = true;
-                         mIsJumpInitializationInProgress = false;
-                         mReceivedDownloadFlowSuccess = false;
-                         mReceivedProviderFlowSuccess = false;
-                         if (mJumpFlowDownloadStatusListener != null) {
-                             mHandler.postDelayed(new Runnable() {
-                                 @Override
-                                 public void run() {
-                                     mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
-                                 }
-                             }, CALL_AFTER_DELAY);
+    private boolean mJanrainIntialized = false;
+    public JumpFlowDownloadStatusListener mJumpFlowDownloadStatusListener;
 
 
-                         }
-                         EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
-
-                     }
-
-                 } else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW.equalsIgnoreCase(intent.getAction())
-                         && (extras != null)) {
-                     mIsJumpInitializationInProgress = false;
-                     mJanrainIntialized = false;
-                     mReceivedDownloadFlowSuccess = false;
-                     mReceivedProviderFlowSuccess = false;
-                     if (mJumpFlowDownloadStatusListener != null) {
-                         mHandler.postDelayed(new Runnable() {
-                             @Override
-                             public void run() {
-                                 mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
-                             }
-                         }, CALL_AFTER_DELAY);
-
-                     }
-                     EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+    private RegistrationSettings mRegistrationSettings;
 
 
-                 }
-             }
-         }
-     };
+    public boolean isJanrainIntialized() {
+        return mJanrainIntialized;
+    }
+
+    public void setJanrainIntialized(boolean janrainIntializationStatus) {
+        mJanrainIntialized = janrainIntializationStatus;
+    }
+
+    public void registerJumpFlowDownloadListener(JumpFlowDownloadStatusListener pJumpFlowDownloadStatusListener) {
+        this.mJumpFlowDownloadStatusListener = pJumpFlowDownloadStatusListener;
+    }
+
+    public void unregisterJumpFlowDownloadListener() {
+        this.mJumpFlowDownloadStatusListener = null;
+    }
+
+    public final BroadcastReceiver janrainStatusReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent != null) {
+                Bundle extras = intent.getExtras();
+                if (extras.getString("message").equalsIgnoreCase("Download flow Success!!")) {
+                    mReceivedDownloadFlowSuccess = true;
+                } else if (extras.getString("message").equalsIgnoreCase("Provider flow Success!!")) {
+                    mReceivedProviderFlowSuccess = true;
+                }
+                RLog.i(RLog.ACTIVITY_LIFECYCLE, "janrainStatusReceiver, intent = " + intent.toString());
+                if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()) || Jump.JR_PROVIDER_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()))
+                        && (null != extras)) {
+
+                    if (mReceivedDownloadFlowSuccess && mReceivedProviderFlowSuccess) {
+                        mJanrainIntialized = true;
+                        mIsJumpInitializationInProgress = false;
+                        mReceivedDownloadFlowSuccess = false;
+                        mReceivedProviderFlowSuccess = false;
+                        if (mJumpFlowDownloadStatusListener != null) {
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mJumpFlowDownloadStatusListener.onFlowDownloadSuccess();
+                                }
+                            }, CALL_AFTER_DELAY);
 
 
-     public void initializeConfiguredEnvironment(Context context, String micrositeId, String registrationType, boolean isInitialize, String initLocale) {
-         if (RegistrationEnvironmentConstants.EVAL.equalsIgnoreCase(registrationType)) {
-             RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                     + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                     .getClientIds().getEvaluationId());
-             RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
-                     + RegistrationConfiguration.getInstance().getPilConfiguration()
-                     .getCampaignID());
-             initEvalSettings(context, RegistrationConfiguration.getInstance()
-                             .getJanRainConfiguration().getClientIds().getEvaluationId(),
-                     micrositeId, registrationType, isInitialize, initLocale);
-             return;
-         }
-         if (RegistrationEnvironmentConstants.PROD.equalsIgnoreCase(registrationType)) {
-             RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                     + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                     .getClientIds().getProductionId());
-             initProdSettings(context, RegistrationConfiguration.getInstance()
-                             .getJanRainConfiguration().getClientIds().getProductionId(),
-                     micrositeId, registrationType, isInitialize, initLocale);
-             return;
+                        }
+                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
 
-         }
-         if (RegistrationEnvironmentConstants.DEV.equalsIgnoreCase(registrationType)) {
-             RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                     + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                     .getClientIds().getDevelopmentId());
-             initDevSettings(context, RegistrationConfiguration.getInstance()
-                             .getJanRainConfiguration().getClientIds().getDevelopmentId(),
-                     micrositeId, registrationType, isInitialize, initLocale);
-             return;
-         }
+                    }
 
-         if (RegistrationEnvironmentConstants.TESTING.equalsIgnoreCase(registrationType)) {
-             RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                     + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                     .getClientIds().getTestingId());
-             RLog.i(RLog.JANRAIN_INITIALIZE, "Campaign ID : "
-                     + RegistrationConfiguration.getInstance().getPilConfiguration()
-                     .getCampaignID());
-             initTesting(context, RegistrationConfiguration.getInstance()
-                             .getJanRainConfiguration().getClientIds().getTestingId(),
-                     micrositeId, registrationType, isInitialize, initLocale);
-             return;
-         }
+                } else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW.equalsIgnoreCase(intent.getAction())
+                        && (extras != null)) {
+                    mIsJumpInitializationInProgress = false;
+                    mJanrainIntialized = false;
+                    mReceivedDownloadFlowSuccess = false;
+                    mReceivedProviderFlowSuccess = false;
+                    if (mJumpFlowDownloadStatusListener != null) {
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mJumpFlowDownloadStatusListener.onFlowDownloadFailure();
+                            }
+                        }, CALL_AFTER_DELAY);
+
+                    }
+                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
 
 
-         if (RegistrationEnvironmentConstants.STAGING.equalsIgnoreCase(registrationType)) {
-             RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-                     + RegistrationConfiguration.getInstance().getJanRainConfiguration()
-                     .getClientIds().getStagingId());
-             initStaging(context, RegistrationConfiguration.getInstance()
-                             .getJanRainConfiguration().getClientIds().getStagingId(),
-                     micrositeId, registrationType, isInitialize, initLocale);
-             return;
-         }
-     }
+                }
+            }
+        }
+    };
 
 
-     private void initEvalSettings(Context context, String captureClientId, String microSiteId,
-                                   String registrationType, boolean isintialize, String locale) {
+    public void initializeConfiguredEnvironment(Context context, Configuration registrationType, String initLocale) {
 
-         mEvalRegistrationSettings = new EvalRegistrationSettings();
-         mRegistrationSettings = mEvalRegistrationSettings;
-         mEvalRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
-                 microSiteId, registrationType, isintialize, locale);
-
-     }
-
-     private void initDevSettings(Context context, String captureClientId, String microSiteId,
-                                  String registrationType, boolean isintialize, String locale) {
-
-         mDevRegistrationSettings = new DevRegistrationSettings();
-         mRegistrationSettings = mDevRegistrationSettings;
-         mDevRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
-                 microSiteId, registrationType, isintialize, locale);
-     }
-
-     private void initProdSettings(Context context, String captureClientId, String microSiteId,
-                                   String registrationType, boolean isintialize, String locale) {
-
-         mProdRegistrationSettings = new ProdRegistrationSettings();
-         mRegistrationSettings = mProdRegistrationSettings;
-         mProdRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
-                 microSiteId, registrationType, isintialize, locale);
-     }
-
-     private void initTesting(Context context, String captureClientId, String microSiteId,
-                              String registrationType, boolean isintialize, String locale) {
-
-         mTestingRegistrationSettings = new TestingRegistrationSettings();
-         mRegistrationSettings = mTestingRegistrationSettings;
-         mTestingRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
-                 microSiteId, registrationType, isintialize, locale);
-     }
+        switch (registrationType) {
+            case EVALUATION:
+                mRegistrationSettings = new EvalRegistrationSettings();
+                break;
+            case DEVELOPMENT:
+                mRegistrationSettings = new DevRegistrationSettings();
+                break;
+            case PRODUCTION:
+                mRegistrationSettings = new ProdRegistrationSettings();
+                break;
+            case STAGING:
+                mRegistrationSettings = new StaginglRegistrationSettings();
+                break;
+            case TESTING:
+                mRegistrationSettings = new TestingRegistrationSettings();
+                break;
+        }
 
 
-     private void initStaging(Context context, String captureClientId, String microSiteId,
-                              String registrationType, boolean isintialize, String locale) {
-
-         mStagingRegistrationSettings = new StaginglRegistrationSettings();
-         mRegistrationSettings = mStagingRegistrationSettings;
-         mStagingRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
-                 microSiteId, registrationType, isintialize, locale);
-     }
+        mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getJanRainConfiguration().getClientId(registrationType), initLocale);
 
 
-     public static synchronized UserRegistrationInitializer getInstance() {
+    }
+
+
+    public static synchronized UserRegistrationInitializer getInstance() {
         if (mUserRegistrationInitializer == null) {
             mUserRegistrationInitializer = new UserRegistrationInitializer();
 
@@ -255,39 +167,38 @@ import java.util.Locale;
         return mUserRegistrationInitializer;
     }
 
-     public RegistrationSettings getRegistrationSettings() {
-         return mRegistrationSettings;
-     }
+    public RegistrationSettings getRegistrationSettings() {
+        return mRegistrationSettings;
+    }
 
-     public void initializeEnvironment(Context context,Locale locale  ) {
-         registerJumpInitializationListener(context);
-
-         String mMicrositeId = RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId();
-
-         RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + mMicrositeId);
-
-         String mRegistrationType = RegistrationConfiguration.getInstance()
-                 .getPilConfiguration().getRegistrationEnvironment();
-         RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
-
-         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
-         UserRegistrationInitializer.getInstance().setJumpInitializationInProgress(true);
-
-         UserRegistrationInitializer.getInstance().initializeConfiguredEnvironment(context, mMicrositeId, mRegistrationType, false, locale.toString());
-     }
+    public void initializeEnvironment(Context context, Locale locale) {
+        registerJumpInitializationListener(context);
 
 
-     private void registerJumpInitializationListener(Context context) {
-         IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+        RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
 
-         flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-         flowFilter.addAction("com.janrain.android.Jump.PROVIDER_FLOW_SUCCESS");
-         if (UserRegistrationInitializer.getInstance().janrainStatusReceiver != null) {
-             LocalBroadcastManager.getInstance(context).unregisterReceiver(UserRegistrationInitializer.getInstance().janrainStatusReceiver);
-         }
-         LocalBroadcastManager.getInstance(context).registerReceiver(UserRegistrationInitializer.getInstance().janrainStatusReceiver,
-                 flowFilter);
-     }
+        String mRegistrationType = RegistrationConfiguration.getInstance()
+                .getPilConfiguration().getRegistrationEnvironment();
+        RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
+
+        UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
+        UserRegistrationInitializer.getInstance().setJumpInitializationInProgress(true);
+
+        UserRegistrationInitializer.getInstance().initializeConfiguredEnvironment(context, RegUtility.getConfiguration(mRegistrationType), locale.toString());
+    }
 
 
- }
+    private void registerJumpInitializationListener(Context context) {
+        IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+
+        flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
+        flowFilter.addAction("com.janrain.android.Jump.PROVIDER_FLOW_SUCCESS");
+        if (UserRegistrationInitializer.getInstance().janrainStatusReceiver != null) {
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(UserRegistrationInitializer.getInstance().janrainStatusReceiver);
+        }
+        LocalBroadcastManager.getInstance(context).registerReceiver(UserRegistrationInitializer.getInstance().janrainStatusReceiver,
+                flowFilter);
+    }
+
+
+}

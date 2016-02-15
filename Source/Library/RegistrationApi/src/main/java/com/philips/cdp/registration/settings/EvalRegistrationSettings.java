@@ -1,9 +1,6 @@
 
 package com.philips.cdp.registration.settings;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.janrain.android.Jump;
@@ -11,18 +8,6 @@ import com.janrain.android.JumpConfig;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 public class EvalRegistrationSettings extends RegistrationSettings {
-
-    private String mCountryCode;
-
-    private String mLanguageCode;
-
-    String mCaptureClientId = null;
-
-    String mLocale = null;
-
-    boolean mIsIntialize = false;
-
-    private Context mContext = null;
 
     private String LOG_TAG = "RegistrationAPI";
 
@@ -53,34 +38,6 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 
     private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://acc.philips.com/ps/reset-password?cl=mob";
 
-
-    @Override
-    public void intializeRegistrationSettings(Context context, String captureClientId,
-                                              String microSiteId, String registrationType, boolean isintialize, String locale) {
-        SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
-        Editor editor = pref.edit();
-        editor.putString(MICROSITE_ID, microSiteId);
-        editor.commit();
-
-        mCaptureClientId = captureClientId;
-        mLocale = locale;
-        mIsIntialize = isintialize;
-        mContext = context;
-
-        String localeArr[] = locale.split("_");
-
-        if (localeArr != null && localeArr.length > 1) {
-            mLanguageCode = localeArr[0].toLowerCase();
-            mCountryCode = localeArr[1].toUpperCase();
-        } else {
-            mLanguageCode = "en";
-            mCountryCode = "US";
-        }
-
-        LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext, mLanguageCode,
-                mCountryCode);
-        Log.i("registration", "" + localeMatchHelper);
-    }
 
     @Override
     public void initialiseConfigParameters(String locale) {
@@ -130,23 +87,20 @@ public class EvalRegistrationSettings extends RegistrationSettings {
             jumpConfig.captureRedirectUri = EVAL_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = EVAL_REGISTER_FORGOT_MAIL_URL +"&loc=" + langCode + "_" + countryCode;
+        jumpConfig.captureRecoverUri = EVAL_REGISTER_FORGOT_MAIL_URL + "&loc=" + langCode + "_" + countryCode;
         jumpConfig.captureLocale = locale;
 
         mPreferredCountryCode = countryCode;
         mPreferredLangCode = langCode;
 
         try {
-            if (mIsIntialize) {
-                Jump.init(mContext, jumpConfig);
-            } else {
-                Jump.reinitialize(mContext, jumpConfig);
-            }
+            Jump.reinitialize(mContext, jumpConfig);
         } catch (Exception e) {
             e.printStackTrace();
             Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE");
         }
 
     }
+
 
 }
