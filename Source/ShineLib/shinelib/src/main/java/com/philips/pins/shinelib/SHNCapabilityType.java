@@ -100,7 +100,8 @@ public enum SHNCapabilityType {
     CONFIG_HEARTRATE_ZONES,
     CONFIG_TARGETS,
     CONFIG_ENERGY_INTAKE,
-    CLEAR_USER_DATA,;
+    CLEAR_USER_DATA,
+    DATA_MODEL_DEBUG_MOONSHINE;
 
     public static SHNCapabilityType getCounterPart(SHNCapabilityType capabilityType) {
         switch (capabilityType) {
