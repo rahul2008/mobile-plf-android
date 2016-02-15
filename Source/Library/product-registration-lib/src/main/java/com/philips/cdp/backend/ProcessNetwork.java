@@ -85,23 +85,27 @@ public class ProcessNetwork {
         } else if (statusCode == ErrorType.INTERNAL_SERVER_ERROR.getId()) {
             listener.onResponseError("internal server error", statusCode);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getId()) {
-            UserWithProduct userWithProduct = new UserWithProduct(context);
-            userWithProduct.getRefreshedAccessToken(new ProductRegistrationHandler() {
-                @Override
-                public void onRegisterSuccess(final String response) {
-                    RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
-                    registrationBuilder.setAccessToken(response);
-                    productRegistrationRequest(registrationBuilder, listener);
-                }
-
-                @Override
-                public void onRegisterFailedWithFailure(final int error) {
-
-                }
-            });
+            onAccessTokenExpire((RegistrationBuilder) prxDataBuilder, listener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getId()) {
             listener.onResponseError("invalid validation", statusCode);
         }
+    }
+
+    private void onAccessTokenExpire(final RegistrationBuilder prxDataBuilder, final ResponseListener listener) {
+        UserWithProduct userWithProduct = new UserWithProduct(context);
+        userWithProduct.getRefreshedAccessToken(new ProductRegistrationHandler() {
+            @Override
+            public void onRegisterSuccess(final String response) {
+                RegistrationBuilder registrationBuilder = prxDataBuilder;
+                registrationBuilder.setAccessToken(response);
+                productRegistrationRequest(registrationBuilder, listener);
+            }
+
+            @Override
+            public void onRegisterFailedWithFailure(final int error) {
+                return;
+            }
+        });
     }
 
     public boolean isHttpsRequest() {
