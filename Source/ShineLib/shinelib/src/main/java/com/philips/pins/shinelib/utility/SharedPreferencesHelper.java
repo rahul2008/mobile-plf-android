@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Deprecated
 public class SharedPreferencesHelper implements SharedPreferences {
     private static final String TAG = "SharedPreferencesHelper";
 
@@ -22,10 +23,12 @@ public class SharedPreferencesHelper implements SharedPreferences {
     @NonNull
     private SharedPreferences sharedPreferences;
 
+    @Deprecated
     public SharedPreferencesHelper(@NonNull final SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
+    @Deprecated
     public <T> void put(@NonNull final String key, @Nullable final T value) {
         SharedPreferences.Editor edit = edit();
         if (value == null) {
@@ -84,11 +87,13 @@ public class SharedPreferencesHelper implements SharedPreferences {
         }
     }
 
+    @Deprecated
     public <T> T get(@NonNull final String key, @Nullable T defaultValue) {
         T value = get(key);
         return (value != null ? value : defaultValue);
     }
 
+    @Deprecated
     public <T> T get(@NonNull final String key) {
         Object value = getAll().get(key);
         if (value == null) {
@@ -184,6 +189,7 @@ public class SharedPreferencesHelper implements SharedPreferences {
         return storedList;
     }
 
+    @Deprecated
     public void clear() {
         edit().clear().commit();
     }
@@ -191,58 +197,69 @@ public class SharedPreferencesHelper implements SharedPreferences {
     // Pass through methods
 
     @Override
+    @Deprecated
     public Map<String, ?> getAll() {
         return sharedPreferences.getAll();
     }
 
     @Nullable
     @Override
+    @Deprecated
     public String getString(final String key, final String defValue) {
         return sharedPreferences.getString(key, defValue);
     }
 
     @Nullable
     @Override
+    @Deprecated
     public Set<String> getStringSet(final String key, final Set<String> defValues) {
         return sharedPreferences.getStringSet(key, defValues);
     }
 
     @Override
+    @Deprecated
     public int getInt(final String key, final int defValue) {
         return sharedPreferences.getInt(key, defValue);
     }
 
     @Override
+    @Deprecated
     public long getLong(final String key, final long defValue) {
         return sharedPreferences.getLong(key, defValue);
     }
 
     @Override
+    @Deprecated
     public float getFloat(final String key, final float defValue) {
         return sharedPreferences.getFloat(key, defValue);
     }
 
     @Override
+    @Deprecated
     public boolean getBoolean(final String key, final boolean defValue) {
         return sharedPreferences.getBoolean(key, defValue);
     }
 
     @Override
+    @Deprecated
     public boolean contains(final String key) {
         return sharedPreferences.contains(key);
     }
 
     @Override
+    @Deprecated
     public Editor edit() {
         return sharedPreferences.edit();
     }
 
     @Override
+    @Deprecated
     public void registerOnSharedPreferenceChangeListener(final OnSharedPreferenceChangeListener listener) {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
     @Override
+    @Deprecated
     public void unregisterOnSharedPreferenceChangeListener(final OnSharedPreferenceChangeListener listener) {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }

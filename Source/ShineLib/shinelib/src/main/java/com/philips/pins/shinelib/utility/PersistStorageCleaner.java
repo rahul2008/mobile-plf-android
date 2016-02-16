@@ -7,12 +7,12 @@ import com.philips.pins.shinelib.SHNDevice;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PersistencyClearing {
+public class PersistStorageCleaner {
 
     @NonNull
     private final PersistentStorageFactory factory;
 
-    PersistencyClearing(final @NonNull PersistentStorageFactory factory) {
+    PersistStorageCleaner(final @NonNull PersistentStorageFactory factory) {
         this.factory = factory;
     }
 

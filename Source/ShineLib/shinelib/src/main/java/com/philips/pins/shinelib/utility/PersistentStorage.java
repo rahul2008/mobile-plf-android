@@ -22,21 +22,25 @@ public class PersistentStorage implements SharedPreferences {
     @NonNull
     private SharedPreferences sharedPreferences;
 
+    private final Object lock = new Object();
+
     PersistentStorage(@NonNull final SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
     public <T> void put(@NonNull final String key, @Nullable final T value) {
-        SharedPreferences.Editor edit = edit();
-        if (value == null) {
-            edit.remove(key);
-            edit.remove(key + SHORT_VALUE);
-            edit.remove(key + ENUM_NAME);
-            edit.remove(key + DOUBLE_VALUE);
-            removeList(key, edit);
-            edit.commit();
-        } else {
-            put(key, edit, value);
+        synchronized (lock) {
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            if (value == null) {
+                edit.remove(key);
+                edit.remove(key + SHORT_VALUE);
+                edit.remove(key + ENUM_NAME);
+                edit.remove(key + DOUBLE_VALUE);
+                removeList(key, edit);
+                edit.commit();
+            } else {
+                put(key, edit, value);
+            }
         }
     }
 
@@ -85,38 +89,41 @@ public class PersistentStorage implements SharedPreferences {
     }
 
     public <T> T get(@NonNull final String key, @Nullable T defaultValue) {
-        T value = get(key);
-        return (value != null ? value : defaultValue);
+        synchronized (lock) {
+            T value = get(key);
+            return (value != null ? value : defaultValue);
+        }
     }
 
     public <T> T get(@NonNull final String key) {
-        Object value = getAll().get(key);
-        if (value == null) {
-            return null;
-        }
-
-        if (contains(getListSizeKey(key))) {
-            value = getList(key);
-        } else if (contains(key + DOUBLE_VALUE)) {
-            Long longValue = (Long) value;
-            value = Double.longBitsToDouble(longValue);
-        } else if (contains(key + SHORT_VALUE)) {
-            Integer integer = (Integer) value;
-            value = integer.shortValue();
-        } else if (contains(key + ENUM_NAME)) {
-            try {
-                String className = get(key + ENUM_NAME);
-                Class<?> clazz = Class.forName(className);
-                if (clazz.isEnum()) {
-                    Object[] enumConstants = clazz.getEnumConstants();
-                    value = enumConstants[(Integer) value];
-                }
-            } catch (ClassNotFoundException e) {
-                SHNLogger.wtf(TAG, "Could not instantiate " + get(key + ENUM_NAME), e);
+        synchronized (lock) {
+            Object value = getAll().get(key);
+            if (value == null) {
+                return null;
             }
-        }
 
-        return uncheckedCast(value);
+            if (contains(getListSizeKey(key))) {
+                value = getList(key);
+            } else if (contains(key + DOUBLE_VALUE)) {
+                Long longValue = (Long) value;
+                value = Double.longBitsToDouble(longValue);
+            } else if (contains(key + SHORT_VALUE)) {
+                Integer integer = (Integer) value;
+                value = integer.shortValue();
+            } else if (contains(key + ENUM_NAME)) {
+                try {
+                    String className = get(key + ENUM_NAME);
+                    Class<?> clazz = Class.forName(className);
+                    if (clazz.isEnum()) {
+                        Object[] enumConstants = clazz.getEnumConstants();
+                        value = enumConstants[(Integer) value];
+                    }
+                } catch (ClassNotFoundException e) {
+                    SHNLogger.wtf(TAG, "Could not instantiate " + get(key + ENUM_NAME), e);
+                }
+            }
+            return uncheckedCast(value);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -185,65 +192,85 @@ public class PersistentStorage implements SharedPreferences {
     }
 
     public void clear() {
-        edit().clear().commit();
+        synchronized (lock) {
+            sharedPreferences.edit().clear().commit();
+        }
     }
 
     // Pass through methods
 
     @Override
     public Map<String, ?> getAll() {
-        return sharedPreferences.getAll();
+        synchronized (lock) {
+            return sharedPreferences.getAll();
+        }
     }
 
     @Nullable
     @Override
     public String getString(final String key, final String defValue) {
-        return sharedPreferences.getString(key, defValue);
+        synchronized (lock) {
+            return sharedPreferences.getString(key, defValue);
+        }
     }
 
     @Nullable
     @Override
     public Set<String> getStringSet(final String key, final Set<String> defValues) {
-        return sharedPreferences.getStringSet(key, defValues);
+        synchronized (lock) {
+            return sharedPreferences.getStringSet(key, defValues);
+        }
     }
 
     @Override
     public int getInt(final String key, final int defValue) {
-        return sharedPreferences.getInt(key, defValue);
+        synchronized (lock) {
+            return sharedPreferences.getInt(key, defValue);
+        }
     }
 
     @Override
     public long getLong(final String key, final long defValue) {
-        return sharedPreferences.getLong(key, defValue);
+        synchronized (lock) {
+            return sharedPreferences.getLong(key, defValue);
+        }
     }
 
     @Override
     public float getFloat(final String key, final float defValue) {
-        return sharedPreferences.getFloat(key, defValue);
+        synchronized (lock) {
+            return sharedPreferences.getFloat(key, defValue);
+        }
     }
 
     @Override
     public boolean getBoolean(final String key, final boolean defValue) {
-        return sharedPreferences.getBoolean(key, defValue);
+        synchronized (lock) {
+            return sharedPreferences.getBoolean(key, defValue);
+        }
     }
 
     @Override
     public boolean contains(final String key) {
-        return sharedPreferences.contains(key);
+        synchronized (lock) {
+            return sharedPreferences.contains(key);
+        }
     }
 
     @Override
-    public Editor edit() {
-        return sharedPreferences.edit();
-    }
-
-    @Override
-    public void registerOnSharedPreferenceChangeListener(final OnSharedPreferenceChangeListener listener) {
+    public void registerOnSharedPreferenceChangeListener(
+            final OnSharedPreferenceChangeListener listener) {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
     @Override
-    public void unregisterOnSharedPreferenceChangeListener(final OnSharedPreferenceChangeListener listener) {
+    public void unregisterOnSharedPreferenceChangeListener(
+            final OnSharedPreferenceChangeListener listener) {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    public Editor edit() {
+        throw new IllegalAccessError("For threading purposes usage of Editor is prohibited. Use generic put instead.");
     }
 }

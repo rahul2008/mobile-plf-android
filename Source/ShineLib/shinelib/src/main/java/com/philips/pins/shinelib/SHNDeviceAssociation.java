@@ -193,7 +193,7 @@ public class SHNDeviceAssociation {
         boolean removed = removeAssociatedDeviceFromList(shnDeviceToRemove);
         if (removed) {
             persistAssociatedDeviceList();
-            persistentStorageFactory.getPersistencyClearing().clearDeviceData(shnDeviceToRemove);
+            persistentStorageFactory.getPersistStorageCleaner().clearDeviceData(shnDeviceToRemove);
             shnDeviceToRemove.disconnect();
 
             ArrayList<DeviceRemovedListener> copyOfDeviceRemovedListeners = new ArrayList<>(this.deviceRemovedListeners);

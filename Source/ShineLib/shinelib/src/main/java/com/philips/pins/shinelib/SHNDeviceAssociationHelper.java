@@ -1,6 +1,5 @@
 package com.philips.pins.shinelib;
 
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.utility.PersistentStorage;
@@ -41,18 +40,16 @@ public class SHNDeviceAssociationHelper {
             newMacAddressKeys.add(createKeyFromMacAddress(associatedDeviceInfo.macAddress));
         }
 
-        SharedPreferences.Editor editor = persistentStorage.edit();
-        editor.putStringSet(ASSOCIATED_DEVICES, newMacAddressKeys);
+        persistentStorage.put(ASSOCIATED_DEVICES, newMacAddressKeys);
         for (AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
-            editor.putString(createKeyFromMacAddress(associatedDeviceInfo.macAddress), associatedDeviceInfo.deviceTypeName);
+            persistentStorage.put(createKeyFromMacAddress(associatedDeviceInfo.macAddress), associatedDeviceInfo.deviceTypeName);
         }
         for (AssociatedDeviceInfo oldAssociatedDeviceInfo : oldAssociatedDeviceInfos) {
             String oldKey = createKeyFromMacAddress(oldAssociatedDeviceInfo.macAddress);
             if (!newMacAddressKeys.contains(oldKey)) {
-                editor.remove(oldKey);
+                persistentStorage.put(oldKey, null);
             }
         }
-        editor.apply();
     }
 
     public synchronized List<AssociatedDeviceInfo> readAssociatedDeviceInfos() {

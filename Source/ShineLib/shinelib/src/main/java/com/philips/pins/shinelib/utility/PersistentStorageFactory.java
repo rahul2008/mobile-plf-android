@@ -40,7 +40,7 @@ public class PersistentStorageFactory {
     @NonNull
     public PersistentStorage getPersistentStorageForDevice(@NonNull final String deviceAddress) {
         String key = getDeviceKey(deviceAddress);
-        saveAddress(deviceAddress);
+        saveDeviceAddress(deviceAddress);
         return createPersistentStorage(key);
     }
 
@@ -49,7 +49,7 @@ public class PersistentStorageFactory {
         return address + DEVICE_KEY;
     }
 
-    private void saveAddress(@NonNull final String deviceAddress) {
+    private void saveDeviceAddress(@NonNull final String deviceAddress) {
         PersistentStorage deviceAddressStorage = getPersistentStorageForDeviceAddresses();
         Set<String> deviceAddresses = deviceAddressStorage.getStringSet(DEVICE_ADDRESS_KEY, new HashSet<String>());
         if (!deviceAddresses.contains(deviceAddress)) {
@@ -68,7 +68,7 @@ public class PersistentStorageFactory {
         return new PersistentStorage(context.getSharedPreferences(key, Context.MODE_PRIVATE));
     }
 
-    public PersistencyClearing getPersistencyClearing() {
-        return new PersistencyClearing(this);
+    public PersistStorageCleaner getPersistStorageCleaner() {
+        return new PersistStorageCleaner(this);
     }
 }

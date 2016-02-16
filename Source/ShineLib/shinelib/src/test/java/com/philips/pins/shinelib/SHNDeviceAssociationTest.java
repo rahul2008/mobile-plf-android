@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
-import com.philips.pins.shinelib.utility.PersistencyClearing;
+import com.philips.pins.shinelib.utility.PersistStorageCleaner;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 
@@ -80,7 +80,7 @@ public class SHNDeviceAssociationTest {
     private PersistentStorageFactory persistentStorageFactoryMock;
 
     @Mock
-    private PersistencyClearing persistencyClearingMock;
+    private PersistStorageCleaner persistStorageCleanerMock;
 
     @Captor
     private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
@@ -150,7 +150,7 @@ public class SHNDeviceAssociationTest {
         doReturn(Collections.emptyList()).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
         doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(anyList());
 
-        PowerMockito.when(persistentStorageFactoryMock.getPersistencyClearing()).thenReturn(persistencyClearingMock);
+        PowerMockito.when(persistentStorageFactoryMock.getPersistStorageCleaner()).thenReturn(persistStorageCleanerMock);
 
         shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal, persistentStorageFactoryMock);
 
@@ -391,7 +391,7 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
 
-        verify(persistencyClearingMock).clearDeviceData(shnDevice);
+        verify(persistStorageCleanerMock).clearDeviceData(shnDevice);
     }
 
     @Test
