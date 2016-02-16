@@ -7,36 +7,49 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 
-import java.util.Map;
+import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.store.Store;
 
-public final class HybrisDelegate {
+public class HybrisDelegate {
 
     private static HybrisDelegate delegate = new HybrisDelegate();
     private OAuthHandler oAuthHandler;
 
     private NetworkController controller;
+    private Context mContext;
 
     private HybrisDelegate() {
         oAuthHandler = new TestEnvOAuthHandler();
     }
 
+    public NetworkController getNetworkController(Context context) {
+        if(controller == null) {
+            controller = new NetworkController(context, delegate.oAuthHandler);
+        }
+        return controller;
+    }
+
     public static HybrisDelegate getInstance(Context context) {
-        if(delegate.controller == null) {
-            delegate.controller = new NetworkController(context, delegate.oAuthHandler);
+        if (delegate.controller == null) {
+            delegate.mContext = context;
+            delegate.controller = delegate.getNetworkController(context);
         }
         return delegate;
     }
 
-    private static int getCartItemCount(Context context,final String janRainID, final String userID) {
+    private static int getCartItemCount(Context context, final String janRainID, final String userID) {
         return 0;
     }
 
-    public void sendRequest(int requestCode, final RequestListener requestListener,
-                            Map<String,String> query) {
-        controller.sendHybrisRequest(requestCode, requestListener, query);
+    public void sendRequest(int requestCode, AbstractModel model, final RequestListener
+            requestListener) {
+        getNetworkController(mContext).sendHybrisRequest(requestCode, model, requestListener);
     }
-
     public void initStore(Context context, final String userName, final String janRainID) {
         controller.initStore(context, userName, janRainID);
+    }
+
+    public Store getStore() {
+        return controller.getStore();
     }
 }
