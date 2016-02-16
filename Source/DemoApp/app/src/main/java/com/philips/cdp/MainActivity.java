@@ -10,7 +10,8 @@ import android.widget.Toast;
 
 import com.philips.cdp.backend.RegistrationRequestManager;
 import com.philips.cdp.demo.R;
-import com.philips.cdp.model.ProductResponse;
+import com.philips.cdp.model.ProductMetaData;
+import com.philips.cdp.productbuilder.ProductMetaDataBuilder;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -48,19 +49,45 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
     private void registerProduct(final String accessToken, final String serialNumber) {
         PrxLogger.enablePrxLogger(true);
 
-        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, accessToken, serialNumber, RequestConstants.REGISTER);
+        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, accessToken, serialNumber);
         registrationBuilder.setmSectorCode(mSectorCode);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
         registrationBuilder.setRegistrationChannel("MS81376");
         registrationBuilder.setPurchaseDate("2016-12-02");
 
-        RegistrationRequestManager mRequestManager = new RegistrationRequestManager(this);
+        RegistrationRequestManager mRequestManager = new RegistrationRequestManager(this, "REGISTRATION");
         mRequestManager.executeRequest(registrationBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                ProductResponse productResponse = (ProductResponse) responseData;
-                Log.d(TAG, "Positive Response Data : " + productResponse.isSuccess());
+                // ProductResponse productResponse = (ProductResponse) responseData;
+                //  Log.d(TAG, "Positive Response Data : " + productResponse.isSuccess());
+
+            }
+
+            @Override
+            public void onResponseError(String error, int code) {
+                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
+                Toast.makeText(MainActivity.this, "error in response", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void productMetaData(final String accessToken) {
+        PrxLogger.enablePrxLogger(true);
+
+        ProductMetaDataBuilder productMetaDataBuilder = new ProductMetaDataBuilder(mCtn, accessToken);
+        productMetaDataBuilder.setmSectorCode(mSectorCode);
+        productMetaDataBuilder.setmLocale(mLocale);
+        productMetaDataBuilder.setmCatalogCode(mCatalogCode);
+
+        RegistrationRequestManager mRequestManager = new RegistrationRequestManager(this, "METADATA");
+        mRequestManager.executeRequest(productMetaDataBuilder, new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+                ProductMetaData productMetaData = (ProductMetaData) responseData;
+                Log.d(TAG, "productMetaData Response Data : " + productMetaData.isSuccess());
+                Toast.makeText(MainActivity.this, "productMetaData Response Data : " + productMetaData.isSuccess(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -82,7 +109,8 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
                 final User mUser = new User(this);
                 if (mUser.isUserSignIn(MainActivity.this) && mUser.getEmailVerificationStatus(MainActivity.this)) {
                     Toast.makeText(MainActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
-                    registerProduct(mUser.getAccessToken(), "AB1234567891012");
+                    //registerProduct(mUser.getAccessToken(), "AB1234567891012");
+                    productMetaData(mUser.getAccessToken());
                 } else {
                     Toast.makeText(MainActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
                 }

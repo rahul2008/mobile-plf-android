@@ -12,15 +12,21 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 public class RegistrationRequestManager {
 
     private Context mContext = null;
+    private String mServicetag = null;
 
-    public RegistrationRequestManager(final Context mContext) {
+    public RegistrationRequestManager(final Context mContext, String mServicetag) {
         this.mContext = mContext;
+        this.mServicetag = mServicetag;
     }
 
     public void executeRequest(PrxDataBuilder prxDataBuilder, ResponseListener responseListener) {
         final ProcessNetwork processNetwork = new ProcessNetwork(mContext);
         processNetwork.setHttpsRequest(true);
-        processNetwork.productRegistrationRequest(prxDataBuilder, responseListener);
+        if (mServicetag.equalsIgnoreCase("REGISTRATION")) {
+            processNetwork.productRegistrationRequest(prxDataBuilder, responseListener);
+        } else if (mServicetag.equalsIgnoreCase("METADATA")) {
+            processNetwork.productMetaDataRequest(prxDataBuilder, responseListener);
+        }
     }
 
     public void cancelRequest(String requestTag) {

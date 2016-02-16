@@ -108,6 +108,36 @@ public class ProcessNetwork {
         });
     }
 
+    protected void productMetaDataRequest(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+
+        PrxLogger.d(TAG, "Url : " + prxDataBuilder.getRequestUrl());
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, prxDataBuilder.getRequestUrl(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                ResponseData responseData = prxDataBuilder.getResponseData(response);
+                listener.onResponseSuccess(responseData);
+
+                PrxLogger.d(TAG, "Response : " + response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error != null) {
+                    final NetworkResponse networkResponse = error.networkResponse;
+                    try {
+                        if (networkResponse != null)
+                            handleError(networkResponse.statusCode, prxDataBuilder, listener);
+                    } catch (Exception e) {
+                        PrxLogger.e(TAG, "Volley Error : " + e);
+                    }
+                }
+            }
+        });
+        if (isHttpsRequest)
+            HttpsTrustManager.allowAllSSL();
+        requestQueue.add(mJsonObjectRequest);
+    }
+
     public boolean isHttpsRequest() {
         return isHttpsRequest;
     }

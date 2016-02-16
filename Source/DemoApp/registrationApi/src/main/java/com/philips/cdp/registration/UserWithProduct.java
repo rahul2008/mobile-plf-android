@@ -31,29 +31,20 @@ import java.util.List;
 
 public class UserWithProduct extends User implements LocaleMatchListener {
 
+    private String LOG_TAG = "UserWithProduct";
+    private ProductRegistrationInfo mProdInfo = null;
+    private ProductRegistrationHandler mProdRegHandler = null;
+    private String mProdRegBaseUrl = null;
+    private String mInputLocale = null;
+    private String PRODUCT_SERIAL_NO = "productSerialNumber";
+    private String PRODUCT_PURCHASE_DATE = "purchaseDate";
+    private String PRODUCT_REGISTRATION_CHANNEL = "registrationChannel";
+    private String MICROSITE_ID;
+    private Context mContext;
+
     public UserWithProduct(Context context) {
         super( context);
     }
-
-    private String LOG_TAG = "UserWithProduct";
-
-    private ProductRegistrationInfo mProdInfo = null;
-
-    private ProductRegistrationHandler mProdRegHandler = null;
-
-    private String mProdRegBaseUrl = null;
-
-    private String mInputLocale = null;
-
-    private String PRODUCT_SERIAL_NO = "productSerialNumber";
-
-    private String PRODUCT_PURCHASE_DATE = "purchaseDate";
-
-    private String PRODUCT_REGISTRATION_CHANNEL = "registrationChannel";
-
-    private String MICROSITE_ID;
-
-    private Context mContext;
 
     public void getRefreshedAccessToken(final ProductRegistrationHandler productRegister) {
         if (Jump.getSignedInUser() != null)
@@ -142,6 +133,49 @@ public class UserWithProduct extends User implements LocaleMatchListener {
 	/*
      * Async Task to register a product
 	 */
+
+    public void getRegisteredProducts(String url, String accessToken,
+                                      ProductRegistrationHandler productRegister) {
+        GetData getBuildType = new GetData();
+        getBuildType.url = url;
+        getBuildType.accessToken = accessToken;
+        getBuildType.productRegister = productRegister;
+        getBuildType.execute();
+    }
+
+    // -----------------------------------
+    // Retrieving register product
+    // -----------------------------------
+
+    @Override
+    public void onLocaleMatchRefreshed(String locale) {
+        PILLocaleManager manager = new PILLocaleManager();
+        PILLocale pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext,locale,
+                Platform.PRX, mProdInfo.getSector(), mProdInfo.getCatalog());
+
+        if (null != pilLocaleInstance) {
+            Log.i(LOG_TAG, "UserWithProductRegistration, onLocaleMatchRefreshed  RESULT = "
+                    + pilLocaleInstance.getCountrycode() + pilLocaleInstance.getLanguageCode()
+                    + pilLocaleInstance.getLocaleCode());
+            startProdRegAsyncTask(pilLocaleInstance.getLocaleCode());
+
+        } else {
+            Log.i(LOG_TAG,
+                    "UserWithProductRegistration, onLocaleMatchRefreshed from app RESULT = NULL");
+            String[] inputLocaleArr = mInputLocale.split("_");
+            startProdRegAsyncTask(inputLocaleArr[0].toLowerCase() + "_"
+                    + inputLocaleArr[1].toUpperCase());
+        }
+    }
+
+    @Override
+    public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
+        Log.i(LOG_TAG, "UserWithProductRegistration, onErrorOccurredForLocaleMatch");
+        String[] inputLocaleArr = mInputLocale.split("_");
+        startProdRegAsyncTask(inputLocaleArr[0].toLowerCase() + "_"
+                + inputLocaleArr[1].toUpperCase());
+
+    }
 
     private class ProdRegAsyncTask extends AsyncTask<Void, Void, String> {
 
@@ -241,19 +275,6 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         }
     }
 
-    // -----------------------------------
-    // Retrieving register product
-    // -----------------------------------
-
-    public void getRegisteredProducts(String url, String accessToken,
-                                      ProductRegistrationHandler productRegister) {
-        GetData getBuildType = new GetData();
-        getBuildType.url = url;
-        getBuildType.accessToken = accessToken;
-        getBuildType.productRegister = productRegister;
-        getBuildType.execute();
-    }
-
     public class GetData extends AsyncTask<Void, Void, String> {
 
         String url;
@@ -265,7 +286,7 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new HttpClient();
-           // String resultString = httpClient.connectWithHttpGet(url, accessToken);
+           //String resultString = httpClient.connectWithHttpGet(url, accessToken);
             String resultString = httpClient.callGet(url, accessToken);
             return resultString;
         }
@@ -278,36 +299,6 @@ public class UserWithProduct extends User implements LocaleMatchListener {
             else
                 productRegister.onRegisterFailedWithFailure(0);
         }
-    }
-
-    @Override
-    public void onLocaleMatchRefreshed(String locale) {
-        PILLocaleManager manager = new PILLocaleManager();
-        PILLocale pilLocaleInstance = manager.currentLocaleWithCountryFallbackForPlatform(mContext,locale,
-                Platform.PRX, mProdInfo.getSector(), mProdInfo.getCatalog());
-
-        if (null != pilLocaleInstance) {
-            Log.i(LOG_TAG, "UserWithProductRegistration, onLocaleMatchRefreshed  RESULT = "
-                    + pilLocaleInstance.getCountrycode() + pilLocaleInstance.getLanguageCode()
-                    + pilLocaleInstance.getLocaleCode());
-            startProdRegAsyncTask(pilLocaleInstance.getLocaleCode());
-
-        } else {
-            Log.i(LOG_TAG,
-                    "UserWithProductRegistration, onLocaleMatchRefreshed from app RESULT = NULL");
-            String[] inputLocaleArr = mInputLocale.split("_");
-            startProdRegAsyncTask(inputLocaleArr[0].toLowerCase() + "_"
-                    + inputLocaleArr[1].toUpperCase());
-        }
-    }
-
-    @Override
-    public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-        Log.i(LOG_TAG, "UserWithProductRegistration, onErrorOccurredForLocaleMatch");
-        String[] inputLocaleArr = mInputLocale.split("_");
-        startProdRegAsyncTask(inputLocaleArr[0].toLowerCase() + "_"
-                + inputLocaleArr[1].toUpperCase());
-
     }
 
 }
