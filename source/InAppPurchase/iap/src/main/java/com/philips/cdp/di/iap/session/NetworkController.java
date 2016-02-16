@@ -10,7 +10,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.DebugUtils;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
@@ -106,7 +106,7 @@ public class NetworkController {
      * @return Url String
      */
     private String getTargetUrl(AbstractModel model) {
-        if (DebugUtils.TEST_MODE) {
+        if (IAPConstant.TEST_MODE) {
             return model.getTestUrl();
         }
         return model.getProductionUrl();
