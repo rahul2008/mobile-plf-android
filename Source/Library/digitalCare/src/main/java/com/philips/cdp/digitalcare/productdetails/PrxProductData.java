@@ -111,8 +111,8 @@ public class PrxProductData {
     public ProductSummaryBuilder getPrxSummaryData() {
         ProductSummaryBuilder mProductSummaryBuilder = new ProductSummaryBuilder(mCtn, null);
         mProductSummaryBuilder.setmSectorCode(mSectorCode);
-        mProductSummaryBuilder.setmLocale(mLocale);
-        mProductSummaryBuilder.setmCatalogCode(mCatalogCode);
+        mProductSummaryBuilder.setLocale(mLocale);
+        mProductSummaryBuilder.setCatalogCode(mCatalogCode);
 
         return mProductSummaryBuilder;
     }
@@ -120,8 +120,8 @@ public class PrxProductData {
     public ProductAssetBuilder getPrxAssetData() {
         ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, null);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setmLocale(mLocale);
-        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setLocale(mLocale);
+        mProductAssetBuilder.setCatalogCode(mCatalogCode);
 
         return mProductAssetBuilder;
     }

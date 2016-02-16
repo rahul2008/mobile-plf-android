@@ -32,7 +32,6 @@ objcdp.setProjectDir(projectDir)
 repositories {
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
     maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
-    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android' }
 }
 
 android {
@@ -125,7 +124,7 @@ dependencies {
     compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.5.1', ext: 'jar')
     compile(group: 'com.google.code.gson', name: 'gson', version: '2.2.2')
     compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.0', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'prx', version: '1.0.0-rc.1', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'prx', version: '1.0.1', ext: 'aar')
     compile 'com.mcxiaoke.volley:library:1.0.17'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
@@ -168,31 +167,4 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         xml.enabled = true
         html.enabled = false
     }
-}
-
-
-sourceSets {
-    main {
-        java {
-            srcDirs '../../Source/Hor-productselection-android/app/src/main/java'
-        }
-        resources {
-
-            srcDirs '../../Source/Hor-productselection-android/app/src/main/res'
-        }
-    }
-}
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.java.srcDirs
-   // from('../../Source/SampleDigitalCare/launchDigitalCare/src/main/res')
-    classifier 'sources'
-}
-
-artifactoryPublish {
-    dependsOn sourceJar
-}
-
-artifacts {
-    archives sourceJar
 }
