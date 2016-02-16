@@ -253,7 +253,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
-        if (isFirstTimeProductComponenetlaunch) {
+        if (isFirstTimeProductComponenetlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
             launchProductSelectionActivityComponent();
             isFirstTimeProductComponenetlaunch = false;
         }
