@@ -270,6 +270,7 @@ public class PersistentStorage implements SharedPreferences {
     }
 
     @Override
+    @Deprecated
     public Editor edit() {
         throw new IllegalAccessError("For threading purposes usage of Editor is prohibited. Use generic put instead.");
     }
