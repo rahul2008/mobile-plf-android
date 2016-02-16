@@ -957,6 +957,7 @@ public class User {
     }
 
     private void refreshandUpdateUser(final Context context, final RefreshUserHandler handler ){
+
         if (Jump.getSignedInUser() == null) {
             handler.onRefreshUserFailed(0);
             return;
@@ -1010,34 +1011,7 @@ public class User {
      * @param handler Callback handler
      */
     public void refreshUser(final Context context, final RefreshUserHandler handler) {
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                if (handler != null) {
-                    refreshandUpdateUser(context, handler);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                if (handler != null) {
-                    handler.onRefreshUserFailed(RegConstants.REFRESH_USER_FAILED_SERVER_ERROR);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-        if(isJumpInitializated()){
-            if(handler != null) {
-                refreshandUpdateUser(context,handler);
-            }
-            return;
-        }else if(!isJumpInitializationInProgress()){
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }
-
-
+        refreshandUpdateUser(context,handler);
     }
 
     public void buildCoppaConfiguration() {

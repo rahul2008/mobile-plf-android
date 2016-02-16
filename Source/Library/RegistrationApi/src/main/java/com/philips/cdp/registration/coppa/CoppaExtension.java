@@ -10,7 +10,6 @@ import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.philips.cdp.registration.HttpClient;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 

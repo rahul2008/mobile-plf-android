@@ -1,9 +1,6 @@
 
 package com.philips.cdp.registration.settings;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.janrain.android.Jump;
