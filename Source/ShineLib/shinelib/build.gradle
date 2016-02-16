@@ -1,5 +1,12 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
+apply plugin: 'com.github.dcendents.android-maven'
+
+apply from: '../extra/artifactory.gradle'
 
 android {
     compileSdkVersion _compileSdkVersion
@@ -9,7 +16,7 @@ android {
         minSdkVersion _minSdkVersion
         targetSdkVersion _targetSdkVersion
         versionCode _versionCode
-        versionName _versionName
+        versionName getLibVersionName(shineLibVersion)
     }
 
     buildTypes {
@@ -19,14 +26,6 @@ android {
         }
         debug {
             testCoverageEnabled = true
-        }
-    }
-
-    libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace(".aar", "-${_versionName}.aar"))
         }
     }
 }
@@ -51,27 +50,13 @@ dependencies {
     }
 }
 
-task jacocoTestReport(type:JacocoReport, dependsOn: ["assemble","test"]) {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports"
+def getLibVersionName(shineLibVersion) {
+    def gitHash = """git rev-parse --short HEAD""".execute().text.trim()
+    def workingBranch = """git rev-parse --abbrev-ref HEAD""".execute().text.trim()
 
-    classDirectories = fileTree(
-            dir: "${buildDir}/intermediates/classes/debug",
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/*Activity.*',
-                       '**/*Fragment.*',
-                       '**/*$ViewInjector*.*',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*']
-    )
-
-    sourceDirectories = files("${buildDir.parent}/src/main/java")
-    executionData = files("${buildDir}/jacoco/testDebug.exec")
-
-    reports {
-        html.enabled = true
-        xml.enabled = false
-        csv.enabled = false
+    if (!workingBranch.equals('master')) {
+        return "${shineLibVersion} (${gitHash} ${workingBranch})"
     }
+
+    return "${shineLibVersion}"
 }
