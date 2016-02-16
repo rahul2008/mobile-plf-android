@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.Entry;
@@ -23,6 +24,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
@@ -36,7 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 public class ShoppingCartPresenter {
     private static final String TAG = ShoppingCartPresenter.class.getName();
@@ -158,7 +159,6 @@ public class ShoppingCartPresenter {
                     Utility.dismissProgressDialog();
                 }
             });
-
         } else {
             Toast.makeText(mContext, "Network Error", Toast.LENGTH_LONG).show();
         }
@@ -189,7 +189,6 @@ public class ShoppingCartPresenter {
         }
     }
 
-
     public void deleteProduct(final ShoppingCartData summary) {
         Utility.showProgressDialog(mContext, "Deleting Item");
         Map<String, String> query = new HashMap<>();
@@ -216,8 +215,9 @@ public class ShoppingCartPresenter {
 
     private void checkIfCartIsEmpty() {
         if (mProductData.size() <= 3) {
-            Intent intent = new Intent(mContext, EmptyCartActivity.class);
-            mContext.startActivity(intent);
+//            Intent intent = new Intent(mContext, EmptyCartActivity.class);
+//            mContext.startActivity(intent);
+            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
         }
     }
 
@@ -285,5 +285,4 @@ public class ShoppingCartPresenter {
         }
         return position;
     }
-
 }

@@ -1,5 +1,4 @@
 package com.philips.cdp.di.iap.session;
-import android.support.annotation.NonNull;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -15,8 +14,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class IAPJsonRequest extends Request<JSONObject> {
 
@@ -58,7 +55,6 @@ public class IAPJsonRequest extends Request<JSONObject> {
         }
     }
 
-    @NonNull
     private Response<JSONObject> parseSuccessResponse(NetworkResponse response) {
         try {
             String jsonString = new String(response.data,

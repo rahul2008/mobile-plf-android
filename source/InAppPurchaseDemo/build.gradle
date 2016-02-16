@@ -3,7 +3,8 @@
 buildscript {
     repositories {
         jcenter()
-        flatDir{
+        mavenCentral()
+        flatDir {
             dirs 'libs'
         }
     }
@@ -18,7 +19,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        flatDir{
+        flatDir {
             dirs 'libs'
         }
         maven {

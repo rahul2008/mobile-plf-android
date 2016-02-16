@@ -54,7 +54,7 @@ public class BaseFragmentActivity extends UiKitActivity {
         IAPLog.d(IAPLog.LOG, "Fragment removed (" + tag + ")");
     }
 
-    private String getTopFragmentTag() {
+    protected String getTopFragmentTag() {
         Fragment topFragment = getTopFragment();
         return topFragment == null ? null : topFragment.getTag();
     }

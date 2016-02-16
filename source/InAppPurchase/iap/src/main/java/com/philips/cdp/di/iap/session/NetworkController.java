@@ -11,7 +11,7 @@ import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.DebugUtils;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
@@ -55,7 +55,7 @@ public class NetworkController {
     }
 
     private void hybrisVolleyCreateConnection(Context context) {
-        hybirsVolleyQueue = Volley.newRequestQueue(context,getTestEnvHurlStack(context));
+        hybirsVolleyQueue = Volley.newRequestQueue(context, getTestEnvHurlStack(context));
     }
 
     //Package level access
@@ -107,7 +107,7 @@ public class NetworkController {
      * @return Url String
      */
     private String getTargetUrl(AbstractModel model, int requestCode) {
-        if (DebugUtils.TEST_MODE) {
+        if (IAPConstant.TEST_MODE) {
             return model.getTestUrl(requestCode);
         }
         return model.getProductionUrl(requestCode);
@@ -177,7 +177,7 @@ public class NetworkController {
     }
 
     private HurlStack getTestEnvHurlStack(Context context) {
-       return new HurlStack(null, buildSslSocketFactory(context)) {
+        return new HurlStack(null, buildSslSocketFactory(context)) {
             @Override
             protected HttpURLConnection createConnection(final URL url) throws IOException {
                 HttpURLConnection connection = super.createConnection(url);

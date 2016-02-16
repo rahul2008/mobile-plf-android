@@ -14,15 +14,18 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.container.CartContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class ShoppingCartFragment extends BaseNoAnimationFragment implements View.OnClickListener, RequestListener {
+public class ShoppingCartFragment extends BaseNoAnimationFragment implements View.OnClickListener, RequestListener, EventListener {
 
     private Button mCheckoutBtn;
     public ShoppingCartAdapter mAdapter;
@@ -42,6 +45,8 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
         IAPLog.d(IAPLog.LOG, "ShoppingCartFragment onCreateView");
         View rootView = inflater.inflate(R.layout.shopping_cart_view, container, false);
         mListView = (ListView) rootView.findViewById(R.id.withouticon);
@@ -68,6 +73,8 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
     }
 
     public static ShoppingCartFragment createInstance(BaseAnimationSupportFragment.AnimationType animType) {
@@ -96,6 +103,7 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
+
             IAPLog.d(IAPLog.SHOPPING_CART_FRAGMENT, "onClick ShoppingCartFragment");
             launchShippingAddressFragment();
         }
@@ -108,5 +116,27 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
             return;
         }
         ((ShoppingCartHomeFragment) parent).replaceShippingAddressFragment();
+    }
+
+    private void launchEmptyCartFragment() {
+        Fragment parent = getParentFragment();
+        IAPLog.d(IAPLog.SHOPPING_CART_FRAGMENT, "ShoppingCartFragment parent = " + parent.toString());
+        if (parent == null || (!(parent instanceof ShoppingCartHomeFragment))) {
+            return;
+        }
+        ((ShoppingCartHomeFragment) parent).replaceEmptyCartFragment();
+    }
+
+    @Override
+    public void raiseEvent(final String event) {
+        // NOP
+    }
+
+    @Override
+    public void onEventReceived(final String event) {
+        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
+            launchEmptyCartFragment();
+        }
+        mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
     }
 }

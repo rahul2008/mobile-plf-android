@@ -10,19 +10,21 @@ android {
         targetSdkVersion targetSdkVer
         versionCode 1
         versionName "0.0.1"
-        generatedDensities = []
         multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':iap')
+    compile 'com.android.support:multidex:1.0.0'
+//    compile("com.philips.cdp:registration:${registrationVer}@aar") {
+//        transitive = true
+//    }
 }
 
