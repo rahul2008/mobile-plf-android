@@ -67,7 +67,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
-                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null)
+                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()!= null &&
+                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null)
                     new PrxProductData(getActivity(), this).executeRequests();
             }
         }
@@ -253,7 +254,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
-        if (isFirstTimeProductComponenetlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
+        if (isFirstTimeProductComponenetlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() !=null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
             launchProductSelectionActivityComponent();
             isFirstTimeProductComponenetlaunch = false;
         }

@@ -54,11 +54,22 @@ public class ProductListingFragment extends MultiProductBaseFragment {
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
                     mProductSummaryModel = productList.get(position);
-                    DetailedScreenFragment detailedScreenFragment = new DetailedScreenFragment();
-                    showFragment(detailedScreenFragment);
+                    if(!isTablet()) {
+                        DetailedScreenFragment detailedScreenFragment = new DetailedScreenFragment();
+                        showFragment(detailedScreenFragment);
+                    }
                 }
             }
         });
+
+        if (isTablet() && isConnectionAvailable()) {
+            try {
+                mProductSummaryModel = productList.get(0);
+            }
+            catch(IndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     private void getSummaryDataFromPRX() {

@@ -187,6 +187,12 @@ public abstract class MultiProductBaseFragment extends Fragment implements
         }
     }
 
+    protected boolean isTablet(){
+        return !((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                Configuration.SCREENLAYOUT_SIZE_LARGE);
+    }
+
     protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {
         ProductSelectionLogger.d(TAG, "Hide menu & arrow icons");
         if (hambergermenu != null && backarrow != null) {

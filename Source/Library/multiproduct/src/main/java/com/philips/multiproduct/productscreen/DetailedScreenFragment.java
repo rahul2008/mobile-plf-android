@@ -52,7 +52,6 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
         mIndicater.setViewPager(mViewpager);
         mProductName.setTypeface(Typeface.DEFAULT_BOLD);
         mSelectButton.setOnClickListener(this);
-
     }
 
     @Override

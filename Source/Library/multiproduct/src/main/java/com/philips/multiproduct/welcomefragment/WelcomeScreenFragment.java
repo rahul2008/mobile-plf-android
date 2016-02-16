@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.listfragment.ProductListingFragment;
+import com.philips.multiproduct.listfragment.ProductListingTabletFragment;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.
@@ -46,12 +48,18 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment implements V
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.welcome_screen_parent_two)
-            if (isConnectionAvailable())
-                showFragment(new ProductListingFragment());
-
+        if (v.getId() == R.id.welcome_screen_parent_two) {
+            if (isConnectionAvailable()) {
+                if(isTablet()){
+                    Toast.makeText(getActivity(), "Tablet", Toast.LENGTH_SHORT).show();
+                    showFragment(new ProductListingTabletFragment());
+                }
+                else {
+                    showFragment(new ProductListingFragment());
+                }
+            }
+        }
     }
-
 
     @Override
     public void setViewParams(Configuration config) {
