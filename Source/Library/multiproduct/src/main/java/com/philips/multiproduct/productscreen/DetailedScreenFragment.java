@@ -27,7 +27,6 @@ import com.philips.multiproduct.savedscreen.SavedScreenFragment;
  */
 public class DetailedScreenFragment extends MultiProductBaseFragment implements View.OnClickListener {
 
-
     private ViewPager mViewpager;
     private CircleIndicator mIndicater;
     private CustomFontTextView mProductName = null;

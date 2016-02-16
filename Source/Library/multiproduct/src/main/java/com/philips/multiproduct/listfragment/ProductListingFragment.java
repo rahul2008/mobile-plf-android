@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
@@ -47,7 +48,6 @@ public class ProductListingFragment extends MultiProductBaseFragment {
         super.onActivityCreated(savedInstanceState);
         mProductListView = (ListView) getActivity().findViewById(R.id.productListView);
 
-
         getSummaryDataFromPRX();
         mProductListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -70,6 +70,34 @@ public class ProductListingFragment extends MultiProductBaseFragment {
                 e.printStackTrace();
             }
         }
+
+        setListViewHeightBasedOnChildren();
+    }
+
+    public void setListViewHeightBasedOnChildren() {
+        mProductListView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mProductAdapter == null) {
+                    return;
+                }
+                int totalHeight = mProductListView.getPaddingTop() + mProductListView.getPaddingBottom();
+                int listWidth = mProductListView.getMeasuredWidth();
+                for (int i = 0; i < mProductAdapter.getCount(); i++) {
+                    View listItem = mProductAdapter.getView(i, null, mProductListView);
+                    listItem.measure(
+                            View.MeasureSpec.makeMeasureSpec(listWidth, View.MeasureSpec.EXACTLY),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+
+                    totalHeight += listItem.getMeasuredHeight();
+                }
+                ViewGroup.LayoutParams params = mProductListView.getLayoutParams();
+                params.height = (int) ((totalHeight + (mProductListView.getDividerHeight() * (mProductAdapter.getCount() - 1))));
+                mProductListView.setLayoutParams(params);
+                mProductListView.requestLayout();
+            }
+        });
     }
 
     private void getSummaryDataFromPRX() {

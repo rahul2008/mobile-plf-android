@@ -81,7 +81,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                finish();
+                backstackFragment();
             }
         });
 
