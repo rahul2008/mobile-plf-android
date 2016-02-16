@@ -15,22 +15,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CartModel extends AbstractModel {
+public class CartModel {
     public final static String PRODUCT_CODE = "code";
     public final static String PRODUCT_QUANTITY = "qty";
     public final static String PRODUCT_ENTRYCODE = "entrycode";
     public final static String ENTRY_CODE = "entrynumber";
 
+    Map<String, String> params = new HashMap<>();
     public CartModel(final Store store, Map<String,String> query) {
-        super(store,query);
     }
 
-    @Override
+    
     public String getProductionUrl(int requestCode) {
         return null;
     }
 
-    @Override
+    
     public Object parseResponse(int requestCode, Object response) {
         switch (requestCode) {
             case RequestCode.GET_CART:
@@ -45,7 +45,7 @@ public class CartModel extends AbstractModel {
         return null;
     }
 
-    @Override
+    
     public int getMethod(int requestCode) {
         switch (requestCode) {
             case RequestCode.GET_CART:
@@ -61,7 +61,7 @@ public class CartModel extends AbstractModel {
         return 0;
     }
 
-    @Override
+    
     public Map<String, String> requestBody(int requestCode) {
         //TODO: Move this with params validation
         if(requestCode == RequestCode.ADD_TO_CART) {
@@ -91,7 +91,7 @@ public class CartModel extends AbstractModel {
         return params;
     }
 
-    @Override
+    
     public String getTestUrl(final int requestCode) {
         switch (requestCode) {
 

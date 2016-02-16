@@ -238,7 +238,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
                         Utility.showProgressDialog(mContext,"Updating Cart Details");
-                        mPresenter.updateProductQuantity(mData,position, newCount);
+                        mPresenter.updateProductQuantity(mData.get(position), newCount);
                     }
                 });
                 mPopupWindow = countPopUp.getPopUpWindow();

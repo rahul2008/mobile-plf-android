@@ -10,8 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class ProductListAdapter extends BaseAdapter {
                     if (((DemoAppActivity) mContext).getCount() == 0) {
                         ((DemoAppActivity) mContext).addToCart(true, currentProduct.getCtnNumber());
                     } else {
-                        Intent myIntent = new Intent(mContext, ShoppingCartActivity.class);
+                        Intent myIntent = new Intent(mContext, MainActivity.class);
                         mContext.startActivity(myIntent);
                     }
                 } else {
