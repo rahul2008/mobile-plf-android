@@ -10,20 +10,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
+            iap_fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="33dp"
-            android:layout_marginLeft="19dp"
-            android:layout_marginTop="33dp"
+            android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
+            android:layout_marginLeft="@dimen/iap_shipping_address_margin_left"
+            android:layout_marginTop="@dimen/iap_shipping_address_margin_top_bottom"
             android:gravity="center_horizontal"
-            android:text="Shipping Address"
+            android:text="@string/iap_shipping_address"
             android:textColor="?attr/baseColor"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/iap_shipping_address_title_size" />
+
 
         <com.philips.cdp.uikit.customviews.InlineForms
             android:id="@+id/InlineForms"
@@ -31,220 +32,211 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/firstname_ll"
+                android:id="@+id/ll_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/firstname_tv"
+                    android:id="@+id/tv_first_name"
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="First Name"
-                    android:text="First Name" />
+                    android:text="@string/iap_first_name" />
 
                 <EditText
-                    android:id="@+id/firstname_et"
+                    android:id="@+id/et_first_name"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="First Name" />
+                    android:hint="@string/iap_first_name_hint" />
             </LinearLayout>
 
 
             <LinearLayout
-                android:id="@+id/lastname_ll"
+                android:id="@+id/ll_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/lastname_tv"
+                    android:id="@+id/tv_last_name"
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Last Name"
-                    android:text="Last Name" />
+                    android:text="@string/iap_last_name" />
 
                 <EditText
-                    android:id="@+id/lastname_et"
+                    android:id="@+id/et_last_name"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Last Name" />
+                    android:hint="@string/iap_last_name_hint" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/address_ll"
+                android:id="@+id/ll_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/address_tv"
+                    android:id="@+id/tv_address"
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Address"
-                    android:text="Address" />
+                    android:text="@string/iap_address" />
 
                 <EditText
-                    android:id="@+id/address_et"
+                    android:id="@+id/et_address"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Address" />
+                    android:hint="@string/iap_address_hint" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/town_ll"
+                android:id="@+id/ll_town"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/town_tv"
+                    android:id="@+id/tv_town"
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Town/City"
-                    android:text="Town/City" />
+                    android:text="@string/iap_town" />
 
                 <EditText
-                    android:id="@+id/town_et"
+                    android:id="@+id/et_town"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Town/City" />
+                    android:hint="@string/iap_town_hint" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/postalcode_ll"
+                android:id="@+id/ll_postal_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/postalcode_tv"
+                    android:id="@+id/tv_postal_code"
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Postal Code"
-                    android:text="Postal Code" />
+                    android:text="@string/iap_postal_code" />
 
                 <EditText
-                    android:id="@+id/postalcode_et"
+                    android:id="@+id/et_postal_code"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Postal Code" />
+                    android:hint="@string/iap_postal_code_hint" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/country_ll"
+                android:id="@+id/ll_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/country_tv"
+                    android:id="@+id/tv_country"
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Country"
-                    android:text="Country" />
+                    android:text="@string/iap_country" />
 
                 <EditText
-                    android:id="@+id/country_et"
+                    android:id="@+id/et_country"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Country" />
+                    android:hint="@string/iap_country_hint" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/email_ll"
+                android:id="@+id/ll_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/email_tv"
+                    android:id="@+id/tv_email"
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Email"
-                    android:text="Email" />
+                    android:text="@string/iap_email" />
 
                 <EditText
-                    android:id="@+id/email_et"
+                    android:id="@+id/et_email"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="Email" />
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/iap_email_hint" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_phone_number"
+                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/iap_phone" />
+
+                <EditText
+                    android:id="@+id/et_phone_number"
+                    style="@style/PhilipsTextInputLayoutStyleEnabled"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="@string/iap_phone_hint"
+                    android:inputType="phone" />
             </LinearLayout>
         </com.philips.cdp.uikit.customviews.InlineForms>
 
-        <LinearLayout
-            android:id="@+id/billing_address_ll"
+        <Button
+            android:id="@+id/btn_continue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/billing_address_tv"
-                style="@style/PhilipsTextInputLayoutTextViewStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Billing address is the same" />
-
-            <com.philips.cdp.uikit.customviews.PuiSwitch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="33dp"
-                android:layout_marginRight="31dp"
-                android:layout_marginTop="11dp"
-                android:checked="true" />
-
-        </LinearLayout>
+            android:layout_height="@dimen/iap_shipping_address_continue_button_height"
+            android:layout_marginBottom="@dimen/iap_shipping_address_continue_margin_bottom"
+            android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:enabled="false"
+            android:text="@string/iap_continue" />
 
         <Button
-            android:id="@+id/continue_btn"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="Continue" />
-
-
-        <Button
-            android:id="@+id/cancel_btn"
+            android:id="@+id/btn_cancel"
             style="?attr/outlinedButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_above="@id/continue_btn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="Cancel" />
+            android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
+            android:layout_marginBottom="@dimen/iap_shipping_address_cancel_button_margin_bottom"
+            android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+            android:text="@string/iap_cancel" />
     </LinearLayout>
 </ScrollView>
