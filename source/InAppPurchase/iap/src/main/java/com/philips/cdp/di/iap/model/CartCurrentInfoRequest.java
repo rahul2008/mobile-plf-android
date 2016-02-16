@@ -27,7 +27,7 @@ public class CartCurrentInfoRequest extends AbstractModel {
     protected void onPostSuccess(Message msg) {
         GetCartData cartData = (GetCartData) msg.obj;
         // TODO: 14-02-2016 handle this logic via notifications
-        if (cartData.getEntries() == null) {
+        if (cartData.getCarts().get(0).getEntries() == null) {
             Intent intent = new Intent(mContext, EmptyCartActivity.class);
             mContext.startActivity(intent);
         } else {

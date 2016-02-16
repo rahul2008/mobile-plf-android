@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.response.cart.Carts;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -43,8 +44,9 @@ public class CartContainer implements Serializable, ResponseListener {
 
     public void updateProductDetails(Context pContext, Message msg) {
         GetCartData data = (GetCartData) msg.obj;
+        Carts currentCart = data.getCarts().get(0);
 
-        if (data.getEntries() == null) {
+        if (currentCart.getEntries() == null) {
             // Toast.makeText(mContext, "Your Shopping Cart is Currently Empty", Toast.LENGTH_LONG).show();
             IAPLog.d(IAPLog.LOG, "Your Shopping Cart is Currently Empty");
             Utility.dismissProgressDialog();
@@ -52,12 +54,12 @@ public class CartContainer implements Serializable, ResponseListener {
         }
 
         ShoppingCartData item = new ShoppingCartData();
-        item.setQuantity(data.getEntries().get(0).getQuantity());
-        item.setTotalPrice(data.getTotalPrice().getValue());
-        item.setCurrency(data.getTotalPrice().getCurrencyIso());
-        item.setTotalItems(data.getTotalItems());
+        item.setQuantity(currentCart.getEntries().get(0).getQuantity());
+        item.setTotalPrice(currentCart.getTotalPrice().getValue());
+        item.setCurrency(currentCart.getTotalPrice().getCurrencyIso());
+        item.setTotalItems(currentCart.getTotalItems());
 
-        List<Entries> list = data.getEntries();
+        List<Entries> list = currentCart.getEntries();
         for (int i = 0; i < list.size(); i++) {
             getProductDetails(pContext, list.get(i));
         }
