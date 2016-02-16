@@ -10,32 +10,34 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
+import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.InAppPurchase;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DemoAppActivity extends Activity implements RequestListener {
 
     private TextView mCountText = null;
 
-    FrameLayout mShoppingCart = null;
+    private FrameLayout mShoppingCart = null;
 
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
 
-    String[] mCatalogNumbers = {"HX8331/11"};
+    private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
 
-    int mCount = 0;
+    private int mCount = 0;
 
-    boolean mIsFromBuy;
+    private boolean mIsFromBuy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
         if (!(Utility.isProgressDialogShowing())) {
             if (Utility.isInternetConnected(this)) {
                 Utility.showProgressDialog(this, getString(R.string.loading_cart));
-                InAppPurchase.getCartQuantity(this, RequestCode.GET_CART,this);
+                InAppPurchase.getCartQuantity(this, RequestCode.GET_CART, this);
             } else {
                 Utility.showNetworkError(this, true);
             }
@@ -95,7 +97,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
     private void populateProduct() {
         for (String mCatalogNumber : mCatalogNumbers) {
             ShoppingCartData product = new ShoppingCartData();
-            product.setCtnNumber(mCatalogNumber);
+            product.setCtnNumber(mCatalogNumber.replaceAll("/", "_")); //need to be checked
             mProductArrayList.add(product);
         }
     }
@@ -104,14 +106,26 @@ public class DemoAppActivity extends Activity implements RequestListener {
     public void onSuccess(Message msg) {
         switch (msg.what) {
             case RequestCode.GET_CART: {
-                GetCartData getCartData = (GetCartData) msg.obj;
+                if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+                    InAppPurchase.createCart(this, RequestCode.CREATE_CART, this);
+                } else {
+                    GetCartData getCartData = (GetCartData) msg.obj;
 
-                if (getCartData.getTotalItems() != 0 && getCartData.getEntries() != null) {
-                    mCount = getCartData.getEntries().get(0).getQuantity();
-                } else if (getCartData.getTotalItems() == 0) {
-                    mCount = 0;
+                    int totalItems = getCartData.getCarts().get(0).getTotalItems();
+                    List<Entries> entries = getCartData.getCarts().get(0).getEntries();
+
+                    if (totalItems != 0 && entries != null) {
+
+//                        mCount = entries.get(0).getQuantity();
+                        for (int i = 0; i < entries.size(); i++) {
+                            mCount = mCount + entries.get(i).getQuantity();
+                        }
+
+                    } else if (totalItems == 0) {
+                        mCount = 0;
+                    }
+                    mCountText.setText(String.valueOf(mCount));
                 }
-                mCountText.setText(String.valueOf(mCount));
                 break;
             }
             case RequestCode.ADD_TO_CART: {
@@ -140,19 +154,8 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
     @Override
     public void onError(Message msg) {
-        switch (msg.what) {
-            case RequestCode.GET_CART:
-                VolleyError error = (VolleyError) msg.obj;
-                if (error.networkResponse.statusCode == 400) {
-                    InAppPurchase.createCart(this, RequestCode.CREATE_CART,this);
-                }
-                break;
-            default: {
-                Utility.dismissProgressDialog();
-                Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
-        }
-
+        Utility.dismissProgressDialog();
+        Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
     }
 
     /**

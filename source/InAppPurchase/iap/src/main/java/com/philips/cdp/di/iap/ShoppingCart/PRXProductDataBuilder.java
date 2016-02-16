@@ -6,9 +6,9 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
-import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.response.cart.Carts;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -30,11 +30,13 @@ public class PRXProductDataBuilder {
     private Context mContext;
     private List<ShoppingCartData> mCartItems;
     private GetCartData mCartData;
+    private Carts mCurrentCart;
 
     public PRXProductDataBuilder(Context context, GetCartData cartData,
                                  AbstractModel.DataLoadListener listener) {
         mCartData = cartData;
-        mEntries = cartData.getEntries();
+        mCurrentCart = mCartData.getCarts().get(0);
+        mEntries = mCurrentCart.getEntries();
         mContext = context;
         mDataLoadListener = listener;
     }
@@ -99,7 +101,6 @@ public class PRXProductDataBuilder {
         }
     }
 
-    @NonNull
     private ProductSummaryBuilder prepareSummaryBuilder(final String code) {
         String ctn = code.replaceAll("_", "/");
         String sectorCode = NetworkConstants.PRX_SECTOR_CODE;

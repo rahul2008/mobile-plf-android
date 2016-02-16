@@ -15,7 +15,7 @@ public class NetworkConstants {
     public static final String CLIENT_ID = "mobile_android";
     public static final String CLIENT_SECRET = "secret";*/
 
-    public static final String GET_CURRENT_CART_URL = BASE_URL + CURRENT_CART;
+    public final static String GET_CURRENT_CART_URL = BASE_URL + "carts";
     public static final String CREATE_CART_URL = BASE_URL + "carts";
     public static final String ADD_TO_CART_URL = BASE_URL + CURRENT_CART + "/entries";
     public static final String DELETE_PRODUCT_URL = BASE_URL + CURRENT_CART + "/entries/%s";
@@ -26,5 +26,7 @@ public class NetworkConstants {
     public static String PRX_CATALOG_CODE = "CONSUMER";
     public static String EXTRA_ANIMATIONTYPE = "EXTRA_ANIMATIONTYPE";
     public static String IS_ONLINE = "IS_ONLINE";
+
+    public final static String EMPTY_RESPONSE = "";
 }
 
