@@ -1,7 +1,6 @@
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
-import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
@@ -27,17 +26,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapper implements SHNCapabilityConf
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getSupportedMealTypes(new ResultListener<Set<MealType>>() {
-                    @Override
-                    public void onActionCompleted(final Set<MealType> value, @NonNull final SHNResult result) {
-                        userHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                resultListener.onActionCompleted(value, result);
-                            }
-                        });
-                    }
-                });
+                wrappedShnCapability.getSupportedMealTypes(new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }
@@ -67,17 +56,7 @@ public class SHNCapabilityConfigEnergyIntakeWrapper implements SHNCapabilityConf
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getMealConfiguration(type, new ResultListener<MealConfiguration>() {
-                    @Override
-                    public void onActionCompleted(final MealConfiguration value, @NonNull final SHNResult result) {
-                        userHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                resultListener.onActionCompleted(value, result);
-                            }
-                        });
-                    }
-                });
+                wrappedShnCapability.getMealConfiguration(type, new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }

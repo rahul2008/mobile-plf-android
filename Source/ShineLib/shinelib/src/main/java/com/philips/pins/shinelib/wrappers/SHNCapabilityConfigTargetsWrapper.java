@@ -1,10 +1,8 @@
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
-import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
-import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityConfigTargets;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 
@@ -24,61 +22,31 @@ public class SHNCapabilityConfigTargetsWrapper implements SHNCapabilityConfigTar
     }
 
     @Override
-    public void getSupportedDataTypes(final ResultListener<Set<SHNDataType>> shnSetResultListener) {
+    public void getSupportedDataTypes(final ResultListener<Set<SHNDataType>> resultListener) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getSupportedDataTypes(new ResultListener<Set<SHNDataType>>() {
-                    @Override
-                    public void onActionCompleted(final Set<SHNDataType> value, @NonNull final SHNResult result) {
-                        userHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                shnSetResultListener.onActionCompleted(value, result);
-                            }
-                        });
-                    }
-                });
+                wrappedShnCapability.getSupportedDataTypes(new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }
 
     @Override
-    public void getTargetForType(final SHNDataType type, final ResultListener<Double> shnResultListener) {
+    public void getTargetForType(final SHNDataType type, final ResultListener<Double> resultListener) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getTargetForType(type, new ResultListener<Double>() {
-                    @Override
-                    public void onActionCompleted(final Double value, @NonNull final SHNResult result) {
-                        userHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                shnResultListener.onActionCompleted(value, result);
-                            }
-                        });
-                    }
-                });
+                wrappedShnCapability.getTargetForType(type, new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }
 
     @Override
-    public void setTarget(final SHNDataType type, final double value, final ResultListener<Double> shnResultListener) {
+    public void setTarget(final SHNDataType type, final double value, final ResultListener<Double> resultListener) {
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setTarget(type, value, new ResultListener<Double>() {
-                    @Override
-                    public void onActionCompleted(final Double value, @NonNull final SHNResult result) {
-                        userHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                shnResultListener.onActionCompleted(value, result);
-                            }
-                        });
-                    }
-                });
+                wrappedShnCapability.setTarget(type, value, new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }

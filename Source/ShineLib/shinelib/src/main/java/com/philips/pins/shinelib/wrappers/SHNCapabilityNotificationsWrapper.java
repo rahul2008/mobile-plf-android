@@ -6,7 +6,6 @@
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
-import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
@@ -72,23 +71,11 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
 
     @Override
     public void getMaxImageSizeForType(final Type type, final ResultListener<ImageSize> resultListener) {
-        Runnable command = new Runnable() {
+        internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapabilityNotifications.getMaxImageSizeForType(type, new ResultListener<ImageSize>() {
-                    @Override
-                    public void onActionCompleted(final ImageSize value, @NonNull final SHNResult result) {
-                        Runnable resultRunnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                resultListener.onActionCompleted(value, result);
-                            }
-                        };
-                        userHandler.post(resultRunnable);
-                    }
-                });
+                wrappedShnCapabilityNotifications.getMaxImageSizeForType(type, new WrappedResultListener<>(userHandler, resultListener));
             }
-        };
-        internalHandler.post(command);
+        });
     }
 }

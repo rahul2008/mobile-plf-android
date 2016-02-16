@@ -28,17 +28,7 @@ public class SHNCapabilityConfigHeartRateZonesWrapper implements SHNCapabilityCo
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getSupportedHeartRateZoneThresholdsCount(new ResultListener<Integer>() {
-                    @Override
-                    public void onActionCompleted(final Integer value, @NonNull final SHNResult result) {
-                        userHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                resultListener.onActionCompleted(value, result);
-                            }
-                        });
-                    }
-                });
+                wrappedShnCapability.getSupportedHeartRateZoneThresholdsCount(new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }
@@ -48,17 +38,7 @@ public class SHNCapabilityConfigHeartRateZonesWrapper implements SHNCapabilityCo
         internalHandler.post(new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getHeartRateZoneThresholdsInBpm(new ResultListener<List<Integer>>() {
-                    @Override
-                    public void onActionCompleted(final List<Integer> value, @NonNull final SHNResult result) {
-                        userHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                resultListener.onActionCompleted(value, result);
-                            }
-                        });
-                    }
-                });
+                wrappedShnCapability.getHeartRateZoneThresholdsInBpm(new WrappedResultListener<>(userHandler, resultListener));
             }
         });
     }
