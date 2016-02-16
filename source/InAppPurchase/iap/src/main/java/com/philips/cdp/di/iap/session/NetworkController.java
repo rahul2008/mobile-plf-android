@@ -99,7 +99,11 @@ public class NetworkController {
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
-                    msg.obj = model.parseResponse(requestCode, response);
+                    if(response != null && response.length() == 0){
+                       msg.obj = NetworkConstants.EMPTY_RESPONSE;
+                    }else{
+                        msg.obj = model.parseResponse(requestCode, response);
+                    }
                     requestListener.onSuccess(msg);
                 }
             }

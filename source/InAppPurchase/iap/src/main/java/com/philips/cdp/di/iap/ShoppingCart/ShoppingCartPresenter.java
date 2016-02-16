@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
+import com.philips.cdp.di.iap.response.cart.Carts;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.Entry;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
@@ -75,7 +76,11 @@ public class ShoppingCartPresenter {
                     public void onSuccess(Message msg) {
 
                         GetCartData data = (GetCartData) msg.obj;
-                        if (data.getEntries() == null) {
+
+                        Carts currentCart = data.getCarts().get(0);
+                        List<Entries> entries = data.getCarts().get(0).getEntries();
+
+                        if (entries == null) {
                             Intent intent = new Intent(mContext, EmptyCartActivity.class);
                             mContext.startActivity(intent);
                             Utility.dismissProgressDialog();
@@ -83,20 +88,18 @@ public class ShoppingCartPresenter {
                         }
 
                         ShoppingCartData item = new ShoppingCartData();
-                        item.setTotalPrice(data.getTotalPrice().getValue());
-                        item.setCurrency(data.getTotalPrice().getCurrencyIso());
-                        item.setTotalItems(data.getTotalItems());
-                        item.setCartNumber(data.getCode());
+                        item.setTotalPrice(currentCart.getTotalPrice().getValue());
+                        item.setCurrency(currentCart.getTotalPrice().getCurrencyIso());
+                        item.setTotalItems(currentCart.getTotalItems());
+                        item.setCartNumber(currentCart.getCode());
 
-                        List<Entries> list = data.getEntries();
+                        for (int i = 0; i < entries.size(); i++) {
 
-                        for (int i = 0; i < list.size(); i++) {
-
-                            int quantity = data.getEntries().get(i).getQuantity();
-                            int stockLevel = data.getEntries().get(i).getProduct().getStock()
+                            int quantity = entries.get(i).getQuantity();
+                            int stockLevel = entries.get(i).getProduct().getStock()
                                     .getStockLevel();
                             item.setQuantity(quantity);
-                            getProductDetails(item, list.get(i));
+                            getProductDetails(item, entries.get(i));
                             item.setStockLevel(stockLevel);
 
                             if (mLoadListener != null) {
@@ -146,7 +149,7 @@ public class ShoppingCartPresenter {
 
                     summary.setImageUrl(data.getImageURL());
                     summary.setProductTitle(data.getProductTitle());
-                    summary.setCtnNumber(code);
+                    summary.setCtnNumber(code.replaceAll("/", "_"));
                     summary.setEntryNumber(entry.getEntryNumber());
                     addItem(summary);
                 }

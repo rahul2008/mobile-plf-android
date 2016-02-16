@@ -10,15 +10,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
+import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.InAppPurchase;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -26,6 +27,7 @@ import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DemoAppActivity extends UiKitActivity implements RequestListener {
 
@@ -104,7 +106,7 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
     private void populateProduct() {
         for (String mCatalogNumber : mCatalogNumbers) {
             ShoppingCartData product = new ShoppingCartData();
-            product.setCtnNumber(mCatalogNumber);
+            product.setCtnNumber(mCatalogNumber.replaceAll("/", "_"));
             mProductArrayList.add(product);
         }
     }
@@ -113,14 +115,26 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
     public void onSuccess(Message msg) {
         switch (msg.what) {
             case RequestCode.GET_CART: {
-                GetCartData getCartData = (GetCartData) msg.obj;
+                if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+                    HybrisDelegate.getInstance(this).sendRequest(RequestCode.CREATE_CART, this, null);
+                } else {
+                    GetCartData getCartData = (GetCartData) msg.obj;
 
-                if (getCartData.getTotalItems() != 0 && getCartData.getEntries() != null) {
-                    mCount = getCartData.getEntries().get(0).getQuantity();
-                } else if (getCartData.getTotalItems() == 0) {
-                    mCount = 0;
+                    int totalItems = getCartData.getCarts().get(0).getTotalItems();
+                    List<Entries> entries = getCartData.getCarts().get(0).getEntries();
+
+                    if (totalItems != 0 && entries != null) {
+
+                        mCount = entries.get(0).getQuantity();
+                       /* for(int i = 0 ; i < entries.size(); i++){
+                            mCount = mCount + entries.get(i).getQuantity();
+                        }*/
+
+                    } else if (totalItems == 0) {
+                        mCount = 0;
+                    }
+                    mCountText.setText(String.valueOf(mCount));
                 }
-                mCountText.setText(String.valueOf(mCount));
                 break;
             }
             case RequestCode.ADD_TO_CART: {
@@ -149,19 +163,8 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
 
     @Override
     public void onError(Message msg) {
-        switch (msg.what) {
-            case RequestCode.GET_CART:
-                VolleyError error = (VolleyError) msg.obj;
-                if (error.networkResponse.statusCode == 400) {
-                    HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.CREATE_CART, this, null);
-                }
-                break;
-            default: {
-                Utility.dismissProgressDialog();
-                Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
-        }
-
+        Utility.dismissProgressDialog();
+        Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -180,16 +183,12 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
      */
     void addToCart(boolean isFromBuy, String ctnNumber) {
         if (!(Utility.isProgressDialogShowing())) {
-            if (Utility.isInternetConnected(this)) {
-                Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
+            Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
 
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put(CartModel.PRODUCT_CODE, ctnNumber);
+            HashMap<String, String> params = new HashMap<>();
+            params.put(CartModel.PRODUCT_CODE, ctnNumber);
 
-                HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, params);
-            } else {
-                Utility.showNetworkError(this, true);
-            }
+            HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, params);
         }
         mIsFromBuy = isFromBuy;
     }
