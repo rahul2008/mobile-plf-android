@@ -33,8 +33,7 @@
         app:controlButtonHeight="44dp"
         app:controlButtonWidth="143dp"
         app:controlEntries="@array/controls_array2"
-        app:controlMultiChoice="true"
-        app:controlSelected="true" />
+        app:controlMultiChoice="true"/>
 
     <com.philips.cdp.uikit.customviews.StateControls
         android:id="@+id/controls2"
@@ -45,9 +44,7 @@
         app:controlButtonHeight="@dimen/uikit_controls_default_height"
         app:controlButtonWidth="@dimen/uikit_controls_default_width"
         app:controlEntries="@array/controls_array"
-        app:controlMultiChoice="true"
-        app:controlSelected="true"
-        />
+        app:controlMultiChoice="true"/>
 
 
 
@@ -55,6 +52,7 @@
         android:id="@+id/radioGroup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="15dp"
         android:orientation="vertical">
 
@@ -62,19 +60,26 @@
             android:id="@+id/radioButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_marginBottom="5dp"
             android:text="One " />
 
         <com.philips.cdp.uikit.customviews.UIKitRadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="Two" />
 
         <com.philips.cdp.uikit.customviews.UIKitRadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="Three"/>
+
+
+
     </RadioGroup>
 
     <com.philips.cdp.uikit.customviews.PuiCheckBox

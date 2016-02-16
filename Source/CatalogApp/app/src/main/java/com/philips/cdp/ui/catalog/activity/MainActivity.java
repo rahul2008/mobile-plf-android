@@ -47,6 +47,7 @@ import java.util.Map;
  *     <li>Model alert : {@link ModalAlertDemo}</li>
  *     <li>Favorites : {@link FavoritesActivity}</li>
  *     <li>Badge count view : {@link com.philips.cdp.uikit.customviews.BadgeView}</li>
+ *     <li>Radio Button, Check Box, State Controls : {@link com.philips.cdp.ui.catalog.activity.ControlsActivity}</li>
  *   </ol>
  */
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
@@ -126,7 +127,7 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 startActivity(new Intent(this, SocialIconsActivity.class));
                 break;
             case 15:
-                startActivity(new Intent(this, TabViewWithViewPager.class));
+                startActivity(new Intent(this, ListDemo.class));
                 break;
             case 16:
                 startActivity(new Intent(this, PopOverMenu.class));

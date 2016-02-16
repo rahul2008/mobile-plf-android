@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -23,18 +27,15 @@ import com.philips.cdp.uikit.utils.UikitUtils;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+
 public class StateControls extends LinearLayout {
 
     public interface OnButtonStateChangeListener {
         void onButtonStateChanged(int value);
     }
-    private float buttonWidth, buttonHeight;
-    private boolean isSelected;
-    private CharSequence[] texts;
+
+    private int buttonWidth, buttonHeight;
+    private String[] texts;
     private int count;
     private List<View> buttons;
     private List<View> dividers;
@@ -43,6 +44,7 @@ public class StateControls extends LinearLayout {
     private OnButtonStateChangeListener listener;
     private Context context;
     private int baseColor;
+    private LayoutInflater inflater;
 
     public StateControls(Context context) {
         super(context, null);
@@ -61,15 +63,14 @@ public class StateControls extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.Controls, 0,
                 R.style.Controls_Style);
-        texts = a.getTextArray(R.styleable.Controls_controlEntries);
+        CharSequence[] texts = a.getTextArray(R.styleable.Controls_controlEntries);
         count = a.getInt(R.styleable.Controls_controlCount, 0);
-        isSelected = a.getBoolean(R.styleable.Controls_controlSelected, false);
         isMultipleChoice = a.getBoolean(R.styleable.Controls_controlMultiChoice, false);
-        buttonWidth = a.getDimension(R.styleable.Controls_controlButtonWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-        buttonHeight = a.getDimension(R.styleable.Controls_controlButtonHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
+        buttonWidth = (int) a.getDimension(R.styleable.Controls_controlButtonWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+        buttonHeight = (int) a.getDimension(R.styleable.Controls_controlButtonHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
         a.recycle();
 
-        drawControls(texts, isSelected, count);
+        drawControls(texts, false);
     }
 
     /**
@@ -80,59 +81,41 @@ public class StateControls extends LinearLayout {
      * @param texts                  An array of CharSequences for the buttons
      * @param enableDefaultSelection The default value for the buttons
      */
-    public void drawControls(CharSequence[] texts, boolean enableDefaultSelection, int count) {
+    public void drawControls(CharSequence[] texts, boolean enableDefaultSelection) {
         final int textCount = texts != null ? texts.length : 0;
         final int elementCount = Math.max(textCount, count);
         if (elementCount == 0) {
             throw new IllegalArgumentException("Count not set up");
-        }
-
-        setOrientation(LinearLayout.HORIZONTAL);
-        setGravity(Gravity.CENTER_VERTICAL);
-
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (parentLayout == null) {
-            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
         }
         parentLayout.removeAllViews();
         View[] buttons = new Button[elementCount];
         View[] dividers = new View[elementCount];
         this.buttons = Arrays.asList(buttons);
         this.dividers = Arrays.asList(dividers);
+        iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
+        handleButtonState();
+    }
 
-        int baseColorAlpha = UikitUtils.adjustAlpha(baseColor, 0.3f);
-        LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
-        for (int i = 0; i < elementCount; i++) {
-            View view, divider;
-            Button button;
-            view = inflater.inflate(R.layout.uikit_toggle_button, null, false);
-            button = (Button) view.findViewById(R.id.control_button);
-            divider = view.findViewById(R.id.divider);
-            divider.setBackgroundColor(baseColorAlpha);
-            button.setLayoutParams(buttonParams);
-            button.setText(texts != null ? texts[i] : "");
-            if (isMultipleChoice && i != elementCount - 1) {
-                divider.setVisibility(View.VISIBLE);
-            }
-            final int position = i;
-            button.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    setValue(position);
-                }
-            });
-            parentLayout.addView(view);
-            if (position == 0)
-                setButtonState(button, true, position);
-            else if (isMultipleChoice)
-                setButtonState(button, enableDefaultSelection, position);
-            else
-                setButtonState(button, false, position);
-            buttons[i] = button;
-            dividers[i] = divider;
+    /**
+     * Set multiple buttons with the specified texts and default
+     * initial values. Initial states are allowed, but both
+     * arrays must be of the same size.
+     *
+     * @param texts                  An array of Strings for the buttons
+     * @param enableDefaultSelection The default value for the buttons
+     */
+    public void drawControls(String[] texts, boolean enableDefaultSelection) {
+        final int textCount = texts != null ? texts.length : 0;
+        final int elementCount = Math.max(textCount, count);
+        if (elementCount == 0) {
+            throw new IllegalArgumentException("Count not set up");
         }
+        parentLayout.removeAllViews();
+        View[] buttons = new Button[elementCount];
+        View[] dividers = new View[elementCount];
+        this.buttons = Arrays.asList(buttons);
+        this.dividers = Arrays.asList(dividers);
+        iterateViews(texts, enableDefaultSelection, buttons, dividers, elementCount, false);
         handleButtonState();
     }
 
@@ -149,39 +132,40 @@ public class StateControls extends LinearLayout {
         if (elementCount == 0) {
             throw new IllegalArgumentException("neither texts nor count are setup");
         }
-
-        setOrientation(LinearLayout.HORIZONTAL);
-        setGravity(Gravity.CENTER_VERTICAL);
-
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (parentLayout == null) {
-            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
-        }
         parentLayout.removeAllViews();
-
         View[] buttons = new ImageButton[elementCount];
         View[] dividers = new View[elementCount];
         this.buttons = Arrays.asList(buttons);
         this.dividers = Arrays.asList(dividers);
+        iterateViews(drawables, enableDefaultSelection, buttons, dividers, elementCount, true);
+        handleButtonState();
+    }
 
+    private void iterateViews(final Object[] data, final boolean enableDefaultSelection, final View[] buttons, final View[] dividers, final int elementCount, boolean isDrawable) {
+        LayoutParams buttonParams = new LayoutParams(buttonWidth, buttonHeight);
         int baseColorAlpha = UikitUtils.adjustAlpha(baseColor, 0.3f);
-        LayoutParams buttonParams = new LayoutParams((int) buttonWidth, (int) buttonHeight);
         for (int i = 0; i < elementCount; i++) {
-            ImageButton button;
-            View view, divider;
-            view = inflater.inflate(R.layout.uikit_toggle_image_button, null, false);
-            button = (ImageButton) view.findViewById(R.id.control_button);
-            button.setLayoutParams(buttonParams);
-            button.setScaleType(ImageView.ScaleType.CENTER);
-            divider = view.findViewById(R.id.divider);
-            divider.setBackgroundColor(baseColorAlpha);
-            button.setImageDrawable(drawables[i]);
-            if (isMultipleChoice && i != elementCount - 1) {
-                divider.setVisibility(View.VISIBLE);
+            View view, divider, button;
+            if (isDrawable) {
+                view = inflater.inflate(R.layout.uikit_toggle_image_button, null, false);
+                button = view.findViewById(R.id.control_button);
+                ImageButton imageButton = (ImageButton) button;
+                imageButton.setScaleType(ImageView.ScaleType.CENTER);
+                divider = view.findViewById(R.id.divider);
+                Drawable drawable = (Drawable) data[i];
+                imageButton.setImageDrawable(drawable);
+            } else {
+                view = inflater.inflate(R.layout.uikit_toggle_button, null, false);
+                button = view.findViewById(R.id.control_button);
+                divider = view.findViewById(R.id.divider);
+                Button buttonCast = (Button) button;
+                String dataValue = data != null ? (String) data[i] : "";
+                buttonCast.setText(dataValue);
             }
+            button.setLayoutParams(buttonParams);
+            divider.setBackgroundColor(baseColorAlpha);
             final int position = i;
-            button.setOnClickListener(new View.OnClickListener() {
+            button.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -189,16 +173,13 @@ public class StateControls extends LinearLayout {
                 }
             });
             parentLayout.addView(view);
-            if (position == 0)
-                setButtonState(button, true, position);
-            else if (isMultipleChoice)
+            if (isMultipleChoice)
                 setButtonState(button, enableDefaultSelection, position);
             else
                 setButtonState(button, false, position);
             buttons[i] = button;
             dividers[i] = divider;
         }
-        handleButtonState();
     }
 
     private void handleButtonState() {
@@ -206,18 +187,18 @@ public class StateControls extends LinearLayout {
         for (int i = 0; i < size; i++) {
             if (buttons.get(i) instanceof ImageButton) {
                 ImageButton button = (ImageButton) buttons.get(i);
-                if (i == 0 && button.isSelected() && size > 1 && buttons.get(i + 1).isSelected()) {
+                if (i == 0 && !button.isSelected() && size > 1 && !buttons.get(i + 1).isSelected()) {
                     dividers.get(i).setVisibility(VISIBLE);
-                } else if (i != 0 && button.isSelected() && i != (size - 1) && (size - 1) > i && buttons.get(i + 1).isSelected()) {
+                } else if (i != 0 && !button.isSelected() && i != (size - 1) && (size - 1) > i && !buttons.get(i + 1).isSelected()) {
                     dividers.get(i).setVisibility(VISIBLE);
                 } else {
                     dividers.get(i).setVisibility(GONE);
                 }
             } else {
                 Button button = (Button) buttons.get(i);
-                if (i == 0 && button.isSelected() && size > 1 && buttons.get(i + 1).isSelected()) {
+                if (i == 0 && !button.isSelected() && size > 1 && !buttons.get(i + 1).isSelected()) {
                     dividers.get(i).setVisibility(VISIBLE);
-                } else if (i != 0 && button.isSelected() && i != (size - 1) && (size - 1) > i && buttons.get(i + 1).isSelected()) {
+                } else if (i != 0 && !button.isSelected() && i != (size - 1) && (size - 1) > i && !buttons.get(i + 1).isSelected()) {
                     dividers.get(i).setVisibility(VISIBLE);
                 } else {
                     dividers.get(i).setVisibility(GONE);
@@ -236,14 +217,14 @@ public class StateControls extends LinearLayout {
         GradientDrawable gradientDrawable = new GradientDrawable();
         handleCorners(gradientDrawable, position);
         if (selected) {
-            gradientDrawable.setColor(baseColor);
-            button.setBackgroundDrawable(gradientDrawable);
-        } else {
             gradientDrawable.setStroke((int) context.getResources().getDimension(R.dimen.uikit_control_default_stroke), baseColor);
             gradientDrawable.setColor(Color.WHITE);
             button.setBackgroundDrawable(gradientDrawable);
+        } else {
+            gradientDrawable.setColor(baseColor);
+            button.setBackgroundDrawable(gradientDrawable);
         }
-        int color = selected ? Color.WHITE : baseColor;
+        int color = selected ? baseColor : Color.WHITE;
         if (button instanceof Button) {
             ((Button) button).setTextColor(color);
         } else if (button instanceof ImageButton) {
@@ -269,13 +250,31 @@ public class StateControls extends LinearLayout {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
         baseColor = typedArray.getColor(0, -1);
         typedArray.recycle();
+        setOrientation(LinearLayout.HORIZONTAL);
+        setGravity(Gravity.CENTER_VERTICAL);
+        inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (parentLayout == null) {
+            parentLayout = (LinearLayout) inflater.inflate(R.layout.uikit_controls, this, true);
+        }
     }
 
     private void notifyDataSetChanged() {
         this.removeAllViews();
-        drawControls(texts, isSelected, count);
+        drawControls(texts, false);
     }
 
+    private void setListenerValue(int value) {
+        if (this.listener != null) {
+            listener.onButtonStateChanged(value);
+        }
+    }
+
+    /**
+     * Settings state of button with respect to its position
+     *
+     * @param position
+     */
     public void setValue(int position) {
         for (int i = 0; i < this.buttons.size(); i++) {
             if (isMultipleChoice) {
@@ -297,10 +296,18 @@ public class StateControls extends LinearLayout {
         setListenerValue(position);
     }
 
+    /**
+     *
+     * @return Returns array of View
+     */
     public List<View> getButtons() {
         return buttons;
     }
 
+    /**
+     *
+     * @return Returns State of buttons
+     */
     public boolean[] getStates() {
         int size = this.buttons == null ? 0 : this.buttons.size();
         boolean[] result = new boolean[size];
@@ -310,6 +317,10 @@ public class StateControls extends LinearLayout {
         return result;
     }
 
+    /**
+     * Setting the button state
+     * @param selected - array of boolean values
+     */
     public void setStates(boolean[] selected) {
         if (this.buttons == null || selected == null ||
                 this.buttons.size() != selected.length) {
@@ -322,39 +333,75 @@ public class StateControls extends LinearLayout {
         }
     }
 
-    public void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
-        notifyDataSetChanged();
-    }
-
     /**
      * If multiple choice is enabled, the user can select multiple
      * values simultaneously.
      *
-     * @param enable
+     * @param enable - boolean value to either enable or disable multi choice
      */
     public void enableMultipleChoice(boolean enable) {
         this.isMultipleChoice = enable;
         notifyDataSetChanged();
     }
 
-    public void setTexts(CharSequence[] texts) {
+    /**
+     * API to set text's programmatically
+     *
+     * @param texts - Value of texts as array of Strings
+     */
+    public void setTexts(String[] texts) {
         this.texts = texts;
         notifyDataSetChanged();
     }
 
-    public void setListenerValue(int value) {
-        if (this.listener != null) {
-            listener.onButtonStateChanged(value);
-        }
-    }
-
+    /**
+     * API to set total buttons count
+     * @param count - Total count value in integer
+     */
     public void setCount(int count) {
         this.count = count;
         notifyDataSetChanged();
     }
 
+    /**
+     * Callback to be registered when state of buttons are changed
+     * @param onButtonStateChangeListener - Listener of type OnButtonStateChangeListener
+     */
     public void setOnButtonStateChangedListener(OnButtonStateChangeListener onButtonStateChangeListener) {
         this.listener = onButtonStateChangeListener;
+    }
+
+    /**
+     * @return Return button width as integer
+     */
+    public int getButtonWidth() {
+        return buttonWidth;
+    }
+
+    /**
+     * Set button width programmatically
+     *
+     * @param buttonWidth
+     */
+    public void setButtonWidth(final int buttonWidth) {
+        this.buttonWidth = buttonWidth;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * @return Return button height as integer
+     */
+    public int getButtonHeight() {
+        return buttonHeight;
+    }
+
+    /**
+     * Set button height programmatically
+     *
+     * @param buttonHeight
+     */
+    public void setButtonHeight(final int buttonHeight) {
+        this.buttonHeight = buttonHeight;
+        notifyDataSetChanged();
     }
 }

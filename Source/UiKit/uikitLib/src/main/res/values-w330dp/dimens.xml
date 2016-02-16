@@ -10,4 +10,8 @@
     <dimen name="springboard_text_margin_bottom">13dp</dimen>
     <dimen name="image_margin_top">36dp</dimen>
     <dimen name="springboard_grid_margin_right">31dp</dimen>
+    <dimen name="springboard_list_left_margin">151dp</dimen>
+    <dimen name="springboard_list_right_margin">150dp</dimen>
+
+
 </resources>

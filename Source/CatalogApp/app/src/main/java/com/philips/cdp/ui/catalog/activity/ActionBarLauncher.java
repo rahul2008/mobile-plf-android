@@ -1,6 +1,7 @@
 package com.philips.cdp.ui.catalog.activity;
 
 import android.os.Bundle;
+import android.support.v4.view.WindowCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.cdp.uikit.utils.TabUtils;
 import com.philips.cdp.uikit.utils.UikitUtils;
 
 /**
@@ -43,6 +45,8 @@ public class ActionBarLauncher extends CatalogActivity {
      */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+
+        supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
 
         ActionBar mActionBar = this.getSupportActionBar();
@@ -75,6 +79,11 @@ public class ActionBarLauncher extends CatalogActivity {
 
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
+
+        setContentView(R.layout.action_bar_hide_scroll);
+        mActionBar.setHideOnContentScrollEnabled(true);
+        TabUtils.disableActionbarShadow(this);
+
     }
 
     @Override

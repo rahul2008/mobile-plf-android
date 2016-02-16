@@ -2,18 +2,18 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape
-            android:innerRadiusRatio="2.5"
+            android:innerRadius="22dp"
             android:shape="ring"
-            android:thicknessRatio="15"
+            android:thickness="4dp"
             android:useLevel="false">
             <solid android:color="@color/uikit_enricher6" />
         </shape>
     </item>
     <item android:id="@android:id/progress">
         <shape
-            android:innerRadiusRatio="2.5"
+            android:innerRadius="22dp"
             android:shape="ring"
-            android:thicknessRatio="15"
+            android:thickness="4dp"
             android:useLevel="true">
             <solid android:color="@android:color/darker_gray" />
         </shape>

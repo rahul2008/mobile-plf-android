@@ -18,12 +18,6 @@ import android.widget.Toast;
 import com.philips.cdp.ui.catalog.CustomListView.ListViewWithoutIcons;
 import com.philips.cdp.ui.catalog.R;
 
-/**
- * <b></b> TabFragmentListWithoutIcon1 is class to demonstrate the use of List with icons with the help of an adapter ListViewWithoutIcons </b>
- * <p/>
- * <p/>
- * <b></b>Make Arrays of Section Headers and Data , and setAdapter() </b><br>
- */
 public class TabFragmentListWithoutIcon1 extends Fragment {
 
     ListViewWithoutIcons adapter;

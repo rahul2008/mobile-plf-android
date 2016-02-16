@@ -24,50 +24,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <b></b> TextLayoutInputFeildInlineForms is class to demonstrate the use of Inline Forms</b>
- * <p/>
- * <b></b> Inline forms are like real time Forms</b>
- * <p/>
- *  <b></b> Entry In each Inline Form is an Item in the Layout</b>
- *  <p/>
- *  <b></b> In Order to Enter an Entry in The Layout Use:</b>
- *
- * <pre>&lt;LinearLayout
- * android:id="@+id/firstnamelayouthorzontal"
- * android:layout_width="match_parent"
- * android:layout_height="wrap_content"
- * android:orientation="horizontal"/&gt;
- *
- *&lt;TextView
- * android:id="@+id/firstname"
- * style="@style/PhilipsTextInputLayoutTextViewStyle"
- * android:layout_width="match_parent"
- * android:layout_height="wrap_content"
- * android:layout_weight="0.5"
- * android:hint="Last Name"
- * android:text="Last Name"/&gt;
- *
- *&lt;EditText
- * android:id="@+id/firstnamevalue"
- * style="@style/PhilipsTextInputLayoutStyleEnabled"
- * android:layout_width="match_parent"
- * android:layout_height="wrap_content"
- * android:layout_weight="0.5"
- * android:hint="Jones"/&gt;
- *
- *&lt;LinearLayout/&gt;
- *
- *  </pre>
- *  <p/>
- *  <b></b> Please Note the Styles:</b>
- *  <p/>
- *  <b></b> For Disabled Edit Text Feilds: style="@style/PhilipsTextInputLayoutStyleDisabled"</b>
- *  <p/>
- *  <b></b> For Enabled Edit Text Feilds: style="@style/PhilipsTextInputLayoutStyleEnabled"</b>
- *  <p/>
- *  <b></b> For Text Feilds: style="@style/PhilipsTextInputLayoutTextViewStyle"</b>
- *  <p/>
- *  <b></b> Users Should give atleast one View withing the Form either TextView or EditText"</b>
+ * UIKit uses design library InlineForms.
+ * Please refer {@link InlineForms} for managing Inline Forms.
  */
 public class TextLayoutInputFeildInlineForms extends CatalogActivity {
 

@@ -62,7 +62,7 @@ public class PuiCheckBox extends LinearLayout {
         text = typedArray.getString(R.styleable.UiKit_CheckBox_textValue);
         checkBoxText.setText(text);
         typedArray.recycle();
-        changeBackGround();
+        changeBackGround(resources);
         setChecked(isChecked);
         textLayoutParent.setOnClickListener(new OnClickListener() {
             @Override
@@ -75,17 +75,9 @@ public class PuiCheckBox extends LinearLayout {
         });
     }
 
-    private void setChecked(final boolean isChecked) {
-        if (isChecked) {
-            checkBoxTick.setVisibility(VISIBLE);
-        } else {
-            checkBoxTick.setVisibility(GONE);
-        }
-    }
-
-    private void changeBackGround() {
+    private void changeBackGround(final Resources resources) {
         GradientDrawable gradientDrawable = new GradientDrawable();
-        gradientDrawable.setStroke(1, UikitUtils.adjustAlpha(baseColor, 0.5f));
+        gradientDrawable.setStroke((int) resources.getDimension(R.dimen.uikit_controls_checkbox_stroke), UikitUtils.adjustAlpha(baseColor, 0.5f));
         gradientDrawable.setColor(backGroundColor);
         textLayoutParent.setBackgroundDrawable(gradientDrawable);
     }
@@ -120,5 +112,17 @@ public class PuiCheckBox extends LinearLayout {
 
     public void setOnCheckedChangeListener(final OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    private void setChecked(final boolean isChecked) {
+        if (isChecked) {
+            checkBoxTick.setVisibility(VISIBLE);
+        } else {
+            checkBoxTick.setVisibility(GONE);
+        }
     }
 }

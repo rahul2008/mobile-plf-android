@@ -9,15 +9,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionBarOverlayLayout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.favorites.DataBaseHelper;
@@ -75,9 +79,30 @@ public class FavoritesActivity extends CatalogActivity {
         context = this;
         disableActionbarShadow(this);
         layout = (TabLayout) findViewById(R.id.tab_layout);
-        layout.addTab(layout.newTab().setText("All Items"));
-        layout.addTab(layout.newTab().setText("Favorites"));
 
+        View tabContent1 = LayoutInflater.from(context).inflate(R.layout.uikit_fav_custom_tab_content, null);
+        TextView tv1 = (TextView) tabContent1.findViewById(R.id.tabtext);
+
+        TabLayout.Tab tab = layout.newTab();
+        layout.addTab(tab);
+        tab.setCustomView(tabContent1);
+
+        tv1.setText("All items");
+
+        View tabContent2 = LayoutInflater.from(context).inflate(R.layout.uikit_fav_custom_tab_content, null);
+        TextView tv2 = (TextView) tabContent2.findViewById(R.id.tabtext);
+
+        TabLayout.Tab tab1 = layout.newTab();
+        layout.addTab(tab1);
+        tab1.setCustomView(tabContent2);
+        tv2.setText("Favorites");
+
+      //  layout.addTab(layout.newTab().setText("All Items"));
+      //  layout.addTab(layout.newTab().setText("Favorites"));
+
+
+        layout.getTabAt(1).select();
+       layout.getTabAt(0).select();
         setViewPager();
 
         try {

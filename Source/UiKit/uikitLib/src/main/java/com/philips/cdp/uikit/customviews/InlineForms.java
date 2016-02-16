@@ -1,3 +1,7 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -25,8 +29,63 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <b></b> InlineForms is UI Component providing real time Inline Form to the User</b>
+ * <p/>
+ *  <b></b> Entry In each Inline Form is an Item in the Layout</b>
+ *  <p/>
+ *  <b></b> In Order to Enter an Entry in The Layout Use:</b>
+ *
+ * <pre>&lt;LinearLayout
+ * android:id="@+id/firstnamelayouthorzontal"
+ * android:layout_width="match_parent"
+ * android:layout_height="wrap_content"
+ * android:orientation="horizontal"/&gt;
+ *
+ *&lt;TextView
+ * android:id="@+id/firstname"
+ * style="@style/PhilipsTextInputLayoutTextViewStyle"
+ * android:layout_width="match_parent"
+ * android:layout_height="wrap_content"
+ * android:layout_weight="0.5"
+ * android:hint="Last Name"
+ * android:text="Last Name"/&gt;
+ *
+ *&lt;EditText
+ * android:id="@+id/firstnamevalue"
+ * style="@style/PhilipsTextInputLayoutStyleEnabled"
+ * android:layout_width="match_parent"
+ * android:layout_height="wrap_content"
+ * android:layout_weight="0.5"
+ * android:hint="Jones"/&gt;
+ *
+ *&lt;LinearLayout/&gt;
+ *
+ *  </pre>
+ *  <p/>
+ *  <b></b> Please Note the Styles:</b>
+ *  <p/>
+ *  <b></b> For Disabled Edit Text Feilds: style="@style/PhilipsTextInputLayoutStyleDisabled"</b>
+ *  <p/>
+ *  <b></b> For Enabled Edit Text Feilds: style="@style/PhilipsTextInputLayoutStyleEnabled"</b>
+ *  <p/>
+ *  <b></b> For Text Feilds: style="@style/PhilipsTextInputLayoutTextViewStyle"</b>
+ *  <p/>
+ *  <b></b> Users Should give atleast one View withing the Form either TextView or EditText"</b>
+ *  <p/>
+ *  <b></b> In case the Feild has to be validated - Users Should set the Validator for that Layout"</b>
+ *  <pre>
+ *  <p/>
+ * layout.setValidator(new InlineForms.Validator() {
+ *      public void validate(View editText, boolean hasFocus) {
+ *          if (editText.getId() == R.id.lastnamevalue && hasFocus == false) {
+ *              boolean result = validateEmail(editText, hasFocus);
+ *                  if (!result) {
+ *                      layout.showError((EditText) editText);
+ *                  }
+ *          }
+ *      }
+ * });
+ * </pre>
  */
 public class InlineForms extends LinearLayout {
     final String TAG = InlineForms.class.getSimpleName();

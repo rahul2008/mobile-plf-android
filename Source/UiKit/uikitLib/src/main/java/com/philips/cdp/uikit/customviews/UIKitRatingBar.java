@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.uikit.customviews;
 
 import android.content.Context;
@@ -17,11 +22,22 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.lang.reflect.Method;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 
+/**
+ * <b></b> UIKitRatingBar is class to customize inbuilt Android RatingBar component to Philips style </b>
+ * <p/>
+ * <b></b>Inorder to use Custom RatingBar include the Following lines in the layout File</b><br>
+ * <pre>&lt;com.philips.cdp.uikit.customviews.UIKitRatingBar
+ *      android:id="@+id/ratingbig"
+ *      android:layout_width="wrap_content"
+ *      android:layout_height="wrap_content"
+ *      android:layout_centerInParent="true"
+ *      app:isratingbarbig="true"/&gt;
+ *
+ * </pre>
+ * <b></b>For Big Star give  <pre>app:isratingbarbig="true"</b><br>
+ * <b></b>For Small Star give  <pre>app:isratingbarbig="false"</b><br>
+ */
 public class UIKitRatingBar extends RatingBar {
 
     private boolean isBigStar;

@@ -23,22 +23,6 @@ import com.shamanland.fonticon.FontIconTextView;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-/**
- * <b></b> ListViewWithIcons is class to demonstrate the use of R.layout.uikit_list_with_icons with an adapter </b>
- * <p/>
- * <b></b> We have total 6 items which can be controlled by setting visibility as VISIBLE or GONE</b></br>
- * <pre>
- * holder.textView = (TextView) convertView.findViewById(R.id.text);
- * holder.mImage = (TintableImageView) convertView.findViewById(R.id.image);
- * holder.mBadge = (BadgeView) convertView.findViewById(R.id.notification_badge);
- * holder.arrow = (FontIconTextView) convertView.findViewById(R.id.arrow);
- * holder.name = (TextView) convertView.findViewById(R.id.off_on);
- * holder.value = (PuiSwitch) convertView.findViewById(R.id.switch_button);
- * holder.done = (TextView) convertView.findViewById(R.id.textdownnoicon);
- *
- *        </pre>
- */
-
 public class ListViewWithIcons extends BaseAdapter {
 
     private static final int TYPE_ITEM = 0;
@@ -127,7 +111,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 if (position == 1) {
 
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.value.setVisibility(View.VISIBLE);
 
@@ -142,7 +126,7 @@ public class ListViewWithIcons extends BaseAdapter {
 
                 }
                 if (position == 2) {
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.mImage.setVisibility(View.VISIBLE);
 
                     holder.value.setVisibility(View.VISIBLE);
@@ -156,7 +140,7 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.textView.setText(mData.get(position));
                 }
                 if (position == 3) {
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Off");
                     holder.arrow.setVisibility(View.VISIBLE);
@@ -170,14 +154,14 @@ public class ListViewWithIcons extends BaseAdapter {
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("On");
                     holder.arrow.setVisibility(View.VISIBLE);
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));
 
                 }
 
                 if (position == 5) {
-                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear));
+                    holder.mImage.setImageDrawable(VectorDrawable.create(activity, com.philips.cdp.uikit.R.drawable.uikit_gear_large));
                     holder.arrow.setVisibility(View.VISIBLE);
                     holder.mImage.setVisibility(View.VISIBLE);
                     holder.textView.setText(mData.get(position));

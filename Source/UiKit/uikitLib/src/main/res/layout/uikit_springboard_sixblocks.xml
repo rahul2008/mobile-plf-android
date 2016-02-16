@@ -32,9 +32,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/springboard_gridspacing"
-            android:layout_marginLeft="@dimen/springboard_grid_margin_left"
-            android:layout_marginRight="@dimen/springboard_grid_margin_right"
+            android:gravity="center_horizontal"
             android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
             app:opacityStyle="darker_with_opacity">
 
             <RelativeLayout
@@ -109,9 +109,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/springboard_gridspacing"
-            android:layout_marginLeft="@dimen/springboard_grid_margin_left"
-            android:layout_marginRight="@dimen/springboard_grid_margin_right"
+            android:gravity="center_horizontal"
             android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
             app:opacityStyle="darker_with_opacity">
 
             <RelativeLayout
@@ -183,9 +183,10 @@
             android:id="@+id/row_layout3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/springboard_grid_margin_left"
 
-            android:layout_marginRight="@dimen/springboard_grid_margin_right"
+            android:layout_gravity="center_horizontal"
+           android:gravity="center_horizontal"
+
             android:orientation="horizontal"
             app:opacityStyle="darker_with_opacity">
 

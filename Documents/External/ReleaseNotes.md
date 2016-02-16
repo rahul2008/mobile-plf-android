@@ -1,5 +1,38 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+Version - 2.0.0                               Date:12-02-2015
+---------------------------------------------------------------
+Feature completed 
+
+Action bar / Toolbar
+Social Icon
+Spring Board
+Lists
+Inline Forms
+Springboard Buttons and Springboard Buttons with icon
+Progress bar / spinner
+Controls
+Tab bar
+Modal Alert
+Pop Overmenu
+Cards
+Favorites
+Picker View
+
+UIKit 2.0 release removes ThemeUtils class. 
+If your app using this class for set theme, Refer BasicSetUp.docx (set theme)  
+
+Please refer JavaDoc.zip for Documentation.
+(Unzip JavaDoc.zip ,open index.html search MainActivity then search for required components)
+
+Please refer below file for Theming
+Theming in Android PhilipsUIKit.pptx 
+
+Please refer below docs for initial setup
+BasicSetUp.docx    
+
+
+
 
 Version - 1.2.0                               Date:28-01-2015
 ---------------------------------------------------------------

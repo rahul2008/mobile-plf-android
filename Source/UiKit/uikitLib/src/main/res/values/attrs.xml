@@ -9,6 +9,7 @@
         <attr name="verydarkBaseColor" format="reference|color"/>
         <attr name="listSelectorBackground" format="reference|color"/>
         <attr name="listtextselector" format="reference|color"/>
+        <attr name="favoriteTabTextSelector" format="reference|color"/>
         <attr name="favoriteTabSelector" format="reference|color"/>
         <attr name="errortextcolorinlineforms" format="reference|color"/>
         <attr name="erroriconcolorinlineforms" format="reference|color"/>
@@ -186,7 +187,6 @@
     <declare-styleable name="Controls">
         <attr name="controlEntries" format="reference" />
         <attr name="controlCount" format="integer" />
-        <attr name="controlSelected" format="boolean" />
         <attr name="controlMultiChoice" format="boolean" />
         <attr name="controlButtonWidth" format="reference|dimension" />
         <attr name="controlButtonHeight" format="reference|dimension" />
@@ -197,4 +197,7 @@
         <attr name="textValue" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="UiKit_ProgressSpinner">
+        <attr name="duration" format="integer"/>
+    </declare-styleable>
 </resources>

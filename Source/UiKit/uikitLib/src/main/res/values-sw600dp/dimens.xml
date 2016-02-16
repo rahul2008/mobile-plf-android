@@ -58,5 +58,9 @@
     <dimen name="springboard_text_margin_top">17dp</dimen>
     <dimen name="springboard_text_margin_bottom">14dp</dimen>
     <dimen name="image_margin_top">36dp</dimen>
+    <dimen name="springboard_list_margin_left_tablet">189dp</dimen>
+    <dimen name="springboard_list_margin_right_tablet">189dp</dimen>
+    <dimen name="springboard_list_margin_top_tablet">189dp</dimen>
+
     <dimen name="springboard_grid_margin_right">31dp</dimen>
 </resources>

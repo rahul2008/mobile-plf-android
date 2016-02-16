@@ -17,12 +17,6 @@ import android.widget.ListView;
 import com.philips.cdp.ui.catalog.CustomListView.ListViewWithIcons;
 import com.philips.cdp.ui.catalog.R;
 
-/**
- * <b></b> TabFragmentListicon is class to demonstrate the use of List with icons with the help of an adapter ListViewWithIcons </b>
- * <p/>
- * <p/>
- * <b></b>Make Arrays of Section Headers and Data , and setAdapter() </b><br>
- */
 public class TabFragmentListicon extends Fragment {
 
     ListViewWithIcons mAdapter;
