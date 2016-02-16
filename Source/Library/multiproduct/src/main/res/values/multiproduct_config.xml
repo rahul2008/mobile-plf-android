@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+
+    <!-- Activity -->
+    <color name="mp_activity_background_color">#FFFFFF</color>
+    <style name="multiprod_theme" parent="Theme.Philips.DarkBlue.Gradient.WhiteBackground"/>
+
+</resources>

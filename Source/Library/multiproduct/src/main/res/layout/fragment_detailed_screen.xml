@@ -1,0 +1,71 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mp_activity_background_color">
+
+
+    <LinearLayout
+        android:id="@+id/detailed_screen_parent_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_image_navigation" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@color/mp_activity_background_color"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin">
+
+            <com.philips.multiproduct.customview.CustomFontTextView
+                android:id="@+id/detailed_screen_productname"
+                style="@style/detailedscreeen_product_name"
+                android:text="Jamie Oliver Food Processor"
+
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
+
+            <com.philips.multiproduct.customview.CustomFontTextView
+                style="@style/detailedscreeen_product_variant"
+                android:text="HR7781/01"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
+
+
+            <Button
+                android:id="@+id/detailedscreen_select_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Select this product" />
+
+
+            <com.philips.multiproduct.customview.CustomFontTextView
+
+                style="@style/detailedscreeen_product_spec1"
+                android:text="1000 W"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
+
+            <com.philips.multiproduct.customview.CustomFontTextView
+                style="@style/detailedscreeen_product_spec2"
+                android:text="3.4 L Bowl"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
+
+            <com.philips.multiproduct.customview.CustomFontTextView
+
+                style="@style/detailedscreeen_product_spec3"
+                android:text="8 accessories"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>
