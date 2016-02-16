@@ -60,4 +60,6 @@
     <dimen name="reg_error_alert_size">23sp</dimen>
     <dimen name="reg_back_arrow_size">20sp</dimen>
 
+    <dimen name="reg_check_size">11dp</dimen>
+
 </resources>

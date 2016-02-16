@@ -196,15 +196,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onClick(View v) {
-
         if (v.getId() == R.id.btn_reg_register) {
             RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
             if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
                 if (mCbAcceptTerms.isChecked()) {
-                    System.out.println("******** isCheck : "+mCbAcceptTerms.isChecked());
                     register();
                 } else {
-                    System.out.println("******** isCheck : "+mCbAcceptTerms.isChecked());
                     mRegAccptTermsError.setError(mContext.getResources().getString(R.string.TermsAndConditionsAcceptanceText_Error));
                 }
             } else {

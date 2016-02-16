@@ -16,7 +16,6 @@ public class AppTagging {
         }
         prevPage = currPage;
 
-
     }
 
     public static void trackFirstPage(String currPage) {

@@ -17,7 +17,6 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_centerVertical="true"
-            android:duplicateParentState="true"
             android:padding="@dimen/reg_header_iv_back_padding"
             android:text="@string/ic_reg_left"
             android:textColor="@color/reg_provider_text_color"

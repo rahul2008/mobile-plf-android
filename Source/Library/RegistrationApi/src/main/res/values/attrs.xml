@@ -2,7 +2,7 @@
 <resources>
 
     <declare-styleable name="Reg_attr_style">
-        <attr name="baseColor" format="reference|color" />
+        <attr name="reg_baseColor" format="reference|color" />
     </declare-styleable>
 
     <declare-styleable name="VectorCompat">

@@ -244,6 +244,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mPbWelcomeCheck.setVisibility(View.VISIBLE);
         mCbTerms.setEnabled(false);
         mBtnLogOut.setEnabled(false);
+
     }
 
     private void updateUser() {

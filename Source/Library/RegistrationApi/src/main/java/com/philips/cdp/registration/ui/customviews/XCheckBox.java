@@ -45,9 +45,10 @@ public class XCheckBox extends LinearLayout {
 
     private void initView(final Context context, Resources resources, final AttributeSet attrs) {
         backGroundColor = context.getResources().getColor(R.color.reg_layout_bg);
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.reg_baseColor});
         baseColor = typedArray.getColor(0, resources.getColor(R.color.reg_text_heading_one_color));//reg_text_heading_one_color/reg_check_box_color
         textLayoutParent = (RelativeLayout) parentView.findViewById(R.id.rl_x_checkbox);
+
         checkBoxText = (TextView) parentView.findViewById(R.id.reg_tv_checkbox);
         checkBoxTick = (TextView) parentView.findViewById(R.id.reg_check);
         typedArray = context.obtainStyledAttributes(attrs,
@@ -75,6 +76,10 @@ public class XCheckBox extends LinearLayout {
         } else {
             checkBoxTick.setVisibility(GONE);
         }
+    }
+
+    public void setEnabled(boolean isChecked){
+        textLayoutParent.setEnabled(isChecked);
     }
 
     private void changeBackGround() {

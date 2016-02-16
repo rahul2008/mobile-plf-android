@@ -121,4 +121,6 @@
     <dimen name="reg_notification_label_square_round_textSize_small">14sp</dimen>
     <dimen name="reg_notification_label_small_circle_radius">20dp</dimen>
 
+    <dimen name="reg_check_size">11dp</dimen>
+
 </resources>
