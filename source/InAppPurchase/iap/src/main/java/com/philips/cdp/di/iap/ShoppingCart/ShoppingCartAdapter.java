@@ -220,8 +220,12 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                        mPresenter.deleteProduct(mData.get(position));
-                        popUP.dismiss();
+                        if (Utility.isInternetConnected(mContext)) {
+                            mPresenter.deleteProduct(mData.get(position));
+                            popUP.dismiss();
+                        }else{
+                            Toast.makeText(mContext,"Network Error",Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case INFO:
                         Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();

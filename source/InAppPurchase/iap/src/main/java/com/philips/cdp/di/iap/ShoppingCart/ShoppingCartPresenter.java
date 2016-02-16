@@ -210,9 +210,7 @@ public class ShoppingCartPresenter {
 
                     @Override
                     public void onError(Message msg) {
-                        Toast.makeText(mContext, "Delete Request Error", Toast.LENGTH_SHORT).show();
-                        refreshList(mProductData);
-                        Utility.dismissProgressDialog();
+                        getCurrentCartDetails();
                     }
                 }, query);
     }
