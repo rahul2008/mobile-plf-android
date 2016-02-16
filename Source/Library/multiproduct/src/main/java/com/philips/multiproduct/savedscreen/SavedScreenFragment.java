@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.listfragment.ProductListingFragment;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
@@ -33,7 +34,8 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-          mSettings.setOnClickListener(this);
+        mSettings.setOnClickListener(this);
+        mRedirectingButton.setOnClickListener(this);
 
     }
 
@@ -61,7 +63,7 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
     }
 
     @Override
-    public String getActionbarTitle()   {
+    public String getActionbarTitle() {
         return getResources().getString(R.string.confirmation);
     }
 
@@ -76,6 +78,10 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
         if (v.getId() == R.id.savedscreen_button_settings) {
             if (isConnectionAvailable())
                 showFragment(new ProductListingFragment());
-        }
+        } else if (v.getId() == R.id.savedscreen_button_viewproductdetails)
+            if (isConnectionAvailable()) {
+                ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mProductSummaryModel);
+                backstackToSupportFragment();
+            }
     }
 }

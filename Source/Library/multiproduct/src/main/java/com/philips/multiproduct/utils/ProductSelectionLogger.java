@@ -3,7 +3,7 @@ package com.philips.multiproduct.utils;
 import android.util.Log;
 
 
-public class MLogger {
+public class ProductSelectionLogger {
 
 	public static final String ERROR = "Error"; // Use to log errors
 	public static final String APPLICATION = "DigitalCareApp";

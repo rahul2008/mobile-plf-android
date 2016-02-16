@@ -6,14 +6,14 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.multiproduct.base.MultiProductActivity;
 import com.philips.multiproduct.base.ProductModelSelectionType;
+import com.philips.multiproduct.listeners.ProductModelSelectionListener;
 import com.philips.multiproduct.welcomefragment.WelcomeScreenFragment;
 import com.philips.multiproduct.component.ActivityLauncher;
 import com.philips.multiproduct.component.UiLauncher;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 import com.philips.multiproduct.utils.Constants;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
-import java.util.List;
 import java.util.Locale;
 
 
@@ -27,6 +27,7 @@ public class ProductModelSelectionHelper {
     private static String mCtn = "RQ1250/17";
     private static String mSectorCode = "B2C";
     private static String mCatalogCode = "CONSUMER";
+    private ProductModelSelectionListener mProductSelectionListener = null;
 
 
     public static ProductModelSelectionType mProductModelSelectionType = null;
@@ -70,7 +71,7 @@ public class ProductModelSelectionHelper {
      *
      * @param applicationContext Please pass the valid  Context
      */
-    public void initializeDigitalCareLibrary(Context applicationContext) {
+    public void initialize(Context applicationContext) {
         if (mContext == null) {
             ProductModelSelectionHelper.mContext = applicationContext;
 
@@ -78,7 +79,7 @@ public class ProductModelSelectionHelper {
     }
 
 
-    public void invokeProductSelectionModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+    public void invokeProductSelection(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
 
         if (productModelSelectionType != null) {
             mProductModelSelectionType = productModelSelectionType;
@@ -122,7 +123,6 @@ public class ProductModelSelectionHelper {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale before component invocation");
         }
-
         Intent intent = new Intent(this.getContext(), MultiProductActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.START_ANIMATION_ID, startAnimation);
@@ -131,12 +131,20 @@ public class ProductModelSelectionHelper {
         getContext().startActivity(intent);
     }
 
+    public void setProductListener(ProductModelSelectionListener mProductListener) {
+        this.mProductSelectionListener = mProductListener;
+    }
+
+    public ProductModelSelectionListener getProductListener() {
+        return this.mProductSelectionListener;
+    }
+
 
     public void setLocale(String langCode, String countryCode) {
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
-            MLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
+            ProductSelectionLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
         }
     }
 
@@ -201,7 +209,7 @@ public class ProductModelSelectionHelper {
             this.value = value;
         }
 
-        private int getOrientationValue() {
+        public int getOrientationValue() {
             return value;
         }
     }

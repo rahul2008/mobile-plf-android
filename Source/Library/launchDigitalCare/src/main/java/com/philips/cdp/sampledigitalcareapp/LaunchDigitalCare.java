@@ -29,6 +29,7 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.sampledigitalcareapp.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcareapp.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcareapp.view.CustomDialog;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.productselection.HardcodedProductList;
 
@@ -284,19 +285,14 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mLaunchAsFragment.setVisibility(View.INVISIBLE);
 
                 if (setConsumerProductInfo()) {
-
-                    ProductModelSelectionType productsSelection = new HardcodedProductList();
-                    productsSelection.setCatalog(Catalog.CARE);
-                    productsSelection.setSector(Sector.B2C);
-
                     String[] ctnList = new String[mList.size()];
                     for (int i = 0; i < mList.size(); i++)
                         ctnList[i] = mList.get(i);
-                    productsSelection.setHardCodedProductList(ctnList);
-
-                    UiLauncher uiLauncher = new ActivityLauncher();
+                    ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
+                    productsSelection.setCatalog(Catalog.CARE);
+                    productsSelection.setSector(Sector.B2C);
+                    UiLauncher uiLauncher = new ActivityLauncher(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
                     uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-                    uiLauncher.setScreenOrientation(DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
                     DigitalCareConfigManager.getInstance().invokeConsumerCareModule(uiLauncher, productsSelection);
 
                 } else {
@@ -311,7 +307,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
                 if (setConsumerProductInfo()) {
-                  //  startActivity(new Intent(this, SampleActivity.class));
+                    //  startActivity(new Intent(this, SampleActivity.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Set Consumer Product Info", Toast.LENGTH_SHORT).show();
                 }

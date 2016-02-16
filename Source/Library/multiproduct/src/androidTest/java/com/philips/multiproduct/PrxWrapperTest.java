@@ -40,7 +40,7 @@ public class PrxWrapperTest extends InstrumentationTestCase {
         mPrxWrapper = new PrxWrapper(mContext, mCtn, mSectorCode, mLocale, mCatalogCode);
         mPrxWrapper.requestPrxSummaryData(new PrxSummaryDataListener() {
             @Override
-            public void onSuccess(ProductData productData) {
+            public void onSuccess(SummaryModel productData) {
 
             }
 

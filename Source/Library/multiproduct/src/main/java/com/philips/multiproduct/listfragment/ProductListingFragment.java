@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.productscreen.DetailedScreenFragment;
 import com.philips.multiproduct.prx.PrxSummaryDataListener;
-import com.philips.multiproduct.prx.ProductData;
 import com.philips.multiproduct.prx.PrxWrapper;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     private ListView mProductListView = null;
     private ListViewWithOptions mProductAdapter = null;
     private ProgressDialog mSummaryDialog = null;
-    private ArrayList<ProductData> productList = null;
+    private ArrayList<SummaryModel> productList = null;
 
 
     @Override
@@ -52,8 +52,11 @@ public class ProductListingFragment extends MultiProductBaseFragment {
         mProductListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (isConnectionAvailable())
-                    showFragment(new DetailedScreenFragment());
+                if (isConnectionAvailable()) {
+                    mProductSummaryModel = productList.get(position);
+                    DetailedScreenFragment detailedScreenFragment = new DetailedScreenFragment();
+                    showFragment(detailedScreenFragment);
+                }
             }
         });
     }
@@ -70,7 +73,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
         final String[] ctnList = ProductModelSelectionHelper.getInstance().getProductCtnList();
 
-        productList = new ArrayList<ProductData>();
+        productList = new ArrayList<SummaryModel>();
 
         for (int i = 0; i < ctnList.length; i++) {
             final String ctn = ctnList[i];
@@ -81,9 +84,9 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
             prxWrapperCode.requestPrxSummaryData(new PrxSummaryDataListener() {
                 @Override
-                public void onSuccess(ProductData productData) {
+                public void onSuccess(SummaryModel summaryModel) {
 
-                    productList.add(productData);
+                    productList.add(summaryModel);
                     String[] ctnList = ProductModelSelectionHelper.getInstance().getProductCtnList();
                     if (ctn == ctnList[ctnList.length - 1]) {
 
@@ -102,7 +105,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
                 @Override
                 public void onFail(String errorMessage) {
-                    MLogger.e(TAG, " Error : " + errorMessage);
+                    ProductSelectionLogger.e(TAG, " Error : " + errorMessage);
                     String[] ctnList = ProductModelSelectionHelper.getInstance().getProductCtnList();
                     if (ctn == ctnList[ctnList.length - 1]) {
 
@@ -119,7 +122,6 @@ public class ProductListingFragment extends MultiProductBaseFragment {
         }
 
     }
-
 
     @Override
     public String getActionbarTitle() {

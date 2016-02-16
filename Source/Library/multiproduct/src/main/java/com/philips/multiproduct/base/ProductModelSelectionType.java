@@ -29,7 +29,6 @@ public abstract class ProductModelSelectionType {
         return this.mSummaryModelList;
     }
 
-    public abstract void setHardCodedProductList(String[] ctnList);
 
     public abstract String[] getHardCodedProductList();
 }

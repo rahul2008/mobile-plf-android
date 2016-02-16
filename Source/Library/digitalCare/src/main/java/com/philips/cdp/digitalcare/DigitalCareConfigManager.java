@@ -19,6 +19,7 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 
 import java.util.Locale;
@@ -174,9 +175,9 @@ public class DigitalCareConfigManager {
      *
      * @param startAnimation Animation resource ID.
      * @param endAnimation   Animation Resource ID.
-     * @param orientation    {@link com.philips.cdp.digitalcare.DigitalCareConfigManager.ActivityOrientation} flag.
+     * @param orientation
      */
-    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
+    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ProductModelSelectionHelper.ActivityOrientation orientation) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
@@ -417,7 +418,7 @@ public class DigitalCareConfigManager {
         mProductDetailsModel = detailsObject;
     }
 
-   public  ProductModelSelectionType getProductModelSelectionType() {
+    public ProductModelSelectionType getProductModelSelectionType() {
         return mProductModelSelectionType;
     }
 
@@ -427,7 +428,7 @@ public class DigitalCareConfigManager {
      * <p/>
      * <p> <b>Note : </b> The flags are similar to deafult android screen orientation flags</p>
      */
-    public enum ActivityOrientation {
+    /*public enum ActivityOrientation {
 
 
         SCREEN_ORIENTATION_UNSPECIFIED(-1), SCREEN_ORIENTATION_LANDSCAPE(0),
@@ -452,6 +453,6 @@ public class DigitalCareConfigManager {
         private int getOrientationValue() {
             return value;
         }
-    }
+    }*/
 
 }

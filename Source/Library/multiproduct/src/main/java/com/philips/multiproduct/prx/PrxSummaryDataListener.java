@@ -1,5 +1,7 @@
 package com.philips.multiproduct.prx;
 
+import com.philips.cdp.prxclient.prxdatamodels.summary.*;
+
 /**
  * This is the PrxSummaryDataListener class to receive the data from the Multiple Prx data requests.
  * This callback class  is used to manage to multiple data requests in the many data requests scenario.
@@ -12,9 +14,9 @@ public interface PrxSummaryDataListener {
     /**
      * onprxData Successfull scenario's - it gives the loaded data.
      *
-     * @param productData
+     * @param summaryModel
      */
-    abstract void onSuccess(ProductData productData);
+    abstract void onSuccess(com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel summaryModel);
 
     /**
      * This method is responsible to get the error messages which has been intimated by volley library.

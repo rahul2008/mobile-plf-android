@@ -23,7 +23,7 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 /**
  * MultiProductBaseActivity is the main container class which can contain Digital Care fragments.
@@ -43,7 +43,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        MLogger.i(TAG, "onCreate");
+        ProductSelectionLogger.i(TAG, "onCreate");
         ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
 
@@ -105,7 +105,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        MLogger.i(TAG, TAG + " : onConfigurationChanged ");
+        ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
     }
 
     @Override
@@ -170,7 +170,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            MLogger.e(TAG, e.getMessage());
+            ProductSelectionLogger.e(TAG, e.getMessage());
         }
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
