@@ -12,11 +12,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
-import com.philips.cdp.di.iap.model.CartModel;
-import com.android.volley.VolleyError;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.Entries;
@@ -26,25 +21,23 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.uikit.UiKitActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class DemoAppActivity extends UiKitActivity implements RequestListener {
+public class DemoAppActivity extends Activity implements RequestListener {
 
     private TextView mCountText = null;
 
-    FrameLayout mShoppingCart = null;
+    private FrameLayout mShoppingCart = null;
 
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
 
-    String[] mCatalogNumbers = {"HX8331/11"};
+    private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
 
-    int mCount = 0;
-    private ModalAlertDemoFragment modalAlertDemoFragment;
-    boolean mIsFromBuy;
+    private int mCount = 0;
+
+    private boolean mIsFromBuy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +77,6 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
 
     }
 
-    private void showAlert() {
-        modalAlertDemoFragment = new ModalAlertDemoFragment();
-        modalAlertDemoFragment.show(getSupportFragmentManager(), "dialog");
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -109,7 +97,7 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
     private void populateProduct() {
         for (String mCatalogNumber : mCatalogNumbers) {
             ShoppingCartData product = new ShoppingCartData();
-            product.setCtnNumber(mCatalogNumber.replaceAll("/", "_"));
+            product.setCtnNumber(mCatalogNumber.replaceAll("/", "_")); //need to be checked
             mProductArrayList.add(product);
         }
     }
@@ -119,7 +107,7 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
         switch (msg.what) {
             case RequestCode.GET_CART: {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    InAppPurchase.createCart(this, RequestCode.CREATE_CART,this);
+                    InAppPurchase.createCart(this, RequestCode.CREATE_CART, this);
                 } else {
                     GetCartData getCartData = (GetCartData) msg.obj;
 
@@ -128,10 +116,10 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
 
                     if (totalItems != 0 && entries != null) {
 
-                        mCount = entries.get(0).getQuantity();
-                       /* for(int i = 0 ; i < entries.size(); i++){
+//                        mCount = entries.get(0).getQuantity();
+                        for (int i = 0; i < entries.size(); i++) {
                             mCount = mCount + entries.get(i).getQuantity();
-                        }*/
+                        }
 
                     } else if (totalItems == 0) {
                         mCount = 0;
@@ -150,7 +138,7 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
                         startActivity(shoppingCartIntent);
                     }
                 } else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")) {
-                    showAlert();
+                    Toast.makeText(this, getString(R.string.no_stock_description), Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -168,18 +156,6 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
     public void onError(Message msg) {
         Utility.dismissProgressDialog();
         Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-        switch (msg.what) {
-            case RequestCode.GET_CART:
-                VolleyError error = (VolleyError) msg.obj;
-                if (error.networkResponse.statusCode == 400) {
-                    InAppPurchase.createCart(this, RequestCode.CREATE_CART,this);
-                }
-                break;
-            default: {
-                Utility.dismissProgressDialog();
-                Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     /**

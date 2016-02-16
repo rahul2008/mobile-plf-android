@@ -13,9 +13,31 @@
     <string name="iap_continue_shopping">Continue shopping</string>
     <string name="iap_checkout">Checkout</string>
     <string name="iap_empty_cart">Your shopping cart is currently empty</string>
-    <string name="iap_address">Address</string>
     <string name="out_of_stock">Out of stock</string>
     <string name="iap_add_to_cart">Add to cart</string>
     <string name="no_stock_description">No enough stock</string>
     <string name="something_went_wrong">Something went wrong!</string>
+
+    <!--Address layout strings -->
+    <string name="iap_shipping_address">Shipping address</string>
+    <string name="iap_billing_address">Billing address</string>
+    <string name="iap_first_name">First name</string>
+    <string name="iap_first_name_hint">Enter first name</string>
+    <string name="iap_last_name">Last name</string>
+    <string name="iap_last_name_hint">Enter last name</string>
+    <string name="iap_address">Address</string>
+    <string name="iap_address_hint">Enter first address line</string>
+    <string name="iap_town">Town/City</string>
+    <string name="iap_town_hint">Enter your town or city</string>
+    <string name="iap_postal_code">Postal Code</string>
+    <string name="iap_postal_code_hint">Enter ZIP/Postal code</string>
+    <string name="iap_country">Country</string>
+    <string name="iap_country_hint">Enter your country</string>
+    <string name="iap_email">Email</string>
+    <string name="iap_email_hint">Enter your email</string>
+    <string name="iap_phone">Phone</string>
+    <string name="iap_phone_hint">Enter phone number</string>
+    <string name="iap_billing_address_is_same">Same as shipping address</string>
+    <string name="iap_continue">Continue</string>
+    <string name="iap_cancel">Cancel</string>
 </resources>
