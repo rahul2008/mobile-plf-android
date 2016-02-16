@@ -16,7 +16,7 @@ import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
-import com.philips.cdp.di.iap.session.InAppPurchase;
+import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -43,7 +43,6 @@ public class DemoAppActivity extends Activity implements RequestListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
-
         ListView mProductListView = (ListView) findViewById(R.id.product_list);
 
         mShoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
@@ -73,8 +72,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
-        InAppPurchase.initApp(this, "", "");
-
+        IAPHandler.initApp(this, "", "");
     }
 
     @Override
@@ -84,7 +82,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
         if (!(Utility.isProgressDialogShowing())) {
             if (Utility.isInternetConnected(this)) {
                 Utility.showProgressDialog(this, getString(R.string.loading_cart));
-                InAppPurchase.getCartQuantity(this, RequestCode.GET_CART, this);
+                IAPHandler.getCartQuantity(this, RequestCode.GET_CART, this);
             } else {
                 Utility.showNetworkError(this, true);
             }
@@ -107,7 +105,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
         switch (msg.what) {
             case RequestCode.GET_CART: {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    InAppPurchase.createCart(this, RequestCode.CREATE_CART, this);
+                    IAPHandler.createCart(this, RequestCode.CREATE_CART, this);
                 } else {
                     GetCartData getCartData = (GetCartData) msg.obj;
 
@@ -176,7 +174,7 @@ public class DemoAppActivity extends Activity implements RequestListener {
         if (!(Utility.isProgressDialogShowing())) {
             if (Utility.isInternetConnected(this)) {
                 Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
-                InAppPurchase.addItemtoCart(this, RequestCode.ADD_TO_CART, ctnNumber, this);
+                IAPHandler.addItemtoCart(this, RequestCode.ADD_TO_CART, ctnNumber, this);
             } else {
                 Utility.showNetworkError(this, true);
             }

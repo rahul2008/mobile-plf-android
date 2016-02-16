@@ -14,7 +14,7 @@ import com.philips.cdp.di.iap.model.CartModel;
 
 import java.util.HashMap;
 
-public class InAppPurchase {
+public class IAPHandler {
 
     public static void initApp(Context context, String userName, String janRainID) {
         //We register with app context to avoid any memory leaks

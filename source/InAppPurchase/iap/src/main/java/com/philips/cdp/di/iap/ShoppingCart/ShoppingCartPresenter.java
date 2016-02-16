@@ -6,12 +6,11 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Message;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.activity.EmptyCartActivity;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
@@ -20,6 +19,7 @@ import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -106,7 +106,7 @@ public class ShoppingCartPresenter {
                     }
                 });
         model.setContext(mContext);
-        sendHybrisRequest(0,model, model);
+        sendHybrisRequest(0, model, model);
     }
 
     public void deleteProduct(final ShoppingCartData summary) {
@@ -130,7 +130,7 @@ public class ShoppingCartPresenter {
                         Utility.dismissProgressDialog();
                     }
                 });
-        sendHybrisRequest(0,model, model);
+        sendHybrisRequest(0, model, model);
     }
 
     public void updateProductQuantity(final ShoppingCartData data, final int count) {
@@ -157,8 +157,7 @@ public class ShoppingCartPresenter {
 
     private void checkIfCartIsEmpty() {
         if (mProductData.size() <= 3) {
-            Intent intent = new Intent(mContext, EmptyCartActivity.class);
-            mContext.startActivity(intent);
+            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
         }
     }
 
