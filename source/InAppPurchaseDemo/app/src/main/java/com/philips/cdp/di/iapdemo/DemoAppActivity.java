@@ -14,10 +14,13 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
 import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.model.CartModel;
+import com.android.volley.VolleyError;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.activity.EmptyCartActivity;
+import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.InAppPurchase;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -61,7 +64,7 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
                         Intent intent = new Intent(DemoAppActivity.this, EmptyCartActivity.class);
                         startActivity(intent);
                     } else {
-                        Intent myIntent = new Intent(DemoAppActivity.this, ShoppingCartActivity.class);
+                        Intent myIntent = new Intent(DemoAppActivity.this, MainActivity.class);
                         startActivity(myIntent);
                     }
                 } else {
@@ -93,7 +96,7 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
         if (!(Utility.isProgressDialogShowing())) {
             if (Utility.isInternetConnected(this)) {
                 Utility.showProgressDialog(this, getString(R.string.loading_cart));
-                HybrisDelegate.getInstance(DemoAppActivity.this).sendRequest(RequestCode.GET_CART, this, null);
+                InAppPurchase.getCartQuantity(this, RequestCode.GET_CART, this);
             } else {
                 Utility.showNetworkError(this, true);
             }
@@ -116,7 +119,7 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
         switch (msg.what) {
             case RequestCode.GET_CART: {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                    HybrisDelegate.getInstance(this).sendRequest(RequestCode.CREATE_CART, this, null);
+                    InAppPurchase.createCart(this, RequestCode.CREATE_CART,this);
                 } else {
                     GetCartData getCartData = (GetCartData) msg.obj;
 
@@ -143,7 +146,7 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
                     mCount = addToCartData.getEntry().getQuantity();
                     mCountText.setText(String.valueOf(mCount));
                     if (getCount() == 1 && mIsFromBuy) {
-                        Intent shoppingCartIntent = new Intent(this, ShoppingCartActivity.class);
+                        Intent shoppingCartIntent = new Intent(this, MainActivity.class);
                         startActivity(shoppingCartIntent);
                     }
                 } else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")) {
@@ -165,6 +168,18 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
     public void onError(Message msg) {
         Utility.dismissProgressDialog();
         Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+        switch (msg.what) {
+            case RequestCode.GET_CART:
+                VolleyError error = (VolleyError) msg.obj;
+                if (error.networkResponse.statusCode == 400) {
+                    InAppPurchase.createCart(this, RequestCode.CREATE_CART,this);
+                }
+                break;
+            default: {
+                Utility.dismissProgressDialog();
+                Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     /**
@@ -183,12 +198,12 @@ public class DemoAppActivity extends UiKitActivity implements RequestListener {
      */
     void addToCart(boolean isFromBuy, String ctnNumber) {
         if (!(Utility.isProgressDialogShowing())) {
-            Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
-
-            HashMap<String, String> params = new HashMap<>();
-            params.put(CartModel.PRODUCT_CODE, ctnNumber);
-
-            HybrisDelegate.getInstance(this).sendRequest(RequestCode.ADD_TO_CART, this, params);
+            if (Utility.isInternetConnected(this)) {
+                Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
+                InAppPurchase.addItemtoCart(this, RequestCode.ADD_TO_CART, ctnNumber, this);
+            } else {
+                Utility.showNetworkError(this, true);
+            }
         }
         mIsFromBuy = isFromBuy;
     }

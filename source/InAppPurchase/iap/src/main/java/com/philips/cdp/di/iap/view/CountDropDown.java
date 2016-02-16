@@ -6,6 +6,8 @@
 package com.philips.cdp.di.iap.view;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -49,9 +51,12 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
 
     public void show() {
         mPopUp.show();
-        mPopUp.clearListSelection();
         mPopUp.getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         mPopUp.setSelection(mCurrentViewIndex);
+    }
+
+    public UIKitListPopupWindow getPopUpWindow() {
+        return mPopUp;
     }
 
     public void dismiss() {
@@ -72,9 +77,9 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
     private void createPopUp(final View anchor, final Context context) {
         List<RowItem> rowItems = getRowItems();
         mPopUp = new UIKitListPopupWindow(context, anchor,
-                UIKitListPopupWindow.UIKIT_Type.UIKIT_LEFT, rowItems);
-        mPopUp.setWidth(300);
-//        mPopUp.setWidth((int) context.getResources().getDimension(R.dimen.iap_count_drop_down_width));
+                UIKitListPopupWindow.UIKIT_Type.UIKIT_TOPLEFT, rowItems);
+        mPopUp.setWidth((int) context.getResources().getDimension(R.dimen
+                .iap_count_drop_down_popup_width));
         mPopUp.setAdapter(new CountAdapter(context, R.layout.uikit_simple_list_image_text, rowItems));
         mPopUp.setOnItemClickListener(this);
     }
@@ -100,12 +105,13 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
         @Override
         public View getView(final int position, final View convertView, final ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
-            TextView countView = (TextView) view.findViewById(R.id.listtextview);
-/*            if (position == mCurrentViewIndex) {
-                countView.setTypeface(countView.getTypeface(), Typeface.BOLD);
-            } else {
-                countView.setTypeface(countView.getTypeface(), Typeface.NORMAL);
-            }*/
+
+            if (position == mCurrentViewIndex) {
+                TextView countView = (TextView) view.findViewById(R.id.listtextview);
+                String count = getItem(position).getDesc();
+                Spanned boldCount = Html.fromHtml("<b>" + count + "</b>");
+                countView.setText(boldCount);
+            }
             return view;
         }
     }

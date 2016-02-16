@@ -15,22 +15,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CartModel extends AbstractModel {
+public class CartModel {
     public final static String PRODUCT_CODE = "code";
     public final static String PRODUCT_QUANTITY = "qty";
     public final static String PRODUCT_ENTRYCODE = "entrycode";
     public final static String ENTRY_CODE = "entrynumber";
 
-    public CartModel(final Store store, Map<String, String> query) {
-        super(store, query);
+    Map<String, String> params = new HashMap<>();
+    public CartModel(final Store store, Map<String,String> query) {
     }
 
-    @Override
+    
     public String getProductionUrl(int requestCode) {
         return null;
     }
 
-    @Override
+    
     public Object parseResponse(int requestCode, Object response) {
         switch (requestCode) {
             case RequestCode.GET_CART:
@@ -45,7 +45,7 @@ public class CartModel extends AbstractModel {
         return null;
     }
 
-    @Override
+    
     public int getMethod(int requestCode) {
         switch (requestCode) {
             case RequestCode.GET_CART:
@@ -61,37 +61,37 @@ public class CartModel extends AbstractModel {
         return 0;
     }
 
-    @Override
+    
     public Map<String, String> requestBody(int requestCode) {
         //TODO: Move this with params validation
-
+        if(requestCode == RequestCode.ADD_TO_CART) {
+            return getAddToCartPayload();
+        }
         if (this.params != null) {
-            if (requestCode == RequestCode.ADD_TO_CART) {
-                return getAddToCartPayload();
-            } else if (requestCode == RequestCode.UPDATE_PRODUCT_COUNT) {
+            if (requestCode == RequestCode.UPDATE_PRODUCT_COUNT) {
                 return getProductCountUpdatePayload();
-            } else if (requestCode == RequestCode.DELETE_PRODUCT) {
-                return getEntryCartDetails();
             }
+        }
+        if (requestCode == RequestCode.DELETE_PRODUCT) {
+            return getEntryCartDetails();
         }
         return null;
     }
 
     private Map<String, String> getProductCountUpdatePayload() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<String,String>();
         params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
         params.put(PRODUCT_QUANTITY, this.params.get(PRODUCT_QUANTITY));
         return params;
     }
 
     private Map<String, String> getAddToCartPayload() {
-        Map<String, String> payload = new HashMap<>();
-        String code = (this.params.get(PRODUCT_CODE)).replaceAll("/", "_");
-        payload.put(PRODUCT_CODE, code);
-        return payload;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
+        return params;
     }
 
-    @Override
+    
     public String getTestUrl(final int requestCode) {
         switch (requestCode) {
 

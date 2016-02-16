@@ -9,9 +9,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.DebugUtils;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 
@@ -27,7 +27,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -45,27 +44,16 @@ public class NetworkController {
     String hostPort;
     String webRoot;
     private OAuthHandler oAuthHandler;
+    HurlStack mTestEnvHurlStack;
 
     public NetworkController(Context context, OAuthHandler oAuthHandler) {
         this.context = context;
         this.oAuthHandler = oAuthHandler;
-        hybirsVolleyQueue = Volley.newRequestQueue(context, new HurlStack(null,
-                buildSslSocketFactory(context)) {
-            @Override
-            protected HttpURLConnection createConnection(final URL url) throws IOException {
-                HttpURLConnection connection = super.createConnection(url);
-                if (connection instanceof HttpsURLConnection) {
-                    ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
-                        @Override
-                        public boolean verify(final String hostname, final SSLSession session) {
-                            return hostname.contains("philips.com");
-                        }
-                    });
-                    connection.setRequestProperty("Authorization", "Bearer " + store.getAuthToken());
-                }
-                return connection;
-            }
-        });
+        hybrisVolleyCreateConnection(context);
+    }
+
+    public void hybrisVolleyCreateConnection(Context context) {
+        hybirsVolleyQueue = Volley.newRequestQueue(context,getTestEnvHurlStack(context));
     }
 
     //Package level access
@@ -75,14 +63,12 @@ public class NetworkController {
         store.setAuthHandler(oAuthHandler);
     }
 
-
-    public void sendHybrisRequest(final int requestCode, final RequestListener requestListener,
-                                  Map<String,String> query) {
-        final AbstractModel model = getModel(requestCode, query);
-
+    public void sendHybrisRequest(final int requestCode, final AbstractModel model, final
+    RequestListener requestListener) {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
+                IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error.getLocalizedMessage());
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
@@ -99,55 +85,34 @@ public class NetworkController {
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
-                    if(response != null && response.length() == 0){
-                       msg.obj = NetworkConstants.EMPTY_RESPONSE;
-                    }else{
-                        msg.obj = model.parseResponse(requestCode, response);
-                    }
+                    msg.obj = model.parseResponse(response);
                     requestListener.onSuccess(msg);
+                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg);
                 }
             }
         };
 
-        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(requestCode), getTargetUrl(model,requestCode),
-                model.requestBody(requestCode), response, error);
+        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(), getTargetUrl(model),
+                model.requestBody(), response, error);
+        addToVolleyQueue(jsObjRequest);
+    }
+
+    public void addToVolleyQueue(final IAPJsonRequest jsObjRequest) {
         hybirsVolleyQueue.add(jsObjRequest);
     }
 
     /**
      * @param model
-     * @param requestCode
      * @return Url String
      */
-    private String getTargetUrl(AbstractModel model, int requestCode) {
+    private String getTargetUrl(AbstractModel model) {
         if (DebugUtils.TEST_MODE) {
-            return model.getTestUrl(requestCode);
+            return model.getTestUrl();
         }
-        return model.getProductionUrl(requestCode);
+        return model.getProductionUrl();
     }
 
-    /**
-     * @param requestCode
-     * @return
-     */
-    private AbstractModel getModel(final int requestCode, Map<String,String> query) {
-        switch (requestCode) {
-            case RequestCode.GET_CART:
-                return new CartModel(store, query);
-            case RequestCode.ADD_TO_CART:
-                return new CartModel(store, query);
-            case RequestCode.UPDATE_PRODUCT_COUNT:
-				return new CartModel(store, query);
-            case RequestCode.CREATE_CART:
-                return new CartModel(store, query);
-            case RequestCode.DELETE_PRODUCT:
-                return new CartModel(store, query);
-            default:
-                return null;
-        }
-    }
-
-    private SSLSocketFactory buildSslSocketFactory(Context context) {
+    public SSLSocketFactory buildSslSocketFactory(Context context) {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             InputStream is = context.getResources().getAssets().open("test.crt");
@@ -175,7 +140,6 @@ public class NetworkController {
             TrustManager[] mngrs = new TrustManager[]{new TestTrustManager()};//tmf.getTrustManagers();
             sslContext.init(null, mngrs, null);
             return sslContext.getSocketFactory();
-
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (KeyStoreException e) {
@@ -188,6 +152,29 @@ public class NetworkController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private HurlStack getTestEnvHurlStack(Context context) {
+       return new HurlStack(null, buildSslSocketFactory(context)) {
+            @Override
+            protected HttpURLConnection createConnection(final URL url) throws IOException {
+                HttpURLConnection connection = super.createConnection(url);
+                if (connection instanceof HttpsURLConnection) {
+                    ((HttpsURLConnection) connection).setHostnameVerifier(new HostnameVerifier() {
+                        @Override
+                        public boolean verify(final String hostname, final SSLSession session) {
+                            return hostname.contains("philips.com");
+                        }
+                    });
+                connection.setRequestProperty("Authorization", "Bearer " + store.getAuthToken());
+                }
+                return connection;
+            }
+       };
+    }
+
+    public Store getStore() {
+        return store;
     }
 
     private static class TestTrustManager implements X509TrustManager {

@@ -103,6 +103,12 @@ public class ShoppingCartActivity extends UiKitActivity implements View.OnClickL
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        mAdapter.onStop();
+    }
+
+    @Override
     public void onClick(View v) {
         if (v == mCheckoutBtn) {
             Intent lIntent = new Intent(ShoppingCartActivity.this, ShippingAddressActivity.class);
