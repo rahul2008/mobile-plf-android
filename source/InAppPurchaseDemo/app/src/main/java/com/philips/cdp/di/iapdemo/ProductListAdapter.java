@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.activity.MainActivity;
 
 import java.util.ArrayList;
 
@@ -59,20 +57,14 @@ public class ProductListAdapter extends BaseAdapter {
         mViewHolder.addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((DemoAppActivity) mContext).addToCart(false, currentProduct.getCtnNumber());
-
+                ((DemoAppActivity) mContext).addToCart(currentProduct.getCtnNumber());
             }
         });
 
         mViewHolder.buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((DemoAppActivity) mContext).getCount() == 0) {
-                    ((DemoAppActivity) mContext).addToCart(true, currentProduct.getCtnNumber());
-                } else {
-                    Intent myIntent = new Intent(mContext, MainActivity.class);
-                    mContext.startActivity(myIntent);
-                }
+                ((DemoAppActivity) mContext).buyNow(currentProduct.getCtnNumber());
             }
         });
 
