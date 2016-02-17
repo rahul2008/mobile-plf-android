@@ -69,6 +69,8 @@
             android:scrollHorizontally="false"
             android:text="DiamondClean"
             android:textColor="?attr/baseColor"
+            android:layout_alignBaseline="@id/price"
+            android:layout_alignParentLeft="true"
             android:textSize="16sp" />
 
         <TextView

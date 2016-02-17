@@ -94,6 +94,12 @@ public class ShoppingCartPresenter {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
                         mProductData = (ArrayList<ShoppingCartData>) msg.obj;
+                        if(mProductData == null || mProductData.size()==0){
+                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
+                            Utility.dismissProgressDialog();
+                            return;
+                        }
+                        addShippingCostRowToTheList();
                         refreshList(mProductData);
                         Utility.dismissProgressDialog();
                     }
@@ -117,17 +123,12 @@ public class ShoppingCartPresenter {
                 new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
-                        removeItemFromList(summary);
-                        Utility.dismissProgressDialog();
-                        refreshList(mProductData);
-                        checkIfCartIsEmpty();
+                       getCurrentCartDetails();
                     }
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        Toast.makeText(mContext, "Delete Request Error", Toast.LENGTH_SHORT).show();
-                        refreshList(mProductData);
-                        Utility.dismissProgressDialog();
+                        getCurrentCartDetails();
                     }
                 });
         sendHybrisRequest(0, model, model);
@@ -153,19 +154,5 @@ public class ShoppingCartPresenter {
             }
         });
         sendHybrisRequest(0, model, model);
-    }
-
-    private void checkIfCartIsEmpty() {
-        if (mProductData.size() <= 3) {
-            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
-        }
-    }
-
-    private void removeItemFromList(ShoppingCartData pProductdata) {
-        if (mProductData.size() <= 4) {
-            mProductData.removeAll(mProductData);
-        } else {
-            mProductData.remove(pProductdata);
-        }
     }
 }

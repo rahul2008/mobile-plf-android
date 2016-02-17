@@ -14,6 +14,10 @@
         android:text="@string/iap_empty_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        fontPath="fonts/centralesansbook.ttf"
+        android:textSize="20sp"
         android:textColor="?attr/baseColor"/>
 
     <Button

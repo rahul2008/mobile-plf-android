@@ -6,7 +6,9 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
@@ -27,6 +30,7 @@ import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,7 +120,10 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
-                holder.price.setText(cartData.getCurrency() + " " + cartData.getTotalPrice());
+                String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
+
+                holder.price.setText(cartData.getCurrency() + " " + price);
+                holder.price.setTypeface(null, Typeface.BOLD);
                 holder.valueOption.setText(cartData.getQuantity() + "");
 
                 //TODO: Fix it
@@ -148,7 +155,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 holder.name = (TextView) convertView.findViewById(R.id.ifo);
                 holder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
-                holder.on_off = (TextView) convertView.findViewById(R.id.medium);
+               // holder.on_off = (TextView) convertView.findViewById(R.id.medium);
                 holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
                 holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
                 holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
@@ -168,19 +175,25 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                         holder.description.setVisibility(View.VISIBLE);
                         int totalItems = mData.size()-3;
-                        holder.description.setText("Total (" + totalItems + ")");
+
+                        holder.description.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " +mContext.getString(R.string.iap_items) + ")");
+                        holder.description.setTypeface(null, Typeface.BOLD);
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
-                        holder.totoalcost.setText(data.getCurrency() + " " + data.getTotalPrice());
+                        String totalprice = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(data.getTotalPriceWithTax());
+                        holder.totoalcost.setText(data.getCurrency() + " " + totalprice);
+                        holder.totoalcost.setTypeface(null, Typeface.BOLD);
                     }
                 }
                 if (position == mData.size() - 2) {
                     //2nd Last Row
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Delivery via UPS Parcel");
+                    holder.name.setTypeface(null, Typeface.BOLD);
 
                     holder.number.setVisibility(View.VISIBLE);
                     holder.number.setText("TBD");
+                    holder.number.setTypeface(null, Typeface.BOLD);
 
                     holder.description.setVisibility(View.VISIBLE);
                     holder.description.setText("Delivery is free when you spend USD 100 or more");
@@ -188,8 +201,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 if (position == mData.size() - 3) {
                     //3rd Last Row
                     holder.name.setVisibility(View.VISIBLE);
-                    holder.name.setText("Claim voucher");
-
+                    holder.name.setText("Redeem voucher");
+                    holder.name.setTypeface(null, Typeface.BOLD);
                     holder.arrow.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -205,8 +218,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         String info = mResources.getString(R.string.iap_info);
         final String[] descriptions = new String[]{delete, info};
 
-        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_gear_19_19), descriptions[0]));
-        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_share), descriptions[1]));
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.iap_trash_bin), descriptions[0]));
+        rowItems.add(new RowItem(ContextCompat.getDrawable(mContext, R.drawable.iap_info), descriptions[1]));
         mPopupWindow =  new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
         mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -214,8 +227,15 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 switch (position) {
                     case DELETE:
-                        mPresenter.deleteProduct(mData.get(position));
-                        mPopupWindow.dismiss();
+                        if (Utility.isInternetConnected(mContext)) {
+                            if (!Utility.isProgressDialogShowing()) {
+                                Utility.showProgressDialog(mContext,mContext.getString(R.string.iap_deleting_item));
+                                mPresenter.deleteProduct(mData.get(position));
+                                mPopupWindow.dismiss();
+                            }
+                        }else{
+                            Toast.makeText(mContext,"Network Error",Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case INFO:
                         Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
@@ -237,8 +257,10 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        Utility.showProgressDialog(mContext,"Updating Cart Details");
-                        mPresenter.updateProductQuantity(mData.get(position), newCount);
+                        if (!Utility.isProgressDialogShowing()) {
+                            Utility.showProgressDialog(mContext, "Updating Cart Details");
+                            mPresenter.updateProductQuantity(mData.get(position), newCount);
+                        }
                     }
                 });
                 mPopupWindow = countPopUp.getPopUpWindow();
@@ -269,7 +291,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private static class ViewHolder {
         TextView name;
         TextView number;
-        TextView on_off;
+       // TextView on_off;
         ImageView arrow;
         TextView description;
         TextView totoalcost;

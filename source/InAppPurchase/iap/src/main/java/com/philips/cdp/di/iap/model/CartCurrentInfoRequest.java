@@ -11,9 +11,12 @@ import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductDataBuilder;
 import com.philips.cdp.di.iap.activity.EmptyCartActivity;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.Map;
 
@@ -26,10 +29,10 @@ public class CartCurrentInfoRequest extends AbstractModel {
     @Override
     protected void onPostSuccess(Message msg) {
         GetCartData cartData = (GetCartData) msg.obj;
-        // TODO: 14-02-2016 handle this logic via notifications
         if (cartData.getCarts().get(0).getEntries() == null) {
-            Intent intent = new Intent(mContext, EmptyCartActivity.class);
-            mContext.startActivity(intent);
+            Message msgResult = Message.obtain(msg);
+            msgResult.obj = null;
+            mDataloadListener.onModelDataLoadFinished(msgResult);
         } else {
             PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,
                     mDataloadListener);
