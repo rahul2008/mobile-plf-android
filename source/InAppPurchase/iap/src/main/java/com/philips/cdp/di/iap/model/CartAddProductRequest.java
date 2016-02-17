@@ -37,7 +37,7 @@ public class CartAddProductRequest extends AbstractModel {
     @Override
     public Map<String, String> requestBody() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
+        params.put(ModelConstants.PRODUCT_CODE, this.params.get(ModelConstants.PRODUCT_CODE));
         return params;
     }
 

@@ -4,7 +4,16 @@ package com.philips.cdp.di.iap.model;
  * Created by 310228564 on 2/17/2016.
  */
 public class ModelConstants {
-    /**Address data**/
+    /**
+     * Product Request parameters
+     */
+    public final static String PRODUCT_CODE = "code";
+    public final static String PRODUCT_QUANTITY = "qty";
+    public final static String PRODUCT_ENTRYCODE = "entrycode";
+    public final static String ENTRY_CODE = "entrynumber";
+    /**
+     * Address data
+     **/
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
     public static final String TITLE_CODE = "titleCode";

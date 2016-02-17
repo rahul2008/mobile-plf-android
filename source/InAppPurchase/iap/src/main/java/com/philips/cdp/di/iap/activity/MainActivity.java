@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class MainActivity extends BaseFragmentActivity {
+    TextView mTitleTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,8 @@ public class MainActivity extends BaseFragmentActivity {
 
         View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.iap_action_bar, null); // layout which contains your button.
 
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-        mTitleTextView.setText(getString(R.string.iap_shopping_cart));
+        mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
+        // mTitleTextView.setText(getString(R.string.iap_shopping_cart));
 
         ImageView backButton = (ImageView) mCustomView.findViewById(R.id.arrow);
         backButton.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
@@ -62,6 +63,14 @@ public class MainActivity extends BaseFragmentActivity {
 
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
+    }
+
+    public void setHeaderTitle(String pTitle) {
+        mTitleTextView.setText(pTitle);
+    }
+
+    public void setHeaderTitle(int pTitle) {
+        mTitleTextView.setText(pTitle);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class ShippingAddressFragment extends BaseNoAnimationFragment {
 
     @Override
     protected void updateTitle() {
-
+        setTitle(R.string.iap_shipping_address);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class NetworkConstants {
     public static final String CLIENT_SECRET = "secret";*/
 
     /**Cart Url**/
-    public static final String GET_CURRENT_CART_URL = BASE_URL + "carts";
+    public static final String GET_CURRENT_CART_URL = BASE_URL + "carts?fields=FULL";
     public static final String CREATE_CART_URL = BASE_URL + "carts";
     public static final String ADD_TO_CART_URL = BASE_URL + CURRENT_CART + "/entries";
     public static final String DELETE_PRODUCT_URL = BASE_URL + CURRENT_CART + "/entries/%s";

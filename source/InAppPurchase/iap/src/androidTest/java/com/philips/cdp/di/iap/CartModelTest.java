@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
@@ -23,7 +22,6 @@ public class CartModelTest {
         Store store = new Store(context, "hostport", "webroot", "userID", "janrainID");
         CartModel cartModel = new CartModel(store, null);
         assertEquals(cartModel.getTestUrl(RequestCode.CREATE_CART), NetworkConstants.CREATE_CART_URL);
-
     }
 
     @Test
@@ -32,7 +30,6 @@ public class CartModelTest {
         Store store = new Store(context, "hostport", "webroot", "userID", "janrainID");
         CartModel cartModel = new CartModel(store, null);
         assertEquals(cartModel.getTestUrl(RequestCode.GET_CART), NetworkConstants.GET_CURRENT_CART_URL);
-
     }
 
     @Test
@@ -41,7 +38,6 @@ public class CartModelTest {
         Store store = new Store(context, "hostport", "webroot", "userID", "janrainID");
         CartModel cartModel = new CartModel(store, null);
         assertEquals(cartModel.getTestUrl(RequestCode.ADD_TO_CART), NetworkConstants.ADD_TO_CART_URL);
-
     }
 
     @Test
@@ -50,7 +46,6 @@ public class CartModelTest {
         Store store = new Store(context, "hostport", "webroot", "userID", "janrainID");
         CartModel cartModel = new CartModel(store, null);
         assertEquals(cartModel.getTestUrl(RequestCode.DELETE_PRODUCT), NetworkConstants.DELETE_PRODUCT_URL);
-
     }
 
     @Test
@@ -59,6 +54,5 @@ public class CartModelTest {
         Store store = new Store(context, "hostport", "webroot", "userID", "janrainID");
         CartModel cartModel = new CartModel(store, null);
         assertEquals(cartModel.getTestUrl(RequestCode.UPDATE_PRODUCT_COUNT), NetworkConstants.UPDATE_QUANTITY_URL);
-
     }
 }

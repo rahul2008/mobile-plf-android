@@ -3,13 +3,12 @@ package com.philips.cdp.di.iap.receiver;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import com.philips.cdp.di.iap.testutil.MockTestCase;
+import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class NetworkStateReceiverTest extends MockTestCase {
+public class NetworkStateReceiverTest extends InstrumentationTestCase {
 
     public void testShouldNetworkIsConnected() throws Exception {
         //When

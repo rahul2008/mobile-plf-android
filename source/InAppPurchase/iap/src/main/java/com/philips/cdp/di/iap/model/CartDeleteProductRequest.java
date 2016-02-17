@@ -34,8 +34,8 @@ public class CartDeleteProductRequest extends AbstractModel {
     @Override
     public Map<String, String> requestBody() {
         Map<String, String> payload = new HashMap<>();
-        payload.put(PRODUCT_CODE, params.get(PRODUCT_CODE));
-        payload.put(ENTRY_CODE, params.get(ENTRY_CODE));
+        payload.put(ModelConstants.PRODUCT_CODE, params.get(ModelConstants.PRODUCT_CODE));
+        payload.put(ModelConstants.ENTRY_CODE, params.get(ModelConstants.ENTRY_CODE));
         return payload;
     }
 
@@ -44,7 +44,7 @@ public class CartDeleteProductRequest extends AbstractModel {
         if (params == null) {
             throw new RuntimeException("Cart ID and Entry Number has to be supplied");
         }
-        int entryNumber = Integer.parseInt(params.get(ENTRY_CODE));
+        int entryNumber = Integer.parseInt(params.get(ModelConstants.ENTRY_CODE));
         return String.format(NetworkConstants.DELETE_PRODUCT_URL, String.valueOf(entryNumber));
     }
 }

@@ -12,10 +12,10 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
-import com.philips.cdp.di.iap.model.CartModel;
+import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
-import com.philips.cdp.di.iap.response.cart.Entries;
-import com.philips.cdp.di.iap.response.cart.GetCartData;
+import com.philips.cdp.di.iap.response.carts.Carts;
+import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -42,7 +42,7 @@ public class IAPHandler {
         //addToCart
         IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == addItemtoCart");
         HashMap<String, String> params = new HashMap<>();
-        params.put(CartModel.PRODUCT_CODE, productCTN);
+        params.put(ModelConstants.PRODUCT_CODE, productCTN);
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         CartAddProductRequest model = new CartAddProductRequest(delegate.getStore(), params, null);
         delegate.sendRequest(RequestCode.ADD_TO_CART, model, new RequestListener() {
@@ -74,11 +74,11 @@ public class IAPHandler {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                     createCart(iapHandlerListner);
                 } else {
-                    GetCartData getCartData = (GetCartData) msg.obj;
+                    Carts getCartData = (Carts) msg.obj;
                     if (null != getCartData) {
                         int quantity = 0;
                         int totalItems = getCartData.getCarts().get(0).getTotalItems();
-                        List<Entries> entries = getCartData.getCarts().get(0).getEntries();
+                        List<EntriesEntity> entries = getCartData.getCarts().get(0).getEntries();
                         if (totalItems != 0 && null != entries) {
                             for (int i = 0; i < entries.size(); i++) {
                                 quantity = quantity + entries.get(i).getQuantity();

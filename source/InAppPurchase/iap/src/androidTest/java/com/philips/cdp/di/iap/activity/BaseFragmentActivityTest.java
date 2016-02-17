@@ -2,10 +2,10 @@ package com.philips.cdp.di.iap.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.testutil.MockTestCase;
 
 import org.mockito.Mockito;
 
@@ -13,7 +13,7 @@ import org.mockito.Mockito;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class BaseFragmentActivityTest extends MockTestCase {
+public class BaseFragmentActivityTest extends InstrumentationTestCase {
 
     public void testGetTopFragment() throws Exception {
         BaseFragmentActivity baseFragmentActivity = new BaseFragmentActivity();

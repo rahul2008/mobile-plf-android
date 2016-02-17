@@ -9,10 +9,6 @@ import com.philips.cdp.di.iap.store.Store;
 import java.util.Map;
 
 public abstract class AbstractModel implements RequestListener {
-    public final static String PRODUCT_CODE = "code";
-    public final static String PRODUCT_QUANTITY = "qty";
-    public final static String PRODUCT_ENTRYCODE = "entrycode";
-    public final static String ENTRY_CODE = "entrynumber";
 
     final protected Store store;
     protected Map<String, String> params;

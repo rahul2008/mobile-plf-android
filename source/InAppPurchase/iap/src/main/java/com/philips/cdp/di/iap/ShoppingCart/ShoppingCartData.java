@@ -1,6 +1,6 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
-import com.philips.cdp.di.iap.response.cart.Entries;
+import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -8,7 +8,7 @@ import com.philips.cdp.di.iap.response.cart.Entries;
  */
 public class ShoppingCartData {
 
-    private Entries mEntry;
+    private EntriesEntity mEntry;
     private String mCtnNumber;
     private String mProductTitle;
     private String mImageURL;
@@ -33,14 +33,13 @@ public class ShoppingCartData {
     public ShoppingCartData() {
     }
 
-    public ShoppingCartData(Entries entry) {
+    public ShoppingCartData(EntriesEntity entry) {
         mEntry = entry;
     }
 
     public String getCartNumber() {
         return mCartNumber;
     }
-
 
     public void setCartNumber(String cartNumber) {
         mCartNumber = cartNumber;
