@@ -77,7 +77,10 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
 
     @Override
     public String getActionbarTitle() {
-        return ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle();
+        if ((ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null))
+            return ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle();
+        else
+            return "";
     }
 
     @Override
