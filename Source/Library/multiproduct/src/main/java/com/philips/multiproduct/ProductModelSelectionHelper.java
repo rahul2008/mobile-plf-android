@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.base.MultiProductActivity;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.listeners.ProductModelSelectionListener;
@@ -28,6 +29,7 @@ public class ProductModelSelectionHelper {
     private static String mSectorCode = "B2C";
     private static String mCatalogCode = "CONSUMER";
     private ProductModelSelectionListener mProductSelectionListener = null;
+    private SummaryModel mUserSelectedProduct = null;
 
 
     public static ProductModelSelectionType mProductModelSelectionType = null;
@@ -212,6 +214,14 @@ public class ProductModelSelectionHelper {
         public int getOrientationValue() {
             return value;
         }
+    }
+
+    public SummaryModel getUserSelectedProduct() {
+        return mUserSelectedProduct;
+    }
+
+    public void setUserSelectedProduct(SummaryModel summaryModel) {
+        mUserSelectedProduct = summaryModel;
     }
 
 

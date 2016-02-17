@@ -26,13 +26,12 @@
             <com.philips.multiproduct.customview.CustomFontTextView
                 android:id="@+id/detailed_screen_productname"
                 style="@style/detailedscreeen_product_name"
-                android:text="Jamie Oliver Food Processor"
 
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
             <com.philips.multiproduct.customview.CustomFontTextView
+                android:id="@+id/detailed_screen_productctn"
                 style="@style/detailedscreeen_product_variant"
-                android:text="HR7781/01"
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 
 
