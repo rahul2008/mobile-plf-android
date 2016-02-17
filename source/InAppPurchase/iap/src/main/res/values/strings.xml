@@ -46,4 +46,5 @@
     <!-- Address screen-->
     <string name="iap_add_new_address">Add a new address</string>
     <string name="iap_deliver_to_this_address">Deliver to this address</string>
+    <string name="iap_selection_select_address">Select address</string>
 </resources>

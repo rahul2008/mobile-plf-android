@@ -20,12 +20,16 @@
     <!--Text size-->
     <dimen name="iap_shipping_address_title_size">20sp</dimen>
 
-    <!-- Retrieve Address Screen-->
-    <dimen name="iap_retrieve_address_new_margin_top">7dp</dimen>
-    <dimen name="iap_retrieve_address_layout_margin">20dp</dimen>
-    <dimen name="iap_retrieve_address_text_size">16sp</dimen>
-    <dimen name="iap_retrieve_address_margin_left">52dp</dimen>
-    <dimen name="iap_retrieve_address_margin_top">9dp</dimen>
-    <dimen name="iap_retrieve_address_layout_margin_top">12dp</dimen>
-    <dimen name="iap_retrieve_address_name_margin_top">17dp</dimen>
+    <!-- selection Address Screen-->
+    <dimen name="iap_selection_address_select_address_margint_top">33dp</dimen>
+    <dimen name="iap_selection_address_select_address_margint_bottom">24dp</dimen>
+    <dimen name="iap_selection_address_select_address_text_size">20sp</dimen>
+    <dimen name="iap_selection_address_new_margin_top">7dp</dimen>
+    <dimen name="iap_selection_address_layout_margin">20dp</dimen>
+    <dimen name="iap_selection_address_text_size">16sp</dimen>
+    <dimen name="iap_selection_address_margin_left">52dp</dimen>
+    <dimen name="iap_selection_address_margin_top">9dp</dimen>
+    <dimen name="iap_selection_address_layout_margin_top">12dp</dimen>
+    <dimen name="iap_selection_address_layout_margin_bottom">19dp</dimen>
+    <dimen name="iap_selection_address_name_margin_top">17dp</dimen>
 </resources>
