@@ -178,8 +178,8 @@ public class DigitalCareConfigManager {
      * @param orientation
      */
     private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ProductModelSelectionHelper.ActivityOrientation orientation) {
-        if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
-            throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
+        if (mContext == null || mLocale == null) {
+            throw new RuntimeException("Please initialise context,  and locale before Support page is invoked");
         }
         if (mTaggingEnabled) {
             if (mAppID == null || mAppID.equals("")) {

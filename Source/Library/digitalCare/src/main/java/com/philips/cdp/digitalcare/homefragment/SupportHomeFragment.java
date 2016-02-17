@@ -26,6 +26,7 @@ import com.philips.cdp.digitalcare.faq.FaqFragment;
 import com.philips.cdp.digitalcare.listeners.IPrxCallback;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
+import com.philips.cdp.digitalcare.productdetails.ProductSelectionProductInfo;
 import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
@@ -65,6 +66,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 false);
         mIsFirstScreenLaunch = true;
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
+
+        ProductSelectionProductInfo productInfo = new ProductSelectionProductInfo();
+        productInfo.setCtn("");
+        productInfo.setSector("B2C");
+        productInfo.setCatalog("Care");
+        DigitalCareConfigManager.getInstance().setConsumerProductInfo(productInfo);
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
                 if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&

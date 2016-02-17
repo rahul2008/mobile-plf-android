@@ -64,7 +64,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
-    private SampleConsumerProductInfo mConsumerProductInfo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,11 +202,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         // Initializing DigitalCare Component.
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
                 this);
-
-        // Set ConsumerProductInfo
-        mConsumerProductInfo = new SampleConsumerProductInfo();
-        DigitalCareConfigManager.getInstance().setConsumerProductInfo(
-                mConsumerProductInfo);
 
         // Set DigitalCareLibrary Listeners
         DigitalCareConfigManager.getInstance().registerMainMenuListener(this);
