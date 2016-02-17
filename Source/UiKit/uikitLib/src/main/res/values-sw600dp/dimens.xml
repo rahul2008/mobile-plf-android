@@ -63,4 +63,7 @@
     <dimen name="springboard_list_margin_top_tablet">189dp</dimen>
 
     <dimen name="springboard_grid_margin_right">31dp</dimen>
+
+    <dimen name="uikit_modal_alert_dialog_width">356dp</dimen>
+    <dimen name="uikit_modal_alert_dialog_height">275dp</dimen>
 </resources>
