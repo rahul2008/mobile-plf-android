@@ -129,9 +129,6 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
                                                                    mVideoList.add(assetResource.replace("/content/", "/image/") + "?wid=" + (int) (getResources().getDimension(R.dimen.productdetails_screen_image) / getResources().getDisplayMetrics().density) + "&amp;");
                                                        }
                                                    }
-
-                                                   for (int i = 0; i < mVideoList.size(); i++)
-                                                       ProductSelectionLogger.d(TAG, "Images Size : " + mVideoList.get(i));
                                                    ProductSelectionLogger.d(TAG, "Images Size : " + mVideoList.size());
                                                }
 
