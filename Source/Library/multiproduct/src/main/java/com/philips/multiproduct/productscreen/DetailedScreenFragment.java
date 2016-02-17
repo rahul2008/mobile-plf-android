@@ -33,6 +33,8 @@ import com.philips.multiproduct.utils.ProductSelectionLogger;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Observable;
+import java.util.Observer;
 /**
  * This Fragments takes responsibility to show the complete detailed description of the
  * specific product with multiple images.
@@ -42,14 +44,14 @@ import java.util.List;
  * @author naveen@philips.com
  * @Date 28/01/2016
  */
-public class DetailedScreenFragment extends MultiProductBaseFragment implements View.OnClickListener {
+public class DetailedScreenFragment extends MultiProductBaseFragment implements View.OnClickListener, Observer {
 
     private static final String TAG = DetailedScreenFragment.class.getSimpleName();
-    private ViewPager mViewpager;
-    private CircleIndicator mIndicater;
-    private CustomFontTextView mProductName = null;
-    private CustomFontTextView mProductCtn = null;
-    private Button mSelectButton = null;
+ 	private static ViewPager mViewpager = null;
+    private static CircleIndicator mIndicater =null;
+    private static CustomFontTextView mProductName = null;
+    private static CustomFontTextView mProductCtn = null;
+    private static Button mSelectButton = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,6 +69,12 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+   		mViewpager = (ViewPager) getActivity().findViewById(R.id.detailedscreen_pager);
+        mIndicater = (CircleIndicator) getActivity().findViewById(R.id.detailedscreen_indicator);
+        mProductName = (CustomFontTextView) getActivity().findViewById(R.id.detailed_screen_productname);
+        mSelectButton = (Button) getActivity().findViewById(R.id.detailedscreen_select_button);
+		mProductCtn = (CustomFontTextView) view.findViewById(R.id.detailed_screen_productctn);
+        
         if (isConnectionAvailable() && (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null)) {
             getProductImagesFromPRX();
             mProductName.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle());
@@ -77,6 +85,10 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
         mIndicater.setViewPager(mViewpager);
         mProductName.setTypeface(Typeface.DEFAULT_BOLD);
         mSelectButton.setOnClickListener(this);
+    }
+
+    private void initializeUi(){
+        mProductName.setText(mProductSummaryModel.getData().getProductTitle());
     }
 
     @Override
@@ -167,5 +179,14 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
         if (v.getId() == R.id.detailedscreen_select_button)
             if (isConnectionAvailable())
                 showFragment(new SavedScreenFragment());
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+       Log.d("testing", "Detailed Screen -- Clicked again : " + mProductSummaryModel.getData().getProductTitle());
+       if(mProductName == null){
+            return;
+        }
+        initializeUi();
     }
 }
