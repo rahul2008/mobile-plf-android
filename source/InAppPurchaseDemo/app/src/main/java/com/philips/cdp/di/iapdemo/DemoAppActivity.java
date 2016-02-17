@@ -66,7 +66,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     private void populateProduct() {
         for (String mCatalogNumber : mCatalogNumbers) {
             ShoppingCartData product = new ShoppingCartData();
-            product.setCtnNumber(mCatalogNumber.replaceAll("/", "_")); //need to be checked
+            product.setCtnNumber(mCatalogNumber);
             mProductArrayList.add(product);
         }
     }
