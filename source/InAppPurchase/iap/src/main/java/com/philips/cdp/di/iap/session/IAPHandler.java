@@ -61,25 +61,31 @@ public class IAPHandler {
     }
 
     public void getCartQuantity(final IAPHandlerListner iapHandlerListner) {
-        //get cart from the Hybris Server
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
         model.setContext(mContext);
+
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                GetCartData getCartData = (GetCartData) msg.obj;
-                if (null != getCartData) {
-                    int quantity = 0;
-                    int totalItems = getCartData.getCarts().get(0).getTotalItems();
-                    List<Entries> entries = getCartData.getCarts().get(0).getEntries();
-                    if (totalItems != 0 && null != entries) {
-                        for (int i = 0; i < entries.size(); i++) {
-                            quantity = quantity + entries.get(i).getQuantity();
+
+                if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+                    createCart(iapHandlerListner);
+                } else {
+                    GetCartData getCartData = (GetCartData) msg.obj;
+                    if (null != getCartData) {
+                        int quantity = 0;
+                        int totalItems = getCartData.getCarts().get(0).getTotalItems();
+                        List<Entries> entries = getCartData.getCarts().get(0).getEntries();
+                        if (totalItems != 0 && null != entries) {
+                            for (int i = 0; i < entries.size(); i++) {
+                                quantity = quantity + entries.get(i).getQuantity();
+                            }
                         }
+                        iapHandlerListner.onGetCartQuantity(quantity);
+                        IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == getCartQuantity = " + quantity);
                     }
-                    iapHandlerListner.onGetCartQuantity(quantity);
-                    IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == getCartQuantity = " + quantity);
                 }
             }
 
@@ -90,18 +96,20 @@ public class IAPHandler {
         });
     }
 
-    public void createCart() {
+    public void createCart(final IAPHandlerListner iapHandlerListner) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
                 IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == createCart = onSuccess ");
+                iapHandlerListner.onGetCartQuantity(0);
             }
 
             @Override
             public void onError(final Message msg) {
                 IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == createCart = onError ");
+                iapHandlerListner.onGetCartQuantity(-1);
             }
         });
     }

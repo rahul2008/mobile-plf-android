@@ -85,7 +85,13 @@ public class NetworkController {
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
-                    msg.obj = model.parseResponse(response);
+
+                    if(response != null && response.length() == 0){
+                        msg.obj = NetworkConstants.EMPTY_RESPONSE;
+                    }else{
+                        msg.obj = model.parseResponse(response);
+                    }
+
                     requestListener.onSuccess(msg);
                     IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg);
                 }

@@ -33,14 +33,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
 
-        ListView mProductListView = (ListView) findViewById(R.id.product_list);
-
         mIapHandler = new IAPHandler();
+
+        populateProduct();
 
         FrameLayout mShoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
         mShoppingCart.setOnClickListener(this);
-        populateProduct();
 
+        ListView mProductListView = (ListView) findViewById(R.id.product_list);
         ProductListAdapter mProductListAdapter = new ProductListAdapter(this, mProductArrayList);
         mProductListView.setAdapter(mProductListAdapter);
 
@@ -85,11 +85,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
 
     /**
      * Buy Now particular product
+     *
      * @param ctnNumber product id
      */
     void buyNow(String ctnNumber) {
         //Buy Now
-        addToCart(ctnNumber);
+//        addToCart(ctnNumber);
     }
 
     @Override
@@ -108,7 +109,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
 
     @Override
     public void onGetCartQuantity(final int quantity) {
-        mCountText.setText(String.valueOf(quantity));
+        if (quantity != -1) {
+            mCountText.setText(String.valueOf(quantity));
+        }
         Utility.dismissProgressDialog();
     }
 
@@ -118,7 +121,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
             mIapHandler.getCartQuantity(this);
         } else if (responseStatus.equalsIgnoreCase("noStock")) {
             Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
+            Utility.dismissProgressDialog();
         }
-        Utility.dismissProgressDialog();
+
     }
 }
