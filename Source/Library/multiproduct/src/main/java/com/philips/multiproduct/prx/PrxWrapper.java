@@ -2,6 +2,7 @@ package com.philips.multiproduct.prx;
 
 import android.content.Context;
 
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
@@ -88,6 +89,7 @@ public class PrxWrapper {
 
         RequestManager requestManager = new RequestManager();
         requestManager.init(mContext);
+        PrxLogger.enablePrxLogger(true);
         requestManager.executeRequest(assetBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {

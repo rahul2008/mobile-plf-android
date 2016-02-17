@@ -10,22 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
 import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.CustomFontTextView;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
-import com.philips.multiproduct.listfragment.ListViewWithOptions;
 import com.philips.multiproduct.productscreen.adapter.ProductAdapter;
 import com.philips.multiproduct.prx.PrxAssetDataListener;
-import com.philips.multiproduct.prx.PrxSummaryDataListener;
 import com.philips.multiproduct.prx.PrxWrapper;
 import com.philips.multiproduct.savedscreen.SavedScreenFragment;
+import com.philips.multiproduct.utils.Constants;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This Fragments takes responsibility to show the complete detailed description of the
@@ -59,8 +60,10 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (isConnectionAvailable() &&  MultiProductBaseFragment.mProductSummaryModel != null)
+        if (isConnectionAvailable() && (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null))
             getAssetDataFromPRX();
+        else
+            ProductSelectionLogger.e(TAG, "Summary Model is null in Base");
         mViewpager.setAdapter(new ProductAdapter(getChildFragmentManager()));
         mIndicater.setViewPager(mViewpager);
         mProductName.setTypeface(Typeface.DEFAULT_BOLD);
@@ -74,7 +77,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
 
     @Override
     public String getActionbarTitle() {
-        return "Jamie Oliver Food Processor";
+        return ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle();
     }
 
     @Override
@@ -83,6 +86,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     }
 
     private ProgressDialog mAssetDialog = null;
+    List<String> mVideoList = null;
 
     private void getAssetDataFromPRX() {
 
@@ -94,7 +98,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
         if (!(getActivity().isFinishing()))
             mAssetDialog.show();
 
-        PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), mProductSummaryModel.getData().getCtn(),
+        PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn(),
                 ProductModelSelectionHelper.getInstance().getSectorCode(),
                 ProductModelSelectionHelper.getInstance().getLocale().toString(),
                 ProductModelSelectionHelper.getInstance().getCatalogCode());
@@ -109,8 +113,26 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
                                                            mAssetDialog.cancel();
                                                        }
 
-                                                   ProductSelectionLogger.d(TAG, " Asset Data received for the Ctn ; " + mProductSummaryModel.getData().getCtn());
+                                                   ProductSelectionLogger.d(TAG, " Asset Data received for the Ctn ; " + ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn());
+                                                   com.philips.cdp.prxclient.prxdatamodels.assets.Data data = assetModel.getData();
 
+                                                   if (data != null) {
+                                                       Assets assets = data.getAssets();
+                                                       List<Asset> asset = assets.getAsset();
+                                                       mVideoList = new ArrayList<String>();
+                                                       for (Asset assetObject : asset) {
+                                                           String assetDescription = assetObject.getDescription();
+                                                           String assetResource = assetObject.getAsset();
+                                                           String assetExtension = assetObject.getExtension();
+                                                           if (assetExtension.equalsIgnoreCase(Constants.DETAILEDSCREEN_PRIDUCTIMAGES))
+                                                               if (assetResource != null)
+                                                                   mVideoList.add(assetResource.replace("/content/", "/image/") + "?wid=" + (int) (getResources().getDimension(R.dimen.productdetails_screen_image) / getResources().getDisplayMetrics().density) + "&amp;");
+                                                       }
+                                                   }
+
+                                                   for (int i = 0; i < mVideoList.size(); i++)
+                                                       ProductSelectionLogger.d(TAG, "Images Size : " + mVideoList.get(i));
+                                                   ProductSelectionLogger.d(TAG, "Images Size : " + mVideoList.size());
                                                }
 
                                                @Override
@@ -122,7 +144,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
                                                            mAssetDialog.cancel();
                                                        }
 
-                                                   ProductSelectionLogger.d(TAG, " Asset Data Failed for the Ctn ; " + mProductSummaryModel.getData().getCtn());
+                                                   ProductSelectionLogger.d(TAG, " Asset Data Failed for the Ctn ; " + ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn());
                                                }
 
                                            }

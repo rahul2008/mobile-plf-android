@@ -84,7 +84,7 @@ public class ListViewWithOptions extends BaseAdapter {
 
         ProductSelectionLogger.v(TAG, "Image : " + imagepath);
 
-        ImageRequest request = new ImageRequest(imagepath,
+        final  ImageRequest request = new ImageRequest(imagepath,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
@@ -96,7 +96,13 @@ public class ListViewWithOptions extends BaseAdapter {
 
                     }
                 });
-        VolleyWrapper.getInstance(mActivity).addToRequestQueue(request);
+
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                VolleyWrapper.getInstance(mActivity).addToRequestQueue(request);
+            }
+        });
         name.setText(data.getProductTitle());
         value.setText(data.getCtn());
        /* from.setText("from");*/
