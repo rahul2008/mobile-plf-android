@@ -41,7 +41,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mDetailedScreenFragment = new DetailedScreenFragment();
-        if(isTablet()){
+        if (isTablet()) {
             mProductDetailsListener = new ProductListDetailsTabletListener(getActivity());
             mProductDetailsListener.addObserver(mDetailedScreenFragment);
         }
@@ -58,10 +58,9 @@ public class ProductListingFragment extends MultiProductBaseFragment {
 
         if (isTablet() && isConnectionAvailable()) {
             try {
-                mProductSummaryModel = productList.get(0);
+                ProductModelSelectionHelper.getInstance().setUserSelectedProduct(productList.get(0));
                 mProductDetailsListener.notifyAllProductScreens();
-            }
-            catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }
@@ -70,11 +69,10 @@ public class ProductListingFragment extends MultiProductBaseFragment {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
-                    mProductSummaryModel = productList.get(position);
-                    if(!isTablet()) {
+                    ProductModelSelectionHelper.getInstance().setUserSelectedProduct(productList.get(position));
+                    if (!isTablet()) {
                         showFragment(mDetailedScreenFragment);
-                    }
-                    else{
+                    } else {
                         mProductDetailsListener.notifyAllProductScreens();
                     }
                 }
@@ -103,7 +101,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
                     totalHeight += listItem.getMeasuredHeight();
                 }
                 ViewGroup.LayoutParams params = mProductListView.getLayoutParams();
-                params.height = (int) ((totalHeight + (mProductListView.getDividerHeight() * (mProductAdapter.getCount() - 1))));
+                params.height = (totalHeight + (mProductListView.getDividerHeight() * (mProductAdapter.getCount() - 1)));
                 mProductListView.setLayoutParams(params);
                 mProductListView.requestLayout();
             }

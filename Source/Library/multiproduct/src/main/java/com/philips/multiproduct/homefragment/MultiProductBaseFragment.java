@@ -36,7 +36,6 @@ public abstract class MultiProductBaseFragment extends Fragment implements
         NetworkStateListener {
 
     private static String TAG = MultiProductBaseFragment.class.getSimpleName();
-    protected static SummaryModel mProductSummaryModel = null;
     private static boolean isConnectionAvailable;
     private static int mContainerId = 0;
     private static ActionbarUpdateListener mActionbarUpdateListener = null;
@@ -198,11 +197,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
         float yInches = metrics.heightPixels / metrics.ydpi;
         float xInches = metrics.widthPixels / metrics.xdpi;
         double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-        if (diagonalInches >= 6.5) {
-            return true;
-        } else {
-            return false;
-        }
+        return diagonalInches >= 6.5;
     }
 
     protected ProductListDetailsTabletListener getObserver(){
