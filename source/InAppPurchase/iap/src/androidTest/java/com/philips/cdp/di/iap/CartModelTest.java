@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
