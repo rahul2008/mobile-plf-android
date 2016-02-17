@@ -67,7 +67,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
-                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()!= null &&
+                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                         DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null)
                     new PrxProductData(getActivity(), this).executeRequests();
             }
@@ -254,7 +254,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
-        if (isFirstTimeProductComponenetlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() !=null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
+        if (isFirstTimeProductComponenetlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
             launchProductSelectionActivityComponent();
             isFirstTimeProductComponenetlaunch = false;
         }
@@ -311,8 +311,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
                 if (productSummaryModel != null)
-                    onResume();
-
+                    Toast.makeText(getActivity(), "Model Receveid", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getActivity(), "Model Not Received", Toast.LENGTH_SHORT).show();
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, DigitalCareConfigManager.getInstance()

@@ -180,4 +180,10 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         }
     }
 
+
+    protected void backtoConsumerCare()
+    {
+        finish();
+    }
+
 }

@@ -188,6 +188,7 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mProductDetailsListener.deleteObserver(mDetailedScreenFragment);
+        if (mProductDetailsListener != null)
+            mProductDetailsListener.deleteObserver(mDetailedScreenFragment);
     }
 }

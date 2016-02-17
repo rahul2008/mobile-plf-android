@@ -30,7 +30,7 @@ public class ProductModelSelectionHelper {
     private static String mCatalogCode = "CONSUMER";
     private ProductModelSelectionListener mProductSelectionListener = null;
     private SummaryModel mUserSelectedProduct = null;
-
+    private boolean isActivityInstance;
 
     public static ProductModelSelectionType mProductModelSelectionType = null;
 
@@ -88,11 +88,10 @@ public class ProductModelSelectionHelper {
             mCtnList = productModelSelectionType.getHardCodedProductList();
         } else
             throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
-        if (uiLauncher instanceof ActivityLauncher)
-
+        if (uiLauncher instanceof ActivityLauncher) {
+            isActivityInstance = true;
             invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
-
-        else
+        } else
             invokeAsFragment(uiLauncher.getFragmentActivity(), uiLauncher.getLayoutResourceID(),
                     uiLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
 
@@ -160,7 +159,7 @@ public class ProductModelSelectionHelper {
     }
 
     public void setCtn(String ctn) {
-        this.mCtn = ctn;
+        mCtn = ctn;
     }
 
     public String getSectorCode() {
@@ -168,7 +167,7 @@ public class ProductModelSelectionHelper {
     }
 
     public void setSectorCode(String sectorCode) {
-        this.mSectorCode = sectorCode;
+        mSectorCode = sectorCode;
     }
 
     public String getCatalogCode() {
@@ -176,7 +175,7 @@ public class ProductModelSelectionHelper {
     }
 
     public void setCatalogCode(String catalogCode) {
-        this.mCatalogCode = catalogCode;
+        mCatalogCode = catalogCode;
     }
 
     public String[] getProductCtnList() {
@@ -222,6 +221,10 @@ public class ProductModelSelectionHelper {
 
     public void setUserSelectedProduct(SummaryModel summaryModel) {
         mUserSelectedProduct = summaryModel;
+    }
+
+    public boolean isActivityInstance() {
+        return isActivityInstance;
     }
 
 

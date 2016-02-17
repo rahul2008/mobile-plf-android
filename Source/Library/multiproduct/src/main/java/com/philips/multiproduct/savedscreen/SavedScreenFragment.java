@@ -81,7 +81,8 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
         } else if (v.getId() == R.id.savedscreen_button_viewproductdetails)
             if (isConnectionAvailable()) {
                 ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(ProductModelSelectionHelper.getInstance().getUserSelectedProduct());
-                backstackToSupportFragment();
+               // backstackToSupportFragment();
+                getActivity().finish();
             }
     }
 }

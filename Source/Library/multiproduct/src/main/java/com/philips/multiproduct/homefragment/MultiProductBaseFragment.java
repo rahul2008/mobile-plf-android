@@ -386,13 +386,19 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     }
 
     protected boolean backstackToSupportFragment() {
-        if (fragmentManager == null && mActivityContext != null) {
-            fragmentManager = mActivityContext.getSupportFragmentManager();
-        } else if (fragmentManager == null) {
-            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-        }
-        for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
-            fragmentManager.popBackStack();
+
+        if(!ProductModelSelectionHelper.getInstance().isActivityInstance()) {
+            if (fragmentManager == null && mActivityContext != null) {
+                fragmentManager = mActivityContext.getSupportFragmentManager();
+            } else if (fragmentManager == null) {
+                fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+            }
+            for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+                fragmentManager.popBackStack();
+            }
+        }else
+        {
+
         }
         return false;
     }
