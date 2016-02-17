@@ -31,16 +31,17 @@ import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.multiproduct.*;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.component.ActivityLauncher;
 import com.philips.multiproduct.component.UiLauncher;
 import com.philips.multiproduct.productselection.HardcodedProductList;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+//import com.philips.
 
 
 /**
@@ -294,23 +295,25 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
     private void launchMultiProductAsActivity() {
         mConfigManager = ProductModelSelectionHelper.getInstance();
-        mConfigManager.initializeDigitalCareLibrary(getActivity());
+        mConfigManager.initialize(getActivity().getApplicationContext());
         mConfigManager.setLocale("en", "GB");
 
-        ProductModelSelectionType productsSelection = new HardcodedProductList();
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
+
         List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
         String[] ctnList = new String[mCtnList.size()];
         for (int i = 0; i < mCtnList.size(); i++)
             ctnList[i] = mCtnList.get(i);
 
-        productsSelection.setHardCodedProductList(ctnList);
+        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
+        productsSelection.setCatalog(Catalog.CARE);
+        productsSelection.setSector(Sector.B2C);
+
+        //productsSelection.setHardCodedProductList(ctnList);
         UiLauncher uiLauncher = new ActivityLauncher();
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
         uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-        ProductModelSelectionHelper.getInstance().invokeProductSelectionModule(uiLauncher, productsSelection);
-        MLogger.enableLogging();
+        ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
+        ProductSelectionLogger.enableLogging();
     }
 
 
