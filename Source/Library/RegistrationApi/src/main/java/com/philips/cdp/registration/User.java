@@ -420,7 +420,7 @@ public class User {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-                   // refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+                    // refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
                     refreshHsdpAccessToken(context, refreshLoginSessionHandler);
                     return;
                 }
@@ -999,6 +999,28 @@ public class User {
 
             @Override
             public void onFailure(CaptureAPIError failureParam) {
+
+                System.out.println("Error "+failureParam.captureApiError);
+                System.out.println("Error code" + failureParam.captureApiError.code);
+                System.out.println("Error error "+failureParam.captureApiError.error);
+
+                if (failureParam.captureApiError.code ==414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")){
+                    //refresh login session
+
+                    refreshLoginSession(new RefreshLoginSessionHandler() {
+                        @Override
+                        public void onRefreshLoginSessionSuccess() {
+                            handler.onRefreshUserSuccess();
+                            return;
+                        }
+
+                        @Override
+                        public void onRefreshLoginSessionFailedWithError(int error) {
+                            handler.onRefreshUserFailed(error);
+                            return;
+                        }
+                    },context);
+                }
                 handler.onRefreshUserFailed(0);
             }
         });

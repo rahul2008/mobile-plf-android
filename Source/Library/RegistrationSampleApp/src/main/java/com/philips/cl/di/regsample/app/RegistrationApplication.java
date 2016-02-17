@@ -81,7 +81,7 @@ public class RegistrationApplication extends Application {
 
 
 		RegistrationHelper.getInstance().initializeUserRegistration(this, Locale.getDefault());
-		Tagging.init(Locale.getDefault(), this,"Registration");
+		Tagging.init(Locale.getDefault(), this);
 	}
 
 }
