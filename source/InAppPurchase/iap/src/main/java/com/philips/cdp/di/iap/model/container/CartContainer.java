@@ -68,14 +68,14 @@ public class CartContainer implements Serializable, ResponseListener {
     private void getProductDetails(Context pContext, Entries pEntries) {
         if (NetworkUtility.getInstance().isOnline()) {
             code = pEntries.getProduct().getCode();
-            String mCtn = code.replaceAll("_", "/");
+            //String mCtn = code.replaceAll("_", "/");
             String mSectorCode = "B2C";
             String mLocale = "en_US";
             String mCatalogCode = "CONSUMER";
             String mRequestTag = null;
 
             PrxLogger.enablePrxLogger(true);
-            ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(mCtn, mRequestTag);
+            ProductSummaryBuilder mProductAssetBuilder = new ProductSummaryBuilder(code, mRequestTag);
             mProductAssetBuilder.setmSectorCode(mSectorCode);
             mProductAssetBuilder.setmLocale(mLocale);
             mProductAssetBuilder.setmCatalogCode(mCatalogCode);
