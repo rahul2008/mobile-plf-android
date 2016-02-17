@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.model.CartModel;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.HashMap;
@@ -103,13 +104,13 @@ public class IAPHandler {
             @Override
             public void onSuccess(final Message msg) {
                 IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == createCart = onSuccess ");
-                iapHandlerListner.onGetCartQuantity(0);
+                iapHandlerListner.onGetCartQuantity(IAPConstant.IAP_SUCCESS);
             }
 
             @Override
             public void onError(final Message msg) {
                 IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == createCart = onError ");
-                iapHandlerListner.onGetCartQuantity(-1);
+                iapHandlerListner.onGetCartQuantity(IAPConstant.IAP_ERROR);
             }
         });
     }
