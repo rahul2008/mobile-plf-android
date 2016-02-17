@@ -43,6 +43,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     private ViewPager mViewpager;
     private CircleIndicator mIndicater;
     private CustomFontTextView mProductName = null;
+    private CustomFontTextView mProductCtn = null;
     private Button mSelectButton = null;
 
     @Override
@@ -53,6 +54,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
         mViewpager = (ViewPager) view.findViewById(R.id.detailedscreen_pager);
         mIndicater = (CircleIndicator) view.findViewById(R.id.detailedscreen_indicator);
         mProductName = (CustomFontTextView) view.findViewById(R.id.detailed_screen_productname);
+        mProductCtn = (CustomFontTextView) view.findViewById(R.id.detailed_screen_productctn);
         mSelectButton = (Button) view.findViewById(R.id.detailedscreen_select_button);
         return view;
     }
@@ -60,9 +62,11 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (isConnectionAvailable() && (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null))
-            getAssetDataFromPRX();
-        else
+        if (isConnectionAvailable() && (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null)) {
+            getProductImagesFromPRX();
+            mProductName.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle());
+            mProductCtn.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn());
+        } else
             ProductSelectionLogger.e(TAG, "Summary Model is null in Base");
         mViewpager.setAdapter(new ProductAdapter(getChildFragmentManager()));
         mIndicater.setViewPager(mViewpager);
@@ -91,7 +95,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     private ProgressDialog mAssetDialog = null;
     List<String> mVideoList = null;
 
-    private void getAssetDataFromPRX() {
+    private void getProductImagesFromPRX() {
 
         if (mAssetDialog == null)
             mAssetDialog = new ProgressDialog(getActivity(), R.style.loaderTheme);
