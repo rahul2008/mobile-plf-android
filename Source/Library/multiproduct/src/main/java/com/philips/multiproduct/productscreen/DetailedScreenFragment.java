@@ -178,6 +178,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     @Override
     public void update(Observable observable, Object data) {
         ProductSelectionLogger.d("testing", "Detailed Screen -- Clicked again : " + ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle());
+
        if(mProductName == null){
             return;
         }
