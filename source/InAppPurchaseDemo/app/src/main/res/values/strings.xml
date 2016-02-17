@@ -2,4 +2,5 @@
     <string name="app_name">InAppPurchaseDemo</string>
     <string name="buy_now">BuyNow</string>
     <string name="add_to_cart">AddToCart</string>
+    <string name="no_stock">No Stock</string>
 </resources>
