@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,7 +175,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                         holder.description.setVisibility(View.VISIBLE);
                         int totalItems = mData.size()-3;
-                        holder.description.setText("Total (" + data.getTotalItems() + " items" + ")");
+
+                        holder.description.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " +mContext.getString(R.string.iap_items) + ")");
                         holder.description.setTypeface(null, Typeface.BOLD);
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
@@ -200,6 +202,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     //3rd Last Row
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Redeem voucher");
+                    holder.name.setTypeface(null, Typeface.BOLD);
                     holder.arrow.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -215,8 +218,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         String info = mResources.getString(R.string.iap_info);
         final String[] descriptions = new String[]{delete, info};
 
-        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_gear_19_19), descriptions[0]));
-        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.uikit_share), descriptions[1]));
+        rowItems.add(new RowItem(VectorDrawable.create(mContext, R.drawable.iap_trash_bin), descriptions[0]));
+        rowItems.add(new RowItem(ContextCompat.getDrawable(mContext, R.drawable.iap_info), descriptions[1]));
         mPopupWindow =  new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
         mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {

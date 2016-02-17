@@ -40,4 +40,6 @@
     <string name="iap_billing_address_is_same">Same as shipping address</string>
     <string name="iap_continue">Continue</string>
     <string name="iap_cancel">Cancel</string>
+    <string name="iap_total">Total</string>
+    <string name="iap_items"> items</string>
 </resources>

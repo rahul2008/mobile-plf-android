@@ -29,12 +29,10 @@ public class CartCurrentInfoRequest extends AbstractModel {
     @Override
     protected void onPostSuccess(Message msg) {
         GetCartData cartData = (GetCartData) msg.obj;
-        // TODO: 14-02-2016 handle this logic via notifications
         if (cartData.getCarts().get(0).getEntries() == null) {
-            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
-            if(Utility.isProgressDialogShowing()){
-                Utility.dismissProgressDialog();
-            }
+            Message msgResult = Message.obtain(msg);
+            msgResult.obj = null;
+            mDataloadListener.onModelDataLoadFinished(msgResult);
         } else {
             PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,
                     mDataloadListener);

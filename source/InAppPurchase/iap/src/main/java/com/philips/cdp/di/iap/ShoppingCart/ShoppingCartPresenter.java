@@ -94,7 +94,7 @@ public class ShoppingCartPresenter {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
                         mProductData = (ArrayList<ShoppingCartData>) msg.obj;
-                        if(mProductData.size()==0){
+                        if(mProductData == null || mProductData.size()==0){
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
                             Utility.dismissProgressDialog();
                             return;
