@@ -5,6 +5,8 @@ import android.content.Context;
 import com.philips.cdp.di.iap.session.OAuthHandler;
 import com.philips.cdp.di.iap.store.Store;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -34,7 +36,7 @@ public class StoreTest {
     public void verifySameJanRainID() {
         Context context = Mockito.mock(Context.class);
         Store store = new Store(context,"hostport","webroot","userid","janRainID");
-        assertEquals(store.getJanRainToken(),"janRainID");
+        Assert.assertEquals(store.getJanRainToken(),"janRainID");
     }
 
     @Test (expected = NullPointerException.class)

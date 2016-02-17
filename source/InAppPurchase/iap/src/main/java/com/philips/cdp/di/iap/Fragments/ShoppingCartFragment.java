@@ -33,7 +33,7 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
 
     @Override
     protected void updateTitle() {
-
+        setTitle(R.string.iap_shopping_cart);
     }
 
     @Override

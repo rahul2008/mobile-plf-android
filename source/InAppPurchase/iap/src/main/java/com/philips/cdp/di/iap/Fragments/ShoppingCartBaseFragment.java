@@ -41,7 +41,7 @@ public class ShoppingCartBaseFragment extends BaseParentFragment {
         Fragment topFragment = childFragmentManager.findFragmentById(getFragmentContainerId());
         if (topFragment != null && topFragment instanceof ShoppingCartFragment) {
             IAPLog.i(IAPLog.SHOPPING_BASE_FRAGMENT, "ShoppingBaseFragment = handleBackNavigation == topFragment");
-            goBackToRegisterOverviewFragment(childFragmentManager);
+            goBackToShoppingCartFragment(childFragmentManager);
         }
 
         if (childFragmentManager.getBackStackEntryCount() <= 0) {
@@ -52,8 +52,8 @@ public class ShoppingCartBaseFragment extends BaseParentFragment {
         return true;
     }
 
-    private void goBackToRegisterOverviewFragment(FragmentManager childFragmentManager) {
-        IAPLog.i(IAPLog.SHOPPING_BASE_FRAGMENT, "RegisterBaseFragment = goBackToRegisterOverviewFragment");
+    private void goBackToShoppingCartFragment(FragmentManager childFragmentManager) {
+        IAPLog.i(IAPLog.SHOPPING_BASE_FRAGMENT, "RegisterBaseFragment = goBackToShoppingCartFragment");
         int currentLevel = childFragmentManager.getBackStackEntryCount();
         for (int i = currentLevel; i > 1; i--) {
             childFragmentManager.popBackStack();

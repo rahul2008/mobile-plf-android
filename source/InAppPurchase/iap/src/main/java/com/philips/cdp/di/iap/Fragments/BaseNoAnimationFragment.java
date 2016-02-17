@@ -8,6 +8,7 @@ Project           : SaecoAvanti
 
 package com.philips.cdp.di.iap.Fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,11 +19,16 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 
+import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 public abstract class BaseNoAnimationFragment extends Fragment {
 
     protected abstract void updateTitle();
+
+    protected void setTitle(int pResourceId) {
+        getMainActivity().setHeaderTitle(pResourceId);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,5 +106,13 @@ public abstract class BaseNoAnimationFragment extends Fragment {
         transaction.replace(id, fragment);
 
         transaction.commitAllowingStateLoss();
+    }
+
+    public MainActivity getMainActivity() {
+        Activity activity = getActivity();
+        if (activity != null && (activity instanceof MainActivity)) {
+            return (MainActivity) activity;
+        }
+        return null;
     }
 }

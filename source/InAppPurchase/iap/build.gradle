@@ -69,16 +69,20 @@ android {
         targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0.0"
+        multiDexEnabled true
+        testApplicationId "com.philips.cdp.di.iap.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
     }
     buildTypes {
         release {
             minifyEnabled false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
+            minifyEnabled false
             testCoverageEnabled true
         }
     }
@@ -111,25 +115,10 @@ dependencies {
     compile "com.philips.cdp:uikitLib:${uikitLibVer}"
     // Other
     compile "com.jakewharton:butterknife:${butterKnifeVer}"
-    compile "net.hockeyapp.android:HockeySDK:${hockeySdkVer}"
+
     // Tests
-    androidTestCompile "junit:junit:${junitVer}"
-    androidTestCompile files('libs/dexmaker-1.0.jar')
-    androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
-//    androidTestCompile files('libs/mockito-all-1.9.5.jar')
-    androidTestCompile "org.mockito:mockito-all:${mockitoVer}"
-//    compile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
-//    compile 'com.android.support:multidex:1.0.0'
-//    compile("org.robolectric:robolectric:${robolectricVer}") {
-//        exclude group: 'commons-logging', module: 'commons-logging'
-//        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-//        exclude group: 'org.hamcrest', module: 'hamcrest-core'
-//    }
-//    compile("org.robolectric:shadows-support-v4:${robolectricVer}") {
-//        exclude group: 'commons-logging', module: 'commons-logging'
-//        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-//        exclude group: 'org.hamcrest', module: 'hamcrest-core'
-//    }
+    testCompile "junit:junit:${junitVer}"
+    testCompile "org.mockito:mockito-all:${mockitoVer}"
     testCompile "org.robolectric:robolectric:${robolectricVer}"
 }
 
