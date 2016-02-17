@@ -23,6 +23,7 @@ public class IAPLog {
 
     public static String APP_SOURCE_VALUE = "Develop";
     public static String SHOPPING_CART_FRAGMENT = "SHOPPING_CART_FRAGMENT";
+    public static String IAPHANDLER = "InAppHandler";
 
     public static void enableLogging() {
         isLoggingEnabled = true;

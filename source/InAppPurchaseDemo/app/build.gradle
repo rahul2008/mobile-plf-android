@@ -8,17 +8,26 @@ android {
         applicationId "com.philips.cdp.di.iapdemo"
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
-        versionCode 1
-        versionName "0.0.1"
         multiDexEnabled true
         generatedDensities = []
-        renderscriptTargetApi 23
-        renderscriptSupportModeEnabled true
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        simulator {
+            applicationId 'com.philips.cdp.di.iapdemo'
+            versionCode 1
+            versionName "0.0.1"
+        }
+        device {
+            applicationId 'com.philips.cdp.di.iapdemo'
+            versionCode 1
+            versionName "0.0.1"
         }
     }
 }
