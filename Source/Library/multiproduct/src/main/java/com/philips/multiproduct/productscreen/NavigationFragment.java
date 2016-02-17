@@ -1,5 +1,8 @@
 package com.philips.multiproduct.productscreen;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -10,7 +13,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
+import com.philips.multiproduct.prx.VolleyWrapper;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 public final class NavigationFragment extends Fragment {
     private static final String KEY_CONTENT = "NavigationFragment:Content";
@@ -33,7 +42,9 @@ public final class NavigationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ImageView imageView = new ImageView(getActivity());
-        imageView.setBackgroundResource(R.drawable.navigation_image);
+        // imageView.setBackgroundResource(R.drawable.navigation_image);
+        if (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null)
+            loadProductImage(imageView);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
@@ -45,6 +56,38 @@ public final class NavigationFragment extends Fragment {
 
         return layout;
     }
+
+
+    protected void loadProductImage(final ImageView image) {
+        String imagepath = ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getImageURL();
+        final int imageWidth = (int) (getResources().getDimension(R.dimen.productdetails_screen_image) / getResources().getDisplayMetrics().density);
+        imagepath = imagepath + "?wid=" + imageWidth + "&;";
+
+        final ImageRequest request = new ImageRequest(imagepath,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        image.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+
+                        image.setImageBitmap(getBlankThumbnail(imageWidth));
+                    }
+                });
+
+        VolleyWrapper.getInstance(getActivity()).addToRequestQueue(request);
+
+    }
+
+    private Bitmap getBlankThumbnail(int width) {
+        Bitmap imageBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
+
+        imageBitmap.eraseColor(Color.BLACK);
+        return imageBitmap;
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

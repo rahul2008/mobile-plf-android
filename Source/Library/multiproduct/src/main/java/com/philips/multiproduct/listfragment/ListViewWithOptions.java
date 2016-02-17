@@ -93,7 +93,6 @@ public class ListViewWithOptions extends BaseAdapter {
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-
                     }
                 });
 

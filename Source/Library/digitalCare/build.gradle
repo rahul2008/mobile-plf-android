@@ -70,7 +70,7 @@ dependencies {
     compile project(':gson')
     compile project(':Prx')
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'org.mockito:mockito-core:+'
     compile project(':multiproduct')
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.android.support:appcompat-v7:23.1.1'

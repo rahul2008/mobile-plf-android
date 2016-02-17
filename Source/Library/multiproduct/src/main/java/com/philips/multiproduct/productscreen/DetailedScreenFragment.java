@@ -2,6 +2,7 @@ package com.philips.multiproduct.productscreen;
 
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
 import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
@@ -21,6 +25,7 @@ import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.productscreen.adapter.ProductAdapter;
 import com.philips.multiproduct.prx.PrxAssetDataListener;
 import com.philips.multiproduct.prx.PrxWrapper;
+import com.philips.multiproduct.prx.VolleyWrapper;
 import com.philips.multiproduct.savedscreen.SavedScreenFragment;
 import com.philips.multiproduct.utils.Constants;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
