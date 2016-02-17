@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
-import com.philips.pins.shinelib.utility.PersistStorageCleaner;
+import com.philips.pins.shinelib.utility.PersistentStorageCleaner;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
 
@@ -80,10 +80,13 @@ public class SHNDeviceAssociationTest {
     private PersistentStorageFactory persistentStorageFactoryMock;
 
     @Mock
-    private PersistStorageCleaner persistStorageCleanerMock;
+    private PersistentStorageCleaner persistentStorageCleanerMock;
 
     @Captor
     private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
+
+    @Captor
+    private ArgumentCaptor<SHNDevice.SHNDeviceListener> deviceListenerCaptor;
 
     private SHNDeviceScannerInternal mockedSHNDeviceScannerInternal;
 
@@ -150,7 +153,7 @@ public class SHNDeviceAssociationTest {
         doReturn(Collections.emptyList()).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
         doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(anyList());
 
-        PowerMockito.when(persistentStorageFactoryMock.getPersistStorageCleaner()).thenReturn(persistStorageCleanerMock);
+        PowerMockito.when(persistentStorageFactoryMock.getPersistStorageCleaner()).thenReturn(persistentStorageCleanerMock);
 
         shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal, persistentStorageFactoryMock);
 
@@ -390,8 +393,14 @@ public class SHNDeviceAssociationTest {
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
 
         shnDeviceAssociation.removeAssociatedDevice(shnDevice);
+        mockedInternalHandler.executeFirstPostedExecution();
 
-        verify(persistStorageCleanerMock).clearDeviceData(shnDevice);
+        verify(shnDevice).registerSHNDeviceListener(deviceListenerCaptor.capture());
+        when(shnDevice.getState()).thenReturn(SHNDevice.State.Disconnecting);
+        deviceListenerCaptor.getValue().onStateUpdated(shnDevice);
+        mockedInternalHandler.executeFirstPostedExecution();
+
+        verify(persistentStorageCleanerMock).clearDeviceData(shnDevice);
     }
 
     @Test

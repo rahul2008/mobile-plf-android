@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class PersistStorageCleanerTest {
+public class PersistentStorageCleanerTest {
 
     public static final String TEST_ADDRESS = "TEST_ADDRESS";
     @Mock
@@ -33,7 +33,7 @@ public class PersistStorageCleanerTest {
     @Mock
     private SHNDevice deviceMock;
 
-    private PersistStorageCleaner persistStorageCleaner;
+    private PersistentStorageCleaner persistentStorageCleaner;
 
     @Before
     public void setUp() {
@@ -44,19 +44,19 @@ public class PersistStorageCleanerTest {
         when(persistentStorageFactoryMock.getPersistentStorageForDevice(TEST_ADDRESS)).thenReturn(devicePersistentStorageMock);
         when(persistentStorageFactoryMock.getPersistentStorageForDeviceAddresses()).thenReturn(addressesPersistentStorageMock);
 
-        persistStorageCleaner = new PersistStorageCleaner(persistentStorageFactoryMock);
+        persistentStorageCleaner = new PersistentStorageCleaner(persistentStorageFactoryMock);
     }
 
     @Test
     public void ShouldClearUserData_WhenAsked() {
-        persistStorageCleaner.clearUserData();
+        persistentStorageCleaner.clearUserData();
 
         verify(userPersistentStorageMock).clear();
     }
 
     @Test
     public void ShouldClearDeviceData_WhenAsked() {
-        persistStorageCleaner.clearDeviceData(deviceMock);
+        persistentStorageCleaner.clearDeviceData(deviceMock);
 
         verify(devicePersistentStorageMock).clear();
     }
@@ -72,14 +72,14 @@ public class PersistStorageCleanerTest {
 
         when(addressesPersistentStorageMock.getStringSet(eq(PersistentStorageFactory.DEVICE_ADDRESS_KEY), anySetOf(String.class))).thenReturn(inputAddresses);
 
-        persistStorageCleaner.clearDeviceData(deviceMock);
+        persistentStorageCleaner.clearDeviceData(deviceMock);
 
         verify(addressesPersistentStorageMock).put(PersistentStorageFactory.DEVICE_ADDRESS_KEY, outputAddress);
     }
 
     @Test
     public void ShouldClearListOfDeviceKeys_WhenClearAllDevicesIsCalled() {
-        persistStorageCleaner.clearAllDevices();
+        persistentStorageCleaner.clearAllDevices();
 
         verify(addressesPersistentStorageMock).clear();
     }
@@ -96,7 +96,7 @@ public class PersistStorageCleanerTest {
         when(persistentStorageFactoryMock.getPersistentStorageForDevice(someOtherAddress)).thenReturn(otherDevicePersistentStorageMock);
         when(addressesPersistentStorageMock.getStringSet(eq(PersistentStorageFactory.DEVICE_ADDRESS_KEY), anySetOf(String.class))).thenReturn(inputAddresses);
 
-        persistStorageCleaner.clearAllDevices();
+        persistentStorageCleaner.clearAllDevices();
 
         verify(devicePersistentStorageMock).clear();
         verify(otherDevicePersistentStorageMock).clear();

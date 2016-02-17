@@ -184,23 +184,66 @@ public class SHNDeviceAssociation {
     }
 
     public void removeAllAssociatedDevices() {
-        while (!associatedDevices.isEmpty()) {
-            removeAssociatedDevice(associatedDevices.get(0));
-        }
+        shnCentral.getInternalHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                while (!associatedDevices.isEmpty()) {
+                    removeAssociatedDeviceInternal(associatedDevices.get(0));
+                }
+            }
+        });
     }
 
-    public void removeAssociatedDevice(SHNDevice shnDeviceToRemove) {
+    public void removeAssociatedDevice(@NonNull final SHNDevice shnDeviceToRemove) {
+        shnCentral.getInternalHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                removeAssociatedDeviceInternal(shnDeviceToRemove);
+            }
+        });
+    }
+
+    private void removeAssociatedDeviceInternal(@NonNull final SHNDevice shnDeviceToRemove) {
         boolean removed = removeAssociatedDeviceFromList(shnDeviceToRemove);
         if (removed) {
             persistAssociatedDeviceList();
-            persistentStorageFactory.getPersistStorageCleaner().clearDeviceData(shnDeviceToRemove);
+            shnDeviceToRemove.registerSHNDeviceListener(createClearStorageOnDisconnectListener(shnDeviceToRemove));
             shnDeviceToRemove.disconnect();
 
-            ArrayList<DeviceRemovedListener> copyOfDeviceRemovedListeners = new ArrayList<>(this.deviceRemovedListeners);
-            for (final DeviceRemovedListener listener : copyOfDeviceRemovedListeners) {
-                listener.onAssociatedDeviceRemoved(shnDeviceToRemove);
-            }
+            final ArrayList<DeviceRemovedListener> copyOfDeviceRemovedListeners = new ArrayList<>(deviceRemovedListeners);
+            shnCentral.getUserHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    for (final DeviceRemovedListener listener : copyOfDeviceRemovedListeners) {
+                        listener.onAssociatedDeviceRemoved(shnDeviceToRemove);
+                    }
+                }
+            });
         }
+    }
+
+    @NonNull
+    private SHNDevice.SHNDeviceListener createClearStorageOnDisconnectListener(final SHNDevice shnDeviceToRemove) {
+        return new SHNDevice.SHNDeviceListener() {
+            @Override
+            public void onStateUpdated(final SHNDevice shnDevice) {
+                final SHNDevice.SHNDeviceListener shnDeviceListener = this;
+                shnCentral.getInternalHandler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        SHNDevice.State state = shnDevice.getState();
+                        if (state.equals(SHNDevice.State.Disconnected) || state.equals(SHNDevice.State.Disconnecting)) {
+                            persistentStorageFactory.getPersistStorageCleaner().clearDeviceData(shnDeviceToRemove);
+                            shnDevice.unregisterSHNDeviceListener(shnDeviceListener);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult result) {
+            }
+        };
     }
 
     private boolean removeAssociatedDeviceFromList(SHNDevice shnDeviceToRemove) {
