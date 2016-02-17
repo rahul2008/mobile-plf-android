@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+    <com.philips.cdp.uikit.customviews.UIKitRadioButton
+        android:id="@+id/rbtn_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/iap_retrieve_address_layout_margin_top"
+        android:layout_marginLeft="@dimen/iap_retrieve_address_layout_margin"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/iap_retrieve_address_margin_left"
+        android:layout_marginTop="@dimen/iap_retrieve_address_name_margin_top"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/iap_retrieve_address_text_size"
+        android:textColor="?attr/baseColor"
+        fontPath="fonts/centralesansbold.ttf"/>
+
+    <ImageView
+        android:id="@+id/img_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/iap_retrieve_address_layout_margin"
+        android:layout_marginTop="@dimen/iap_retrieve_address_layout_margin_top"/>
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_below="@id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/iap_retrieve_address_margin_left"
+        android:layout_marginTop="@dimen/iap_retrieve_address_margin_top"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/iap_retrieve_address_text_size"
+        android:textColor="@color/iap_address_text_color"/>
+
+    <Button
+        android:id="@+id/btn_deliver"
+        android:layout_below="@id/tv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="@string/iap_deliver_to_this_address"
+        android:layout_marginStart="@dimen/iap_retrieve_address_layout_margin"
+        android:layout_marginEnd="@dimen/iap_retrieve_address_layout_margin"
+        android:layout_marginTop="@dimen/iap_retrieve_address_layout_margin"/>
+
+    <Button
+        android:id="@+id/btn_new_address"
+        android:layout_below="@id/btn_deliver"
+        style="?attr/outlinedButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="@string/iap_add_new_address"
+        android:layout_marginStart="@dimen/iap_retrieve_address_layout_margin"
+        android:layout_marginEnd="@dimen/iap_retrieve_address_layout_margin"
+        android:layout_marginTop="@dimen/iap_retrieve_address_new_margin_top"/>
+</RelativeLayout>

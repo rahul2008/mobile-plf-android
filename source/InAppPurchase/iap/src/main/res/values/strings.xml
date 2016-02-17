@@ -42,4 +42,8 @@
     <string name="iap_cancel">Cancel</string>
     <string name="iap_total">Total</string>
     <string name="iap_items"> items</string>
+
+    <!-- Address screen-->
+    <string name="iap_add_new_address">Add a new address</string>
+    <string name="iap_deliver_to_this_address">Deliver to this address</string>
 </resources>
