@@ -51,6 +51,8 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     private TextView mActionBarTitle = null;
     private static ProductListDetailsTabletListener mProductListDetailsTabletListener = null;
     protected ProductListDetailsTabletListener mProductDetailsListener = null;
+    protected int mLeftRightMarginPort = 0;
+    protected int mLeftRightMarginLand = 0;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -96,6 +98,10 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
+                .getDimension(R.dimen.activity_margin_port);
+        mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
+                .getDimension(R.dimen.activity_margin_land);
     }
 
     @Override
