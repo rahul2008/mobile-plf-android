@@ -53,11 +53,11 @@ public class ProductListingFragment extends MultiProductBaseFragment {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
-                    mProductSummaryModel = productList.get(position);
-                    if(!isTablet()) {
+                    MultiProductBaseFragment.mProductSummaryModel = productList.get(position);
+                   /* if(!isTablet()) {*/
                         DetailedScreenFragment detailedScreenFragment = new DetailedScreenFragment();
                         showFragment(detailedScreenFragment);
-                    }
+                   // }
                 }
             }
         });
@@ -137,10 +137,8 @@ public class ProductListingFragment extends MultiProductBaseFragment {
                                 mSummaryDialog.dismiss();
                                 mSummaryDialog.cancel();
                             }
-
                     }
                 }
-
 
                 @Override
                 public void onFail(String errorMessage) {

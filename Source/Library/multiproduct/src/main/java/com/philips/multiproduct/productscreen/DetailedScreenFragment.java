@@ -1,5 +1,6 @@
 package com.philips.multiproduct.productscreen;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,12 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.CustomFontTextView;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
+import com.philips.multiproduct.listfragment.ListViewWithOptions;
 import com.philips.multiproduct.productscreen.adapter.ProductAdapter;
+import com.philips.multiproduct.prx.PrxAssetDataListener;
+import com.philips.multiproduct.prx.PrxSummaryDataListener;
+import com.philips.multiproduct.prx.PrxWrapper;
 import com.philips.multiproduct.savedscreen.SavedScreenFragment;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
+
+import java.util.ArrayList;
 
 /**
  * This Fragments takes responsibility to show the complete detailed description of the
@@ -27,6 +38,7 @@ import com.philips.multiproduct.savedscreen.SavedScreenFragment;
  */
 public class DetailedScreenFragment extends MultiProductBaseFragment implements View.OnClickListener {
 
+    private static final String TAG = DetailedScreenFragment.class.getSimpleName();
     private ViewPager mViewpager;
     private CircleIndicator mIndicater;
     private CustomFontTextView mProductName = null;
@@ -47,6 +59,8 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (isConnectionAvailable() &&  MultiProductBaseFragment.mProductSummaryModel != null)
+            getAssetDataFromPRX();
         mViewpager.setAdapter(new ProductAdapter(getChildFragmentManager()));
         mIndicater.setViewPager(mViewpager);
         mProductName.setTypeface(Typeface.DEFAULT_BOLD);
@@ -59,13 +73,61 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     }
 
     @Override
-    public String getActionbarTitle()  {
+    public String getActionbarTitle() {
         return "Jamie Oliver Food Processor";
     }
 
     @Override
     public String setPreviousPageName() {
         return null;
+    }
+
+    private ProgressDialog mAssetDialog = null;
+
+    private void getAssetDataFromPRX() {
+
+        if (mAssetDialog == null)
+            mAssetDialog = new ProgressDialog(getActivity(), R.style.loaderTheme);
+        mAssetDialog.setProgressStyle(android.R.style.Widget_Material_ProgressBar_Large);
+        mAssetDialog.setIndeterminateDrawable(getResources().getDrawable(R.drawable.loader));
+        mAssetDialog.setCancelable(true);
+        if (!(getActivity().isFinishing()))
+            mAssetDialog.show();
+
+        PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), mProductSummaryModel.getData().getCtn(),
+                ProductModelSelectionHelper.getInstance().getSectorCode(),
+                ProductModelSelectionHelper.getInstance().getLocale().toString(),
+                ProductModelSelectionHelper.getInstance().getCatalogCode());
+
+        prxWrapperCode.requestPrxAssetData(new PrxAssetDataListener() {
+                                               @Override
+                                               public void onSuccess(AssetModel assetModel) {
+
+                                                   if (getActivity() != null)
+                                                       if (!(getActivity().isFinishing()) && mAssetDialog.isShowing()) {
+                                                           mAssetDialog.dismiss();
+                                                           mAssetDialog.cancel();
+                                                       }
+
+                                                   ProductSelectionLogger.d(TAG, " Asset Data received for the Ctn ; " + mProductSummaryModel.getData().getCtn());
+
+                                               }
+
+                                               @Override
+                                               public void onFail(String errorMessage) {
+
+                                                   if (getActivity() != null)
+                                                       if (!(getActivity().isFinishing()) && mAssetDialog.isShowing()) {
+                                                           mAssetDialog.dismiss();
+                                                           mAssetDialog.cancel();
+                                                       }
+
+                                                   ProductSelectionLogger.d(TAG, " Asset Data Failed for the Ctn ; " + mProductSummaryModel.getData().getCtn());
+                                               }
+
+                                           }
+
+                , TAG);
     }
 
 
