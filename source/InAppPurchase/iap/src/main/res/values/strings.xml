@@ -12,11 +12,12 @@
     <string name="iap_entry_number">entrynumber</string>
     <string name="iap_continue_shopping">Continue shopping</string>
     <string name="iap_checkout">Checkout</string>
-    <string name="iap_empty_cart">Your Shopping Cart is Currently Empty</string>
+    <string name="iap_empty_cart">Your shopping cart is currently empty</string>
     <string name="out_of_stock">Out of stock</string>
-    <string name="no_stock">No stock</string>
+    <string name="iap_add_to_cart">Add to cart</string>
+    <string name="no_stock_description">No enough stock</string>
     <string name="something_went_wrong">Something went wrong!</string>
-
+    <string name="iap_deleting_item">Deleting Item</string>
     <!--Address layout strings -->
     <string name="iap_shipping_address">Shipping address</string>
     <string name="iap_billing_address">Billing address</string>
@@ -39,4 +40,6 @@
     <string name="iap_billing_address_is_same">Same as shipping address</string>
     <string name="iap_continue">Continue</string>
     <string name="iap_cancel">Cancel</string>
+    <string name="iap_total">Total</string>
+    <string name="iap_items"> items</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.philips.cdp.di.iap.session;
 
+import java.util.Locale;
+
 public class NetworkConstants {
 
     public static final String HOST_URL = "https://tst.admin.shop.philips.com/";
@@ -26,7 +28,7 @@ public class NetworkConstants {
     public static String PRX_CATALOG_CODE = "CONSUMER";
     public static String EXTRA_ANIMATIONTYPE = "EXTRA_ANIMATIONTYPE";
     public static String IS_ONLINE = "IS_ONLINE";
-
+    public static Locale STORE_LOCALE = Locale.US;
     public final static String EMPTY_RESPONSE = "";
 }
 
