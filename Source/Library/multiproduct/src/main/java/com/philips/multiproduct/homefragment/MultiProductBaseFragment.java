@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,9 @@ import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.NetworkAlertView;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 import com.philips.multiproduct.listeners.NetworkStateListener;
-import com.philips.multiproduct.utils.ProductSelectionLogger;
+import com.philips.multiproduct.listeners.ProductListDetailsTabletListener;
 import com.philips.multiproduct.utils.NetworkReceiver;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 import java.util.Locale;
 
@@ -48,6 +50,8 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private TextView mActionBarTitle = null;
+    private static ProductListDetailsTabletListener mProductListDetailsTabletListener = null;
+    protected ProductListDetailsTabletListener mProductDetailsListener = null;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -187,10 +191,26 @@ public abstract class MultiProductBaseFragment extends Fragment implements
         }
     }
 
-    protected boolean isTablet(){
-        return !((getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK) ==
-                Configuration.SCREENLAYOUT_SIZE_LARGE);
+    protected boolean isTablet() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        float yInches = metrics.heightPixels / metrics.ydpi;
+        float xInches = metrics.widthPixels / metrics.xdpi;
+        double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+        if (diagonalInches >= 6.5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected ProductListDetailsTabletListener getObserver(){
+        if(mProductListDetailsTabletListener == null){
+            mProductListDetailsTabletListener = new ProductListDetailsTabletListener(getActivity());
+        }
+
+        return mProductListDetailsTabletListener;
     }
 
     protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {

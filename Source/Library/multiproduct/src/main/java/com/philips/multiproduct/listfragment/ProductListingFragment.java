@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
+import com.philips.multiproduct.listeners.ProductListDetailsTabletListener;
 import com.philips.multiproduct.productscreen.DetailedScreenFragment;
 import com.philips.multiproduct.prx.PrxSummaryDataListener;
 import com.philips.multiproduct.prx.PrxWrapper;
@@ -34,11 +34,17 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     private ListViewWithOptions mProductAdapter = null;
     private ProgressDialog mSummaryDialog = null;
     private ArrayList<SummaryModel> productList = null;
+    private DetailedScreenFragment mDetailedScreenFragment = null;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mDetailedScreenFragment = new DetailedScreenFragment();
+        if(isTablet()){
+            mProductDetailsListener = new ProductListDetailsTabletListener(getActivity());
+            mProductDetailsListener.addObserver(mDetailedScreenFragment);
+        }
         View view = inflater.inflate(R.layout.fragment_product_listview, container, false);
         return view;
     }
@@ -49,27 +55,31 @@ public class ProductListingFragment extends MultiProductBaseFragment {
         mProductListView = (ListView) getActivity().findViewById(R.id.productListView);
 
         getSummaryDataFromPRX();
+
+        if (isTablet() && isConnectionAvailable()) {
+            try {
+                mProductSummaryModel = productList.get(0);
+                mProductDetailsListener.notifyAllProductScreens();
+            }
+            catch(IndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
+        }
+
         mProductListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
                     mProductSummaryModel = productList.get(position);
                     if(!isTablet()) {
-                        DetailedScreenFragment detailedScreenFragment = new DetailedScreenFragment();
-                        showFragment(detailedScreenFragment);
+                        showFragment(mDetailedScreenFragment);
+                    }
+                    else{
+                        mProductDetailsListener.notifyAllProductScreens();
                     }
                 }
             }
         });
-
-        if (isTablet() && isConnectionAvailable()) {
-            try {
-                mProductSummaryModel = productList.get(0);
-            }
-            catch(IndexOutOfBoundsException e){
-                e.printStackTrace();
-            }
-        }
 
         setListViewHeightBasedOnChildren();
     }
@@ -180,7 +190,6 @@ public class ProductListingFragment extends MultiProductBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mProductDetailsListener.deleteObserver(mDetailedScreenFragment);
     }
-
-
 }
