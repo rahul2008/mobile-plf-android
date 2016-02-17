@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
+import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
@@ -41,7 +42,7 @@ public class IAPHandler {
         //addToCart
         IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == addItemtoCart");
         HashMap<String, String> params = new HashMap<>();
-        params.put(CartModel.PRODUCT_CODE, productCTN);
+        params.put(ModelConstants.PRODUCT_CODE, productCTN);
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         CartAddProductRequest model = new CartAddProductRequest(delegate.getStore(), params, null);
         delegate.sendRequest(RequestCode.ADD_TO_CART, model, new RequestListener() {

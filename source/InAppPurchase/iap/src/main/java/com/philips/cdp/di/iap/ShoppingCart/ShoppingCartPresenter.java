@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
+import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
@@ -93,7 +94,7 @@ public class ShoppingCartPresenter {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
                         mProductData = (ArrayList<ShoppingCartData>) msg.obj;
-                        if(mProductData == null || mProductData.size()==0){
+                        if (mProductData == null || mProductData.size() == 0) {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
                             Utility.dismissProgressDialog();
                             return;
@@ -116,13 +117,13 @@ public class ShoppingCartPresenter {
 
     public void deleteProduct(final ShoppingCartData summary) {
         Map<String, String> query = new HashMap<>();
-        query.put(AbstractModel.ENTRY_CODE, String.valueOf(summary.getEntryNumber()));
+        query.put(ModelConstants.ENTRY_CODE, String.valueOf(summary.getEntryNumber()));
 
         CartDeleteProductRequest model = new CartDeleteProductRequest(getStore(), query,
                 new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
-                       getCurrentCartDetails();
+                        getCurrentCartDetails();
                     }
 
                     @Override
@@ -135,9 +136,9 @@ public class ShoppingCartPresenter {
 
     public void updateProductQuantity(final ShoppingCartData data, final int count) {
         HashMap<String, String> query = new HashMap<String, String>();
-        query.put(CartModel.PRODUCT_CODE, data.getCtnNumber());
-        query.put(CartModel.PRODUCT_QUANTITY, String.valueOf(count));
-        query.put(CartModel.PRODUCT_ENTRYCODE, String.valueOf(data.getEntryNumber()));
+        query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
+        query.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(count));
+        query.put(ModelConstants.PRODUCT_ENTRYCODE, String.valueOf(data.getEntryNumber()));
 
         CartUpdateProductQuantityRequest model = new CartUpdateProductQuantityRequest(getStore(),
                 query, new AbstractModel.DataLoadListener() {
