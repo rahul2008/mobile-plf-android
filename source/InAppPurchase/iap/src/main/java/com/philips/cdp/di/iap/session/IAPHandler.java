@@ -13,7 +13,6 @@ import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartModel;
-import com.philips.cdp.di.iap.model.IAPResponseError;
 import com.philips.cdp.di.iap.response.cart.AddToCartData;
 import com.philips.cdp.di.iap.response.cart.Entries;
 import com.philips.cdp.di.iap.response.cart.GetCartData;
@@ -55,10 +54,8 @@ public class IAPHandler {
             @Override
             public void onError(final Message msg) {
                 IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == addItemtoCart = onError");
-                IAPResponseError iapResponseError = new IAPResponseError();
                 VolleyError error = (VolleyError) msg.obj;
-                iapResponseError.errorMessage = error.getLocalizedMessage();
-                iapHandlerListner.onAddItemToCart(iapResponseError.errorMessage);
+                iapHandlerListner.onAddItemToCart(error.getLocalizedMessage());
             }
         });
     }
