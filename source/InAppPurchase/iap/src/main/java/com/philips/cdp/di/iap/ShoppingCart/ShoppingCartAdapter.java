@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.activity.ShoppingCartActivity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -33,7 +32,6 @@ import com.philips.cdp.uikit.utils.RowItem;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPresenter.LoadListener {
     private static final int DELETE = 0;
@@ -176,11 +174,11 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                         holder.description.setVisibility(View.VISIBLE);
                         int totalItems = mData.size()-3;
-                        holder.description.setText("Total (" + totalItems + " items" + ")");
+                        holder.description.setText("Total (" + data.getTotalItems() + " items" + ")");
                         holder.description.setTypeface(null, Typeface.BOLD);
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
-                        String totalprice = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(data.getTotalPrice());
+                        String totalprice = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(data.getTotalPriceWithTax());
                         holder.totoalcost.setText(data.getCurrency() + " " + totalprice);
                         holder.totoalcost.setTypeface(null, Typeface.BOLD);
                     }
@@ -227,13 +225,14 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 switch (position) {
                     case DELETE:
                         if (Utility.isInternetConnected(mContext)) {
-                            mPresenter.deleteProduct(mData.get(position));
-                            mPopupWindow.dismiss();
+                            if (!Utility.isProgressDialogShowing()) {
+                                Utility.showProgressDialog(mContext,mContext.getString(R.string.iap_deleting_item));
+                                mPresenter.deleteProduct(mData.get(position));
+                                mPopupWindow.dismiss();
+                            }
                         }else{
                             Toast.makeText(mContext,"Network Error",Toast.LENGTH_SHORT).show();
                         }
-                        mPresenter.deleteProduct(mData.get(position));
-                        mPopupWindow.dismiss();
                         break;
                     case INFO:
                         Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
@@ -259,8 +258,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                             Utility.showProgressDialog(mContext, "Updating Cart Details");
                             mPresenter.updateProductQuantity(mData.get(position), newCount);
                         }
-                        Utility.showProgressDialog(mContext, "Updating Cart Details");
-                        mPresenter.updateProductQuantity(mData.get(position), newCount);
                     }
                 });
                 mPopupWindow = countPopUp.getPopUpWindow();

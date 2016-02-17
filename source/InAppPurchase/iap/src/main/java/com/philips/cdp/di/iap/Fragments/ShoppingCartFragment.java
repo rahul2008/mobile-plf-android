@@ -74,7 +74,7 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
     public void onDestroyView() {
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
     }
 
     public static ShoppingCartFragment createInstance(BaseAnimationSupportFragment.AnimationType animType) {
@@ -137,6 +137,8 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
             launchEmptyCartFragment();
         }
-        mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
+        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
+            mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
+        }
     }
 }

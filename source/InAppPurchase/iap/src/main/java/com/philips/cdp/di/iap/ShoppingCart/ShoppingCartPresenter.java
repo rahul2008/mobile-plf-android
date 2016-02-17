@@ -6,25 +6,20 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Message;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.activity.EmptyCartActivity;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartModel;
-import com.philips.cdp.di.iap.response.cart.Carts;
-import com.philips.cdp.di.iap.response.cart.Entries;
-import com.philips.cdp.di.iap.response.cart.Entry;
-import com.philips.cdp.di.iap.response.cart.GetCartData;
-import com.philips.cdp.di.iap.response.cart.UpdateCartData;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -99,6 +94,12 @@ public class ShoppingCartPresenter {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
                         mProductData = (ArrayList<ShoppingCartData>) msg.obj;
+                        if(mProductData.size()==0){
+                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
+                            Utility.dismissProgressDialog();
+                            return;
+                        }
+                        addShippingCostRowToTheList();
                         refreshList(mProductData);
                         Utility.dismissProgressDialog();
                     }
@@ -111,18 +112,7 @@ public class ShoppingCartPresenter {
                     }
                 });
         model.setContext(mContext);
-        sendHybrisRequest(0,model, model);
-    }
-
-
-    boolean checkDuplicateValues(ShoppingCartData item) {
-        String ctn = item.getCtnNumber();
-        for (int i = 0; i < mProductData.size(); i++) {
-            if (mProductData.get(i).getCtnNumber().equalsIgnoreCase(ctn)) {
-                return true;
-            }
-        }
-        return false;
+        sendHybrisRequest(0, model, model);
     }
 
     public void deleteProduct(final ShoppingCartData summary) {
@@ -133,20 +123,16 @@ public class ShoppingCartPresenter {
                 new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
-                        removeItemFromList(summary);
-                        Utility.dismissProgressDialog();
-                        refreshList(mProductData);
-                        checkIfCartIsEmpty();
+                       getCurrentCartDetails();
                     }
 
                     @Override
                     public void onModelDataError(final Message msg) {
                         Toast.makeText(mContext, "Delete Request Error", Toast.LENGTH_SHORT).show();
-                        refreshList(mProductData);
-                        Utility.dismissProgressDialog();
+                        getCurrentCartDetails();
                     }
                 });
-        sendHybrisRequest(0,model, model);
+        sendHybrisRequest(0, model, model);
     }
 
     public void updateProductQuantity(final ShoppingCartData data, final int count) {
@@ -169,20 +155,5 @@ public class ShoppingCartPresenter {
             }
         });
         sendHybrisRequest(0, model, model);
-    }
-
-    private void checkIfCartIsEmpty() {
-        if (mProductData.size() <= 3) {
-            Intent intent = new Intent(mContext, EmptyCartActivity.class);
-            mContext.startActivity(intent);
-        }
-    }
-
-    private void removeItemFromList(ShoppingCartData pProductdata) {
-        if (mProductData.size() <= 4) {
-            mProductData.removeAll(mProductData);
-        } else {
-            mProductData.remove(pProductdata);
-        }
     }
 }

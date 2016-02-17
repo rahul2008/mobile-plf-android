@@ -17,7 +17,7 @@
     <string name="iap_add_to_cart">Add to cart</string>
     <string name="no_stock_description">No enough stock</string>
     <string name="something_went_wrong">Something went wrong!</string>
-
+    <string name="iap_deleting_item">Deleting Item</string>
     <!--Address layout strings -->
     <string name="iap_shipping_address">Shipping address</string>
     <string name="iap_billing_address">Billing address</string>

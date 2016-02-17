@@ -20,6 +20,16 @@ public class ShoppingCartData {
     private String mCartNumber;
     private int mStockLevel;
 
+    public int getTotalPriceWithTax() {
+        return mTotalPriceWithTax;
+    }
+
+    public void setTotalPriceWithTax(final int mTotalPriceWithTax) {
+        this.mTotalPriceWithTax = mTotalPriceWithTax;
+    }
+
+    private int mTotalPriceWithTax;
+
     public ShoppingCartData() {
     }
 
