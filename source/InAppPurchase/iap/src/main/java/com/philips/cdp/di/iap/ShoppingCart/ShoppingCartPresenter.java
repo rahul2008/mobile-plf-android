@@ -128,7 +128,6 @@ public class ShoppingCartPresenter {
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        Toast.makeText(mContext, "Delete Request Error", Toast.LENGTH_SHORT).show();
                         getCurrentCartDetails();
                     }
                 });
