@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 
 /**
  * Description:  This class responsible for providing the builderclass to invoke the consumerCare module as
@@ -26,7 +27,7 @@ public class FragmentBuilder extends UiLauncher {
     }
 
     @Override
-    public void setScreenOrientation(DigitalCareConfigManager.ActivityOrientation mScreenOrientation) {
+    public void setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation mScreenOrientation) {
 
     }
 

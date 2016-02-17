@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -29,19 +30,12 @@ import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.component.ActivityLauncher;
 import com.philips.multiproduct.component.UiLauncher;
-import com.philips.multiproduct.productselection.HardcodedProductList;
+import com.philips.multiproduct.listeners.ProductModelSelectionListener;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
-
-import java.util.Arrays;
-import java.util.List;
-
-//import com.philips.
 
 
 /**
@@ -61,7 +55,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private int RegisterButtonMarginTop = 0;
     private boolean mIsFirstScreenLaunch = false;
     private View mView = null;
-    private ProductModelSelectionHelper mConfigManager = null;
+    private ProductModelSelectionHelper mProductSelectionHelper = null;
+    private static boolean isFirstTimeProductComponenetlaunch = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +67,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
-                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null)
+                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()!= null &&
+                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null)
                     new PrxProductData(getActivity(), this).executeRequests();
             }
         }
@@ -256,6 +252,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (isFirstTimeProductComponenetlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() !=null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
+            launchProductSelectionActivityComponent();
+            isFirstTimeProductComponenetlaunch = false;
+        }
+    }
+
+    @Override
     public void onClick(View view) {
 
         String tag = (String) view.getTag();
@@ -287,32 +292,31 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             if (isConnectionAvailable())
                 showFragment(new RateThisAppFragment());
         } else if (tag.equals(getStringKey(R.string.product_selection))) {
-//            if (isConnectionAvailable())
-            launchMultiProductAsActivity();
+            if (isConnectionAvailable())
+                launchProductSelectionActivityComponent();
         }
     }
 
 
-    private void launchMultiProductAsActivity() {
-        mConfigManager = ProductModelSelectionHelper.getInstance();
-        mConfigManager.initialize(getActivity().getApplicationContext());
-        mConfigManager.setLocale("en", "GB");
+    private void launchProductSelectionActivityComponent() {
+        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
+        mProductSelectionHelper.initialize(getActivity().getApplicationContext());
+        mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
 
 
-        List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
-        String[] ctnList = new String[mCtnList.size()];
-        for (int i = 0; i < mCtnList.size(); i++)
-            ctnList[i] = mCtnList.get(i);
-
-        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
-
-        //productsSelection.setHardCodedProductList(ctnList);
         UiLauncher uiLauncher = new ActivityLauncher();
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
         uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-        ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
+        ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
+            @Override
+            public void onProductModelSelected(SummaryModel productSummaryModel) {
+                if (productSummaryModel != null)
+                    onResume();
+
+            }
+        });
+        ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, DigitalCareConfigManager.getInstance()
+                .getProductModelSelectionType());
         ProductSelectionLogger.enableLogging();
     }
 
