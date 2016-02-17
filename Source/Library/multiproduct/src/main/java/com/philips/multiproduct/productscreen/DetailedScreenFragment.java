@@ -57,12 +57,6 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detailed_screen, container, false);
-
-        mViewpager = (ViewPager) view.findViewById(R.id.detailedscreen_pager);
-        mIndicater = (CircleIndicator) view.findViewById(R.id.detailedscreen_indicator);
-        mProductName = (CustomFontTextView) view.findViewById(R.id.detailed_screen_productname);
-        mProductCtn = (CustomFontTextView) view.findViewById(R.id.detailed_screen_productctn);
-        mSelectButton = (Button) view.findViewById(R.id.detailedscreen_select_button);
         return view;
     }
 
@@ -73,7 +67,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
         mIndicater = (CircleIndicator) getActivity().findViewById(R.id.detailedscreen_indicator);
         mProductName = (CustomFontTextView) getActivity().findViewById(R.id.detailed_screen_productname);
         mSelectButton = (Button) getActivity().findViewById(R.id.detailedscreen_select_button);
-		mProductCtn = (CustomFontTextView) view.findViewById(R.id.detailed_screen_productctn);
+		mProductCtn = (CustomFontTextView) getActivity().findViewById(R.id.detailed_screen_productctn);
         
         if (isConnectionAvailable() && (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null)) {
             getProductImagesFromPRX();
@@ -183,7 +177,7 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
 
     @Override
     public void update(Observable observable, Object data) {
-       Log.d("testing", "Detailed Screen -- Clicked again : " + mProductSummaryModel.getData().getProductTitle());
+        ProductSelectionLogger.d("testing", "Detailed Screen -- Clicked again : " + mProductSummaryModel.getData().getProductTitle());
        if(mProductName == null){
             return;
         }
