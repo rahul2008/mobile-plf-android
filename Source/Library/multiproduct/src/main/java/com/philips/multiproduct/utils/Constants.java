@@ -6,5 +6,6 @@ public class Constants {
     public static final String STOP_ANIMATION_ID = "stopAnimation";
     public static final String SCREEN_ORIENTATION = "orientation";
     public static final String PRODUCT_DATA_KEY = "productdata";
+    public static final String DETAILEDSCREEN_PRIDUCTIMAGES = "mp4";
 
 }
