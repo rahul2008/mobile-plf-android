@@ -117,12 +117,13 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
 
     @Override
     public void onAddItemToCart(final String responseStatus) {
-        if (responseStatus.equalsIgnoreCase("success")) {
-            mIapHandler.getCartQuantity(this);
-        } else if (responseStatus.equalsIgnoreCase("noStock")) {
-            Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
-            Utility.dismissProgressDialog();
+        if (responseStatus != null) {
+            if (responseStatus.equalsIgnoreCase("success")) {
+                mIapHandler.getCartQuantity(this);
+            } else if (responseStatus.equalsIgnoreCase("noStock")) {
+                Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
+                Utility.dismissProgressDialog();
+            }
         }
-
     }
 }
