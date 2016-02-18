@@ -371,11 +371,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void showSignInSpinner() {
         mBtnSignInAccount.setEnabled(false);
         mPbSignInSpinner.setVisibility(View.VISIBLE);
+        mEtEmail.setClicableTrue(false);
+        mEtPassword.setClicableTrue(false);
+        mEtPassword.showPasswordEtFocusDisable();
+        mEtPassword.disableMaskPassoword();
     }
 
     private void hideSignInSpinner() {
         mPbSignInSpinner.setVisibility(View.INVISIBLE);
         mBtnSignInAccount.setEnabled(true);
+        mEtEmail.setClicableTrue(true);
+        mEtPassword.setClicableTrue(true);
+        mEtPassword.showEtPasswordFocusEnable();
+        mEtPassword.enableMaskPassword();
     }
 
     private void showForgotPasswordSpinner() {

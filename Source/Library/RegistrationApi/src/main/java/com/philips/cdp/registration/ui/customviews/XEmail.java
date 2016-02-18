@@ -229,4 +229,9 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	public void clearEmailFieldData(){
 		mEtEmail.getText().clear();
 	}
+
+	public void setClicableTrue(boolean isClickable){
+		mEtEmail.setClickable(isClickable);
+		mEtEmail.setEnabled(isClickable);
+	}
 }

@@ -287,12 +287,12 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     }
 
 
-    private void enableMaskPassword() {
+    public void enableMaskPassword() {
         mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_enable_ic_color));
         mTvMaskPassword.setOnClickListener(mMaskPasswordOnclickListener);
     }
 
-    private void disableMaskPassoword() {
+    public void disableMaskPassoword() {
         mTvMaskPassword.setTextColor(mContext.getResources().getColor(R.color.reg_password_mask_disable_ic_color));
         mTvMaskPassword.setOnClickListener(null);
     }
@@ -324,4 +324,8 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         mEtPassword.setHint(hintText);
     }
 
+    public void setClicableTrue(boolean isClickable){
+        mEtPassword.setClickable(isClickable);
+        mEtPassword.setEnabled(isClickable);
+    }
 }
