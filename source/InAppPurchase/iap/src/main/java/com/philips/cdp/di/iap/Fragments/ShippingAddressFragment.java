@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -34,7 +35,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
     }
 
     @Override
-    public void onFinish() {
+    public void onFinish(GetShippingAddressData data) {
 
     }
 
