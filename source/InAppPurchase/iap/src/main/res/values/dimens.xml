@@ -32,4 +32,11 @@
     <dimen name="iap_selection_address_layout_margin_top">12dp</dimen>
     <dimen name="iap_selection_address_layout_margin_bottom">19dp</dimen>
     <dimen name="iap_selection_address_name_margin_top">17dp</dimen>
+
+    <dimen name="title">16sp</dimen>
+    <dimen name="header">20sp</dimen>
+    <dimen name="network_image_width">85dp</dimen>
+    <dimen name="network_image_height">75dp</dimen>
+    <dimen name="network_margin_top_bottom">5dp</dimen>
+    <dimen name="network_margin_left_right">12dp</dimen>
 </resources>

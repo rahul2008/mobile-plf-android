@@ -47,4 +47,9 @@
     <string name="iap_add_new_address">Add a new address</string>
     <string name="iap_deliver_to_this_address">Deliver to this address</string>
     <string name="iap_selection_select_address">Select address</string>
+
+    <!--Order Sammary-->
+    <string name="iap_order_summary">Summary</string>
+    <string name="iap_pay_now">Pay now</string>
+    <string name="iap_payment_method">Payment method</string>
 </resources>

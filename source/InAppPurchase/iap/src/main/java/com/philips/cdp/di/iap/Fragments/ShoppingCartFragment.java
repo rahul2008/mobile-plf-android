@@ -1,11 +1,11 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.philips.cdp.di.iap.R;
@@ -21,11 +21,12 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class ShoppingCartFragment extends BaseNoAnimationFragment implements View.OnClickListener, EventListener {
+public class ShoppingCartFragment extends BaseAnimationSupportFragment implements View.OnClickListener, EventListener {
 
     private Button mCheckoutBtn;
     public ShoppingCartAdapter mAdapter;
     public ListView mListView;
+    private FrameLayout mFrameContainer;
 
     @Override
     protected void updateTitle() {
@@ -45,6 +46,8 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
         IAPLog.d(IAPLog.LOG, "ShoppingCartFragment onCreateView");
         View rootView = inflater.inflate(R.layout.shopping_cart_view, container, false);
+        mFrameContainer = new FrameLayout(getMainActivity());
+        mFrameContainer.setId(R.id.empty_cart);
         mListView = (ListView) rootView.findViewById(R.id.withouticon);
         mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
@@ -60,10 +63,10 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
     @Override
     public void onResume() {
         super.onResume();
-        updateTitle();
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter);
         presenter.getCurrentCartDetails();
         mListView.setAdapter(mAdapter);
+        updateTitle();
     }
 
     @Override
@@ -86,28 +89,10 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
-
             IAPLog.d(IAPLog.SHOPPING_CART_FRAGMENT, "onClick ShoppingCartFragment");
-            launchShippingAddressFragment();
+            getMainActivity().addFragmentAndRemoveUnderneath(
+                    ShippingAddressFragment.createInstance(AnimationType.NONE), false);
         }
-    }
-
-    private void launchShippingAddressFragment() {
-        Fragment parent = getParentFragment();
-        IAPLog.d(IAPLog.SHOPPING_CART_FRAGMENT, "ShoppingCartFragment parent = " + parent.toString());
-        if (parent == null || (!(parent instanceof ShoppingCartHomeFragment))) {
-            return;
-        }
-        ((ShoppingCartHomeFragment) parent).replaceShippingAddressFragment();
-    }
-
-    private void launchEmptyCartFragment() {
-        Fragment parent = getParentFragment();
-        IAPLog.d(IAPLog.SHOPPING_CART_FRAGMENT, "ShoppingCartFragment parent = " + parent.toString());
-        if (parent == null || (!(parent instanceof ShoppingCartHomeFragment))) {
-            return;
-        }
-        ((ShoppingCartHomeFragment) parent).replaceEmptyCartFragment();
     }
 
     @Override
@@ -118,10 +103,17 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
     @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
-            launchEmptyCartFragment();
+            //getMainActivity().addFragmentAndRemoveUnderneath(EmptyCartFragment.createInstance(AnimationType.NONE), false);
+            EmptyCartFragment emptyCartFragment = new EmptyCartFragment();
+            addChildFragment(emptyCartFragment, mFrameContainer.getId());
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
         }
+    }
+
+    @Override
+    protected AnimationType getDefaultAnimationType() {
+        return AnimationType.NONE;
     }
 }
