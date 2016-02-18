@@ -58,6 +58,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private View mView = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private static boolean isFirstTimeProductComponenetlaunch = true;
+    private static ProductSelectionProductInfo productInfo = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,10 +68,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         mIsFirstScreenLaunch = true;
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
 
-        ProductSelectionProductInfo productInfo = new ProductSelectionProductInfo();
-        productInfo.setCtn("");
-        productInfo.setSector("B2C");
-        productInfo.setCatalog("Care");
+        productInfo = new ProductSelectionProductInfo();
+        productInfo.setSector(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getSector());
+        productInfo.setCatalog(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getCatalog());
         DigitalCareConfigManager.getInstance().setConsumerProductInfo(productInfo);
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
@@ -317,10 +317,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
-                if (productSummaryModel != null)
-                    Toast.makeText(getActivity(), "Model Receveid", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getActivity(), "Model Not Received", Toast.LENGTH_SHORT).show();
+                if (productSummaryModel != null) {
+                    SummaryModel summaryModel = productSummaryModel;
+                    productInfo.setCtn(summaryModel.getData().getCtn());
+                } 
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, DigitalCareConfigManager.getInstance()

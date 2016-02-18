@@ -18,7 +18,6 @@ public class HardcodedProductList extends ProductModelSelectionType {
         this.mCtnList = ctnList;
     }
 
-
     @Override
 
     public String[] getHardCodedProductList() {
