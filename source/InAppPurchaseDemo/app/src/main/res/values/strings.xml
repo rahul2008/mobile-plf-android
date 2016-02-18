@@ -3,4 +3,5 @@
     <string name="buy_now">BuyNow</string>
     <string name="add_to_cart">AddToCart</string>
     <string name="no_stock">No Stock</string>
+    <string name="please_wait">Please wait</string>
 </resources>

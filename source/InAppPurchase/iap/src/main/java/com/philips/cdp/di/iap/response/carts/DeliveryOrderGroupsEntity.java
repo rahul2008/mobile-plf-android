@@ -8,11 +8,11 @@ import java.util.List;
  */
 public class DeliveryOrderGroupsEntity {
 
-    private TotalPriceWithTaxEntity totalPriceWithTax;
+    private Price totalPriceWithTax;
 
     private List<EntriesEntity> entries;
 
-    public void setTotalPriceWithTax(TotalPriceWithTaxEntity totalPriceWithTax) {
+    public void setTotalPriceWithTax(Price totalPriceWithTax) {
         this.totalPriceWithTax = totalPriceWithTax;
     }
 
@@ -20,7 +20,7 @@ public class DeliveryOrderGroupsEntity {
         this.entries = entries;
     }
 
-    public TotalPriceWithTaxEntity getTotalPriceWithTax() {
+    public Price getTotalPriceWithTax() {
         return totalPriceWithTax;
     }
 
