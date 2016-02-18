@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public abstract class RegistrationDataBuilder extends PrxDataBuilder {
 
     protected String accessToken;
-    private String mServerInfo = "www.philips.com/prx/registration";
+    private String mServerInfo = "https://www.philips.com/prx/registration";
     private String productSerialNumber;
     private String purchaseDate;
     private String registrationChannel;

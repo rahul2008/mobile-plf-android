@@ -11,7 +11,10 @@ import android.widget.Toast;
 import com.philips.cdp.backend.RegistrationRequestManager;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.model.ProductMetaData;
+import com.philips.cdp.model.ProductResponse;
+import com.philips.cdp.model.RegisteredDataResponse;
 import com.philips.cdp.productbuilder.ProductMetaDataBuilder;
+import com.philips.cdp.productbuilder.RegisteredBuilder;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -23,10 +26,10 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
     private Button mBtnUserRegistration;
     private Button mBtnProductRegistration;
 
-    private String mCtn = "HD8967/01";
+    private String mCtn = "HD8968/01";
     private String mSectorCode = "B2C";
-    private String mLocale = "en_GB";
-    private String mCatalogCode = "CARE";
+    private String mLocale = "ru_RU";
+    private String mCatalogCode = "CONSUMER";
     private String TAG = getClass().toString();
 
     private static void launchProductActivity(Context context) {
@@ -60,9 +63,33 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
         mRequestManager.executeRequest(registrationBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                // ProductResponse productResponse = (ProductResponse) responseData;
-                //  Log.d(TAG, "Positive Response Data : " + productResponse.isSuccess());
+                ProductResponse productResponse = (ProductResponse) responseData;
+                Log.d(TAG, "Positive Response Data : " + productResponse.isSuccess());
+                if (productResponse.getData() != null)
+                    Log.d(TAG, " Response Data : " + productResponse.getData());
 
+            }
+
+            @Override
+            public void onResponseError(String error, int code) {
+                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
+                Toast.makeText(MainActivity.this, "error in response", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void registeredProduct(final String accessToken) {
+        PrxLogger.enablePrxLogger(true);
+
+        RegisteredBuilder registeredDataBuilder = new RegisteredBuilder(accessToken);
+
+        RegistrationRequestManager mRequestManager = new RegistrationRequestManager(this, "REGISTERED");
+        mRequestManager.executeRequest(registeredDataBuilder, new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+                RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
+                Log.d(TAG, " Response Data : " + registeredDataResponse.isSuccess());
+                Toast.makeText(MainActivity.this, "productMetaData Response Data : " + registeredDataResponse.isSuccess(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -109,8 +136,9 @@ public class MainActivity extends ProductRegistrationActivity implements View.On
                 final User mUser = new User(this);
                 if (mUser.isUserSignIn(MainActivity.this) && mUser.getEmailVerificationStatus(MainActivity.this)) {
                     Toast.makeText(MainActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
-                    //registerProduct(mUser.getAccessToken(), "AB1234567891012");
-                    productMetaData(mUser.getAccessToken());
+                    //registerProduct(mUser.getAccessToken(), "ab123456789012");
+                    // productMetaData(mUser.getAccessToken());
+                    registeredProduct(mUser.getAccessToken());
                 } else {
                     Toast.makeText(MainActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
                 }

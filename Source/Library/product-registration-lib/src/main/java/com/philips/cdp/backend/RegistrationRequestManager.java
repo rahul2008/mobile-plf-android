@@ -26,6 +26,8 @@ public class RegistrationRequestManager {
             processNetwork.productRegistrationRequest(prxDataBuilder, responseListener);
         } else if (mServicetag.equalsIgnoreCase("METADATA")) {
             processNetwork.productMetaDataRequest(prxDataBuilder, responseListener);
+        } else if (mServicetag.equalsIgnoreCase("REGISTERED")) {
+            processNetwork.registredDataRequest(prxDataBuilder, responseListener);
         }
     }
 

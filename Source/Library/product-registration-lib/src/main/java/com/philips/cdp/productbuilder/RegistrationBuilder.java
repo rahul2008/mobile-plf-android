@@ -47,10 +47,10 @@ public class RegistrationBuilder extends RegistrationDataBuilder {
                     .appendPath(getCatalogCode())
                     .appendPath("products")
                     .appendPath(mCtn + ".register.type.product")
-                    .appendQueryParameter("productSerialNumber", getProductSerialNumber())
+                    /*.appendQueryParameter("productSerialNumber", getProductSerialNumber())
                     .appendQueryParameter("purchaseDate", getPurchaseDate())
                     .appendQueryParameter("registrationChannel", getRegistrationChannel())
-                    .build();
+                   */.build();
             Log.d(getClass() + "", builtUri.toString());
             return builtUri.toString();
         }
