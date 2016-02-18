@@ -10,6 +10,8 @@ android {
         targetSdkVersion targetSdkVer
         multiDexEnabled true
         generatedDensities = []
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {

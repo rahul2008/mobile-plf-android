@@ -40,8 +40,6 @@ public class ShoppingCartPresenter {
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
-
-        void updateStock(boolean isOutOfStock);
     }
 
     public ShoppingCartPresenter(Context context, LoadListener listener) {
@@ -84,7 +82,6 @@ public class ShoppingCartPresenter {
     }
 
     private void sendHybrisRequest(int code, AbstractModel model, RequestListener listener) {
-//        Utility.showProgressDialog(mContext, msg);
         getHybrisDelegate().sendRequest(code, model, model);
     }
 

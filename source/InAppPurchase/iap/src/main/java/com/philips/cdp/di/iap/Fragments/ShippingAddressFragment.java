@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
@@ -6,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.address.AddressController;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-public class ShippingAddressFragment extends BaseNoAnimationFragment {
+public class ShippingAddressFragment extends BaseNoAnimationFragment implements AddressController.AddressListener{
 
     @Override
     protected void updateTitle() {
@@ -23,4 +25,10 @@ public class ShippingAddressFragment extends BaseNoAnimationFragment {
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
         return rootView;
     }
+
+    @Override
+    public void onFinish() {
+
+    }
+
 }

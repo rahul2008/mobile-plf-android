@@ -48,7 +48,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
     //ShoppingCartData summary;
-    private boolean mIsOutOfStock;
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
         mContext = context;
@@ -108,12 +107,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 holder.from = (TextView) convertView.findViewById(R.id.from);
                 holder.price = (TextView) convertView.findViewById(R.id.price);
                 holder.dots = (ImageView) convertView.findViewById(R.id.dots);
-
-                holder.outOfStock = (TextView) convertView.findViewById(R.id.out_of_stock);
-                if(mIsOutOfStock)
-                    holder.outOfStock.setVisibility(View.VISIBLE);
-                else
-                    holder.outOfStock.setVisibility(View.GONE);
 
                 FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
                 holder.imageUrl = imageURL;
@@ -280,13 +273,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
             mPopupWindow.dismiss();
         }
     }
-    @Override
-    public void updateStock(boolean isOutOfStock) {
-        mIsOutOfStock = isOutOfStock;
-        notifyDataSetChanged();
-
-        //((ShoppingCartActivity)mContext).setCheckoutBtnState(!isOutOfStock);
-    }
 
     private static class ViewHolder {
         TextView name;
@@ -302,6 +288,5 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         TextView from;
         TextView price;
         String imageUrl;
-        TextView outOfStock;
     }
 }
