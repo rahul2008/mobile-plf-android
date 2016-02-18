@@ -73,7 +73,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment implement
     public void onDestroyView() {
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
+
     }
 
     public static ShoppingCartFragment createInstance(BaseAnimationSupportFragment.AnimationType animType) {
@@ -102,11 +102,11 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onEventReceived(final String event) {
-        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
-            //getMainActivity().addFragmentAndRemoveUnderneath(EmptyCartFragment.createInstance(AnimationType.NONE), false);
-            EmptyCartFragment emptyCartFragment = new EmptyCartFragment();
-            addChildFragment(emptyCartFragment, mFrameContainer.getId());
-        }
+//        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
+//            //getMainActivity().addFragmentAndRemoveUnderneath(EmptyCartFragment.createInstance(AnimationType.NONE), false);
+//            EmptyCartFragment emptyCartFragment = new EmptyCartFragment();
+//            addChildFragment(emptyCartFragment, mFrameContainer.getId());
+//        }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
         }
