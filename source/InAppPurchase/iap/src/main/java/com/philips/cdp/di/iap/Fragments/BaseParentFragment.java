@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 public abstract class BaseParentFragment extends BaseAnimationSupportFragment implements
@@ -32,6 +33,12 @@ public abstract class BaseParentFragment extends BaseAnimationSupportFragment im
         View view = inflater.inflate(R.layout.fragment_parent_base, container, false);
         getChildFragmentManager().addOnBackStackChangedListener(this);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateBackButton(getChildFragmentManager());
     }
 
     protected int getFragmentContainerId() {
@@ -92,13 +99,15 @@ public abstract class BaseParentFragment extends BaseAnimationSupportFragment im
 
     @Override
     public void onBackStackChanged() {
+        IAPLog.d(IAPLog.LOG, "BaseFragment == onBackStackChanged");
         FragmentManager childFragmentManager = getChildFragmentManager();
         if (childFragmentManager == null)
             return;
-
+        updateBackButton(childFragmentManager);
         Fragment topFragment = childFragmentManager.findFragmentById(getFragmentContainerId());
         if (topFragment != null && topFragment instanceof BaseNoAnimationFragment) {
             ((BaseNoAnimationFragment) topFragment).updateTitle();
+            IAPLog.d(IAPLog.LOG, "BaseFragment == onBackStackChanged == updateTitle");
         }
     }
 
@@ -118,5 +127,17 @@ public abstract class BaseParentFragment extends BaseAnimationSupportFragment im
             return;
 
         topFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    protected void updateBackButton(FragmentManager childFragmentManager) {
+        MainActivity parent = getMainActivity();
+        if (parent == null)
+            return;
+
+        if (childFragmentManager.getBackStackEntryCount() > 0) {
+            parent.showBackButton();
+        } else {
+            parent.hideBackButtonIfNoMoreSubfragments();
+        }
     }
 }

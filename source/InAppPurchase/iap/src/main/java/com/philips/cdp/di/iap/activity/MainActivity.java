@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -11,13 +12,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.Fragments.ShoppingCartBaseFragment;
+import com.philips.cdp.di.iap.Fragments.BaseParentFragment;
+import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class MainActivity extends BaseFragmentActivity {
     TextView mTitleTextView;
+    ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,7 @@ public class MainActivity extends BaseFragmentActivity {
         IAPLog.d(IAPLog.LOG, "OnCreate");
         setContentView(R.layout.activity_main);
         addActionBar();
-        addFragmentAndRemoveUnderneath(new ShoppingCartBaseFragment(), false);
+        addFragmentAndRemoveUnderneath(new ShoppingCartFragment(), false);
     }
 
     private void addActionBar() {
@@ -44,7 +47,7 @@ public class MainActivity extends BaseFragmentActivity {
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
         // mTitleTextView.setText(getString(R.string.iap_shopping_cart));
 
-        ImageView backButton = (ImageView) mCustomView.findViewById(R.id.arrow);
+        backButton = (ImageView) mCustomView.findViewById(R.id.arrow);
         backButton.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
 
         FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
@@ -54,9 +57,6 @@ public class MainActivity extends BaseFragmentActivity {
                 onBackPressed();
             }
         });
-
-        ImageView imageButton = (ImageView) mCustomView
-                .findViewById(R.id.arrow);
 
         mActionBar.setCustomView(mCustomView, params);
         mActionBar.setDisplayShowCustomEnabled(true);
@@ -76,5 +76,24 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void showBackButton() {
+        backButton.setVisibility(View.VISIBLE);
+    }
+
+    public void hideBackButtonIfNoMoreSubfragments() {
+        if (!canRemoveBackbutton())
+            return;
+
+        backButton.setVisibility(View.VISIBLE);
+    }
+
+    private boolean canRemoveBackbutton() {
+        Fragment topFragment = getTopFragment();
+        if (topFragment == null || !(topFragment instanceof BaseParentFragment))
+            return true;
+
+        return ((BaseParentFragment) topFragment).canRemoveBackButton();
     }
 }

@@ -1,32 +1,31 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/layout"
-            >
+<RelativeLayout android:id="@+id/layout"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
     <Button
         android:id="@+id/continues"
         style="?attr/outlinedButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginBottom="40dp"
         android:enabled="true"
         android:text="@string/iap_continue_shopping"/>
 
 
     <Button
         android:id="@+id/checkout_btn"
-        android:layout_above="@id/continues"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
+        android:layout_above="@id/continues"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginBottom="12dp"
         android:enabled="true"
         android:text="@string/iap_checkout"
         />

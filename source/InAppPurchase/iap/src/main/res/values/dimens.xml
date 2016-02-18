@@ -21,4 +21,10 @@
     <dimen name="iap_shipping_address_title_size">20sp</dimen>
     <dimen name="iap_max_chars">17</dimen>
     <dimen name="iap_max_chars_in_phone">20</dimen>
+    <dimen name="title">16sp</dimen>
+    <dimen name="header">20sp</dimen>
+    <dimen name="network_image_width">85dp</dimen>
+    <dimen name="network_image_height">75dp</dimen>
+    <dimen name="network_margin_top_bottom">5dp</dimen>
+    <dimen name="network_margin_left_right">12dp</dimen>
 </resources>

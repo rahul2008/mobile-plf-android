@@ -4,4 +4,67 @@
     <style name="AppTheme" parent="Theme.Philips.BrightBlue.WhiteBackground">
     </style>
 
+    <style name="tvTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textSize">@dimen/title</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="tvBoldTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textSize">@dimen/title</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="tvHeaderTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textSize">@dimen/header</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
+
+        <item name="android:layout_marginLeft">@dimen/iap_shipping_address_margin_left</item>
+        <item name="android:layout_marginTop">@dimen/iap_shipping_address_margin_top_bottom</item>
+    </style>
+
+    <style name="networkImage">
+        <item name="android:layout_width">@dimen/network_image_width</item>
+        <item name="android:layout_height">@dimen/network_image_height</item>
+        <item name="android:layout_marginBottom">@dimen/network_margin_top_bottom</item>
+        <item name="android:layout_marginLeft">@dimen/network_margin_left_right</item>
+        <item name="android:layout_marginRight">@dimen/network_margin_left_right</item>
+        <item name="android:layout_marginTop">@dimen/network_margin_top_bottom</item>
+        <item name="android:src">@drawable/toothbrush</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="iapButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/iap_shipping_address_continue_button_height</item>
+        <item name="android:layout_marginBottom">
+            @dimen/iap_shipping_address_continue_margin_bottom
+        </item>
+        <item name="android:layout_marginLeft">
+            @dimen/iap_shipping_address_cancel_button_margin_left_right
+        </item>
+        <item name="android:layout_marginRight">
+            @dimen/iap_shipping_address_cancel_button_margin_left_right
+        </item>
+    </style>
+
+    <style name="iapOrder_ll_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/iap_shipping_address_margin_top_bottom
+        </item>
+        <item name="android:layout_marginLeft">@dimen/iap_shipping_address_margin_left</item>
+        <item name="android:layout_marginTop">@dimen/iap_shipping_address_margin_top_bottom</item>
+    </style>
+
 </resources>

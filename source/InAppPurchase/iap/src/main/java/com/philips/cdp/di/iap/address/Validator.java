@@ -34,7 +34,7 @@ public class Validator {
         if (stringToBeValidated == null) {
             return false;
         }
-        if(stringToBeValidated.contains())
+
         return true;
     }
 }

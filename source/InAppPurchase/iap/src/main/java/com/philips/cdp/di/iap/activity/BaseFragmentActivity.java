@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.BaseParentFragment;
+import com.philips.cdp.di.iap.Fragments.EmptyCartFragment;
+import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -34,7 +36,7 @@ public class BaseFragmentActivity extends UiKitActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
 
         IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
                 + newFragmentTag + ")");
@@ -93,12 +95,14 @@ public class BaseFragmentActivity extends UiKitActivity {
         if (backNavigationHandled) {
             return;
         }
-        super.onBackPressed();
-//        if (!(topFragment instanceof ShoppingCartBaseFragment)) {
-//            addFragmentAndRemoveUnderneath(
-//                    ShoppingCartBaseFragment.createInstance(BaseAnimationSupportFragment.AnimationType.RIGHT_TO_LEFT), false);
-//        } else {
-//            super.onBackPressed();
-//        }
+        if (topFragment instanceof EmptyCartFragment) {
+            this.finish();
+        }
+        if (!(topFragment instanceof ShoppingCartFragment)) {
+            addFragmentAndRemoveUnderneath(
+                    ShoppingCartFragment.createInstance(BaseAnimationSupportFragment.AnimationType.NONE), false);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
