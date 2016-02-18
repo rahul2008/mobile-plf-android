@@ -233,7 +233,7 @@ public class SHNDeviceAssociation {
                     public void run() {
                         SHNDevice.State state = shnDevice.getState();
                         if (state.equals(SHNDevice.State.Disconnected) || state.equals(SHNDevice.State.Disconnecting)) {
-                            persistentStorageFactory.getPersistStorageCleaner().clearDeviceData(shnDeviceToRemove);
+                            persistentStorageFactory.getPersistentStorageCleaner().clearDeviceData(shnDeviceToRemove);
                             shnDevice.unregisterSHNDeviceListener(shnDeviceListener);
                         }
                     }

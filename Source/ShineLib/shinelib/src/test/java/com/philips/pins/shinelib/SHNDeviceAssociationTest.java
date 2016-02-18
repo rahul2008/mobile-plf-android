@@ -153,7 +153,7 @@ public class SHNDeviceAssociationTest {
         doReturn(Collections.emptyList()).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
         doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(anyList());
 
-        PowerMockito.when(persistentStorageFactoryMock.getPersistStorageCleaner()).thenReturn(persistentStorageCleanerMock);
+        PowerMockito.when(persistentStorageFactoryMock.getPersistentStorageCleaner()).thenReturn(persistentStorageCleanerMock);
 
         shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal, persistentStorageFactoryMock);
 

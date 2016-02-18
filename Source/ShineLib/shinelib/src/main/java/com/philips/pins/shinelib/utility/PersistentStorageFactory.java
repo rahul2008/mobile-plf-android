@@ -68,7 +68,7 @@ public class PersistentStorageFactory {
         return new PersistentStorage(context.getSharedPreferences(key, Context.MODE_PRIVATE));
     }
 
-    public PersistentStorageCleaner getPersistStorageCleaner() {
+    public PersistentStorageCleaner getPersistentStorageCleaner() {
         return new PersistentStorageCleaner(this);
     }
 }
