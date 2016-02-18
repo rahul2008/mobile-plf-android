@@ -40,8 +40,6 @@ public class ShoppingCartPresenter {
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
-
-        void updateStock(boolean isOutOfStock);
     }
 
     public ShoppingCartPresenter(Context context, LoadListener listener) {
