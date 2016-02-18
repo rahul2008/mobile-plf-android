@@ -4,19 +4,14 @@
  */
 package com.philips.cdp.di.iap.model;
 
-import android.content.Intent;
 import android.os.Message;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductDataBuilder;
-import com.philips.cdp.di.iap.activity.EmptyCartActivity;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.response.cart.GetCartData;
+import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.Map;
 
@@ -28,7 +23,7 @@ public class CartCurrentInfoRequest extends AbstractModel {
 
     @Override
     protected void onPostSuccess(Message msg) {
-        GetCartData cartData = (GetCartData) msg.obj;
+        Carts cartData = (Carts) msg.obj;
         if (cartData.getCarts().get(0).getEntries() == null) {
             Message msgResult = Message.obtain(msg);
             msgResult.obj = null;
@@ -47,7 +42,7 @@ public class CartCurrentInfoRequest extends AbstractModel {
 
     @Override
     public Object parseResponse(final Object response) {
-        return new Gson().fromJson(response.toString(), GetCartData.class);
+        return new Gson().fromJson(response.toString(), Carts.class);
     }
 
     @Override

@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.response.cart.AddToCartData;
+import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
@@ -37,7 +37,7 @@ public class CartAddProductRequest extends AbstractModel {
     @Override
     public Map<String, String> requestBody() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
+        params.put(ModelConstants.PRODUCT_CODE, this.params.get(ModelConstants.PRODUCT_CODE));
         return params;
     }
 

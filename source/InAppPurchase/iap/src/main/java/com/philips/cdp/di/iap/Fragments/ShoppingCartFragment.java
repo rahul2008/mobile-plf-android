@@ -1,14 +1,12 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
@@ -16,16 +14,14 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.model.container.CartContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class ShoppingCartFragment extends BaseNoAnimationFragment implements View.OnClickListener, RequestListener, EventListener {
+public class ShoppingCartFragment extends BaseNoAnimationFragment implements View.OnClickListener, EventListener {
 
     private Button mCheckoutBtn;
     public ShoppingCartAdapter mAdapter;
@@ -33,7 +29,7 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
 
     @Override
     protected void updateTitle() {
-
+        setTitle(R.string.iap_shopping_cart);
     }
 
     @Override
@@ -85,19 +81,6 @@ public class ShoppingCartFragment extends BaseNoAnimationFragment implements Vie
         fragment.setArguments(args);
 
         return fragment;
-    }
-
-    @Override
-    public void onSuccess(final Message msg) {
-        IAPLog.d(IAPLog.SHOPPING_CART_FRAGMENT, "Shopping cart fragment onSuccess");
-        CartContainer cartContainer = new CartContainer();
-        cartContainer.updateProductDetails(getContext(), msg);
-    }
-
-    @Override
-    public void onError(final Message msg) {
-        Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-        Utility.dismissProgressDialog();
     }
 
     @Override

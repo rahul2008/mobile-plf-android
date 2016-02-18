@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.response.cart.UpdateCartData;
+import com.philips.cdp.di.iap.response.carts.UpdateCartData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
@@ -35,19 +35,19 @@ public class CartUpdateProductQuantityRequest extends AbstractModel {
 
     @Override
     public Map<String, String> requestBody() {
-        Map<String, String> params = new HashMap<String,String>();
-        params.put(PRODUCT_CODE, this.params.get(PRODUCT_CODE));
-        params.put(PRODUCT_QUANTITY, this.params.get(PRODUCT_QUANTITY));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(ModelConstants.PRODUCT_CODE, this.params.get(ModelConstants.PRODUCT_CODE));
+        params.put(ModelConstants.PRODUCT_QUANTITY, this.params.get(ModelConstants.PRODUCT_QUANTITY));
         return params;
     }
 
     @Override
     public String getTestUrl() {
-        if (params == null || !params.containsKey(PRODUCT_CODE) ||
-                !params.containsKey(PRODUCT_QUANTITY)) {
+        if (params == null || !params.containsKey(ModelConstants.PRODUCT_CODE) ||
+                !params.containsKey(ModelConstants.PRODUCT_QUANTITY)) {
             throw new RuntimeException("product code and quantity must be supplied");
         }
-        String entrycode = params.get(PRODUCT_ENTRYCODE);
+        String entrycode = params.get(ModelConstants.PRODUCT_ENTRYCODE);
         return String.format(NetworkConstants.UPDATE_QUANTITY_URL, entrycode);
     }
 }

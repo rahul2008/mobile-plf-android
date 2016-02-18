@@ -9,4 +9,6 @@ public interface IAPHandlerListner {
     void onGetCartQuantity(int quantity);
 
     void onAddItemToCart(String responseStatus);
+
+    void onBuyNow();
 }
