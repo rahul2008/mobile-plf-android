@@ -666,7 +666,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             hideProviderProgress();
         }
         handleUiState();
-       // handleJanrainInitPb();
     }
 
 

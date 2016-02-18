@@ -89,12 +89,12 @@ android {
         simulator {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
-            versionName "4.1.0.1"
+            versionName objcdp.getVersionWithHash()
         }
         device {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
-            versionName "4.1.0.1"
+            versionName objcdp.getVersionWithHash()
         }
     }
 }
