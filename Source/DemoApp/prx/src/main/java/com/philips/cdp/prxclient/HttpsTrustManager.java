@@ -1,12 +1,12 @@
 package com.philips.cdp.prxclient;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
@@ -30,22 +30,45 @@ public class HttpsTrustManager implements X509TrustManager {
             }
         });
 
-        SSLContext context = null;
-        if (trustManagers == null) {
-            trustManagers = new TrustManager[]{new HttpsTrustManager()};
-        }
-
+        javax.net.ssl.SSLSocketFactory sf = null;
         try {
-            context = SSLContext.getInstance("TLS");
-            context.init(null, trustManagers, new SecureRandom());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
+            sf = createSslSocketFactory();
+            HttpsURLConnection.setDefaultSSLSocketFactory(sf);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        HttpsURLConnection.setDefaultSSLSocketFactory(context
-                .getSocketFactory());
+    private static javax.net.ssl.SSLSocketFactory createSslSocketFactory() throws Exception {
+        TrustManager[] byPassTrustManagers = new TrustManager[]{new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+
+            public void checkClientTrusted(X509Certificate[] chain, String authType) {
+            }
+
+            public void checkServerTrusted(X509Certificate[] chain, String authType) {
+            }
+        }};
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+
+        TrustManager tm = new X509TrustManager() {
+
+            public void checkClientTrusted(X509Certificate[] chain, String authType)
+                    throws CertificateException {
+            }
+
+            public void checkServerTrusted(X509Certificate[] chain, String authType)
+                    throws CertificateException {
+            }
+
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+        };
+        sslContext.init(new KeyManager[0], new TrustManager[]{tm}, new SecureRandom());
+        return sslContext.getSocketFactory();
     }
 
     @Override

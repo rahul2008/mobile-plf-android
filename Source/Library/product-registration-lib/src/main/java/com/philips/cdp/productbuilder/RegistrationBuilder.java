@@ -8,6 +8,8 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -51,8 +53,15 @@ public class RegistrationBuilder extends RegistrationDataBuilder {
                     .appendQueryParameter("purchaseDate", getPurchaseDate())
                     .appendQueryParameter("registrationChannel", getRegistrationChannel())
                    */.build();
-            Log.d(getClass() + "", builtUri.toString());
-            return builtUri.toString();
+            String url = builtUri.toString();
+            try {
+                url = java.net.URLDecoder.decode(url, "UTF-8");
+                Log.d(getClass() + "", url);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            Log.d(getClass() + "", url);
+            return url;
         }
 
 }

@@ -43,7 +43,12 @@ public class ProcessNetwork {
     protected void productRegistrationRequest(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
 
         PrxLogger.d(TAG, "Url : " + prxDataBuilder.getRequestUrl());
-        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(Request.Method.POST, prxDataBuilder.getRequestUrl(), new Response.Listener<JSONObject>() {
+        Map<String, String> params = new HashMap<>();
+        RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
+        params.put("purchaseDate", registrationBuilder.getPurchaseDate());
+        params.put("productSerialNumber", registrationBuilder.getProductSerialNumber());
+        params.put("registrationChannel", registrationBuilder.getRegistrationChannel());
+        ProductJsonRequest productJsonRequest = new ProductJsonRequest(Request.Method.POST, prxDataBuilder.getRequestUrl(), params, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ResponseData responseData = prxDataBuilder.getResponseData(response);
@@ -66,26 +71,16 @@ public class ProcessNetwork {
             }
         }) {
             @Override
-            public Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("productSerialNumber", "ab123456789012");
-                params.put("purchaseDate", "2016-12-02");
-                params.put("registrationChannel", "MS81376");
-
-                return params;
-            }
-            @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<>();
                 RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
                 params.put("x-accessToken", registrationBuilder.getAccessToken());
-                params.put("Content-Type", "application/x-www-form-urlencoded");
+//                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
         };
-        if (isHttpsRequest)
-            HttpsTrustManager.allowAllSSL();
-        requestQueue.add(mJsonObjectRequest);
+        HttpsTrustManager.allowAllSSL();
+        requestQueue.add(productJsonRequest);
     }
 
     private void handleError(final int statusCode, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
@@ -142,12 +137,10 @@ public class ProcessNetwork {
                 }
             }
         });
-        if (isHttpsRequest)
-            HttpsTrustManager.allowAllSSL();
         requestQueue.add(mJsonObjectRequest);
     }
 
-    protected void registredDataRequest(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    protected void registeredDataRequest(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
 
         PrxLogger.d(TAG, "Url : " + prxDataBuilder.getRequestUrl());
         JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(Request.Method.GET, prxDataBuilder.getRequestUrl(), new Response.Listener<JSONObject>() {
@@ -172,8 +165,6 @@ public class ProcessNetwork {
                 }
             }
         });
-        if (isHttpsRequest)
-            HttpsTrustManager.allowAllSSL();
         requestQueue.add(mJsonObjectRequest);
     }
 
