@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.view.DividerItemDecoration;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
+        mAddressListView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
         mAddrController = new AddressController(getContext(),this);
         mAddrController.getShippingAddresses();
         return view;

@@ -43,6 +43,8 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         StringBuilder sb = new StringBuilder();
         String line1 = address.getLine1();
         String line2 = address.getLine2();
+        String town = address.getTown();
+        String postalCode = address.getPostalCode();
         String country = getCountryName(address.getCountry().getIsocode());
         if (line1 != null) {
             sb.append(line1).append(NEW_LINE);
@@ -50,14 +52,20 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         if (line2 != null) {
             sb.append(line2).append(NEW_LINE);
         }
+        if (town != null) {
+            sb.append(town).append(NEW_LINE);
+        }
+        if (postalCode != null) {
+            sb.append(postalCode).append(NEW_LINE);
+        }
         if (country != null) {
-            sb.append(line2);
+            sb.append(country);
         }
         return sb.toString();
     }
 
     private String getCountryName(String isoCode) {
-        return new Locale(isoCode).getDisplayCountry();
+        return new Locale(Locale.getDefault().toString(),isoCode).getDisplayCountry();
     }
 
     @Override
