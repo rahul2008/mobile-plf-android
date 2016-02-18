@@ -82,7 +82,6 @@ public class ShoppingCartPresenter {
     }
 
     private void sendHybrisRequest(int code, AbstractModel model, RequestListener listener) {
-//        Utility.showProgressDialog(mContext, msg);
         getHybrisDelegate().sendRequest(code, model, model);
     }
 
