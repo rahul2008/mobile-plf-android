@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.address;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 import com.philips.cdp.uikit.customviews.UIKitRadioButton;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,10 +30,12 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     private EditDeletePopUP mPopUP;
     private Addresses mSelectedAddress;
     private int mSelectedIndex;
+    private Drawable mOptionsDrawable;
 
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
         mAddresses = addresses;
+        mOptionsDrawable = VectorDrawable.create(context, R.drawable.iap_options_icon_6x26);
         mSelectedIndex = 0;
         setSelectedAddress(0);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
@@ -54,6 +58,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         Addresses address = mAddresses.get(position);
         holder.name.setText(address.getFirstName() + " " + address.getLastName());
         holder.address.setText(createAddress(address));
+        holder.options.setImageDrawable(mOptionsDrawable);
 
         //Update payment options buttons
         updatePaymentButtonsVisiblity(holder.paymentOptions, position);
