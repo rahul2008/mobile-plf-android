@@ -59,6 +59,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private static boolean isFirstTimeProductComponenetlaunch = true;
     private static ProductSelectionProductInfo productInfo = null;
+    private PrxProductData mPrxProductData = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,12 +72,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         productInfo = new ProductSelectionProductInfo();
         productInfo.setSector(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getSector());
         productInfo.setCatalog(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getCatalog());
+        if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1)
+            productInfo.setCtn(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList()[0]);
         DigitalCareConfigManager.getInstance().setConsumerProductInfo(productInfo);
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
                 if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null)
-                    new PrxProductData(getActivity(), this).executeRequests();
+                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null) {
+                    mPrxProductData = new PrxProductData(getActivity(), this);
+                    mPrxProductData.executeRequests();
+                }
             }
         }
         return mView;
@@ -320,7 +325,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 if (productSummaryModel != null) {
                     SummaryModel summaryModel = productSummaryModel;
                     productInfo.setCtn(summaryModel.getData().getCtn());
-                } 
+                    //  mPrxProductData.executeRequests();
+                }
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, DigitalCareConfigManager.getInstance()
@@ -328,23 +334,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         ProductSelectionLogger.enableLogging();
     }
 
-
-
-   /* private void addDummyData() {
-
-        List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
-
-
-        for (int i = 0; i < mCtnList.size(); i++) {
-            Product product = new Product();
-            //  product.setmCtn((new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "/dummy");
-            product.setmCtn(mCtnList.get(i));
-            product.setmCatalog("B2C");
-            product.setmCategory("CARE");
-            mList.add(product);
-        }
-    }
-*/
 
     @Override
     public String getActionbarTitle() {
