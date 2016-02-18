@@ -30,7 +30,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="@dimen/iap_selection_address_layout_margin"
-        android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top"/>
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top"
+        android:src="@drawable/dots"/>
 
     <TextView
         android:id="@+id/tv_address"

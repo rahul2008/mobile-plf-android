@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 
 public class ShippingAddressFragment extends BaseNoAnimationFragment implements AddressController.AddressListener{
 
@@ -27,7 +28,7 @@ public class ShippingAddressFragment extends BaseNoAnimationFragment implements 
     }
 
     @Override
-    public void onFinish() {
+    public void onFinish(GetShippingAddressData data) {
 
     }
 

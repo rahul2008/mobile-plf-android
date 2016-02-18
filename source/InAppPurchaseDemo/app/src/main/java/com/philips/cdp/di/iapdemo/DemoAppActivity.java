@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.address.AddressController;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -176,7 +177,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     }
 
     @Override
-    public void onFinish() {
+    public void onFinish(GetShippingAddressData data) {
 
     }
 }

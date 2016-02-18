@@ -11,11 +11,13 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
+import com.philips.cdp.di.iap.model.GetAddressRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.model.UpdateAddressRequest;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.store.Store;
 
 import java.util.HashMap;
 
@@ -23,14 +25,18 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
     private Context mContext;
     private AddressListener mAddressListener;
+    private HybrisDelegate mDelegate;
+    private Store mStore;
 
     public interface AddressListener {
-        void onFinish();
+        void onFinish(GetShippingAddressData shippingAddresses);
     }
 
     public AddressController(Context context, AddressListener listener) {
         mContext = context;
         mAddressListener = listener;
+        mDelegate = HybrisDelegate.getInstance(context);
+        mStore = mDelegate.getStore();
     }
 
     public void createAddress() {
@@ -85,9 +91,15 @@ public class AddressController implements AbstractModel.DataLoadListener {
         }
     }
 
+    public void getShippingAddresses() {
+        GetAddressRequest model = new GetAddressRequest(mStore,null, this);
+        mDelegate.sendRequest(RequestCode.GET_ADDRESS, model, model);
+    }
+
     @Override
     public void onModelDataError(Message msg) {
         int requestCode = msg.what;
+
         switch (requestCode){
             case RequestCode.DELETE_ADDRESS:
                 Toast.makeText(mContext,"delete Error",Toast.LENGTH_SHORT).show();
@@ -96,6 +108,9 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 Toast.makeText(mContext,"update Error",Toast.LENGTH_SHORT).show();
                 break;
             case RequestCode.CREATE_ADDRESS:
+                break;
+            case RequestCode.GET_ADDRESS:
+                 GetShippingAddressData addresses = (GetShippingAddressData) msg.obj;
                 break;
         }
     }

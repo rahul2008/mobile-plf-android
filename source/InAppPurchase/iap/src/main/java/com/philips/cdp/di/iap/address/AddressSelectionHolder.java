@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.uikit.customviews.UIKitRadioButton;
 
+import butterknife.ButterKnife;
+
 public class AddressSelectionHolder extends RecyclerView.ViewHolder {
     TextView name;
     TextView address;
@@ -23,6 +25,7 @@ public class AddressSelectionHolder extends RecyclerView.ViewHolder {
 
     public AddressSelectionHolder(final View view) {
         super(view);
+        ButterKnife.bind(this,view);
         name = (TextView) view.findViewById(R.id.tv_name);
         address = (TextView) view.findViewById(R.id.tv_address);
         toggle = (UIKitRadioButton) view.findViewById(R.id.rbtn_toggle);
