@@ -55,8 +55,8 @@ public class EditDeletePopUP {
         String edit = context.getResources().getString(R.string.iap_edit);
         String delete = context.getResources().getString(R.string.iap_delete);
         String[] desc = {edit, delete};
-        rowItems.add(new RowItem(VectorDrawable.create(context, R.drawable.iap_trash_bin), desc[0]));
-        rowItems.add(new RowItem(ContextCompat.getDrawable(context, R.drawable.iap_info), desc[1]));
+        rowItems.add(new RowItem(VectorDrawable.create(context, R.drawable.iap_edit_icon_17x17), desc[0]));
+        rowItems.add(new RowItem(ContextCompat.getDrawable(context, R.drawable.iap_trash_bin), desc[1]));
         return rowItems;
     }
 

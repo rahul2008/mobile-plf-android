@@ -4,6 +4,8 @@
     <dimen name="iap_count_drop_down_icon_height">5dp</dimen>
     <dimen name="iap_count_drop_down_icon_padding">5dp</dimen>
     <dimen name="iap_edit_icon_dimen">17dp</dimen>
+    <dimen name="iap_trash_icon_width">19dp</dimen>
+    <dimen name="iap_trash_icon_height">24dp</dimen>
 
 
     <dimen name="iap_shipping_address_margin_left">19dp</dimen>
