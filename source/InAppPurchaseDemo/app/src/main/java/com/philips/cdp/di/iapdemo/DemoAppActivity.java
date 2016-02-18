@@ -15,8 +15,12 @@ import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 
@@ -75,6 +79,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 Utility.showNetworkError(this, true);
             }
         }
+        /** Should be commented for debug builds */
+        CrashManager.register(this, IAPConstant.HOCKEY_APPID, new CrashManagerListener() {
+
+            public boolean shouldAutoUploadCrashes() {
+                if (!IAPLog.isLoggingEnabled())
+                    return true;
+                return false;
+            }
+        });
     }
 
     private void populateProduct() {
