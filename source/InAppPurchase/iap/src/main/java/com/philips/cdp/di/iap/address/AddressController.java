@@ -76,6 +76,12 @@ public class AddressController implements AbstractModel.DataLoadListener {
         delegate.sendRequest(RequestCode.UPDATE_ADDRESS, model, model);
     }
 
+    public void getShippingAddresses() {
+        GetAddressRequest model = new GetAddressRequest(mStore, null, this);
+        mDelegate.sendRequest(RequestCode.GET_ADDRESS, model, model);
+    }
+
+
     @Override
     public void onModelDataLoadFinished(Message msg) {
         int requestCode = msg.what;
@@ -88,12 +94,13 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.CREATE_ADDRESS:
                 break;
+            case RequestCode.GET_ADDRESS:
+                GetShippingAddressData addresses = (GetShippingAddressData) msg.obj;
+                if(mAddressListener != null) {
+                    mAddressListener.onFinish(addresses);
+                }
+                break;
         }
-    }
-
-    public void getShippingAddresses() {
-        GetAddressRequest model = new GetAddressRequest(mStore,null, this);
-        mDelegate.sendRequest(RequestCode.GET_ADDRESS, model, model);
     }
 
     @Override
@@ -110,7 +117,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
             case RequestCode.CREATE_ADDRESS:
                 break;
             case RequestCode.GET_ADDRESS:
-                 GetShippingAddressData addresses = (GetShippingAddressData) msg.obj;
+                Toast.makeText(mContext,"update Error",Toast.LENGTH_SHORT).show();
                 break;
         }
     }

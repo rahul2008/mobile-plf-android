@@ -16,10 +16,11 @@ import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 
 import java.util.List;
 
-public class AddressSelectionFragment extends BaseNoAnimationFragment implements AddressController.AddressListener{
+public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener{
     private RecyclerView mAddressListView;
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
@@ -34,7 +35,8 @@ public class AddressSelectionFragment extends BaseNoAnimationFragment implements
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
         mAddrController = new AddressController(getContext(),this);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        mAddrController.getShippingAddresses();
+        return view;
     }
 
     @Override
@@ -48,5 +50,19 @@ public class AddressSelectionFragment extends BaseNoAnimationFragment implements
     public void onFinish(final GetShippingAddressData shippingAddresses) {
         List<Addresses> addresses = shippingAddresses.getAddresses();
         mAdapter = new AddressSelectionAdapter(getContext(),addresses);
+        mAddressListView.setAdapter(mAdapter);
+    }
+
+    public static AddressSelectionFragment createInstance(final AnimationType animType) {
+        AddressSelectionFragment fragment = new AddressSelectionFragment();
+        Bundle args = new Bundle();
+        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    protected AnimationType getDefaultAnimationType() {
+        return AnimationType.NONE;
     }
 }

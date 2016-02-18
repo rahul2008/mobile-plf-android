@@ -36,7 +36,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     public void onBindViewHolder(final AddressSelectionHolder holder, final int position) {
         Addresses address= mAddresses.get(position);
         holder.name.setText(address.getFirstName() +" " +address.getLastName());
-        createAddress(address);
+        holder.address.setText(createAddress(address));
     }
 
     private String createAddress(final Addresses address) {
