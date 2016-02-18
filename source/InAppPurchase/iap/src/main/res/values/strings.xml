@@ -42,4 +42,8 @@
     <string name="iap_cancel">Cancel</string>
     <string name="iap_total">Total</string>
     <string name="iap_items"> items</string>
+    <!--Order Sammary-->
+    <string name="iap_order_summary">Summary</string>
+    <string name="iap_pay_now">Pay now</string>
+    <string name="iap_payment_method">Payment method</string>
 </resources>

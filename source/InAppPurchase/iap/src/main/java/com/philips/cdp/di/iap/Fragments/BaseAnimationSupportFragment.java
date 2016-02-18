@@ -8,11 +8,13 @@ Project           : InAppPurchase
 
 package com.philips.cdp.di.iap.Fragments;
 
+import android.app.Activity;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
@@ -79,10 +81,18 @@ public abstract class BaseAnimationSupportFragment extends BaseNoAnimationFragme
                 IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "Animation ended for fragment - "
                         + BaseAnimationSupportFragment.this.getClass().getSimpleName());
                 animation.setAnimationListener(null);
-                //removeUnderlyingFragment(getActivity(), mUnderlyingFragmentTag);
+                removeUnderlyingFragment(getActivity(), mUnderlyingFragmentTag);
             }
         });
         return animation;
+    }
+
+    public boolean removeUnderlyingFragment(Activity activity, String tag) {
+        if (activity == null || !(activity instanceof MainActivity)) return false;
+        if (tag == null || tag.isEmpty()) return false;
+
+        ((MainActivity) activity).removeFragment(tag);
+        return true;
     }
 
     private Animation getEnterAnimation() {
