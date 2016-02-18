@@ -2,43 +2,29 @@ package com.philips.cdp.sampledigitalcareapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.component.ActivityLauncher;
-import com.philips.cdp.digitalcare.component.UiLauncher;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.sampledigitalcareapp.adapter.SampleAdapter;
-import com.philips.cdp.sampledigitalcareapp.adapter.SimpleItemTouchHelperCallback;
-import com.philips.cdp.sampledigitalcareapp.view.CustomDialog;
-import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.ProductModelSelectionType;
-import com.philips.multiproduct.productselection.HardcodedProductList;
+import com.philips.cdp.sampledigitalcareapp.adapter.AutoCompleteAdapter;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /*
     This is sample class which will try to simulate, "how to use APIs and integrate digitalcare.
@@ -50,17 +36,16 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         MainMenuListener, ProductMenuListener, SocialProviderListener {
 
     public static final String HOCKEY_APP_ID = "9d6c50153b0c5394faa920d9dda951c7";
-    private static final String TAG = LaunchDigitalCare.class.getSimpleName();
     private static boolean mActivityButtonSelected = true;
     private static boolean mFragmentButtonSelected = true;
     private Button mLaunchDigitalCare = null;
     private Button mLaunchAsFragment = null;
-    private ImageButton mAddButton = null;
-    private RecyclerView mRecyclerView = null;
 
-    private static ArrayList<String> mList = null;
-    private SampleAdapter adapter = null;
-
+    private AutoCompleteTextView mCategory_AutoText = null;
+    private AutoCompleteTextView mSubCategory_AutoText = null;
+    private AutoCompleteTextView mCtn_AutoText = null;
+    private AutoCompleteTextView mProductTitle_AutoText = null;
+    private AutoCompleteTextView mProductReview_AutoText = null;
 
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
@@ -74,13 +59,10 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
         mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
         mLaunchAsFragment = (Button) findViewById(R.id.launchAsFragment);
-        mAddButton = (ImageButton) findViewById(R.id.addimageButton);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAddButton.setOnClickListener(this);
 
         // set listener
         mLaunchDigitalCare.setOnClickListener(this);
-        // mLaunchAsFragment.setOnClickListener(this);
+        mLaunchAsFragment.setOnClickListener(this);
 
         // setting language spinner
         mLanguage_spinner = (Spinner) findViewById(R.id.spinner1);
@@ -98,37 +80,55 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
 
-
-        // Ctn List Code Snippet
-
-        if (mList == null)
-            mList = new ArrayList<String>();
-        if (mList.size() == 0)
-            addCtnData();
-
-        if (adapter == null)
-            adapter = new SampleAdapter(mList);
-        adapter = setAdapter(mList);
-
-        ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(adapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(mRecyclerView);
-
-
         // Digital care initialization
         initializeDigitalCareLibrary();
 
+        //setting autocompeletion for category
+        mCategory_AutoText = (AutoCompleteTextView) findViewById(R.id.category);
+        ArrayList<String> categoryList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.category)));
+        categoryList.add(0, mConsumerProductInfo.getCatalog());
+        AutoCompleteAdapter category_adapter = new AutoCompleteAdapter(this,
+                R.layout.list_items, R.id.autotext, categoryList);
+        mCategory_AutoText.setAdapter(category_adapter);
 
-    }
+        //setting autocompeletion for subcategory
+        mSubCategory_AutoText = (AutoCompleteTextView) findViewById(R.id.subcategory);
+        ArrayList<String> subcategoryList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.subcategory)));
+        subcategoryList.add(0, mConsumerProductInfo.getSubCategory());
+        AutoCompleteAdapter subcategory_adapter = new AutoCompleteAdapter(this,
+                R.layout.list_items, R.id.autotext, subcategoryList);
+        mSubCategory_AutoText.setAdapter(subcategory_adapter);
 
+        //setting autocompeletion for ctn
+        mCtn_AutoText = (AutoCompleteTextView) findViewById(R.id.ctn);
+        ArrayList<String> ctnList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.ctn)));
+        ctnList.add(0, mConsumerProductInfo.getCtn());
+        AutoCompleteAdapter ctn_adapter = new AutoCompleteAdapter(this,
+                R.layout.list_items, R.id.autotext, ctnList);
+        mCtn_AutoText.setAdapter(ctn_adapter);
 
-    private void addCtnData() {
+        //setting autocompeletion for product_title
+        mProductTitle_AutoText = (AutoCompleteTextView) findViewById(R.id.product_title);
+        ArrayList<String> productTitleList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.product_title)));
+        productTitleList.add(0, mConsumerProductInfo.getProductTitle());
+        AutoCompleteAdapter product_title_adapter = new AutoCompleteAdapter(this,
+                R.layout.list_items, R.id.autotext, productTitleList);
+        mProductTitle_AutoText.setAdapter(product_title_adapter);
 
-        List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.productselection_ctnlist));
-        for (int i = 0; i < mCtnList.size(); i++) {
-            mList.add(mCtnList.get(i));
-        }
+        //setting autocompeletion for product_review
+        mProductReview_AutoText = (AutoCompleteTextView) findViewById(R.id.product_review_url);
+        ArrayList<String> productReviewList = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.product_review)));
+        productReviewList.add(0, mConsumerProductInfo.getProductTitle());
+        AutoCompleteAdapter product_review_adapter = new AutoCompleteAdapter(this,
+                R.layout.list_items, R.id.autotext, productReviewList);
+        mProductReview_AutoText.setAdapter(product_review_adapter);
+
+        mCategory_AutoText.setText(categoryList.get(0));
+        mSubCategory_AutoText.setText(subcategoryList.get(0));
+        mCtn_AutoText.setText(ctnList.get(0));
+        mProductTitle_AutoText.setText(productTitleList.get(0));
+        mProductReview_AutoText.setText(productReviewList.get(0));
+//        registerHockeyApp();
     }
 
     @Override
@@ -174,29 +174,10 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         }
 
         if (mFragmentButtonSelected) {
-            mLaunchAsFragment.setVisibility(View.GONE);
+            mLaunchAsFragment.setVisibility(View.VISIBLE);
         } else {
             mLaunchAsFragment.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @NonNull
-    private SampleAdapter setAdapter(ArrayList<String> mList) {
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        return adapter;
-    }
-
-    private void launchDialog() {
-        CustomDialog dialog = new CustomDialog(this, mList, new Listener() {
-            @Override
-            public void updateList(ArrayList<String> productList) {
-                mList = productList;
-                setAdapter(mList);
-                Log.d(TAG, " Products Size = " + mList.size());
-            }
-        });
-        dialog.show();
     }
 
     private void initializeDigitalCareLibrary() {
@@ -273,10 +254,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
          */
 
         switch (view.getId()) {
-
-            case R.id.addimageButton:
-                launchDialog();
-                break;
             case R.id.launchDigitalCare:
 
                 mActivityButtonSelected = true;
@@ -285,15 +262,12 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mLaunchAsFragment.setVisibility(View.INVISIBLE);
 
                 if (setConsumerProductInfo()) {
-                    String[] ctnList = new String[mList.size()];
-                    for (int i = 0; i < mList.size(); i++)
-                        ctnList[i] = mList.get(i);
-                    ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-                    productsSelection.setCatalog(Catalog.CARE);
-                    productsSelection.setSector(Sector.B2C);
-                    UiLauncher uiLauncher = new ActivityLauncher(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-                    uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-                    DigitalCareConfigManager.getInstance().invokeConsumerCareModule(uiLauncher, productsSelection);
+                    ActivityLauncher activityComponentBuilder = new ActivityLauncher();
+                    activityComponentBuilder.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+
+                    activityComponentBuilder.setScreenOrientation(DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+
+                    DigitalCareConfigManager.getInstance().invokeConsumerCareModule(activityComponentBuilder);
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Set Consumer Product Info", Toast.LENGTH_SHORT).show();
@@ -307,7 +281,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
                 if (setConsumerProductInfo()) {
-                    //  startActivity(new Intent(this, SampleActivity.class));
+                    startActivity(new Intent(this, SampleActivity.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Set Consumer Product Info", Toast.LENGTH_SHORT).show();
                 }
@@ -331,7 +305,26 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         DigitalCareConfigManager.getInstance().setLocale(language, country);
     }
 
+
     private boolean setConsumerProductInfo() {
-        return true;
+
+//        Toast.makeText(getApplicationContext(), mCategory_AutoText.getText().toString().trim() +
+//                "\n" + mSubCategory_AutoText.getText().toString().trim() +
+//                "\n" + mCtn_AutoText.getText().toString().trim() +
+//                "\n" + mProductTitle_AutoText.getText().toString().trim() +
+//                "\n" + mProductReview_AutoText.getText().toString().trim()
+//                , Toast.LENGTH_SHORT).show();
+
+        if (!mCategory_AutoText.getText().toString().isEmpty() && !mSubCategory_AutoText.getText().toString().isEmpty()
+                && !mCtn_AutoText.getText().toString().isEmpty() || !mProductTitle_AutoText.getText().toString().isEmpty() ||
+                !mProductReview_AutoText.getText().toString().isEmpty()) {
+            SampleConsumerProductInfo.setCategory(mCategory_AutoText.getText().toString());
+            SampleConsumerProductInfo.setSubCategory(mSubCategory_AutoText.getText().toString());
+            SampleConsumerProductInfo.setCtn(mCtn_AutoText.getText().toString());
+            SampleConsumerProductInfo.setProductTitle(mProductTitle_AutoText.getText().toString());
+            return true;
+        } else {
+            return false;
+        }
     }
 }

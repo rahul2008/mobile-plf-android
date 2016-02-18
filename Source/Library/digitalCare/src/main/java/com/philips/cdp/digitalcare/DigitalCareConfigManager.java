@@ -19,8 +19,6 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.ProductModelSelectionType;
 
 import java.util.Locale;
 
@@ -53,9 +51,6 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
-
-    public static ProductModelSelectionType mProductModelSelectionType = null;
-    public static String[] mCtnList = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -152,12 +147,7 @@ public class DigitalCareConfigManager {
      *
      * @param uiLauncher
      */
-    public void invokeConsumerCareModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
-        if (productModelSelectionType != null) {
-            mProductModelSelectionType = productModelSelectionType;
-        } else
-            throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
-
+    public void invokeConsumerCareModule(UiLauncher uiLauncher) {
         if (uiLauncher instanceof ActivityLauncher)
 
             invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
@@ -175,9 +165,9 @@ public class DigitalCareConfigManager {
      *
      * @param startAnimation Animation resource ID.
      * @param endAnimation   Animation Resource ID.
-     * @param orientation
+     * @param orientation    {@link com.philips.cdp.digitalcare.DigitalCareConfigManager.ActivityOrientation} flag.
      */
-    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ProductModelSelectionHelper.ActivityOrientation orientation) {
+    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
@@ -418,17 +408,13 @@ public class DigitalCareConfigManager {
         mProductDetailsModel = detailsObject;
     }
 
-    public ProductModelSelectionType getProductModelSelectionType() {
-        return mProductModelSelectionType;
-    }
-
     /**
      * These are Flags used for setting/controlling screen orientation.
      * <p>This method helps only you are using the DigitalCare component from the Intent</p>
      * <p/>
      * <p> <b>Note : </b> The flags are similar to deafult android screen orientation flags</p>
      */
-    /*public enum ActivityOrientation {
+    public enum ActivityOrientation {
 
 
         SCREEN_ORIENTATION_UNSPECIFIED(-1), SCREEN_ORIENTATION_LANDSCAPE(0),
@@ -453,6 +439,6 @@ public class DigitalCareConfigManager {
         private int getOrientationValue() {
             return value;
         }
-    }*/
+    }
 
 }

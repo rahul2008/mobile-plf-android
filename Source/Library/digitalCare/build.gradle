@@ -125,8 +125,7 @@ dependencies {
     compile(group: 'com.google.code.gson', name: 'gson', version: '2.2.2')
     compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.0', ext: 'aar')
     compile(group: 'com.philips.cdp', name: 'prx', version: '1.0.1', ext: 'aar')
-//    compile(group: 'com.philips.cdp', name: 'multi-selection', version: '1.0.3', ext: 'aar')
-//    compile project(':multiproduct')
+    compile(group: 'com.philips.cdp', name: 'multi-selection', version: '1.0.3', ext: 'aar')
     compile 'com.mcxiaoke.volley:library:1.0.17'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
@@ -135,7 +134,6 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.shamanland:fonticon:0.1.8'
     compile 'com.android.support:support-v4:23.1.1'
-    compile(group: 'com.philips.cdp', name: 'multi-selection', version: '1.0.3', ext: 'aar')
 
 }
 
