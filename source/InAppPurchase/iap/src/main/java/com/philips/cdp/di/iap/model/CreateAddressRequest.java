@@ -12,9 +12,9 @@ import com.philips.cdp.di.iap.store.Store;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddAddressRequest extends AbstractModel {
+public class CreateAddressRequest extends AbstractModel {
 
-    public AddAddressRequest(final Store store, final Map<String, String> query, DataLoadListener loadListener) {
+    public CreateAddressRequest(final Store store, final Map<String, String> query, DataLoadListener loadListener) {
         super(store, query, loadListener);
     }
 
