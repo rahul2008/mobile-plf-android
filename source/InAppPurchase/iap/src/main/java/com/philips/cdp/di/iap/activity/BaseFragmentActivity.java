@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.di.iap.Fragments.BaseAnimationSupportFragment;
 import com.philips.cdp.di.iap.Fragments.BaseParentFragment;
+import com.philips.cdp.di.iap.Fragments.EmptyCartFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -93,6 +94,9 @@ public class BaseFragmentActivity extends UiKitActivity {
         }
         if (backNavigationHandled) {
             return;
+        }
+        if (topFragment instanceof EmptyCartFragment) {
+            this.finish();
         }
         if (!(topFragment instanceof ShoppingCartFragment)) {
             addFragmentAndRemoveUnderneath(

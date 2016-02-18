@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.philips.cdp.di.iap.R;
@@ -26,7 +25,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment implement
     private Button mCheckoutBtn;
     public ShoppingCartAdapter mAdapter;
     public ListView mListView;
-    private FrameLayout mFrameContainer;
 
     @Override
     protected void updateTitle() {
@@ -46,8 +44,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment implement
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
         IAPLog.d(IAPLog.LOG, "ShoppingCartFragment onCreateView");
         View rootView = inflater.inflate(R.layout.shopping_cart_view, container, false);
-        mFrameContainer = new FrameLayout(getMainActivity());
-        mFrameContainer.setId(R.id.empty_cart);
         mListView = (ListView) rootView.findViewById(R.id.withouticon);
         mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
@@ -73,7 +69,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment implement
     public void onDestroyView() {
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
-
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
     }
 
     public static ShoppingCartFragment createInstance(BaseAnimationSupportFragment.AnimationType animType) {
@@ -102,11 +98,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment implement
 
     @Override
     public void onEventReceived(final String event) {
-//        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
-//            //getMainActivity().addFragmentAndRemoveUnderneath(EmptyCartFragment.createInstance(AnimationType.NONE), false);
-//            EmptyCartFragment emptyCartFragment = new EmptyCartFragment();
-//            addChildFragment(emptyCartFragment, mFrameContainer.getId());
-//        }
+        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
+            getMainActivity().addFragmentAndRemoveUnderneath(EmptyCartFragment.createInstance(AnimationType.NONE), false);
+        }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
         }
