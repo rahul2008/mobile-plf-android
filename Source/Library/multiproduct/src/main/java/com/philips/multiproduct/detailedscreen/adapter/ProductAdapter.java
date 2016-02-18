@@ -1,10 +1,10 @@
-package com.philips.multiproduct.productscreen.adapter;
+package com.philips.multiproduct.detailedscreen.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.philips.multiproduct.productscreen.NavigationFragment;
+import com.philips.multiproduct.detailedscreen.NavigationFragment;
 
 /**
  * This is the adapter class to keep all the image contents storing

@@ -14,7 +14,7 @@ import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.listeners.ProductListDetailsTabletListener;
-import com.philips.multiproduct.productscreen.DetailedScreenFragment;
+import com.philips.multiproduct.detailedscreen.DetailedScreenFragment;
 import com.philips.multiproduct.prx.PrxSummaryDataListener;
 import com.philips.multiproduct.prx.PrxWrapper;
 import com.philips.multiproduct.utils.ProductSelectionLogger;

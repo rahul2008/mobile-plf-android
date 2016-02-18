@@ -20,7 +20,7 @@
 
         <fragment
             android:id="@+id/fragmentTabletProductDetails"
-            android:name="com.philips.multiproduct.productscreen.DetailedScreenFragment"
+            android:name="com.philips.multiproduct.detailedscreen.DetailedScreenFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4" />

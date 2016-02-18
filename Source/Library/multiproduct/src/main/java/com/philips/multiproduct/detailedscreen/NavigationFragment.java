@@ -1,6 +1,5 @@
-package com.philips.multiproduct.productscreen;
+package com.philips.multiproduct.detailedscreen;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.prx.VolleyWrapper;
-import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 public final class NavigationFragment extends Fragment {
     private static final String KEY_CONTENT = "NavigationFragment:Content";
