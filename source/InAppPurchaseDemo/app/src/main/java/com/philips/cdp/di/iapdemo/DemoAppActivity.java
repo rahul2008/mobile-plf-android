@@ -80,7 +80,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         if (!(Utility.isProgressDialogShowing())) {
             if (Utility.isInternetConnected(this)) {
                 Utility.showProgressDialog(this, getString(R.string.adding_to_cart));
-                mIapHandler.addItemtoCart(ctnNumber, this);
+                mIapHandler.addItemtoCart(ctnNumber, this, false);
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addItemtoCart");
             } else {
                 Utility.showNetworkError(this, true);
@@ -94,8 +94,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
      * @param ctnNumber product id
      */
     void buyNow(String ctnNumber) {
-        //Buy Now
-//        addToCart(ctnNumber);
+        if (!(Utility.isProgressDialogShowing())) {
+            if (Utility.isInternetConnected(this)) {
+                Utility.showProgressDialog(this, getString(R.string.please_wait));
+                mIapHandler.buyNow(ctnNumber, this);
+            } else {
+                Utility.showNetworkError(this, true);
+            }
+        }
     }
 
     @Override
@@ -132,5 +138,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         }
     }
 
+    @Override
+    public void onBuyNow() {
+        Utility.dismissProgressDialog();
+        Intent myIntent = new Intent(DemoAppActivity.this, MainActivity.class);
+        startActivity(myIntent);
+    }
 
 }
