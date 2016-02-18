@@ -7,4 +7,5 @@ public class RequestCode {
     public static final int UPDATE_PRODUCT_COUNT = 4;
     public static final int DELETE_PRODUCT = 5;
     public static final int GET_ADDRESS = 6;
+    public static final int CREATE_ADDRESS = 7;
 }
