@@ -6,6 +6,7 @@
 
     <uses-sdk android:minSdkVersion="10"
         android:targetSdkVersion="23"/>
+    <uses-sdk tools:overrideLibrary="com.philips.cdp.digitalcare"/>
 
     <!--Credentials For LocatePhilips Near you feature(Google Map)-->
     <uses-permission android:name="com.philips.cdp.sampledigitalcareapp.permission.MAPS_RECEIVE" />
