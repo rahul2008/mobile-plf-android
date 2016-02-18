@@ -47,6 +47,7 @@
     <string name="iap_add_new_address">Add a new address</string>
     <string name="iap_deliver_to_this_address">Deliver to this address</string>
     <string name="iap_selection_select_address">Select address</string>
+    <string name="iap_edit">Edit</string>
 
     <!--Order Sammary-->
     <string name="iap_order_summary">Summary</string>

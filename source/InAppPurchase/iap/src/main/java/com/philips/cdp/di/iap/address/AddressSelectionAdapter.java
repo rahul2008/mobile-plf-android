@@ -6,24 +6,36 @@ package com.philips.cdp.di.iap.address;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.view.EditDeletePopUP;
+import com.philips.cdp.uikit.customviews.UIKitRadioButton;
 
 import java.util.List;
 import java.util.Locale;
 
-public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> {
+public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> implements EventListener {
     private final static String NEW_LINE = "\n";
     private Context mContext;
     private List<Addresses> mAddresses;
 
+    private EditDeletePopUP mPopUP;
+    private Addresses mSelectedAddress;
+    private int mSelectedIndex;
 
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
         mAddresses = addresses;
+        mSelectedIndex = 0;
+        setSelectedAddress(0);
+        EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
+        EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
     }
 
     @Override
@@ -33,43 +45,114 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     }
 
     @Override
+    public int getItemCount() {
+        return mAddresses.size();
+    }
+
+    @Override
     public void onBindViewHolder(final AddressSelectionHolder holder, final int position) {
-        Addresses address= mAddresses.get(position);
-        holder.name.setText(address.getFirstName() +" " +address.getLastName());
+        Addresses address = mAddresses.get(position);
+        holder.name.setText(address.getFirstName() + " " + address.getLastName());
         holder.address.setText(createAddress(address));
+
+        //Update payment options buttons
+        updatePaymentButtonsVisiblity(holder.paymentOptions, position);
+
+        //bind options: edit, delete menu
+        bindOptionsButton(holder.options);
+
+        //bind toggle button
+        setToggleStatus(holder.toggle, position);
+        bindToggleButton(holder, holder.toggle);
+    }
+
+    @Override
+    public void raiseEvent(final String event) {
+
+    }
+
+    @Override
+    public void onEventReceived(final String event) {
+        if (!TextUtils.isEmpty(event)) {
+            if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
+
+            } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
+
+            }
+        }
+    }
+
+    public void onStop() {
+        if (mPopUP != null && mPopUP.isShowing()) {
+            mPopUP.dismiss();
+        }
+    }
+
+    private void updatePaymentButtonsVisiblity(final ViewGroup paymentOptions, final int position) {
+        if (mSelectedIndex == position) {
+            paymentOptions.setVisibility(View.VISIBLE);
+        } else {
+            paymentOptions.setVisibility(View.GONE);
+        }
+    }
+
+    private void setToggleStatus(final UIKitRadioButton toggle, final int position) {
+        if (mSelectedIndex == position) {
+            toggle.setChecked(true);
+        } else {
+            toggle.setChecked(false);
+        }
+    }
+
+    private void bindToggleButton(final AddressSelectionHolder holder, final UIKitRadioButton toggle) {
+        toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mSelectedIndex = holder.getAdapterPosition();
+                setSelectedAddress(mSelectedIndex);
+            }
+        });
+    }
+
+    private void setSelectedAddress(int position) {
+        if (mAddresses.size() > 0 && position < mAddresses.size()) {
+            mSelectedAddress = mAddresses.get(position);
+        }
     }
 
     private String createAddress(final Addresses address) {
         StringBuilder sb = new StringBuilder();
-        String line1 = address.getLine1();
-        String line2 = address.getLine2();
-        String town = address.getTown();
-        String postalCode = address.getPostalCode();
+
+        appendAddressWithNewLineIfNotNull(sb, address.getLine1());
+        appendAddressWithNewLineIfNotNull(sb, address.getLine2());
+        appendAddressWithNewLineIfNotNull(sb, address.getTown());
+        appendAddressWithNewLineIfNotNull(sb, address.getPostalCode());
+
+        //Don't add new line for last entry
         String country = getCountryName(address.getCountry().getIsocode());
-        if (line1 != null) {
-            sb.append(line1).append(NEW_LINE);
-        }
-        if (line2 != null) {
-            sb.append(line2).append(NEW_LINE);
-        }
-        if (town != null) {
-            sb.append(town).append(NEW_LINE);
-        }
-        if (postalCode != null) {
-            sb.append(postalCode).append(NEW_LINE);
-        }
         if (country != null) {
             sb.append(country);
         }
         return sb.toString();
     }
 
-    private String getCountryName(String isoCode) {
-        return new Locale(Locale.getDefault().toString(),isoCode).getDisplayCountry();
+    private void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
+        if (!TextUtils.isEmpty(code)) {
+            sb.append(code).append(NEW_LINE);
+        }
     }
 
-    @Override
-    public int getItemCount() {
-        return mAddresses.size();
+    private String getCountryName(String isoCode) {
+        return new Locale(Locale.getDefault().toString(), isoCode).getDisplayCountry();
+    }
+
+    private void bindOptionsButton(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mPopUP = new EditDeletePopUP(mContext, v);
+                mPopUP.show();
+            }
+        });
     }
 }
