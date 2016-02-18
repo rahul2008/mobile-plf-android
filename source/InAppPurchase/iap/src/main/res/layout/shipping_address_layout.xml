@@ -51,6 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:maxLength="@dimen/iap_max_chars"
                     android:hint="@string/iap_first_name_hint" />
             </LinearLayout>
 
@@ -75,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:maxLength="@dimen/iap_max_chars"
                     android:hint="@string/iap_last_name_hint" />
             </LinearLayout>
 
@@ -215,6 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_phone_hint"
+                    android:maxLength="@dimen/iap_max_chars_in_phone"
                     android:inputType="phone" />
             </LinearLayout>
         </com.philips.cdp.uikit.customviews.InlineForms>
