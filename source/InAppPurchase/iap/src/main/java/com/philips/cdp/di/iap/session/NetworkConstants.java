@@ -26,6 +26,8 @@ public class NetworkConstants {
 
     /**Address Url**/
     public static final String ADDRESS_URL = BASE_URL + "addresses";
+    /**Update Address Url**/
+    public static final String UPDATE_OR_DELETE_ADDRESS_URL = ADDRESS_URL + "/%s";
 
     /**Prx data**/
     public static String PRX_SECTOR_CODE = "B2C";

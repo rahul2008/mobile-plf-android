@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,11 +28,15 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
 
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
+    private Button update;
+    private Button delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
+
+        //TODO: Remove Later
 
         mIapHandler = new IAPHandler();
 
@@ -126,4 +131,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
             }
         }
     }
+
+
 }
