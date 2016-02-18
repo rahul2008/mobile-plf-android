@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.BaseParentFragment;
-import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
+import com.philips.cdp.di.iap.Fragments.ShoppingCartBaseFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -29,7 +29,7 @@ public class MainActivity extends BaseFragmentActivity {
         IAPLog.d(IAPLog.LOG, "OnCreate");
         setContentView(R.layout.activity_main);
         addActionBar();
-        addFragmentAndRemoveUnderneath(new ShoppingCartFragment(), false);
+        addFragmentAndRemoveUnderneath(new ShoppingCartBaseFragment(), false);
     }
 
     private void addActionBar() {
