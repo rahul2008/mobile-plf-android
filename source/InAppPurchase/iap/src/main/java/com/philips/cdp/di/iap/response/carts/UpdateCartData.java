@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.response.cart;
+package com.philips.cdp.di.iap.response.carts;
 
 /**
  * Created by 310228564 on 2/9/2016.

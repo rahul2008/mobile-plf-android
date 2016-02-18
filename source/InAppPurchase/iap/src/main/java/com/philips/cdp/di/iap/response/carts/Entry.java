@@ -1,11 +1,11 @@
-package com.philips.cdp.di.iap.response.cart;
+package com.philips.cdp.di.iap.response.carts;
 
 /**
  * Created by 310228564 on 2/9/2016.
  */
 public class Entry {
     private int entryNumber;
-    private Product product;
+    private ProductEntity product;
     private int quantity;
     private Price totalPrice;
 
@@ -13,7 +13,7 @@ public class Entry {
         return entryNumber;
     }
 
-    public Product getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
 

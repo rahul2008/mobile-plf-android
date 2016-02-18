@@ -3,16 +3,18 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.di.iap.response.cart;
+package com.philips.cdp.di.iap.response.carts;
+
+import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 
 public class AddToCartData {
 
-    private Entries entry;
+    private EntriesEntity entry;
     private int quantity;
     private int quantityAdded;
     private String statusCode;
 
-    public Entries getEntry() {
+    public EntriesEntity getEntry() {
         return entry;
     }
 

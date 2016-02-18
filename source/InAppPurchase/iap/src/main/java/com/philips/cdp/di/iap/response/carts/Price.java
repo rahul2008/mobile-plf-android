@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.di.iap.response.cart;
+package com.philips.cdp.di.iap.response.carts;
 public class Price {
     private String currencyIso;
     private int value;

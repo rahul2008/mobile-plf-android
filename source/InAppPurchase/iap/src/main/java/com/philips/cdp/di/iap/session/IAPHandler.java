@@ -13,7 +13,7 @@ import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.response.cart.AddToCartData;
+import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -37,7 +37,7 @@ public class IAPHandler {
         IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == launchIAP");
     }
 
-    public void addItemtoCart(String productCTN, final IAPHandlerListner iapHandlerListner) {
+    public void addItemtoCart(String productCTN, final IAPHandlerListner iapHandlerListner, final boolean isFromBuyNow) {
 
         //addToCart
         IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == addItemtoCart");
@@ -49,14 +49,18 @@ public class IAPHandler {
             @Override
             public void onSuccess(final Message msg) {
                 AddToCartData addToCartData = (AddToCartData) msg.obj;
-                iapHandlerListner.onAddItemToCart(addToCartData.getStatusCode());
+                if (isFromBuyNow)
+                    iapHandlerListner.onBuyNow();
+                else
+                    iapHandlerListner.onAddItemToCart(addToCartData.getStatusCode());
             }
 
             @Override
             public void onError(final Message msg) {
                 IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == addItemtoCart = onError");
                 VolleyError error = (VolleyError) msg.obj;
-                iapHandlerListner.onAddItemToCart(error.getLocalizedMessage());
+                if (!isFromBuyNow)
+                    iapHandlerListner.onAddItemToCart(error.getLocalizedMessage());
             }
         });
     }
@@ -111,6 +115,43 @@ public class IAPHandler {
             public void onError(final Message msg) {
                 IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == createCart = onError ");
                 iapHandlerListner.onGetCartQuantity(IAPConstant.IAP_ERROR);
+            }
+        });
+    }
+
+    public void buyNow(final String ctnNumber, final IAPHandlerListner iapHandlerListner) {
+        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+
+        CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
+        model.setContext(mContext);
+
+        delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
+            @Override
+            public void onSuccess(final Message msg) {
+
+                Carts getCartData = (Carts) msg.obj;
+                if (null != getCartData) {
+                    int totalItems = getCartData.getCarts().get(0).getTotalItems();
+                    List<EntriesEntity> entries = getCartData.getCarts().get(0).getEntries();
+                    if (totalItems != 0 && null != entries) {
+                        boolean isProductAvailable = false;
+                        for (int i = 0; i < entries.size(); i++) {
+                            if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
+                                isProductAvailable = true;
+                                iapHandlerListner.onBuyNow();
+                                break;
+                            }
+                        }
+                        if (!isProductAvailable)
+                            addItemtoCart(ctnNumber, iapHandlerListner, true);
+                    } else {
+                        addItemtoCart(ctnNumber, iapHandlerListner, true);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(final Message msg) {
             }
         });
     }
