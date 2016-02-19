@@ -7,9 +7,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +23,6 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ShippingAddressFragment extends BaseAnimationSupportFragment implements View.OnClickListener, AddressController.AddressListener {
 
     private EditText mEtFirstName;
@@ -42,15 +37,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
     private Button mBtnContinue;
     private Button mBtnCancel;
 
-    EditText firstName;
-    EditText lastName;
-    EditText firstAddressLine;
-    EditText town;
-    EditText postalCode;
-    EditText country;
-    EditText email;
-    EditText phoneNumber;
-    InlineForms layout;
+    InlineForms mLayout;
     Validator mValidator = null;
 
     @Override
@@ -60,25 +47,28 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        mValidator = new Validator();
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
+        mLayout = (InlineForms) rootView.findViewById(R.id.InlineForms);
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
         mEtAddress = (EditText) rootView.findViewById(R.id.et_address);
         mEtTown = (EditText) rootView.findViewById(R.id.et_town);
         mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
         mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
-        mEtEmail = (EditText) rootView.findViewById(R.id.et_email);
+        mEtEmail = (EditText) mLayout.findViewById(R.id.et_email);
         mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
 
         mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
+        validateEmail();
         return rootView;
     }
 
     private void validateEmail() {
-        email.addTextChangedListener(new TextWatcher() {
+        mEtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
 
@@ -91,23 +81,23 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
 
             @Override
             public void afterTextChanged(final Editable s) {
-                boolean result = mValidator.validateEmail(email);
+                boolean result = mValidator.isValidEmail(mEtEmail);
                 if (result) {
                     /**
                      * Error Layout should be removed after the entered text is verified as the right Email Address
                      */
-                    layout.removeError(email);
+                    mLayout.removeError(mEtEmail);
                 }
             }
         });
 
-        layout.setValidator(new InlineForms.Validator() {
+        mLayout.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(View editText, boolean hasFocus) {
                 if (editText.getId() == R.id.et_email && hasFocus == false) {
-                    boolean result = mValidator.validateEmail(editText);
+                    boolean result = mValidator.isValidEmail(editText);
                     if (!result) {
-                        layout.showError((EditText) editText);
+                        mLayout.showError((EditText) editText);
                     }
                 }
             }
@@ -143,69 +133,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
         return fragment;
     }
 
-    public boolean isValidEmail(CharSequence email) {
-        if (TextUtils.isEmpty(email)) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-        }
-    }
-
-    public boolean isValidPostalCode(CharSequence postalCode) {
-        if (TextUtils.isEmpty(postalCode)) {
-            return false;
-        } else {
-            Pattern postalCodePattern = Pattern.compile("^[A-Z0-9]*$");
-            Matcher match = postalCodePattern.matcher(postalCode);
-            return match.matches();
-        }
-    }
-
-    public boolean isValidPhoneNumber(CharSequence phoneNumber) {
-        if (TextUtils.isEmpty(phoneNumber)) {
-            return false;
-        } else {
-            return PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber.toString());
-        }
-    }
-
-    public boolean isValidFirstName(CharSequence firstName) {
-        if (TextUtils.isEmpty(firstName)) {
-            return false;
-        } else {
-            Pattern firstNamePattern = Pattern.compile("^[\\p{IsAlphabetic}]+( [\\p{IsAlphabetic}]+)*$");
-            Matcher match = firstNamePattern.matcher(firstName);
-            return match.matches();
-        }
-    }
-
-    public boolean isValidLastName(CharSequence lastName) {
-        if (TextUtils.isEmpty(lastName)) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isValidAddress(CharSequence address) {
-        if (TextUtils.isEmpty(address)) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isValidTown(CharSequence town){
-        if (TextUtils.isEmpty(town)) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isValidCountry(CharSequence country){
-        if (TextUtils.isEmpty(country)) {
-            return false;
-        }
-        return true;
-    }
 
     public void checkFields() {
         String firstName = mEtFirstName.getText().toString().trim();
@@ -217,10 +144,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
         String email = mEtEmail.getText().toString().trim();
         String phoneNumber = mEtPhoneNumber.getText().toString().trim();
 
-        if (isValidFirstName(firstName) && isValidLastName(lastName)
-                && isValidAddress(address) && isValidPostalCode(postalCode)
-                && isValidEmail(email) && isValidPhoneNumber(phoneNumber)
-                && isValidTown(town) && isValidCountry(country)) {
+        if (mValidator.isValidFirstName(mEtFirstName) && mValidator.isValidLastName(mEtLastName)
+                && mValidator.isValidAddress(mEtAddress) && mValidator.isValidPostalCode(mEtPostalCode)
+                && mValidator.isValidEmail(mEtEmail) && mValidator.isValidPhoneNumber(mEtPhoneNumber)
+                && mValidator.isValidTown(mEtTown) && mValidator.isValidCountry(mEtCountry)) {
             mBtnContinue.setEnabled(true);
         } else {
             mBtnContinue.setEnabled(false);
