@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorDarkBlue">#003478</color>
+
+    <color name="iap_address_text_color">#858585</color>
 </resources>

@@ -3,6 +3,7 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -13,13 +14,11 @@ import android.widget.Toast;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.address.AddressController;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
-
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 
@@ -34,7 +33,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
     private Button delete;
     private Button edit;
-    private static final String HOCKEY_APPID = "dc402a11ae984bd18f99c07d9b4fe6a4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +78,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
             }
         }
         /** Should be commented for debug builds */
-        CrashManager.register(this, HOCKEY_APPID, new CrashManagerListener() {
+        /*CrashManager.register(this, IAPConstant.HOCKEY_APPID, new CrashManagerListener() {
 
             public boolean shouldAutoUploadCrashes() {
                 if (!IAPLog.isLoggingEnabled())
                     return true;
                 return false;
             }
-        });
+        });*/
     }
 
     private void populateProduct() {
@@ -189,7 +187,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     }
 
     @Override
-    public void onFinish() {
+    public void onFetchAddressSuccess(GetShippingAddressData data) {
+
+    }
+
+    @Override
+    public void onFetchAddressFailure(final Message msg) {
 
     }
 }
