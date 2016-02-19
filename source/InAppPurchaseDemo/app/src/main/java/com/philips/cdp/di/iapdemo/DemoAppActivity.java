@@ -3,9 +3,7 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,8 +11,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.MainActivity;
-import com.philips.cdp.di.iap.address.AddressController;
-import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -25,7 +21,7 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 
-public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner, AddressController.AddressListener {
+public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner {
 
     IAPHandler mIapHandler;
 
@@ -34,20 +30,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
 
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
-    private Button delete;
-    private Button edit;
     private final String HOCKEY_APPID = "dc402a11ae984bd18f99c07d9b4fe6a4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
-
-        //TODO:Remove this later
-        delete = (Button) findViewById(R.id.delete_address);
-        edit = (Button) findViewById(R.id.edit_address);
-        delete.setVisibility(View.GONE);
-        edit.setVisibility(View.GONE);
 
         mIapHandler = new IAPHandler();
 
@@ -63,10 +51,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         mIapHandler.initApp(this, "", "");
-
-        //TODO:remove this later
-        /*delete.setOnClickListener(this);
-        edit.setOnClickListener(this);*/
     }
 
     @Override
@@ -139,27 +123,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                     Utility.showNetworkError(DemoAppActivity.this, false);
                 }
                 break;
-            /*case R.id.edit_address:
-                Toast.makeText(this,"Edit Clicked",Toast.LENGTH_SHORT).show();
-                AddressController editAddressController = new AddressController(DemoAppActivity.this,this);
-                HashMap<String, String> query = new HashMap<String, String>();
-                query.put(ModelConstants.FIRST_NAME, ModelConstants.FIRST_NAME);
-                query.put(ModelConstants.LAST_NAME, ModelConstants.LAST_NAME);
-                query.put(ModelConstants.TITLE_CODE, "mr");
-                query.put(ModelConstants.COUNTRY_ISOCODE, "US");
-                query.put(ModelConstants.LINE_1, ModelConstants.LINE_1);
-                query.put(ModelConstants.LINE_2, ModelConstants.LINE_2);
-                query.put(ModelConstants.POSTAL_CODE, "12345");
-                query.put(ModelConstants.TOWN, ModelConstants.TOWN);
-                query.put(ModelConstants.PHONE_NUMBER, ModelConstants.PHONE_NUMBER);
-                query.put(ModelConstants.ADDRESS_ID, "8799241240599");
-                editAddressController.updateAddress(query);
-                break;
-            case R.id.delete_address:
-                Toast.makeText(this,"Delete Clicked",Toast.LENGTH_SHORT).show();
-                AddressController deleteAddressController = new AddressController(DemoAppActivity.this,this);
-                deleteAddressController.deleteAddress();
-                break;*/
         }
     }
 
@@ -188,15 +151,5 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         Utility.dismissProgressDialog();
         Intent myIntent = new Intent(DemoAppActivity.this, MainActivity.class);
         startActivity(myIntent);
-    }
-
-    @Override
-    public void onFetchAddressSuccess(GetShippingAddressData data) {
-
-    }
-
-    @Override
-    public void onFetchAddressFailure(final Message msg) {
-
     }
 }

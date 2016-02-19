@@ -26,7 +26,6 @@
 
     <!--Text size-->
     <dimen name="iap_shipping_address_title_size">20sp</dimen>
-
     <!-- selection Address Screen-->
     <dimen name="iap_selection_address_select_address_margint_top">33dp</dimen>
     <dimen name="iap_selection_address_select_address_margint_bottom">24dp</dimen>

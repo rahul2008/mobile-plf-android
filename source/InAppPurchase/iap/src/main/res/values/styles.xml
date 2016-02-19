@@ -46,6 +46,7 @@
 
     <style name="iapButtonStyle">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:enabled">false</item>
         <item name="android:layout_height">@dimen/iap_shipping_address_continue_button_height</item>
         <item name="android:layout_marginBottom">
             @dimen/iap_shipping_address_continue_margin_bottom
