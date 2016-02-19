@@ -90,6 +90,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.DELETE_ADDRESS:
+                mAddressListener.onFetchAddressSuccess(msg);
                 Toast.makeText(mContext, "delete Success", Toast.LENGTH_SHORT).show();
                 break;
             case RequestCode.UPDATE_ADDRESS:

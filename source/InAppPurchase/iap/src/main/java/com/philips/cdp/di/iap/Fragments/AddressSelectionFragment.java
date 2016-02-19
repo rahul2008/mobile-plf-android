@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +16,22 @@ import android.view.ViewGroup;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
+import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
 import java.util.List;
 
-public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener {
+public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener,
+        EventListener {
     private RecyclerView mAddressListView;
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
+    private List<Addresses> mAddresses;
 
     @Override
     protected void updateTitle() {
@@ -37,6 +44,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
         mAddrController = new AddressController(getContext(), this);
         mAddrController.getShippingAddresses();
+
+        EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
+        EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
+
         return view;
     }
 
@@ -49,20 +60,28 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onFetchAddressSuccess(final Message msg) {
-        GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-        List<Addresses> addresses = shippingAddresses.getAddresses();
-        mAdapter = new AddressSelectionAdapter(getContext(), addresses);
-        mAddressListView.setAdapter(mAdapter);
+        if(msg.what == RequestCode.DELETE_ADDRESS){
+            mAddresses.remove(mAdapter.getOptionsClickPosition());
+            mAdapter.setAddresses(mAddresses);
+            mAdapter.notifyDataSetChanged();
+
+        } else {
+            GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
+            mAddresses = shippingAddresses.getAddresses();
+            mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
+            mAddressListView.setAdapter(mAdapter);
+        }
+
     }
 
     @Override
     public void onFetchAddressFailure(final Message msg) {
-
+        // TODO: 2/19/2016 Fix error case scenario
     }
 
     @Override
     public void onCreateAddress(boolean isSuccess) {
-
+    
     }
 
     public static AddressSelectionFragment createInstance(final AnimationType animType) {
@@ -76,5 +95,21 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     protected AnimationType getDefaultAnimationType() {
         return AnimationType.NONE;
+    }
+
+    @Override
+    public void raiseEvent(final String event) {
+
+    }
+
+    @Override
+    public void onEventReceived(final String event) {
+        if (!TextUtils.isEmpty(event)) {
+            if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
+            } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
+                int pos = mAdapter.getOptionsClickPosition();
+                mAddrController.deleteAddress(mAddresses.get(pos).getId());
+            }
+        }
     }
 }

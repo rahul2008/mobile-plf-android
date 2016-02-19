@@ -27,6 +27,7 @@ public class EditDeletePopUP {
     public static final String EVENT_DELETE = "event_delete";
 
     UIKitListPopupWindow mPopUp;
+    boolean mDisableDelete;
         AdapterView.OnItemClickListener mListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -36,7 +37,8 @@ public class EditDeletePopUP {
         }
     };
 
-    public EditDeletePopUP(Context context, View anchor) {
+    public EditDeletePopUP(Context context, View anchor, boolean disableDelete) {
+        mDisableDelete = disableDelete;
         mPopUp = new UIKitListPopupWindow(context, anchor,
                 UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, createRowItems(context));
         mPopUp.setOnItemClickListener(mListener);
@@ -56,7 +58,9 @@ public class EditDeletePopUP {
         String delete = context.getResources().getString(R.string.iap_delete);
         String[] desc = {edit, delete};
         rowItems.add(new RowItem(VectorDrawable.create(context, R.drawable.iap_edit_icon_17x17), desc[0]));
-        rowItems.add(new RowItem(ContextCompat.getDrawable(context, R.drawable.iap_trash_bin), desc[1]));
+        if(!mDisableDelete) {
+            rowItems.add(new RowItem(ContextCompat.getDrawable(context, R.drawable.iap_trash_bin), desc[1]));
+        }
         return rowItems;
     }
 
