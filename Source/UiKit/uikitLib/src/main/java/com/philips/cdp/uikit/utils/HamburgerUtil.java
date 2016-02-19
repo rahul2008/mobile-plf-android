@@ -28,6 +28,7 @@ public class HamburgerUtil {
     private Context context;
     private ListView drawerListView;
     private View footerView;
+    private int itemCount;
 
     public HamburgerUtil(Context context, ListView drawerListView) {
         this.context = context;
@@ -40,7 +41,8 @@ public class HamburgerUtil {
      *
      * @param footerImageView - Instance of Footer view
      */
-    public void updateSmartFooter(final ImageView footerImageView) {
+    public void updateSmartFooter(final ImageView footerImageView, int itemCount) {
+        this.itemCount = itemCount;
         drawerListView.post(new Runnable() {
             @Override
             public void run() {
@@ -107,9 +109,9 @@ public class HamburgerUtil {
     }
 
     private int getAdaptorTotalHeight() {
-        if (drawerListView != null && drawerListView.getAdapter().getCount() != 0) {
+        if (itemCount != 0) {
             double listViewItemHeight = context.getResources().getDimension(R.dimen.uikit_hamburger_list_item_height);
-            return (int) (drawerListView.getAdapter().getCount() * listViewItemHeight);
+            return (int) (itemCount * listViewItemHeight);
         }
         return 0;
     }
