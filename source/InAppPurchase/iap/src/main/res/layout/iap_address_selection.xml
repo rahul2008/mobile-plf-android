@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_select_address"
+        fontPath="fonts/centralesansbold.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/iap_selection_address_select_address_margint_bottom"
+        android:layout_marginLeft="@dimen/iap_selection_address_layout_margin"
+        android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
+        android:text="@string/iap_selection_select_address"
+        android:textColor="?attr/baseColor"
+        android:textSize="@dimen/iap_selection_address_select_address_text_size"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shipping_addresses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
