@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib.capabilities;
 
-import com.philips.pins.shinelib.BuildConfig;
+import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNStringResultListener;
@@ -9,12 +9,9 @@ import com.philips.pins.shinelib.utility.DeviceInformationCache;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -27,9 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
-public class SHNCapabilityDeviceInformationCachedTest {
+public class SHNCapabilityDeviceInformationCachedTest extends RobolectricTest {
 
     public static final SHNCapabilityDeviceInformation.SHNDeviceInformationType INFORMATION_TYPE = SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision;
     public static final String TEST_MESSAGE = "TEST_MESSAGE";
@@ -118,8 +113,7 @@ public class SHNCapabilityDeviceInformationCachedTest {
     }
 
     @Test
-    public void shouldInformListener_whenErrorIsReceived_AndHasCachedData_andUsingDeprecatedReadMethod()
-    {
+    public void shouldInformListener_whenErrorIsReceived_AndHasCachedData_andUsingDeprecatedReadMethod() {
         when(cacheMock.getValue(INFORMATION_TYPE)).thenReturn(TEST_MESSAGE);
         when(cacheMock.getDate(INFORMATION_TYPE)).thenReturn(TEST_DATE);
 

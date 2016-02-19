@@ -6,11 +6,8 @@ import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.util.Date;
 import java.util.Locale;
@@ -23,13 +20,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
-public class SHNUserConfigurationImplTest {
+public class SHNUserConfigurationImplTest extends RobolectricTest {
 
     public static final String TEST_KEY = "TEST_KEY";
     public static final String TEST_VALUE = "TEST_VALUE";
-
 
     @Mock
     private SHNUserConfigurationCalculations calculationsMock;

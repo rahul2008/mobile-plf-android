@@ -3,16 +3,13 @@ package com.philips.pins.shinelib.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.philips.pins.shinelib.BuildConfig;
+import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.SHNCapabilityType;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,9 +21,7 @@ import static org.assertj.core.api.Assertions.within;
 import static org.junit.Assert.assertNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
-public class SharedPreferencesHelperTest {
+public class SharedPreferencesHelperTest extends RobolectricTest {
 
     public static final String KEY = "KEY";
 
