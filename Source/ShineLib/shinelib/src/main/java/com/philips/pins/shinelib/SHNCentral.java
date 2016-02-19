@@ -97,6 +97,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
@@ -204,6 +205,10 @@ public class SHNCentral {
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
         persistentStorageFactory = new PersistentStorageFactory(applicationContext);
+
+        DataMigrater dataMigrater = new DataMigrater();
+        dataMigrater.execute(context, persistentStorageFactory);
+
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
 
