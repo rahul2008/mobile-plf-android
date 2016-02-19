@@ -23,7 +23,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.util.List;
 import java.util.Locale;
 
-public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> implements EventListener, AddressController.AddressListener{
+public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> {
     private final static String NEW_LINE = "\n";
     private Context mContext;
     private List<Addresses> mAddresses;
@@ -33,14 +33,14 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     private int mSelectedIndex;
     private Drawable mOptionsDrawable;
 
+    private int mOptionsClickPosition;
+
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
         mAddresses = addresses;
         mOptionsDrawable = VectorDrawable.create(context, R.drawable.iap_options_icon_5x17);
         mSelectedIndex = 0;
         setSelectedAddress(0);
-        EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
-        EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
     }
 
     @Override
@@ -65,28 +65,11 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         updatePaymentButtonsVisiblity(holder.paymentOptions, position);
 
         //bind options: edit, delete menu
-        bindOptionsButton(holder.options);
+        bindOptionsButton(holder.options, position);
 
         //bind toggle button
         setToggleStatus(holder.toggle, position);
         bindToggleButton(holder, holder.toggle);
-    }
-
-    @Override
-    public void raiseEvent(final String event) {
-
-    }
-
-    @Override
-    public void onEventReceived(final String event) {
-        if (!TextUtils.isEmpty(event)) {
-            if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
-
-            } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
-                AddressController deleteAddressController = new AddressController(mContext,this);
-                deleteAddressController.deleteAddress(mSelectedAddress.getId());
-            }
-        }
     }
 
     public void onStop() {
@@ -127,6 +110,14 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         }
     }
 
+    public int getSelectedPosition() {
+        return mSelectedIndex;
+    }
+
+    public int getOptionsClickPosition() {
+        return mOptionsClickPosition;
+    }
+
     private String createAddress(final Addresses address) {
         StringBuilder sb = new StringBuilder();
 
@@ -153,28 +144,22 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         return new Locale(Locale.getDefault().toString(), isoCode).getDisplayCountry();
     }
 
-    private void bindOptionsButton(View view) {
+    private void bindOptionsButton(View view, final int position) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                mPopUP = new EditDeletePopUP(mContext, v);
+                mOptionsClickPosition = position;
+                boolean disableDelete = false;
+                if (mAddresses.size() == 1) {
+                    disableDelete = true;
+                }
+                mPopUP = new EditDeletePopUP(mContext, v, disableDelete);
                 mPopUP.show();
             }
         });
     }
 
-    @Override
-    public void onFetchAddressSuccess(Message msg) {
-
-    }
-
-    @Override
-    public void onFetchAddressFailure(final Message msg) {
-
-    }
-
-    @Override
-    public void onCreateAddress(boolean isSuccess) {
-
+    public void setAddresses(final List<Addresses> data) {
+        mAddresses = data;
     }
 }
