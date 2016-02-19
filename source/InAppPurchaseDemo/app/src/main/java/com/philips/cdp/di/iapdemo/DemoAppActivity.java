@@ -3,6 +3,7 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -16,12 +17,8 @@ import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
-
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 
@@ -81,14 +78,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
             }
         }
         /** Should be commented for debug builds */
-        CrashManager.register(this, IAPConstant.HOCKEY_APPID, new CrashManagerListener() {
+        /*CrashManager.register(this, IAPConstant.HOCKEY_APPID, new CrashManagerListener() {
 
             public boolean shouldAutoUploadCrashes() {
                 if (!IAPLog.isLoggingEnabled())
                     return true;
                 return false;
             }
-        });
+        });*/
     }
 
     private void populateProduct() {
@@ -190,7 +187,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     }
 
     @Override
-    public void onFinish(GetShippingAddressData data) {
+    public void onFetchAddressSuccess(GetShippingAddressData data) {
+
+    }
+
+    @Override
+    public void onFetchAddressFailure(final Message msg) {
 
     }
 }

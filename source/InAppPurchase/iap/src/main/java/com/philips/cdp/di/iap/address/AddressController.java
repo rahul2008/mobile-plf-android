@@ -29,7 +29,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
     private Store mStore;
 
     public interface AddressListener {
-        void onFinish(GetShippingAddressData shippingAddresses);
+        void onFetchAddressSuccess(GetShippingAddressData shippingAddresses);
+        void onFetchAddressFailure(Message msg);
     }
 
     public AddressController(Context context, AddressListener listener) {
@@ -97,7 +98,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
             case RequestCode.GET_ADDRESS:
                 GetShippingAddressData addresses = (GetShippingAddressData) msg.obj;
                 if(mAddressListener != null) {
-                    mAddressListener.onFinish(addresses);
+                    mAddressListener.onFetchAddressSuccess(addresses);
                 }
                 break;
         }

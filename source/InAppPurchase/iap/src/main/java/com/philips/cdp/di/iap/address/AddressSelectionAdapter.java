@@ -35,7 +35,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
         mAddresses = addresses;
-        mOptionsDrawable = VectorDrawable.create(context, R.drawable.iap_options_icon_6x26);
+        mOptionsDrawable = VectorDrawable.create(context, R.drawable.iap_options_icon_5x17);
         mSelectedIndex = 0;
         setSelectedAddress(0);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);

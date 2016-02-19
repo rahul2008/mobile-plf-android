@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
     }
 
     @Override
-    public void onFinish(GetShippingAddressData data) {
+    public void onFetchAddressSuccess(GetShippingAddressData data) {
+
+    }
+
+    @Override
+    public void onFetchAddressFailure(final Message msg) {
 
     }
 

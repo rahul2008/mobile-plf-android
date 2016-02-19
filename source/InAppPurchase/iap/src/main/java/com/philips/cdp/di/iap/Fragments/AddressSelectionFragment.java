@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.view.DividerItemDecoration;
 
 import java.util.List;
 
@@ -35,7 +35,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
-        mAddressListView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
         mAddrController = new AddressController(getContext(),this);
         mAddrController.getShippingAddresses();
         return view;
@@ -49,10 +48,15 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void onFinish(final GetShippingAddressData shippingAddresses) {
+    public void onFetchAddressSuccess(final GetShippingAddressData shippingAddresses) {
         List<Addresses> addresses = shippingAddresses.getAddresses();
         mAdapter = new AddressSelectionAdapter(getContext(),addresses);
         mAddressListView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onFetchAddressFailure(final Message msg) {
+
     }
 
     public static AddressSelectionFragment createInstance(final AnimationType animType) {
