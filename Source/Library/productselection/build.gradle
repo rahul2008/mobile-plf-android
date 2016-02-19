@@ -26,7 +26,6 @@ buildscript {
     }
 }
 
-apply plugin: 'com.android.library'
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
