@@ -1,5 +1,6 @@
 package com.philips.cdp.prxclient;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -33,12 +34,18 @@ public class ProductRequest extends Request<JSONObject> {
     @Override
     protected Map<String, String> getParams()
             throws com.android.volley.AuthFailureError {
-        return params;
+        if (params != null)
+            return params;
+
+        return super.getParams();
     }
 
     @Override
-    public Map<String, String> getHeaders() {
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        if (headers != null)
         return headers;
+
+        return super.getHeaders();
     }
 
     @Override

@@ -9,13 +9,14 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegisteredBuilder extends RegisteredDataBuilder {
+public class RegisteredBuilder extends RegistrationDataBuilder {
 
     public RegisteredBuilder(String accessToken) {
         this.accessToken = accessToken;
@@ -48,11 +49,13 @@ public class RegisteredBuilder extends RegisteredDataBuilder {
 
     @Override
     public Map<String, String> getHeaders() {
-        return null;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("x-accessToken", accessToken);
+        return headers;
     }
 
     private String generateUrl() {
-        Uri builtUri = Uri.parse(getServerInfo() + ".registeredProducts")
+        Uri builtUri = Uri.parse(getServerInfo())
                 .buildUpon()
                 .build();
         Log.d(getClass() + "", builtUri.toString());

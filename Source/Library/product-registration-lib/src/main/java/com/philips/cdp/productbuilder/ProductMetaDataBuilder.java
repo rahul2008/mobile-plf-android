@@ -15,9 +15,8 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductMetaDataBuilder extends MetaDataBuilder {
+public class ProductMetaDataBuilder extends RegistrationDataBuilder {
 
-    private static final String PRX_REQUEST_URL = "https://acc.philips.co.uk/prx/registration";
     private String mCtn = null;
 
     public ProductMetaDataBuilder(String ctn, String accessToken) {

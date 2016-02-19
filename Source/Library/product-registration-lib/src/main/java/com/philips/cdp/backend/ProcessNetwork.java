@@ -104,7 +104,7 @@ public class ProcessNetwork {
         } else if (statusCode == ErrorType.ACCESS_TOKEN_EXPIRED.getId()) {
             onAccessTokenExpire((RegistrationBuilder) prxDataBuilder, listener);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getId()) {
-            listener.onResponseError(ErrorType.ACCESS_TOKEN_INVALID.getDescription(), statusCode);
+            onAccessTokenExpire((RegistrationBuilder) prxDataBuilder, listener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getId()) {
             listener.onResponseError(ErrorType.INVALID_VALIDATION.getDescription(), statusCode);
         } else if (error instanceof NoConnectionError) {
