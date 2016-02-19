@@ -1,1 +1,2 @@
-include ':app', ':multiproduct', ':prx-v1', ':localeMatch-v1.1.0'
+rootProject.setName 'productselection'
+include ':app', ':multiproduct', ':prx-v1'
