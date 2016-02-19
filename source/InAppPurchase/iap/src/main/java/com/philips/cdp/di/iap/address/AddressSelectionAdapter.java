@@ -16,7 +16,6 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 import com.philips.cdp.uikit.customviews.UIKitRadioButton;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -165,12 +164,17 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     }
 
     @Override
-    public void onFetchAddressSuccess(final GetShippingAddressData shippingAddresses) {
+    public void onFetchAddressSuccess(Message msg) {
 
     }
 
     @Override
     public void onFetchAddressFailure(final Message msg) {
+
+    }
+
+    @Override
+    public void onCreateAddress(boolean isSuccess) {
 
     }
 }

@@ -29,8 +29,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
 
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
 
-    private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
-    private final String HOCKEY_APPID = "dc402a11ae984bd18f99c07d9b4fe6a4";
+    private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +65,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
             }
         }
         /** Should be commented for debug builds */
-        CrashManager.register(this, HOCKEY_APPID, new CrashManagerListener() {
+        final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
+        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
 
             public boolean shouldAutoUploadCrashes() {
-                if (!IAPLog.isLoggingEnabled())
-                    return true;
-                return false;
+                return !IAPLog.isLoggingEnabled();
             }
         });
     }
@@ -141,6 +139,9 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 mIapHandler.getCartQuantity(this);
             } else if (responseStatus.equalsIgnoreCase("noStock")) {
                 Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
+                Utility.dismissProgressDialog();
+            } else {
+                Toast.makeText(this, responseStatus, Toast.LENGTH_SHORT).show();
                 Utility.dismissProgressDialog();
             }
         }

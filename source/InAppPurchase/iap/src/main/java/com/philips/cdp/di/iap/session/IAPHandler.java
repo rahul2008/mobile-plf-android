@@ -152,6 +152,7 @@ public class IAPHandler {
 
             @Override
             public void onError(final Message msg) {
+                iapHandlerListner.onBuyNow();
             }
         });
     }
