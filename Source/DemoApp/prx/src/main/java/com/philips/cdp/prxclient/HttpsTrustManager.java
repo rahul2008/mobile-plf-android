@@ -19,7 +19,6 @@ import javax.net.ssl.X509TrustManager;
 public class HttpsTrustManager implements X509TrustManager {
 
     private static final X509Certificate[] _AcceptedIssuers = new X509Certificate[]{};
-    private static TrustManager[] trustManagers;
 
     public static void allowAllSSL() {
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
@@ -40,17 +39,6 @@ public class HttpsTrustManager implements X509TrustManager {
     }
 
     private static javax.net.ssl.SSLSocketFactory createSslSocketFactory() throws Exception {
-        TrustManager[] byPassTrustManagers = new TrustManager[]{new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return new X509Certificate[0];
-            }
-
-            public void checkClientTrusted(X509Certificate[] chain, String authType) {
-            }
-
-            public void checkServerTrusted(X509Certificate[] chain, String authType) {
-            }
-        }};
         SSLContext sslContext = SSLContext.getInstance("TLS");
 
         TrustManager tm = new X509TrustManager() {

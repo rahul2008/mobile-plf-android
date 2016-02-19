@@ -1,6 +1,5 @@
 package com.philips.cdp.productbuilder;
 
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
@@ -9,7 +8,7 @@ import org.json.JSONObject;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public abstract class MetaDataBuilder extends PrxDataBuilder {
+public abstract class MetaDataBuilder extends RegistrationDataBuilder {
 
     protected String accessToken;
     private String mServerInfo = "https://acc.philips.co.uk/prx/registration";

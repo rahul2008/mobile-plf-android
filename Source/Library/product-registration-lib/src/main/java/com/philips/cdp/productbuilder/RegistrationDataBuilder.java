@@ -1,9 +1,8 @@
 package com.philips.cdp.productbuilder;
 
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
-import com.philips.cdp.prxclient.response.ResponseData;
 
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -30,10 +29,6 @@ public abstract class RegistrationDataBuilder extends PrxDataBuilder {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
-    public abstract ResponseData getResponseData(JSONObject jsonObject);
-
-    public abstract String getRequestUrl();
 
     public String getServerInfo() {
         return mServerInfo;
@@ -126,4 +121,10 @@ public abstract class RegistrationDataBuilder extends PrxDataBuilder {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public abstract int getMethod();
+
+    public abstract Map<String, String> getParams();
+
+    public abstract Map<String, String> getHeaders();
 }

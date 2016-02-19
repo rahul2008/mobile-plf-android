@@ -1,4 +1,4 @@
-package com.philips.cdp.backend;
+package com.philips.cdp.prxclient;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -15,23 +15,30 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-public class ProductJsonRequest extends Request<JSONObject> {
+public class ProductRequest extends Request<JSONObject> {
 
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
-    private Map<String, String> params;
+    private Map<String, String> params, headers;
 
-    public ProductJsonRequest(int method, String url, Map<String, String> params,
-                              Listener<JSONObject> responseListener, ErrorListener errorListener) {
+    public ProductRequest(int method, String url, Map<String, String> params, Map<String, String> headers,
+                          Listener<JSONObject> responseListener, ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mResponseListener = responseListener;
         mErrorListener = errorListener;
         this.params = params;
+        this.headers = headers;
     }
 
+    @Override
     protected Map<String, String> getParams()
             throws com.android.volley.AuthFailureError {
         return params;
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        return headers;
     }
 
     @Override

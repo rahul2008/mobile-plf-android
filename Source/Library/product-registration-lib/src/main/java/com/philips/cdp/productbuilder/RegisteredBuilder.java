@@ -3,18 +3,19 @@ package com.philips.cdp.productbuilder;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.philips.cdp.model.RegisteredDataResponse;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class RegisteredBuilder extends RegisteredDataBuilder {
-
-    private static final String PRX_REQUEST_URL = "https://acc.philips.co.uk/prx/registration";
 
     public RegisteredBuilder(String accessToken) {
         this.accessToken = accessToken;
@@ -33,6 +34,21 @@ public class RegisteredBuilder extends RegisteredDataBuilder {
     @Override
     public String getRequestUrl() {
         return generateUrl();
+    }
+
+    @Override
+    public int getMethod() {
+        return Request.Method.GET;
+    }
+
+    @Override
+    public Map<String, String> getParams() {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        return null;
     }
 
     private String generateUrl() {
