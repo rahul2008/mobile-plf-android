@@ -1,2 +1,2 @@
 rootProject.setName 'productselection'
-include ':app', ':multiproduct', ':prx-v1'
+include ':app', ':multiproduct'
