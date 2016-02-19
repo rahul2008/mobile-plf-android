@@ -3,9 +3,7 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,8 +11,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.MainActivity;
-import com.philips.cdp.di.iap.address.AddressController;
-import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -22,7 +18,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
 
-public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner, AddressController.AddressListener {
+public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner {
 
     IAPHandler mIapHandler;
 
@@ -31,19 +27,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
 
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
-    private Button delete;
-    private Button edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
-
-        //TODO:Remove this later
-        delete = (Button) findViewById(R.id.delete_address);
-        edit = (Button) findViewById(R.id.edit_address);
-        delete.setVisibility(View.GONE);
-        edit.setVisibility(View.GONE);
 
         mIapHandler = new IAPHandler();
 
@@ -59,10 +47,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         mCountText = (TextView) findViewById(R.id.count_txt);
 
         mIapHandler.initApp(this, "", "");
-
-        //TODO:remove this later
-        /*delete.setOnClickListener(this);
-        edit.setOnClickListener(this);*/
     }
 
     @Override
@@ -184,15 +168,5 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         Utility.dismissProgressDialog();
         Intent myIntent = new Intent(DemoAppActivity.this, MainActivity.class);
         startActivity(myIntent);
-    }
-
-    @Override
-    public void onFetchAddressSuccess(GetShippingAddressData data) {
-
-    }
-
-    @Override
-    public void onFetchAddressFailure(final Message msg) {
-
     }
 }

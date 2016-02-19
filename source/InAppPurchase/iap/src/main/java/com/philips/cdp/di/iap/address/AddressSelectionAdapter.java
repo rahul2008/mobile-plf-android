@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.address;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 import com.philips.cdp.uikit.customviews.UIKitRadioButton;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -22,7 +24,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.util.List;
 import java.util.Locale;
 
-public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> implements EventListener {
+public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> implements EventListener, AddressController.AddressListener{
     private final static String NEW_LINE = "\n";
     private Context mContext;
     private List<Addresses> mAddresses;
@@ -82,7 +84,8 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
 
             } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
-
+                AddressController deleteAddressController = new AddressController(mContext,this);
+                deleteAddressController.deleteAddress(mSelectedAddress.getId());
             }
         }
     }
@@ -159,5 +162,15 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
                 mPopUP.show();
             }
         });
+    }
+
+    @Override
+    public void onFetchAddressSuccess(final GetShippingAddressData shippingAddresses) {
+
+    }
+
+    @Override
+    public void onFetchAddressFailure(final Message msg) {
+
     }
 }

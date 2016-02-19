@@ -57,20 +57,4 @@
         android:layout_below="@+id/demo_title"
         android:layout_marginTop="20dp"></ListView>
 
-    <Button
-            android:id="@+id/edit_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EDIT ADDRESS"
-            android:layout_alignParentBottom="true"
-        />
-
-    <Button
-        android:id="@+id/delete_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DELETE ADDRESS"
-        android:layout_above="@id/edit_address"
-        />
-
 </RelativeLayout>
