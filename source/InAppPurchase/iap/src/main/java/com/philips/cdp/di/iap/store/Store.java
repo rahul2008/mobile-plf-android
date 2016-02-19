@@ -11,7 +11,7 @@ import com.philips.cdp.di.iap.session.OAuthHandler;
 
 public class Store {
 
-    private final String BASEURL_FORMAT = "https://%s/%s";
+    private final static String BASEURL_FORMAT = "https://%s/%s";
 
     private String hostPort;
     private String webRoot;

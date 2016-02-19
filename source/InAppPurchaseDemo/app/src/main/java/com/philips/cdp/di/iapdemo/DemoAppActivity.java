@@ -20,6 +20,9 @@ import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
+
 import java.util.ArrayList;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner, AddressController.AddressListener {
@@ -33,6 +36,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
     private Button delete;
     private Button edit;
+    private final String HOCKEY_APPID = "dc402a11ae984bd18f99c07d9b4fe6a4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +82,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
             }
         }
         /** Should be commented for debug builds */
-        /*CrashManager.register(this, IAPConstant.HOCKEY_APPID, new CrashManagerListener() {
+        CrashManager.register(this, HOCKEY_APPID, new CrashManagerListener() {
 
             public boolean shouldAutoUploadCrashes() {
                 if (!IAPLog.isLoggingEnabled())
                     return true;
                 return false;
             }
-        });*/
+        });
     }
 
     private void populateProduct() {

@@ -33,8 +33,6 @@ public class ShoppingCartPresenter {
     ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
     private Resources mResources;
-    private final String UPDATE = "update";
-    private final String ADD = "add";
     private HybrisDelegate mHybrisDelegate;
     private Store mStore;
 

@@ -31,15 +31,15 @@ android {
             versionName "0.0.1"
         }
     }
-    dexOptions {
-        incremental true
-        javaMaxHeapSize "4g"
-    }
 }
 
 dependencies {
     compile project(':iap')
     compile "net.hockeyapp.android:HockeySDK:${hockeySdkVer}"
+    // Tests
+    testCompile "junit:junit:4.12"//${junitVer}"
+    testCompile "org.mockito:mockito-all:1.10.17"//${mockitoVer}"
+    testCompile "org.robolectric:robolectric:${robolectricVer}"
 }
 
 
