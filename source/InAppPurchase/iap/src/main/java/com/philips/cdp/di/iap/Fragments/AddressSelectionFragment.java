@@ -21,7 +21,7 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 
 import java.util.List;
 
-public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener{
+public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener {
     private RecyclerView mAddressListView;
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
@@ -35,7 +35,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
-        mAddrController = new AddressController(getContext(),this);
+        mAddrController = new AddressController(getContext(), this);
         mAddrController.getShippingAddresses();
         return view;
     }
@@ -48,14 +48,20 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void onFetchAddressSuccess(final GetShippingAddressData shippingAddresses) {
+    public void onFetchAddressSuccess(final Message msg) {
+        GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
         List<Addresses> addresses = shippingAddresses.getAddresses();
-        mAdapter = new AddressSelectionAdapter(getContext(),addresses);
+        mAdapter = new AddressSelectionAdapter(getContext(), addresses);
         mAddressListView.setAdapter(mAdapter);
     }
 
     @Override
     public void onFetchAddressFailure(final Message msg) {
+
+    }
+
+    @Override
+    public void onCreateAddress(boolean isSuccess) {
 
     }
 
