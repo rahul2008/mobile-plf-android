@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,9 +18,11 @@ import android.widget.EditText;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.Validator;
+import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.customviews.InlineForms;
+
 
 public class ShippingAddressFragment extends BaseAnimationSupportFragment implements View.OnClickListener, AddressController.AddressListener {
 
@@ -101,7 +104,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
     }
 
     @Override
-    public void onFinish() {
+    public void onFetchAddressSuccess(GetShippingAddressData data) {
+
+    }
+
+    @Override
+    public void onFetchAddressFailure(final Message msg) {
 
     }
 
@@ -111,6 +119,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment implem
             IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onClick ShippingAddressFragment");
             getMainActivity().addFragmentAndRemoveUnderneath(
                     OrderSummaryFragment.createInstance(AnimationType.NONE), false);
+            //AddressSelectionFragment.createInstance(AnimationType.NONE), false);
         }
     }
 
