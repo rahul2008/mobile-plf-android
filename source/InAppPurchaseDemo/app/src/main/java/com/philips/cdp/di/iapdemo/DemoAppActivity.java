@@ -16,6 +16,9 @@ import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
+
 import java.util.ArrayList;
 
 public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner {
@@ -27,6 +30,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
 
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10"};
+    private final String HOCKEY_APPID = "dc402a11ae984bd18f99c07d9b4fe6a4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +66,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
             }
         }
         /** Should be commented for debug builds */
-        /*CrashManager.register(this, IAPConstant.HOCKEY_APPID, new CrashManagerListener() {
+        CrashManager.register(this, HOCKEY_APPID, new CrashManagerListener() {
 
             public boolean shouldAutoUploadCrashes() {
                 if (!IAPLog.isLoggingEnabled())
                     return true;
                 return false;
             }
-        });*/
+        });
     }
 
     private void populateProduct() {
@@ -119,27 +123,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                     Utility.showNetworkError(DemoAppActivity.this, false);
                 }
                 break;
-            /*case R.id.edit_address:
-                Toast.makeText(this,"Edit Clicked",Toast.LENGTH_SHORT).show();
-                AddressController editAddressController = new AddressController(DemoAppActivity.this,this);
-                HashMap<String, String> query = new HashMap<String, String>();
-                query.put(ModelConstants.FIRST_NAME, ModelConstants.FIRST_NAME);
-                query.put(ModelConstants.LAST_NAME, ModelConstants.LAST_NAME);
-                query.put(ModelConstants.TITLE_CODE, "mr");
-                query.put(ModelConstants.COUNTRY_ISOCODE, "US");
-                query.put(ModelConstants.LINE_1, ModelConstants.LINE_1);
-                query.put(ModelConstants.LINE_2, ModelConstants.LINE_2);
-                query.put(ModelConstants.POSTAL_CODE, "12345");
-                query.put(ModelConstants.TOWN, ModelConstants.TOWN);
-                query.put(ModelConstants.PHONE_NUMBER, ModelConstants.PHONE_NUMBER);
-                query.put(ModelConstants.ADDRESS_ID, "8799241240599");
-                editAddressController.updateAddress(query);
-                break;
-            case R.id.delete_address:
-                Toast.makeText(this,"Delete Clicked",Toast.LENGTH_SHORT).show();
-                AddressController deleteAddressController = new AddressController(DemoAppActivity.this,this);
-                deleteAddressController.deleteAddress();
-                break;*/
         }
     }
 

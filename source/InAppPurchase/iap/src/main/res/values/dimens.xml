@@ -18,6 +18,7 @@
     <dimen name="iap_shipping_address_continue_button_height">44dp</dimen>
     <dimen name="iap_shipping_address_continue_margin_bottom">6dp</dimen>
     <dimen name="iap_shipping_address_continue_margin_left_right">20dp</dimen>
+    <dimen name="iap_shipping_address_continue_margin_top">33dp</dimen>
     <dimen name="iap_shipping_address_cancel_button_height">44dp</dimen>
     <dimen name="iap_shipping_address_cancel_button_margin_left_right">20dp</dimen>
     <dimen name="iap_shipping_address_cancel_button_margin_bottom">20dp</dimen>
