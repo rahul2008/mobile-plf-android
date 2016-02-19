@@ -14,9 +14,28 @@ import java.util.regex.Pattern;
  */
 public class Validator {
 
+    /**
+     * For checking the Town/City Address validity
+     */
+    private static final String TOWN_PATTERN =
+            "^[a-zA-Z\\s]{1,35}$";
+
+    private static final String FIRST_NAME = "^[a-zA-Z]{1,17}$";
+    private static final String LAST_NAME = "^[a-zA-Z]{1,17}$";
+    private static final String ADDRESS = "^[a-zA-Z0-9(.,#/\\-)_\\s]{1,35}$";
+    private static final String POSTAL_CODE = "^[A-Z0-9]{1,10}$";
+    private static final String COUNTRY = "^[A-Z]{2,2}$";
+
+
+    private boolean isValidString(CharSequence stringToBeValidated){
+        if (TextUtils.isEmpty(stringToBeValidated)) {
+            return false;
+        }
+        return true;
+    }
     public boolean isValidEmail(View editText) {
-        String stringToBeValidated = ((EditText) editText).getText().toString();
-        if (stringToBeValidated == null) {
+        CharSequence stringToBeValidated = ((EditText) editText).getText();
+        if (!isValidString(stringToBeValidated)) {
             return false;
         }
          else {
@@ -25,20 +44,21 @@ public class Validator {
     }
 
     public boolean isValidPostalCode(View editText) {
-        String stringToBeValidated = ((EditText) editText).getText().toString();
-        if (stringToBeValidated == null) {
+        CharSequence stringToBeValidated = ((EditText) editText).getText();
+        if (!isValidString(stringToBeValidated)) {
             return false;
         }
          else {
-            Pattern postalCodePattern = Pattern.compile("^[A-Z0-9]*$");
-            Matcher match = postalCodePattern.matcher(stringToBeValidated);
-            return match.matches();
+            Pattern pattern = Pattern.compile(POSTAL_CODE);
+            Matcher matcher = pattern.matcher(stringToBeValidated);
+            boolean matches = matcher.matches();
+            return matches;
         }
     }
 
     public boolean isValidPhoneNumber(View editText) {
-        String stringToBeValidated = ((EditText) editText).getText().toString();
-        if (stringToBeValidated == null) {
+        CharSequence stringToBeValidated = ((EditText) editText).getText();
+        if (!isValidString(stringToBeValidated)) {
             return false;
         } else {
             return PhoneNumberUtils.isGlobalPhoneNumber(stringToBeValidated.toString());
@@ -46,47 +66,59 @@ public class Validator {
     }
 
     public boolean isValidFirstName(View editText) {
-        String stringToBeValidated = ((EditText) editText).getText().toString();
-        if (stringToBeValidated == null) {
+        CharSequence stringToBeValidated = ((EditText) editText).getText();
+        if (!isValidString(stringToBeValidated)) {
             return false;
         } else {
-            Pattern firstNamePattern = Pattern.compile("^[\\p{IsAlphabetic}]+( [\\p{IsAlphabetic}]+)*$");
-            Matcher match = firstNamePattern.matcher(stringToBeValidated);
-            return match.matches();
+            Pattern pattern = Pattern.compile(FIRST_NAME);
+            Matcher matcher = pattern.matcher(stringToBeValidated);
+            boolean matches = matcher.matches();
+            return matches;
         }
     }
 
     public boolean isValidLastName(View editText) {
-        String stringToBeValidated = ((EditText) editText).getText().toString();
-        if (stringToBeValidated == null) {
+        CharSequence stringToBeValidated = ((EditText) editText).getText();
+        if (!isValidString(stringToBeValidated)) {
             return false;
         }
-        return true;
+        Pattern pattern = Pattern.compile(LAST_NAME);
+        Matcher matcher = pattern.matcher(stringToBeValidated);
+        boolean matches = matcher.matches();
+        return matches;
     }
 
     public boolean isValidAddress(View editText) {
-        String stringToBeValidated = ((EditText) editText).getText().toString();
-        if (stringToBeValidated == null) {
+        CharSequence stringToBeValidated = ((EditText) editText).getText();
+        if (!isValidString(stringToBeValidated)) {
             return false;
         }
-        return true;
+        Pattern pattern = Pattern.compile(ADDRESS);
+        Matcher matcher = pattern.matcher(stringToBeValidated);
+        boolean matches = matcher.matches();
+        return matches;
     }
 
     public boolean isValidTown(View editText){
-        String stringToBeValidated = ((EditText) editText).getText().toString();
-        if (stringToBeValidated == null) {
+        CharSequence stringToBeValidated = ((EditText) editText).getText();
+        if (!isValidString(stringToBeValidated)) {
             return false;
         }
-        return true;
+
+        Pattern pattern = Pattern.compile(TOWN_PATTERN);
+        Matcher matcher = pattern.matcher(stringToBeValidated);
+        boolean matches = matcher.matches();
+        return matches;
     }
 
     public boolean isValidCountry(View editText){
-        String stringToBeValidated = ((EditText) editText).getText().toString();
-        if (stringToBeValidated == null) {
+        CharSequence stringToBeValidated = ((EditText) editText).getText();
+        if (!isValidString(stringToBeValidated)) {
             return false;
         }
-        return true;
+        Pattern pattern = Pattern.compile(COUNTRY);
+        Matcher matcher = pattern.matcher(stringToBeValidated);
+        boolean matches = matcher.matches();
+        return matches;
     }
-
-
 }

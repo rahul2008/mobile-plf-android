@@ -8,7 +8,6 @@ package com.philips.cdp.di.iap.Fragments;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +46,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
-
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
+
         mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
         mEtAddress = (EditText) rootView.findViewById(R.id.et_address);
         mEtTown = (EditText) rootView.findViewById(R.id.et_town);
@@ -64,43 +63,125 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
 
-        mValidator = new Validator();
-
+        validateFirstName();
+        validateLastName();
+        validateAddress();
+        validateTown();
+        validatePostalCode();
+        validateCountry();
         validateEmail();
+        validatePhone();
+
+        mValidator = new Validator();
 
         return rootView;
     }
 
+
     private void validateEmail() {
-        mEtEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                boolean result = mValidator.isValidEmail(mEtEmail);
-                if (result) {
-                    /**
-                     * Error Layout should be removed after the entered text
-                     * is verified as the right Email Address
-                     */
-                    mInlineFormsParent.removeError(mEtEmail);
-                }
-            }
-        });
-
         mInlineFormsParent.setValidator(new InlineForms.Validator() {
             @Override
             public void validate(View editText, boolean hasFocus) {
                 if (editText.getId() == R.id.et_email && hasFocus == false) {
                     boolean result = mValidator.isValidEmail(editText);
+                    if (!result) {
+                        mInlineFormsParent.showError((EditText) editText);
+                    }
+                }
+            }
+        });
+    }
+
+    private void validateFirstName() {
+        mInlineFormsParent.setValidator(new InlineForms.Validator() {
+            @Override
+            public void validate(View editText, boolean hasFocus) {
+                if (editText.getId() == R.id.et_first_name && hasFocus == false) {
+                    boolean result = mValidator.isValidFirstName(editText);
+                    if (!result) {
+                        mInlineFormsParent.showError((EditText) editText);
+                    }
+                }
+            }
+        });
+    }
+
+    private void validateLastName() {
+        mInlineFormsParent.setValidator(new InlineForms.Validator() {
+            @Override
+            public void validate(View editText, boolean hasFocus) {
+                if (editText.getId() == R.id.et_last_name && hasFocus == false) {
+                    boolean result = mValidator.isValidLastName(editText);
+                    if (!result) {
+                        mInlineFormsParent.showError((EditText) editText);
+                    }
+                }
+            }
+        });
+    }
+
+    private void validateAddress() {
+        mInlineFormsParent.setValidator(new InlineForms.Validator() {
+            @Override
+            public void validate(View editText, boolean hasFocus) {
+                if (editText.getId() == R.id.et_address && hasFocus == false) {
+                    boolean result = mValidator.isValidAddress(editText);
+                    if (!result) {
+                        mInlineFormsParent.showError((EditText) editText);
+                    }
+                }
+            }
+        });
+    }
+
+    private void validatePostalCode() {
+        mInlineFormsParent.setValidator(new InlineForms.Validator() {
+            @Override
+            public void validate(View editText, boolean hasFocus) {
+                if (editText.getId() == R.id.et_postal_code && hasFocus == false) {
+                    boolean result = mValidator.isValidPostalCode(editText);
+                    if (!result) {
+                        mInlineFormsParent.showError((EditText) editText);
+                    }
+                }
+            }
+        });
+    }
+
+    private void validateCountry() {
+        mInlineFormsParent.setValidator(new InlineForms.Validator() {
+            @Override
+            public void validate(View editText, boolean hasFocus) {
+                if (editText.getId() == R.id.et_country && hasFocus == false) {
+                    boolean result = mValidator.isValidCountry(editText);
+                    if (!result) {
+                        mInlineFormsParent.showError((EditText) editText);
+                    }
+                }
+            }
+        });
+    }
+
+    private void validatePhone() {
+        mInlineFormsParent.setValidator(new InlineForms.Validator() {
+            @Override
+            public void validate(View editText, boolean hasFocus) {
+                if (editText.getId() == R.id.et_phone_number && hasFocus == false) {
+                    boolean result = mValidator.isValidPhoneNumber(editText);
+                    if (!result) {
+                        mInlineFormsParent.showError((EditText) editText);
+                    }
+                }
+            }
+        });
+    }
+
+    private void validateTown() {
+        mInlineFormsParent.setValidator(new InlineForms.Validator() {
+            @Override
+            public void validate(View editText, boolean hasFocus) {
+                if (editText.getId() == R.id.et_town && hasFocus == false) {
+                    boolean result = mValidator.isValidTown(editText);
                     if (!result) {
                         mInlineFormsParent.showError((EditText) editText);
                     }
