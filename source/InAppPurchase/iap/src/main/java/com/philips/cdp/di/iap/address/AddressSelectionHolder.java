@@ -22,6 +22,7 @@ public class AddressSelectionHolder extends RecyclerView.ViewHolder {
     Button deliver;
     Button newAddress;
     ViewGroup paymentOptions;
+    ViewGroup optionLayout;
 
     public AddressSelectionHolder(final View view) {
         super(view);
@@ -32,5 +33,6 @@ public class AddressSelectionHolder extends RecyclerView.ViewHolder {
         paymentOptions = (ViewGroup) view.findViewById(R.id.payment_options);
         deliver = (Button) view.findViewById(R.id.btn_deliver);
         newAddress = (Button) view.findViewById(R.id.btn_new_address);
+        optionLayout = (ViewGroup) view.findViewById(R.id.options_layout);
     }
 }

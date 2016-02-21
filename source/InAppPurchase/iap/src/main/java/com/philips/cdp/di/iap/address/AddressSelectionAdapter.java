@@ -66,7 +66,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         updatePaymentButtonsVisiblity(holder.paymentOptions, position);
 
         //bind options: edit, delete menu
-        bindOptionsButton(holder.options, position);
+        bindOptionsButton(holder.optionLayout, position);
 
         //bind toggle button
         setToggleStatus(holder.toggle, position);

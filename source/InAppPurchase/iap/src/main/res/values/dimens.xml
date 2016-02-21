@@ -38,6 +38,7 @@
     <dimen name="iap_selection_address_layout_margin_top">12dp</dimen>
     <dimen name="iap_selection_address_layout_margin_bottom">19dp</dimen>
     <dimen name="iap_selection_address_name_margin_top">22dp</dimen>
+    <dimen name="iap_selection_address_cancel_margin_bottom">11dp</dimen>
 
     <dimen name="title">16sp</dimen>
     <dimen name="header">20sp</dimen>
