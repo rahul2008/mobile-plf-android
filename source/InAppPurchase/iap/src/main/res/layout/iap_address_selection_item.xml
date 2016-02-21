@@ -76,4 +76,6 @@
             android:textAllCaps="false"/>
     </LinearLayout>
 
+    <include layout="@layout/iap_1dp_divider"/>
+
 </RelativeLayout>

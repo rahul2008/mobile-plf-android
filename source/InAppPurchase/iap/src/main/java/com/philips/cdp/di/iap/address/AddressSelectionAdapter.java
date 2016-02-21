@@ -6,15 +6,12 @@ package com.philips.cdp.di.iap.address;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 import com.philips.cdp.uikit.customviews.UIKitRadioButton;
@@ -33,14 +30,18 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     private int mSelectedIndex;
     private Drawable mOptionsDrawable;
 
-    private int mOptionsClickPosition;
+    private int mOptionsClickPosition = -1;
 
     public AddressSelectionAdapter(final Context context, final List<Addresses> addresses) {
         mContext = context;
         mAddresses = addresses;
-        mOptionsDrawable = VectorDrawable.create(context, R.drawable.iap_options_icon_5x17);
         mSelectedIndex = 0;
         setSelectedAddress(0);
+        initOptionsDrawable();
+    }
+
+    void initOptionsDrawable() {
+        mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
     }
 
     @Override
@@ -100,6 +101,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
             public void onClick(final View v) {
                 mSelectedIndex = holder.getAdapterPosition();
                 setSelectedAddress(mSelectedIndex);
+                notifyDataSetChanged();
             }
         });
     }
@@ -118,7 +120,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         return mOptionsClickPosition;
     }
 
-    private String createAddress(final Addresses address) {
+    String createAddress(final Addresses address) {
         StringBuilder sb = new StringBuilder();
 
         appendAddressWithNewLineIfNotNull(sb, address.getLine1());
