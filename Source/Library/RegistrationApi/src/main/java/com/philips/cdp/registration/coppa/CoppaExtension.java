@@ -23,7 +23,7 @@ import java.util.Random;
 public class CoppaExtension implements CoppaExtensionHandler {
 
 
-//	pending stuffs 
+//	pending stuffs
 //	-writtig sendcoppamail flow after login
 //	-testing coppa end to end
 //	-fix if any issues
@@ -96,11 +96,11 @@ public class CoppaExtension implements CoppaExtensionHandler {
                 /*String response = client.postData(RegistrationHelper.getInstance()
 				        .getRegistrationSettings().getResendConsentUrl(),
 				        geResendMailParams(mailType, email), accessToken);*/
-                String response = client.callPost(UserRegistrationInitializer.getInstance()
-                                .getRegistrationSettings().getResendConsentUrl(),
+
+                String response = client.callPost(UserRegistrationInitializer.getInstance().getRegistrationSettings().getResendConsentUrl(),
                         getResendMailParameters(mailType, email), accessToken);
 
-
+                Log.i("COPPA", "Resend Response" + response);
 
                 if (response == null) {
                     notifyCoppaResendFailed(0, null, resendCoppaEmailConsentHandler);
@@ -190,10 +190,9 @@ public class CoppaExtension implements CoppaExtensionHandler {
                 .getPilConfiguration().getCampaignID()));
         params.add(new Pair("email", email));
         params.add(new Pair("mailType", mailtype));
-        params.add(new Pair("redirect_uri", UserRegistrationInitializer.getInstance()
-                .getRegistrationSettings().getRegisterCoppaActivationUrl()));
-        params.add(new Pair("flow_name", UserRegistrationInitializer.getInstance()
-                .getRegistrationSettings().getFlowName()));
+        params.add(new Pair("redirect_uri", UserRegistrationInitializer.getInstance().getRegistrationSettings().getRegisterCoppaActivationUrl()));
+        params.add(new Pair("flow_name",
+                UserRegistrationInitializer.getInstance().getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "resendConsentForm"));
         params.add(new Pair("emailFieldName", "traditionalSignIn_emailAddress"));
         params.add(new Pair("flow_version", Jump.getCaptureFlowVersion()));
@@ -218,10 +217,8 @@ public class CoppaExtension implements CoppaExtensionHandler {
         params.add(new Pair("client_id", Jump.getCaptureClientId()));
         params.add(new Pair("locale", Jump.getCaptureLocale()));
         params.add(new Pair("response_type", "token"));
-        params.add(new Pair("redirect_uri", UserRegistrationInitializer.getInstance()
-                .getRegistrationSettings().getRegisterCoppaActivationUrl()));
-        params.add(new Pair("flow", UserRegistrationInitializer.getInstance()
-                .getRegistrationSettings().getFlowName()));
+        params.add(new Pair("redirect_uri",UserRegistrationInitializer.getInstance().getRegistrationSettings().getRegisterCoppaActivationUrl()));
+        params.add(new Pair("flow", UserRegistrationInitializer.getInstance().getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "socialSignInConsentCheckForm"));
         params.add(new Pair("traditionalSignIn_emailAddress", email));
         params.add(new Pair("flow_version", Jump.getCaptureFlowVersion()));
@@ -237,10 +234,8 @@ public class CoppaExtension implements CoppaExtensionHandler {
         params.add(new Pair("client_id", Jump.getCaptureClientId()));
         params.add(new Pair("locale", Jump.getCaptureLocale()));
         params.add(new Pair("response_type", "token"));
-        params.add(new Pair("redirect_uri", UserRegistrationInitializer.getInstance()
-                .getRegistrationSettings().getRegisterCoppaActivationUrl()));
-        params.add(new Pair("flow", UserRegistrationInitializer.getInstance()
-                .getRegistrationSettings().getFlowName()));
+        params.add(new Pair("redirect_uri",UserRegistrationInitializer.getInstance().getRegistrationSettings().getRegisterCoppaActivationUrl()));
+        params.add(new Pair("flow",UserRegistrationInitializer.getInstance().getRegistrationSettings().getFlowName()));
         params.add(new Pair("form", "socialSignInConsentCheckForm"));
         params.add(new Pair("traditionalSignIn_emailAddress", email));
         params.add(new Pair("flow_version", Jump.getCaptureFlowVersion()));
