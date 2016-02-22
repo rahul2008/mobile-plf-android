@@ -9,9 +9,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.philips.cdp.ErrorType;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.productbuilder.RegistrationDataBuilder;
+import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.HttpsTrustManager;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.ProductRequest;
@@ -33,7 +33,7 @@ public class ProcessNetwork {
     private String TAG = getClass() + "";
     private RequestQueue requestQueue;
     private boolean isHttpsRequest = true;
-    private int accessTokenRetryCount = 0;
+    private int retryCount = 0;
 
     public ProcessNetwork(Context context) {
         this.context = context;
@@ -46,6 +46,7 @@ public class ProcessNetwork {
         ProductRequest productRequest = new ProductRequest(registrationDataBuilder.getMethod(), registrationDataBuilder.getRequestUrl(), registrationDataBuilder.getParams(), registrationDataBuilder.getHeaders(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                retryCount = 0;
                 ResponseData responseData = registrationDataBuilder.getResponseData(response);
                 listener.onResponseSuccess(responseData);
                 PrxLogger.d(TAG, "Response : " + response.toString());
@@ -57,7 +58,11 @@ public class ProcessNetwork {
                     final NetworkResponse networkResponse = error.networkResponse;
                     try {
                         if (networkResponse != null)
-                            handleError(networkResponse.statusCode, registrationDataBuilder, listener, error);
+                            handleError(networkResponse.statusCode, registrationDataBuilder, listener);
+                        else if (error instanceof NoConnectionError) {
+                            listener.onResponseError("No internet connection", 0);
+                        } else
+                            listener.onResponseError(ErrorType.UNKNOWN.getDescription(), 0);
                     } catch (Exception e) {
                         PrxLogger.e(TAG, "Volley Error : " + e);
                     }
@@ -75,6 +80,7 @@ public class ProcessNetwork {
         ProductRequest productRequest = new ProductRequest(Request.Method.GET, registrationDataBuilder.getRequestUrl(), registrationDataBuilder.getParams(), registrationDataBuilder.getHeaders(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                retryCount = 0;
                 ResponseData responseData = registrationDataBuilder.getResponseData(response);
                 listener.onResponseSuccess(responseData);
                 PrxLogger.d(TAG, "Response : " + response.toString());
@@ -86,7 +92,11 @@ public class ProcessNetwork {
                     final NetworkResponse networkResponse = error.networkResponse;
                     try {
                         if (networkResponse != null)
-                            handleError(networkResponse.statusCode, registrationDataBuilder, listener, error);
+                            handleError(networkResponse.statusCode, registrationDataBuilder, listener);
+                        else if (error instanceof NoConnectionError) {
+                            listener.onResponseError("No internet connection", 0);
+                        } else
+                            listener.onResponseError(ErrorType.UNKNOWN.getDescription(), 0);
                     } catch (Exception e) {
                         PrxLogger.e(TAG, "Volley Error : " + e);
                     }
@@ -98,17 +108,18 @@ public class ProcessNetwork {
         requestQueue.add(productRequest);
     }
 
-    private void handleError(final int statusCode, final PrxDataBuilder prxDataBuilder, final ResponseListener listener, final VolleyError error) {
-        if (statusCode == ErrorType.INVALID_PRODUCT.getId()) {
-            listener.onResponseError(ErrorType.INVALID_PRODUCT.getDescription(), statusCode);
-        } else if (statusCode == ErrorType.ACCESS_TOKEN_EXPIRED.getId()) {
-            onAccessTokenExpire((RegistrationBuilder) prxDataBuilder, listener);
-        } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getId()) {
-            onAccessTokenExpire((RegistrationBuilder) prxDataBuilder, listener);
-        } else if (statusCode == ErrorType.INVALID_VALIDATION.getId()) {
-            listener.onResponseError(ErrorType.INVALID_VALIDATION.getDescription(), statusCode);
-        } else if (error instanceof NoConnectionError) {
-            listener.onResponseError("No internet connection", statusCode);
+    private void handleError(final int statusCode, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+        if (retryCount != MAX_RETRY_COUNT) {
+            retryCount++;
+            if (statusCode == ErrorType.INVALID_PRODUCT.getId()) {
+                listener.onResponseError(ErrorType.INVALID_PRODUCT.getDescription(), statusCode);
+            } else if (statusCode == ErrorType.ACCESS_TOKEN_EXPIRED.getId()) {
+                onAccessTokenExpire((RegistrationBuilder) prxDataBuilder, listener);
+            } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getId()) {
+                onAccessTokenExpire((RegistrationBuilder) prxDataBuilder, listener);
+            } else if (statusCode == ErrorType.INVALID_VALIDATION.getId()) {
+                listener.onResponseError(ErrorType.INVALID_VALIDATION.getDescription(), statusCode);
+            }
         }
     }
 
