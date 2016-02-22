@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
@@ -22,6 +23,7 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
 import java.util.List;
@@ -32,10 +34,11 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses;
+    private Button mCancelButton;
 
     @Override
     protected void updateTitle() {
-
+        setTitle(R.string.iap_shipping_address);
     }
 
     @Override
@@ -43,12 +46,29 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
         mAddrController = new AddressController(getContext(), this);
-        mAddrController.getShippingAddresses();
+        mCancelButton = (Button) view.findViewById(R.id.btn_cancel);
+        bindCancelListener();
+        sendShippingAddressesRequest();
 
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
 
         return view;
+    }
+
+    public void bindCancelListener() {
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+
+            }
+        });
+    }
+
+    private void sendShippingAddressesRequest() {
+        String msg = getContext().getString(R.string.iap_please_wait);
+        showProgress(msg);
+        mAddrController.getShippingAddresses();
     }
 
     @Override
@@ -71,7 +91,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
             mAddressListView.setAdapter(mAdapter);
         }
-
+        dismissProgress();
     }
 
     @Override
@@ -111,5 +131,13 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 mAddrController.deleteAddress(mAddresses.get(pos).getId());
             }
         }
+    }
+
+    private void showProgress(String msg) {
+        Utility.showProgressDialog(getContext(), msg);
+    }
+
+    private void dismissProgress() {
+        Utility.dismissProgressDialog();
     }
 }

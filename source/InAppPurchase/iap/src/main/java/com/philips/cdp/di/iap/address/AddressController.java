@@ -38,8 +38,6 @@ public class AddressController implements AbstractModel.DataLoadListener {
     public AddressController(Context context, AddressListener listener) {
         mContext = context;
         mAddressListener = listener;
-        mDelegate = HybrisDelegate.getInstance(context);
-        mStore = mDelegate.getStore();
     }
 
     public void createAddress(AddressFields addressFields) {
@@ -61,27 +59,44 @@ public class AddressController implements AbstractModel.DataLoadListener {
         delegate.sendRequest(RequestCode.CREATE_ADDRESS, model, model);
     }
 
+    void setHybrisDelegate(HybrisDelegate delegate) {
+        mDelegate = delegate;
+    }
+
+    HybrisDelegate getHybrisDelegate() {
+        if (mDelegate == null) {
+            mDelegate = HybrisDelegate.getInstance(mContext);
+        }
+        return mDelegate;
+    }
+
+    void setStore(Store store) {
+        mStore = store;
+    }
+
+    Store getStore() {
+        if (mStore == null) {
+            mStore = getHybrisDelegate().getStore();
+        }
+        return mStore;
+    }
     public void deleteAddress(String addressId) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.ADDRESS_ID, addressId);
 
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        DeleteAddressRequest model = new DeleteAddressRequest(delegate.getStore(), query, this);
-
-        delegate.sendRequest(RequestCode.DELETE_ADDRESS, model, model);
+        DeleteAddressRequest model = new DeleteAddressRequest(getStore(), query, this);
+        getHybrisDelegate().sendRequest(RequestCode.DELETE_ADDRESS, model, model);
     }
 
     public void updateAddress(HashMap<String, String> query) {
 
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        UpdateAddressRequest model = new UpdateAddressRequest(delegate.getStore(), query, this);
-
-        delegate.sendRequest(RequestCode.UPDATE_ADDRESS, model, model);
+        UpdateAddressRequest model = new UpdateAddressRequest(getStore(), query, this);
+        getHybrisDelegate().sendRequest(RequestCode.UPDATE_ADDRESS, model, model);
     }
 
     public void getShippingAddresses() {
-        GetAddressRequest model = new GetAddressRequest(mStore, null, this);
-        mDelegate.sendRequest(RequestCode.GET_ADDRESS, model, model);
+        GetAddressRequest model = new GetAddressRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
     }
 
 
@@ -117,10 +132,10 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
         switch (requestCode) {
             case RequestCode.DELETE_ADDRESS:
-                Toast.makeText(mContext, "delete Error", Toast.LENGTH_SHORT).show();
+                showMessage("update Error");
                 break;
             case RequestCode.UPDATE_ADDRESS:
-                Toast.makeText(mContext, "update Error", Toast.LENGTH_SHORT).show();
+                showMessage("update Error");
                 break;
             case RequestCode.CREATE_ADDRESS: {
                 if (mAddressListener != null) {
@@ -129,8 +144,15 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 break;
             }
             case RequestCode.GET_ADDRESS:
-                Toast.makeText(mContext, "update Error", Toast.LENGTH_SHORT).show();
+                if (mAddressListener != null) {
+                    mAddressListener.onFetchAddressFailure(msg);
+                }
+                showMessage("Unable to get address");
                 break;
         }
+    }
+
+    void showMessage(String message) {
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
 }
