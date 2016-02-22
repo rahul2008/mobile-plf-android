@@ -55,7 +55,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         params.put(ModelConstants.PHONE_NUMBER, addressFields.getPhoneNumber());
 
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        CreateAddressRequest model = new CreateAddressRequest(delegate.getStore(), params, null);
+        CreateAddressRequest model = new CreateAddressRequest(delegate.getStore(), params, this);
         delegate.sendRequest(RequestCode.CREATE_ADDRESS, model, model);
     }
 
@@ -102,6 +102,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
     @Override
     public void onModelDataLoadFinished(Message msg) {
+
+        
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.DELETE_ADDRESS:

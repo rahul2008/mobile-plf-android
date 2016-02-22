@@ -6,6 +6,8 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
+import com.google.gson.Gson;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
@@ -25,7 +27,7 @@ public class CreateAddressRequest extends AbstractModel {
 
     @Override
     public Object parseResponse(Object response) {
-        return null;
+        return new Gson().fromJson(response.toString(), Addresses.class);
     }
 
     @Override

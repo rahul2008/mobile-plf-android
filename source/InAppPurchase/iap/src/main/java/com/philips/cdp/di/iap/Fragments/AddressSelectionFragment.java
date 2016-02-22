@@ -60,9 +60,14 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-
+                //Go back to shopping cart
+                moveToShoppingCart();
             }
         });
+    }
+
+    private void moveToShoppingCart() {
+
     }
 
     private void sendShippingAddressesRequest() {
@@ -97,6 +102,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onFetchAddressFailure(final Message msg) {
         // TODO: 2/19/2016 Fix error case scenario
+        dismissProgress();
+        moveToShoppingCart();
     }
 
     @Override

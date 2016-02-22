@@ -5,23 +5,29 @@
 
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, AddressController.AddressListener {
+        implements View.OnClickListener, AddressController.AddressListener, InlineForms.Validator,
+        TextWatcher {
 
     private EditText mEtFirstName;
     private EditText mEtLastName;
@@ -35,8 +41,13 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private Button mBtnContinue;
     private Button mBtnCancel;
 
+    private AddressController mAddressController;
+    private AddressFields mAddressFields;
+
     private InlineForms mInlineFormsParent;
     private Validator mValidator = null;
+
+    private Context mContext;
 
     @Override
     protected void updateTitle() {
@@ -63,131 +74,28 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
 
-        validateFirstName();
-        validateLastName();
-        validateAddress();
-        validateTown();
-        validatePostalCode();
-        validateCountry();
-        validateEmail();
-        validatePhone();
-
         mValidator = new Validator();
+        mInlineFormsParent.setValidator(this);
+
+        mAddressController = new AddressController(mContext, this);
+        mAddressFields = new AddressFields();
+
+        mEtFirstName.addTextChangedListener(this);
+        mEtLastName.addTextChangedListener(this);
+        mEtAddress.addTextChangedListener(this);
+        mEtTown.addTextChangedListener(this);
+        mEtPostalCode.addTextChangedListener(this);
+        mEtCountry.addTextChangedListener(this);
+        mEtEmail.addTextChangedListener(this);
+        mEtPhoneNumber.addTextChangedListener(this);
 
         return rootView;
     }
 
-
-    private void validateEmail() {
-        mInlineFormsParent.setValidator(new InlineForms.Validator() {
-            @Override
-            public void validate(View editText, boolean hasFocus) {
-                if (editText.getId() == R.id.et_email && hasFocus == false) {
-                    boolean result = mValidator.isValidEmail(editText);
-                    if (!result) {
-                        mInlineFormsParent.showError((EditText) editText);
-                    }
-                }
-            }
-        });
-    }
-
-    private void validateFirstName() {
-        mInlineFormsParent.setValidator(new InlineForms.Validator() {
-            @Override
-            public void validate(View editText, boolean hasFocus) {
-                if (editText.getId() == R.id.et_first_name && hasFocus == false) {
-                    boolean result = mValidator.isValidFirstName(editText);
-                    if (!result) {
-                        mInlineFormsParent.showError((EditText) editText);
-                    }
-                }
-            }
-        });
-    }
-
-    private void validateLastName() {
-        mInlineFormsParent.setValidator(new InlineForms.Validator() {
-            @Override
-            public void validate(View editText, boolean hasFocus) {
-                if (editText.getId() == R.id.et_last_name && hasFocus == false) {
-                    boolean result = mValidator.isValidLastName(editText);
-                    if (!result) {
-                        mInlineFormsParent.showError((EditText) editText);
-                    }
-                }
-            }
-        });
-    }
-
-    private void validateAddress() {
-        mInlineFormsParent.setValidator(new InlineForms.Validator() {
-            @Override
-            public void validate(View editText, boolean hasFocus) {
-                if (editText.getId() == R.id.et_address && hasFocus == false) {
-                    boolean result = mValidator.isValidAddress(editText);
-                    if (!result) {
-                        mInlineFormsParent.showError((EditText) editText);
-                    }
-                }
-            }
-        });
-    }
-
-    private void validatePostalCode() {
-        mInlineFormsParent.setValidator(new InlineForms.Validator() {
-            @Override
-            public void validate(View editText, boolean hasFocus) {
-                if (editText.getId() == R.id.et_postal_code && hasFocus == false) {
-                    boolean result = mValidator.isValidPostalCode(editText);
-                    if (!result) {
-                        mInlineFormsParent.showError((EditText) editText);
-                    }
-                }
-            }
-        });
-    }
-
-    private void validateCountry() {
-        mInlineFormsParent.setValidator(new InlineForms.Validator() {
-            @Override
-            public void validate(View editText, boolean hasFocus) {
-                if (editText.getId() == R.id.et_country && hasFocus == false) {
-                    boolean result = mValidator.isValidCountry(editText);
-                    if (!result) {
-                        mInlineFormsParent.showError((EditText) editText);
-                    }
-                }
-            }
-        });
-    }
-
-    private void validatePhone() {
-        mInlineFormsParent.setValidator(new InlineForms.Validator() {
-            @Override
-            public void validate(View editText, boolean hasFocus) {
-                if (editText.getId() == R.id.et_phone_number && hasFocus == false) {
-                    boolean result = mValidator.isValidPhoneNumber(editText);
-                    if (!result) {
-                        mInlineFormsParent.showError((EditText) editText);
-                    }
-                }
-            }
-        });
-    }
-
-    private void validateTown() {
-        mInlineFormsParent.setValidator(new InlineForms.Validator() {
-            @Override
-            public void validate(View editText, boolean hasFocus) {
-                if (editText.getId() == R.id.et_town && hasFocus == false) {
-                    boolean result = mValidator.isValidTown(editText);
-                    if (!result) {
-                        mInlineFormsParent.showError((EditText) editText);
-                    }
-                }
-            }
-        });
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -202,20 +110,26 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onCreateAddress(boolean isSuccess) {
+        Utility.dismissProgressDialog();
         if (isSuccess) {
             //Navigate to billing Address
+            Toast.makeText(mContext, "Address created successfully", Toast.LENGTH_SHORT).show();
         } else {
-            //Show error msg and stay on the page
+            Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onClick(final View v) {
         if (v == mBtnContinue) {
-           /* IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onClick ShippingAddressFragment");
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    OrderSummaryFragment.createInstance(AnimationType.NONE), false);
-            AddressSelectionFragment.createInstance(AnimationType.NONE), false);*/
+            if(!Utility.isProgressDialogShowing()) {
+                if(Utility.isInternetConnected(mContext)) {
+                    Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                    mAddressController.createAddress(mAddressFields);
+                }else{
+                    Utility.showNetworkError(mContext, false);
+                }
+            }
         } else if (v == mBtnCancel) {
 
         }
@@ -232,19 +146,23 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
 
     public void checkFields() {
-       /* String firstName = mEtFirstName.getText().toString().trim();
-        String lastName = mEtLastName.getText().toString().trim();
-        String address = mEtAddress.getText().toString().trim();
-        String town = mEtTown.getText().toString().trim();
-        String postalCode = mEtPostalCode.getText().toString().trim();
-        String country = mEtCountry.getText().toString().trim();
-        String email = mEtEmail.getText().toString().trim();
-        String phoneNumber = mEtPhoneNumber.getText().toString().trim();*/
 
         if (mValidator.isValidFirstName(mEtFirstName) && mValidator.isValidLastName(mEtLastName)
                 && mValidator.isValidAddress(mEtAddress) && mValidator.isValidPostalCode(mEtPostalCode)
                 && mValidator.isValidEmail(mEtEmail) && mValidator.isValidPhoneNumber(mEtPhoneNumber)
                 && mValidator.isValidTown(mEtTown) && mValidator.isValidCountry(mEtCountry)) {
+
+            mAddressFields.setFirstName(mEtFirstName.getText().toString().trim());
+            mAddressFields.setLastName(mEtLastName.getText().toString().trim());
+            mAddressFields.setTitleCode("mr");
+            mAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
+            mAddressFields.setLine1(mEtAddress.getText().toString());
+            mAddressFields.setLine2("testline");
+            mAddressFields.setPostalCode(mEtPostalCode.getText().toString());
+            mAddressFields.setTown(mEtTown.getText().toString());
+            mAddressFields.setPhoneNumber(mEtPhoneNumber.getText().toString().trim());
+            mAddressFields.setEmail(mEtEmail.getText().toString());
+
             mBtnContinue.setEnabled(true);
         } else {
             mBtnContinue.setEnabled(false);
@@ -256,4 +174,55 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         return AnimationType.NONE;
     }
 
+    @Override
+    public void validate(View editText, boolean hasFocus) {
+
+        boolean result = true;
+
+        if (editText.getId() == R.id.et_first_name && hasFocus == false) {
+            result = mValidator.isValidFirstName(editText);
+        }
+        if (editText.getId() == R.id.et_last_name && hasFocus == false) {
+            result = mValidator.isValidLastName(editText);
+        }
+        if (editText.getId() == R.id.et_town && hasFocus == false) {
+            result = mValidator.isValidTown(editText);
+        }
+        if (editText.getId() == R.id.et_phone_number && hasFocus == false) {
+            result = mValidator.isValidPhoneNumber(editText);
+        }
+        if (editText.getId() == R.id.et_country && hasFocus == false) {
+            result = mValidator.isValidCountry(editText);
+        }
+        if (editText.getId() == R.id.et_postal_code && hasFocus == false) {
+            result = mValidator.isValidPostalCode(editText);
+        }
+        if (editText.getId() == R.id.et_email && hasFocus == false) {
+            result = mValidator.isValidEmail(editText);
+        }
+        if (editText.getId() == R.id.et_address && hasFocus == false) {
+            result = mValidator.isValidAddress(editText);
+        }
+
+        if (!result) {
+            mInlineFormsParent.showError((EditText) editText);
+        } else {
+            mInlineFormsParent.removeError(editText);
+        }
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        checkFields();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+    }
 }
