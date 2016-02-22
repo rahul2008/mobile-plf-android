@@ -76,7 +76,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
     Store getStore() {
         if (mStore == null) {
-            mStore = mDelegate.getStore();
+            mStore = getHybrisDelegate().getStore();
         }
         return mStore;
     }

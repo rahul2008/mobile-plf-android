@@ -26,11 +26,13 @@
     <Button
         android:id="@+id/btn_cancel"
         style="?attr/outlinedButtonStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/iap_cancel"
+        android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
+        android:layout_marginEnd="@dimen/iap_selection_address_layout_margin"
         android:layout_marginBottom="@dimen/iap_selection_address_cancel_margin_bottom"
         android:textAllCaps="false"/>
 

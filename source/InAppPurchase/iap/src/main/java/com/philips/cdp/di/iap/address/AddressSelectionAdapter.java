@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
@@ -71,6 +73,30 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         //bind toggle button
         setToggleStatus(holder.toggle, position);
         bindToggleButton(holder, holder.toggle);
+
+        //bind deliver to address
+        bindDeliverToAddress(holder.deliver, position);
+
+        //bind add new address
+        bindNewAddress(holder.newAddress, position)
+    }
+
+    private void bindNewAddress(final Button newAddress, final int position) {
+        newAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Toast.makeText(mContext, "Not implemented",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void bindDeliverToAddress(Button deliver, final int position) {
+        deliver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Addresses addr = mAddresses.get(position);
+            }
+        });
     }
 
     public void onStop() {
