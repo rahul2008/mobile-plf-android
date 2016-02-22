@@ -53,7 +53,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private InlineForms mInlineFormsParent;
     private Validator mValidator = null;
-    HashMap<String, String> addressFeilds;
+    private HashMap<String, String> addressFeilds = null;
 
     private Context mContext;
 
@@ -103,13 +103,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         return rootView;
     }
 
+    private void requestFocus(){
 
+    }
 
     private void updateFeilds() {
-        addressFeilds = null;
         try {
             Bundle bundle = getArguments();
-            addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_PAYLOAD);
+            addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
             mBtnContinue.setText(getString(R.string.iap_save));
             mBtnContinue.requestFocus();
             mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
@@ -178,8 +179,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
                 if (Utility.isInternetConnected(mContext)) {
                 if(!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext,getString(R.string.iap_update_address));
-                    updateToHybrisTheFeilds();
+                    Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
+                    HashMap<String,String> addressHashMap = updateToHybrisTheFeilds();
+                    mAddressController.updateAddress(addressHashMap);
                 }
                 }else{
                     NetworkUtility.getInstance().showNetworkError(mContext);
@@ -197,20 +199,20 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
-    private void updateToHybrisTheFeilds() {
-        HashMap<String, String> payload = new HashMap<>();
-        payload.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
-        payload.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
-        payload.put(ModelConstants.TITLE_CODE, "mr");
-        payload.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
-        payload.put(ModelConstants.LINE_1, mEtAddress.getText().toString());
-        payload.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
-        payload.put(ModelConstants.TOWN, mEtTown.getText().toString());
-        payload.put(ModelConstants.ADDRESS_ID, addressFeilds.get(ModelConstants.ADDRESS_ID));
-        payload.put(ModelConstants.LINE_2, "");
-        payload.put(ModelConstants.DEFAULT_ADDRESS, mEtAddress.getText().toString());
-        payload.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
-        mAddressController.updateAddress(payload);
+    private HashMap updateToHybrisTheFeilds() {
+        HashMap<String, String> addressHashMap = new HashMap<>();
+        addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
+        addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
+        addressHashMap.put(ModelConstants.TITLE_CODE, "mr");
+        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
+        addressHashMap.put(ModelConstants.LINE_1, mEtAddress.getText().toString());
+        addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
+        addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
+        addressHashMap.put(ModelConstants.ADDRESS_ID, addressFeilds.get(ModelConstants.ADDRESS_ID));
+        addressHashMap.put(ModelConstants.LINE_2, "");
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddress.getText().toString());
+        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
+        return addressHashMap;
     }
 
     public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
