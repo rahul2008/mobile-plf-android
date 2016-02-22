@@ -88,7 +88,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         newAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Toast.makeText(mContext, "Not implemented", Toast.LENGTH_SHORT).show();
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.SHIPPING_ADDRESS_FRAGMENT);
             }
         });
     }
