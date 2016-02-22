@@ -192,6 +192,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         payload.put(ModelConstants.POSTAL_CODE, address.getPostalCode());
         payload.put(ModelConstants.TOWN, address.getTown());
         payload.put(ModelConstants.ADDRESS_ID, address.getId());
+        payload.put(ModelConstants.DEFAULT_ADDRESS,address.getLine1());
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_PAYLOAD, payload);
         getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), false);

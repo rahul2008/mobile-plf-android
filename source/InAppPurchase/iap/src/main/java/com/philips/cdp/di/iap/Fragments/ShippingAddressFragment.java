@@ -111,11 +111,19 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             Bundle bundle = getArguments();
             addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_PAYLOAD);
             mBtnContinue.setText(getString(R.string.iap_save));
+            mBtnContinue.requestFocus();
             mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
+            mEtFirstName.requestFocus();
             mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
+            mEtLastName.requestFocus();
             mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
+            mEtTown.requestFocus();
             mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
+            mEtPostalCode.requestFocus();
             mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
+            mEtCountry.requestFocus();
+            mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
+            mEtAddress.requestFocus();
         }catch (NullPointerException e){
             e.printStackTrace();
         }
