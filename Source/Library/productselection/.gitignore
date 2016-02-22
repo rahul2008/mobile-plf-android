@@ -1,1 +1,5 @@
-/build
+/proguard-rules.pro
+/multiproduct.iml
+/build/*
+/.idea/*
+

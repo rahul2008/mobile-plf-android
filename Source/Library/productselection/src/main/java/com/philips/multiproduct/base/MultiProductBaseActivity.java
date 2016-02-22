@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 /**
  * MultiProductBaseActivity is the main container class which can contain Digital Care fragments.
@@ -43,7 +44,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        MLogger.i(TAG, "onCreate");
+        ProductSelectionLogger.i(TAG, "onCreate");
         ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
 
@@ -81,7 +82,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                finish();
+                backstackFragment();
             }
         });
 
@@ -96,6 +97,23 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         parent.setContentInsetsAbsolute(0, 0);
     }
 
+    protected boolean isTablet() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        try {
+            if (this.getWindowManager() != null)
+                this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        }catch (NullPointerException e)
+        {
+            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
+        }finally {
+            float yInches = metrics.heightPixels / metrics.ydpi;
+            float xInches = metrics.widthPixels / metrics.xdpi;
+            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+            return diagonalInches >= 6.5;
+        }
+
+    }
+
     protected void setNoActionBarTheme() {
         themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
                 Context.MODE_PRIVATE));
@@ -105,7 +123,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        MLogger.i(TAG, TAG + " : onConfigurationChanged ");
+        ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
     }
 
     @Override
@@ -170,7 +188,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            MLogger.e(TAG, e.getMessage());
+            ProductSelectionLogger.e(TAG, e.getMessage());
         }
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -178,6 +196,12 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
             imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
                     .getWindowToken(), 0);
         }
+    }
+
+
+    protected void backtoConsumerCare()
+    {
+        finish();
     }
 
 }

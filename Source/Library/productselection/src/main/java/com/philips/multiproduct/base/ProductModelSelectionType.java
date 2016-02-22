@@ -21,6 +21,15 @@ public abstract class ProductModelSelectionType {
         this.mSector = sector;
     }
 
+
+    public String getSector() {
+        return mSector.toString();
+    }
+
+    public String getCatalog() {
+        return mCatalog.toString();
+    }
+
     public void setProductModelList(SummaryModel[] summaryModelList) {
         this.mSummaryModelList = summaryModelList;
     }
@@ -29,7 +38,6 @@ public abstract class ProductModelSelectionType {
         return this.mSummaryModelList;
     }
 
-    public abstract void setHardCodedProductList(String[] ctnList);
 
     public abstract String[] getHardCodedProductList();
 }

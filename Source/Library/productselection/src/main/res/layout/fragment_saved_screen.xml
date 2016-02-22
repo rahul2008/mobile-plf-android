@@ -1,9 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mp_activity_background_color">
+    android:background="#ffffff">
 
 
     <LinearLayout
@@ -30,27 +29,28 @@
 
         <LinearLayout xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/savedscreen_productcontainer_height"
+            android:id="@+id/savedScreen_screen_child_one"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/savedscreen_productcontainer_marigin"
             android:layout_marginRight="@dimen/savedscreen_productcontainer_marigin"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/activity_margin"
-            android:weightSum="9"
+            android:paddingTop="@dimen/savedscreen_product_imagecontainer_height"
+            android:weightSum="18"
             tools:showIn="@layout/fragment_saved_screen">
 
             <ImageView
+                android:id="@+id/savedscreen_productimage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/savedscreen_productcontainer_height"
                 android:layout_margin="@dimen/savedscreen_product_image_margin"
-                android:layout_weight="3"
-                android:background="@drawable/navigation_image"
+                android:layout_weight="6"
                 android:scaleType="fitXY" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
-                android:layout_weight="2">
+                android:layout_weight="5">
 
                 <com.philips.multiproduct.customview.CustomFontTextView
                     android:id="@+id/savedscreen_productname"
@@ -60,10 +60,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:lineSpacingExtra="@dimen/savedscreen_product_text_linespacing"
-                    android:paddingRight="@dimen/activity_margin"
-                    android:text="Jamie Oliver Food Processor"
                     android:textColor="?attr/baseColor"
-                    android:textSize="@dimen/title_text_size_small"
+                    android:textSize="@dimen/title_text_size_medium"
                     android:textStyle="bold"
                     custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
@@ -72,15 +70,25 @@
                     android:id="@+id/savedscreen_productvariant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
+                    android:layout_below="@id/savedscreen_productname"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="@dimen/savedscreen_product_variant_margin_bottom"
-                    android:paddingRight="@dimen/activity_margin"
-                    android:text="HR7781/01"
                     android:textColor="#B9B9B9"
-                    android:textSize="@dimen/title_text_size_small"
+                    android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
+                    android:textSize="@dimen/title_text_size_medium"
                     custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
+
+<!--
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/green_tick"
+                    android:scaleType="fitXY"
+                    android:layout_centerVertical="true"/>
+-->
 
 
             </RelativeLayout>
@@ -88,16 +96,16 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4">
+                android:layout_weight="7">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:background="@drawable/green_tick"
                     android:foregroundGravity="right|center"
+                    android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
                     android:scaleType="fitXY" />
 
             </RelativeLayout>
@@ -122,7 +130,7 @@
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
             android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
-            android:text="Continue to Support"
+            android:text="Continue"
             android:textAllCaps="false" />
 
 

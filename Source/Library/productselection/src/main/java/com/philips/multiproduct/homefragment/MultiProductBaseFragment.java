@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.NetworkAlertView;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 import com.philips.multiproduct.listeners.NetworkStateListener;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.listeners.ProductListDetailsTabletListener;
 import com.philips.multiproduct.utils.NetworkReceiver;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 import java.util.Locale;
 
@@ -46,6 +49,10 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private TextView mActionBarTitle = null;
+    private static ProductListDetailsTabletListener mProductListDetailsTabletListener = null;
+    protected ProductListDetailsTabletListener mProductDetailsListener = null;
+    protected int mLeftRightMarginPort = 0;
+    protected int mLeftRightMarginLand = 0;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -59,7 +66,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        MLogger.i(MLogger.FRAGMENT, "OnCreate on "
+        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnCreate on "
                 + this.getClass().getSimpleName());
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
@@ -91,26 +98,30 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
+                .getDimension(R.dimen.activity_margin_port);
+        mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
+                .getDimension(R.dimen.activity_margin_land);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        MLogger.i(MLogger.FRAGMENT, "OnCreateView on "
+        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnCreateView on "
                 + this.getClass().getSimpleName());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onStart() {
-        MLogger.i(MLogger.FRAGMENT, "OnStart on "
+        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnStart on "
                 + this.getClass().getSimpleName());
         super.onStart();
     }
 
     @Override
     public void onResume() {
-        MLogger.i(MLogger.FRAGMENT, "OnResume on "
+        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnResume on "
                 + this.getClass().getSimpleName());
         super.onResume();
         mActionBarTitle.setText(getActionbarTitle());
@@ -118,21 +129,21 @@ public abstract class MultiProductBaseFragment extends Fragment implements
 
     @Override
     public void onPause() {
-        MLogger.i(MLogger.FRAGMENT, "OnPause on "
+        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnPause on "
                 + this.getClass().getSimpleName());
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        MLogger.i(MLogger.FRAGMENT, "OnStop on "
+        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnStop on "
                 + this.getClass().getSimpleName());
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        MLogger.i(MLogger.FRAGMENT, "onDestroy on "
+        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "onDestroy on "
                 + this.getClass().getSimpleName());
         getActivity().unregisterReceiver(mNetworkutility);
         super.onDestroy();
@@ -140,7 +151,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
 
     @Override
     public void onDestroyView() {
-        MLogger.i(MLogger.FRAGMENT, "OnDestroyView on "
+        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnDestroyView on "
                 + this.getClass().getSimpleName());
         super.onDestroyView();
         mPreviousPageName = setPreviousPageName();
@@ -178,21 +189,46 @@ public abstract class MultiProductBaseFragment extends Fragment implements
 
 
     protected void enableActionBarLeftArrow(ImageView hambergermenu, ImageView backarrow) {
-        MLogger.d(TAG, "BackArrow Enabled");
+        ProductSelectionLogger.d(TAG, "BackArrow Enabled");
         if (hambergermenu != null && backarrow != null) {
             backarrow.setVisibility(View.VISIBLE);
             backarrow.bringToFront();
         }
     }
 
+    protected boolean isTablet() {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        try {
+            if (getActivity().getWindowManager() != null)
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        }catch (NullPointerException e)
+        {
+            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
+        }finally {
+            float yInches = metrics.heightPixels / metrics.ydpi;
+            float xInches = metrics.widthPixels / metrics.xdpi;
+            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+            return diagonalInches >= 6.5;
+        }
+
+    }
+
+    protected ProductListDetailsTabletListener getObserver() {
+        if (mProductListDetailsTabletListener == null) {
+            mProductListDetailsTabletListener = new ProductListDetailsTabletListener(getActivity());
+        }
+
+        return mProductListDetailsTabletListener;
+    }
+
     protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {
-        MLogger.d(TAG, "Hide menu & arrow icons");
+        ProductSelectionLogger.d(TAG, "Hide menu & arrow icons");
         if (hambergermenu != null && backarrow != null) {
             hambergermenu.setVisibility(View.GONE);
             backarrow.setVisibility(View.GONE);
         }
     }
-
 
     protected void showAlert(final String message) {
         mHandler.post(new Runnable() {
@@ -236,7 +272,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        MLogger.i(TAG, TAG + " : onConfigurationChanged ");
+        ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
         setLocaleLanguage();
         getAppName();
     }
@@ -291,7 +327,30 @@ public abstract class MultiProductBaseFragment extends Fragment implements
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            MLogger.e(TAG, "IllegalStateException" + e.getMessage());
+            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    protected void replaceFragmentTablet(Fragment fragment){
+        try {
+            FragmentTransaction fragmentTransaction = mFragmentActivityContext
+                    .getSupportFragmentManager().beginTransaction();
+//            if (mEnterAnimation != 0 && mExitAnimation != 0) {
+//                fragmentTransaction.setCustomAnimations(mEnterAnimation,
+//                        mExitAnimation, mEnterAnimation, mExitAnimation);
+//            }
+
+            Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag("DetailedScreenFragment");
+            if(fragment != null)
+                fragmentTransaction.remove(fragmentDetailsTablet).commit();
+
+            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, fragment, "SavedScreenFragment");
+//            fragmentTransaction.hide(this);
+//            fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+        } catch (IllegalStateException e) {
+            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -299,7 +358,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        MLogger.d(MLogger.FRAGMENT, "onHiddenChanged : " + hidden
+        ProductSelectionLogger.d(ProductSelectionLogger.FRAGMENT, "onHiddenChanged : " + hidden
                 + " ---class " + this.getClass().getSimpleName());
         if (mContainerId == 0) {
 //            if (this.getClass().getSimpleName()
@@ -342,7 +401,7 @@ public abstract class MultiProductBaseFragment extends Fragment implements
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            MLogger.e(TAG, e.getMessage());
+            ProductSelectionLogger.e(TAG, e.getMessage());
         }
     }
 
@@ -363,13 +422,18 @@ public abstract class MultiProductBaseFragment extends Fragment implements
     }
 
     protected boolean backstackToSupportFragment() {
-        if (fragmentManager == null && mActivityContext != null) {
-            fragmentManager = mActivityContext.getSupportFragmentManager();
-        } else if (fragmentManager == null) {
-            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-        }
-        for (int i = 0; i < 5; i++) {
-            fragmentManager.popBackStack();
+
+        if (!ProductModelSelectionHelper.getInstance().isActivityInstance()) {
+            if (fragmentManager == null && mActivityContext != null) {
+                fragmentManager = mActivityContext.getSupportFragmentManager();
+            } else if (fragmentManager == null) {
+                fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+            }
+            for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+                fragmentManager.popBackStack();
+            }
+        } else {
+
         }
         return false;
     }

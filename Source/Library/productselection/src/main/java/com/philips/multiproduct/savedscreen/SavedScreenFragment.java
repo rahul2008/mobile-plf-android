@@ -1,15 +1,28 @@
 package com.philips.multiproduct.savedscreen;
 
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
+import com.philips.multiproduct.customview.CustomFontTextView;
 import com.philips.multiproduct.listfragment.ProductListingFragment;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
+import com.philips.multiproduct.listfragment.ProductListingTabletFragment;
+import com.philips.multiproduct.prx.VolleyWrapper;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 /**
  * This class holds responsible to inflate the UI of the saved screen & reselecting the product to save &
@@ -23,6 +36,15 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
     private static final String TAG = SavedScreenFragment.class.getSimpleName();
     private Button mSettings = null;
     private Button mRedirectingButton = null;
+    private LinearLayout mProductContainer = null;
+    private LinearLayout.LayoutParams mProductContainerParams;
+    private LinearLayout mProductContainer1 = null;
+    private LinearLayout.LayoutParams mProductContainerParams1;
+    private CustomFontTextView mProductName = null;
+    private CustomFontTextView mProductCtn = null;
+    private ImageView mProductImage = null;
+
+    private int mPortraitTablet = 0;
 
 
     /**
@@ -33,8 +55,22 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-          mSettings.setOnClickListener(this);
 
+        mProductContainer = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_one);
+        mProductContainerParams = (LinearLayout.LayoutParams) mProductContainer.getLayoutParams();
+        mProductContainer1 = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_two);
+        mProductContainerParams1 = (LinearLayout.LayoutParams) mProductContainer1.getLayoutParams();
+        mPortraitTablet = (int) getResources()
+                .getDimension(R.dimen.activity_margin_tablet_portrait);
+        mProductName.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle());
+        mProductCtn.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn());
+        loadProductImage(mProductImage);
+
+        mSettings.setOnClickListener(this);
+        mRedirectingButton.setOnClickListener(this);
+
+        Configuration configuration = getResources().getConfiguration();
+        setViewParams(configuration);
     }
 
 
@@ -52,16 +88,59 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
         View view = inflater.inflate(R.layout.fragment_saved_screen, container, false);
         mSettings = (Button) view.findViewById(R.id.savedscreen_button_settings);
         mRedirectingButton = (Button) view.findViewById(R.id.savedscreen_button_viewproductdetails);
+        mProductName = (CustomFontTextView) view.findViewById(R.id.savedscreen_productname);
+        mProductCtn = (CustomFontTextView) view.findViewById(R.id.savedscreen_productvariant);
+        mProductImage = (ImageView) view.findViewById(R.id.savedscreen_productimage);
         return view;
+    }
+
+
+    protected void loadProductImage(final ImageView image) {
+        String imagepath = ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getImageURL();
+        int imageWidth = (int) (getResources().getDimension(R.dimen.productdetails_screen_image) * Resources.getSystem().getDisplayMetrics().density);
+        imagepath = imagepath + "?wid=" + imageWidth + "&;";
+
+        ProductSelectionLogger.v(TAG, "Image : " + imagepath);
+
+        final ImageRequest request = new ImageRequest(imagepath,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        image.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+
+
+        VolleyWrapper.getInstance(getActivity()).addToRequestQueue(request);
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+
+        setViewParams(config);
     }
 
     @Override
     public void setViewParams(Configuration config) {
 
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
+            ProductSelectionLogger.i(TAG, "setViewParams  : portrait");
+//            mProductContainerParams.leftMargin = mProductContainerParams.rightMargin = mPortraitTablet;
+//            mProductContainerParams1.leftMargin = mProductContainerParams1.rightMargin = mPortraitTablet;
+        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
+            // Control for Split Screen Margin
+        }
+//        mProductContainer.setLayoutParams(mProductContainerParams);
     }
 
     @Override
-    public String getActionbarTitle()   {
+    public String getActionbarTitle() {
         return getResources().getString(R.string.confirmation);
     }
 
@@ -72,10 +151,22 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
 
     @Override
     public void onClick(View v) {
-
-        if (v.getId() == R.id.savedscreen_button_settings) {
-            if (isConnectionAvailable())
-                showFragment(new ProductListingFragment());
+        if (isConnectionAvailable()) {
+            if (v.getId() == R.id.savedscreen_button_settings) {
+//                if (isConnectionAvailable()) {
+                    if (isTablet()) {
+                        showFragment(new ProductListingTabletFragment());
+                    } else {
+                        showFragment(new ProductListingFragment());
+                    }
+//                }
+            } else if (v.getId() == R.id.savedscreen_button_viewproductdetails) {
+//                if (isConnectionAvailable()) {
+                    ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(ProductModelSelectionHelper.getInstance().getUserSelectedProduct());
+                    // backstackToSupportFragment();
+                    getActivity().finish();
+//                }
+            }
         }
     }
 }

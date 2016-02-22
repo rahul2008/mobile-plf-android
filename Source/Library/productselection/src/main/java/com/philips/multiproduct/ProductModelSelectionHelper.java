@@ -4,16 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.base.MultiProductActivity;
 import com.philips.multiproduct.base.ProductModelSelectionType;
+import com.philips.multiproduct.listeners.ProductModelSelectionListener;
 import com.philips.multiproduct.welcomefragment.WelcomeScreenFragment;
 import com.philips.multiproduct.component.ActivityLauncher;
 import com.philips.multiproduct.component.UiLauncher;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 import com.philips.multiproduct.utils.Constants;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
-import java.util.List;
 import java.util.Locale;
 
 
@@ -21,12 +22,16 @@ public class ProductModelSelectionHelper {
 
     private static final String TAG = ProductModelSelectionHelper.class.getSimpleName();
     private static ProductModelSelectionHelper mDigitalCareInstance = null;
-    private static List<String> mMultiProductCtn;
+    private static String[] mCtnList;
     private static Context mContext = null;
     private static Locale mLocale = null;
-    private static String mCtn = "RQ1250/17";
-    private static String mSectorCode = "B2C";
-    private static String mCatalogCode = "CONSUMER";
+    private static String mCtn = null;
+    private static String mSectorCode = null;
+    private static String mCatalogCode = null;
+    private ProductModelSelectionListener mProductSelectionListener = null;
+    private SummaryModel mUserSelectedProduct = null;
+    private boolean isActivityInstance;
+    private int mPortraitTablet= 0;
 
     public static ProductModelSelectionType mProductModelSelectionType = null;
 
@@ -69,7 +74,7 @@ public class ProductModelSelectionHelper {
      *
      * @param applicationContext Please pass the valid  Context
      */
-    public void initializeDigitalCareLibrary(Context applicationContext) {
+    public void initialize(Context applicationContext) {
         if (mContext == null) {
             ProductModelSelectionHelper.mContext = applicationContext;
 
@@ -77,17 +82,19 @@ public class ProductModelSelectionHelper {
     }
 
 
-    public void invokeProductSelectionModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+    public void invokeProductSelection(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
 
-        if (productModelSelectionType != null)
+        if (productModelSelectionType != null) {
             mProductModelSelectionType = productModelSelectionType;
-        else
+            mCatalogCode = mProductModelSelectionType.getCatalog();
+            mSectorCode = mProductModelSelectionType.getSector();
+            mCtnList = productModelSelectionType.getHardCodedProductList();
+        } else
             throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
-        if (uiLauncher instanceof ActivityLauncher)
-
+        if (uiLauncher instanceof ActivityLauncher) {
+            isActivityInstance = true;
             invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
-
-        else
+        } else
             invokeAsFragment(uiLauncher.getFragmentActivity(), uiLauncher.getLayoutResourceID(),
                     uiLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
 
@@ -116,19 +123,10 @@ public class ProductModelSelectionHelper {
                 actionbarUpdateListener, enterAnim, exitAnim);
     }
 
-    public List<String> getMultiProductCtnList() {
-        return mMultiProductCtn;
-    }
-
-    public void setMultiProductCtnList(List<String> mMultiProductSize) {
-        ProductModelSelectionHelper.mMultiProductCtn = mMultiProductSize;
-    }
-
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale before component invocation");
         }
-
         Intent intent = new Intent(this.getContext(), MultiProductActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.START_ANIMATION_ID, startAnimation);
@@ -137,12 +135,20 @@ public class ProductModelSelectionHelper {
         getContext().startActivity(intent);
     }
 
+    public void setProductListener(ProductModelSelectionListener mProductListener) {
+        this.mProductSelectionListener = mProductListener;
+    }
+
+    public ProductModelSelectionListener getProductListener() {
+        return this.mProductSelectionListener;
+    }
+
 
     public void setLocale(String langCode, String countryCode) {
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
-            MLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
+            ProductSelectionLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
         }
     }
 
@@ -156,7 +162,7 @@ public class ProductModelSelectionHelper {
     }
 
     public void setCtn(String ctn) {
-        this.mCtn = ctn;
+        mCtn = ctn;
     }
 
     public String getSectorCode() {
@@ -164,7 +170,7 @@ public class ProductModelSelectionHelper {
     }
 
     public void setSectorCode(String sectorCode) {
-        this.mSectorCode = sectorCode;
+        mSectorCode = sectorCode;
     }
 
     public String getCatalogCode() {
@@ -172,7 +178,11 @@ public class ProductModelSelectionHelper {
     }
 
     public void setCatalogCode(String catalogCode) {
-        this.mCatalogCode = catalogCode;
+        mCatalogCode = catalogCode;
+    }
+
+    public String[] getProductCtnList() {
+        return mCtnList;
     }
 
     /**
@@ -203,9 +213,21 @@ public class ProductModelSelectionHelper {
             this.value = value;
         }
 
-        private int getOrientationValue() {
+        public int getOrientationValue() {
             return value;
         }
+    }
+
+    public SummaryModel getUserSelectedProduct() {
+        return mUserSelectedProduct;
+    }
+
+    public void setUserSelectedProduct(SummaryModel summaryModel) {
+        mUserSelectedProduct = summaryModel;
+    }
+
+    public boolean isActivityInstance() {
+        return isActivityInstance;
     }
 
 

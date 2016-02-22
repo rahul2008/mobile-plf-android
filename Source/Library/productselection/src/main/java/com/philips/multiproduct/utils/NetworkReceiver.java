@@ -31,11 +31,11 @@ public class NetworkReceiver extends BroadcastReceiver {
 			NetworkInfo mActiveNetwork = mConnectionManager
 					.getActiveNetworkInfo();
 			if (mActiveNetwork != null) {
-				MLogger.v(TAG, "Connection Available");
+				ProductSelectionLogger.v(TAG, "Connection Available");
 				if (mNetworkCallback != null)
 					mNetworkCallback.onNetworkStateChanged(true);
 			} else {
-				MLogger.v(TAG, "Connection Not Available");
+				ProductSelectionLogger.v(TAG, "Connection Not Available");
 
 				if (mNetworkCallback != null)
 					mNetworkCallback.onNetworkStateChanged(false);

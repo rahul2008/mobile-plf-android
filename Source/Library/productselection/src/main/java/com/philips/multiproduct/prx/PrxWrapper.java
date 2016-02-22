@@ -2,13 +2,20 @@ package com.philips.multiproduct.prx;
 
 import android.content.Context;
 
+import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
+import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the wrapper Class , which holds responsibility to hit the PRX component by getting the relevant input's from the
@@ -20,10 +27,10 @@ public class PrxWrapper {
 
     private String TAG = PrxWrapper.class.getSimpleName();
 
-    private String mCtn = "RQ1250/17";
-    private String mSectorCode = "B2C";
-    private String mLocale = "en_GB";
-    private String mCatalogCode = "CONSUMER";
+    private String mCtn = null;
+    private String mSectorCode = null;
+    private String mLocale = null;
+    private String mCatalogCode = null;
     private Context mContext = null;
 
 
@@ -41,8 +48,8 @@ public class PrxWrapper {
 
         final ProductSummaryBuilder summaryBuilder = new ProductSummaryBuilder(mCtn, requestTag);
         summaryBuilder.setmSectorCode(mSectorCode);
-        summaryBuilder.setCatalogCode(mCatalogCode);
-        summaryBuilder.setLocale(mLocale);
+        summaryBuilder.setmCatalogCode(mCatalogCode);
+        summaryBuilder.setmLocale(mLocale);
 
         RequestManager requestManager = new RequestManager();
         requestManager.init(mContext);
@@ -50,31 +57,20 @@ public class PrxWrapper {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
 
-                MLogger.d(TAG, "Response Success for the CTN : " + mCtn);
+                ProductSelectionLogger.d(TAG, "Response Success for the CTN : " + mCtn);
                 SummaryModel summaryModel = (SummaryModel) responseData;
                 if (summaryModel.isSuccess()) {
-                    ProductData productData = new ProductData();
-                    Data summaryData = summaryModel.getData();
-                    if (summaryData.getProductTitle() != null)
-                        productData.setProductName(summaryData.getProductTitle());
 
-                    if (summaryData.getCtn() != null)
-                        productData.setProduuctVariant(summaryData.getCtn());
-
-                    if (summaryData.getImageURL() != null)
-                        productData.setImage(summaryData.getImageURL());
-
-
-                    listener.onSuccess(productData);
+                    listener.onSuccess(summaryModel);
 
                 } else
-                    MLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
+                    ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
 
             }
 
             @Override
             public void onResponseError(String s, int i) {
-                MLogger.e(TAG, "Response Failed  for the CTN : " + mCtn);
+                ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + mCtn);
                 listener.onFail(s);
             }
         });
@@ -82,5 +78,40 @@ public class PrxWrapper {
 
     }
 
+    public void requestPrxAssetData(final PrxAssetDataListener listener, final String requestTag) {
+        if (listener == null)
+            throw new IllegalStateException("PrxAssetDataListener listener is null");
 
+        final ProductAssetBuilder assetBuilder = new ProductAssetBuilder(mCtn, null);
+        assetBuilder.setmSectorCode(mSectorCode);
+        assetBuilder.setmLocale(mLocale);
+        assetBuilder.setmCatalogCode(mCatalogCode);
+
+        RequestManager requestManager = new RequestManager();
+        requestManager.init(mContext);
+        PrxLogger.enablePrxLogger(true);
+        requestManager.executeRequest(assetBuilder, new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+
+                ProductSelectionLogger.d(TAG, "Response Success for the CTN : " + mCtn);
+                AssetModel assetModel = (AssetModel) responseData;
+                if (assetModel.isSuccess()) {
+
+                    listener.onSuccess(assetModel);
+
+                } else
+                    ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
+
+            }
+
+            @Override
+            public void onResponseError(String s, int i) {
+                ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + mCtn);
+                listener.onFail(s);
+            }
+        });
+
+
+    }
 }

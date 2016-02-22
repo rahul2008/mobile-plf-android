@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
 import com.philips.multiproduct.listfragment.ProductListingFragment;
+import com.philips.multiproduct.listfragment.ProductListingTabletFragment;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.
@@ -21,6 +25,8 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment implements V
 
     private String TAG = WelcomeScreenFragment.class.getSimpleName();
     private RelativeLayout mSelectProduct = null;
+    private LinearLayout mWelcomeScreenParent = null;
+    private FrameLayout.LayoutParams mParams = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,9 +39,34 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment implements V
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        mWelcomeScreenParent = (LinearLayout) getActivity().findViewById(
+                R.id.welcome_screen_parent_one);
+        mParams = (FrameLayout.LayoutParams) mWelcomeScreenParent.getLayoutParams();
         mSelectProduct.setOnClickListener(this);
 
+        Configuration configuration = getResources().getConfiguration();
+        setViewParams(configuration);
+    }
+
+    private boolean isTabletPortrait;
+
+    @Override
+    public void setViewParams(Configuration config) {
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            isTabletPortrait = true;
+            mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+        } else {
+            isTabletPortrait = false;
+            mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+        }
+        mWelcomeScreenParent.setLayoutParams(mParams);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+
+        setViewParams(config);
     }
 
     @Override
@@ -46,15 +77,16 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment implements V
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.welcome_screen_parent_two)
-            if (isConnectionAvailable())
-                showFragment(new ProductListingFragment());
-
-    }
-
-
-    @Override
-    public void setViewParams(Configuration config) {
+        if (v.getId() == R.id.welcome_screen_parent_two) {
+            if (isConnectionAvailable()) {
+                if (isTablet() && !isTabletPortrait) {
+                    Toast.makeText(getActivity(), "Tablet", Toast.LENGTH_SHORT).show();
+                    showFragment(new ProductListingTabletFragment());
+                } else {
+                    showFragment(new ProductListingFragment());
+                }
+            }
+        }
     }
 
     @Override

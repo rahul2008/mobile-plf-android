@@ -4,8 +4,10 @@ import android.os.Bundle;
 
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
+import com.philips.multiproduct.listfragment.ProductListingFragment;
+import com.philips.multiproduct.listfragment.ProductListingTabletFragment;
 import com.philips.multiproduct.utils.Constants;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 import com.philips.multiproduct.welcomefragment.WelcomeScreenFragment;
 
 
@@ -13,6 +15,7 @@ public class MultiProductActivity extends MultiProductBaseActivity {
     private static final String TAG = MultiProductActivity.class.getSimpleName();
     private static int mEnterAnimation = -1;
     private static int mExitAnimation = -1;
+    private static boolean isFirstTimeWelcomeScreenlaunch = true;
 
 
     @Override
@@ -21,13 +24,18 @@ public class MultiProductActivity extends MultiProductBaseActivity {
         setContentView(R.layout.activity_multi_product);
 
         animateThisScreen();
-        int ctnSize = ProductModelSelectionHelper.getInstance().getMultiProductCtnList().size();
-        MLogger.d(TAG, "Size of the Ctn is : " + ctnSize);
-        if (ctnSize > 1)
+        int ctnSize = ProductModelSelectionHelper.getInstance().getProductCtnList().length;
+        ProductSelectionLogger.d(TAG, "Size of the Ctn is : " + ctnSize);
+        if (isFirstTimeWelcomeScreenlaunch) {
             showFragment(new WelcomeScreenFragment());
-        else
-            showFragment(new DirectFragment());
-
+            isFirstTimeWelcomeScreenlaunch = false;
+        } else
+            if(isTablet()) {
+                showFragment(new ProductListingTabletFragment());
+            }
+        else{
+                showFragment(new ProductListingFragment());
+            }
     }
 
     private void animateThisScreen() {

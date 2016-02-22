@@ -1,7 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/veryLightColor">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/welcome_screen_parent_one"
@@ -31,33 +30,42 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/actionbar_height"
             android:layout_marginTop="35dp"
-            android:background="#ffffff"
-            android:elevation="10dp">
+            android:background="@drawable/selector_find_product_button_bg"
+            android:elevation="10dp"
+            android:padding="2dp"  >
+            <RelativeLayout
+                android:id="@+id/welcome_screen_parent_three"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff">
 
-            <ImageView
-                android:id="@+id/welcome_screen_find_product_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:paddingLeft="@dimen/savedscreen_productcontainer_marigin"
-                android:src="@drawable/mp_search" />
+                <ImageView
+                    android:id="@+id/welcome_screen_find_product_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/savedscreen_productcontainer_marigin"
+                    android:src="@drawable/mp_search" />
 
-            <TextView
-                android:id="@+id/welcome_screen_find_product_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/welcome_screen_find_product_search"
-                android:paddingLeft="@dimen/savedscreen_productcontainer_marigin"
-                android:text="@string/mp_find_product"
-                android:textColor="?attr/baseColor"
-                android:textSize="@dimen/title_text_size_medium" />
+                <TextView
+                    android:id="@+id/welcome_screen_find_product_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/welcome_screen_find_product_search"
+                    android:paddingLeft="@dimen/savedscreen_productcontainer_marigin"
+                    android:text="@string/mp_find_product"
+                    android:textColor="?attr/baseColor"
+                    android:textSize="@dimen/title_text_size_medium" />
+            </RelativeLayout>
+<!--
 
             <com.shamanland.fonticon.FontIconTextView
                 android:id="@+id/welcome_screen_arrow"
                 style="@style/ui_kit_arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+-->
 
         </RelativeLayout>
 

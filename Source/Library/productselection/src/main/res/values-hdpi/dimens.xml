@@ -12,5 +12,6 @@
     <dimen name="savedscreen_product_variant_margin_bottom">18dp</dimen>
     <dimen name="savedscreen_product_settings_paddingleft">2.25dp</dimen>
     <dimen name="savedscreen_product_settings_buttonmargin">6dp</dimen>
+    <dimen name="savedscreen_product_imagecontainer_height">12dp</dimen>
 
 </resources>
