@@ -8,17 +8,34 @@
     }
   },
   "PILConfiguration": {
-    "MicrositeID": 81451,
+    "MicrositeID": 77000,
     "RegistrationEnvironment": "Evaluation",
     "CampaignID": "CL20150501_PC_TB_COPPA"
   },
-  "Flow":{
-    "EmailVerificationRequired" : "true"
+  "Flow": {
+    "EmailVerificationRequired": "true",
+    "TermsAndConditionsAcceptanceRequired": "true",
+    "MinimumAgeLimit": {
+      "NL": 16,
+      "GB": 16,
+      "default": 16
+    }
   },
   "SigninProviders": {
-    "default": [
+    "NL": [
       "googleplus",
-      "facebook"
+      "facebook",
+      "twitter"
+    ],
+    "US": [
+      "facebook",
+      "googleplus",
+      "twitter"
+    ],
+    "default": [
+      "facebook",
+      "googleplus",
+      "twitter"
     ]
   }
 }
