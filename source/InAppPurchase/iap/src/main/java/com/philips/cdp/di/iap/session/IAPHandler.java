@@ -24,12 +24,23 @@ import java.util.List;
 
 public class IAPHandler {
     private Context mContext;
+    static String mUserName, mPassword;
+
+    public static String getUserName() {
+        return mUserName;
+    }
+
+    public static String getPassword() {
+        return mPassword;
+    }
 
     public void initApp(Context context, String userName, String janRainID) {
         //We register with app context to avoid any memory leaks
         mContext = context.getApplicationContext();
         HybrisDelegate.getInstance(mContext).initStore(mContext, userName, janRainID);
         IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == initApp");
+        mUserName = userName;
+        mPassword = janRainID;
     }
 
     public void launchIAP(String pStoreID, String pLanguage, String pCountry, int pThemeIndex) {
