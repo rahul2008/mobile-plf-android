@@ -37,14 +37,6 @@ import com.philips.multiproduct.component.UiLauncher;
 import com.philips.multiproduct.listeners.ProductModelSelectionListener;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
-
-import java.util.Arrays;
-import java.util.List;
-
-//import com.philips.
-
 
 /**
  * SupportHomeFragment is the first screen of Support app. This class will give
@@ -329,38 +321,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity().getApplicationContext());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
-//            if (isConnectionAvailable())
-            launchMultiProductAsActivity();
-        }
 
-
-    private void launchMultiProductAsActivity() {
-        mConfigManager = ProductModelSelectionHelper.getInstance();
-        mConfigManager.initialize(getActivity().getApplicationContext());
-        mConfigManager.setLocale("en", "GB");
-
-
-        List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
-        String[] ctnList = new String[mCtnList.size()];
-        for (int i = 0; i < mCtnList.size(); i++)
-            ctnList[i] = mCtnList.get(i);
-
-        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
-
-        //productsSelection.setHardCodedProductList(ctnList);
-        UiLauncher uiLauncher = new ActivityLauncher();
-        uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-        uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-        ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
-        ProductSelectionLogger.enableLogging();
-    }
-
-
-
-   /* private void addDummyData() {
->>>>>>> 7bf53c152ad894625d6cb7ae5c472e9f34671287
 
         UiLauncher uiLauncher = new ActivityLauncher();
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
@@ -386,7 +347,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 .getProductModelSelectionType());
         ProductSelectionLogger.enableLogging();
     }
-*/
+
 
     @Override
     public String getActionbarTitle() {
