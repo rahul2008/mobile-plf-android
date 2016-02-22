@@ -48,8 +48,8 @@ public class PrxWrapper {
 
         final ProductSummaryBuilder summaryBuilder = new ProductSummaryBuilder(mCtn, requestTag);
         summaryBuilder.setmSectorCode(mSectorCode);
-        summaryBuilder.setmCatalogCode(mCatalogCode);
-        summaryBuilder.setmLocale(mLocale);
+        summaryBuilder.setCatalogCode(mCatalogCode);
+        summaryBuilder.setLocale(mLocale);
 
         RequestManager requestManager = new RequestManager();
         requestManager.init(mContext);
@@ -84,8 +84,8 @@ public class PrxWrapper {
 
         final ProductAssetBuilder assetBuilder = new ProductAssetBuilder(mCtn, null);
         assetBuilder.setmSectorCode(mSectorCode);
-        assetBuilder.setmLocale(mLocale);
-        assetBuilder.setmCatalogCode(mCatalogCode);
+        assetBuilder.setLocale(mLocale);
+        assetBuilder.setCatalogCode(mCatalogCode);
 
         RequestManager requestManager = new RequestManager();
         requestManager.init(mContext);
