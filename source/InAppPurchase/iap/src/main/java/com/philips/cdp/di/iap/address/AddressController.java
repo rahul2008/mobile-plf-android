@@ -84,17 +84,13 @@ public class AddressController implements AbstractModel.DataLoadListener {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.ADDRESS_ID, addressId);
 
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         DeleteAddressRequest model = new DeleteAddressRequest(getStore(), query, this);
-
         getHybrisDelegate().sendRequest(RequestCode.DELETE_ADDRESS, model, model);
     }
 
     public void updateAddress(HashMap<String, String> query) {
 
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         UpdateAddressRequest model = new UpdateAddressRequest(getStore(), query, this);
-
         getHybrisDelegate().sendRequest(RequestCode.UPDATE_ADDRESS, model, model);
     }
 
