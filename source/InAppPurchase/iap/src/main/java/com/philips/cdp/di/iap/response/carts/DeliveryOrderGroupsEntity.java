@@ -12,14 +12,6 @@ public class DeliveryOrderGroupsEntity {
 
     private List<EntriesEntity> entries;
 
-    public void setTotalPriceWithTax(Price totalPriceWithTax) {
-        this.totalPriceWithTax = totalPriceWithTax;
-    }
-
-    public void setEntries(List<EntriesEntity> entries) {
-        this.entries = entries;
-    }
-
     public Price getTotalPriceWithTax() {
         return totalPriceWithTax;
     }

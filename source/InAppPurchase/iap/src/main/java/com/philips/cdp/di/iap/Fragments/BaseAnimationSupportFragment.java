@@ -9,6 +9,7 @@ Project           : InAppPurchase
 package com.philips.cdp.di.iap.Fragments;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -18,7 +19,7 @@ import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
-public abstract class BaseAnimationSupportFragment extends BaseNoAnimationFragment {
+public abstract class BaseAnimationSupportFragment extends Fragment {
 
     private String mUnderlyingFragmentTag = null;
 
@@ -81,7 +82,7 @@ public abstract class BaseAnimationSupportFragment extends BaseNoAnimationFragme
                 IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "Animation ended for fragment - "
                         + BaseAnimationSupportFragment.this.getClass().getSimpleName());
                 animation.setAnimationListener(null);
-                removeUnderlyingFragment(getActivity(), mUnderlyingFragmentTag);
+                // removeUnderlyingFragment(getActivity(), mUnderlyingFragmentTag);
             }
         });
         return animation;
@@ -117,13 +118,19 @@ public abstract class BaseAnimationSupportFragment extends BaseNoAnimationFragme
         }
     }
 
-//    public boolean removeUnderlyingFragment(Activity activity, String tag) {
-//        if (activity == null || !(activity )) return false;
-//        if (tag == null || tag.isEmpty()) return false;
-//
-//        (activity).removeFragment(tag);
-//        return true;
-//    }
+    protected abstract void updateTitle();
+
+    protected void setTitle(int pResourceId) {
+        getMainActivity().setHeaderTitle(pResourceId);
+    }
+
+    public MainActivity getMainActivity() {
+        Activity activity = getActivity();
+        if (activity != null && (activity instanceof MainActivity)) {
+            return (MainActivity) activity;
+        }
+        return null;
+    }
 
     public void setUnderlyingFragmentTag(String tag) {
         mUnderlyingFragmentTag = tag;

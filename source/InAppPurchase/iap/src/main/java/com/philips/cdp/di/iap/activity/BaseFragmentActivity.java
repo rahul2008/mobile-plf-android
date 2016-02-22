@@ -35,7 +35,8 @@ public class BaseFragmentActivity extends UiKitActivity {
         String newFragmentTag = generateFragmentTag(newFragment);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
         transaction.commit();
 
         IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
@@ -95,14 +96,9 @@ public class BaseFragmentActivity extends UiKitActivity {
         if (backNavigationHandled) {
             return;
         }
-        if (topFragment instanceof EmptyCartFragment) {
+        if (topFragment instanceof EmptyCartFragment || topFragment instanceof ShoppingCartFragment) {
             this.finish();
         }
-        if (!(topFragment instanceof ShoppingCartFragment)) {
-            addFragmentAndRemoveUnderneath(
-                    ShoppingCartFragment.createInstance(BaseAnimationSupportFragment.AnimationType.NONE), false);
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 }

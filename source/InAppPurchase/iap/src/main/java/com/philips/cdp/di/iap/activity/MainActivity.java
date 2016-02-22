@@ -73,11 +73,6 @@ public class MainActivity extends BaseFragmentActivity {
         mTitleTextView.setText(pTitle);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
     public void showBackButton() {
         backButton.setVisibility(View.VISIBLE);
     }

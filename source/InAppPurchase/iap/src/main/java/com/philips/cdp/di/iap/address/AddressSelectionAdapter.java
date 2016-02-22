@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 import com.philips.cdp.uikit.customviews.UIKitRadioButton;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -24,6 +26,7 @@ import java.util.Locale;
 
 public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> {
     private final static String NEW_LINE = "\n";
+
     private Context mContext;
     private List<Addresses> mAddresses;
 
@@ -85,7 +88,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         newAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Toast.makeText(mContext, "Not implemented",Toast.LENGTH_SHORT).show();
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.SHIPPING_ADDRESS_FRAGMENT);
             }
         });
     }
@@ -95,6 +98,8 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
             @Override
             public void onClick(final View v) {
                 Addresses addr = mAddresses.get(position);
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.ORDER_SUMMARY_FRAGMENT);
+                Toast.makeText(mContext, "Not implemented", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -87,10 +87,7 @@
             style="@style/tvTitle"
             android:layout_alignBaseline="@id/text2value"
             android:layout_marginRight="3dp"
-            android:text="from"
-            />
-
-
+            android:text="from"/>
     </RelativeLayout>
 
 </RelativeLayout>

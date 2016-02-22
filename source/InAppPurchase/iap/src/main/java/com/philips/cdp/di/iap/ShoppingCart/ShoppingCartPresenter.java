@@ -6,7 +6,6 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Message;
 import android.widget.Toast;
 
@@ -32,7 +31,6 @@ public class ShoppingCartPresenter {
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
-    private Resources mResources;
     private HybrisDelegate mHybrisDelegate;
     private Store mStore;
 
@@ -44,7 +42,6 @@ public class ShoppingCartPresenter {
         mContext = context;
         mProductData = new ArrayList<ShoppingCartData>();
         mLoadListener = listener;
-        mResources = mContext.getResources();
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {

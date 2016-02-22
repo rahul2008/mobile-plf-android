@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.view;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -28,7 +27,7 @@ public class EditDeletePopUP {
 
     UIKitListPopupWindow mPopUp;
     boolean mDisableDelete;
-        AdapterView.OnItemClickListener mListener = new AdapterView.OnItemClickListener() {
+    AdapterView.OnItemClickListener mListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
             String event = position == OPTION_EDIT ? EVENT_EDIT : EVENT_DELETE;
@@ -58,8 +57,8 @@ public class EditDeletePopUP {
         String delete = context.getResources().getString(R.string.iap_delete);
         String[] desc = {edit, delete};
         rowItems.add(new RowItem(VectorDrawable.create(context, R.drawable.iap_edit_icon_17x17), desc[0]));
-        if(!mDisableDelete) {
-            rowItems.add(new RowItem(ContextCompat.getDrawable(context, R.drawable.iap_trash_bin), desc[1]));
+        if (!mDisableDelete) {
+            rowItems.add(new RowItem(VectorDrawable.create(context, R.drawable.iap_trash_bin), desc[1]));
         }
         return rowItems;
     }

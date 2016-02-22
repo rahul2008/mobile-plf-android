@@ -17,19 +17,27 @@ public class NetworkConstants {
     public static final String CLIENT_ID = "mobile_android";
     public static final String CLIENT_SECRET = "secret";*/
 
-    /**Cart Url**/
+    /**
+     * Cart Url
+     **/
     public static final String GET_CURRENT_CART_URL = BASE_URL + "carts?fields=FULL";
     public static final String CREATE_CART_URL = BASE_URL + "carts";
     public static final String ADD_TO_CART_URL = BASE_URL + CURRENT_CART + "/entries";
     public static final String DELETE_PRODUCT_URL = BASE_URL + CURRENT_CART + "/entries/%s";
     public static final String UPDATE_QUANTITY_URL = BASE_URL + CURRENT_CART + "/entries/%s";
 
-    /**Address Url**/
+    /**
+     * Address Url
+     **/
     public static final String ADDRESS_URL = BASE_URL + "addresses";
-    /**Update Address Url**/
+    /**
+     * Update Address Url
+     **/
     public static final String UPDATE_OR_DELETE_ADDRESS_URL = ADDRESS_URL + "/%s";
 
-    /**Prx data**/
+    /**
+     * Prx data
+     **/
     public static String PRX_SECTOR_CODE = "B2C";
     public static String PRX_LOCALE = "en_US";
     public static String PRX_CATALOG_CODE = "CONSUMER";

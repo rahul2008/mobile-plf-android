@@ -14,17 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
+import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
@@ -55,7 +57,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-
+        EventHelper.getInstance().registerEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
+        EventHelper.getInstance().registerEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
         return view;
     }
 
@@ -70,7 +73,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShoppingCart() {
-
+        getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
     }
 
     private void sendShippingAddressesRequest() {
@@ -84,6 +87,21 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         super.onActivityCreated(savedInstanceState);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mAddressListView.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTitle();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
+        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
     }
 
     @Override
@@ -133,12 +151,20 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onEventReceived(final String event) {
+        IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onEventReceived = " + event);
         if (!TextUtils.isEmpty(event)) {
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
                 editShippingAddress();
             } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
                 deleteShippingAddress();
             }
+        }
+        if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
+            getMainActivity().addFragmentAndRemoveUnderneath(
+                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+        }
+        if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
+            getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
     }
 
@@ -149,7 +175,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             int pos = mAdapter.getOptionsClickPosition();
             mAddrController.deleteAddress(mAddresses.get(pos).getId());
         } else {
-            Utility.showNetworkError(getContext(), false);
+            NetworkUtility.getInstance().showNetworkError(getContext());
         }
     }
 

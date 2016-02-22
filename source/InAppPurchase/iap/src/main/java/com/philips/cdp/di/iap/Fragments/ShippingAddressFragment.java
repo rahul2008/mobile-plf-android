@@ -25,6 +25,7 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
@@ -121,6 +122,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateTitle();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -167,18 +174,18 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     updateToHybrisTheFeilds();
                 }
                 }else{
-                    Utility.showNetworkError(mContext,false);
+                    NetworkUtility.getInstance().showNetworkError(mContext);
                 }
             } else if (!Utility.isProgressDialogShowing()) {
                 if (Utility.isInternetConnected(mContext)) {
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     mAddressController.createAddress(mAddressFields);
                 } else {
-                    Utility.showNetworkError(mContext, false);
+                    NetworkUtility.getInstance().showNetworkError(mContext);
                 }
             }
         } else if (v == mBtnCancel) {
-
+            getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
     }
 
