@@ -19,7 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
+//import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.multiproduct.ProductModelSelectionHelper;
@@ -37,7 +37,7 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
     private static String TAG = MultiProductBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
-    private static ThemeUtils themeUtils;
+//    private static ThemeUtils themeUtils;
     private int noActionBarTheme = 0;
 
     @Override
@@ -48,22 +48,22 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
         ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
 
-        if (themeUtils == null) {
-            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
-                    Context.MODE_PRIVATE));
-        }
-        setTheme(themeUtils.getTheme());
+//        if (themeUtils == null) {
+//            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
+//                    Context.MODE_PRIVATE));
+//        }
+//        setTheme(themeUtils.getTheme());
         initActionBar();
     }
 
-    protected ThemeUtils getUiKitThemeUtil(){
-        if (themeUtils == null) {
-            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
-                    Context.MODE_PRIVATE));
-        }
-
-        return themeUtils;
-    }
+//    protected ThemeUtils getUiKitThemeUtil(){
+//        if (themeUtils == null) {
+//            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
+//                    Context.MODE_PRIVATE));
+//        }
+//
+//        return themeUtils;
+//    }
 
     private void initActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
@@ -114,11 +114,11 @@ public abstract class MultiProductBaseActivity extends UiKitActivity {
 
     }
 
-    protected void setNoActionBarTheme() {
-        themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
-                Context.MODE_PRIVATE));
-        noActionBarTheme = themeUtils.getNoActionBarTheme();
-    }
+//    protected void setNoActionBarTheme() {
+//        themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
+//                Context.MODE_PRIVATE));
+//        noActionBarTheme = themeUtils.getNoActionBarTheme();
+//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

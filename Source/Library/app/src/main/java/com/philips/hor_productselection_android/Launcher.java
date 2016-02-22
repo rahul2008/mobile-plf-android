@@ -152,29 +152,29 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
                 break;
 
             case R.id.change_theme:
-                String preferences = null;
-                int themeValue = (int) (Math.random() * (4 - 0)) + 0;
-                switch (themeValue) {
-                    case 0:
-                        getUiKitThemeUtil().setThemePreferences(false);
-                        break;
-                    case 1:
-                        preferences = "blue|false|solid|0";
-                        getUiKitThemeUtil().setThemePreferences(preferences);
-                        break;
-                    case 2:
-                        preferences = "orange|false|solid|0";
-                        getUiKitThemeUtil().setThemePreferences(preferences);
-                        break;
-
-                    case 3:
-                        preferences = "aqua|false|solid|0";
-                        getUiKitThemeUtil().setThemePreferences(preferences);
-                        break;
-                }
-
-                relaunchActivity();
-                break;
+//                String preferences = null;
+//                int themeValue = (int) (Math.random() * (4 - 0)) + 0;
+//                switch (themeValue) {
+//                    case 0:
+//                        getUiKitThemeUtil().setThemePreferences(false);
+//                        break;
+//                    case 1:
+//                        preferences = "blue|false|solid|0";
+//                        getUiKitThemeUtil().setThemePreferences(preferences);
+//                        break;
+//                    case 2:
+//                        preferences = "orange|false|solid|0";
+//                        getUiKitThemeUtil().setThemePreferences(preferences);
+//                        break;
+//
+//                    case 3:
+//                        preferences = "aqua|false|solid|0";
+//                        getUiKitThemeUtil().setThemePreferences(preferences);
+//                        break;
+//                }
+//
+//                relaunchActivity();
+//                break;
         }
     }
 
@@ -196,8 +196,8 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
 
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(this);
+        mProductSelectionHelper.setTheme(R.style.multiprod_theme);
         mProductSelectionHelper.setLocale("en", "GB");
-
 
         UiLauncher uiLauncher = new ActivityLauncher();
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
@@ -209,10 +209,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
                     SummaryModel summaryModel = productSummaryModel;
                     productInfo.setCtn(summaryModel.getData().getCtn());
 
-
                     Toast.makeText(getApplicationContext(), " Product Selected By User", Toast.LENGTH_SHORT).show();
-
-
                 }
             }
         });

@@ -46,14 +46,14 @@ public class SampleActivity extends MultiProductBaseActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        setNoActionBarTheme();
+//        setNoActionBarTheme();
         Log.i(TAG, " Multiproduct - SampleActivity onCreate");
 
         /*
         This module is integrated with Philips Standard UI_Kit. So here Theme is as per UI_Kit only. Vertical apps are free to use
         their apps specific themes.
          */
-        setTheme(getUiKitThemeUtil().getTheme());
+//        setTheme(getUiKitThemeUtil().getTheme());
 
         setContentView(R.layout.activity_multiproduct_sample);
        /* DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,

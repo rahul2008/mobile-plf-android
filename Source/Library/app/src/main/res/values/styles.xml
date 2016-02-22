@@ -24,6 +24,9 @@
         <item name="android:padding">10dip</item>
     </style>
 
+    <!--UI Kit Theme-->
+    <style name="multiprod_theme" parent="Theme.Philips.BrightOrange.Gradient.WhiteBackground"/>
+
     <style name="style_text_cardview">
 
         <item name="android:background">@drawable/header_ctn_background</item>

@@ -30,9 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/actionbar_height"
             android:layout_marginTop="35dp"
-            android:background="@drawable/selector_find_product_button_bg"
-            android:elevation="10dp"
-            android:padding="2dp"  >
+            android:padding="1dp"
+            android:background="@drawable/selector_find_product_button_bg">
             <RelativeLayout
                 android:id="@+id/welcome_screen_parent_three"
                 android:layout_width="match_parent"
