@@ -15,6 +15,9 @@ import com.philips.multiproduct.ProductModelSelectionHelper;
  */
 public class FragmentBuilder extends UiLauncher {
 
+    public FragmentBuilder(ProductModelSelectionHelper.ActivityOrientation screenOrientation) {
+        super.mScreenOrientation = screenOrientation;
+    }
 
     @Override
     public void setAnimation(int enterAnimation, int exitAnimation) {

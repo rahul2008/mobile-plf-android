@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.component.ActivityLauncher;
+import com.philips.cdp.digitalcare.component.FragmentBuilder;
 import com.philips.cdp.digitalcare.component.UiLauncher;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
@@ -58,7 +59,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     private ImageButton mAddButton = null;
     private RecyclerView mRecyclerView = null;
 
-    private static ArrayList<String> mList = null;
+    public static ArrayList<String> mList = null;
     private SampleAdapter adapter = null;
 
 
@@ -79,7 +80,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
         // set listener
         mLaunchDigitalCare.setOnClickListener(this);
-        // mLaunchAsFragment.setOnClickListener(this);
+        mLaunchAsFragment.setOnClickListener(this);
 
         // setting language spinner
         mLanguage_spinner = (Spinner) findViewById(R.id.spinner1);
@@ -173,7 +174,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         }
 
         if (mFragmentButtonSelected) {
-            mLaunchAsFragment.setVisibility(View.GONE);
+            mLaunchAsFragment.setVisibility(View.VISIBLE);
         } else {
             mLaunchAsFragment.setVisibility(View.INVISIBLE);
         }
@@ -301,7 +302,17 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
                 if (setConsumerProductInfo()) {
-                    //  startActivity(new Intent(this, SampleActivity.class));
+                      startActivity(new Intent(this, SampleActivity.class));
+//                    String[] ctnList = new String[mList.size()];
+//                    for (int i = 0; i < mList.size(); i++)
+//                        ctnList[i] = mList.get(i);
+//                    ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
+//                    productsSelection.setCatalog(Catalog.CARE);
+//                    productsSelection.setSector(Sector.B2C);
+//
+//                    FragmentBuilder fragmentLauncher = new FragmentBuilder(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+//                    fragmentLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+//                    DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragmentLauncher, productsSelection);
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Set Consumer Product Info", Toast.LENGTH_SHORT).show();
                 }

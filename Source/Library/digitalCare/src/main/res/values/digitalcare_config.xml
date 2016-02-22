@@ -62,7 +62,7 @@
         <item>@drawable/find_philips_near_you</item>
         <item>@drawable/feedback</item>
         <item>@drawable/philips_logo</item>
-        <item>@drawable/philips_logo</item>
+        <item>@drawable/product_selection</item>
     </array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->

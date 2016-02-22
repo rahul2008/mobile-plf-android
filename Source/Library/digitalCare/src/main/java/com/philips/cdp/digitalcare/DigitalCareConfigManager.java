@@ -127,7 +127,7 @@ public class DigitalCareConfigManager {
                                              int parentContainerResId,
                                              ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
                                              int exitAnim) {
-        if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
+        if (mContext == null ||/* mConsumerProductInfo == null ||*/ mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
 

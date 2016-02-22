@@ -46,8 +46,7 @@
             android:background="@drawable/blue_button"
             android:text="@string/launch_button_as_fragment"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:visibility="invisible" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView2"

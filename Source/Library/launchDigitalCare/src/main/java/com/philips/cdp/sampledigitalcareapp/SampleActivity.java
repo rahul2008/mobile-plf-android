@@ -1,4 +1,3 @@
-/*
 package com.philips.cdp.sampledigitalcareapp;
 
 import android.os.Bundle;
@@ -16,14 +15,18 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.component.FragmentBuilder;
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
+import com.philips.multiproduct.ProductModelSelectionHelper;
+import com.philips.multiproduct.base.ProductModelSelectionType;
+import com.philips.multiproduct.productselection.HardcodedProductList;
 
-*/
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
  *
  * @author : Ritesh.jha@philips.com
- * @since : 6 Aug 2015
- *//*
+ * @since : 6 Aug 2015*/
+
 
 public class SampleActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = SampleActivity.class.getSimpleName();
@@ -50,17 +53,33 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         DigiCareLogger.i(TAG, " SampleActivity onCreate");
         setContentView(R.layout.activity_sample);
-       */
-/* DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
-                R.anim.slide_in_bottom, R.anim.slide_out_bottom);*//*
 
-        FragmentBuilder componentBuilder = new FragmentBuilder();
-        componentBuilder.setActionbarUpdateListener(actionBarClickListener);
-        componentBuilder.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-        componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
-        componentBuilder.setFragmentActivity(this);
+        String[] ctnList = new String[LaunchDigitalCare.mList.size()];
+        for (int i = 0; i < LaunchDigitalCare.mList.size(); i++)
+            ctnList[i] = LaunchDigitalCare.mList.get(i);
+        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
+        productsSelection.setCatalog(Catalog.CARE);
+        productsSelection.setSector(Sector.B2C);
 
-        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(componentBuilder);
+        FragmentBuilder fragmentLauncher = new FragmentBuilder(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        fragmentLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+        fragmentLauncher.setActionbarUpdateListener(actionBarClickListener);
+        fragmentLauncher.setmLayoutResourceID(R.id.sampleMainContainer);
+        fragmentLauncher.setFragmentActivity(this);
+        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragmentLauncher, productsSelection);
+
+
+
+//        DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
+//                R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+//
+//        FragmentBuilder componentBuilder = new FragmentBuilder();
+//        componentBuilder.setActionbarUpdateListener(actionBarClickListener);
+//        componentBuilder.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+//        componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
+//        componentBuilder.setFragmentActivity(this);
+//
+//        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(componentBuilder);
         try {
             initActionBar();
         } catch (ClassCastException e) {
@@ -135,4 +154,3 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
             backstackFragment();
     }
 }
-*/

@@ -6,8 +6,7 @@ apply plugin: 'maven'
 
 buildscript {
     repositories {
-        jcenter()
-
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
@@ -15,7 +14,7 @@ buildscript {
                 password = "readonly"
             }
         }
-        mavenCentral()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
     }
 
     dependencies {
@@ -25,19 +24,23 @@ buildscript {
     }
 }
 
-apply plugin: 'com.android.library'
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 
+repositories {
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android' }
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 14
         versionName objcdp.getVersionWithHash()
         targetSdkVersion 23
         renderscriptTargetApi 23
@@ -64,22 +67,75 @@ android {
     }
 }
 
+//maven configuration stuff required for artifactory plugin
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory' /* I
+am working to fetch this url also via api */
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryRepoKey('android')
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = true
+            maven = true
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local-android'
+        }
+    }
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    def docpath = """git rev-parse --show-toplevel""".execute().text.trim()
+    def docfiles = docpath + File.separator + "Documents"+ File.separator + "External"
+    from files(docfiles) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
+
+task install (type: Upload) {
+    repositories.mavenInstaller {
+        pom.version = project.version
+        pom.artifactId = project.name
+        pom.groupId = project.group
+        pom.packaging = "zip"
+    }
+    configuration = project.configurations.getByName(Dependency.ARCHIVES_CONFIGURATION)
+}
+artifactoryPublish.dependsOn install
+
 dependencies {
-    compile project(':adobeMobileLibrary')
-    compile project(':localeMatch-v1.1.0')
-    compile project(':gson')
-    compile project(':Prx')
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:+'
-    compile project(':multiproduct')
-    compile 'com.google.android.gms:play-services:+'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.google.android.gms:play-services:6.1.+'
+    compile 'com.android.support:appcompat-v7:23+'
+    compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.5.1', ext: 'jar')
+    compile(group: 'com.google.code.gson', name: 'gson', version: '2.2.2')
+    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.1', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'prx', version: '1.0.1', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'multi-selection', version: '1.0.4', ext: 'aar')
     compile 'com.mcxiaoke.volley:library:1.0.17'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.9.5'
     compile 'com.philips.cdp:uikitLib:1.0.0'
-    /*compile 'com.philips.cdp:multi-selection:1.0.2'*/
+    //compile 'com.philips.cdp:multi-selection:1.0.2'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.shamanland:fonticon:0.1.8'
     compile 'com.android.support:support-v4:23.1.1'
+ 
 }
 
 
@@ -114,56 +170,4 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         xml.enabled = true
         html.enabled = false
     }
-}
-
-//maven configuration stuff required for artifactory plugin
-group = 'com.philips.cdp'
-version = objcdp.getVersion()
-
-artifactory {
-    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory' /* I
-am working to fetch this url also via api */
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryRepoKey('android')
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            publishPom = true
-            publishIvy = false
-            publishBuildInfo = true
-            maven = true
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'libs-release-local-android'
-        }
-    }
-}
-
-
-sourceSets {
-    main {
-        java {
-            srcDirs '../../Source/Hor-productselection-android/app/src/main/java'
-        }
-        resources {
-
-            srcDirs '../../Source/Hor-productselection-android/app/src/main/res'
-        }
-    }
-}
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.java.srcDirs
-    // from('../../Source/SampleDigitalCare/launchDigitalCare/src/main/res')
-    classifier 'sources'
-}
-
-artifactoryPublish {
-    dependsOn sourceJar
-}
-
-artifacts {
-    archives sourceJar
 }

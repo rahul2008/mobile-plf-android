@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -56,8 +55,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private int RegisterButtonMarginTop = 0;
     private boolean mIsFirstScreenLaunch = false;
     private View mView = null;
+    private RelativeLayout mProductDetailsLayout = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
-    private static boolean isFirstTimeProductComponenetlaunch = true;
+    private static boolean isFirstTimeProductComponentlaunch = true;
     private static ProductSelectionProductInfo productInfo = null;
     private PrxProductData mPrxProductData = null;
 
@@ -70,11 +70,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
 
         productInfo = new ProductSelectionProductInfo();
-        productInfo.setSector(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getSector());
-        productInfo.setCatalog(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getCatalog());
-        if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1)
-            productInfo.setCtn(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList()[0]);
-        DigitalCareConfigManager.getInstance().setConsumerProductInfo(productInfo);
+        if (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) {
+            productInfo.setSector(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getSector());
+            productInfo.setCatalog(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getCatalog());
+            if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1)
+                productInfo.setCtn(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList()[0]);
+            DigitalCareConfigManager.getInstance().setConsumerProductInfo(productInfo);
+        }
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
                 if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
@@ -176,7 +178,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         relativeLayout.setLayoutParams(params);
 
-        if (buttonTitle.equals(getStringKey(R.string.sign_into_my_philips))) {
+        if (buttonTitle.equals(getStringKey(R.string.product_selection))) {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
 
@@ -184,6 +186,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_button_bg);
         }
+
+        if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 0) && (buttonTitle.equals(getStringKey(R.string.product_selection))))
+            return null;
 
           /*
             If PRX response is fail/unsuccess then disable "View Product Button".
@@ -193,7 +198,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         if ((buttonTitle == null) || (buttonTitle.equalsIgnoreCase(viewProductText) && (model == null || model.getCtnName() == null || model
                 .getProductName() == null))) {
-            return null;
+            mProductDetailsLayout = relativeLayout;
+            mProductDetailsLayout.setVisibility(View.GONE);
+            // return null;
         }
 
         return relativeLayout;
@@ -205,7 +212,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
                 .getLayoutParams();
 
-        if (buttonTitle.equals(getStringKey(R.string.sign_into_my_philips))) {
+        if (buttonTitle.equals(getStringKey(R.string.product_selection))) {
             param.topMargin = RegisterButtonMarginTop;
         } else {
             param.topMargin = ButtonMarginTop;
@@ -266,9 +273,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
-        if (isFirstTimeProductComponenetlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
+        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
             launchProductSelectionActivityComponent();
-            isFirstTimeProductComponenetlaunch = false;
+            isFirstTimeProductComponentlaunch = false;
         }
     }
 
@@ -325,7 +332,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 if (productSummaryModel != null) {
                     SummaryModel summaryModel = productSummaryModel;
                     productInfo.setCtn(summaryModel.getData().getCtn());
-                    //  mPrxProductData.executeRequests();
+                    mProductDetailsLayout.setVisibility(View.VISIBLE);
+
+                    if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
+                            DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null) {
+                        mPrxProductData = new PrxProductData(getActivity(), null);
+                        mPrxProductData.executeRequests();
+                    }
+
                 }
             }
         });

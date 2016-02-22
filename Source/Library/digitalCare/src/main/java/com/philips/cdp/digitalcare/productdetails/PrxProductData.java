@@ -111,8 +111,8 @@ public class PrxProductData {
     public ProductSummaryBuilder getPrxSummaryData() {
         ProductSummaryBuilder mProductSummaryBuilder = new ProductSummaryBuilder(mCtn, null);
         mProductSummaryBuilder.setmSectorCode(mSectorCode);
-        mProductSummaryBuilder.setmLocale(mLocale);
-        mProductSummaryBuilder.setmCatalogCode(mCatalogCode);
+        mProductSummaryBuilder.setLocale(mLocale);
+        mProductSummaryBuilder.setCatalogCode(mCatalogCode);
 
         return mProductSummaryBuilder;
     }
@@ -120,8 +120,8 @@ public class PrxProductData {
     public ProductAssetBuilder getPrxAssetData() {
         ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder(mCtn, null);
         mProductAssetBuilder.setmSectorCode(mSectorCode);
-        mProductAssetBuilder.setmLocale(mLocale);
-        mProductAssetBuilder.setmCatalogCode(mCatalogCode);
+        mProductAssetBuilder.setLocale(mLocale);
+        mProductAssetBuilder.setCatalogCode(mCatalogCode);
 
         return mProductAssetBuilder;
     }
@@ -147,7 +147,8 @@ public class PrxProductData {
                         mProductDetailsObject.setProductImage(data.getImageURL());
                         mProductDetailsObject.setProductInfoLink(data.getProductURL());
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                        mPrxCallback.onResponseReceived(true);
+                        if (mPrxCallback != null)
+                            mPrxCallback.onResponseReceived(true);
                     }
                     if (mSummaryDialog != null && mSummaryDialog.isShowing())
                         mSummaryDialog.cancel();
@@ -158,7 +159,8 @@ public class PrxProductData {
             public void onResponseError(String error, int statuscode) {
                 DigiCareLogger.e(TAG, "Summary Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
-                mPrxCallback.onResponseReceived(false);
+                if (mPrxCallback != null)
+                    mPrxCallback.onResponseReceived(false);
                 if (mSummaryDialog != null && mSummaryDialog.isShowing())
                     mSummaryDialog.cancel();
             }

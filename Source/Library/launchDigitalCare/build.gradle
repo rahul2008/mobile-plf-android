@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 apply from: '../extra/calabash.gradle'
 
+repositories {
+    maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -29,13 +33,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 138
-            versionName "3.0.2"
+            versionCode 139
+            versionName "3.0.3"
         }
         device {
             applicationId 'com.philips.cdp.sampledigitalcareapp'
-            versionCode 138
-            versionName "3.0.2"
+            versionCode 139
+            versionName "3.0.3"
         }
     }
 
@@ -53,10 +57,6 @@ dependencies {
     compile project(':digitalCare')
     compile 'com.google.android.gms:play-services:+'
     compile files('libs/HockeySDK-3.0.2.jar')
-    /*
-         * This is for Philips Stndard UI_Kit Artifactory.
-         */
-    //    compile 'com.philips.cdp:uikitLib:1.0.0'
     compile 'com.android.support:recyclerview-v7:23.1.1'
 }
 
@@ -93,21 +93,4 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 }
 
-
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-//
-///*
-// * This is for Philips Stndard UI_Kit Artifactory.
-// */
-//allprojects {
-//    repositories {
-//        maven {
-//            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
-//        }
-//    }
-//}
 
