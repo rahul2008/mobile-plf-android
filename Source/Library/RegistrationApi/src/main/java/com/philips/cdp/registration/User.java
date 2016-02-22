@@ -278,6 +278,7 @@ public class User {
         profile.setPassword(password);
         profile.setOlderThanAgeLimit(olderThanAgeLimit);
         profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
+        ABCD.getInstance().setmP(password);
         final TraditionalRegistrationHandler traditionalRegistrationHandler = new TraditionalRegistrationHandler() {
             @Override
             public void onRegisterSuccess() {
@@ -977,10 +978,11 @@ public class User {
                     DIUserProfile userProfile = getDIUserProfileFromDisk();
                     HsdpUser hsdpUser = new HsdpUser(context);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-                    if (userProfile != null && null != userProfile.getEmail() && null != userProfile.getPassword() && hsdpUserRecord == null) {
-                        loginIntoHsdp(userProfile.getEmail(), userProfile.getPassword(), new TraditionalLoginHandler() {
+                    if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
+                        loginIntoHsdp(userProfile.getEmail(), ABCD.getInstance().getmP(), new TraditionalLoginHandler() {
                             @Override
                             public void onLoginSuccess() {
+                                ABCD.getInstance().setmP(null);
                                 handler.onRefreshUserSuccess();
                             }
 
