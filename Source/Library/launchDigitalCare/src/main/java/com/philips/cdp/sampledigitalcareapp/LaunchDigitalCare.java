@@ -34,9 +34,6 @@ import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.productselection.HardcodedProductList;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.CrashManagerListener;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -318,17 +315,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 }
                 break;
         }
-    }
-
-    private void registerHockeyApp() {
-        /** Should be commented for debug builds */
-
-        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
-
-            public boolean shouldAutoUploadCrashes() {
-                return true;
-            }
-        });
     }
 
     private void setDigitalCareLocale(String language, String country) {
