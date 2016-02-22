@@ -47,7 +47,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment {
         return rootView;
     }
 
-    public static OrderSummaryFragment createInstance(final AnimationType animType, Bundle args) {
+    public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {
         OrderSummaryFragment fragment = new OrderSummaryFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);

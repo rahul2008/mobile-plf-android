@@ -34,9 +34,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private AddressController mAddressController;
     private Context mContext;
 
-    public static ShoppingCartFragment createInstance(AnimationType animType) {
+    public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
-        Bundle args = new Bundle();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
@@ -112,7 +111,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
-            getMainActivity().addFragmentAndRemoveUnderneath(EmptyCartFragment.createInstance(AnimationType.NONE), false);
+            getMainActivity().addFragmentAndRemoveUnderneath(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
@@ -130,7 +129,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             getMainActivity().addFragmentAndRemoveUnderneath(
-                    ShippingAddressFragment.createInstance(AnimationType.NONE), false);
+                    ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         } else {
             getMainActivity().addFragmentAndRemoveUnderneath(
                     AddressSelectionFragment.createInstance(AnimationType.NONE), false);

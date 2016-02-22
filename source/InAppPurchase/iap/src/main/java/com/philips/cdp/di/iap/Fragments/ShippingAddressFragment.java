@@ -138,13 +138,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(AnimationType.NONE), false);
+            getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
     }
 
-    public static ShippingAddressFragment createInstance(AnimationType animType) {
+    public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
         ShippingAddressFragment fragment = new ShippingAddressFragment();
-        Bundle args = new Bundle();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
 

@@ -17,10 +17,8 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 public class EmptyCartFragment extends BaseAnimationSupportFragment implements View.OnClickListener {
     Button button;
 
-    public static EmptyCartFragment createInstance(BaseAnimationSupportFragment.AnimationType animType) {
+    public static EmptyCartFragment createInstance(Bundle args, BaseAnimationSupportFragment.AnimationType animType) {
         EmptyCartFragment fragment = new EmptyCartFragment();
-
-        Bundle args = new Bundle();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;

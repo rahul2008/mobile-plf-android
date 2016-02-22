@@ -8,7 +8,6 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 
 import org.junit.Before;
@@ -60,12 +59,12 @@ public class AddressSelectionAdapterTest {
         assertEquals(1, mAdapter.getItemCount());
     }
 
-    @Test
-    public void testCreateAddress() {
-        String addr = TestUtils.readFile(AddressSelectionAdapterTest.class, "one_addresses.txt");
-        GetShippingAddressData data = new Gson().fromJson(addr, GetShippingAddressData.class);
-        Addresses address = data.getAddresses().get(0);
-        assertEquals("test\ntest\ntest\n12-345\nPoland",
-                mAdapter.createAddress(address));
-    }
+//    @Test
+//    public void testCreateAddress() {
+//        String addr = TestUtils.readFile(AddressSelectionAdapterTest.class, "one_addresses.txt");
+//        GetShippingAddressData data = new Gson().fromJson(addr, GetShippingAddressData.class);
+//        Addresses address = data.getAddresses().get(0);
+//        assertEquals("test\ntest\ntest\n12-345\nPoland",
+//                mAdapter.createAddress(address));
+//    }
 }

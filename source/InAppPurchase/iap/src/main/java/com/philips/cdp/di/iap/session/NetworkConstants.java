@@ -4,11 +4,11 @@ import java.util.Locale;
 
 public class NetworkConstants {
 
-    public static final String HOST_URL = "https://tst.admin.shop.philips.com/";
+    public static final String HOST_URL = "https://tst.pl.shop.philips.com/";
     public static final String WEB_ROOT = "pilcommercewebservices/";
     public static final String V2 = "v2/";
     public static final String APP_CONFIG = "US_Tuscany/";
-    public static final String USER = "users/joy/";
+    public static final String USER = "users/inapp@3/";
     public static final String BASE_URL = HOST_URL + WEB_ROOT + V2 + APP_CONFIG + USER;
     public static final String CURRENT_CART = "carts/current";
 

@@ -47,7 +47,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     private void sendOAuthRequest(final Context context) {
 
         String url = NetworkConstants.HOST_URL + NetworkConstants.WEB_ROOT +
-                "oauth/token?username=joy&password=joy12345$&grant_type=password&client_id=mobile_android&client_secret=secret";
+                "oauth/token?username=inapp@3&password=philips@123&grant_type=password&client_id=mobile_android&client_secret=secret";
 
         try {
             URL obj = new URL(url);

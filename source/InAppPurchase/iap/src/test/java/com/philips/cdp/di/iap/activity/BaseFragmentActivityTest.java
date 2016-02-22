@@ -91,7 +91,7 @@ public class BaseFragmentActivityTest extends TestCase {
         BaseFragmentActivity activity = new BaseFragmentActivity();
         Bundle mockBundle = Mockito.mock(Bundle.class);
         BaseAnimationSupportFragment fragment = ShoppingCartFragment
-                .createInstance(BaseAnimationSupportFragment.AnimationType.NONE);
+                .createInstance(mockBundle, BaseAnimationSupportFragment.AnimationType.NONE);
 
         fragment.setArguments(mockBundle);
         String tag = activity.generateFragmentTag(fragment);
@@ -104,9 +104,9 @@ public class BaseFragmentActivityTest extends TestCase {
         BaseFragmentActivity activity = new BaseFragmentActivity();
         Bundle mockBundle = Mockito.mock(Bundle.class);
         BaseAnimationSupportFragment fragment = ShoppingCartFragment
-                .createInstance(BaseAnimationSupportFragment.AnimationType.NONE);
+                .createInstance(mockBundle, BaseAnimationSupportFragment.AnimationType.NONE);
         BaseAnimationSupportFragment fragment2 = ShoppingCartFragment
-                .createInstance(BaseAnimationSupportFragment.AnimationType.NONE);
+                .createInstance(mockBundle, BaseAnimationSupportFragment.AnimationType.NONE);
         String tag = activity.generateFragmentTag(fragment);
         String tag2 = activity.generateFragmentTag(fragment2);
 
@@ -115,9 +115,9 @@ public class BaseFragmentActivityTest extends TestCase {
 
     public void test_isFragmentAlreadyOnTopSameFragment() {
         BaseFragmentActivity activity = new BaseFragmentActivity();
-//        Bundle mockBundle = Mockito.mock(Bundle.class);
+        Bundle mockBundle = Mockito.mock(Bundle.class);
         BaseAnimationSupportFragment newFragment = new ShoppingCartFragment();
-        Fragment topFragment = ShoppingCartFragment.createInstance(BaseAnimationSupportFragment.AnimationType.NONE);
+        Fragment topFragment = ShoppingCartFragment.createInstance(mockBundle, BaseAnimationSupportFragment.AnimationType.NONE);
 
         boolean isFragmentOnTop = activity.isFragmentAlreadyOnTop(newFragment, topFragment);
 
@@ -128,7 +128,7 @@ public class BaseFragmentActivityTest extends TestCase {
         BaseFragmentActivity activity = new BaseFragmentActivity();
         BaseAnimationSupportFragment newFragment = new ShoppingCartFragment();
         Bundle mockBundle = Mockito.mock(Bundle.class);
-        Fragment topFragment = ShippingAddressFragment.createInstance(BaseAnimationSupportFragment.AnimationType.NONE);
+        Fragment topFragment = ShippingAddressFragment.createInstance(mockBundle,BaseAnimationSupportFragment.AnimationType.NONE);
 
         boolean isFragmentOnTop = activity.isFragmentAlreadyOnTop(newFragment, topFragment);
 
@@ -148,8 +148,8 @@ public class BaseFragmentActivityTest extends TestCase {
     public void test_isFragmentAlreadyOnTopNullFragment() {
         BaseFragmentActivity activity = new BaseFragmentActivity();
         BaseAnimationSupportFragment newFragment = null;
-        //Bundle mockBundle = Mockito.mock(Bundle.class);
-        Fragment topFragment = ShoppingCartFragment.createInstance(BaseAnimationSupportFragment.AnimationType.NONE);
+        Bundle mockBundle = Mockito.mock(Bundle.class);
+        Fragment topFragment = ShoppingCartFragment.createInstance(mockBundle, BaseAnimationSupportFragment.AnimationType.NONE);
 
         boolean isFragmentOnTop = activity.isFragmentAlreadyOnTop(newFragment, topFragment);
 

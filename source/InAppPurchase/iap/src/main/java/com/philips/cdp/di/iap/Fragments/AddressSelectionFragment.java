@@ -68,7 +68,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShoppingCart() {
-        getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(AnimationType.NONE), false);
+        getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
     }
 
     private void sendShippingAddressesRequest() {
@@ -154,7 +154,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
         if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
             getMainActivity().addFragmentAndRemoveUnderneath(
-                    OrderSummaryFragment.createInstance(AnimationType.NONE, new Bundle()), false);
+                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
     }
 
