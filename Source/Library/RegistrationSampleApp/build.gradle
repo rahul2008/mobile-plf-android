@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.artifactory-upload'
 
 buildscript {
     repositories {
-        jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android"
             credentials {
