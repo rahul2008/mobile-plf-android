@@ -78,7 +78,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         bindDeliverToAddress(holder.deliver, position);
 
         //bind add new address
-        bindNewAddress(holder.newAddress, position)
+        bindNewAddress(holder.newAddress, position);
     }
 
     private void bindNewAddress(final Button newAddress, final int position) {
