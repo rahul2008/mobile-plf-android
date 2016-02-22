@@ -196,7 +196,6 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
 
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(this);
-        mProductSelectionHelper.setTheme(R.style.multiprod_theme);
         mProductSelectionHelper.setLocale("en", "GB");
 
         UiLauncher uiLauncher = new ActivityLauncher();
