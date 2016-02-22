@@ -100,6 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:maxLength="35"
                     android:hint="@string/iap_address_hint" />
             </LinearLayout>
 

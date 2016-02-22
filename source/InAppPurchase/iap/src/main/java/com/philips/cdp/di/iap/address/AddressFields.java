@@ -11,11 +11,20 @@ public class AddressFields {
     private String lastName;
     private String titleCode;
     private String countryIsocode;
+    private String email;
     private String line1;
     private String line2;
     private String postalCode;
     private String town;
     private String phoneNumber;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getFirstName() {
         return firstName;
