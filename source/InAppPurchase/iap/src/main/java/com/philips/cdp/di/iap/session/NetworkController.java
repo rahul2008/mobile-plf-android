@@ -44,7 +44,6 @@ public class NetworkController {
     String hostPort;
     String webRoot;
     private OAuthHandler oAuthHandler;
-    HurlStack mTestEnvHurlStack;
 
     public NetworkController(Context context, OAuthHandler oAuthHandler) {
         this.context = context;

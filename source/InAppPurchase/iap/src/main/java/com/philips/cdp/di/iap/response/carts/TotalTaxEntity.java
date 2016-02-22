@@ -10,22 +10,6 @@ public class TotalTaxEntity {
     private String priceType;
     private int value;
 
-    public void setCurrencyIso(String currencyIso) {
-        this.currencyIso = currencyIso;
-    }
-
-    public void setFormattedValue(String formattedValue) {
-        this.formattedValue = formattedValue;
-    }
-
-    public void setPriceType(String priceType) {
-        this.priceType = priceType;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public String getCurrencyIso() {
         return currencyIso;
     }

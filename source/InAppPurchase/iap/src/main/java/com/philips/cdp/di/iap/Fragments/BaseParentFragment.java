@@ -105,8 +105,8 @@ public abstract class BaseParentFragment extends BaseAnimationSupportFragment im
             return;
         updateBackButton(childFragmentManager);
         Fragment topFragment = childFragmentManager.findFragmentById(getFragmentContainerId());
-        if (topFragment != null && topFragment instanceof BaseNoAnimationFragment) {
-            ((BaseNoAnimationFragment) topFragment).updateTitle();
+        if (topFragment != null && topFragment instanceof BaseAnimationSupportFragment) {
+            ((BaseAnimationSupportFragment) topFragment).updateTitle();
             IAPLog.d(IAPLog.LOG, "BaseFragment == onBackStackChanged == updateTitle");
         }
     }

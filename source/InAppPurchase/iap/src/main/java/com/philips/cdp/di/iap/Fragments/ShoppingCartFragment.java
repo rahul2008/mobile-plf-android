@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -33,15 +34,17 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private AddressController mAddressController;
     private Context mContext;
 
-    @Override
-    protected void updateTitle() {
-        setTitle(R.string.iap_shopping_cart);
+    public static ShoppingCartFragment createInstance(AnimationType animType) {
+        ShoppingCartFragment fragment = new ShoppingCartFragment();
+        Bundle args = new Bundle();
+        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>());
+    protected void updateTitle() {
+        setTitle(R.string.iap_shopping_cart);
     }
 
     @Override
@@ -53,6 +56,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>());
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
         IAPLog.d(IAPLog.LOG, "ShoppingCartFragment onCreateView");
@@ -67,17 +71,16 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter);
+        updateCartDetails(presenter);
+        updateTitle();
+    }
+
+    private void updateCartDetails(ShoppingCartPresenter presenter) {
         presenter.getCurrentCartDetails();
         mListView.setAdapter(mAdapter);
-        updateTitle();
     }
 
     @Override
@@ -87,25 +90,15 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
     }
 
-    public static ShoppingCartFragment createInstance(BaseAnimationSupportFragment.AnimationType animType) {
-        ShoppingCartFragment fragment = new ShoppingCartFragment();
-
-        Bundle args = new Bundle();
-        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
             if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(mContext)) {
+                if (Utility.isInternetConnected(getContext())) {
                     Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
                     mAddressController.getShippingAddresses();
                 } else {
-                    Utility.showNetworkError(mContext, false);
+                    NetworkUtility.getInstance().showNetworkError(mContext);
                 }
             }
         }

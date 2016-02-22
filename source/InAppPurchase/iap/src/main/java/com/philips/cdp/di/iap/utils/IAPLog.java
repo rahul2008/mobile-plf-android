@@ -20,7 +20,7 @@ public class IAPLog {
     public static final String BASE_FRAGMENT_ACTIVITY = "BaseFragmentActivity";
     public static final String SHIPPING_ADDRESS_FRAGMENT = "ShippingAddressFragment";
 
-    private static boolean isLoggingEnabled = true;
+    protected static boolean isLoggingEnabled = true;
 
     public static String APP_SOURCE_VALUE = "Develop";
     public static String SHOPPING_CART_FRAGMENT = "SHOPPING_CART_FRAGMENT";

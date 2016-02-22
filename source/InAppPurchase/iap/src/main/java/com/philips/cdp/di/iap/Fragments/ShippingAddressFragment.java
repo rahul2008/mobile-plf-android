@@ -22,6 +22,7 @@ import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
@@ -93,6 +94,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateTitle();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -122,16 +129,16 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(final View v) {
         if (v == mBtnContinue) {
-            if(!Utility.isProgressDialogShowing()) {
-                if(Utility.isInternetConnected(mContext)) {
+            if (!Utility.isProgressDialogShowing()) {
+                if (Utility.isInternetConnected(mContext)) {
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     mAddressController.createAddress(mAddressFields);
-                }else{
-                    Utility.showNetworkError(mContext, false);
+                } else {
+                    NetworkUtility.getInstance().showNetworkError(mContext);
                 }
             }
         } else if (v == mBtnCancel) {
-
+            getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(AnimationType.NONE), false);
         }
     }
 
@@ -143,7 +150,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
         return fragment;
     }
-
 
     public void checkFields() {
 
@@ -209,7 +215,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         } else {
             mInlineFormsParent.removeError(editText);
         }
-
     }
 
     @Override

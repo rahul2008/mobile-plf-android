@@ -16,7 +16,9 @@ Revision History: version 1:
 
 package com.philips.cdp.di.iap.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -29,45 +31,23 @@ public class NetworkUtility {
 
     private boolean isOnline;
 
-    /**
-     * Network Utility
-     */
-    private NetworkUtility() {
-    }
-
-    /**
-     * @return NetworkUtility sigle ton object.
-     */
     public static NetworkUtility getInstance() {
-//		if (mNetworkUtility == null) {
         synchronized (NetworkUtility.class) {
             if (mNetworkUtility == null) {
                 mNetworkUtility = new NetworkUtility();
             }
         }
-//		}
         return mNetworkUtility;
     }
 
-    /**
-     * @return the isOnline
-     */
     public boolean isOnline() {
         return isOnline;
     }
 
-    /**
-     * @param isOnline the isOnline to set
-     */
     public void setOnline(boolean isOnline) {
         this.isOnline = isOnline;
     }
 
-    /**
-     * Called on start of app.
-     *
-     * @param context {@link Context}
-     */
     public void checkIsOnline(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -84,5 +64,21 @@ public class NetworkUtility {
             }
         }
         setOnline(false);
+    }
+
+    public void showNetworkError(Context context) {
+        String alertTitle = "Network Error";
+        String alertBody = "No network available. Please check your network settings and try again.";
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle(alertTitle);
+        alert.setMessage(alertBody);
+        alert.setPositiveButton(android.R.string.ok,
+                new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alert.show();
     }
 }

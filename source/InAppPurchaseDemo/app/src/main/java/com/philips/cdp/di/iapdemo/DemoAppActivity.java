@@ -14,6 +14,7 @@ import com.philips.cdp.di.iap.activity.MainActivity;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import net.hockeyapp.android.CrashManager;
@@ -61,7 +62,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 Utility.showProgressDialog(this, getString(R.string.loading_cart));
                 mIapHandler.getCartQuantity(this);
             } else {
-                Utility.showNetworkError(this, true);
+                NetworkUtility.getInstance().showNetworkError(this);
             }
         }
         /** Should be commented for debug builds */
@@ -89,7 +90,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 mIapHandler.addItemtoCart(ctnNumber, this, false);
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addItemtoCart");
             } else {
-                Utility.showNetworkError(this, true);
+                NetworkUtility.getInstance().showNetworkError(this);
             }
         }
     }
@@ -105,7 +106,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 Utility.showProgressDialog(this, getString(R.string.please_wait));
                 mIapHandler.buyNow(ctnNumber, this);
             } else {
-                Utility.showNetworkError(this, true);
+                NetworkUtility.getInstance().showNetworkError(this);
             }
         }
     }
@@ -118,7 +119,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                     Intent myIntent = new Intent(DemoAppActivity.this, MainActivity.class);
                     startActivity(myIntent);
                 } else {
-                    Utility.showNetworkError(DemoAppActivity.this, false);
+                    NetworkUtility.getInstance().showNetworkError(this);
                 }
                 break;
         }

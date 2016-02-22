@@ -23,6 +23,7 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
@@ -52,7 +53,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
-
+        EventHelper.getInstance().registerEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
         return view;
     }
 
@@ -67,7 +68,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShoppingCart() {
-
+        getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(AnimationType.NONE), false);
     }
 
     private void sendShippingAddressesRequest() {
@@ -84,12 +85,25 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateTitle();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
+        EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
+    }
+
+    @Override
     public void onFetchAddressSuccess(final Message msg) {
-        if(msg.what == RequestCode.DELETE_ADDRESS){
+        if (msg.what == RequestCode.DELETE_ADDRESS) {
             mAddresses.remove(mAdapter.getOptionsClickPosition());
             mAdapter.setAddresses(mAddresses);
             mAdapter.notifyDataSetChanged();
-
         } else {
             GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
             mAddresses = shippingAddresses.getAddresses();
@@ -108,7 +122,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onCreateAddress(boolean isSuccess) {
-    
+
     }
 
     public static AddressSelectionFragment createInstance(final AnimationType animType) {
@@ -137,6 +151,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 int pos = mAdapter.getOptionsClickPosition();
                 mAddrController.deleteAddress(mAddresses.get(pos).getId());
             }
+        }
+        if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
+            getMainActivity().addFragmentAndRemoveUnderneath(
+                    OrderSummaryFragment.createInstance(AnimationType.NONE, new Bundle()), false);
         }
     }
 
