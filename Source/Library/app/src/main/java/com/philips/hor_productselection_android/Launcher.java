@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
-import com.philips.hor_productselection_android.products.HardcodedProductList;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivity;
 import com.philips.multiproduct.ProductModelSelectionHelper;
@@ -24,7 +24,8 @@ import com.philips.multiproduct.base.MultiProductBaseActivity;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.component.ActivityLauncher;
 import com.philips.multiproduct.component.UiLauncher;
-import com.philips.multiproduct.utils.MLogger;
+import com.philips.multiproduct.listeners.ProductModelSelectionListener;
+import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +70,7 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
 
 
         mConfigManager = ProductModelSelectionHelper.getInstance();
-        mConfigManager.initializeDigitalCareLibrary(this);
+        mConfigManager.initialize(this);
     }
 
     private void relaunchActivity() {
@@ -178,25 +179,45 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     }
 
 
-    private void launchMultiProductAsActivity() {
-        mConfigManager.setLocale("en", "GB");
+    ProductModelSelectionHelper mProductSelectionHelper = null;
+    private static ProductSelectionProductInfo productInfo = null;
 
-        ProductModelSelectionType productsSelection = new HardcodedProductList();
+    private void launchMultiProductAsActivity() {
+
+
+        String[] ctnList = new String[mList.size()];
+        for (int i = 0; i < mList.size(); i++) {
+            ctnList[i] = mList.get(i).getmCtn();
+        }
+
+        ProductModelSelectionType productsSelection = new com.philips.multiproduct.productselection.HardcodedProductList(ctnList);
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
-        productsSelection.setHardCodedProductList(new String[2]);
+
+        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
+        mProductSelectionHelper.initialize(this);
+        mProductSelectionHelper.setLocale("en", "GB");
+
+
         UiLauncher uiLauncher = new ActivityLauncher();
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
         uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-        ProductModelSelectionHelper.getInstance().invokeProductSelectionModule(uiLauncher, productsSelection);
-        List<String> list = new ArrayList<String>();
+        ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
+            @Override
+            public void onProductModelSelected(SummaryModel productSummaryModel) {
+                if (productSummaryModel != null) {
+                    SummaryModel summaryModel = productSummaryModel;
+                    productInfo.setCtn(summaryModel.getData().getCtn());
 
-        for (Product product : mList) {
-            list.add(product
-                    .getmCtn());
-        }
-        mConfigManager.setMultiProductCtnList(list);
-        MLogger.enableLogging();
+
+                    Toast.makeText(getApplicationContext(), " Product Selected By User", Toast.LENGTH_SHORT).show();
+
+
+                }
+            }
+        });
+        ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
+        ProductSelectionLogger.enableLogging();
 
     }
 
