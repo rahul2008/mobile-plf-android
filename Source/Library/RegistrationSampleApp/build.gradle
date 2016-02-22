@@ -112,6 +112,7 @@ artifactory {
             publishPom = true
             publishIvy = false
             publishBuildInfo = true
+            maven = true
         }
     }
     resolve {
