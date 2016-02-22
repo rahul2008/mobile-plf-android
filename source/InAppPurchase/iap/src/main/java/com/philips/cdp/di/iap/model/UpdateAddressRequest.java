@@ -34,17 +34,18 @@ public class UpdateAddressRequest extends AbstractModel{
 
     @Override
     public Map<String, String> requestBody() {
-        Map<String, String> payload = new HashMap<>();
-        payload.put(ModelConstants.FIRST_NAME, this.params.get(ModelConstants.FIRST_NAME));
-        payload.put(ModelConstants.LAST_NAME, this.params.get(ModelConstants.LAST_NAME));
-        payload.put(ModelConstants.TITLE_CODE, this.params.get(ModelConstants.TITLE_CODE));
-        payload.put(ModelConstants.COUNTRY_ISOCODE, this.params.get(ModelConstants.COUNTRY_ISOCODE));
-        payload.put(ModelConstants.LINE_1, this.params.get(ModelConstants.LINE_1));
-        payload.put(ModelConstants.LINE_2, this.params.get(ModelConstants.LINE_2));
-        payload.put(ModelConstants.POSTAL_CODE, this.params.get(ModelConstants.POSTAL_CODE));
-        payload.put(ModelConstants.TOWN, this.params.get(ModelConstants.TOWN));
-        payload.put(ModelConstants.PHONE_NUMBER, this.params.get(ModelConstants.PHONE_NUMBER));
-        return payload;
+        Map<String, String> addressHashMap = new HashMap<>();
+        addressHashMap.put(ModelConstants.FIRST_NAME, this.params.get(ModelConstants.FIRST_NAME));
+        addressHashMap.put(ModelConstants.LAST_NAME, this.params.get(ModelConstants.LAST_NAME));
+        addressHashMap.put(ModelConstants.TITLE_CODE, this.params.get(ModelConstants.TITLE_CODE));
+        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, this.params.get(ModelConstants.COUNTRY_ISOCODE));
+        addressHashMap.put(ModelConstants.LINE_1, this.params.get(ModelConstants.LINE_1));
+        addressHashMap.put(ModelConstants.LINE_2, this.params.get(ModelConstants.LINE_2));
+        addressHashMap.put(ModelConstants.POSTAL_CODE, this.params.get(ModelConstants.POSTAL_CODE));
+        addressHashMap.put(ModelConstants.TOWN, this.params.get(ModelConstants.TOWN));
+        addressHashMap.put(ModelConstants.PHONE_NUMBER, this.params.get(ModelConstants.PHONE_NUMBER));
+        //payload.put(ModelConstants.ADDRESS_ID,this.params.get(ModelConstants.ADDRESS_ID));
+        return addressHashMap;
     }
 
     @Override
@@ -54,7 +55,6 @@ public class UpdateAddressRequest extends AbstractModel{
             throw new RuntimeException("Address Id must be specified");
         }
         String addressId = params.get(ModelConstants.ADDRESS_ID);
-        String test = String.format(NetworkConstants.UPDATE_OR_DELETE_ADDRESS_URL, addressId);
         return String.format(NetworkConstants.UPDATE_OR_DELETE_ADDRESS_URL, addressId);
     }
 }

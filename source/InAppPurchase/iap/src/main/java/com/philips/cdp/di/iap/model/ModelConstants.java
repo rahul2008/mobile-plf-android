@@ -24,4 +24,6 @@ public class ModelConstants {
     public static final String TOWN = "town";
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String ADDRESS_ID = "addressId";
+    public static final String DEFAULT_ADDRESS = "default_address";
+    public static final String EMAIL_ADDRESS = "email_address";
 }

@@ -21,10 +21,16 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
+import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
+
+import java.util.HashMap;
+
 
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener, InlineForms.Validator,
@@ -47,6 +53,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private InlineForms mInlineFormsParent;
     private Validator mValidator = null;
+    private HashMap<String, String> addressFeilds = null;
 
     private Context mContext;
 
@@ -78,6 +85,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mValidator = new Validator();
         mInlineFormsParent.setValidator(this);
 
+
         mAddressController = new AddressController(mContext, this);
         mAddressFields = new AddressFields();
 
@@ -90,7 +98,36 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.addTextChangedListener(this);
         mEtPhoneNumber.addTextChangedListener(this);
 
+            updateFeilds();
+
         return rootView;
+    }
+
+    private void requestFocus(){
+
+    }
+
+    private void updateFeilds() {
+        try {
+            Bundle bundle = getArguments();
+            addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+            mBtnContinue.setText(getString(R.string.iap_save));
+            mBtnContinue.requestFocus();
+            mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
+            mEtFirstName.requestFocus();
+            mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
+            mEtLastName.requestFocus();
+            mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
+            mEtTown.requestFocus();
+            mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
+            mEtPostalCode.requestFocus();
+            mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
+            mEtCountry.requestFocus();
+            mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
+            mEtAddress.requestFocus();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -107,12 +144,22 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onFetchAddressSuccess(Message msg) {
-
+        int requestCode = msg.what;
+        switch (requestCode) {
+            case RequestCode.UPDATE_ADDRESS:
+                getMainActivity().addFragmentAndRemoveUnderneath(AddressSelectionFragment.createInstance(AnimationType.NONE), false);
+                break;
+        }
     }
 
     @Override
     public void onFetchAddressFailure(final Message msg) {
-
+        int requestCode = msg.what;
+        switch (requestCode) {
+            case RequestCode.UPDATE_ADDRESS:
+                Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override
@@ -129,7 +176,17 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onClick(final View v) {
         if (v == mBtnContinue) {
-            if (!Utility.isProgressDialogShowing()) {
+            if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
+                if (Utility.isInternetConnected(mContext)) {
+                if(!Utility.isProgressDialogShowing()) {
+                    Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
+                    HashMap<String,String> addressHashMap = updateToHybrisTheFeilds();
+                    mAddressController.updateAddress(addressHashMap);
+                }
+                }else{
+                    NetworkUtility.getInstance().showNetworkError(mContext);
+                }
+            } else if (!Utility.isProgressDialogShowing()) {
                 if (Utility.isInternetConnected(mContext)) {
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     mAddressController.createAddress(mAddressFields);
@@ -142,11 +199,26 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
+    private HashMap updateToHybrisTheFeilds() {
+        HashMap<String, String> addressHashMap = new HashMap<>();
+        addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
+        addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
+        addressHashMap.put(ModelConstants.TITLE_CODE, "mr");
+        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
+        addressHashMap.put(ModelConstants.LINE_1, mEtAddress.getText().toString());
+        addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
+        addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
+        addressHashMap.put(ModelConstants.ADDRESS_ID, addressFeilds.get(ModelConstants.ADDRESS_ID));
+        addressHashMap.put(ModelConstants.LINE_2, "");
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddress.getText().toString());
+        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
+        return addressHashMap;
+    }
+
     public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
         ShippingAddressFragment fragment = new ShippingAddressFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
-
         return fragment;
     }
 

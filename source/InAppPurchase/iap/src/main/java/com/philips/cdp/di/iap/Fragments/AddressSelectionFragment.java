@@ -19,15 +19,18 @@ import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
+import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener,
@@ -75,7 +78,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private void sendShippingAddressesRequest() {
         String msg = getContext().getString(R.string.iap_please_wait);
-        showProgress(msg);
+        Utility.showProgressDialog(getContext(), msg);
         mAddrController.getShippingAddresses();
     }
 
@@ -113,13 +116,13 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
             mAddressListView.setAdapter(mAdapter);
         }
-        dismissProgress();
+        Utility.dismissProgressDialog();
     }
 
     @Override
     public void onFetchAddressFailure(final Message msg) {
         // TODO: 2/19/2016 Fix error case scenario
-        dismissProgress();
+        Utility.dismissProgressDialog();
         moveToShoppingCart();
     }
 
@@ -151,9 +154,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onEventReceived = " + event);
         if (!TextUtils.isEmpty(event)) {
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
+                HashMap<String,String> addressHashMap = updateShippingAddress();
+                moveToShippingAddressFragment(addressHashMap);
             } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
-                int pos = mAdapter.getOptionsClickPosition();
-                mAddrController.deleteAddress(mAddresses.get(pos).getId());
+                deleteShippingAddress();
             }
         }
         if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
@@ -165,11 +169,38 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
     }
 
-    private void showProgress(String msg) {
-        Utility.showProgressDialog(getContext(), msg);
+    private void deleteShippingAddress() {
+        if (Utility.isInternetConnected(getContext())) {
+            if (!Utility.isProgressDialogShowing())
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
+            int pos = mAdapter.getOptionsClickPosition();
+            mAddrController.deleteAddress(mAddresses.get(pos).getId());
+        } else {
+            NetworkUtility.getInstance().showNetworkError(getContext());
+        }
     }
 
-    private void dismissProgress() {
-        Utility.dismissProgressDialog();
+    private HashMap updateShippingAddress() {
+        int pos = mAdapter.getOptionsClickPosition();
+        Addresses address = mAddresses.get(pos);
+        HashMap<String, String> addressHashMap = new HashMap<>();
+        addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
+        addressHashMap.put(ModelConstants.LAST_NAME, address.getLastName());
+        addressHashMap.put(ModelConstants.TITLE_CODE, address.getTitle());
+        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, address.getCountry().getIsocode());
+        addressHashMap.put(ModelConstants.LINE_1, address.getLine1());
+        addressHashMap.put(ModelConstants.LINE_2, address.getLine2());
+        addressHashMap.put(ModelConstants.POSTAL_CODE, address.getPostalCode());
+        addressHashMap.put(ModelConstants.TOWN, address.getTown());
+        addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, address.getLine1());
+        return addressHashMap;
     }
+
+    private void moveToShippingAddressFragment(final HashMap<String, String> payload) {
+        Bundle extras = new Bundle();
+        extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
+        getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), false);
+    }
+
 }
