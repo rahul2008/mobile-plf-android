@@ -44,6 +44,7 @@ public class UpdateAddressRequest extends AbstractModel{
         payload.put(ModelConstants.POSTAL_CODE, this.params.get(ModelConstants.POSTAL_CODE));
         payload.put(ModelConstants.TOWN, this.params.get(ModelConstants.TOWN));
         payload.put(ModelConstants.PHONE_NUMBER, this.params.get(ModelConstants.PHONE_NUMBER));
+        //payload.put(ModelConstants.ADDRESS_ID,this.params.get(ModelConstants.ADDRESS_ID));
         return payload;
     }
 
@@ -54,7 +55,6 @@ public class UpdateAddressRequest extends AbstractModel{
             throw new RuntimeException("Address Id must be specified");
         }
         String addressId = params.get(ModelConstants.ADDRESS_ID);
-        String test = String.format(NetworkConstants.UPDATE_OR_DELETE_ADDRESS_URL, addressId);
         return String.format(NetworkConstants.UPDATE_OR_DELETE_ADDRESS_URL, addressId);
     }
 }

@@ -15,6 +15,16 @@ public class Addresses {
     private String postalCode;
     private String town;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
+    private String title;
+
     public Country getCountry() {
         return country;
     }

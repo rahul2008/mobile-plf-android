@@ -49,6 +49,9 @@
     <string name="iap_deliver_to_this_address">Deliver to this address</string>
     <string name="iap_selection_select_address">Select address</string>
     <string name="iap_edit">Edit</string>
+    <string name="iap_save">Save</string>
+    <string name="iap_update_address">Updating Shipping Address</string>
+    <string name="iap_delete_address">Deleting Shipping Address</string>
 
     <!--Order Sammary-->
     <string name="iap_order_summary">Summary</string>

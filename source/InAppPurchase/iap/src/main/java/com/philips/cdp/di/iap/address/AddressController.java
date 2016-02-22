@@ -17,6 +17,8 @@ import com.philips.cdp.di.iap.model.UpdateAddressRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.HashMap;
 
@@ -108,10 +110,11 @@ public class AddressController implements AbstractModel.DataLoadListener {
         switch (requestCode) {
             case RequestCode.DELETE_ADDRESS:
                 mAddressListener.onFetchAddressSuccess(msg);
-                Toast.makeText(mContext, "delete Success", Toast.LENGTH_SHORT).show();
+                Utility.dismissProgressDialog();
                 break;
             case RequestCode.UPDATE_ADDRESS:
-                Toast.makeText(mContext, "update Success", Toast.LENGTH_SHORT).show();
+                mAddressListener.onFetchAddressSuccess(msg);
+                Utility.dismissProgressDialog();
                 break;
             case RequestCode.CREATE_ADDRESS: {
                 if (mAddressListener != null) {
@@ -134,10 +137,14 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
         switch (requestCode) {
             case RequestCode.DELETE_ADDRESS:
-                showMessage("update Error");
+                mAddressListener.onFetchAddressFailure(msg);
+                Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                Utility.dismissProgressDialog();
                 break;
             case RequestCode.UPDATE_ADDRESS:
-                showMessage("update Error");
+                mAddressListener.onFetchAddressFailure(msg);
+                Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                Utility.dismissProgressDialog();
                 break;
             case RequestCode.CREATE_ADDRESS: {
                 if (mAddressListener != null) {

@@ -137,7 +137,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             getMainActivity().addFragmentAndRemoveUnderneath(
-                    ShippingAddressFragment.createInstance(AnimationType.NONE), false);
+                    ShippingAddressFragment.createInstance(null,AnimationType.NONE), false);
         } else {
             getMainActivity().addFragmentAndRemoveUnderneath(
                     AddressSelectionFragment.createInstance(AnimationType.NONE), false);

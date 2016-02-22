@@ -14,18 +14,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener,
@@ -85,11 +88,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onFetchAddressSuccess(final Message msg) {
-        if(msg.what == RequestCode.DELETE_ADDRESS){
+        if (msg.what == RequestCode.DELETE_ADDRESS) {
             mAddresses.remove(mAdapter.getOptionsClickPosition());
             mAdapter.setAddresses(mAddresses);
             mAdapter.notifyDataSetChanged();
-
         } else {
             GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
             mAddresses = shippingAddresses.getAddresses();
@@ -108,7 +110,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onCreateAddress(boolean isSuccess) {
-    
+
     }
 
     public static AddressSelectionFragment createInstance(final AnimationType animType) {
@@ -133,11 +135,40 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void onEventReceived(final String event) {
         if (!TextUtils.isEmpty(event)) {
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
+                editShippingAddress();
             } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
-                int pos = mAdapter.getOptionsClickPosition();
-                mAddrController.deleteAddress(mAddresses.get(pos).getId());
+                deleteShippingAddress();
             }
         }
+    }
+
+    private void deleteShippingAddress() {
+        if (Utility.isInternetConnected(getContext())) {
+            if (!isProgressDialogShowing())
+                showProgress(getString(R.string.iap_delete_address));
+            int pos = mAdapter.getOptionsClickPosition();
+            mAddrController.deleteAddress(mAddresses.get(pos).getId());
+        } else {
+            Utility.showNetworkError(getContext(), false);
+        }
+    }
+
+    private void editShippingAddress() {
+        int pos = mAdapter.getOptionsClickPosition();
+        Addresses address = mAddresses.get(pos);
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put(ModelConstants.FIRST_NAME, address.getFirstName());
+        payload.put(ModelConstants.LAST_NAME, address.getLastName());
+        payload.put(ModelConstants.TITLE_CODE, address.getTitle());
+        payload.put(ModelConstants.COUNTRY_ISOCODE, address.getCountry().getIsocode());
+        payload.put(ModelConstants.LINE_1, address.getLine1());
+        payload.put(ModelConstants.LINE_2, address.getLine2());
+        payload.put(ModelConstants.POSTAL_CODE, address.getPostalCode());
+        payload.put(ModelConstants.TOWN, address.getTown());
+        payload.put(ModelConstants.ADDRESS_ID, address.getId());
+        Bundle extras = new Bundle();
+        extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_PAYLOAD, payload);
+        getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), false);
     }
 
     private void showProgress(String msg) {
@@ -146,5 +177,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private void dismissProgress() {
         Utility.dismissProgressDialog();
+    }
+
+    private boolean isProgressDialogShowing() {
+        return Utility.isProgressDialogShowing();
     }
 }
