@@ -23,8 +23,9 @@ public class DataMigrater {
         moveData(oldRootStorage, newRootStorage);
 
         for (final String deviceAddress : oldDevices) {
-            PersistentStorage oldDeviceStorage = new PersistentStorage(context.getSharedPreferences(deviceAddress + oldDevicePreferencesSuffix, Context.MODE_PRIVATE));
-            PersistentStorage newDeviceStorage = storageFactory.getPersistentStorageForDevice(deviceAddress);
+            String fixedAddress = deviceAddress.replace(SHNDeviceAssociationHelper.ASSOCIATED_DEVICES, "");
+            PersistentStorage oldDeviceStorage = new PersistentStorage(context.getSharedPreferences(fixedAddress + oldDevicePreferencesSuffix, Context.MODE_PRIVATE));
+            PersistentStorage newDeviceStorage = storageFactory.getPersistentStorageForDevice(fixedAddress);
             moveData(oldDeviceStorage, newDeviceStorage);
         }
     }

@@ -75,9 +75,9 @@ public class DataMigraterTest extends RobolectricTest {
         insertTestData(oldDevice3Storage);
 
         Set<String> deviceAddresses = new HashSet<>();
-        deviceAddresses.add(TEST_DEVICE_1);
-        deviceAddresses.add(TEST_DEVICE_2);
-        deviceAddresses.add(TEST_DEVICE_3);
+        deviceAddresses.add(SHNDeviceAssociationHelper.ASSOCIATED_DEVICES + TEST_DEVICE_1);
+        deviceAddresses.add(SHNDeviceAssociationHelper.ASSOCIATED_DEVICES + TEST_DEVICE_2);
+        deviceAddresses.add(SHNDeviceAssociationHelper.ASSOCIATED_DEVICES + TEST_DEVICE_3);
 
         oldRootStorage.put(SHNDeviceAssociationHelper.ASSOCIATED_DEVICES, deviceAddresses);
 

@@ -162,6 +162,11 @@ public class SHNCentral {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
+        persistentStorageFactory = new PersistentStorageFactory(applicationContext);
+
+        DataMigrater dataMigrater = new DataMigrater();
+        dataMigrater.execute(context, persistentStorageFactory);
+
         // The handler is used for callbacks to the usercode. When no handler is provided, the MainLoop a.k.a. UI Thread is used.
         if (handler == null) {
             handler = new Handler(Looper.getMainLooper());
@@ -203,11 +208,6 @@ public class SHNCentral {
         SHNDeviceWrapper.setHandlers(internalHandler, userHandler);
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
-
-        persistentStorageFactory = new PersistentStorageFactory(applicationContext);
-
-        DataMigrater dataMigrater = new DataMigrater();
-        dataMigrater.execute(context, persistentStorageFactory);
 
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
