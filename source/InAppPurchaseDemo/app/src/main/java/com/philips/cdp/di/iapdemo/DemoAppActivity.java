@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +27,8 @@ import java.util.ArrayList;
 public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner {
 
     IAPHandler mIapHandler;
-
+    private EditText mUsername, mPassword;
+    private Button mSubmit;
     private TextView mCountText = null;
 
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
@@ -36,7 +39,10 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
-
+        mUsername = (EditText) findViewById(R.id.et_username);
+        mPassword = (EditText) findViewById(R.id.et_userpassword);
+        mSubmit = (Button) findViewById(R.id.btn_submit);
+        mSubmit.setOnClickListener(this);
         mIapHandler = new IAPHandler();
 
         populateProduct();
@@ -50,21 +56,12 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
-        mIapHandler.initApp(this, "", "");
+        //  mIapHandler.initApp(this, username, password);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (!(Utility.isProgressDialogShowing())) {
-            if (Utility.isInternetConnected(this)) {
-                Utility.showProgressDialog(this, getString(R.string.loading_cart));
-                mIapHandler.getCartQuantity(this);
-            } else {
-                NetworkUtility.getInstance().showNetworkError(this);
-            }
-        }
         /** Should be commented for debug builds */
         final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
         CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
@@ -121,6 +118,21 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 } else {
                     NetworkUtility.getInstance().showNetworkError(this);
                 }
+                break;
+            case R.id.btn_submit:
+                String username = mUsername.getText().toString().trim();
+                String password = mPassword.getText().toString().trim();
+                mIapHandler.initApp(this, username, password);
+                if (!(Utility.isProgressDialogShowing())) {
+                    if (Utility.isInternetConnected(this)) {
+                        Utility.showProgressDialog(this, getString(R.string.loading_cart));
+                        mIapHandler.getCartQuantity(this);
+                    } else {
+                        NetworkUtility.getInstance().showNetworkError(this);
+                    }
+                }
+                break;
+            default:
                 break;
         }
     }

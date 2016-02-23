@@ -29,6 +29,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener {
 
     private Button mCheckoutBtn;
+    private Button mContinuesBtn;
     public ShoppingCartAdapter mAdapter;
     public ListView mListView;
     private AddressController mAddressController;
@@ -63,6 +64,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mListView = (ListView) rootView.findViewById(R.id.withouticon);
         mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
+        mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
+        mContinuesBtn.setOnClickListener(this);
         Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
         mAddressController = new AddressController(getContext(), this);
 
@@ -100,6 +103,9 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                     NetworkUtility.getInstance().showNetworkError(mContext);
                 }
             }
+        }
+        if (v == mContinuesBtn) {
+            getMainActivity().finish();
         }
     }
 

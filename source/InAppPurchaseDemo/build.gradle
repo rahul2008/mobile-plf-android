@@ -45,7 +45,7 @@ allprojects {
     ext.gsonVer = '2.2.4'
     ext.volleyVer = '1.0.17'
     ext.supportDesignVer = '23.1.1'
-    ext.uikitLibVer = '1.2.0'
+    ext.uikitLibVer = '2.0.0'
 }
 
 task clean(type: Delete) {
