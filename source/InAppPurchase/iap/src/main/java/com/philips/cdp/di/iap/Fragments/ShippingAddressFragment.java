@@ -14,7 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
@@ -28,6 +31,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
+import com.philips.cdp.uikit.customviews.PuiSwitch;
 
 import java.util.HashMap;
 
@@ -35,6 +39,11 @@ import java.util.HashMap;
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener, InlineForms.Validator,
         TextWatcher {
+    private Context mContext;
+
+    private LinearLayout mSameAsBillingAddress;
+    private TextView mTvTitle;
+    private PuiSwitch mSwitchBillingAddress;
 
     private EditText mEtFirstName;
     private EditText mEtLastName;
@@ -53,9 +62,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private InlineForms mInlineFormsParent;
     private Validator mValidator = null;
-    private HashMap<String, String> addressFeilds = null;
 
-    private Context mContext;
+    private HashMap<String, String> addressFeilds = null;
 
     @Override
     protected void updateTitle() {
@@ -65,9 +73,13 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
-        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
-        mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
 
+        mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
+        mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
+        mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
+        mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
+
+        mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
         mEtAddress = (EditText) rootView.findViewById(R.id.et_address);
         mEtTown = (EditText) rootView.findViewById(R.id.et_town);
@@ -85,7 +97,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mValidator = new Validator();
         mInlineFormsParent.setValidator(this);
 
-
         mAddressController = new AddressController(mContext, this);
         mAddressFields = new AddressFields();
 
@@ -98,43 +109,37 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.addTextChangedListener(this);
         mEtPhoneNumber.addTextChangedListener(this);
 
+        mSwitchBillingAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    disableAllFields();
+                    prePopulateShippingAddress();
+                } else {
+                    clearAllFields();
+                }
+            }
+        });
+
+        Bundle bundle = getArguments();
+        if (null != bundle) {
             updateFeilds();
+        }
 
         return rootView;
     }
 
-    private void requestFocus(){
-
+    private void prePopulateShippingAddress() {
+        mEtFirstName.setText(mAddressFields.getFirstName());
+        mEtLastName.setText(mAddressFields.getLastName());
+        mEtAddress.setText(mAddressFields.getLine1());
+        mEtTown.setText(mAddressFields.getTown());
+        mEtPostalCode.setText(mAddressFields.getPostalCode());
+        mEtCountry.setText(mAddressFields.getCountryIsocode());
+        mEtEmail.setText(mAddressFields.getEmail());
+        mEtPhoneNumber.setText(mAddressFields.getPhoneNumber());
     }
 
-    private void updateFeilds() {
-        try {
-            Bundle bundle = getArguments();
-            addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-            mBtnContinue.setText(getString(R.string.iap_save));
-            mBtnContinue.requestFocus();
-            mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
-            mEtFirstName.requestFocus();
-            mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
-            mEtLastName.requestFocus();
-            mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
-            mEtTown.requestFocus();
-            mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
-            mEtPostalCode.requestFocus();
-            mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
-            mEtCountry.requestFocus();
-            mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
-            mEtAddress.requestFocus();
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateTitle();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -147,7 +152,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.UPDATE_ADDRESS:
-                getMainActivity().addFragmentAndRemoveUnderneath(AddressSelectionFragment.createInstance(AnimationType.NONE), false);
+                getMainActivity().addFragmentAndRemoveUnderneath
+                        (AddressSelectionFragment.createInstance(AnimationType.NONE), false);
                 break;
         }
     }
@@ -166,7 +172,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(boolean isSuccess) {
         Utility.dismissProgressDialog();
         if (isSuccess) {
-            //Navigate to billing Address
+            mTvTitle.setText(getResources().getString(R.string.iap_billing_address));
+            mSameAsBillingAddress.setVisibility(View.VISIBLE);
+            clearAllFields();
             Toast.makeText(mContext, "Address created successfully", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();
@@ -178,12 +186,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (v == mBtnContinue) {
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
                 if (Utility.isInternetConnected(mContext)) {
-                if(!Utility.isProgressDialogShowing()) {
-                    Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
-                    HashMap<String,String> addressHashMap = updateToHybrisTheFeilds();
-                    mAddressController.updateAddress(addressHashMap);
-                }
-                }else{
+                    if (!Utility.isProgressDialogShowing()) {
+                        Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
+                        HashMap<String, String> addressHashMap = updateToHybrisTheFeilds();
+                        mAddressController.updateAddress(addressHashMap);
+                    }
+                } else {
                     NetworkUtility.getInstance().showNetworkError(mContext);
                 }
             } else if (!Utility.isProgressDialogShowing()) {
@@ -195,31 +203,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            getMainActivity().addFragmentAndRemoveUnderneath
+                    (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
-    }
-
-    private HashMap updateToHybrisTheFeilds() {
-        HashMap<String, String> addressHashMap = new HashMap<>();
-        addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
-        addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
-        addressHashMap.put(ModelConstants.TITLE_CODE, "mr");
-        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
-        addressHashMap.put(ModelConstants.LINE_1, mEtAddress.getText().toString());
-        addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
-        addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
-        addressHashMap.put(ModelConstants.ADDRESS_ID, addressFeilds.get(ModelConstants.ADDRESS_ID));
-        addressHashMap.put(ModelConstants.LINE_2, "");
-        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddress.getText().toString());
-        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
-        return addressHashMap;
-    }
-
-    public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
-        ShippingAddressFragment fragment = new ShippingAddressFragment();
-        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
-        fragment.setArguments(args);
-        return fragment;
     }
 
     public void checkFields() {
@@ -246,6 +232,53 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
+    private void clearAllFields() {
+        mEtFirstName.setText("");
+        mEtLastName.setText("");
+        mEtAddress.setText("");
+        mEtTown.setText("");
+        mEtPostalCode.setText("");
+        mEtCountry.setText("");
+        mEtEmail.setText("");
+        mEtPhoneNumber.setText("");
+        removeErrorInAllFields();
+        enableAllFields();
+    }
+
+    private void disableAllFields() {
+        removeErrorInAllFields();
+        mEtFirstName.setEnabled(false);
+        mEtLastName.setEnabled(false);
+        mEtAddress.setEnabled(false);
+        mEtTown.setEnabled(false);
+        mEtPostalCode.setEnabled(false);
+        mEtCountry.setEnabled(false);
+        mEtEmail.setEnabled(false);
+        mEtPhoneNumber.setEnabled(false);
+    }
+
+    private void enableAllFields() {
+        mEtFirstName.setEnabled(true);
+        mEtLastName.setEnabled(true);
+        mEtAddress.setEnabled(true);
+        mEtTown.setEnabled(true);
+        mEtPostalCode.setEnabled(true);
+        mEtCountry.setEnabled(true);
+        mEtEmail.setEnabled(true);
+        mEtPhoneNumber.setEnabled(true);
+    }
+
+    private void removeErrorInAllFields(){
+        mInlineFormsParent.removeError(mEtFirstName);
+        mInlineFormsParent.removeError(mEtLastName);
+        mInlineFormsParent.removeError(mEtAddress);
+        mInlineFormsParent.removeError(mEtTown);
+        mInlineFormsParent.removeError(mEtPostalCode);
+        mInlineFormsParent.removeError(mEtCountry);
+        mInlineFormsParent.removeError(mEtEmail);
+        mInlineFormsParent.removeError(mEtPhoneNumber);
+    }
+
     @Override
     protected AnimationType getDefaultAnimationType() {
         return AnimationType.NONE;
@@ -253,36 +286,48 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void validate(View editText, boolean hasFocus) {
-
         boolean result = true;
+        String errorMessage = null;
 
         if (editText.getId() == R.id.et_first_name && hasFocus == false) {
             result = mValidator.isValidFirstName(editText);
+            errorMessage = getResources().getString(R.string.iap_first_name_error);
         }
         if (editText.getId() == R.id.et_last_name && hasFocus == false) {
             result = mValidator.isValidLastName(editText);
+            errorMessage = getResources().getString(R.string.iap_last_name_error);
         }
         if (editText.getId() == R.id.et_town && hasFocus == false) {
             result = mValidator.isValidTown(editText);
+            errorMessage = getResources().getString(R.string.iap_town_error);
         }
         if (editText.getId() == R.id.et_phone_number && hasFocus == false) {
             result = mValidator.isValidPhoneNumber(editText);
+            errorMessage = getResources().getString(R.string.iap_phone_error);
         }
         if (editText.getId() == R.id.et_country && hasFocus == false) {
             result = mValidator.isValidCountry(editText);
+            errorMessage = getResources().getString(R.string.iap_country_error);
         }
         if (editText.getId() == R.id.et_postal_code && hasFocus == false) {
             result = mValidator.isValidPostalCode(editText);
+            errorMessage = getResources().getString(R.string.iap_postal_code_error);
         }
         if (editText.getId() == R.id.et_email && hasFocus == false) {
             result = mValidator.isValidEmail(editText);
+            errorMessage = getResources().getString(R.string.iap_email_error);
         }
         if (editText.getId() == R.id.et_address && hasFocus == false) {
             result = mValidator.isValidAddress(editText);
+            errorMessage = getResources().getString(R.string.iap_address_error);
         }
 
         if (!result) {
             mInlineFormsParent.showError((EditText) editText);
+
+            int index = mInlineFormsParent.indexOfChild((ViewGroup) editText.getParent());
+            TextView errorView = (TextView) ((ViewGroup) mInlineFormsParent.getChildAt(index + 1)).getChildAt(1);
+            errorView.setText(errorMessage);
         } else {
             mInlineFormsParent.removeError(editText);
         }
@@ -300,5 +345,58 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void afterTextChanged(Editable s) {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTitle();
+    }
+
+    //Update
+    private void updateFeilds() {
+        try {
+            Bundle bundle = getArguments();
+            addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+            mBtnContinue.setText(getString(R.string.iap_save));
+            mBtnContinue.requestFocus();
+            mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
+            mEtFirstName.requestFocus();
+            mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
+            mEtLastName.requestFocus();
+            mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
+            mEtTown.requestFocus();
+            mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
+            mEtPostalCode.requestFocus();
+            mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
+            mEtCountry.requestFocus();
+            mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
+            mEtAddress.requestFocus();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private HashMap updateToHybrisTheFeilds() {
+        HashMap<String, String> addressHashMap = new HashMap<>();
+        addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
+        addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
+        addressHashMap.put(ModelConstants.TITLE_CODE, "mr");
+        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
+        addressHashMap.put(ModelConstants.LINE_1, mEtAddress.getText().toString());
+        addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
+        addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
+        addressHashMap.put(ModelConstants.ADDRESS_ID, addressFeilds.get(ModelConstants.ADDRESS_ID));
+        addressHashMap.put(ModelConstants.LINE_2, "");
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddress.getText().toString());
+        addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
+        return addressHashMap;
+    }
+
+    public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
+        ShippingAddressFragment fragment = new ShippingAddressFragment();
+        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
+        fragment.setArguments(args);
+        return fragment;
     }
 }
