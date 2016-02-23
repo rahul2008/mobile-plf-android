@@ -68,7 +68,7 @@ public class ListViewWithOptions extends BaseAdapter {
 
 
         if (convertView == null)
-            vi = inflater.inflate(R.layout.uikit_listview_with_options_multiproduct, null);
+            vi = inflater.inflate(R.layout.fragment_listscreen_adaper_view, null);
 
         SummaryModel summaryModel = mProductsList.get(position);
         ;

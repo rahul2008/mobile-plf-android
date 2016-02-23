@@ -74,7 +74,7 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
 
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.uikit_action_bar, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.action_bar, null); // layout which contains your button.
 
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 
