@@ -21,7 +21,7 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_multi_product);
+        setContentView(R.layout.activity_productselection_layout);
 
         animateThisScreen();
         int ctnSize = ProductModelSelectionHelper.getInstance().getProductCtnList().length;
