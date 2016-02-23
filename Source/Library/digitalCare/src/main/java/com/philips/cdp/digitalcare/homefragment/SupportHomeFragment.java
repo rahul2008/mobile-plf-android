@@ -344,7 +344,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     };
 
     private void launchProductSelectionFragmentComponent() {
-        Toast.makeText(getActivity(), "Fragment Launcher", Toast.LENGTH_SHORT).show();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity().getApplicationContext());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
