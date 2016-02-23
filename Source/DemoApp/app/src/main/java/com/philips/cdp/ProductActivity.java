@@ -1,9 +1,7 @@
 package com.philips.cdp;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -66,7 +64,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void registerProduct(final String accessToken) {
         PrxLogger.enablePrxLogger(true);
 
-        RegistrationBuilder registrationBuilder = new RegistrationBuilder(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
+        RegistrationBuilder registrationBuilder = new RegistrationBuilder(ctn.getText().toString(), accessToken + "123", serialNumber.getText().toString());
         registrationBuilder.setmSectorCode(mSectorCode);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
@@ -76,18 +74,16 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         ProductRegHelper.getInstance().registerProduct(this, registrationBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
+                Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
                 ProductResponse productResponse = (ProductResponse) responseData;
                 if (productResponse.getData() != null)
                     Log.d(TAG, " Response Data : " + productResponse.getData());
-
-                if (responseData != null)
-                    showDialog(responseData.toString());
             }
 
             @Override
             public void onResponseError(String error, int code) {
                 Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
-                showDialog(error);
+                Toast.makeText(ProductActivity.this, error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -160,19 +156,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         new DatePickerDialog(this, myDateListener, year, month, day).show();
-    }
-
-    private void showDialog(String message) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(message);
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                arg0.dismiss();
-            }
-        });
-        final AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 }
 

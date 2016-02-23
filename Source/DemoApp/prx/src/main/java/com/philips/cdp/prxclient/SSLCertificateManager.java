@@ -16,9 +16,9 @@ import javax.net.ssl.X509TrustManager;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class HttpsTrustManager {
+public class SSLCertificateManager {
 
-    public static void allowAllSSL() {
+    public static void setSSLSocketFactory() {
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
 
             @Override

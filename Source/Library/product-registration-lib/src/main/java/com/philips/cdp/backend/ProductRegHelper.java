@@ -2,23 +2,17 @@ package com.philips.cdp.backend;
 
 import android.content.Context;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PrxRequest;
+import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.RequestType;
-import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.UserWithProduct;
 import com.philips.cdp.registration.handlers.ProductRegistrationHandler;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,40 +49,39 @@ public class ProductRegHelper {
         Map<String, String> headers = new HashMap<>();
         headers.put("x-accessToken", registrationBuilder.getAccessToken());
 
-        PrxRequest prxRequest = new PrxRequest(RequestType.POST.getMethod(), prxDataBuilder.getRequestUrl(), params, headers, new Response.Listener<JSONObject>() {
+        PrxRequest prxRequest = new PrxRequest(RequestType.POST, prxDataBuilder.getRequestUrl(), params, headers, new ResponseListener() {
             @Override
-            public void onResponse(JSONObject response) {
-                ResponseData responseData = prxDataBuilder.getResponseData(response);
+            public void onResponseSuccess(final ResponseData responseData) {
                 listener.onResponseSuccess(responseData);
-                PrxLogger.d(TAG, "Response : " + response.toString());
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error != null) {
-                    final NetworkResponse networkResponse = error.networkResponse;
-                    try {
-                        if (networkResponse != null)
-                            handleError(networkResponse.statusCode, prxDataBuilder, listener);
-                        else if (error instanceof NoConnectionError) {
-                            listener.onResponseError("No internet connection", 0);
-                        } else
-                            listener.onResponseError(ErrorType.UNKNOWN.getDescription(), 0);
-                    } catch (Exception e) {
-                        PrxLogger.e(TAG, "Volley Error : " + e);
-                    }
+            public void onResponseError(final String errorMessage, final int responseCode) {
+                try {
+                    handleError(responseCode, prxDataBuilder, listener);
+                } catch (Exception e) {
+                    PrxLogger.e(TAG, "Volley Error : " + e);
                 }
             }
-        });
-        new NetworkWrapper(mContext).executeCustomRequest(prxRequest);
+        }, prxDataBuilder);
+        RequestManager requestManager = new RequestManager();
+        requestManager.init(context);
+        requestManager.executeCustomRequest(prxRequest);
     }
 
     private Map<String, String> getProductRegParams(final RegistrationBuilder registrationBuilder) {
         Map<String, String> params = new HashMap<>();
-        params.put("purchaseDate", registrationBuilder.getPurchaseDate());
+
+        final String purchaseDate = registrationBuilder.getPurchaseDate();
+        validatePurchaseDate(params, purchaseDate);
         params.put("productSerialNumber", registrationBuilder.getProductSerialNumber());
         params.put("registrationChannel", registrationBuilder.getRegistrationChannel());
         return params;
+    }
+
+    private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
+        if (purchaseDate != null && purchaseDate.length() > 0)
+            params.put("purchaseDate", purchaseDate);
     }
 
     private void handleError(final int statusCode, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
@@ -100,6 +93,8 @@ public class ProductRegHelper {
             onAccessTokenExpire((RegistrationBuilder) prxDataBuilder, listener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getId()) {
             listener.onResponseError(ErrorType.INVALID_VALIDATION.getDescription(), statusCode);
+        } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getId()) {
+            listener.onResponseError(ErrorType.NO_INTERNET_CONNECTION.getDescription(), statusCode);
         }
     }
 

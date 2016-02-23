@@ -2,8 +2,6 @@ package com.philips.cdp.productbuilder;
 
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 
-import java.util.Map;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -11,7 +9,7 @@ import java.util.Map;
 public abstract class RegistrationDataBuilder extends PrxDataBuilder {
 
     protected String accessToken;
-    private String mServerInfo = "https://acc.philips.co.uk/prx/registration/";
+    private String mServerInfo = "https://dev.philips.com/prx/registration/";
     private String productSerialNumber;
     private String purchaseDate;
     private String registrationChannel;
@@ -121,10 +119,4 @@ public abstract class RegistrationDataBuilder extends PrxDataBuilder {
     public void setCountry(String country) {
         this.country = country;
     }
-
-    public abstract int getMethod();
-
-    public abstract Map<String, String> getParams();
-
-    public abstract Map<String, String> getHeaders();
 }

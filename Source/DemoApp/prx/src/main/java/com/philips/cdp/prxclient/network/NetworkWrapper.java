@@ -8,8 +8,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.philips.cdp.prxclient.HttpsTrustManager;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.SSLCertificateManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -57,18 +57,18 @@ public class NetworkWrapper {
                         PrxLogger.e(TAG, "Volley Error : " + e);
                         listener.onResponseError(error.toString(), 0);
                     }
-
-
                 }
             }
         });
+        if (isHttpsRequest)
+            SSLCertificateManager.setSSLSocketFactory();
         mVolleyRequest.add(mJsonObjectRequest);
     }
 
     public void executeCustomRequest(final Request request) {
         mVolleyRequest = Volley.newRequestQueue(mContext);
         if (isHttpsRequest)
-            HttpsTrustManager.allowAllSSL();
+            SSLCertificateManager.setSSLSocketFactory();
         mVolleyRequest.add(request);
     }
     

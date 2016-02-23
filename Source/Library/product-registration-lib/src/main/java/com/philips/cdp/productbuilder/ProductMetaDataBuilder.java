@@ -3,13 +3,10 @@ package com.philips.cdp.productbuilder;
 import android.net.Uri;
 import android.util.Log;
 
-import com.android.volley.Request;
 import com.philips.cdp.model.ProductMetaData;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -37,21 +34,6 @@ public class ProductMetaDataBuilder extends RegistrationDataBuilder {
     @Override
     public String getRequestUrl() {
         return generateUrl();
-    }
-
-    @Override
-    public int getMethod() {
-        return Request.Method.GET;
-    }
-
-    @Override
-    public Map<String, String> getParams() {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> getHeaders() {
-        return null;
     }
 
     private String generateUrl() {

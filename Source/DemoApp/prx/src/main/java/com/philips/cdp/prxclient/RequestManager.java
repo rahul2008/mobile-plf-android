@@ -26,4 +26,8 @@ public class RequestManager {
 
     public void cancelRequest(String requestTag) {
     }
+
+    public void executeCustomRequest(final PrxRequest prxRequest) {
+        new NetworkWrapper(mContext).executeCustomRequest(prxRequest);
+    }
 }

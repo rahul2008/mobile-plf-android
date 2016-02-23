@@ -10,7 +10,8 @@ public enum ErrorType {
     ACCESS_TOKEN_INVALID(403, "malformed access token"),
     ACCESS_TOKEN_EXPIRED(500, "access token expired"),
     INVALID_VALIDATION(422, "Invalid input"),
-    INVALID_PRODUCT(404, "CTN not found");
+    INVALID_PRODUCT(404, "CTN not found"),
+    NO_INTERNET_CONNECTION(501, "No internet connection");
 
     private final int id;
     private final String description;
