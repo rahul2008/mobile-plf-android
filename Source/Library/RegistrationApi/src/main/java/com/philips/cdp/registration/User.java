@@ -450,6 +450,7 @@ public class User {
                 if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                     clearData();
+                    RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
                 }
                 refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
             }
@@ -816,7 +817,8 @@ public class User {
                 if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                     clearData();
-                    return;
+                    RegistrationHelper.getInstance().getUserRegistrationListener()
+                            .notifyOnLogoutSuccessWithInvalidAccessToken();
                 }
                 updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(error);
             }
@@ -942,6 +944,8 @@ public class User {
             logoutJanrainUser();
             if (logoutHandler != null) {
                 logoutHandler.onLogoutSuccess();
+                RegistrationHelper.getInstance().getUserRegistrationListener()
+                        .notifyOnUserLogoutSuccess();
             }
         }
     }
@@ -1053,6 +1057,8 @@ public class User {
                 hsdpUser.deleteFromDisk();
                 if (logoutHandler != null) {
                     logoutHandler.onLogoutSuccess();
+                    RegistrationHelper.getInstance().getUserRegistrationListener()
+                            .notifyOnUserLogoutSuccess();
                 }
             }
 
@@ -1064,11 +1070,15 @@ public class User {
                     clearData();
                     if (logoutHandler != null) {
                         logoutHandler.onLogoutSuccess();
+                        RegistrationHelper.getInstance().getUserRegistrationListener()
+                                .notifyOnLogoutSuccessWithInvalidAccessToken();
                     }
                     return;
                 } else {
                     if (logoutHandler != null) {
                         logoutHandler.onLogoutFailure(responseCode, message);
+                        RegistrationHelper.getInstance().getUserRegistrationListener()
+                                .notifyOnUserLogoutFailure();
                     }
                 }
             }

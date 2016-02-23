@@ -271,9 +271,9 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
         hideProgressBar();
         if(error== Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
-            getRegistrationFragment().replaceWithHomeFragment();
-            RegistrationHelper.getInstance().getUserRegistrationListener()
-                    .notifyOnLogoutSuccessWithInvalidAccessToken();
+            if(  getRegistrationFragment()!=null) {
+                getRegistrationFragment().replaceWithHomeFragment();
+            }
             return;
         }
         mCbTerms.setOnCheckedChangeListener(null);
@@ -300,8 +300,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 trackPage(AppTaggingPages.HOME);
                 hideLogoutSpinner();
                 getRegistrationFragment().replaceWithHomeFragment();
-                RegistrationHelper.getInstance().getUserRegistrationListener()
-                        .notifyOnUserLogoutSuccess();
             }
         });
     }
@@ -317,8 +315,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 }
                 hideLogoutSpinner();
                 mRegError.setError(message);
-                RegistrationHelper.getInstance().getUserRegistrationListener()
-                        .notifyOnUserLogoutFailure();
             }
         });
     }
