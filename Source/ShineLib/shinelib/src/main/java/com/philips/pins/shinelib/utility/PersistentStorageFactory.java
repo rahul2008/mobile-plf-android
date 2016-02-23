@@ -12,7 +12,7 @@ public class PersistentStorageFactory {
 
     public static final String SHINELIB_KEY = "SHINELIB_PREFERENCES";
     public static final String DEVICE_KEY = "_SHINELIB_DEVICE_PREFERENCES_FILE_KEY";
-    public static final String USER_KEY = "SHNUserConfigurationImpl_preferences";
+    public static final String USER_KEY = "SHINELIB_USER_PREFERENCES";
     public static final String DEVICE_ADDRESS_KEY = "SHINELIB_DEVICE_ADDRESS";
 
     @NonNull
