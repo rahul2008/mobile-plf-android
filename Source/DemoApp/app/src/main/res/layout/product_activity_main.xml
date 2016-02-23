@@ -25,6 +25,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/fab_margin"
+            android:editable="false"
             android:hint="Registration Channel"/>
 
         <EditText
@@ -34,7 +35,8 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/fab_margin"
-            android:hint="Purchase date"/>
+            android:hint="Purchase date"
+            android:onClick="onClickPurchaseDate"/>
 
         <EditText
             android:id="@+id/edt_serial_number"

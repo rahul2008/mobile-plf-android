@@ -16,9 +16,7 @@ import javax.net.ssl.X509TrustManager;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class HttpsTrustManager implements X509TrustManager {
-
-    private static final X509Certificate[] _AcceptedIssuers = new X509Certificate[]{};
+public class HttpsTrustManager {
 
     public static void allowAllSSL() {
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
@@ -39,6 +37,17 @@ public class HttpsTrustManager implements X509TrustManager {
     }
 
     private static javax.net.ssl.SSLSocketFactory createSslSocketFactory() throws Exception {
+        TrustManager[] byPassTrustManagers = new TrustManager[]{new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+
+            public void checkClientTrusted(X509Certificate[] chain, String authType) {
+            }
+
+            public void checkServerTrusted(X509Certificate[] chain, String authType) {
+            }
+        }};
         SSLContext sslContext = SSLContext.getInstance("TLS");
 
         TrustManager tm = new X509TrustManager() {
@@ -57,33 +66,6 @@ public class HttpsTrustManager implements X509TrustManager {
         };
         sslContext.init(new KeyManager[0], new TrustManager[]{tm}, new SecureRandom());
         return sslContext.getSocketFactory();
-    }
-
-    @Override
-    public void checkClientTrusted(
-            java.security.cert.X509Certificate[] x509Certificates, String s)
-            throws java.security.cert.CertificateException {
-
-    }
-
-    @Override
-    public void checkServerTrusted(
-            java.security.cert.X509Certificate[] x509Certificates, String s)
-            throws java.security.cert.CertificateException {
-
-    }
-
-    public boolean isClientTrusted(X509Certificate[] chain) {
-        return true;
-    }
-
-    public boolean isServerTrusted(X509Certificate[] chain) {
-        return true;
-    }
-
-    @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        return _AcceptedIssuers;
     }
 
 }

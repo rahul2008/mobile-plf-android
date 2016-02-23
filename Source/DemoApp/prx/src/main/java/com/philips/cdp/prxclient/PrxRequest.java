@@ -16,14 +16,14 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-public class ProductRequest extends Request<JSONObject> {
+public class PrxRequest extends Request<JSONObject> {
 
     private Listener<JSONObject> mResponseListener;
     private ErrorListener mErrorListener;
     private Map<String, String> params, headers;
 
-    public ProductRequest(int method, String url, Map<String, String> params, Map<String, String> headers,
-                          Listener<JSONObject> responseListener, ErrorListener errorListener) {
+    public PrxRequest(int method, String url, Map<String, String> params, Map<String, String> headers,
+                      Listener<JSONObject> responseListener, ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mResponseListener = responseListener;
         mErrorListener = errorListener;
@@ -66,19 +66,6 @@ public class ProductRequest extends Request<JSONObject> {
             return Response.error(new ParseError(e));
         } catch (JSONException je) {
             return Response.error(new ParseError(je));
-        }
-    }
-
-    private Response<JSONObject> parseSuccessResponse(NetworkResponse response) {
-        try {
-            String jsonString = new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(new JSONObject(jsonString),
-                    HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException exception) {
-            return Response.error(new ParseError(exception));
-        } catch (JSONException jsonException) {
-            return Response.error(new ParseError(jsonException));
         }
     }
 

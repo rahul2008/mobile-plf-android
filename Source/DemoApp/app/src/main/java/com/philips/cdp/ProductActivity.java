@@ -1,13 +1,17 @@
 package com.philips.cdp;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.philips.cdp.backend.RegistrationRequestManager;
+import com.philips.cdp.backend.ProductRegHelper;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.model.ProductMetaData;
 import com.philips.cdp.model.ProductResponse;
@@ -16,20 +20,31 @@ import com.philips.cdp.productbuilder.ProductMetaDataBuilder;
 import com.philips.cdp.productbuilder.RegisteredBuilder;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+
+import java.util.Calendar;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText regChannel, serialNumber, purchaseDate, ctn;
     private String mCtn = "HD8969/09";
     private String mSectorCode = "B2C";
-    private String mLocale = "ru_RU";
+    private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
     private String TAG = getClass().toString();
-    
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            Log.d(TAG, "Response Data : " + arg1 + "-" + arg2 + "-" + arg3);
+            purchaseDate.setText(arg1 + "-" + (arg2 + 1) + "-" + arg3);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,28 +66,28 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void registerProduct(final String accessToken) {
         PrxLogger.enablePrxLogger(true);
 
-        RegistrationBuilder registrationBuilder = new RegistrationBuilder(mCtn, accessToken, serialNumber.getText().toString());
+        RegistrationBuilder registrationBuilder = new RegistrationBuilder(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
         registrationBuilder.setmSectorCode(mSectorCode);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
         registrationBuilder.setRegistrationChannel(regChannel.getText().toString());
         registrationBuilder.setPurchaseDate(purchaseDate.getText().toString());
 
-        RegistrationRequestManager mRequestManager = new RegistrationRequestManager(this);
-        mRequestManager.executeRequest(registrationBuilder, new ResponseListener() {
+        ProductRegHelper.getInstance().registerProduct(this, registrationBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                Toast.makeText(ProductActivity.this, "Product Registered successfully", Toast.LENGTH_SHORT).show();
                 ProductResponse productResponse = (ProductResponse) responseData;
-                Log.d(TAG, "Positive Response Data : " + productResponse.isSuccess());
                 if (productResponse.getData() != null)
                     Log.d(TAG, " Response Data : " + productResponse.getData());
+
+                if (responseData != null)
+                    showDialog(responseData.toString());
             }
 
             @Override
             public void onResponseError(String error, int code) {
                 Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
-                Toast.makeText(ProductActivity.this, error, Toast.LENGTH_SHORT).show();
+                showDialog(error);
             }
         });
     }
@@ -82,7 +97,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
         RegisteredBuilder registeredDataBuilder = new RegisteredBuilder(accessToken);
 
-        RegistrationRequestManager mRequestManager = new RegistrationRequestManager(this);
+        RequestManager mRequestManager = new RequestManager();
+        mRequestManager.init(this);
         mRequestManager.executeRequest(registeredDataBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -107,7 +123,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         productMetaDataBuilder.setmLocale(mLocale);
         productMetaDataBuilder.setmCatalogCode(mCatalogCode);
 
-        RegistrationRequestManager mRequestManager = new RegistrationRequestManager(this);
+        RequestManager mRequestManager = new RequestManager();
+        mRequestManager.init(this);
         mRequestManager.executeRequest(productMetaDataBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -137,6 +154,25 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    public void onClickPurchaseDate(View view) {
+        final Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(this, myDateListener, year, month, day).show();
+    }
 
+    private void showDialog(String message) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                arg0.dismiss();
+            }
+        });
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
 }
 
