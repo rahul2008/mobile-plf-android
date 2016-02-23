@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Selecteer een product</string>
+<string name="Select_Product_Desc">Om u een betere ondersteuning te kunnen bieden, vragen wij u aan te geven welk product u hebt.</string>
+<string name="Select_Product_Find">Product zoeken</string>
+<string name="Product_Title">Producten</string>
+<string name="Product_Details_Select">Selecteer dit product</string>
+<string name="Change_Selected_Product">Wijzig geselecteerd product</string>
+<string name="Confirmation_Title">Bevestiging</string>
+<string name="Confirmation_Selected">U hebt geselecteerd</string>
+<string name="Confirmation_Change">Wijzigen</string>
+<string name="Confirmation_Change_Selection">U kunt uw selectie op elk moment wijzigen.</string>
+<string name="Confirmation_Continue_Support">Doorgaan naar ondersteuning</string>
+</resources>

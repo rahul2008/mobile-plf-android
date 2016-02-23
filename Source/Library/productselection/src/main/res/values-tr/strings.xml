@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Ürün seçin</string>
+<string name="Select_Product_Desc">Size daha iyi destek verebilmemiz için hangi ürünlere sahip olduğunuzu bize söyleyebilir misiniz?</string>
+<string name="Select_Product_Find">Ürünü bulun</string>
+<string name="Product_Title">Ürünler</string>
+<string name="Product_Details_Select">Bu ürünü seçin</string>
+<string name="Change_Selected_Product">Seçilen ürünü değiştirin</string>
+<string name="Confirmation_Title">Onay</string>
+<string name="Confirmation_Selected">Seçtiğiniz ürünler:</string>
+<string name="Confirmation_Change">Değiştirme</string>
+<string name="Confirmation_Change_Selection">Seçiminizi her zaman değiştirebilirsiniz.</string>
+<string name="Confirmation_Continue_Support">Destek olmaya devam edin</string>
+</resources>

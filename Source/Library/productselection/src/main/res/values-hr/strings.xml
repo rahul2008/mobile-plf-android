@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Odabir proizvoda</string>
+<string name="Select_Product_Desc">Kako bismo vam pružili bolju podršku, možete li nam reći koji proizvod posjedujete?</string>
+<string name="Select_Product_Find">Pronađi proizvod</string>
+<string name="Product_Title">Proizvodi</string>
+<string name="Product_Details_Select">Odaberi ovaj proizvod</string>
+<string name="Change_Selected_Product">Promijeni odabrani proizvod</string>
+<string name="Confirmation_Title">Potvrda</string>
+<string name="Confirmation_Selected">Odabrali ste</string>
+<string name="Confirmation_Change">Promijeni</string>
+<string name="Confirmation_Change_Selection">Odabir možete promijeniti kad god želite.</string>
+<string name="Confirmation_Continue_Support">Nastavi na podršku</string>
+</resources>

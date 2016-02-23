@@ -53,7 +53,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/welcome_screen_find_product_search"
                     android:paddingLeft="@dimen/savedscreen_productcontainer_marigin"
-                    android:text="@string/mp_find_product"
+                    android:text="@string/Select_Product_Find"
                     android:textColor="?attr/baseColor"
                     android:textSize="@dimen/title_text_size_medium" />
             </RelativeLayout>

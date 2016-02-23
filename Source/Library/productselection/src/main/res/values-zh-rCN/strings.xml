@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">选择产品</string>
+<string name="Select_Product_Desc">为了向您提供更出色的支持，您能否告诉我们您使用的是哪款产品？</string>
+<string name="Select_Product_Find">查找产品</string>
+<string name="Product_Title">产品</string>
+<string name="Product_Details_Select">选择此产品</string>
+<string name="Change_Selected_Product">更改所选产品</string>
+<string name="Confirmation_Title">确认</string>
+<string name="Confirmation_Selected">您已选择</string>
+<string name="Confirmation_Change">更改</string>
+<string name="Confirmation_Change_Selection">您可以随时更改您的选择。</string>
+<string name="Confirmation_Continue_Support">继续以获取支持</string>
+</resources>

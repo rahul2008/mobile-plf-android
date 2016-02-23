@@ -135,7 +135,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.confirmation);
+        return getResources().getString(R.string.Confirmation_Title);
     }
 
     @Override

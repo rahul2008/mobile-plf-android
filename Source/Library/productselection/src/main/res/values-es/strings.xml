@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Seleccionar producto</string>
+<string name="Select_Product_Desc">¿Podrías indicarnos cuál es tu producto, para que te ofrezcamos una mejor asistencia?</string>
+<string name="Select_Product_Find">Buscar el producto</string>
+<string name="Product_Title">Productos</string>
+<string name="Product_Details_Select">Seleccionar este producto</string>
+<string name="Change_Selected_Product">Cambiar el producto seleccionado</string>
+<string name="Confirmation_Title">Confirmación</string>
+<string name="Confirmation_Selected">Has seleccionado</string>
+<string name="Confirmation_Change">Cambiar</string>
+<string name="Confirmation_Change_Selection">Puedes cambiar la selección en cualquier momento.</string>
+<string name="Confirmation_Continue_Support">Continuar con la asistencia</string>
+</resources>

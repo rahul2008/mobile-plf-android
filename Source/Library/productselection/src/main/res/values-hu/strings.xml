@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Válassza ki a terméket</string>
+<string name="Select_Product_Desc">Annak érdekében, hogy jobb támogatást nyújthassunk, meg tudná adni, hogy melyik termékkel rendelkezik?</string>
+<string name="Select_Product_Find">Termék keresése</string>
+<string name="Product_Title">Termékek</string>
+<string name="Product_Details_Select">Válassza ki a terméket</string>
+<string name="Change_Selected_Product">Módosítsa a kiválasztott terméket</string>
+<string name="Confirmation_Title">Jóváhagyás</string>
+<string name="Confirmation_Selected">A következőt választotta:</string>
+<string name="Confirmation_Change">Módosítás</string>
+<string name="Confirmation_Change_Selection">Bármikor módosíthatja a kiválasztást.</string>
+<string name="Confirmation_Continue_Support">Tovább a támogatáshoz</string>
+</resources>

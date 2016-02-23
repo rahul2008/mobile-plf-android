@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">تحديد منتج</string>
+<string name="Select_Product_Desc">بهدف توفير دعم أفضل لك، هل يمكنك إطلاعنا على المنتج الذي تملكه؟</string>
+<string name="Select_Product_Find">بحث عن المنتج</string>
+<string name="Product_Title">المنتجات</string>
+<string name="Product_Details_Select">تحديد هذا المنتج</string>
+<string name="Change_Selected_Product">تغيير المنتج المحدد</string>
+<string name="Confirmation_Title">تأكيد</string>
+<string name="Confirmation_Selected">لقد حددت المنتج</string>
+<string name="Confirmation_Change">تغيير</string>
+<string name="Confirmation_Change_Selection">يمكنك تغيير التحديد في أي وقت.</string>
+<string name="Confirmation_Continue_Support">المتابعة إلى الدعم</string>
+</resources>

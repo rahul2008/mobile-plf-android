@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Избор на продукт</string>
+<string name="Select_Product_Desc">Бихте ли ни казали, кой продукт притежавате, за да ви предоставим по-добра поддръжка?</string>
+<string name="Select_Product_Find">Намерете продукт</string>
+<string name="Product_Title">Продукти</string>
+<string name="Product_Details_Select">Избор на този продукт</string>
+<string name="Change_Selected_Product">Промяна на избран продукт</string>
+<string name="Confirmation_Title">Потвърждение</string>
+<string name="Confirmation_Selected">Избрали сте</string>
+<string name="Confirmation_Change">Промени</string>
+<string name="Confirmation_Change_Selection">Можете да промените избора си по всяко време.</string>
+<string name="Confirmation_Continue_Support">Към поддръжката</string>
+</resources>

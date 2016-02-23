@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Chọn sản phẩm</string>
+<string name="Select_Product_Desc">Để nhận được sự hỗ trợ tốt hơn, vui lòng cho chúng tôi biết bạn hiện đang dùng sản phẩm gì?</string>
+<string name="Select_Product_Find">Tìm sản phẩm</string>
+<string name="Product_Title">Sản phẩm</string>
+<string name="Product_Details_Select">Chọn sản phẩm này</string>
+<string name="Change_Selected_Product">Thay đổi sản phẩm đã chọn</string>
+<string name="Confirmation_Title">Xác nhận</string>
+<string name="Confirmation_Selected">Bạn đã chọn</string>
+<string name="Confirmation_Change">Đổi</string>
+<string name="Confirmation_Change_Selection">Bạn có thể thay đổi lựa chọn của mình bất kỳ lúc nào.</string>
+<string name="Confirmation_Continue_Support">Tiếp tục để được hỗ trợ</string>
+</resources>

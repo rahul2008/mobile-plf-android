@@ -2,13 +2,11 @@ package com.philips.productselection.listfragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -73,7 +71,7 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.product);
+        return getResources().getString(R.string.Product_Title);
     }
 
     @Override

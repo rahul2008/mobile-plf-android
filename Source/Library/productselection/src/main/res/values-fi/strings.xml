@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Valitse tuote</string>
+<string name="Select_Product_Desc">Jotta voimme antaa sinulle parhaan tuen, kerro, minkä tuotteen omistat.</string>
+<string name="Select_Product_Find">Tuotehaku</string>
+<string name="Product_Title">Tuotteet</string>
+<string name="Product_Details_Select">Valitse tämä tuote</string>
+<string name="Change_Selected_Product">Vaihda valittu tuote</string>
+<string name="Confirmation_Title">Vahvistus</string>
+<string name="Confirmation_Selected">Valintasi</string>
+<string name="Confirmation_Change">Vaihda</string>
+<string name="Confirmation_Change_Selection">Voit muuttaa valintaasi milloin tahansa.</string>
+<string name="Confirmation_Continue_Support">Jatka tukeen</string>
+</resources>
