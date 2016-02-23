@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 
@@ -78,8 +79,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         Bundle bundle = getArguments();
 
-        if (null != bundle.getSerializable("addressField")) {
-            mAddressFields = (AddressFields) bundle.getSerializable("addressField");
+        if (getArguments().containsKey(IAPConstant.ADDRESS_FIELDS)) {
+            mAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.ADDRESS_FIELDS);
         }
 
         mEtFirstName.addTextChangedListener(this);
@@ -103,7 +104,6 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             }
         });
 
-
         mSwitchBillingAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -120,7 +120,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     }
 
     private void prePopulateShippingAddress() {
-        if(mAddressFields != null) {
+        if (mAddressFields != null) {
             mEtFirstName.setText(mAddressFields.getFirstName());
             mEtLastName.setText(mAddressFields.getLastName());
             mEtAddress.setText(mAddressFields.getLine1());

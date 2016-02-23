@@ -33,7 +33,6 @@ import com.philips.cdp.uikit.customviews.InlineForms;
 
 import java.util.HashMap;
 
-
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener, InlineForms.Validator,
         TextWatcher {
@@ -163,11 +162,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(boolean isSuccess) {
         Utility.dismissProgressDialog();
         if (isSuccess) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("addressField", mAddressFields);
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), false);
-
+            if (getArguments().containsKey(IAPConstant.IS_SECOND_USER) && getArguments().getBoolean(IAPConstant.IS_SECOND_USER)) {
+                getMainActivity().onBackPressed();
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
+                getMainActivity().addFragmentAndRemoveUnderneath(
+                        BillingAddressFragment.createInstance(bundle, AnimationType.NONE), false);
+            }
             Toast.makeText(mContext, "Address created successfully", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();

@@ -17,7 +17,6 @@ import com.philips.cdp.di.iap.model.UpdateAddressRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.HashMap;
@@ -43,8 +42,13 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
     public void createAddress(AddressFields addressFields) {
-        HashMap<String, String> params = new HashMap<>();
+        HashMap<String, String> params = getAddressHashMap(addressFields);
+        CreateAddressRequest model = new CreateAddressRequest(getStore(), params, this);
+        getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);
+    }
 
+    private HashMap<String, String> getAddressHashMap(final AddressFields addressFields) {
+        HashMap<String, String> params = new HashMap<>();
         //Add all the payloads
         params.put(ModelConstants.FIRST_NAME, addressFields.getFirstName());
         params.put(ModelConstants.LAST_NAME, addressFields.getLastName());
@@ -55,10 +59,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         params.put(ModelConstants.POSTAL_CODE, addressFields.getPostalCode());
         params.put(ModelConstants.TOWN, addressFields.getTown());
         params.put(ModelConstants.PHONE_NUMBER, addressFields.getPhoneNumber());
-
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        CreateAddressRequest model = new CreateAddressRequest(delegate.getStore(), params, this);
-        delegate.sendRequest(RequestCode.CREATE_ADDRESS, model, model);
+        return params;
     }
 
     void setHybrisDelegate(HybrisDelegate delegate) {
@@ -82,6 +83,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         }
         return mStore;
     }
+
     public void deleteAddress(String addressId) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put(ModelConstants.ADDRESS_ID, addressId);
@@ -101,11 +103,9 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
     }
 
-
     @Override
     public void onModelDataLoadFinished(Message msg) {
 
-        
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.DELETE_ADDRESS:

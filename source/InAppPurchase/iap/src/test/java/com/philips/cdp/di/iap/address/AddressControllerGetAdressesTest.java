@@ -5,6 +5,7 @@ import android.os.Message;
 
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
 import com.philips.cdp.di.iap.model.GetAddressRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
@@ -22,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashMap;
@@ -45,19 +47,31 @@ public class AddressControllerGetAdressesTest {
 
     @Mock
     private NetworkController mNetworkController;
-    @Mock private HybrisDelegate mHybrisDelegate;
-    @Mock private AddressController mController;
-    @Mock private Context mContext;
-    @Captor private ArgumentCaptor<GetAddressRequest> mModelistener;
-    @Mock private SSLSocketFactory mSocketFactory;
-    @Mock private Message mResultMessage;
-    @Mock private Store mStore;
-    @Mock private GetAddressRequest mAddressRequest;
-    @Mock private UpdateAddressRequest mUpdateAddressRequest;
-    @Mock private DeleteAddressRequest mDeleteAddressRequest;
+    @Mock
+    private HybrisDelegate mHybrisDelegate;
+    @Mock
+    private AddressController mController;
+    @Mock
+    private Context mContext;
+    @Captor
+    private ArgumentCaptor<GetAddressRequest> mModelistener;
+    @Mock
+    private SSLSocketFactory mSocketFactory;
+    @Mock
+    private Message mResultMessage;
+    @Mock
+    private Store mStore;
+    @Mock
+    private GetAddressRequest mAddressRequest;
+    @Mock
+    private UpdateAddressRequest mUpdateAddressRequest;
+    @Mock
+    private DeleteAddressRequest mDeleteAddressRequest;
+    @Mock
+    private CreateAddressRequest mCreateAddressRequest;
 
     @Before
-    public void setUP(){
+    public void setUP() {
         when(mHybrisDelegate.getNetworkController(mContext)).thenReturn(mNetworkController);
         doCallRealMethod().when(mAddressRequest).parseResponse(any(Message.class));
     }
@@ -98,6 +112,25 @@ public class AddressControllerGetAdressesTest {
     }
 
     @Test
+    public void verifyHybrisRequestSentForCreateAddress() {
+        mController = new AddressController(mContext, null);
+        setStoreAndDelegate();
+        AddressFields mockAddressFields = Mockito.mock(AddressFields.class);
+        when(mockAddressFields.getFirstName()).thenReturn("XYZ");
+        when(mockAddressFields.getLastName()).thenReturn("WXY");
+        when(mockAddressFields.getTitleCode()).thenReturn("Mr");
+        when(mockAddressFields.getCountryIsocode()).thenReturn("ISO");
+        when(mockAddressFields.getLine1()).thenReturn("XYZ");
+        when(mockAddressFields.getLine2()).thenReturn("XYZ");
+        when(mockAddressFields.getPostalCode()).thenReturn("XYZ");
+        when(mockAddressFields.getTown()).thenReturn("XYZ");
+        when(mockAddressFields.getPhoneNumber()).thenReturn("XYZ");
+        mController.createAddress(mockAddressFields);
+        verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
+                any(AbstractModel.class));
+    }
+
+    @Test
     public void verifyHybrisRequestSentForDeleteAddresses() {
         mController = new AddressController(mContext, null);
 
@@ -119,10 +152,12 @@ public class AddressControllerGetAdressesTest {
             public void onFetchAddressSuccess(final Message msg) {
                 assertNotNull(msg);
             }
+
             @Override
             public void onFetchAddressFailure(final Message msg) {
 
             }
+
             @Override
             public void onCreateAddress(final boolean isSuccess) {
 
@@ -146,8 +181,6 @@ public class AddressControllerGetAdressesTest {
         mModelistener.getValue().onSuccess(mResultMessage);
     }
 
-
-
     @Test
     public void verifyAddressDeatilsGetAddresses() {
         mController = new AddressController(mContext, new AddressController.AddressListener() {
@@ -156,19 +189,21 @@ public class AddressControllerGetAdressesTest {
                 assertNotNull(msg);
                 GetShippingAddressData result = (GetShippingAddressData) msg.obj;
                 Addresses addresses = result.getAddresses().get(0);
-                assertEquals("Harmeet",addresses.getFirstName());
-                assertEquals("Singh",addresses.getLastName());
-                assertEquals("test",addresses.getLine1());
-                assertEquals("test",addresses.getLine2());
-                assertEquals("12-345",addresses.getPostalCode());
-                assertEquals("test",addresses.getTown());
-                assertEquals("PL",addresses.getCountry().getIsocode());
+                assertEquals("Harmeet", addresses.getFirstName());
+                assertEquals("Singh", addresses.getLastName());
+                assertEquals("test", addresses.getLine1());
+                assertEquals("test", addresses.getLine2());
+                assertEquals("12-345", addresses.getPostalCode());
+                assertEquals("test", addresses.getTown());
+                assertEquals("PL", addresses.getCountry().getIsocode());
                 assertEquals("8796158590999", addresses.getId());
             }
+
             @Override
             public void onFetchAddressFailure(final Message msg) {
 
             }
+
             @Override
             public void onCreateAddress(final boolean isSuccess) {
 
@@ -198,10 +233,12 @@ public class AddressControllerGetAdressesTest {
             @Override
             public void onFetchAddressSuccess(final Message msg) {
             }
+
             @Override
             public void onFetchAddressFailure(final Message msg) {
                 assertNotNull(msg);
             }
+
             @Override
             public void onCreateAddress(final boolean isSuccess) {
 
@@ -228,7 +265,4 @@ public class AddressControllerGetAdressesTest {
         //Send the result
         mModelistener.getValue().onError(mResultMessage);
     }
-
-
-
 }

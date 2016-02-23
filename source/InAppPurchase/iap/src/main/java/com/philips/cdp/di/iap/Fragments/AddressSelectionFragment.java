@@ -154,7 +154,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onEventReceived = " + event);
         if (!TextUtils.isEmpty(event)) {
             if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
-                HashMap<String,String> addressHashMap = updateShippingAddress();
+                HashMap<String, String> addressHashMap = updateShippingAddress();
                 moveToShippingAddressFragment(addressHashMap);
             } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
                 deleteShippingAddress();
@@ -165,7 +165,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                     OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
-            getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            Bundle args = new Bundle();
+            args.putBoolean(IAPConstant.IS_SECOND_USER, true);
+            getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(args, AnimationType.NONE), false);
         }
     }
 
@@ -203,5 +205,4 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
         getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), false);
     }
-
 }

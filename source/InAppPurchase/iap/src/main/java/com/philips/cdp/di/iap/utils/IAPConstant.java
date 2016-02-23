@@ -13,4 +13,6 @@ public class IAPConstant {
     public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
     public static final int IAP_SUCCESS = 0;
     public static final int IAP_ERROR = -1;
+    public static String IS_SECOND_USER = "IS_SECOND_USER";
+    public static String ADDRESS_FIELDS = "ADDRESS_FIELDS";
 }
