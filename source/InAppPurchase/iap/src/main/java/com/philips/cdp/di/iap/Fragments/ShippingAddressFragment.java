@@ -125,6 +125,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mEtCountry.requestFocus();
             mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
             mEtAddress.requestFocus();
+            mEtPhoneNumber.setText(addressFeilds.get(ModelConstants.PHONE_NUMBER));
+            mEtPhoneNumber.requestFocus();
         }catch (NullPointerException e){
             e.printStackTrace();
         }
