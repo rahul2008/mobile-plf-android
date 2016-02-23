@@ -30,11 +30,17 @@ import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.ProductModelSelectionHelper;
+import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.component.ActivityLauncher;
+import com.philips.multiproduct.component.FragmentBuilder;
 import com.philips.multiproduct.component.UiLauncher;
+import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 import com.philips.multiproduct.listeners.ProductModelSelectionListener;
+import com.philips.multiproduct.productselection.HardcodedProductList;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 
@@ -311,9 +317,64 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             if (isConnectionAvailable())
                 showFragment(new RateThisAppFragment());
         } else if (tag.equals(getStringKey(R.string.product_selection))) {
-            if (isConnectionAvailable())
-                launchProductSelectionActivityComponent();
+            if (isConnectionAvailable()) {
+                DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
+
+                if (digitalCareConfigManager.getUiLauncher() instanceof com.philips.cdp.digitalcare.component.ActivityLauncher){
+                    launchProductSelectionActivityComponent();
+                }
+                else{
+                    launchProductSelectionFragmentComponent();
+                }
+            }
         }
+    }
+
+    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+
+        @Override
+        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+//            mActionBarTitle.setText(titleActionbar);
+//            if (hamburgerIconAvailable) {
+//                enableActionBarHome();
+//            } else {
+//                enableActionBarLeftArrow();
+//            }
+        }
+    };
+
+    private void launchProductSelectionFragmentComponent() {
+        Toast.makeText(getActivity(), "Fragment Launcher", Toast.LENGTH_SHORT).show();
+        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
+        mProductSelectionHelper.initialize(getActivity().getApplicationContext());
+        mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
+
+        UiLauncher fragmentLauncher = new FragmentBuilder();
+        fragmentLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
+        fragmentLauncher.setActionbarUpdateListener(actionBarClickListener);
+        fragmentLauncher.setFragmentActivity(getActivity());
+        fragmentLauncher.setmLayoutResourceID(DigitalCareConfigManager.getInstance().getUiLauncher().getLayoutResourceID());
+        fragmentLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
+            @Override
+            public void onProductModelSelected(SummaryModel productSummaryModel) {
+                if (productSummaryModel != null) {
+                    SummaryModel summaryModel = productSummaryModel;
+                    productInfo.setCtn(summaryModel.getData().getCtn());
+                    mProductDetailsLayout.setVisibility(View.VISIBLE);
+
+                    if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
+                            DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null) {
+                        mPrxProductData = new PrxProductData(getActivity(), null);
+                        mPrxProductData.executeRequests();
+                    }
+
+                }
+            }
+        });
+        ProductModelSelectionHelper.getInstance().invokeProductSelection(fragmentLauncher, DigitalCareConfigManager.getInstance()
+                .getProductModelSelectionType());
+        ProductSelectionLogger.enableLogging();
     }
 
 

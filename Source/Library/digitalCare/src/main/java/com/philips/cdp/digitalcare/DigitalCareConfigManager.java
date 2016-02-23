@@ -56,6 +56,7 @@ public class DigitalCareConfigManager {
 
     public static ProductModelSelectionType mProductModelSelectionType = null;
     public static String[] mCtnList = null;
+    private UiLauncher mUiLauncher = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -153,6 +154,8 @@ public class DigitalCareConfigManager {
      * @param uiLauncher
      */
     public void invokeConsumerCareModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+        mUiLauncher = uiLauncher;
+
         if (productModelSelectionType != null) {
             mProductModelSelectionType = productModelSelectionType;
         } else
@@ -168,6 +171,9 @@ public class DigitalCareConfigManager {
 
     }
 
+    public UiLauncher getUiLauncher(){
+        return mUiLauncher;
+    }
 
     /**
      * <p> Invoking DigitalCare Component from the Intent. </p>

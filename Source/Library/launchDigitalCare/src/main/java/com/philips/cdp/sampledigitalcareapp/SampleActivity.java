@@ -68,18 +68,6 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         fragmentLauncher.setFragmentActivity(this);
         DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragmentLauncher, productsSelection);
 
-
-
-//        DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
-//                R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-//
-//        FragmentBuilder componentBuilder = new FragmentBuilder();
-//        componentBuilder.setActionbarUpdateListener(actionBarClickListener);
-//        componentBuilder.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-//        componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
-//        componentBuilder.setFragmentActivity(this);
-//
-//        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(componentBuilder);
         try {
             initActionBar();
         } catch (ClassCastException e) {
