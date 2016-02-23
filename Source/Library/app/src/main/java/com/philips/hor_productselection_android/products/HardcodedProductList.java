@@ -1,10 +1,6 @@
 package com.philips.hor_productselection_android.products;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.ProductModelSelectionType;
+import com.philips.productselection.base.ProductModelSelectionType;
 
 /**
  * Created by naveen@philips.com on 12-Feb-16.

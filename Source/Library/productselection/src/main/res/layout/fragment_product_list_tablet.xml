@@ -13,7 +13,7 @@
 
         <fragment
             android:id="@+id/fragmentTabletProductList"
-            android:name="com.philips.multiproduct.listfragment.ProductSelectionListingFragment"
+            android:name="com.philips.productselection.listfragment.ProductSelectionListingFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:tag="ProductListingFragment"

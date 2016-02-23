@@ -24,7 +24,7 @@
         android:layout_weight="2"
         android:orientation="vertical">
 
-        <com.philips.multiproduct.customview.CustomFontTextView
+        <com.philips.productselection.customview.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -40,7 +40,7 @@
             custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
 
-        <com.philips.multiproduct.customview.CustomFontTextView
+        <com.philips.productselection.customview.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
