@@ -2,7 +2,6 @@ package com.philips.multiproduct.listfragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -10,20 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.detailedscreen.DetailedScreenFragment;
-import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
-import com.philips.multiproduct.savedscreen.SavedScreenFragment;
+import com.philips.multiproduct.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.multiproduct.homefragment.ProductSelectionBaseFragment;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 /**
- * ProductListingTabletFragment class will be the base class for Product Listing in tablet.
+ * ProductSelectionListingTabletFragment class will be the base class for Product Listing in tablet.
  *
  * @author : ritesh.jha@philips.com
  * @since : 16 Feb 2016
  */
-public class ProductListingTabletFragment extends MultiProductBaseFragment {
+public class ProductSelectionListingTabletFragment extends ProductSelectionBaseFragment {
 
-    private String TAG = ProductListingTabletFragment.class.getSimpleName();
+    private String TAG = ProductSelectionListingTabletFragment.class.getSimpleName();
     private static View mRootView = null;
 
 
@@ -47,12 +45,12 @@ public class ProductListingTabletFragment extends MultiProductBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        replaceFragmentTablet(new DetailedScreenFragment());
+//        replaceFragmentTablet(new DetailedScreenFragmentSelection());
 
         try {
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, new DetailedScreenFragment(), "DetailedScreenFragment");
+            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, new DetailedScreenFragmentSelection(), "DetailedScreenFragmentSelection");
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());

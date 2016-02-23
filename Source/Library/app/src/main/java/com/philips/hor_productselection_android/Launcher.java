@@ -18,9 +18,9 @@ import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
 import com.philips.hor_productselection_android.view.CustomDialog;
-import com.philips.hor_productselection_android.view.SampleActivity;
+import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.MultiProductBaseActivity;
+import com.philips.multiproduct.base.ProductSelectionBaseActivity;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.component.ActivityLauncher;
 import com.philips.multiproduct.component.UiLauncher;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Launcher extends MultiProductBaseActivity implements View.OnClickListener {
+public class Launcher extends ProductSelectionBaseActivity implements View.OnClickListener {
 
     private static ArrayList<Product> mList = null;
     private static int RESULT_CODE_THEME_UPDATED = 1;
@@ -218,6 +218,6 @@ public class Launcher extends MultiProductBaseActivity implements View.OnClickLi
     }
 
     private void launchMultiProductAsFragment() {
-        startActivity(new Intent(this, SampleActivity.class));
+        startActivity(new Intent(this, SampleActivitySelection.class));
     }
 }

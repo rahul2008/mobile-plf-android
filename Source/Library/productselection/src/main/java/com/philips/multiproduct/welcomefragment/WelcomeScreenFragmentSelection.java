@@ -11,9 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
-import com.philips.multiproduct.listfragment.ProductListingFragment;
-import com.philips.multiproduct.listfragment.ProductListingTabletFragment;
+import com.philips.multiproduct.homefragment.ProductSelectionBaseFragment;
+import com.philips.multiproduct.listfragment.ProductSelectionListingFragment;
+import com.philips.multiproduct.listfragment.ProductSelectionListingTabletFragment;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.
@@ -21,9 +21,9 @@ import com.philips.multiproduct.listfragment.ProductListingTabletFragment;
  * @author : ritesh.jha@philips.com
  * @since : 20 Jan 2016
  */
-public class WelcomeScreenFragment extends MultiProductBaseFragment implements View.OnClickListener {
+public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment implements View.OnClickListener {
 
-    private String TAG = WelcomeScreenFragment.class.getSimpleName();
+    private String TAG = WelcomeScreenFragmentSelection.class.getSimpleName();
     private RelativeLayout mSelectProduct = null;
     private LinearLayout mWelcomeScreenParent = null;
     private FrameLayout.LayoutParams mParams = null;
@@ -81,9 +81,9 @@ public class WelcomeScreenFragment extends MultiProductBaseFragment implements V
             if (isConnectionAvailable()) {
                 if (isTablet() && !isTabletPortrait) {
                     Toast.makeText(getActivity(), "Tablet", Toast.LENGTH_SHORT).show();
-                    showFragment(new ProductListingTabletFragment());
+                    showFragment(new ProductSelectionListingTabletFragment());
                 } else {
-                    showFragment(new ProductListingFragment());
+                    showFragment(new ProductSelectionListingFragment());
                 }
             }
         }

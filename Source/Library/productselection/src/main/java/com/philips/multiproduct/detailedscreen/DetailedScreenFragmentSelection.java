@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
@@ -19,11 +18,11 @@ import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.CustomFontTextView;
-import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
+import com.philips.multiproduct.homefragment.ProductSelectionBaseFragment;
 import com.philips.multiproduct.detailedscreen.adapter.ProductAdapter;
 import com.philips.multiproduct.prx.PrxAssetDataListener;
 import com.philips.multiproduct.prx.PrxWrapper;
-import com.philips.multiproduct.savedscreen.SavedScreenFragment;
+import com.philips.multiproduct.savedscreen.SavedScreenFragmentSelection;
 import com.philips.multiproduct.utils.Constants;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
 
@@ -42,9 +41,9 @@ import java.util.Observer;
  * @author naveen@philips.com
  * @Date 28/01/2016
  */
-public class DetailedScreenFragment extends MultiProductBaseFragment implements View.OnClickListener, Observer {
+public class DetailedScreenFragmentSelection extends ProductSelectionBaseFragment implements View.OnClickListener, Observer {
 
-    private static final String TAG = DetailedScreenFragment.class.getSimpleName();
+    private static final String TAG = DetailedScreenFragmentSelection.class.getSimpleName();
     private static ViewPager mViewpager = null;
     private static CircleIndicator mIndicater = null;
     private static CustomFontTextView mProductName = null;
@@ -220,10 +219,10 @@ public class DetailedScreenFragment extends MultiProductBaseFragment implements 
     public void onClick(View v) {
         if (v.getId() == R.id.detailedscreen_select_button && isConnectionAvailable()) {
             if(isTablet()){
-                replaceFragmentTablet(new SavedScreenFragment());
+                replaceFragmentTablet(new SavedScreenFragmentSelection());
             }
             else {
-                showFragment(new SavedScreenFragment());
+                showFragment(new SavedScreenFragmentSelection());
             }
         }
     }

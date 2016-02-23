@@ -27,14 +27,14 @@ import com.philips.multiproduct.R;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 /**
- * MultiProductBaseActivity is the main container class which can contain Digital Care fragments.
+ * ProductSelectionBaseActivity is the main container class which can contain Digital Care fragments.
  *
  * @author : Ritesh.jha@philips.com
  *         naveen@philips.com
  * @since : 20 Jan 2016
  */
-public abstract class MultiProductBaseActivity extends UiKitActivity {
-    private static String TAG = MultiProductBaseActivity.class.getSimpleName();
+public abstract class ProductSelectionBaseActivity extends UiKitActivity {
+    private static String TAG = ProductSelectionBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
 //    private static ThemeUtils themeUtils;

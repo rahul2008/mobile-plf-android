@@ -20,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.NetworkAlertView;
@@ -32,10 +31,10 @@ import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 import java.util.Locale;
 
-public abstract class MultiProductBaseFragment extends Fragment implements
+public abstract class ProductSelectionBaseFragment extends Fragment implements
         NetworkStateListener {
 
-    private static String TAG = MultiProductBaseFragment.class.getSimpleName();
+    private static String TAG = ProductSelectionBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;
     private static int mContainerId = 0;
     private static ActionbarUpdateListener mActionbarUpdateListener = null;
@@ -341,11 +340,11 @@ public abstract class MultiProductBaseFragment extends Fragment implements
 //                        mExitAnimation, mEnterAnimation, mExitAnimation);
 //            }
 
-            Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag("DetailedScreenFragment");
+            Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
             if(fragment != null)
                 fragmentTransaction.remove(fragmentDetailsTablet).commit();
 
-            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, fragment, "SavedScreenFragment");
+            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, fragment, "SavedScreenFragmentSelection");
 //            fragmentTransaction.hide(this);
 //            fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();

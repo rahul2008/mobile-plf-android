@@ -13,17 +13,17 @@ import android.widget.TextView;
 
 import com.philips.hor_productselection_android.R;
 import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.MultiProductBaseActivity;
+import com.philips.multiproduct.base.ProductSelectionBaseActivity;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
 
 /**
- * SampleActivity is the main container class which can contain Digital Care fragments.
+ * SampleActivitySelection is the main container class which can contain Digital Care fragments.
  *
  * @author : Ritesh.jha@philips.com
  * @since : 2 Feb 2016
  */
-public class SampleActivity extends MultiProductBaseActivity implements View.OnClickListener {
-    private static final String TAG = SampleActivity.class.getSimpleName();
+public class SampleActivitySelection extends ProductSelectionBaseActivity implements View.OnClickListener {
+    private static final String TAG = SampleActivitySelection.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private TextView mActionBarTitle = null;
@@ -47,7 +47,7 @@ public class SampleActivity extends MultiProductBaseActivity implements View.OnC
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 //        setNoActionBarTheme();
-        Log.i(TAG, " Multiproduct - SampleActivity onCreate");
+        Log.i(TAG, " Multiproduct - SampleActivitySelection onCreate");
 
         /*
         This module is integrated with Philips Standard UI_Kit. So here Theme is as per UI_Kit only. Vertical apps are free to use
@@ -74,7 +74,7 @@ public class SampleActivity extends MultiProductBaseActivity implements View.OnC
 //        try {
 //            initActionBar();
 //        } catch (ClassCastException e) {
-//            Log.e(TAG, "SampleActivity Actionbar: " + e.getMessage());
+//            Log.e(TAG, "SampleActivitySelection Actionbar: " + e.getMessage());
 //        }
 //        enableActionBarHome();
 

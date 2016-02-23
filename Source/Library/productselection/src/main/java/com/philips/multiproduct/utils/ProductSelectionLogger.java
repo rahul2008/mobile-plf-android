@@ -9,7 +9,7 @@ public class ProductSelectionLogger {
 	public static final String APPLICATION = "DigitalCareApp";
 	public static final String ACTIVITY = "ActivityLifecycle";
 	public static final String FRAGMENT = "FragmentLifecycle";
-	public static final String DIGICAREACTIVITY = "MultiProductActivity";
+	public static final String DIGICAREACTIVITY = "ProductSelectionActivity";
 
 	private static boolean isLoggingEnabled = true;
 
