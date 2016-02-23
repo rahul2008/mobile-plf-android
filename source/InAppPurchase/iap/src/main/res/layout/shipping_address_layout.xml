@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/input_field_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,6 +14,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_shipping_address_margin_top_bottom"
@@ -24,6 +24,33 @@
             android:text="@string/iap_shipping_address"
             android:textColor="?attr/baseColor"
             android:textSize="@dimen/iap_shipping_address_title_size" />
+
+        <LinearLayout
+            android:id="@+id/same_as_shipping_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/billing_address_tv"
+                style="@style/PhilipsTextInputLayoutTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/iap_billing_address_is_same"
+                android:textColor="?attr/baseColor" />
+
+            <com.philips.cdp.uikit.customviews.PuiSwitch
+                android:id="@+id/switch_billing_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/iap_billing_toggle_margin_bottom"
+                android:layout_marginRight="@dimen/iap_billing_toggle_margin_right"
+                android:layout_marginTop="@dimen/iap_billing_toggle_margin_top"
+                android:checked="false" />
+
+        </LinearLayout>
 
 
         <com.philips.cdp.uikit.customviews.InlineForms
@@ -100,8 +127,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:maxLength="35"
-                    android:hint="@string/iap_address_hint" />
+                    android:hint="@string/iap_address_hint"
+                    android:maxLength="35" />
             </LinearLayout>
 
             <LinearLayout
