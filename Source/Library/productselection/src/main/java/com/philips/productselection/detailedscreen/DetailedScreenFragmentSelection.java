@@ -114,18 +114,18 @@ public class DetailedScreenFragmentSelection extends ProductSelectionBaseFragmen
     @Override
     public void setViewParams(Configuration config) {
 
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
-            ProductSelectionLogger.i(TAG, "setViewParams  : portrait");
-            mDetailedScreenParentContainer.setPadding(0, 0, 0, 0);
-            mDetailedScreenParams.leftMargin = mDetailedScreenParams.rightMargin = mPortraitTablet;
-            mDetailedImageScreenParams.leftMargin = mDetailedImageScreenParams.rightMargin = mPortraitTablet;
-        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
-
-            // Control for Split Screen Margin
-
-        }
-        mDetailedScreenParentContainer.setLayoutParams(mDetailedScreenParams);
-        mDetailedScreenImageContainer.setLayoutParams(mDetailedImageScreenParams);
+//        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
+//            ProductSelectionLogger.i(TAG, "setViewParams  : portrait");
+//            mDetailedScreenParentContainer.setPadding(0, 0, 0, 0);
+//            mDetailedScreenParams.leftMargin = mDetailedScreenParams.rightMargin = mPortraitTablet;
+//            mDetailedImageScreenParams.leftMargin = mDetailedImageScreenParams.rightMargin = mPortraitTablet;
+//        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
+//
+//            // Control for Split Screen Margin
+//
+//        }
+//        mDetailedScreenParentContainer.setLayoutParams(mDetailedScreenParams);
+//        mDetailedScreenImageContainer.setLayoutParams(mDetailedImageScreenParams);
     }
 
     @Override

@@ -2,11 +2,15 @@ package com.philips.productselection.listfragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.productselection.R;
 import com.philips.productselection.detailedscreen.DetailedScreenFragmentSelection;
@@ -22,8 +26,11 @@ import com.philips.productselection.utils.ProductSelectionLogger;
 public class ProductSelectionListingTabletFragment extends ProductSelectionBaseFragment {
 
     private String TAG = ProductSelectionListingTabletFragment.class.getSimpleName();
-    private static View mRootView = null;
 
+    private LinearLayout.LayoutParams mRightPanelLayoutParams = null;
+    private RelativeLayout mRightPanelLayout = null;
+    private static View mRootView = null;
+    private LinearLayout.LayoutParams mLeftPanelLayoutParams = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +52,10 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        replaceFragmentTablet(new DetailedScreenFragmentSelection());
+
+        mRightPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductDetailsParent);
+        mRightPanelLayoutParams = (LinearLayout.LayoutParams) mRightPanelLayout.getLayoutParams();
+        mLeftPanelLayoutParams = (LinearLayout.LayoutParams) getActivity().findViewById(R.id.fragmentTabletProductList).getLayoutParams();
 
         try {
             FragmentTransaction fragmentTransaction = getActivity()
@@ -56,6 +66,9 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
+
+        Configuration configuration = getResources().getConfiguration();
+        setViewParams(configuration);
     }
 
     @Override
@@ -63,9 +76,28 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         return getResources().getString(R.string.product);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setViewParams(newConfig);
+    }
 
     @Override
     public void setViewParams(Configuration config) {
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            Fragment fragmentTablet = getActivity().getSupportFragmentManager().findFragmentById(R.id.productListContainerTablet);
+//            fragmentTablet.
+            mLeftPanelLayoutParams.weight = 0.0f;
+            getActivity().findViewById(R.id.fragmentTabletProductList).setVisibility(View.GONE);
+            mRightPanelLayoutParams.weight = 1.0f;
+            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = mLeftRightMarginPort;
+        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getActivity().findViewById(R.id.fragmentTabletProductList).setVisibility(View.VISIBLE);
+            mRightPanelLayoutParams.weight = 0.55f;
+            mLeftPanelLayoutParams.weight = 0.45f;
+        }
+        mRightPanelLayout.setLayoutParams(mRightPanelLayoutParams);
+        getActivity().findViewById(R.id.fragmentTabletProductList).setLayoutParams(mLeftPanelLayoutParams);
     }
 
     @Override

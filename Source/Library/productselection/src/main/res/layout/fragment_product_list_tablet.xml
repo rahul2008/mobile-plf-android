@@ -2,14 +2,15 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:id="@+id/containerParentTablet">
 
     <LinearLayout
         android:id="@+id/productListContainerTablet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:weightSum="7">
+        android:weightSum="1.0">
 
         <fragment
             android:id="@+id/fragmentTabletProductList"
@@ -17,14 +18,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:tag="ProductListingFragment"
-            android:layout_weight="3" />
+            android:layout_weight="0.45" />
 
         <RelativeLayout
             android:layout_height="match_parent"
             android:id="@+id/fragmentTabletProductDetailsParent"
             android:background="#cccccc"
             android:layout_width="0dp"
-            android:layout_weight="4">
+            android:layout_weight="0.55">
         </RelativeLayout>
 
     </LinearLayout>

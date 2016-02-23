@@ -43,9 +43,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private CustomFontTextView mProductCtn = null;
     private ImageView mProductImage = null;
 
-    private int mPortraitTablet = 0;
-
-
     /**
      * setting Listeners & setting the values & controls to the inflated view's of the screen "fragment_saved_screen.xml"
      *
@@ -59,8 +56,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         mProductContainerParams = (LinearLayout.LayoutParams) mProductContainer.getLayoutParams();
         mProductContainer1 = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_two);
         mProductContainerParams1 = (LinearLayout.LayoutParams) mProductContainer1.getLayoutParams();
-        mPortraitTablet = (int) getResources()
-                .getDimension(R.dimen.activity_margin_tablet_portrait);
         mProductName.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle());
         mProductCtn.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn());
         loadProductImage(mProductImage);
@@ -128,13 +123,13 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     @Override
     public void setViewParams(Configuration config) {
 
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
-            ProductSelectionLogger.i(TAG, "setViewParams  : portrait");
-//            mProductContainerParams.leftMargin = mProductContainerParams.rightMargin = mPortraitTablet;
-//            mProductContainerParams1.leftMargin = mProductContainerParams1.rightMargin = mPortraitTablet;
-        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
-            // Control for Split Screen Margin
-        }
+//        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
+//            ProductSelectionLogger.i(TAG, "setViewParams  : portrait");
+////            mProductContainerParams.leftMargin = mProductContainerParams.rightMargin = mPortraitTablet;
+////            mProductContainerParams1.leftMargin = mProductContainerParams1.rightMargin = mPortraitTablet;
+//        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
+//            // Control for Split Screen Margin
+//        }
 //        mProductContainer.setLayoutParams(mProductContainerParams);
     }
 
