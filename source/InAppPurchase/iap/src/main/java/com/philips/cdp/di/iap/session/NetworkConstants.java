@@ -31,11 +31,11 @@ public class NetworkConstants {
     /**
      * Address Url
      **/
-    public static final String ADDRESS_URL = BASE_URL + "addresses";
+    public static final String ADDRESS_URL = BASE_URL + "addresses?fields=FULL";
     /**
      * Update Address Url
      **/
-    public static final String UPDATE_OR_DELETE_ADDRESS_URL = ADDRESS_URL + "/%s";
+    public static final String UPDATE_OR_DELETE_ADDRESS_URL = BASE_URL + "addresses" + "/%s";
 
     /**
      * Prx data

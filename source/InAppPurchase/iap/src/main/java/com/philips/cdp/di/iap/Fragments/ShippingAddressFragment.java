@@ -28,6 +28,7 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
@@ -127,6 +128,31 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
 
         return rootView;
+    }
+
+    private void updateFeilds() {
+            Bundle bundle = getArguments();
+            addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+            if(null == addressFeilds) {
+                IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT,"addressfeild is null = " + addressFeilds);
+                return;
+            }
+            mBtnContinue.setText(getString(R.string.iap_save));
+            mBtnContinue.requestFocus();
+            mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
+            mEtFirstName.requestFocus();
+            mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
+            mEtLastName.requestFocus();
+            mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
+            mEtTown.requestFocus();
+            mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
+            mEtPostalCode.requestFocus();
+            mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
+            mEtCountry.requestFocus();
+            mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
+            mEtAddress.requestFocus();
+            mEtPhoneNumber.setText(addressFeilds.get(ModelConstants.PHONE_NUMBER));
+            mEtPhoneNumber.requestFocus();
     }
 
     private void prePopulateShippingAddress() {
@@ -353,29 +379,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         updateTitle();
     }
 
-    //Update
-    private void updateFeilds() {
-        try {
-            Bundle bundle = getArguments();
-            addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-            mBtnContinue.setText(getString(R.string.iap_save));
-            mBtnContinue.requestFocus();
-            mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
-            mEtFirstName.requestFocus();
-            mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
-            mEtLastName.requestFocus();
-            mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
-            mEtTown.requestFocus();
-            mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
-            mEtPostalCode.requestFocus();
-            mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
-            mEtCountry.requestFocus();
-            mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
-            mEtAddress.requestFocus();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
 
     private HashMap updateToHybrisTheFeilds() {
         HashMap<String, String> addressHashMap = new HashMap<>();

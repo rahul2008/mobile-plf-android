@@ -5,7 +5,10 @@ import android.os.Message;
 
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.model.DeleteAddressRequest;
 import com.philips.cdp.di.iap.model.GetAddressRequest;
+import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.model.UpdateAddressRequest;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -20,6 +23,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.HashMap;
 
 import javax.net.ssl.SSLSocketFactory;
 
@@ -38,7 +43,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class AddressControllerGetAdressesTest {
 
-
     @Mock
     private NetworkController mNetworkController;
     @Mock private HybrisDelegate mHybrisDelegate;
@@ -49,12 +53,13 @@ public class AddressControllerGetAdressesTest {
     @Mock private Message mResultMessage;
     @Mock private Store mStore;
     @Mock private GetAddressRequest mAddressRequest;
+    @Mock private UpdateAddressRequest mUpdateAddressRequest;
+    @Mock private DeleteAddressRequest mDeleteAddressRequest;
 
     @Before
     public void setUP(){
         when(mHybrisDelegate.getNetworkController(mContext)).thenReturn(mNetworkController);
         doCallRealMethod().when(mAddressRequest).parseResponse(any(Message.class));
-
     }
 
     @Test
@@ -63,6 +68,41 @@ public class AddressControllerGetAdressesTest {
 
         setStoreAndDelegate();
         mController.getShippingAddresses();
+        verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
+                any(AbstractModel.class));
+    }
+
+    @Test
+    public void verifyHybrisRequestSentForUpdateAddresses() {
+        mController = new AddressController(mContext, null);
+        setStoreAndDelegate();
+        mController.updateAddress(getQueryString());
+        verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
+                any(AbstractModel.class));
+    }
+
+    private HashMap getQueryString() {
+        HashMap<String, String> addressHashMap = new HashMap<>();
+        addressHashMap.put(ModelConstants.FIRST_NAME, "Spoorti");
+        addressHashMap.put(ModelConstants.LAST_NAME, "Hallur");
+        addressHashMap.put(ModelConstants.TITLE_CODE, "mr");
+        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, "US");
+        addressHashMap.put(ModelConstants.LINE_1, "NRI Layout");
+        addressHashMap.put(ModelConstants.POSTAL_CODE, "590043");
+        addressHashMap.put(ModelConstants.TOWN, "Bangalore");
+        addressHashMap.put(ModelConstants.ADDRESS_ID, "8799470125079");
+        addressHashMap.put(ModelConstants.LINE_2, "");
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "Bangalore");
+        addressHashMap.put(ModelConstants.PHONE_NUMBER, "2453696");
+        return addressHashMap;
+    }
+
+    @Test
+    public void verifyHybrisRequestSentForDeleteAddresses() {
+        mController = new AddressController(mContext, null);
+
+        setStoreAndDelegate();
+        mController.deleteAddress("8799470125079");
         verify(mHybrisDelegate, times(1)).sendRequest(any(Integer.TYPE), any(AbstractModel.class),
                 any(AbstractModel.class));
     }
@@ -105,6 +145,8 @@ public class AddressControllerGetAdressesTest {
         //Send the result
         mModelistener.getValue().onSuccess(mResultMessage);
     }
+
+
 
     @Test
     public void verifyAddressDeatilsGetAddresses() {
@@ -186,5 +228,7 @@ public class AddressControllerGetAdressesTest {
         //Send the result
         mModelistener.getValue().onError(mResultMessage);
     }
+
+
 
 }

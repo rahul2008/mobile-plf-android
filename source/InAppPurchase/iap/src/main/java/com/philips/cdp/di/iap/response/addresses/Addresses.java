@@ -15,6 +15,46 @@ public class Addresses {
     private String postalCode;
     private String town;
 
+    public String getVisibleInAddressBook() {
+        return visibleInAddressBook;
+    }
+
+    public void setVisibleInAddressBook(final String visibleInAddressBook) {
+        this.visibleInAddressBook = visibleInAddressBook;
+    }
+
+    private String visibleInAddressBook;
+
+    public boolean isShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(final boolean shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    private boolean shippingAddress;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(final String phone) {
+        this.phone = phone;
+    }
+
+    private String phone;
+
+    public String getFormattedAddress() {
+        return formattedAddress;
+    }
+
+    public void setFormattedAddress(final String formattedAddress) {
+        this.formattedAddress = formattedAddress;
+    }
+
+    private String formattedAddress;
+
     public String getTitle() {
         return title;
     }
