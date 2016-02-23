@@ -413,6 +413,35 @@ public class User {
 
     // For Refresh login Session
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler, final Context context) {
+
+
+        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
+            @Override
+            public void onFlowDownloadSuccess() {
+                RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, now performing forgot password");
+                refreshSession(refreshLoginSessionHandler, context);
+                mRegistrationHelper.unregisterJumpFlowDownloadListener();
+            }
+
+            @Override
+            public void onFlowDownloadFailure() {
+                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
+                refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(-1);
+                mRegistrationHelper.unregisterJumpFlowDownloadListener();
+            }
+        });
+        if (isJumpInitializated()) {
+            refreshSession(refreshLoginSessionHandler, context);
+            return;
+        }else if(!isJumpInitializationInProgress()) {
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
+        }
+
+
+
+    }
+
+    protected void refreshSession(final RefreshLoginSessionHandler refreshLoginSessionHandler, final Context context) {
         CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
         if (captureRecord == null) {
             return;

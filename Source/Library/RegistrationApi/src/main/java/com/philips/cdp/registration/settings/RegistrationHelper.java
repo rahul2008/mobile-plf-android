@@ -36,7 +36,6 @@ public class RegistrationHelper {
     }
 
 
-
     public synchronized static RegistrationHelper getInstance() {
         if (mRegistrationHelper == null) {
             mRegistrationHelper = new RegistrationHelper();
@@ -77,14 +76,15 @@ public class RegistrationHelper {
                 }
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext,locale);
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, locale);
+                } else {
+                    if (UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener() != null) {
+                        UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
+                    }
                 }
             }
         }).start();
     }
-
-
-
 
 
     private void generateKeyAndMigrateData() {
@@ -129,7 +129,7 @@ public class RegistrationHelper {
         return NetworkStateHelper.getInstance();
     }
 
-   
+
     public Locale getLocale() {
         return mLocale;
     }
