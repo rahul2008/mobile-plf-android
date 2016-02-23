@@ -5,7 +5,10 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
+import com.janrain.android.capture.Capture;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+
+import java.io.EOFException;
 
 public class DevRegistrationSettings extends RegistrationSettings {
 
@@ -92,8 +95,13 @@ public class DevRegistrationSettings extends RegistrationSettings {
         try {
             Jump.reinitialize(mContext, jumpConfig);
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE");
+            if(e instanceof EOFException){
+                Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
+                //clear flow file
+                mContext.deleteFile(Capture.JR_REFRESH_SECRET);
+                mContext.deleteFile("jr_capture_flow");
+                Jump.reinitialize(mContext, jumpConfig);
+            }
         }
 
     }
