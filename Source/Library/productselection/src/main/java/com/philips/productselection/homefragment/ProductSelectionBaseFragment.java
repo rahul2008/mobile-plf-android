@@ -247,27 +247,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     }
 
 
-    protected void showEULAAlert(final String message) {
-        mHandler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                new NetworkAlertView().showEULAAlertBox(
-                        getActivity(),
-                        // null,
-                        message);
-                     /*    getActivity().getResources().getString(
-                                android.R.string.yes));
-               AnalyticsTracker
-                        .trackAction(
-                                AnalyticsConstants.ACTION_SET_ERROR,
-                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);*/
-
-            }
-        });
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -459,16 +438,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             runnable.run();
         }
     }
-
-
-//    private void updateActionbar() {
-//        if (this.getClass().getSimpleName()
-//                .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
-//        } else {
-//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
-//        }
-//    }
 
     protected String getPreviousName() {
         return mPreviousPageName;
