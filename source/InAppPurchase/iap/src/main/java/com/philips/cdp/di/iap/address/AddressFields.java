@@ -5,7 +5,9 @@
 
 package com.philips.cdp.di.iap.address;
 
-public class AddressFields {
+import java.io.Serializable;
+
+public class AddressFields implements Serializable {
 
     private String firstName;
     private String lastName;
