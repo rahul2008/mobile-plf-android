@@ -11,12 +11,12 @@
         android:largeHeap="true"
         android:theme="@style/multiprod_theme">
         <activity
-            android:name=".base.MultiProductActivity"
+            android:name=".base.ProductSelectionActivity"
             android:configChanges="orientation|screenSize|locale"
             android:exported="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.SUPPORT_DIGITAL" />
+                <action android:name="android.intent.action.SUPPORT_PRODUCTSELECTION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

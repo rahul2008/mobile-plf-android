@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.multiproduct.base.MultiProductActivity;
+import com.philips.multiproduct.base.ProductSelectionActivity;
 import com.philips.multiproduct.base.ProductModelSelectionType;
 import com.philips.multiproduct.listeners.ProductModelSelectionListener;
-import com.philips.multiproduct.welcomefragment.WelcomeScreenFragment;
+import com.philips.multiproduct.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.multiproduct.component.ActivityLauncher;
 import com.philips.multiproduct.component.UiLauncher;
 import com.philips.multiproduct.listeners.ActionbarUpdateListener;
@@ -118,7 +118,7 @@ public class ProductModelSelectionHelper {
 
         //  AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
-        WelcomeScreenFragment welcomeScreenFragment = new WelcomeScreenFragment();
+        WelcomeScreenFragmentSelection welcomeScreenFragment = new WelcomeScreenFragmentSelection();
         welcomeScreenFragment.showFragment(context, parentContainerResId, welcomeScreenFragment,
                 actionbarUpdateListener, enterAnim, exitAnim);
     }
@@ -127,7 +127,7 @@ public class ProductModelSelectionHelper {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale before component invocation");
         }
-        Intent intent = new Intent(this.getContext(), MultiProductActivity.class);
+        Intent intent = new Intent(this.getContext(), ProductSelectionActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(Constants.STOP_ANIMATION_ID, endAnimation);

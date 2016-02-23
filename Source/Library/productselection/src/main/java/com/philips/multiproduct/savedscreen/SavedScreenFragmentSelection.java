@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -18,9 +17,9 @@ import com.android.volley.toolbox.ImageRequest;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
 import com.philips.multiproduct.customview.CustomFontTextView;
-import com.philips.multiproduct.listfragment.ProductListingFragment;
-import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
-import com.philips.multiproduct.listfragment.ProductListingTabletFragment;
+import com.philips.multiproduct.listfragment.ProductSelectionListingFragment;
+import com.philips.multiproduct.homefragment.ProductSelectionBaseFragment;
+import com.philips.multiproduct.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.multiproduct.prx.VolleyWrapper;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
 
@@ -31,9 +30,9 @@ import com.philips.multiproduct.utils.ProductSelectionLogger;
  * <p/>
  * Created by naveen@philips.com on 03-Feb-16.
  */
-public class SavedScreenFragment extends MultiProductBaseFragment implements View.OnClickListener {
+public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment implements View.OnClickListener {
 
-    private static final String TAG = SavedScreenFragment.class.getSimpleName();
+    private static final String TAG = SavedScreenFragmentSelection.class.getSimpleName();
     private Button mSettings = null;
     private Button mRedirectingButton = null;
     private LinearLayout mProductContainer = null;
@@ -155,9 +154,9 @@ public class SavedScreenFragment extends MultiProductBaseFragment implements Vie
             if (v.getId() == R.id.savedscreen_button_settings) {
 //                if (isConnectionAvailable()) {
                     if (isTablet()) {
-                        showFragment(new ProductListingTabletFragment());
+                        showFragment(new ProductSelectionListingTabletFragment());
                     } else {
-                        showFragment(new ProductListingFragment());
+                        showFragment(new ProductSelectionListingFragment());
                     }
 //                }
             } else if (v.getId() == R.id.savedscreen_button_viewproductdetails) {

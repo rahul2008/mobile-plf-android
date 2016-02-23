@@ -4,15 +4,15 @@ import android.os.Bundle;
 
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.listfragment.ProductListingFragment;
-import com.philips.multiproduct.listfragment.ProductListingTabletFragment;
+import com.philips.multiproduct.listfragment.ProductSelectionListingFragment;
+import com.philips.multiproduct.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.multiproduct.utils.Constants;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
-import com.philips.multiproduct.welcomefragment.WelcomeScreenFragment;
+import com.philips.multiproduct.welcomefragment.WelcomeScreenFragmentSelection;
 
 
-public class MultiProductActivity extends MultiProductBaseActivity {
-    private static final String TAG = MultiProductActivity.class.getSimpleName();
+public class ProductSelectionActivity extends ProductSelectionBaseActivity {
+    private static final String TAG = ProductSelectionActivity.class.getSimpleName();
     private static int mEnterAnimation = -1;
     private static int mExitAnimation = -1;
     private static boolean isFirstTimeWelcomeScreenlaunch = true;
@@ -27,14 +27,14 @@ public class MultiProductActivity extends MultiProductBaseActivity {
         int ctnSize = ProductModelSelectionHelper.getInstance().getProductCtnList().length;
         ProductSelectionLogger.d(TAG, "Size of the Ctn is : " + ctnSize);
         if (isFirstTimeWelcomeScreenlaunch) {
-            showFragment(new WelcomeScreenFragment());
+            showFragment(new WelcomeScreenFragmentSelection());
             isFirstTimeWelcomeScreenlaunch = false;
         } else
             if(isTablet()) {
-                showFragment(new ProductListingTabletFragment());
+                showFragment(new ProductSelectionListingTabletFragment());
             }
         else{
-                showFragment(new ProductListingFragment());
+                showFragment(new ProductSelectionListingFragment());
             }
     }
 

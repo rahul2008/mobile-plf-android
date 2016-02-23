@@ -12,9 +12,9 @@ import android.widget.ListView;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.multiproduct.ProductModelSelectionHelper;
 import com.philips.multiproduct.R;
-import com.philips.multiproduct.homefragment.MultiProductBaseFragment;
+import com.philips.multiproduct.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.multiproduct.homefragment.ProductSelectionBaseFragment;
 import com.philips.multiproduct.listeners.ProductListDetailsTabletListener;
-import com.philips.multiproduct.detailedscreen.DetailedScreenFragment;
 import com.philips.multiproduct.prx.PrxSummaryDataListener;
 import com.philips.multiproduct.prx.PrxWrapper;
 import com.philips.multiproduct.utils.ProductSelectionLogger;
@@ -22,25 +22,25 @@ import com.philips.multiproduct.utils.ProductSelectionLogger;
 import java.util.ArrayList;
 
 /**
- * ProductListingFragment class is used to showcase all possible CTNs and its details.
+ * ProductSelectionListingFragment class is used to showcase all possible CTNs and its details.
  *
  * @author : ritesh.jha@philips.com
  * @since : 29 Jan 2016
  */
-public class ProductListingFragment extends MultiProductBaseFragment {
+public class ProductSelectionListingFragment extends ProductSelectionBaseFragment {
 
-    private String TAG = ProductListingFragment.class.getSimpleName();
+    private String TAG = ProductSelectionListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
     private ListViewWithOptions mProductAdapter = null;
     private ProgressDialog mSummaryDialog = null;
     private ArrayList<SummaryModel> productList = null;
-    private DetailedScreenFragment mDetailedScreenFragment = null;
+    private DetailedScreenFragmentSelection mDetailedScreenFragment = null;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDetailedScreenFragment = new DetailedScreenFragment();
+        mDetailedScreenFragment = new DetailedScreenFragmentSelection();
         if (isTablet()) {
             mProductDetailsListener = new ProductListDetailsTabletListener(getActivity());
             mProductDetailsListener.addObserver(mDetailedScreenFragment);
@@ -63,11 +63,11 @@ public class ProductListingFragment extends MultiProductBaseFragment {
                     ProductModelSelectionHelper.getInstance().setUserSelectedProduct(productList.get(position));
                     if (!isTablet()) {
                        // showFragment(mDetailedScreenFragment);
-                        showFragment(new DetailedScreenFragment());
+                        showFragment(new DetailedScreenFragmentSelection());
                     } else {
                         mProductDetailsListener.notifyAllProductScreens();
                     }
-//                    showFragment(new DetailedScreenFragment());
+//                    showFragment(new DetailedScreenFragmentSelection());
                 }
             }
         });

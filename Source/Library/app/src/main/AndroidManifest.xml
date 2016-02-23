@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name="com.philips.hor_productselection_android.view.SampleActivity"
+            android:name=".view.SampleActivitySelection"
             android:configChanges="orientation|screenSize">
         </activity>
 
