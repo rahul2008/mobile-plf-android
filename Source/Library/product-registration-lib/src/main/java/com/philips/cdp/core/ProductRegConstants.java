@@ -7,4 +7,7 @@ package com.philips.cdp.core;
 public interface ProductRegConstants {
 
     String ACCESS_TOKEN_TAG = "x-accessToken";
+    String PRODUCT_SERIAL_NUMBER = "productSerialNumber";
+    String REGISTRATION_CHANNEL = "registrationChannel";
+    String PURCHASE_DATE = "purchaseDate";
 }

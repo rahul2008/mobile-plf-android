@@ -85,14 +85,14 @@ public class ProductRegHelper {
 
         final String purchaseDate = registrationBuilder.getPurchaseDate();
         validatePurchaseDate(params, purchaseDate);
-        params.put("productSerialNumber", registrationBuilder.getProductSerialNumber());
-        params.put("registrationChannel", registrationBuilder.getRegistrationChannel());
+        params.put(ProductRegConstants.PRODUCT_SERIAL_NUMBER, registrationBuilder.getProductSerialNumber());
+        params.put(ProductRegConstants.REGISTRATION_CHANNEL, registrationBuilder.getRegistrationChannel());
         return params;
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
         if (purchaseDate != null && purchaseDate.length() > 0)
-            params.put("purchaseDate", purchaseDate);
+            params.put(ProductRegConstants.PURCHASE_DATE, purchaseDate);
     }
 
     private void handleError(final int statusCode, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
