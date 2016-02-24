@@ -101,7 +101,6 @@ public class TestingRegistrationSettings extends RegistrationSettings {
             if(e instanceof EOFException){
                 Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
                 //clear flow file
-                mContext.deleteFile(Capture.JR_REFRESH_SECRET);
                 mContext.deleteFile("jr_capture_flow");
                 Jump.reinitialize(mContext, jumpConfig);
             }

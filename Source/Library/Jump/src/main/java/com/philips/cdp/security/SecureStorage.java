@@ -48,6 +48,7 @@ public class SecureStorage {
     private static byte[] SECRET_KEY;
 
     public static byte[] encrypt(String text) {
+        storeSecretKey();
         try {
             Key key = (Key) new SecretKeySpec(SECRET_KEY, "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -235,6 +236,7 @@ public class SecureStorage {
 
 
     public static byte[] decrypt(byte[] encByte) {
+        storeSecretKey();
         try {
             Key key = (Key) new SecretKeySpec(SECRET_KEY, "AES");
             Cipher cipher = Cipher.getInstance("AES");
