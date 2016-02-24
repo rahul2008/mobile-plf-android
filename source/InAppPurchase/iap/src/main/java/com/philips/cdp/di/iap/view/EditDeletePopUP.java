@@ -40,6 +40,7 @@ public class EditDeletePopUP {
         mDisableDelete = disableDelete;
         mPopUp = new UIKitListPopupWindow(context, anchor,
                 UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, createRowItems(context));
+        mPopUp.setModal(true);
         mPopUp.setOnItemClickListener(mListener);
     }
 
