@@ -6,16 +6,16 @@ import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 
 
 /**
- * Description:  This class responsible for providing the builderclass to invoke the consumerCare module as
+ * Description:  This class responsible for providing the launcher class to invoke the product selection module as
  * Fragment module.
  *
  * @author naveen@philips.com
- * @date 19/january/2015
+ * @date 19/january/2016
  */
 public class FragmentLauncher extends UiLauncher {
 
     /**
-     * Resource container ID. If you would like to add the the ConsumerCareModule to your application Fragment Manager.
+     * Resource container ID. If you would like to add the the product selection to your application Fragment Manager.
      */
     protected int mParentContainerResourceID;
 
@@ -23,7 +23,7 @@ public class FragmentLauncher extends UiLauncher {
     protected ActionbarUpdateListener mActionbarUpdateListener = null;
 
     /**
-     * FragmentActivity context of your Fragment. If you would like to add the the ConsumerCareModule to your application Fragment Manager.
+     * FragmentActivity context of your Fragment. If you would like to add the the product selection to your application Fragment Manager.
      */
     protected FragmentActivity mFragmentActivity = null;
 
@@ -37,7 +37,7 @@ public class FragmentLauncher extends UiLauncher {
     }
 
 
-    public int getLayoutResourceID() {
+    public int getParentContainerResourceID() {
         return mParentContainerResourceID;
     }
 

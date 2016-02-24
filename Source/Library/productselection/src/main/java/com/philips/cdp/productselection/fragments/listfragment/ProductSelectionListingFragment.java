@@ -111,7 +111,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         if (!(getActivity().isFinishing()))
             mSummaryDialog.show();
 
-        final String[] ctnList = ProductModelSelectionHelper.getInstance().getProductCtnList();
+        final String[] ctnList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getHardCodedProductList();
 
         productList = new ArrayList<SummaryModel>();
 
@@ -136,7 +136,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                         }
                     }
 
-                    String[] ctnList = ProductModelSelectionHelper.getInstance().getProductCtnList();
+                    String[] ctnList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getHardCodedProductList();
                     if (ctn == ctnList[ctnList.length - 1]) {
 
                         mProductAdapter = new ListViewWithOptions(getActivity(), productList);
@@ -156,7 +156,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                 @Override
                 public void onFail(String errorMessage) {
                     ProductSelectionLogger.e(TAG, " Error : " + errorMessage);
-                    String[] ctnList = ProductModelSelectionHelper.getInstance().getProductCtnList();
+                    String[] ctnList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getHardCodedProductList();
                     if (ctn == ctnList[ctnList.length - 1]) {
 
                         mProductAdapter = new ListViewWithOptions(getActivity(), productList);

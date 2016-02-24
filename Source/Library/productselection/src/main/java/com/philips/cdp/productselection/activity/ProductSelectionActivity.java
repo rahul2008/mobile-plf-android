@@ -24,7 +24,7 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
         setContentView(R.layout.activity_productselection_layout);
 
         animateThisScreen();
-        int ctnSize = ProductModelSelectionHelper.getInstance().getProductCtnList().length;
+        int ctnSize = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getHardCodedProductList().length;
         ProductSelectionLogger.d(TAG, "Size of the Ctn is : " + ctnSize);
         if (isFirstTimeWelcomeScreenlaunch) {
             showFragment(new WelcomeScreenFragmentSelection());

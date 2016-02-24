@@ -53,6 +53,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     protected ProductListDetailsTabletListener mProductDetailsListener = null;
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
+    private static String FRAGMENT_TAG_NAME = "productselection";
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -301,7 +302,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-            fragmentTransaction.replace(containerId, fragment, "tagname");
+            fragmentTransaction.replace(containerId, fragment, FRAGMENT_TAG_NAME);
             fragmentTransaction.hide(this);
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
@@ -400,9 +401,8 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         return false;
     }
 
-    protected boolean backstackToSupportFragment(Context context) {
-
-        if(ProductModelSelectionHelper.getInstance().isActivityInstance())
+    protected boolean clearBackStackHistory(Context context) {
+        if(ProductModelSelectionHelper.getInstance().isLaunchedAsActivity())
             if(context != null) {
                 Activity activity = (Activity) context;
                 activity.finish();
@@ -410,7 +410,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             }else
         {
 
-            if (!ProductModelSelectionHelper.getInstance().isActivityInstance()) {
+            if (!ProductModelSelectionHelper.getInstance().isLaunchedAsActivity()) {
                 if (fragmentManager == null && mActivityContext != null) {
                     fragmentManager = mActivityContext.getSupportFragmentManager();
                 } else if (fragmentManager == null) {

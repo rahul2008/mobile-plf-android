@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.cdp.productselection.BuildConfig;
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
@@ -23,20 +22,19 @@ import java.util.Locale;
 public class ProductModelSelectionHelper {
 
     private static final String TAG = ProductModelSelectionHelper.class.getSimpleName();
-    private static ProductModelSelectionHelper mDigitalCareInstance = null;
+    private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private static String[] mCtnList;
     private static Context mContext = null;
     private static Locale mLocale = null;
     private static String mCtn = null;
     private ProductModelSelectionListener mProductSelectionListener = null;
     private SummaryModel mUserSelectedProduct = null;
-    private UiLauncher mLaucherType = null;
-
+    private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
 
     /*
-     * Initialize everything(resources, variables etc) required for DigitalCare.
-     * Hosting app, which will integrate this DigitalCare, has to pass app
+     * Initialize everything(resources, variables etc) required for product selection.
+     * Hosting app, which will integrate this product selection, has to pass app
      * context.
      */
     private ProductModelSelectionHelper() {
@@ -46,10 +44,10 @@ public class ProductModelSelectionHelper {
      * Singleton pattern.
      */
     public static ProductModelSelectionHelper getInstance() {
-        if (mDigitalCareInstance == null) {
-            mDigitalCareInstance = new ProductModelSelectionHelper();
+        if (mProductModelSelectionHelper == null) {
+            mProductModelSelectionHelper = new ProductModelSelectionHelper();
         }
-        return mDigitalCareInstance;
+        return mProductModelSelectionHelper;
     }
 
     public ProductModelSelectionType getProductModelSelectionType()
@@ -64,7 +62,7 @@ public class ProductModelSelectionHelper {
 
 
     /**
-     * Returs the Context used in the DigitalCare Component
+     * Returns the Context used in the product selection Component
      *
      * @return Returns the Context using by the Component.
      */
@@ -74,7 +72,7 @@ public class ProductModelSelectionHelper {
 
 
     /**
-     * <p>This is the DigitalCare initialization method. Please make sure to call this method before invoking the DigitalComponent.
+     * <p>This is the product selection initialization method. Please make sure to call this method before invoking the product selection.
      * For more help/details please make sure to have a glance at the Demo sample </p>
      *
      * @param applicationContext Please pass the valid  Context
@@ -88,19 +86,20 @@ public class ProductModelSelectionHelper {
 
 
     public void invokeProductSelection(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+        if(uiLauncher==null || productModelSelectionType==null){
+            throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
+        }
 
-        mLaucherType = uiLauncher;
-        if (productModelSelectionType != null) {
-            mProductModelSelectionType = productModelSelectionType;
-            mCtnList = productModelSelectionType.getHardCodedProductList();
-        } else
-            throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
+        mLauncherType = uiLauncher;
+        mProductModelSelectionType = productModelSelectionType;
+        mCtnList = productModelSelectionType.getHardCodedProductList();
+
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
-        } else {
+        } else if (uiLauncher instanceof FragmentLauncher) {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getLayoutResourceID(),
+            invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
                     fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
         }
     }
@@ -111,18 +110,8 @@ public class ProductModelSelectionHelper {
                                   ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
                                   int exitAnim) {
         if (mContext == null || mLocale == null) {
-            throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
+            throw new RuntimeException("Please initialise context, locale before component invocation");
         }
-
-        //TODO: Include Tagging
-//        if (mTaggingEnabled) {
-//            if (mAppID == null || mAppID.equals("")) {
-//                throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
-//            }
-//        }
-
-        //  AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
-
         WelcomeScreenFragmentSelection welcomeScreenFragment = new WelcomeScreenFragmentSelection();
         welcomeScreenFragment.showFragment(context, parentContainerResId, welcomeScreenFragment,
                 actionbarUpdateListener, enterAnim, exitAnim);
@@ -158,22 +147,9 @@ public class ProductModelSelectionHelper {
     }
 
 
-    public String getMultiProductModuleLibVersion() {
+    public String getProductSelectionLibVersion() {
         return BuildConfig.VERSION_NAME;
     }
-
-    public String getCtn() {
-        return mCtn;
-    }
-
-    public void setCtn(String ctn) {
-        mCtn = ctn;
-    }
-
-    public String[] getProductCtnList() {
-        return mCtnList;
-    }
-
 
     public SummaryModel getUserSelectedProduct() {
         return mUserSelectedProduct;
@@ -183,9 +159,9 @@ public class ProductModelSelectionHelper {
         mUserSelectedProduct = summaryModel;
     }
 
-    public boolean isActivityInstance() {
+    public boolean isLaunchedAsActivity() {
 
-        if (mLaucherType instanceof ActivityLauncher)
+        if (mLauncherType instanceof ActivityLauncher)
             return true;
         else
             return false;

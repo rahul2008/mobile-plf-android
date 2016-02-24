@@ -160,7 +160,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
             } else if (v.getId() == R.id.savedscreen_button_viewproductdetails) {
                 if (isConnectionAvailable()) {
                     ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(ProductModelSelectionHelper.getInstance().getUserSelectedProduct());
-                    backstackToSupportFragment(getActivity());
+                    clearBackStackHistory(getActivity());
                 }
             }
         }
