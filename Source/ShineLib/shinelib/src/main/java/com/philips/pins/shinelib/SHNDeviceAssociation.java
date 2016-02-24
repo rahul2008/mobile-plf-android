@@ -125,7 +125,7 @@ public class SHNDeviceAssociation {
         }
     };
 
-    public SHNDeviceAssociation(SHNCentral shnCentral, SHNDeviceScannerInternal shnDeviceScannerInternal, final @NonNull PersistentStorageFactory persistentStorageFactory) {
+    public SHNDeviceAssociation(final @NonNull SHNCentral shnCentral, final @NonNull SHNDeviceScannerInternal shnDeviceScannerInternal, final @NonNull PersistentStorageFactory persistentStorageFactory) {
         this.shnCentral = shnCentral;
         this.shnDeviceScannerInternal = shnDeviceScannerInternal;
         this.persistentStorageFactory = persistentStorageFactory;
