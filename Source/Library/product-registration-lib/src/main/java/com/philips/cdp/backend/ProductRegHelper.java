@@ -1,6 +1,7 @@
 package com.philips.cdp.backend;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.ErrorType;
@@ -49,7 +50,16 @@ public class ProductRegHelper {
         Map<String, String> headers = new HashMap<>();
         headers.put("x-accessToken", registrationBuilder.getAccessToken());
 
-        PrxRequest prxRequest = new PrxRequest(RequestType.POST, prxDataBuilder.getRequestUrl(), params, headers, new ResponseListener() {
+        final ResponseListener listenerLocal = getLocalResponseListener(prxDataBuilder, listener);
+        PrxRequest prxRequest = new PrxRequest(RequestType.POST, prxDataBuilder.getRequestUrl(), params, headers, listenerLocal, prxDataBuilder);
+        RequestManager requestManager = new RequestManager();
+        requestManager.init(context);
+        requestManager.executeCustomRequest(prxRequest);
+    }
+
+    @NonNull
+    private ResponseListener getLocalResponseListener(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+        return new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 listener.onResponseSuccess(responseData);
@@ -63,10 +73,7 @@ public class ProductRegHelper {
                     PrxLogger.e(TAG, "Volley Error : " + e);
                 }
             }
-        }, prxDataBuilder);
-        RequestManager requestManager = new RequestManager();
-        requestManager.init(context);
-        requestManager.executeCustomRequest(prxRequest);
+        };
     }
 
     private Map<String, String> getProductRegParams(final RegistrationBuilder registrationBuilder) {
