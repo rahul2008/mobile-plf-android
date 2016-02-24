@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class DataMigrater {
 
-    public static final String TAG = "DataMigrater";
+    public static final String MIGRATION_ID_KEY = "MIGRATION_ID_KEY";
     public static final int MIGRATION_ID = 1;
 
     public static final List<String> oldShinePreferencesNames = new ArrayList<>();
@@ -60,49 +60,59 @@ public class DataMigrater {
     public void execute(@NonNull final Context context, final PersistentStorageFactory storageFactory) {
         PersistentStorage newRootStorage = storageFactory.getPersistentStorage();
 
-        Integer migrationId = newRootStorage.get(TAG);
+        Integer migrationId = newRootStorage.get(MIGRATION_ID_KEY);
         if (migrationId != null && migrationId == MIGRATION_ID) {
             return;
         }
 
         PersistentStorage newUserStorage = storageFactory.getPersistentStorageForUser();
+
+        moveUserData(context, newUserStorage);
+        moveShineAndDeviceData(context, storageFactory, newRootStorage);
+        moveUserConfigData(newRootStorage, newUserStorage);
+        moveUserConfigData(newUserStorage, newUserStorage);
+        convertUserConfigValues(newUserStorage);
+
+        newRootStorage.put(MIGRATION_ID_KEY, MIGRATION_ID);
+    }
+
+    private void moveUserData(final @NonNull Context context, final PersistentStorage newUserStorage) {
         for (final String oldUserPreferencesName : oldUserPreferencesNames) {
             PersistentStorage oldUserStorage = new PersistentStorage(context.getSharedPreferences(oldUserPreferencesName, Context.MODE_PRIVATE));
             moveData(oldUserStorage, newUserStorage);
         }
+    }
 
+    private void moveShineAndDeviceData(final @NonNull Context context, final PersistentStorageFactory storageFactory, final PersistentStorage newRootStorage) {
         for (final String oldShinePreferencesName : oldShinePreferencesNames) {
             PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(oldShinePreferencesName, Context.MODE_PRIVATE));
             Set<String> oldDevices = oldRootStorage.getStringSet(SHNPersistentStorage.ASSOCIATED_DEVICES, new HashSet<String>());
             moveData(oldRootStorage, newRootStorage);
 
-            for (final String deviceAddress : oldDevices) {
-                String fixedAddress = deviceAddress.replace(SHNPersistentStorage.ASSOCIATED_DEVICES, "");
-                PersistentStorage newDeviceStorage = storageFactory.getPersistentStorageForDevice(fixedAddress);
-
-                for (final String oldDevicePreferencesSuffix : oldDevicePreferencesSuffixes) {
-                    PersistentStorage oldDeviceStorage = new PersistentStorage(context.getSharedPreferences(fixedAddress + oldDevicePreferencesSuffix, Context.MODE_PRIVATE));
-                    moveData(oldDeviceStorage, newDeviceStorage);
-                }
-            }
+            moveAllDevicesData(context, storageFactory, oldDevices);
         }
-
-        moveUserConfigKeyFromRootStorage(newRootStorage, newUserStorage);
-        moveUserConfigKeyFromRootStorage(newUserStorage, newUserStorage);
-
-        convertUserTypes(newUserStorage);
-
-        newRootStorage.put(TAG, MIGRATION_ID);
     }
 
-    private void convertUserTypes(final PersistentStorage newUserStorage) {
+    private void moveAllDevicesData(final @NonNull Context context, final PersistentStorageFactory storageFactory, final Set<String> oldDevices) {
+        for (final String deviceAddress : oldDevices) {
+            String fixedAddress = deviceAddress.replace(SHNPersistentStorage.ASSOCIATED_DEVICES, "");
+            PersistentStorage newDeviceStorage = storageFactory.getPersistentStorageForDevice(fixedAddress);
+
+            for (final String oldDevicePreferencesSuffix : oldDevicePreferencesSuffixes) {
+                PersistentStorage oldDeviceStorage = new PersistentStorage(context.getSharedPreferences(fixedAddress + oldDevicePreferencesSuffix, Context.MODE_PRIVATE));
+                moveData(oldDeviceStorage, newDeviceStorage);
+            }
+        }
+    }
+
+    private void convertUserConfigValues(final PersistentStorage newUserStorage) {
         try {
             String stringValue = newUserStorage.get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY, null);
             if (stringValue != null && stringValue.length() > 0) {
                 char charValue = stringValue.charAt(0);
                 newUserStorage.put(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY, (int) charValue);
             }
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
 
         try {
@@ -111,7 +121,7 @@ public class DataMigrater {
                 SHNUserConfiguration.Sex sex = SHNUserConfiguration.Sex.valueOf(stringValue);
                 newUserStorage.put(SHNUserConfigurationImpl.SEX_KEY, sex);
             }
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
 
         try {
@@ -120,7 +130,7 @@ public class DataMigrater {
                 SHNUserConfiguration.Handedness Handedness = SHNUserConfiguration.Handedness.valueOf(stringValue);
                 newUserStorage.put(SHNUserConfigurationImpl.HANDEDNESS_KEY, Handedness);
             }
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
 
         try {
@@ -128,11 +138,11 @@ public class DataMigrater {
             if (floatValue != null) {
                 newUserStorage.put(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY, (double) (float) floatValue);
             }
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
     }
 
-    private void moveUserConfigKeyFromRootStorage(final PersistentStorage sourceStorage, final PersistentStorage destinationStorage) {
+    private void moveUserConfigData(final PersistentStorage sourceStorage, final PersistentStorage destinationStorage) {
         for (final String oldKey : userKeyMapping.keySet()) {
             if (sourceStorage.contains(oldKey)) {
                 String newKey = userKeyMapping.get(oldKey);
