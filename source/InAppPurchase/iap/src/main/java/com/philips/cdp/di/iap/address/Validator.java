@@ -8,8 +8,6 @@ package com.philips.cdp.di.iap.address;
 
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.EditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,12 +21,11 @@ public class Validator {
     private static final String POSTAL_CODE = "^[A-Z0-9]{1,10}$";
     private static final String COUNTRY = "^[A-Z]{2,2}$";
 
-    private boolean isValidString(CharSequence stringToBeValidated) {
+    private boolean isValidString(String stringToBeValidated) {
         return !TextUtils.isEmpty(stringToBeValidated);
     }
 
-    public boolean isValidFirstName(View editText) {
-        CharSequence stringToBeValidated = ((EditText) editText).getText();
+    public boolean isValidFirstName(String stringToBeValidated) {
         if (!isValidString(stringToBeValidated)) {
             return false;
         } else {
@@ -38,8 +35,7 @@ public class Validator {
         }
     }
 
-    public boolean isValidLastName(View editText) {
-        CharSequence stringToBeValidated = ((EditText) editText).getText();
+    public boolean isValidLastName(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
             Pattern pattern = Pattern.compile(LAST_NAME);
             Matcher matcher = pattern.matcher(stringToBeValidated);
@@ -49,8 +45,7 @@ public class Validator {
         }
     }
 
-    public boolean isValidEmail(View editText) {
-        CharSequence stringToBeValidated = ((EditText) editText).getText();
+    public boolean isValidEmail(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(stringToBeValidated).matches();
         } else {
@@ -58,8 +53,7 @@ public class Validator {
         }
     }
 
-    public boolean isValidPostalCode(View editText) {
-        CharSequence stringToBeValidated = ((EditText) editText).getText();
+    public boolean isValidPostalCode(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
             Pattern pattern = Pattern.compile(POSTAL_CODE);
             Matcher matcher = pattern.matcher(stringToBeValidated);
@@ -69,8 +63,7 @@ public class Validator {
         }
     }
 
-    public boolean isValidPhoneNumber(View editText) {
-        CharSequence stringToBeValidated = ((EditText) editText).getText();
+    public boolean isValidPhoneNumber(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
             return PhoneNumberUtils.isGlobalPhoneNumber(stringToBeValidated.toString());
         } else {
@@ -78,8 +71,7 @@ public class Validator {
         }
     }
 
-    public boolean isValidAddress(View editText) {
-        CharSequence stringToBeValidated = ((EditText) editText).getText();
+    public boolean isValidAddress(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
             Pattern pattern = Pattern.compile(ADDRESS);
             Matcher matcher = pattern.matcher(stringToBeValidated);
@@ -89,8 +81,7 @@ public class Validator {
         }
     }
 
-    public boolean isValidTown(View editText) {
-        CharSequence stringToBeValidated = ((EditText) editText).getText();
+    public boolean isValidTown(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
             Pattern pattern = Pattern.compile(TOWN_PATTERN);
             Matcher matcher = pattern.matcher(stringToBeValidated);
@@ -100,8 +91,7 @@ public class Validator {
         }
     }
 
-    public boolean isValidCountry(View editText) {
-        CharSequence stringToBeValidated = ((EditText) editText).getText();
+    public boolean isValidCountry(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
             Pattern pattern = Pattern.compile(COUNTRY);
             Matcher matcher = pattern.matcher(stringToBeValidated);
