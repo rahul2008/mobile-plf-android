@@ -52,46 +52,41 @@ public class DataMigraterTest extends RobolectricTest {
     @Mock
     private Handler handlerMock;
     public static final String ANOTHER_KEY = "ANOTHER_KEY";
+    private Application context;
+    private PersistentStorageFactory storageFactory;
 
     @Before
     public void setUp() {
         initMocks(this);
+
+        context = RuntimeEnvironment.application;
+        storageFactory = new PersistentStorageFactory(context);
+
         dataMigrater = new DataMigrater();
     }
 
     @Test
     public void ShouldMoveShineData_WhenNoDeviceDataPresent() {
-        Application context = RuntimeEnvironment.application;
-
         PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(1), Context.MODE_PRIVATE));
-
         insertTestData(oldRootStorage);
 
         dataMigrater.execute(context, new PersistentStorageFactory(context));
 
-        PersistentStorageFactory storageFactory = new PersistentStorageFactory(context);
         PersistentStorage newRootStorage = storageFactory.getPersistentStorage();
-
         verifyTestData(newRootStorage);
     }
 
     @Test
     public void ShouldMoveNoData_WhenNoShineOrDeviceDataPresent() {
-        Application context = RuntimeEnvironment.application;
-
         dataMigrater.execute(context, new PersistentStorageFactory(context));
 
-        PersistentStorageFactory storageFactory = new PersistentStorageFactory(context);
         PersistentStorage newRootStorage = storageFactory.getPersistentStorage();
-
         assertThat(newRootStorage.getAll()).hasSize(1);
-        assertThat(newRootStorage.getAll().get(DataMigrater.TAG)).isEqualTo(DataMigrater.MIGRATION_ID);
+        assertThat(newRootStorage.getAll().get(DataMigrater.MIGRATION_ID_KEY)).isEqualTo(DataMigrater.MIGRATION_ID);
     }
 
     @Test
     public void ShouldMoveShineAndDeviceData_WhenPresent() {
-        Application context = RuntimeEnvironment.application;
-
         PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(0), Context.MODE_PRIVATE));
         PersistentStorage oldDevice1Storage = new PersistentStorage(context.getSharedPreferences(TEST_DEVICE_1 + DataMigrater.oldDevicePreferencesSuffixes.get(0), Context.MODE_PRIVATE));
         PersistentStorage oldDevice2Storage = new PersistentStorage(context.getSharedPreferences(TEST_DEVICE_2 + DataMigrater.oldDevicePreferencesSuffixes.get(1), Context.MODE_PRIVATE));
@@ -111,7 +106,6 @@ public class DataMigraterTest extends RobolectricTest {
 
         dataMigrater.execute(context, new PersistentStorageFactory(context));
 
-        PersistentStorageFactory storageFactory = new PersistentStorageFactory(context);
         PersistentStorage newRootStorage = storageFactory.getPersistentStorage();
         PersistentStorage newDevice1Storage = storageFactory.getPersistentStorageForDevice(TEST_DEVICE_1);
         PersistentStorage newDevice2Storage = storageFactory.getPersistentStorageForDevice(TEST_DEVICE_2);
@@ -130,8 +124,6 @@ public class DataMigraterTest extends RobolectricTest {
 
     @Test
     public void ShouldMoveUserData_WhenOldUserDataIsPresent() {
-        Application context = RuntimeEnvironment.application;
-
         PersistentStorage oldUserStorage0 = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(0), Context.MODE_PRIVATE));
         PersistentStorage oldUserStorage1 = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(1), Context.MODE_PRIVATE));
 
@@ -140,29 +132,22 @@ public class DataMigraterTest extends RobolectricTest {
 
         dataMigrater.execute(context, new PersistentStorageFactory(context));
 
-        PersistentStorageFactory storageFactory = new PersistentStorageFactory(context);
         PersistentStorage newUserStorage = storageFactory.getPersistentStorageForUser();
-
         verifyTestData(newUserStorage);
         assertThat(newUserStorage.get(ANOTHER_KEY)).isEqualTo(true);
     }
 
     @Test
     public void ShouldMoveOldUserKeysFromRootToUserStorage_WhenOldUserDataIsPresent() {
-        Application context = RuntimeEnvironment.application;
-
         PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(0), Context.MODE_PRIVATE));
         OldSHNUserConfigurationImpl oldUserConfiguration = new OldSHNUserConfigurationImpl(oldRootStorage, new SHNUserConfigurationCalculations());
 
         insertUserData(oldUserConfiguration);
 
-        PersistentStorageFactory storageFactory = new PersistentStorageFactory(context);
         dataMigrater.execute(context, storageFactory);
 
         SHNUserConfigurationImpl newUserConfiguration = new SHNUserConfigurationImpl(storageFactory, handlerMock, new SHNUserConfigurationCalculations());
-
         verifyUserData(newUserConfiguration);
-
         for (final String key : DataMigrater.userKeyMapping.keySet()) {
             assertThat(oldRootStorage.get(key)).isNull();
         }
@@ -170,34 +155,25 @@ public class DataMigraterTest extends RobolectricTest {
 
     @Test
     public void ShouldMoveOldUserKeysFromUserToUserStorage_WhenOldUserDataIsPresent() {
-        Application context = RuntimeEnvironment.application;
-
         PersistentStorage oldUserStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(0), Context.MODE_PRIVATE));
         OldSHNUserConfigurationImpl oldUserConfiguration = new OldSHNUserConfigurationImpl(oldUserStorage, new SHNUserConfigurationCalculations());
 
         insertUserData(oldUserConfiguration);
 
-        PersistentStorageFactory storageFactory = new PersistentStorageFactory(context);
         dataMigrater.execute(context, storageFactory);
 
         SHNUserConfigurationImpl newUserConfiguration = new SHNUserConfigurationImpl(storageFactory, handlerMock, new SHNUserConfigurationCalculations());
-
-
         verifyUserData(newUserConfiguration);
-
         for (final String key : DataMigrater.userKeyMapping.keySet()) {
             assertThat(oldUserStorage.get(key)).isNull();
         }
     }
 
-
     @Test
     public void ShouldOnlyMigrateOnce_WhenCalledMoreThanOnce() {
-        Application context = RuntimeEnvironment.application;
         PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(1), Context.MODE_PRIVATE));
         insertTestData(oldRootStorage);
 
-        PersistentStorageFactory storageFactory = new PersistentStorageFactory(context);
         dataMigrater.execute(context, storageFactory);
         PersistentStorage newRootStorage = storageFactory.getPersistentStorage();
 
@@ -206,6 +182,53 @@ public class DataMigraterTest extends RobolectricTest {
         oldRootStorage.put(ANOTHER_KEY, true);
         dataMigrater.execute(context, storageFactory);
         assertThat(newRootStorage.contains(ANOTHER_KEY)).isFalse();
+    }
+
+    @Test
+    public void ShouldConvert_DecimalSeparator_FromOldToNewValue_WhenMigrating() {
+        PersistentStorage userStorage = storageFactory.getPersistentStorageForUser();
+        userStorage.put(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY, "A");
+
+        dataMigrater.execute(context, storageFactory);
+
+        char actualSeparator = (char) (int) userStorage.get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY);
+        assertThat(actualSeparator).isEqualTo('A');
+    }
+
+    @Test
+    public void ShouldConvert_Sex_FromOldToNewValue_WhenMigrating() {
+        PersistentStorage userStorage = storageFactory.getPersistentStorageForUser();
+        SHNUserConfiguration.Sex expectedSex = SHNUserConfiguration.Sex.Female;
+        userStorage.put(SHNUserConfigurationImpl.SEX_KEY, expectedSex.name());
+
+        dataMigrater.execute(context, storageFactory);
+
+        SHNUserConfiguration.Sex actualSex = userStorage.get(SHNUserConfigurationImpl.SEX_KEY);
+        assertThat(actualSex).isEqualTo(expectedSex);
+    }
+
+    @Test
+    public void ShouldConvert_Handedness_FromOldToNewValue_WhenMigrating() {
+        PersistentStorage userStorage = storageFactory.getPersistentStorageForUser();
+        SHNUserConfiguration.Handedness expectedHandedness = SHNUserConfiguration.Handedness.MixedHanded;
+        userStorage.put(SHNUserConfigurationImpl.HANDEDNESS_KEY, expectedHandedness.name());
+
+        dataMigrater.execute(context, storageFactory);
+
+        SHNUserConfiguration.Handedness actualHandedness = userStorage.get(SHNUserConfigurationImpl.HANDEDNESS_KEY);
+        assertThat(actualHandedness).isEqualTo(expectedHandedness);
+    }
+
+    @Test
+    public void ShouldConvert_Weight_FromOldToNewValue_WhenMigrating() {
+        PersistentStorage userStorage = storageFactory.getPersistentStorageForUser();
+        float expectedWeight = 7.12f;
+        userStorage.put(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY, expectedWeight);
+
+        dataMigrater.execute(context, storageFactory);
+
+        double actualWeight = userStorage.get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY);
+        assertThat(actualWeight).isEqualTo((double) expectedWeight);
     }
 
     // -----
@@ -437,7 +460,6 @@ public class DataMigraterTest extends RobolectricTest {
             return persistentStorage.get(CHANGE_INCREMENT_KEY, 0);
         }
 
-
         @Override
         public void clear() {
         }
@@ -452,5 +474,4 @@ public class DataMigraterTest extends RobolectricTest {
             return null;
         }
     }
-
 }

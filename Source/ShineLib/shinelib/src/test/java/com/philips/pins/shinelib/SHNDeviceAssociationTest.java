@@ -12,13 +12,10 @@ import com.philips.pins.shinelib.utility.QuickTestConnection;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +35,8 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -45,15 +44,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
 
-/**
- * Created by 310188215 on 27/05/15.
- */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({SHNDeviceAssociation.class})
 public class SHNDeviceAssociationTest {
+    
     public static final String DEVICE_TYPE_NAME = "Moonshine";
     private SHNDeviceAssociation shnDeviceAssociation;
     private SHNDeviceAssociation.SHNDeviceAssociationListener mockedSHNDeviceAssociationListener;
@@ -499,7 +492,6 @@ public class SHNDeviceAssociationTest {
         QuickTestConnection createQuickTestConnection() {
             return quickTestConnectionMock;
         }
-
 
         @NonNull
         @Override
