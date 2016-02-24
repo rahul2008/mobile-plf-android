@@ -7,7 +7,6 @@
 package com.philips.cdp.di.iap.address;
 
 import android.telephony.PhoneNumberUtils;
-import android.text.TextUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +21,7 @@ public class Validator {
     private static final String COUNTRY = "^[A-Z]{2,2}$";
 
     private boolean isValidString(String stringToBeValidated) {
-        return !TextUtils.isEmpty(stringToBeValidated);
+        return stringToBeValidated != null && !stringToBeValidated.equalsIgnoreCase("");
     }
 
     public boolean isValidFirstName(String stringToBeValidated) {
