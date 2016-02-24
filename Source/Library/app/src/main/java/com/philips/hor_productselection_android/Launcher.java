@@ -14,18 +14,19 @@ import android.widget.Toast;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
-import com.philips.productselection.ProductModelSelectionHelper;
-import com.philips.productselection.base.ProductSelectionBaseActivity;
-import com.philips.productselection.base.ProductModelSelectionType;
-import com.philips.productselection.component.ActivityLauncher;
-import com.philips.productselection.component.UiLauncher;
-import com.philips.productselection.listeners.ProductModelSelectionListener;
-import com.philips.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
+import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
+import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -190,7 +191,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
             ctnList[i] = mList.get(i).getmCtn();
         }
 
-        ProductModelSelectionType productsSelection = new com.philips.productselection.productselection.HardcodedProductList(ctnList);
+        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
 
@@ -198,9 +199,8 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         mProductSelectionHelper.initialize(this);
         mProductSelectionHelper.setLocale("en", "GB");
 
-        UiLauncher uiLauncher = new ActivityLauncher();
+        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-        uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
