@@ -4,18 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.BuildConfig;
-import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
-import com.philips.cdp.productselection.launcher.ActivityLauncher;
-import com.philips.cdp.productselection.launcher.FragmentLauncher;
-import com.philips.cdp.productselection.launcher.UiLauncher;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
+import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.Constants;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.productselection.welcomefragment.WelcomeScreenFragmentSelection;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
 import java.util.Locale;
 
@@ -96,11 +96,11 @@ public class ProductModelSelectionHelper {
         } else
             throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
         if (uiLauncher instanceof ActivityLauncher) {
-            invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
+            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
         } else {
-
-            FragmentLauncher fragmentLauncher = new FragmentLauncher();
-            invokeAsFragment(uiLauncher.getFragmentActivity(), fragmentLauncher.getLayoutResourceID(),
+            FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
+            invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getLayoutResourceID(),
                     fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
         }
     }
@@ -173,7 +173,6 @@ public class ProductModelSelectionHelper {
     public String[] getProductCtnList() {
         return mCtnList;
     }
-
 
 
     public SummaryModel getUserSelectedProduct() {

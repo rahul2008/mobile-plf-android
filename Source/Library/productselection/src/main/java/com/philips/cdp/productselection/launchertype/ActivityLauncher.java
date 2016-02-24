@@ -1,29 +1,24 @@
-package com.philips.cdp.productselection.launcher;
-
-import com.philips.cdp.productselection.ProductModelSelectionHelper;
+package com.philips.cdp.productselection.launchertype;
 
 
 /**
- * Description:  This class responsible for providing the builderclass to invoke the consumerCare module as
- * Activity module.
- *
+
  * @author naveen@philips.com
- * @date 19/january/2015
+ * @date 19/january/2016
  */
 public class ActivityLauncher extends UiLauncher {
 
+    protected ActivityLauncher.ActivityOrientation mScreenOrientation = null;
 
-    @Override
-    public void setAnimation(int enterAnimation, int exitAnimation) {
-        super.mEnterAnimation = enterAnimation;
-        super.mExitAnimation = exitAnimation;
+    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation) {
+        mScreenOrientation = screenOrientation;
     }
 
-    @Override
-    public void setScreenOrientation(ActivityOrientation screenOrientation) {
-        super.mScreenOrientation = screenOrientation;
-    }
 
+
+    public ActivityLauncher.ActivityOrientation getScreenOrientation() {
+        return mScreenOrientation;
+    }
 
 
     /**

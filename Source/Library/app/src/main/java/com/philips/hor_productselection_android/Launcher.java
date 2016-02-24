@@ -23,8 +23,8 @@ import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.productselection.launcher.ActivityLauncher;
-import com.philips.cdp.productselection.launcher.UiLauncher;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 
@@ -199,9 +199,8 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         mProductSelectionHelper.initialize(this);
         mProductSelectionHelper.setLocale("en", "GB");
 
-        UiLauncher uiLauncher = new ActivityLauncher();
+        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-        uiLauncher.setScreenOrientation(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
