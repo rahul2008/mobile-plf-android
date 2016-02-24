@@ -80,6 +80,22 @@ public class SHNCharacteristicTest {
     }
 
     @Test
+    public void testWhenAReadIsRequestedWhenADisconnectOccursThenTheReadCompletesWithAnError() {
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+        shnCharacteristic.read(resultReporterMock);
+        shnCharacteristic.disconnectFromBLELayer();
+        verify(resultReporterMock).reportResult(SHNResult.SHNErrorConnectionLost, null);
+    }
+
+    @Test
+    public void testWhenAWriteIsRequestedWhenADisconnectOccursThenTheWriteCompletesWithAnError() {
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+        shnCharacteristic.write(new byte[]{'d', 'a', 't', 'a'}, resultReporterMock);
+        shnCharacteristic.disconnectFromBLELayer();
+        verify(resultReporterMock).reportResult(SHNResult.SHNErrorConnectionLost, null);
+    }
+
+    @Test
     public void testGetValue() {
         byte[] mockedData = new byte[]{'d', 'a', 't', 'a'};
         doReturn(mockedData).when(mockedBluetoothGattCharacteristic).getValue();
@@ -280,6 +296,13 @@ public class SHNCharacteristicTest {
                         shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_SUCCESS);
                         verify(resultReporterMock).reportResult(SHNResult.SHNOk, null);
                     }
+
+                    @Test
+                    public void itReportsAnErrorWhenTheConnectionIsLost() {
+                        shnCharacteristic.disconnectFromBLELayer();
+                        verify(resultReporterMock).reportResult(SHNResult.SHNErrorConnectionLost, null);
+                    }
+
                 }
 
                 public class AndNotificationsAreDisabled {

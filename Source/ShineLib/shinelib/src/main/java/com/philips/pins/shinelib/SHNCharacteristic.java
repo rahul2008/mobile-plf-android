@@ -61,6 +61,10 @@ public class SHNCharacteristic {
         bluetoothGattCharacteristic = null;
         btGatt = null;
         state = State.Inactive;
+        while(!pendingCompletions.isEmpty()) {
+            SHNCommandResultReporter shnCommandResultReporter = pendingCompletions.remove(0);
+            shnCommandResultReporter.reportResult(SHNResult.SHNErrorConnectionLost, null);
+        }
     }
 
     public byte[] getValue() {
