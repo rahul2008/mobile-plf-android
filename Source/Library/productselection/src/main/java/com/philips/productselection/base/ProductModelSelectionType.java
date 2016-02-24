@@ -39,5 +39,15 @@ public abstract class ProductModelSelectionType {
     }
 
 
-    public abstract String[] getHardCodedProductList();
+    public String[] mCtnList = null;
+
+
+
+    public void setHardCodedProductList(String[] ctnList) {
+        this.mCtnList = ctnList;
+    }
+
+    public String[] getHardCodedProductList() {
+        return this.mCtnList;
+    }
 }

@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ public class DetailedScreenFragmentSelection extends ProductSelectionBaseFragmen
     private static Button mSelectButton = null;
     private String[] mDetailedScreenimage = null;
     private ProgressDialog mAssetDialog = null;
-    private List<String> mVideoList = null;
+    private List<String> mSelectedProductImageList = null;
     private LinearLayout mDetailedScreenParentContainer, mDetailedScreenImageContainer = null;
     private LinearLayout.LayoutParams mDetailedScreenParams, mDetailedImageScreenParams = null;
     private int mPortraitTablet = 0;
@@ -85,7 +86,7 @@ public class DetailedScreenFragmentSelection extends ProductSelectionBaseFragmen
         } else
             ProductSelectionLogger.e(TAG, "Summary Model is null in Base");
 
-        mVideoList = new ArrayList<String>();
+        mSelectedProductImageList = new ArrayList<String>();
         mDetailedScreenimage = new String[1];
         if (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null)
             mDetailedScreenimage[0] = ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getImageURL();
@@ -153,9 +154,9 @@ public class DetailedScreenFragmentSelection extends ProductSelectionBaseFragmen
             mAssetDialog.show();
 
         PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn(),
-                ProductModelSelectionHelper.getInstance().getSectorCode(),
+                ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSector(),
                 ProductModelSelectionHelper.getInstance().getLocale().toString(),
-                ProductModelSelectionHelper.getInstance().getCatalogCode());
+                ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getCatalog());
 
         prxWrapperCode.requestPrxAssetData(new PrxAssetDataListener() {
                                                @Override
@@ -178,17 +179,19 @@ public class DetailedScreenFragmentSelection extends ProductSelectionBaseFragmen
                                                            String assetResource = assetObject.getAsset();
                                                            String assetExtension = assetObject.getType();
                                                            if ((assetExtension.equalsIgnoreCase(Constants.DETAILEDSCREEN_PRIDUCTIMAGES_APP)) || (assetExtension.equalsIgnoreCase(Constants.DETAILEDSCREEN_PRIDUCTIMAGES_DPP)) || (assetExtension.equalsIgnoreCase(Constants.DETAILEDSCREEN_PRIDUCTIMAGES_MI1) || (assetExtension.equalsIgnoreCase(Constants.DETAILEDSCREEN_PRIDUCTIMAGES_PID)) || (assetExtension.equalsIgnoreCase(Constants.DETAILEDSCREEN_PRIDUCTIMAGES_RTP)))) {
-                                                               if (assetResource != null)
-                                                                   mVideoList.add(assetResource.replace("/content/", "/image/") + "?wid=" + (int) (getResources().getDimension(R.dimen.productdetails_screen_image) / getResources().getDisplayMetrics().density) + "&amp;");
+                                                               if (assetResource != null) {
+                                                                   //  mSelectedProductImageList.add(assetResource.replace("/content/", "/image/") + "?wid=" + (int) (getResources().getDimension(R.dimen.productdetails_screen_image) / getResources().getDisplayMetrics().density) + "&amp;");
+                                                                   mSelectedProductImageList.add(assetResource.replace("/content/", "/image/"));
+                                                               }
                                                            }
                                                        }
                                                    }
-                                                   ProductSelectionLogger.d(TAG, "Images Size : " + mVideoList.size());
+                                                   ProductSelectionLogger.d(TAG, "Images Size : " + mSelectedProductImageList.size());
 
-                                                   mDetailedScreenimage = new String[mVideoList.size()];
-                                                   for (int i = 0; i < mVideoList.size(); i++) {
+                                                   mDetailedScreenimage = new String[mSelectedProductImageList.size()];
+                                                   for (int i = 0; i < mSelectedProductImageList.size(); i++) {
                                                        if (i < 5)
-                                                           mDetailedScreenimage[i] = mVideoList.get(i);
+                                                           mDetailedScreenimage[i] = mSelectedProductImageList.get(i);
                                                    }
                                                    mViewpager.setAdapter(new ProductAdapter(getChildFragmentManager(), mDetailedScreenimage));
                                                }
@@ -218,10 +221,9 @@ public class DetailedScreenFragmentSelection extends ProductSelectionBaseFragmen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.detailedscreen_select_button && isConnectionAvailable()) {
-            if(isTablet()){
+            if (isTablet()) {
                 replaceFragmentTablet(new SavedScreenFragmentSelection());
-            }
-            else {
+            } else {
                 showFragment(new SavedScreenFragmentSelection());
             }
         }

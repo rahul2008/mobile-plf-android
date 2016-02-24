@@ -26,19 +26,4 @@ public class ActivityLauncher extends UiLauncher {
         super.mScreenOrientation = screenOrientation;
     }
 
-    @Override
-    public void setmLayoutResourceID(int mLayoutResourceID) {
-
-    }
-
-
-    @Override
-    public void setActionbarUpdateListener(ActionbarUpdateListener mActionbarUpdateListener) {
-
-    }
-
-    @Override
-    public void setFragmentActivity(FragmentActivity mFragmentActivity) {
-
-    }
 }

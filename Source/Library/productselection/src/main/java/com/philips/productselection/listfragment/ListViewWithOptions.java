@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
@@ -80,7 +81,10 @@ public class ListViewWithOptions extends BaseAdapter {
 
         String imagepath = data.getImageURL();
         int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
-        imagepath = imagepath + "?wid=" + imageWidth + "&;";
+        imagepath = /*imagepath + "?wid=" + imageWidth + "&;";*/
+        imagepath + "?wid=" + imageWidth +
+                "&hei=" + imageWidth +
+                "&fit=fit,1";
 
         ProductSelectionLogger.v(TAG, "Image : " + imagepath);
 
@@ -95,6 +99,8 @@ public class ListViewWithOptions extends BaseAdapter {
                     public void onErrorResponse(VolleyError error) {
                     }
                 });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mActivity.runOnUiThread(new Runnable() {
             @Override

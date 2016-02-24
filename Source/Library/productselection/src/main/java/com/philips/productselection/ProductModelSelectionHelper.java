@@ -5,15 +5,16 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.productselection.base.ProductSelectionActivity;
 import com.philips.productselection.base.ProductModelSelectionType;
-import com.philips.productselection.listeners.ProductModelSelectionListener;
-import com.philips.productselection.welcomefragment.WelcomeScreenFragmentSelection;
+import com.philips.productselection.base.ProductSelectionActivity;
 import com.philips.productselection.component.ActivityLauncher;
+import com.philips.productselection.component.FragmentLauncher;
 import com.philips.productselection.component.UiLauncher;
 import com.philips.productselection.listeners.ActionbarUpdateListener;
+import com.philips.productselection.listeners.ProductModelSelectionListener;
 import com.philips.productselection.utils.Constants;
 import com.philips.productselection.utils.ProductSelectionLogger;
+import com.philips.productselection.welcomefragment.WelcomeScreenFragmentSelection;
 
 import java.util.Locale;
 
@@ -26,14 +27,12 @@ public class ProductModelSelectionHelper {
     private static Context mContext = null;
     private static Locale mLocale = null;
     private static String mCtn = null;
-    private static String mSectorCode = null;
-    private static String mCatalogCode = null;
     private ProductModelSelectionListener mProductSelectionListener = null;
     private SummaryModel mUserSelectedProduct = null;
     private boolean isActivityInstance;
-    private int mPortraitTablet= 0;
+    private int mPortraitTablet = 0;
 
-    public static ProductModelSelectionType mProductModelSelectionType = null;
+    private ProductModelSelectionType mProductModelSelectionType = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -51,6 +50,12 @@ public class ProductModelSelectionHelper {
             mDigitalCareInstance = new ProductModelSelectionHelper();
         }
         return mDigitalCareInstance;
+    }
+
+    public ProductModelSelectionType getProductModelSelectionType()
+
+    {
+        return mProductModelSelectionType;
     }
 
     public Locale getLocale() {
@@ -86,18 +91,18 @@ public class ProductModelSelectionHelper {
 
         if (productModelSelectionType != null) {
             mProductModelSelectionType = productModelSelectionType;
-            mCatalogCode = mProductModelSelectionType.getCatalog();
-            mSectorCode = mProductModelSelectionType.getSector();
             mCtnList = productModelSelectionType.getHardCodedProductList();
         } else
             throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
         if (uiLauncher instanceof ActivityLauncher) {
             isActivityInstance = true;
             invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
-        } else
-            invokeAsFragment(uiLauncher.getFragmentActivity(), uiLauncher.getLayoutResourceID(),
-                    uiLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+        } else {
 
+            FragmentLauncher fragmentLauncher = new FragmentLauncher();
+            invokeAsFragment(uiLauncher.getFragmentActivity(), fragmentLauncher.getLayoutResourceID(),
+                    fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+        }
     }
 
 
@@ -163,22 +168,6 @@ public class ProductModelSelectionHelper {
 
     public void setCtn(String ctn) {
         mCtn = ctn;
-    }
-
-    public String getSectorCode() {
-        return mSectorCode;
-    }
-
-    public void setSectorCode(String sectorCode) {
-        mSectorCode = sectorCode;
-    }
-
-    public String getCatalogCode() {
-        return mCatalogCode;
-    }
-
-    public void setCatalogCode(String catalogCode) {
-        mCatalogCode = catalogCode;
     }
 
     public String[] getProductCtnList() {
