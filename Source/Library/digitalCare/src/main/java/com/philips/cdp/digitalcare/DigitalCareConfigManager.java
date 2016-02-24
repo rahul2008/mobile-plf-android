@@ -19,8 +19,8 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.ProductModelSelectionType;
+import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+
 
 import java.util.Locale;
 
@@ -38,6 +38,8 @@ import java.util.Locale;
 public class DigitalCareConfigManager {
 
     private static final String TAG = DigitalCareConfigManager.class.getSimpleName();
+    public static ProductModelSelectionType mProductModelSelectionType = null;
+    public static String[] mCtnList = null;
     private static DigitalCareConfigManager mDigitalCareInstance = null;
     private static Context mContext = null;
     private static LocaleMatchHandler mLocaleMatchHandler = null;
@@ -53,9 +55,6 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
-
-    public static ProductModelSelectionType mProductModelSelectionType = null;
-    public static String[] mCtnList = null;
     private UiLauncher mUiLauncher = null;
 
     /*
@@ -171,7 +170,7 @@ public class DigitalCareConfigManager {
 
     }
 
-    public UiLauncher getUiLauncher(){
+    public UiLauncher getUiLauncher() {
         return mUiLauncher;
     }
 
@@ -183,7 +182,7 @@ public class DigitalCareConfigManager {
      * @param endAnimation   Animation Resource ID.
      * @param orientation
      */
-    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ProductModelSelectionHelper.ActivityOrientation orientation) {
+    private void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation orientation) {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context,  and locale before Support page is invoked");
         }
