@@ -1,4 +1,4 @@
-package com.philips.cdp.productselection.listfragment;
+package com.philips.cdp.productselection.fragments.listfragment;
 
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
@@ -11,11 +11,11 @@ import android.widget.ListView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.listeners.ProductListDetailsTabletListener;
-import com.philips.cdp.productselection.homefragment.ProductSelectionBaseFragment;
+import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
-import com.philips.cdp.productselection.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.prx.PrxSummaryDataListener;
 import com.philips.cdp.productselection.prx.PrxWrapper;
 

@@ -1,4 +1,4 @@
-package com.philips.cdp.productselection.welcomefragment;
+package com.philips.cdp.productselection.fragments.welcomefragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.productselection.R;
-import com.philips.cdp.productselection.homefragment.ProductSelectionBaseFragment;
-import com.philips.cdp.productselection.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.listfragment.ProductSelectionListingTabletFragment;
+import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.

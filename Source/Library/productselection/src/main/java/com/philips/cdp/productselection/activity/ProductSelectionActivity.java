@@ -3,10 +3,10 @@ package com.philips.cdp.productselection.activity;
 import android.os.Bundle;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-import com.philips.cdp.productselection.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.listfragment.ProductSelectionListingTabletFragment;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.welcomefragment.WelcomeScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.utils.Constants;
 

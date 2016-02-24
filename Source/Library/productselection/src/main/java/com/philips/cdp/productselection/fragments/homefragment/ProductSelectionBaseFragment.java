@@ -1,4 +1,4 @@
-package com.philips.cdp.productselection.homefragment;
+package com.philips.cdp.productselection.fragments.homefragment;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.philips.cdp.productselection.detailedscreen;
+package com.philips.cdp.productselection.fragments.detailedscreen;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
