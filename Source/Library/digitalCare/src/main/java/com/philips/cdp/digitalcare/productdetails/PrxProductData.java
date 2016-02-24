@@ -32,36 +32,29 @@ import java.util.List;
  */
 public class PrxProductData {
 
-    private static final String TAG = PrxProductData.class.getSimpleName();
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF = "User manual";
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF = "qsg";
     public static final String VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL = "mp4";
-
-
+    private static final String TAG = PrxProductData.class.getSimpleName();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    ConsumerProductInfo mProductInfo = null;
+    /*    private String mCtn = "RQ1250/17";
+        private String mSectorCode = "B2C";
+        private String mLocale = "en_GB";
+        private String mCatalogCode = "CONSUMER";*/
+    DigitalCareConfigManager mConfigManager = null;
     private Activity mActivity = null;
     private IPrxCallback mPrxCallback = null;
-/*    private String mCtn = "RQ1250/17";
-    private String mSectorCode = "B2C";
-    private String mLocale = "en_GB";
-    private String mCatalogCode = "CONSUMER";*/
-
     private String mCtn = null;
     private String mSectorCode = null;
     private String mLocale = null;
     private String mCatalogCode = null;
-
     private SummaryModel mSummaryModel = null;
     private AssetModel mAssetModel = null;
     private ViewProductDetailsModel mProductDetailsObject = null;
-
-    ConsumerProductInfo mProductInfo = null;
-    DigitalCareConfigManager mConfigManager = null;
-
     private ProgressDialog mSummaryDialog = null;
-
     private RequestManager mRequestManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
 
     public PrxProductData(Activity activity, IPrxCallback callback) {
@@ -83,6 +76,29 @@ public class PrxProductData {
             }
         });
 
+    }
+
+
+    public void executePRXAssetRequestWithSummaryData(final SummaryModel summaryModel) {
+        updateUI(new Runnable() {
+                     @Override
+                     public void run() {
+
+                         Data data = summaryModel.getData();
+                         if (data != null) {
+                             mProductDetailsObject.setProductName(data.getProductTitle());
+                             mProductDetailsObject.setCtnName(data.getCtn());
+                             mProductDetailsObject.setProductImage(data.getImageURL());
+                             mProductDetailsObject.setProductInfoLink(data.getProductURL());
+                             mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+
+                             executeAssetRequest();
+                         }
+                     }
+                 }
+
+
+        );
     }
 
     protected final void updateUI(Runnable runnable) {
@@ -211,6 +227,64 @@ public class PrxProductData {
             public void onResponseError(String error, int statusCode) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+            }
+        });
+    }
+
+    public void executeAssetData() {
+        if (mSummaryDialog == null)
+            mSummaryDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+        mSummaryDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mSummaryDialog.setCancelable(false);
+        if (!(mActivity.isFinishing()))
+            mSummaryDialog.show();
+
+        mRequestManager.executeRequest(getPrxAssetData(), new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+
+                if (responseData != null) {
+                    mAssetModel = (AssetModel) responseData;
+                    com.philips.cdp.prxclient.prxdatamodels.assets.Data data = mAssetModel.getData();
+                    String qsgManual = null, usermanual = null;
+                    if (data != null) {
+                        Assets assets = data.getAssets();
+                        List<Asset> asset = assets.getAsset();
+                        List<String> mVideoList = new ArrayList<String>();
+                        for (Asset assetObject : asset) {
+                            String assetDescription = assetObject.getDescription();
+                            String assetResource = assetObject.getAsset();
+                            String assetExtension = assetObject.getExtension();
+                            if (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_QSG_PDF))
+                                if (assetResource != null)
+                                    qsgManual = assetResource;
+                            if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_USERMANUAL_PDF)))
+                                if (assetResource != null)
+                                    usermanual = assetResource;
+                            if (assetExtension.equalsIgnoreCase(VIEWPRODUCTDETAILS_PRX_ASSETS_VIDEO_URL))
+                                if (assetResource != null)
+                                    mVideoList.add(assetResource);
+                        }
+                        if (qsgManual != null)
+                            mProductDetailsObject.setManualLink(qsgManual);
+                        else if (usermanual != null)
+                            mProductDetailsObject.setManualLink(usermanual);
+                        mProductDetailsObject.setmVideoLinks(mVideoList);
+                        mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+
+                        if (mSummaryDialog != null && mSummaryDialog.isShowing())
+                            mSummaryDialog.cancel();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onResponseError(String error, int statusCode) {
+                DigiCareLogger.e(TAG, "Asset Error Response : " + error);
+                mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                if (mSummaryDialog != null && mSummaryDialog.isShowing())
+                    mSummaryDialog.cancel();
             }
         });
     }

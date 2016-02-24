@@ -30,8 +30,6 @@ import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
@@ -376,7 +374,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
 
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-        uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
+        uiLauncher.setAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().getEnterAnimation(),
+                DigitalCareConfigManager.getInstance().getUiLauncher().getExitAnimation());
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
@@ -388,9 +387,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                             DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null) {
                         mPrxProductData = new PrxProductData(getActivity(), null);
-                        mPrxProductData.executeRequests();
-                    }
 
+                        mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
+                    }
                 }
             }
         });
