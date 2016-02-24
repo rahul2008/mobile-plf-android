@@ -24,8 +24,7 @@ public class BTGatt extends BluetoothGattCallback {
     private static final String TAG = BTGatt.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
 
-    public interface BTGattCallback
-    {
+    public interface BTGattCallback {
         void onConnectionStateChange(BTGatt gatt, int status, int newState);
 
         void onServicesDiscovered(BTGatt gatt, int status);
@@ -69,7 +68,9 @@ public class BTGatt extends BluetoothGattCallback {
     }
 
     public void disconnect() {
-        bluetoothGatt.disconnect();
+        if (bluetoothGatt != null) {
+            bluetoothGatt.disconnect();
+        }
     }
 
     public void discoverServices() {
