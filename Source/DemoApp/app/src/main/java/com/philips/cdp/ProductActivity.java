@@ -1,6 +1,7 @@
 package com.philips.cdp;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.util.Calendar;
@@ -34,6 +36,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
     private String TAG = getClass().toString();
+    private String MICROSITE_ID;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -55,7 +58,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initEditText() {
-        regChannel.setText("MS81376");
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(
+                RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
+        MICROSITE_ID = pref.getString(RegistrationSettings.MICROSITE_ID, "");
+        Log.d(TAG, "MICRO SITE_ID : " + MICROSITE_ID);
+
+        regChannel.setText(MICROSITE_ID);
         serialNumber.setText("ab123456789012");
         purchaseDate.setText("2016-02-15");
         ctn.setText("HD8969/09");
