@@ -148,18 +148,17 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         if (isConnectionAvailable()) {
             if (v.getId() == R.id.savedscreen_button_settings) {
 //                if (isConnectionAvailable()) {
-                    if (isTablet()) {
-                        showFragment(new ProductSelectionListingTabletFragment());
-                    } else {
-                        showFragment(new ProductSelectionListingFragment());
-                    }
+                if (isTablet()) {
+                    showFragment(new ProductSelectionListingTabletFragment());
+                } else {
+                    showFragment(new ProductSelectionListingFragment());
+                }
 //                }
             } else if (v.getId() == R.id.savedscreen_button_viewproductdetails) {
-//                if (isConnectionAvailable()) {
+                if (isConnectionAvailable()) {
                     ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(ProductModelSelectionHelper.getInstance().getUserSelectedProduct());
-                    // backstackToSupportFragment();
-                    getActivity().finish();
-//                }
+                    backstackToSupportFragment(getActivity());
+                }
             }
         }
     }

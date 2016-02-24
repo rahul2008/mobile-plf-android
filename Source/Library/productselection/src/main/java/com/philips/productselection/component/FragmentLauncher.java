@@ -13,7 +13,7 @@ import com.philips.productselection.listeners.ActionbarUpdateListener;
  * @author naveen@philips.com
  * @date 19/january/2015
  */
-public class FragmentBuilder extends UiLauncher {
+public class FragmentLauncher extends UiLauncher {
 
 
     @Override

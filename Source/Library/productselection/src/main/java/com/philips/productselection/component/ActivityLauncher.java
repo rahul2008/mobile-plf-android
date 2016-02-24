@@ -25,5 +25,5 @@ public class ActivityLauncher extends UiLauncher {
     public void setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation screenOrientation) {
         super.mScreenOrientation = screenOrientation;
     }
-    
+
 }

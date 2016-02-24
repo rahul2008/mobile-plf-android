@@ -8,7 +8,7 @@ import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.productselection.base.ProductModelSelectionType;
 import com.philips.productselection.base.ProductSelectionActivity;
 import com.philips.productselection.component.ActivityLauncher;
-import com.philips.productselection.component.FragmentBuilder;
+import com.philips.productselection.component.FragmentLauncher;
 import com.philips.productselection.component.UiLauncher;
 import com.philips.productselection.listeners.ActionbarUpdateListener;
 import com.philips.productselection.listeners.ProductModelSelectionListener;
@@ -99,9 +99,9 @@ public class ProductModelSelectionHelper {
             invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
         } else {
 
-            FragmentBuilder fragmentBuilder = new FragmentBuilder();
-            invokeAsFragment(uiLauncher.getFragmentActivity(), fragmentBuilder.getLayoutResourceID(),
-                    fragmentBuilder.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+            FragmentLauncher fragmentLauncher = new FragmentLauncher();
+            invokeAsFragment(uiLauncher.getFragmentActivity(), fragmentLauncher.getLayoutResourceID(),
+                    fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
         }
     }
 

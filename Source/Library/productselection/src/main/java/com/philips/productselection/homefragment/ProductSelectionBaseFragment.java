@@ -1,5 +1,6 @@
 package com.philips.productselection.homefragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
@@ -399,19 +400,28 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         return false;
     }
 
-    protected boolean backstackToSupportFragment() {
+    protected boolean backstackToSupportFragment(Context context) {
 
-        if (!ProductModelSelectionHelper.getInstance().isActivityInstance()) {
-            if (fragmentManager == null && mActivityContext != null) {
-                fragmentManager = mActivityContext.getSupportFragmentManager();
-            } else if (fragmentManager == null) {
-                fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-            }
-            for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
-                fragmentManager.popBackStack();
-            }
-        } else {
+        if(ProductModelSelectionHelper.getInstance().isActivityInstance())
+            if(context != null) {
+                Activity activity = (Activity) context;
+                activity.finish();
 
+            }else
+        {
+
+            if (!ProductModelSelectionHelper.getInstance().isActivityInstance()) {
+                if (fragmentManager == null && mActivityContext != null) {
+                    fragmentManager = mActivityContext.getSupportFragmentManager();
+                } else if (fragmentManager == null) {
+                    fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+                }
+                for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+                    fragmentManager.popBackStack();
+                }
+            } else {
+
+            }
         }
         return false;
     }
