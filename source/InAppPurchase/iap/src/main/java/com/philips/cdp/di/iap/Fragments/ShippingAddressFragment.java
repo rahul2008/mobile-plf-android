@@ -106,31 +106,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         return rootView;
     }
 
-    private void updateFeilds() {
-        Bundle bundle = getArguments();
-        addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-        if (null == addressFeilds) {
-            IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "addressfeild is null = " + addressFeilds);
-            return;
-        }
-        mBtnContinue.setText(getString(R.string.iap_save));
-        mBtnContinue.requestFocus();
-        mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
-        mEtFirstName.requestFocus();
-        mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
-        mEtLastName.requestFocus();
-        mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
-        mEtTown.requestFocus();
-        mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
-        mEtPostalCode.requestFocus();
-        mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
-        mEtCountry.requestFocus();
-        mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
-        mEtAddress.requestFocus();
-        mEtPhoneNumber.setText(addressFeilds.get(ModelConstants.PHONE_NUMBER));
-        mEtPhoneNumber.requestFocus();
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -239,35 +214,35 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         boolean result = true;
         String errorMessage = null;
 
-        if (editText.getId() == R.id.et_first_name && hasFocus == false) {
+        if (editText.getId() == R.id.et_first_name && !hasFocus) {
             result = mValidator.isValidFirstName(editText);
             errorMessage = getResources().getString(R.string.iap_first_name_error);
         }
-        if (editText.getId() == R.id.et_last_name && hasFocus == false) {
+        if (editText.getId() == R.id.et_last_name && !hasFocus) {
             result = mValidator.isValidLastName(editText);
             errorMessage = getResources().getString(R.string.iap_last_name_error);
         }
-        if (editText.getId() == R.id.et_town && hasFocus == false) {
+        if (editText.getId() == R.id.et_town && !hasFocus) {
             result = mValidator.isValidTown(editText);
             errorMessage = getResources().getString(R.string.iap_town_error);
         }
-        if (editText.getId() == R.id.et_phone_number && hasFocus == false) {
+        if (editText.getId() == R.id.et_phone_number && !hasFocus) {
             result = mValidator.isValidPhoneNumber(editText);
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
-        if (editText.getId() == R.id.et_country && hasFocus == false) {
+        if (editText.getId() == R.id.et_country && !hasFocus) {
             result = mValidator.isValidCountry(editText);
             errorMessage = getResources().getString(R.string.iap_country_error);
         }
-        if (editText.getId() == R.id.et_postal_code && hasFocus == false) {
+        if (editText.getId() == R.id.et_postal_code && !hasFocus) {
             result = mValidator.isValidPostalCode(editText);
             errorMessage = getResources().getString(R.string.iap_postal_code_error);
         }
-        if (editText.getId() == R.id.et_email && hasFocus == false) {
+        if (editText.getId() == R.id.et_email && !hasFocus) {
             result = mValidator.isValidEmail(editText);
             errorMessage = getResources().getString(R.string.iap_email_error);
         }
-        if (editText.getId() == R.id.et_address && hasFocus == false) {
+        if (editText.getId() == R.id.et_address && !hasFocus) {
             result = mValidator.isValidAddress(editText);
             errorMessage = getResources().getString(R.string.iap_address_error);
         }
@@ -317,6 +292,31 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddress.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         return addressHashMap;
+    }
+
+    private void updateFeilds() {
+        Bundle bundle = getArguments();
+        addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+        if (null == addressFeilds) {
+            IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "addressfeild is null = " + addressFeilds);
+            return;
+        }
+        mBtnContinue.setText(getString(R.string.iap_save));
+        mBtnContinue.requestFocus();
+        mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
+        mEtFirstName.requestFocus();
+        mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
+        mEtLastName.requestFocus();
+        mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
+        mEtTown.requestFocus();
+        mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
+        mEtPostalCode.requestFocus();
+        mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
+        mEtCountry.requestFocus();
+        mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
+        mEtAddress.requestFocus();
+        mEtPhoneNumber.setText(addressFeilds.get(ModelConstants.PHONE_NUMBER));
+        mEtPhoneNumber.requestFocus();
     }
 
     public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {

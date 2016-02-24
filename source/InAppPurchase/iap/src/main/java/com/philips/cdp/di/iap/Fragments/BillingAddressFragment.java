@@ -24,10 +24,7 @@ import com.philips.cdp.uikit.customviews.PuiSwitch;
 public class BillingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, InlineForms.Validator, TextWatcher {
 
-    private Context mContext;
-
     private LinearLayout mSameAsBillingAddress;
-    private TextView mTvTitle;
     private PuiSwitch mSwitchBillingAddress;
 
     private EditText mEtFirstName;
@@ -52,7 +49,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
 
         mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
-        mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
+        TextView mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
         mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
@@ -206,7 +203,6 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
     }
 
     @Override
@@ -216,7 +212,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     protected void updateTitle() {
-
+        setTitle(R.string.iap_address);
     }
 
     @Override
@@ -250,35 +246,35 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         boolean result = true;
         String errorMessage = null;
 
-        if (editText.getId() == R.id.et_first_name && hasFocus == false) {
+        if (editText.getId() == R.id.et_first_name && !hasFocus) {
             result = mValidator.isValidFirstName(editText);
             errorMessage = getResources().getString(R.string.iap_first_name_error);
         }
-        if (editText.getId() == R.id.et_last_name && hasFocus == false) {
+        if (editText.getId() == R.id.et_last_name && !hasFocus) {
             result = mValidator.isValidLastName(editText);
             errorMessage = getResources().getString(R.string.iap_last_name_error);
         }
-        if (editText.getId() == R.id.et_town && hasFocus == false) {
+        if (editText.getId() == R.id.et_town && !hasFocus) {
             result = mValidator.isValidTown(editText);
             errorMessage = getResources().getString(R.string.iap_town_error);
         }
-        if (editText.getId() == R.id.et_phone_number && hasFocus == false) {
+        if (editText.getId() == R.id.et_phone_number && !hasFocus) {
             result = mValidator.isValidPhoneNumber(editText);
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
-        if (editText.getId() == R.id.et_country && hasFocus == false) {
+        if (editText.getId() == R.id.et_country && !hasFocus) {
             result = mValidator.isValidCountry(editText);
             errorMessage = getResources().getString(R.string.iap_country_error);
         }
-        if (editText.getId() == R.id.et_postal_code && hasFocus == false) {
+        if (editText.getId() == R.id.et_postal_code && !hasFocus) {
             result = mValidator.isValidPostalCode(editText);
             errorMessage = getResources().getString(R.string.iap_postal_code_error);
         }
-        if (editText.getId() == R.id.et_email && hasFocus == false) {
+        if (editText.getId() == R.id.et_email && !hasFocus) {
             result = mValidator.isValidEmail(editText);
             errorMessage = getResources().getString(R.string.iap_email_error);
         }
-        if (editText.getId() == R.id.et_address && hasFocus == false) {
+        if (editText.getId() == R.id.et_address && !hasFocus) {
             result = mValidator.isValidAddress(editText);
             errorMessage = getResources().getString(R.string.iap_address_error);
         }
