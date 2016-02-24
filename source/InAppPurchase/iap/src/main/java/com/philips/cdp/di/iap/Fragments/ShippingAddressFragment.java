@@ -182,21 +182,30 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     public void checkFields() {
 
-        if (mValidator.isValidFirstName(mEtFirstName) && mValidator.isValidLastName(mEtLastName)
-                && mValidator.isValidAddress(mEtAddress) && mValidator.isValidPostalCode(mEtPostalCode)
-                && mValidator.isValidEmail(mEtEmail) && mValidator.isValidPhoneNumber(mEtPhoneNumber)
-                && mValidator.isValidTown(mEtTown) && mValidator.isValidCountry(mEtCountry)) {
+        String firstName = mEtFirstName.getText().toString().trim();
+        String lastName = mEtLastName.getText().toString().trim();
+        String address = mEtAddress.getText().toString().trim();
+        String postalCode = mEtPostalCode.getText().toString().trim();
+        String phoneNumber = mEtPhoneNumber.getText().toString().trim();
+        String town = mEtTown.getText().toString().trim();
+        String country = mEtCountry.getText().toString().trim();
+        String email = mEtEmail.getText().toString().trim();
 
-            mAddressFields.setFirstName(mEtFirstName.getText().toString().trim());
-            mAddressFields.setLastName(mEtLastName.getText().toString().trim());
+        if (mValidator.isValidFirstName(firstName) && mValidator.isValidLastName(lastName)
+                && mValidator.isValidAddress(address) && mValidator.isValidPostalCode(postalCode)
+                && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
+                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)) {
+
+            mAddressFields.setFirstName(firstName);
+            mAddressFields.setLastName(lastName);
             mAddressFields.setTitleCode("mr");
-            mAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
-            mAddressFields.setLine1(mEtAddress.getText().toString());
+            mAddressFields.setCountryIsocode(country);
+            mAddressFields.setLine1(address);
             mAddressFields.setLine2("testline");
-            mAddressFields.setPostalCode(mEtPostalCode.getText().toString());
-            mAddressFields.setTown(mEtTown.getText().toString());
-            mAddressFields.setPhoneNumber(mEtPhoneNumber.getText().toString().trim());
-            mAddressFields.setEmail(mEtEmail.getText().toString());
+            mAddressFields.setPostalCode(postalCode);
+            mAddressFields.setTown(town);
+            mAddressFields.setPhoneNumber(phoneNumber);
+            mAddressFields.setEmail(email);
 
             mBtnContinue.setEnabled(true);
         } else {
@@ -215,35 +224,35 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         String errorMessage = null;
 
         if (editText.getId() == R.id.et_first_name && !hasFocus) {
-            result = mValidator.isValidFirstName(editText);
+            result = mValidator.isValidFirstName(mEtFirstName.getText().toString());
             errorMessage = getResources().getString(R.string.iap_first_name_error);
         }
         if (editText.getId() == R.id.et_last_name && !hasFocus) {
-            result = mValidator.isValidLastName(editText);
+            result = mValidator.isValidLastName(mEtLastName.getText().toString());
             errorMessage = getResources().getString(R.string.iap_last_name_error);
         }
         if (editText.getId() == R.id.et_town && !hasFocus) {
-            result = mValidator.isValidTown(editText);
+            result = mValidator.isValidTown(mEtTown.getText().toString());
             errorMessage = getResources().getString(R.string.iap_town_error);
         }
         if (editText.getId() == R.id.et_phone_number && !hasFocus) {
-            result = mValidator.isValidPhoneNumber(editText);
+            result = mValidator.isValidPhoneNumber(mEtPhoneNumber.getText().toString());
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
-            result = mValidator.isValidCountry(editText);
+            result = mValidator.isValidCountry(mEtCountry.getText().toString());
             errorMessage = getResources().getString(R.string.iap_country_error);
         }
         if (editText.getId() == R.id.et_postal_code && !hasFocus) {
-            result = mValidator.isValidPostalCode(editText);
+            result = mValidator.isValidPostalCode(mEtPostalCode.getText().toString());
             errorMessage = getResources().getString(R.string.iap_postal_code_error);
         }
         if (editText.getId() == R.id.et_email && !hasFocus) {
-            result = mValidator.isValidEmail(editText);
+            result = mValidator.isValidEmail(mEtEmail.getText().toString());
             errorMessage = getResources().getString(R.string.iap_email_error);
         }
         if (editText.getId() == R.id.et_address && !hasFocus) {
-            result = mValidator.isValidAddress(editText);
+            result = mValidator.isValidAddress(mEtAddress.getText().toString());
             errorMessage = getResources().getString(R.string.iap_address_error);
         }
 
