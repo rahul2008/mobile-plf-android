@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Rediger</string>
 <string name="Confirmation_Change_Selection">Du kan ændre dit valg når som helst.</string>
 <string name="Confirmation_Continue_Support">Fortsæt til support</string>
+<string name="Continue_Btntxt">Fortsæt</string>
+<string name="No_Internet">Ingen internetforbindelse. Kontroller forbindelsen i din telefons Wi-Fi-indstillinger eller dataindstillinger</string>
 </resources>

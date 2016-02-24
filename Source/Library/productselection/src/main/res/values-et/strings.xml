@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Muuda</string>
 <string name="Confirmation_Change_Selection">Valitud toodet saate igal ajal muuta.</string>
 <string name="Confirmation_Continue_Support">Edasi tootetoe juurde</string>
+<string name="Continue_Btntxt">Jätka</string>
+<string name="No_Internet">Internetiühendus puudub. Palun kontrollige ühenduse seisundit oma telefoni wifi sätetest või andmesidesätetest.</string>
 </resources>

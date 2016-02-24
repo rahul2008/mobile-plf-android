@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Промени</string>
 <string name="Confirmation_Change_Selection">Можете да промените избора си по всяко време.</string>
 <string name="Confirmation_Continue_Support">Към поддръжката</string>
+<string name="Continue_Btntxt">Продължи</string>
+<string name="No_Internet">Няма връзка с интернет. Проверете дали връзката е съвместима с wi-fi настройките или настройките за данни на вашия телефон</string>
 </resources>

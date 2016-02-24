@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Өзгерту</string>
 <string name="Confirmation_Change_Selection">Таңдауыңызды кез келген уақытта өзгерте аласыз.</string>
 <string name="Confirmation_Continue_Support">Қолдауға өту</string>
+<string name="Continue_Btntxt">Жалғаст-у</string>
+<string name="No_Internet">Интернет қосылымы жоқ. Қосылым телефонның wifi параметрлерінде немесе деректер параметрлерінде жұмыс істейтінін тексеріңіз</string>
 </resources>

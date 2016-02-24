@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">बदलें</string>
 <string name="Confirmation_Change_Selection">आप किसी भी समय अपना चयन बदल सकते हैं.</string>
 <string name="Confirmation_Continue_Support">समर्थन के लिए जारी रखें</string>
+<string name="Continue_Btntxt">जारी रखें</string>
+<string name="No_Internet">कोई इंटरनेट कनेक्शन नहीं. कृपया जाँचें कि आपका कनेक्शन आपके फ़ोन की wifi सेटिंग्स या डेटा सेटिंग्स में कार्य कर रहा है</string>
 </resources>

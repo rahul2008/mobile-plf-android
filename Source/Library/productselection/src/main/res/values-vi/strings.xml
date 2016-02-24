@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Đổi</string>
 <string name="Confirmation_Change_Selection">Bạn có thể thay đổi lựa chọn của mình bất kỳ lúc nào.</string>
 <string name="Confirmation_Continue_Support">Tiếp tục để được hỗ trợ</string>
+<string name="Continue_Btntxt">Tiếp tục</string>
+<string name="No_Internet">Không có kết nối internet. Kiểm tra xem kết nối của bạn có đang hoạt động trong cài đặt Wi-Fi hoặc cài đặt dữ liệu trên điện thoại của bạn không</string>
 </resources>

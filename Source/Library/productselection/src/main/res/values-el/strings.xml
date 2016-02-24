@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Αλλαγή</string>
 <string name="Confirmation_Change_Selection">Μπορείτε να αλλάξετε την επιλογή σας ανά πάσα στιγμή.</string>
 <string name="Confirmation_Continue_Support">Συνέχεια στην υποστήριξη</string>
+<string name="Continue_Btntxt">Συνέχεια</string>
+<string name="No_Internet">Δεν υπάρχει σύνδεση στο Internet. Ελέγξτε τη σύνδεση από τις ρυθμίσεις Wi-Fi ή τις ρυθμίσεις δεδομένων του τηλεφώνου σας</string>
 </resources>

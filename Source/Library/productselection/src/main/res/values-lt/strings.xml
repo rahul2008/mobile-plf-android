@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Keisti</string>
 <string name="Confirmation_Change_Selection">Savo pasirinkimą galite pakeisti bet kuriuo metu.</string>
 <string name="Confirmation_Continue_Support">Tęst į klientų aptarnavimo skyrių</string>
+<string name="Continue_Btntxt">Tęsti</string>
+<string name="No_Internet">Nėra interneto ryšio. Ryšio veikimą patikrinkite telefono „wifi“ nustatymuose arba duomenų nustatymuose</string>
 </resources>

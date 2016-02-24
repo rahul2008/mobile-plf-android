@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">تغيير</string>
 <string name="Confirmation_Change_Selection">يمكنك تغيير التحديد في أي وقت.</string>
 <string name="Confirmation_Continue_Support">المتابعة إلى الدعم</string>
+<string name="Continue_Btntxt">متابعة</string>
+<string name="No_Internet">ما من اتصال بالإنترنت. يرجى التحقق من توفر اتصال في إعدادات wifi أو إعدادات البيانات على الهاتف</string>
 </resources>

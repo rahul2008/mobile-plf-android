@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Vaihda</string>
 <string name="Confirmation_Change_Selection">Voit muuttaa valintaasi milloin tahansa.</string>
 <string name="Confirmation_Continue_Support">Jatka tukeen</string>
+<string name="Continue_Btntxt">Jatka</string>
+<string name="No_Internet">Ei internet-yhteyttä. Tarkista yhteys puhelimen Wi-Fi-asetuksissa tai datayhteysasetuksissa</string>
 </resources>

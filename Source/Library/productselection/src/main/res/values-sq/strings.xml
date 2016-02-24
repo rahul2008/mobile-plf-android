@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Ndryshoje</string>
 <string name="Confirmation_Change_Selection">Mund ta ndryshosh zgjedhjen në çdo kohë.</string>
 <string name="Confirmation_Continue_Support">Vijo te mbështetja teknike</string>
+<string name="Continue_Btntxt">Vazhdo</string>
+<string name="No_Internet">Nuk ka lidhje me internetin. Kontrollo nëse të punon lidhja te cilësimet e \"wi-fi\" ose cilësimet e të dhënave të telefonit</string>
 </resources>

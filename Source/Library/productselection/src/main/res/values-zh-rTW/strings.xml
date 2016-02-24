@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">變更</string>
 <string name="Confirmation_Change_Selection">您可以隨時變更選擇。</string>
 <string name="Confirmation_Continue_Support">繼續前往支援</string>
+<string name="Continue_Btntxt">繼續</string>
+<string name="No_Internet">沒有網際網路連線。請檢查您手機 wifi 設定或數據 設定是否運作正常</string>
 </resources>

@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Mudar</string>
 <string name="Confirmation_Change_Selection">Você pode alterar sua seleção a qualquer momento.</string>
 <string name="Confirmation_Continue_Support">Prosseguir com suporte</string>
+<string name="Continue_Btntxt">Continuar</string>
+<string name="No_Internet"></string>
 </resources>

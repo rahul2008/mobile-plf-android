@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Змінити</string>
 <string name="Confirmation_Change_Selection">Ви можете у будь-який момент змінити свій вибір.</string>
 <string name="Confirmation_Continue_Support">Перейти до підтримки</string>
+<string name="Continue_Btntxt">Продовжити</string>
+<string name="No_Internet">Немає Інтернет-зв’язку. Перевірте справність підключення через меню телефону Налаштування wi-fi чи Налаштування даних</string>
 </resources>

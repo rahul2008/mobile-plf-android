@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Cambiar</string>
 <string name="Confirmation_Change_Selection">Puedes cambiar la selección en cualquier momento.</string>
 <string name="Confirmation_Continue_Support">Continuar con la asistencia</string>
+<string name="Continue_Btntxt">Continuar</string>
+<string name="No_Internet">No hay conexión a Internet. Comprobá que tienes Internet en los ajustes de Wi-Fi o en los ajustes de datos móviles</string>
 </resources>

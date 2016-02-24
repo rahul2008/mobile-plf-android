@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Tukar</string>
 <string name="Confirmation_Change_Selection">Anda boleh menukar pilihan anda pada bila-bila masa.</string>
 <string name="Confirmation_Continue_Support">Terus ke sokongan</string>
+<string name="Continue_Btntxt">Teruskan</string>
+<string name="No_Internet">Tiada sambungan Internet. Sila semak sama ada sambungan anda berfungsi dalam tetapan Wi-Fi atau tetapan data telefon anda</string>
 </resources>

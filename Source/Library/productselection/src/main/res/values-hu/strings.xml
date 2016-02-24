@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Módosítás</string>
 <string name="Confirmation_Change_Selection">Bármikor módosíthatja a kiválasztást.</string>
 <string name="Confirmation_Continue_Support">Tovább a támogatáshoz</string>
+<string name="Continue_Btntxt">Folytatás</string>
+<string name="No_Internet">Nincs internetkapcsolat. Ellenőrizze telefonja wifi beállításainál vagy adatbeállításainál, hogy a csatlakozás megfelelő-e</string>
 </resources>

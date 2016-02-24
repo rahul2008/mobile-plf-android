@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Wijzigen</string>
 <string name="Confirmation_Change_Selection">U kunt uw selectie op elk moment wijzigen.</string>
 <string name="Confirmation_Continue_Support">Doorgaan naar ondersteuning</string>
+<string name="Continue_Btntxt">Doorgaan</string>
+<string name="No_Internet">Geen internetverbinding. Controleer uw verbinding in de Wi-Fi-instellingen of gegevensinstellingen van uw telefoon.</string>
 </resources>

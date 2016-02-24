@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Değiştirme</string>
 <string name="Confirmation_Change_Selection">Seçiminizi her zaman değiştirebilirsiniz.</string>
 <string name="Confirmation_Continue_Support">Destek olmaya devam edin</string>
+<string name="Continue_Btntxt">Devam et</string>
+<string name="No_Internet">İnternet bağlantısı yok. Lütfen telefonunuzun wifi ayarları veya veri ayarlarından bağlantınızı kontrol edin</string>
 </resources>

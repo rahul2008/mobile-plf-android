@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Promijeni</string>
 <string name="Confirmation_Change_Selection">Odabir možete promijeniti u svakom trenutku.</string>
 <string name="Confirmation_Continue_Support">Nastavi na podršku</string>
+<string name="Continue_Btntxt">Nastavi</string>
+<string name="No_Internet">Nema internetske veze. U postavkama za wifi  ili postavkama za prijenos podataka na telefonu provjerite da li veza funkcionira</string>
 </resources>

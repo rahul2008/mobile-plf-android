@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">تغییر </string>
 <string name="Confirmation_Change_Selection">در هر زمان می‌توانید انتخاب خود را تغییر دهید.</string>
 <string name="Confirmation_Continue_Support">ادامه پشتیبانی</string>
+<string name="Continue_Btntxt">ادامه</string>
+<string name="No_Internet">اتصال اینترنت وجود ندارد. لطفاً اینترنت را در تنظیمات wifi یا تنظیمات داده تلفن خود بررسی کنید</string>
 </resources>

@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">Изменение</string>
 <string name="Confirmation_Change_Selection">Вы можете в любой момент изменить свой выбор.</string>
 <string name="Confirmation_Continue_Support">Получить поддержку</string>
+<string name="Continue_Btntxt">Продолжить</string>
+<string name="No_Internet">Aucune connexion Internet. Vérifiez votre connexion dans les paramètres Wi-Fi ou données de votre téléphone.</string>
 </resources>

@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">変更</string>
 <string name="Confirmation_Change_Selection">選択はいつでも変更することができます。</string>
 <string name="Confirmation_Continue_Support">サポートに進む</string>
+<string name="Continue_Btntxt">続行</string>
+<string name="No_Internet">インターネットに接続されていません。携帯電話の Wi-Fi 設定またはデータ設定で接続が機能していることを確認してください</string>
 </resources>

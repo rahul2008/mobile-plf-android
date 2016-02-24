@@ -12,4 +12,6 @@
 <string name="Confirmation_Change">שנה</string>
 <string name="Confirmation_Change_Selection">תוכל לשנות את בחירתך בכל עת.</string>
 <string name="Confirmation_Continue_Support">המשך לתמיכה</string>
+<string name="Continue_Btntxt">המשך</string>
+<string name="No_Internet">אין חיבור אינטרנט. בדוק שהחיבור שלך תקין דרך הגדרות Wi-Fi או הגדרות נתונים בטלפון שלך</string>
 </resources>
