@@ -3,7 +3,7 @@ package com.philips.cdp.digitalcare.component;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
-import com.philips.multiproduct.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 
 /**
  * Description:  This class responsible for providing the builderclass to invoke the consumerCare module as
@@ -34,7 +34,7 @@ public abstract class UiLauncher {
     /**
      * Screen orientation control for the ConsumerCare Screens
      */
-    protected ProductModelSelectionHelper.ActivityOrientation mScreenOrientation = null;
+    protected ActivityLauncher.ActivityOrientation mScreenOrientation = null;
 
 
     /**
@@ -65,11 +65,11 @@ public abstract class UiLauncher {
 
     public abstract void setmLayoutResourceID(int mLayoutResourceID);
 
-    public ProductModelSelectionHelper.ActivityOrientation getScreenOrientation() {
+    public ActivityLauncher.ActivityOrientation getScreenOrientation() {
         return mScreenOrientation;
     }
 
-    public abstract void setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation mScreenOrientation);
+    public abstract void setScreenOrientation(ActivityLauncher.ActivityOrientation mScreenOrientation);
 
     public ActionbarUpdateListener getActionbarUpdateListener() {
         return mActionbarUpdateListener;

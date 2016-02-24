@@ -32,16 +32,12 @@ import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.ProductModelSelectionType;
-import com.philips.multiproduct.component.ActivityLauncher;
-import com.philips.multiproduct.component.FragmentBuilder;
-import com.philips.multiproduct.component.UiLauncher;
-import com.philips.multiproduct.listeners.ActionbarUpdateListener;
-import com.philips.multiproduct.listeners.ProductModelSelectionListener;
-import com.philips.multiproduct.productselection.HardcodedProductList;
-import com.philips.multiproduct.utils.ProductSelectionLogger;
 
 
 /**
@@ -55,6 +51,8 @@ import com.philips.multiproduct.utils.ProductSelectionLogger;
 public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrxCallback {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
+    private static boolean isFirstTimeProductComponentlaunch = true;
+    private static ProductSelectionProductInfo productInfo = null;
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
@@ -63,9 +61,19 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private View mView = null;
     private RelativeLayout mProductDetailsLayout = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
-    private static boolean isFirstTimeProductComponentlaunch = true;
-    private static ProductSelectionProductInfo productInfo = null;
     private PrxProductData mPrxProductData = null;
+    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+
+        @Override
+        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+//            mActionBarTitle.setText(titleActionbar);
+//            if (hamburgerIconAvailable) {
+//                enableActionBarHome();
+//            } else {
+//                enableActionBarLeftArrow();
+//            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,7 +129,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
         }
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -320,30 +327,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             if (isConnectionAvailable()) {
                 DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
 
-                if (digitalCareConfigManager.getUiLauncher() instanceof com.philips.cdp.digitalcare.component.ActivityLauncher){
+                if (digitalCareConfigManager.getUiLauncher() instanceof com.philips.cdp.digitalcare.component.ActivityLauncher) {
                     launchProductSelectionActivityComponent();
-                }
-                else{
-                    launchProductSelectionFragmentComponent();
+                } else {
+                    // launchProductSelectionFragmentComponent();
                 }
             }
         }
     }
 
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
-
-        @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-//            mActionBarTitle.setText(titleActionbar);
-//            if (hamburgerIconAvailable) {
-//                enableActionBarHome();
-//            } else {
-//                enableActionBarLeftArrow();
-//            }
-        }
-    };
-
-    private void launchProductSelectionFragmentComponent() {
+   /* private void launchProductSelectionFragmentComponent() {
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity().getApplicationContext());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
@@ -374,8 +367,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         ProductModelSelectionHelper.getInstance().invokeProductSelection(fragmentLauncher, DigitalCareConfigManager.getInstance()
                 .getProductModelSelectionType());
         ProductSelectionLogger.enableLogging();
-    }
-
+    }*/
 
     private void launchProductSelectionActivityComponent() {
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
@@ -383,9 +375,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
 
 
-        UiLauncher uiLauncher = new ActivityLauncher();
+        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-        uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {

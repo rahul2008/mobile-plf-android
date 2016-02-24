@@ -27,12 +27,13 @@ import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
+import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.sampledigitalcareapp.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcareapp.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcareapp.view.CustomDialog;
-import com.philips.multiproduct.ProductModelSelectionHelper;
-import com.philips.multiproduct.base.ProductModelSelectionType;
-import com.philips.multiproduct.productselection.HardcodedProductList;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -283,7 +284,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                     ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
                     productsSelection.setCatalog(Catalog.CARE);
                     productsSelection.setSector(Sector.B2C);
-                    UiLauncher uiLauncher = new ActivityLauncher(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+                    ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
                     uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                     DigitalCareConfigManager.getInstance().invokeConsumerCareModule(uiLauncher, productsSelection);
 
