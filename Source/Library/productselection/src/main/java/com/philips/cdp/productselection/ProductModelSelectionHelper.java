@@ -14,7 +14,7 @@ import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.welcomefragment.WelcomeScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
 import java.util.Locale;

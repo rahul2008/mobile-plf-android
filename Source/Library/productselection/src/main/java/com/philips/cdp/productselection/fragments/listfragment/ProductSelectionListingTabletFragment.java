@@ -1,4 +1,4 @@
-package com.philips.cdp.productselection.listfragment;
+package com.philips.cdp.productselection.fragments.listfragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.philips.cdp.productselection.homefragment.ProductSelectionBaseFragment;
+import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
-import com.philips.cdp.productselection.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 
 /**
  * ProductSelectionListingTabletFragment class will be the base class for Product Listing in tablet.

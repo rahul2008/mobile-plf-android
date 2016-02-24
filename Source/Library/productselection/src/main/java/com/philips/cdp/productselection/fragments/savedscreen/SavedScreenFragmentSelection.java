@@ -1,4 +1,4 @@
-package com.philips.cdp.productselection.savedscreen;
+package com.philips.cdp.productselection.fragments.savedscreen;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -16,9 +16,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.CustomFontTextView;
-import com.philips.cdp.productselection.homefragment.ProductSelectionBaseFragment;
-import com.philips.cdp.productselection.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.listfragment.ProductSelectionListingTabletFragment;
+import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;

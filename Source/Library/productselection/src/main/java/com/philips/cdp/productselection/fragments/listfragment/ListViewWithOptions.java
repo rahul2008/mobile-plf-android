@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.productselection.listfragment;
+package com.philips.cdp.productselection.fragments.listfragment;
 
 import android.app.Activity;
 import android.content.res.Resources;
