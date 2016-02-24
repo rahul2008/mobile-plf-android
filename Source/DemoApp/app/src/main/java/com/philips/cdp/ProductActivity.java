@@ -23,6 +23,7 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
@@ -36,7 +37,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
     private String TAG = getClass().toString();
-    private String MICROSITE_ID;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -58,12 +58,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initEditText() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(
-                RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-        MICROSITE_ID = pref.getString(RegistrationSettings.MICROSITE_ID, "");
-        Log.d(TAG, "MICRO SITE_ID : " + MICROSITE_ID);
-
-        regChannel.setText(MICROSITE_ID);
+        Log.d(TAG, "MICRO SITE_ID : " + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        regChannel.setText("MS"+RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         serialNumber.setText("ab123456789012");
         purchaseDate.setText("2016-02-15");
         ctn.setText("HD8969/09");
