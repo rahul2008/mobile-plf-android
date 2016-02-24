@@ -29,6 +29,7 @@ import com.philips.cdp.productselection.listeners.ProductListDetailsTabletListen
 import com.philips.cdp.productselection.utils.NetworkReceiver;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
 import java.util.Locale;
 
@@ -44,16 +45,17 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private static int mExitAnimation = 0;
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
+    private static ProductListDetailsTabletListener mProductListDetailsTabletListener = null;
+    private static String FRAGMENT_TAG_NAME = "productselection";
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+    protected SummaryModel mUserSelectedProduct = null;
+    protected ProductListDetailsTabletListener mProductDetailsListener = null;
+    protected int mLeftRightMarginPort = 0;
+    protected int mLeftRightMarginLand = 0;
     private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private TextView mActionBarTitle = null;
-    private static ProductListDetailsTabletListener mProductListDetailsTabletListener = null;
-    protected ProductListDetailsTabletListener mProductDetailsListener = null;
-    protected int mLeftRightMarginPort = 0;
-    protected int mLeftRightMarginLand = 0;
-    private static String FRAGMENT_TAG_NAME = "productselection";
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -203,10 +205,9 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         try {
             if (getActivity().getWindowManager() != null)
                 getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        }catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             ProductSelectionLogger.e(TAG, "V4 library issue catch ");
-        }finally {
+        } finally {
             float yInches = metrics.heightPixels / metrics.ydpi;
             float xInches = metrics.widthPixels / metrics.xdpi;
             double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
@@ -312,7 +313,12 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         }
     }
 
-    protected void replaceFragmentTablet(Fragment fragment){
+
+    public void setUserSelectedProduct(SummaryModel summaryModel) {
+        mUserSelectedProduct = summaryModel;
+    }
+
+    protected void replaceFragmentTablet(Fragment fragment) {
         try {
             FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
@@ -322,13 +328,13 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 //            }
 
             Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
-            if(fragment != null)
+            if (fragment != null)
                 fragmentTransaction.remove(fragmentDetailsTablet).commit();
 
             fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, fragment, "SavedScreenFragmentSelection");
 //            fragmentTransaction.hide(this);
 //            fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+            fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
@@ -402,27 +408,26 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     }
 
     protected boolean clearBackStackHistory(Context context) {
-        if(ProductModelSelectionHelper.getInstance().isLaunchedAsActivity())
-            if(context != null) {
+        if (ProductModelSelectionHelper.getInstance().isLaunchedAsActivity())
+            if (context != null) {
                 Activity activity = (Activity) context;
                 activity.finish();
 
-            }else
-        {
-
-            if (!ProductModelSelectionHelper.getInstance().isLaunchedAsActivity()) {
-                if (fragmentManager == null && mActivityContext != null) {
-                    fragmentManager = mActivityContext.getSupportFragmentManager();
-                } else if (fragmentManager == null) {
-                    fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-                }
-                for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
-                    fragmentManager.popBackStack();
-                }
             } else {
 
+                if (!ProductModelSelectionHelper.getInstance().isLaunchedAsActivity()) {
+                    if (fragmentManager == null && mActivityContext != null) {
+                        fragmentManager = mActivityContext.getSupportFragmentManager();
+                    } else if (fragmentManager == null) {
+                        fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+                    }
+                    for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+                        fragmentManager.popBackStack();
+                    }
+                } else {
+
+                }
             }
-        }
         return false;
     }
 
