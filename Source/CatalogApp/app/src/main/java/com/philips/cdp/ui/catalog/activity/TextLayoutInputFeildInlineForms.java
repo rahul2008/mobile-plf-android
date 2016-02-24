@@ -48,7 +48,7 @@ public class TextLayoutInputFeildInlineForms extends CatalogActivity {
         final InlineForms layout = (InlineForms) findViewById(R.id.InlineForms);
         final EditText email = (EditText) layout.findViewById(R.id.lastnamevalue);
 
-        layout.setErrorMessage("Error Text");
+        layout.setErrorMessage("invalid_email_format");
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {

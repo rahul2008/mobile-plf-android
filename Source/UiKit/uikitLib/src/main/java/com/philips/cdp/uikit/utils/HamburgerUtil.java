@@ -83,8 +83,9 @@ public class HamburgerUtil {
     @NonNull
     private RelativeLayout.LayoutParams getLayoutParams() {
         Resources resources = context.getResources();
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
-        lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height) +(int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
+
+     // lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         return lp;
     }
