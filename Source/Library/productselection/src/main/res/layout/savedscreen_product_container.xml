@@ -33,7 +33,6 @@
             android:layout_marginTop="47dp"
             android:lineSpacingExtra="8dp"
             android:paddingRight="30dp"
-            android:text="Jamie Oliver Food Processor"
             android:textColor="?attr/baseColor"
             android:textSize="@dimen/title_text_size_small"
             android:textStyle="bold"
@@ -48,7 +47,6 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="27dp"
             android:paddingRight="30dp"
-            android:text="HR7781/01"
             android:textColor="#B9B9B9"
             android:textSize="@dimen/title_text_size_small"
             custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />

@@ -21,7 +21,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/savedscreen_productcontainer_marigin"
                 android:gravity="center|left"
-                android:text="You have selected"
+                android:text="@string/Confirmation_Selected"
                 android:textColor="?attr/baseColor"
                 android:textSize="@dimen/title_text_size_small"
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
@@ -130,7 +130,7 @@
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
             android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
-            android:text="Continue"
+            android:text="@string/Continue_Btntxt"
             android:textAllCaps="false" />
 
 

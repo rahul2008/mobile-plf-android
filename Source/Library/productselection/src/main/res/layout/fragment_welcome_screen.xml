@@ -21,7 +21,7 @@
             android:layout_marginTop="35dp"
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin"
-            android:text="In order to give you better support, could you tell us which product you use?"
+            android:text="@string/Select_Product_Desc"
             android:textColor="?attr/baseColor"
             android:textSize="@dimen/title_text_size_small" />
 

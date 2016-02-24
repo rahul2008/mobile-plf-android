@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
@@ -138,12 +137,10 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonActivity:
-                // Toast.makeText(this, "Launch as Activity. ", Toast.LENGTH_LONG).show();
                 launchProductSelectionAsActivity();
                 break;
 
             case R.id.buttonFragment:
-                Toast.makeText(this, "Launch as Fragment. ", Toast.LENGTH_LONG).show();
                 launchProductSelectionAsFragment();
                 break;
 
@@ -196,7 +193,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(this);
-        mProductSelectionHelper.setLocale("en", "GB");
+        mProductSelectionHelper.setLocale("ko", "KR");
 
         UiLauncher uiLauncher = new ActivityLauncher();
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
@@ -207,8 +204,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                 if (productSummaryModel != null) {
                     SummaryModel summaryModel = productSummaryModel;
                     productInfo.setCtn(summaryModel.getData().getCtn());
-
-                    Toast.makeText(getApplicationContext(), " Product Selected By User", Toast.LENGTH_SHORT).show();
                 }
             }
         });
