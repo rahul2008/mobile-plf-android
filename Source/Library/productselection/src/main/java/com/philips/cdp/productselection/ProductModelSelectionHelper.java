@@ -23,10 +23,8 @@ public class ProductModelSelectionHelper {
 
     private static final String TAG = ProductModelSelectionHelper.class.getSimpleName();
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
-    private static String[] mCtnList;
     private static Context mContext = null;
     private static Locale mLocale = null;
-    private static String mCtn = null;
     private ProductModelSelectionListener mProductSelectionListener = null;
     private SummaryModel mUserSelectedProduct = null;
     private UiLauncher mLauncherType = null;
@@ -92,7 +90,6 @@ public class ProductModelSelectionHelper {
 
         mLauncherType = uiLauncher;
         mProductModelSelectionType = productModelSelectionType;
-        mCtnList = productModelSelectionType.getHardCodedProductList();
 
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
