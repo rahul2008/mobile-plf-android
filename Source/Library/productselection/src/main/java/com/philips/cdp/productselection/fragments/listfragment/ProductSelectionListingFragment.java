@@ -140,15 +140,20 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     String[] ctnList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getHardCodedProductList();
                     if (ctn == ctnList[ctnList.length - 1]) {
 
-                        mProductAdapter = new ListViewWithOptions(getActivity(), productList);
-                        mProductListView.setAdapter(mProductAdapter);
-                        mProductAdapter.notifyDataSetChanged();
+                        if (productList.size() != 0) {
+                            mProductAdapter = new ListViewWithOptions(getActivity(), productList);
+                            mProductListView.setAdapter(mProductAdapter);
+                            mProductAdapter.notifyDataSetChanged();
 
-                        if (getActivity() != null)
-                            if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
-                                mSummaryDialog.dismiss();
-                                mSummaryDialog.cancel();
-                            }
+                            if (getActivity() != null)
+                                if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
+                                    mSummaryDialog.dismiss();
+                                    mSummaryDialog.cancel();
+                                }
+                        } else {
+                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                            clearBackStackHistory(getActivity());
+                        }
 
                     }
                 }
@@ -160,14 +165,19 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     String[] ctnList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getHardCodedProductList();
                     if (ctn == ctnList[ctnList.length - 1]) {
 
-                        mProductAdapter = new ListViewWithOptions(getActivity(), productList);
-                        mProductListView.setAdapter(mProductAdapter);
-                        mProductAdapter.notifyDataSetChanged();
-                        if (getActivity() != null)
-                            if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
-                                mSummaryDialog.dismiss();
-                                mSummaryDialog.cancel();
-                            }
+                        if (productList.size() != 0) {
+                            mProductAdapter = new ListViewWithOptions(getActivity(), productList);
+                            mProductListView.setAdapter(mProductAdapter);
+                            mProductAdapter.notifyDataSetChanged();
+                            if (getActivity() != null)
+                                if (!(getActivity().isFinishing()) && mSummaryDialog.isShowing()) {
+                                    mSummaryDialog.dismiss();
+                                    mSummaryDialog.cancel();
+                                }
+                        } else {
+                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                            clearBackStackHistory(getActivity());
+                        }
                     }
                 }
             }, TAG);
