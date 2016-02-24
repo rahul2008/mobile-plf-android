@@ -60,10 +60,11 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
-                    ProductModelSelectionHelper.getInstance().setUserSelectedProduct(productList.get(position));
+                    mUserSelectedProduct = (productList.get(position));
                     if (!isTablet()) {
-                       // showFragment(mDetailedScreenFragment);
-                        showFragment(new DetailedScreenFragmentSelection());
+                        DetailedScreenFragmentSelection detailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
+                        detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
+                        showFragment(detailedScreenFragmentSelection);
                     } else {
                         mProductDetailsListener.notifyAllProductScreens();
                     }
@@ -129,7 +130,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
                     if (isTablet() && productList.size() == 1) {
                         try {
-                            ProductModelSelectionHelper.getInstance().setUserSelectedProduct(productList.get(0));
+                            mUserSelectedProduct = (productList.get(0));
                             mProductDetailsListener.notifyAllProductScreens();
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
@@ -35,7 +36,9 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
     private static ArrayList<Product> mList = null;
     private static int RESULT_CODE_THEME_UPDATED = 1;
+    private static ProductSelectionProductInfo productInfo = null;
     private final String TAG = Launcher.class.getSimpleName();
+    ProductModelSelectionHelper mProductSelectionHelper = null;
     private Button mButtonActivity, mAdd = null;
     private Button mButtonFragment = null;
     private ImageButton mAddButton = null;
@@ -112,7 +115,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         mAddButton.setOnClickListener(this);
     }
 
-
     private void addDummyData() {
 
         List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
@@ -176,10 +178,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         }
     }
 
-
-    ProductModelSelectionHelper mProductSelectionHelper = null;
-    private static ProductSelectionProductInfo productInfo = null;
-
     private void launchProductSelectionAsActivity() {
 
 
@@ -194,7 +192,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(this);
-        mProductSelectionHelper.setLocale("ko", "KR");
+        mProductSelectionHelper.setLocale("en", "US");
 
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
@@ -204,6 +202,8 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                 if (productSummaryModel != null) {
                     SummaryModel summaryModel = productSummaryModel;
                     productInfo.setCtn(summaryModel.getData().getCtn());
+                    Toast.makeText(Launcher.this, "Selected ProductName is : " + summaryModel.getData().getProductTitle(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

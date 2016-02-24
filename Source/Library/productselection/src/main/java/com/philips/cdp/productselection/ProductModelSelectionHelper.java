@@ -26,7 +26,6 @@ public class ProductModelSelectionHelper {
     private static Context mContext = null;
     private static Locale mLocale = null;
     private ProductModelSelectionListener mProductSelectionListener = null;
-    private SummaryModel mUserSelectedProduct = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
 
@@ -146,14 +145,6 @@ public class ProductModelSelectionHelper {
 
     public String getProductSelectionLibVersion() {
         return BuildConfig.VERSION_NAME;
-    }
-
-    public SummaryModel getUserSelectedProduct() {
-        return mUserSelectedProduct;
-    }
-
-    public void setUserSelectedProduct(SummaryModel summaryModel) {
-        mUserSelectedProduct = summaryModel;
     }
 
     public boolean isLaunchedAsActivity() {

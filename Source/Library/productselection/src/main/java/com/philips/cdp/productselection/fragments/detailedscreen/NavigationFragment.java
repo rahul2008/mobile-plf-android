@@ -44,8 +44,8 @@ public final class NavigationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ImageView imageView = new ImageView(getActivity());
         // imageView.setBackgroundResource(R.drawable.navigation_image);
-        if (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null)
-            loadProductImage(imageView);
+        //  if (ProductModelSelectionHelper.getInstance().getUserSelectedProduct() != null)
+        loadProductImage(imageView);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 

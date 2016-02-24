@@ -56,8 +56,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         mProductContainerParams = (LinearLayout.LayoutParams) mProductContainer.getLayoutParams();
         mProductContainer1 = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_two);
         mProductContainerParams1 = (LinearLayout.LayoutParams) mProductContainer1.getLayoutParams();
-        mProductName.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getProductTitle());
-        mProductCtn.setText(ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn());
+        mProductName.setText(mUserSelectedProduct.getData().getProductTitle());
+        mProductCtn.setText(mUserSelectedProduct.getData().getCtn());
         loadProductImage(mProductImage);
 
         mSettings.setOnClickListener(this);
@@ -90,7 +90,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
 
     protected void loadProductImage(final ImageView image) {
-        String imagepath = ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getImageURL();
+        String imagepath = mUserSelectedProduct.getData().getImageURL();
         int imageWidth = (int) (getResources().getDimension(R.dimen.productdetails_screen_image) * Resources.getSystem().getDisplayMetrics().density);
         imagepath = /*imagepath + "?wid=" + imageWidth + "&;";*/
                 imagepath + "?wid=" + imageWidth +
@@ -159,7 +159,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 //                }
             } else if (v.getId() == R.id.savedscreen_button_viewproductdetails) {
                 if (isConnectionAvailable()) {
-                    ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(ProductModelSelectionHelper.getInstance().getUserSelectedProduct());
+                    ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
                     clearBackStackHistory(getActivity());
                 }
             }
