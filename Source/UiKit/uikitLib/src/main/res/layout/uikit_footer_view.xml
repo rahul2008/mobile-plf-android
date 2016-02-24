@@ -8,7 +8,6 @@
         android:id="@+id/philips_logo"
         android:layout_width="@dimen/uikit_hamburger_logo_width"
         android:layout_height="@dimen/uikit_hamburger_logo_height"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/uikit_hamburger_menu_logo_bottom_margin"
         android:layout_marginTop="@dimen/uikit_hamburger_menu_logo_top_margin"

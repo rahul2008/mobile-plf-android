@@ -43,14 +43,17 @@ public class HamburgerUtil {
      */
     public void updateSmartFooter(final ImageView footerImageView, int itemCount) {
         this.itemCount = itemCount;
-        drawerListView.post(new Runnable() {
+        int heightPixels = getDeviceHeightPixels();
+        int adapterTotalHeight = getAdaptorTotalHeight();
+        validateLogoView(heightPixels, adapterTotalHeight, footerImageView);
+        /*drawerListView.post(new Runnable() {
             @Override
             public void run() {
                 int heightPixels = getDeviceHeightPixels();
                 int adapterTotalHeight = getAdaptorTotalHeight();
                 validateLogoView(heightPixels, adapterTotalHeight, footerImageView);
             }
-        });
+        });*/
     }
 
     private void validateLogoView(final int deviceHeight, final int adapterTotalHeight, ImageView footerImageView) {
