@@ -60,11 +60,6 @@ public abstract class UiLauncher {
         return mExitAnimation;
     }
 
-    public int getLayoutResourceID() {
-        return mLayoutResourceID;
-    }
-
-    public abstract void setmLayoutResourceID(int mLayoutResourceID);
 
     public ProductModelSelectionHelper.ActivityOrientation getScreenOrientation() {
         return mScreenOrientation;
@@ -72,15 +67,7 @@ public abstract class UiLauncher {
 
     public abstract void setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation mScreenOrientation);
 
-    public ActionbarUpdateListener getActionbarUpdateListener() {
-        return mActionbarUpdateListener;
-    }
-
-    public abstract void setActionbarUpdateListener(ActionbarUpdateListener mActionbarUpdateListener);
-
     public FragmentActivity getFragmentActivity() {
         return mFragmentActivity;
     }
-
-    public abstract void setFragmentActivity(FragmentActivity mFragmentActivity);
 }

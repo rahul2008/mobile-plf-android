@@ -153,9 +153,9 @@ public class DetailedScreenFragmentSelection extends ProductSelectionBaseFragmen
             mAssetDialog.show();
 
         PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getCtn(),
-                ProductModelSelectionHelper.getInstance().getSectorCode(),
+                ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSector(),
                 ProductModelSelectionHelper.getInstance().getLocale().toString(),
-                ProductModelSelectionHelper.getInstance().getCatalogCode());
+                ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getCatalog());
 
         prxWrapperCode.requestPrxAssetData(new PrxAssetDataListener() {
                                                @Override

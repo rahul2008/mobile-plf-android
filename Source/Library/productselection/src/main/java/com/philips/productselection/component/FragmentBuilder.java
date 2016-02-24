@@ -21,22 +21,32 @@ public class FragmentBuilder extends UiLauncher {
         super.mEnterAnimation = enterAnimation;
         super.mExitAnimation = exitAnimation;
     }
-    @Override
+
     public void setmLayoutResourceID(int layoutResourceID) {
         super.mLayoutResourceID = layoutResourceID;
     }
+
+    public int getLayoutResourceID() {
+        return mLayoutResourceID;
+    }
+
 
     @Override
     public void setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation mScreenOrientation) {
 
     }
 
-    @Override
     public void setActionbarUpdateListener(ActionbarUpdateListener actionbarUpdateListener) {
         super.mActionbarUpdateListener = actionbarUpdateListener;
     }
 
-    @Override
+
+    public ActionbarUpdateListener getActionbarUpdateListener() {
+        return mActionbarUpdateListener;
+    }
+
+
+
     public void setFragmentActivity(FragmentActivity fragmentActivity) {
         super.mFragmentActivity = fragmentActivity;
 

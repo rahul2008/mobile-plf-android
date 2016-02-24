@@ -139,12 +139,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.buttonActivity:
                 // Toast.makeText(this, "Launch as Activity. ", Toast.LENGTH_LONG).show();
-                launchMultiProductAsActivity();
+                launchProductSelectionAsActivity();
                 break;
 
             case R.id.buttonFragment:
                 Toast.makeText(this, "Launch as Fragment. ", Toast.LENGTH_LONG).show();
-                launchMultiProductAsFragment();
+                launchProductSelectionAsFragment();
                 break;
 
             case R.id.addimageButton:
@@ -182,7 +182,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     ProductModelSelectionHelper mProductSelectionHelper = null;
     private static ProductSelectionProductInfo productInfo = null;
 
-    private void launchMultiProductAsActivity() {
+    private void launchProductSelectionAsActivity() {
 
 
         String[] ctnList = new String[mList.size()];
@@ -217,7 +217,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
     }
 
-    private void launchMultiProductAsFragment() {
+    private void launchProductSelectionAsFragment() {
         startActivity(new Intent(this, SampleActivitySelection.class));
     }
 }

@@ -7,17 +7,5 @@ import com.philips.productselection.base.ProductModelSelectionType;
  */
 public class HardcodedProductList extends ProductModelSelectionType {
 
-    public String[] mCtnList = null;
 
-
-
-    public void setHardCodedProductList(String[] ctnList) {
-        this.mCtnList = ctnList;
-    }
-
-    @Override
-
-    public String[] getHardCodedProductList() {
-        return this.mCtnList;
-    }
 }
