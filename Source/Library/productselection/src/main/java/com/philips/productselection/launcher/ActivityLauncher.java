@@ -1,9 +1,6 @@
-package com.philips.productselection.component;
-
-import android.support.v4.app.FragmentActivity;
+package com.philips.productselection.launcher;
 
 import com.philips.productselection.ProductModelSelectionHelper;
-import com.philips.productselection.listeners.ActionbarUpdateListener;
 
 
 /**

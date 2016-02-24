@@ -1,4 +1,4 @@
-package com.philips.productselection.base;
+package com.philips.productselection.productselectiontype;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
@@ -40,7 +40,6 @@ public abstract class ProductModelSelectionType {
 
 
     public String[] mCtnList = null;
-
 
 
     public void setHardCodedProductList(String[] ctnList) {

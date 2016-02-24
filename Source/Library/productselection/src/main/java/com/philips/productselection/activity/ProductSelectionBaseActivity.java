@@ -1,4 +1,4 @@
-package com.philips.productselection.base;
+package com.philips.productselection.activity;
 
 import android.content.Context;
 import android.content.res.Configuration;

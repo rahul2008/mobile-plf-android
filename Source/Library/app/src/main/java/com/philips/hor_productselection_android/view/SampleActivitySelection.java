@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.philips.hor_productselection_android.R;
 import com.philips.productselection.ProductModelSelectionHelper;
-import com.philips.productselection.base.ProductSelectionBaseActivity;
+import com.philips.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.productselection.listeners.ActionbarUpdateListener;
 
 /**

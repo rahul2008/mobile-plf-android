@@ -9,7 +9,7 @@
         android:largeHeap="true"
         android:theme="@style/multiprod_theme">
         <activity
-            android:name=".base.ProductSelectionActivity"
+            android:name=".activity.ProductSelectionActivity"
             android:configChanges="orientation|screenSize|locale"
             android:exported="true">
 

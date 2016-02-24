@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.productselection.base.ProductModelSelectionType;
-import com.philips.productselection.base.ProductSelectionActivity;
-import com.philips.productselection.component.ActivityLauncher;
-import com.philips.productselection.component.FragmentLauncher;
-import com.philips.productselection.component.UiLauncher;
+import com.philips.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.productselection.activity.ProductSelectionActivity;
+import com.philips.productselection.launcher.ActivityLauncher;
+import com.philips.productselection.launcher.FragmentLauncher;
+import com.philips.productselection.launcher.UiLauncher;
 import com.philips.productselection.listeners.ActionbarUpdateListener;
 import com.philips.productselection.listeners.ProductModelSelectionListener;
 import com.philips.productselection.utils.Constants;
@@ -29,8 +29,7 @@ public class ProductModelSelectionHelper {
     private static String mCtn = null;
     private ProductModelSelectionListener mProductSelectionListener = null;
     private SummaryModel mUserSelectedProduct = null;
-    private boolean isActivityInstance;
-    private int mPortraitTablet = 0;
+    private UiLauncher mLaucherType = null;
 
     private ProductModelSelectionType mProductModelSelectionType = null;
 
@@ -89,13 +88,13 @@ public class ProductModelSelectionHelper {
 
     public void invokeProductSelection(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
 
+        mLaucherType = uiLauncher;
         if (productModelSelectionType != null) {
             mProductModelSelectionType = productModelSelectionType;
             mCtnList = productModelSelectionType.getHardCodedProductList();
         } else
             throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
         if (uiLauncher instanceof ActivityLauncher) {
-            isActivityInstance = true;
             invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
         } else {
 
@@ -216,7 +215,11 @@ public class ProductModelSelectionHelper {
     }
 
     public boolean isActivityInstance() {
-        return isActivityInstance;
+
+        if (mLaucherType instanceof ActivityLauncher)
+            return true;
+        else
+            return false;
     }
 
 

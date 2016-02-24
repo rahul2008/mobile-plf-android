@@ -1,6 +1,4 @@
-package com.philips.productselection.productselection;
-
-import com.philips.productselection.base.ProductModelSelectionType;
+package com.philips.productselection.productselectiontype;
 
 /**
  * Vertical Applications must use this procedure to send the CTN's to the productSelection componenet.

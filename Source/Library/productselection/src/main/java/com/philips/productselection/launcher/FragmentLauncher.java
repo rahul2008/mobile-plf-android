@@ -1,4 +1,4 @@
-package com.philips.productselection.component;
+package com.philips.productselection.launcher;
 
 import android.support.v4.app.FragmentActivity;
 

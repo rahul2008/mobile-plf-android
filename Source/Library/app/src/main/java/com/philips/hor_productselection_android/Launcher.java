@@ -20,10 +20,10 @@ import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCal
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.productselection.ProductModelSelectionHelper;
-import com.philips.productselection.base.ProductSelectionBaseActivity;
-import com.philips.productselection.base.ProductModelSelectionType;
-import com.philips.productselection.component.ActivityLauncher;
-import com.philips.productselection.component.UiLauncher;
+import com.philips.productselection.activity.ProductSelectionBaseActivity;
+import com.philips.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.productselection.launcher.ActivityLauncher;
+import com.philips.productselection.launcher.UiLauncher;
 import com.philips.productselection.listeners.ProductModelSelectionListener;
 import com.philips.productselection.utils.ProductSelectionLogger;
 
@@ -190,7 +190,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
             ctnList[i] = mList.get(i).getmCtn();
         }
 
-        ProductModelSelectionType productsSelection = new com.philips.productselection.productselection.HardcodedProductList(ctnList);
+        ProductModelSelectionType productsSelection = new com.philips.productselection.productselectiontype.HardcodedProductList(ctnList);
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
 
