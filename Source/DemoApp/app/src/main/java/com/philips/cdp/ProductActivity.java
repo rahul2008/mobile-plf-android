@@ -64,7 +64,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void registerProduct(final String accessToken) {
         PrxLogger.enablePrxLogger(true);
 
-        RegistrationBuilder registrationBuilder = new RegistrationBuilder(ctn.getText().toString(), accessToken + "123", serialNumber.getText().toString());
+        RegistrationBuilder registrationBuilder = new RegistrationBuilder(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
         registrationBuilder.setmSectorCode(mSectorCode);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
