@@ -92,7 +92,10 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     protected void loadProductImage(final ImageView image) {
         String imagepath = ProductModelSelectionHelper.getInstance().getUserSelectedProduct().getData().getImageURL();
         int imageWidth = (int) (getResources().getDimension(R.dimen.productdetails_screen_image) * Resources.getSystem().getDisplayMetrics().density);
-        imagepath = imagepath + "?wid=" + imageWidth + "&;";
+        imagepath = /*imagepath + "?wid=" + imageWidth + "&;";*/
+                imagepath + "?wid=" + imageWidth +
+                        "&hei=" + imageWidth +
+                        "&fit=fit,1";
 
         ProductSelectionLogger.v(TAG, "Image : " + imagepath);
 

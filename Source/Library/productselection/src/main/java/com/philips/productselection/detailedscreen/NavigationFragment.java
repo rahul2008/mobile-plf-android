@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,11 @@ import com.android.volley.toolbox.ImageRequest;
 import com.philips.productselection.ProductModelSelectionHelper;
 import com.philips.productselection.R;
 import com.philips.productselection.prx.VolleyWrapper;
+import com.philips.productselection.utils.ProductSelectionLogger;
 
 public final class NavigationFragment extends Fragment {
+
+    private static final String TAG = NavigationFragment.class.getSimpleName();
     private static final String KEY_CONTENT = "NavigationFragment:Content";
     private String message = "???";
 
@@ -59,7 +63,10 @@ public final class NavigationFragment extends Fragment {
     protected void loadProductImage(final ImageView image) {
         String imagepath = message;
         final int imageWidth = (int) (getResources().getDimension(R.dimen.productdetails_screen_image) / getResources().getDisplayMetrics().density) * 2;
-        imagepath = imagepath + "?wid=" + imageWidth + "&;";
+        //imagepath = imagepath + "?wid=" + imageWidth + "&;";
+        imagepath = imagepath + "?wid=" + imageWidth +
+                "&hei=" + imageWidth +
+                "&fit=fit,1";
 
         final ImageRequest request = new ImageRequest(imagepath,
                 new Response.Listener<Bitmap>() {
@@ -70,8 +77,8 @@ public final class NavigationFragment extends Fragment {
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-
                         image.setImageBitmap(getBlankThumbnail(imageWidth));
+                        ProductSelectionLogger.e(TAG, "Imaged Loading : " + error.toString());
                     }
                 });
 
