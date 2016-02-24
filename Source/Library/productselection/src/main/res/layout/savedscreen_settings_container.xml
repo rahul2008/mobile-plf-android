@@ -12,7 +12,7 @@
     tools:showIn="@layout/fragment_saved_screen">
 
 
-    <com.philips.productselection.customview.CustomFontTextView
+    <com.philips.cdp.productselection.customview.CustomFontTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
