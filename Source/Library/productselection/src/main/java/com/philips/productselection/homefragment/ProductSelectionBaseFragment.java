@@ -176,7 +176,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
                             getActivity(),
                             null,
                             getActivity().getResources().getString(
-                                    R.string.no_internet),
+                                    R.string.No_Internet),
                             getActivity().getResources().getString(
                                     android.R.string.yes));
 

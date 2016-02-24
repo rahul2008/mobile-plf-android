@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="app_name_multiproduct">MultiProduct</string>
-    <string name="img_description"> description </string>
     <string name="Select_Product_Title">Select product</string>
     <string name="Select_Product_Desc">In order to give you better support, could you tell us which product you own?</string>
     <string name="Select_Product_Find">Find product</string>

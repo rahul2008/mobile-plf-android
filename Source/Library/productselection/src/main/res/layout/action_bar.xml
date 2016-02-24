@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/app_name_multiproduct"
+        android:text="@string/Select_Product_Title"
         android:textColor="#FFFFFF"
         android:textSize="20dp" />
 

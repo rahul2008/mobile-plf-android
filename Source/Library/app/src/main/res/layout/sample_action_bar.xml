@@ -9,12 +9,12 @@
     <ImageView
         android:id="@+id/sample_home_icon"
         style="@style/sampleactionbarIconHomeImageView"
-        android:contentDescription="@string/img_description" />
+        android:contentDescription="@string/Select_Product_Title" />
 
     <ImageView
         android:id="@+id/sample_back_to_home_img"
         style="@style/sampleactionbarIconArrowImageView"
-        android:contentDescription="@string/img_description"
+        android:contentDescription="@string/Select_Product_Title"
         />
 
     <TextView
