@@ -159,6 +159,10 @@ public class SHNCentral {
     private PersistentStorageFactory persistentStorageFactory;
 
     public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
+        this(handler, context, false);
+    }
+
+    public SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
@@ -182,6 +186,8 @@ public class SHNCentral {
         bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled();
         if (bluetoothAdapterEnabled) {
             shnCentralState = State.SHNCentralStateReady;
+        } else if(showPopupIfBLEIsTurnedOff) {
+            BleUtilities.startEnableBluetoothActivity();
         }
 
         // Register a broadcast receiver listening for BluetoothAdapter state changes
