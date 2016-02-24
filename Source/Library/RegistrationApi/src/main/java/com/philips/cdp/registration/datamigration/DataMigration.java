@@ -87,7 +87,7 @@ public class DataMigration {
 
     public void checkFileEncryptionStatus() {
         if (!isFileEncryptionDone(JR_CAPTURE_SIGNED_IN_USER)) {
-            SecureStorage.migrateUserData("JR_CAPTURE_SIGNED_IN_USER");
+            SecureStorage.migrateUserData(JR_CAPTURE_SIGNED_IN_USER);
         }
 
         if (!isFileEncryptionDone(HSDP_RECORD)) {
