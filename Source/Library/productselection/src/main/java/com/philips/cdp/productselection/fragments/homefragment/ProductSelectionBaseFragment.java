@@ -48,7 +48,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private static ProductListDetailsTabletListener mProductListDetailsTabletListener = null;
     private static String FRAGMENT_TAG_NAME = "productselection";
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    protected SummaryModel mUserSelectedProduct = null;
+    protected static SummaryModel mUserSelectedProduct = null;
     protected ProductListDetailsTabletListener mProductDetailsListener = null;
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
@@ -452,6 +452,16 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         } else {
             runnable.run();
         }
+    }
+
+    private static Boolean mListViewRequired = true;
+
+    protected void setListViewRequiredInTablet(Boolean listViewRequired){
+        mListViewRequired = listViewRequired;
+    }
+
+    protected Boolean isListViewRequiredInTablet(){
+        return mListViewRequired;
     }
 
     protected String getPreviousName() {

@@ -1,8 +1,10 @@
 package com.philips.cdp.productselection.fragments.listfragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,15 +37,28 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     private ProgressDialog mSummaryDialog = null;
     private ArrayList<SummaryModel> productList = null;
     private DetailedScreenFragmentSelection mDetailedScreenFragment = null;
+    private ProductSelectionListingTabletFragment mProductSelectionListingTabletFragment = null;
+    private static Context mContext = null;
+    private Handler mHandler = null;
 
+    public ProductSelectionListingFragment(Handler handler){
+        mHandler = handler;
+    }
+
+    public ProductSelectionListingFragment(){
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDetailedScreenFragment = new DetailedScreenFragmentSelection();
         if (isTablet()) {
+            mDetailedScreenFragment = new DetailedScreenFragmentSelection();
+            mProductSelectionListingTabletFragment = new ProductSelectionListingTabletFragment();
             mProductDetailsListener = new ProductListDetailsTabletListener(getActivity());
             mProductDetailsListener.addObserver(mDetailedScreenFragment);
+            mProductDetailsListener.addObserver(mProductSelectionListingTabletFragment);
+            mContext = getActivity();
         }
         View view = inflater.inflate(R.layout.fragment_product_listview, container, false);
         return view;
@@ -66,7 +81,9 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                         detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
                         showFragment(detailedScreenFragmentSelection);
                     } else {
-                        mProductDetailsListener.notifyAllProductScreens();
+                        setListViewRequiredInTablet(false);
+                        mProductDetailsListener.notifyObservers();
+                        mHandler.sendEmptyMessageDelayed(0, 200);
                     }
 //                    showFragment(new DetailedScreenFragmentSelection());
                 }
@@ -131,7 +148,8 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     if (isTablet() && productList.size() == 1) {
                         try {
                             mUserSelectedProduct = (productList.get(0));
-                            mProductDetailsListener.notifyAllProductScreens();
+ 							setListViewRequiredInTablet(true);
+                            mProductDetailsListener.notifyObservers();
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -193,7 +211,9 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mProductDetailsListener != null)
+        if (mProductDetailsListener != null) {
             mProductDetailsListener.deleteObserver(mDetailedScreenFragment);
+            mProductDetailsListener.deleteObserver(mProductSelectionListingTabletFragment);
+        }
     }
 }
