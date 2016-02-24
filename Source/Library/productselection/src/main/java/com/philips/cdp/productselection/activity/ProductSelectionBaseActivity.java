@@ -74,11 +74,11 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
 
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.action_bar, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.actionbar_productselection, null); // layout which contains your button.
 
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.productselection_UpButton);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -87,7 +87,7 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         });
 
         ImageView arrowImage = (ImageView) mCustomView
-                .findViewById(R.id.arrow);
+                .findViewById(R.id.productselection_arrow);
         arrowImage.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
         arrowImage.bringToFront();
         mActionBar.setCustomView(mCustomView, params);

@@ -74,7 +74,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
-        mActionBarTitle = (TextView) getActivity().findViewById(R.id.actionbarTitle);
+        mActionBarTitle = (TextView) getActivity().findViewById(R.id.productselection_actionbarTitle);
         registerNetWorkReceiver();
         setLocaleLanguage();
     }
@@ -255,31 +255,8 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         super.onConfigurationChanged(newConfig);
         ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
         setLocaleLanguage();
-        getAppName();
     }
 
-
-	/*
-     * This method can be called directly from outside and helps to invoke the
-	 * fragments, instead of full screen activity. DigitalCare fragments will be
-	 * added in the root container of hosting app. Integrating app has to pass
-	 * some parameters in order to do smooth operations.
-	 */
-
-    /*
-    This method will provide vertical APP NAME which is required for TAGGING (Analytics).
-     */
-    protected String getAppName() {
-        String appName = getActivity().getString(R.string.app_name);
-        try {
-            ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo(getActivity().getPackageName(),
-                    getActivity().getPackageManager().GET_META_DATA);
-            appName = appInfo.loadLabel(getActivity().getPackageManager()).toString();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return appName;
-    }
 
     protected void showFragment(Fragment fragment) {
         int containerId = R.id.mainContainer;
