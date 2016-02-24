@@ -16,9 +16,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.R;
 
 public final class NavigationFragment extends Fragment {
 

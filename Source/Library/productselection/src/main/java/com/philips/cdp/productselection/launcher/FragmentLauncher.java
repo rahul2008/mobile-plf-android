@@ -32,7 +32,7 @@ public class FragmentLauncher extends UiLauncher {
 
 
     @Override
-    public void setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation mScreenOrientation) {
+    public void setScreenOrientation(ActivityLauncher.ActivityOrientation mScreenOrientation) {
 
     }
 

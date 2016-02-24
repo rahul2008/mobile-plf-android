@@ -35,7 +35,7 @@ public abstract class UiLauncher {
     /**
      * Screen orientation control for the ConsumerCare Screens
      */
-    protected ProductModelSelectionHelper.ActivityOrientation mScreenOrientation = null;
+    protected ActivityLauncher.ActivityOrientation mScreenOrientation = null;
 
 
     /**
@@ -61,11 +61,11 @@ public abstract class UiLauncher {
     }
 
 
-    public ProductModelSelectionHelper.ActivityOrientation getScreenOrientation() {
+    public ActivityLauncher.ActivityOrientation getScreenOrientation() {
         return mScreenOrientation;
     }
 
-    public abstract void setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation mScreenOrientation);
+    public abstract void setScreenOrientation(ActivityLauncher.ActivityOrientation mScreenOrientation);
 
     public FragmentActivity getFragmentActivity() {
         return mFragmentActivity;

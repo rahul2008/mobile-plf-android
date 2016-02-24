@@ -201,7 +201,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
         UiLauncher uiLauncher = new ActivityLauncher();
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-        uiLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        uiLauncher.setScreenOrientation(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
