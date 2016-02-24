@@ -32,6 +32,9 @@
     <TextView
         android:id="@+id/hamburger_title"
         fontPath="fonts/centralesanslight.ttf"
+        android:textIsSelectable="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

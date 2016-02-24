@@ -110,10 +110,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
         hamburgerUtil = new HamburgerUtil(this, drawerListView);
         hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
-
-        if (savedInstanceState == null) {
-            displayView(1);
-        }
+        displayView(1);
 
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
