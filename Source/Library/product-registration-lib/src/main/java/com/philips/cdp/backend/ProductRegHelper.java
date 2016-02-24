@@ -3,6 +3,7 @@ package com.philips.cdp.backend;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.core.ProductRegConstants;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -46,15 +47,18 @@ public class ProductRegHelper {
         mContext = context;
         RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
         Map<String, String> params = getProductRegParams(registrationBuilder);
-
-        Map<String, String> headers = new HashMap<>();
-        headers.put("x-accessToken", registrationBuilder.getAccessToken());
-
+        Map<String, String> headers = getProductRegistrationHeaders(registrationBuilder);
         final ResponseListener listenerLocal = getLocalResponseListener(prxDataBuilder, listener);
         PrxRequest prxRequest = new PrxRequest(RequestType.POST, prxDataBuilder.getRequestUrl(), params, headers, listenerLocal, prxDataBuilder);
         RequestManager requestManager = new RequestManager();
         requestManager.init(context);
         requestManager.executeCustomRequest(prxRequest);
+    }
+
+    private Map<String, String> getProductRegistrationHeaders(final RegistrationBuilder registrationBuilder) {
+        final Map<String, String> headers = new HashMap<>();
+        headers.put(ProductRegConstants.ACCESS_TOKEN_TAG, registrationBuilder.getAccessToken());
+        return headers;
     }
 
     @NonNull
