@@ -3,6 +3,9 @@ package com.philips.pins.shinelib.utility;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.philips.pins.shinelib.SHNUserConfiguration;
+import com.philips.pins.shinelib.SHNUserConfigurationImpl;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -74,7 +77,7 @@ public class DataMigrater {
             moveData(oldRootStorage, newRootStorage);
 
             for (final String deviceAddress : oldDevices) {
-                String fixedAddress = deviceAddress.replace("ASSOCIATED_DEVICES", "");
+                String fixedAddress = deviceAddress.replace(SHNPersistentStorage.ASSOCIATED_DEVICES, "");
                 PersistentStorage newDeviceStorage = storageFactory.getPersistentStorageForDevice(fixedAddress);
 
                 for (final String oldDevicePreferencesSuffix : oldDevicePreferencesSuffixes) {
@@ -87,7 +90,46 @@ public class DataMigrater {
         moveUserConfigKeyFromRootStorage(newRootStorage, newUserStorage);
         moveUserConfigKeyFromRootStorage(newUserStorage, newUserStorage);
 
+        convertUserTypes(newUserStorage);
+
         newRootStorage.put(TAG, MIGRATION_ID);
+    }
+
+    private void convertUserTypes(final PersistentStorage newUserStorage) {
+        try {
+            String stringValue = newUserStorage.get(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY, null);
+            if (stringValue != null && stringValue.length() > 0) {
+                char charValue = stringValue.charAt(0);
+                newUserStorage.put(SHNUserConfigurationImpl.DECIMAL_SEPARATOR_KEY, (int) charValue);
+            }
+        } catch (Exception ex) {
+        }
+
+        try {
+            String stringValue = newUserStorage.get(SHNUserConfigurationImpl.SEX_KEY, null);
+            if (stringValue != null && stringValue.length() > 0) {
+                SHNUserConfiguration.Sex sex = SHNUserConfiguration.Sex.valueOf(stringValue);
+                newUserStorage.put(SHNUserConfigurationImpl.SEX_KEY, sex);
+            }
+        } catch (Exception ex) {
+        }
+
+        try {
+            String stringValue = newUserStorage.get(SHNUserConfigurationImpl.HANDEDNESS_KEY, null);
+            if (stringValue != null && stringValue.length() > 0) {
+                SHNUserConfiguration.Handedness Handedness = SHNUserConfiguration.Handedness.valueOf(stringValue);
+                newUserStorage.put(SHNUserConfigurationImpl.HANDEDNESS_KEY, Handedness);
+            }
+        } catch (Exception ex) {
+        }
+
+        try {
+            Float floatValue = newUserStorage.get(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY, 0f);
+            if (floatValue != null) {
+                newUserStorage.put(SHNUserConfigurationImpl.WEIGHT_IN_KG_KEY, (double) (float) floatValue);
+            }
+        } catch (Exception ex) {
+        }
     }
 
     private void moveUserConfigKeyFromRootStorage(final PersistentStorage sourceStorage, final PersistentStorage destinationStorage) {
