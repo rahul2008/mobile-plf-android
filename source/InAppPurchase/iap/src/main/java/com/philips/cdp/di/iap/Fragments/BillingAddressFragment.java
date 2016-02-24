@@ -101,18 +101,6 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             }
         });
 
-        mSwitchBillingAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    disableAllFields();
-                    prePopulateShippingAddress();
-                } else {
-                    clearAllFields();
-                }
-            }
-        });
-
         return rootView;
     }
 
@@ -171,8 +159,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.setText("");
         mEtEmail.setText("");
         mEtPhoneNumber.setText("");
-        removeErrorInAllFields();
         enableAllFields();
+        removeErrorInAllFields();
     }
 
     private void disableAllFields() {

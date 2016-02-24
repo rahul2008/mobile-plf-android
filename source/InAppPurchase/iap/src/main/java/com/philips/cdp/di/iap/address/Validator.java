@@ -6,8 +6,6 @@
 
 package com.philips.cdp.di.iap.address;
 
-import android.telephony.PhoneNumberUtils;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +17,7 @@ public class Validator {
     private static final String ADDRESS = "^[a-zA-Z0-9(.,#/\\-)_\\s]{1,35}$";
     private static final String POSTAL_CODE = "^[A-Z0-9]{1,10}$";
     private static final String COUNTRY = "^[A-Z]{2,2}$";
+    private static final String PHONE_NUMBER = ("[\\+]?[0-9.-]+");
 
     private boolean isValidString(String stringToBeValidated) {
         return stringToBeValidated != null && !stringToBeValidated.equalsIgnoreCase("");
@@ -64,7 +63,9 @@ public class Validator {
 
     public boolean isValidPhoneNumber(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            return PhoneNumberUtils.isGlobalPhoneNumber(stringToBeValidated.toString());
+            Pattern pattern = Pattern.compile(PHONE_NUMBER);
+            Matcher matcher = pattern.matcher(stringToBeValidated);
+            return matcher.matches();
         } else {
             return false;
         }
