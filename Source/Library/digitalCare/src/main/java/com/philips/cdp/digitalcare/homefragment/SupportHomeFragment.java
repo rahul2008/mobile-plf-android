@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
@@ -25,7 +26,6 @@ import com.philips.cdp.digitalcare.faq.FaqFragment;
 import com.philips.cdp.digitalcare.listeners.IPrxCallback;
 import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
-import com.philips.cdp.digitalcare.productdetails.ProductSelectionProductInfo;
 import com.philips.cdp.digitalcare.productdetails.PrxProductData;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
@@ -50,7 +50,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static boolean isFirstTimeProductComponentlaunch = true;
-    private static ProductSelectionProductInfo productInfo = null;
+    private static ConsumerProductInfo productInfo = null;
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
@@ -81,7 +81,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         mIsFirstScreenLaunch = true;
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
 
-        productInfo = new ProductSelectionProductInfo();
+        productInfo = new ConsumerProductInfo();
         if (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) {
             productInfo.setSector(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getSector());
             productInfo.setCatalog(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getCatalog());

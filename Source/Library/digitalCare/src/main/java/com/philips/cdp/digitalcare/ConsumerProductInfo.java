@@ -1,26 +1,20 @@
 package com.philips.cdp.digitalcare;
 
-/**
- * <p> It is the abstract Product information configurable class.</p>
- * <p> This is the mandotory class, must used by the integrating application to pass the object of {@link ConsumerProductInfo}
- * object during initialization of the DigitalCare component.</p>
- * <p>Hint:  For reference please glance at the demo sample</p>
- */
 public class ConsumerProductInfo {
-    private static String mGroup = "PERSONAL_CARE_GR";
-    private static String mSector = "B2C";
-    private static String mCatalog = "CARE";
-    private static String mCategory = "HAIRCARE_CA";
-    private static String mSubCategory = "HAIR_STYLERS_SU";
-    private static String mCtn = "RQ1250/17";
-    private static String mProductTitle = "HairStyler";
+    private String mGroup = null;
+    private String mSector = null;
+    private String mCatalog = null;
+    private String mCategory = null;
+    private String mSubCategory = null;
+    private String mCtn = null;
+    private String mProductTitle = null;
 
 
     public String getGroup() {
         return mGroup;
     }
 
-    public static void setGroup(String group) {
+    public void setGroup(String group) {
         mGroup = group;
     }
 
@@ -28,7 +22,7 @@ public class ConsumerProductInfo {
         return mSector;
     }
 
-    public static void setSector(String sector) {
+    public void setSector(String sector) {
         mSector = sector;
     }
 
@@ -36,7 +30,7 @@ public class ConsumerProductInfo {
         return mCatalog;
     }
 
-    public static void setCatalog(String catalog) {
+    public void setCatalog(String catalog) {
         mCatalog = catalog;
     }
 
@@ -44,7 +38,7 @@ public class ConsumerProductInfo {
         return mCategory;
     }
 
-    public static void setCategory(String category) {
+    public void setCategory(String category) {
         mCategory = category;
     }
 
@@ -52,7 +46,7 @@ public class ConsumerProductInfo {
         return mSubCategory;
     }
 
-    public static void setSubCategory(String subCategory) {
+    public void setSubCategory(String subCategory) {
         mSubCategory = subCategory;
     }
 
@@ -60,7 +54,7 @@ public class ConsumerProductInfo {
         return mCtn;
     }
 
-    public static void setCtn(String ctn) {
+    public void setCtn(String ctn) {
         mCtn = ctn;
     }
 
@@ -68,7 +62,7 @@ public class ConsumerProductInfo {
         return mProductTitle;
     }
 
-    public static void setProductTitle(String productTitle) {
+    public void setProductTitle(String productTitle) {
         mProductTitle = productTitle;
     }
 }
