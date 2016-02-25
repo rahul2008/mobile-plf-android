@@ -5,17 +5,20 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
+import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.productselection.prx.PrxWrapper;
+import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
+import java.util.List;
 import java.util.Locale;
 
 
@@ -26,6 +29,7 @@ public class ProductModelSelectionHelper {
     private static Context mContext = null;
     private static Locale mLocale = null;
     private ProductModelSelectionListener mProductSelectionListener = null;
+    private SummaryDataListener mSummaryDataListener = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
 
@@ -82,22 +86,46 @@ public class ProductModelSelectionHelper {
     }
 
 
-    public void invokeProductSelection(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
-        if(uiLauncher==null || productModelSelectionType==null){
+    public void initializeCtnList(ProductModelSelectionType productModelSelectionType) {
+
+
+    }
+
+    public void invokeProductSelection(final UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+        if (uiLauncher == null || productModelSelectionType == null) {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
         }
+
+        initializeCtnList(productModelSelectionType);
+
+
+        PrxWrapper prxWrapperCode = new PrxWrapper(mContext, null,
+                productModelSelectionType.getSector(),
+                getLocale().toString(),
+                productModelSelectionType.getCatalog());
+        prxWrapperCode.requestPrxSummaryList(new SummaryDataListener() {
+            @Override
+            public void onSuccess(List<SummaryModel> summaryModels) {
+
+                if (summaryModels.size() > 1) {
+                    mSummaryDataListener.onSuccess(summaryModels);
+                    if (uiLauncher instanceof ActivityLauncher) {
+                        ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+                        invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
+                    } else if (uiLauncher instanceof FragmentLauncher) {
+                        FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
+                        invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
+                                fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+                    }
+                } else
+                    mSummaryDataListener.onSuccess(summaryModels);
+            }
+        }, productModelSelectionType.getHardCodedProductList(), null);
 
         mLauncherType = uiLauncher;
         mProductModelSelectionType = productModelSelectionType;
 
-        if (uiLauncher instanceof ActivityLauncher) {
-            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
-            invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
-        } else if (uiLauncher instanceof FragmentLauncher) {
-            FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-            invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
-                    fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
-        }
+
     }
 
 
@@ -125,14 +153,17 @@ public class ProductModelSelectionHelper {
         getContext().startActivity(intent);
     }
 
-    public void setProductListener(ProductModelSelectionListener mProductListener) {
-        this.mProductSelectionListener = mProductListener;
-    }
-
     public ProductModelSelectionListener getProductListener() {
         return this.mProductSelectionListener;
     }
 
+    public void setProductListener(ProductModelSelectionListener mProductListener) {
+        this.mProductSelectionListener = mProductListener;
+    }
+
+    public void setSummaryDataListener(SummaryDataListener summaryDataListener) {
+        this.mSummaryDataListener = summaryDataListener;
+    }
 
     public void setLocale(String langCode, String countryCode) {
 
