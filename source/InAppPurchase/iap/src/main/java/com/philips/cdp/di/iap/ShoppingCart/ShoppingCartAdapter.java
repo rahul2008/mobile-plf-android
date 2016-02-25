@@ -179,17 +179,25 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     }
                 }
                 if (position == mData.size() - 2) {
-                    //2nd Last Row
-                    holder.name.setVisibility(View.VISIBLE);
-                    holder.name.setText("Delivery via UPS Parcel");
-                    holder.name.setTypeface(null, Typeface.BOLD);
+                    if (mData.get(0) != null) {
+                        ShoppingCartData data = mData.get(0);
+                        //2nd Last Row
+                        holder.name.setVisibility(View.VISIBLE);
+                        holder.name.setText("Delivery via UPS Parcel");
+                        holder.name.setTypeface(null, Typeface.BOLD);
 
-                    holder.number.setVisibility(View.VISIBLE);
-                    holder.number.setText(cartData.getDeliveryCost().getFormattedValue());
-                    holder.number.setTypeface(null, Typeface.BOLD);
+                        holder.number.setVisibility(View.VISIBLE);
 
-                    holder.description.setVisibility(View.VISIBLE);
-                    holder.description.setText("Delivery is free when you spend USD 100 or more");
+                        if(null != data.getDeliveryCost()) {
+                            holder.number.setText(data.getDeliveryCost().getFormattedValue());
+                        }else{
+                            holder.number.setText("0.0");
+                        }
+                        holder.number.setTypeface(null, Typeface.BOLD);
+
+                        holder.description.setVisibility(View.VISIBLE);
+                        holder.description.setText("Delivery is free when you spend USD 100 or more");
+                    }
                 }
                 if (position == mData.size() - 3) {
                     //3rd Last Row
