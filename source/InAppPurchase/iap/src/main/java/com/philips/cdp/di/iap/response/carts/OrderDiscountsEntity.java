@@ -8,7 +8,7 @@ public class OrderDiscountsEntity {
     private String currencyIso;
     private String formattedValue;
     private String priceType;
-    private int value;
+    private double value;
 
     public String getCurrencyIso() {
         return currencyIso;
@@ -22,7 +22,7 @@ public class OrderDiscountsEntity {
         return priceType;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 }

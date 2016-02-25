@@ -219,7 +219,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
                     OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         } else if (v == mBtnCancel) {
             getMainActivity().addFragmentAndRemoveUnderneath
-                    (ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+                    (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
     }
 
