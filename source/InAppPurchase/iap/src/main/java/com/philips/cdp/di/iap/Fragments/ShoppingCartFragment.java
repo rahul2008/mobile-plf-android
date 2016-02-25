@@ -76,7 +76,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter);
-        updateCartDetails(presenter);
+        if (Utility.isInternetConnected(mContext)) {
+            updateCartDetails(presenter);
+        } else {
+            NetworkUtility.getInstance().showNetworkError(mContext);
+        }
+
         updateTitle();
     }
 
@@ -138,7 +143,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                     ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         } else {
             getMainActivity().addFragmentAndRemoveUnderneath(
-                    AddressSelectionFragment.createInstance(AnimationType.NONE), false);
+                    AddressSelectionFragment.createInstance(new Bundle(),AnimationType.NONE), false);
         }
     }
 

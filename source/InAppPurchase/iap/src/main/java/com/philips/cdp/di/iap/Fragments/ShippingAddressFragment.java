@@ -118,7 +118,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         switch (requestCode) {
             case RequestCode.UPDATE_ADDRESS:
                 getMainActivity().addFragmentAndRemoveUnderneath
-                        (AddressSelectionFragment.createInstance(AnimationType.NONE), false);
+                        (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), false);
                 break;
         }
     }
@@ -175,8 +175,13 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            getMainActivity().addFragmentAndRemoveUnderneath
-                    (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            if(getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)){
+                getMainActivity().addFragmentAndRemoveUnderneath
+                        (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            }else {
+                getMainActivity().addFragmentAndRemoveUnderneath
+                        (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            }
         }
     }
 

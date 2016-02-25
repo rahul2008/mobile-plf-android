@@ -6,13 +6,13 @@
 package com.philips.cdp.di.iap.response.carts;
 public class Price {
     private String currencyIso;
-    private int value;
+    private double value;
 
     public String getCurrencyIso() {
         return currencyIso;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 }

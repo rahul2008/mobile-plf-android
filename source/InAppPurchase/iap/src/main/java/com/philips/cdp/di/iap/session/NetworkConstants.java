@@ -28,6 +28,8 @@ public class NetworkConstants {
     public static final String DELETE_PRODUCT_URL = BASE_URL + CURRENT_CART + "/entries/%s";
     public static final String UPDATE_QUANTITY_URL = BASE_URL + CURRENT_CART + "/entries/%s";
 
+    public static final String GET_PAYMENT_DETAILS_URL = BASE_URL + "paymentdetails";
+
     /**
      * Address Url
      **/
