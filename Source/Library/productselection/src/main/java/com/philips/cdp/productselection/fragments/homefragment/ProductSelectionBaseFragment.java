@@ -19,13 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
-import com.philips.cdp.productselection.listeners.ProductListDetailsTabletListener;
 import com.philips.cdp.productselection.utils.NetworkReceiver;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
@@ -45,17 +43,15 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private static int mExitAnimation = 0;
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
-    private static ProductListDetailsTabletListener mProductListDetailsTabletListener = null;
     private static String FRAGMENT_TAG_NAME = "productselection";
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected static SummaryModel mUserSelectedProduct = null;
-    protected ProductListDetailsTabletListener mProductDetailsListener = null;
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
     private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
-    private TextView mActionBarTitle = null;
+//    private TextView mActionBarTitle = null;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -74,7 +70,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
-        mActionBarTitle = (TextView) getActivity().findViewById(R.id.productselection_actionbarTitle);
+//        mActionBarTitle = (TextView) getActivity().findViewById(R.id.actionbarTitle);
         registerNetWorkReceiver();
         setLocaleLanguage();
     }
@@ -127,7 +123,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnResume on "
                 + this.getClass().getSimpleName());
         super.onResume();
-        mActionBarTitle.setText(getActionbarTitle());
+//        mActionBarTitle.setText(getActionbarTitle());
     }
 
     @Override
@@ -216,14 +212,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     }
 
-    protected ProductListDetailsTabletListener getObserver() {
-        if (mProductListDetailsTabletListener == null) {
-            mProductListDetailsTabletListener = new ProductListDetailsTabletListener(getActivity());
-        }
-
-        return mProductListDetailsTabletListener;
-    }
-
     protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {
         ProductSelectionLogger.d(TAG, "Hide menu & arrow icons");
         if (hambergermenu != null && backarrow != null) {
@@ -255,8 +243,31 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         super.onConfigurationChanged(newConfig);
         ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
         setLocaleLanguage();
+        getAppName();
     }
 
+
+	/*
+     * This method can be called directly from outside and helps to invoke the
+	 * fragments, instead of full screen activity. DigitalCare fragments will be
+	 * added in the root container of hosting app. Integrating app has to pass
+	 * some parameters in order to do smooth operations.
+	 */
+
+    /*
+    This method will provide vertical APP NAME which is required for TAGGING (Analytics).
+     */
+    protected String getAppName() {
+        String appName = getActivity().getString(R.string.app_name);
+        try {
+            ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo(getActivity().getPackageName(),
+                    getActivity().getPackageManager().GET_META_DATA);
+            appName = appInfo.loadLabel(getActivity().getPackageManager()).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return appName;
+    }
 
     protected void showFragment(Fragment fragment) {
         int containerId = R.id.mainContainer;
@@ -295,28 +306,51 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         mUserSelectedProduct = summaryModel;
     }
 
-    protected void replaceFragmentTablet(Fragment fragment) {
-        try {
+    public void removeFragmentByTag(String tag){
+        try{
             FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
-//            if (mEnterAnimation != 0 && mExitAnimation != 0) {
-//                fragmentTransaction.setCustomAnimations(mEnterAnimation,
-//                        mExitAnimation, mEnterAnimation, mExitAnimation);
-//            }
-
-            Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
-            if (fragment != null)
-                fragmentTransaction.remove(fragmentDetailsTablet).commit();
-
-            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, fragment, "SavedScreenFragmentSelection");
-//            fragmentTransaction.hide(this);
-//            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag(tag);
+            fragmentTransaction.remove(fragmentDetailsTablet).commit();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
     }
+
+    public void addFragment(int containerViewId, Fragment fragment, String tag){
+        try {
+            FragmentTransaction fragmentTransaction = mFragmentActivityContext
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(containerViewId, fragment, tag);
+        } catch (IllegalStateException e) {
+            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+//    protected void replaceFragmentTablet(Fragment fragment) {
+//        try {
+//            FragmentTransaction fragmentTransaction = mFragmentActivityContext
+//                    .getSupportFragmentManager().beginTransaction();
+////            if (mEnterAnimation != 0 && mExitAnimation != 0) {
+////                fragmentTransaction.setCustomAnimations(mEnterAnimation,
+////                        mExitAnimation, mEnterAnimation, mExitAnimation);
+////            }
+//
+//            Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
+//            if (fragment != null)
+//                fragmentTransaction.remove(fragmentDetailsTablet).commit();
+//
+//            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, fragment, "SavedScreenFragmentSelection");
+////            fragmentTransaction.hide(this);
+////            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+//        } catch (IllegalStateException e) {
+//            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {

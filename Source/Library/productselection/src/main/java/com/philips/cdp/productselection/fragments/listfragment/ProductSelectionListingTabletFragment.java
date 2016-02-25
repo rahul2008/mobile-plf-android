@@ -27,7 +27,7 @@ import java.util.Observer;
  * @author : ritesh.jha@philips.com
  * @since : 16 Feb 2016
  */
-public class ProductSelectionListingTabletFragment extends ProductSelectionBaseFragment implements Observer {
+public class ProductSelectionListingTabletFragment extends ProductSelectionBaseFragment {
 
     private String TAG = ProductSelectionListingTabletFragment.class.getSimpleName();
 
@@ -37,6 +37,8 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     private static View mRootView = null;
     private LinearLayout.LayoutParams mLeftPanelLayoutParams = null;
     private Fragment mFragmentDetailsTablet = null;
+    private DetailedScreenFragmentSelection mDetailedScreenFragmentSelection = null;
+    private static final int UPDATE_UI = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,14 +61,11 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            ProductSelectionLogger.i("testing", "ParentContainer getActivity() : " + getActivity());
             switch(msg.what){
-                case 0:
-                    ProductSelectionLogger.i("testing", "ParentContainer Case 0:");
+                case UPDATE_UI:
+                    mHandler.removeMessages(0);
                     alignGui();
-                    break;
-                case 1:
-                    ProductSelectionLogger.i("testing", "ParentContainer Case 1:");
+                    replaceFragmentForTablet();
                     break;
             }
         }
@@ -79,16 +78,41 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         }
     }
 
+    private void replaceFragmentForTablet() {
+        try {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
+            fragmentTransaction.remove(fragmentDetailsTablet).commit();
+
+            mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
+            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
+            fragmentTransaction.commit();
+
+//            addDetailedScreenAtRight();
+        } catch (IllegalStateException e) {
+            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentTabletProductList);
         mLeftPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductList);
         mRightPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductDetailsParent);
         mRightPanelLayoutParams = (LinearLayout.LayoutParams) mRightPanelLayout.getLayoutParams();
         mLeftPanelLayoutParams = (LinearLayout.LayoutParams) mLeftPanelLayout.getLayoutParams();
 
+        addListScreenAtLeft();
+
+        addDetailedScreenAtRight();
+
+        Configuration configuration = getResources().getConfiguration();
+        setViewParams(configuration);
+    }
+
+    private void addListScreenAtLeft() {
         try {
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
@@ -98,19 +122,19 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
+    }
 
+    private void addDetailedScreenAtRight() {
         try {
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, new DetailedScreenFragmentSelection(mHandler), "DetailedScreenFragmentSelection");
+            mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
+            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
         }
-
-        Configuration configuration = getResources().getConfiguration();
-        setViewParams(configuration);
     }
 
     @Override
@@ -163,14 +187,6 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     public void onDestroy() {
         super.onDestroy();
         setListViewRequiredInTablet(true);
-    }
-
-    @Override
-    public void update(Observable observable, Object data) {
-//        ProductSelectionLogger.i("testing", "ProductSelectionListingTabletFragment update observer getActivity() : " + getActivity());
-//        if(getActivity() != null/* && this.isAdded()*/) {
-//            Configuration configuration = getResources().getConfiguration();
-//            setViewParams(configuration);
-//        }
+        mHandler = null;
     }
 }

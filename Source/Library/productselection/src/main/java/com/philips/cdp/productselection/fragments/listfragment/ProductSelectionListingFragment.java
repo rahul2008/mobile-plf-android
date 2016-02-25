@@ -1,7 +1,6 @@
 package com.philips.cdp.productselection.fragments.listfragment;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +11,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-import com.philips.cdp.productselection.listeners.ProductListDetailsTabletListener;
-import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.prx.PrxSummaryDataListener;
 import com.philips.cdp.productselection.prx.PrxWrapper;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 
@@ -36,30 +34,20 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     private ListViewWithOptions mProductAdapter = null;
     private ProgressDialog mSummaryDialog = null;
     private ArrayList<SummaryModel> productList = null;
-    private DetailedScreenFragmentSelection mDetailedScreenFragment = null;
-    private ProductSelectionListingTabletFragment mProductSelectionListingTabletFragment = null;
-    private static Context mContext = null;
+    private static final int UPDATE_UI = 0;
     private Handler mHandler = null;
 
-    public ProductSelectionListingFragment(Handler handler){
+    public ProductSelectionListingFragment(Handler handler) {
         mHandler = handler;
     }
 
-    public ProductSelectionListingFragment(){
+    public ProductSelectionListingFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (isTablet()) {
-            mDetailedScreenFragment = new DetailedScreenFragmentSelection();
-            mProductSelectionListingTabletFragment = new ProductSelectionListingTabletFragment();
-            mProductDetailsListener = new ProductListDetailsTabletListener(getActivity());
-            mProductDetailsListener.addObserver(mDetailedScreenFragment);
-            mProductDetailsListener.addObserver(mProductSelectionListingTabletFragment);
-            mContext = getActivity();
-        }
         View view = inflater.inflate(R.layout.fragment_product_listview, container, false);
         return view;
     }
@@ -82,39 +70,10 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                         showFragment(detailedScreenFragmentSelection);
                     } else {
                         setListViewRequiredInTablet(false);
-                        mProductDetailsListener.notifyObservers();
-                        mHandler.sendEmptyMessageDelayed(0, 200);
+                        mHandler.sendEmptyMessageDelayed(UPDATE_UI, 50);
                     }
 //                    showFragment(new DetailedScreenFragmentSelection());
                 }
-            }
-        });
-
-        setListViewHeightBasedOnChildren();
-    }
-
-    public void setListViewHeightBasedOnChildren() {
-        mProductListView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mProductAdapter == null) {
-                    return;
-                }
-                int totalHeight = mProductListView.getPaddingTop() + mProductListView.getPaddingBottom();
-                int listWidth = mProductListView.getMeasuredWidth();
-                for (int i = 0; i < mProductAdapter.getCount(); i++) {
-                    View listItem = mProductAdapter.getView(i, null, mProductListView);
-                    listItem.measure(
-                            View.MeasureSpec.makeMeasureSpec(listWidth, View.MeasureSpec.EXACTLY),
-                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-
-                    totalHeight += listItem.getMeasuredHeight();
-                }
-                ViewGroup.LayoutParams params = mProductListView.getLayoutParams();
-                params.height = (totalHeight + (mProductListView.getDividerHeight() * (mProductAdapter.getCount() - 1)));
-                mProductListView.setLayoutParams(params);
-                mProductListView.requestLayout();
             }
         });
     }
@@ -148,8 +107,8 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     if (isTablet() && productList.size() == 1) {
                         try {
                             mUserSelectedProduct = (productList.get(0));
- 							setListViewRequiredInTablet(true);
-                            mProductDetailsListener.notifyObservers();
+                            setListViewRequiredInTablet(true);
+                            mHandler.sendEmptyMessageDelayed(UPDATE_UI, 50);
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -221,9 +180,5 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mProductDetailsListener != null) {
-            mProductDetailsListener.deleteObserver(mDetailedScreenFragment);
-            mProductDetailsListener.deleteObserver(mProductSelectionListingTabletFragment);
-        }
     }
 }
