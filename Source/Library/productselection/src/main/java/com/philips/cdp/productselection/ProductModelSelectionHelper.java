@@ -83,20 +83,13 @@ public class ProductModelSelectionHelper {
             ProductModelSelectionHelper.mContext = applicationContext;
 
         }
-    }
-
-
-    public void initializeCtnList(ProductModelSelectionType productModelSelectionType) {
-
 
     }
 
-    public void invokeProductSelection(final UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+    public void invokeProductSelection(final UiLauncher uiLauncher, final ProductModelSelectionType productModelSelectionType) {
         if (uiLauncher == null || productModelSelectionType == null) {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
         }
-
-        initializeCtnList(productModelSelectionType);
 
 
         PrxWrapper prxWrapperCode = new PrxWrapper(mContext, null,
@@ -108,6 +101,10 @@ public class ProductModelSelectionHelper {
             public void onSuccess(List<SummaryModel> summaryModels) {
 
                 if (summaryModels.size() > 1) {
+                    SummaryModel[] ctnArray = new SummaryModel[summaryModels.size()];
+                    for (int i = 0; i < summaryModels.size(); i++)
+                        ctnArray[i] = summaryModels.get(i);
+                    productModelSelectionType.setProductModelList(ctnArray);
                     mSummaryDataListener.onSuccess(summaryModels);
                     if (uiLauncher instanceof ActivityLauncher) {
                         ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
