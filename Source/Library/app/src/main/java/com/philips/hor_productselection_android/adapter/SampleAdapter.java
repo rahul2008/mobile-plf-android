@@ -7,10 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.philips.hor_productselection_android.Product;
 import com.philips.hor_productselection_android.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,8 +17,12 @@ import java.util.Collections;
  */
 public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
-    ArrayList<Product> mList = null;
+    ArrayList<String> mList = null;
 
+
+    public SampleAdapter(ArrayList<String> list) {
+        this.mList = list;
+    }
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
@@ -44,6 +45,36 @@ public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.ViewHolder
         notifyItemRemoved(position);
     }
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview, viewGroup, false);
+        ViewHolder viewHolder = new ViewHolder(v);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+
+
+        String ctn = mList.get(i);
+
+        if (ctn != null)
+            viewHolder.mCtnView.setText(ctn);
+        else
+            viewHolder.mCtnView.setText("");
+
+        viewHolder.mCategoryView.setText("");
+
+        viewHolder.mCatalogView.setText("");
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList.size();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public CheckBox mCtnView = null;
         public TextView mCatalogView = null;
@@ -56,48 +87,5 @@ public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.ViewHolder
             mCategoryView = (TextView) itemView.findViewById(R.id.catagory_name);
             mCatalogView = (TextView) itemView.findViewById(R.id.catalog_name);
         }
-    }
-
-
-    public SampleAdapter(ArrayList<Product> list) {
-        this.mList = list;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-
-        final Product product = mList.get(i);
-        String ctn = product.getmCtn();
-        String category = product.getmCategory();
-        String catalog = product.getmCatalog();
-
-        if (ctn != null)
-            viewHolder.mCtnView.setText(ctn);
-        else
-            viewHolder.mCtnView.setText("");
-
-        if (category != null)
-            viewHolder.mCategoryView.setText(category);
-        else
-            viewHolder.mCategoryView.setText("");
-
-        if (catalog != null)
-            viewHolder.mCatalogView.setText(catalog);
-        else
-            viewHolder.mCatalogView.setText("");
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mList.size();
     }
 }

@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.philips.hor_productselection_android.Listener;
-import com.philips.hor_productselection_android.Product;
+import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.R;
 
 import java.util.ArrayList;
@@ -23,14 +22,14 @@ public class CustomDialog extends Dialog {
     private EditText mCategoty = null;
     private EditText mCatalog = null;
     private Button mButton = null;
-    private ArrayList<Product> mList = null;
-    private Listener mListner = null;
+    private ArrayList<String> mList = null;
+    private CtnListViewListener mListner = null;
 
-    public CustomDialog(Context context, ArrayList<Product> list, Listener listener) {
+    public CustomDialog(Context context, ArrayList<String> list, CtnListViewListener ctnListViewListener) {
         super(context);
         this.mContext = context;
         mList = list;
-        mListner = listener;
+        mListner = ctnListViewListener;
     }
 
 
@@ -48,13 +47,9 @@ public class CustomDialog extends Dialog {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Product product = new Product();
+                String product = null;
                 if (mCtn.getText() != null)
-                    product.setmCtn(mCtn.getText().toString().trim());
-                if (mCategoty.getText() != null)
-                    product.setmCategory(mCategoty.getText().toString().trim());
-                if (mCatalog.getText() != null)
-                    product.setmCatalog(mCatalog.getText().toString().trim());
+                    product = mCtn.getText().toString().trim();
 
 
                 mList.add(product);

@@ -1,23 +1,65 @@
 package com.philips.hor_productselection_android;
 
-/**
- *  <p> It is the abstract Product information configurable class.</p>
- *   <p> This is the mandotory class, must used by the integrating application to pass the object of {@link ConsumerProductInfo}
- *   object during initialization of the DigitalCare component.</p>
- *   <p>Hint:  For reference please glance at the demo sample</p>
- */
-public abstract class ConsumerProductInfo {
-	public abstract String getGroup();
 
-	public abstract String getSector();
+public class ConsumerProductInfo {
+    private static String mGroup = null;
+    private static String mSector = null;
+    private static String mCatalog = null;
+    private static String mCategory = null;
+    private static String mSubCategory = null;
+    private static String mCtn = null;
 
-	public abstract String getCategory();
 
-	public abstract String getCatalog();
+    public String getGroup() {
+        return mGroup;
+    }
 
-	public abstract String getSubCategory();
+    public static void setGroup(String mGroup) {
+        ConsumerProductInfo.mGroup = mGroup;
+    }
 
-	public abstract String getCtn();
+    public String getSector() {
+        return mSector;
+    }
 
-	public abstract String getProductTitle();
+    public static void setSector(String mSector) {
+        ConsumerProductInfo.mSector = mSector;
+    }
+
+    public String getCatalog() {
+        return mCatalog;
+    }
+
+    public static void setCatalog(String mCatalog) {
+        ConsumerProductInfo.mCatalog = mCatalog;
+    }
+
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public static void setCategory(String mCategory) {
+        ConsumerProductInfo.mCategory = mCategory;
+    }
+
+    public String getSubCategory() {
+        return mSubCategory;
+    }
+
+    public static void setSubCategory(String mSubCategory) {
+        ConsumerProductInfo.mSubCategory = mSubCategory;
+    }
+
+    public String getCtn() {
+        return mCtn;
+    }
+
+    public static void setCtn(String mCtn) {
+        ConsumerProductInfo.mCtn = mCtn;
+    }
+
+    public String getProductTitle() {
+        return null;
+    }
+
 }

@@ -14,19 +14,19 @@ import android.widget.Toast;
 
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
+import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
-import com.philips.cdp.productselection.ProductModelSelectionHelper;
-import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
-import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.launchertype.UiLauncher;
-import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,9 +34,9 @@ import java.util.List;
 
 public class Launcher extends ProductSelectionBaseActivity implements View.OnClickListener {
 
-    private static ArrayList<Product> mList = null;
+    private static ArrayList<String> mList = null;
     private static int RESULT_CODE_THEME_UPDATED = 1;
-    private static ProductSelectionProductInfo productInfo = null;
+    private static ConsumerProductInfo productInfo = null;
     private final String TAG = Launcher.class.getSimpleName();
     ProductModelSelectionHelper mProductSelectionHelper = null;
     private Button mButtonActivity, mAdd = null;
@@ -57,7 +57,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         change_theme.setOnClickListener(this);
         setViewState();
         if (mList == null)
-            mList = new ArrayList<Product>();
+            mList = new ArrayList<String>();
         initUIReferences();
         if (mList.size() == 0)
             addDummyData();
@@ -85,16 +85,16 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     }
 
     @NonNull
-    private SampleAdapter setAdapter(ArrayList<Product> mList) {
+    private SampleAdapter setAdapter(ArrayList<String> mList) {
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         return adapter;
     }
 
     private void launchDialog() {
-        CustomDialog dialog = new CustomDialog(this, mList, new Listener() {
+        CustomDialog dialog = new CustomDialog(this, mList, new CtnListViewListener() {
             @Override
-            public void updateList(ArrayList<Product> productList) {
+            public void updateList(ArrayList<String> productList) {
                 mList = productList;
                 setAdapter(mList);
                 Log.d(TAG, " Products Size = " + mList.size());
@@ -121,12 +121,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
 
         for (int i = 0; i < mCtnList.size(); i++) {
-            Product product = new Product();
-            //  product.setmCtn((new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "" + (new Random().nextInt(9)) + "/dummy");
-            product.setmCtn(mCtnList.get(i));
-            product.setmCatalog("B2C");
-            product.setmCategory("CARE");
-            mList.add(product);
+            mList.add(mCtnList.get(i));
         }
     }
 
@@ -183,7 +178,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
         String[] ctnList = new String[mList.size()];
         for (int i = 0; i < mList.size(); i++) {
-            ctnList[i] = mList.get(i).getmCtn();
+            ctnList[i] = mList.get(i);
         }
 
         ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
@@ -211,6 +206,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         ProductSelectionLogger.enableLogging();
 
     }
+
 
     private void launchProductSelectionAsFragment() {
         startActivity(new Intent(this, SampleActivitySelection.class));
