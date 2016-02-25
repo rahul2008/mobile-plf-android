@@ -31,6 +31,9 @@ android {
             versionName "0.0.3.2"
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {

@@ -162,6 +162,26 @@ public class AddressControllerGetAdressesTest {
             public void onCreateAddress(final boolean isSuccess) {
 
             }
+
+            @Override
+            public void onSetDeliveryAddress(final Message msg) {
+
+            }
+
+            @Override
+            public void onGetDeliveryAddress(final Message msg) {
+
+            }
+
+            @Override
+            public void onSetDeliveryModes(final Message msg) {
+
+            }
+
+            @Override
+            public void onGetDeliveryModes(final Message msg) {
+
+            }
         });
         setStoreAndDelegate();
 
@@ -208,6 +228,26 @@ public class AddressControllerGetAdressesTest {
             public void onCreateAddress(final boolean isSuccess) {
 
             }
+
+            @Override
+            public void onSetDeliveryAddress(final Message msg) {
+
+            }
+
+            @Override
+            public void onGetDeliveryAddress(final Message msg) {
+
+            }
+
+            @Override
+            public void onSetDeliveryModes(final Message msg) {
+
+            }
+
+            @Override
+            public void onGetDeliveryModes(final Message msg) {
+
+            }
         });
         setStoreAndDelegate();
 
@@ -241,6 +281,26 @@ public class AddressControllerGetAdressesTest {
 
             @Override
             public void onCreateAddress(final boolean isSuccess) {
+
+            }
+
+            @Override
+            public void onSetDeliveryAddress(final Message msg) {
+
+            }
+
+            @Override
+            public void onGetDeliveryAddress(final Message msg) {
+
+            }
+
+            @Override
+            public void onSetDeliveryModes(final Message msg) {
+
+            }
+
+            @Override
+            public void onGetDeliveryModes(final Message msg) {
 
             }
         }) {
