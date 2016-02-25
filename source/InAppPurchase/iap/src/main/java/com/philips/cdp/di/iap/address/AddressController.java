@@ -13,6 +13,8 @@ import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
 import com.philips.cdp.di.iap.model.GetAddressRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
+import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
 import com.philips.cdp.di.iap.model.UpdateAddressRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -34,6 +36,14 @@ public class AddressController implements AbstractModel.DataLoadListener {
         void onFetchAddressFailure(Message msg);
 
         void onCreateAddress(boolean isSuccess);
+
+        void onSetDeliveryAddress(Message msg);
+
+        void onGetDeliveryAddress(Message msg);
+
+        void onSetDeliveryModes(Message msg);
+
+        void onGetDeliveryModes(Message msg);
     }
 
     public AddressController(Context context, AddressListener listener) {
@@ -45,6 +55,21 @@ public class AddressController implements AbstractModel.DataLoadListener {
         HashMap<String, String> params = getAddressHashMap(addressFields);
         CreateAddressRequest model = new CreateAddressRequest(getStore(), params, this);
         getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);
+    }
+
+    public void setDeliveryAddress(String pAddressId) {
+        if (null != pAddressId) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put(ModelConstants.ADDRESS_ID, pAddressId);
+            SetDeliveryAddressRequest
+                    model = new SetDeliveryAddressRequest(getStore(), params, this);
+            getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_ADDRESS, model, model);
+        }
+    }
+
+    public void setDeliveryMode() {
+        SetDeliveryAddressModeRequest model = new SetDeliveryAddressModeRequest(getStore(), null);
+        getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_ADDRESS, model, model);
     }
 
     private HashMap<String, String> getAddressHashMap(final AddressFields addressFields) {
@@ -116,25 +141,44 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 mAddressListener.onFetchAddressSuccess(msg);
                 Utility.dismissProgressDialog();
                 break;
-            case RequestCode.CREATE_ADDRESS: {
+            case RequestCode.CREATE_ADDRESS:
                 if (mAddressListener != null) {
                     mAddressListener.onCreateAddress(true);
                 }
                 break;
-            }
-            case RequestCode.GET_ADDRESS: {
+
+            case RequestCode.GET_ADDRESS:
                 if (mAddressListener != null) {
                     mAddressListener.onFetchAddressSuccess(msg);
                 }
                 break;
-            }
+            case RequestCode.SET_DELIVERY_ADDRESS:
+                if (null != mAddressListener) {
+                    mAddressListener.onSetDeliveryAddress(msg);
+                }
+                break;
+            case RequestCode.GET_DELIVERY_ADDRESS:
+                if (null != mAddressListener) {
+                    mAddressListener.onGetDeliveryAddress(msg);
+                }
+                break;
+            case RequestCode.SET_DELIVERY_MODE:
+                if (null != mAddressListener) {
+                    mAddressListener.onSetDeliveryModes(msg);
+                }
+                break;
+            case RequestCode.GET_DELIVERY_MODE:
+                if (null != mAddressListener) {
+                    mAddressListener.onGetDeliveryModes(msg);
+                }
+                break;
         }
     }
 
     @Override
     public void onModelDataError(Message msg) {
         int requestCode = msg.what;
-
+        if (null == mAddressListener) return;
         switch (requestCode) {
             case RequestCode.DELETE_ADDRESS:
                 mAddressListener.onFetchAddressFailure(msg);
@@ -147,16 +191,24 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 Utility.dismissProgressDialog();
                 break;
             case RequestCode.CREATE_ADDRESS: {
-                if (mAddressListener != null) {
-                    mAddressListener.onCreateAddress(false);
-                }
+                mAddressListener.onCreateAddress(false);
                 break;
             }
             case RequestCode.GET_ADDRESS:
-                if (mAddressListener != null) {
-                    mAddressListener.onFetchAddressFailure(msg);
-                }
+                mAddressListener.onFetchAddressFailure(msg);
                 showMessage("Unable to get address");
+                break;
+            case RequestCode.SET_DELIVERY_ADDRESS:
+                mAddressListener.onSetDeliveryModes(msg);
+                break;
+            case RequestCode.GET_DELIVERY_ADDRESS:
+                mAddressListener.onGetDeliveryModes(msg);
+                break;
+            case RequestCode.SET_DELIVERY_MODE:
+                mAddressListener.onSetDeliveryModes(msg);
+                break;
+            case RequestCode.GET_DELIVERY_MODE:
+                mAddressListener.onGetDeliveryModes(msg);
                 break;
         }
     }
