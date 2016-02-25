@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,13 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.payment.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -34,12 +38,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener,
-        EventListener {
+        EventListener, PaymentController.PaymentListener {
     private RecyclerView mAddressListView;
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses;
     private Button mCancelButton;
+    private Context mContext;
 
     @Override
     protected void updateTitle() {
@@ -87,6 +92,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         super.onActivityCreated(savedInstanceState);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mAddressListView.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -180,8 +191,15 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             }
         }
         if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+
+            PaymentController paymentController = new PaymentController(mContext, this);
+
+            if(!Utility.isProgressDialogShowing()){
+                if(Utility.isInternetConnected(mContext)){
+                    Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
+                    paymentController.getPaymentDetails();
+                }
+            }
         }
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
@@ -223,5 +241,20 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
         getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), false);
+    }
+
+    @Override
+    public void onGetPaymentDetails(Message msg) {
+        Utility.dismissProgressDialog();
+        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            Bundle bundle = new Bundle();
+            getMainActivity().addFragmentAndRemoveUnderneath(
+                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), false);
+        }else if ((msg.obj instanceof VolleyError)){
+            Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+        }else{
+            getMainActivity().addFragmentAndRemoveUnderneath(
+                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+        }
     }
 }

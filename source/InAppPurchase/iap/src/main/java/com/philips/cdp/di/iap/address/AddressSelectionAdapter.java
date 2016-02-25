@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
@@ -99,7 +98,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
             public void onClick(final View v) {
                 Addresses addr = mAddresses.get(position);
                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.ORDER_SUMMARY_FRAGMENT);
-                Toast.makeText(mContext, "Not implemented", Toast.LENGTH_SHORT).show();
             }
         });
     }
