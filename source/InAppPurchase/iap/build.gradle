@@ -80,7 +80,6 @@ android {
         multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-        generatedDensities = []
     }
     buildTypes {
         release {
