@@ -20,6 +20,7 @@ import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
@@ -187,10 +188,21 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(this);
-        mProductSelectionHelper.setLocale("en", "US");
+        mProductSelectionHelper.setLocale("en", "GB");
 
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
+        ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
+            @Override
+            public void onSuccess(List<SummaryModel> summaryModels) {
+
+                if (summaryModels != null)
+                    Toast.makeText(Launcher.this, "Summary Size : " + summaryModels.size(), Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(Launcher.this, "Summary returned null", Toast.LENGTH_SHORT).show();
+
+            }
+        });
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
