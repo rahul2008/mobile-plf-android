@@ -59,17 +59,15 @@ public class RegistrationHelper {
         if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
         }
-
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
+        generateKeyAndMigrateData();
 
-        new Thread(new Runnable() {
+        final Runnable runnable = new Runnable() {
 
             @Override
             public void run() {
                 refreshNTPOffset();
-                generateKeyAndMigrateData();
-
                 if (!isJsonRead) {
                     isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
@@ -83,7 +81,17 @@ public class RegistrationHelper {
                     }
                 }
             }
-        }).start();
+        };
+        Thread thread = new Thread( new Runnable() {
+            public void run() {
+                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
+                runnable.run();
+            }
+        });
+        thread.start();
+
+
+
     }
 
 
