@@ -27,9 +27,6 @@ public class RegistrationSignInProvidersConfigurationTest extends ActivityInstru
         RegistrationStaticConfiguration.getInstance().parseConfigurationJson(getInstrumentation().getTargetContext(), CONFIGURATION_JSON_PATH);
     }
 
-
-
-
     public void testPILConfigurationFlieldsWithStatic() {
 
        SigninProviders signinProviders  = RegistrationConfiguration.getInstance().getSignInProviders();
@@ -91,8 +88,6 @@ public class RegistrationSignInProvidersConfigurationTest extends ActivityInstru
             assertTrue(false);
         }
 
-
-
         RegistrationDynamicConfiguration.getInstance().resetDynamicConfiguration();
     }
 
@@ -117,4 +112,21 @@ public class RegistrationSignInProvidersConfigurationTest extends ActivityInstru
         RegistrationDynamicConfiguration.getInstance().resetDynamicConfiguration();
     }
 
+    public void testTwitterNotProviderException() {
+        try{
+            RegistrationStaticConfiguration.getInstance().getSignInProviders().setProviders(null);
+            ArrayList<String> providers = new ArrayList<>();
+            providers.add("twitter");
+            providers.add("xyz");
+
+            HashMap<String, ArrayList<String>> pro = new HashMap<>();
+            pro.put("BB", providers);
+
+            RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(pro);
+            RegistrationDynamicConfiguration.getInstance().resetDynamicConfiguration();
+        }catch (RuntimeException e){
+            assertTrue(true);
+        }
+        assertFalse(false);
+    }
 }

@@ -371,11 +371,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             applyParams(config, mTvTermsAndConditionDesc, width);
     }
 
-
-
-
-
-
     @Override
     protected void handleOrientation(View view) {
             handleOrientationOnView(view);
