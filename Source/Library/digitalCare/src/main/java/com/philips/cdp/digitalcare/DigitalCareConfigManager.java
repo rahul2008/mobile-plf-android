@@ -6,11 +6,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cdp.digitalcare.component.ActivityLauncher;
-import com.philips.cdp.digitalcare.component.FragmentBuilder;
-import com.philips.cdp.digitalcare.component.UiLauncher;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
-import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
@@ -19,6 +15,10 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
+import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 
 import java.util.Locale;
@@ -127,7 +127,7 @@ public class DigitalCareConfigManager {
                                              ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
                                              int exitAnim) {
         if (mContext == null ||/* mConsumerProductInfo == null ||*/ mLocale == null) {
-            throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
+            throw new RuntimeException("Please initialise context, before Support page is invoked");
         }
 
         if (mTaggingEnabled) {
@@ -143,14 +143,7 @@ public class DigitalCareConfigManager {
                 actionbarUpdateListener, enterAnim, exitAnim);
     }
 
-    /**
-     * Please make sure to use {@link ActivityLauncher}  or {@link FragmentBuilder} as objects to invoke the consumerCare module.
-     * <p/>
-     * Note: "ActivityLauncher" Object is for invoking the ConsumerCare module as Activity Component & the "FragmentBuilder" Object is for attaching the ConsumerCare module to
-     * your Fragment Manager.
-     *
-     * @param uiLauncher
-     */
+
     public void invokeConsumerCareModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
         mUiLauncher = uiLauncher;
 
@@ -159,14 +152,17 @@ public class DigitalCareConfigManager {
         } else
             throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
 
-        if (uiLauncher instanceof ActivityLauncher)
+        if (uiLauncher instanceof ActivityLauncher) {
 
-            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), uiLauncher.getScreenOrientation());
+            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
 
-        else
-            invokeDigitalCareAsFragment(uiLauncher.getFragmentActivity(), uiLauncher.getLayoutResourceID(),
-                    uiLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
 
+        } else {
+            FragmentLauncher fragmentLauncher = (FragmentLauncher)uiLauncher;
+            invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
+                    fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+        }
     }
 
     public UiLauncher getUiLauncher() {

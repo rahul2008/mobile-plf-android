@@ -12,12 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.component.FragmentBuilder;
-import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 
@@ -25,7 +24,8 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
  * SampleActivity is the main container class which can contain Digital Care fragments.
  *
  * @author : Ritesh.jha@philips.com
- * @since : 6 Aug 2015*/
+ * @since : 6 Aug 2015
+ */
 
 
 public class SampleActivity extends FragmentActivity implements View.OnClickListener {
@@ -61,12 +61,13 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         productsSelection.setCatalog(Catalog.CARE);
         productsSelection.setSector(Sector.B2C);
 
-        FragmentBuilder fragmentLauncher = new FragmentBuilder(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-        fragmentLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-        fragmentLauncher.setActionbarUpdateListener(actionBarClickListener);
-        fragmentLauncher.setmLayoutResourceID(R.id.sampleMainContainer);
-        fragmentLauncher.setFragmentActivity(this);
-        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragmentLauncher, productsSelection);
+
+        FragmentLauncher fragLauncher = new FragmentLauncher(
+                this, R.id.sampleMainContainer, actionBarClickListener);
+        fragLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+
+
+        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragLauncher, productsSelection);
 
         try {
             initActionBar();

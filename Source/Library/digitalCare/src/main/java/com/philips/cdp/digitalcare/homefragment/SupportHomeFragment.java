@@ -325,7 +325,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             if (isConnectionAvailable()) {
                 DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
 
-                if (digitalCareConfigManager.getUiLauncher() instanceof com.philips.cdp.digitalcare.component.ActivityLauncher) {
+                if (digitalCareConfigManager.getUiLauncher() instanceof ActivityLauncher) {
                     launchProductSelectionActivityComponent();
                 } else {
                     // launchProductSelectionFragmentComponent();
