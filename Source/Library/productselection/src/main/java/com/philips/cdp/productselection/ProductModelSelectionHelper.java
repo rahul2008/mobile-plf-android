@@ -1,5 +1,7 @@
 package com.philips.cdp.productselection;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -32,6 +34,7 @@ public class ProductModelSelectionHelper {
     private SummaryDataListener mSummaryDataListener = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
+    private ProgressDialog mProgressDialog = null;
 
     /*
      * Initialize everything(resources, variables etc) required for product selection.
@@ -90,8 +93,13 @@ public class ProductModelSelectionHelper {
         if (uiLauncher == null || productModelSelectionType == null) {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
         }
-
-
+        Activity mActivity = (Activity) mContext;
+        if (mProgressDialog == null)
+            mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+        mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+        mProgressDialog.setCancelable(false);
+        if (!(mActivity.isFinishing()))
+            mProgressDialog.show();
         PrxWrapper prxWrapperCode = new PrxWrapper(mContext, null,
                 productModelSelectionType.getSector(),
                 getLocale().toString(),
@@ -99,7 +107,8 @@ public class ProductModelSelectionHelper {
         prxWrapperCode.requestPrxSummaryList(new SummaryDataListener() {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
-
+                if (mProgressDialog != null && mProgressDialog.isShowing())
+                    mProgressDialog.cancel();
                 if (summaryModels.size() > 1) {
                     SummaryModel[] ctnArray = new SummaryModel[summaryModels.size()];
                     for (int i = 0; i < summaryModels.size(); i++)
