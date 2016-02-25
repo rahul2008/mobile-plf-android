@@ -13,22 +13,22 @@ public class ShoppingCartData {
     private String mProductTitle;
     private String mImageURL;
     private int mQuantity;
-    private int mPrice;
+    private double mPrice;
     private String mCurrency;
     private int mTotalItems;
     private int mEntryNumber;
     private String mCartNumber;
     private int mStockLevel;
 
-    public int getTotalPriceWithTax() {
+    public double getTotalPriceWithTax() {
         return mTotalPriceWithTax;
     }
 
-    public void setTotalPriceWithTax(final int mTotalPriceWithTax) {
+    public void setTotalPriceWithTax(final double mTotalPriceWithTax) {
         this.mTotalPriceWithTax = mTotalPriceWithTax;
     }
 
-    private int mTotalPriceWithTax;
+    private double mTotalPriceWithTax;
 
     public ShoppingCartData() {
     }
@@ -85,11 +85,11 @@ public class ShoppingCartData {
         return mQuantity;
     }
 
-    public void setTotalPrice(int price) {
+    public void setTotalPrice(double price) {
         mPrice = price;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return mPrice;
     }
 

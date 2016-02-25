@@ -66,7 +66,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mCheckoutBtn.setOnClickListener(this);
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
-        Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+
         mAddressController = new AddressController(getContext(), this);
 
         return rootView;
@@ -76,7 +76,15 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter);
-        updateCartDetails(presenter);
+        if (Utility.isInternetConnected(mContext)) {
+            if (!Utility.isProgressDialogShowing()) {
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+                updateCartDetails(presenter);
+            }
+        } else {
+            NetworkUtility.getInstance().showNetworkError(mContext);
+        }
+
         updateTitle();
     }
 
@@ -138,7 +146,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                     ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         } else {
             getMainActivity().addFragmentAndRemoveUnderneath(
-                    AddressSelectionFragment.createInstance(AnimationType.NONE), false);
+                    AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
     }
 
