@@ -28,7 +28,11 @@ public class CartsEntity {
     private TotalTaxEntity totalTax;
     private int totalUnitCount;
     private List<DeliveryOrderGroupsEntity> deliveryOrderGroups;
+    private DeliveryCostEntity deliveryCost;
 
+    public DeliveryCostEntity getDeliveryCost() {
+        return deliveryCost;
+    }
 
     public boolean isCalculated() {
         return calculated;
