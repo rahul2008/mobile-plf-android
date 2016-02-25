@@ -1,6 +1,7 @@
 
 package com.philips.cdp.registration.configuration;
 
+import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.cdp.registration.settings.RegistrationEnvironmentConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
@@ -69,7 +70,7 @@ public class ConfigurationParser {
                 registrationConfiguration.setHsdpConfiguration(parseHsdpConfiguration(hsdpConfiguartion));
             }
 
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -85,6 +86,9 @@ public class ConfigurationParser {
             ArrayList<String> list = new ArrayList<String>();
             for (int i = 0; i < providerNames.length(); i++) {
                 list.add(providerNames.getString(i));
+                if(providerNames.getString(i).equals(SocialProvider.TWITTER)){
+                    throw new RuntimeException( SocialProvider.TWITTER +" Provider is not supporting");
+                }
             }
             socialProviderMap.put(country.toUpperCase(), list);
         }

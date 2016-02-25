@@ -123,6 +123,10 @@ public class RegistrationConfiguration {
 
     public SigninProviders getSignInProviders() {
 
+        HashMap<String, ArrayList<String>> providers = RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders();
+
+        RegUtility.checkIsValidSignInProviders(providers);
+
         if (RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders() == null) {
             return RegistrationStaticConfiguration.getInstance().getSignInProviders();
         }
@@ -133,10 +137,8 @@ public class RegistrationConfiguration {
         }
 
         temp.putAll(RegistrationDynamicConfiguration.getInstance().getSignInProviders().getProviders());
-
         SigninProviders signinProviders = new SigninProviders();
         signinProviders.setProviders(temp);
-
         return signinProviders;
     }
 
