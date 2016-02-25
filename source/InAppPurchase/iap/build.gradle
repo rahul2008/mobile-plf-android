@@ -1,6 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.+'
+    }
+}
 //apply plugin: 'com.jfrog.artifactory-upload'
 //apply plugin: 'maven'
 
