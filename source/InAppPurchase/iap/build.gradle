@@ -69,6 +69,19 @@ buildscript {
 //}
 
 
+allprojects {
+    repositories {
+        jcenter()
+        flatDir {
+            dirs 'libs'
+        }
+        maven {
+//            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
+            url 'http://130.145.245.193:8081/artifactory/simple/libs-release-local-android'
+        }
+    }
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
