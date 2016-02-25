@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
@@ -31,6 +32,12 @@ import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
 import java.util.Locale;
 
+/**
+ * ProductSelectionBaseFragment is the <b>Base class</b> for all fragments.
+ *
+ * @author: ritesh.jha@philips.com, naveen@phililps.com
+ * @since: Jan 15, 2016
+ */
 public abstract class ProductSelectionBaseFragment extends Fragment implements
         NetworkStateListener {
 
@@ -51,7 +58,8 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
-//    private TextView mActionBarTitle = null;
+    private TextView mActionBarTitle = null;
+    private static Boolean mListViewRequired = true;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -70,7 +78,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
-//        mActionBarTitle = (TextView) getActivity().findViewById(R.id.actionbarTitle);
         registerNetWorkReceiver();
         setLocaleLanguage();
     }
@@ -123,7 +130,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnResume on "
                 + this.getClass().getSimpleName());
         super.onResume();
-//        mActionBarTitle.setText(getActionbarTitle());
+        setActionbarTitle();
     }
 
     @Override
@@ -465,7 +472,38 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         }
     }
 
-    private static Boolean mListViewRequired = true;
+    /**
+     * Updating action bar title. The text has to be updated at each fragment
+     * seletion/creation.
+     */
+    private void setActionbarTitle() {
+        if (mContainerId == 0) {
+               if(mActionBarTitle == null) {
+                   mActionBarTitle = (TextView) getActivity().findViewById(R.id.productselection_actionbarTitle);
+               }
+            String titleText = null;
+            if(getActionbarTitle() == null){
+                titleText = getResources().getString(R.string.Product_Title);
+            }
+            else{
+                titleText = getActionbarTitle();
+            }
+            mActionBarTitle.setText(titleText);
+        } else {
+              updateActionbar();
+        }
+    }
+
+    private void updateActionbar() {
+        //TODO : pass the title value to vertical app.
+        ProductSelectionLogger.i("testing", "pass the title value to vertical app");
+//        if (this.getClass().getSimpleName()
+//                .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
+//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
+//        } else {
+//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
+//        }
+    }
 
     protected void setListViewRequiredInTablet(Boolean listViewRequired){
         mListViewRequired = listViewRequired;
