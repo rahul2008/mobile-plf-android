@@ -38,6 +38,8 @@ public class NetworkConstants {
      * Update Address Url
      **/
     public static final String UPDATE_OR_DELETE_ADDRESS_URL = BASE_URL + "addresses" + "/%s";
+    public static final String SET_DELIVERY_MODE_URL = BASE_URL + CURRENT_CART + "/deliverymode/deliveryModeId=standard-gross";
+    public static final String SET_DELIVERY_ADDRESS_URL = BASE_URL + CURRENT_CART + "/addresses/delivery";
 
     /**
      * Prx data
