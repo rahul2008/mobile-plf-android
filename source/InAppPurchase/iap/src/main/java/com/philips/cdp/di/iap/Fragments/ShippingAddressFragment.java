@@ -166,6 +166,26 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
+    public void onSetDeliveryAddress(final Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onGetDeliveryAddress(final Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onSetDeliveryModes(final Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onGetDeliveryModes(final Message msg) {
+        //NOP
+    }
+
+    @Override
     public void onClick(final View v) {
 
         Utility.hideKeypad(mContext);

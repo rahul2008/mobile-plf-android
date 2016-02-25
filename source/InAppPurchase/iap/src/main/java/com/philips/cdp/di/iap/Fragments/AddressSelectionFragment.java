@@ -151,9 +151,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     }
 
-    public static AddressSelectionFragment createInstance(final AnimationType animType) {
+    public static AddressSelectionFragment createInstance(final Bundle args, final AnimationType animType) {
         AddressSelectionFragment fragment = new AddressSelectionFragment();
-        Bundle args = new Bundle();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;

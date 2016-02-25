@@ -158,6 +158,26 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onCreateAddress(boolean isSuccess) {
+        //NOP
+    }
+
+    @Override
+    public void onSetDeliveryAddress(final Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onGetDeliveryAddress(final Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onSetDeliveryModes(final Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onGetDeliveryModes(final Message msg) {
 
     }
 }
