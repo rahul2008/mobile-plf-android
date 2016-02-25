@@ -18,15 +18,14 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 
 public class BillingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, InlineForms.Validator, TextWatcher {
 
-    private LinearLayout mSameAsBillingAddress;
-    private PuiSwitch mSwitchBillingAddress;
-
+    private Context mContext;
     private EditText mEtFirstName;
     private EditText mEtLastName;
     private EditText mEtAddress;
@@ -48,9 +47,9 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
 
-        mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
+        LinearLayout mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
         TextView mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-        mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
+        PuiSwitch mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
@@ -200,6 +199,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -214,6 +214,9 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onClick(View v) {
+
+        Utility.hideKeypad(mContext);
+
         if (v == mBtnContinue) {
             getMainActivity().addFragmentAndRemoveUnderneath(
                     OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);

@@ -96,12 +96,15 @@ public class Utility {
 
     public static void hideKeypad(Context pContext) {
         InputMethodManager inputMethodManager = (InputMethodManager) pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(((Activity) pContext).getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+
+        if (null != ((Activity) pContext).getCurrentFocus()) {
+            inputMethodManager.hideSoftInputFromWindow(((Activity) pContext).getCurrentFocus().getWindowToken(),
+                    0);
+        }
     }
 
-    public static void showKeypad(Context pContext, EditText editText){
+    public static void showKeypad(Context pContext, EditText editText) {
         InputMethodManager inputMethodManager = (InputMethodManager) pContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        inputMethodManager.showSoftInput(editText, 0);
     }
 }
