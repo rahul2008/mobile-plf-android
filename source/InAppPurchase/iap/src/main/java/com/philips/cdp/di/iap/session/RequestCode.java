@@ -10,5 +10,9 @@ public class RequestCode {
     public static final int CREATE_ADDRESS = 7;
     public static final int UPDATE_ADDRESS = 8;
     public static final int DELETE_ADDRESS = 9;
-    public static final int GET_PAYMENT_DETAILS = 10;
+    public static final int SET_DELIVERY_ADDRESS = 10;
+    public static final int GET_DELIVERY_ADDRESS = 11;
+    public static final int SET_DELIVERY_MODE = 12;
+    public static final int GET_DELIVERY_MODE = 13;
+    public static final int GET_PAYMENT_DETAILS = 14;
 }
