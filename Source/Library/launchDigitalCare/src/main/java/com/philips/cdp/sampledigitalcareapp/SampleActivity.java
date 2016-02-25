@@ -66,7 +66,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         fragmentLauncher.setActionbarUpdateListener(actionBarClickListener);
         fragmentLauncher.setmLayoutResourceID(R.id.sampleMainContainer);
         fragmentLauncher.setFragmentActivity(this);
-        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragmentLauncher, productsSelection);
+        DigitalCareConfigManager.getInstance().invokeDigitalCare(fragmentLauncher, productsSelection);
 
         try {
             initActionBar();

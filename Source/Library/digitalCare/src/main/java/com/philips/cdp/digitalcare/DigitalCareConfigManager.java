@@ -151,7 +151,7 @@ public class DigitalCareConfigManager {
      *
      * @param uiLauncher
      */
-    public void invokeConsumerCareModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+    public void invokeDigitalCare(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
         mUiLauncher = uiLauncher;
 
         if (productModelSelectionType != null) {
