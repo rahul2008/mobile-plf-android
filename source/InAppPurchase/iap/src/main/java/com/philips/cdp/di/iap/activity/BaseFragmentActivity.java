@@ -38,7 +38,7 @@ public class BaseFragmentActivity extends UiKitActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.addToBackStack(null);
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
 
         IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
                 + newFragmentTag + ")");
