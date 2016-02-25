@@ -29,6 +29,7 @@ import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
+import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 
 import java.util.Locale;
@@ -353,29 +354,33 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         mHomeIcon.bringToFront();
     }
 
-    public void showFragment(FragmentActivity context, int parentContainer,
-                             Fragment fragment, ActionbarUpdateListener actionbarUpdateListener,
+    protected static FragmentLauncher mFragmentLauncher = null;
+
+    public void showFragment(/*FragmentActivity context, int parentContainer,*/
+                             Fragment fragment, FragmentLauncher fragmentLauncher,/*ActionbarUpdateListener actionbarUpdateListener,*/
                              int startAnimation, int endAnimation) {
-        mContainerId = parentContainer;
-        mActivityContext = context;
-        mActionbarUpdateListener = actionbarUpdateListener;
+        DigiCareLogger.i("testing","DigitalCare Base Fragment -- Fragment Invoke");
+        mFragmentLauncher = fragmentLauncher;
+        mContainerId = fragmentLauncher.getParentContainerResourceID();
+        mActivityContext = fragmentLauncher.getFragmentActivity();
+        mActionbarUpdateListener = fragmentLauncher.getActionbarUpdateListener();
 
         String startAnim = null;
         String endAnim = null;
 
         if ((startAnimation != 0) && (endAnimation != 0)) {
-            startAnim = context.getResources().getResourceName(startAnimation);
-            endAnim = context.getResources().getResourceName(endAnimation);
+            startAnim = mActivityContext.getResources().getResourceName(startAnimation);
+            endAnim = mActivityContext.getResources().getResourceName(endAnimation);
 
-            String packageName = context.getPackageName();
-            mEnterAnimation = context.getResources().getIdentifier(startAnim,
+            String packageName = mActivityContext.getPackageName();
+            mEnterAnimation = mActivityContext.getResources().getIdentifier(startAnim,
                     "anim", packageName);
-            mExitAnimation = context.getResources().getIdentifier(endAnim, "anim",
+            mExitAnimation = mActivityContext.getResources().getIdentifier(endAnim, "anim",
                     packageName);
         }
 
         try {
-            FragmentTransaction fragmentTransaction = context
+            FragmentTransaction fragmentTransaction = mActivityContext
                     .getSupportFragmentManager().beginTransaction();
             if (mEnterAnimation != 0 && mExitAnimation != 0) {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,

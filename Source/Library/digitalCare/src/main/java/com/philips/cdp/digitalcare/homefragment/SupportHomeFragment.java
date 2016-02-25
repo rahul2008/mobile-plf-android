@@ -32,6 +32,8 @@ import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
@@ -284,10 +286,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
-        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
-            launchProductSelectionActivityComponent();
-            isFirstTimeProductComponentlaunch = false;
-        }
+//        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
+//            launchProductSelectionActivityComponent();
+//            isFirstTimeProductComponentlaunch = false;
+//        }
     }
 
     @Override
@@ -327,24 +329,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
                 if (digitalCareConfigManager.getUiLauncher() instanceof ActivityLauncher) {
                     launchProductSelectionActivityComponent();
-                } else {
-                    // launchProductSelectionFragmentComponent();
+                } else if(digitalCareConfigManager.getUiLauncher()instanceof FragmentLauncher) {
+                     launchProductSelectionFragmentComponent();
                 }
             }
         }
     }
 
-   /* private void launchProductSelectionFragmentComponent() {
+    private void launchProductSelectionFragmentComponent() {
+        DigiCareLogger.i("testing","Support -- Fragment Invoke");
+
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity().getApplicationContext());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
 
-        UiLauncher fragmentLauncher = new FragmentBuilder();
-        fragmentLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-        fragmentLauncher.setActionbarUpdateListener(actionBarClickListener);
-        fragmentLauncher.setFragmentActivity(getActivity());
-        fragmentLauncher.setmLayoutResourceID(DigitalCareConfigManager.getInstance().getUiLauncher().getLayoutResourceID());
-        fragmentLauncher.setScreenOrientation(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
@@ -358,16 +356,17 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                         mPrxProductData = new PrxProductData(getActivity(), null);
                         mPrxProductData.executeRequests();
                     }
-
                 }
             }
         });
-        ProductModelSelectionHelper.getInstance().invokeProductSelection(fragmentLauncher, DigitalCareConfigManager.getInstance()
+        ProductModelSelectionHelper.getInstance().invokeProductSelection(mFragmentLauncher, DigitalCareConfigManager.getInstance()
                 .getProductModelSelectionType());
         ProductSelectionLogger.enableLogging();
-    }*/
+    }
 
     private void launchProductSelectionActivityComponent() {
+        DigiCareLogger.i("testing","Support -- Activity Invoke");
+
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity().getApplicationContext());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());

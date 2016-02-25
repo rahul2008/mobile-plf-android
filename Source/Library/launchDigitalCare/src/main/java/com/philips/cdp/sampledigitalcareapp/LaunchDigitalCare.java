@@ -295,17 +295,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
 
                 startActivity(new Intent(this, SampleActivity.class));
-//                    String[] ctnList = new String[mList.size()];
-//                    for (int i = 0; i < mList.size(); i++)
-//                        ctnList[i] = mList.get(i);
-//                    ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-//                    productsSelection.setCatalog(Catalog.CARE);
-//                    productsSelection.setSector(Sector.B2C);
-//
-//                    FragmentBuilder fragmentLauncher = new FragmentBuilder(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
-//                    fragmentLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-//                    DigitalCareConfigManager.getInstance().invokeDigitalCare(fragmentLauncher, productsSelection);
-
                 break;
 
         }

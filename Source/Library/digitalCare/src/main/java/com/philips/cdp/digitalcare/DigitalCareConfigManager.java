@@ -54,7 +54,7 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
-    private UiLauncher mUiLauncher = null;
+    private static UiLauncher mUiLauncher = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -135,14 +135,17 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
         }
+        DigiCareLogger.i("testing","DigitalCare Config -- Fragment Invoke");
 
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
-        SupportHomeFragment supportFrag = new SupportHomeFragment();
-        supportFrag.showFragment(context, parentContainerResId, supportFrag,
-                actionbarUpdateListener, enterAnim, exitAnim);
-    }
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(context, parentContainerResId,
+                actionbarUpdateListener);
 
+        SupportHomeFragment supportFrag = new SupportHomeFragment();
+        supportFrag.showFragment(/*context, parentContainerResId, */supportFrag,
+                fragmentLauncher, enterAnim, exitAnim);
+    }
 
     public void invokeDigitalCare(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
         mUiLauncher = uiLauncher;
@@ -156,12 +159,13 @@ public class DigitalCareConfigManager {
 
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
-
+            DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");
 
         } else {
             FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
                     fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+            DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");
         }
     }
 
@@ -186,6 +190,7 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
         }
+        DigiCareLogger.i("testing","DigitalCare Config -- Activity Invoke");
 
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
