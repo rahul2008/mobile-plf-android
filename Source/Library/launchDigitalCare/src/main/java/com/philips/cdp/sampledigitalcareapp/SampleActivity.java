@@ -65,9 +65,8 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         FragmentLauncher fragLauncher = new FragmentLauncher(
                 this, R.id.sampleMainContainer, actionBarClickListener);
         fragLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+        DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
 
-
-        DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragLauncher, productsSelection);
 
         try {
             initActionBar();

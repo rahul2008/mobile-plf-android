@@ -282,7 +282,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                     productsSelection.setSector(Sector.B2C);
                     ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
                     uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-                    DigitalCareConfigManager.getInstance().invokeConsumerCareModule(uiLauncher, productsSelection);
+                    DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);
                 } else
                     Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();
                 break;
@@ -304,7 +304,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 //
 //                    FragmentBuilder fragmentLauncher = new FragmentBuilder(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
 //                    fragmentLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-//                    DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragmentLauncher, productsSelection);
+//                    DigitalCareConfigManager.getInstance().invokeDigitalCare(fragmentLauncher, productsSelection);
 
                 break;
 

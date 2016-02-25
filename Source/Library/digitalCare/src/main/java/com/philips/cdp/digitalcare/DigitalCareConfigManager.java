@@ -144,7 +144,7 @@ public class DigitalCareConfigManager {
     }
 
 
-    public void invokeConsumerCareModule(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
+    public void invokeDigitalCare(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
         mUiLauncher = uiLauncher;
 
         if (productModelSelectionType != null) {
@@ -159,7 +159,7 @@ public class DigitalCareConfigManager {
 
 
         } else {
-            FragmentLauncher fragmentLauncher = (FragmentLauncher)uiLauncher;
+            FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
                     fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
         }
