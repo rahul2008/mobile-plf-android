@@ -18,11 +18,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.payment.PaymentController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -34,7 +36,8 @@ import com.philips.cdp.uikit.customviews.InlineForms;
 import java.util.HashMap;
 
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, AddressController.AddressListener, InlineForms.Validator,
+        implements View.OnClickListener, AddressController.AddressListener,
+        PaymentController.PaymentListener, InlineForms.Validator,
         TextWatcher {
     private Context mContext;
 
@@ -50,6 +53,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private Button mBtnContinue;
     private Button mBtnCancel;
 
+    private PaymentController mPaymentController;
     private AddressController mAddressController;
     private AddressFields mAddressFields;
 
@@ -87,6 +91,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mInlineFormsParent.setValidator(this);
 
         mAddressController = new AddressController(mContext, this);
+        mPaymentController = new PaymentController(mContext, this);
         mAddressFields = new AddressFields();
 
         mEtFirstName.addTextChangedListener(this);
@@ -135,20 +140,29 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onCreateAddress(boolean isSuccess) {
-        Utility.dismissProgressDialog();
         if (isSuccess) {
-            if (getArguments().containsKey(IAPConstant.IS_SECOND_USER) && getArguments().getBoolean(IAPConstant.IS_SECOND_USER)) {
-                getMainActivity().onBackPressed();
-            } else {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
-                getMainActivity().addFragmentAndRemoveUnderneath(
-                        BillingAddressFragment.createInstance(bundle, AnimationType.NONE), false);
-            }
-            Toast.makeText(mContext, "Address created successfully", Toast.LENGTH_SHORT).show();
+            mPaymentController.getPaymentDetails();
         } else {
+            Utility.dismissProgressDialog();
             Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    @Override
+    public void onGetPaymentDetails(Message msg) {
+        Utility.dismissProgressDialog();
+        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
+            getMainActivity().addFragmentAndRemoveUnderneath(
+                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), false);
+        }else if ((msg.obj instanceof VolleyError)){
+            Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(mContext, "Navigate to payment screen", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -175,10 +189,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 }
             }
         } else if (v == mBtnCancel) {
-            if(getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)){
+            if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
                 getMainActivity().addFragmentAndRemoveUnderneath
                         (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), false);
-            }else {
+            } else {
                 getMainActivity().addFragmentAndRemoveUnderneath
                         (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
             }
@@ -339,4 +353,5 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         fragment.setArguments(args);
         return fragment;
     }
+
 }
