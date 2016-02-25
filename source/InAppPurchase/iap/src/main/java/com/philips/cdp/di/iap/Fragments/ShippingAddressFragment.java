@@ -167,6 +167,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     @Override
     public void onClick(final View v) {
+
+        Utility.hideKeypad(mContext);
+
         if (v == mBtnContinue) {
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
                 if (Utility.isInternetConnected(mContext)) {

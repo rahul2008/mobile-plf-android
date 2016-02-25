@@ -9,6 +9,7 @@ import com.philips.cdp.di.iap.Fragments.EmptyCartFragment;
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.UiKitActivity;
 
 /**
@@ -88,6 +89,9 @@ public class BaseFragmentActivity extends UiKitActivity {
     @Override
     public void onBackPressed() {
         IAPLog.d(IAPLog.LOG, "onBackPressed");
+
+        Utility.hideKeypad(this);
+
         boolean backNavigationHandled = false;
         Fragment topFragment = getTopFragment();
         if (topFragment instanceof BaseParentFragment) {
