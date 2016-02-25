@@ -69,12 +69,12 @@ buildscript {
 
 
 android {
-    compileSdkVersion compileSdkVer
-    buildToolsVersion buildToolsVer
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
-        minSdkVersion minSdkVer
-        targetSdkVersion targetSdkVer
+        minSdkVersion 19
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
@@ -113,20 +113,16 @@ configurations {
 dependencies {
 //    compile fileTree(dir: 'libs', include: ['*.jar'])
     // Support libraries
-    compile "com.android.support:appcompat-v7:${supportLibraryVer}"
-    compile "com.mcxiaoke.volley:library:${volleyVer}"
-    compile "com.android.support:design:${supportDesignVer}"
-    compile "com.google.code.gson:gson:${gsonVer}"
+    compile "com.android.support:appcompat-v7:23.1.1"
+    compile "com.mcxiaoke.volley:library:1.0.17"
+    compile "com.android.support:design:23.1.1"
+    compile "com.google.code.gson:gson:2.2.4"
     compile(name: 'prx-release', ext: 'aar')
     //uikit lib
-    compile "com.philips.cdp:uikitLib:${uikitLibVer}"
-    // Other
-    compile "com.jakewharton:butterknife:${butterKnifeVer}"
-
+    compile "com.philips.cdp:uikitLib:2.0.0"
     // Tests
-    testCompile "junit:junit:${junitVer}"
-    testCompile "org.mockito:mockito-all:${mockitoVer}"
-    testCompile "org.robolectric:robolectric:${robolectricVer}"
+    testCompile "junit:junit:4.12"
+    testCompile "org.mockito:mockito-all:1.10.17"
 }
 
 
