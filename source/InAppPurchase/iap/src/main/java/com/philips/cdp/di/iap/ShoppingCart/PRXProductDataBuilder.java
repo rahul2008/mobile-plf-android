@@ -9,6 +9,7 @@ import android.os.Message;
 
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.carts.Carts;
+import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -26,6 +27,7 @@ public class PRXProductDataBuilder {
     private static final String TAG = PRXProductDataBuilder.class.getSimpleName();
     private AbstractModel.DataLoadListener mDataLoadListener;
     private List<EntriesEntity> mEntries;
+    private DeliveryCostEntity mDeliveryCostEntity;
     private Context mContext;
     private List<ShoppingCartData> mCartItems;
     private Carts mCartData;
@@ -34,6 +36,7 @@ public class PRXProductDataBuilder {
                                  AbstractModel.DataLoadListener listener) {
         mCartData = cartData;
         mEntries = mCartData.getCarts().get(0).getEntries();
+        mDeliveryCostEntity = mCartData.getCarts().get(0).getDeliveryCost();
         mContext = context;
         mDataLoadListener = listener;
     }
@@ -44,17 +47,17 @@ public class PRXProductDataBuilder {
         for (int index = 0; index < count; index++) {
             EntriesEntity entry = mEntries.get(index);
             String code = entry.getProduct().getCode();
-            executeRequest(entry, code, prepareSummaryBuilder(code));
+            executeRequest(entry, mDeliveryCostEntity, code, prepareSummaryBuilder(code));
         }
     }
 
-    private void executeRequest(final EntriesEntity entry, final String code, final ProductSummaryBuilder productSummaryBuilder) {
+    private void executeRequest(final EntriesEntity entry, final DeliveryCostEntity deliveryCostEntity, final String code, final ProductSummaryBuilder productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                updateSuccessData((SummaryModel) responseData, code, entry);
+                updateSuccessData((SummaryModel) responseData, code, deliveryCostEntity, entry);
             }
 
             @Override
@@ -64,8 +67,8 @@ public class PRXProductDataBuilder {
         });
     }
 
-    private void updateSuccessData(final SummaryModel responseData, final String code, final EntriesEntity entry) {
-        ShoppingCartData cartItem = new ShoppingCartData(entry);
+    private void updateSuccessData(final SummaryModel responseData, final String code, final DeliveryCostEntity deliveryCostEntity, final EntriesEntity entry) {
+        ShoppingCartData cartItem = new ShoppingCartData(entry, deliveryCostEntity);
         SummaryModel mAssetModel = responseData;
         Data data = mAssetModel.getData();
         cartItem.setImageUrl(data.getImageURL());

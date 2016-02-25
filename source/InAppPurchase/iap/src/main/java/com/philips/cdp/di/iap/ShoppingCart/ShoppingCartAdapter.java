@@ -185,7 +185,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                     holder.name.setTypeface(null, Typeface.BOLD);
 
                     holder.number.setVisibility(View.VISIBLE);
-                    holder.number.setText("TBD");
+                    holder.number.setText(cartData.getDeliveryCost().getFormattedValue());
                     holder.number.setTypeface(null, Typeface.BOLD);
 
                     holder.description.setVisibility(View.VISIBLE);

@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
+import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 
 /**
@@ -19,6 +20,7 @@ public class ShoppingCartData {
     private int mEntryNumber;
     private String mCartNumber;
     private int mStockLevel;
+    private DeliveryCostEntity mDeliveryCost;
 
     public double getTotalPriceWithTax() {
         return mTotalPriceWithTax;
@@ -33,8 +35,13 @@ public class ShoppingCartData {
     public ShoppingCartData() {
     }
 
-    public ShoppingCartData(EntriesEntity entry) {
+    public ShoppingCartData(EntriesEntity entry, DeliveryCostEntity deliveryCost) {
         mEntry = entry;
+        mDeliveryCost = deliveryCost;
+    }
+
+    public DeliveryCostEntity getDeliveryCost() {
+        return mDeliveryCost;
     }
 
     public String getCartNumber() {
