@@ -19,21 +19,17 @@ import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.component.ActivityLauncher;
-import com.philips.cdp.digitalcare.component.FragmentBuilder;
-import com.philips.cdp.digitalcare.component.UiLauncher;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.sampledigitalcareapp.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcareapp.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcareapp.view.CustomDialog;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,14 +46,13 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     public static final String HOCKEY_APP_ID = "9d6c50153b0c5394faa920d9dda951c7";
     private static final String TAG = LaunchDigitalCare.class.getSimpleName();
+    public static ArrayList<String> mList = null;
     private static boolean mActivityButtonSelected = true;
     private static boolean mFragmentButtonSelected = true;
     private Button mLaunchDigitalCare = null;
     private Button mLaunchAsFragment = null;
     private ImageButton mAddButton = null;
     private RecyclerView mRecyclerView = null;
-
-    public static ArrayList<String> mList = null;
     private SampleAdapter adapter = null;
 
 
@@ -256,7 +251,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
       Setting AppID is very much required from App side, in order to TAG the page. Here in below code
       we are putting dummy value. Please provide proper APP_ID from you App.
       Also if tagging is not enabled , consumer care is not tagging any events*/
-        setConsumerProductInfo();
+
         DigitalCareConfigManager.getInstance().enableTagging(true);
         DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
         DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
@@ -277,20 +272,19 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
                 mLaunchAsFragment.setVisibility(View.INVISIBLE);
 
-                if (setConsumerProductInfo()) {
-                    String[] ctnList = new String[mList.size()];
-                    for (int i = 0; i < mList.size(); i++)
-                        ctnList[i] = mList.get(i);
+
+                String[] ctnList = new String[mList.size()];
+                for (int i = 0; i < mList.size(); i++)
+                    ctnList[i] = mList.get(i);
+                if (ctnList.length != 0) {
                     ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
                     productsSelection.setCatalog(Catalog.CARE);
                     productsSelection.setSector(Sector.B2C);
                     ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
                     uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                     DigitalCareConfigManager.getInstance().invokeConsumerCareModule(uiLauncher, productsSelection);
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Please Set Consumer Product Info", Toast.LENGTH_SHORT).show();
-                }
+                } else
+                    Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.launchAsFragment:
 
@@ -299,8 +293,8 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
                 mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
-                if (setConsumerProductInfo()) {
-                      startActivity(new Intent(this, SampleActivity.class));
+
+                startActivity(new Intent(this, SampleActivity.class));
 //                    String[] ctnList = new String[mList.size()];
 //                    for (int i = 0; i < mList.size(); i++)
 //                        ctnList[i] = mList.get(i);
@@ -311,19 +305,14 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 //                    FragmentBuilder fragmentLauncher = new FragmentBuilder(ProductModelSelectionHelper.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
 //                    fragmentLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 //                    DigitalCareConfigManager.getInstance().invokeConsumerCareModule(fragmentLauncher, productsSelection);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Please Set Consumer Product Info", Toast.LENGTH_SHORT).show();
-                }
+
                 break;
+
         }
     }
 
     private void setDigitalCareLocale(String language, String country) {
 
         DigitalCareConfigManager.getInstance().setLocale(language, country);
-    }
-
-    private boolean setConsumerProductInfo() {
-        return true;
     }
 }

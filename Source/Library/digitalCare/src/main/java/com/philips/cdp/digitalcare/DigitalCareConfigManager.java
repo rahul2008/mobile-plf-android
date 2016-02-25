@@ -21,7 +21,6 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 
-
 import java.util.Locale;
 
 /**
