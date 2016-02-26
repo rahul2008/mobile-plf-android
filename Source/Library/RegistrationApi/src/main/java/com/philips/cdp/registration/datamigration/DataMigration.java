@@ -2,6 +2,7 @@ package com.philips.cdp.registration.datamigration;
 
 import android.content.Context;
 
+import com.janrain.android.capture.Capture;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.security.SecureStorage;
@@ -21,6 +22,7 @@ public class DataMigration {
     private  final String JR_CAPTURE_SIGNED_IN_USER = "jr_capture_signed_in_user";
     private  final String HSDP_RECORD = "hsdpRecord";
     private  final String DI_PROFILE = "diProfile";
+    private  final String JUMP_REFRESH_SECRET = "jr_capture_refresh_secret";
     private Context mContext;
 
     public DataMigration(final Context context) {
@@ -59,6 +61,9 @@ public class DataMigration {
             diUserProfile = (DIUserProfile) object;
             plainText = SecureStorage.objectToString(diUserProfile);
         }
+        if(object instanceof String){
+            plainText = (String)object;
+        }
 
         mContext.deleteFile(fileName);
         fis.close();
@@ -82,7 +87,7 @@ public class DataMigration {
 
     public void checkFileEncryptionStatus() {
         if (!isFileEncryptionDone(JR_CAPTURE_SIGNED_IN_USER)) {
-            SecureStorage.migrateUserData("JR_CAPTURE_SIGNED_IN_USER");
+            SecureStorage.migrateUserData(JR_CAPTURE_SIGNED_IN_USER);
         }
 
         if (!isFileEncryptionDone(HSDP_RECORD)) {
@@ -92,6 +97,10 @@ public class DataMigration {
         if (!isFileEncryptionDone(DI_PROFILE)) {
             migrateFileData(DI_PROFILE);
         }
+        if(!isFileEncryptionDone(JUMP_REFRESH_SECRET)){
+            migrateFileData(JUMP_REFRESH_SECRET);
+        }
+
     }
 
 
@@ -114,6 +123,9 @@ public class DataMigration {
                     isEncryptionDone = false;
                 }
                 if (plainText instanceof DIUserProfile) {
+                    isEncryptionDone = false;
+                }
+                if(plainText instanceof String){
                     isEncryptionDone = false;
                 }
             }

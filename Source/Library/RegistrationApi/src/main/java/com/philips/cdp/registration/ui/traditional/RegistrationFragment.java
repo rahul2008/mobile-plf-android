@@ -231,9 +231,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     public void replaceWithHomeFragment() {
         try {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
-            fragmentTransaction.commitAllowingStateLoss();
+            if(null!=mFragmentManager) {
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
+                fragmentTransaction.commitAllowingStateLoss();
+            }
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
                     "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"

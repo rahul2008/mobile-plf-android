@@ -362,7 +362,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 
-        if (userRegistrationFailureInfo.getError().code == EMAIL_ADDRESS_ALREADY_USE_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             mEtEmail.setErrDescription(mContext.getResources().getString(R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
@@ -370,11 +370,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mPasswordHintView.setVisibility(View.GONE);
             mTvEmailExist.setVisibility(View.VISIBLE);
         }
-        if (userRegistrationFailureInfo.getError().code != EMAIL_ADDRESS_ALREADY_USE_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() != EMAIL_ADDRESS_ALREADY_USE_CODE) {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
-        trackActionRegisterError(userRegistrationFailureInfo.getError().code);
+        trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         mPbSpinner.setVisibility(View.INVISIBLE);
         mBtnCreateAccount.setEnabled(false);
     }

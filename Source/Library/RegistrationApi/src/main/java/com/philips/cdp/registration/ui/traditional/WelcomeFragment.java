@@ -166,7 +166,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
 
 
-
         userProfile = mUser.getUserInstance(mContext);
         mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + userProfile.getGivenName());
 
@@ -231,18 +230,17 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     public void onLogoutSuccess() {
         trackPage(AppTaggingPages.HOME);
         hideLogoutSpinner();
-        getRegistrationFragment().replaceWithHomeFragment();
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnUserLogoutSuccess();
+        if (null != getRegistrationFragment()) {
+            getRegistrationFragment().replaceWithHomeFragment();
+        }
     }
 
     @Override
     public void onLogoutFailure(int responseCode, final String message) {
         mRegError.setError(message);
         hideLogoutSpinner();
-        RegistrationHelper.getInstance().getUserRegistrationListener()
-                .notifyOnUserLogoutFailure();
     }
+
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {

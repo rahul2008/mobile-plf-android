@@ -34,7 +34,7 @@ public class HsdpUser {
 
     private Context mContext;
 
-    private HsdpUserRecord mHsdpUserRecord;
+    private static HsdpUserRecord mHsdpUserRecord;
 
     private final String SUCCESS_CODE = "200";
 
@@ -272,6 +272,9 @@ public class HsdpUser {
     }
 
     public HsdpUserRecord getHsdpUserRecord() {
+        if(mHsdpUserRecord!=null){
+            return mHsdpUserRecord;
+        }
         try {
             FileInputStream fis = mContext.openFileInput(HSDP_RECORD_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -368,8 +371,8 @@ public class HsdpUser {
     }
 
     public boolean isHsdpUserSignedIn(){
-
-        if(getHsdpUserRecord() != null && getHsdpUserRecord().getAccessCredential().getRefreshToken()!=null && getHsdpUserRecord().getUserUUID()!=null
+        HsdpUserRecord hsdpUserRecord = getHsdpUserRecord();
+        if(hsdpUserRecord != null && hsdpUserRecord.getAccessCredential().getRefreshToken()!=null && hsdpUserRecord.getUserUUID()!=null
                 && getHsdpUserRecord().getAccessCredential().getAccessToken()!=null){
             return true;
         }

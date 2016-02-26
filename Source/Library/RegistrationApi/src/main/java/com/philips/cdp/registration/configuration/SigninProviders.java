@@ -1,9 +1,10 @@
 
 package com.philips.cdp.registration.configuration;
 
+import com.philips.cdp.registration.ui.utils.RegUtility;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class SigninProviders {
 
@@ -21,6 +22,8 @@ public class SigninProviders {
      * @param providers
      */
     public void setProviders(HashMap<String, ArrayList<String>> providers) {
+
+        RegUtility.checkIsValidSignInProviders(providers);
         this.providers = providers;
     }
 

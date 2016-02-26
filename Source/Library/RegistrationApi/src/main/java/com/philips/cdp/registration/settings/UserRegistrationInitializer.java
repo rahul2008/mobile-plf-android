@@ -51,7 +51,13 @@ public class UserRegistrationInitializer {
 
 
     private boolean mJanrainIntialized = false;
-    public JumpFlowDownloadStatusListener mJumpFlowDownloadStatusListener;
+
+    public JumpFlowDownloadStatusListener getJumpFlowDownloadStatusListener() {
+        return mJumpFlowDownloadStatusListener;
+    }
+
+
+    private JumpFlowDownloadStatusListener mJumpFlowDownloadStatusListener;
 
 
     private RegistrationSettings mRegistrationSettings;

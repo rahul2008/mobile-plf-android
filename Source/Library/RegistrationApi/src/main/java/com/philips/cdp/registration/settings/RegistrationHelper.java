@@ -36,7 +36,6 @@ public class RegistrationHelper {
     }
 
 
-
     public synchronized static RegistrationHelper getInstance() {
         if (mRegistrationHelper == null) {
             mRegistrationHelper = new RegistrationHelper();
@@ -60,31 +59,40 @@ public class RegistrationHelper {
         if (Tagging.isTagginEnabled() && null == Tagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
         }
-
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
+        generateKeyAndMigrateData();
 
-        new Thread(new Runnable() {
+        final Runnable runnable = new Runnable() {
 
             @Override
             public void run() {
                 refreshNTPOffset();
-                generateKeyAndMigrateData();
-
                 if (!isJsonRead) {
                     isJsonRead = RegistrationStaticConfiguration.getInstance().parseConfigurationJson(mContext, RegConstants.CONFIGURATION_JSON_PATH);
                     EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
                 }
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext,locale);
+                    UserRegistrationInitializer.getInstance().initializeEnvironment(mContext, locale);
+                } else {
+                    if (UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener() != null) {
+                        UserRegistrationInitializer.getInstance().getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
+                    }
                 }
             }
-        }).start();
+        };
+        Thread thread = new Thread( new Runnable() {
+            public void run() {
+                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
+                runnable.run();
+            }
+        });
+        thread.start();
+
+
+
     }
-
-
-
 
 
     private void generateKeyAndMigrateData() {
@@ -129,7 +137,7 @@ public class RegistrationHelper {
         return NetworkStateHelper.getInstance();
     }
 
-   
+
     public Locale getLocale() {
         return mLocale;
     }

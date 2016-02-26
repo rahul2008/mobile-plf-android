@@ -23,15 +23,9 @@ public class RegistrationApplication extends Application {
 		Tagging.setLaunchingPageName("demoapp:home");
 		RegistrationConfiguration.getInstance().setCoppaFlow(false);
 		RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-
-
-				initRegistration();
-			//	RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
-			//	Tagging.init(Locale.getDefault(), getApplicationContext());
-
-
-
-
+		initRegistration();
+    	//	RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
+		//	Tagging.init(Locale.getDefault(), getApplicationContext());
 	}
 
 	private void initRegistration() {

@@ -7,6 +7,7 @@ import com.philips.cdp.registration.configuration.RegistrationDynamicConfigurati
 import com.philips.cdp.registration.configuration.RegistrationStaticConfiguration;
 import com.philips.cdp.registration.configuration.SigninProviders;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,9 +27,6 @@ public class RegistrationSignInProvidersConfigurationTest extends ActivityInstru
         String CONFIGURATION_JSON_PATH = "registration/configuration/configuration_for_test_cases.json";
         RegistrationStaticConfiguration.getInstance().parseConfigurationJson(getInstrumentation().getTargetContext(), CONFIGURATION_JSON_PATH);
     }
-
-
-
 
     public void testPILConfigurationFlieldsWithStatic() {
 
@@ -91,8 +89,6 @@ public class RegistrationSignInProvidersConfigurationTest extends ActivityInstru
             assertTrue(false);
         }
 
-
-
         RegistrationDynamicConfiguration.getInstance().resetDynamicConfiguration();
     }
 
@@ -117,4 +113,40 @@ public class RegistrationSignInProvidersConfigurationTest extends ActivityInstru
         RegistrationDynamicConfiguration.getInstance().resetDynamicConfiguration();
     }
 
+    public void testTwitterNotProviderException() {
+        try{
+            RegistrationStaticConfiguration.getInstance().getSignInProviders().setProviders(null);
+            ArrayList<String> providers = new ArrayList<>();
+            providers.add("twitter");
+            providers.add("xyz");
+
+            HashMap<String, ArrayList<String>> pro = new HashMap<>();
+            pro.put("BB", providers);
+
+            RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(pro);
+            RegistrationDynamicConfiguration.getInstance().resetDynamicConfiguration();
+        }catch (RuntimeException e){
+            assertTrue(true);
+        }
+        assertFalse(false);
+    }
+
+    public void testCheckIsValidSignInProviders() {
+        try{
+            RegistrationStaticConfiguration.getInstance().getSignInProviders().setProviders(null);
+            ArrayList<String> providers = new ArrayList<>();
+            providers.add("twitter");
+            providers.add("xyz");
+
+            HashMap<String, ArrayList<String>> pro = new HashMap<>();
+            pro.put("BB", providers);
+
+            RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(pro);
+            RegUtility.checkIsValidSignInProviders(pro);
+            RegistrationDynamicConfiguration.getInstance().resetDynamicConfiguration();
+        }catch (RuntimeException e){
+            assertTrue(true);
+        }
+        assertFalse(false);
+    }
 }
