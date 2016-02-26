@@ -104,6 +104,21 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 productInfo.setCtn(DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList()[0]);
             DigitalCareConfigManager.getInstance().setConsumerProductInfo(productInfo);
         }
+
+        String ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        String subcategory = prefs.getString(USER_SELECTED_PRODUCT_SUBCATEGORY, "");
+        String reviewUrl = prefs.getString(USER_SELECTED_PRODUCT_TITLE, "");
+
+        if (ctn != null && ctn != "")
+            productInfo.setCtn(ctn);
+
+        if (reviewUrl != null && reviewUrl != "")
+            productInfo.setProductReviewUrl(reviewUrl);
+
+        if (subcategory != null && subcategory != "")
+            productInfo.setSubCategory(subcategory);
+        DigitalCareConfigManager.getInstance().setConsumerProductInfo(productInfo);
+
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
                 if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
@@ -370,7 +385,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                         Data summaryData = productSummaryModel.getData();
                         productInfo.setCtn(summaryData.getCtn());
                         productInfo.setSubCategory(summaryData.getSubcategory());
-                        productInfo.setProductTitle(summaryData.getProductURL());
+                        productInfo.setProductReviewUrl(summaryData.getProductURL());
                     }
                 }
             }
@@ -409,7 +424,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 if (productSummaryModel != null) {
                     SummaryModel summaryModel = productSummaryModel;
                     productInfo.setCtn(summaryModel.getData().getCtn());
-                    mProductDetailsLayout.setVisibility(View.VISIBLE);
+                    if (mProductDetailsLayout != null)
+                        mProductDetailsLayout.setVisibility(View.VISIBLE);
 
 
                     if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
@@ -421,7 +437,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                         Data summaryData = productSummaryModel.getData();
                         productInfo.setCtn(summaryData.getCtn());
                         productInfo.setSubCategory(summaryData.getSubcategory());
-                        productInfo.setProductTitle(summaryData.getProductURL());
+                        productInfo.setProductReviewUrl(summaryData.getProductURL());
 
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());

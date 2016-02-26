@@ -62,7 +62,7 @@ public class ConsumerProductInfo {
         return mProductTitle;
     }
 
-    public void setProductTitle(String productTitle) {
+    public void setProductReviewUrl(String productTitle) {
         mProductTitle = productTitle;
     }
 }
