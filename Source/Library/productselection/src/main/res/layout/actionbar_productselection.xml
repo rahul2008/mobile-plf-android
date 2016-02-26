@@ -22,6 +22,10 @@
     <TextView
         android:id="@+id/productselection_actionbarTitle"
         fontPath="fonts/centralesanslight.ttf"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
