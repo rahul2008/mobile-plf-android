@@ -277,7 +277,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 for (int i = 0; i < mList.size(); i++)
                     ctnList[i] = mList.get(i);
                 if (ctnList.length != 0) {
-                    ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
+                    HardcodedProductList productsSelection = new HardcodedProductList(ctnList);
                     productsSelection.setCatalog(Catalog.CARE);
                     productsSelection.setSector(Sector.B2C);
                     ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
