@@ -61,9 +61,8 @@ public class SHNCharacteristic {
         bluetoothGattCharacteristic = null;
         btGatt = null;
         state = State.Inactive;
-        while(!pendingCompletions.isEmpty()) {
-            SHNCommandResultReporter shnCommandResultReporter = pendingCompletions.remove(0);
-            shnCommandResultReporter.reportResult(SHNResult.SHNErrorConnectionLost, null);
+        while (!pendingCompletions.isEmpty()) {
+            reportResultToCaller(null, SHNResult.SHNErrorConnectionLost);
         }
     }
 
@@ -75,24 +74,24 @@ public class SHNCharacteristic {
     }
 
     public void write(byte[] data, SHNCommandResultReporter resultReporter) {
+        pendingCompletions.add(resultReporter);
+
         if (state == State.Active) {
             btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
-            pendingCompletions.add(resultReporter);
         } else {
             SHNLogger.w(TAG, "Error write; characteristic not active: " + uuid);
-            if (resultReporter != null) {
-                resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
-            }
+            reportResultToCaller(null, SHNResult.SHNErrorInvalidState);
         }
     }
 
     public void read(@NonNull final SHNCommandResultReporter resultReporter) {
+        pendingCompletions.add(resultReporter);
+
         if (state == State.Active) {
             btGatt.readCharacteristic(bluetoothGattCharacteristic);
-            pendingCompletions.add(resultReporter);
         } else {
             SHNLogger.w(TAG, "Error read; characteristic not active: " + uuid);
-            resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
+            reportResultToCaller(null, SHNResult.SHNErrorInvalidState);
         }
     }
 
@@ -147,6 +146,7 @@ public class SHNCharacteristic {
     }
 
     private void toggleNotificationsOrIndications(byte[] valueToWriteToDescriptor, boolean enable, SHNCommandResultReporter resultReporter) {
+        pendingCompletions.add(resultReporter);
         if (state == State.Active) {
             Boolean supported = false;
             if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
@@ -154,16 +154,14 @@ public class SHNCharacteristic {
                 if (descriptor != null) {
                     supported = true;
                     btGatt.writeDescriptor(descriptor, valueToWriteToDescriptor);
-                    pendingCompletions.add(resultReporter);
                 }
             }
 
-            if (!supported)
-            {
-                resultReporter.reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
+            if (!supported) {
+                reportResultToCaller(null, SHNResult.SHNErrorUnsupportedOperation);
             }
         } else {
-            resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
+            reportResultToCaller(null, SHNResult.SHNErrorInvalidState);
         }
     }
 

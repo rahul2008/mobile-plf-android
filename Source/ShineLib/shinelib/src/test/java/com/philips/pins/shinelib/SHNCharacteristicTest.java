@@ -88,6 +88,13 @@ public class SHNCharacteristicTest {
     }
 
     @Test
+    public void testWhenAReadIsRequestedWithNoCompletionBlockWhenADisconnectOccursThenNoCompletionBlockIsIgnored() {
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+        shnCharacteristic.read(null);
+        shnCharacteristic.disconnectFromBLELayer();
+    }
+
+    @Test
     public void testWhenAWriteIsRequestedWhenADisconnectOccursThenTheWriteCompletesWithAnError() {
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
         shnCharacteristic.write(new byte[]{'d', 'a', 't', 'a'}, resultReporterMock);
