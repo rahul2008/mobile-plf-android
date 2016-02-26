@@ -232,12 +232,7 @@ public class SHNCentral {
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
         thread.start();
-        try {
-            return new Handler(thread.getLooper());
-        } catch (RuntimeException e) {
-            // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
-            return null;
-        }
+        return new Handler(thread.getLooper());
     }
 
     DataMigrater createDataMigrater() {
