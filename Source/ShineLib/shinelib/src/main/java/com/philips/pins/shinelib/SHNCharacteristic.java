@@ -74,24 +74,26 @@ public class SHNCharacteristic {
     }
 
     public void write(byte[] data, SHNCommandResultReporter resultReporter) {
-        pendingCompletions.add(resultReporter);
-
         if (state == State.Active) {
             btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
+            pendingCompletions.add(resultReporter);
         } else {
             SHNLogger.w(TAG, "Error write; characteristic not active: " + uuid);
-            reportResultToCaller(null, SHNResult.SHNErrorInvalidState);
+            if (resultReporter != null) {
+                resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
+            }
         }
     }
 
     public void read(@NonNull final SHNCommandResultReporter resultReporter) {
-        pendingCompletions.add(resultReporter);
-
         if (state == State.Active) {
             btGatt.readCharacteristic(bluetoothGattCharacteristic);
+            pendingCompletions.add(resultReporter);
         } else {
             SHNLogger.w(TAG, "Error read; characteristic not active: " + uuid);
-            reportResultToCaller(null, SHNResult.SHNErrorInvalidState);
+            if (resultReporter != null) {
+                resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
+            }
         }
     }
 
@@ -146,7 +148,6 @@ public class SHNCharacteristic {
     }
 
     private void toggleNotificationsOrIndications(byte[] valueToWriteToDescriptor, boolean enable, SHNCommandResultReporter resultReporter) {
-        pendingCompletions.add(resultReporter);
         if (state == State.Active) {
             Boolean supported = false;
             if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
@@ -154,14 +155,19 @@ public class SHNCharacteristic {
                 if (descriptor != null) {
                     supported = true;
                     btGatt.writeDescriptor(descriptor, valueToWriteToDescriptor);
+                    pendingCompletions.add(resultReporter);
                 }
             }
 
             if (!supported) {
-                reportResultToCaller(null, SHNResult.SHNErrorUnsupportedOperation);
+                if (resultReporter != null) {
+                    resultReporter.reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
+                }
             }
         } else {
-            reportResultToCaller(null, SHNResult.SHNErrorInvalidState);
+            if (resultReporter != null) {
+                resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
+            }
         }
     }
 
