@@ -48,7 +48,7 @@
                 android:layout_marginBottom="@dimen/iap_billing_toggle_margin_bottom"
                 android:layout_marginRight="@dimen/iap_billing_toggle_margin_right"
                 android:layout_marginTop="@dimen/iap_billing_toggle_margin_top"
-                android:checked="false" />
+                android:checked="true" />
 
         </LinearLayout>
 
@@ -77,6 +77,7 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_first_name_hint"
                     android:maxLength="17" />
@@ -103,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:inputType="textCapSentences"
                     android:hint="@string/iap_last_name_hint"
                     android:maxLength="17" />
             </LinearLayout>
@@ -127,6 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:inputType="textCapSentences"
                     android:hint="@string/iap_address_hint"
                     android:maxLength="35" />
             </LinearLayout>
@@ -149,6 +152,7 @@
                     android:id="@+id/et_town"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
+                    android:inputType="textCapSentences"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_town_hint" />
@@ -174,6 +178,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:inputType="textCapSentences"
                     android:hint="@string/iap_postal_code_hint" />
             </LinearLayout>
 
@@ -197,6 +202,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:inputType="textCapCharacters"
                     android:hint="@string/iap_country_hint" />
             </LinearLayout>
 

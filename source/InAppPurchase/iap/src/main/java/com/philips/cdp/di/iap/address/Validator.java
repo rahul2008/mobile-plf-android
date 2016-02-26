@@ -18,6 +18,14 @@ public class Validator {
     private static final String POSTAL_CODE = "^[A-Z0-9]{1,10}$";
     private static final String COUNTRY = "^[A-Z]{2,2}$";
     private static final String PHONE_NUMBER = ("[\\+]?[0-9.-]+");
+    private static final String EMAIL =
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+";
 
     private boolean isValidString(String stringToBeValidated) {
         return stringToBeValidated != null && !stringToBeValidated.equalsIgnoreCase("");
@@ -45,7 +53,9 @@ public class Validator {
 
     public boolean isValidEmail(String stringToBeValidated) {
         if (isValidString(stringToBeValidated)) {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(stringToBeValidated).matches();
+            Pattern pattern = Pattern.compile(EMAIL);
+            Matcher matcher = pattern.matcher(stringToBeValidated);
+            return matcher.matches();
         } else {
             return false;
         }

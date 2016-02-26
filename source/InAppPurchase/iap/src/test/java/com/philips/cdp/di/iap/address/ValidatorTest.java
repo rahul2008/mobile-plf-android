@@ -34,10 +34,10 @@ public class ValidatorTest extends TestCase {
 
     @Test
     public void testIsValidEmail() {
-        /*assertTrue(validator.isValidEmail("abc@gmail.com"));
+        assertTrue(validator.isValidEmail("abc@gmail.com"));
         assertFalse(validator.isValidEmail("hgjhj##"));
         assertFalse(validator.isValidEmail(""));
-        assertFalse(validator.isValidEmail(null));*/
+        assertFalse(validator.isValidEmail(null));
     }
 
     @Test
