@@ -366,6 +366,8 @@ public class DigitalCareConfigManager {
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
+            mLocaleMatchWithCountryFallBack = mLocale;
+            mLocaleMatchWithLanguageFallBack = mLocale;
             DigiCareLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
             mLocaleMatchHandler.initializeLocaleMatchService(langCode, countryCode);
         }
