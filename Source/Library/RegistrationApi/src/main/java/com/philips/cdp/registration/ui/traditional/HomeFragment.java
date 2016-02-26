@@ -515,6 +515,16 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onLoginSuccess() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleLoginSuccess();
+            }
+        });
+
+    }
+
+    private void handleLoginSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_LOGIN);
 
@@ -576,7 +586,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     @Override
-    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleLoginFailedWithError(userRegistrationFailureInfo);
+            }
+        });
+
+
+    }
+
+    private void handleLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError : code :" + userRegistrationFailureInfo.getErrorCode());
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
@@ -587,14 +608,19 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     @Override
-    public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
-                                              String socialRegistrationToken) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithTwoStepError");
-        hideProviderProgress();
-        enableControls(true);
-        RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
-                + prefilledRecord);
-        launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
+    public void onLoginFailedWithTwoStepError(final JSONObject prefilledRecord,
+                                              final String socialRegistrationToken) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithTwoStepError");
+                hideProviderProgress();
+                enableControls(true);
+                RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"+ prefilledRecord);
+                launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
+            }
+        });
     }
 
     private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
@@ -604,10 +630,19 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     @Override
-    public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
-                                                String conflictingIdentityProvider, String conflictingIdpNameLocalized,
+    public void onLoginFailedWithMergeFlowError(final String mergeToken, final String existingProvider,
+                                                final String conflictingIdentityProvider, String conflictingIdpNameLocalized,
                                                 String existingIdpNameLocalized, final String emailId) {
 
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleLoginFailedWithMergeFlowError(existingProvider, mergeToken, conflictingIdentityProvider, emailId);
+            }
+        });
+    }
+
+    private void handleLoginFailedWithMergeFlowError(String existingProvider, String mergeToken, String conflictingIdentityProvider, String emailId) {
         hideProviderProgress();
         enableControls(true);
         if (mUser.handleMergeFlowError(existingProvider)) {
@@ -635,15 +670,29 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
-        hideProviderProgress();
-        enableControls(true);
-        launchWelcomeFragment();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
+                hideProviderProgress();
+                enableControls(true);
+                launchWelcomeFragment();
+            }
+        });
     }
 
     @Override
     public void onContinueSocialProviderLoginFailure(
-            UserRegistrationFailureInfo userRegistrationFailureInfo) {
+            final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+            }
+        });
+    }
+
+    private void handleContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginFailure");
         trackSocialProviderPage();
         hideProviderProgress();
@@ -651,7 +700,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (null != userRegistrationFailureInfo && null != userRegistrationFailureInfo.getError()) {
             trackActionLoginError(userRegistrationFailureInfo.getError().code);
         }
-
     }
 
     @Override
