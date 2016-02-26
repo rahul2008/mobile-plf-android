@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">サポートに進む</string>
 <string name="Continue_Btntxt">続行</string>
 <string name="No_Internet">インターネットに接続されていません。携帯電話の Wi-Fi 設定またはデータ設定で接続が機能していることを確認してください</string>
+    <string name="myphilips_CC">MyPhilips アカウント</string>
 </resources>

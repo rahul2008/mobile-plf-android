@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Jatka tukeen</string>
 <string name="Continue_Btntxt">Jatka</string>
 <string name="No_Internet">Ei internet-yhteyttä. Tarkista yhteys puhelimen Wi-Fi-asetuksissa tai datayhteysasetuksissa</string>
+    <string name="myphilips_CC">MyPhilips-tili</string>
 </resources>

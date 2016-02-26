@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Continuer vers l\'assistance</string>
 <string name="Continue_Btntxt">Continuer</string>
 <string name="No_Internet">Aucune connexion Internet. Vérifiez votre connexion dans les paramètres Wi-Fi ou données de votre téléphone.</string>
+    <string name="myphilips_CC">Compte MyPhilips</string>
 </resources>

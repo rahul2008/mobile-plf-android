@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Lanjutkan ke dukungan</string>
 <string name="Continue_Btntxt">Lanjutkan</string>
 <string name="No_Internet">Tidak ada koneksi internet. Periksa apakah koneksi Anda tersambung di pengaturan wifi atau pengaturan data di ponsel Anda</string>
+    <string name="myphilips_CC">Akun MyPhilips</string>
 </resources>

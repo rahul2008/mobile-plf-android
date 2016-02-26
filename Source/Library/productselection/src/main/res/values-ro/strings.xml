@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Continuă spre asistenţă</string>
 <string name="Continue_Btntxt">Continuă</string>
 <string name="No_Internet">Nu există conexiune la internet. Verifică starea conexiunii din setările de wifi sau setările de date ale telefonului</string>
+    <string name="myphilips_CC">Cont MyPhilips</string>
 </resources>

@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Συνέχεια στην υποστήριξη</string>
 <string name="Continue_Btntxt">Συνέχεια</string>
 <string name="No_Internet">Δεν υπάρχει σύνδεση στο Internet. Ελέγξτε τη σύνδεση από τις ρυθμίσεις Wi-Fi ή τις ρυθμίσεις δεδομένων του τηλεφώνου σας</string>
+    <string name="myphilips_CC">Λογαριασμός MyPhilips</string>
 </resources>

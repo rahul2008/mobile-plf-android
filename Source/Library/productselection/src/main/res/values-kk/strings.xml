@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Қолдауға өту</string>
 <string name="Continue_Btntxt">Жалғаст-у</string>
 <string name="No_Internet">Интернет қосылымы жоқ. Қосылым телефонның wifi параметрлерінде немесе деректер параметрлерінде жұмыс істейтінін тексеріңіз</string>
+    <string name="myphilips_CC">Philips тіркелгім</string>
 </resources>

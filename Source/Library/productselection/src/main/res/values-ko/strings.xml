@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">계속 지원하기</string>
 <string name="Continue_Btntxt">계속</string>
 <string name="No_Internet">인터넷이 연결되지 않았습니다. 휴대폰의 WiFi 설정 또는 데이터 설정에서 연결이 되어 있는지 확인하십시오.</string>
+    <string name="myphilips_CC">MyPhilips 계정</string>
 </resources>

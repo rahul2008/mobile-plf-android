@@ -13,5 +13,6 @@
 <string name="Confirmation_Change_Selection">您可以随时更改您的选择。</string>
 <string name="Confirmation_Continue_Support">继续以获取支持</string>
 <string name="Continue_Btntxt">继续</string>
-<string name="No_Internet"></string>
+<string name="No_Internet">沒有網際網路連線。請檢查您手機 wifi 設定或數據 設定是否運作正常</string>
+    <string name="myphilips_CC">MyPhilips 帐户</string>
 </resources>

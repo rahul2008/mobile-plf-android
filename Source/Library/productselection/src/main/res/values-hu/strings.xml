@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Tovább a támogatáshoz</string>
 <string name="Continue_Btntxt">Folytatás</string>
 <string name="No_Internet">Nincs internetkapcsolat. Ellenőrizze telefonja wifi beállításainál vagy adatbeállításainál, hogy a csatlakozás megfelelő-e</string>
+    <string name="myphilips_CC">MyPhilips fiók</string>
 </resources>

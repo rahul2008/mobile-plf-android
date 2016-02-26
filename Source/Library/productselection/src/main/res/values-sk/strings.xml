@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Pokračovať na podporu</string>
 <string name="Continue_Btntxt">Pokračovať</string>
 <string name="No_Internet">Nemáte pripojenie na internet. Skontrolujte funkčnosť pripojenia v telefóne v nastaveniach wifi alebo v nastaveniach údajov</string>
+    <string name="myphilips_CC">Konto MyPhilips</string>
 </resources>

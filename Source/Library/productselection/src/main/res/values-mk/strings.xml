@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Продолжете кон поддршката</string>
 <string name="Continue_Btntxt">Продолжи</string>
 <string name="No_Internet">Нема интернет врска. Проверете дали функционира врската во поставките за wifi или во поставките за податоците</string>
+    <string name="myphilips_CC">MyPhilips сметка</string>
 </resources>

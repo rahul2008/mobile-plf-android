@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">ادامه پشتیبانی</string>
 <string name="Continue_Btntxt">ادامه</string>
 <string name="No_Internet">اتصال اینترنت وجود ندارد. لطفاً اینترنت را در تنظیمات wifi یا تنظیمات داده تلفن خود بررسی کنید</string>
+    <string name="myphilips_CC">حساب MyPhilips</string>
 </resources>

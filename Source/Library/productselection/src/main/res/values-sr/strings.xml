@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Nastavi na podršku</string>
 <string name="Continue_Btntxt">Nastavi</string>
 <string name="No_Internet">Nema internet veze. Proverite da li veza funkcioniše u wifi postavkama telefona ili u postavkama za prenos podataka</string>
+    <string name="myphilips_CC">MyPhilips nalog</string>
 </resources>

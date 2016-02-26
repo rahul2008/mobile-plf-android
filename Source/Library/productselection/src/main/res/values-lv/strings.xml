@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">Turpināt uz atbalstu</string>
 <string name="Continue_Btntxt">Turpināt</string>
 <string name="No_Internet">Nav interneta savienojuma. Pārbaudiet, vai jūsu savienojums darbojas tālruņa wifi iestatījumos vai datu iestatījumos</string>
+    <string name="myphilips_CC">MyPhilips konts</string>
 </resources>

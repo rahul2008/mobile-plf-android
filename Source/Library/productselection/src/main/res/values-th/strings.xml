@@ -14,4 +14,5 @@
 <string name="Confirmation_Continue_Support">ต่อไปยังการสนับสนุน</string>
 <string name="Continue_Btntxt">ดำเนินการต่อ</string>
 <string name="No_Internet">ไม่มีการเชื่อมต่ออินเตอร์เน็ต โปรดตรวจสอบว่าการเชื่อมต่อทำงานหรือไม่ในการตั้งค่า Wifi หรือการตั้งค่าข้อมูลของโทรศัพท์</string>
+    <string name="myphilips_CC">แอคเคาท์ MyPhilips</string>
 </resources>
