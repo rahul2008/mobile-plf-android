@@ -235,10 +235,18 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             If PRX response is fail/unsuccess then disable "View Product Button".
          */
         String viewProductText = getStringKey(R.string.view_product_details);
+        String locatePhilips = getStringKey(R.string.find_philips_near_you);
         ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager.getInstance().getConsumerProductInfo();
 
         if ((buttonTitle == null) || (buttonTitle.equalsIgnoreCase(viewProductText) && (model == null || model.getCtnName() == null || model
                 .getProductName() == null))) {
+            mProductDetailsLayout = relativeLayout;
+            mProductDetailsLayout.setVisibility(View.GONE);
+            // return null;
+        }
+
+        if ((buttonTitle == null) || (buttonTitle.equalsIgnoreCase(locatePhilips)) || (consumerProductInfo.getSubCategory() == null)) {
             mProductDetailsLayout = relativeLayout;
             mProductDetailsLayout.setVisibility(View.GONE);
             // return null;
