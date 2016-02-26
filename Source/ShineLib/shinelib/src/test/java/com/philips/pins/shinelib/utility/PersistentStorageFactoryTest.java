@@ -1,9 +1,7 @@
 package com.philips.pins.shinelib.utility;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 
 import org.junit.Before;
@@ -29,12 +27,6 @@ public class PersistentStorageFactoryTest {
     public static final String TEST_ADDRESS = "TEST_ADDRESS";
 
     @Mock
-    private Context context;
-
-    @Mock
-    private SHNCentral shnCentralMock;
-
-    @Mock
     private SHNDevice shnDeviceMock;
 
     @Mock
@@ -48,10 +40,16 @@ public class PersistentStorageFactoryTest {
     public void setUp() {
         initMocks(this);
 
-        when(shnCentralMock.getApplicationContext()).thenReturn(context);
         when(shnDeviceMock.getAddress()).thenReturn(TEST_ADDRESS);
 
-        persistentStorageFactory = new TestPersistentStorageFactory(context);
+        persistentStorageFactory = new PersistentStorageFactory(new PersistentStorageFactory.Extension() {
+            @NonNull
+            @Override
+            public PersistentStorage createPersistentStorage(@NonNull String key) {
+                keyList.add(key);
+                return persistentStorageMock;
+            }
+        });
     }
 
     @Test
@@ -104,19 +102,5 @@ public class PersistentStorageFactoryTest {
         Set<String> keySet = new HashSet<>();
         Collections.addAll(keySet, keys);
         return keySet;
-    }
-
-    private class TestPersistentStorageFactory extends PersistentStorageFactory {
-
-        public TestPersistentStorageFactory(@NonNull final Context context) {
-            super(context);
-        }
-
-        @NonNull
-        @Override
-        PersistentStorage createPersistentStorage(@NonNull final String key) {
-            keyList.add(key);
-            return persistentStorageMock;
-        }
     }
 }

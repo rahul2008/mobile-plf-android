@@ -1,6 +1,5 @@
 package com.philips.pins.shinelib.utility;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNDevice;
@@ -15,21 +14,26 @@ public class PersistentStorageFactory {
     public static final String USER_KEY = "SHINELIB_USER_PREFERENCES";
     public static final String DEVICE_ADDRESS_KEY = "SHINELIB_DEVICE_ADDRESS";
 
-    @NonNull
-    private final Context context;
+    public interface Extension{
+        @NonNull
+        PersistentStorage createPersistentStorage(@NonNull final String key);
+    }
 
-    public PersistentStorageFactory(@NonNull final Context context) {
-        this.context = context;
+    @NonNull
+    private final Extension extension;
+
+    public PersistentStorageFactory(Extension extension) {
+        this.extension = extension;
     }
 
     @NonNull
     public PersistentStorage getPersistentStorage() {
-        return createPersistentStorage(SHINELIB_KEY);
+        return extension.createPersistentStorage(SHINELIB_KEY);
     }
 
     @NonNull
     public PersistentStorage getPersistentStorageForUser() {
-        return createPersistentStorage(USER_KEY);
+        return extension.createPersistentStorage(USER_KEY);
     }
 
     @NonNull
@@ -41,7 +45,7 @@ public class PersistentStorageFactory {
     public PersistentStorage getPersistentStorageForDevice(@NonNull final String deviceAddress) {
         String key = getDeviceKey(deviceAddress);
         saveDeviceAddress(deviceAddress);
-        return createPersistentStorage(key);
+        return extension.createPersistentStorage(key);
     }
 
     @NonNull
@@ -60,14 +64,9 @@ public class PersistentStorageFactory {
 
     @NonNull
     PersistentStorage getPersistentStorageForDeviceAddresses() {
-        return createPersistentStorage(DEVICE_ADDRESS_KEY);
+        return extension.createPersistentStorage(DEVICE_ADDRESS_KEY);
     }
-
-    @NonNull
-    PersistentStorage createPersistentStorage(@NonNull final String key) {
-        return new PersistentStorage(context.getSharedPreferences(key, Context.MODE_PRIVATE));
-    }
-
+    
     public PersistentStorageCleaner getPersistentStorageCleaner() {
         return new PersistentStorageCleaner(this);
     }

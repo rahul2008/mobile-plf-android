@@ -1,7 +1,12 @@
 package com.philips.pins.shinelib;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.helper.MockedHandler;
+import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
+import com.philips.pins.shinelib.utility.PersistentStorageUnencrypted;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,8 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 public class SHNUserConfigurationImplTest extends RobolectricTest {
 
@@ -42,7 +47,13 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         defaultLocale = Locale.getDefault();
         Locale.setDefault(Locale.US);
 
-        persistentStorageFactory = new PersistentStorageFactory(RuntimeEnvironment.application);
+        persistentStorageFactory = new PersistentStorageFactory(new PersistentStorageFactory.Extension() {
+            @NonNull
+            @Override
+            public PersistentStorage createPersistentStorage(@NonNull String key) {
+                return new PersistentStorageUnencrypted(RuntimeEnvironment.application.getSharedPreferences(key, Context.MODE_PRIVATE));
+            }
+        });
 
         shnUserConfiguration = new SHNUserConfigurationImpl(persistentStorageFactory, new MockedHandler().getMock(), calculationsMock);
         shnUserConfiguration.addObserver(observerMock);

@@ -99,7 +99,9 @@ import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
+import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
+import com.philips.pins.shinelib.utility.PersistentStorageUnencrypted;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
@@ -158,19 +160,15 @@ public class SHNCentral {
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
 
-    public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
-        this(handler, context, false);
+    public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
+        this(handler, context, false, null);
     }
 
-    DataMigrater createDataMigrater() {
-        return new DataMigrater();
-    }
-
-    public SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
+    public SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff, PersistentStorageFactory.Extension extension) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
-        persistentStorageFactory = new PersistentStorageFactory(applicationContext);
+        persistentStorageFactory = createPersistentStorageFactory(extension);
 
         DataMigrater dataMigrater = createDataMigrater();
         dataMigrater.execute(context, persistentStorageFactory);
@@ -190,7 +188,7 @@ public class SHNCentral {
         bluetoothAdapterEnabled = BleUtilities.isBluetoothAdapterEnabled();
         if (bluetoothAdapterEnabled) {
             shnCentralState = State.SHNCentralStateReady;
-        } else if(showPopupIfBLEIsTurnedOff) {
+        } else if (showPopupIfBLEIsTurnedOff) {
             BleUtilities.startEnableBluetoothActivity();
         }
 
@@ -217,6 +215,19 @@ public class SHNCentral {
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
 
+    PersistentStorageFactory createPersistentStorageFactory(PersistentStorageFactory.Extension extension) {
+        if (extension == null) {
+            extension = new PersistentStorageFactory.Extension() {
+                @NonNull
+                @Override
+                public PersistentStorage createPersistentStorage(@NonNull String key) {
+                    return new PersistentStorageUnencrypted(applicationContext.getSharedPreferences(key, Context.MODE_PRIVATE));
+                }
+            };
+        }
+        return new PersistentStorageFactory(extension);
+    }
+
     Handler createInternalHandler() {
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
@@ -227,6 +238,10 @@ public class SHNCentral {
             // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
             return null;
         }
+    }
+
+    DataMigrater createDataMigrater() {
+        return new DataMigrater();
     }
 
     private void setState(final State state) {

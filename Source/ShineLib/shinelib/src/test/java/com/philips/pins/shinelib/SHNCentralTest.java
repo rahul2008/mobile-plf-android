@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.Mock;
 
 import java.util.List;
 
@@ -55,6 +56,9 @@ public class SHNCentralTest extends RobolectricTest {
     @Captor
     ArgumentCaptor<IntentFilter> intentFilterCaptor;
 
+    @Mock
+    PersistentStorageFactory persistentStorageFactoryMock;
+
     @Before
     public void setUp() throws SHNBluetoothHardwareUnavailableException, Exception {
         initMocks(this);
@@ -88,6 +92,11 @@ public class SHNCentralTest extends RobolectricTest {
             @Override
             Handler createInternalHandler() {
                 return mockedInternalHandler.getMock();
+            }
+
+            @Override
+            PersistentStorageFactory createPersistentStorageFactory(PersistentStorageFactory.Extension extension) {
+                return persistentStorageFactoryMock;
             }
         };
     }
@@ -130,5 +139,4 @@ public class SHNCentralTest extends RobolectricTest {
 
         verify(listenerMock).onStateUpdated(isA(SHNCentral.class));
     }
-
 }
