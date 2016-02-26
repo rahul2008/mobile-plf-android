@@ -237,9 +237,14 @@ public class SHNCentral {
                 if (registeredShnCentralListeners != null) {
                     // copy the array to prevent ConcurrentModificationException
                     ArrayList<SHNCentralListener> copyOfRegisteredShnCentralListeners = new ArrayList<SHNCentralListener>(registeredShnCentralListeners);
-                    for (SHNCentralListener shnCentralListener : copyOfRegisteredShnCentralListeners) {
+                    for (final SHNCentralListener shnCentralListener : copyOfRegisteredShnCentralListeners) {
                         if (shnCentralListener != null) {
-                            shnCentralListener.onStateUpdated(SHNCentral.this);
+                            userHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    shnCentralListener.onStateUpdated(SHNCentral.this);
+                                }
+                            });
                         }
                     }
                 }

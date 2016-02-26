@@ -105,28 +105,30 @@ public class SHNCentralTest extends RobolectricTest {
         return null;
     }
 
-    @Test
-    public void testGetShnCentralListener() {
+    private void simulateBLEStateChange(int state) {
+        Intent intentMock = mock(Intent.class);
+        when(intentMock.getAction()).thenReturn(BluetoothAdapter.ACTION_STATE_CHANGED);
+        when(intentMock.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)).thenReturn(state);
 
+        BroadcastReceiver broadcastReceiver = captureBroadCastReceiver(BluetoothAdapter.ACTION_STATE_CHANGED);
+        broadcastReceiver.onReceive(mockedContext, intentMock);
     }
 
     @Test
-    public void testSetShnCentralListener() {
+    public void givenASHNCentralListenerIsRegistered_WhenAStateChangeOccurs_ItNotifiesTheListenerOnTheUserHandler() throws InterruptedException {
+        SHNCentral.SHNCentralListener listenerMock = mock(SHNCentral.SHNCentralListener.class);
+        shnCentral.registerShnCentralListener(listenerMock);
 
+        mockedUserHandler.enableImmediateExecuteOnPost(false);
+
+        simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
+
+        verify(listenerMock, never()).onStateUpdated(any(SHNCentral.class));
+
+        verify(mockedUserHandler.getMock()).post(isA(Runnable.class));
+        mockedUserHandler.executeFirstPostedExecution();
+
+        verify(listenerMock).onStateUpdated(isA(SHNCentral.class));
     }
 
-    @Test
-    public void testGetShnDeviceScanner() {
-
-    }
-
-    @Test
-    public void testGetShnDeviceAssociation() {
-
-    }
-
-    @Test
-    public void testGetBTDevice() {
-
-    }
 }
