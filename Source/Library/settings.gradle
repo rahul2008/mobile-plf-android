@@ -1,2 +1,2 @@
-include ':digitalCare'
+include ':digitalCare', ':productselection-release'
 include ':launchDigitalCare'
