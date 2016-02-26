@@ -70,11 +70,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private FrameLayout mFlReceivePhilipsNewsContainer;
 
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -218,12 +213,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         mUser.logout(this);
     }
 
-
-  /*  @Override
-    public void onCheckedChanged(
-            CompoundButton buttonView, boolean isChecked) {
-        handleUpdate();
-    }*/
+    
 
     private void handleUpdate() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
@@ -253,12 +243,17 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public void onUpdateReceiveMarketingEmailSuccess() {
-        hideProgressBar();
-        if (mCbTerms.isChecked()) {
-            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-        } else {
-            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
-        }
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                hideProgressBar();
+                if (mCbTerms.isChecked()) {
+                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
+                } else {
+                    trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
+                }
+            }
+        });
     }
 
     private void hideProgressBar() {
@@ -268,17 +263,28 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     }
 
     @Override
-    public void onUpdateReceiveMarketingEmailFailedWithError(int error) {
+    public void onUpdateReceiveMarketingEmailFailedWithError(final int error) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleUpdateReceiveMarket(error);
+            }
+        });
+
+    }
+
+    private void handleUpdateReceiveMarket(int error) {
         hideProgressBar();
-        if(error== Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)){
-            if(  getRegistrationFragment()!=null) {
+        if (error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+            if (getRegistrationFragment() != null) {
                 getRegistrationFragment().replaceWithHomeFragment();
             }
             return;
         }
         mCbTerms.setOnCheckedChangeListener(null);
         mCbTerms.setChecked(!mCbTerms.isChecked());
-        mCbTerms.setOnCheckedChangeListener(this);
+        mCbTerms.setOnCheckedChangeListener(LogoutFragment.this);
     }
 
     @Override
@@ -291,10 +297,10 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         return R.string.Account_Setting_Titletxt;
     }
 
-    private Handler handler = new Handler();
     @Override
     public void onLogoutSuccess() {
-        handler.post(new Runnable() {
+
+        handleOnUIThread(new Runnable() {
             @Override
             public void run() {
                 trackPage(AppTaggingPages.HOME);
@@ -302,11 +308,13 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 getRegistrationFragment().replaceWithHomeFragment();
             }
         });
+
     }
 
     @Override
     public void onLogoutFailure(int responseCode, final String message) {
-        handler.post(new Runnable() {
+
+        handleOnUIThread(new Runnable() {
             @Override
             public void run() {
                 if (mBtnLogOut.getVisibility() == View.VISIBLE) {
