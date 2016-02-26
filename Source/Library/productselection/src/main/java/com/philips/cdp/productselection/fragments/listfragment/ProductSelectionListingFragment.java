@@ -29,12 +29,12 @@ import java.util.ArrayList;
  */
 public class ProductSelectionListingFragment extends ProductSelectionBaseFragment {
 
+    private static final int UPDATE_UI = 0;
     private String TAG = ProductSelectionListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
     private ListViewWithOptions mProductAdapter = null;
     private ProgressDialog mSummaryDialog = null;
     private ArrayList<SummaryModel> productList = null;
-    private static final int UPDATE_UI = 0;
     private Handler mHandler = null;
 
     public ProductSelectionListingFragment(Handler handler) {
@@ -57,7 +57,8 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         super.onActivityCreated(savedInstanceState);
         mProductListView = (ListView) getActivity().findViewById(R.id.productListView);
 
-        getSummaryDataFromPRX();
+        injectSummaryDataList();
+        // getSummaryDataFromPRX();
 
         mProductListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -76,6 +77,34 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                 }
             }
         });
+    }
+
+
+    private void injectSummaryDataList() {
+        SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
+        ProductSelectionLogger.d(TAG, "Summary List : " + summaryList.length);
+        productList = new ArrayList<SummaryModel>();
+        ;
+        for (int i = 0; i < summaryList.length; i++)
+            productList.add(summaryList[i]);
+
+        if (isTablet() && productList.size() == 1) {
+            try {
+                mUserSelectedProduct = (productList.get(0));
+                setListViewRequiredInTablet(true);
+                mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (productList.size() != 0) {
+            mProductAdapter = new ListViewWithOptions(getActivity(), productList);
+            mProductListView.setAdapter(mProductAdapter);
+            mProductAdapter.notifyDataSetChanged();
+        } else
+            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+
     }
 
     private void getSummaryDataFromPRX() {

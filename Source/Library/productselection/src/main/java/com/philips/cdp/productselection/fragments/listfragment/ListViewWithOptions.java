@@ -72,7 +72,7 @@ public class ListViewWithOptions extends BaseAdapter {
             vi = inflater.inflate(R.layout.fragment_listscreen_adaper_view, null);
 
         SummaryModel summaryModel = mProductsList.get(position);
-        ;
+
         Data data = summaryModel.getData();
         final ImageView image = (ImageView) vi.findViewById(R.id.image);
         TextView name = (TextView) vi.findViewById(R.id.text1Name);

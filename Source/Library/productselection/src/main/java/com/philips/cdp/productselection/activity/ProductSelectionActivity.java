@@ -2,12 +2,10 @@ package com.philips.cdp.productselection.activity;
 
 import android.os.Bundle;
 
-import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
-import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.utils.Constants;
 
 
@@ -24,18 +22,14 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
         setContentView(R.layout.activity_productselection_layout);
 
         animateThisScreen();
-        int ctnSize = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getHardCodedProductList().length;
-        ProductSelectionLogger.d(TAG, "Size of the Ctn is : " + ctnSize);
         if (isFirstTimeWelcomeScreenlaunch) {
             showFragment(new WelcomeScreenFragmentSelection());
             isFirstTimeWelcomeScreenlaunch = false;
-        } else
-            if(isTablet()) {
-                showFragment(new ProductSelectionListingTabletFragment());
-            }
-        else{
-                showFragment(new ProductSelectionListingFragment());
-            }
+        } else if (isTablet()) {
+            showFragment(new ProductSelectionListingTabletFragment());
+        } else {
+            showFragment(new ProductSelectionListingFragment());
+        }
     }
 
     private void animateThisScreen() {
