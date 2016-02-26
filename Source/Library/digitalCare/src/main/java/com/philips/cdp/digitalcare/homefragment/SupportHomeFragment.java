@@ -98,7 +98,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (mIsFirstScreenLaunch) {
             synchronized (this) {
                 if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null) {
+                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
                     mPrxProductData = new PrxProductData(getActivity(), this);
                     mPrxProductData.executeRequests();
                 }
@@ -355,7 +355,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     mProductDetailsLayout.setVisibility(View.VISIBLE);
 
                     if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                            DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null) {
+                            DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
                         mPrxProductData = new PrxProductData(getActivity(), null);
                         mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
                         Data summaryData = productSummaryModel.getData();
@@ -403,7 +403,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     mProductDetailsLayout.setVisibility(View.VISIBLE);
 
                     if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                            DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString() != null) {
+                            DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
                         mPrxProductData = new PrxProductData(getActivity(), null);
 
                         mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
