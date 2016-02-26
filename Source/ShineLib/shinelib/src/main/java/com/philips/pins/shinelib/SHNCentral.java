@@ -333,6 +333,10 @@ public class SHNCentral {
         return applicationContext;
     }
 
+    public PersistentStorageFactory getPersistentStorageFactory() {
+        return persistentStorageFactory;
+    }
+
     public void runOnUserHandlerThread(Runnable runnable) {
         userHandler.post(runnable);
     }
