@@ -247,6 +247,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
             mProductLocatePhilipsButton = (View) relativeLayout;
 
+            if (DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory() == null)
+                mProductLocatePhilipsButton.setVisibility(View.GONE);
+            else
+                mProductLocatePhilipsButton.setVisibility(View.VISIBLE);
+
         }
         return relativeLayout;
     }
