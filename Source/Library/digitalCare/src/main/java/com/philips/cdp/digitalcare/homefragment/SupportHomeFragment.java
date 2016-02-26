@@ -229,16 +229,17 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager.getInstance().getConsumerProductInfo();
 
-        /*if ((buttonTitle.equalsIgnoreCase(viewProductText) || ((model == null || model.getCtnName() == null || model
+        if ((buttonTitle.equalsIgnoreCase(viewProductText) || ((model == null || model.getCtnName() == null || model
                 .getProductName() == null)))) {
-            relativeLayout.setVisibility(View.GONE);
+            mProductDetailsLayout = relativeLayout;
+            mProductDetailsLayout.setVisibility(View.GONE);
             // return null;
         }
 
         if ((buttonTitle.equalsIgnoreCase(locatePhilips)) || (consumerProductInfo.getSubCategory() == null)) {
             relativeLayout.setVisibility(View.GONE);
             // return null;
-        }*/
+        }
 
         return relativeLayout;
     }
