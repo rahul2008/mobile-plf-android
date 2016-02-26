@@ -403,7 +403,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public void onUpadte() {
-        updateUiStatus();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUiStatus();
+            }
+        });
     }
 
     @Override
@@ -477,9 +482,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
-            if(mCbAcceptTerms.isChecked()){
+            if (mCbAcceptTerms.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-            }else{
+            } else {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
             }
         }
@@ -492,14 +497,29 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public void onLoginSuccess() {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginSuccess");
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SUCCESS_LOGIN);
-        hideSpinner();
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginSuccess");
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                        AppTagingConstants.SUCCESS_LOGIN);
+                hideSpinner();
+            }
+        });
     }
 
     @Override
-    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleLoginFailed(userRegistrationFailureInfo);
+            }
+        });
+    }
+
+    private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithError");
         hideSpinner();
 
@@ -515,19 +535,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
                                               String socialRegistrationToken) {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithTwoStepError");
-        hideSpinner();
-
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithTwoStepError");
+                hideSpinner();
+            }
+        });
     }
 
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
                                                 String conflictingIdentityProvider, String conflictingIdpNameLocalized,
                                                 String existingIdpNameLocalized, String emailId) {
-        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithMergeFlowError");
-        hideSpinner();
-        addMergeAccountFragment();
-
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithMergeFlowError");
+                hideSpinner();
+                addMergeAccountFragment();
+            }
+        });
     }
 
     private void addMergeAccountFragment() {
@@ -537,6 +565,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleContinueSocialProvider();
+            }
+        });
+
+
+    }
+
+    private void handleContinueSocialProvider() {
         RegPreferenceUtility.storePreference(mContext, mEmail, true);
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
@@ -562,9 +602,20 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     }
 
     @Override
-    public void onContinueSocialProviderLoginFailure(
-            UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onContinueSocialProviderLoginFailure(final
+                                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleContinueSocialProviderFailed(userRegistrationFailureInfo);
+            }
+        });
+
+
+    }
+
+    private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginFailure");
         hideSpinner();
         if (null != userRegistrationFailureInfo.getDisplayNameErrorMessage()) {
