@@ -78,6 +78,9 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         if (getArguments().containsKey(IAPConstant.ADDRESS_FIELDS)) {
             mAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.ADDRESS_FIELDS);
+            disableAllFields();
+            prePopulateShippingAddress();
+            mBtnContinue.setEnabled(true);
         }
 
         mEtFirstName.addTextChangedListener(this);
@@ -97,6 +100,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
                     prePopulateShippingAddress();
                 } else {
                     clearAllFields();
+                    mBtnContinue.setEnabled(false);
                 }
             }
         });

@@ -282,6 +282,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
+            mEtCountry.setText(mEtCountry.getText().toString().toUpperCase());
             result = mValidator.isValidCountry(mEtCountry.getText().toString());
             errorMessage = getResources().getString(R.string.iap_country_error);
         }
