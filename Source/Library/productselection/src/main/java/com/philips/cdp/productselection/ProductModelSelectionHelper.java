@@ -93,6 +93,7 @@ public class ProductModelSelectionHelper {
         if (uiLauncher == null || productModelSelectionType == null) {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
         }
+
         Activity mActivity = (Activity) mContext;
         if (mProgressDialog == null)
             mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
@@ -117,7 +118,8 @@ public class ProductModelSelectionHelper {
                     for (int i = 0; i < summaryModels.size(); i++)
                         ctnArray[i] = summaryModels.get(i);
                     productModelSelectionType.setProductModelList(ctnArray);
-                    mSummaryDataListener.onSuccess(summaryModels);
+                    if (mSummaryDataListener != null)
+                        mSummaryDataListener.onSuccess(summaryModels);
 
                     if (uiLauncher instanceof ActivityLauncher) {
                         ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
@@ -127,8 +129,10 @@ public class ProductModelSelectionHelper {
                         invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
                                 fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
                     }
-                } else
-                    mSummaryDataListener.onSuccess(summaryModels);
+                } else {
+                    if (mSummaryDataListener != null)
+                        mSummaryDataListener.onSuccess(summaryModels);
+                }
             }
         }, productModelSelectionType.getHardCodedProductList(), null);
 

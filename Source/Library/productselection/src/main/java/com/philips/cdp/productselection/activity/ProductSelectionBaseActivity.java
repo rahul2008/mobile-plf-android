@@ -42,7 +42,7 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        this.setTheme(R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+        //this.setTheme(R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         ProductSelectionLogger.i(TAG, "onCreate");
