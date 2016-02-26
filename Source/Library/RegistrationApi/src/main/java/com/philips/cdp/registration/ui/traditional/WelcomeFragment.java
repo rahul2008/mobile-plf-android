@@ -197,24 +197,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mUser.logout(this);
     }
 
-    private void handleUpdate() {
-        if (NetworkUtility.isNetworkAvailable(mContext)) {
-            mRegError.hideError();
-            showProgressBar();
-        } else {
-            mRegError.setError(getString(R.string.NoNetworkConnection));
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
-        }
-    }
-
-    private void showProgressBar() {
-        mBtnContinue.setEnabled(false);
-    }
-
-    private void hideProgressBar() {
-        mBtnContinue.setEnabled(true);
-    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
@@ -228,17 +210,27 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     @Override
     public void onLogoutSuccess() {
-        trackPage(AppTaggingPages.HOME);
-        hideLogoutSpinner();
-        if (null != getRegistrationFragment()) {
-            getRegistrationFragment().replaceWithHomeFragment();
-        }
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                trackPage(AppTaggingPages.HOME);
+                hideLogoutSpinner();
+                if (null != getRegistrationFragment()) {
+                    getRegistrationFragment().replaceWithHomeFragment();
+                }
+            }
+        });
     }
 
     @Override
     public void onLogoutFailure(int responseCode, final String message) {
-        mRegError.setError(message);
-        hideLogoutSpinner();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                mRegError.setError(message);
+                hideLogoutSpinner();
+            }
+        });
     }
 
     private void handleUiState() {

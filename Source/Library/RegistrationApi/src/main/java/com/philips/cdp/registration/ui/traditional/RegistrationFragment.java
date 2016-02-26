@@ -41,8 +41,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private FragmentManager mFragmentManager;
 
-    private final boolean VERIFICATION_SUCCESS = true;
-
     private Activity mActivity;
 
     private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
@@ -63,10 +61,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         Bundle bunble = getArguments();
-        if(bunble!=null){
-            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS,true);
+        if (bunble != null) {
+            isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
         }
-        System.out.println("isAccountSettings"+isAccountSettings);
+        System.out.println("isAccountSettings" + isAccountSettings);
         super.onCreate(savedInstanceState);
     }
 
@@ -202,19 +200,19 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
         //account setting true or no
         //if true follow bellow else cckech for sign in status and repave with wel come screen on sing els ehome
-        if(isAccountSettings){
-            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext()) ) {
+        if (isAccountSettings) {
+            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
             }
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
-        }else{
-            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext()) ) {
+        } else {
+            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithLogoutFragment();
-               // replaceWithLogoutFragment();
+                // replaceWithLogoutFragment();
                 //replace with welcome
                 replaceWithWelcomeFragment();
                 return;
@@ -231,7 +229,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     public void replaceWithHomeFragment() {
         try {
-            if(null!=mFragmentManager) {
+            if (null != mFragmentManager) {
                 FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
                 fragmentTransaction.commitAllowingStateLoss();
@@ -278,8 +276,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             for (int i = fragmentCount; i >= 0; i--) {
                 fragmentManager.popBackStack();
             }
-        }catch (IllegalStateException ignore){
-        }catch (Exception ignore){
+        } catch (IllegalStateException ignore) {
+        } catch (Exception ignore) {
         }
     }
 
@@ -327,7 +325,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                             + e.getMessage());
         }
     }
-
 
 
     public void addAlmostDoneFragment(JSONObject preFilledRecord, String provider,
@@ -409,7 +406,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
-        if(!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()){
+        if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
 
             UserRegistrationInitializer.getInstance().resetInitializationState();
 
