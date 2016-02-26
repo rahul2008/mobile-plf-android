@@ -34,6 +34,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.listeners.IPrxCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -54,7 +55,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         OnClickListener {
 
     private static String TAG = ProductDetailsFragment.class.getSimpleName();
-
+    private static ImageView mProductImageTablet = null;
+    private static int mSmallerResolution = 0;
+    private static boolean isTablet = false;
+    private static int mHeight = 0;
+    private static int mScrollPosition = 0;
     private RelativeLayout mFirstContainer = null;
     private LinearLayout.LayoutParams mFirstContainerParams = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
@@ -66,16 +71,14 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private DigitalCareFontTextView mProductVideoHeader = null;
     private DigitalCareFontTextView mCtn = null;
     private ImageView mProductImage = null;
-    private static ImageView mProductImageTablet = null;
     private HorizontalScrollView mVideoScrollView = null;
     private String mManualPdf = null;
     private String mProductPage = null;
     private ViewProductDetailsModel mViewProductDetailsModel = null;
-    private static int mSmallerResolution = 0;
     private int mBiggerResolution = 0;
-    private static boolean isTablet = false;
     private LinearLayout.LayoutParams mScrollerLayoutParams = null;
     private LinearLayout.LayoutParams mProductVideoHeaderParams = null;
+    private PrxProductData mPrxProductData = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -192,9 +195,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
     }
 
-    private static int mHeight = 0;
-    private static int mScrollPosition = 0;
-
     private int getDisplayWidth() {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -247,12 +247,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         } else {
             height = (getDisplayWidth() / 2) + 46;
         }
-        int width  = 0;
+        int width = 0;
 
-        try{
+        try {
             width = getDisplayWidth();
-        }
-        catch(NullPointerException e){
+        } catch (NullPointerException e) {
             width = (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
         }
 
@@ -261,6 +260,16 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         imageBitmap.eraseColor(Color.BLACK);
         return imageBitmap;
     }
+
+    /*private View.OnClickListener videoModel = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strMyVideo));
+            intent.setDataAndType(Uri.parse(strMyVideo), "video/mp4");
+            activity.startActivity(intent);
+        }
+    };*/
 
     private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, ImageView videoPlay,
                              ImageView videoLeftArrow, ImageView videoRightArrow) {
@@ -317,16 +326,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProdVideoContainer.addView(child);
     }
 
-    /*private View.OnClickListener videoModel = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strMyVideo));
-            intent.setDataAndType(Uri.parse(strMyVideo), "video/mp4");
-            activity.startActivity(intent);
-        }
-    };*/
-
     private void createProductDetailsMenu() {
         TypedArray titles = getResources().obtainTypedArray(R.array.product_menu_title);
 
@@ -342,18 +341,32 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         setViewParams(config);
     }
 
-
     protected void updateViewsWithData() {
         mViewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         if (mViewProductDetailsModel != null) {
             if (mViewProductDetailsModel.getProductName() != null) {
                 onUpdateSummaryData();
                 onUpdateAssetData();
+
+                if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
+                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null)
+                    requestPRXAssetData();
             } else
                 showAlert(getResources().getString(R.string.no_data_available));
         } else {
             showAlert(getResources().getString(R.string.no_data_available));
         }
+    }
+
+    protected void requestPRXAssetData() {
+        mPrxProductData = new PrxProductData(getActivity(), new IPrxCallback() {
+            @Override
+            public void onResponseReceived(boolean isAvailable) {
+
+            }
+        });
+
+     //   mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
     }
 
     @Override

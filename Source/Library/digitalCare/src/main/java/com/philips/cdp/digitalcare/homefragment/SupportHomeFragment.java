@@ -39,6 +39,7 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.prx.SummaryDataListener;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
@@ -56,7 +57,7 @@ import java.util.List;
 public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrxCallback {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
-    private static final String USER_SELECTED_PRODUCT_CTN = "ctn";
+    private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
     private static boolean isFirstTimeProductComponentlaunch = true;
     SharedPreferences prefs = null;
@@ -84,6 +85,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 //            }
         }
     };
+    private String mCtnFromPreference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,10 +123,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         */
         }
 
-        String ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        mCtnFromPreference = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
 
-        if (ctn != null && ctn != "")
-            DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(ctn);
+        if (mCtnFromPreference != null && mCtnFromPreference != "")
+            DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(mCtnFromPreference);
     }
 
     @Override
@@ -323,16 +325,21 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
-       /* if (mProductLocatePhilipsButton != null)
-            mProductLocatePhilipsButton.setVisibility(View.GONE);
-        if (mProductViewProductButton != null)
-            mProductViewProductButton.setVisibility(View.GONE);
-        if (mProductChangeButton != null)
-            mProductChangeButton.setVisibility(View.GONE);*/
-        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
-            launchProductSelectionActivityComponent();
+        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == null) {
             isFirstTimeProductComponentlaunch = false;
+            launchProductSelectionActivityComponent();
         }
+        if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == null)
+            launchProductSelectionComponent();
+    }
+
+    private void launchProductSelectionComponent() {
+        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
+
+        if (digitalCareConfigManager.getUiLauncher() instanceof ActivityLauncher) {
+            launchProductSelectionActivityComponent();
+        } else if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher)
+            launchProductSelectionFragmentComponent();
     }
 
     @Override
@@ -373,12 +380,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 if (digitalCareConfigManager.getUiLauncher() instanceof ActivityLauncher) {
                     launchProductSelectionActivityComponent();
                 } else if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
-                    // launchProductSelectionFragmentComponent();
+                    launchProductSelectionFragmentComponent();
                 }
             }
         }
     }
-/*
+
 
     private void launchProductSelectionFragmentComponent() {
         DigiCareLogger.i("testing", "Support -- Fragment Invoke");
@@ -389,28 +396,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
-                if (productSummaryModel != null) {
-                    SummaryModel summaryModel = productSummaryModel;
-                    productInfo.setCtn(summaryModel.getData().getCtn());
-                    mProductViewProductButton.setVisibility(View.VISIBLE);
-
-                    if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                            DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
-                        mPrxProductData = new PrxProductData(getActivity(), null);
-                        mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
-                        Data summaryData = productSummaryModel.getData();
-                        productInfo.setCtn(summaryData.getCtn());
-                        productInfo.setSubCategory(summaryData.getSubcategory());
-                        productInfo.setProductReviewUrl(summaryData.getProductURL());
-                    }
-                }
+                updateSummaryData(productSummaryModel);
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(mFragmentLauncher, DigitalCareConfigManager.getInstance()
                 .getProductModelSelectionType());
         ProductSelectionLogger.enableLogging();
     }
-*/
+
 
     private void launchProductSelectionActivityComponent() {
         DigiCareLogger.i("testing", "Support -- Activity Invoke");
@@ -475,7 +468,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                         productCategory = filterData;
                 }
 
-                DigiCareLogger.d(TAG, "SubCategory is : " + productSubCategory);
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryData.getCtn());
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSubCategory(productSubCategory);
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
