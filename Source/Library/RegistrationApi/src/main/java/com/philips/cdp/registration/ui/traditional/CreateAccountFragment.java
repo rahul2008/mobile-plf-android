@@ -333,6 +333,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onRegisterSuccess() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleRegistrationSuccess();
+            }
+        });
+    }
+
+    private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         if (RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()) {
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
@@ -359,7 +368,17 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onRegisterFailedWithFailure(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleRegisterFailedWithFailure(userRegistrationFailureInfo);
+            }
+        });
+    }
+
+    private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
@@ -389,7 +408,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onUpadte() {
-        updateUiStatus();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUiStatus();
+            }
+        });
     }
 
     private void updateUiStatus() {

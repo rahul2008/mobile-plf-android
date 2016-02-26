@@ -1,7 +1,6 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,8 +45,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected static int mWidth = 0;
     protected static int mHeight = 0;
 
-    private Handler mHandler = new Handler();
-
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private Thread mUiThread = Looper.getMainLooper().getThread();
     protected final void handleOnUIThread(Runnable runnable) {
         if (Thread.currentThread() != mUiThread) {
@@ -57,9 +55,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
         }
     }
 
-
     private final int JELLY_BEAN = 16;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
