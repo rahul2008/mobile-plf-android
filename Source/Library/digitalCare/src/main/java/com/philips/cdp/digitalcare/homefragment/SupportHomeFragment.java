@@ -191,7 +191,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         relativeLayout.setLayoutParams(params);
 
-        if (buttonTitle.equals(getStringKey(R.string.product_selection))) {
+        if (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))) {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
 
@@ -200,7 +200,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     .setBackgroundResource(R.drawable.selector_option_button_bg);
         }
 
-        if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 0) && (buttonTitle.equals(getStringKey(R.string.product_selection))))
+        if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 0) && (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))))
             return null;
 
           /*
@@ -225,7 +225,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
                 .getLayoutParams();
 
-        if (buttonTitle.equals(getStringKey(R.string.product_selection))) {
+        if (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))) {
             param.topMargin = RegisterButtonMarginTop;
         } else {
             param.topMargin = ButtonMarginTop;
@@ -323,7 +323,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         } else if (tag.equals(getStringKey(R.string.feedback))) {
             if (isConnectionAvailable())
                 showFragment(new RateThisAppFragment());
-        } else if (tag.equals(getStringKey(R.string.product_selection))) {
+        } else if (tag.equals(getStringKey(R.string.Change_Selected_Product))) {
             if (isConnectionAvailable()) {
                 DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
 
