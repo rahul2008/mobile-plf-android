@@ -162,13 +162,17 @@ public class SHNCentral {
         this(handler, context, false);
     }
 
+    DataMigrater createDataMigrater() {
+        return new DataMigrater();
+    }
+
     public SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
         persistentStorageFactory = new PersistentStorageFactory(applicationContext);
 
-        DataMigrater dataMigrater = new DataMigrater();
+        DataMigrater dataMigrater = createDataMigrater();
         dataMigrater.execute(context, persistentStorageFactory);
 
         // The handler is used for callbacks to the usercode. When no handler is provided, the MainLoop a.k.a. UI Thread is used.
@@ -198,14 +202,9 @@ public class SHNCentral {
 
         shnDeviceDefinitions = new SHNDeviceDefinitions();
 
-        HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
-        thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
-        thread.start();
-        try {
-            internalHandler = new Handler(thread.getLooper());
-            Timer.setHandler(internalHandler);
-        } catch (RuntimeException e) {
-            // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
+        internalHandler = createInternalHandler();
+        if (internalHandler != null) {
+            Timer.setHandler(handler);
         }
 
         shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
@@ -216,6 +215,18 @@ public class SHNCentral {
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
+    }
+
+    Handler createInternalHandler() {
+        HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
+        thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
+        thread.start();
+        try {
+            return new Handler(thread.getLooper());
+        } catch (RuntimeException e) {
+            // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
+            return null;
+        }
     }
 
     private void setState(final State state) {
