@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -249,14 +250,51 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            Addresses addr = retrieveSelectedAddress();
             Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, prepareAddressFields(addr));
             getMainActivity().addFragmentAndRemoveUnderneath(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), false);
-        }else if ((msg.obj instanceof VolleyError)){
+        } else if ((msg.obj instanceof VolleyError)) {
             Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             getMainActivity().addFragmentAndRemoveUnderneath(
                     OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
         }
+    }
+
+    private Addresses retrieveSelectedAddress() {
+        int pos = mAdapter.getSelectedPosition();
+        return mAddresses.get(pos);
+    }
+
+    private AddressFields prepareAddressFields(Addresses addr) {
+        AddressFields fields = new AddressFields();
+        if (addr.getFirstName() != null) {
+            fields.setFirstName(addr.getFirstName());
+        }
+        if (addr.getLastName() != null) {
+            fields.setLastName(addr.getLastName());
+        }
+        if (addr.getTown() != null) {
+            fields.setTown(addr.getTown());
+        }
+        if (addr.getPostalCode() != null) {
+            fields.setPostalCode(addr.getPostalCode());
+        }
+        if (addr.getCountry().getIsocode() != null) {
+            fields.setCountryIsocode(addr.getCountry().getIsocode());
+        }
+        if (addr.getLine1() != null) {
+            fields.setLine1(addr.getLine1());
+        }
+        if (addr.getLine2() != null) {
+            fields.setLine2(addr.getLine2());
+        }
+        if (addr.getPhone() != null) {
+            fields.setPhoneNumber(addr.getPhone());
+        }
+
+        return fields;
     }
 }
