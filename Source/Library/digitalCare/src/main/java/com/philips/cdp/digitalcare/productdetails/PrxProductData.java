@@ -71,7 +71,7 @@ public class PrxProductData {
         updateUI(new Runnable() {
             @Override
             public void run() {
-                executeAssetRequest();
+             //   executeAssetRequest();
                 executeSummaryRequest();
             }
         });

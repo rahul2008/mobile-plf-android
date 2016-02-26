@@ -346,10 +346,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (mViewProductDetailsModel != null) {
             if (mViewProductDetailsModel.getProductName() != null) {
                 onUpdateSummaryData();
-                onUpdateAssetData();
+
 
                 if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null)
+                        DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null && mViewProductSummaryModel != null)
                     requestPRXAssetData();
             } else
                 showAlert(getResources().getString(R.string.no_data_available));
@@ -362,11 +362,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mPrxProductData = new PrxProductData(getActivity(), new IPrxCallback() {
             @Override
             public void onResponseReceived(boolean isAvailable) {
-
+                onUpdateAssetData();
             }
         });
 
-     //   mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
+        mPrxProductData.executePRXAssetRequestWithSummaryData(mViewProductSummaryModel);
     }
 
     @Override

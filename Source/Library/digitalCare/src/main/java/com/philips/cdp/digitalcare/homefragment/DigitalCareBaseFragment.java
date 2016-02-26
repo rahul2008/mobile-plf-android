@@ -31,6 +31,7 @@ import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
 import java.util.Locale;
 
@@ -52,6 +53,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private static int mExitAnimation = 0;
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
+    protected static SummaryModel mViewProductSummaryModel = null;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;

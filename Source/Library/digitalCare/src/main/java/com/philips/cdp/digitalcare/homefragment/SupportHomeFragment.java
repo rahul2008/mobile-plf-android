@@ -440,6 +440,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
     protected void updateSummaryData(SummaryModel productSummaryModel) {
         if (productSummaryModel != null) {
+            mViewProductSummaryModel = productSummaryModel;
             SummaryModel summaryModel = productSummaryModel;
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryModel.getData().getCtn());
             if (mProductViewProductButton != null)
@@ -448,10 +449,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
             if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                     DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
-                mPrxProductData = new PrxProductData(getActivity(), null);
+              /*  mPrxProductData = new PrxProductData(getActivity(), null);
 
                 mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
-
+*/
                 Data summaryData = productSummaryModel.getData();
                 List<String> filterKeys = summaryData.getFilterKeys();
                 String productGroup = null;
