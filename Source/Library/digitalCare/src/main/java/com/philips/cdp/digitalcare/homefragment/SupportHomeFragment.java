@@ -39,7 +39,6 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.prx.SummaryDataListener;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
@@ -67,8 +66,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private int RegisterButtonMarginTop = 0;
     private boolean mIsFirstScreenLaunch = false;
     private View mView = null;
-    private RelativeLayout mProductDetailsLayout = null;
-    private RelativeLayout mProductSelectionLayout = null;
+    private View mProductViewProductButton = null;
+    private View mProductLocatePhilipsButton = null;
+    private View mProductChangeButton = null;
     private ProductModelSelectionHelper mProductSelectionHelper = null;
     private PrxProductData mPrxProductData = null;
     private ConsumerProductInfo mProductInfo = null;
@@ -220,35 +220,34 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))) {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
+            mProductChangeButton = (View) relativeLayout;
 
         } else {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_button_bg);
         }
 
-        if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 0) && (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))))
+        if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1) && (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))))
             return null;
 
           /*
             If PRX response is fail/unsuccess then disable "View Product Button".
          */
-        String viewProductText = getStringKey(R.string.view_product_details);
-        String locatePhilips = getStringKey(R.string.find_philips_near_you);
-        ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager.getInstance().getConsumerProductInfo();
 
-        if ((buttonTitle.equalsIgnoreCase(viewProductText) || ((model == null || model.getCtnName() == null || model
-                .getProductName() == null)))) {
-            mProductDetailsLayout = relativeLayout;
-            mProductDetailsLayout.setVisibility(View.GONE);
+        if (buttonTitle.equals(getStringKey(R.string.view_product_details))) {
+            mProductViewProductButton = (View) relativeLayout;
+            ViewProductDetailsModel model = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+            if ((model.getCtnName() != null)
+                    || (model.getProductName() != null))
+                mProductViewProductButton.setVisibility(View.VISIBLE);
+            else
+                mProductViewProductButton.setVisibility(View.GONE);
         }
 
-       /* if ((buttonTitle.equalsIgnoreCase(locatePhilips)) && (consumerProductInfo.getSubCategory() == null)) {
-            DigiCareLogger.d(TAG, "SubCategory in Button Creatation is : " + consumerProductInfo.getSubCategory());
-            mProductSelectionLayout = relativeLayout;
-            mProductSelectionLayout.setVisibility(View.GONE);
-        }*/
+        if (buttonTitle.equals(getStringKey(R.string.find_philips_near_you))) {
+            mProductLocatePhilipsButton = (View) relativeLayout;
 
+        }
         return relativeLayout;
     }
 
@@ -319,6 +318,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
+       /* if (mProductLocatePhilipsButton != null)
+            mProductLocatePhilipsButton.setVisibility(View.GONE);
+        if (mProductViewProductButton != null)
+            mProductViewProductButton.setVisibility(View.GONE);
+        if (mProductChangeButton != null)
+            mProductChangeButton.setVisibility(View.GONE);*/
         if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1)) {
             launchProductSelectionActivityComponent();
             isFirstTimeProductComponentlaunch = false;
@@ -382,7 +387,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 if (productSummaryModel != null) {
                     SummaryModel summaryModel = productSummaryModel;
                     productInfo.setCtn(summaryModel.getData().getCtn());
-                    mProductDetailsLayout.setVisibility(View.VISIBLE);
+                    mProductViewProductButton.setVisibility(View.VISIBLE);
 
                     if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                             DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
@@ -439,8 +444,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (productSummaryModel != null) {
             SummaryModel summaryModel = productSummaryModel;
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryModel.getData().getCtn());
-            if (mProductDetailsLayout != null)
-                mProductDetailsLayout.setVisibility(View.VISIBLE);
+            if (mProductViewProductButton != null)
+                mProductViewProductButton.setVisibility(View.VISIBLE);
 
 
             if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
