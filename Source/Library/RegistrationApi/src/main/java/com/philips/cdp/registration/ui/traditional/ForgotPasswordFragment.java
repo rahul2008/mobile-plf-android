@@ -254,11 +254,25 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void onUpadte() {
-        updateUiStatus();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUiStatus();
+            }
+        });
     }
 
     @Override
     public void onSendForgotPasswordSuccess() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleSendForgotPasswordSuccess();
+            }
+        });
+    }
+
+    private void handleSendForgotPasswordSuccess() {
         RLog.i(RLog.CALLBACK, "ResetPasswordFragment : onSendForgotPasswordSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
@@ -271,7 +285,18 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     @Override
-    public void onSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onSendForgotPasswordFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
+            }
+        });
+
+    }
+
+    private void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
 
