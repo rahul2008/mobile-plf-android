@@ -384,6 +384,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mTvResendDetails.setText(getString(R.string.TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt));
             mEtEmail.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             mEtEmail.showErrPopUp();
+            trackActionStatus(AppTagingConstants.SEND_DATA,
+                    AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
             trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
             mBtnForgot.setEnabled(false);
             return;

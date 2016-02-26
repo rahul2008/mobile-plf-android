@@ -374,6 +374,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             scrollViewAutomatically(mRegError, mSvRootLayout);
         }
+        if(userRegistrationFailureInfo.getErrorCode() == -1){
+            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
+        }
         trackActionRegisterError(userRegistrationFailureInfo.getErrorCode());
         mPbSpinner.setVisibility(View.INVISIBLE);
         mBtnCreateAccount.setEnabled(false);

@@ -84,4 +84,6 @@ public class AppTagingConstants {
 
 	public static final String RESEND_VERIFICATION_MAIL_LINK_SENT = "We have sent an email to your email address to reset your password";
 
+	public static final String ALREADY_SIGN_IN_SOCIAL = "you have logged in with a social provider previously";
+
 }
