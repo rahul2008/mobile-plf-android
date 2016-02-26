@@ -141,6 +141,11 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     public void onGetCartQuantity(final int quantity) {
         if (quantity != -1) {
             mCountText.setText(String.valueOf(quantity));
+            if (quantity == 0) {
+                mCountText.setVisibility(View.GONE);
+            } else {
+                mCountText.setVisibility(View.VISIBLE);
+            }
         }
         Utility.dismissProgressDialog();
     }

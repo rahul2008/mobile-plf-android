@@ -198,6 +198,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                 if(Utility.isInternetConnected(mContext)){
                     Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
                     paymentController.getPaymentDetails();
+                }else{
+                    NetworkUtility.getInstance().showNetworkError(mContext);
                 }
             }
         }

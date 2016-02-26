@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:background="@drawable/count_badge"
-            android:text="0"
+            android:visibility="gone"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"/>

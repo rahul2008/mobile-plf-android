@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
@@ -218,8 +219,12 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         Utility.hideKeypad(mContext);
 
         if (v == mBtnContinue) {
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            if(Utility.isInternetConnected(mContext)) {
+                getMainActivity().addFragmentAndRemoveUnderneath(
+                        OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            }else{
+                NetworkUtility.getInstance().showNetworkError(mContext);
+            }
         } else if (v == mBtnCancel) {
             getMainActivity().addFragmentAndRemoveUnderneath
                     (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
