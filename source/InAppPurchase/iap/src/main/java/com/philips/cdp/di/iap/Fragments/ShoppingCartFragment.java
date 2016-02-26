@@ -88,6 +88,12 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         updateTitle();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.onStop();
+    }
+
     private void updateCartDetails(ShoppingCartPresenter presenter) {
         presenter.getCurrentCartDetails();
         mListView.setAdapter(mAdapter);
