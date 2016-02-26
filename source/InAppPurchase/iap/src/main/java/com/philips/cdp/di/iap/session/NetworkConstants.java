@@ -44,13 +44,13 @@ public class NetworkConstants {
     /**
      * Prx data
      **/
-    public static String PRX_SECTOR_CODE = "B2C";
-    public static String PRX_LOCALE = "en_US";
-    public static String PRX_CATALOG_CODE = "CONSUMER";
-    public static String EXTRA_ANIMATIONTYPE = "EXTRA_ANIMATIONTYPE";
-    public static String IS_ONLINE = "IS_ONLINE";
+    public static final String PRX_SECTOR_CODE = "B2C";
+    public static final String PRX_LOCALE = "en_US";
+    public static final String PRX_CATALOG_CODE = "CONSUMER";
+    public static final String EXTRA_ANIMATIONTYPE = "EXTRA_ANIMATIONTYPE";
+    public static final String IS_ONLINE = "IS_ONLINE";
 
-    public static Locale STORE_LOCALE = Locale.US;
-    public final static String EMPTY_RESPONSE = "";
+    public static final Locale STORE_LOCALE = Locale.US;
+    public static final String EMPTY_RESPONSE = "";
 }
 
