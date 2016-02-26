@@ -57,7 +57,6 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
-    private ProgressDialog mProgressDialog = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -368,15 +367,6 @@ public class DigitalCareConfigManager {
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
             DigiCareLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
-
-            Activity mActivity = (Activity) mContext;
-            if (mProgressDialog == null)
-                mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
-            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-            mProgressDialog.setCancelable(true);
-            if (!(mActivity.isFinishing()))
-                mProgressDialog.show();
-
             mLocaleMatchHandler.initializeLocaleMatchService(langCode, countryCode);
         }
     }
@@ -397,8 +387,6 @@ public class DigitalCareConfigManager {
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
         DigiCareLogger.d(TAG, "Country Fallback : " + localeMatchLocale.toString());
-        if (mProgressDialog != null && mProgressDialog.isShowing())
-            mProgressDialog.cancel();
     }
 
 
@@ -409,8 +397,6 @@ public class DigitalCareConfigManager {
     public void setLocaleMatchResponseLocaleWithLanguageFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithLanguageFallBack = localeMatchLocale;
         DigiCareLogger.d(TAG, "Language Fallback : " + localeMatchLocale.toString());
-        if (mProgressDialog != null && mProgressDialog.isShowing())
-            mProgressDialog.cancel();
     }
 
     public String getDigitalCareLibVersion() {
