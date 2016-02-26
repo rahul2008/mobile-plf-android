@@ -9,8 +9,6 @@ import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.security.SecureStorage;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
@@ -43,8 +41,10 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1091,7 +1091,7 @@ public class User {
      * Refresh User object and align with Server
      *
      * @param context Application context
-     * @param handler Callback handler
+     * @param handler Callback mHandler
      */
     public void refreshUser(final Context context, final RefreshUserHandler handler) {
         refreshandUpdateUser(context, handler);

@@ -41,6 +41,7 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
+
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener, EventListener, ResendVerificationEmailHandler,
         NetworStateListener {
@@ -82,6 +83,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
 
     private ScrollView mSvRootLayout;
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -274,7 +276,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void handleUiState() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
 
-                mRegError.hideError();
+            mRegError.hideError();
 
         } else {
             trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
@@ -285,7 +287,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onLoginSuccess() {
-        handleLoginSuccess();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleLoginSuccess();
+            }
+        });
     }
 
     private void launchWelcomeFragment() {
@@ -294,7 +301,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleLogInFailed(userRegistrationFailureInfo);
+            }
+        });
+    }
+
+    private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
@@ -318,6 +334,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onSendForgotPasswordSuccess() {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleSendForgotSuccess();
+            }
+        });
+
+    }
+
+    private void handleSendForgotSuccess() {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
@@ -330,9 +357,21 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onSendForgotPasswordFailedWithError(
-            UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onSendForgotPasswordFailedWithError(final
+                                                    UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+
+                handleSendForgetPasswordSuccess(userRegistrationFailureInfo);
+            }
+        });
+
+
+    }
+
+    private void handleSendForgetPasswordSuccess(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
         mBtnResend.setEnabled(true);
         hideForgotPasswordSpinner();
@@ -442,7 +481,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onUpadte() {
-        updateUiStatus();
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUiStatus();
+            }
+        });
     }
 
     @Override
@@ -463,6 +507,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onResendVerificationEmailSuccess() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleResendVerificationEmailSuccess();
+            }
+        });
+
+    }
+
+    private void handleResendVerificationEmailSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.Verification_email_Title),
@@ -471,7 +525,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     @Override
-    public void onResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    public void onResendVerificationEmailFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                handleResendVerificationEmailFailed(userRegistrationFailureInfo);
+            }
+        });
+
+
+    }
+
+    private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK,
                 "SignInAccountFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();

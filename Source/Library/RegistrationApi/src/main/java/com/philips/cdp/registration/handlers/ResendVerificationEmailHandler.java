@@ -5,8 +5,8 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 public interface ResendVerificationEmailHandler {
 
-	public void onResendVerificationEmailSuccess();
+    void onResendVerificationEmailSuccess();
 
-	public void onResendVerificationEmailFailedWithError(
-	        UserRegistrationFailureInfo userRegistrationFailureInfo);
+    void onResendVerificationEmailFailedWithError(
+            UserRegistrationFailureInfo userRegistrationFailureInfo);
 }

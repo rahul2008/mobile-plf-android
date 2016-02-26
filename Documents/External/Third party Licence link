@@ -1,0 +1,26 @@
+Third party Licence link
+
+Following is dependant  libs using in the User Registration Model with name and its licence link .
+
+
+1 . org.apache.http.legacy.jar 
+
+	This is part of Android SDK which open source  following link will ensure its licence 
+	Licence links :
+	https://android.googlesource.com/platform/prebuilts/sdk/+/android-support-test/org.apache.http.legacy/Android.mk
+	 http://developer.android.com/about/versions/marshmallow/android-6.0-changes.html
+
+ 2.jackson-annotations-2.6.0.jar 
+	Licence links 
+	https://github.com/FasterXML/jackson-annotations/wiki
+	
+3.jackson-core-2.6.1.jar
+	Licence links 
+	https://github.com/FasterXML/jackson-core/wiki
+
+
+ 4. jakson-databind-2.6.1.jar
+	Licence links 
+	https://github.com/FasterXML/jackson-databind/wiki
+
+

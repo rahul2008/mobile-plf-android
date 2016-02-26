@@ -5,8 +5,8 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 public interface ForgotPasswordHandler {
 
-	public void onSendForgotPasswordSuccess();
+    void onSendForgotPasswordSuccess();
 
-	public void onSendForgotPasswordFailedWithError(
-	        UserRegistrationFailureInfo userRegistrationFailureInfo);
+    void onSendForgotPasswordFailedWithError(
+            UserRegistrationFailureInfo userRegistrationFailureInfo);
 }
