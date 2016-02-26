@@ -1,5 +1,7 @@
 package com.philips.cdp.digitalcare.homefragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -55,8 +57,13 @@ import java.util.List;
 public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrxCallback {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
+    private static final String USER_SELECTED_PRODUCT_CTN = "ctn";
+    private static final String USER_SELECTED_PRODUCT_SUBCATEGORY = "subcategory";
+    private static final String USER_SELECTED_PRODUCT_TITLE = "title";
+    private static final String USER_PREFERENCE = "user_product";
     private static boolean isFirstTimeProductComponentlaunch = true;
     private static ConsumerProductInfo productInfo = null;
+    SharedPreferences prefs = null;
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
@@ -86,6 +93,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 false);
         mIsFirstScreenLaunch = true;
         DigitalCareConfigManager.getInstance().setViewProductDetailsData(null);
+        prefs = getActivity().getSharedPreferences(
+                USER_PREFERENCE, Context.MODE_PRIVATE);
 
         productInfo = new ConsumerProductInfo();
         if (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) {
@@ -402,6 +411,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     productInfo.setCtn(summaryModel.getData().getCtn());
                     mProductDetailsLayout.setVisibility(View.VISIBLE);
 
+
                     if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                             DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
                         mPrxProductData = new PrxProductData(getActivity(), null);
@@ -412,6 +422,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                         productInfo.setCtn(summaryData.getCtn());
                         productInfo.setSubCategory(summaryData.getSubcategory());
                         productInfo.setProductTitle(summaryData.getProductURL());
+
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
+                        editor.putString(USER_SELECTED_PRODUCT_SUBCATEGORY, summaryData.getSubcategory());
+                        editor.putString(USER_SELECTED_PRODUCT_TITLE, summaryData.getProductURL());
+                        editor.apply();
                     }
                 }
             }

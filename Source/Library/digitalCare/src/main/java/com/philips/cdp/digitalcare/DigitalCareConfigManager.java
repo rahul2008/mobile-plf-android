@@ -1,5 +1,7 @@
 package com.philips.cdp.digitalcare;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -46,6 +48,7 @@ public class DigitalCareConfigManager {
     private static Locale mLocaleMatchWithCountryFallBack = null;
     private static Locale mLocaleMatchWithLanguageFallBack = null;
     private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
+    private static UiLauncher mUiLauncher = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private MainMenuListener mMainMenuListener = null;
     private ProductMenuListener mProductMenuListener = null;
@@ -54,7 +57,7 @@ public class DigitalCareConfigManager {
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
-    private static UiLauncher mUiLauncher = null;
+    private ProgressDialog mProgressDialog = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -135,7 +138,7 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
         }
-        DigiCareLogger.i("testing","DigitalCare Config -- Fragment Invoke");
+        DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");
 
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
@@ -190,7 +193,7 @@ public class DigitalCareConfigManager {
                 throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
             }
         }
-        DigiCareLogger.i("testing","DigitalCare Config -- Activity Invoke");
+        DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");
 
         AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
@@ -365,6 +368,15 @@ public class DigitalCareConfigManager {
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
             DigiCareLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
+
+            Activity mActivity = (Activity) mContext;
+            if (mProgressDialog == null)
+                mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
+            mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
+            mProgressDialog.setCancelable(true);
+            if (!(mActivity.isFinishing()))
+                mProgressDialog.show();
+
             mLocaleMatchHandler.initializeLocaleMatchService(langCode, countryCode);
         }
     }
@@ -385,6 +397,8 @@ public class DigitalCareConfigManager {
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
         DigiCareLogger.d(TAG, "Country Fallback : " + localeMatchLocale.toString());
+        if (mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.cancel();
     }
 
 
@@ -395,6 +409,8 @@ public class DigitalCareConfigManager {
     public void setLocaleMatchResponseLocaleWithLanguageFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithLanguageFallBack = localeMatchLocale;
         DigiCareLogger.d(TAG, "Language Fallback : " + localeMatchLocale.toString());
+        if (mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.cancel();
     }
 
     public String getDigitalCareLibVersion() {
