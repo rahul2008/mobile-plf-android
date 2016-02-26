@@ -10,7 +10,7 @@
   },
   "PILConfiguration": {
     "MicrositeID": 77000,
-    "RegistrationEnvironment": "Production"
+    "RegistrationEnvironment": "Staging"
   },
   "Flow": {
     "EmailVerificationRequired": "true",
@@ -21,20 +21,13 @@
       "default": 16
     }
   },
-
-  "SigninProviders": {
-    "NL": [
-      "googleplus",
-      "facebook"
-    ],
-    "US": [
-      "facebook",
-      "googleplus"
-    ],
-    "default": [
-      "facebook",
-      "googleplus"
-    ]
+  "HSDPConfiguration": {
+    "Staging": {
+      "ApplicationName": "uGrowApp",
+      "Shared": "f129afcc-55f4-11e5-885d-feff819cdc9f",
+      "Secret": "f129b5a8-55f4-11e5-885d-feff819cdc9f",
+      "BaseURL": "https://newuser-registration-assembly15.cloud.pcftest.com"
+    }
   }
 }
 
