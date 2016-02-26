@@ -70,7 +70,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                         showFragment(detailedScreenFragmentSelection);
                     } else {
                         setListViewRequiredInTablet(false);
-                        mHandler.sendEmptyMessageDelayed(UPDATE_UI, 50);
+                        mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
                     }
 //                    showFragment(new DetailedScreenFragmentSelection());
                 }
@@ -108,7 +108,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                         try {
                             mUserSelectedProduct = (productList.get(0));
                             setListViewRequiredInTablet(true);
-                            mHandler.sendEmptyMessageDelayed(UPDATE_UI, 50);
+                            mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }

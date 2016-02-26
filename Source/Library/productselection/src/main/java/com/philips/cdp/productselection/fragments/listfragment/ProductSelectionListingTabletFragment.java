@@ -82,11 +82,11 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         try {
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
-            fragmentTransaction.remove(fragmentDetailsTablet).commit();
+            fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
 
             mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
             fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
 
 //            addDetailedScreenAtRight();
         } catch (IllegalStateException e) {
@@ -117,7 +117,7 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.fragmentTabletProductList, new ProductSelectionListingFragment(mHandler), "ProductSelectionListingFragment");
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
@@ -130,7 +130,7 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
                     .getSupportFragmentManager().beginTransaction();
             mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
             fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
