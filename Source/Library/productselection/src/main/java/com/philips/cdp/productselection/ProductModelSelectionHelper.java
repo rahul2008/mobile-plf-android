@@ -100,10 +100,13 @@ public class ProductModelSelectionHelper {
         mProgressDialog.setCancelable(false);
         if (!(mActivity.isFinishing()))
             mProgressDialog.show();
+
+
         PrxWrapper prxWrapperCode = new PrxWrapper(mContext, null,
                 productModelSelectionType.getSector(),
                 getLocale().toString(),
                 productModelSelectionType.getCatalog());
+
         prxWrapperCode.requestPrxSummaryList(new SummaryDataListener() {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
@@ -115,6 +118,7 @@ public class ProductModelSelectionHelper {
                         ctnArray[i] = summaryModels.get(i);
                     productModelSelectionType.setProductModelList(ctnArray);
                     mSummaryDataListener.onSuccess(summaryModels);
+
                     if (uiLauncher instanceof ActivityLauncher) {
                         ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
                         invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
