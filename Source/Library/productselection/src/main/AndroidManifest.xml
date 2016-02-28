@@ -10,7 +10,7 @@
         android:theme="@style/multiprod_theme">
         <activity
             android:name=".activity.ProductSelectionActivity"
-            android:configChanges="orientation|screenSize|locale"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"
             android:exported="true">
 
             <intent-filter>
