@@ -104,8 +104,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "onActivityCreated on "
-                + this.getClass().getSimpleName());
         mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
                 .getDimension(R.dimen.activity_margin_port);
         mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
@@ -250,8 +248,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "onConfigurationChanged"
-                + this.getClass().getSimpleName());
+        ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
         setLocaleLanguage();
         getAppName();
     }
