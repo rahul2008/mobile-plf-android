@@ -85,12 +85,13 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         ProductSelectionLogger.d(TAG, "Summary List : " + summaryList.length);
         productList = new ArrayList<SummaryModel>();
         ;
-        for (int i = 0; i < summaryList.length; i++)
+        for (int i = 0; i < summaryList.length; i++) {
             productList.add(summaryList[i]);
+        }
 
-        if (isTablet() && productList.size() == 1) {
+        if (isTablet()) {
             try {
-                mUserSelectedProduct = (productList.get(0));
+                mUserSelectedProduct = (summaryList[0]);
                 setListViewRequiredInTablet(true);
                 mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
             } catch (IndexOutOfBoundsException e) {
@@ -136,6 +137,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     if (isTablet() && productList.size() == 1) {
                         try {
                             mUserSelectedProduct = (productList.get(0));
+                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
                             setListViewRequiredInTablet(true);
                             mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
                         } catch (IndexOutOfBoundsException e) {
