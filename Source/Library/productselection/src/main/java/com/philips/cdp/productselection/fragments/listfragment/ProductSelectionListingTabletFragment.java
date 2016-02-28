@@ -63,6 +63,9 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
             super.handleMessage(msg);
             switch(msg.what){
                 case UPDATE_UI:
+                    if(mHandler == null){
+                        return;
+                    }
                     mHandler.removeMessages(UPDATE_UI);
                     alignGui();
                     replaceFragmentForTablet();
