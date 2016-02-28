@@ -55,8 +55,10 @@ calabash {
 
 dependencies {
     compile project(':digitalCare')
-    compile 'com.google.android.gms:play-services:+'
     compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.philips.cdp:uikitLib:2.0.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.shamanland:fonticon:0.1.8'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
