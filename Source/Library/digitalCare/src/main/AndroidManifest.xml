@@ -23,7 +23,7 @@
         android:largeHeap="true">
         <activity
             android:name="com.philips.cdp.digitalcare.activity.DigitalCareActivity"
-            android:configChanges="orientation|screenSize|locale"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"
             android:exported="true">
 
             <intent-filter>
