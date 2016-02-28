@@ -84,8 +84,10 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
             Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
             fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
 
+            String tag = "DetailedScreenFragmentSelection";
             mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
-            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
+            fragmentTransaction.replace(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, tag);
+            fragmentTransaction.addToBackStack(tag);
             fragmentTransaction.commitAllowingStateLoss();
 
 //            addDetailedScreenAtRight();
@@ -116,7 +118,9 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         try {
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.fragmentTabletProductList, new ProductSelectionListingFragment(mHandler), "ProductSelectionListingFragment");
+            String tag = "ProductSelectionListingFragment";
+            fragmentTransaction.replace(R.id.fragmentTabletProductList, new ProductSelectionListingFragment(mHandler), tag);
+            fragmentTransaction.addToBackStack(tag);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
@@ -129,7 +133,9 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
             mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
-            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
+            String tag = "DetailedScreenFragmentSelection";
+            fragmentTransaction.replace(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, tag);
+            fragmentTransaction.addToBackStack(tag);
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
