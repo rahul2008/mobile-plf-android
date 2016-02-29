@@ -22,7 +22,7 @@ public class RegistrationBuilder extends RegistrationDataBuilder {
     public RegistrationBuilder(String ctn, String accessToken, final String serialNumber) {
         this.mCtn = ctn;
         this.accessToken = accessToken;
-        setProductSerialNumber(serialNumber);
+        this.productSerialNumber = serialNumber;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class RegistrationBuilder extends RegistrationDataBuilder {
     private String generateUrl() {
         Uri builtUri = Uri.parse(getServerInfo())
                 .buildUpon()
-                .appendPath(getSectorCode())
+                .appendPath(getSector().name())
                 .appendPath(getLocale())
                 .appendPath(getCatalogCode())
                 .appendPath("products")

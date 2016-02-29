@@ -71,7 +71,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         PrxLogger.enablePrxLogger(true);
 
         RegistrationBuilder registrationBuilder = new RegistrationBuilder(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
-        registrationBuilder.setmSectorCode(mSectorCode);
+        registrationBuilder.setSector(mSectorCode);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
         registrationBuilder.setRegistrationChannel(regChannel.getText().toString());
@@ -121,7 +121,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         PrxLogger.enablePrxLogger(true);
 
         ProductMetaDataBuilder productMetaDataBuilder = new ProductMetaDataBuilder(mCtn, accessToken);
-        productMetaDataBuilder.setmSectorCode(mSectorCode);
+        productMetaDataBuilder.setSector(mSectorCode);
         productMetaDataBuilder.setmLocale(mLocale);
         productMetaDataBuilder.setmCatalogCode(mCatalogCode);
 
