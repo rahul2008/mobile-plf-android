@@ -5,81 +5,6 @@
 
 package com.philips.pins.shinelib;
 
-/*
- * @startuml
- * title Scanning for registered devices
- * App -> SomeDeviceShinePlugin : getDeviceInfo
- * App -> SHNCentral : registerDeviceInfo
- * App -> SHNCentral : getShnDeviceScanner
- * App -> SHNDeviceScanner : startScanning
- * SHNDeviceScanner -> SHNCentral : getRegisteredDeviceDefinitions
- * SHNDeviceScanner -> BluetoothAdapter : startLeScan
- * BluetoothAdapter -> SHNDeviceScanner : onLeScan
- * SHNDeviceScanner -> EventDispatcher : queueDeviceFoundEvent
- * EventDispatcher -> SHNDeviceScanner : handleDeviceFoundEvent
- * SHNDeviceScanner -> SHNCentral :  reportDeviceFound
- * @enduml
-@startuml
-class SHNDICapabilityImpl
-interface SHNDeviceListener {
-    + void onDeviceStateChanged()
-}
-interface SHNServiceListener {
-    + void onServiceStateChanged()
-}
-interface SHNCharacteristicListener {
-    + void onCharacteristicNotificationStateChanged()
-    + void OnValueUpdated()
-}
-interface SHNCapability
-class BLEDevice
-class BLEService
-class BLECharacteristic
-class SHNDevice
-interface SHNDICapability {
-    + read(SHNDIType type, SHNDIReadListener completion)
-}
-class SHNDIService {
-    + boolean read(SHNDIType type, SHNDIReadListener compl)
-}
-
-class SHNCharacteristic {
-    + void read(CompletionListener completion)
-    + void onCharacteristicRead(BLECharacteristic char, int status, CompletionListener compl)
-}
-
-class SHNService {
-    + void read(SHNCharacteristic char, CompletionListener compl)
-    + void onCharacteristicRead(BLECharacteristic char, int status, CompletionListener compl)
-}
-
-class SHNDevice {
-    + void read(SHNCharacteristic char, CompletionListener compl)
-    + void onCharacteristicRead(BLECharacteristic char, int status)
-}
-
-SHNCapability <|-- SHNDICapability
-SHNCharacteristic "1" o-- "1" BLECharacteristic
-SHNCharacteristic -right-> SHNCharacteristicListener : uses
-SHNDevice -left-> SHNDeviceListener : uses
-SHNDevice "1" o-- "1" BLEDevice
-SHNDevice *-- SHNService
-SHNDevice "1" *-- "1" SHNDIDeviceDefinition
-SHNDeviceDefinition <|-- SHNDIDeviceDefinition
-SHNDICapability <|-- SHNDICapabilityImpl
-SHNDICapabilityImpl "1" o-- "1" SHNDIService
-SHNDIDeviceDefinition *-- SHNDICapabilityImpl
-SHNDIDeviceDefinition *-- SHNDIService
-SHNDIService --|> SHNServiceListener
-SHNDIService "1" *-- "1" SHNService
-SHNDIService "1" *-- "*" SHNCharacteristic
-SHNDIService --|> SHNCharacteristicListener
-SHNService *-right- SHNCharacteristic
-SHNService "1" o-- "1" BLEService
-SHNServiceListener <-left- SHNService
-@enduml
- */
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -110,13 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by 310188215 on 02/03/15.
- */
 public class SHNCentral {
-    private static final String TAG = SHNCentral.class.getSimpleName();
-    private SHNUserConfigurationImpl shnUserConfigurationImpl;
-    private final SHNDeviceScanner shnDeviceScanner;
 
     public enum State {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
@@ -126,6 +45,9 @@ public class SHNCentral {
         void onStateUpdated(SHNCentral shnCentral);
     }
 
+    private static final String TAG = SHNCentral.class.getSimpleName();
+    private SHNUserConfigurationImpl shnUserConfigurationImpl;
+    private final SHNDeviceScanner shnDeviceScanner;
     private final Handler userHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
@@ -159,6 +81,7 @@ public class SHNCentral {
     private Handler internalHandler;
     private SHNDeviceDefinitions shnDeviceDefinitions;
     private PersistentStorageFactory persistentStorageFactory;
+    private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
 
     public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
         this(handler, context, false, null);
@@ -215,7 +138,7 @@ public class SHNCentral {
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
 
-    PersistentStorageFactory createPersistentStorageFactory(PersistentStorageFactory.Extension extension) {
+    /* package */ PersistentStorageFactory createPersistentStorageFactory(PersistentStorageFactory.Extension extension) {
         if (extension == null) {
             extension = new PersistentStorageFactory.Extension() {
                 @NonNull
@@ -228,15 +151,23 @@ public class SHNCentral {
         return new PersistentStorageFactory(extension);
     }
 
-    Handler createInternalHandler() {
+    /* package */ Handler createInternalHandler() {
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.setUncaughtExceptionHandler(new LoggingExceptionHandler());
         thread.start();
         return new Handler(thread.getLooper());
     }
 
-    DataMigrater createDataMigrater() {
+    /* package */ DataMigrater createDataMigrater() {
         return new DataMigrater();
+    }
+
+    /* package */ void registerBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
+        shnBondStatusListeners.put(address, new WeakReference<>(shnBondStatusListener));
+    }
+
+    /* package */ void unregisterBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
+        shnBondStatusListeners.remove(address);
     }
 
     private void setState(final State state) {
@@ -246,7 +177,7 @@ public class SHNCentral {
                 SHNCentral.this.shnCentralState = state;
                 if (registeredShnCentralListeners != null) {
                     // copy the array to prevent ConcurrentModificationException
-                    ArrayList<SHNCentralListener> copyOfRegisteredShnCentralListeners = new ArrayList<SHNCentralListener>(registeredShnCentralListeners);
+                    ArrayList<SHNCentralListener> copyOfRegisteredShnCentralListeners = new ArrayList<>(registeredShnCentralListeners);
                     for (final SHNCentralListener shnCentralListener : copyOfRegisteredShnCentralListeners) {
                         if (shnCentralListener != null) {
                             userHandler.post(new Runnable() {
@@ -260,20 +191,6 @@ public class SHNCentral {
                 }
             }
         });
-    }
-
-    private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
-
-    public interface SHNBondStatusListener {
-        void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
-    }
-
-    /* package */ void registerBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
-        shnBondStatusListeners.put(address, new WeakReference<SHNBondStatusListener>(shnBondStatusListener));
-    }
-
-    /* package */ void unregisterBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
-        shnBondStatusListeners.remove(address);
     }
 
     private void setupBondStatusListener() {
@@ -307,6 +224,10 @@ public class SHNCentral {
                 shnBondStatusListeners.remove(device.getAddress());
             }
         }
+    }
+
+    public interface SHNBondStatusListener {
+        void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
     }
 
     public Handler getInternalHandler() {
@@ -392,7 +313,6 @@ public class SHNCentral {
     }
 
     private Map<String, SHNDevice> createdDevices = new HashMap<>();
-
     // TEMPORARY HACK TO ENABLE VERIFICATION TESTS WITH BLE SECURITY ENABLED
     // TODO: Remove this once the ShineVerificationApp uses DeviceAssociation.
     @Deprecated
