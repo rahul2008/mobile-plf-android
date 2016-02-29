@@ -37,6 +37,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.listeners.IPrxCallback;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -361,7 +362,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     protected void requestPRXAssetData() {
         mPrxProductData = new PrxProductData(getActivity(), new IPrxCallback() {
             @Override
-            public void onResponseReceived(boolean isAvailable) {
+            public void onResponseReceived(SummaryModel isAvailable) {
                 onUpdateAssetData();
             }
         });

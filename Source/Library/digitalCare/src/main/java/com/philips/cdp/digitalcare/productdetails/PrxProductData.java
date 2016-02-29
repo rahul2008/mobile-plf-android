@@ -164,7 +164,7 @@ public class PrxProductData {
                         mProductDetailsObject.setProductInfoLink(data.getProductURL());
                         mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                         if (mPrxCallback != null)
-                            mPrxCallback.onResponseReceived(true);
+                            mPrxCallback.onResponseReceived(mSummaryModel);
                     }
                     if (mSummaryDialog != null && mSummaryDialog.isShowing())
                         mSummaryDialog.cancel();
@@ -176,7 +176,7 @@ public class PrxProductData {
                 DigiCareLogger.e(TAG, "Summary Error Response : " + error);
                 mConfigManager.setViewProductDetailsData(mProductDetailsObject);
                 if (mPrxCallback != null)
-                    mPrxCallback.onResponseReceived(false);
+                    mPrxCallback.onResponseReceived(null);
                 if (mSummaryDialog != null && mSummaryDialog.isShowing())
                     mSummaryDialog.cancel();
             }

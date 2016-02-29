@@ -1,5 +1,7 @@
 package com.philips.cdp.digitalcare.listeners;
 
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+
 /**
  * Description :
  * Project : PRX Common Component.
@@ -7,5 +9,5 @@ package com.philips.cdp.digitalcare.listeners;
  */
 public interface IPrxCallback {
 
-    void onResponseReceived(boolean isAvailable);
+    void onResponseReceived(SummaryModel isAvailable);
 }
