@@ -10,4 +10,8 @@ public interface ProdRegConstants {
     String PRODUCT_SERIAL_NUMBER = "productSerialNumber";
     String REGISTRATION_CHANNEL = "registrationChannel";
     String PURCHASE_DATE = "purchaseDate";
+    String MICRO_SITE_ID = "MS";
+    String PRODUCT_REGISTRATION = "product_registration";
+    String FETCH_REGISTERED_PRODUCTS = "fetch_registered_products";
+
 }

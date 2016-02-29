@@ -9,8 +9,8 @@ import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 public abstract class RegistrationDataBuilder extends PrxDataBuilder {
 
     protected String accessToken;
+    protected String productSerialNumber;
     private String mServerInfo = "https://dev.philips.com/prx/registration/";
-    private String productSerialNumber;
     private String purchaseDate;
     private String registrationChannel;
     private String sendEmail;
