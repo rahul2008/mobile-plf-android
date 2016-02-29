@@ -15,23 +15,15 @@ public class SerialNumberSampleContentTest extends TestCase {
         serialNumberSampleContentTest = new SerialNumberSampleContent();
     }
 
-    public void testGetTitle() throws Exception {
+    public void ShouldGetTitle() throws Exception {
         serialNumberSampleContentTest.setTitle("Find the serial number");
         assertEquals("Find the serial number", serialNumberSampleContentTest.getTitle());
     }
 
-    public void testSetTitle() throws Exception {
-
-    }
-
-    public void testGetAsset() throws Exception {
+    public void ShouldGetAsset() throws Exception {
 
         serialNumberSampleContentTest.setAsset("/consumerfiles/assets/img/registerproducts/HC.jpg");
         assertEquals("/consumerfiles/assets/img/registerproducts/HC.jpg", serialNumberSampleContentTest.getAsset());
-    }
-
-    public void testSetAsset() throws Exception {
-
     }
 
     public void testGetSnExample() throws Exception {
@@ -39,20 +31,8 @@ public class SerialNumberSampleContentTest extends TestCase {
         assertEquals("Example: 1344", serialNumberSampleContentTest.getSnExample());
     }
 
-    public void testSetSnExample() throws Exception {
-
-    }
-
-    public void testGetSnFormat() throws Exception {
+    public void ShouldGetSnFormat() throws Exception {
         serialNumberSampleContentTest.setSnFormat("cc");
         assertEquals("cc", serialNumberSampleContentTest.getSnFormat());
-    }
-
-    public void testSetSnFormat() throws Exception {
-
-    }
-
-    public void testToString() throws Exception {
-
     }
 }
