@@ -56,6 +56,10 @@ public abstract class PrxDataBuilder {
         return sector;
     }
 
+    public void setSector(final Sector sector) {
+        this.sector = sector;
+    }
+
     public Catalog getCatalog() {
         return catalog;
     }

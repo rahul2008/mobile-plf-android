@@ -24,8 +24,6 @@ import org.json.JSONObject;
 public class NetworkWrapper {
 
     private static final String TAG = NetworkWrapper.class.getSimpleName();
-
-
     private Context mContext = null;
     private RequestQueue mVolleyRequest;
     private boolean isHttpsRequest = true;
@@ -33,6 +31,7 @@ public class NetworkWrapper {
 
     public NetworkWrapper(Context context) {
         mContext = context;
+        mVolleyRequest = Volley.newRequestQueue(mContext);
     }
 
 
@@ -66,7 +65,6 @@ public class NetworkWrapper {
     }
 
     public void executeCustomRequest(final Request request) {
-        mVolleyRequest = Volley.newRequestQueue(mContext);
         if (isHttpsRequest)
             SSLCertificateManager.setSSLSocketFactory();
         mVolleyRequest.add(request);

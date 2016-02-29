@@ -13,9 +13,10 @@ import android.widget.Toast;
 import com.philips.cdp.backend.ProdRegHelper;
 import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.demo.R;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductMetaData;
 import com.philips.cdp.model.ProductResponse;
-import com.philips.cdp.model.RegisteredDataResponse;
 import com.philips.cdp.productbuilder.ProductMetaDataBuilder;
 import com.philips.cdp.productbuilder.RegisteredBuilder;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
@@ -71,13 +72,15 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         PrxLogger.enablePrxLogger(true);
 
         RegistrationBuilder registrationBuilder = new RegistrationBuilder(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
-        registrationBuilder.setSector(mSectorCode);
+        registrationBuilder.setSector(Sector.B2C);
+        registrationBuilder.setCatalog(Catalog.CONSUMER);
         registrationBuilder.setmLocale(mLocale);
         registrationBuilder.setmCatalogCode(mCatalogCode);
         registrationBuilder.setRegistrationChannel(regChannel.getText().toString());
         registrationBuilder.setPurchaseDate(purchaseDate.getText().toString());
 
-        ProdRegHelper.getInstance().registerProduct(this, registrationBuilder, new ResponseListener() {
+        ProdRegHelper prodRegHelper = new ProdRegHelper(this);
+        prodRegHelper.registerProduct(this, registrationBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
@@ -95,24 +98,21 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void registeredProduct(final String accessToken) {
-        PrxLogger.enablePrxLogger(true);
-
-        RegisteredBuilder registeredDataBuilder = new RegisteredBuilder(accessToken);
-
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(this);
-        mRequestManager.executeRequest(registeredDataBuilder, new ResponseListener() {
+        RegisteredBuilder registeredBuilder = new RegisteredBuilder(accessToken);
+        registeredBuilder.setSector(Sector.B2C);
+        registeredBuilder.setCatalog(Catalog.CONSUMER);
+        registeredBuilder.setmLocale("en_GB");
+        ProdRegHelper prodRegHelper = new ProdRegHelper(this);
+        prodRegHelper.getRegisteredProduct(this, registeredBuilder, new ResponseListener() {
             @Override
-            public void onResponseSuccess(ResponseData responseData) {
-                RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
-                Log.d(TAG, " Response Data : " + registeredDataResponse.isSuccess());
-                Toast.makeText(ProductActivity.this, "productMetaData Response Data : " + registeredDataResponse.isSuccess(), Toast.LENGTH_LONG).show();
+            public void onResponseSuccess(final ResponseData responseData) {
+                Log.d(TAG, responseData.toString());
+                Toast.makeText(ProductActivity.this, responseData.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onResponseError(String error, int code) {
-                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
-                Toast.makeText(ProductActivity.this, "error in response", Toast.LENGTH_SHORT).show();
+            public void onResponseError(final String errorMessage, final int responseCode) {
+                Log.d(TAG, errorMessage);
             }
         });
     }
@@ -121,7 +121,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         PrxLogger.enablePrxLogger(true);
 
         ProductMetaDataBuilder productMetaDataBuilder = new ProductMetaDataBuilder(mCtn, accessToken);
-        productMetaDataBuilder.setSector(mSectorCode);
+        productMetaDataBuilder.setmSectorCode(mSectorCode);
         productMetaDataBuilder.setmLocale(mLocale);
         productMetaDataBuilder.setmCatalogCode(mCatalogCode);
 

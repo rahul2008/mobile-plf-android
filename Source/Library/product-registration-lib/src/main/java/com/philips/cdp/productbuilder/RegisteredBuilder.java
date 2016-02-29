@@ -29,6 +29,11 @@ public class RegisteredBuilder extends RegistrationDataBuilder {
     }
 
     @Override
+    public String getServerInfo() {
+        return "https://dev.philips.com/prx/registration.registeredProducts";
+    }
+
+    @Override
     public String getRequestUrl() {
         return generateUrl();
     }

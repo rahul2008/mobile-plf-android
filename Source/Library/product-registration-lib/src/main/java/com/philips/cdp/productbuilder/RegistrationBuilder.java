@@ -25,6 +25,10 @@ public class RegistrationBuilder extends RegistrationDataBuilder {
         this.productSerialNumber = serialNumber;
     }
 
+    public String getCtn() {
+        return mCtn;
+    }
+
     @Override
     public String getAccessToken() {
         return accessToken;
