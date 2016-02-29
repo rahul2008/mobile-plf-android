@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Επιλογή προϊόντος</string>
+<string name="Select_Product_Desc">Για καλύτερα αποτελέσματα υποστήριξης, μπορείτε να μας πείτε το προϊόν που διαθέτετε;</string>
+<string name="Select_Product_Find">Βρείτε ένα προϊόν</string>
+<string name="Product_Title">Προϊόντα</string>
+<string name="Product_Details_Select">Επιλογή αυτού του προϊόντος</string>
+<string name="Change_Selected_Product">Αλλαγή επιλεγμένου προϊόντος</string>
+<string name="Confirmation_Title">Επιβεβαίωση</string>
+<string name="Confirmation_Selected">Έχετε επιλέξει</string>
+<string name="Confirmation_Change">Αλλαγή</string>
+<string name="Confirmation_Change_Selection">Μπορείτε να αλλάξετε την επιλογή σας ανά πάσα στιγμή.</string>
+<string name="Confirmation_Continue_Support">Συνέχεια στην υποστήριξη</string>
+<string name="Continue_Btntxt">Συνέχεια</string>
+<string name="No_Internet">Δεν υπάρχει σύνδεση στο Internet. Ελέγξτε τη σύνδεση από τις ρυθμίσεις Wi-Fi ή τις ρυθμίσεις δεδομένων του τηλεφώνου σας</string>
+    <string name="myphilips_CC">Λογαριασμός MyPhilips</string>
+</resources>

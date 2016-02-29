@@ -1,0 +1,8 @@
+<resources>
+
+<declare-styleable name="MultiProductFontTextView">
+        <attr name="multiproductFontAssetName" format="string" />
+    </declare-styleable>
+
+    
+</resources>

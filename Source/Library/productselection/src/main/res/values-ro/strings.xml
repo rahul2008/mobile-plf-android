@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Selectează produsul</string>
+<string name="Select_Product_Desc">Pentru a-ţi oferi asistenţă, ne poţi spune ce produs deţii?</string>
+<string name="Select_Product_Find">Căutarea produsului</string>
+<string name="Product_Title">Produse</string>
+<string name="Product_Details_Select">Selectează acest produs</string>
+<string name="Change_Selected_Product">Schimbă produsul selectat</string>
+<string name="Confirmation_Title">Confirmare</string>
+<string name="Confirmation_Selected">Ai selectat</string>
+<string name="Confirmation_Change">Modificare</string>
+<string name="Confirmation_Change_Selection">Poţi schimba selecţia oricând.</string>
+<string name="Confirmation_Continue_Support">Continuă spre asistenţă</string>
+<string name="Continue_Btntxt">Continuă</string>
+<string name="No_Internet">Nu există conexiune la internet. Verifică starea conexiunii din setările de wifi sau setările de date ale telefonului</string>
+    <string name="myphilips_CC">Cont MyPhilips</string>
+</resources>

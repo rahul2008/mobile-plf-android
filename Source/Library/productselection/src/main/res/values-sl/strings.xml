@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="Select_Product_Title">Izberite izdelek</string>
+    <string name="Select_Product_Desc">Nam lahko zaupate, kateri izdelek imate, da vam bomo lahko nudili boljšo podporo?</string>
+    <string name="Select_Product_Find">Poiščite izdelek</string>
+    <string name="Product_Title">Izdelki</string>
+    <string name="Product_Details_Select">Izberi ta izdelek</string>
+    <string name="Change_Selected_Product">Zamenjaj izbrani izdelek</string>
+    <string name="Confirmation_Title">Potrditev</string>
+    <string name="Confirmation_Selected">Izbrali ste</string>
+    <string name="Confirmation_Change">Spremeni</string>
+    <string name="Confirmation_Change_Selection">Izbiro lahko spremenite kadarkoli.</string>
+    <string name="Confirmation_Continue_Support">Naprej na podporo</string>
+    <string name="Continue_Btntxt">Naprej</string>
+    <string name="No_Internet">Ni internetne povezave. Vnastavitvah Wi-Fi ali podatkovnih nastavitvah telefona preverite, ali je povezava vzpostavljena.</string>
+    <string name="myphilips_CC">Račun MyPhilips</string>
+</resources>

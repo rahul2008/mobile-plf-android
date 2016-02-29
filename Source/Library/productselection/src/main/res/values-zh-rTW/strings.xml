@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">選擇產品</string>
+<string name="Select_Product_Desc">為向您提供更好的支援，可否請您告知您擁有的產品為何？</string>
+<string name="Select_Product_Find">尋找產品</string>
+<string name="Product_Title">產品</string>
+<string name="Product_Details_Select">選擇此產品</string>
+<string name="Change_Selected_Product">變更所選產品</string>
+<string name="Confirmation_Title">確認</string>
+<string name="Confirmation_Selected">您已選取</string>
+<string name="Confirmation_Change">變更</string>
+<string name="Confirmation_Change_Selection">您可以隨時變更選擇。</string>
+<string name="Confirmation_Continue_Support">繼續前往支援</string>
+<string name="Continue_Btntxt">繼續</string>
+<string name="No_Internet">沒有網際網路連線。請檢查您手機 wifi 設定或數據 設定是否運作正常</string>
+    <string name="myphilips_CC">MyPhilips 帳戶</string>
+</resources>

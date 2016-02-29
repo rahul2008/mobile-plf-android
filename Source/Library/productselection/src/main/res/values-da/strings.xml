@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Vælg produkt</string>
+<string name="Select_Product_Desc">Vi vil gerne kunne yde dig bedre support, så vil du fortælle os, hvilket produkt du ejer?</string>
+<string name="Select_Product_Find">Find produkt</string>
+<string name="Product_Title">Produkter</string>
+<string name="Product_Details_Select">Vælg dette produkt</string>
+<string name="Change_Selected_Product">Rediger produktvalget</string>
+<string name="Confirmation_Title">Bekræftelse</string>
+<string name="Confirmation_Selected">Du har valgt</string>
+<string name="Confirmation_Change">Rediger</string>
+<string name="Confirmation_Change_Selection">Du kan ændre dit valg når som helst.</string>
+<string name="Confirmation_Continue_Support">Fortsæt til support</string>
+<string name="Continue_Btntxt">Fortsæt</string>
+<string name="No_Internet">Ingen internetforbindelse. Kontroller forbindelsen i din telefons Wi-Fi-indstillinger eller dataindstillinger</string>
+    <string name="myphilips_CC">MyPhilips-konto</string>
+</resources>

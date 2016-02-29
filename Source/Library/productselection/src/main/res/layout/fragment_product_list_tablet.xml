@@ -1,0 +1,40 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:id="@+id/containerParentTablet">
+
+    <LinearLayout
+        android:id="@+id/productListContainerTablet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
+<!--
+        <fragment
+            android:id="@+id/fragmentTabletProductList"
+            android:name="com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:tag="ProductListingFragment"
+            android:layout_weight="0.45" />-->
+
+        <RelativeLayout
+            android:id="@+id/fragmentTabletProductList"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:tag="ProductListingFragment"
+            android:layout_weight="0.45">
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:id="@+id/fragmentTabletProductDetailsParent"
+            android:background="#cccccc"
+            android:layout_width="0dp"
+            android:layout_weight="0.55">
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

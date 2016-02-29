@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="Select_Product_Title">Valige toode</string>
+    <string name="Select_Product_Desc">Selleks, et teile paremat tuge pakkuda, märkige palun, millise toote omanik te olete?</string>
+    <string name="Select_Product_Find">Otsi toode</string>
+    <string name="Product_Title">Tooted</string>
+    <string name="Product_Details_Select">Valige see toode</string>
+    <string name="Change_Selected_Product">Muutke valitud toodet</string>
+    <string name="Confirmation_Title">Kinnitus</string>
+    <string name="Confirmation_Selected">Teie valitud toode</string>
+    <string name="Confirmation_Change">Muuda</string>
+    <string name="Confirmation_Change_Selection">Valitud toodet saate igal ajal muuta.</string>
+    <string name="Confirmation_Continue_Support">Edasi tootetoe juurde</string>
+    <string name="Continue_Btntxt">Jätka</string>
+    <string name="No_Internet">Internetiühendus puudub. Palun kontrollige ühenduse seisundit oma telefoni wifi sätetest või andmesidesätetest.</string>
+    <string name="myphilips_CC">MyPhilipsi konto</string>
+
+</resources>

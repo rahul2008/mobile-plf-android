@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Wybierz produkt</string>
+<string name="Select_Product_Desc">Aby zapewnić Ci lepszą obsługę, chcielibyśmy dowiedzieć się, jaki produkt posiadasz.</string>
+<string name="Select_Product_Find">Znajdź produkt</string>
+<string name="Product_Title">Produkty</string>
+<string name="Product_Details_Select">Wybierz ten produkt</string>
+<string name="Change_Selected_Product">Zmień wybrany produkt</string>
+<string name="Confirmation_Title">Potwierdzenie</string>
+<string name="Confirmation_Selected">Wybrano</string>
+<string name="Confirmation_Change">Zmień</string>
+<string name="Confirmation_Change_Selection">Możesz zmienić swój wybór w dowolnym momencie.</string>
+<string name="Confirmation_Continue_Support">Kontynuuj, aby przejść do pomocy technicznej</string>
+<string name="Continue_Btntxt">Kontynuuj</string>
+<string name="No_Internet">Brak połączenia internetowego. Sprawdź połączenie w ustawieniach Wi-Fi lub ustawieniach przesyłu danych telefonu.</string>
+    <string name="myphilips_CC">Konto MyPhilips</string>
+</resources>

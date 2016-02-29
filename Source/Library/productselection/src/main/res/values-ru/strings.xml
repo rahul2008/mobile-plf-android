@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Выбор продукта</string>
+<string name="Select_Product_Desc">Сообщите нам, какой продукт вы приобрели, чтобы мы предоставили вам качественную поддержку.</string>
+<string name="Select_Product_Find">Найти продукт</string>
+<string name="Product_Title">Изделия</string>
+<string name="Product_Details_Select">Выбрать этот продукт</string>
+<string name="Change_Selected_Product">Изменить выбранный продукт</string>
+<string name="Confirmation_Title">Подтверждение</string>
+<string name="Confirmation_Selected">Вы выбрали</string>
+<string name="Confirmation_Change">Изменение</string>
+<string name="Confirmation_Change_Selection">Вы можете в любой момент изменить свой выбор.</string>
+<string name="Confirmation_Continue_Support">Получить поддержку</string>
+<string name="Continue_Btntxt">Продолжить</string>
+<string name="No_Internet">Aucune connexion Internet. Vérifiez votre connexion dans les paramètres Wi-Fi ou données de votre téléphone.</string>
+    <string name="myphilips_CC">Учетная запись MyPhilips</string>
+</resources>

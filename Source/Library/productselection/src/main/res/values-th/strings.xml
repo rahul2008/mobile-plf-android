@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">เลือกผลิตภัณฑ์</string>
+<string name="Select_Product_Desc">เพื่อให้เราสนับสนุนคุณได้ดีขึ้น พอจะบอกให้ทราบได้หรือไม่ว่าคุณมีผลิตภัณฑ์ใด</string>
+<string name="Select_Product_Find">ค้นหาผลิตภัณฑ์</string>
+<string name="Product_Title">ผลิตภัณฑ์</string>
+<string name="Product_Details_Select">เลือกผลิตภัณฑ์นี้</string>
+<string name="Change_Selected_Product">เปลี่ยนผลิตภัณฑ์ที่เลือก</string>
+<string name="Confirmation_Title">การยืนยัน</string>
+<string name="Confirmation_Selected">คุณได้เลือก</string>
+<string name="Confirmation_Change">เปลี่ยน</string>
+<string name="Confirmation_Change_Selection">คุณสามารถเปลี่ยนการเลือกของคุณได้ทุกเมื่อ</string>
+<string name="Confirmation_Continue_Support">ต่อไปยังการสนับสนุน</string>
+<string name="Continue_Btntxt">ดำเนินการต่อ</string>
+<string name="No_Internet">ไม่มีการเชื่อมต่ออินเตอร์เน็ต โปรดตรวจสอบว่าการเชื่อมต่อทำงานหรือไม่ในการตั้งค่า Wifi หรือการตั้งค่าข้อมูลของโทรศัพท์</string>
+    <string name="myphilips_CC">แอคเคาท์ MyPhilips</string>
+</resources>

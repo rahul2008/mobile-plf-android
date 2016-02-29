@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Atlasīt produktu</string>
+<string name="Select_Product_Desc">Lai saņemtu labāku atbalstu, vai varat norādīt, kāds produkts ir jūsu īpašumā?</string>
+<string name="Select_Product_Find">Atrast produktu</string>
+<string name="Product_Title">Izstrādājumi</string>
+<string name="Product_Details_Select">Atlasiet šo produktu</string>
+<string name="Change_Selected_Product">Mainiet atlasīto produktu</string>
+<string name="Confirmation_Title">Apstiprinājums</string>
+<string name="Confirmation_Selected">Esat atlasījis</string>
+<string name="Confirmation_Change">Mainīt</string>
+<string name="Confirmation_Change_Selection">Varat mainīt savu atlasi jebkurā laikā.</string>
+<string name="Confirmation_Continue_Support">Turpināt uz atbalstu</string>
+<string name="Continue_Btntxt">Turpināt</string>
+<string name="No_Internet">Nav interneta savienojuma. Pārbaudiet, vai jūsu savienojums darbojas tālruņa wifi iestatījumos vai datu iestatījumos</string>
+    <string name="myphilips_CC">MyPhilips konts</string>
+</resources>

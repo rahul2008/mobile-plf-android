@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="Select_Product_Title">Velg produkt</string>
+    <string name="Select_Product_Desc">Fortell oss hvilket produkt du eier, slik at vi kan gi deg bedre støtte.</string>
+    <string name="Select_Product_Find">Finn produkt</string>
+    <string name="Product_Title">Produkter</string>
+    <string name="Product_Details_Select">Velg dette produktet</string>
+    <string name="Change_Selected_Product">Endre valgte produkt</string>
+    <string name="Confirmation_Title">Bekreftelse</string>
+    <string name="Confirmation_Selected">Du har valgt</string>
+    <string name="Confirmation_Change">Endre</string>
+    <string name="Confirmation_Change_Selection">Du kan endre valget når som helst.</string>
+    <string name="Confirmation_Continue_Support">Fortsett til støtte</string>
+    <string name="Continue_Btntxt">Fortsett</string>
+    <string name="myphilips_CC">MyPhilips-konto</string>
+</resources>

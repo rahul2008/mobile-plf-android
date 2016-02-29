@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Pasirinkite produktą</string>
+<string name="Select_Product_Desc">Ar galite patikslinti, kokį produktą turite, kad galėtume geriau jums padėti?</string>
+<string name="Select_Product_Find">Ieškoti produkto</string>
+<string name="Product_Title">Gaminiai</string>
+<string name="Product_Details_Select">Pasirinkite šį produktą</string>
+<string name="Change_Selected_Product">Pakeiskite pasirinktą produktą</string>
+<string name="Confirmation_Title">Patvirtinimas</string>
+<string name="Confirmation_Selected">Jūs pasirinkote</string>
+<string name="Confirmation_Change">Keisti</string>
+<string name="Confirmation_Change_Selection">Savo pasirinkimą galite pakeisti bet kuriuo metu.</string>
+<string name="Confirmation_Continue_Support">Tęst į klientų aptarnavimo skyrių</string>
+<string name="Continue_Btntxt">Tęsti</string>
+<string name="No_Internet">Nėra interneto ryšio. Ryšio veikimą patikrinkite telefono „wifi“ nustatymuose arba duomenų nustatymuose</string>
+    <string name="myphilips_CC">„MyPhilips“ paskyra</string>
+</resources>

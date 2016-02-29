@@ -1,0 +1,69 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/fragment_detailedscreen_image_navigation" />
+
+
+        <LinearLayout
+            android:id="@+id/detailed_screen_parent_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin">
+
+            <com.philips.cdp.productselection.customview.CustomFontTextView
+                android:id="@+id/detailed_screen_productname"
+                style="@style/detailedscreeen_product_name"
+
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
+
+            <com.philips.cdp.productselection.customview.CustomFontTextView
+                android:id="@+id/detailed_screen_productctn"
+                style="@style/detailedscreeen_product_variant"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
+
+
+            <Button
+                android:id="@+id/detailedscreen_select_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/Product_Details_Select" />
+
+
+            <com.philips.cdp.productselection.customview.CustomFontTextView
+
+                style="@style/detailedscreeen_product_spec1"
+                android:text="1000 W"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
+
+            <com.philips.cdp.productselection.customview.CustomFontTextView
+                style="@style/detailedscreeen_product_spec2"
+                android:text="3.4 L Bowl"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
+
+            <com.philips.cdp.productselection.customview.CustomFontTextView
+
+                style="@style/detailedscreeen_product_spec3"
+                android:text="8 accessories"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

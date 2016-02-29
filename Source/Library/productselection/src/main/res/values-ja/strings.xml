@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">製品を選択</string>
+<string name="Select_Product_Desc">お客様により適切なサポートを提供させていただくため、お持ちの製品をお知らせいただけますか？</string>
+<string name="Select_Product_Find">製品を検索</string>
+<string name="Product_Title">製品</string>
+<string name="Product_Details_Select">この製品を選択</string>
+<string name="Change_Selected_Product">選択した製品を変更</string>
+<string name="Confirmation_Title">確認</string>
+<string name="Confirmation_Selected">選択した製品：</string>
+<string name="Confirmation_Change">変更</string>
+<string name="Confirmation_Change_Selection">選択はいつでも変更することができます。</string>
+<string name="Confirmation_Continue_Support">サポートに進む</string>
+<string name="Continue_Btntxt">続行</string>
+<string name="No_Internet">インターネットに接続されていません。携帯電話の Wi-Fi 設定またはデータ設定で接続が機能していることを確認してください</string>
+    <string name="myphilips_CC">MyPhilips アカウント</string>
+</resources>
