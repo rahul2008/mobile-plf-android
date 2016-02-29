@@ -122,7 +122,7 @@
             android:background="?attr/baseColor"></LinearLayout>-->
 
         <Button
-            android:id="@+id/savedscreen_button_viewproductdetails"
+            android:id="@+id/savedscreen_button_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

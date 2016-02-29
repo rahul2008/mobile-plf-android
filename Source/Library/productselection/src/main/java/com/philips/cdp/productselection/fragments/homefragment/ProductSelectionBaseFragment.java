@@ -3,6 +3,7 @@ package com.philips.cdp.productselection.fragments.homefragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -41,6 +42,8 @@ import java.util.Locale;
 public abstract class ProductSelectionBaseFragment extends Fragment implements
         NetworkStateListener {
 
+    private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+    private static final String USER_PREFERENCE = "user_product";
     protected static SummaryModel mUserSelectedProduct = null;
     private static String TAG = ProductSelectionBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;
@@ -54,6 +57,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private static String FRAGMENT_TAG_NAME = "productselection";
     private static Boolean mListViewRequired = true;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+    protected SharedPreferences prefs = null;
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
     private NetworkReceiver mNetworkutility = null;
@@ -92,6 +96,31 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
                     mFragmentActivityContext.getResources().getDisplayMetrics());
         }
     }*/
+
+    protected boolean setPreference(String ctn) {
+
+        if (ctn != null && ctn != "") {
+            prefs = getActivity().getSharedPreferences(
+                    USER_PREFERENCE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(USER_SELECTED_PRODUCT_CTN, ctn);
+            editor.apply();
+            return true;
+        } else
+            return false;
+    }
+
+
+    protected boolean getCtnFromPreference() {
+        String ctn = null;
+        prefs = getActivity().getSharedPreferences(
+                USER_PREFERENCE, Context.MODE_PRIVATE);
+        ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        if (ctn != null && ctn != "")
+            return true;
+        else
+            return false;
+    }
 
     private void registerNetWorkReceiver() {
         IntentFilter mfilter = new IntentFilter(
@@ -249,7 +278,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
-       // setLocaleLanguage();
+        // setLocaleLanguage();
         getAppName();
     }
 
