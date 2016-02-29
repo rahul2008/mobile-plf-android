@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.philips.cdp.backend.ProdRegHelper;
+import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.model.ProductMetaData;
 import com.philips.cdp.model.ProductResponse;
@@ -60,7 +61,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initEditText() {
         Log.d(TAG, "MICRO SITE_ID : " + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-        regChannel.setText("MS"+RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        regChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         serialNumber.setText("ab123456789012");
         purchaseDate.setText("2016-02-15");
         ctn.setText("HD8969/09");
