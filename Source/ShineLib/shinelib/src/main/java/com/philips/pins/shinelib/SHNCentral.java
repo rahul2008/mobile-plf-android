@@ -83,11 +83,12 @@ public class SHNCentral {
     private PersistentStorageFactory persistentStorageFactory;
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
 
+    @Deprecated
     public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
         this(handler, context, false, null);
     }
 
-    public SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff, PersistentStorageFactory.Extension extension) throws SHNBluetoothHardwareUnavailableException {
+    private SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff, PersistentStorageFactory.Extension extension) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
@@ -326,5 +327,35 @@ public class SHNCentral {
             }
         }
         return shnDevice;
+    }
+
+    public static class Builder {
+        private Handler handler;
+        private final Context context;
+        private Boolean showPopupIfBLEIsTurnedOff = false;
+        private PersistentStorageFactory.Extension extension;
+
+        public Builder(@NonNull final Context context) {
+            this.context = context;
+        }
+
+        public Builder setHandler(Handler handler) {
+            this.handler = handler;
+            return this;
+        }
+
+        public Builder showPopupIfBLEIsTurnedOff(Boolean showPopupIfBLEIsTurnedOff) {
+            this.showPopupIfBLEIsTurnedOff = showPopupIfBLEIsTurnedOff;
+            return this;
+        }
+
+        public Builder setExtension(PersistentStorageFactory.Extension extension) {
+            this.extension = extension;
+            return this;
+        }
+
+        public SHNCentral create() throws SHNBluetoothHardwareUnavailableException {
+            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, extension);
+        }
     }
 }
