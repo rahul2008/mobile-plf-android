@@ -39,9 +39,9 @@ public class ProductMetaDataBuilder extends RegistrationDataBuilder {
     private String generateUrl() {
         Uri builtUri = Uri.parse(getServerInfo())
                 .buildUpon()
-                .appendPath(getSectorCode())
+                .appendPath(getSector().name())
                 .appendPath(getLocale())
-                .appendPath(getCatalogCode())
+                .appendPath(getCatalog().name())
                 .appendPath("products")
                 .appendPath(mCtn + ".metadata")
                 .build();

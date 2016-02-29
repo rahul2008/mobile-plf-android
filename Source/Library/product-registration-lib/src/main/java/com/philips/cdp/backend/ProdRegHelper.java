@@ -44,7 +44,6 @@ public class ProdRegHelper {
 
     public void registerProduct(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
         requestType = ProdRegConstants.PRODUCT_REGISTRATION;
-        mContext = context;
         final RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
         callMetadata(context, prxDataBuilder, listener, registrationBuilder);
     }
@@ -142,7 +141,7 @@ public class ProdRegHelper {
             public void onRegisterSuccess(final String response) {
                 RegistrationDataBuilder registrationDataBuilder = (RegistrationDataBuilder) prxDataBuilder;
                 registrationDataBuilder.setAccessToken(response);
-                validateRequests(mContext, prxDataBuilder, listener, requestType);
+                validateRequests(mContext, prxDataBuilder, listener);
             }
             @Override
             public void onRegisterFailedWithFailure(final int error) {
@@ -161,7 +160,7 @@ public class ProdRegHelper {
         requestManager.executeRequest(RequestType.GET, prxDataBuilder, prxRequest);
     }
 
-    private void validateRequests(final Context mContext, final PrxDataBuilder prxDataBuilder, final ResponseListener listener, String requestType) {
+    private void validateRequests(final Context mContext, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
                 makeRegistrationRequest(mContext, prxDataBuilder, listener);
