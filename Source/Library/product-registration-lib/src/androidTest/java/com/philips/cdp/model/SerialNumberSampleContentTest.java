@@ -8,8 +8,16 @@ import junit.framework.TestCase;
  */
 public class SerialNumberSampleContentTest extends TestCase {
 
-    public void testGetTitle() throws Exception {
+    SerialNumberSampleContent serialNumberSampleContentTest;
 
+    @Override
+    public void setUp() throws Exception {
+        serialNumberSampleContentTest = new SerialNumberSampleContent();
+    }
+
+    public void testGetTitle() throws Exception {
+        serialNumberSampleContentTest.setTitle("Find the serial number");
+        assertEquals("Find the serial number", serialNumberSampleContentTest.getTitle());
     }
 
     public void testSetTitle() throws Exception {
@@ -18,6 +26,8 @@ public class SerialNumberSampleContentTest extends TestCase {
 
     public void testGetAsset() throws Exception {
 
+        serialNumberSampleContentTest.setAsset("/consumerfiles/assets/img/registerproducts/HC.jpg");
+        assertEquals("/consumerfiles/assets/img/registerproducts/HC.jpg", serialNumberSampleContentTest.getAsset());
     }
 
     public void testSetAsset() throws Exception {
@@ -25,7 +35,8 @@ public class SerialNumberSampleContentTest extends TestCase {
     }
 
     public void testGetSnExample() throws Exception {
-
+        serialNumberSampleContentTest.setSnExample("Example: 1344");
+        assertEquals("Example: 1344", serialNumberSampleContentTest.getSnExample());
     }
 
     public void testSetSnExample() throws Exception {
@@ -33,7 +44,8 @@ public class SerialNumberSampleContentTest extends TestCase {
     }
 
     public void testGetSnFormat() throws Exception {
-
+        serialNumberSampleContentTest.setSnFormat("cc");
+        assertEquals("cc", serialNumberSampleContentTest.getSnFormat());
     }
 
     public void testSetSnFormat() throws Exception {

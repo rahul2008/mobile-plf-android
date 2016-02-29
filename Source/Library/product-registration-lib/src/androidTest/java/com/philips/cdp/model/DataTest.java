@@ -28,6 +28,8 @@ public class DataTest extends InstrumentationTestCase {
     }
 
     public void testGetLocale() throws Exception {
+        dataTest.setLocale("en_GB");
+        assertEquals("en_GB", dataTest.getLocale());
 
     }
 
@@ -36,6 +38,8 @@ public class DataTest extends InstrumentationTestCase {
     }
 
     public void testGetDateOfPurchase() throws Exception {
+        dataTest.setDateOfPurchase("2015-02-25");
+        assertEquals("2015-02-25", dataTest.getDateOfPurchase());
 
     }
 
@@ -44,6 +48,8 @@ public class DataTest extends InstrumentationTestCase {
     }
 
     public void testGetProductRegistrationUuid() throws Exception {
+        dataTest.setProductRegistrationUuid("eb26c6d8-693f-4ec0-be60-2c603eaad8a3");
+        assertEquals("eb26c6d8-693f-4ec0-be60-2c603eaad8a3", dataTest.getProductRegistrationUuid());
 
     }
 
@@ -52,6 +58,8 @@ public class DataTest extends InstrumentationTestCase {
     }
 
     public void testGetWarrantyEndDate() throws Exception {
+        dataTest.setWarrantyEndDate("2019-06-12");
+        assertEquals("2019-06-12", dataTest.getWarrantyEndDate());
 
     }
 
@@ -60,6 +68,8 @@ public class DataTest extends InstrumentationTestCase {
     }
 
     public void testGetContractNumber() throws Exception {
+        dataTest.setContractNumber("CQ5A000ef");
+        assertEquals("CQ5A000ef", dataTest.getContractNumber());
 
     }
 
@@ -68,6 +78,8 @@ public class DataTest extends InstrumentationTestCase {
     }
 
     public void testGetModelNumber() throws Exception {
+        dataTest.setModelNumber("HC5450/83");
+        assertEquals("HC5450/83", dataTest.getModelNumber());
 
     }
 
@@ -76,6 +88,8 @@ public class DataTest extends InstrumentationTestCase {
     }
 
     public void testGetEmailStatus() throws Exception {
+        dataTest.setEmailStatus("succes s");
+        assertEquals("success", dataTest.getEmailStatus());
 
     }
 

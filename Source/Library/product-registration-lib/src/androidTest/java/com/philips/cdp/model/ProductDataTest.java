@@ -8,95 +8,59 @@ import junit.framework.TestCase;
  */
 public class ProductDataTest extends TestCase {
 
-    public void testGetMessage() throws Exception {
+    ProductData productDataTest;
 
+    @Override
+    public void setUp() throws Exception {
+        productDataTest = new ProductData();
     }
 
-    public void testSetMessage() throws Exception {
-
+    public void testGetMessage() throws Exception {
+        productDataTest.setMessage("If, after the purchase date");
+        assertEquals("If, after the purchase date", productDataTest.getMessage());
     }
 
     public void testGetCtn() throws Exception {
-
-    }
-
-    public void testSetCtn() throws Exception {
-
+        productDataTest.setCtn("HC5410/83");
+        assertEquals("HC5410/83", productDataTest.getCtn());
     }
 
     public void testGetIsLicensekeyRequired() throws Exception {
 
     }
 
-    public void testSetIsLicensekeyRequired() throws Exception {
-
-    }
-
     public void testGetHasGiftPack() throws Exception {
-
-    }
-
-    public void testSetHasGiftPack() throws Exception {
-
+        productDataTest.setHasGiftPack("true");
+        assertEquals("true", productDataTest.getHasGiftPack());
     }
 
     public void testGetSerialNumberFormat() throws Exception {
-
-    }
-
-    public void testSetSerialNumberFormat() throws Exception {
-
+        productDataTest.setSerialNumberFormat("^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$");
+        assertEquals("^[1]{1}[3-9]{1}[0-5]{1}[0-9]{1}$", productDataTest.getSerialNumberFormat());
     }
 
     public void testGetHasExtendedWarranty() throws Exception {
-
-    }
-
-    public void testSetHasExtendedWarranty() throws Exception {
-
+        productDataTest.setHasExtendedWarranty("true");
+        assertEquals("true", productDataTest.getHasExtendedWarranty());
     }
 
     public void testGetRequiresSerialNumber() throws Exception {
-
-    }
-
-    public void testSetRequiresSerialNumber() throws Exception {
-
-    }
-
-    public void testGetSerialNumberSampleContent() throws Exception {
-
-    }
-
-    public void testSetSerialNumberSampleContent() throws Exception {
-
+        productDataTest.setRequiresSerialNumber("true");
+        assertEquals("true", productDataTest.getRequiresSerialNumber());
     }
 
     public void testGetIsConnectedDevice() throws Exception {
-
-    }
-
-    public void testSetIsConnectedDevice() throws Exception {
-
+        productDataTest.setIsConnectedDevice("true");
+        assertEquals("true", productDataTest.getIsConnectedDevice());
     }
 
     public void testGetExtendedWarrantyMonths() throws Exception {
-
-    }
-
-    public void testSetExtendedWarrantyMonths() throws Exception {
-
+        productDataTest.setExtendedWarrantyMonths("true");
+        assertEquals("true", productDataTest.getExtendedWarrantyMonths());
     }
 
     public void testGetRequiresDateOfPurchase() throws Exception {
-
-    }
-
-    public void testSetRequiresDateOfPurchase() throws Exception {
-
-    }
-
-    public void testToString() throws Exception {
-
+        productDataTest.setRequiresDateOfPurchase("true");
+        assertEquals("true", productDataTest.getRequiresDateOfPurchase());
     }
 }
