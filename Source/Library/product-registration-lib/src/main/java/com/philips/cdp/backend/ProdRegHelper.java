@@ -44,11 +44,11 @@ public class ProdRegHelper {
 
     public void registerProduct(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
         requestType = ProdRegConstants.PRODUCT_REGISTRATION;
-        final RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
-        callMetadata(context, prxDataBuilder, listener, registrationBuilder);
+        callMetadata(context, prxDataBuilder, listener);
     }
 
-    private void callMetadata(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener, final RegistrationBuilder registrationBuilder) {
+    private void callMetadata(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+        RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
         ProductMetaDataBuilder productMetaDataBuilder = new ProductMetaDataBuilder(registrationBuilder.getCtn(), registrationBuilder.getAccessToken());
         productMetaDataBuilder.setSector(registrationBuilder.getSector());
         productMetaDataBuilder.setmLocale(registrationBuilder.getLocale());
