@@ -71,7 +71,7 @@ public class PrxProductData {
         updateUI(new Runnable() {
             @Override
             public void run() {
-             //   executeAssetRequest();
+                //   executeAssetRequest();
                 executeSummaryRequest();
             }
         });
@@ -190,6 +190,8 @@ public class PrxProductData {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
 
+                ViewProductDetailsModel viewProductDetailsData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
                     com.philips.cdp.prxclient.prxdatamodels.assets.Data data = mAssetModel.getData();
@@ -213,11 +215,11 @@ public class PrxProductData {
                                     mVideoList.add(assetResource);
                         }
                         if (qsgManual != null)
-                            mProductDetailsObject.setManualLink(qsgManual);
+                            viewProductDetailsData.setManualLink(qsgManual);
                         else if (usermanual != null)
-                            mProductDetailsObject.setManualLink(usermanual);
-                        mProductDetailsObject.setmVideoLinks(mVideoList);
-                        mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                            viewProductDetailsData.setManualLink(usermanual);
+                        viewProductDetailsData.setmVideoLinks(mVideoList);
+                        mConfigManager.setViewProductDetailsData(viewProductDetailsData);
 
                     }
                 }
@@ -226,7 +228,7 @@ public class PrxProductData {
             @Override
             public void onResponseError(String error, int statusCode) {
                 DigiCareLogger.e(TAG, "Asset Error Response : " + error);
-                mConfigManager.setViewProductDetailsData(mProductDetailsObject);
+                mConfigManager.setViewProductDetailsData(DigitalCareConfigManager.getInstance().getViewProductDetailsData());
             }
         });
     }

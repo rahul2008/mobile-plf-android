@@ -520,6 +520,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
               /*  mPrxProductData = new PrxProductData(getActivity(), null);
 
                 mPrxProductData.executePRXAssetRequestWithSummaryData(productSummaryModel);
+
+                 Data data = summaryModel.getData();
+                         if (data != null) {
+                             mProductDetailsObject.setProductName(data.getProductTitle());
+                             mProductDetailsObject.setCtnName(data.getCtn());
+                             mProductDetailsObject.setProductImage(data.getImageURL());
+                             mProductDetailsObject.setProductInfoLink(data.getProductURL());
+                             mConfigManager.setViewProductDetailsData(mProductDetailsObject);
 */
                 Data summaryData = productSummaryModel.getData();
                 List<String> filterKeys = summaryData.getFilterKeys();
@@ -542,6 +550,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
+
+                ViewProductDetailsModel productDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+                productDetailsModel.setProductName(summaryData.getProductTitle());
+                productDetailsModel.setCtnName(summaryData.getCtn());
+                productDetailsModel.setProductImage(summaryData.getImageURL());
+                productDetailsModel.setProductInfoLink(summaryData.getProductURL());
+                DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
 
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());

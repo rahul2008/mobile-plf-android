@@ -560,12 +560,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 
     public void onUpdateAssetData() {
-        mManualPdf = mViewProductDetailsModel.getManualLink();
-        mProductPage = mViewProductDetailsModel.getProductInfoLink();
+        ViewProductDetailsModel viewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+        mManualPdf = viewProductDetailsModel.getManualLink();
+        mProductPage = viewProductDetailsModel.getProductInfoLink();
         DigiCareLogger.d(TAG, "Manual Link : " + mManualPdf);
         DigiCareLogger.d(TAG, "Philips Page Link : " + mProductPage);
-        List<String> productVideos = mViewProductDetailsModel.getVideoLinks();
+        List<String> productVideos = viewProductDetailsModel.getVideoLinks();
         if (productVideos != null)
-            initView(mViewProductDetailsModel.getVideoLinks());
+            initView(viewProductDetailsModel.getVideoLinks());
     }
 }
