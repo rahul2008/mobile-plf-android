@@ -5,11 +5,9 @@
 
 package com.philips.cdp.dicommclient.request;
 
-import java.util.HashMap;
-
-import com.philips.cdp.dicommclient.request.Request;
-
 import junit.framework.TestCase;
+
+import java.util.HashMap;
 
 public class RequestTest extends TestCase {
 
@@ -35,6 +33,14 @@ public class RequestTest extends TestCase {
 		assertEquals("{\"key\":[\"value1\",\"value2\",\"value3\"]}", json);
 	}
 
+	public void test_ParseStringArrayContainingNull() {
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		String[] array = {"value1",null,"value3"};
+		data.put("key", array);
+		String json = Request.convertKeyValuesToJson(data);
+		assertEquals("{\"key\":[\"value1\",\"\",\"value3\"]}", json);
+	}
+
 	public void test_ParseStringArrayContainingJson() {
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		String[] array = {"{\"key1\":\"value1\"}","{\"key2\":\"value2\"}","{\"key3\":\"value3\"}"};
@@ -42,5 +48,4 @@ public class RequestTest extends TestCase {
 		String json = Request.convertKeyValuesToJson(data);
 		assertEquals("{\"key\":[{\"key1\":\"value1\"},{\"key2\":\"value2\"},{\"key3\":\"value3\"}]}", json);
 	}
-
 }
