@@ -81,7 +81,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
         View view = inflater.inflate(R.layout.fragment_saved_screen, container, false);
         mSettings = (Button) view.findViewById(R.id.savedscreen_button_settings);
-        mRedirectingButton = (Button) view.findViewById(R.id.savedscreen_button_viewproductdetails);
+        mRedirectingButton = (Button) view.findViewById(R.id.savedscreen_button_continue);
         mProductName = (CustomFontTextView) view.findViewById(R.id.savedscreen_productname);
         mProductCtn = (CustomFontTextView) view.findViewById(R.id.savedscreen_productvariant);
         mProductImage = (ImageView) view.findViewById(R.id.savedscreen_productimage);
@@ -157,9 +157,10 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                     showFragment(new ProductSelectionListingFragment());
                 }
 //                }
-            } else if (v.getId() == R.id.savedscreen_button_viewproductdetails) {
+            } else if (v.getId() == R.id.savedscreen_button_continue) {
                 if (isConnectionAvailable()) {
-                    ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                    setPreference(mUserSelectedProduct.getData().getCtn());
+                    ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                     clearBackStackHistory(getActivity());
                 }
             }

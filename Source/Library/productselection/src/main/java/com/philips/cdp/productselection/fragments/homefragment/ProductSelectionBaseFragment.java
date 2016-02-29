@@ -3,6 +3,7 @@ package com.philips.cdp.productselection.fragments.homefragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -41,6 +42,9 @@ import java.util.Locale;
 public abstract class ProductSelectionBaseFragment extends Fragment implements
         NetworkStateListener {
 
+    private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+    private static final String USER_PREFERENCE = "user_product";
+    protected static SummaryModel mUserSelectedProduct = null;
     private static String TAG = ProductSelectionBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;
     private static int mContainerId = 0;
@@ -51,15 +55,15 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
     private static String FRAGMENT_TAG_NAME = "productselection";
+    private static Boolean mListViewRequired = true;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    protected static SummaryModel mUserSelectedProduct = null;
+    protected SharedPreferences prefs = null;
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
     private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private TextView mActionBarTitle = null;
-    private static Boolean mListViewRequired = true;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -79,10 +83,10 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
         registerNetWorkReceiver();
-        setLocaleLanguage();
+        // setLocaleLanguage();
     }
 
-    private void setLocaleLanguage() {
+  /*  private void setLocaleLanguage() {
         Locale locale = ProductModelSelectionHelper.getInstance().getLocale();
         if (locale != null) {
             Locale.setDefault(locale);
@@ -91,6 +95,31 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             mFragmentActivityContext.getResources().updateConfiguration(config,
                     mFragmentActivityContext.getResources().getDisplayMetrics());
         }
+    }*/
+
+    protected boolean setPreference(String ctn) {
+
+        if (ctn != null && ctn != "") {
+            prefs = getActivity().getSharedPreferences(
+                    USER_PREFERENCE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(USER_SELECTED_PRODUCT_CTN, ctn);
+            editor.apply();
+            return true;
+        } else
+            return false;
+    }
+
+
+    protected boolean getCtnFromPreference() {
+        String ctn = null;
+        prefs = getActivity().getSharedPreferences(
+                USER_PREFERENCE, Context.MODE_PRIVATE);
+        ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        if (ctn != null && ctn != "")
+            return true;
+        else
+            return false;
     }
 
     private void registerNetWorkReceiver() {
@@ -249,7 +278,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
-        setLocaleLanguage();
+        // setLocaleLanguage();
         getAppName();
     }
 
@@ -313,8 +342,8 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         mUserSelectedProduct = summaryModel;
     }
 
-    public void removeFragmentByTag(String tag){
-        try{
+    public void removeFragmentByTag(String tag) {
+        try {
             FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
             Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag(tag);
@@ -325,7 +354,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         }
     }
 
-    public void addFragment(int containerViewId, Fragment fragment, String tag){
+    public void addFragment(int containerViewId, Fragment fragment, String tag) {
         try {
             FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
@@ -478,19 +507,18 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
      */
     private void setActionbarTitle() {
         if (mContainerId == 0) {
-               if(mActionBarTitle == null) {
-                   mActionBarTitle = (TextView) getActivity().findViewById(R.id.productselection_actionbarTitle);
-               }
-            String titleText = null;
-            if(getActionbarTitle() == null){
-                titleText = getResources().getString(R.string.Product_Title);
+            if (mActionBarTitle == null) {
+                mActionBarTitle = (TextView) getActivity().findViewById(R.id.productselection_actionbarTitle);
             }
-            else{
+            String titleText = null;
+            if (getActionbarTitle() == null) {
+                titleText = getResources().getString(R.string.Product_Title);
+            } else {
                 titleText = getActionbarTitle();
             }
             mActionBarTitle.setText(titleText);
         } else {
-              updateActionbar();
+            updateActionbar();
         }
     }
 
@@ -505,11 +533,11 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 //        }
     }
 
-    protected void setListViewRequiredInTablet(Boolean listViewRequired){
+    protected void setListViewRequiredInTablet(Boolean listViewRequired) {
         mListViewRequired = listViewRequired;
     }
 
-    protected Boolean isListViewRequiredInTablet(){
+    protected Boolean isListViewRequiredInTablet() {
         return mListViewRequired;
     }
 
