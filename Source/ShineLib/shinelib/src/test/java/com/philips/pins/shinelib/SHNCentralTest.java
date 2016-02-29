@@ -95,7 +95,7 @@ public class SHNCentralTest extends RobolectricTest {
             }
 
             @Override
-            PersistentStorageFactory createPersistentStorageFactory(PersistentStorageFactory.Extension extension) {
+            PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
                 return persistentStorageFactoryMock;
             }
         };

@@ -11,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -26,7 +27,6 @@ import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
-import com.philips.pins.shinelib.utility.PersistentStorageUnencrypted;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
@@ -88,11 +88,11 @@ public class SHNCentral {
         this(handler, context, false, null);
     }
 
-    private SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff, PersistentStorageFactory.Extension extension) throws SHNBluetoothHardwareUnavailableException {
+    private SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider sharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
-        persistentStorageFactory = createPersistentStorageFactory(extension);
+        persistentStorageFactory = createPersistentStorageFactory(sharedPreferencesProvider);
 
         DataMigrater dataMigrater = createDataMigrater();
         dataMigrater.execute(context, persistentStorageFactory);
@@ -139,17 +139,16 @@ public class SHNCentral {
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
 
-    /* package */ PersistentStorageFactory createPersistentStorageFactory(PersistentStorageFactory.Extension extension) {
-        if (extension == null) {
-            extension = new PersistentStorageFactory.Extension() {
-                @NonNull
+    /* package */ PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
+        if (sharedPreferencesProvider == null) {
+            sharedPreferencesProvider = new SharedPreferencesProvider() {
                 @Override
-                public PersistentStorage createPersistentStorage(@NonNull String key) {
-                    return new PersistentStorageUnencrypted(applicationContext.getSharedPreferences(key, Context.MODE_PRIVATE));
+                public SharedPreferences getSharedPreferences(String key, int mode) {
+                    return new PersistentStorage(applicationContext.getSharedPreferences(key, Context.MODE_PRIVATE));
                 }
             };
         }
-        return new PersistentStorageFactory(extension);
+        return new PersistentStorageFactory(sharedPreferencesProvider);
     }
 
     /* package */ Handler createInternalHandler() {
@@ -314,6 +313,7 @@ public class SHNCentral {
     }
 
     private Map<String, SHNDevice> createdDevices = new HashMap<>();
+
     // TEMPORARY HACK TO ENABLE VERIFICATION TESTS WITH BLE SECURITY ENABLED
     // TODO: Remove this once the ShineVerificationApp uses DeviceAssociation.
     @Deprecated
@@ -333,7 +333,7 @@ public class SHNCentral {
         private Handler handler;
         private final Context context;
         private Boolean showPopupIfBLEIsTurnedOff = false;
-        private PersistentStorageFactory.Extension extension;
+        private SharedPreferencesProvider sharedPreferencesProvider;
 
         public Builder(@NonNull final Context context) {
             this.context = context;
@@ -349,13 +349,13 @@ public class SHNCentral {
             return this;
         }
 
-        public Builder setExtension(PersistentStorageFactory.Extension extension) {
-            this.extension = extension;
+        public Builder setSharedPreferencesProvider(SharedPreferencesProvider sharedPreferencesProvider) {
+            this.sharedPreferencesProvider = sharedPreferencesProvider;
             return this;
         }
 
         public SHNCentral create() throws SHNBluetoothHardwareUnavailableException {
-            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, extension);
+            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider);
         }
     }
 }

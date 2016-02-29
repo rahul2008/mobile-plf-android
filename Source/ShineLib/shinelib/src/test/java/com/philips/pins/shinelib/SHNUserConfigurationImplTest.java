@@ -1,12 +1,10 @@
 package com.philips.pins.shinelib;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.SharedPreferences;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
-import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
-import com.philips.pins.shinelib.utility.PersistentStorageUnencrypted;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,11 +45,10 @@ public class SHNUserConfigurationImplTest extends RobolectricTest {
         defaultLocale = Locale.getDefault();
         Locale.setDefault(Locale.US);
 
-        persistentStorageFactory = new PersistentStorageFactory(new PersistentStorageFactory.Extension() {
-            @NonNull
+        persistentStorageFactory = new PersistentStorageFactory(new SharedPreferencesProvider() {
             @Override
-            public PersistentStorage createPersistentStorage(@NonNull String key) {
-                return new PersistentStorageUnencrypted(RuntimeEnvironment.application.getSharedPreferences(key, Context.MODE_PRIVATE));
+            public SharedPreferences getSharedPreferences(String key, int mode) {
+                return RuntimeEnvironment.application.getSharedPreferences(key, Context.MODE_PRIVATE);
             }
         });
 

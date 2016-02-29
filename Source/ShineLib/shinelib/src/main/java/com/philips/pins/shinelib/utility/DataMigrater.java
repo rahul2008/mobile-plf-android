@@ -78,14 +78,14 @@ public class DataMigrater {
 
     private void moveUserData(final @NonNull Context context, final PersistentStorage newUserStorage) {
         for (final String oldUserPreferencesName : oldUserPreferencesNames) {
-            PersistentStorage oldUserStorage = new PersistentStorageUnencrypted(context.getSharedPreferences(oldUserPreferencesName, Context.MODE_PRIVATE));
+            PersistentStorage oldUserStorage = new PersistentStorage(context.getSharedPreferences(oldUserPreferencesName, Context.MODE_PRIVATE));
             moveData(oldUserStorage, newUserStorage);
         }
     }
 
     private void moveShineAndDeviceData(final @NonNull Context context, final PersistentStorageFactory storageFactory, final PersistentStorage newRootStorage) {
         for (final String oldShinePreferencesName : oldShinePreferencesNames) {
-            PersistentStorage oldRootStorage = new PersistentStorageUnencrypted(context.getSharedPreferences(oldShinePreferencesName, Context.MODE_PRIVATE));
+            PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(oldShinePreferencesName, Context.MODE_PRIVATE));
             Set<String> oldDevices = oldRootStorage.getStringSet(SHNPersistentStorage.ASSOCIATED_DEVICES, new HashSet<String>());
             moveData(oldRootStorage, newRootStorage);
 
@@ -99,7 +99,7 @@ public class DataMigrater {
             PersistentStorage newDeviceStorage = storageFactory.getPersistentStorageForDevice(fixedAddress);
 
             for (final String oldDevicePreferencesSuffix : oldDevicePreferencesSuffixes) {
-                PersistentStorage oldDeviceStorage = new PersistentStorageUnencrypted(context.getSharedPreferences(fixedAddress + oldDevicePreferencesSuffix, Context.MODE_PRIVATE));
+                PersistentStorage oldDeviceStorage = new PersistentStorage(context.getSharedPreferences(fixedAddress + oldDevicePreferencesSuffix, Context.MODE_PRIVATE));
                 moveData(oldDeviceStorage, newDeviceStorage);
             }
         }

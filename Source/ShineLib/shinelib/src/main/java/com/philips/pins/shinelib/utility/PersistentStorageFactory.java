@@ -1,8 +1,10 @@
 package com.philips.pins.shinelib.utility;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SharedPreferencesProvider;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,26 +16,21 @@ public class PersistentStorageFactory {
     public static final String USER_KEY = "SHINELIB_USER_PREFERENCES";
     public static final String DEVICE_ADDRESS_KEY = "SHINELIB_DEVICE_ADDRESS";
 
-    public interface Extension{
-        @NonNull
-        PersistentStorage createPersistentStorage(@NonNull final String key);
-    }
-
     @NonNull
-    private final Extension extension;
+    private final SharedPreferencesProvider sharedPreferencesProvider;
 
-    public PersistentStorageFactory(Extension extension) {
-        this.extension = extension;
+    public PersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
+        this.sharedPreferencesProvider = sharedPreferencesProvider;
     }
 
     @NonNull
     public PersistentStorage getPersistentStorage() {
-        return extension.createPersistentStorage(SHINELIB_KEY);
+        return new PersistentStorage(sharedPreferencesProvider.getSharedPreferences(SHINELIB_KEY, Context.MODE_PRIVATE));
     }
 
     @NonNull
     public PersistentStorage getPersistentStorageForUser() {
-        return extension.createPersistentStorage(USER_KEY);
+        return new PersistentStorage(sharedPreferencesProvider.getSharedPreferences(USER_KEY, Context.MODE_PRIVATE));
     }
 
     @NonNull
@@ -45,7 +42,7 @@ public class PersistentStorageFactory {
     public PersistentStorage getPersistentStorageForDevice(@NonNull final String deviceAddress) {
         String key = getDeviceKey(deviceAddress);
         saveDeviceAddress(deviceAddress);
-        return extension.createPersistentStorage(key);
+        return new PersistentStorage(sharedPreferencesProvider.getSharedPreferences(key, Context.MODE_PRIVATE));
     }
 
     @NonNull
@@ -56,17 +53,15 @@ public class PersistentStorageFactory {
     private void saveDeviceAddress(@NonNull final String deviceAddress) {
         PersistentStorage deviceAddressStorage = getPersistentStorageForDeviceAddresses();
         Set<String> deviceAddresses = deviceAddressStorage.getStringSet(DEVICE_ADDRESS_KEY, new HashSet<String>());
-        if (!deviceAddresses.contains(deviceAddress)) {
-            deviceAddresses.add(deviceAddress);
-            deviceAddressStorage.put(DEVICE_ADDRESS_KEY, deviceAddresses);
-        }
+        deviceAddresses.add(deviceAddress);
+        deviceAddressStorage.put(DEVICE_ADDRESS_KEY, deviceAddresses);
     }
 
     @NonNull
     PersistentStorage getPersistentStorageForDeviceAddresses() {
-        return extension.createPersistentStorage(DEVICE_ADDRESS_KEY);
+        return new PersistentStorage(sharedPreferencesProvider.getSharedPreferences(DEVICE_ADDRESS_KEY, Context.MODE_PRIVATE));
     }
-    
+
     public PersistentStorageCleaner getPersistentStorageCleaner() {
         return new PersistentStorageCleaner(this);
     }

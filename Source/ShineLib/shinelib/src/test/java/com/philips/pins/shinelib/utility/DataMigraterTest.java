@@ -2,6 +2,7 @@ package com.philips.pins.shinelib.utility;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
@@ -10,6 +11,7 @@ import com.philips.pins.shinelib.SHNDeviceAssociationHelper;
 import com.philips.pins.shinelib.SHNUserConfiguration;
 import com.philips.pins.shinelib.SHNUserConfigurationCalculations;
 import com.philips.pins.shinelib.SHNUserConfigurationImpl;
+import com.philips.pins.shinelib.SharedPreferencesProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,12 +62,11 @@ public class DataMigraterTest extends RobolectricTest {
         initMocks(this);
 
         context = RuntimeEnvironment.application;
-        storageFactory = new PersistentStorageFactory(new PersistentStorageFactory.Extension() {
-            @NonNull
+        storageFactory = new PersistentStorageFactory(new SharedPreferencesProvider() {
             @Override
-            public PersistentStorage createPersistentStorage(@NonNull String key) {
-                return new PersistentStorageUnencrypted(context.getSharedPreferences(key, Context.MODE_PRIVATE));
-        }
+            public SharedPreferences getSharedPreferences(String key, int mode) {
+                return context.getSharedPreferences(key, Context.MODE_PRIVATE);
+            }
         });
 
         dataMigrater = new DataMigrater();
@@ -73,7 +74,7 @@ public class DataMigraterTest extends RobolectricTest {
 
     @Test
     public void ShouldMoveShineData_WhenNoDeviceDataPresent() {
-        PersistentStorage oldRootStorage = new PersistentStorageUnencrypted(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(1), Context.MODE_PRIVATE));
+        PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(1), Context.MODE_PRIVATE));
         insertTestData(oldRootStorage);
 
         dataMigrater.execute(context, storageFactory);
@@ -93,10 +94,10 @@ public class DataMigraterTest extends RobolectricTest {
 
     @Test
     public void ShouldMoveShineAndDeviceData_WhenPresent() {
-        PersistentStorage oldRootStorage = new PersistentStorageUnencrypted(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(0), Context.MODE_PRIVATE));
-        PersistentStorage oldDevice1Storage = new PersistentStorageUnencrypted(context.getSharedPreferences(TEST_DEVICE_1 + DataMigrater.oldDevicePreferencesSuffixes.get(0), Context.MODE_PRIVATE));
-        PersistentStorage oldDevice2Storage = new PersistentStorageUnencrypted(context.getSharedPreferences(TEST_DEVICE_2 + DataMigrater.oldDevicePreferencesSuffixes.get(1), Context.MODE_PRIVATE));
-        PersistentStorage oldDevice3Storage = new PersistentStorageUnencrypted(context.getSharedPreferences(TEST_DEVICE_3 + DataMigrater.oldDevicePreferencesSuffixes.get(0), Context.MODE_PRIVATE));
+        PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(0), Context.MODE_PRIVATE));
+        PersistentStorage oldDevice1Storage = new PersistentStorage(context.getSharedPreferences(TEST_DEVICE_1 + DataMigrater.oldDevicePreferencesSuffixes.get(0), Context.MODE_PRIVATE));
+        PersistentStorage oldDevice2Storage = new PersistentStorage(context.getSharedPreferences(TEST_DEVICE_2 + DataMigrater.oldDevicePreferencesSuffixes.get(1), Context.MODE_PRIVATE));
+        PersistentStorage oldDevice3Storage = new PersistentStorage(context.getSharedPreferences(TEST_DEVICE_3 + DataMigrater.oldDevicePreferencesSuffixes.get(0), Context.MODE_PRIVATE));
 
         insertTestData(oldRootStorage);
         insertTestData(oldDevice1Storage);
@@ -130,8 +131,8 @@ public class DataMigraterTest extends RobolectricTest {
 
     @Test
     public void ShouldMoveUserData_WhenOldUserDataIsPresent() {
-        PersistentStorage oldUserStorage0 = new PersistentStorageUnencrypted(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(0), Context.MODE_PRIVATE));
-        PersistentStorage oldUserStorage1 = new PersistentStorageUnencrypted(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(1), Context.MODE_PRIVATE));
+        PersistentStorage oldUserStorage0 = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(0), Context.MODE_PRIVATE));
+        PersistentStorage oldUserStorage1 = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(1), Context.MODE_PRIVATE));
 
         insertTestData(oldUserStorage0);
         oldUserStorage1.put(ANOTHER_KEY, true);
@@ -145,7 +146,7 @@ public class DataMigraterTest extends RobolectricTest {
 
     @Test
     public void ShouldMoveOldUserKeysFromRootToUserStorage_WhenOldUserDataIsPresent() {
-        PersistentStorage oldRootStorage = new PersistentStorageUnencrypted(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(0), Context.MODE_PRIVATE));
+        PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(0), Context.MODE_PRIVATE));
         OldSHNUserConfigurationImpl oldUserConfiguration = new OldSHNUserConfigurationImpl(oldRootStorage, new SHNUserConfigurationCalculations());
 
         insertUserData(oldUserConfiguration);
@@ -161,7 +162,7 @@ public class DataMigraterTest extends RobolectricTest {
 
     @Test
     public void ShouldMoveOldUserKeysFromUserToUserStorage_WhenOldUserDataIsPresent() {
-        PersistentStorage oldUserStorage = new PersistentStorageUnencrypted(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(0), Context.MODE_PRIVATE));
+        PersistentStorage oldUserStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldUserPreferencesNames.get(0), Context.MODE_PRIVATE));
         OldSHNUserConfigurationImpl oldUserConfiguration = new OldSHNUserConfigurationImpl(oldUserStorage, new SHNUserConfigurationCalculations());
 
         insertUserData(oldUserConfiguration);
@@ -177,7 +178,7 @@ public class DataMigraterTest extends RobolectricTest {
 
     @Test
     public void ShouldOnlyMigrateOnce_WhenCalledMoreThanOnce() {
-        PersistentStorage oldRootStorage = new PersistentStorageUnencrypted(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(1), Context.MODE_PRIVATE));
+        PersistentStorage oldRootStorage = new PersistentStorage(context.getSharedPreferences(DataMigrater.oldShinePreferencesNames.get(1), Context.MODE_PRIVATE));
         insertTestData(oldRootStorage);
 
         dataMigrater.execute(context, storageFactory);
