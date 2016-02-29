@@ -38,6 +38,7 @@ import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
+import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
@@ -393,10 +394,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
-        ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
+        ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
-            public void onProductModelSelected(SummaryModel productSummaryModel) {
-                updateSummaryData(productSummaryModel);
+            public void onProductModelSelected(SummaryModel summaryModel) {
+                updateSummaryData(summaryModel);
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(mFragmentLauncher, DigitalCareConfigManager.getInstance()
@@ -428,10 +429,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
             }
         });
-        ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
+
+        ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
-            public void onProductModelSelected(SummaryModel productSummaryModel) {
-                updateSummaryData(productSummaryModel);
+            public void onProductModelSelected(SummaryModel summaryModel) {
+                updateSummaryData(summaryModel);
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, DigitalCareConfigManager.getInstance()
