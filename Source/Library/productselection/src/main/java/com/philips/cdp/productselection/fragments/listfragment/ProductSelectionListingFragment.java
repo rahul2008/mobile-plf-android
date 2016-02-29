@@ -104,7 +104,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             mProductListView.setAdapter(mProductAdapter);
             mProductAdapter.notifyDataSetChanged();
         } else
-            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
 
     }
 
@@ -137,7 +137,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     if (isTablet() && productList.size() == 1) {
                         try {
                             mUserSelectedProduct = (productList.get(0));
-                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                             setListViewRequiredInTablet(true);
                             mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
                         } catch (IndexOutOfBoundsException e) {
@@ -159,7 +159,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                                     mSummaryDialog.cancel();
                                 }
                         } else {
-                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                             clearBackStackHistory(getActivity());
                         }
 
@@ -183,7 +183,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                                     mSummaryDialog.cancel();
                                 }
                         } else {
-                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                             clearBackStackHistory(getActivity());
                         }
                     }

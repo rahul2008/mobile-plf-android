@@ -18,9 +18,9 @@ import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
+import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
@@ -192,7 +192,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-        ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
+       /* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
 
@@ -202,8 +202,8 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                     Toast.makeText(Launcher.this, "Summary returned null", Toast.LENGTH_SHORT).show();
 
             }
-        });
-        ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
+        });*/
+        ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
                 if (productSummaryModel != null) {

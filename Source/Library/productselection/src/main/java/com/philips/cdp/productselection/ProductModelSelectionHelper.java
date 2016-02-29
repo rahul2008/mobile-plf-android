@@ -13,6 +13,7 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
+import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.prx.PrxWrapper;
 import com.philips.cdp.productselection.prx.SummaryDataListener;
@@ -30,7 +31,8 @@ public class ProductModelSelectionHelper {
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private static Context mContext = null;
     private static Locale mLocale = null;
-    private ProductModelSelectionListener mProductSelectionListener = null;
+    // private ProductModelSelectionListener mProductSelectionListener = null;
+    private ProductSelectionListener mProductSelectionListener = null;
     private SummaryDataListener mSummaryDataListener = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
@@ -167,11 +169,11 @@ public class ProductModelSelectionHelper {
         getContext().startActivity(intent);
     }
 
-    public ProductModelSelectionListener getProductListener() {
+    public ProductSelectionListener getProductSelectionListener() {
         return this.mProductSelectionListener;
     }
 
-    public void setProductListener(ProductModelSelectionListener mProductListener) {
+    public void setProductSelectionListener(ProductSelectionListener mProductListener) {
         this.mProductSelectionListener = mProductListener;
     }
 
