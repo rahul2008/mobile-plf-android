@@ -505,7 +505,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     public void onResponseReceived(SummaryModel productSummaryModel) {
         DigiCareLogger.v(TAG, "Response Received from Data Received null");
 
-        if (productSummaryModel != null) {
+        if (productSummaryModel == null)
+            createMainMenu();
+        else {
             mViewProductSummaryModel = productSummaryModel;
             SummaryModel summaryModel = productSummaryModel;
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(summaryModel.getData().getCtn());
