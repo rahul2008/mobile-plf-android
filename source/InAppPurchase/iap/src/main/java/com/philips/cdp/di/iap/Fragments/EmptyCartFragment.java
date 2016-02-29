@@ -34,19 +34,14 @@ public class EmptyCartFragment extends BaseAnimationSupportFragment implements V
     }
 
     @Override
-    protected void updateTitle() {
-
-    }
-
-    @Override
     public void onClick(final View v) {
         if (v == button) {
-            getMainActivity().finish();
+            finishActivity();
         }
     }
 
     @Override
-    protected AnimationType getDefaultAnimationType() {
-        return AnimationType.NONE;
+    public void onBackPressed() {
+        finishActivity();
     }
 }

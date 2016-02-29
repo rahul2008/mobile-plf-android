@@ -43,11 +43,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    protected void updateTitle() {
-        setTitle(R.string.iap_shopping_cart);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
@@ -59,7 +54,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>());
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
-        IAPLog.d(IAPLog.LOG, "ShoppingCartFragment onCreateView");
+        IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
         View rootView = inflater.inflate(R.layout.shopping_cart_view, container, false);
         mListView = (ListView) rootView.findViewById(R.id.withouticon);
         mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
@@ -75,6 +70,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
+        setTitle(R.string.iap_shopping_cart);
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter);
         if (Utility.isInternetConnected(mContext)) {
             if (!Utility.isProgressDialogShowing()) {
@@ -84,8 +80,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         } else {
             NetworkUtility.getInstance().showNetworkError(mContext);
         }
-
-        updateTitle();
     }
 
     @Override
@@ -119,8 +113,13 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
             }
         }
         if (v == mContinuesBtn) {
-            getMainActivity().finish();
+            finishActivity();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishActivity();
     }
 
     @Override
@@ -131,7 +130,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRGMENT_REPLACED)) {
-            getMainActivity().addFragmentAndRemoveUnderneath(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         }
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
@@ -139,20 +138,15 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    protected AnimationType getDefaultAnimationType() {
-        return AnimationType.NONE;
-    }
-
-    @Override
     public void onFetchAddressSuccess(Message msg) {
         Utility.dismissProgressDialog();
 
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            addFragment(
+                    ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         } else {
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            addFragment(
+                    AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), "A");
         }
     }
 

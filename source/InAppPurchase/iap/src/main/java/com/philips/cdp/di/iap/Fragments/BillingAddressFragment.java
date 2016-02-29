@@ -108,6 +108,12 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTitle(R.string.iap_address);
+    }
+
     private void prePopulateShippingAddress() {
         if (mAddressFields != null) {
             mEtFirstName.setText(mAddressFields.getFirstName());
@@ -208,30 +214,20 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    protected AnimationType getDefaultAnimationType() {
-        return AnimationType.NONE;
-    }
-
-    @Override
-    protected void updateTitle() {
-        setTitle(R.string.iap_address);
-    }
-
-    @Override
     public void onClick(View v) {
 
         Utility.hideKeypad(mContext);
 
         if (v == mBtnContinue) {
-            if(Utility.isInternetConnected(mContext)) {
-                getMainActivity().addFragmentAndRemoveUnderneath(
-                        OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
-            }else{
+            if (Utility.isInternetConnected(mContext)) {
+                addFragment(
+                        OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            } else {
                 NetworkUtility.getInstance().showNetworkError(mContext);
             }
         } else if (v == mBtnCancel) {
-            getMainActivity().addFragmentAndRemoveUnderneath
-                    (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            addFragment
+                    (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         }
     }
 

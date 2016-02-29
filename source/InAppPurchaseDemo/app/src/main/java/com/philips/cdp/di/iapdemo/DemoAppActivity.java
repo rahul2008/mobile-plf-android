@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
-import com.philips.cdp.di.iap.activity.MainActivity;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -113,7 +113,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         switch (v.getId()) {
             case R.id.shoppingCart:
                 if (Utility.isInternetConnected(DemoAppActivity.this)) {
-                    Intent myIntent = new Intent(DemoAppActivity.this, MainActivity.class);
+                    Intent myIntent = new Intent(DemoAppActivity.this, IAPActivity.class);
                     startActivity(myIntent);
                 } else {
                     NetworkUtility.getInstance().showNetworkError(this);
@@ -168,7 +168,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     @Override
     public void onBuyNow() {
         Utility.dismissProgressDialog();
-        Intent myIntent = new Intent(DemoAppActivity.this, MainActivity.class);
+        Intent myIntent = new Intent(DemoAppActivity.this, IAPActivity.class);
         startActivity(myIntent);
     }
 }

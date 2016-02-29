@@ -17,7 +17,7 @@ public class IAPLog {
     public static final String DEMOAPPACTIVITY = "DemoAppActivity";
     public static final String SHOPPING_BASE_FRAGMENT = "ShoppingBaseFragment";
     public static final String SHOPPINGCART_PRESENTER = "ShoppingCartPresenter";
-    public static final String BASE_FRAGMENT_ACTIVITY = "BaseFragmentActivity";
+    public static final String BASE_FRAGMENT_ACTIVITY = "IAPActivity";
     public static final String SHIPPING_ADDRESS_FRAGMENT = "ShippingAddressFragment";
 
     public static boolean isLoggingEnabled = true;

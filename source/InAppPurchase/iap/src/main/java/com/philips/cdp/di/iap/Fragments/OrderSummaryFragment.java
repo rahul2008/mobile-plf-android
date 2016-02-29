@@ -27,11 +27,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateTitle();
-    }
-
-    @Override
-    protected void updateTitle() {
         setTitle(R.string.iap_order_summary);
     }
 
@@ -53,10 +48,5 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment {
         fragment.setArguments(args);
 
         return fragment;
-    }
-
-    @Override
-    protected AnimationType getDefaultAnimationType() {
-        return AnimationType.NONE;
     }
 }

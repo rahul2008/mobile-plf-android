@@ -63,11 +63,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private HashMap<String, String> addressFeilds = null;
 
     @Override
-    protected void updateTitle() {
-        setTitle(R.string.iap_address);
-    }
-
-    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
@@ -122,8 +117,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.UPDATE_ADDRESS:
-                getMainActivity().addFragmentAndRemoveUnderneath
-                        (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+                addFragment
+                        (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
                 break;
         }
     }
@@ -148,21 +143,19 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
-
     @Override
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), false);
-        }else if ((msg.obj instanceof VolleyError)){
+            addFragment(
+                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
+        } else if ((msg.obj instanceof VolleyError)) {
             Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(mContext, "Navigate to payment screen", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
@@ -213,11 +206,11 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             }
         } else if (v == mBtnCancel) {
             if (getArguments().containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-                getMainActivity().addFragmentAndRemoveUnderneath
-                        (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+                addFragment
+                        (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             } else {
-                getMainActivity().addFragmentAndRemoveUnderneath
-                        (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+                addFragment
+                        (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }
         }
     }
@@ -253,11 +246,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         } else {
             mBtnContinue.setEnabled(false);
         }
-    }
-
-    @Override
-    protected AnimationType getDefaultAnimationType() {
-        return AnimationType.NONE;
     }
 
     @Override
@@ -327,7 +315,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onResume() {
         super.onResume();
-        updateTitle();
+        setTitle(R.string.iap_address);
     }
 
     private HashMap updateToHybrisTheFeilds() {
@@ -377,5 +365,4 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         fragment.setArguments(args);
         return fragment;
     }
-
 }

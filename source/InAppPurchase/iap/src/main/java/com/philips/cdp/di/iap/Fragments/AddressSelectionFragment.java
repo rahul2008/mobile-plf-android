@@ -48,11 +48,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private Context mContext;
 
     @Override
-    protected void updateTitle() {
-        setTitle(R.string.iap_shipping_address);
-    }
-
-    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
         mAddressListView = (RecyclerView) view.findViewById(R.id.shipping_addresses);
@@ -79,7 +74,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void moveToShoppingCart() {
-        getMainActivity().addFragmentAndRemoveUnderneath(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+        addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
     }
 
     private void sendShippingAddressesRequest() {
@@ -104,7 +99,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onResume() {
         super.onResume();
-        updateTitle();
+        setTitle(R.string.iap_shipping_address);
     }
 
     @Override
@@ -171,11 +166,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    protected AnimationType getDefaultAnimationType() {
-        return AnimationType.NONE;
-    }
-
-    @Override
     public void raiseEvent(final String event) {
 
     }
@@ -195,11 +185,11 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
             PaymentController paymentController = new PaymentController(mContext, this);
 
-            if(!Utility.isProgressDialogShowing()){
-                if(Utility.isInternetConnected(mContext)){
+            if (!Utility.isProgressDialogShowing()) {
+                if (Utility.isInternetConnected(mContext)) {
                     Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
                     paymentController.getPaymentDetails();
-                }else{
+                } else {
                     NetworkUtility.getInstance().showNetworkError(mContext);
                 }
             }
@@ -207,7 +197,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
-            getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(args, AnimationType.NONE), false);
+            //addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
+            addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
         }
     }
 
@@ -243,7 +234,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private void moveToShippingAddressFragment(final HashMap<String, String> payload) {
         Bundle extras = new Bundle();
         extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
-        getMainActivity().addFragmentAndRemoveUnderneath(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), false);
+        addFragment(ShippingAddressFragment.createInstance(extras, AnimationType.NONE), null);
     }
 
     @Override
@@ -253,13 +244,13 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             Addresses addr = retrieveSelectedAddress();
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, prepareAddressFields(addr));
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), false);
+            addFragment(
+                    BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
             Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
         } else {
-            getMainActivity().addFragmentAndRemoveUnderneath(
-                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), false);
+            addFragment(
+                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), null);
         }
     }
 

@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Philips.DarkBlue.Gradient.WhiteBackground">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.IAPActivity"
             android:screenOrientation="portrait"/>
         <!-- Network state change receiver -->
         <receiver android:name="com.philips.cdp.di.iap.receiver.NetworkStateReceiver">
