@@ -25,7 +25,6 @@ import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
-import com.philips.pins.shinelib.utility.PersistentStorage;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
@@ -144,7 +143,7 @@ public class SHNCentral {
             sharedPreferencesProvider = new SharedPreferencesProvider() {
                 @Override
                 public SharedPreferences getSharedPreferences(String key, int mode) {
-                    return new PersistentStorage(applicationContext.getSharedPreferences(key, Context.MODE_PRIVATE));
+                    return applicationContext.getSharedPreferences(key, Context.MODE_PRIVATE);
                 }
             };
         }
