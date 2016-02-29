@@ -3,7 +3,7 @@ package com.philips.cdp.backend;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.core.ProductRegConstants;
+import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
@@ -23,21 +23,21 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ProductRegHelper {
+public class ProdRegHelper {
 
-    private static ProductRegHelper productRegHelper;
+    private static ProdRegHelper prodRegHelper;
     private Context mContext = null;
     private String TAG = getClass() + "";
 
-    private ProductRegHelper() {
+    private ProdRegHelper() {
     }
 
-    public static ProductRegHelper getInstance() {
-        if (productRegHelper == null) {
-            productRegHelper = new ProductRegHelper();
-            return productRegHelper;
+    public static ProdRegHelper getInstance() {
+        if (prodRegHelper == null) {
+            prodRegHelper = new ProdRegHelper();
+            return prodRegHelper;
         }
-        return productRegHelper;
+        return prodRegHelper;
     }
 
     public void cancelRequest(String requestTag) {
@@ -57,7 +57,7 @@ public class ProductRegHelper {
 
     private Map<String, String> getProductRegistrationHeaders(final RegistrationBuilder registrationBuilder) {
         final Map<String, String> headers = new HashMap<>();
-        headers.put(ProductRegConstants.ACCESS_TOKEN_TAG, registrationBuilder.getAccessToken());
+        headers.put(ProdRegConstants.ACCESS_TOKEN_TAG, registrationBuilder.getAccessToken());
         return headers;
     }
 
@@ -85,14 +85,14 @@ public class ProductRegHelper {
 
         final String purchaseDate = registrationBuilder.getPurchaseDate();
         validatePurchaseDate(params, purchaseDate);
-        params.put(ProductRegConstants.PRODUCT_SERIAL_NUMBER, registrationBuilder.getProductSerialNumber());
-        params.put(ProductRegConstants.REGISTRATION_CHANNEL, registrationBuilder.getRegistrationChannel());
+        params.put(ProdRegConstants.PRODUCT_SERIAL_NUMBER, registrationBuilder.getProductSerialNumber());
+        params.put(ProdRegConstants.REGISTRATION_CHANNEL, registrationBuilder.getRegistrationChannel());
         return params;
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
         if (purchaseDate != null && purchaseDate.length() > 0)
-            params.put(ProductRegConstants.PURCHASE_DATE, purchaseDate);
+            params.put(ProdRegConstants.PURCHASE_DATE, purchaseDate);
     }
 
     private void handleError(final int statusCode, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {

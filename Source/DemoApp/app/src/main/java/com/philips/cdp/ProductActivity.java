@@ -10,7 +10,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.philips.cdp.backend.ProductRegHelper;
+import com.philips.cdp.backend.ProdRegHelper;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.model.ProductMetaData;
 import com.philips.cdp.model.ProductResponse;
@@ -76,7 +76,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         registrationBuilder.setRegistrationChannel(regChannel.getText().toString());
         registrationBuilder.setPurchaseDate(purchaseDate.getText().toString());
 
-        ProductRegHelper.getInstance().registerProduct(this, registrationBuilder, new ResponseListener() {
+        ProdRegHelper.getInstance().registerProduct(this, registrationBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();

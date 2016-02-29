@@ -4,7 +4,7 @@ package com.philips.cdp.core;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public interface ProductRegConstants {
+public interface ProdRegConstants {
 
     String ACCESS_TOKEN_TAG = "x-accessToken";
     String PRODUCT_SERIAL_NUMBER = "productSerialNumber";
