@@ -2,7 +2,7 @@ package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 
-import com.philips.cdp.di.iap.activity.MainActivity;
+import com.philips.cdp.di.iap.activity.IAPActivity;
 
 import junit.framework.TestCase;
 
@@ -23,28 +23,10 @@ public class ShoppingCartFragmentTest extends TestCase {
                 .createInstance(mockBundle, BaseAnimationSupportFragment.AnimationType.NONE);
 
         ShoppingCartFragment spyFragment = Mockito.spy(fragment);
-        MainActivity mockActivity = Mockito.mock(MainActivity.class);
-        Mockito.when(spyFragment.getMainActivity()).thenReturn(mockActivity);
+        IAPActivity mockActivity = Mockito.mock(IAPActivity.class);
 
         spyFragment.onCreate(null);
 
-        Mockito.verify(mockActivity, Mockito.never()).setHeaderTitle(Matchers.anyString());
         Mockito.verify(mockActivity, Mockito.never()).setHeaderTitle(Matchers.anyInt());
-    }
-
-    @Test
-    public void testCallSetTitleAndLeftMenuInOnResume() {
-        Bundle mockBundle = Mockito.mock(Bundle.class);
-        ShoppingCartFragment fragment = ShoppingCartFragment
-                .createInstance(mockBundle, BaseAnimationSupportFragment.AnimationType.NONE);
-
-        ShoppingCartFragment spyFragment = Mockito.spy(fragment);
-        MainActivity mockActivity = Mockito.mock(MainActivity.class);
-        Mockito.when(spyFragment.getMainActivity()).thenReturn(mockActivity);
-
-        spyFragment.updateTitle();
-
-        Mockito.verify(mockActivity, Mockito.never()).setHeaderTitle(Matchers.anyString());
-        Mockito.verify(mockActivity, Mockito.times(1)).setHeaderTitle(Matchers.anyInt());
     }
 }

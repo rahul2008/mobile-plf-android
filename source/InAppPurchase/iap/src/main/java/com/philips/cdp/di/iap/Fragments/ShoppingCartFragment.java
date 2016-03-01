@@ -71,6 +71,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_shopping_cart);
+        updateCartOnResume();
+    }
+
+    private void updateCartOnResume() {
         ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter);
         if (Utility.isInternetConnected(mContext)) {
             if (!Utility.isProgressDialogShowing()) {
