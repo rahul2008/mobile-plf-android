@@ -32,7 +32,6 @@ public class ProductModelSelectionHelper {
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private static Context mContext = null;
     private static Locale mLocale = null;
-    // private ProductModelSelectionListener mProductSelectionListener = null;
     private ProductSelectionListener mProductSelectionListener = null;
     private SummaryDataListener mSummaryDataListener = null;
     private UiLauncher mLauncherType = null;
