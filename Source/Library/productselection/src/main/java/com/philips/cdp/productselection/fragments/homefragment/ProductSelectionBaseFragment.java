@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
+import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
 import com.philips.cdp.productselection.utils.NetworkReceiver;
@@ -462,17 +463,39 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
             }
         } else {
+            if(isTablet()){
+                try {
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("ProductSelectionListingFragment");
+                    if(fragmentDetailsTablet != null) {
+                        fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
+                    }
 
-            if (fragmentManager != null && mActivityContext != null) {
-                fragmentManager = mActivityContext.getSupportFragmentManager();
-            } else if (fragmentManager == null) {
-                fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-            }
-            for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
-                fragmentManager.popBackStack();
-            }
+                    Fragment fragmentConfirmTablet = getActivity().getSupportFragmentManager().findFragmentByTag("SavedScreenFragmentSelection");
+                    if(fragmentConfirmTablet != null) {
+                        fragmentTransaction.remove(fragmentConfirmTablet);
+                    }
 
-        }
+                    fragmentManager = mActivityContext.getSupportFragmentManager();
+                    fragmentManager.popBackStack();
+
+                    fragmentTransaction.commitAllowingStateLoss();
+                } catch (IllegalStateException e) {
+                    ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            else {
+                    if (fragmentManager != null && mActivityContext != null) {
+                        fragmentManager = mActivityContext.getSupportFragmentManager();
+                    } else if (fragmentManager == null) {
+                        fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+                    }
+                    for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
+                        fragmentManager.popBackStack();
+                    }
+                }
+            }
         return false;
     }
 

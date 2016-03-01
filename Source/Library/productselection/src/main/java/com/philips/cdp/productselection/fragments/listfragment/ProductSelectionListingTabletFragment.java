@@ -86,7 +86,9 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         try {
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
-            fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
+            if(fragmentDetailsTablet != null) {
+                fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
+            }
 
             mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
             fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
