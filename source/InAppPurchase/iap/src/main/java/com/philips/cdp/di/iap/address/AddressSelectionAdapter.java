@@ -40,7 +40,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         mContext = context;
         mAddresses = addresses;
         mSelectedIndex = 0;
-        setSelectedAddress(0);
         initOptionsDrawable();
     }
 
@@ -66,6 +65,9 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         holder.address.setText(createAddress(address));
         holder.options.setImageDrawable(mOptionsDrawable);
 
+        //Handle the last item delete scenario
+        handleLastItemDeletion(position);
+
         //Update payment options buttons
         updatePaymentButtonsVisiblity(holder.paymentOptions, position);
 
@@ -81,6 +83,16 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
         //bind add new address
         bindNewAddress(holder.newAddress, position);
+    }
+
+    private void handleLastItemDeletion(int position) {
+        if (mSelectedIndex > mAddresses.size() - 1 && isLastItem(position)) {
+            mSelectedIndex = mAddresses.size() - 1;
+        }
+    }
+
+    private boolean isLastItem(int position) {
+        return position == (mAddresses.size() - 1);
     }
 
     private void bindNewAddress(final Button newAddress, final int position) {
@@ -129,16 +141,9 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
             @Override
             public void onClick(final View v) {
                 mSelectedIndex = holder.getAdapterPosition();
-                setSelectedAddress(mSelectedIndex);
                 notifyDataSetChanged();
             }
         });
-    }
-
-    private void setSelectedAddress(int position) {
-        if (mAddresses.size() > 0 && position < mAddresses.size()) {
-            mSelectedAddress = mAddresses.get(position);
-        }
     }
 
     public int getSelectedPosition() {
