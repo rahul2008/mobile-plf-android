@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
@@ -154,6 +155,7 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     @Override
     public void setViewParams(Configuration config) {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ((View) getActivity().findViewById(R.id.listViewSeperator)).setVisibility(View.GONE);
 //            Fragment fragmentTablet = getActivity().getSupportFragmentManager().findFragmentById(R.id.productListContainerTablet);
 //            fragmentTablet.
 
@@ -171,10 +173,11 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
             }
 //            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = mLeftRightMarginPort;
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ((View) getActivity().findViewById(R.id.listViewSeperator)).setVisibility(View.VISIBLE);
             mLeftPanelLayout.setVisibility(View.VISIBLE);
             mRightPanelLayout.setVisibility(View.VISIBLE);
             mRightPanelLayoutParams.weight = 0.60f;
-            mLeftPanelLayoutParams.weight = 0.40f;
+            mLeftPanelLayoutParams.weight = 0.39f;
 //            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = 0;
         }
         mRightPanelLayout.setLayoutParams(mRightPanelLayoutParams);

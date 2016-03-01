@@ -36,6 +36,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private Button mSettings = null;
     private Button mRedirectingButton = null;
     private LinearLayout mProductContainer = null;
+    private LinearLayout mProductContainerBelow = null;
+    private LinearLayout.LayoutParams mProductContainerBelowParams;
     private LinearLayout.LayoutParams mProductContainerParams;
     private LinearLayout mProductContainer1 = null;
     private LinearLayout.LayoutParams mProductContainerParams1;
@@ -54,6 +56,10 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
         mProductContainer = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_one);
         mProductContainerParams = (LinearLayout.LayoutParams) mProductContainer.getLayoutParams();
+
+        mProductContainerBelow = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_parent);
+        mProductContainerBelowParams = (LinearLayout.LayoutParams) mProductContainerBelow.getLayoutParams();
+
         mProductContainer1 = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_two);
         mProductContainerParams1 = (LinearLayout.LayoutParams) mProductContainer1.getLayoutParams();
         mProductName.setText(mUserSelectedProduct.getData().getProductTitle());
@@ -66,7 +72,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         Configuration configuration = getResources().getConfiguration();
         setViewParams(configuration);
     }
-
 
     /**
      * Inflating the View of the Screen "fragment_saved_screen.xmls"
@@ -126,19 +131,25 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     @Override
     public void setViewParams(Configuration config) {
 
-//        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
-//            ProductSelectionLogger.i(TAG, "setViewParams  : portrait");
-////            mProductContainerParams.leftMargin = mProductContainerParams.rightMargin = mPortraitTablet;
-////            mProductContainerParams1.leftMargin = mProductContainerParams1.rightMargin = mPortraitTablet;
-//        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
-//            // Control for Split Screen Margin
-//        }
-//        mProductContainer.setLayoutParams(mProductContainerParams);
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
+            mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
+        }
+        else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
+            mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = (int) getActivity().getResources()
+                    .getDimension(R.dimen.tablet_details_view_land_margin);
+        }
+
+        mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
     }
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.Confirmation_Title);
+        if(isTablet()){
+            return getResources().getString(R.string.Product_Title);
+        }
+        else{
+            return getResources().getString(R.string.Confirmation_Title);
+        }
     }
 
     @Override
