@@ -91,6 +91,10 @@ public class ProductModelSelectionHelper {
 
     }
 
+    public UiLauncher getLauncherType() {
+        return mLauncherType;
+    }
+
     public void invokeProductSelection(final UiLauncher uiLauncher, final ProductModelSelectionType productModelSelectionType) {
         if (uiLauncher == null || productModelSelectionType == null) {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
