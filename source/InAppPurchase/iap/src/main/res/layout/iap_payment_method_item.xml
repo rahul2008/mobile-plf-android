@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.philips.cdp.uikit.customviews.UIKitRadioButton
+        android:id="@+id/radio_btn_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin_top" />
+
+    <TextView
+        android:id="@+id/tv_card_name"
+        fontPath="fonts/centralesansbold.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/iap_selection_address_margin_left"
+        android:layout_marginTop="@dimen/iap_selection_address_name_margin_top"
+        android:includeFontPadding="false"
+        android:text="Master Card"
+        android:textColor="?attr/baseColor"
+        android:textSize="@dimen/iap_selection_address_text_size" />
+
+    <TextView
+        android:id="@+id/tv_card_holder_name"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_card_name"
+        android:layout_marginStart="@dimen/iap_selection_address_margin_left"
+        android:layout_marginTop="@dimen/iap_selection_address_margin_top"
+        android:includeFontPadding="false"
+        android:text="Susan jones"
+        android:textColor="@color/iap_address_text_color"
+        android:textSize="@dimen/iap_selection_address_text_size" />
+
+    <TextView
+        android:id="@+id/tv_card_validity"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_card_holder_name"
+        android:layout_marginStart="@dimen/iap_selection_address_margin_left"
+        android:layout_marginTop="@dimen/iap_selection_address_margin_top"
+        android:includeFontPadding="false"
+        android:text="Validity"
+        android:textColor="@color/iap_address_text_color"
+        android:textSize="@dimen/iap_selection_address_text_size" />
+
+    <LinearLayout
+        android:id="@+id/ll_payment_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_address"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn_use_payment_method"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/iap_selection_address_layout_margin"
+            android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
+            android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
+            android:text="@string/iap_use_payment_method" />
+
+        <Button
+            android:id="@+id/btn_add_new_payment"
+            style="?attr/outlinedButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_use_payment_method"
+            android:layout_marginBottom="@dimen/iap_selection_address_layout_margin_bottom"
+            android:layout_marginEnd="@dimen/iap_selection_address_layout_margin"
+            android:layout_marginStart="@dimen/iap_selection_address_layout_margin"
+            android:layout_marginTop="@dimen/iap_selection_address_new_margin_top"
+            android:text="@string/iap_add_payment_method" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/iap_divider_height"
+        android:layout_below="@id/payment_options"
+        android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
+        android:background="?attr/listDividerColor" />
+
+</RelativeLayout>
