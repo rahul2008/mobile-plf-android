@@ -14,6 +14,12 @@ import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
+import com.philips.cdp.productselection.utils.Constants;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
+import com.philips.cdp.tagging.Tagging;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * DirectFragment class is used as a welcome screen when CTN is not been choosen.
@@ -28,6 +34,7 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
     private LinearLayout mWelcomeScreenParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private static View mRootView = null;
+    private boolean isTabletPortrait;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,9 +62,9 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
 
         Configuration configuration = getResources().getConfiguration();
         setViewParams(configuration);
-    }
 
-    private boolean isTabletPortrait;
+        trackFirstPage(Constants.PAGE_WELCOME_SCREEN);
+    }
 
     @Override
     public void setViewParams(Configuration config) {
@@ -94,12 +101,10 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
                     showFragment(new ProductSelectionListingFragment());
                 }
             }
-        }
-    }
 
-    @Override
-    public String setPreviousPageName() {
-        return null;
+            Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                    Constants.ACTION_VALUE_FIND_PRODUCT);
+        }
     }
 
     @Override
@@ -107,5 +112,15 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
         super.onDestroy();
     }
 
-
+    public void trackFirstPage(String currPage) {
+        if(getPreviousName() != null && !(getPreviousName().equalsIgnoreCase(Constants.PAGE_WELCOME_SCREEN))){
+            Tagging.trackPage(currPage, getPreviousName());
+        }
+        else if (null != Tagging.getLaunchingPageName()) {
+            Tagging.trackPage(currPage, Tagging.getLaunchingPageName());
+        } else {
+            Tagging.trackPage(currPage, null);
+        }
+        setPreviousPageName(Constants.PAGE_WELCOME_SCREEN);
+    }
 }

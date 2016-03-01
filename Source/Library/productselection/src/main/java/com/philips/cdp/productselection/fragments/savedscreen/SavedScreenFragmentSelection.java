@@ -20,8 +20,10 @@ import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionB
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
+import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
+import com.philips.cdp.tagging.Tagging;
 
 /**
  * This class holds responsible to inflate the UI of the saved screen & reselecting the product to save &
@@ -42,6 +44,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private CustomFontTextView mProductName = null;
     private CustomFontTextView mProductCtn = null;
     private ImageView mProductImage = null;
+
 
     /**
      * setting Listeners & setting the values & controls to the inflated view's of the screen "fragment_saved_screen.xml"
@@ -65,6 +68,10 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
         Configuration configuration = getResources().getConfiguration();
         setViewParams(configuration);
+
+
+        Tagging.trackPage(Constants.PAGE_CONFIRMATION_SCREEN, getPreviousName());
+        setPreviousPageName(Constants.PAGE_CONFIRMATION_SCREEN);
     }
 
 
@@ -142,23 +149,23 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     }
 
     @Override
-    public String setPreviousPageName() {
-        return null;
-    }
-
-    @Override
     public void onClick(View v) {
         if (isConnectionAvailable()) {
             if (v.getId() == R.id.savedscreen_button_settings) {
-//                if (isConnectionAvailable()) {
-                if (isTablet()) {
-                    showFragment(new ProductSelectionListingTabletFragment());
-                } else {
-                    showFragment(new ProductSelectionListingFragment());
+                if (isConnectionAvailable()) {
+                    Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                            Constants.ACTION_VALUE_CHANGE_PRODUCT);
+
+                    if (isTablet()) {
+                        showFragment(new ProductSelectionListingTabletFragment());
+                    } else {
+                        showFragment(new ProductSelectionListingFragment());
+                    }
                 }
-//                }
             } else if (v.getId() == R.id.savedscreen_button_continue) {
                 if (isConnectionAvailable()) {
+                    Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                            Constants.ACTION_VALUE_CONTINUE);
                     setPreference(mUserSelectedProduct.getData().getCtn());
                     ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                     clearBackStackHistory(getActivity());

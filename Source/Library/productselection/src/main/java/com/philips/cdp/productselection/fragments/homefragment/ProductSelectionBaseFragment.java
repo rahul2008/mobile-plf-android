@@ -73,8 +73,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     public abstract String getActionbarTitle();
 
-    public abstract String setPreviousPageName();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnCreate on "
@@ -189,7 +187,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnDestroyView on "
                 + this.getClass().getSimpleName());
         super.onDestroyView();
-        mPreviousPageName = setPreviousPageName();
         hideKeyboard();
     }
 
@@ -543,5 +540,9 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     protected String getPreviousName() {
         return mPreviousPageName;
+    }
+
+    protected void setPreviousPageName(String pageName){
+        mPreviousPageName = pageName;
     }
 }

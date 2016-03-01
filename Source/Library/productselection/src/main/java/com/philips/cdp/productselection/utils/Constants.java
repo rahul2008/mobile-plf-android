@@ -12,4 +12,28 @@ public class Constants {
     public static final String DETAILEDSCREEN_PRIDUCTIMAGES_MI1 = "MI1";
     public static final String DETAILEDSCREEN_PRIDUCTIMAGES_PID = "PID";
 
+
+    /* Tagging Constancts */
+
+    /* PAGE CONSTANTS */
+    public static final String PAGE_WELCOME_SCREEN = "productselection:home";
+    public static final String PAGE_LIST_SCREEN = "productselection:home:productslist";
+    public static final String PAGE_DETAILS_SCREEN = "productselection:home:productslist:productdetail";
+    public static final String PAGE_CONFIRMATION_SCREEN = "productselection:home:productslist:productdetail:confirmation";
+
+    /* Action Name Tagging */
+    public static final String ACTION_NAME_SEARCH_TERM = "searchTerm";
+    public static final String ACTION_NAME_SEARCH_RESULT = "numberOfSearchResults";
+    public static final String ACTION_NAME_SPECIAL_EVENT = "specialEvents";
+    public static final String ACTION_NAME_PRODUCT_SELECTED = "productSelected";
+    public static final String ACTION_NAME_COMPONENT_VERSION = "componentVersion";
+
+    /* Action Key Tagging*/
+    public static final String ACTION_KEY_SEND_DATA = "sendData";
+
+    /* Action VALUE Tagging*/
+    public static final String ACTION_VALUE_PRODUCT_VIEW = "prodView";
+    public static final String ACTION_VALUE_FIND_PRODUCT = "findProduct";
+    public static final String ACTION_VALUE_CONTINUE = "continue";
+    public static final String ACTION_VALUE_CHANGE_PRODUCT = "changeProduct";
 }

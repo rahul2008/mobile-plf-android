@@ -39,12 +39,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     private static int RESULT_CODE_THEME_UPDATED = 1;
     private static ConsumerProductInfo productInfo = null;
     private final String TAG = Launcher.class.getSimpleName();
-    ProductModelSelectionHelper mProductSelectionHelper = null;
+    private ProductModelSelectionHelper mProductSelectionHelper = null;
     private Button mButtonActivity, mAdd = null;
     private Button mButtonFragment = null;
     private ImageButton mAddButton = null;
     private RecyclerView mRecyclerView = null;
-    private ProductModelSelectionHelper mConfigManager = null;
+//    private ProductModelSelectionHelper mConfigManager = null;
     private SampleAdapter adapter = null;
     private Button change_theme = null;
 
@@ -73,8 +73,8 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         touchHelper.attachToRecyclerView(mRecyclerView);
 
 
-        mConfigManager = ProductModelSelectionHelper.getInstance();
-        mConfigManager.initialize(this);
+//        mConfigManager = ProductModelSelectionHelper.getInstance();
+//        mConfigManager.initialize(this);
     }
 
     private void relaunchActivity() {
@@ -137,10 +137,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.buttonActivity:
                 launchProductSelectionAsActivity();
+                ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.buttonFragment:
                 launchProductSelectionAsFragment();
+                ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.addimageButton:
