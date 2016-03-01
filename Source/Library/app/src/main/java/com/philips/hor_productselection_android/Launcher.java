@@ -190,7 +190,8 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         mProductSelectionHelper.initialize(this);
         mProductSelectionHelper.setLocale("en", "GB");
 
-        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
        /* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
             @Override

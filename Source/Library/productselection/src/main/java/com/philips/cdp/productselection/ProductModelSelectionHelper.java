@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
+import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
@@ -91,6 +95,10 @@ public class ProductModelSelectionHelper {
 
     }
 
+    public UiLauncher getLauncherType() {
+        return mLauncherType;
+    }
+
     public void invokeProductSelection(final UiLauncher uiLauncher, final ProductModelSelectionType productModelSelectionType) {
         if (uiLauncher == null || productModelSelectionType == null) {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
@@ -115,7 +123,7 @@ public class ProductModelSelectionHelper {
             public void onSuccess(List<SummaryModel> summaryModels) {
                 if (mProgressDialog != null && mProgressDialog.isShowing())
                     mProgressDialog.cancel();
-                if (summaryModels.size() > 1) {
+                if (summaryModels.size() >= 1) {
                     SummaryModel[] ctnArray = new SummaryModel[summaryModels.size()];
                     for (int i = 0; i < summaryModels.size(); i++)
                         ctnArray[i] = summaryModels.get(i);
@@ -144,7 +152,6 @@ public class ProductModelSelectionHelper {
 
     }
 
-
     private void invokeAsFragment(FragmentActivity context,
                                   int parentContainerResId,
                                   ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
@@ -152,9 +159,41 @@ public class ProductModelSelectionHelper {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale before component invocation");
         }
-        WelcomeScreenFragmentSelection welcomeScreenFragment = new WelcomeScreenFragmentSelection();
-        welcomeScreenFragment.showFragment(context, parentContainerResId, welcomeScreenFragment,
-                actionbarUpdateListener, enterAnim, exitAnim);
+        SharedPreferences prefs = context.getSharedPreferences(
+                "user_product", Context.MODE_PRIVATE);
+        String storedCtn = prefs.getString("mCtnFromPreference", "");
+        if (storedCtn == "") {
+            WelcomeScreenFragmentSelection welcomeScreenFragment = new WelcomeScreenFragmentSelection();
+            welcomeScreenFragment.showFragment(context, parentContainerResId, welcomeScreenFragment,
+                    actionbarUpdateListener, enterAnim, exitAnim);
+        } else {
+            if (isTablet(context)) {
+                ProductSelectionListingTabletFragment productselectionListingTabletFragment = new ProductSelectionListingTabletFragment();
+                productselectionListingTabletFragment.showFragment(context, parentContainerResId, productselectionListingTabletFragment,
+                        actionbarUpdateListener, enterAnim, exitAnim);
+            } else {
+                ProductSelectionListingFragment productselectionListingFragment = new ProductSelectionListingFragment();
+                productselectionListingFragment.showFragment(context, parentContainerResId, productselectionListingFragment,
+                        actionbarUpdateListener, enterAnim, exitAnim);
+            }
+        }
+    }
+
+    private boolean isTablet(FragmentActivity context) {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        try {
+            if (context.getWindowManager() != null)
+                context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        } catch (NullPointerException e) {
+            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
+        } finally {
+            float yInches = metrics.heightPixels / metrics.ydpi;
+            float xInches = metrics.widthPixels / metrics.xdpi;
+            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+            return diagonalInches >= 6.5;
+        }
+
     }
 
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
