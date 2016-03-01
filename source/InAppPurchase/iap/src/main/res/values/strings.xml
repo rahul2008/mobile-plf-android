@@ -67,5 +67,11 @@
     <!--Order Sammary-->
     <string name="iap_order_summary">Summary</string>
     <string name="iap_pay_now">Pay now</string>
+
+    <!--Payment-->
+    <string name="iap_payment">Payment</string>
     <string name="iap_payment_method">Payment method</string>
+    <string name="iap_use_payment_method">Use this payment method</string>
+    <string name="iap_add_payment_method">Add a new payment method</string>
+
 </resources>
