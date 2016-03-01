@@ -21,6 +21,8 @@ public abstract class RegistrationDataBuilder extends PrxDataBuilder {
     private String Zip;
     private String state;
     private String country;
+    private boolean requiresPurchaseDate = false;
+    private boolean requiresSerialNumber = false;
 
     public abstract String getAccessToken();
 
@@ -118,5 +120,21 @@ public abstract class RegistrationDataBuilder extends PrxDataBuilder {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public boolean isRequiresPurchaseDate() {
+        return requiresPurchaseDate;
+    }
+
+    public void setRequiresPurchaseDate(boolean requiresPurchaseDate) {
+        this.requiresPurchaseDate = requiresPurchaseDate;
+    }
+
+    public boolean isRequiresSerialNumber() {
+        return requiresSerialNumber;
+    }
+
+    public void setRequiresSerialNumber(boolean requiresSerialNumber) {
+        this.requiresSerialNumber = requiresSerialNumber;
     }
 }
