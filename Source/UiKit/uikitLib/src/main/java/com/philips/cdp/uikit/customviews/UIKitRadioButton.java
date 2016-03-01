@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.graphics.drawable.DrawableWrapper;
+import android.support.v4.graphics.drawable.DrawableWrapper;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 import android.widget.RadioButton;
@@ -53,7 +53,8 @@ public class UIKitRadioButton extends AppCompatRadioButton {
             ((DrawableWrapper) wrappedDrawable).setTintList(mTintList);
             ((DrawableWrapper) wrappedDrawable).setTintMode(PorterDuff.Mode.SRC_ATOP);
         } else {
-            setSupportButtonTintList(mTintList);
+            wrappedDrawable.setTintList(mTintList);
+           // setSupportButtonTintList(mTintList);
         }
         return wrappedDrawable;
     }
