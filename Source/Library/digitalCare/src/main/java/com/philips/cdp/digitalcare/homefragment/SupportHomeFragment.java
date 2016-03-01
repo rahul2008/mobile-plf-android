@@ -103,7 +103,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 USER_PREFERENCE, Context.MODE_PRIVATE);
 
         updateConsumerProductInfo();
-        if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1) {
+        if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length < 2) {
             synchronized (this) {
                 if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                         DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
@@ -120,6 +120,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             }
         } else
             createMainMenu();
+
+
+        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == "") {
+            isFirstTimeProductComponentlaunch = false;
+            launchProductSelectionComponent();
+        }
+        if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
+            launchProductSelectionComponent();
+        }
 
         return mView;
     }
@@ -239,7 +248,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     .setBackgroundResource(R.drawable.selector_option_button_bg);
         }
 
-        if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1) && (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))))
+        if ((DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length < 2) && (buttonTitle.equals(getStringKey(R.string.Change_Selected_Product))))
             return null;
 
           /*
@@ -332,17 +341,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         return button;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == null) {
-            isFirstTimeProductComponentlaunch = false;
-            launchProductSelectionComponent();
-        }
-        if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == null)
-            launchProductSelectionComponent();
-    }
-
     private void launchProductSelectionComponent() {
         DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
 
@@ -427,7 +425,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
     private void launchProductSelectionActivityComponent() {
         DigiCareLogger.i("testing", "Support -- Activity Invoke");
-        mProductChangeButton.setClickable(false);
+        if (mProductChangeButton != null) {
+            mProductChangeButton.setClickable(false);
+        }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
@@ -439,7 +439,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
                 int numberOfModels = summaryModels.size();
-                mProductChangeButton.setClickable(true);
+                if (mProductChangeButton != null) {
+                    mProductChangeButton.setClickable(true);
+                }
                 if (numberOfModels > 0) {
                     DigiCareLogger.d(TAG, "Products available of size " + numberOfModels);
                 } else
