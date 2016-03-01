@@ -431,7 +431,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
-        uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        ActivityLauncher uiLauncher = (ActivityLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
+        uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getmUiKitTheme());
         uiLauncher.setAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().getEnterAnimation(),
                 DigitalCareConfigManager.getInstance().getUiLauncher().getExitAnimation());
         ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {

@@ -280,7 +280,8 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                     HardcodedProductList productsSelection = new HardcodedProductList(ctnList);
                     productsSelection.setCatalog(Catalog.CARE);
                     productsSelection.setSector(Sector.B2C);
-                    ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+                    ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                            R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
                     uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
                     DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);
                 } else
