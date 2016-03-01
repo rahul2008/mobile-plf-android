@@ -396,7 +396,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
     private void launchProductSelectionFragmentComponent() {
         DigiCareLogger.i("testing", "Support -- Fragment Invoke");
-        mProductChangeButton.setClickable(false);
+        if (mProductChangeButton != null) {
+            mProductChangeButton.setClickable(false);
+        }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
@@ -404,7 +406,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
                 int numberOfModels = summaryModels.size();
-                mProductChangeButton.setClickable(true);
+                if (mProductChangeButton != null) {
+                    mProductChangeButton.setClickable(true);
+                }
 
                 if (numberOfModels > 0) {
                     DigiCareLogger.d(TAG, "Products available of size " + numberOfModels);
