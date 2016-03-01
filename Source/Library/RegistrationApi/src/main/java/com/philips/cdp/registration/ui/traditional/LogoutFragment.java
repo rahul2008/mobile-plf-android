@@ -1,13 +1,11 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +68,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private FrameLayout mFlReceivePhilipsNewsContainer;
 
+    public static final int BAD_RESPONSE_ERROR_CODE = 7008;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -280,6 +279,10 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
             if (getRegistrationFragment() != null) {
                 getRegistrationFragment().replaceWithHomeFragment();
             }
+            return;
+        }
+        if(error == -1 || error == BAD_RESPONSE_ERROR_CODE){
+            mRegError.setError(mContext.getResources().getString(R.string.JanRain_Server_Connection_Failed));
             return;
         }
         mCbTerms.setOnCheckedChangeListener(null);
