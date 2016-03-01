@@ -39,6 +39,7 @@ import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
+import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
@@ -102,10 +103,17 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 USER_PREFERENCE, Context.MODE_PRIVATE);
 
         updateConsumerProductInfo();
-        if (mIsFirstScreenLaunch) {
+        if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1) {
             synchronized (this) {
                 if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
                         DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
+                    if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length == 1) {
+                        ProductModelSelectionType modelSelectionType = DigitalCareConfigManager.getInstance().getProductModelSelectionType();
+                        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn(modelSelectionType.getHardCodedProductList()[0]);
+                        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setSector(modelSelectionType.getSector());
+                        DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCatalog(modelSelectionType.getCatalog());
+                    }
+
                     mPrxProductData = new PrxProductData(getActivity(), this);
                     mPrxProductData.executeRequests();
                 }
