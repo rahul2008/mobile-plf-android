@@ -11,6 +11,7 @@ public enum ErrorType {
     ACCESS_TOKEN_EXPIRED(500, "access token expired"),
     INVALID_VALIDATION(422, "Invalid input"),
     INVALID_PRODUCT(404, "CTN not found"),
+    INVALID_SERIAL_NUMBER(400, "Invalid Serial Number"),
     NO_INTERNET_CONNECTION(501, "No internet connection");
 
     private final int id;

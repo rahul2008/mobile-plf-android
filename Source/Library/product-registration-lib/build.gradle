@@ -53,6 +53,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(':prx')
     compile project(':registrationApi')
+    androidTestCompile project(':dexmaker-mockito-1.4')
+    androidTestCompile project(':dexmaker-1.4')
+    androidTestCompile project(':dexmaker-dx-1.4')
 }
 
 dependencies {

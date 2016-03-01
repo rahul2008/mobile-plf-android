@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Product-registration-lib</string>
-    <string name="title_activity_product_registration">ProductRegistrationActivity</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="metadata_error">error in getting metadata</string>
+    <string name="serial_number_invalid_format">Error in Serial number format</string>
+    <string name="volley_error">"Volley Error : "</string>
 </resources>

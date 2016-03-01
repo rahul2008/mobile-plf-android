@@ -2,11 +2,12 @@ package com.philips.cdp.backend;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.cdp.core.ProdRegConstants;
+import com.philips.cdp.model.ProductData;
 import com.philips.cdp.model.ProductMetaData;
+import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.productbuilder.ProductMetaDataBuilder;
 import com.philips.cdp.productbuilder.RegisteredBuilder;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
@@ -44,31 +45,66 @@ public class ProdRegHelper {
 
     public void registerProduct(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
         requestType = ProdRegConstants.PRODUCT_REGISTRATION;
-        callMetadata(context, prxDataBuilder, listener);
+        processMetadata(context, prxDataBuilder, listener);
     }
 
-    private void callMetadata(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    protected void processMetadata(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
         RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
-        ProductMetaDataBuilder productMetaDataBuilder = new ProductMetaDataBuilder(registrationBuilder.getCtn(), registrationBuilder.getAccessToken());
-        productMetaDataBuilder.setSector(registrationBuilder.getSector());
-        productMetaDataBuilder.setmLocale(registrationBuilder.getLocale());
-        productMetaDataBuilder.setCatalog(registrationBuilder.getCatalog());
+        ProductMetaDataBuilder productMetaDataBuilder = getProductMetaDataBuilder(registrationBuilder);
+        RequestManager mRequestManager = getRequestManager(context);
+        executeMetadataRequest(context, prxDataBuilder, listener, productMetaDataBuilder, mRequestManager);
+    }
 
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(context);
+    private void executeMetadataRequest(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener, final ProductMetaDataBuilder productMetaDataBuilder, final RequestManager mRequestManager) {
         mRequestManager.executeRequest(productMetaDataBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 ProductMetaData productMetaData = (ProductMetaData) responseData;
-                makeRegistrationRequest(context, prxDataBuilder, listener);
+                if (validateSerialNumberFromMetadata(productMetaData, prxDataBuilder, listener))
+                    makeRegistrationRequest(context, prxDataBuilder, listener);
             }
 
             @Override
             public void onResponseError(String error, int code) {
-                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
-                Toast.makeText(context, "error in getting metadata", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.metadata_error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @NonNull
+    private RequestManager getRequestManager(final Context context) {
+        RequestManager mRequestManager = new RequestManager();
+        mRequestManager.init(context);
+        return mRequestManager;
+    }
+
+    @NonNull
+    private ProductMetaDataBuilder getProductMetaDataBuilder(final RegistrationBuilder registrationBuilder) {
+        ProductMetaDataBuilder productMetaDataBuilder = new ProductMetaDataBuilder(registrationBuilder.getCtn(), registrationBuilder.getAccessToken());
+        productMetaDataBuilder.setSector(registrationBuilder.getSector());
+        productMetaDataBuilder.setmLocale(registrationBuilder.getLocale());
+        productMetaDataBuilder.setCatalog(registrationBuilder.getCatalog());
+        return productMetaDataBuilder;
+    }
+
+    private boolean validateSerialNumberFromMetadata(final ProductMetaData productMetaData, final PrxDataBuilder prxDataBuilder, ResponseListener listener) {
+        final ProductData data = productMetaData.getData();
+        if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
+            RegistrationDataBuilder registrationDataBuilder = (RegistrationDataBuilder) prxDataBuilder;
+            registrationDataBuilder.setRequiresSerialNumber(true);
+            if (!registrationDataBuilder.getProductSerialNumber().matches(data.getSerialNumberFormat())) {
+                listener.onResponseError(mContext.getString(R.string.serial_number_invalid_format), -1);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean validatePurchaseDateFromMetadata(final ProductMetaData productMetaData, final PrxDataBuilder prxDataBuilder, ResponseListener listener) {
+        final ProductData data = productMetaData.getData();
+        RegistrationDataBuilder registrationDataBuilder = (RegistrationDataBuilder) prxDataBuilder;
+        final String purchaseDate = registrationDataBuilder.getPurchaseDate();
+        return !(data.getRequiresDateOfPurchase().equalsIgnoreCase("true") && (purchaseDate == null || purchaseDate.length() < 0));
     }
 
     private void makeRegistrationRequest(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
@@ -76,8 +112,7 @@ public class ProdRegHelper {
         Map<String, String> headers = getHeaders((RegistrationBuilder) prxDataBuilder);
         final ResponseListener listenerLocal = getLocalResponseListener(prxDataBuilder, listener);
         PrxRequest prxRequest = new PrxRequest(RequestType.POST, prxDataBuilder.getRequestUrl(), params, headers, listenerLocal, prxDataBuilder);
-        RequestManager requestManager = new RequestManager();
-        requestManager.init(context);
+        RequestManager requestManager = getRequestManager(context);
         requestManager.executeRequest(RequestType.POST, prxDataBuilder, prxRequest);
     }
 
@@ -100,7 +135,7 @@ public class ProdRegHelper {
                 try {
                     handleError(responseCode, prxDataBuilder, listener);
                 } catch (Exception e) {
-                    PrxLogger.e(TAG, "Volley Error : " + e);
+                    PrxLogger.e(TAG, mContext.getString(R.string.volley_error) + e.toString());
                 }
             }
         };
@@ -110,9 +145,15 @@ public class ProdRegHelper {
         Map<String, String> params = new HashMap<>();
         final String purchaseDate = registrationBuilder.getPurchaseDate();
         validatePurchaseDate(params, purchaseDate);
-        params.put(ProdRegConstants.PRODUCT_SERIAL_NUMBER, registrationBuilder.getProductSerialNumber());
+        validateSerialNumber(registrationBuilder, params);
         params.put(ProdRegConstants.REGISTRATION_CHANNEL, registrationBuilder.getRegistrationChannel());
         return params;
+    }
+
+    private void validateSerialNumber(final RegistrationBuilder registrationBuilder, final Map<String, String> params) {
+        final String productSerialNumber = registrationBuilder.getProductSerialNumber();
+        if (productSerialNumber != null && productSerialNumber.length() > 0)
+            params.put(ProdRegConstants.PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
@@ -129,6 +170,8 @@ public class ProdRegHelper {
             onAccessTokenExpire(prxDataBuilder, listener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getId()) {
             listener.onResponseError(ErrorType.INVALID_VALIDATION.getDescription(), statusCode);
+        } else if (statusCode == ErrorType.INVALID_SERIAL_NUMBER.getId()) {
+            listener.onResponseError(ErrorType.INVALID_SERIAL_NUMBER.getDescription(), statusCode);
         } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getId()) {
             listener.onResponseError(ErrorType.NO_INTERNET_CONNECTION.getDescription(), statusCode);
         }
@@ -155,8 +198,7 @@ public class ProdRegHelper {
         Map<String, String> headers = getHeaders((RegisteredBuilder) prxDataBuilder);
         final ResponseListener listenerLocal = getLocalResponseListener(prxDataBuilder, listener);
         PrxRequest prxRequest = new PrxRequest(RequestType.POST, prxDataBuilder.getRequestUrl(), null, headers, listenerLocal, prxDataBuilder);
-        RequestManager requestManager = new RequestManager();
-        requestManager.init(context);
+        RequestManager requestManager = getRequestManager(context);
         requestManager.executeRequest(RequestType.GET, prxDataBuilder, prxRequest);
     }
 
