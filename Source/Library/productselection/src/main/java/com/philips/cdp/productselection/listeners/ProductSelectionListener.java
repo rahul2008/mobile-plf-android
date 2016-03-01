@@ -11,5 +11,5 @@ import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 public interface ProductSelectionListener {
 
 
-    void onProductModelSelected(final SummaryModel summaryModel);
+   public void onProductModelSelected(final SummaryModel summaryModel);
 }
