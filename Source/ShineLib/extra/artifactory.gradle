@@ -18,7 +18,6 @@ artifactory {
             publishPom = true
             publishIvy = false
             publishBuildInfo = false
-
         }
     }
     resolve {
