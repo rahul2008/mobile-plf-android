@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:tag="ProductListingFragment"
-            android:layout_weight="0.45">
+            android:layout_weight="0.40">
         </RelativeLayout>
 
         <RelativeLayout
@@ -33,7 +33,7 @@
             android:id="@+id/fragmentTabletProductDetailsParent"
             android:background="#cccccc"
             android:layout_width="0dp"
-            android:layout_weight="0.55">
+            android:layout_weight="0.60">
         </RelativeLayout>
 
     </LinearLayout>
