@@ -455,28 +455,27 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     }
 
     protected boolean clearBackStackHistory(Context context) {
-        if (ProductModelSelectionHelper.getInstance().isLaunchedAsActivity())
+        if (ProductModelSelectionHelper.getInstance().isLaunchedAsActivity()) {
             if (context != null) {
                 Activity activity = (Activity) context;
                 activity.finish();
 
-            } else {
-
-                if (!ProductModelSelectionHelper.getInstance().isLaunchedAsActivity()) {
-                    if (fragmentManager == null && mActivityContext != null) {
-                        fragmentManager = mActivityContext.getSupportFragmentManager();
-                    } else if (fragmentManager == null) {
-                        fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-                    }
-                    for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
-                        fragmentManager.popBackStack();
-                    }
-                } else {
-
-                }
             }
+        } else {
+
+            if (fragmentManager != null && mActivityContext != null) {
+                fragmentManager = mActivityContext.getSupportFragmentManager();
+            } else if (fragmentManager == null) {
+                fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+            }
+            for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
+                fragmentManager.popBackStack();
+            }
+
+        }
         return false;
     }
+
 
     protected void hideKeyboard() {
         View view = getActivity().getCurrentFocus();
