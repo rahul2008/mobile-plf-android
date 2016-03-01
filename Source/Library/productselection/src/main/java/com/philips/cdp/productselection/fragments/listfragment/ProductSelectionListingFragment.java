@@ -16,10 +16,8 @@ import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenF
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.prx.PrxSummaryDataListener;
 import com.philips.cdp.productselection.prx.PrxWrapper;
-import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
-import com.philips.cdp.tagging.Tagging;
 
 import java.util.ArrayList;
 
@@ -75,14 +73,10 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                         setListViewRequiredInTablet(false);
                         mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
                     }
-                    Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
-                            Constants.ACTION_VALUE_PRODUCT_VIEW);
+//                    showFragment(new DetailedScreenFragmentSelection());
                 }
             }
         });
-
-        Tagging.trackPage(Constants.PAGE_LIST_SCREEN, getPreviousName());
-        setPreviousPageName(Constants.PAGE_LIST_SCREEN);
     }
 
 
@@ -90,7 +84,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
         ProductSelectionLogger.d(TAG, "Summary List : " + summaryList.length);
         productList = new ArrayList<SummaryModel>();
-
+        ;
         for (int i = 0; i < summaryList.length; i++) {
             productList.add(summaryList[i]);
         }
@@ -207,6 +201,11 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     @Override
     public void setViewParams(Configuration config) {
+    }
+
+    @Override
+    public String setPreviousPageName() {
+        return null;
     }
 
     @Override

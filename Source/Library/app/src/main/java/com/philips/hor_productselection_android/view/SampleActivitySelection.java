@@ -65,9 +65,7 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
 //        componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
 //        componentBuilder.setFragmentActivity(this);
 
-        ProductModelSelectionHelper.getInstance().initialize(this);
         ProductModelSelectionHelper.getInstance().setLocale("en", "GB");
-
         //ProductModelSelectionHelper.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMultiProductContainer, null /*actionBarClickListener*/, R.anim.uikit_popover_fadein, R.anim.uikit_popover_fadeout);
 //        ProductModelSelectionHelper.getInstance().setMultiProductSize(mList.size());
 

@@ -73,9 +73,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile(group: 'com.philips.cdp', name: 'prx', version: '1.0.1', ext: 'aar')
     compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.1', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
-}
 
+}
 allprojects {
     repositories {
         maven {

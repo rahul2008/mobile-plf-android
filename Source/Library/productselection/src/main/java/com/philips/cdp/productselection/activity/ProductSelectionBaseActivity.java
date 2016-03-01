@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 //import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-import com.philips.cdp.tagging.Tagging;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
@@ -131,13 +130,11 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Tagging.collectLifecycleData();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Tagging.pauseCollectingLifecycleData();
     }
 
     @Override

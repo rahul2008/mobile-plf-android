@@ -182,6 +182,11 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     }
 
     @Override
+    public String setPreviousPageName() {
+        return null;
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         setListViewRequiredInTablet(true);
