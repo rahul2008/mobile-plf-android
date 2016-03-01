@@ -158,6 +158,11 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     }
 
     @Override
+    public String setPreviousPageName() {
+        return null;
+    }
+
+    @Override
     public void onClick(View v) {
         if (isConnectionAvailable()) {
             if (v.getId() == R.id.savedscreen_button_settings) {

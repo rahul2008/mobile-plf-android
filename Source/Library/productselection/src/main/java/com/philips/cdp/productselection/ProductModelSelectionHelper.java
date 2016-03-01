@@ -90,13 +90,14 @@ public class ProductModelSelectionHelper {
     public void initialize(Context applicationContext) {
         if (mContext == null) {
             ProductModelSelectionHelper.mContext = applicationContext;
-
         }
 
     }
 
     public UiLauncher getLauncherType() {
         return mLauncherType;
+        }
+
     }
 
     public void invokeProductSelection(final UiLauncher uiLauncher, final ProductModelSelectionType productModelSelectionType) {
