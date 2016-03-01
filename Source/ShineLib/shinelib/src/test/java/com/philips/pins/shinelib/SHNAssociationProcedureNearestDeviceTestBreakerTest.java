@@ -1,6 +1,6 @@
 package com.philips.pins.shinelib;
 
-import com.philips.pins.shinelib.associationprocedures.SHNAssociationProcedureNearestDevice;
+import com.philips.pins.shinelib.associationprocedures.SHNAssociationProcedureNearestDeviceTestBreaker;
 import com.philips.pins.shinelib.framework.Timer;
 
 import org.junit.Before;
@@ -31,8 +31,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Timer.class})
-public class SHNAssociationProcedureNearestDeviceTest {
-    private SHNAssociationProcedureNearestDevice associationProcedure;
+public class SHNAssociationProcedureNearestDeviceTestBreakerTest {
+    private SHNAssociationProcedureNearestDeviceTestBreaker associationProcedure;
     private SHNAssociationProcedurePlugin.SHNAssociationProcedureListener mockedSHNAssociationProcedureListener;
     private Timer mockedIterationTimeoutTimer;
     private List<AbstractMap.Entry<SHNDevice, Integer>> mockedDevicesAndAssociatedRSSI;
@@ -75,14 +75,14 @@ public class SHNAssociationProcedureNearestDeviceTest {
         mockedSHNAssociationProcedureListener = mock(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class);
 
         mockStatic(Timer.class);
-        when(Timer.createTimer(any(Runnable.class), eq(SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS))).thenReturn(mockedIterationTimeoutTimer);
+        when(Timer.createTimer(any(Runnable.class), eq(SHNAssociationProcedureNearestDeviceTestBreaker.NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS))).thenReturn(mockedIterationTimeoutTimer);
 
-        associationProcedure = new SHNAssociationProcedureNearestDevice(mockedSHNAssociationProcedureListener);
+        associationProcedure = new SHNAssociationProcedureNearestDeviceTestBreaker(mockedSHNAssociationProcedureListener);
         associationProcedure.start();
 
         PowerMockito.verifyStatic();
         iterationTimeoutTimerRunnable = ArgumentCaptor.forClass(Runnable.class);
-        Timer.createTimer(iterationTimeoutTimerRunnable.capture(), eq(SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS));
+        Timer.createTimer(iterationTimeoutTimerRunnable.capture(), eq(SHNAssociationProcedureNearestDeviceTestBreaker.NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS));
     }
 
     @Test
@@ -97,15 +97,15 @@ public class SHNAssociationProcedureNearestDeviceTest {
 
     @Test
     public void shouldKeepRestartingTimerAfterAnIterationUntilMaxIterationCountWasReached() {
-        for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
+        for (int i = 0; i < SHNAssociationProcedureNearestDeviceTestBreaker.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
             iterationTimeoutTimerRunnable.getValue().run();
         }
-        verify(mockedIterationTimeoutTimer, times(SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT)).restart();
+        verify(mockedIterationTimeoutTimer, times(SHNAssociationProcedureNearestDeviceTestBreaker.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT)).restart();
     }
 
     @Test
     public void shouldCallAssociationFailedWhenNoDevicesAreDiscoveredInAllIterations() {
-        for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
+        for (int i = 0; i < SHNAssociationProcedureNearestDeviceTestBreaker.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
             iterationTimeoutTimerRunnable.getValue().run();
         }
         verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
@@ -115,7 +115,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
     @Test
     public void shouldCallAssociationFailedWhenNoDeviceIsDeemedNearestEnoughTimesSuccessively() {
         createMockedDevices(new Integer[]{-20, -30, -80, -43});
-        for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
+        for (int i = 0; i < SHNAssociationProcedureNearestDeviceTestBreaker.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
             discoverMockedDevice(i % 4);
             iterationTimeoutTimerRunnable.getValue().run();
         }
@@ -126,7 +126,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
     @Test
     public void shouldIgnoreDevicesForWhichRSSIIsZeroAndCallAssociationFailed() {
         createMockedDevices(new Integer[]{0});
-        for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
+        for (int i = 0; i < SHNAssociationProcedureNearestDeviceTestBreaker.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
             discoverMockedDevice(0);
             iterationTimeoutTimerRunnable.getValue().run();
         }
@@ -137,7 +137,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
     @Test
     public void shouldCallAssociationSucceededWhenDeviceIsImmediatelyDeemedNearestEnoughTimesSuccessively() {
         createMockedDevices(new Integer[]{-20});
-        for (int i = 0; i < SHNAssociationProcedureNearestDevice.ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT; ++i) {
+        for (int i = 0; i < SHNAssociationProcedureNearestDeviceTestBreaker.ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT; ++i) {
             discoverMockedDevice(0);
             iterationTimeoutTimerRunnable.getValue().run();
         }
@@ -148,7 +148,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
     @Test
     public void shouldCallAssociationSucceededWhenDeviceIsLaterDeemedNearestEnoughTimesSuccessively() {
         createMockedDevices(new Integer[]{-20, -1});
-        for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
+        for (int i = 0; i < SHNAssociationProcedureNearestDeviceTestBreaker.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i) {
             discoverMockedDevice((i > 1) ? 1 : 0);
             iterationTimeoutTimerRunnable.getValue().run();
         }
@@ -159,7 +159,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
     @Test
     public void shouldDeemTheDeviceWithTheHighestRSSITheNearestDevice() {
         createMockedDevices(new Integer[]{-10, -20, -80, -43, -1});
-        for (int i = 0; i < SHNAssociationProcedureNearestDevice.ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT; ++i) {
+        for (int i = 0; i < SHNAssociationProcedureNearestDeviceTestBreaker.ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT; ++i) {
             discoverMockedDevices(new Integer[]{0, 1, 2, 3, 4});
             iterationTimeoutTimerRunnable.getValue().run();
         }
