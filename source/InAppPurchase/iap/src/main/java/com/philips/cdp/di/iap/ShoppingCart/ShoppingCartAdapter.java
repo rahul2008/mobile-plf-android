@@ -119,6 +119,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 holder.price.setTypeface(null, Typeface.BOLD);
                 holder.valueOption.setText(cartData.getQuantity() + "");
 
+                holder.quantityLayout = (ViewGroup) convertView.findViewById(R.id.quantity_count_layout);
+
                 //TODO: Fix it
                 ImageLoader mImageLoader;
                 // Instantiate the RequestQueue.
@@ -138,7 +140,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 //Add arrow mark
                 holder.valueOption.setCompoundDrawables(null,null,countArrow,null);
-                bindCountView(holder.valueOption, position);
+                bindCountView(holder.quantityLayout, position);
                 break;
 
             case TYPE_SHIPPING_DETAILS:
@@ -296,5 +298,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         TextView from;
         TextView price;
         String imageUrl;
+        ViewGroup quantityLayout;
     }
 }
