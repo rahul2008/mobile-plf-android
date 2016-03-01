@@ -119,7 +119,7 @@ public class ProductModelSelectionHelper {
             public void onSuccess(List<SummaryModel> summaryModels) {
                 if (mProgressDialog != null && mProgressDialog.isShowing())
                     mProgressDialog.cancel();
-                if (summaryModels.size() > 1) {
+                if (summaryModels.size() >= 1) {
                     SummaryModel[] ctnArray = new SummaryModel[summaryModels.size()];
                     for (int i = 0; i < summaryModels.size(); i++)
                         ctnArray[i] = summaryModels.get(i);
