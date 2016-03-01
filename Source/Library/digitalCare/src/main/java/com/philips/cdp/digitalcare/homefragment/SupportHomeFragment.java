@@ -36,6 +36,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
@@ -62,6 +63,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
     private static boolean isFirstTimeProductComponentlaunch = true;
+    private static boolean isProductSelectionFirstTime = true;
     SharedPreferences prefs = null;
     ActivityLauncher uiLauncher = null;
     private LinearLayout mOptionParent = null;
@@ -89,6 +91,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         }
     };
     private String mCtnFromPreference;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isProductSelectionFirstTime = true;
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,7 +136,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             launchProductSelectionComponent();
         }
         if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
-            launchProductSelectionComponent();
+
+            if (isProductSelectionFirstTime) {
+                isProductSelectionFirstTime = false;
+                launchProductSelectionComponent();
+            }
         }
 
         return mView;
