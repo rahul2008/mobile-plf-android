@@ -40,4 +40,8 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsHo
     public int getItemCount() {
         return mPaymentMethods.size();
     }
+
+    public int getSelectedPosition() {
+        return mSelectedIndex;
+    }
 }
