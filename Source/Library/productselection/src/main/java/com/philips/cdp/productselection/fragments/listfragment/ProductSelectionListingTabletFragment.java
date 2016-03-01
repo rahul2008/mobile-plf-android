@@ -173,8 +173,8 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mLeftPanelLayout.setVisibility(View.VISIBLE);
             mRightPanelLayout.setVisibility(View.VISIBLE);
-            mRightPanelLayoutParams.weight = 0.55f;
-            mLeftPanelLayoutParams.weight = 0.45f;
+            mRightPanelLayoutParams.weight = 0.60f;
+            mLeftPanelLayoutParams.weight = 0.40f;
 //            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = 0;
         }
         mRightPanelLayout.setLayoutParams(mRightPanelLayoutParams);
