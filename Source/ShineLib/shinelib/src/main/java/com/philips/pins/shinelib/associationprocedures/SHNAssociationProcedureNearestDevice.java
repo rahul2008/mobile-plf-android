@@ -1,12 +1,20 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.associationprocedures;
 
-import android.util.Log;
+
+
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNAssociationProcedurePlugin;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -20,7 +28,6 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     public static final int NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT = 5;
 
     private static final String TAG = SHNAssociationProcedureNearestDevice.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private SHNAssociationProcedureListener shnAssociationProcedureListener;
     private SortedMap<Integer, SHNDevice> discoveredDevices;
     private Timer nearestDeviceIterationTimer;
@@ -35,15 +42,18 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     private void associateWithNearestDeviceIfPossible() {
         nearestDeviceIterationCount++;
         SHNDevice nearestDevice = discoveredDevices.isEmpty() ? null : discoveredDevices.get(discoveredDevices.lastKey());
-        if (LOGGING)
-            Log.i(TAG, String.format("[ %d ] Nearest device: '%s'", nearestDeviceIterationCount, (nearestDevice != null) ? nearestDevice.getAddress() : "NONE"));
+        SHNLogger.i(TAG, String.format("[ %d ] Nearest device: '%s'", nearestDeviceIterationCount, (nearestDevice != null) ? nearestDevice.getAddress() : "NONE"));
         discoveredDevices.clear();
         boolean finished = false;
 
-        if ((nearestDevice != null) && (nearestDeviceInPreviousIteration != null) && (nearestDevice.getAddress().equals(nearestDeviceInPreviousIteration.getAddress()))) {
-            if (LOGGING)
-                Log.i(TAG, "associateWithNearestDeviceIfPossible address matched with previous iteration");
-            if (++successivelyNearestDeviceCount == ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT) {
+        if ((nearestDevice != null) &&
+                        (((nearestDeviceInPreviousIteration != null) && (nearestDevice.getAddress().equals(nearestDeviceInPreviousIteration.getAddress())))
+                        ||
+                        (successivelyNearestDeviceCount == 0 && deviceIsSufficientlyOftenNearest(1)))) {
+            SHNLogger.i(TAG, "associateWithNearestDeviceIfPossible address matched with previous iteration");
+
+            ++successivelyNearestDeviceCount;
+            if (deviceIsSufficientlyOftenNearest(successivelyNearestDeviceCount)) {
                 nearestDeviceInPreviousIteration = null;
                 if (shnAssociationProcedureListener != null) {
                     shnAssociationProcedureListener.onStopScanRequest();
@@ -52,8 +62,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
                 finished = true;
             }
         } else {
-            if (LOGGING)
-                Log.i(TAG, "associateWithNearestDeviceIfPossible address NOT matched with previous iteration");
+            SHNLogger.i(TAG, "associateWithNearestDeviceIfPossible address NOT matched with previous iteration");
             nearestDeviceInPreviousIteration = nearestDevice;
             successivelyNearestDeviceCount = 1;
         }
@@ -63,11 +72,15 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
         }
     }
 
+    protected boolean deviceIsSufficientlyOftenNearest(int successivelyNearestDeviceCount) {
+        return successivelyNearestDeviceCount == ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT;
+    }
+
     private void startNextIterationOrFail() {
         if (nearestDeviceIterationCount < NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT) {
             nearestDeviceIterationTimer.restart();
         } else {
-            if (LOGGING) Log.i(TAG, "!! No device consistently deemed nearest; association failed");
+            SHNLogger.i(TAG, "!! No device consistently deemed nearest; association failed");
             if (shnAssociationProcedureListener != null) {
                 shnAssociationProcedureListener.onAssociationFailed(null, SHNResult.SHNErrorAssociationFailed);
             }
@@ -79,18 +92,24 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
         discoveredDevices = new TreeMap<>();
         nearestDeviceIterationCount = 0;
         successivelyNearestDeviceCount = 0;
-        nearestDeviceIterationTimer = Timer.createTimer(new Runnable() {
+        nearestDeviceIterationTimer = createTimerForRunnable(new Runnable() {
             @Override
             public void run() {
                 associateWithNearestDeviceIfPossible();
             }
-        }, NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS);
+        });
         nearestDeviceIterationTimer.restart();
         return SHNResult.SHNOk;
     }
 
+    @NonNull
+    protected Timer createTimerForRunnable(Runnable runnable) {
+        return Timer.createTimer(runnable, NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS);
+    }
+
     @Override
     public void stop() {
+        nearestDeviceIterationTimer.stop();
     }
 
     // implements SHNAssociationProcedure
@@ -101,13 +120,11 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
 
     @Override
     public void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo) {
-        if (LOGGING)
-            Log.i(TAG, String.format("deviceDiscovered '%s'; rssi = %d", shnDevice.getAddress(), shnDeviceFoundInfo.getRssi()));
+        SHNLogger.i(TAG, String.format("deviceDiscovered '%s'; rssi = %d", shnDevice.getAddress(), shnDeviceFoundInfo.getRssi()));
         if (shnDeviceFoundInfo.getRssi() != 0) {
             discoveredDevices.put(shnDeviceFoundInfo.getRssi(), shnDevice);
         } else {
-            if (LOGGING)
-                Log.i(TAG, String.format("Ignoring discovered device '%s'; rssi = 0", shnDevice.toString()));
+            SHNLogger.i(TAG, String.format("Ignoring discovered device '%s'; rssi = 0", shnDevice.toString()));
         }
     }
 

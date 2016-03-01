@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.jfrog.artifactory-upload'
 
 group = ext.artifactoryGroup
@@ -7,13 +12,12 @@ artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
     publish {
         repository {
-            repoKey = 'libs-release-local'
-            username = 'admin'
-            password = 'password'
+            repoKey = 'libs-release-local-android'
+            username = 'readerwriter'
+            password = 'ReaderWriter'
             publishPom = true
             publishIvy = false
             publishBuildInfo = false
-
         }
     }
     resolve {

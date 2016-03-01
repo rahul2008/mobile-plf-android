@@ -1,14 +1,17 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
 
+import com.philips.pins.shinelib.ResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
 
-/**
- * Created by 310188215 on 29/04/15.
- */
 public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotifications {
 
     private final Handler internalHandler;
@@ -23,11 +26,11 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
 
     // implements SHNCapabilityNotifications
     @Override
-    public void showNotificationForType(final SHNNotificationType shnNotificationType, final SHNResultListener shnResultListener) {
+    public void showNotificationForType(final Type type, final byte[] imageData, final SHNResultListener shnResultListener) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapabilityNotifications.showNotificationForType(shnNotificationType, new SHNResultListener() {
+                wrappedShnCapabilityNotifications.showNotificationForType(type, imageData, new SHNResultListener() {
                     @Override
                     public void onActionCompleted(final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
@@ -45,11 +48,11 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
     }
 
     @Override
-    public void hideNotificationForType(final SHNNotificationType shnNotificationType, final SHNResultListener shnResultListener) {
+    public void hideNotificationForType(final Type type, final SHNResultListener shnResultListener) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapabilityNotifications.hideNotificationForType(shnNotificationType, new SHNResultListener() {
+                wrappedShnCapabilityNotifications.hideNotificationForType(type, new SHNResultListener() {
                     @Override
                     public void onActionCompleted(final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
@@ -64,5 +67,15 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
             }
         };
         internalHandler.post(command);
+    }
+
+    @Override
+    public void getMaxImageSizeForType(final Type type, final ResultListener<ImageSize> resultListener) {
+        internalHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                wrappedShnCapabilityNotifications.getMaxImageSizeForType(type, new WrappedResultListener<>(userHandler, resultListener));
+            }
+        });
     }
 }

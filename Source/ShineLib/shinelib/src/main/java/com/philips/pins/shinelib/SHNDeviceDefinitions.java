@@ -1,4 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
+
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +15,7 @@ import java.util.List;
  * Created by 310188215 on 27/05/15.
  */
 public class SHNDeviceDefinitions {
+    private static final String TAG = SHNDeviceDefinitions.class.getSimpleName();
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
 
     public SHNDeviceDefinitions() {
@@ -36,6 +44,8 @@ public class SHNDeviceDefinitions {
                 return shnDeviceDefinitionInfo;
             }
         }
+
+        SHNLogger.d(TAG, "Trying to retrieve a SHNDeviceDefinitionInfo for unknown device type name: [" + deviceTypeName + "]");
         return null;
     }
 }

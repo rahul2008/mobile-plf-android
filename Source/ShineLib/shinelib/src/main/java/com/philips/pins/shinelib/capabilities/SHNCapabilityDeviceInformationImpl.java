@@ -1,10 +1,17 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.capabilities;
+
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.services.SHNServiceDeviceInformation;
 
 /**
- * Created by 310188215 on 31/03/15.
+ * Default implementation for {@link SHNCapabilityDeviceInformation}.
  */
 public class SHNCapabilityDeviceInformationImpl implements SHNCapabilityDeviceInformation {
     private final SHNServiceDeviceInformation shnServiceDeviceInformation;
@@ -13,7 +20,13 @@ public class SHNCapabilityDeviceInformationImpl implements SHNCapabilityDeviceIn
         this.shnServiceDeviceInformation = shnServiceDeviceInformation;
     }
 
-    public void readDeviceInformation(SHNDeviceInformationType shnDeviceInformationType, SHNStringResultListener shnStringResultListener) {
+    @Deprecated
+    public void readDeviceInformation(@NonNull final SHNDeviceInformationType shnDeviceInformationType, @NonNull final SHNStringResultListener shnStringResultListener) {
         shnServiceDeviceInformation.readDeviceInformation(shnDeviceInformationType, shnStringResultListener);
+    }
+
+    @Override
+    public void readDeviceInformation(@NonNull final SHNDeviceInformationType deviceInformationType, @NonNull final Listener listener) {
+        shnServiceDeviceInformation.readDeviceInformation(deviceInformationType, listener);
     }
 }

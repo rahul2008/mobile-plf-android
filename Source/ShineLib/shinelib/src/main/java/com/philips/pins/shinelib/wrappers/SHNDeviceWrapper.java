@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
@@ -5,6 +10,7 @@ import android.os.Handler;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
+import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.SHNResult;
 
 import java.util.ArrayList;
@@ -16,7 +22,6 @@ import java.util.Set;
  */
 public class SHNDeviceWrapper implements SHNDevice {
     private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private final SHNDevice shnDevice;
     private static Handler tempInternalHandler;
     private static Handler tempUserHandler;
@@ -105,6 +110,16 @@ public class SHNDeviceWrapper implements SHNDevice {
         internalHandler.post(runnable);
     }
 
+    public void connect(final boolean withTimeout, final long timeoutInMS) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                ((SHNDeviceImpl)shnDevice).connect(withTimeout, timeoutInMS);
+            }
+        };
+        internalHandler.post(runnable);
+    }
+
     @Override
     public void disconnect() {
         Runnable runnable = new Runnable() {
@@ -121,7 +136,7 @@ public class SHNDeviceWrapper implements SHNDevice {
         synchronized (shnDeviceListeners) {
             if (!shnDeviceListeners.contains(shnDeviceListener)) {
                 shnDeviceListeners.add(shnDeviceListener);
-                shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this);
+                shnDeviceListener.onStateUpdated(this);
             }
         }
     }

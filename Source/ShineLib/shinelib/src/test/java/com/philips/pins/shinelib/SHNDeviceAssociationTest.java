@@ -1,52 +1,52 @@
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
-import com.philips.pins.shinelib.utility.SHNServiceRegistry;
-import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
+import com.philips.pins.shinelib.utility.PersistentStorageCleaner;
+import com.philips.pins.shinelib.utility.PersistentStorageFactory;
+import com.philips.pins.shinelib.utility.QuickTestConnection;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by 310188215 on 27/05/15.
- */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class, SHNDeviceAssociation.class})
 public class SHNDeviceAssociationTest {
+    
     public static final String DEVICE_TYPE_NAME = "Moonshine";
     private SHNDeviceAssociation shnDeviceAssociation;
     private SHNDeviceAssociation.SHNDeviceAssociationListener mockedSHNDeviceAssociationListener;
@@ -56,23 +56,44 @@ public class SHNDeviceAssociationTest {
     private SHNAssociationProcedurePlugin mockedSHNAssociationProcedure;
     private UUID mockedPrimaryServiceUUID;
     private SHNDeviceDefinitions mockedSHNDeviceDefinitions;
-    private ShinePreferenceWrapper mockedShinePreferenceWrapper;
     private SHNDevice mockedSHNDevice;
     private MockedHandler mockedInternalHandler;
     private MockedHandler mockedUserHandler;
 
+    @Mock
+    private QuickTestConnection quickTestConnectionMock;
+
+    @Mock
+    private SHNDeviceAssociationHelper deviceAssociationHelperMock;
+
+    @Mock
+    private SHNDeviceAssociation.DeviceRemovedListener deviceRemovedListenerMock;
+
+    @Mock
+    private PersistentStorageFactory persistentStorageFactoryMock;
+
+    @Mock
+    private PersistentStorageCleaner persistentStorageCleanerMock;
+
+    @Captor
+    private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
+
+    @Captor
+    private ArgumentCaptor<SHNDevice.SHNDeviceListener> deviceListenerCaptor;
+
+    private SHNDeviceScannerInternal mockedSHNDeviceScannerInternal;
+
     @Before
     public void setUp() {
-        SHNServiceRegistry.releaseInstance();
+        initMocks(this);
 
-        mockStatic(Log.class);
         mockedSHNDeviceAssociationListener = Utility.makeThrowingMock(SHNDeviceAssociation.SHNDeviceAssociationListener.class);
         mockedSHNAssociationProcedure = Utility.makeThrowingMock(SHNAssociationProcedurePlugin.class);
         mockedSHNCentral = Utility.makeThrowingMock(SHNCentral.class);
+        mockedSHNDeviceScannerInternal = Utility.makeThrowingMock(SHNDeviceScannerInternal.class);
         mockedSHNDeviceDefinitionInfo = Utility.makeThrowingMock(SHNDeviceDefinitionInfo.class);
         mockedSHNDeviceDefinition = Utility.makeThrowingMock(SHNDeviceDefinitionInfo.SHNDeviceDefinition.class);
         mockedSHNDeviceDefinitions = Utility.makeThrowingMock(SHNDeviceDefinitions.class);
-        mockedShinePreferenceWrapper = Utility.makeThrowingMock(ShinePreferenceWrapper.class);
         mockedSHNDevice = Utility.makeThrowingMock(SHNDevice.class);
         mockedPrimaryServiceUUID = UUID.randomUUID();
         mockedInternalHandler = new MockedHandler();
@@ -101,13 +122,14 @@ public class SHNDeviceAssociationTest {
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(SHNCentral.State.SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
-        doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
-        SHNServiceRegistry.getInstance().add(mockedShinePreferenceWrapper, ShinePreferenceWrapper.class);
-        doNothing().when(mockedSHNCentral).stopScanning();
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
         doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
         SHNDeviceFoundInfo.setSHNCentral(mockedSHNCentral);
+
+        // mockedSHNDeviceScanner
+        doReturn(true).when(mockedSHNDeviceScannerInternal).startScanning(isA(SHNDeviceScanner.SHNDeviceScannerListener.class), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        doNothing().when(mockedSHNDeviceScannerInternal).stopScanning();
 
         // mockedSHNAssociationProcedure
         doReturn(true).when(mockedSHNAssociationProcedure).getShouldScan();
@@ -121,35 +143,37 @@ public class SHNDeviceAssociationTest {
 
         doReturn(mockedSHNDevice).when(mockedSHNDeviceDefinition).createDeviceFromDeviceAddress(anyString(), any(SHNDeviceDefinitionInfo.class), any(SHNCentral.class));
 
-        doReturn(Collections.emptyList()).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
-        doNothing().when(mockedShinePreferenceWrapper).storeAssociatedDeviceInfos(anyList());
+        doReturn(Collections.emptyList()).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
+        doNothing().when(deviceAssociationHelperMock).storeAssociatedDeviceInfos(anyList());
 
-        shnDeviceAssociation = new SHNDeviceAssociation(mockedSHNCentral);
+        PowerMockito.when(persistentStorageFactoryMock.getPersistentStorageCleaner()).thenReturn(persistentStorageCleanerMock);
+
+        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal, persistentStorageFactoryMock);
 
         shnDeviceAssociation.setShnDeviceAssociationListener(mockedSHNDeviceAssociationListener);
     }
 
     @Test
-    public void whenCreatedThenTheInstanceIsInIdleState() {
+    public void whenCreated_ThenTheInstanceIsInIdleState() {
         assertNotNull(shnDeviceAssociation);
         assertEquals(SHNDeviceAssociation.State.Idle, shnDeviceAssociation.getState());
     }
 
     @Test
-    public void whenCreatedThenTheAssociationsAreRead() {
+    public void whenCreated_ThenTheAssociationsAreRead() {
         assertNotNull(shnDeviceAssociation);
-        verify(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
+        verify(deviceAssociationHelperMock).readAssociatedDeviceInfos();
     }
 
     @Test
-    public void whenCallingStartAssociationForAnUnregisteredDeviceTypeWhenAssociationNotInProcessThenOnAssociationFailedIsCalled() {
+    public void whenCallingStartAssociationForAnUnregisteredDeviceTypeWhenAssociationNotInProcess_ThenOnAssociationFailedIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType("UnknownDeviceType");
 
         verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNErrorUnknownDeviceType);
     }
 
     @Test
-    public void whenStartReturnsAnErrorThenAssociationFailedIsCalled() {
+    public void whenStartReturnsAnError_ThenAssociationFailedIsCalled() {
         doReturn(SHNResult.SHNErrorInvalidParameter).when(mockedSHNAssociationProcedure).start();
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
@@ -158,7 +182,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessThenDidStartWithProperAssocProcIsCalled() {
+    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcess_ThenDidStartWithProperAssocProcIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         verify(mockedSHNDeviceAssociationListener).onAssociationStarted(mockedSHNAssociationProcedure);
@@ -166,52 +190,49 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessThenStartIsCalled() {
+    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcess_ThenStartIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         verify(mockedSHNAssociationProcedure).start();
     }
 
     @Test
-    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessAndShouldScanReturnsTrueThenStartScanningIsCalled() {
+    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessAndShouldScanReturnsTrue_ThenStartScanningIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
-        ArgumentCaptor<Collection> uuidCollectionArgumentCaptor = ArgumentCaptor.forClass(Collection.class);
         ArgumentCaptor<SHNDeviceScanner.ScannerSettingDuplicates> duplicatesArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.ScannerSettingDuplicates.class);
         ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> scannerListenerArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        verify(mockedSHNCentral).startScanningForDevices(uuidCollectionArgumentCaptor.capture(), duplicatesArgumentCaptor.capture(), scannerListenerArgumentCaptor.capture());
-        assertEquals(1, uuidCollectionArgumentCaptor.getValue().size());
-        assertTrue(uuidCollectionArgumentCaptor.getValue().contains(mockedPrimaryServiceUUID));
+        verify(mockedSHNDeviceScannerInternal).startScanning(scannerListenerArgumentCaptor.capture(), duplicatesArgumentCaptor.capture(), anyLong());
         assertEquals(SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, duplicatesArgumentCaptor.getValue());
         assertNotNull(scannerListenerArgumentCaptor.getValue());
     }
 
     @Test
-    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessAndShouldScanReturnsFalseThenStartScanningIsNotCalled() {
+    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessAndShouldScanReturnsFalse_ThenStartScanningIsNotCalled() {
         /* !!! */
         doReturn(false).when(mockedSHNAssociationProcedure).getShouldScan();
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
-        verify(mockedSHNCentral, never()).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
+        verify(mockedSHNDeviceScannerInternal, never()).startScanning(isA(SHNDeviceScanner.SHNDeviceScannerListener.class), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
     }
 
     @Test
-    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProgresThenTheStateChangesToAssociating() {
+    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProgres_ThenTheStateChangesToAssociating() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         assertEquals(SHNDeviceAssociation.State.Associating, shnDeviceAssociation.getState());
     }
 
     @Test
-    public void whenCallingStopAssociationWhenIdleThenAssociationStoppedShouldNotBeCalled() {
+    public void whenCallingStopAssociationWhenIdle_ThenAssociationStoppedShouldNotBeCalled() {
         shnDeviceAssociation.stopAssociation();
 
         verify(mockedSHNDeviceAssociationListener, never()).onAssociationStopped();
     }
 
     @Test
-    public void whenAssociationIsInProgressThenAdditionalCallsToStartAssociationShouldBeIgnored() {
+    public void whenAssociationIsInProgress_ThenAdditionalCallsToStartAssociationShouldBeIgnored() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
         reset(mockedSHNDeviceAssociationListener); // clears the doReturn functions
 
@@ -220,7 +241,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenAssociationIsInProgressAndStopAssociationIsCalledThenOnAssociationStopIsCalled() {
+    public void whenAssociationIsInProgressAndStopAssociationIsCalled_ThenOnAssociationStopIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         shnDeviceAssociation.stopAssociation();
@@ -229,7 +250,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenAssociationIsInProgressAndStopAssociationIsCalledThenAssociationProcedureStopIsCalled() {
+    public void whenAssociationIsInProgressAndStopAssociationIsCalled_ThenAssociationProcedureStopIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         shnDeviceAssociation.stopAssociation();
@@ -238,7 +259,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenAssociationIsInProgressAndStopAssociationIsCalledThenListenerIsSetToNull() {
+    public void whenAssociationIsInProgressAndStopAssociationIsCalled_ThenListenerIsSetToNull() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         shnDeviceAssociation.stopAssociation();
@@ -247,12 +268,12 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenAssociationIsInProgressAndADeviceIsDiscoveredThenOnDeviceDiscoveredIsCalled() {
+    public void whenAssociationIsInProgressAndADeviceIsDiscovered_ThenOnDeviceDiscoveredIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 //        reset(mockedSHNDeviceAssociationListener); // clears the doReturn functions
 
         ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> scannerListenerArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        verify(mockedSHNCentral).startScanningForDevices(anyCollection(), any(SHNDeviceScanner.ScannerSettingDuplicates.class), scannerListenerArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerInternal).startScanning(scannerListenerArgumentCaptor.capture(), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
 
         BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("11:22:33:44:55:66").when(mockedBluetoothDevice).getAddress();
@@ -276,31 +297,48 @@ public class SHNDeviceAssociationTest {
         assertEquals(mockedSHNDevice, shnDeviceArgumentCaptor.getValue());
     }
 
-    private void startAssociationAndCompleteWithDevice(String macAddress, SHNDevice shnDevice, int number) {
-        when(shnDevice.getAddress()).thenReturn(macAddress);
-        when(shnDevice.getDeviceTypeName()).thenReturn(DEVICE_TYPE_NAME);
-
-        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
-
-        ArgumentCaptor<SHNAssociationProcedurePlugin.SHNAssociationProcedureListener> shnAssociationProcedureListenerArgumentCaptor = ArgumentCaptor.forClass(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class);
-        verify(mockedSHNDeviceDefinitionInfo, times(number)).createSHNAssociationProcedure(any(SHNCentral.class), shnAssociationProcedureListenerArgumentCaptor.capture());
-        shnAssociationProcedureListenerArgumentCaptor.getValue().onAssociationSuccess(shnDevice);
-    }
-
+    @Ignore
     @Test
-    public void whenAssociationHasSucceededThenDeviceIsAddedToTheListOfAssociatedDevices() {
+    public void whenAssociationHasSucceeded_ThenDeviceWillBeQuickConnected() {
         String macAddress = "11:22:33:44:55:66";
         SHNDevice shnDevice = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
 
-        assertNotNull(shnDeviceAssociation.getAssociatedDevices());
-        assertEquals(1, shnDeviceAssociation.getAssociatedDevices().size());
-        assertEquals(macAddress, shnDeviceAssociation.getAssociatedDevices().get(0).getAddress());
-        assertEquals(DEVICE_TYPE_NAME, shnDeviceAssociation.getAssociatedDevices().get(0).getDeviceTypeName());
+        verify(quickTestConnectionMock).execute(eq(shnDevice), isA(QuickTestConnection.Listener.class));
+    }
+
+    @Ignore
+    @Test
+    public void whenQuickConnectedHasSucceeded_AssociationListerIsInformedOfSuccess() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        verify(quickTestConnectionMock).execute(eq(shnDevice), quickTestConnectionListenerCaptor.capture());
+
+        QuickTestConnection.Listener listener = quickTestConnectionListenerCaptor.getValue();
+        listener.onSuccess();
+
+        verify(mockedSHNDeviceAssociationListener).onAssociationSucceeded(shnDevice);
+    }
+
+    @Ignore
+    @Test
+    public void whenQuickConnectedHasFailed_AssociationListerIsInformedOfSuccessAnyway() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        verify(quickTestConnectionMock).execute(eq(shnDevice), quickTestConnectionListenerCaptor.capture());
+
+        QuickTestConnection.Listener listener = quickTestConnectionListenerCaptor.getValue();
+        listener.onFailure();
+
+        verify(mockedSHNDeviceAssociationListener).onAssociationSucceeded(shnDevice);
     }
 
     @Test
-    public void whenRemoveDeviceIsCalledThenDeviceIsRemoved() {
+    public void whenRemoveDeviceIsCalled_ThenDeviceIsRemoved() {
         String macAddress = "11:22:33:44:55:66";
         SHNDevice shnDevice = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
@@ -311,7 +349,21 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenRemoveDeviceIsCalledThenProperDeviceIsRemoved() {
+    public void whenRemoveAllDevicesIsCalled_ThenAllDeviceAreRemoved() {
+        String macAddress1 = "11:11:11:11:11:11";
+        String macAddress2 = "22:22:22:22:22:22";
+        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        SHNDevice shnDevice2 = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
+        startAssociationAndCompleteWithDevice(macAddress2, shnDevice2, 2);
+
+        shnDeviceAssociation.removeAllAssociatedDevices();
+
+        assertThat(shnDeviceAssociation.getAssociatedDevices()).isEmpty();
+    }
+
+    @Test
+    public void whenRemoveDeviceIsCalled_ThenProperDeviceIsRemoved() {
         String macAddress = "11:22:33:44:55:66";
         SHNDevice shnDevice = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
@@ -328,7 +380,35 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenDeviceIsNotAssociatedAndRemovedIsCalledThenAssociationDeviceListDoesNotChange() {
+    public void whenRemoveDeviceIsCalled_ThenDataIsCleared() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
+        mockedInternalHandler.executeFirstPostedExecution();
+
+        verify(shnDevice).registerSHNDeviceListener(deviceListenerCaptor.capture());
+        when(shnDevice.getState()).thenReturn(SHNDevice.State.Disconnecting);
+        deviceListenerCaptor.getValue().onStateUpdated(shnDevice);
+        mockedInternalHandler.executeFirstPostedExecution();
+
+        verify(persistentStorageCleanerMock).clearDeviceData(shnDevice);
+    }
+
+    @Test
+    public void whenRemoveDeviceIsCalled_ThenTheDeviceIsToldToDisconnect() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
+
+        verify(shnDevice).disconnect();
+    }
+
+    @Test
+    public void whenDeviceIsNotAssociatedAndRemovedIsCalled_ThenAssociationDeviceListDoesNotChange() {
         String macAddress = "11:22:33:44:55:66";
         SHNDevice shnDevice = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
@@ -345,7 +425,19 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedThenAssociationOnAssociationFailedIsCalled() {
+    public void whenAssociationHasSucceeded_ThenDeviceIsAddedToTheListOfAssociatedDevices() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        assertNotNull(shnDeviceAssociation.getAssociatedDevices());
+        assertEquals(1, shnDeviceAssociation.getAssociatedDevices().size());
+        assertEquals(macAddress, shnDeviceAssociation.getAssociatedDevices().get(0).getAddress());
+        assertEquals(DEVICE_TYPE_NAME, shnDeviceAssociation.getAssociatedDevices().get(0).getDeviceTypeName());
+    }
+
+    @Test
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStarted_ThenAssociationOnAssociationFailedIsCalled() {
         when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
@@ -355,7 +447,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedForUnknownTypeThenAssociationOnAssociationFailedIsCalled() {
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedForUnknownType_ThenAssociationOnAssociationFailedIsCalled() {
         when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentral.State.SHNCentralStateNotReady);
 
         shnDeviceAssociation.startAssociationForDeviceType("UnknownType");
@@ -364,7 +456,7 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedAgainThenTheSecondStartIsSilentlyIgnored() {
+    public void whenSHNCentralStateIsNotReadyAndAssociationIsStartedAgain_ThenTheSecondStartIsSilentlyIgnored() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         reset(mockedSHNDeviceAssociationListener);
@@ -373,5 +465,77 @@ public class SHNDeviceAssociationTest {
 
         verify(mockedSHNDeviceAssociationListener, never()).onAssociationFailed(any(SHNResult.class));
         verify(mockedSHNDeviceAssociationListener, never()).onAssociationStarted(any(SHNAssociationProcedure.class));
+    }
+
+    // ---------
+
+    private void startAssociationAndCompleteWithDevice(String macAddress, SHNDevice shnDevice, int number) {
+        when(shnDevice.getAddress()).thenReturn(macAddress);
+        when(shnDevice.getDeviceTypeName()).thenReturn(DEVICE_TYPE_NAME);
+
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        ArgumentCaptor<SHNAssociationProcedurePlugin.SHNAssociationProcedureListener> shnAssociationProcedureListenerArgumentCaptor = ArgumentCaptor.forClass(SHNAssociationProcedurePlugin.SHNAssociationProcedureListener.class);
+        verify(mockedSHNDeviceDefinitionInfo, times(number)).createSHNAssociationProcedure(any(SHNCentral.class), shnAssociationProcedureListenerArgumentCaptor.capture());
+        shnAssociationProcedureListenerArgumentCaptor.getValue().onAssociationSuccess(shnDevice);
+    }
+
+    private class TestSHNDeviceAssociation extends SHNDeviceAssociation {
+
+        public TestSHNDeviceAssociation(final SHNCentral shnCentral, SHNDeviceScannerInternal mockedSHNDeviceScannerInternal, final PersistentStorageFactory persistentStorageFactory) {
+            super(shnCentral, mockedSHNDeviceScannerInternal, persistentStorageFactory);
+            initAssociatedDevicesList();
+        }
+
+        @NonNull
+        @Override
+        QuickTestConnection createQuickTestConnection() {
+            return quickTestConnectionMock;
+        }
+
+        @NonNull
+        @Override
+        SHNDeviceAssociationHelper getShnDeviceAssociationHelper() {
+            return deviceAssociationHelperMock;
+        }
+    }
+
+    @Test
+    public void whenADeviceForAPluginIsPersisted_ButThePluginIsNotRegistered_ThenItShouldNotListTheDevice() {
+        List<SHNDeviceAssociationHelper.AssociatedDeviceInfo> associatedDeviceInfoList = new ArrayList<>();
+        associatedDeviceInfoList.add(new SHNDeviceAssociationHelper.AssociatedDeviceInfo("11:22:33:44:55:66", DEVICE_TYPE_NAME));
+        associatedDeviceInfoList.add(new SHNDeviceAssociationHelper.AssociatedDeviceInfo("22:22:33:44:55:66", "NOT_KNOWN"));
+        associatedDeviceInfoList.add(new SHNDeviceAssociationHelper.AssociatedDeviceInfo("33:22:33:44:55:66", DEVICE_TYPE_NAME));
+
+        doReturn(associatedDeviceInfoList).when(deviceAssociationHelperMock).readAssociatedDeviceInfos();
+
+        shnDeviceAssociation = new TestSHNDeviceAssociation(mockedSHNCentral, mockedSHNDeviceScannerInternal, persistentStorageFactoryMock);
+
+        assertEquals(2, shnDeviceAssociation.getAssociatedDevices().size());
+    }
+
+    @Test
+    public void ShouldInformDeviceRemovedListener_WhenDeviceIsRemoved() {
+        String macAddress1 = "11:11:11:11:11:11";
+        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
+
+        shnDeviceAssociation.addDeviceRemovedListeners(deviceRemovedListenerMock);
+        shnDeviceAssociation.removeAllAssociatedDevices();
+
+        verify(deviceRemovedListenerMock).onAssociatedDeviceRemoved(shnDevice1);
+    }
+
+    @Test
+    public void ShouldNotInformDeviceRemovedListener_WhenDeviceIsRemovedAndTheListenerHasBeenRemoved() {
+        String macAddress1 = "11:11:11:11:11:11";
+        SHNDevice shnDevice1 = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress1, shnDevice1, 1);
+
+        shnDeviceAssociation.addDeviceRemovedListeners(deviceRemovedListenerMock);
+        shnDeviceAssociation.removeDeviceRemovedListeners(deviceRemovedListenerMock);
+        shnDeviceAssociation.removeAllAssociatedDevices();
+
+        verify(deviceRemovedListenerMock, never()).onAssociatedDeviceRemoved(shnDevice1);
     }
 }

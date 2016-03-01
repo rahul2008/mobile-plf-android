@@ -1,4 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.services.healththermometer;
+
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -21,7 +28,6 @@ import java.util.UUID;
  */
 public class SHNServiceHealthThermometer implements SHNService.SHNServiceListener, SHNCharacteristic.SHNCharacteristicChangedListener {
     private final static String TAG = SHNServiceHealthThermometer.class.getSimpleName();
-    private final static boolean LOGGING = false;
     final static UUID SERVICE_HEALTH_THERMOMETER_UUID                = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x1809));
     final static UUID CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID    = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A1C));
     final static UUID CHARACTERISTIC_TEMPERATURE_TYPE_UUID           = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A1D));
@@ -77,7 +83,7 @@ public class SHNServiceHealthThermometer implements SHNService.SHNServiceListene
         SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(uuid);
         SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 if(shnResultListener!=null) {
                     shnResultListener.onActionCompleted(shnResult);
                 }

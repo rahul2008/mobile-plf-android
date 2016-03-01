@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.datatypes;
 
 /**
@@ -38,11 +43,11 @@ public class SHNDataActivityType extends SHNData {
 
     @Override
     public SHNDataType getSHNDataType() {
-        return SHNDataType.ActivityType;
+        return SHNDataType.ActivityTypeMoonshine;
     }
 
     @Override
     public String toString() {
-        return "ActivityType Wearable: " + getWearableActivityType().name() + " Manual: " + getManualActivityType().name() + " CM3: " + getCm3ActivityType().name();
+        return "ActivityTypeMoonshine Wearable: " + getWearableActivityType().name() + " Manual: " + getManualActivityType().name() + " CM3: " + getCm3ActivityType().name();
     }
 }

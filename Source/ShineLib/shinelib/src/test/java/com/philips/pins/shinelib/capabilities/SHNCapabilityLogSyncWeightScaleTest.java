@@ -1,7 +1,5 @@
 package com.philips.pins.shinelib.capabilities;
 
-import android.util.Log;
-
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
@@ -9,20 +7,16 @@ import com.philips.pins.shinelib.datatypes.SHNDataBodyWeight;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
-import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale;
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
 import java.util.List;
@@ -35,21 +29,18 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Timer.class, Log.class})
 public class SHNCapabilityLogSyncWeightScaleTest {
 
     public static final byte[] TEST_ENCODED_CURRENT_TIME = new byte[]{
@@ -68,7 +59,6 @@ public class SHNCapabilityLogSyncWeightScaleTest {
     private SHNDeviceTimeAdjuster mockedSHNDeviceTimeAdjuster;
 
     private SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener mockedShnCapabilitySHNCapabilityLogSynchronizationListener;
-    private ArgumentCaptor<Runnable> timeoutRunnableCaptor;
     private SHNServiceWeightScale.SHNServiceWeightScaleListener shnServiceWeightScaleListener;
 
     @Before
@@ -76,14 +66,6 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         mockedShnServiceWeightScale = mock(SHNServiceWeightScale.class);
         mockedSHNDeviceTimeAdjuster = mock(SHNDeviceTimeAdjuster.class);
         mockedShnCapabilitySHNCapabilityLogSynchronizationListener = mock(SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener.class);
-
-        Timer mockedTimeoutTimer = mock(Timer.class);
-        mockStatic(Timer.class);
-        timeoutRunnableCaptor = ArgumentCaptor.forClass(Runnable.class);
-        when(Timer.createTimer(timeoutRunnableCaptor.capture(), anyLong())).thenReturn(mockedTimeoutTimer);
-
-        mockStatic(Log.class);
-        when(Log.w(anyString(), anyString())).thenReturn(0);
 
         shnCapabilityLogSyncWeightScale = new SHNCapabilityLogSyncWeightScale(mockedShnServiceWeightScale, mockedSHNDeviceTimeAdjuster);
         captureServiceWeightScaleListener();
@@ -273,7 +255,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         Date[] dates2 = {new Date()};
         generateDataAndSendIt(dates2);
 
-        timeoutRunnableCaptor.getValue().run();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
@@ -291,7 +273,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         Date[] dates = {new Date(100L), new Date(80L), null, new Date(110L)};
         generateDataAndSendIt(dates);
 
-        timeoutRunnableCaptor.getValue().run();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
@@ -310,11 +292,14 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         shnServiceWeightScaleListener.onServiceStateChanged(mockedShnServiceWeightScale, SHNService.State.Unavailable);
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronizationFailed(any(SHNCapabilityLogSyncHealthThermometer.class), any(SHNResult.class));
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(
+                isA(SHNCapabilityLogSyncWeightScale.class),
+                isA(SHNLog.class),
+                isA(SHNResult.class));
     }
 
     @Test
-         public void whenLogIsCreatedThenMeasurementsAreOfTypeWeightMeasurement() {
+    public void whenLogIsCreatedThenMeasurementsAreOfTypeWeightMeasurement() {
         assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
 
         reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
@@ -322,15 +307,14 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         Date[] dates = {new Date(100L), new Date(80L), null, new Date(110L)};
         generateDataAndSendIt(dates);
 
-        timeoutRunnableCaptor.getValue().run();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyWeight));
-        shnLogArgumentCaptor.getValue().getContainedDataTypes().remove(SHNDataType.BodyWeight);
-        assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().isEmpty());
+        assertEquals(1, shnLogArgumentCaptor.getValue().getContainedDataTypes().size());
     }
 
     @Test
@@ -355,7 +339,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
     }
 
     @Test
-         public void whenMeasurementHasUserIdThanLogItemContainsValue() {
+    public void whenMeasurementHasUserIdThanLogItemContainsValue() {
         assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
 
         reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
@@ -372,7 +356,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
 
-        timeoutRunnableCaptor.getValue().run();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
@@ -406,7 +390,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
 
-        timeoutRunnableCaptor.getValue().run();
+        shnCapabilityLogSyncWeightScale.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);

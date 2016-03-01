@@ -1,11 +1,20 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
+import com.philips.pins.shinelib.SHNSetResultListener;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
+import com.philips.pins.shinelib.datatypes.SHNData;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
+
+import java.util.Set;
 
 /**
  * Created by 310188215 on 17/05/15.
@@ -19,6 +28,50 @@ public class SHNCapabilityDataStreamingWrapper implements SHNCapabilityDataStrea
         this.internalHandler = internalHandler;
         this.userHandler = userHandler;
         wrappedSHNCapabilityDataStreaming = shnCapability;
+    }
+
+    @Override
+    public void getSupportedDataTypes(final SHNSetResultListener<SHNDataType> shnResultListener) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                wrappedSHNCapabilityDataStreaming.getSupportedDataTypes(new SHNSetResultListener<SHNDataType>() {
+                    @Override
+                    public void onActionCompleted(final Set<SHNDataType> value, final SHNResult result) {
+                        Runnable resultRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                shnResultListener.onActionCompleted(value, result);
+                            }
+                        };
+                        userHandler.post(resultRunnable);
+                    }
+                });
+            }
+        };
+        internalHandler.post(command);
+    }
+
+    @Override
+    public void setDataListener(final SHNCapabilityDataStreamingListener listener) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                wrappedSHNCapabilityDataStreaming.setDataListener(new SHNCapabilityDataStreamingListener() {
+                    @Override
+                    public void onReceiveData(final SHNData data) {
+                        Runnable dataCallbackRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.onReceiveData(data);
+                            }
+                        };
+                        userHandler.post(dataCallbackRunnable);
+                    }
+                });
+            }
+        };
+        internalHandler.post(command);
     }
 
     @Override
@@ -38,17 +91,6 @@ public class SHNCapabilityDataStreamingWrapper implements SHNCapabilityDataStrea
                         userHandler.post(resultRunnable);
                     }
                 });
-            }
-        };
-        internalHandler.post(command);
-    }
-
-    @Override
-    public void setShnCapabilityDataStreamingListener(final SHNCapabilityDataStreamingListener shnCapabilityDataStreamingListener) {
-        Runnable command = new Runnable() {
-            @Override
-            public void run() {
-                wrappedSHNCapabilityDataStreaming.setShnCapabilityDataStreamingListener(shnCapabilityDataStreamingListener);
             }
         };
         internalHandler.post(command);

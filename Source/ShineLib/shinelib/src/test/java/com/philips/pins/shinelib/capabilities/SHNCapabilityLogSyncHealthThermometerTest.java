@@ -1,25 +1,19 @@
 package com.philips.pins.shinelib.capabilities;
 
-import android.util.Log;
-
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLog;
-import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.services.healththermometer.SHNServiceHealthThermometer;
 import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurement;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
 
@@ -31,26 +25,19 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * Created by 310188215 on 17/06/15.
- */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Timer.class, Log.class})
 public class SHNCapabilityLogSyncHealthThermometerTest {
 
     private SHNCapabilityLogSyncHealthThermometer shnCapabilityLogSyncHealthThermometer;
     private SHNServiceHealthThermometer mockedSHNServiceHealthThermometer;
     private SHNDeviceTimeAdjuster mockedSHNDeviceTimeAdjuster;
     private SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener mockedShnCapabilitySHNCapabilityLogSynchronizationListener;
-    private ArgumentCaptor<Runnable> timeOutCaptor;
 
     @Before
     public void setUp() {
@@ -58,17 +45,8 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         mockedSHNDeviceTimeAdjuster = mock(SHNDeviceTimeAdjuster.class);
         mockedShnCapabilitySHNCapabilityLogSynchronizationListener = mock(SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener.class);
 
-        Timer mockedTimeoutTimer = mock(Timer.class);
-        mockStatic(Timer.class);
-        timeOutCaptor = ArgumentCaptor.forClass(Runnable.class);
-        when(Timer.createTimer(timeOutCaptor.capture(), anyLong())).thenReturn(mockedTimeoutTimer);
-
-        mockStatic(Log.class);
-        when(Log.w(anyString(), anyString())).thenReturn(0);
-
         shnCapabilityLogSyncHealthThermometer = new SHNCapabilityLogSyncHealthThermometer(mockedSHNServiceHealthThermometer, mockedSHNDeviceTimeAdjuster);
         shnCapabilityLogSyncHealthThermometer.setSHNCapabilityLogSynchronizationListener(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
-
     }
 
     @Test
@@ -223,7 +201,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         Date[] dates2 = {new Date()};
         generateDataAndSendIt(dates2);
 
-        timeOutCaptor.getValue().run();
+        shnCapabilityLogSyncHealthThermometer.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
@@ -232,7 +210,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         assertEquals(1, shnLogArgumentCaptor.getValue().getLogItems().size());
     }
 
-    private void setUpTimeAdjuster(final long delta){
+    private void setUpTimeAdjuster(final long delta) {
         doAnswer(new Answer<Long>() {
             @Override
             public Long answer(InvocationOnMock invocation) throws Throwable {
@@ -251,7 +229,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         Date[] dates = {new Date(100L), new Date(80L), null, new Date(110L)};
         generateDataAndSendIt(dates);
 
-        timeOutCaptor.getValue().run();
+        shnCapabilityLogSyncHealthThermometer.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
@@ -284,7 +262,10 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         shnCapabilityLogSyncHealthThermometer.onServiceStateChanged(mockedSHNServiceHealthThermometer, SHNService.State.Unavailable);
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronizationFailed(any(SHNCapabilityLogSyncHealthThermometer.class), any(SHNResult.class));
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(
+                isA(SHNCapabilityLogSyncHealthThermometer.class),
+                isA(SHNLog.class),
+                isA(SHNResult.class));
     }
 
     @Test
@@ -296,15 +277,14 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         Date[] dates = {new Date(100L), new Date(80L), null, new Date(110L)};
         generateDataAndSendIt(dates);
 
-        timeOutCaptor.getValue().run();
+        shnCapabilityLogSyncHealthThermometer.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyTemperature));
-        shnLogArgumentCaptor.getValue().getContainedDataTypes().remove(SHNDataType.BodyTemperature);
-        assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().isEmpty());
+        assertEquals(1, shnLogArgumentCaptor.getValue().getContainedDataTypes().size());
     }
 
     @Test
@@ -320,7 +300,7 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(date);
         shnCapabilityLogSyncHealthThermometer.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
 
-        timeOutCaptor.getValue().run();
+        shnCapabilityLogSyncHealthThermometer.abortSynchronization();
 
         ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);

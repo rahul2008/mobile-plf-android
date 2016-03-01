@@ -1,13 +1,11 @@
 package com.philips.pins.shinelib.datatypes;
 
-import android.util.Log;
 
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.nio.ByteBuffer;
@@ -17,16 +15,12 @@ import java.text.SimpleDateFormat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class SHNWeightMeasurementTest {
 
     private static final byte IMPERIAL_SUPPORTED = 0x01;
@@ -188,9 +182,6 @@ public class SHNWeightMeasurementTest {
 
     @Test
     public void whenTheScaleMeasurementHasSpecialValueThanMessageIsLogged() {
-        mockStatic(Log.class);
-        when(Log.w(anyString(), anyString())).thenReturn(0);
-
         byte[] data = new byte[]{0, (byte)0xFF, (byte)0xFF};
         getShnWeightMeasurement(data);
 

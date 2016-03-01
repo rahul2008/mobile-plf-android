@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.datatypes;
 
 /**
@@ -16,11 +21,11 @@ public class SHNDataActivityCounts extends SHNData {
 
     @Override
     public SHNDataType getSHNDataType() {
-        return SHNDataType.ActivityCounts;
+        return SHNDataType.ActivityCountPerMinute;
     }
 
     @Override
     public String toString() {
-        return "ActivityCounts: " + getActivityCountPerMinute();
+        return "ActivityCountPerMinute: " + getActivityCountPerMinute();
     }
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
@@ -7,9 +12,6 @@ import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
 
-/**
- * Created by code1_310170470 on 27/07/15.
- */
 public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmwareUpdate, SHNCapabilityFirmwareUpdate.SHNCapabilityFirmwareUpdateListener {
     private final SHNCapabilityFirmwareUpdate wrappedCapability;
     private final Handler internalHandler;
@@ -91,12 +93,12 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
     }
 
     @Override
-    public void onStateChanged(final SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
+    public void onStateChanged(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onStateChanged(shnCapabilityFirmwareUpdate);
+                    shnCapabilityFirmwareUpdateListener.onStateChanged(SHNCapabilityFirmwareUpdateWrapper.this);
                 }
             }
         };
@@ -104,12 +106,12 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
     }
 
     @Override
-    public void onProgressUpdate(final SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, final float progress) {
+    public void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, final float progress) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onProgressUpdate(shnCapabilityFirmwareUpdate, progress);
+                    shnCapabilityFirmwareUpdateListener.onProgressUpdate(SHNCapabilityFirmwareUpdateWrapper.this, progress);
                 }
             }
         };
@@ -117,12 +119,12 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
     }
 
     @Override
-    public void onUploadFailed(final SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, final SHNResult shnResult) {
+    public void onUploadFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, final SHNResult shnResult) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onUploadFailed(shnCapabilityFirmwareUpdate, shnResult);
+                    shnCapabilityFirmwareUpdateListener.onUploadFailed(SHNCapabilityFirmwareUpdateWrapper.this, shnResult);
                 }
             }
         };
@@ -130,12 +132,12 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
     }
 
     @Override
-    public void onUploadFinished(final SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
+    public void onUploadFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onUploadFinished(shnCapabilityFirmwareUpdate);
+                    shnCapabilityFirmwareUpdateListener.onUploadFinished(SHNCapabilityFirmwareUpdateWrapper.this);
                 }
             }
         };
@@ -143,12 +145,12 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
     }
 
     @Override
-    public void onDeployFailed(final SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, final SHNResult shnResult) {
+    public void onDeployFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, final SHNResult shnResult) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onDeployFailed(shnCapabilityFirmwareUpdate, shnResult);
+                    shnCapabilityFirmwareUpdateListener.onDeployFailed(SHNCapabilityFirmwareUpdateWrapper.this, shnResult);
                 }
             }
         };
@@ -156,12 +158,12 @@ public class SHNCapabilityFirmwareUpdateWrapper implements SHNCapabilityFirmware
     }
 
     @Override
-    public void onDeployFinished(final SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
+    public void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate) {
         Runnable callback = new Runnable() {
             @Override
             public void run() {
                 if (shnCapabilityFirmwareUpdateListener != null) {
-                    shnCapabilityFirmwareUpdateListener.onDeployFinished(shnCapabilityFirmwareUpdate);
+                    shnCapabilityFirmwareUpdateListener.onDeployFinished(SHNCapabilityFirmwareUpdateWrapper.this);
                 }
             }
         };

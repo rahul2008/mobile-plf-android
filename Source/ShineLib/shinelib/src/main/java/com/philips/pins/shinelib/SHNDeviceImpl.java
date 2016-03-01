@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
@@ -7,41 +12,48 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 02/03/15.
- */
 public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener {
-    private static final String TAG = SHNDeviceImpl.class.getSimpleName();
-    private static final boolean LOGGING = false;
-    public static final long CONNECT_TIMEOUT = 10000l;
+    enum InternalState {
+        Disconnected, Disconnecting, Connecting, ConnectedWaitingUntilBonded, ConnectedDiscoveringServices, ConnectedInitializingServices, ConnectedReady
+    }
+
+    private static final String TAG_BASE = SHNDeviceImpl.class.getSimpleName();
+    private final String TAG = TAG_BASE + "@" + Integer.toHexString(hashCode());
+
+    private static final long CONNECT_TIMEOUT = 10000l;
+    private static final long BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS = 1000;
+    private static final long WAIT_UNTIL_BONDED_TIMEOUT_IN_MS = 3000;
+    private final Boolean deviceBondsDuringConnect;
     private final BTDevice btDevice;
     private final Context applicationContext;
     private final SHNCentral shnCentral;
     private BTGatt btGatt;
     private Timer connectTimer;
+    private Timer waitingUntilBondedTimer;
     private SHNDeviceListener shnDeviceListener;
-    private State state = State.Disconnected;
+    private InternalState internalState = InternalState.Disconnected;
     private String deviceTypeName;
-//    private String name;
-//    private String type;
-//    private UUID identifier;
-//    private int rssiWhenDiscovered; // How is that usefull?
+    private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
-        this.state = State.Disconnected;
+        this(btDevice, shnCentral, deviceTypeName, false);
+    }
+
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, boolean deviceBondsDuringConnect) {
+        this.deviceBondsDuringConnect = deviceBondsDuringConnect;
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
         this.deviceTypeName = deviceTypeName;
@@ -49,14 +61,60 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         this.connectTimer = new Timer(shnCentral.getInternalHandler(), new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.e(TAG, "connect timeout");
+                SHNLogger.e(TAG, "connect timeout");
+                shnDeviceListener.onFailedToConnect(SHNDeviceImpl.this, SHNResult.SHNErrorTimeout);
                 disconnect();
             }
         }, CONNECT_TIMEOUT);
+        this.waitingUntilBondedTimer = new Timer(shnCentral.getInternalHandler(), new Runnable() {
+            @Override
+            public void run() {
+                SHNLogger.w(TAG, "Timed out waiting until bonded; trying service discovery");
+                assert (internalState == InternalState.ConnectedWaitingUntilBonded);
+                setInternalState(InternalState.ConnectedDiscoveringServices);
+                btGatt.discoverServices();
+            }
+        }, WAIT_UNTIL_BONDED_TIMEOUT_IN_MS);
+
+        SHNLogger.i(TAG, "Created new instance of SHNDevice");
+    }
+
+    private void setInternalState(InternalState newInternalState) {
+        if (internalState != newInternalState) {
+            SHNLogger.i(TAG, "State changed ('" + internalState.toString() + "' -> '" + newInternalState.toString() + "')");
+            State oldExternalState = getState();
+            internalState = newInternalState;
+            State newExternalState = getState();
+
+            if (shnDeviceListener != null && oldExternalState != newExternalState) {
+                shnDeviceListener.onStateUpdated(this);
+            }
+        }
     }
 
     @Override
     public State getState() {
+        State state = State.Disconnected;
+        switch (internalState) {
+            case Disconnected:
+                state = State.Disconnected;
+                break;
+            case Disconnecting:
+                state = State.Disconnecting;
+                break;
+            case Connecting:
+            case ConnectedWaitingUntilBonded:
+            case ConnectedDiscoveringServices:
+            case ConnectedInitializingServices:
+                state = State.Connecting;
+                break;
+            case ConnectedReady:
+                state = State.Connected;
+                break;
+            default:
+                assert (false);
+                break;
+        }
         return state;
     }
 
@@ -64,6 +122,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     public String getAddress() {
         return btDevice.getAddress();
     }
+
     @Override
     public String getName() {
         return btDevice.getName();
@@ -75,40 +134,47 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
-    public void connect()  {
-        if (LOGGING) Log.i(TAG, "connect");
-        shnCentral.registerBondStatusListenerForAddress(this, getAddress());
-        if (getState() == State.Disconnected) {
-            updateShnDeviceState(State.Connecting);
-            btGatt = btDevice.connectGatt(applicationContext, false, btGattCallback);
-            connectTimer.restart();
+    public void connect() {
+        connect(true, -1L);
+    }
+
+    public void connect(boolean withTimeout, long timeoutInMS) {
+        if (internalState == InternalState.Disconnected) {
+            SHNLogger.i(TAG, "connect");
+            setInternalState(InternalState.Connecting);
+            shnCentral.registerBondStatusListenerForAddress(this, getAddress());
+            if (withTimeout) {
+                if (timeoutInMS > 0) {
+                    connectTimer.setTimeoutForSubsequentRestartsInMS(timeoutInMS);
+                }
+                btGatt = btDevice.connectGatt(applicationContext, false, btGattCallback);
+                connectTimer.restart();
+            } else {
+                btGatt = btDevice.connectGatt(applicationContext, true, btGattCallback);
+            }
+        } else {
+            SHNLogger.i(TAG, "ignoring 'connect' call; not disconnected");
         }
     }
 
     @Override
     public void disconnect() {
-        if (LOGGING) Log.e(TAG, "disconnect");
-        if (getState() == State.Connected || getState() == State.Connecting) {
-            updateShnDeviceState(State.Disconnecting);
+        if (internalState != InternalState.Disconnected && internalState != InternalState.Disconnecting) {
+            SHNLogger.i(TAG, "disconnect");
+
+            if (internalState == InternalState.Connecting) {
+                setInternalState(InternalState.Disconnected);
+            } else {
+                setInternalState(InternalState.Disconnecting);
+            }
+
+            connectTimer.stop();
+            waitingUntilBondedTimer.stop();
             if (btGatt != null) {
                 btGatt.disconnect();
             }
-        }
-    }
-
-    private void updateShnDeviceState(State newState) {
-        if (state != newState) {
-            if (state == State.Connecting) {
-                connectTimer.stop();
-            }
-            state = newState;
-            informListeners();
-        }
-    }
-
-    private void informListeners() {
-        if (shnDeviceListener != null) {
-            shnDeviceListener.onStateUpdated(this);
+        } else {
+            SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");
         }
     }
 
@@ -122,35 +188,44 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         throw new UnsupportedOperationException("Intended for the external API");
     }
 
-    private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
-    private Set<SHNCapabilityType> registeredCapabilityTypes = new HashSet<>();
     @Override
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
-        return registeredCapabilityTypes;
+        return registeredCapabilities.keySet();
     }
+
     @Override
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
         return registeredCapabilities.get(type);
     }
 
-    public void registerCapability(SHNCapability shnCapability, SHNCapabilityType shnCapabilityType) {
-        if (registeredCapabilities.containsKey(shnCapabilityType)) {
+    /**
+     * Register a capability for this device.
+     *
+     * @param shnCapability An actual implementation for a capability.
+     * @param type          The type of capability the shnCapability implements.
+     */
+    public void registerCapability(@NonNull final SHNCapability shnCapability, @NonNull final SHNCapabilityType type) {
+        if (registeredCapabilities.containsKey(type)) {
             throw new IllegalStateException("Capability already registered");
         }
 
-        SHNCapability shnCapabilityWrapper = null;
-        shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, shnCapabilityType, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
+        SHNCapability shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, type, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
 
-        registeredCapabilityTypes.add(shnCapabilityType);
-        registeredCapabilities.put(shnCapabilityType, shnCapabilityWrapper);
+        registeredCapabilities.put(type, shnCapabilityWrapper);
+
+        SHNCapabilityType counterPart = SHNCapabilityType.getCounterPart(type);
+        if (counterPart != null) {
+            registeredCapabilities.put(counterPart, shnCapabilityWrapper);
+        }
     }
 
-
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
+
     public void registerService(SHNService shnService) {
         registeredServices.put(shnService.getUuid(), shnService);
         shnService.registerSHNServiceListener(this);
     }
+
     private SHNService getSHNService(UUID serviceUUID) {
         return registeredServices.get(serviceUUID);
     }
@@ -158,15 +233,24 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     // SHNServiceListener callback
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        if (LOGGING) Log.e(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
-        State newState = State.Connected;
-        for (SHNService service: registeredServices.values()) {
+        SHNLogger.d(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
+        if (internalState == InternalState.ConnectedInitializingServices) {
+            if (areAllRegisteredServicesReady()) {
+                connectTimer.stop();
+                setInternalState(InternalState.ConnectedReady);
+            }
+        }
+    }
+
+    private Boolean areAllRegisteredServicesReady() {
+        Boolean allReady = true;
+        for (SHNService service : registeredServices.values()) {
             if (service.getState() != SHNService.State.Ready) {
-                newState = State.Connecting;
+                allReady = false;
                 break;
             }
         }
-        updateShnDeviceState(newState);
+        return allReady;
     }
 
     @Override
@@ -177,38 +261,56 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     private BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
-            if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange");
-            State tmpState = getState();
-            if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange newState: STATE_DISCONNECTED");
+            SHNLogger.i(TAG, "BTGattCallback - onConnectionStateChange (newState = '" + bluetoothStateToString(newState) + "', status = " + status + ")");
+
+            if (status != BluetoothGatt.GATT_SUCCESS || newState == BluetoothProfile.STATE_DISCONNECTED) {
                 if (btGatt != null) {
+                    btGatt.disconnect();    // It's not a problem to call disconnect when already disconnected.
                     btGatt.close();
                     btGatt = null;
                 }
-                for (SHNService shnService: registeredServices.values()) {
+                for (SHNService shnService : registeredServices.values()) {
                     shnService.disconnectFromBLELayer();
                 }
-                tmpState = State.Disconnected;
+                if (getState() == State.Connecting) {
+                    shnDeviceListener.onFailedToConnect(SHNDeviceImpl.this, SHNResult.SHNErrorInvalidState);
+                }
+                setInternalState(InternalState.Disconnected);
+                shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
+                connectTimer.stop();
+                waitingUntilBondedTimer.stop();
             } else if (newState == BluetoothProfile.STATE_CONNECTED) {
-                if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange newState: STATE_CONNECTED");
-                gatt.discoverServices();
+                if (shouldWaitUntilBonded()) {
+                    setInternalState(InternalState.ConnectedWaitingUntilBonded);
+                    waitingUntilBondedTimer.restart();
+                } else {
+                    setInternalState(InternalState.ConnectedDiscoveringServices);
+                    gatt.discoverServices();
+                }
             }
-            updateShnDeviceState(tmpState);
         }
 
         @Override
         public void onServicesDiscovered(BTGatt gatt, int status) {
-            if (LOGGING) Log.i(TAG, "handleOnServicesDiscovered");
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                for (BluetoothGattService bluetoothGattService: btGatt.getServices()) {
-                    SHNService shnService = getSHNService(bluetoothGattService.getUuid());
-                    if (LOGGING) Log.i(TAG, "handleOnServicesDiscovered service: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not found" : " connecting"));
-                    if (shnService != null) {
-                        shnService.connectToBLELayer(gatt, bluetoothGattService);
+            if (internalState == InternalState.ConnectedDiscoveringServices) {
+                if (status == BluetoothGatt.GATT_SUCCESS) {
+
+                    setInternalState(InternalState.ConnectedInitializingServices);
+
+                    for (BluetoothGattService bluetoothGattService : btGatt.getServices()) {
+                        SHNService shnService = getSHNService(bluetoothGattService.getUuid());
+                        SHNLogger.i(TAG, "onServicedDiscovered: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not found" : " connecting"));
+                        if (shnService != null) {
+                            shnService.connectToBLELayer(gatt, bluetoothGattService);
+                        }
                     }
+
+                } else {
+                    SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
+                    disconnect();
                 }
             } else {
-                disconnect();
+                SHNLogger.w(TAG, "onServicedDiscovered: unexpected call while in state '" + internalState.toString() + "'; ignoring");
             }
         }
 
@@ -257,15 +359,53 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
     };
 
+    private boolean shouldWaitUntilBonded() {
+        return deviceBondsDuringConnect && btDevice.getBondState() != BluetoothDevice.BOND_BONDED;
+    }
+
     // implements SHNCentral.SHNBondStatusListener
     @Override
     public void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState) {
         if (btDevice.getAddress().equals(device.getAddress())) {
+            SHNLogger.i(TAG, "Bond state changed ('" + bondStateToString(previousBondState) + "' -> '" + bondStateToString(bondState) + "')");
+
             if (bondState == BluetoothDevice.BOND_BONDING) {
                 connectTimer.stop();
             } else {
                 connectTimer.restart();
             }
+
+            if (internalState == InternalState.ConnectedWaitingUntilBonded) {
+                if (bondState == BluetoothDevice.BOND_BONDING) {
+                    waitingUntilBondedTimer.stop();
+                } else if (bondState == BluetoothDevice.BOND_BONDED) {
+                    assert (btGatt != null);
+                    setInternalState(InternalState.ConnectedDiscoveringServices);
+                    waitingUntilBondedTimer.stop();
+
+                    shnCentral.getInternalHandler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btGatt.discoverServices();
+                        }
+                    }, BT_STACK_HOLDOFF_TIME_AFTER_BONDED_IN_MS);
+                } else if (bondState == BluetoothDevice.BOND_NONE) {
+                    disconnect();
+                }
+            }
         }
+    }
+
+    private static String bluetoothStateToString(int bluetoothState) {
+        return (bluetoothState == BluetoothProfile.STATE_CONNECTED) ? "Connected" :
+                (bluetoothState == BluetoothProfile.STATE_CONNECTING) ? "Connecting" :
+                        (bluetoothState == BluetoothProfile.STATE_DISCONNECTED) ? "Disconnected" :
+                                (bluetoothState == BluetoothProfile.STATE_DISCONNECTING) ? "Disconnecting" : "Unknown";
+    }
+
+    private static String bondStateToString(int bondState) {
+        return (bondState == BluetoothDevice.BOND_NONE) ? "None" :
+                (bondState == BluetoothDevice.BOND_BONDING) ? "Bonding" :
+                        (bondState == BluetoothDevice.BOND_BONDED) ? "Bonded" : "Unknown";
     }
 }

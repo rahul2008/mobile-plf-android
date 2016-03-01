@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.wrappers;
 
 import android.os.Handler;
@@ -13,7 +18,6 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
  */
 public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery, SHNCapabilityBattery.SHNCapabilityBatteryListener {
     private static final String TAG = SHNCapabilityBatteryWrapper.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private final SHNCapabilityBattery wrappedShnCapability;
     private final Handler userHandler;
     private final Handler internalHandler;

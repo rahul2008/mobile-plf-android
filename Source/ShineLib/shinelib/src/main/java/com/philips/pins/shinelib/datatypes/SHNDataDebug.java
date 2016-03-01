@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.datatypes;
 
 /**
@@ -16,11 +21,11 @@ public class SHNDataDebug extends SHNData {
 
     @Override
     public SHNDataType getSHNDataType() {
-        return SHNDataType.Debug;
+        return SHNDataType.DebugMoonshine;
     }
 
     @Override
     public String toString() {
-        return "Debug: " + getData();
+        return "DebugMoonshine: " + getData();
     }
 }

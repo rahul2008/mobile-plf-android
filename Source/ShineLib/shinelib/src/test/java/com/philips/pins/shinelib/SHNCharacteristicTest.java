@@ -4,45 +4,53 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 
+import com.nitorcreations.junit.runners.NestedRunner;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.helper.Utility;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
-/**
- * Created by 310188215 on 06/05/15.
- */
-@RunWith(PowerMockRunner.class)
+@RunWith(NestedRunner.class)
 public class SHNCharacteristicTest {
+    private static final UUID CLIENT_CHARACTERISTIC_CONFIG_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+
     private SHNCharacteristic shnCharacteristic;
     private UUID characteristicUUID;
+
+    @Mock
+    private SHNCommandResultReporter resultReporterMock;
+
+    @Mock
+    private BluetoothGattDescriptor mockedDescriptor;
+
+    @Mock
     private BTGatt mockedBTGatt;
+
+    @Mock
     private BluetoothGattCharacteristic mockedBluetoothGattCharacteristic;
-    private SHNCommandResultReporter mockedSHNCommandResultReporter;
 
     @Before
     public void setUp() {
-        mockedBTGatt = (BTGatt) Utility.makeThrowingMock(BTGatt.class);
-        mockedBluetoothGattCharacteristic = (BluetoothGattCharacteristic) Utility.makeThrowingMock(BluetoothGattCharacteristic.class);
-        mockedSHNCommandResultReporter = (SHNCommandResultReporter) Utility.makeThrowingMock(SHNCommandResultReporter.class);
+        initMocks(this);
 
         characteristicUUID = UUID.randomUUID();
         shnCharacteristic = new SHNCharacteristic(characteristicUUID);
@@ -72,6 +80,29 @@ public class SHNCharacteristicTest {
     }
 
     @Test
+    public void testWhenAReadIsRequestedWhenADisconnectOccursThenTheReadCompletesWithAnError() {
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+        shnCharacteristic.read(resultReporterMock);
+        shnCharacteristic.disconnectFromBLELayer();
+        verify(resultReporterMock).reportResult(SHNResult.SHNErrorConnectionLost, null);
+    }
+
+    @Test
+    public void testWhenAReadIsRequestedWithNoCompletionBlockWhenADisconnectOccursThenNoCompletionBlockIsIgnored() {
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+        shnCharacteristic.read(null);
+        shnCharacteristic.disconnectFromBLELayer();
+    }
+
+    @Test
+    public void testWhenAWriteIsRequestedWhenADisconnectOccursThenTheWriteCompletesWithAnError() {
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+        shnCharacteristic.write(new byte[]{'d', 'a', 't', 'a'}, resultReporterMock);
+        shnCharacteristic.disconnectFromBLELayer();
+        verify(resultReporterMock).reportResult(SHNResult.SHNErrorConnectionLost, null);
+    }
+
+    @Test
     public void testGetValue() {
         byte[] mockedData = new byte[]{'d', 'a', 't', 'a'};
         doReturn(mockedData).when(mockedBluetoothGattCharacteristic).getValue();
@@ -85,71 +116,50 @@ public class SHNCharacteristicTest {
     @Test
     public void whenWriteIsCalledThenWriteCharacteristicOnBTGattIsCalled() {
         byte[] data = new byte[]{'d', 'a', 't', 'a'};
-        doNothing().when(mockedBTGatt).writeCharacteristic(anyBluetoothGattCharacteristic(), anyByteArray());
 
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
 
-        assertTrue(shnCharacteristic.write(data, null));
+        shnCharacteristic.write(data, null);
         verify(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, data);
     }
 
     @Test
     public void whenReadIsCalledThenReadCharacteristicOnBTGattIsCalled() {
-        doNothing().when(mockedBTGatt).readCharacteristic(anyBluetoothGattCharacteristic());
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
-
-        assertTrue(shnCharacteristic.read(null));
+        shnCharacteristic.read(resultReporterMock);
         verify(mockedBTGatt).readCharacteristic(mockedBluetoothGattCharacteristic);
-    }
-
-    @Test
-    public void whenSetNotificationIsCalledThenSetCharacteristicNotificationOnBTGattIsCalled() {
-        BluetoothGattDescriptor mockedDescriptor = (BluetoothGattDescriptor) Utility.makeThrowingMock(BluetoothGattDescriptor.class);
-        doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(anyUUID());
-        doReturn(true).when(mockedBTGatt).setCharacteristicNotification(anyBluetoothGattCharacteristic(), anyBoolean());
-        doNothing().when(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-
-        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
-
-        shnCharacteristic.setNotification(true, null);
-        verify(mockedBTGatt).setCharacteristicNotification(mockedBluetoothGattCharacteristic, true);
-        verify(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
     }
 
     @Test
     public void whenAReadRequestCompletesThenTheResultReporterIsCalled() {
         byte[] data = new byte[]{'d', 'a', 't', 'a'};
-        doNothing().when(mockedBTGatt).readCharacteristic(anyBluetoothGattCharacteristic());
-        doNothing().when(mockedSHNCommandResultReporter).reportResult(anySHNResult(), anyByteArray());
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
 
-        assertTrue(shnCharacteristic.read(mockedSHNCommandResultReporter));
+        shnCharacteristic.read(resultReporterMock);
 
         shnCharacteristic.onReadWithData(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, data);
 
-        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNOk, data);
+        verify(resultReporterMock).reportResult(SHNResult.SHNOk, data);
     }
 
     @Test
     public void whenAWriteRequestCompletesThenTheResultReporterIsCalled() {
         byte[] data = new byte[]{'d', 'a', 't', 'a'};
-        doNothing().when(mockedBTGatt).writeCharacteristic(anyBluetoothGattCharacteristic(), anyByteArray());
-        doNothing().when(mockedSHNCommandResultReporter).reportResult(anySHNResult(), anyByteArray());
 
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
 
-        assertTrue(shnCharacteristic.write(data, mockedSHNCommandResultReporter));
+        shnCharacteristic.write(data, resultReporterMock);
 
         shnCharacteristic.onWrite(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
 
-        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNOk, null);
+        verify(resultReporterMock).reportResult(SHNResult.SHNOk, null);
     }
 
     @Test
     public void testOnChanged() {
         byte[] data = new byte[]{'d', 'a', 't', 'a'};
         SHNCharacteristic.SHNCharacteristicChangedListener mockedSHNCharacteristicChangedListener = (SHNCharacteristic.SHNCharacteristicChangedListener) Utility.makeThrowingMock(SHNCharacteristic.SHNCharacteristicChangedListener.class);
-        doNothing().when(mockedSHNCharacteristicChangedListener).onCharacteristicChanged(anySHNCharacteristic(), anyByteArray());
+        doNothing().when(mockedSHNCharacteristicChangedListener).onCharacteristicChanged(eq(shnCharacteristic), any(byte[].class));
 
         shnCharacteristic.setShnCharacteristicChangedListener(mockedSHNCharacteristicChangedListener);
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
@@ -170,55 +180,17 @@ public class SHNCharacteristicTest {
     }
 
     @Test
-    public void whenSetingNotificationsTrueOnACharacteristicThenWriteDescriptorIsCalled() {
-        BluetoothGattDescriptor mockedDescriptor = (BluetoothGattDescriptor) Utility.makeThrowingMock(BluetoothGattDescriptor.class);
-        doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(anyUUID());
-        doReturn(true).when(mockedBTGatt).setCharacteristicNotification(anyBluetoothGattCharacteristic(), anyBoolean());
-        doNothing().when(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-        doNothing().when(mockedSHNCommandResultReporter).reportResult(anySHNResult(), anyByteArray());
-
-        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
-
-        assertTrue(shnCharacteristic.setNotification(true, mockedSHNCommandResultReporter));
-
-        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_SUCCESS);
-        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNOk, null);
-    }
-
-    @Test
-    public void whenSetingNotificationsFalseOnACharacteristicThenWriteDescriptorIsCalled() {
-        BluetoothGattDescriptor mockedDescriptor = (BluetoothGattDescriptor) Utility.makeThrowingMock(BluetoothGattDescriptor.class);
-        doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(anyUUID());
-        doReturn(true).when(mockedBTGatt).setCharacteristicNotification(anyBluetoothGattCharacteristic(), anyBoolean());
-        doNothing().when(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-        doNothing().when(mockedSHNCommandResultReporter).reportResult(anySHNResult(), anyByteArray());
-
-        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
-
-        assertTrue(shnCharacteristic.setNotification(false, mockedSHNCommandResultReporter));
-
-        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_SUCCESS);
-        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNOk, null);
-    }
-
-    // Error paths
-    @Test
-    public void whenInactiveSetingNotificationsOnACharacteristicThenSetNotificationIs_NOT_Accepted() {
-        assertFalse(shnCharacteristic.setNotification(false, mockedSHNCommandResultReporter));
-    }
-
-    @Test
     public void testOnChangedWithoutListener() {
         final int[] characteristicChangedListenerInvocationCount = {0};
         byte[] data = new byte[]{'d', 'a', 't', 'a'};
         SHNCharacteristic.SHNCharacteristicChangedListener mockedSHNCharacteristicChangedListener = (SHNCharacteristic.SHNCharacteristicChangedListener) Utility.makeThrowingMock(SHNCharacteristic.SHNCharacteristicChangedListener.class);
-        doAnswer(new Answer<Void>(){
+        doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 characteristicChangedListenerInvocationCount[0]++;
                 return null;
             }
-        }).when(mockedSHNCharacteristicChangedListener).onCharacteristicChanged(anySHNCharacteristic(), anyByteArray());
+        }).when(mockedSHNCharacteristicChangedListener).onCharacteristicChanged(eq(shnCharacteristic), any(byte[].class));
 
         shnCharacteristic.setShnCharacteristicChangedListener(mockedSHNCharacteristicChangedListener);
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
@@ -233,17 +205,9 @@ public class SHNCharacteristicTest {
     }
 
     @Test
-    public void whenSetingNotificationsTrueOnACharacteristicThatDoesNOTSupportThatThenSetNotificationFails() {
-        doReturn(false).when(mockedBTGatt).setCharacteristicNotification(anyBluetoothGattCharacteristic(), anyBoolean());
-
-        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
-
-        assertFalse(shnCharacteristic.setNotification(true, mockedSHNCommandResultReporter));
-    }
-
-    @Test
     public void whenReadIsCalledWhenNotActiveThenReadIsNotAccepted() {
-        assertFalse(shnCharacteristic.read(null));
+        shnCharacteristic.read(resultReporterMock);
+        verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidState, null);
     }
 
     @Test
@@ -252,60 +216,256 @@ public class SHNCharacteristicTest {
     }
 
     @Test
-    public void whenWriteIsCalledWhenNotActiveThenWriteIsNotAccepted() {
-        assertFalse(shnCharacteristic.write(null, mockedSHNCommandResultReporter));
+    public void whenWriteIsCalledWhenNotActiveThenInvalidStateIsReported() {
+        shnCharacteristic.write(null, resultReporterMock);
+
+        verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidState, null);
     }
 
-    @Test
-    public void whenOnDescriptorWriteIndicatesAnErrorOnACharacteristicThenTheErrorIsReported() {
-        BluetoothGattDescriptor mockedDescriptor = (BluetoothGattDescriptor) Utility.makeThrowingMock(BluetoothGattDescriptor.class);
-        doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(anyUUID());
-        doReturn(true).when(mockedBTGatt).setCharacteristicNotification(anyBluetoothGattCharacteristic(), anyBoolean());
-        doNothing().when(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-        doNothing().when(mockedSHNCommandResultReporter).reportResult(anySHNResult(), anyByteArray());
+    public class WhenTogglingNotifications
+    {
+        public class AndNotConnectedToBLELayer
+        {
+            @Before
+            public void setUp() {
+                shnCharacteristic.setNotification(true, resultReporterMock);
+            }
 
-        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+            @Test
+            public void itShouldReportErrorInvalidState() {
+                verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidState, null);
+            }
+        }
 
-        assertTrue(shnCharacteristic.setNotification(true, mockedSHNCommandResultReporter));
+        public class AndConnectedToBLELayer {
+            @Before
+            public void setUp() {
+                shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+            }
 
-        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_FAILURE);
-        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNErrorUnknownDeviceType, null);
+            public class AndSetCharacteristicNotificationFails {
+                @Before
+                public void setUp() {
+                    doReturn(false).when(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), anyBoolean());
+                    shnCharacteristic.setNotification(true, resultReporterMock);
+                }
+
+                @Test
+                public void itShouldReportErrorUnsupportedOperation() {
+                    verify(resultReporterMock).reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
+                }
+            }
+
+            public class AndAcquiringTheClientCharacteristicConfigurationDescriptorFails {
+                @Before
+                public void setUp() {
+                    doReturn(true).when(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), anyBoolean());
+                    doReturn(null).when(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                    shnCharacteristic.setNotification(true, resultReporterMock);
+                }
+
+                @Test
+                public void itShouldReportErrorUnsupportedOperation() {
+                    verify(resultReporterMock).reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
+                }
+            }
+
+            public class AndBTGattRespondsProperly {
+                @Before
+                public void setUp() {
+                    doReturn(true).when(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), anyBoolean());
+                    doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                }
+
+                public class AndNotificationsAreEnabled {
+                    @Before
+                    public void setUp() {
+                        shnCharacteristic.setNotification(true, resultReporterMock);
+                    }
+
+                    @Test
+                    public void itForwardsTheCallToBTGatt() {
+                        verify(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), eq(true));
+                    }
+
+                    @Test
+                    public void itAcquiresClientCharacteristicConfigurationDescriptor() {
+                        verify(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                    }
+
+                    @Test
+                    public void itWritesAppropriatelyTotheClientCharacteristicConfigurationDescriptor() {
+                        verify(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                    }
+
+                    @Test
+                    public void itReportsSuccessWhenASuccessfulOnDescriptorWriteIsReceived() {
+                        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_SUCCESS);
+                        verify(resultReporterMock).reportResult(SHNResult.SHNOk, null);
+                    }
+
+                    @Test
+                    public void itReportsAnErrorWhenTheConnectionIsLost() {
+                        shnCharacteristic.disconnectFromBLELayer();
+                        verify(resultReporterMock).reportResult(SHNResult.SHNErrorConnectionLost, null);
+                    }
+
+                }
+
+                public class AndNotificationsAreDisabled {
+                    @Before
+                    public void setUp() {
+                        shnCharacteristic.setNotification(false, resultReporterMock);
+                    }
+
+                    @Test
+                    public void itForwardsTheCallToBTGatt() {
+                        verify(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), eq(false));
+                    }
+
+                    @Test
+                    public void itAcquiresClientCharacteristicConfigurationDescriptor() {
+                        verify(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                    }
+
+                    @Test
+                    public void itWritesAppropriatelyTotheClientCharacteristicConfigurationDescriptor() {
+                        verify(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                    }
+
+                    @Test
+                    public void itReportsSuccessWhenASuccessfulOnDescriptorWriteIsReceived() {
+                        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_SUCCESS);
+                        verify(resultReporterMock).reportResult(SHNResult.SHNOk, null);
+                    }
+
+                    @Test
+                    public void itReportsErrorWhenAnErroneousOnDescriptorWriteIsReceived() {
+                        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_FAILURE);
+                        verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidResponse, null);
+                    }
+                }
+            }
+        }
     }
 
-    @Test
-    public void whenSetNotificationIsCalledWithoutResultReporterThenNothingIsReported() {
-        BluetoothGattDescriptor mockedDescriptor = (BluetoothGattDescriptor) Utility.makeThrowingMock(BluetoothGattDescriptor.class);
-        doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(anyUUID());
-        doReturn(true).when(mockedBTGatt).setCharacteristicNotification(anyBluetoothGattCharacteristic(), anyBoolean());
-        doNothing().when(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-//        doNothing().when(mockedSHNCommandResultReporter).reportResult(anySHNResult(), anyByteArray());
+    public class WhenTogglingIndications
+    {
+        public class AndNotConnectedToBLELayer
+        {
+            @Before
+            public void setUp() {
+                shnCharacteristic.setIndication(true, resultReporterMock);
+            }
 
-        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+            @Test
+            public void itShouldReportErrorInvalidState() {
+                verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidState, null);
+            }
+        }
 
-        assertTrue(shnCharacteristic.setNotification(true, null));
+        public class AndConnectedToBLELayer {
+            @Before
+            public void setUp() {
+                shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+            }
 
-        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_FAILURE);
-//        verify(mockedSHNCommandResultReporter).reportResult(SHNResult.SHNErrorUnknownDeviceType, null);
-    }
+            public class AndSetCharacteristicNotificationFails {
+                @Before
+                public void setUp() {
+                    doReturn(false).when(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), anyBoolean());
+                    shnCharacteristic.setIndication(true, resultReporterMock);
+                }
 
-    // Helper functions
-    private SHNCharacteristic anySHNCharacteristic() {
-        return any(SHNCharacteristic.class);
-    }
+                @Test
+                public void itShouldReportErrorUnsupportedOperation() {
+                    verify(resultReporterMock).reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
+                }
+            }
 
-    private SHNResult anySHNResult() {
-        return any(SHNResult.class);
-    }
+            public class AndAcquiringTheClientCharacteristicConfigurationDescriptorFails {
+                @Before
+                public void setUp() {
+                    doReturn(true).when(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), anyBoolean());
+                    doReturn(null).when(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                    shnCharacteristic.setIndication(true, resultReporterMock);
+                }
 
-    private BluetoothGattCharacteristic anyBluetoothGattCharacteristic() {
-        return any(BluetoothGattCharacteristic.class);
-    }
+                @Test
+                public void itShouldReportErrorUnsupportedOperation() {
+                    verify(resultReporterMock).reportResult(SHNResult.SHNErrorUnsupportedOperation, null);
+                }
+            }
 
-    private byte[] anyByteArray() {
-        return any(byte[].class);
-    }
+            public class AndBTGattRespondsProperly {
+                @Before
+                public void setUp() {
+                    doReturn(true).when(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), anyBoolean());
+                    doReturn(mockedDescriptor).when(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                }
 
-    private UUID anyUUID() {
-        return any(UUID.class);
+                public class AndIndicationsAreEnabled {
+                    @Before
+                    public void setUp() {
+                        shnCharacteristic.setIndication(true, resultReporterMock);
+                    }
+
+                    @Test
+                    public void itForwardsTheCallToBTGatt() {
+                        verify(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), eq(true));
+                    }
+
+                    @Test
+                    public void itAcquiresClientCharacteristicConfigurationDescriptor() {
+                        verify(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                    }
+
+                    @Test
+                    public void itWritesAppropriatelyTotheClientCharacteristicConfigurationDescriptor() {
+                        verify(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+                    }
+
+                    @Test
+                    public void itReportsSuccessWhenASuccessfulOnDescriptorWriteIsReceived() {
+                        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_SUCCESS);
+                        verify(resultReporterMock).reportResult(SHNResult.SHNOk, null);
+                    }
+                }
+
+                public class AndIndicationsAreDisabled {
+                    @Before
+                    public void setUp() {
+                        shnCharacteristic.setIndication(false, resultReporterMock);
+                    }
+
+                    @Test
+                    public void itForwardsTheCallToBTGatt() {
+                        verify(mockedBTGatt).setCharacteristicNotification(eq(mockedBluetoothGattCharacteristic), eq(false));
+                    }
+
+                    @Test
+                    public void itAcquiresClientCharacteristicConfigurationDescriptor() {
+                        verify(mockedBluetoothGattCharacteristic).getDescriptor(eq(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                    }
+
+                    @Test
+                    public void itWritesAppropriatelyTotheClientCharacteristicConfigurationDescriptor() {
+                        verify(mockedBTGatt).writeDescriptor(mockedDescriptor, BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                    }
+
+                    @Test
+                    public void itReportsSuccessWhenASuccessfulOnDescriptorWriteIsReceived() {
+                        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_SUCCESS);
+                        verify(resultReporterMock).reportResult(SHNResult.SHNOk, null);
+                    }
+
+                    @Test
+                    public void itReportsErrorWhenAnErroneousOnDescriptorWriteIsReceived() {
+                        shnCharacteristic.onDescriptorWrite(mockedBTGatt, mockedDescriptor, BluetoothGatt.GATT_FAILURE);
+                        verify(resultReporterMock).reportResult(SHNResult.SHNErrorInvalidResponse, null);
+                    }
+                }
+            }
+        }
     }
 }

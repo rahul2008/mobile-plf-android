@@ -9,9 +9,7 @@ import com.philips.pins.shinelib.helper.Utility;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,7 +28,6 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 /**
  * Created by 310188215 on 06/05/15.
  */
-@RunWith(PowerMockRunner.class)
 public class SHNServiceTest {
     private SHNService shnService;
     private UUID mockedServiceUUID;

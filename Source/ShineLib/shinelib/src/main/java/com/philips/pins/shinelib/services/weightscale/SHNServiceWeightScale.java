@@ -1,6 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.services.weightscale;
 
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
@@ -11,6 +16,7 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.services.SHNServiceBattery;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
@@ -30,7 +36,6 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
     public static final UUID WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9D));
 
     private static final String TAG = SHNServiceBattery.class.getSimpleName();
-    private static final boolean LOGGING = false;
 
     private SHNServiceWeightScaleListener shnServiceWeightScaleListener;
 
@@ -89,7 +94,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
         SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID);
         SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 shnResultListener.onActionCompleted(shnResult);
             }
         };
@@ -105,9 +110,9 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
                 SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
                 shnServiceWeightScaleListener.onWeightMeasurementReceived(this, shnWeightMeasurement);
             } catch (IllegalArgumentException e) {
-                Log.w(TAG, "Received incorrect weight measurement data");
+                SHNLogger.w(TAG, "Received incorrect weight measurement data");
             } catch (BufferUnderflowException e) {
-                Log.w(TAG, "The supplied data has the wrong length.");
+                SHNLogger.w(TAG, "The supplied data has the wrong length.");
             }
         }
     }
@@ -117,7 +122,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
+            public void reportResult(@NonNull SHNResult shnResult, byte[] data) {
                 extractFeaturesFromReport(shnResult, data, listener);
             }
         };

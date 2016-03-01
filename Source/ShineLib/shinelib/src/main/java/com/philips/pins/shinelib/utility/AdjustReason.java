@@ -1,10 +1,12 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.utility;
 
 import java.nio.ByteBuffer;
 
-/**
- * Created by 310188215 on 07/07/15.
- */
 public class AdjustReason {
     public final boolean manualTimeUpdate;
     public final boolean externalReferenceTimeUpdate;

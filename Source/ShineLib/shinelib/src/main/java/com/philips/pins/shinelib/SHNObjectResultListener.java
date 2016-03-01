@@ -1,9 +1,9 @@
-package com.philips.pins.shinelib;
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public interface SHNObjectResultListener {
-    void onActionCompleted(Object object, SHNResult result);
+
+package com.philips.pins.shinelib;
+
+public interface SHNObjectResultListener extends ResultListener<Object> {
 }

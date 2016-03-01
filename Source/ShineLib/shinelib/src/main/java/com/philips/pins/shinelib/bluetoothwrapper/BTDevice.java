@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.bluetoothwrapper;
 
 import android.bluetooth.BluetoothDevice;
@@ -26,9 +31,11 @@ public class BTDevice {
         return device.getAddress();
     }
 
+    public int getBondState() { return device.getBondState(); }
+
     public BTGatt connectGatt(final Context context, boolean autoConnect, final BTGatt.BTGattCallback callback) {
         btGatt = new BTGatt(callback, handler);
-        BluetoothGatt bluetoothGatt = device.connectGatt(context, false, btGatt);
+        BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
         btGatt.setBluetoothGatt(bluetoothGatt);
         return btGatt;
     }

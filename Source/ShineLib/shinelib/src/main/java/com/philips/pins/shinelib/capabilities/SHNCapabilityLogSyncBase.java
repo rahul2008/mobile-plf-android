@@ -1,7 +1,11 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.capabilities;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
@@ -9,9 +13,10 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
-import com.philips.pins.shinelib.framework.Timer;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -26,7 +31,6 @@ import java.util.Set;
 public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchronization { // rename it
 
     protected List<SHNResult> resultsThatDoNotCauseFailure;
-    private SHNResult result;
 
     private static final String TAG = SHNCapabilityLogSyncBase.class.getSimpleName();
     private static final int MAX_STORED_MEASUREMENTS = 50;
@@ -35,24 +39,14 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     private State state;
     protected SHNCapabilityLogSynchronizationListener shnCapabilityLogSynchronizationListener;
 
-    protected Timer timer;
-
-    private final Runnable timeoutRunnable = new Runnable() {
-        @Override
-        public void run() {
-            handleTimeout();
-        }
-    };
-
     public SHNCapabilityLogSyncBase() {
         this.state = State.Idle;
-        timer = Timer.createTimer(timeoutRunnable, 5000L);
 
         resultsThatDoNotCauseFailure = new ArrayList<>();
         resultsThatDoNotCauseFailure.add(SHNResult.SHNOk);
+        resultsThatDoNotCauseFailure.add(SHNResult.SHNAborted);
     }
 
-    // implements SHNCapabilityLogSynchronization
     @Override
     public void setSHNCapabilityLogSynchronizationListener(SHNCapabilityLogSynchronizationListener SHNCapabilityLogSynchronizationListener) {
         shnCapabilityLogSynchronizationListener = SHNCapabilityLogSynchronizationListener;
@@ -72,11 +66,10 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     public void startSynchronizationFromToken(Object synchronizationToken) {
         if (state == State.Idle) {
             setState(State.Synchronizing);
-            timer.restart();
             notifyListenerWithProgress(0.0f);
             setupToReceiveMeasurements();
         } else {
-            Log.w(TAG, "Unable to start synchronization; Already running!");
+            SHNLogger.w(TAG, "Unable to start synchronization; Already running!");
         }
     }
 
@@ -85,18 +78,18 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         if (state == State.Synchronizing) {
             stop(SHNResult.SHNAborted);
         } else {
-            Log.w(TAG, "Unable to abort synchronization, already in an idle state!");
+            SHNLogger.w(TAG, "Unable to abort synchronization, already in an idle state!");
         }
     }
 
     @Override
     public void getValueForOption(Option option, SHNIntegerResultListener shnResultListener) {
-        throw new UnsupportedOperationException();
+        shnResultListener.onActionCompleted(0, SHNResult.SHNErrorUnsupportedOperation);
     }
 
     @Override
     public void setValueForOption(int value, Option option, SHNResultListener shnResultListener) {
-        throw new UnsupportedOperationException();
+        shnResultListener.onActionCompleted(SHNResult.SHNErrorUnsupportedOperation);
     }
 
     protected void setState(State state) {
@@ -110,16 +103,13 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     }
 
     protected void handleResultOfMeasurementsSetup(SHNResult result) {
-        if (!resultsThatDoNotCauseFailure.contains(result)) {
+        if (SHNResult.SHNOk != result) {
             stop(result);
-        } else {
-            this.result = result;
         }
     }
 
     protected void onMeasurementReceived(SHNLogItem shnLogItem) {
         if (state == State.Synchronizing) {
-            timer.restart();
             if (shnLogItems == null) {
                 shnLogItems = new ArrayList<>();
             }
@@ -128,15 +118,15 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
             int count = shnLogItems.size();
             float progress = Math.min((float) count / MAX_STORED_MEASUREMENTS, 1.0f);
             notifyListenerWithProgress(progress);
+            notifyListenerWithLogItem(shnLogItem);
         } else {
-            Log.w(TAG, "Received measurement but is in an inconsistent state!");
+            SHNLogger.w(TAG, "Received measurement but is in an inconsistent state!");
         }
     }
 
     protected void stop(SHNResult result) {
         finishLoggingResult(result);
         setState(State.Idle);
-        timer.stop();
     }
 
     private void finishLoggingResult(SHNResult result) {
@@ -144,14 +134,12 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         teardownReceivingMeasurements();
         notifyListenerWithProgress(1.0f);
 
-        if (!resultsThatDoNotCauseFailure.contains(result) && shnLogItems == null) {
-            if (shnCapabilityLogSynchronizationListener != null) {
-                shnCapabilityLogSynchronizationListener.onLogSynchronizationFailed(this, result);
-            }
-        } else {
-            SHNLog log = createLog();
-            if (shnCapabilityLogSynchronizationListener != null) {
+        if (shnCapabilityLogSynchronizationListener != null) {
+            if (resultsThatDoNotCauseFailure.contains(result) || shnLogItems != null) {
+                SHNLog log = createLog();
                 shnCapabilityLogSynchronizationListener.onLogSynchronized(this, log, result);
+            } else {
+                shnCapabilityLogSynchronizationListener.onLogSynchronizationFailed(this, result);
             }
         }
         shnLogItems = null;
@@ -164,6 +152,11 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         }
         Collections.sort(shnLogItems, new SHNLogItemsComparator());
 
+        return createLog(shnLogItems);
+    }
+
+    @NonNull
+    private SHNLog createLog(final Collection<SHNLogItem> shnLogItems) {
         List<SHNLogItem> logItems = new ArrayList<>();
         Set<SHNDataType> types = new HashSet<>();
 
@@ -184,14 +177,17 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         }
     }
 
-    private void handleTimeout() {
-        assert (result != null);
-        stop(result);
-    }
-
     private void notifyListenerWithProgress(float progress) {
         if (shnCapabilityLogSynchronizationListener != null)
             shnCapabilityLogSynchronizationListener.onProgressUpdate(this, progress);
+    }
+
+
+    private void notifyListenerWithLogItem(final SHNLogItem logItem) {
+        if (shnCapabilityLogSynchronizationListener != null) {
+            Set<SHNLogItem> singleton = Collections.singleton(logItem);
+            shnCapabilityLogSynchronizationListener.onIntermediateLogSynchronized(this, createLog(singleton));
+        }
     }
 
     protected abstract void setupToReceiveMeasurements();

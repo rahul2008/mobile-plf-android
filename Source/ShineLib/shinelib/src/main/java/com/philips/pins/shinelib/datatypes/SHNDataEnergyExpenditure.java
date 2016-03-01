@@ -1,13 +1,17 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.datatypes;
 
-/**
- * Created by 310188215 on 13/05/15.
- */
 public class SHNDataEnergyExpenditure extends SHNData {
     private final double energyExpenditure;
+    private final SHNDataType shnDataType;
 
-    public SHNDataEnergyExpenditure(double energyExpenditure) {
+    public SHNDataEnergyExpenditure(double energyExpenditure, SHNDataType shnDataType) {
         this.energyExpenditure = energyExpenditure;
+        this.shnDataType = shnDataType;
     }
 
     public double getEnergyExpenditure() {
@@ -16,11 +20,11 @@ public class SHNDataEnergyExpenditure extends SHNData {
 
     @Override
     public SHNDataType getSHNDataType() {
-        return SHNDataType.EnergyExpenditure;
+        return shnDataType;
     }
 
     @Override
     public String toString() {
-        return "Energy Expenditure: " + getEnergyExpenditure();
+        return shnDataType.name() + ": " + getEnergyExpenditure();
     }
 }

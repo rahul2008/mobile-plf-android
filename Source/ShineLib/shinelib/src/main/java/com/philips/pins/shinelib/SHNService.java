@@ -1,80 +1,17 @@
-package com.philips.pins.shinelib;
-
 /*
-@startuml
-participant App
-participant SHNServiceUser
-participant SHNDevice
-participant SHNService
-participant SHNCharacteristic
-participant BLEDevice
-participant BLEGatt
-participant BLEGattCallback
-
-group Setup
-SHNServiceUser --> SHNService : create(UUID, reqCharUUIDS, optCharUUIDS)
-    loop for each char
-        SHNService --> SHNCharacteristic : create(UUID)
-    end
-    App --> SHNDevice : create(remoteAddress)
-    SHNDevice --> BLEDevice : create(remoteAddress)
-end
-group Connect
-    App -> SHNDevice : connect
-    SHNDevice -> BLEDevice : connect
-    BLEDevice --> BLEGatt : createdViaConnect
-    BLEGattCallback -> SHNDevice : onConnectionStateChange(Connected)
-    SHNDevice -> BLEGatt : discoverServices
-    BLEGattCallback -> SHNDevice : onServicesDiscovered
-    loop for each service
-        SHNDevice -> SHNService : connectToBleService
-        loop for each service.characteristic
-            SHNDevice -> SHNService : connectToBleCharacteristic
-            SHNService -> SHNCharacteristic : connectToBleCharacteristic
-        end
-        SHNService -> SHNServiceUser : onServiceStateChange(Available)
-    end
-    SHNServiceUser -> SHNService : upperLayerReady
-    SHNService -> SHNServiceUser : onServiceStateChange(Ready)
-end
-group streamValue
-    SHNServiceUser -> SHNCharacteristic : streamValue
-    SHNService -> SHNDevice : setCharacteristicNotification(true)
-    SHNDevice -> BLEDevice : setCharacteristicNotification(true)
-    BLEGattCallback -> SHNDevice : onCharacteristicChanged
-    SHNDevice -> SHNCharacteristic : onCharacteristicChanged
-    SHNCharacteristic -> SHNServiceUser : onValueRead(value)
-    SHNServiceUser -> SHNCharacteristic : unstreamValue
-    SHNService -> SHNDevice : setCharacteristicNotification(false)
-    SHNDevice -> BLEDevice : setCharacteristicNotification(false)
-end
-group readValue
-    SHNServiceUser -> SHNCharacteristic : readValue
-    SHNCharacteristic -> SHNDevice : readCharacteristic
-    SHNDevice -> BLEDevice : readCharacteristic
-    BLEGattCallback -> SHNDevice : onCharacteristicRead
-    SHNDevice -> SHNCharacteristic : onCharacteristicRead
-    SHNCharacteristic -> SHNServiceUser : onValueRead(value)
-end
-group Disconnect
-    BLEGattCallback -> SHNDevice : onConnectionStateChange(Disconnected)
-    SHNService -> SHNServiceUser : onServiceStateChange(Unavailable)
-    loop for each service
-        SHNDevice -> SHNService : disconnectService
-        loop for each service.characteristic
-            SHNService -> SHNCharacteristic : disconnectCharacteristic
-        end
-    end
-end
-@enduml
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
+
+package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
-import android.util.Log;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -85,22 +22,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by 310188215 on 26/03/15.
- */
 public class SHNService {
     private static final String TAG = SHNService.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private State state = State.Unavailable;
     private final UUID uuid;
     private BTGatt btGatt;
     private WeakReference<BluetoothGattService> bluetoothGattServiceWeakReference;
     private List<SHNCharacteristic> requiredCharacteristics;
-    private List<SHNCharacteristic> optionalCharacteristics;
     private Map<UUID, SHNCharacteristic> characteristicMap;
     private Set<SHNServiceListener> shnServiceListeners;
 
-    public enum State {Unavailable, Available, Ready, Error }
+    public enum State {Unavailable, Available, Ready, Error}
 
     public interface SHNServiceListener {
         void onServiceStateChanged(SHNService shnService, State state);
@@ -109,15 +41,14 @@ public class SHNService {
     public SHNService(UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
         this.uuid = serviceUuid;
         this.requiredCharacteristics = new ArrayList<>();
-        this.optionalCharacteristics = new ArrayList<>();
         this.characteristicMap = new HashMap<>();
         this.shnServiceListeners = new HashSet<>();
 
-        for (UUID characteristicUUID: requiredCharacteristics) {
+        for (UUID characteristicUUID : requiredCharacteristics) {
             SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicUUID);
             addRequiredSHNCharacteristic(shnCharacteristic);
         }
-        for (UUID characteristicUUID: optionalCharacteristics) {
+        for (UUID characteristicUUID : optionalCharacteristics) {
             SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicUUID);
             addOptionalSHNCharacteristic(shnCharacteristic);
         }
@@ -139,6 +70,7 @@ public class SHNService {
         return uuid;
     }
 
+    @Nullable
     public SHNCharacteristic getSHNCharacteristic(UUID characteristicUUID) {
         return characteristicMap.get(characteristicUUID);
     }
@@ -150,14 +82,13 @@ public class SHNService {
 
     private void addOptionalSHNCharacteristic(SHNCharacteristic shnCharacteristic) {
         characteristicMap.put(shnCharacteristic.getUuid(), shnCharacteristic);
-        optionalCharacteristics.add(shnCharacteristic);
     }
 
     private void updateState(State newState) {
         if (state != newState) {
-            if (LOGGING) Log.i(TAG, "updateState for: " + getUuid() + " new state: " + newState);
+            SHNLogger.i(TAG, "updateState for: " + getUuid() + " new state: " + newState);
             state = newState;
-            for (SHNServiceListener shnServiceListener: shnServiceListeners) {
+            for (SHNServiceListener shnServiceListener : shnServiceListeners) {
                 shnServiceListener.onServiceStateChanged(this, state);
             }
         }
@@ -166,9 +97,9 @@ public class SHNService {
     /* package */ void connectToBLELayer(BTGatt gatt, BluetoothGattService bluetoothGattService) {
         bluetoothGattServiceWeakReference = new WeakReference<>(bluetoothGattService);
         this.btGatt = gatt;
-        for (BluetoothGattCharacteristic bluetoothGattCharacteristic: bluetoothGattService.getCharacteristics()) {
+        for (BluetoothGattCharacteristic bluetoothGattCharacteristic : bluetoothGattService.getCharacteristics()) {
             SHNCharacteristic shnCharacteristic = getSHNCharacteristic(bluetoothGattCharacteristic.getUuid());
-            if (LOGGING) Log.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + ((shnCharacteristic == null) ? " not found" : " connecting"));
+            SHNLogger.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + ((shnCharacteristic == null) ? " not found" : " connecting"));
             if (shnCharacteristic != null) {
                 shnCharacteristic.connectToBLELayer(btGatt, bluetoothGattCharacteristic);
             }
@@ -176,7 +107,7 @@ public class SHNService {
 
         // Check if the state should be updated
         State newState = State.Available;
-        for (SHNCharacteristic shnCharacteristic: requiredCharacteristics) {
+        for (SHNCharacteristic shnCharacteristic : requiredCharacteristics) {
             if (shnCharacteristic.getState() != SHNCharacteristic.State.Active) {
                 newState = State.Unavailable;
                 break;
@@ -190,7 +121,7 @@ public class SHNService {
             bluetoothGattServiceWeakReference.clear();
         }
         btGatt = null;
-        for (SHNCharacteristic shnCharacteristic: characteristicMap.values()) {
+        for (SHNCharacteristic shnCharacteristic : characteristicMap.values()) {
             shnCharacteristic.disconnectFromBLELayer();
         }
         updateState(State.Unavailable);
@@ -228,5 +159,4 @@ public class SHNService {
         SHNCharacteristic shnCharacteristic = getSHNCharacteristic(descriptor.getCharacteristic().getUuid());
         shnCharacteristic.onDescriptorWrite(gatt, descriptor, status);
     }
-
 }

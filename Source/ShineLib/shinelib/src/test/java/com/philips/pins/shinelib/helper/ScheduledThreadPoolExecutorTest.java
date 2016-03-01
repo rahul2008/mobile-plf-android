@@ -2,6 +2,8 @@ package com.philips.pins.shinelib.helper;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +13,8 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by 310188215 on 04/04/15.
  */
+
+@RunWith(PowerMockRunner.class)
 public class ScheduledThreadPoolExecutorTest {
 
     private MockedScheduledThreadPoolExecutor mockedScheduledThreadPoolExecutor;

@@ -1,12 +1,17 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.framework;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
-import android.util.Log;
 
 import com.philips.pins.shinelib.ISHNBluetoothGattCallback;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.Utilities;
 
 import java.util.concurrent.Executor;
@@ -16,7 +21,6 @@ import java.util.concurrent.Executor;
  */
 public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
     private static final String TAG = BluetoothGattCallbackOnExecutor.class.getSimpleName();
-    private static final boolean LOGGING = false;
     private ISHNBluetoothGattCallback iShnBluetoothGattCallback;
     private Executor executor;
 
@@ -74,7 +78,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
     @Override
     public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
         final byte[] data = characteristic.getValue().clone();
-        if (LOGGING) Log.e(TAG, "onCharacteristicChanged: " + Utilities.byteToString(data));
+        SHNLogger.e(TAG, "onCharacteristicChanged: " + Utilities.byteToString(data));
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
