@@ -62,6 +62,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private static final String USER_PREFERENCE = "user_product";
     private static boolean isFirstTimeProductComponentlaunch = true;
     SharedPreferences prefs = null;
+    ActivityLauncher uiLauncher = null;
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
@@ -387,13 +388,23 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         }
     }
 
-
     private void launchProductSelectionFragmentComponent() {
         DigiCareLogger.i("testing", "Support -- Fragment Invoke");
 
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
+        ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
+            @Override
+            public void onSuccess(List<SummaryModel> summaryModels) {
+                int numberOfModels = summaryModels.size();
+
+                if (numberOfModels > 0) {
+                    DigiCareLogger.d(TAG, "Products available of size " + numberOfModels);
+                } else
+                    mProductChangeButton.setVisibility(View.GONE);
+            }
+        });
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel summaryModel) {
@@ -405,16 +416,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         ProductSelectionLogger.enableLogging();
     }
 
-
     private void launchProductSelectionActivityComponent() {
         DigiCareLogger.i("testing", "Support -- Activity Invoke");
 
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
-
-
-        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
         uiLauncher.setAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().getEnterAnimation(),
                 DigitalCareConfigManager.getInstance().getUiLauncher().getExitAnimation());
         ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
@@ -422,11 +430,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             public void onSuccess(List<SummaryModel> summaryModels) {
                 int numberOfModels = summaryModels.size();
 
-                if (numberOfModels > 0)
-                    Toast.makeText(getActivity(), "testing Product Size " + summaryModels.size(), Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getActivity(), "testing Product Size is zero " + summaryModels.size(), Toast.LENGTH_SHORT).show();
-
+                if (numberOfModels > 0) {
+                    DigiCareLogger.d(TAG, "Products available of size " + numberOfModels);
+                } else
+                    mProductChangeButton.setVisibility(View.GONE);
             }
         });
 
@@ -436,6 +443,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 updateSummaryData(summaryModel);
             }
         });
+
         ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, DigitalCareConfigManager.getInstance()
                 .getProductModelSelectionType());
     }
@@ -476,6 +484,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setProductReviewUrl(summaryData.getProductURL());
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
+
+                ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
+                productDetailsModel.setProductName(summaryData.getProductTitle());
+                productDetailsModel.setCtnName(summaryData.getCtn());
+                productDetailsModel.setProductImage(summaryData.getImageURL());
+                productDetailsModel.setProductInfoLink(summaryData.getProductURL());
+                DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
 
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
@@ -553,7 +568,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setGroup(productGroup);
                 DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCategory(productCategory);
 
-                ViewProductDetailsModel productDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+                ViewProductDetailsModel productDetailsModel = new ViewProductDetailsModel();
                 productDetailsModel.setProductName(summaryData.getProductTitle());
                 productDetailsModel.setCtnName(summaryData.getCtn());
                 productDetailsModel.setProductImage(summaryData.getImageURL());
