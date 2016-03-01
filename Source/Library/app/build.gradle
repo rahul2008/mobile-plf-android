@@ -32,6 +32,7 @@ dependencies {
     compile project(':productselection')
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.philips.cdp:uikitLib:2.0.0'
 }
 
 allprojects {

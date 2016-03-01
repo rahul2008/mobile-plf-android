@@ -9,13 +9,20 @@ package com.philips.cdp.productselection.launchertype;
 public class ActivityLauncher extends UiLauncher {
 
     protected ActivityLauncher.ActivityOrientation mScreenOrientation = null;
+    protected int mUiKitTheme;
 
-    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation) {
+    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation, int uiKitTheme) {
         mScreenOrientation = screenOrientation;
+        this.mUiKitTheme = uiKitTheme;
     }
 
     public ActivityLauncher.ActivityOrientation getScreenOrientation() {
         return mScreenOrientation;
+    }
+
+    public int getmUiKitTheme()
+    {
+        return mUiKitTheme;
     }
 
     /**

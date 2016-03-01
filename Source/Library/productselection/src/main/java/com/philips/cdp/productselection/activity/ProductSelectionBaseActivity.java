@@ -1,5 +1,6 @@
 package com.philips.cdp.productselection.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 
 //import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
@@ -37,12 +40,16 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     private static String TAG = ProductSelectionBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
-//    private static ThemeUtils themeUtils;
+    //    private static ThemeUtils themeUtils;
     private int noActionBarTheme = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //this.setTheme(R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+        UiLauncher uiLauncher = ProductModelSelectionHelper.getInstance().getLauncherType();
+        if (uiLauncher instanceof ActivityLauncher) {
+            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            this.setTheme(activityLauncher.getmUiKitTheme());
+        }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         ProductSelectionLogger.i(TAG, "onCreate");
@@ -103,10 +110,9 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         try {
             if (this.getWindowManager() != null)
                 this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        }catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             ProductSelectionLogger.e(TAG, "V4 library issue catch ");
-        }finally {
+        } finally {
             float yInches = metrics.heightPixels / metrics.ydpi;
             float xInches = metrics.widthPixels / metrics.xdpi;
             double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
@@ -200,8 +206,7 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     }
 
 
-    protected void backtoConsumerCare()
-    {
+    protected void backtoConsumerCare() {
         finish();
     }
 
