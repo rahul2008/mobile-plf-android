@@ -217,14 +217,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     public void checkFields() {
 
-        String firstName = mEtFirstName.getText().toString().trim();
-        String lastName = mEtLastName.getText().toString().trim();
-        String address = mEtAddress.getText().toString().trim();
-        String postalCode = mEtPostalCode.getText().toString().trim();
-        String phoneNumber = mEtPhoneNumber.getText().toString().trim();
-        String town = mEtTown.getText().toString().trim();
-        String country = mEtCountry.getText().toString().trim();
-        String email = mEtEmail.getText().toString().trim();
+        String firstName = mEtFirstName.getText().toString();
+        String lastName = mEtLastName.getText().toString();
+        String address = mEtAddress.getText().toString();
+        String postalCode = mEtPostalCode.getText().toString();
+        String phoneNumber = mEtPhoneNumber.getText().toString();
+        String town = mEtTown.getText().toString();
+        String country = mEtCountry.getText().toString();
+        String email = mEtEmail.getText().toString();
 
         if (mValidator.isValidFirstName(firstName) && mValidator.isValidLastName(lastName)
                 && mValidator.isValidAddress(address) && mValidator.isValidPostalCode(postalCode)
