@@ -191,6 +191,8 @@ public class PrxProductData {
             public void onResponseSuccess(ResponseData responseData) {
 
                 ViewProductDetailsModel viewProductDetailsData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+                if (viewProductDetailsData == null)
+                    viewProductDetailsData = new ViewProductDetailsModel();
 
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
@@ -223,7 +225,7 @@ public class PrxProductData {
                         DigiCareLogger.d(TAG, "Manual Link : " + usermanual);
                         DigiCareLogger.d(TAG, "Manual videoListSize : " + mVideoList.size());
                         mConfigManager.setViewProductDetailsData(viewProductDetailsData);
-                        if(mPrxCallback != null)
+                        if (mPrxCallback != null)
                             mPrxCallback.onResponseReceived(null);
 
                     }
