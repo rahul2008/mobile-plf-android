@@ -463,16 +463,16 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
             }
         } else {
-            if(isTablet()){
+            if (isTablet()) {
                 try {
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("ProductSelectionListingFragment");
-                    if(fragmentDetailsTablet != null) {
+                    if (fragmentDetailsTablet != null) {
                         fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
                     }
 
                     Fragment fragmentConfirmTablet = getActivity().getSupportFragmentManager().findFragmentByTag("SavedScreenFragmentSelection");
-                    if(fragmentConfirmTablet != null) {
+                    if (fragmentConfirmTablet != null) {
                         fragmentTransaction.remove(fragmentConfirmTablet);
                     }
 
@@ -484,18 +484,17 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
                     ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
                     e.printStackTrace();
                 }
-            }
-            else {
-                    if (fragmentManager != null && mActivityContext != null) {
-                        fragmentManager = mActivityContext.getSupportFragmentManager();
-                    } else if (fragmentManager == null) {
-                        fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-                    }
-                    for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
-                        fragmentManager.popBackStack();
-                    }
+            } else {
+                if (fragmentManager != null && mActivityContext != null) {
+                    fragmentManager = mActivityContext.getSupportFragmentManager();
+                } else if (fragmentManager == null) {
+                    fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+                }
+                for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
+                    fragmentManager.popBackStack();
                 }
             }
+        }
         return false;
     }
 
@@ -545,14 +544,9 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     }
 
     private void updateActionbar() {
-        //TODO : pass the title value to vertical app.
-        ProductSelectionLogger.i("testing", "pass the title value to vertical app");
-//        if (this.getClass().getSimpleName()
-//                .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
-//        } else {
-//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
-//        }
+        if (mActionbarUpdateListener != null)
+            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
+
     }
 
     protected void setListViewRequiredInTablet(Boolean listViewRequired) {
