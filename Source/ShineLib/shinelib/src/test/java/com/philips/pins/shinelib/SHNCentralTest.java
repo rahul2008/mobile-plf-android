@@ -16,6 +16,7 @@ import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
+import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +60,9 @@ public class SHNCentralTest extends RobolectricTest {
     @Mock
     PersistentStorageFactory persistentStorageFactoryMock;
 
+    @Mock
+    private SharedPreferencesMigrator mockedSharedPreferencesMigrator;
+
     @Before
     public void setUp() throws SHNBluetoothHardwareUnavailableException, Exception {
         initMocks(this);
@@ -72,6 +76,7 @@ public class SHNCentralTest extends RobolectricTest {
         mockedSharedPreferences = Utility.makeThrowingMock(SharedPreferences.class);
         mockedDataMigrater = Utility.makeThrowingMock(DataMigrater.class);
 
+        doReturn("mockedContext").when(mockedContext).toString();
         doReturn(mockedContext).when(mockedContext).getApplicationContext();
         doReturn(mockedPackageManager).when(mockedContext).getPackageManager();
         doReturn(true).when(mockedPackageManager).hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
@@ -138,5 +143,60 @@ public class SHNCentralTest extends RobolectricTest {
         mockedUserHandler.executeFirstPostedExecution();
 
         verify(listenerMock).onStateUpdated(isA(SHNCentral.class));
+    }
+
+    @Test
+    public void whenCreatedThenDataMigratedExecuteIsCalled() {
+        verify(mockedDataMigrater).execute(mockedContext, persistentStorageFactoryMock);
+    }
+
+    private void createSHNCentral(final SharedPreferencesProvider mockedSharedPreferencesProvider, boolean migrateFromDefaultProviderToCustom) throws SHNBluetoothHardwareUnavailableException {
+        new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, mockedSharedPreferencesProvider, migrateFromDefaultProviderToCustom) {
+            @Override
+            SharedPreferencesMigrator createSharedPreferencesMigrator(SharedPreferencesProvider source, SharedPreferencesProvider destination) {
+                return mockedSharedPreferencesMigrator;
+            }
+
+            @Override
+            DataMigrater createDataMigrater() {
+                return mockedDataMigrater;
+            }
+        };
+    }
+
+    @Test
+    public void whenCreatedWithCustomProviderAndMigrationIsRequestedThenExecuteIsCalled() throws SHNBluetoothHardwareUnavailableException {
+        SharedPreferencesProvider mockedSharedPreferencesProvider = mock(SharedPreferencesProvider.class);
+
+        createSHNCentral(mockedSharedPreferencesProvider, true);
+
+        verify(mockedSharedPreferencesMigrator).execute();
+    }
+
+    @Test
+    public void whenCreatedWithCustomProviderAndMigrationIsNotRequestedThenExecuteIsNotCalled() throws SHNBluetoothHardwareUnavailableException {
+        SharedPreferencesProvider mockedSharedPreferencesProvider = mock(SharedPreferencesProvider.class);
+
+        createSHNCentral(mockedSharedPreferencesProvider, false);
+
+        verify(mockedSharedPreferencesMigrator, never()).execute();
+    }
+
+    @Test
+    public void whenCreatedWithNoCustomProviderThenExecuteIsNotCalled() throws SHNBluetoothHardwareUnavailableException {
+        createSHNCentral(null, false);
+        createSHNCentral(null, true);
+
+        verify(mockedSharedPreferencesMigrator, never()).execute();
+    }
+
+    @Test
+    public void whenCreatedWithCustomProviderAndMigrationIsRequestedAndMigrationAlreadyRunThenExecuteIsNotCalledAgain() throws SHNBluetoothHardwareUnavailableException {
+        when(mockedSharedPreferencesMigrator.destinationContainsData()).thenReturn(true);
+        SharedPreferencesProvider mockedSharedPreferencesProvider = mock(SharedPreferencesProvider.class);
+
+        createSHNCentral(mockedSharedPreferencesProvider, true);
+
+        verify(mockedSharedPreferencesMigrator, never()).execute();
     }
 }

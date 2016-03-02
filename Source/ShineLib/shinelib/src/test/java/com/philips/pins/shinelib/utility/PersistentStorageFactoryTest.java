@@ -2,6 +2,7 @@ package com.philips.pins.shinelib.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.SHNDevice;
@@ -23,6 +24,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class PersistentStorageFactoryTest extends RobolectricTest {
 
     public static final String TEST_ADDRESS = "TEST_ADDRESS";
+    public static final String TEST_PREFIX = "PROVIDER";
 
     @Mock
     private SHNDevice shnDeviceMock;
@@ -44,6 +46,12 @@ public class PersistentStorageFactoryTest extends RobolectricTest {
                 keyList.add(key);
                 return RuntimeEnvironment.application.getSharedPreferences(key, mode);
             }
+
+            @NonNull
+            @Override
+            public String getSharedPreferencesPrefix() {
+                return TEST_PREFIX;
+            }
         });
     }
 
@@ -51,29 +59,29 @@ public class PersistentStorageFactoryTest extends RobolectricTest {
     public void ShouldCreateRootPreferences_WhenGetPersistentStorageIsCalled() {
         persistentStorageFactory.getPersistentStorage();
 
-        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.SHINELIB_KEY);
+        assertThat(keyList.get(0)).isEqualTo(TEST_PREFIX + "_" + PersistentStorageFactory.SHINELIB_KEY);
     }
 
     @Test
     public void ShouldCreateUserPreferences_WhenGetPersistentStorageForUserIsCalled() {
         persistentStorageFactory.getPersistentStorageForUser();
 
-        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.USER_KEY);
+        assertThat(keyList.get(0)).isEqualTo(TEST_PREFIX + "_" + PersistentStorageFactory.USER_KEY);
     }
 
     @Test
     public void ShouldCreateDevicePreferences_WhenGetPersistentStorageForDeviceIsCalled() {
         persistentStorageFactory.getPersistentStorageForDevice(shnDeviceMock);
 
-        assertThat(keyList.get(0)).isEqualTo(PersistentStorageFactory.DEVICE_ADDRESS_KEY);
-        assertThat(keyList.get(1)).isEqualTo(TEST_ADDRESS + PersistentStorageFactory.DEVICE_KEY);
+        assertThat(keyList.get(0)).isEqualTo(TEST_PREFIX + "_" + PersistentStorageFactory.DEVICE_ADDRESS_KEY);
+        assertThat(keyList.get(1)).isEqualTo(TEST_PREFIX + "_" + TEST_ADDRESS + PersistentStorageFactory.DEVICE_KEY);
     }
 
     @Test
     public void ShouldSaveAddress_WhenGetPersistentStorageForDeviceIsCalled() {
         persistentStorageFactory.getPersistentStorageForDevice(shnDeviceMock);
 
-        SharedPreferences sharedPreferences = RuntimeEnvironment.application.getSharedPreferences(PersistentStorageFactory.DEVICE_ADDRESS_KEY, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = RuntimeEnvironment.application.getSharedPreferences(TEST_PREFIX + "_" + PersistentStorageFactory.DEVICE_ADDRESS_KEY, Context.MODE_PRIVATE);
         Set<String> keySet = sharedPreferences.getStringSet(PersistentStorageFactory.DEVICE_ADDRESS_KEY, null);
 
         assertThat(keySet).contains(TEST_ADDRESS);
@@ -84,7 +92,7 @@ public class PersistentStorageFactoryTest extends RobolectricTest {
         persistentStorageFactory.getPersistentStorageForDevice(shnDeviceMock);
         persistentStorageFactory.getPersistentStorageForDevice(shnDeviceMock);
 
-        SharedPreferences sharedPreferences = RuntimeEnvironment.application.getSharedPreferences(PersistentStorageFactory.DEVICE_ADDRESS_KEY, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = RuntimeEnvironment.application.getSharedPreferences(TEST_PREFIX + "_" + PersistentStorageFactory.DEVICE_ADDRESS_KEY, Context.MODE_PRIVATE);
         Set<String> keySet = sharedPreferences.getStringSet(PersistentStorageFactory.DEVICE_ADDRESS_KEY, null);
 
         assertThat(keySet).hasSize(1);

@@ -67,6 +67,12 @@ public class DataMigraterTest extends RobolectricTest {
             public SharedPreferences getSharedPreferences(String key, int mode) {
                 return context.getSharedPreferences(key, Context.MODE_PRIVATE);
             }
+
+            @NonNull
+            @Override
+            public String getSharedPreferencesPrefix() {
+                return "TEST";
+            }
         });
 
         dataMigrater = new DataMigrater();

@@ -26,6 +26,7 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
+import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
 import java.lang.ref.WeakReference;
@@ -82,19 +83,30 @@ public class SHNCentral {
     private PersistentStorageFactory persistentStorageFactory;
     private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
 
+    private SharedPreferencesProvider defaultSharedpreferencesProvider = new SharedPreferencesProvider() {
+        @NonNull
+        @Override
+        public SharedPreferences getSharedPreferences(String key, int mode) {
+            return applicationContext.getSharedPreferences(key, Context.MODE_PRIVATE);
+        }
+
+        @NonNull
+        @Override
+        public String getSharedPreferencesPrefix() {
+            return "";
+        }
+    };
+
     @Deprecated
     public SHNCentral(Handler handler, final Context context) throws SHNBluetoothHardwareUnavailableException {
-        this(handler, context, false, null);
+        this(handler, context, false, null, false);
     }
 
-    private SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider sharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, Boolean migrateFromDefaultProviderToCustom) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
-        persistentStorageFactory = createPersistentStorageFactory(sharedPreferencesProvider);
-
-        DataMigrater dataMigrater = createDataMigrater();
-        dataMigrater.execute(context, persistentStorageFactory);
+        persistentStorageFactory = setUpPersistentStorageFactory(context, customSharedPreferencesProvider, migrateFromDefaultProviderToCustom);
 
         // The handler is used for callbacks to the usercode. When no handler is provided, the MainLoop a.k.a. UI Thread is used.
         if (handler == null) {
@@ -138,15 +150,11 @@ public class SHNCentral {
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
 
+    /* package */ SharedPreferencesMigrator createSharedPreferencesMigrator(SharedPreferencesProvider source, SharedPreferencesProvider destination) {
+        return new SharedPreferencesMigrator(source, destination);
+    }
+
     /* package */ PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
-        if (sharedPreferencesProvider == null) {
-            sharedPreferencesProvider = new SharedPreferencesProvider() {
-                @Override
-                public SharedPreferences getSharedPreferences(String key, int mode) {
-                    return applicationContext.getSharedPreferences(key, Context.MODE_PRIVATE);
-                }
-            };
-        }
         return new PersistentStorageFactory(sharedPreferencesProvider);
     }
 
@@ -223,6 +231,29 @@ public class SHNCentral {
                 shnBondStatusListeners.remove(device.getAddress());
             }
         }
+    }
+
+    private PersistentStorageFactory setUpPersistentStorageFactory(Context context, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateFromDefaultProviderToCustom) {
+        PersistentStorageFactory persistentStorageFactory;
+
+        if (customSharedPreferencesProvider == null) {
+            migrateData(context, defaultSharedpreferencesProvider);
+            persistentStorageFactory = createPersistentStorageFactory(defaultSharedpreferencesProvider);
+        } else {
+            SharedPreferencesMigrator sharedPreferencesMigrator = createSharedPreferencesMigrator(defaultSharedpreferencesProvider, customSharedPreferencesProvider);
+            if (!sharedPreferencesMigrator.destinationContainsData() && migrateFromDefaultProviderToCustom) {
+                migrateData(context, defaultSharedpreferencesProvider);
+                sharedPreferencesMigrator.execute();
+            }
+            persistentStorageFactory = createPersistentStorageFactory(customSharedPreferencesProvider);
+        }
+
+        return persistentStorageFactory;
+    }
+
+    private void migrateData(Context context, SharedPreferencesProvider sharedPreferencesProvider) {
+        DataMigrater dataMigrater = createDataMigrater();
+        dataMigrater.execute(context, createPersistentStorageFactory(sharedPreferencesProvider));
     }
 
     public interface SHNBondStatusListener {
@@ -332,6 +363,7 @@ public class SHNCentral {
         private Handler handler;
         private final Context context;
         private Boolean showPopupIfBLEIsTurnedOff = false;
+        private Boolean migrateFromDefaultProviderToCustom = false;
         private SharedPreferencesProvider sharedPreferencesProvider;
 
         public Builder(@NonNull final Context context) {
@@ -353,8 +385,13 @@ public class SHNCentral {
             return this;
         }
 
+        public Builder migrateFromDefaultProviderToCustom(Boolean migrateFromDefaultProviderToCustom) {
+            this.migrateFromDefaultProviderToCustom = migrateFromDefaultProviderToCustom;
+            return this;
+        }
+
         public SHNCentral create() throws SHNBluetoothHardwareUnavailableException {
-            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider);
+            return new SHNCentral(handler, context, showPopupIfBLEIsTurnedOff, sharedPreferencesProvider, migrateFromDefaultProviderToCustom);
         }
     }
 }
