@@ -24,6 +24,7 @@ public class PrxRequest extends Request<JSONObject> {
 
     public PrxRequest(final int method, final String url, final Map<String, String> params, final Map<String, String> headers, Response.Listener<JSONObject> responseListener, final Response.ErrorListener errorListener) {
         super(method, url, errorListener);
+        this.mErrorListener = errorListener;
         this.params = params;
         this.headers = headers;
         this.mResponseListener = responseListener;
