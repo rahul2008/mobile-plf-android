@@ -117,7 +117,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         final User mUser = new User(this);
         if (mUser.isUserSignIn(ProductActivity.this) && mUser.getEmailVerificationStatus(ProductActivity.this)) {
             Toast.makeText(ProductActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
-            registeredProduct(mUser.getAccessToken());
+            registerProduct(mUser.getAccessToken());
         } else {
             Toast.makeText(ProductActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
             ProductLog.producrlog(ProductLog.ONCLICK, "On Click : User Registration");

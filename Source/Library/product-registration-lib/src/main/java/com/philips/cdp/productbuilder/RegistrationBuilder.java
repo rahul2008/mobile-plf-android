@@ -65,12 +65,12 @@ public class RegistrationBuilder extends RegistrationDataBuilder {
 
     private void validateSerialNumber(final Map<String, String> params) {
         final String productSerialNumber = getProductSerialNumber();
-        if (productSerialNumber != null && productSerialNumber.length() > 0)
+        if (isRequiresSerialNumber() && productSerialNumber != null && productSerialNumber.length() > 0)
             params.put(ProdRegConstants.PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
-        if (purchaseDate != null && purchaseDate.length() > 0)
+        if (isRequiresPurchaseDate() && purchaseDate != null && purchaseDate.length() > 0)
             params.put(ProdRegConstants.PURCHASE_DATE, purchaseDate);
     }
 
