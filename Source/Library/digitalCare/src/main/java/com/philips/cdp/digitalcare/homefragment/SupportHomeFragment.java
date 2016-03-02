@@ -130,18 +130,18 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         } else
             createMainMenu();
 
+        if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
+
+            if (isProductSelectionFirstTime) {
+                launchProductSelectionComponent();
+            }
+        }
 
         if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == "") {
             isFirstTimeProductComponentlaunch = false;
             launchProductSelectionComponent();
         }
-        if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
 
-            if (isProductSelectionFirstTime) {
-                isProductSelectionFirstTime = false;
-                launchProductSelectionComponent();
-            }
-        }
 
         return mView;
     }
