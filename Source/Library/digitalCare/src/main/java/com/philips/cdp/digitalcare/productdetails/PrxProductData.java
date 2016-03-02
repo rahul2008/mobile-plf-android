@@ -219,7 +219,12 @@ public class PrxProductData {
                         else if (usermanual != null)
                             viewProductDetailsData.setManualLink(usermanual);
                         viewProductDetailsData.setmVideoLinks(mVideoList);
+                        DigiCareLogger.d(TAG, "Manual PDF : " + qsgManual);
+                        DigiCareLogger.d(TAG, "Manual Link : " + usermanual);
+                        DigiCareLogger.d(TAG, "Manual videoListSize : " + mVideoList.size());
                         mConfigManager.setViewProductDetailsData(viewProductDetailsData);
+                        if(mPrxCallback != null)
+                            mPrxCallback.onResponseReceived(null);
 
                     }
                 }
