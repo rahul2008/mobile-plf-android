@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.payment;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,6 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsHo
     private List<PaymentMethod> mPaymentMethodList;
     private PaymentMethod mSelectedPaymentMethod;
     private int mSelectedIndex;
-    private Drawable mOptionsDrawable;
-    private int mOptionsClickPosition = -1;
 
     public PaymentMethodsAdapter(final Context context, final List<PaymentMethod> paymentMethods) {
         mContext = context;
