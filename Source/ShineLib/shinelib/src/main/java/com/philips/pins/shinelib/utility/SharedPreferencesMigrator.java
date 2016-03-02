@@ -19,6 +19,8 @@ public class SharedPreferencesMigrator {
         moveUserData();
         moveAssociatedDevices();
         movePersistentData();
+
+        sourceFactory.getPersistentStorageCleaner().clearAllData();
     }
 
     private void moveUserData() {

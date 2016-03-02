@@ -48,6 +48,9 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
     @Mock
     private PersistentStorage devicePersistentStorageMock;
 
+    @Mock
+    private PersistentStorageCleaner persistentStorageCleaner;
+
     private SharedPreferencesMigrator sharedPreferencesMigrator;
 
     private Map<String, Object> keyMap;
@@ -55,6 +58,8 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+
+        when(sourcePersistentStorageFactoryMock.getPersistentStorageCleaner()).thenReturn(persistentStorageCleaner);
 
         when(sourcePersistentStorageFactoryMock.getPersistentStorageForUser()).thenReturn(userPersistentStorageMock);
         when(sourcePersistentStorageFactoryMock.getPersistentStorageForDeviceAddresses()).thenReturn(deviceAdressesPersistentStorageMock);
@@ -148,17 +153,17 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
 
     @Test
     public void shouldMoveAllDeviceDataWhenExecuteIsCalled() throws Exception {
-        when(devicePersistentStorageMock.get(KEY_1, null)).thenReturn(VALUE_1_STRING);
-        when(devicePersistentStorageMock.get(KEY_2, null)).thenReturn(VALUE_2_INT);
+        when(deviceAdressesPersistentStorageMock.getString(KEY_1, null)).thenReturn(VALUE_1_STRING);
+        when(deviceAdressesPersistentStorageMock.getString(KEY_2, null)).thenReturn(VALUE_1_STRING);
         keyMap.clear();
         keyMap.put(KEY_1, VALUE_1_STRING);
-        keyMap.put(KEY_2, VALUE_2_INT);
+        keyMap.put(KEY_2, VALUE_1_STRING);
 
         sharedPreferencesMigrator.execute();
 
         verify(devicePersistentStorageMock, times(2)).getAll();
 
-        verify(userPersistentStorageMock, times(2)).put(anyString(), any());
+        verify(devicePersistentStorageMock, times(4)).put(anyString(), any());
     }
 
     @Test
@@ -181,5 +186,13 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
 
         verify(destinationPersistentStorageFactoryMock).getPersistentStorage();
         verify(persistentStorageMock, times(4)).put(anyString(), any());
+    }
+
+    @Test
+    public void shouldClearOldPersistentStorage() throws Exception {
+        sharedPreferencesMigrator.execute();
+
+        verify(sourcePersistentStorageFactoryMock).getPersistentStorageCleaner();
+        verify(persistentStorageCleaner).clearAllData();
     }
 }
