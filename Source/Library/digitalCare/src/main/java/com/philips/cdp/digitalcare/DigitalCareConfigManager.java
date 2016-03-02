@@ -154,6 +154,8 @@ public class DigitalCareConfigManager {
 
         if (productModelSelectionType != null) {
             mProductModelSelectionType = productModelSelectionType;
+            if (productModelSelectionType.getHardCodedProductList().length == 0)
+                throw new IllegalStateException("Please make sure to set valid CTN before invoke");
         } else
             throw new IllegalArgumentException("Please make sure to set the valid ProductModelSelectionType object");
 

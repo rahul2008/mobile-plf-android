@@ -415,24 +415,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
-        ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
-            @Override
-            public void onSuccess(List<SummaryModel> summaryModels) {
-                int numberOfModels = summaryModels.size();
-                if (mProductChangeButton != null) {
-                    mProductChangeButton.setClickable(true);
-                }
-
-                if (numberOfModels > 0) {
-                    DigiCareLogger.d(TAG, "Products available of size " + numberOfModels);
-                } else
-                    mProductChangeButton.setVisibility(View.GONE);
-            }
-        });
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel summaryModel) {
-                updateSummaryData(summaryModel);
+                if (summaryModel != null) {
+                    updateSummaryData(summaryModel);
+                } else {
+                    mProductChangeButton.setClickable(true);
+                    mProductChangeButton.setVisibility(View.GONE);
+                }
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(mFragmentLauncher, DigitalCareConfigManager.getInstance()
@@ -452,24 +443,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getmUiKitTheme());
         uiLauncher.setAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().getEnterAnimation(),
                 DigitalCareConfigManager.getInstance().getUiLauncher().getExitAnimation());
-        ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
-            @Override
-            public void onSuccess(List<SummaryModel> summaryModels) {
-                int numberOfModels = summaryModels.size();
-                if (mProductChangeButton != null) {
-                    mProductChangeButton.setClickable(true);
-                }
-                if (numberOfModels > 0) {
-                    DigiCareLogger.d(TAG, "Products available of size " + numberOfModels);
-                } else
-                    mProductChangeButton.setVisibility(View.GONE);
-            }
-        });
-
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel summaryModel) {
-                updateSummaryData(summaryModel);
+                if (summaryModel != null) {
+                    updateSummaryData(summaryModel);
+                } else {
+                    mProductChangeButton.setClickable(true);
+                    mProductChangeButton.setVisibility(View.GONE);
+                }
             }
         });
 
