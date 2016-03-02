@@ -3,7 +3,9 @@ package com.philips.cdp.di.iap.model;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,8 +14,8 @@ import java.util.Map;
  */
 public class SetDeliveryAddressModeRequest extends AbstractModel {
 
-    public SetDeliveryAddressModeRequest(final Store store, final Map<String, String> query) {
-        super(store, query);
+    public SetDeliveryAddressModeRequest(final Store store, final Map<String, String> query, DataLoadListener listener) {
+        super(store, query,listener);
     }
 
     @Override
@@ -23,7 +25,7 @@ public class SetDeliveryAddressModeRequest extends AbstractModel {
 
     @Override
     public Object parseResponse(final Object response) {
-        return null;
+        return IAPConstant.IAP_SUCCESS;
     }
 
     @Override
@@ -33,11 +35,13 @@ public class SetDeliveryAddressModeRequest extends AbstractModel {
 
     @Override
     public Map<String, String> requestBody() {
-        return null;
+        HashMap<String, String> query = new HashMap<String, String>();
+        query.put(ModelConstants.DEVLVERY_MODE_ID, "standard-gross");
+        return query;
     }
 
     @Override
     public String getTestUrl() {
-        return NetworkConstants.SET_DELIVERY_ADDRESS_URL;
+        return NetworkConstants.SET_DELIVERY_MODE_URL;
     }
 }

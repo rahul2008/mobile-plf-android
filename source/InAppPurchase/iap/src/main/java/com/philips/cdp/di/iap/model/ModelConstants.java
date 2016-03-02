@@ -26,4 +26,7 @@ public class ModelConstants {
     public static final String ADDRESS_ID = "addressId";
     public static final String DEFAULT_ADDRESS = "default_address";
     public static final String EMAIL_ADDRESS = "email_address";
+
+
+    public static final String DEVLVERY_MODE_ID = "deliveryModeId";
 }

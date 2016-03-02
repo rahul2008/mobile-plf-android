@@ -60,11 +60,16 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         bindCancelListener();
         sendShippingAddressesRequest();
 
+        registerEvents();
+        return view;
+    }
+
+    public void registerEvents() {
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().registerEventNotification(EditDeletePopUP.EVENT_DELETE, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
         EventHelper.getInstance().registerEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
-        return view;
+        EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
     }
 
     public void bindCancelListener() {
@@ -109,10 +114,15 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unregisterEvents();
+    }
+
+    public void unregisterEvents() {
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_EDIT, this);
         EventHelper.getInstance().unregisterEventNotification(EditDeletePopUP.EVENT_DELETE, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.ORDER_SUMMARY_FRAGMENT, this);
         EventHelper.getInstance().unregisterEventNotification(IAPConstant.SHIPPING_ADDRESS_FRAGMENT, this);
+        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_DELIVERY_ADDRESS, this);
     }
 
     @Override
@@ -144,17 +154,26 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
-
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            mAddrController.setDeliveryMode();
+        } else {
+            Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
+            Utility.dismissProgressDialog();
+        }
     }
 
     @Override
     public void onGetDeliveryAddress(final Message msg) {
-
     }
 
     @Override
     public void onSetDeliveryModes(final Message msg) {
-
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            checkPaymentDetails();
+        } else {
+            Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
+            Utility.dismissProgressDialog();
+        }
     }
 
     @Override
@@ -177,32 +196,32 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onEventReceived(final String event) {
         IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onEventReceived = " + event);
-        if (!TextUtils.isEmpty(event)) {
-            if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
-                HashMap<String, String> addressHashMap = updateShippingAddress();
-                moveToShippingAddressFragment(addressHashMap);
-            } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
-                deleteShippingAddress();
-            }
-        }
-        if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
+        if(TextUtils.isEmpty(event)) return;
 
-            PaymentController paymentController = new PaymentController(mContext, this);
-
-            if (!Utility.isProgressDialogShowing()) {
-                if (Utility.isInternetConnected(mContext)) {
-                    Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
-                    paymentController.getPaymentDetails();
-                } else {
-                    NetworkUtility.getInstance().showNetworkError(mContext);
-                }
-            }
-        }
-        if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
+        if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
+            HashMap<String, String> addressHashMap = updateShippingAddress();
+            moveToShippingAddressFragment(addressHashMap);
+        } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
+            deleteShippingAddress();
+        } else if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             //addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
+        } else if(event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
+            Utility.showProgressDialog(getContext(),getResources().getString(R.string.iap_please_wait));
+            mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+        }
+    }
+
+    public void checkPaymentDetails() {
+        PaymentController paymentController = new PaymentController(mContext, this);
+
+        if (Utility.isInternetConnected(mContext)) {
+            paymentController.getPaymentDetails();
+        } else {
+            NetworkUtility.getInstance().showNetworkError(mContext);
+            Utility.dismissProgressDialog();
         }
     }
 
