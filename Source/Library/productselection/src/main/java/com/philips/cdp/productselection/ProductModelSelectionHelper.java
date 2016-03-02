@@ -35,9 +35,7 @@ public class ProductModelSelectionHelper {
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private static Context mContext = null;
     private static Locale mLocale = null;
-    // private ProductModelSelectionListener mProductSelectionListener = null;
     private ProductSelectionListener mProductSelectionListener = null;
-    private SummaryDataListener mSummaryDataListener = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
     private ProgressDialog mProgressDialog = null;
@@ -128,9 +126,6 @@ public class ProductModelSelectionHelper {
                     for (int i = 0; i < summaryModels.size(); i++)
                         ctnArray[i] = summaryModels.get(i);
                     productModelSelectionType.setProductModelList(ctnArray);
-                    if (mSummaryDataListener != null)
-                        mSummaryDataListener.onSuccess(summaryModels);
-
                     if (uiLauncher instanceof ActivityLauncher) {
                         ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
                         invokeAsActivity(uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
@@ -140,8 +135,8 @@ public class ProductModelSelectionHelper {
                                 fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
                     }
                 } else {
-                    if (mSummaryDataListener != null)
-                        mSummaryDataListener.onSuccess(summaryModels);
+                    if (mProductSelectionListener != null)
+                        mProductSelectionListener.onProductModelSelected(null);
                 }
             }
         }, productModelSelectionType.getHardCodedProductList(), null);
@@ -214,10 +209,6 @@ public class ProductModelSelectionHelper {
 
     public void setProductSelectionListener(ProductSelectionListener mProductListener) {
         this.mProductSelectionListener = mProductListener;
-    }
-
-    public void setSummaryDataListener(SummaryDataListener summaryDataListener) {
-        this.mSummaryDataListener = summaryDataListener;
     }
 
     public void setLocale(String langCode, String countryCode) {
