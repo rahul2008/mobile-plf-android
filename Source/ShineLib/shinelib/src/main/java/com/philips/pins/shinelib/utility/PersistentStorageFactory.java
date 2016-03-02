@@ -69,7 +69,7 @@ public class PersistentStorageFactory {
 
     @NonNull
     private SharedPreferences getSharedPreferences(String key) {
-        key = String.format("%s_%s", sharedPreferencesProvider.getSharedPreferencesPrefix(), key);
+        key = String.format("%s%s", sharedPreferencesProvider.getSharedPreferencesPrefix(), key);
         return sharedPreferencesProvider.getSharedPreferences(key, Context.MODE_PRIVATE);
     }
 }
