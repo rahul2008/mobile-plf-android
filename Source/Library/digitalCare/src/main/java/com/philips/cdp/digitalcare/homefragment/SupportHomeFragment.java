@@ -412,6 +412,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
         }
+        FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
@@ -426,7 +427,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                 }
             }
         });
-        ProductModelSelectionHelper.getInstance().invokeProductSelection(mFragmentLauncher, DigitalCareConfigManager.getInstance()
+        ProductModelSelectionHelper.getInstance().invokeProductSelection(fragmentLauncher, DigitalCareConfigManager.getInstance()
                 .getProductModelSelectionType());
         ProductSelectionLogger.enableLogging();
     }
