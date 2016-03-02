@@ -28,20 +28,20 @@ public class PersistentStorageTest extends RobolectricTest {
     @Mock
     private SHNLogger.LoggerImplementation loggerMock;
 
-    private SharedPreferencesHelper preferencesHelper;
+    private PersistentStorage persistentStorage;
 
     @Before
     public void setUp() {
         initMocks(this);
 
         SharedPreferences sharedPreferences = RuntimeEnvironment.application.getSharedPreferences("testPreferences", Context.MODE_PRIVATE);
-        preferencesHelper = new SharedPreferencesHelper(sharedPreferences);
+        persistentStorage = new PersistentStorage(sharedPreferences);
     }
 
     @Test
     public void whenBooleanIsPut_thenIsCanBeReturnedUsingGet() {
-        preferencesHelper.put(KEY, true);
-        boolean res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, true);
+        boolean res = persistentStorage.get(KEY);
 
         assertThat(res).isTrue();
     }
@@ -49,8 +49,8 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenDoubleIsPut_thenItCanBeRetrievedUsingGet() {
         double value = 35.1356;
-        preferencesHelper.put(KEY, value);
-        double result = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        double result = persistentStorage.get(KEY);
 
         assertThat(result).isEqualTo(value, within(0.01));
     }
@@ -58,8 +58,8 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenShortMaxIsPut_thenIsCanBeReturnedUsingGet() {
         short value = Short.MAX_VALUE;
-        preferencesHelper.put(KEY, value);
-        short res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        short res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(value);
     }
@@ -67,8 +67,8 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenShortMinIsPut_thenIsCanBeReturnedUsingGet() {
         short value = Short.MIN_VALUE;
-        preferencesHelper.put(KEY, value);
-        short res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        short res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(value);
     }
@@ -76,8 +76,8 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenIntIsPut_thenIsCanBeReturnedUsingGet() {
         int value = 222;
-        preferencesHelper.put(KEY, value);
-        int res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        int res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(value);
     }
@@ -85,8 +85,8 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenEnumIsPut_thenIsCanBeReturnedUsingGet() {
         SHNCapabilityType value = SHNCapabilityType.DATA_STREAMING;
-        preferencesHelper.put(KEY, value);
-        SHNCapabilityType res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        SHNCapabilityType res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(value);
     }
@@ -94,8 +94,8 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenFloatIsPut_thenIsCanBeReturnedUsingGet() {
         float value = 333f;
-        preferencesHelper.put(KEY, value);
-        float res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        float res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(value);
     }
@@ -103,8 +103,8 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenLongIsPut_thenIsCanBeReturnedUsingGet() {
         long value = 444l;
-        preferencesHelper.put(KEY, value);
-        long res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        long res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(value);
     }
@@ -112,8 +112,8 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenStringIsPut_thenIsCanBeReturnedUsingGet() {
         String value = "TEST";
-        preferencesHelper.put(KEY, value);
-        String res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        String res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(value);
     }
@@ -122,8 +122,8 @@ public class PersistentStorageTest extends RobolectricTest {
     public void whenStringSetIsPut_thenIsCanBeReturnedUsingGet() {
         HashSet<String> value = new HashSet<>();
         value.add("TEST");
-        preferencesHelper.put(KEY, value);
-        Set<String> res = preferencesHelper.get(KEY);
+        persistentStorage.put(KEY, value);
+        Set<String> res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(value);
     }
@@ -131,14 +131,14 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenGetIsCalledForUnknownKey_thenDefaultValueIsReturned() {
         Object expected = new Object();
-        Object actual = preferencesHelper.get("SomeRandomKey", expected);
+        Object actual = persistentStorage.get("SomeRandomKey", expected);
 
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     public void whenNoListIsSet_thenNullIsReturnedWhenUsingGet() {
-        List<Integer> res = preferencesHelper.get(KEY);
+        List<Integer> res = persistentStorage.get(KEY);
         assertNull(res);
     }
 
@@ -148,9 +148,9 @@ public class PersistentStorageTest extends RobolectricTest {
         testList.add(4);
         testList.add(2);
         testList.add(923);
-        preferencesHelper.put(KEY, testList);
+        persistentStorage.put(KEY, testList);
 
-        List<Integer> res = preferencesHelper.get(KEY);
+        List<Integer> res = persistentStorage.get(KEY);
 
         assertThat(res).isEqualTo(testList);
     }
@@ -158,10 +158,10 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenNullIsPassedForABooleanKey_thenTheIntWillBeDeleted() {
         boolean value = true;
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        Boolean res = preferencesHelper.get(KEY);
+        Boolean res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -169,10 +169,10 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenNullIsPassedForAIntKey_thenTheIntWillBeDeleted() {
         int value = 222;
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        Integer res = preferencesHelper.get(KEY);
+        Integer res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -180,10 +180,10 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenNullIsPassedForAFloatKey_thenTheIntWillBeDeleted() {
         float value = 222.f;
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        Float res = preferencesHelper.get(KEY);
+        Float res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -191,10 +191,10 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenNullIsPassedForADoubleKey_thenTheIntWillBeDeleted() {
         double value = 222.0;
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        Double res = preferencesHelper.get(KEY);
+        Double res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -202,10 +202,10 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenNullIsPassedForALongKey_thenTheIntWillBeDeleted() {
         long value = 222;
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        Long res = preferencesHelper.get(KEY);
+        Long res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -213,10 +213,10 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenNullIsPassedForAStringKey_thenTheIntWillBeDeleted() {
         String value = "TEST";
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        String res = preferencesHelper.get(KEY);
+        String res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -224,10 +224,10 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenNullIsPassedForAShortKey_thenTheIntWillBeDeleted() {
         short value = 222;
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        Short res = preferencesHelper.get(KEY);
+        Short res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -235,10 +235,10 @@ public class PersistentStorageTest extends RobolectricTest {
     @Test
     public void whenNullIsPassedForAEnumKey_thenTheIntWillBeDeleted() {
         SHNCapabilityType value = SHNCapabilityType.DATA_STREAMING;
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        Short res = preferencesHelper.get(KEY);
+        Short res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -247,10 +247,10 @@ public class PersistentStorageTest extends RobolectricTest {
     public void whenNullIsPassedForASetKey_thenTheIntWillBeDeleted() {
         HashSet<String> value = new HashSet<>();
         value.add("TEST");
-        preferencesHelper.put(KEY, value);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, value);
+        persistentStorage.put(KEY, null);
 
-        Set res = preferencesHelper.get(KEY);
+        Set res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
@@ -259,19 +259,19 @@ public class PersistentStorageTest extends RobolectricTest {
     public void whenNullIsPassedForAListKey_thenTheIntWillBeDeleted() {
         List<Integer> testList = new ArrayList<>();
         testList.add(923);
-        preferencesHelper.put(KEY, testList);
-        preferencesHelper.put(KEY, null);
+        persistentStorage.put(KEY, testList);
+        persistentStorage.put(KEY, null);
 
-        Set res = preferencesHelper.get(KEY);
+        Set res = persistentStorage.get(KEY);
 
         assertThat(res).isNull();
     }
 
     @Test
     public void whenClearIsCalled_ThenAllDataIsCleared() {
-        preferencesHelper.put(KEY, true);
-        preferencesHelper.clear();
-        boolean res = preferencesHelper.contains(KEY);
+        persistentStorage.put(KEY, true);
+        persistentStorage.clear();
+        boolean res = persistentStorage.contains(KEY);
 
         assertThat(res).isFalse();
     }
