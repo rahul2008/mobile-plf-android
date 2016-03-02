@@ -25,16 +25,14 @@ import java.util.Map;
 public class PrxRequest extends Request<JSONObject> {
 
     private Listener<JSONObject> mResponseListener;
-    private ResponseListener responseListener;
     private ErrorListener mErrorListener;
     private Map<String, String> params, headers;
 
-    public PrxRequest(final int method, final String url, final Map<String, String> params, final Map<String, String> headers, final ResponseListener responseListener, final PrxDataBuilder prxDataBuilder) {
-        this(method, url, getErrorListener(responseListener));
+    public PrxRequest(final int method, final String url, final Map<String, String> params, final Map<String, String> headers, Response.Listener<JSONObject> responseListener, final Response.ErrorListener errorListener) {
+        this(method, url, errorListener);
         this.params = params;
         this.headers = headers;
-        this.responseListener = responseListener;
-        this.mResponseListener = getOnResponseListener(responseListener, prxDataBuilder);
+        this.mResponseListener = responseListener;
     }
 
     private PrxRequest(int method, String url, ErrorListener errorListener) {
@@ -122,9 +120,4 @@ public class PrxRequest extends Request<JSONObject> {
     public void deliverError(VolleyError error) {
         mErrorListener.onErrorResponse(error);
     }
-
-    public ResponseListener getResponseListener() {
-        return responseListener;
-    }
-
 }

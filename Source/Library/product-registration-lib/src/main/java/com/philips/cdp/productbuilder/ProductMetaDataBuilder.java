@@ -8,6 +8,8 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
+import java.util.Map;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -34,6 +36,16 @@ public class ProductMetaDataBuilder extends RegistrationDataBuilder {
     @Override
     public String getRequestUrl() {
         return generateUrl();
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getParams() {
+        return null;
     }
 
     private String generateUrl() {

@@ -25,9 +25,9 @@ public class RequestManager {
         mContext = applicationContext;
     }
 
-    public void executeRequest(int requestType, PrxDataBuilder prxDataBuilder, PrxRequest prxRequest) {
+    public void executeRequest(int requestType, PrxDataBuilder prxDataBuilder, ResponseListener listener) {
         String[] locales = prxDataBuilder.getLocale().split("_");
-        setLocale(locales[0], locales[1], requestType, prxDataBuilder, prxRequest);
+        setLocale(locales[0], locales[1], requestType, prxDataBuilder, listener);
     }
 
     public void executeRequest(PrxDataBuilder prxDataBuilder, ResponseListener responseListener) {
@@ -37,11 +37,7 @@ public class RequestManager {
     public void cancelRequest(String requestTag) {
     }
 
-    public void executeCustomRequest(final PrxRequest prxRequest) {
-        new NetworkWrapper(mContext).executeCustomRequest(prxRequest);
-    }
-
-    private void setLocale(String languageCode, String countryCode, final int requestType, final PrxDataBuilder prxDataBuilder, final PrxRequest prxRequest) {
+    private void setLocale(String languageCode, String countryCode, final int requestType, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
         final PILLocaleManager pilLocaleManager = new PILLocaleManager();
         final String[] mLocale = new String[1];
         pilLocaleManager.init(mContext, new LocaleMatchListener() {
@@ -51,22 +47,21 @@ public class RequestManager {
                         mLocale[0] = pilLocaleInstance.getLanguageCode() + "_" + pilLocaleInstance.getCountrycode();
                         prxDataBuilder.setmLocale(mLocale[0]);
 
-                        makeRequest(requestType, prxDataBuilder, prxRequest);
+                        makeRequest(requestType, prxDataBuilder, listener);
                     }
 
                     public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
                         PrxLogger.d(getClass() + "", error.toString());
-                        makeRequest(requestType, prxDataBuilder, prxRequest);
+                        makeRequest(requestType, prxDataBuilder, listener);
                     }
                 }
         );
         pilLocaleManager.refresh(mContext, languageCode, countryCode);
     }
 
-    private void makeRequest(final int requestType, final PrxDataBuilder prxDataBuilder, final PrxRequest prxRequest) {
+    private void makeRequest(final int requestType, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
         try {
-            PrxRequest request = new PrxRequest(requestType, prxDataBuilder.getRequestUrl(), prxRequest.getParams(), prxRequest.getHeaders(), prxRequest.getResponseListener(), prxDataBuilder);
-            new NetworkWrapper(mContext).executeCustomRequest(request);
+            new NetworkWrapper(mContext).executeCustomRequest(requestType, prxDataBuilder, listener);
         } catch (Exception e) {
             e.printStackTrace();
         }

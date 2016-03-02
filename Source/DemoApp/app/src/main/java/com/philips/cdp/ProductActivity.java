@@ -15,13 +15,10 @@ import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.model.ProductMetaData;
 import com.philips.cdp.model.ProductResponse;
-import com.philips.cdp.productbuilder.ProductMetaDataBuilder;
 import com.philips.cdp.productbuilder.RegisteredBuilder;
 import com.philips.cdp.productbuilder.RegistrationBuilder;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
-import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
@@ -35,8 +32,6 @@ import java.util.Calendar;
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText regChannel, serialNumber, purchaseDate, ctn;
-    private String mCtn = "HD8969/09";
-    private String mSectorCode = "B2C";
     private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
     private String TAG = getClass().toString();
@@ -117,38 +112,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    private void productMetaData(final String accessToken) {
-        PrxLogger.enablePrxLogger(true);
-
-        ProductMetaDataBuilder productMetaDataBuilder = new ProductMetaDataBuilder(mCtn, accessToken);
-        productMetaDataBuilder.setmSectorCode(mSectorCode);
-        productMetaDataBuilder.setmLocale(mLocale);
-        productMetaDataBuilder.setmCatalogCode(mCatalogCode);
-
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(this);
-        mRequestManager.executeRequest(productMetaDataBuilder, new ResponseListener() {
-            @Override
-            public void onResponseSuccess(ResponseData responseData) {
-                ProductMetaData productMetaData = (ProductMetaData) responseData;
-                Log.d(TAG, "productMetaData Response Data : " + productMetaData.isSuccess());
-                Toast.makeText(ProductActivity.this, "productMetaData Response Data : " + productMetaData.isSuccess(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponseError(String error, int code) {
-                Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
-                Toast.makeText(ProductActivity.this, "error in response", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     @Override
     public void onClick(View v) {
         final User mUser = new User(this);
         if (mUser.isUserSignIn(ProductActivity.this) && mUser.getEmailVerificationStatus(ProductActivity.this)) {
             Toast.makeText(ProductActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
-            registerProduct(mUser.getAccessToken());
+            registeredProduct(mUser.getAccessToken());
         } else {
             Toast.makeText(ProductActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
             ProductLog.producrlog(ProductLog.ONCLICK, "On Click : User Registration");

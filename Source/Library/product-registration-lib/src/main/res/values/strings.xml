@@ -3,4 +3,5 @@
     <string name="metadata_error">error in getting metadata</string>
     <string name="serial_number_invalid_format">Error in Serial number format</string>
     <string name="volley_error">"Volley Error : "</string>
+    <string name="date_format_error">Invalid date format</string>
 </resources>

@@ -2,13 +2,16 @@ package com.philips.cdp.prxclient.network;
 
 import android.content.Context;
 
-import com.android.volley.Request;
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.PrxRequest;
 import com.philips.cdp.prxclient.SSLCertificateManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -64,7 +67,31 @@ public class NetworkWrapper {
         mVolleyRequest.add(mJsonObjectRequest);
     }
 
-    public void executeCustomRequest(final Request request) {
+    public void executeCustomRequest(final int requestType, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+        PrxRequest request = new PrxRequest(requestType, prxDataBuilder.getRequestUrl(), prxDataBuilder.getParams(), prxDataBuilder.getHeaders(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(final JSONObject response) {
+                ResponseData responseData = prxDataBuilder.getResponseData(response);
+                listener.onResponseSuccess(responseData);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(final VolleyError error) {
+                if (error != null) {
+                    final NetworkResponse networkResponse = error.networkResponse;
+                    try {
+                        if (networkResponse != null)
+                            listener.onResponseError(error.toString(), networkResponse.statusCode);
+                        else if (error instanceof NoConnectionError) {
+                            listener.onResponseError("No internet connection", ErrorType.NO_INTERNET_CONNECTION.getId());
+                        } else
+                            listener.onResponseError(ErrorType.UNKNOWN.getDescription(), ErrorType.UNKNOWN.getId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
         if (isHttpsRequest)
             SSLCertificateManager.setSSLSocketFactory();
         mVolleyRequest.add(request);

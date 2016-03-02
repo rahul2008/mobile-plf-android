@@ -6,6 +6,8 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
+import java.util.Map;
+
 /**
  * Description : This is the URL Builder base class to build all the PRX relevent URL's.
  * Project : PRX Common Component.
@@ -51,6 +53,10 @@ public abstract class PrxDataBuilder {
     public abstract ResponseData getResponseData(JSONObject jsonObject);
 
     public abstract String getRequestUrl();
+
+    public abstract Map<String, String> getHeaders();
+
+    public abstract Map<String, String> getParams();
 
     public Sector getSector() {
         return sector;

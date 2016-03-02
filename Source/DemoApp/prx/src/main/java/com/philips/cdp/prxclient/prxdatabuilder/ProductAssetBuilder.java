@@ -5,6 +5,8 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
+import java.util.Map;
+
 /**
  * Description :
  * Project : PRX Common Component.
@@ -30,5 +32,15 @@ public class ProductAssetBuilder extends PrxDataBuilder {
     public String getRequestUrl() {
         return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(), getLocale(),
                 getCatalogCode(), mCtn);
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getParams() {
+        return null;
     }
 }
