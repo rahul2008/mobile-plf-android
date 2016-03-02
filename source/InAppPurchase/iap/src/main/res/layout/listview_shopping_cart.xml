@@ -59,35 +59,39 @@
             android:scrollHorizontally="false"
             android:text="DiamondClean"/>
 
-        <TextView
-            android:id="@+id/text2value"
-            style="@style/tvTitle"
-            android:layout_below="@+id/text1Name"
+        <RelativeLayout
+            android:id="@+id/quantity_count_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginTop="3dp"
-            android:layout_toEndOf="@+id/from"
-            android:layout_toRightOf="@+id/from"
-            android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
-            android:text="2"
-            android:textColor="?attr/baseColor"
-            android:textSize="10sp"/>
-
+            android:layout_below="@+id/text1Name">
+            <TextView
+                android:id="@+id/from"
+                style="@style/tvTitle"
+                android:layout_marginRight="3dp"
+                android:text="from"/>
+            <TextView
+                android:id="@+id/text2value"
+                style="@style/tvTitle"
+                android:layout_alignBaseline="@id/from"
+                android:layout_toRightOf="@id/from"
+                android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
+                android:textColor="?attr/baseColor"
+                android:textSize="14sp"/>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/out_of_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text1Name"
-            android:layout_toRightOf="@id/text2value"
+            android:layout_toRightOf="@id/quantity_count_layout"
             android:text="@string/out_of_stock"
             android:textColor="@android:color/holo_red_dark"
             android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/from"
-            style="@style/tvTitle"
-            android:layout_alignBaseline="@id/text2value"
-            android:layout_marginRight="3dp"
-            android:text="from"/>
+
     </RelativeLayout>
 
 </RelativeLayout>
