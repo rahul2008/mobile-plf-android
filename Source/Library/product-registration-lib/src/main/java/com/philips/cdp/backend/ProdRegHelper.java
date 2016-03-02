@@ -2,6 +2,7 @@ package com.philips.cdp.backend;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.model.ProductData;
@@ -17,8 +18,8 @@ import com.philips.cdp.prxclient.RequestType;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.UserWithProduct;
-import com.philips.cdp.registration.handlers.ProductRegistrationHandler;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -153,20 +154,21 @@ public class ProdRegHelper {
     }
 
     private void onAccessTokenExpire(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
-        UserWithProduct userWithProduct = new UserWithProduct(mContext);
-        userWithProduct.getRefreshedAccessToken(new ProductRegistrationHandler() {
+        final User user = new User(mContext);
+        user.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
-            public void onRegisterSuccess(final String response) {
+            public void onRefreshLoginSessionSuccess() {
+                String response = user.getAccessToken();
                 RegistrationDataBuilder registrationDataBuilder = (RegistrationDataBuilder) prxDataBuilder;
                 registrationDataBuilder.setAccessToken(response);
                 validateRequests(mContext, prxDataBuilder, listener);
             }
 
             @Override
-            public void onRegisterFailedWithFailure(final int error) {
-                return;
+            public void onRefreshLoginSessionFailedWithError(final int error) {
+                Log.d(TAG, "error in refreshing session");
             }
-        });
+        }, mContext);
     }
 
     public void getRegisteredProduct(final Context context, PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
