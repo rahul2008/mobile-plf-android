@@ -150,7 +150,7 @@ public class SHNCentral {
         shnUserConfigurationImpl = new SHNUserConfigurationImpl(persistentStorageFactory, getInternalHandler(), new SHNUserConfigurationCalculations());
     }
 
-    /* package */ SharedPreferencesMigrator createSharedPreferencesMigrator(SharedPreferencesProvider source, SharedPreferencesProvider destination) {
+    /* package */ SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
         return new SharedPreferencesMigrator(source, destination);
     }
 
@@ -234,21 +234,21 @@ public class SHNCentral {
     }
 
     private PersistentStorageFactory setUpPersistentStorageFactory(Context context, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateFromDefaultProviderToCustom) {
-        PersistentStorageFactory persistentStorageFactory;
+        PersistentStorageFactory defaultPersistentStorageFactory = createPersistentStorageFactory(defaultSharedpreferencesProvider);
 
         if (customSharedPreferencesProvider == null) {
             migrateData(context, defaultSharedpreferencesProvider);
-            persistentStorageFactory = createPersistentStorageFactory(defaultSharedpreferencesProvider);
+            return defaultPersistentStorageFactory;
         } else {
-            SharedPreferencesMigrator sharedPreferencesMigrator = createSharedPreferencesMigrator(defaultSharedpreferencesProvider, customSharedPreferencesProvider);
+            PersistentStorageFactory customPersistentStorageFactory = createPersistentStorageFactory(customSharedPreferencesProvider);
+
+            SharedPreferencesMigrator sharedPreferencesMigrator = createSharedPreferencesMigrator(defaultPersistentStorageFactory, customPersistentStorageFactory);
             if (!sharedPreferencesMigrator.destinationContainsData() && migrateFromDefaultProviderToCustom) {
                 migrateData(context, defaultSharedpreferencesProvider);
                 sharedPreferencesMigrator.execute();
             }
-            persistentStorageFactory = createPersistentStorageFactory(customSharedPreferencesProvider);
+            return customPersistentStorageFactory;
         }
-
-        return persistentStorageFactory;
     }
 
     private void migrateData(Context context, SharedPreferencesProvider sharedPreferencesProvider) {

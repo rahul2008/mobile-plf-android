@@ -153,7 +153,7 @@ public class SHNCentralTest extends RobolectricTest {
     private void createSHNCentral(final SharedPreferencesProvider mockedSharedPreferencesProvider, boolean migrateFromDefaultProviderToCustom) throws SHNBluetoothHardwareUnavailableException {
         new SHNCentral(mockedUserHandler.getMock(), mockedContext, false, mockedSharedPreferencesProvider, migrateFromDefaultProviderToCustom) {
             @Override
-            SharedPreferencesMigrator createSharedPreferencesMigrator(SharedPreferencesProvider source, SharedPreferencesProvider destination) {
+            SharedPreferencesMigrator createSharedPreferencesMigrator(PersistentStorageFactory source, PersistentStorageFactory destination) {
                 return mockedSharedPreferencesMigrator;
             }
 
