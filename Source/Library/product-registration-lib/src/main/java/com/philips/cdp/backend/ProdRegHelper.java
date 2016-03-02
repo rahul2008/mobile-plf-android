@@ -56,7 +56,8 @@ public class ProdRegHelper {
             public void onResponseSuccess(ResponseData responseData) {
                 ProductMetaData productMetaData = (ProductMetaData) responseData;
                 ProductData productData = productMetaData.getData();
-                if (validateSerialNumberFromMetadata(productData, prxDataBuilder, listener) && validatePurchaseDateFromMetadata(productData, prxDataBuilder, listener))
+                if (validateSerialNumberFromMetadata(productData, prxDataBuilder, listener)
+                        && validatePurchaseDateFromMetadata(productData, prxDataBuilder, listener))
                     makeRegistrationRequest(context, prxDataBuilder, listener);
             }
 
