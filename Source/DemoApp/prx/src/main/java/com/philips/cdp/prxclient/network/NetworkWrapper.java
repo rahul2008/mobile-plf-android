@@ -1,6 +1,7 @@
 package com.philips.cdp.prxclient.network;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
@@ -18,6 +19,8 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
 import org.json.JSONObject;
+
+import prxclient.cdp.philips.com.prxclientlib.R;
 
 /**
  * Description : This is the Network Wrapper class.
@@ -68,13 +71,17 @@ public class NetworkWrapper {
     }
 
     public void executeCustomRequest(final int requestType, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
-        PrxRequest request = new PrxRequest(requestType, prxDataBuilder.getRequestUrl(), prxDataBuilder.getParams(), prxDataBuilder.getHeaders(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(final JSONObject response) {
-                ResponseData responseData = prxDataBuilder.getResponseData(response);
-                listener.onResponseSuccess(responseData);
-            }
-        }, new Response.ErrorListener() {
+        final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxDataBuilder, listener);
+        final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
+        PrxRequest request = new PrxRequest(requestType, prxDataBuilder.getRequestUrl(), prxDataBuilder.getParams(), prxDataBuilder.getHeaders(), responseListener, errorListener);
+        if (isHttpsRequest)
+            SSLCertificateManager.setSSLSocketFactory();
+        mVolleyRequest.add(request);
+    }
+
+    @NonNull
+    private Response.ErrorListener getVolleyErrorListener(final ResponseListener listener) {
+        return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
                 if (error != null) {
@@ -83,7 +90,7 @@ public class NetworkWrapper {
                         if (networkResponse != null)
                             listener.onResponseError(error.toString(), networkResponse.statusCode);
                         else if (error instanceof NoConnectionError) {
-                            listener.onResponseError("No internet connection", ErrorType.NO_INTERNET_CONNECTION.getId());
+                            listener.onResponseError(mContext.getString(R.string.no_internet_message), ErrorType.NO_INTERNET_CONNECTION.getId());
                         } else
                             listener.onResponseError(ErrorType.UNKNOWN.getDescription(), ErrorType.UNKNOWN.getId());
                     } catch (Exception e) {
@@ -91,12 +98,20 @@ public class NetworkWrapper {
                     }
                 }
             }
-        });
-        if (isHttpsRequest)
-            SSLCertificateManager.setSSLSocketFactory();
-        mVolleyRequest.add(request);
+        };
     }
-    
+
+    @NonNull
+    private Response.Listener<JSONObject> getVolleyResponseListener(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+        return new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(final JSONObject response) {
+                ResponseData responseData = prxDataBuilder.getResponseData(response);
+                listener.onResponseSuccess(responseData);
+            }
+        };
+    }
+
     public void setHttpsRequest(boolean isHttpsRequest) {
         this.isHttpsRequest = isHttpsRequest;
     }
