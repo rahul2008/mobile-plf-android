@@ -1,7 +1,10 @@
 package com.philips.cdp.di.iap.response.payment;
 
-public class PaymentMethod {
+import java.io.Serializable;
 
+public class PaymentMethod implements Serializable{
+
+    private static final long serialVersionUID = 1083630169028052247L;
     private String accountHolderName;
     private BillingAddress billingAddress;
     private String cardNumber;

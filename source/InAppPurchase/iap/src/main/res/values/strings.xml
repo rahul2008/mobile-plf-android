@@ -73,5 +73,6 @@
     <string name="iap_payment_method">Payment method</string>
     <string name="iap_use_payment_method">Use this payment method</string>
     <string name="iap_add_payment_method">Add a new payment method</string>
+    <string name="iap_valid_until">Valid until</string>
 
 </resources>

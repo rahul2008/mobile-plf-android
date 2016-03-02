@@ -1,9 +1,9 @@
 package com.philips.cdp.di.iap.response.payment;
 
-/**
- * Created by 310228564 on 3/1/2016.
- */
-public class BillingAddress {
+import java.io.Serializable;
+
+public class BillingAddress implements Serializable{
+    private static final long serialVersionUID = -8630783510798816126L;
     private Country country;
     private String firstName;
     private String id;
