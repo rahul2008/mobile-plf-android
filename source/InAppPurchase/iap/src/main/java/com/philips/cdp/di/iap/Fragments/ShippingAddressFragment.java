@@ -39,6 +39,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
         TextWatcher {
+    private static final String TAG = ShippingAddressFragment.class.getName();
     private Context mContext;
 
     private EditText mEtFirstName;
@@ -128,7 +129,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.UPDATE_ADDRESS:
-                Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+                IAPLog.d(TAG, msg.obj.toString());
                 break;
         }
     }
@@ -139,7 +141,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
         }
     }
 
@@ -152,8 +154,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
-            Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
-        } else {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
             Toast.makeText(mContext, "Navigate to payment screen", Toast.LENGTH_SHORT).show();
         }
     }

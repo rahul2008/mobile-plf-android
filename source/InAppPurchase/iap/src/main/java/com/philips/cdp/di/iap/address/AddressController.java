@@ -19,6 +19,8 @@ import com.philips.cdp.di.iap.model.UpdateAddressRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.HashMap;
@@ -29,6 +31,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
     private AddressListener mAddressListener;
     private HybrisDelegate mDelegate;
     private Store mStore;
+    private static final String TAG = AddressController.class.getName();
 
     public interface AddressListener {
         void onFetchAddressSuccess(Message msg);
@@ -182,12 +185,12 @@ public class AddressController implements AbstractModel.DataLoadListener {
         switch (requestCode) {
             case RequestCode.DELETE_ADDRESS:
                 mAddressListener.onFetchAddressFailure(msg);
-                Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                IAPLog.d(TAG, msg.obj.toString());
                 Utility.dismissProgressDialog();
                 break;
             case RequestCode.UPDATE_ADDRESS:
                 mAddressListener.onFetchAddressFailure(msg);
-                Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                IAPLog.d(TAG, msg.obj.toString());
                 Utility.dismissProgressDialog();
                 break;
             case RequestCode.CREATE_ADDRESS: {

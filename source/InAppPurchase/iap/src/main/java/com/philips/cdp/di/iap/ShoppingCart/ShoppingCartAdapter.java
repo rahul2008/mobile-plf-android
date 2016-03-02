@@ -17,13 +17,13 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
@@ -47,6 +47,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private ShoppingCartPresenter mPresenter;
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
+    private android.support.v4.app.FragmentManager mFragmentManager;
     //ShoppingCartData summary;
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager) {
@@ -55,6 +56,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
         mPresenter = new ShoppingCartPresenter(context, this,fragmentManager);
+        mFragmentManager = fragmentManager;
         setCountArrow(context);
     }
 
@@ -237,11 +239,11 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                                 mPopupWindow.dismiss();
                             }
                         }else{
-                            Toast.makeText(mContext,"Network Error",Toast.LENGTH_SHORT).show();
+                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
                         }
                         break;
                     case INFO:
-                        Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
                         break;
                     default:
                 }

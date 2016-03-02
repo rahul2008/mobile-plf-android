@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
@@ -129,6 +128,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onFetchAddressFailure(final Message msg) {
         // TODO: 2/19/2016 Fix error case scenario
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
         Utility.dismissProgressDialog();
         moveToShoppingCart();
     }
@@ -247,7 +247,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
-            Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
         } else {
             addFragment(
                     OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), null);

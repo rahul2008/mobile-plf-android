@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;

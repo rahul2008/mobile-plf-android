@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
@@ -157,7 +156,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onFetchAddressFailure(Message msg) {
         Utility.dismissProgressDialog();
-        Toast.makeText(mContext, "Network error", Toast.LENGTH_SHORT).show();
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
     }
 
     @Override
