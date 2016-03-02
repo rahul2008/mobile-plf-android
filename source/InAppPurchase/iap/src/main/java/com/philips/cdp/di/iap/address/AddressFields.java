@@ -9,6 +9,8 @@ import java.io.Serializable;
 
 public class AddressFields implements Serializable {
 
+    private static final long serialVersionUID = 8533528348900570462L;
+
     private String firstName;
     private String lastName;
     private String titleCode;

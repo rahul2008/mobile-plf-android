@@ -27,6 +27,8 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.payment.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.response.payment.PaymentMethod;
+import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -35,6 +37,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,6 +47,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private AddressController mAddrController;
     AddressSelectionAdapter mAdapter;
     private List<Addresses> mAddresses;
+    private List<PaymentMethod> mPaymentMethodsList;
     private Button mCancelButton;
     private Context mContext;
 
@@ -248,9 +252,15 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
             Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
-        } else {
+        } else if ((msg.obj instanceof PaymentMethods)){
+            PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
+            mPaymentMethodsList = mPaymentMethods.getPayments();
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, prepareAddressFields(retrieveSelectedAddress()));
+            bundle.putSerializable(IAPConstant.PAYMENT_FIELDS, (Serializable) mPaymentMethodsList);
             addFragment(
-                    OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }
 
