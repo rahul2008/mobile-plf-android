@@ -7,7 +7,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -55,6 +57,8 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
 
     private Map<String, Object> keyMap;
 
+    private Set<String> deviceAddresses;
+
     @Before
     public void setUp() throws Exception {
         initMocks(this);
@@ -75,6 +79,10 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
         doReturn(keyMap).when(deviceAdressesPersistentStorageMock).getAll();
         doReturn(keyMap).when(devicePersistentStorageMock).getAll();
         doReturn(keyMap).when(persistentStorageMock).getAll();
+
+        deviceAddresses = new HashSet<>();
+        deviceAddresses.add(TEST_DEVICE_1);
+        deviceAddresses.add(TEST_DEVICE_2);
 
         sharedPreferencesMigrator = new SharedPreferencesMigrator(sourcePersistentStorageFactoryMock, destinationPersistentStorageFactoryMock);
     }
@@ -133,11 +141,9 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
 
     @Test
     public void shouldMoveAllDeviceAddressesDataWhenExecuteIsCalled() throws Exception {
+        when(deviceAdressesPersistentStorageMock.getStringSet(KEY_1, null)).thenReturn(deviceAddresses);
         keyMap.clear();
-        when(deviceAdressesPersistentStorageMock.getString(KEY_1, null)).thenReturn(TEST_DEVICE_1);
-        when(deviceAdressesPersistentStorageMock.getString(KEY_2, null)).thenReturn(TEST_DEVICE_2);
-        keyMap.put(KEY_1, TEST_DEVICE_1);
-        keyMap.put(KEY_2, TEST_DEVICE_1);
+        keyMap.put(KEY_1, VALUE_1_STRING);
 
         sharedPreferencesMigrator.execute();
 
@@ -153,11 +159,15 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
 
     @Test
     public void shouldMoveAllDeviceDataWhenExecuteIsCalled() throws Exception {
-        when(deviceAdressesPersistentStorageMock.getString(KEY_1, null)).thenReturn(VALUE_1_STRING);
-        when(deviceAdressesPersistentStorageMock.getString(KEY_2, null)).thenReturn(VALUE_1_STRING);
+        when(deviceAdressesPersistentStorageMock.getStringSet(KEY_1, null)).thenReturn(deviceAddresses);
+
         keyMap.clear();
         keyMap.put(KEY_1, VALUE_1_STRING);
         keyMap.put(KEY_2, VALUE_1_STRING);
+
+        when(deviceAdressesPersistentStorageMock.getString(KEY_1, null)).thenReturn(VALUE_1_STRING);
+        when(deviceAdressesPersistentStorageMock.getString(KEY_2, null)).thenReturn(VALUE_1_STRING);
+
 
         sharedPreferencesMigrator.execute();
 

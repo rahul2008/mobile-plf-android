@@ -1,6 +1,7 @@
 package com.philips.pins.shinelib.utility;
 
 import java.util.Map;
+import java.util.Set;
 
 public class SharedPreferencesMigrator {
     private final PersistentStorageFactory sourceFactory;
@@ -35,13 +36,15 @@ public class SharedPreferencesMigrator {
 
         Map<String, ?> all = sourcePersistentStorageForDeviceAddresses.getAll();
         for (String key : all.keySet()) {
-            String macAddress = sourcePersistentStorageForDeviceAddresses.getString(key, null);
+            Set<String> macAddresses = sourcePersistentStorageForDeviceAddresses.getStringSet(key, null);
 
-            if (macAddress != null) {
-                PersistentStorage sourceDevicePersistentStorage = sourceFactory.getPersistentStorageForDevice(macAddress);
-                PersistentStorage destinationDevicePersistentStorage = destinationFactory.getPersistentStorageForDevice(macAddress);
+            if (macAddresses != null) {
+                for (String macAddress : macAddresses) {
+                    PersistentStorage sourceDevicePersistentStorage = sourceFactory.getPersistentStorageForDevice(macAddress);
+                    PersistentStorage destinationDevicePersistentStorage = destinationFactory.getPersistentStorageForDevice(macAddress);
 
-                moveAllKey(sourceDevicePersistentStorage, destinationDevicePersistentStorage);
+                    moveAllKey(sourceDevicePersistentStorage, destinationDevicePersistentStorage);
+                }
             }
         }
     }
