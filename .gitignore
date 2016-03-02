@@ -12,3 +12,5 @@ Source/DemoApp/ProductRegistration/gradlew
 Source/DemoApp/ProductRegistration/gradlew.bat
 Source/DemoApp/ProductRegistration/settings.gradle
 Source/DemoApp/ProductRegistration/build.gradle
+Source/DemoApp/ProductRegistration/local.properties
+
