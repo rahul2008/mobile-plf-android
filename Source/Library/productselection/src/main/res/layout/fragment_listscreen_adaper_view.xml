@@ -20,11 +20,11 @@
         android:backgroundTint="?attr/baseColor"/>
 
 
-    <com.shamanland.fonticon.FontIconTextView
+    <!--<com.shamanland.fonticon.FontIconTextView
         android:id="@+id/uikit_arrow_right"
         style="@style/ui_kit_arrow_right"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 
 
     <RelativeLayout
