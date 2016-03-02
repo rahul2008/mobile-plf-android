@@ -89,18 +89,18 @@ android {
         simulator {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
-            versionName objcdp.getVersionWithHash()
+            versionName "4.1.1"
         }
         device {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
-            versionName objcdp.getVersionWithHash()
+            versionName "4.1.1"
         }
     }
 }
 
 group = 'com.philips.cdp'
-version = objcdp.getVersion()
+version = "4.1.1"
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
