@@ -15,4 +15,7 @@ public class IAPConstant {
     public static final int IAP_ERROR = -1;
     public static String IS_SECOND_USER = "IS_SECOND_USER";
     public static String ADDRESS_FIELDS = "ADDRESS_FIELDS";
+    public static String MODEL_ALERT_BUTTON_TEXT = "MODEL_ALERT_BUTTON_TEXT";
+    public static String MODEL_ALERT_ERROR_TEXT = "MODEL_ALERT_ERROR_TEXT";
+    public static String MODEL_ALERT_ERROR_DESCRIPTION = "MODEL_ALERT_ERROR_DESCRIPTION";
 }

@@ -51,7 +51,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>());
+        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(),getFragmentManager());
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
         IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
@@ -75,14 +75,14 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     private void updateCartOnResume() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter);
+        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter,getFragmentManager());
         if (Utility.isInternetConnected(mContext)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
                 updateCartDetails(presenter);
             }
         } else {
-            NetworkUtility.getInstance().showNetworkError(mContext);
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
         }
     }
 
@@ -112,7 +112,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
                     mAddressController.getShippingAddresses();
                 } else {
-                    NetworkUtility.getInstance().showNetworkError(mContext);
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
                 }
             }
         }

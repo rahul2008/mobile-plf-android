@@ -21,6 +21,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+
+import com.philips.cdp.di.iap.Fragments.ModalAlertDemoFragment;
 
 /**
  * @author Vinayak Udikeri
@@ -66,19 +70,13 @@ public class NetworkUtility {
         setOnline(false);
     }
 
-    public void showNetworkError(Context context) {
-        String alertTitle = "Network Error";
-        String alertBody = "No network available. Please check your network settings and try again.";
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setTitle(alertTitle);
-        alert.setMessage(alertBody);
-        alert.setPositiveButton(android.R.string.ok,
-                new android.content.DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alert.show();
+    public static void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription){
+        ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT,pButtonText);
+        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
+        bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
+        modalAlertDemoFragment.setArguments(bundle);
+        modalAlertDemoFragment.show(pFragmentManager, "dialog");
     }
 }

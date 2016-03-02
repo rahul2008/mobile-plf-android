@@ -190,7 +190,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                     Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
                     paymentController.getPaymentDetails();
                 } else {
-                    NetworkUtility.getInstance().showNetworkError(mContext);
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
                 }
             }
         }
@@ -209,7 +209,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             int pos = mAdapter.getOptionsClickPosition();
             mAddrController.deleteAddress(mAddresses.get(pos).getId());
         } else {
-            NetworkUtility.getInstance().showNetworkError(getContext());
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
         }
     }
 

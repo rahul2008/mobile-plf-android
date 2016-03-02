@@ -49,12 +49,12 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private UIKitListPopupWindow mPopupWindow;
     //ShoppingCartData summary;
 
-    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
+    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager) {
         mContext = context;
         mResources = context.getResources();
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
-        mPresenter = new ShoppingCartPresenter(context, this);
+        mPresenter = new ShoppingCartPresenter(context, this,fragmentManager);
         setCountArrow(context);
     }
 

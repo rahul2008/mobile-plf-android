@@ -192,7 +192,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         mAddressController.updateAddress(addressHashMap);
                     }
                 } else {
-                    NetworkUtility.getInstance().showNetworkError(mContext);
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
                 }
             } else {
                 if (!Utility.isProgressDialogShowing()) {
@@ -200,7 +200,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                         mAddressController.createAddress(mAddressFields);
                     } else {
-                        NetworkUtility.getInstance().showNetworkError(mContext);
+                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
                     }
                 }
             }
