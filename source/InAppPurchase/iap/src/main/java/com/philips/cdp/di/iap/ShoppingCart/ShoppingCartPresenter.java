@@ -102,7 +102,7 @@ public class ShoppingCartPresenter {
                     @Override
                     public void onModelDataError(final Message msg) {
                         IAPLog.e(TAG, "Error:" + msg.obj);
-                        //Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                        IAPLog.d(ShoppingCartPresenter.TAG, msg.obj.toString());
                         NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
                         Utility.dismissProgressDialog();
                     }
@@ -145,7 +145,8 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onModelDataError(final Message msg) {
-                Toast.makeText(mContext, "Something went wrong!" + msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                IAPLog.d(ShoppingCartPresenter.TAG , msg.obj.toString());
+                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
                 Utility.dismissProgressDialog();
             }
         });
