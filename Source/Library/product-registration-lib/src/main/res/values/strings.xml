@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Product-registration-lib</string>
     <string name="metadata_error">error in getting metadata</string>
-    <string name="serial_number_invalid_format">Error in Serial number format</string>
+    <string name="serial_number_error">Error in Serial number</string>
     <string name="volley_error">"Volley Error : "</string>
     <string name="date_format_error">Invalid date format</string>
 </resources>

@@ -2,7 +2,6 @@ package com.philips.cdp.backend;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.model.ProductData;
@@ -51,7 +50,7 @@ public class ProdRegHelper {
     }
 
     private void executeMetadataRequest(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener, final ProductMetaDataBuilder productMetaDataBuilder, final RequestManager mRequestManager) {
-        mRequestManager.executeRequest(productMetaDataBuilder, new ResponseListener() {
+        mRequestManager.executeRequest(RequestType.GET, productMetaDataBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 ProductMetaData productMetaData = (ProductMetaData) responseData;
@@ -63,7 +62,7 @@ public class ProdRegHelper {
 
             @Override
             public void onResponseError(String error, int code) {
-                Toast.makeText(context, R.string.metadata_error, Toast.LENGTH_SHORT).show();
+                handleError(code, prxDataBuilder, listener);
             }
         });
     }
@@ -89,7 +88,7 @@ public class ProdRegHelper {
             RegistrationDataBuilder registrationDataBuilder = (RegistrationDataBuilder) prxDataBuilder;
             registrationDataBuilder.setRequiresSerialNumber(true);
             if (!registrationDataBuilder.getProductSerialNumber().matches(data.getSerialNumberFormat())) {
-                listener.onResponseError(mContext.getString(R.string.serial_number_invalid_format), -1);
+                listener.onResponseError(mContext.getString(R.string.serial_number_error), -1);
                 return false;
             }
         }
