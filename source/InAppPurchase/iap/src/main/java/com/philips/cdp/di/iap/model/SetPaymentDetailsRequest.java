@@ -38,6 +38,6 @@ public class SetPaymentDetailsRequest extends AbstractModel{
 
     @Override
     public String getTestUrl() {
-        return NetworkConstants.SET_PAYMENT_DETAILS_URL;
+        return NetworkConstants.ADDRESS_URL;
     }
 }
