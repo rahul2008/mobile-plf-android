@@ -210,7 +210,9 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     @Override
     public void setViewParams(Configuration config) {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            ((View) getActivity().findViewById(R.id.listViewSeperator)).setVisibility(View.GONE);
+            View listViewSparator = ((View) getActivity().findViewById(R.id.listViewSeperator));
+            if (listViewSparator != null)
+                listViewSparator.setVisibility(View.GONE);
 //            Fragment fragmentTablet = getActivity().getSupportFragmentManager().findFragmentById(R.id.productListContainerTablet);
 //            fragmentTablet.
 
