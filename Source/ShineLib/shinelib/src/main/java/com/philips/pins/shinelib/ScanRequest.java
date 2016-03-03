@@ -47,7 +47,7 @@ public class ScanRequest {
         internalHandler.postDelayed(timeoutRunnable, stopScanningAfterMS);
     }
 
-    public void scanningStopped() {
+    void scanningStopped() {
         if (internalHandler != null) {
             internalHandler.removeCallbacks(timeoutRunnable);
         }
@@ -61,9 +61,13 @@ public class ScanRequest {
     private Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
-            deviceScannerInternal.stopScanning(ScanRequest.this);
+            stopScanning();
         }
     };
+
+    public void stopScanning() {
+        deviceScannerInternal.stopScanning(ScanRequest.this);
+    }
 
     public void onScanResult(@NonNull final BleDeviceFoundInfo bleDeviceFoundInfo) {
         if (reportMoreThanOnce || !reportedDeviceMacAddresses.contains(bleDeviceFoundInfo.getDeviceAddress())) {
