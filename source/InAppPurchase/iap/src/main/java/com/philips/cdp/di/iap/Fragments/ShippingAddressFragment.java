@@ -137,6 +137,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(boolean isSuccess) {
         if (isSuccess) {
             mPaymentController.getPaymentDetails();
+            //   CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
         } else {
             Utility.dismissProgressDialog();
             Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();

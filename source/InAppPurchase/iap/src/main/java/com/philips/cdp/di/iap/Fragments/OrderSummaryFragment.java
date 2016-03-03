@@ -38,6 +38,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
         mShoppingCartDataList = new ArrayList<ShoppingCartData>();
+//        mShoppingCartDataList = CartModelContainer.getInstance().getShoppingCartData();
+        IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Shopping Cart list = " + mShoppingCartDataList);
         mAdapter = new OrderProductAdapter(getContext(), mShoppingCartDataList);
         return rootView;
     }
