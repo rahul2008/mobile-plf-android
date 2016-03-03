@@ -3,14 +3,21 @@ package com.philips.cdp.di.iap.adapters;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -20,44 +27,120 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductHolder> {
+public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ShoppingCartData> mShoppingCartDataList;
     private Context mContext;
+    private ShoppingCartData cartData;
+    private static final int TYPE_ITEM = 1;
+    private static final int TYPE_FOOTER = 2;
 
     public OrderProductAdapter(Context pContext, ArrayList<ShoppingCartData> pShoppingCartDataList) {
         mContext = pContext;
         mShoppingCartDataList = pShoppingCartDataList;
     }
 
-    @Override
-    public OrderProductHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        View view = View.inflate(parent.getContext(), R.layout.iap_order_summary_shopping_item, null);
-        return new OrderProductHolder(view);
+    private int getActualCount() {
+        int count = 0;
+        for (ShoppingCartData data : mShoppingCartDataList) {
+            if (!TextUtils.isEmpty(data.getCtnNumber()))
+                count++;
+        }
+        return count;
     }
 
     @Override
-    public void onBindViewHolder(final OrderProductHolder holder, final int position) {
-        ShoppingCartData cartData = mShoppingCartDataList.get(position);
-        String imageURL = cartData.getImageURL();
-        ImageLoader mImageLoader;
-        // Instantiate the RequestQueue.
-        mImageLoader = NetworkImageLoader.getInstance(mContext)
-                .getImageLoader();
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        if (viewType == TYPE_FOOTER) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_order_summary_footer_item, parent, false);
+            return new FooterOrderSummaryViewHolder(v);
+        } else if (viewType == TYPE_ITEM) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_order_summary_shopping_item, parent, false);
+            return new OrderProductHolder(v);
+        }
+        return null;
+    }
 
-        mImageLoader.get(imageURL, ImageLoader.getImageListener(holder.mNetworkImage,
-                R.drawable.toothbrush, android.R.drawable
-                        .ic_dialog_alert));
-        holder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
-        holder.mTvProductName.setText(cartData.getProductTitle());
-        String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof FooterOrderSummaryViewHolder) {
+            FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
+            AddressFields shippingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
+            AddressFields billingAddressFields = CartModelContainer.getInstance().getBillingAddressFields();
+            footerHolder.mShippingFirstName.setText(shippingAddressFields.getFirstName());
+            footerHolder.mShippingAddress.setText(shippingAddressFields.getLine1() + "\n" + billingAddressFields.getLine1());
+            footerHolder.mBillingFirstName.setText(billingAddressFields.getFirstName());
+            footerHolder.mBillingAddress.setText(billingAddressFields.getLine1() + "\n" + billingAddressFields.getLine1());
+            footerHolder.mDeliveryPrice.setText(cartData.getDeliveryCost().getFormattedValue());
+            footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + cartData.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+            footerHolder.mTotalPrice.setText(String.valueOf(cartData.getTotalPriceWithTax()));
+        } else {
+            OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
+            IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Size of ShoppingCarData is " + String.valueOf(getActualCount()));
+            cartData = mShoppingCartDataList.get(position);
+            String imageURL = cartData.getImageURL();
+            ImageLoader mImageLoader = NetworkImageLoader.getInstance(mContext)
+                    .getImageLoader();
+            orderProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
+            orderProductHolder.mTvProductName.setText(cartData.getProductTitle());
+            String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
 
-        holder.mTvtotalPrice.setText(cartData.getCurrency() + " " + price);
-        holder.mTvtotalPrice.setTypeface(null, Typeface.BOLD);
-        holder.mTvQuantity.setText(cartData.getQuantity());
+            orderProductHolder.mTvtotalPrice.setText(cartData.getCurrency() + " " + price);
+            orderProductHolder.mTvtotalPrice.setTypeface(null, Typeface.BOLD);
+            orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
+        }
+    }
+
+    @Override
+    public int getItemViewType(final int position) {
+        IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "getItemViewType= " + position);
+        if (isPositionFooter(position)) {
+            return TYPE_FOOTER;
+        }
+        return TYPE_ITEM;
+    }
+
+    private boolean isPositionFooter(int position) {
+        return position == getActualCount();
     }
 
     @Override
     public int getItemCount() {
-        return mShoppingCartDataList.size();
+        return getActualCount() + 1;
+    }
+
+    public class OrderProductHolder extends RecyclerView.ViewHolder {
+        TextView mTvProductName;
+        NetworkImageView mNetworkImage;
+        TextView mTvQuantity;
+        TextView mTvtotalPrice;
+
+        public OrderProductHolder(final View itemView) {
+            super(itemView);
+            mTvProductName = (TextView) itemView.findViewById(R.id.tv_productName);
+            mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.iv_product_image);
+            mTvQuantity = (TextView) itemView.findViewById(R.id.tv_quantity);
+            mTvtotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
+        }
+    }
+
+    public class FooterOrderSummaryViewHolder extends RecyclerView.ViewHolder {
+        TextView mShippingFirstName;
+        TextView mShippingAddress;
+        TextView mBillingFirstName;
+        TextView mBillingAddress;
+        TextView mDeliveryPrice;
+        TextView mTotalPriceLable;
+        TextView mTotalPrice;
+
+        public FooterOrderSummaryViewHolder(View itemView) {
+            super(itemView);
+            mShippingFirstName = (TextView) itemView.findViewById(R.id.tv_shipping_first_name);
+            mShippingAddress = (TextView) itemView.findViewById(R.id.tv_shipping_address);
+            mBillingFirstName = (TextView) itemView.findViewById(R.id.tv_billing_first_name);
+            mBillingAddress = (TextView) itemView.findViewById(R.id.tv_billing_address);
+            mDeliveryPrice = (TextView) itemView.findViewById(R.id.tv_delivery_price);
+            mTotalPriceLable = (TextView) itemView.findViewById(R.id.tv_total_lable);
+            mTotalPrice = (TextView) itemView.findViewById(R.id.tv_total_price);
+        }
     }
 }

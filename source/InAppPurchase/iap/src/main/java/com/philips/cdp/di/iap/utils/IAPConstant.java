@@ -14,6 +14,7 @@ public class IAPConstant {
     public static final String PRODUCT_CTN = "PRODUCT_CTN";
     public static final String PRODUCT_PRICE = "PRODUCT_PRICE";
     public static final String PRODUCT_OVERVIEW = "PRODUCT_OVERVIEW";
+    public static final String SHOPPING_CART_LIST = "SHOPPING_CART_LIST";
     public static Boolean BUTTON_STATE_CHANGED = false;
     public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
     public static final int IAP_SUCCESS = 0;
@@ -23,4 +24,11 @@ public class IAPConstant {
     public static String MODEL_ALERT_BUTTON_TEXT = "MODEL_ALERT_BUTTON_TEXT";
     public static String MODEL_ALERT_ERROR_TEXT = "MODEL_ALERT_ERROR_TEXT";
     public static String MODEL_ALERT_ERROR_DESCRIPTION = "MODEL_ALERT_ERROR_DESCRIPTION";
+    public static String PAYMENT_FIELDS = "PAYMENT_FIELDS";
+    public static String USE_PAYMENT = "USE_PAYMENT";
+    public static String ADD_NEW_PAYMENT = "ADD_NEW_PAYMENT";
+
+    public static String ADD_DELIVERY_ADDRESS = "ADD_DELIVERY_ADDRESS";
+
+    public static String SELECTED_PAYMENT = "SELECTED_PAYMENT";
 }

@@ -8,6 +8,7 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
@@ -93,8 +94,10 @@ public class ShoppingCartPresenter {
                             Utility.dismissProgressDialog();
                             return;
                         }
+
                         addShippingCostRowToTheList();
                         refreshList(mProductData);
+                        CartModelContainer.getInstance().setShoppingCartData(mProductData);
                         Utility.dismissProgressDialog();
                     }
 

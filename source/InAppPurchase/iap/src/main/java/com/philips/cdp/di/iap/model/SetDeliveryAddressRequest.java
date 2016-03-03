@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.model;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class SetDeliveryAddressRequest extends AbstractModel {
 
     @Override
     public Object parseResponse(final Object response) {
-        return null;
+        return IAPConstant.IAP_SUCCESS;
     }
 
     @Override

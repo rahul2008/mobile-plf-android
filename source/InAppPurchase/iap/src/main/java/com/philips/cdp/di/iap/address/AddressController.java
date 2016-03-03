@@ -64,15 +64,14 @@ public class AddressController implements AbstractModel.DataLoadListener {
         if (null != pAddressId) {
             HashMap<String, String> params = new HashMap<>();
             params.put(ModelConstants.ADDRESS_ID, pAddressId);
-            SetDeliveryAddressRequest
-                    model = new SetDeliveryAddressRequest(getStore(), params, this);
+            SetDeliveryAddressRequest model = new SetDeliveryAddressRequest(getStore(), params, this);
             getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_ADDRESS, model, model);
         }
     }
 
     public void setDeliveryMode() {
-        SetDeliveryAddressModeRequest model = new SetDeliveryAddressModeRequest(getStore(), null);
-        getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_ADDRESS, model, model);
+        SetDeliveryAddressModeRequest model = new SetDeliveryAddressModeRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_MODE, model, model);
     }
 
     private HashMap<String, String> getAddressHashMap(final AddressFields addressFields) {
