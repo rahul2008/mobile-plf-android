@@ -40,6 +40,7 @@ public class NetworkConstants {
     public static final String UPDATE_OR_DELETE_ADDRESS_URL = BASE_URL + "addresses" + "/%s";
     public static final String SET_DELIVERY_MODE_URL = BASE_URL + CURRENT_CART + "/deliverymode";
     public static final String SET_DELIVERY_ADDRESS_URL = BASE_URL + CURRENT_CART + "/addresses/delivery";
+    public static final String SET_PAYMENT_DETAILS_URL = BASE_URL + CURRENT_CART + "/paymentdetails";
 
     /**
      * Prx data

@@ -220,6 +220,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         if (v == mBtnContinue) {
             if (Utility.isInternetConnected(mContext)) {
+                //    CartModelContainer.getInstance().setBillingAddressFields(mAddressFields);
                 addFragment(
                         OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             } else {

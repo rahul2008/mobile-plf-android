@@ -267,11 +267,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             Addresses addr = retrieveSelectedAddress();
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, prepareAddressFields(addr));
+            // CartModelContainer.getInstance().setShippingAddressFields(prepareAddressFields(addr));
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
             Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
-        } else if ((msg.obj instanceof PaymentMethods)){
+        } else if ((msg.obj instanceof PaymentMethods)) {
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             mPaymentMethodsList = mPaymentMethods.getPayments();
 
@@ -281,6 +282,11 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
         }
+    }
+
+    @Override
+    public void onSetPaymentDetails(Message msg) {
+
     }
 
     private Addresses retrieveSelectedAddress() {

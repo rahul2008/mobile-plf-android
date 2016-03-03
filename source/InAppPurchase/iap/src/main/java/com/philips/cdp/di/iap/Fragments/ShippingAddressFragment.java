@@ -137,6 +137,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(boolean isSuccess) {
         if (isSuccess) {
             mPaymentController.getPaymentDetails();
+            //   CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
         } else {
             Utility.dismissProgressDialog();
             Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();
@@ -156,8 +157,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         } else {
             addFragment(
                     PaymentSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-            Toast.makeText(mContext, "Navigate to payment screen", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onSetPaymentDetails(Message msg) {
+
     }
 
     @Override
