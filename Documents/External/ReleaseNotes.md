@@ -3,15 +3,15 @@ PhilipsUIKit for Android Release Notes
 Version - 2.0.1                               Date:02-03-2015
 ---------------------------------------------------------------
 
-1.	Added api SetErrorMessage(String str) in Inline forms to set custom error message 
+1.[DE10330]	Added api SetErrorMessage(String str) in Inline forms to set custom error message 
 
-2.	Updated hamburger Menu to support Philips logo as footer below 4.1 devices 
-updateSmartFooter(View v) is changed to 
-updateSmartFooter(View v,int size);
-size is list.size()
- This api needs to be called before setting adapter to list 
+2. [DE10331]Updated hamburger Menu to support Philips logo as footer below 4.1 devices 
+	updateSmartFooter(View v) is changed to 
+	updateSmartFooter(View v,int size);
+	size is list.size()
+	This api needs to be called before setting adapter to list 
 
-3.	Fixed Radio Button issue for Note 4 devices 
+3. [DE10332]Fixed Radio Button issue for Note 4 devices 
 
 
 If your app using this class for set theme, Refer BasicSetUp.docx (set theme)  
