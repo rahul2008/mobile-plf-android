@@ -76,4 +76,11 @@
     <string name="iap_add_payment_method">Add a new payment method</string>
     <string name="iap_valid_until">Valid until</string>
 
+    <!-- Model Error -->
+    <string name="iap_ok">OK</string>
+    <string name="iap_network_error">Network Error</string>
+    <string name="iap_check_connection">Please check the connection</string>
+    <string name="iap_time_out">Time-out</string>
+    <string name="iap_time_out_description">Time out while hitting to server</string>
+
 </resources>

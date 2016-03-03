@@ -242,7 +242,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                                 mPopupWindow.dismiss();
                             }
                         }else{
-                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
+                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
                         }
                         break;
                     case INFO:

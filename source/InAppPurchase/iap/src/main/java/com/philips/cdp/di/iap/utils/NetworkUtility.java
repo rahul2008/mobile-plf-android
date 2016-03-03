@@ -72,7 +72,7 @@ public class NetworkUtility {
         setOnline(false);
     }
 
-    public static void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription){
+    public void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription){
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT,pButtonText);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);

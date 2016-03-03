@@ -136,7 +136,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.UPDATE_ADDRESS:
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
                 IAPLog.d(TAG, msg.obj.toString());
                 break;
         }
@@ -148,7 +148,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mPaymentController.getPaymentDetails();
         } else {
             Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         }
     }
 
@@ -162,8 +162,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
-            Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         }else if ((msg.obj instanceof PaymentMethods)) {
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             mPaymentMethodsList = mPaymentMethods.getPayments();
@@ -215,7 +214,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         mAddressController.updateAddress(addressHashMap);
                     }
                 } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
             } else {
                 if (!Utility.isProgressDialogShowing()) {
@@ -223,7 +222,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                         mAddressController.createAddress(mAddressFields);
                     } else {
-                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
+                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                     }
                 }
             }

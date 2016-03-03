@@ -8,6 +8,7 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -105,7 +106,7 @@ public class ShoppingCartPresenter {
                     public void onModelDataError(final Message msg) {
                         IAPLog.e(TAG, "Error:" + msg.obj);
                         IAPLog.d(ShoppingCartPresenter.TAG, msg.obj.toString());
-                        NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
+                        NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
                         Utility.dismissProgressDialog();
                     }
                 });
@@ -148,7 +149,7 @@ public class ShoppingCartPresenter {
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(ShoppingCartPresenter.TAG , msg.obj.toString());
-                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
+                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
                 Utility.dismissProgressDialog();
             }
         });
