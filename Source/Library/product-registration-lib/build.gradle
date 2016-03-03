@@ -159,7 +159,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../app/build/intermediates/classes/debug',
+            dir: '../build/intermediates/classes/debug',
             excludes: ['**/R.class',
                        '**/R$*.class',
                        '**/*$ViewInjector*.*',
@@ -169,7 +169,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../app/build/jacoco/testDebug.exec')
+    executionData = files('../build/jacoco/testDebug.exec')
 
     reports {
         xml.enabled = true
