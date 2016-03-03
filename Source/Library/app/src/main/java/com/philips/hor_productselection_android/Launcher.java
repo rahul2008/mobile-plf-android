@@ -1,6 +1,7 @@
 package com.philips.hor_productselection_android;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -134,6 +135,10 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        //setCurrentOrientation API is requiered in order to achieve proper GUI on tablet.
+        Configuration configuration = getResources().getConfiguration();
+        ProductModelSelectionHelper.getInstance().setCurrentOrientation(configuration);
+
         switch (v.getId()) {
             case R.id.buttonActivity:
                 launchProductSelectionAsActivity();
@@ -177,7 +182,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     }
 
     private void launchProductSelectionAsActivity() {
-
 
         String[] ctnList = new String[mList.size()];
         for (int i = 0; i < mList.size(); i++) {

@@ -263,6 +263,9 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                     if (isLaunchedAsTabletLandscape()) {
                         removeWelcomeScreen();
                     }
+//                    if (!isLaunchedAsTabletLandscape()) {
+//                        removeProdSelectionScreens();
+//                    }
                 }
             }
         }

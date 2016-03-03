@@ -492,7 +492,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
             }
         } else {
-            if (isTablet()) {
+            if (isLaunchedAsTabletLandscape()) {
                 try {
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("ProductSelectionListingFragment");

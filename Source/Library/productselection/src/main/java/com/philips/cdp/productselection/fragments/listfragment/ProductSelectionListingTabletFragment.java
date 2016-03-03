@@ -56,96 +56,94 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         return mRootView;
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch(msg.what){
+            switch (msg.what) {
                 case UPDATE_UI:
-                    if(mHandler == null){
+                    if (mHandler == null) {
                         return;
                     }
                     mHandler.removeMessages(UPDATE_UI);
-                    alignGui();
-                    replaceFragmentForTablet();
+                    if (getActivity() != null && isAdded()) {
+                        alignGui();
+                        replaceFragmentForTablet();
+                    }
                     break;
             }
         }
     };
 
     private void alignGui() {
-        if(getActivity() != null) {
-            Configuration configuration = getResources().getConfiguration();
-            setViewParams(configuration);
-        }
+        Configuration configuration = getResources().getConfiguration();
+        setViewParams(configuration);
     }
 
     private void replaceFragmentForTablet() {
+    List<Fragment> listFragment = getActivity().getSupportFragmentManager().getFragments();
+     for (int i = listFragment.size() - 1; i >= 0; i--) {
+          Fragment fragment1 = listFragment.get(i);
+//           ProductSelectionLogger.i("testing", "Container Screen : " + fragment1);
+     }
 
-        List<Fragment> listFragment = getActivity().getSupportFragmentManager().getFragments();
-        for(int i = listFragment.size() - 1; i>=0; i--) {
-            Fragment fragment1 = listFragment.get(i);
-            ProductSelectionLogger.i("testing", "Container Screen : " + fragment1);
+    //        try {
+    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+    Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
+    Fragment fragSavedScreenTablet = getActivity().getSupportFragmentManager().findFragmentByTag("SavedScreenFragmentSelection");
+//    ProductSelectionLogger.i("testing", "Details screen found  : " + fragmentDetailsTablet);
+
+    //        FragmentManager manager = getActivity().getSupportFragmentManager();
+    //        boolean fragmentPopped = manager.popBackStackImmediate("DetailedScreenFragmentSelection", 0);
+    try {
+        if (fragmentDetailsTablet != null) {
+            fragmentTransaction.remove(fragmentDetailsTablet);
+            fragmentTransaction.commit();
         }
+    } catch (IllegalStateException e) {
 
-//        try {
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
-            Fragment fragSavedScreenTablet = getActivity().getSupportFragmentManager().findFragmentByTag("SavedScreenFragmentSelection");
-             ProductSelectionLogger.i("testing", "Details screen found  : " + fragmentDetailsTablet);
+    }
 
-//        FragmentManager manager = getActivity().getSupportFragmentManager();
-//        boolean fragmentPopped = manager.popBackStackImmediate("DetailedScreenFragmentSelection", 0);
-        try{
-            if(fragmentDetailsTablet != null){
-                fragmentTransaction.remove(fragmentDetailsTablet);
-                fragmentTransaction.commit();
-            }
+    try {
+        if (fragSavedScreenTablet != null) {
+            fragmentTransaction.remove(fragSavedScreenTablet);
+            fragmentTransaction.commit();
         }
-        catch(IllegalStateException e){
-
-        }
-
-        try {
-            if (fragSavedScreenTablet != null) {
-                fragmentTransaction.remove(fragSavedScreenTablet);
-                fragmentTransaction.commit();
-            }
-        }catch(IllegalStateException e){
-        }
+    } catch (IllegalStateException e) {
+    }
 
 
-                addDetailedScreenAtRight();
+    addDetailedScreenAtRight();
 
-        List<Fragment> listFragment1 = getActivity().getSupportFragmentManager().getFragments();
-        for(int i = listFragment1.size() - 1; i>=0; i--) {
-            Fragment fragment1 = listFragment1.get(i);
-            ProductSelectionLogger.i("testing", "Container Screen : " + fragment1);
-        }
+    List<Fragment> listFragment1 = getActivity().getSupportFragmentManager().getFragments();
+    for (int i = listFragment1.size() - 1; i >= 0; i--) {
+        Fragment fragment1 = listFragment1.get(i);
+//        ProductSelectionLogger.i("testing", "Container Screen : " + fragment1);
+    }
 
-//        ProductSelectionLogger.i("testing", "Details screen pop out  : " + fragmentPopped);
+    //        ProductSelectionLogger.i("testing", "Details screen pop out  : " + fragmentPopped);
 
-//
-//            try {
-//                if (fragmentDetailsTablet != null) {
-//                    fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
-//                    fragmentTransaction.commitAllowingStateLoss();
-//                }
-//            }catch (IllegalStateException e){
-//            }
-//
-//            try{
-//                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-//                    mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
-//                    ft.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
-////                    ft.addToBackStack("DetailedScreenFragmentSelection");
-//                    ft.commitAllowingStateLoss();
-//
-////            addDetailedScreenAtRight();
-//        } catch (IllegalStateException e) {
-//            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
-//            e.printStackTrace();
-//        }
+    //
+    //            try {
+    //                if (fragmentDetailsTablet != null) {
+    //                    fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
+    //                    fragmentTransaction.commitAllowingStateLoss();
+    //                }
+    //            }catch (IllegalStateException e){
+    //            }
+    //
+    //            try{
+    //                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+    //                    mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
+    //                    ft.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
+    ////                    ft.addToBackStack("DetailedScreenFragmentSelection");
+    //                    ft.commitAllowingStateLoss();
+    //
+    ////            addDetailedScreenAtRight();
+    //        } catch (IllegalStateException e) {
+    //            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
+    //            e.printStackTrace();
+    //        }
     }
 
     @Override

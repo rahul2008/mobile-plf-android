@@ -42,6 +42,7 @@ public class ProductModelSelectionHelper {
     private ProductModelSelectionType mProductModelSelectionType = null;
     private ProgressDialog mProgressDialog = null;
     private static boolean isTabletLandscape = false;
+    private static Configuration mVerticalOrientation = null;
 
     /*
      * Initialize everything(resources, variables etc) required for product selection.
@@ -91,11 +92,8 @@ public class ProductModelSelectionHelper {
     public void initialize(Context applicationContext) {
         if (mContext == null) {
             ProductModelSelectionHelper.mContext = applicationContext;
-
         }
-
     }
-
 
 	public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage){
         ProductSelectionLogger.i("testing", "Tagging init");
@@ -104,6 +102,9 @@ public class ProductModelSelectionHelper {
         Tagging.setComponentVersionKey(Constants.ATTRIBUTE_KEY_PRODUCT_SELECTION);
         Tagging.setComponentVersionVersionValue(String.valueOf(BuildConfig.VERSION_NAME));
         Tagging.setLaunchingPageName(launchingPage);
+        ProductSelectionLogger.i("testing", "getLocale() : " + getLocale());
+        ProductSelectionLogger.i("testing", "getContext() : " + getContext());
+        ProductSelectionLogger.i("testing", "appName : " + appName);
 
         Tagging.init(getLocale(), getContext(), appName);
     }
@@ -177,7 +178,8 @@ public class ProductModelSelectionHelper {
             welcomeScreenFragment.showFragment(context, parentContainerResId, welcomeScreenFragment,
                     actionbarUpdateListener, enterAnim, exitAnim);
         } else {
-            if (isTablet(context)) {
+            setLaunchedAsTabletLandscape(isTablet(context) && (mVerticalOrientation.orientation == Configuration.ORIENTATION_LANDSCAPE));
+            if ( isLaunchedAsTabletLandscape()) {
                 ProductSelectionListingTabletFragment productselectionListingTabletFragment = new ProductSelectionListingTabletFragment();
                 productselectionListingTabletFragment.showFragment(context, parentContainerResId, productselectionListingTabletFragment,
                         actionbarUpdateListener, enterAnim, exitAnim);
@@ -216,6 +218,11 @@ public class ProductModelSelectionHelper {
             double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
             return diagonalInches >= 6.5;
         }
+    }
+
+    /*  Thsi is required to set, in order to achieve proper GUI for tablet. */
+    public void setCurrentOrientation(Configuration config){
+        mVerticalOrientation = config;
     }
 
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
