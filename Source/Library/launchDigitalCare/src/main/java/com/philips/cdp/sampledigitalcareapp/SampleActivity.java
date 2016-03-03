@@ -1,5 +1,6 @@
 package com.philips.cdp.sampledigitalcareapp;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +16,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
@@ -65,6 +67,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         FragmentLauncher fragLauncher = new FragmentLauncher(
                 this, R.id.sampleMainContainer, actionBarClickListener);
         fragLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+
         DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
 
 
