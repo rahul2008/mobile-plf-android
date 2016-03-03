@@ -23,19 +23,19 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ShoppingCartPresenter {
-    private static final String TAG = ShoppingCartPresenter.class.getName();
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
     private HybrisDelegate mHybrisDelegate;
     private Store mStore;
-    private android.support.v4.app.FragmentManager mFragmentManager;
+    private FragmentManager mFragmentManager;
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
@@ -104,8 +104,8 @@ public class ShoppingCartPresenter {
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        IAPLog.e(TAG, "Error:" + msg.obj);
-                        IAPLog.d(ShoppingCartPresenter.TAG, msg.obj.toString());
+                        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
+                        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
                         NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
                         Utility.dismissProgressDialog();
                     }
@@ -148,7 +148,7 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onModelDataError(final Message msg) {
-                IAPLog.d(ShoppingCartPresenter.TAG , msg.obj.toString());
+                IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER , msg.obj.toString());
                 NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
                 Utility.dismissProgressDialog();
             }

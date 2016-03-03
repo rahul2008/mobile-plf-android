@@ -1,12 +1,5 @@
-<RelativeLayout android:id="@+id/scroll_detail_layout"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingRight="12dp"
-                android:paddingLeft="12dp"
-    >
-
-    <ScrollView
+   <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -84,4 +77,3 @@
         />
 </RelativeLayout>
     </ScrollView>
-</RelativeLayout>
