@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
@@ -26,7 +25,6 @@ import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
-import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.sampledigitalcareapp.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcareapp.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcareapp.view.CustomDialog;
@@ -221,12 +219,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
             startActivity(intent);
             return true;
         }
-        /*if (mainMenuItem.equals(getStringKey(R.string.view_product_details))) {
-            Intent intent = new Intent(LaunchDigitalCare.this,
-                    DummyScreen.class);
-            startActivity(intent);
-            return true;
-        }*/
         return false;
     }
 
@@ -276,16 +268,8 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 String[] ctnList = new String[mList.size()];
                 for (int i = 0; i < mList.size(); i++)
                     ctnList[i] = mList.get(i);
-              //  if (ctnList.length != 0) {
-                    HardcodedProductList productsSelection = new HardcodedProductList(ctnList);
-                    productsSelection.setCatalog(Catalog.CARE);
-                    productsSelection.setSector(Sector.B2C);
-                    ActivityLauncher uiLauncher = new ActivityLauncher(com.philips.cdp.productselection.launchertype.ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                            R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
-                    uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-                    DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);
-              /*  } else
-                    Toast.makeText(this, "CTN list is null", Toast.LENGTH_SHORT).show();*/
+                invokeDigitalCareLibrary(ctnList);
+
                 break;
             case R.id.launchAsFragment:
 
@@ -299,6 +283,16 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 break;
 
         }
+    }
+
+    private void invokeDigitalCareLibrary(String[] ctnList) {
+        HardcodedProductList productList = new HardcodedProductList(ctnList);
+        productList.setCatalog(Catalog.CARE);
+        productList.setSector(Sector.B2C);
+        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+        uiLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+        DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productList);
     }
 
     private void setDigitalCareLocale(String language, String country) {

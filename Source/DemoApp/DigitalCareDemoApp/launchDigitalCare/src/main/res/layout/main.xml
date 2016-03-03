@@ -64,8 +64,8 @@
 
         <ImageButton
             android:id="@+id/addimageButton"
-            android:layout_width="@dimen/savedscreen_top_container_height"
-            android:layout_height="@dimen/savedscreen_top_container_height"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignBottom="@+id/recycler_view"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"

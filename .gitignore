@@ -24,3 +24,6 @@ Source/Library/local.properties
 /Source/Library/digitalCare/build
 Source/Library/build/intermediates/dex-cache/cache.xml
 /Source/Library/settings.gradle
+Source/DemoApp/DigitalCareDemoApp/local.properties
+Source/Library/digitalCare/.idea/
+Source/DemoApp/DigitalCareDemoApp/launchDigitalCare/local.properties

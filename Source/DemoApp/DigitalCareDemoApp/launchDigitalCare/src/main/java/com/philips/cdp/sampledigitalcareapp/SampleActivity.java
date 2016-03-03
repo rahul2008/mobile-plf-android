@@ -18,7 +18,6 @@ import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
-import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 
 /**
  * SampleActivity is the main container class which can contain Digital Care fragments.
@@ -49,6 +48,8 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.setTheme(R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         DigiCareLogger.i(TAG, " SampleActivity onCreate");
@@ -57,15 +58,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         String[] ctnList = new String[LaunchDigitalCare.mList.size()];
         for (int i = 0; i < LaunchDigitalCare.mList.size(); i++)
             ctnList[i] = LaunchDigitalCare.mList.get(i);
-        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
-
-
-        FragmentLauncher fragLauncher = new FragmentLauncher(
-                this, R.id.sampleMainContainer, actionBarClickListener);
-        fragLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-        DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
+        invokeDigitalCareLibrary(ctnList);
 
 
         try {
@@ -77,6 +70,17 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
 
         DigitalCareConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
+    }
+
+    private void invokeDigitalCareLibrary(String[] ctnList) {
+        HardcodedProductList productList = new HardcodedProductList(ctnList);
+        productList.setCatalog(Catalog.CARE);
+        productList.setSector(Sector.B2C);
+
+        FragmentLauncher fragLauncher = new FragmentLauncher(
+                this, R.id.sampleMainContainer, actionBarClickListener);
+        fragLauncher.setAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+        DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productList);
     }
 
     protected void initActionBar() throws ClassCastException {
