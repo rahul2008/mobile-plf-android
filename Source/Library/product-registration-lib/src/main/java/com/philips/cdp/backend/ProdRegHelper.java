@@ -8,14 +8,13 @@ import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.model.ProductData;
 import com.philips.cdp.model.ProductMetaData;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.productbuilder.ProductMetaDataBuilder;
-import com.philips.cdp.productbuilder.RegistrationBuilder;
-import com.philips.cdp.productbuilder.RegistrationDataBuilder;
+import com.philips.cdp.productrequest.InjectAccessToken;
+import com.philips.cdp.productrequest.ProductMetaRequest;
+import com.philips.cdp.productrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.RequestType;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
@@ -38,32 +37,32 @@ public class ProdRegHelper {
     public void cancelRequest(String requestTag) {
     }
 
-    public void registerProduct(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    public void registerProduct(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
         requestType = ProdRegConstants.PRODUCT_REGISTRATION;
-        processMetadata(context, prxDataBuilder, listener);
+        processMetadata(context, prxRequest, listener);
     }
 
-    protected void processMetadata(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
-        RegistrationBuilder registrationBuilder = (RegistrationBuilder) prxDataBuilder;
-        ProductMetaDataBuilder productMetaDataBuilder = getProductMetaDataBuilder(registrationBuilder);
+    protected void processMetadata(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
+        RegistrationRequest registrationRequest = (RegistrationRequest) prxRequest;
+        ProductMetaRequest productMetaDataBuilder = getProductMetaDataBuilder(registrationRequest);
         RequestManager mRequestManager = getRequestManager(context);
-        executeMetadataRequest(context, prxDataBuilder, listener, productMetaDataBuilder, mRequestManager);
+        executeMetadataRequest(context, prxRequest, listener, productMetaDataBuilder, mRequestManager);
     }
 
-    private void executeMetadataRequest(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener, final ProductMetaDataBuilder productMetaDataBuilder, final RequestManager mRequestManager) {
-        mRequestManager.executeRequest(RequestType.GET, productMetaDataBuilder, new ResponseListener() {
+    private void executeMetadataRequest(final Context context, final PrxRequest prxRequest, final ResponseListener listener, final ProductMetaRequest productMetaDataBuilder, final RequestManager mRequestManager) {
+        mRequestManager.executeRequest(productMetaDataBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 ProductMetaData productMetaData = (ProductMetaData) responseData;
                 ProductData productData = productMetaData.getData();
-                if (validateSerialNumberFromMetadata(productData, prxDataBuilder, listener)
-                        && validatePurchaseDateFromMetadata(productData, prxDataBuilder, listener))
-                    makeRegistrationRequest(context, prxDataBuilder, listener);
+                if (validateSerialNumberFromMetadata(productData, prxRequest, listener)
+                        && validatePurchaseDateFromMetadata(productData, prxRequest, listener))
+                    makeRegistrationRequest(context, prxRequest, listener);
             }
 
             @Override
             public void onResponseError(String error, int code) {
-                handleError(code, prxDataBuilder, listener);
+                handleError(code, prxRequest, listener);
             }
         });
     }
@@ -76,17 +75,17 @@ public class ProdRegHelper {
     }
 
     @NonNull
-    private ProductMetaDataBuilder getProductMetaDataBuilder(final RegistrationBuilder registrationBuilder) {
-        ProductMetaDataBuilder productMetaDataBuilder = new ProductMetaDataBuilder(registrationBuilder.getCtn(), registrationBuilder.getAccessToken());
-        productMetaDataBuilder.setSector(registrationBuilder.getSector());
-        productMetaDataBuilder.setmLocale(registrationBuilder.getLocale());
-        productMetaDataBuilder.setCatalog(registrationBuilder.getCatalog());
+    private ProductMetaRequest getProductMetaDataBuilder(final RegistrationRequest registrationRequest) {
+        ProductMetaRequest productMetaDataBuilder = new ProductMetaRequest(registrationRequest.getCtn(), registrationRequest.getAccessToken());
+        productMetaDataBuilder.setSector(registrationRequest.getSector());
+        productMetaDataBuilder.setmLocale(registrationRequest.getLocale());
+        productMetaDataBuilder.setCatalog(registrationRequest.getCatalog());
         return productMetaDataBuilder;
     }
 
-    private boolean validateSerialNumberFromMetadata(final ProductData data, final PrxDataBuilder prxDataBuilder, ResponseListener listener) {
+    private boolean validateSerialNumberFromMetadata(final ProductData data, final PrxRequest prxRequest, ResponseListener listener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
-            RegistrationDataBuilder registrationDataBuilder = (RegistrationDataBuilder) prxDataBuilder;
+            RegistrationRequest registrationDataBuilder = (RegistrationRequest) prxRequest;
             registrationDataBuilder.setRequiresSerialNumber(true);
             if (!registrationDataBuilder.getProductSerialNumber().matches(data.getSerialNumberFormat())) {
                 listener.onResponseError(mContext.getString(R.string.serial_number_error), -1);
@@ -96,8 +95,8 @@ public class ProdRegHelper {
         return true;
     }
 
-    private boolean validatePurchaseDateFromMetadata(final ProductData data, final PrxDataBuilder prxDataBuilder, ResponseListener listener) {
-        RegistrationDataBuilder registrationDataBuilder = (RegistrationDataBuilder) prxDataBuilder;
+    private boolean validatePurchaseDateFromMetadata(final ProductData data, final PrxRequest prxRequest, ResponseListener listener) {
+        RegistrationRequest registrationDataBuilder = (RegistrationRequest) prxRequest;
         final String purchaseDate = registrationDataBuilder.getPurchaseDate();
         if (data.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             if (purchaseDate != null && purchaseDate.length() > 0) {
@@ -111,13 +110,13 @@ public class ProdRegHelper {
         return true;
     }
 
-    private void makeRegistrationRequest(final Context context, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    private void makeRegistrationRequest(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
         RequestManager requestManager = getRequestManager(context);
-        requestManager.executeRequest(RequestType.POST, prxDataBuilder, getLocalResponseListener(prxDataBuilder, listener));
+        requestManager.executeRequest(prxRequest, getLocalResponseListener(prxRequest, listener));
     }
 
     @NonNull
-    private ResponseListener getLocalResponseListener(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    private ResponseListener getLocalResponseListener(final PrxRequest prxRequest, final ResponseListener listener) {
         return new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
@@ -127,7 +126,7 @@ public class ProdRegHelper {
             @Override
             public void onResponseError(final String errorMessage, final int responseCode) {
                 try {
-                    handleError(responseCode, prxDataBuilder, listener);
+                    handleError(responseCode, prxRequest, listener);
                 } catch (Exception e) {
                     PrxLogger.e(TAG, mContext.getString(R.string.volley_error) + e.toString());
                 }
@@ -135,33 +134,35 @@ public class ProdRegHelper {
         };
     }
 
-    private void handleError(final int statusCode, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    private void handleError(final int statusCode, final PrxRequest prxRequest, final ResponseListener listener) {
         if (statusCode == ErrorType.INVALID_PRODUCT.getId()) {
             listener.onResponseError(ErrorType.INVALID_PRODUCT.getDescription(), statusCode);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_EXPIRED.getId()) {
-            onAccessTokenExpire(prxDataBuilder, listener);
+            onAccessTokenExpire(prxRequest, listener);
         } else if (statusCode == ErrorType.ACCESS_TOKEN_INVALID.getId()) {
-            onAccessTokenExpire(prxDataBuilder, listener);
+            onAccessTokenExpire(prxRequest, listener);
         } else if (statusCode == ErrorType.INVALID_VALIDATION.getId()) {
             listener.onResponseError(ErrorType.INVALID_VALIDATION.getDescription(), statusCode);
         } else if (statusCode == ErrorType.INVALID_SERIAL_NUMBER.getId()) {
             listener.onResponseError(ErrorType.INVALID_SERIAL_NUMBER.getDescription(), statusCode);
         } else if (statusCode == ErrorType.NO_INTERNET_CONNECTION.getId()) {
             listener.onResponseError(ErrorType.NO_INTERNET_CONNECTION.getDescription(), statusCode);
+        } else if (statusCode == ErrorType.REQUEST_TIME_OUT.getId()) {
+            listener.onResponseError(ErrorType.REQUEST_TIME_OUT.getDescription(), statusCode);
         } else {
             listener.onResponseError(ErrorType.UNKNOWN.getDescription(), statusCode);
         }
     }
 
-    private void onAccessTokenExpire(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    private void onAccessTokenExpire(final PrxRequest prxRequest, final ResponseListener listener) {
         final User user = new User(mContext);
         user.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 String response = user.getAccessToken();
-                RegistrationDataBuilder registrationDataBuilder = (RegistrationDataBuilder) prxDataBuilder;
-                registrationDataBuilder.setAccessToken(response);
-                validateRequests(mContext, prxDataBuilder, listener);
+                InjectAccessToken injectAccessToken = (InjectAccessToken) prxRequest;
+                injectAccessToken.setAccessToken(response);
+                validateRequests(mContext, prxRequest, listener);
             }
 
             @Override
@@ -171,19 +172,19 @@ public class ProdRegHelper {
         }, mContext);
     }
 
-    public void getRegisteredProduct(final Context context, PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    public void getRegisteredProduct(final Context context, PrxRequest prxRequest, final ResponseListener listener) {
         requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
         RequestManager requestManager = getRequestManager(context);
-        requestManager.executeRequest(RequestType.GET, prxDataBuilder, getLocalResponseListener(prxDataBuilder, listener));
+        requestManager.executeRequest(prxRequest, getLocalResponseListener(prxRequest, listener));
     }
 
-    private void validateRequests(final Context mContext, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    private void validateRequests(final Context mContext, final PrxRequest prxRequest, final ResponseListener listener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
-                makeRegistrationRequest(mContext, prxDataBuilder, listener);
+                makeRegistrationRequest(mContext, prxRequest, listener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
-                getRegisteredProduct(mContext, prxDataBuilder, listener);
+                getRegisteredProduct(mContext, prxRequest, listener);
                 break;
             default:
                 break;

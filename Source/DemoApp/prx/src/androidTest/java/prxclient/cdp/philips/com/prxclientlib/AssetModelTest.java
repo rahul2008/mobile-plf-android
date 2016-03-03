@@ -3,8 +3,8 @@ package prxclient.cdp.philips.com.prxclientlib;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetRequest;
+import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
 import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
@@ -37,7 +37,7 @@ public class AssetModelTest extends InstrumentationTestCase {
     String mNumber = "001";
     String mType = "DFU";
     String mAssetResource = "http://download.p4c.philips.com/files/r/rq1250_17/rq1250_17_dfu_eng.pdf";
-    private PrxDataBuilder mProductAssetBuilder = null;
+    private PrxRequest mProductAssetBuilder = null;
     private Asset mAssetObject = null;
     private Assets mAssetsObject = null;
     private Data mData = null;
@@ -47,7 +47,7 @@ public class AssetModelTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductAssetBuilder = new ProductAssetBuilder("125", null);
+        mProductAssetBuilder = new ProductAssetRequest("125", null);
         mProductAssetBuilder.setmCatalogCode("COnsumer");
         mProductAssetBuilder.setmLocale("nl_NL");
         mProductAssetBuilder.setmSectorCode("HAIR");

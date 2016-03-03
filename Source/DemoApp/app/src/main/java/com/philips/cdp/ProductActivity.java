@@ -16,8 +16,8 @@ import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
-import com.philips.cdp.productbuilder.RegisteredBuilder;
-import com.philips.cdp.productbuilder.RegistrationBuilder;
+import com.philips.cdp.productrequest.RegisteredRequest;
+import com.philips.cdp.productrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -66,16 +66,16 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void registerProduct(final String accessToken) {
         PrxLogger.enablePrxLogger(true);
 
-        RegistrationBuilder registrationBuilder = new RegistrationBuilder(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
-        registrationBuilder.setSector(Sector.B2C);
-        registrationBuilder.setCatalog(Catalog.CONSUMER);
-        registrationBuilder.setmLocale(mLocale);
-        registrationBuilder.setmCatalogCode(mCatalogCode);
-        registrationBuilder.setRegistrationChannel(regChannel.getText().toString());
-        registrationBuilder.setPurchaseDate(purchaseDate.getText().toString());
+        RegistrationRequest registrationRequest = new RegistrationRequest(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
+        registrationRequest.setSector(Sector.B2C);
+        registrationRequest.setCatalog(Catalog.CONSUMER);
+        registrationRequest.setmLocale(mLocale);
+        registrationRequest.setmCatalogCode(mCatalogCode);
+        registrationRequest.setRegistrationChannel(regChannel.getText().toString());
+        registrationRequest.setPurchaseDate(purchaseDate.getText().toString());
 
         ProdRegHelper prodRegHelper = new ProdRegHelper(this);
-        prodRegHelper.registerProduct(this, registrationBuilder, new ResponseListener() {
+        prodRegHelper.registerProduct(this, registrationRequest, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
@@ -93,12 +93,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void registeredProduct(final String accessToken) {
-        RegisteredBuilder registeredBuilder = new RegisteredBuilder(accessToken);
-        registeredBuilder.setSector(Sector.B2C);
-        registeredBuilder.setCatalog(Catalog.CONSUMER);
-        registeredBuilder.setmLocale("en_GB");
+        RegisteredRequest registeredRequest = new RegisteredRequest(accessToken);
+        registeredRequest.setSector(Sector.B2C);
+        registeredRequest.setCatalog(Catalog.CONSUMER);
+        registeredRequest.setmLocale("en_GB");
         ProdRegHelper prodRegHelper = new ProdRegHelper(this);
-        prodRegHelper.getRegisteredProduct(this, registeredBuilder, new ResponseListener() {
+        prodRegHelper.getRegisteredProduct(this, registeredRequest, new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 Log.d(TAG, responseData.toString());

@@ -9,7 +9,7 @@ import com.philips.cdp.localematch.enums.LocaleMatchError;
 import com.philips.cdp.localematch.enums.Platform;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.network.NetworkWrapper;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
 /**
@@ -25,43 +25,39 @@ public class RequestManager {
         mContext = applicationContext;
     }
 
-    public void executeRequest(int requestType, PrxDataBuilder prxDataBuilder, ResponseListener listener) {
-        String[] locales = prxDataBuilder.getLocale().split("_");
-        setLocale(locales[0], locales[1], requestType, prxDataBuilder, listener);
-    }
-
-    public void executeRequest(PrxDataBuilder prxDataBuilder, ResponseListener responseListener) {
-        new NetworkWrapper(mContext).executeJsonObjectRequest(prxDataBuilder, responseListener);
+    public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
+        String[] locales = prxRequest.getLocale().split("_");
+        setLocale(locales[0], locales[1], prxRequest, listener);
     }
 
     public void cancelRequest(String requestTag) {
     }
 
-    private void setLocale(String languageCode, String countryCode, final int requestType, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    private void setLocale(String languageCode, String countryCode, final PrxRequest prxRequest, final ResponseListener listener) {
         final PILLocaleManager pilLocaleManager = new PILLocaleManager();
         final String[] mLocale = new String[1];
         pilLocaleManager.init(mContext, new LocaleMatchListener() {
                     public void onLocaleMatchRefreshed(String locale) {
                         PILLocale pilLocaleInstance = pilLocaleManager.currentLocaleWithCountryFallbackForPlatform(mContext, locale,
-                                Platform.PRX, prxDataBuilder.getSector(), prxDataBuilder.getCatalog());
+                                Platform.PRX, prxRequest.getSector(), prxRequest.getCatalog());
                         mLocale[0] = pilLocaleInstance.getLanguageCode() + "_" + pilLocaleInstance.getCountrycode();
-                        prxDataBuilder.setmLocale(mLocale[0]);
+                        prxRequest.setLocaleMatchResult(mLocale[0]);
 
-                        makeRequest(requestType, prxDataBuilder, listener);
+                        makeRequest(prxRequest, listener);
                     }
 
                     public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
                         PrxLogger.d(getClass() + "", error.toString());
-                        makeRequest(requestType, prxDataBuilder, listener);
+                        makeRequest(prxRequest, listener);
                     }
                 }
         );
         pilLocaleManager.refresh(mContext, languageCode, countryCode);
     }
 
-    private void makeRequest(final int requestType, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         try {
-            new NetworkWrapper(mContext).executeCustomRequest(requestType, prxDataBuilder, listener);
+            new NetworkWrapper(mContext).executeCustomRequest(prxRequest, listener);
         } catch (Exception e) {
             e.printStackTrace();
         }

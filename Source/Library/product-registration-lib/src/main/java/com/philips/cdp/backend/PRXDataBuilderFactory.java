@@ -1,6 +1,6 @@
 package com.philips.cdp.backend;
 
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -8,7 +8,7 @@ import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
  */
 public class PRXDataBuilderFactory {
 
-    public PrxDataBuilder createPRXBuilder(PRXRequestType prxRequestType, ProdRegRequestInfo prodRegRequestInfo) {
+    public PrxRequest createPRXBuilder(PRXRequestType prxRequestType, ProdRegRequestInfo prodRegRequestInfo) {
         return null;
     }
 }

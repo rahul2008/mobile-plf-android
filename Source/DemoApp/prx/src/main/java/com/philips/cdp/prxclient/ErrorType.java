@@ -12,7 +12,8 @@ public enum ErrorType {
     INVALID_VALIDATION(422, "Invalid input"),
     INVALID_PRODUCT(404, "CTN not found"),
     INVALID_SERIAL_NUMBER(400, "Invalid Serial Number"),
-    NO_INTERNET_CONNECTION(501, "No internet connection");
+    NO_INTERNET_CONNECTION(501, "No internet connection"),
+    REQUEST_TIME_OUT(504, "Time out Exception");
 
     private final int id;
     private final String description;

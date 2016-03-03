@@ -7,14 +7,15 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
-import com.philips.cdp.prxclient.PrxRequest;
+import com.philips.cdp.prxclient.PrxVolleyRequest;
 import com.philips.cdp.prxclient.SSLCertificateManager;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -34,20 +35,18 @@ public class NetworkWrapper {
     private RequestQueue mVolleyRequest;
     private boolean isHttpsRequest = true;
 
-
     public NetworkWrapper(Context context) {
         mContext = context;
         mVolleyRequest = Volley.newRequestQueue(mContext);
     }
 
-
-    public void executeJsonObjectRequest(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    public void executeJsonObjectRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         mVolleyRequest = Volley.newRequestQueue(mContext);
-        PrxLogger.d(TAG, "Url : " + prxDataBuilder.getRequestUrl());
-        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(0, prxDataBuilder.getRequestUrl(), new Response.Listener<JSONObject>() {
+        PrxLogger.d(TAG, "Url : " + prxRequest.getRequestUrl());
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(0, prxRequest.getRequestUrl(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ResponseData responseData = prxDataBuilder.getResponseData(response);
+                ResponseData responseData = prxRequest.getResponseData(response);
                 listener.onResponseSuccess(responseData);
 
                 PrxLogger.d(TAG, "Response : " + response.toString());
@@ -70,10 +69,10 @@ public class NetworkWrapper {
         mVolleyRequest.add(mJsonObjectRequest);
     }
 
-    public void executeCustomRequest(final int requestType, final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
-        final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxDataBuilder, listener);
+    public void executeCustomRequest(final PrxRequest prxRequest, final ResponseListener listener) {
+        final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
         final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
-        PrxRequest request = new PrxRequest(requestType, prxDataBuilder.getRequestUrl(), prxDataBuilder.getParams(), prxDataBuilder.getHeaders(), responseListener, errorListener);
+        PrxVolleyRequest request = new PrxVolleyRequest(prxRequest.getRequestType(), prxRequest.getRequestUrl(), prxRequest.getParams(), prxRequest.getHeaders(), responseListener, errorListener);
         if (isHttpsRequest)
             SSLCertificateManager.setSSLSocketFactory();
         mVolleyRequest.add(request);
@@ -91,6 +90,8 @@ public class NetworkWrapper {
                             listener.onResponseError(error.toString(), networkResponse.statusCode);
                         else if (error instanceof NoConnectionError) {
                             listener.onResponseError(mContext.getString(R.string.no_internet_message), ErrorType.NO_INTERNET_CONNECTION.getId());
+                        } else if (error instanceof TimeoutError) {
+                            listener.onResponseError(ErrorType.REQUEST_TIME_OUT.getDescription(), ErrorType.REQUEST_TIME_OUT.getId());
                         } else
                             listener.onResponseError(ErrorType.UNKNOWN.getDescription(), ErrorType.UNKNOWN.getId());
                     } catch (Exception e) {
@@ -102,11 +103,11 @@ public class NetworkWrapper {
     }
 
     @NonNull
-    private Response.Listener<JSONObject> getVolleyResponseListener(final PrxDataBuilder prxDataBuilder, final ResponseListener listener) {
+    private Response.Listener<JSONObject> getVolleyResponseListener(final PrxRequest prxRequest, final ResponseListener listener) {
         return new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(final JSONObject response) {
-                ResponseData responseData = prxDataBuilder.getResponseData(response);
+                ResponseData responseData = prxRequest.getResponseData(response);
                 listener.onResponseSuccess(responseData);
             }
         };

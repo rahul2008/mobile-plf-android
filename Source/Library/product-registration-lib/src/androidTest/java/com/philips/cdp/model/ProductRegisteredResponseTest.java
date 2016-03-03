@@ -3,7 +3,7 @@ package com.philips.cdp.model;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.productbuilder.RegistrationBuilder;
+import com.philips.cdp.productrequest.RegistrationRequest;
 
 import org.json.JSONObject;
 import org.mockito.Mock;
@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
 public class ProductRegisteredResponseTest extends InstrumentationTestCase {
     @Mock
     String string1, string2, string3;
-    RegistrationBuilder mProductAssetBuilder = new RegistrationBuilder(string1, string2, string3);
+    RegistrationRequest mProductAssetBuilder = new RegistrationRequest(string1, string2, string3);
     private String TAG = getClass() + "";
 
     @Override

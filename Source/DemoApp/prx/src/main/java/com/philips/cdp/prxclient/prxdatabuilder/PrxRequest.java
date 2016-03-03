@@ -13,7 +13,7 @@ import java.util.Map;
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 02-Nov-15.
  */
-public abstract class PrxDataBuilder {
+public abstract class PrxRequest {
 
     private String mServerInfo = "www.philips.com/prx";
     private String mSectorCode = null;
@@ -21,6 +21,15 @@ public abstract class PrxDataBuilder {
     private String mCatalogCode = null;
     private Sector sector;
     private Catalog catalog;
+    private String localeMatchResult;
+
+    public String getLocaleMatchResult() {
+        return localeMatchResult;
+    }
+
+    public void setLocaleMatchResult(final String localeMatchResult) {
+        this.localeMatchResult = localeMatchResult;
+    }
 
     public String getServerInfo() {
         return mServerInfo;
@@ -50,14 +59,6 @@ public abstract class PrxDataBuilder {
         this.mCatalogCode = mCatalogCode;
     }
 
-    public abstract ResponseData getResponseData(JSONObject jsonObject);
-
-    public abstract String getRequestUrl();
-
-    public abstract Map<String, String> getHeaders();
-
-    public abstract Map<String, String> getParams();
-
     public Sector getSector() {
         return sector;
     }
@@ -73,4 +74,15 @@ public abstract class PrxDataBuilder {
     public void setCatalog(Catalog catalog) {
         this.catalog = catalog;
     }
+
+    public abstract ResponseData getResponseData(JSONObject jsonObject);
+
+    public abstract String getRequestUrl();
+
+    public abstract int getRequestType();
+
+    public abstract Map<String, String> getHeaders();
+
+    public abstract Map<String, String> getParams();
+
 }

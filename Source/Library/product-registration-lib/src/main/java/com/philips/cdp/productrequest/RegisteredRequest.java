@@ -1,10 +1,12 @@
-package com.philips.cdp.productbuilder;
+package com.philips.cdp.productrequest;
 
 import android.net.Uri;
 import android.util.Log;
 
 import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.model.RegisteredDataResponse;
+import com.philips.cdp.prxclient.RequestType;
+import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
@@ -16,15 +18,21 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegisteredBuilder extends RegistrationDataBuilder {
+public class RegisteredRequest extends PrxRequest implements InjectAccessToken {
 
-    public RegisteredBuilder(String accessToken) {
+    private String accessToken;
+
+    public RegisteredRequest(String accessToken) {
         this.accessToken = accessToken;
     }
 
-    @Override
     public String getAccessToken() {
         return accessToken;
+    }
+
+    @Override
+    public void setAccessToken(final String accessToken) {
+        this.accessToken = accessToken;
     }
 
     @Override
@@ -40,6 +48,11 @@ public class RegisteredBuilder extends RegistrationDataBuilder {
     @Override
     public String getRequestUrl() {
         return generateUrl();
+    }
+
+    @Override
+    public int getRequestType() {
+        return RequestType.GET;
     }
 
     @Override

@@ -3,8 +3,8 @@ package prxclient.cdp.philips.com.prxclientlib;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetRequest;
+import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 
@@ -23,13 +23,13 @@ import java.io.InputStreamReader;
 public class SummaryModelTest extends InstrumentationTestCase {
 
     private static final String TAG = SummaryModelTest.class.getSimpleName();
-    PrxDataBuilder mProductAssetBuilder = null;
+    PrxRequest mProductAssetBuilder = null;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductAssetBuilder = new ProductAssetBuilder("125", null);
+        mProductAssetBuilder = new ProductAssetRequest("125", null);
         mProductAssetBuilder.setmCatalogCode("COnsumer");
         mProductAssetBuilder.setmLocale("nl_NL");
         mProductAssetBuilder.setmSectorCode("HAIR");

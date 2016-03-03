@@ -1,6 +1,7 @@
 package com.philips.cdp.prxclient.prxdatabuilder;
 
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.RequestType;
+import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
@@ -12,26 +13,33 @@ import java.util.Map;
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 02-Nov-15.
  */
-public class ProductAssetBuilder extends PrxDataBuilder {
+public class ProductSummaryRequest extends PrxRequest {
 
-    private static final String PRX_REQUEST_URL = "http://%s/product/%s/%s/%s/products/%s.assets";
+    //    private static final String PRX_REQUEST_URL = "https://ave.bolyartech.com:44401/https_test.html";
+    private static final String PRX_REQUEST_URL = "http://%s/product/%s/%s/%s/products/%s.summary";
     private String mCtn = null;
     private String mRequestTag = null;
 
-    public ProductAssetBuilder(String ctn, String requestTag) {
+    public ProductSummaryRequest(String ctn, String requestTag) {
         this.mCtn = ctn;
         this.mRequestTag = requestTag;
     }
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        return new AssetModel().parseJsonResponseData(jsonObject);
+
+        return new SummaryModel().parseJsonResponseData(jsonObject);
     }
 
     @Override
     public String getRequestUrl() {
         return String.format(PRX_REQUEST_URL, getServerInfo(), getSectorCode(), getLocale(),
                 getCatalogCode(), mCtn);
+    }
+
+    @Override
+    public int getRequestType() {
+        return RequestType.GET;
     }
 
     @Override

@@ -4,9 +4,9 @@ import android.test.InstrumentationTestCase;
 import android.test.mock.MockContext;
 import android.util.Log;
 
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxDataBuilder;
+import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetRequest;
+import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryRequest;
+import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
@@ -21,17 +21,17 @@ import java.io.InputStreamReader;
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 09-Nov-15.
  */
-public class ProductSummaryBuilderTest extends InstrumentationTestCase {
+public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
-    private static final String TAG = ProductAssetBuilderTest.class.getSimpleName();
+    private static final String TAG = ProductAssetRequestTest.class.getSimpleName();
     MockContext mContext;
-    PrxDataBuilder mProductAssetBuilder = null;
+    PrxRequest mProductAssetBuilder = null;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        mProductAssetBuilder = new ProductSummaryBuilder("125", null);
+        mProductAssetBuilder = new ProductSummaryRequest("125", null);
         mProductAssetBuilder.setmCatalogCode("COnsumer");
         mProductAssetBuilder.setmLocale("nl_NL");
         mProductAssetBuilder.setmSectorCode("HAIR");
@@ -68,7 +68,7 @@ public class ProductSummaryBuilderTest extends InstrumentationTestCase {
     }
 
     public void testPrxBuilderObjectWithQueueParameter() {
-        mProductAssetBuilder = new ProductAssetBuilder("125", "TAGINFO");
+        mProductAssetBuilder = new ProductAssetRequest("125", "TAGINFO");
         assertNotNull(mProductAssetBuilder);
     }
 
