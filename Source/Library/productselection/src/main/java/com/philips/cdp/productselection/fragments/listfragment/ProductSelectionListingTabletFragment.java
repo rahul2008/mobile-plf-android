@@ -204,7 +204,9 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setViewParams(newConfig);
+        if(isAdded()) {
+            setViewParams(newConfig);
+        }
     }
 
     @Override

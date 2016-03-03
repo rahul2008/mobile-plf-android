@@ -483,27 +483,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             ft.commit();
         } catch (IllegalStateException e) {
         }
-        removeWelcomeScreen();
-    }
-
-    private void removeWelcomeScreen() {
-        ProductSelectionLogger.i("testing", "removeWelcomeScreen: ");
-        List<Fragment> fragmentList = getActivity().getSupportFragmentManager().getFragments();
-        for (int i = fragmentList.size() - 1; i >= 0; i--) {
-            Fragment frag = fragmentList.get(i);
-            ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen : " + frag);
-            if(frag instanceof WelcomeScreenFragmentSelection){
-                ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen inside : " + frag);
-                FragmentTransaction fragmentTransactionNew = getActivity().getSupportFragmentManager().beginTransaction();
-                if (frag != null) {
-                    try {
-                        fragmentTransactionNew.remove(frag).commit();
-                    }catch (IllegalStateException e){
-                    }
-                }
-
-            }
-        }
     }
 
     protected boolean clearBackStackHistory(Context context) {
