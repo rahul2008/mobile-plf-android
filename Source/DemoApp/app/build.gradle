@@ -4,7 +4,7 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 def coverageSourceDirs = [
-        '../app/src/main/java'
+        '../DemoApp/app/src/main/java'
 ]
 
 android {
@@ -85,6 +85,11 @@ dependencies {
     compile files('libs/adobeMobileLibrary-v4.5.1.jar')
     compile files('libs/org.apache.http.legacy.jar')
     //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile "org.mockito:mockito-core:1.9.5"
+    androidTestCompile project(':dexmaker-mockito-1.4')
+    androidTestCompile project(':dexmaker-1.4')
+    androidTestCompile project(':dexmaker-dx-1.4')
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
