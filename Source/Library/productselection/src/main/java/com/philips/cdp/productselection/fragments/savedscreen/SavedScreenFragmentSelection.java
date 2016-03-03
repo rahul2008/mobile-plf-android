@@ -22,7 +22,6 @@ import com.philips.cdp.productselection.customview.CustomFontTextView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.Constants;
@@ -55,6 +54,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private ImageView mProductImage = null;
     private RelativeLayout mRightPanelLayout = null;
     private RelativeLayout mLeftPanelLayout = null;
+    private LinearLayout.LayoutParams mLeftPanelLayoutParams = null;
+    private LinearLayout.LayoutParams mRightPanelLayoutParams = null;
 
     /**
      * setting Listeners & setting the values & controls to the inflated view's of the screen "fragment_saved_screen.xml"
@@ -77,8 +78,14 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         mProductCtn.setText(mUserSelectedProduct.getData().getCtn());
         loadProductImage(mProductImage);
 
+        /* These views are required for tablet design(GUI).*/
         mLeftPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductList);
         mRightPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductDetailsParent);
+
+        if(isLaunchedAsTabletLandscape()) {
+            mRightPanelLayoutParams = (LinearLayout.LayoutParams) mRightPanelLayout.getLayoutParams();
+            mLeftPanelLayoutParams = (LinearLayout.LayoutParams) mLeftPanelLayout.getLayoutParams();
+        }
 
         mSettings.setOnClickListener(this);
         mRedirectingButton.setOnClickListener(this);
@@ -101,6 +108,11 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //this is required for tablet flow.
+        if(isLaunchedAsTabletLandscape()){
+            setListViewRequiredInTablet(false);
+        }
 
         View view = inflater.inflate(R.layout.fragment_saved_screen, container, false);
         mSettings = (Button) view.findViewById(R.id.savedscreen_button_settings);
@@ -151,13 +163,47 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isLaunchedAsTabletLandscape()) {
             mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
+            mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
         }
         else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isLaunchedAsTabletLandscape()) {
             mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = (int) getActivity().getResources()
                     .getDimension(R.dimen.tablet_details_view_land_margin);
+            mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
         }
+    }
 
-        mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
+    private void guiAlignmentTablet(Configuration config){
+
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            View listViewSparator = ((View) getActivity().findViewById(R.id.listViewSeperator));
+            if (listViewSparator != null)
+                listViewSparator.setVisibility(View.GONE);
+//            Fragment fragmentTablet = getActivity().getSupportFragmentManager().findFragmentById(R.id.productListContainerTablet);
+//            fragmentTablet.
+
+            if(isListViewRequiredInTablet()) {
+                mLeftPanelLayout.setVisibility(View.VISIBLE);
+                mRightPanelLayout.setVisibility(View.GONE);
+                mLeftPanelLayoutParams.weight = 1.0f;
+                mRightPanelLayoutParams.weight = 0.0f;
+            }
+            else{
+                mLeftPanelLayoutParams.weight = 0.0f;
+                mRightPanelLayoutParams.weight = 1.0f;
+                mRightPanelLayout.setVisibility(View.VISIBLE);
+                mLeftPanelLayout.setVisibility(View.GONE);
+            }
+//            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = mLeftRightMarginPort;
+        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ((View) getActivity().findViewById(R.id.listViewSeperator)).setVisibility(View.VISIBLE);
+            mLeftPanelLayout.setVisibility(View.VISIBLE);
+            mRightPanelLayout.setVisibility(View.VISIBLE);
+            mRightPanelLayoutParams.weight = 0.60f;
+            mLeftPanelLayoutParams.weight = 0.39f;
+//            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = 0;
+        }
+        mRightPanelLayout.setLayoutParams(mRightPanelLayoutParams);
+        mLeftPanelLayout.setLayoutParams(mLeftPanelLayoutParams);
     }
 
     @Override
@@ -201,12 +247,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                     setListViewRequiredInTablet(true);
                     replaceFragmentForTablet("SavedScreenFragmentSelection", new DetailedScreenFragmentSelection());
 
-//                    Configuration configuration = getResources().getConfiguration();
-//
-//                    if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//                        mLeftPanelLayout.setVisibility(View.VISIBLE);
-//                        mRightPanelLayout.setVisibility(View.GONE);
-//                    }
+                    Configuration configuration = getResources().getConfiguration();
+                    guiAlignmentTablet(configuration);
 
                 } else {
                     showFragment(new ProductSelectionListingFragment());

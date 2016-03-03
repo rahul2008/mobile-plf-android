@@ -30,11 +30,11 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
 
     private String TAG = ProductSelectionListingTabletFragment.class.getSimpleName();
 
-    private LinearLayout.LayoutParams mRightPanelLayoutParams = null;
     private RelativeLayout mRightPanelLayout = null;
     private RelativeLayout mLeftPanelLayout = null;
     private static View mRootView = null;
     private LinearLayout.LayoutParams mLeftPanelLayoutParams = null;
+    private LinearLayout.LayoutParams mRightPanelLayoutParams = null;
     private Fragment mFragmentDetailsTablet = null;
     private DetailedScreenFragmentSelection mDetailedScreenFragmentSelection = null;
     private static final int UPDATE_UI = 0;
