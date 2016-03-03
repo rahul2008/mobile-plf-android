@@ -264,6 +264,11 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
     }
 
+    @Override
+    public void onSetPaymentDetails(Message msg) {
+
+    }
+
     private Addresses retrieveSelectedAddress() {
         int pos = mAdapter.getSelectedPosition();
         return mAddresses.get(pos);

@@ -156,8 +156,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         } else {
             addFragment(
                     PaymentSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-            Toast.makeText(mContext, "Navigate to payment screen", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onSetPaymentDetails(Message msg) {
+
     }
 
     @Override
