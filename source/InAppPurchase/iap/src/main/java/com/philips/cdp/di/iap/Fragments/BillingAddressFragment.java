@@ -27,6 +27,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, InlineForms.Validator, TextWatcher {
 
     private Context mContext;
+    private PuiSwitch mSwitchBillingAddress;
     private EditText mEtFirstName;
     private EditText mEtLastName;
     private EditText mEtAddress;
@@ -50,7 +51,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         LinearLayout mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
         TextView mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-        PuiSwitch mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
+        mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
@@ -98,6 +99,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
                 if (isChecked) {
                     disableAllFields();
                     prePopulateShippingAddress();
+                    mBtnContinue.setEnabled(true);
                 } else {
                     clearAllFields();
                     mBtnContinue.setEnabled(false);
@@ -112,6 +114,10 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_address);
+        if (mSwitchBillingAddress.isChecked()) {
+            disableAllFields();
+            mBtnContinue.setEnabled(true);
+        }
     }
 
     private void prePopulateShippingAddress() {

@@ -17,7 +17,7 @@ public class IAPConstant {
     public static final int IAP_ERROR = -1;
     public static String IS_SECOND_USER = "IS_SECOND_USER";
     public static String ADDRESS_FIELDS = "ADDRESS_FIELDS";
-    public static String PAYMENT_FIELDS = "PAYMENT_FIELDS";
+    public static String PAYMENT_METHOD_LIST = "PAYMENT_METHOD_LIST";
     public static String USE_PAYMENT = "USE_PAYMENT";
     public static String ADD_NEW_PAYMENT = "ADD_NEW_PAYMENT";
 
