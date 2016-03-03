@@ -231,7 +231,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
                 addFragment(
                         OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
             } else {
-                NetworkUtility.getInstance().showNetworkError(mContext);
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
             }
         } else if (v == mBtnCancel) {
             addFragment

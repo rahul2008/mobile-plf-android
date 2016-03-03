@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
@@ -23,6 +22,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
@@ -51,9 +51,10 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>());
+        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(),getFragmentManager());
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
         View rootView = inflater.inflate(R.layout.shopping_cart_view, container, false);
         mListView = (ListView) rootView.findViewById(R.id.withouticon);
@@ -75,14 +76,14 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     private void updateCartOnResume() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter);
+        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter,getFragmentManager());
         if (Utility.isInternetConnected(mContext)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
                 updateCartDetails(presenter);
             }
         } else {
-            NetworkUtility.getInstance().showNetworkError(mContext);
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
         }
     }
 
@@ -102,6 +103,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
     }
 
     @Override
@@ -112,7 +114,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
                     mAddressController.getShippingAddresses();
                 } else {
-                    NetworkUtility.getInstance().showNetworkError(mContext);
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
                 }
             }
         }
@@ -139,6 +141,19 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
         }
+        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
+            startProductDetailFragment();
+        }
+    }
+
+    private void startProductDetailFragment() {
+        ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.PRODUCT_TITLE,shoppingCartData.getProductTitle());
+        bundle.putString(IAPConstant.PRODUCT_CTN,shoppingCartData.getCtnNumber());
+        bundle.putString(IAPConstant.PRODUCT_PRICE, NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(shoppingCartData.getTotalPrice()));
+        bundle.putString(IAPConstant.PRODUCT_OVERVIEW,shoppingCartData.getMarketingTextHeader());
+        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
     @Override
@@ -157,7 +172,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onFetchAddressFailure(Message msg) {
         Utility.dismissProgressDialog();
-        Toast.makeText(mContext, "Network error", Toast.LENGTH_SHORT).show();
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
     }
 
     @Override

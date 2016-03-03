@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iapdemo;
+package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.modalalert.BlurDialogFragment;
 
 import org.w3c.dom.Text;
@@ -19,18 +21,19 @@ public class ModalAlertDemoFragment extends BlurDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.iap_modal_alert, container, false);
-        Button CANCEL = (Button) v.findViewById(R.id.dialogButtonCancel);
+        View v = inflater.inflate(R.layout.iap_error_dialog, container, false);
 
-        Button OK = (Button) v.findViewById(R.id.dialogButtonOK);
-
+        Bundle bundle = getArguments();
         TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
-        TextView dialogDescription = (TextView) v.findViewById(R.id.dialogDescription);
+        dialogTitle.setText(bundle.getString(IAPConstant.MODEL_ALERT_ERROR_TEXT));
 
-        OK.setOnClickListener(dismissDialog());
+        TextView errorDescription = (TextView) v.findViewById(R.id.dialogDescription);
+        errorDescription.setText(bundle.getString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION));
 
-        dialogTitle.setText(getResources().getString(R.string.iap_add_to_cart));
-        dialogDescription.setText(getResources().getString(R.string.no_stock_description));
+        Button justOnce = (Button) v.findViewById(R.id.dialogButtonCancel);
+        justOnce.setText(bundle.getString(IAPConstant.MODEL_ALERT_BUTTON_TEXT));
+
+        justOnce.setOnClickListener(dismissDialog());
         return v;
     }
 
@@ -39,6 +42,7 @@ public class ModalAlertDemoFragment extends BlurDialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
+                getActivity().finish();
             }
         };
     }
