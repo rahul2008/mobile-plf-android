@@ -15,23 +15,19 @@ import com.philips.pins.shinelib.utility.SHNLogger;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by 310188215 on 02/03/15.
- */
 public class SHNDeviceScannerInternal {
     private static final String TAG = SHNDeviceScannerInternal.class.getSimpleName();
-    private static final int SCANNING_RESTART_INTERVAL_MS = 3000;
+    public static final long SCANNING_RESTART_INTERVAL_MS = 3000;
 
     @NonNull
     private final LeScanCallbackProxy leScanCallbackProxy;
-    private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener;
     private boolean scanning = false;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
-    private Runnable stopScanningRunnable;
     private Runnable restartScanningRunnable;
     private final SHNCentral shnCentral;
 
-    private final List<ScanRecord> scanRecords = new ArrayList<>();
+    @NonNull
+    private final List<ScanRequest> scanRequests = new ArrayList<>();
 
     /* package */ SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final LeScanCallbackProxy leScanCallbackProxy, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         SHNDeviceFoundInfo.setSHNCentral(shnCentral);
@@ -41,29 +37,25 @@ public class SHNDeviceScannerInternal {
     }
 
     public boolean startScanning(@NonNull SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
-        if (scanning) {
-            return false;
+        return startScanning(new ScanRequest(registeredDeviceDefinitions, null, scannerSettingDuplicates == SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, (int) stopScanningAfterMS, shnDeviceScannerListener));
+    }
+
+    public boolean startScanning(@NonNull final ScanRequest scanRequest) {
+        boolean isScanning = !scanRequests.isEmpty();
+        scanRequests.add(scanRequest);
+
+        if (!isScanning) {
+            scanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
+
+            if (scanning) {
+                SHNLogger.i(TAG, "Started scanning");
+                startScanningRestartTimer();
+            } else {
+                SHNLogger.e(TAG, "Error starting scanning");
+            }
         }
 
-        scanRecords.add(new ScanRecord(registeredDeviceDefinitions, null, scannerSettingDuplicates == SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, (int) stopScanningAfterMS, shnDeviceScannerListener));
-
-        this.shnDeviceScannerListener = shnDeviceScannerListener;
-        scanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
-
-        if (scanning) {
-            SHNLogger.i(TAG, "Started scanning");
-            stopScanningRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    stopScanning();
-                }
-            };
-            shnCentral.getInternalHandler().postDelayed(stopScanningRunnable, stopScanningAfterMS);
-
-            startScanningRestartTimer();
-        } else {
-            SHNLogger.e(TAG, "Error starting scanning");
-        }
+        scanRequest.scanningStarted(this, shnCentral.getInternalHandler());
 
         return scanning;
     }
@@ -82,16 +74,27 @@ public class SHNDeviceScannerInternal {
         shnCentral.getInternalHandler().postDelayed(restartScanningRunnable, SCANNING_RESTART_INTERVAL_MS);
     }
 
+    void stopScanning(final ScanRequest scanRequest) {
+        scanRequests.remove(scanRequest);
+        scanRequest.scanningStopped();
+        if (scanRequests.isEmpty()) {
+            stopScanning();
+        }
+    }
+
     public void stopScanning() {
         if (scanning) {
             scanning = false;
-            shnCentral.getInternalHandler().removeCallbacks(stopScanningRunnable);
+
             shnCentral.getInternalHandler().removeCallbacks(restartScanningRunnable);
-            stopScanningRunnable = null;
             restartScanningRunnable = null;
             leScanCallbackProxy.stopLeScan(leScanCallback);
-            shnDeviceScannerListener.scanStopped(null);
-            shnDeviceScannerListener = null;
+
+            for (final ScanRequest scanRequest : scanRequests) {
+                scanRequest.scanningStopped();
+            }
+
+            scanRequests.clear();
             SHNLogger.i(TAG, "Stopped scanning");
         }
     }
@@ -100,16 +103,11 @@ public class SHNDeviceScannerInternal {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
-                for (final ScanRecord scanRecord : scanRecords) {
-                    scanRecord.onScanResult(bleDeviceFoundInfo);
+                for (final ScanRequest scanRequest : scanRequests) {
+                    scanRequest.onScanResult(bleDeviceFoundInfo);
                 }
             }
         });
-    }
-
-    public void shutdown() {
-        stopScanning();
-        // TODO What else: release references???
     }
 
     private LeScanCallbackProxy.LeScanCallback leScanCallback = new LeScanCallbackProxy.LeScanCallback() {

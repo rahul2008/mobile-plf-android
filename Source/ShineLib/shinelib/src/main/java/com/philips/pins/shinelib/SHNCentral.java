@@ -274,7 +274,7 @@ public class SHNCentral {
     public void shutdown() {
         internalHandler.getLooper().quitSafely();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
-        shnDeviceScannerInternal.shutdown();
+        shnDeviceScannerInternal.stopScanning();
         shnDeviceScannerInternal = null;
     }
 

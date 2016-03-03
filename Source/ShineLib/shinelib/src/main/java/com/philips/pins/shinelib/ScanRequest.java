@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.framework.BleDeviceFoundInfo;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class ScanRecord {
+public class ScanRequest {
 
     @NonNull
     private final List<SHNDeviceDefinitionInfo> deviceDefinitions;
@@ -29,7 +30,10 @@ public class ScanRecord {
 
     private final List<String> reportedDeviceMacAddresses = new ArrayList<>();
 
-    public ScanRecord(@NonNull final List<SHNDeviceDefinitionInfo> deviceDefinitions, @NonNull final List<String> deviceMacAddresses, final boolean reportMoreThanOnce, final int stopScanningAfterMS, @NonNull final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
+    private SHNDeviceScannerInternal deviceScannerInternal;
+    private Handler internalHandler;
+
+    public ScanRequest(@NonNull final List<SHNDeviceDefinitionInfo> deviceDefinitions, @NonNull final List<String> deviceMacAddresses, final boolean reportMoreThanOnce, final int stopScanningAfterMS, @NonNull final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
         this.deviceDefinitions = deviceDefinitions;
         this.deviceMacAddresses = deviceMacAddresses;
         this.reportMoreThanOnce = reportMoreThanOnce;
@@ -37,13 +41,29 @@ public class ScanRecord {
         this.shnDeviceScannerListener = shnDeviceScannerListener;
     }
 
-    public void onScanningStarted() {
-
+    void scanningStarted(@NonNull final SHNDeviceScannerInternal deviceScannerInternal, @NonNull final Handler internalHandler) {
+        this.deviceScannerInternal = deviceScannerInternal;
+        this.internalHandler = internalHandler;
+        internalHandler.postDelayed(timeoutRunnable, stopScanningAfterMS);
     }
 
-    public void onScanningStopped() {
+    public void scanningStopped() {
+        if (internalHandler != null) {
+            internalHandler.removeCallbacks(timeoutRunnable);
+        }
 
+        shnDeviceScannerListener.scanStopped(null);
+
+        deviceScannerInternal = null;
+        internalHandler = null;
     }
+
+    private Runnable timeoutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            deviceScannerInternal.stopScanning(ScanRequest.this);
+        }
+    };
 
     public void onScanResult(@NonNull final BleDeviceFoundInfo bleDeviceFoundInfo) {
         if (reportMoreThanOnce || !reportedDeviceMacAddresses.contains(bleDeviceFoundInfo.getDeviceAddress())) {
