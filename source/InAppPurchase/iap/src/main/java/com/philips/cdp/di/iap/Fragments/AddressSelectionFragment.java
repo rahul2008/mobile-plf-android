@@ -144,7 +144,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onFetchAddressFailure(final Message msg) {
         // TODO: 2/19/2016 Fix error case scenario
-        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         Utility.dismissProgressDialog();
         moveToShoppingCart();
     }
@@ -215,7 +215,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                     Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
                     paymentController.getPaymentDetails();
                 } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
             }
         }
@@ -236,7 +236,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (Utility.isInternetConnected(mContext)) {
             paymentController.getPaymentDetails();
         } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
             Utility.dismissProgressDialog();
         }
     }
@@ -248,7 +248,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             int pos = mAdapter.getOptionsClickPosition();
             mAddrController.deleteAddress(mAddresses.get(pos).getId());
         } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
     }
 
@@ -289,7 +289,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);

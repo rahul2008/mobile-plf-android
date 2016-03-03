@@ -31,7 +31,7 @@ import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
-
+import android.support.v4.app.FragmentManager;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private ShoppingCartPresenter mPresenter;
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
-    private android.support.v4.app.FragmentManager mFragmentManager;
+    private FragmentManager mFragmentManager;
     private ShoppingCartData shoppingCartDataForProductDetailPage;
     //ShoppingCartData summary;
 
@@ -242,7 +242,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                                 mPopupWindow.dismiss();
                             }
                         }else{
-                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
+                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
                         }
                         break;
                     case INFO:

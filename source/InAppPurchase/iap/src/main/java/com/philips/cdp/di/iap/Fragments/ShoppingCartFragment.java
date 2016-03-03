@@ -83,7 +83,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                 updateCartDetails(presenter);
             }
         } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
     }
 
@@ -114,7 +114,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, mContext.getResources().getString(R.string.iap_please_wait));
                     mAddressController.getShippingAddresses();
                 } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
             }
         }
@@ -172,7 +172,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onFetchAddressFailure(Message msg) {
         Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
     }
 
     @Override

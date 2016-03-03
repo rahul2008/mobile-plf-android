@@ -225,14 +225,10 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         Utility.hideKeypad(mContext);
 
         if (v == mBtnContinue) {
-            if (Utility.isInternetConnected(mContext)) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mAddressFields);
-                addFragment(
-                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
-            } else {
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
-            }
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mAddressFields);
+            addFragment(
+                    OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (v == mBtnCancel) {
             addFragment
                     (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);

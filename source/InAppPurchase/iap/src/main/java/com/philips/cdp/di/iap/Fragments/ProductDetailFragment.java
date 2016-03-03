@@ -12,10 +12,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.ViewPagerAdaptor;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
-
-import java.util.HashMap;
 
 public class ProductDetailFragment extends BaseAnimationSupportFragment{
 

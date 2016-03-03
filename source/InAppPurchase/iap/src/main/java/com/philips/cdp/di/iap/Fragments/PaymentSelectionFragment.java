@@ -113,7 +113,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
                 } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
                 }
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
