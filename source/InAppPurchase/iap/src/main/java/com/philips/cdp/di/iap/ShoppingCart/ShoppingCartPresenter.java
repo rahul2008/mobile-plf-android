@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
@@ -21,6 +20,7 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.ArrayList;
@@ -34,15 +34,17 @@ public class ShoppingCartPresenter {
     private LoadListener mLoadListener;
     private HybrisDelegate mHybrisDelegate;
     private Store mStore;
+    private android.support.v4.app.FragmentManager mFragmentManager;
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
     }
 
-    public ShoppingCartPresenter(Context context, LoadListener listener) {
+    public ShoppingCartPresenter(Context context, LoadListener listener, android.support.v4.app.FragmentManager fragmentManager) {
         mContext = context;
         mProductData = new ArrayList<ShoppingCartData>();
         mLoadListener = listener;
+        mFragmentManager = fragmentManager;
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
@@ -102,7 +104,8 @@ public class ShoppingCartPresenter {
                     @Override
                     public void onModelDataError(final Message msg) {
                         IAPLog.e(TAG, "Error:" + msg.obj);
-                        Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                        IAPLog.d(ShoppingCartPresenter.TAG, msg.obj.toString());
+                        NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
                         Utility.dismissProgressDialog();
                     }
                 });
@@ -144,7 +147,8 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onModelDataError(final Message msg) {
-                Toast.makeText(mContext, "Something went wrong!" + msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                IAPLog.d(ShoppingCartPresenter.TAG , msg.obj.toString());
+                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, "OK", "Time-out", "Time out while hitting to server");
                 Utility.dismissProgressDialog();
             }
         });

@@ -143,6 +143,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onFetchAddressFailure(final Message msg) {
         // TODO: 2/19/2016 Fix error case scenario
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
         Utility.dismissProgressDialog();
         moveToShoppingCart();
     }
@@ -196,14 +197,28 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onEventReceived(final String event) {
         IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onEventReceived = " + event);
-        if(TextUtils.isEmpty(event)) return;
+        if (!TextUtils.isEmpty(event)) {
+            if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
+                HashMap<String, String> addressHashMap = updateShippingAddress();
+                moveToShippingAddressFragment(addressHashMap);
+            } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
+                deleteShippingAddress();
+            }
+        }
+        if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
 
-        if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
-            HashMap<String, String> addressHashMap = updateShippingAddress();
-            moveToShippingAddressFragment(addressHashMap);
-        } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
-            deleteShippingAddress();
-        } else if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
+            PaymentController paymentController = new PaymentController(mContext, this);
+
+            if (!Utility.isProgressDialogShowing()) {
+                if (Utility.isInternetConnected(mContext)) {
+                    Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
+                    paymentController.getPaymentDetails();
+                } else {
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
+                }
+            }
+        }
+        if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             //addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
@@ -220,7 +235,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (Utility.isInternetConnected(mContext)) {
             paymentController.getPaymentDetails();
         } else {
-            NetworkUtility.getInstance().showNetworkError(mContext);
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
             Utility.dismissProgressDialog();
         }
     }
@@ -232,7 +247,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             int pos = mAdapter.getOptionsClickPosition();
             mAddrController.deleteAddress(mAddresses.get(pos).getId());
         } else {
-            NetworkUtility.getInstance().showNetworkError(getContext());
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
         }
     }
 
@@ -271,7 +286,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
-            Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
         } else if ((msg.obj instanceof PaymentMethods)) {
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             mPaymentMethodsList = mPaymentMethods.getPayments();

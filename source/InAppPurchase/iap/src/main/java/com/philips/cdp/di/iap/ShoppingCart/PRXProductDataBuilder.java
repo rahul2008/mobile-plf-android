@@ -69,8 +69,8 @@ public class PRXProductDataBuilder {
 
     private void updateSuccessData(final SummaryModel responseData, final String code, final DeliveryCostEntity deliveryCostEntity, final EntriesEntity entry) {
         ShoppingCartData cartItem = new ShoppingCartData(entry, deliveryCostEntity);
-        SummaryModel mAssetModel = responseData;
-        Data data = mAssetModel.getData();
+        SummaryModel mSummaryModel = responseData;
+        Data data = mSummaryModel.getData();
         cartItem.setImageUrl(data.getImageURL());
         cartItem.setProductTitle(data.getProductTitle());
         cartItem.setCtnNumber(code);
@@ -79,6 +79,7 @@ public class PRXProductDataBuilder {
         cartItem.setCurrency(entry.getTotalPrice().getCurrencyIso());
         cartItem.setTotalPriceWithTax(mCartData.getCarts().get(0).getTotalPriceWithTax().getValue());
         cartItem.setTotalItems(mCartData.getCarts().get(0).getTotalItems());
+        cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
         addWithNotify(cartItem);
     }
 

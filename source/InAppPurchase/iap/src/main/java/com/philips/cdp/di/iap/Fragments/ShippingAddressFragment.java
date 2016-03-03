@@ -44,6 +44,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
         TextWatcher {
+    private static final String TAG = ShippingAddressFragment.class.getName();
     private Context mContext;
 
     private EditText mEtFirstName;
@@ -135,7 +136,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.UPDATE_ADDRESS:
-                Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
+                IAPLog.d(TAG, msg.obj.toString());
                 break;
         }
     }
@@ -147,7 +149,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
         } else {
             Utility.dismissProgressDialog();
-            Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
         }
     }
 
@@ -160,6 +162,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
             Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
         }else if ((msg.obj instanceof PaymentMethods)) {
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
@@ -212,7 +215,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         mAddressController.updateAddress(addressHashMap);
                     }
                 } else {
-                    NetworkUtility.getInstance().showNetworkError(mContext);
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
                 }
             } else {
                 if (!Utility.isProgressDialogShowing()) {
@@ -220,7 +223,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                         mAddressController.createAddress(mAddressFields);
                     } else {
-                        NetworkUtility.getInstance().showNetworkError(mContext);
+                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
                     }
                 }
             }
@@ -237,14 +240,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     public void checkFields() {
 
-        String firstName = mEtFirstName.getText().toString().trim();
-        String lastName = mEtLastName.getText().toString().trim();
-        String address = mEtAddress.getText().toString().trim();
-        String postalCode = mEtPostalCode.getText().toString().trim();
-        String phoneNumber = mEtPhoneNumber.getText().toString().trim();
-        String town = mEtTown.getText().toString().trim();
-        String country = mEtCountry.getText().toString().trim();
-        String email = mEtEmail.getText().toString().trim();
+        String firstName = mEtFirstName.getText().toString();
+        String lastName = mEtLastName.getText().toString();
+        String address = mEtAddress.getText().toString();
+        String postalCode = mEtPostalCode.getText().toString();
+        String phoneNumber = mEtPhoneNumber.getText().toString();
+        String town = mEtTown.getText().toString();
+        String country = mEtCountry.getText().toString();
+        String email = mEtEmail.getText().toString();
 
         if (mValidator.isValidFirstName(firstName) && mValidator.isValidLastName(lastName)
                 && mValidator.isValidAddress(address) && mValidator.isValidPostalCode(postalCode)
