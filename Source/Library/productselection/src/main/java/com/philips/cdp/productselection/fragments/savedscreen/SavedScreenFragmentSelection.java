@@ -22,6 +22,7 @@ import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenF
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
+import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
@@ -162,6 +163,26 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         return null;
     }
 
+    private void removeWelcomeScreen() {
+        ProductSelectionLogger.i("testing", "removeWelcomeScreen: ");
+        List<Fragment> fragmentList = getActivity().getSupportFragmentManager().getFragments();
+        for (int i = fragmentList.size() - 1; i >= 0; i--) {
+            Fragment frag = fragmentList.get(i);
+            ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen : " + frag);
+            if(frag instanceof WelcomeScreenFragmentSelection){
+                FragmentTransaction fragmentTransactionNew = getActivity().getSupportFragmentManager().beginTransaction();
+                if (frag != null) {
+                    try {
+//                        fragmentTransactionNew.remove(frag).commitAllowingStateLoss();
+                        getActivity().getSupportFragmentManager().popBackStack();
+                        ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen inside : ");
+                    }catch (IllegalStateException e){
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (isConnectionAvailable()) {
@@ -175,12 +196,13 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                 }
 //                }
             } else if (v.getId() == R.id.savedscreen_button_continue) {
-                if (isConnectionAvailable()) {
                     setPreference(mUserSelectedProduct.getData().getCtn());
                     ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                     clearBackStackHistory(getActivity());
+                    if (isTablet()) {
+                        removeWelcomeScreen();
+                    }
                 }
             }
         }
-    }
 }
