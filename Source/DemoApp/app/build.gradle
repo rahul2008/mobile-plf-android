@@ -10,7 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        testApplicationId "com.philips.cdp.registration.test"
+        testApplicationId "com.philips.cdp.androidTest"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
@@ -39,6 +39,20 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    productFlavors {
+        simulator {
+            applicationId 'com.philips.cdp'
+            versionCode 1
+            versionName "1.0"
+        }
+        device {
+            applicationId 'com.philips.cdp'
+            versionCode 1
+            versionName "1.0"
+        }
+    }
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
