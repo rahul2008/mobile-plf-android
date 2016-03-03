@@ -93,6 +93,7 @@ public class ShoppingCartPresenter {
                         }
                         addShippingCostRowToTheList();
                         refreshList(mProductData);
+                        // CartModelContainer.getInstance().setShoppingCartData(mProductData);
                         Utility.dismissProgressDialog();
                     }
 
