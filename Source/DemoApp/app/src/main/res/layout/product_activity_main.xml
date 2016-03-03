@@ -35,6 +35,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/fab_margin"
+            android:focusable="false"
             android:hint="Purchase date"
             android:onClick="onClickPurchaseDate"/>
 

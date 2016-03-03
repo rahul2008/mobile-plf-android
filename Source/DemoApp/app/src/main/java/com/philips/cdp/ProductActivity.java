@@ -35,12 +35,28 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String mLocale = "en_GB";
     private String mCatalogCode = "CONSUMER";
     private String TAG = getClass().toString();
+    private Calendar calendar;
+    private int monthInt, mdateInt, year, month, day;
+    private String mMonth, mDate;
+    private String[] mDisplayDate;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
             Log.d(TAG, "Response Data : " + arg1 + "-" + arg2 + "-" + arg3);
-            purchaseDate.setText(arg1 + "-" + (arg2 + 1) + "-" + arg3);
+            monthInt = (arg2 + 1);
+            mdateInt = arg3;
+            if (monthInt < 10) {
+                mMonth = "0" + monthInt;
+            } else {
+                mMonth = Integer.toString(monthInt);
+            }
+            if (mdateInt < 10) {
+                mDate = "0" + mdateInt;
+            } else {
+                mDate = Integer.toString(mdateInt);
+            }
+            purchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
         }
     };
 
@@ -58,9 +74,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void initEditText() {
         Log.d(TAG, "MICRO SITE_ID : " + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         regChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-        serialNumber.setText("ab123456789012");
-        purchaseDate.setText("2016-02-15");
-        ctn.setText("HD8969/09");
+        serialNumber.setText("");
+        purchaseDate.setText("");
+        ctn.setText("");
     }
 
     private void registerProduct(final String accessToken) {
@@ -116,8 +132,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         final User mUser = new User(this);
         if (mUser.isUserSignIn(ProductActivity.this) && mUser.getEmailVerificationStatus(ProductActivity.this)) {
-            Toast.makeText(ProductActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
-            registerProduct(mUser.getAccessToken());
+            if (ctn.getText().toString().equalsIgnoreCase("")) {
+                Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ProductActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
+                registeredProduct(mUser.getAccessToken());
+            }
         } else {
             Toast.makeText(ProductActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
             ProductLog.producrlog(ProductLog.ONCLICK, "On Click : User Registration");
@@ -157,11 +177,20 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void onClickPurchaseDate(View view) {
-        final Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        new DatePickerDialog(this, myDateListener, year, month, day).show();
+        if (!purchaseDate.getText().toString().equalsIgnoreCase("")) {
+            mDisplayDate = purchaseDate.getText().toString().split("-");
+            year = Integer.parseInt(mDisplayDate[0]);
+            month = Integer.parseInt(mDisplayDate[1]) - 1;
+            day = Integer.parseInt(mDisplayDate[2]);
+        } else {
+            calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+        }
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myDateListener, year, month, day);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
     }
 }
 
