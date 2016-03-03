@@ -284,7 +284,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, selectedAddress);
-            bundle.putSerializable(IAPConstant.PAYMENT_FIELDS, (Serializable) mPaymentMethodsList);
+            bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
         }
