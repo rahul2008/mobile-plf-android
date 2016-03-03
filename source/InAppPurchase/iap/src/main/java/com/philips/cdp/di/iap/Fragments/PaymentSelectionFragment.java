@@ -118,9 +118,9 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
             Bundle bundle = new Bundle();
-            if (getArguments().containsKey(IAPConstant.ADDRESS_FIELDS)) {
-                bundle.putSerializable(IAPConstant.ADDRESS_FIELDS,
-                        getArguments().getSerializable(IAPConstant.ADDRESS_FIELDS));
+            if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
+                bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS,
+                        getArguments().getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS));
             }
             addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         }

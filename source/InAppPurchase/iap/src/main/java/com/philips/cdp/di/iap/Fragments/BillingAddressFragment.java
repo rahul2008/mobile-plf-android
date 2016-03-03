@@ -77,8 +77,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         Bundle bundle = getArguments();
 
-        if (getArguments().containsKey(IAPConstant.ADDRESS_FIELDS)) {
-            mAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.ADDRESS_FIELDS);
+        if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
+            mAddressFields = (AddressFields) bundle.getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS);
             disableAllFields();
             prePopulateShippingAddress();
             mBtnContinue.setEnabled(true);
