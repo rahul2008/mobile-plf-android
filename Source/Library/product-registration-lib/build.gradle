@@ -1,6 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'jacoco'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+def coverageSourceDirs = [
+        '../app/src/main/java'
+]
 
 def libVersionNumber = '0.0.1'
 
@@ -27,6 +34,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        testApplicationId "com.philips.cdp.androidTest"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
         release {
@@ -142,4 +151,29 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         xml.enabled = true
         html.enabled = false
     }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: '../app/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('../app/build/jacoco/testDebug.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
 }
