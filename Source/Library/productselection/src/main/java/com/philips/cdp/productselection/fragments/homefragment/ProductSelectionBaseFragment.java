@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
 import com.philips.cdp.productselection.utils.NetworkReceiver;
@@ -32,6 +33,7 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -453,6 +455,55 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         // removeCurrentFragment();
         // }
         return false;
+    }
+
+    protected void replaceFragmentForTablet(String oldFragmentAdd, Fragment fragmentNew) {
+
+        List<Fragment> listFragment = getActivity().getSupportFragmentManager().getFragments();
+        for (int i = listFragment.size() - 1; i >= 0; i--) {
+            Fragment fragment1 = listFragment.get(i);
+            ProductSelectionLogger.i("testing", "Details Screen : " + fragment1);
+        }
+
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag(oldFragmentAdd);
+        ProductSelectionLogger.i("testing", "Saved screen found  : " + fragmentDetailsTablet);
+        try {
+            if (fragmentDetailsTablet != null) {
+                fragmentTransaction.remove(fragmentDetailsTablet);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        } catch (IllegalStateException e) {
+
+        }
+
+        try {
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.fragmentTabletProductDetailsParent, fragmentNew, "DetailedScreenFragmentSelection");
+            ft.commit();
+        } catch (IllegalStateException e) {
+        }
+        removeWelcomeScreen();
+    }
+
+    private void removeWelcomeScreen() {
+        ProductSelectionLogger.i("testing", "removeWelcomeScreen: ");
+        List<Fragment> fragmentList = getActivity().getSupportFragmentManager().getFragments();
+        for (int i = fragmentList.size() - 1; i >= 0; i--) {
+            Fragment frag = fragmentList.get(i);
+            ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen : " + frag);
+            if(frag instanceof WelcomeScreenFragmentSelection){
+                ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen inside : " + frag);
+                FragmentTransaction fragmentTransactionNew = getActivity().getSupportFragmentManager().beginTransaction();
+                if (frag != null) {
+                    try {
+                        fragmentTransactionNew.remove(frag).commit();
+                    }catch (IllegalStateException e){
+                    }
+                }
+
+            }
+        }
     }
 
     protected boolean clearBackStackHistory(Context context) {
