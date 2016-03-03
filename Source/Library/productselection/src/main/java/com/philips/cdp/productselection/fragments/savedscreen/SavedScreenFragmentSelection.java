@@ -24,8 +24,10 @@ import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionL
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
+import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
 
@@ -77,6 +79,10 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
         Configuration configuration = getResources().getConfiguration();
         setViewParams(configuration);
+
+
+        Tagging.trackPage(Constants.PAGE_CONFIRMATION_SCREEN, getPreviousName());
+        setPreviousPageName(Constants.PAGE_CONFIRMATION_SCREEN);
     }
 
     /**
@@ -158,11 +164,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         }
     }
 
-    @Override
-    public String setPreviousPageName() {
-        return null;
-    }
-
     private void removeWelcomeScreen() {
         ProductSelectionLogger.i("testing", "removeWelcomeScreen: ");
         List<Fragment> fragmentList = getActivity().getSupportFragmentManager().getFragments();
@@ -188,6 +189,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         if (isConnectionAvailable()) {
             if (v.getId() == R.id.savedscreen_button_settings) {
 //                if (isConnectionAvailable()) {
+					Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                            Constants.ACTION_VALUE_CHANGE_PRODUCT);
                 if (isTablet()) {
 //                    showFragment(new ProductSelectionListingTabletFragment());
                     replaceFragmentForTablet("SavedScreenFragmentSelection", new DetailedScreenFragmentSelection());
@@ -196,6 +199,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                 }
 //                }
             } else if (v.getId() == R.id.savedscreen_button_continue) {
+					Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                            Constants.ACTION_VALUE_CONTINUE);
                     setPreference(mUserSelectedProduct.getData().getCtn());
                     ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                     clearBackStackHistory(getActivity());

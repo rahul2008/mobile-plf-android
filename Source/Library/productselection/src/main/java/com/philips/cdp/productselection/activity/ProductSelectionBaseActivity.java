@@ -28,6 +28,7 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
+import com.philips.cdp.tagging.Tagging;
 
 /**
  * ProductSelectionBaseActivity is the main container class which can contain Digital Care fragments.
@@ -136,11 +137,13 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Tagging.collectLifecycleData();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Tagging.pauseCollectingLifecycleData();
     }
 
     @Override

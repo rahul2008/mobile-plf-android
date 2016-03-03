@@ -4,7 +4,7 @@
     android:id="@+id/action_bar_lyt"
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_height"
-    android:background="@drawable/split_view_seperator_bg" >
+    android:background="@drawable/actionbar_shape_gradient_bg" >
 
     <ImageView
         android:id="@+id/sample_home_icon"

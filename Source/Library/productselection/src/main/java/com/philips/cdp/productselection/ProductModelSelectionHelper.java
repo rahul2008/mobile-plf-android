@@ -24,6 +24,7 @@ import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.tagging.Tagging;
 
 import java.util.List;
 import java.util.Locale;
@@ -93,6 +94,18 @@ public class ProductModelSelectionHelper {
 
     }
 
+
+	public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage){
+        ProductSelectionLogger.i("testing", "Tagging init");
+        Tagging.enableAppTagging(taggingEnabled);
+        Tagging.setTrackingIdentifier(appId);
+        Tagging.setComponentVersionKey(Constants.ATTRIBUTE_KEY_PRODUCT_SELECTION);
+        Tagging.setComponentVersionVersionValue(String.valueOf(BuildConfig.VERSION_NAME));
+        Tagging.setLaunchingPageName(launchingPage);
+
+        Tagging.init(getLocale(), getContext(), appName);
+    }
+	
     public UiLauncher getLauncherType() {
         return mLauncherType;
     }

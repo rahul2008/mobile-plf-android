@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -13,16 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * ProductSelectionListingTabletFragment class will be the base class for Product Listing in tablet.
@@ -241,11 +237,6 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
         }
         mRightPanelLayout.setLayoutParams(mRightPanelLayoutParams);
         mLeftPanelLayout.setLayoutParams(mLeftPanelLayoutParams);
-    }
-
-    @Override
-    public String setPreviousPageName() {
-        return null;
     }
 
     @Override
