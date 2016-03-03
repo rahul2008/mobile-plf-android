@@ -67,86 +67,6 @@
       <fromRootBuildScriptDir>true</fromRootBuildScriptDir>
       <useWorkspaceAsHome>false</useWorkspaceAsHome>
     </hudson.plugins.gradle.Gradle>
-    <hudson.tasks.Shell>
-      <command>#export TICSPROJECT=ShineLib-Android #export TICSBRANCHNAME=develop #export TICSBRANCHDIR=/home/build/jenkins/workspace/Android-ShineLib-develop/ # #export COVSTREAM="PInS $TICSPROJECT" #export COVUSER=nly95984 #export COVPWD=***** #export COVSERVER=coverity-01.ta.philips.com #export COVPORT=8080 #export COVINSTALLDIR=/home/build/cov-analysis-linux64-7.7.0 #export COVROOTDIR=/home/build/coverity-analysis #export COVDIR=$COVROOTDIR/$TICSPROJECT/$TICSBRANCHNAME # #cd $TICSBRANCHDIR/Source/ShineLib #rm -rf shinelib/build #$COVINSTALLDIR/bin/cov-build --dir $COVDIR ./gradlew testDebug lintDebug jacocoRootReport #$COVINSTALLDIR/bin/cov-analyze --dir $COVDIR #$COVINSTALLDIR/bin/cov-commit-defects --host $COVSERVER --port $COVPORT --user $COVUSER --password $COVPWD --dir $COVDIR --stream "$COVSTREAM" --strip-path $TICSBRANCHDIR #</command>
-    </hudson.tasks.Shell>
-    <hudson.plugins.tics.TicsAnalyzer plugin="tics@1.0.5">
-      <ticsPath>/media/windowsshare/Wrapper</ticsPath>
-      <ticsConfiguration>/media/windowsshare/FileServer/cfg</ticsConfiguration>
-      <projectName>ShineLib-Android</projectName>
-      <branchName>develop</branchName>
-      <branchDirectory/>
-      <environmentVariables/>
-      <createTmpdir>true</createTmpdir>
-      <tmpdir>/home/build/tiobe/tics/LogServer/TMPDIRS/ShineLib-Android/develop</tmpdir>
-      <extraArguments/>
-      <calc>
-        <ABSTRACTINTERPRETATION>false</ABSTRACTINTERPRETATION>
-        <ACCUCHANGERATE>false</ACCUCHANGERATE>
-        <ACCUFIXRATE>false</ACCUFIXRATE>
-        <ACCULINESADDED>false</ACCULINESADDED>
-        <ACCULINESCHANGED>false</ACCULINESCHANGED>
-        <ACCULINESDELETED>false</ACCULINESDELETED>
-        <ALL>true</ALL>
-        <AVGCYCLOMATICCOMPLEXITY>false</AVGCYCLOMATICCOMPLEXITY>
-        <BUILDRELATIONS>false</BUILDRELATIONS>
-        <CHANGEDFILES>false</CHANGEDFILES>
-        <CHANGERATE>false</CHANGERATE>
-        <CODINGSTANDARD>false</CODINGSTANDARD>
-        <COMPILERWARNING>false</COMPILERWARNING>
-        <DEADCODE>false</DEADCODE>
-        <DUPLICATEDCODE>false</DUPLICATEDCODE>
-        <ELOC>false</ELOC>
-        <FANOUT>false</FANOUT>
-        <FINALIZE>false</FINALIZE>
-        <FIXRATE>false</FIXRATE>
-        <GLOC>false</GLOC>
-        <INCLUDERELATIONS>false</INCLUDERELATIONS>
-        <INTEGRATIONTESTCOVERAGE>false</INTEGRATIONTESTCOVERAGE>
-        <LINESADDED>false</LINESADDED>
-        <LINESCHANGED>false</LINESCHANGED>
-        <LINESDELETED>false</LINESDELETED>
-        <LOC>false</LOC>
-        <MAXCYCLOMATICCOMPLEXITY>false</MAXCYCLOMATICCOMPLEXITY>
-        <PREPARE>false</PREPARE>
-        <SYSTEMTESTCOVERAGE>false</SYSTEMTESTCOVERAGE>
-        <TOTALTESTCOVERAGE>false</TOTALTESTCOVERAGE>
-        <UNITTESTCOVERAGE>false</UNITTESTCOVERAGE>
-      </calc>
-      <recalc>
-        <ABSTRACTINTERPRETATION>false</ABSTRACTINTERPRETATION>
-        <ACCUCHANGERATE>false</ACCUCHANGERATE>
-        <ACCUFIXRATE>false</ACCUFIXRATE>
-        <ACCULINESADDED>false</ACCULINESADDED>
-        <ACCULINESCHANGED>false</ACCULINESCHANGED>
-        <ACCULINESDELETED>false</ACCULINESDELETED>
-        <ALL>false</ALL>
-        <AVGCYCLOMATICCOMPLEXITY>false</AVGCYCLOMATICCOMPLEXITY>
-        <BUILDRELATIONS>false</BUILDRELATIONS>
-        <CHANGEDFILES>false</CHANGEDFILES>
-        <CHANGERATE>false</CHANGERATE>
-        <CODINGSTANDARD>false</CODINGSTANDARD>
-        <COMPILERWARNING>false</COMPILERWARNING>
-        <DEADCODE>false</DEADCODE>
-        <DUPLICATEDCODE>false</DUPLICATEDCODE>
-        <ELOC>false</ELOC>
-        <FANOUT>false</FANOUT>
-        <FINALIZE>false</FINALIZE>
-        <FIXRATE>false</FIXRATE>
-        <GLOC>false</GLOC>
-        <INCLUDERELATIONS>false</INCLUDERELATIONS>
-        <INTEGRATIONTESTCOVERAGE>false</INTEGRATIONTESTCOVERAGE>
-        <LINESADDED>false</LINESADDED>
-        <LINESCHANGED>false</LINESCHANGED>
-        <LINESDELETED>false</LINESDELETED>
-        <LOC>false</LOC>
-        <MAXCYCLOMATICCOMPLEXITY>false</MAXCYCLOMATICCOMPLEXITY>
-        <PREPARE>false</PREPARE>
-        <SYSTEMTESTCOVERAGE>false</SYSTEMTESTCOVERAGE>
-        <TOTALTESTCOVERAGE>false</TOTALTESTCOVERAGE>
-        <UNITTESTCOVERAGE>false</UNITTESTCOVERAGE>
-      </recalc>
-    </hudson.plugins.tics.TicsAnalyzer>
   </builders>
   <publishers>
     <org.jenkinsci.plugins.android__lint.LintPublisher plugin="android-lint@2.2">
@@ -179,11 +99,6 @@
       <keepLongStdio>false</keepLongStdio>
       <healthScaleFactor>0.01</healthScaleFactor>
     </hudson.tasks.junit.JUnitResultArchiver>
-    <hudson.plugins.tics.TicsPublisher plugin="tics@1.0.5">
-      <ticsPath>HIE://ShineLib-Android/develop</ticsPath>
-      <viewerUrl>http://tics-central:42506/TIOBEPortal/TICS</viewerUrl>
-      <credentialsId/>
-    </hudson.plugins.tics.TicsPublisher>
     <hudson.plugins.jacoco.JacocoPublisher plugin="jacoco@1.0.19">
       <execPattern>**/build/jacoco/**.exec</execPattern>
       <classPattern>**/build/intermediates/classes/debug</classPattern>
