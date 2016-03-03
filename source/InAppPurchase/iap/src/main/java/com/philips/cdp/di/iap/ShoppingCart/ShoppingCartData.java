@@ -22,6 +22,16 @@ public class ShoppingCartData {
     private int mStockLevel;
     private DeliveryCostEntity mDeliveryCost;
 
+    public String getMarketingTextHeader() {
+        return mMarketingTextHeader;
+    }
+
+    public void setMarketingTextHeader(final String pMarketingTextHeader) {
+        this.mMarketingTextHeader = pMarketingTextHeader;
+    }
+
+    private String mMarketingTextHeader;
+
     public double getTotalPriceWithTax() {
         return mTotalPriceWithTax;
     }

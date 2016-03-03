@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.container;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 
 import java.util.ArrayList;
 
@@ -24,8 +23,6 @@ public class CartModelContainer {
 
     private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
-    private AddressFields mBillingAddressFields;
-    private PaymentMethod mPaymentMethod;
 
     public ArrayList<ShoppingCartData> getShoppingCartData() {
         return mShoppingCartData;
@@ -41,21 +38,5 @@ public class CartModelContainer {
 
     public void setShippingAddressFields(final AddressFields mShippingAddressFields) {
         this.mShippingAddressFields = mShippingAddressFields;
-    }
-
-    public AddressFields getBillingAddressFields() {
-        return mBillingAddressFields;
-    }
-
-    public void setBillingAddressFields(final AddressFields mBillingAddressFields) {
-        this.mBillingAddressFields = mBillingAddressFields;
-    }
-
-    public PaymentMethod getPaymentMethodFields() {
-        return mPaymentMethod;
-    }
-
-    public void setPaymentMethod(final PaymentMethod mPaymentMethodFields) {
-        this.mPaymentMethod = mPaymentMethod;
     }
 }

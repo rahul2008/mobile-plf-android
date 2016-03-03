@@ -41,8 +41,8 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         mBtnCancel.setOnClickListener(this);
 
         Bundle bundle = getArguments();
-        if (bundle.containsKey(IAPConstant.PAYMENT_FIELDS)) {
-            mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(IAPConstant.PAYMENT_FIELDS);
+        if (bundle.containsKey(IAPConstant.PAYMENT_METHOD_LIST)) {
+            mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(IAPConstant.PAYMENT_METHOD_LIST);
         }
 
         mPaymentMethodsAdapter = new PaymentMethodsAdapter(getContext(), mPaymentMethodList);
@@ -113,14 +113,14 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
                 } else {
-                    NetworkUtility.getInstance().showNetworkError(mContext);
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
                 }
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
             Bundle bundle = new Bundle();
-            if (getArguments().containsKey(IAPConstant.ADDRESS_FIELDS)) {
-                bundle.putSerializable(IAPConstant.ADDRESS_FIELDS,
-                        getArguments().getSerializable(IAPConstant.ADDRESS_FIELDS));
+            if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
+                bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS,
+                        getArguments().getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS));
             }
             addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         }

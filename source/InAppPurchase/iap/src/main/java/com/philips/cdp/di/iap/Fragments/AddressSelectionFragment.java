@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.ModelConstants;
@@ -143,6 +144,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onFetchAddressFailure(final Message msg) {
         // TODO: 2/19/2016 Fix error case scenario
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         Utility.dismissProgressDialog();
         moveToShoppingCart();
     }
@@ -196,14 +198,28 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onEventReceived(final String event) {
         IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "onEventReceived = " + event);
-        if(TextUtils.isEmpty(event)) return;
+        if (!TextUtils.isEmpty(event)) {
+            if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
+                HashMap<String, String> addressHashMap = updateShippingAddress();
+                moveToShippingAddressFragment(addressHashMap);
+            } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
+                deleteShippingAddress();
+            }
+        }
+        if (event.equalsIgnoreCase(IAPConstant.ORDER_SUMMARY_FRAGMENT)) {
 
-        if (EditDeletePopUP.EVENT_EDIT.equals(event)) {
-            HashMap<String, String> addressHashMap = updateShippingAddress();
-            moveToShippingAddressFragment(addressHashMap);
-        } else if (EditDeletePopUP.EVENT_DELETE.equals(event)) {
-            deleteShippingAddress();
-        } else if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
+            PaymentController paymentController = new PaymentController(mContext, this);
+
+            if (!Utility.isProgressDialogShowing()) {
+                if (Utility.isInternetConnected(mContext)) {
+                    Utility.showProgressDialog(mContext, getResources().getString(R.string.iap_please_wait));
+                    paymentController.getPaymentDetails();
+                } else {
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                }
+            }
+        }
+        if (event.equalsIgnoreCase(IAPConstant.SHIPPING_ADDRESS_FRAGMENT)) {
             Bundle args = new Bundle();
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             //addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
@@ -220,7 +236,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (Utility.isInternetConnected(mContext)) {
             paymentController.getPaymentDetails();
         } else {
-            NetworkUtility.getInstance().showNetworkError(mContext);
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
             Utility.dismissProgressDialog();
         }
     }
@@ -232,7 +248,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             int pos = mAdapter.getOptionsClickPosition();
             mAddrController.deleteAddress(mAddresses.get(pos).getId());
         } else {
-            NetworkUtility.getInstance().showNetworkError(getContext());
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
     }
 
@@ -264,21 +280,26 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            Addresses addr = retrieveSelectedAddress();
+            Addresses address = retrieveSelectedAddress();
+            AddressFields selectedAddress = prepareAddressFields(address);
+            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
+
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, prepareAddressFields(addr));
-            // CartModelContainer.getInstance().setShippingAddressFields(prepareAddressFields(addr));
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
-            Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         } else if ((msg.obj instanceof PaymentMethods)) {
+            AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
+            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
+
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, prepareAddressFields(retrieveSelectedAddress()));
-            bundle.putSerializable(IAPConstant.PAYMENT_FIELDS, (Serializable) mPaymentMethodsList);
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
+            bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
         }

@@ -17,19 +17,21 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
-
+import android.support.v4.app.FragmentManager;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +49,17 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private ShoppingCartPresenter mPresenter;
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
+    private FragmentManager mFragmentManager;
+    private ShoppingCartData shoppingCartDataForProductDetailPage;
     //ShoppingCartData summary;
 
-    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData) {
+    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager) {
         mContext = context;
         mResources = context.getResources();
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
-        mPresenter = new ShoppingCartPresenter(context, this);
+        mPresenter = new ShoppingCartPresenter(context, this,fragmentManager);
+        mFragmentManager = fragmentManager;
         setCountArrow(context);
     }
 
@@ -134,7 +139,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 holder.dots.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
-                        bindDeleteOrInfoPopUP(view);
+                        bindDeleteOrInfoPopUP(view,position);
                     }
                 });
 
@@ -214,7 +219,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         return convertView;
     }
 
-    private void bindDeleteOrInfoPopUP(final View view) {
+    private void bindDeleteOrInfoPopUP(final View view, final int selectedItem) {
         List<RowItem> rowItems = new ArrayList<RowItem>();
 
         String delete = mResources.getString(R.string.iap_delete);
@@ -233,21 +238,30 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         if (Utility.isInternetConnected(mContext)) {
                             if (!Utility.isProgressDialogShowing()) {
                                 Utility.showProgressDialog(mContext,mContext.getString(R.string.iap_deleting_item));
-                                mPresenter.deleteProduct(mData.get(position));
+                                mPresenter.deleteProduct(mData.get(selectedItem));
                                 mPopupWindow.dismiss();
                             }
                         }else{
-                            Toast.makeText(mContext,"Network Error",Toast.LENGTH_SHORT).show();
+                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
                         }
                         break;
                     case INFO:
-                        Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
+                        setTheProductDataForDisplayingInProductDetailPage(selectedItem);
                         break;
                     default:
                 }
             }
         });
         mPopupWindow.show();
+    }
+
+    private void setTheProductDataForDisplayingInProductDetailPage(int position) {
+        shoppingCartDataForProductDetailPage = mData.get(position);
+        EventHelper.getInstance().notifyEventOccurred(IAPConstant.PRODUCT_DETAIL_FRAGMENT);
+    }
+
+    public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage(){
+        return shoppingCartDataForProductDetailPage;
     }
 
     private void bindCountView(final View view, final int position) {

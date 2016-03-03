@@ -1,6 +1,9 @@
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -87,7 +90,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 mIapHandler.addItemtoCart(ctnNumber, this, false);
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "addItemtoCart");
             } else {
-                NetworkUtility.getInstance().showNetworkError(this);
+                showNetworkError();
             }
         }
     }
@@ -103,7 +106,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 Utility.showProgressDialog(this, getString(R.string.please_wait));
                 mIapHandler.buyNow(ctnNumber, this);
             } else {
-                NetworkUtility.getInstance().showNetworkError(this);
+                showNetworkError();
             }
         }
     }
@@ -116,7 +119,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                     Intent myIntent = new Intent(DemoAppActivity.this, IAPActivity.class);
                     startActivity(myIntent);
                 } else {
-                    NetworkUtility.getInstance().showNetworkError(this);
+                    showNetworkError();
                 }
                 break;
             case R.id.btn_submit:
@@ -128,7 +131,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                         Utility.showProgressDialog(this, getString(R.string.loading_cart));
                         mIapHandler.getCartQuantity(this);
                     } else {
-                        NetworkUtility.getInstance().showNetworkError(this);
+                        showNetworkError();
                     }
                 }
                 break;
@@ -171,4 +174,22 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         Intent myIntent = new Intent(DemoAppActivity.this, IAPActivity.class);
         startActivity(myIntent);
     }
+
+
+    public void showNetworkError() {
+        String alertTitle = "Network Error";
+        String alertBody = "No network available. Please check your network settings and try again.";
+        AlertDialog.Builder alert = new AlertDialog.Builder(DemoAppActivity.this);
+        alert.setTitle(alertTitle);
+        alert.setMessage(alertBody);
+        alert.setPositiveButton(android.R.string.ok,
+                new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alert.show();
+    }
+
 }

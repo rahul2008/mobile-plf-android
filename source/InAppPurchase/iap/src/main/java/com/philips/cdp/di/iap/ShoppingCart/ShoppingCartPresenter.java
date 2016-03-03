@@ -7,8 +7,8 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
-import android.widget.Toast;
 
+import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -21,28 +21,31 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ShoppingCartPresenter {
-    private static final String TAG = ShoppingCartPresenter.class.getName();
     Context mContext;
     ArrayList<ShoppingCartData> mProductData;
     private LoadListener mLoadListener;
     private HybrisDelegate mHybrisDelegate;
     private Store mStore;
+    private FragmentManager mFragmentManager;
 
     public interface LoadListener {
         void onLoadFinished(ArrayList<ShoppingCartData> data);
     }
 
-    public ShoppingCartPresenter(Context context, LoadListener listener) {
+    public ShoppingCartPresenter(Context context, LoadListener listener, android.support.v4.app.FragmentManager fragmentManager) {
         mContext = context;
         mProductData = new ArrayList<ShoppingCartData>();
         mLoadListener = listener;
+        mFragmentManager = fragmentManager;
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
@@ -101,8 +104,9 @@ public class ShoppingCartPresenter {
 
                     @Override
                     public void onModelDataError(final Message msg) {
-                        IAPLog.e(TAG, "Error:" + msg.obj);
-                        Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                        IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
+                        IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
+                        NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
                         Utility.dismissProgressDialog();
                     }
                 });
@@ -144,7 +148,8 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onModelDataError(final Message msg) {
-                Toast.makeText(mContext, "Something went wrong!" + msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER , msg.obj.toString());
+                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
                 Utility.dismissProgressDialog();
             }
         });

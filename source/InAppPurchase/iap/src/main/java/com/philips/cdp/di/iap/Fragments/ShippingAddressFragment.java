@@ -26,6 +26,8 @@ import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.payment.PaymentController;
+import com.philips.cdp.di.iap.response.payment.PaymentMethod;
+import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -34,12 +36,15 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
         TextWatcher {
+    private static final String TAG = ShippingAddressFragment.class.getName();
     private Context mContext;
 
     private EditText mEtFirstName;
@@ -60,6 +65,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private InlineForms mInlineFormsParent;
     private Validator mValidator = null;
+
+    private List<PaymentMethod> mPaymentMethodsList;
 
     private HashMap<String, String> addressFeilds = null;
 
@@ -129,7 +136,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.UPDATE_ADDRESS:
-                Toast.makeText(mContext, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
+                IAPLog.d(TAG, msg.obj.toString());
                 break;
         }
     }
@@ -138,10 +146,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(boolean isSuccess) {
         if (isSuccess) {
             mPaymentController.getPaymentDetails();
-            CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
         } else {
             Utility.dismissProgressDialog();
-            Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         }
     }
 
@@ -149,15 +156,22 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mAddressFields);
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
-            Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
-        } else {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
+        }else if ((msg.obj instanceof PaymentMethods)) {
+            PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
+            mPaymentMethodsList = mPaymentMethods.getPayments();
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mAddressFields);
+            bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
-                    PaymentSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                    PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
         }
     }
 
@@ -200,7 +214,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         mAddressController.updateAddress(addressHashMap);
                     }
                 } else {
-                    NetworkUtility.getInstance().showNetworkError(mContext);
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
             } else {
                 if (!Utility.isProgressDialogShowing()) {
@@ -208,7 +222,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                         mAddressController.createAddress(mAddressFields);
                     } else {
-                        NetworkUtility.getInstance().showNetworkError(mContext);
+                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                     }
                 }
             }
@@ -225,14 +239,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     public void checkFields() {
 
-        String firstName = mEtFirstName.getText().toString().trim();
-        String lastName = mEtLastName.getText().toString().trim();
-        String address = mEtAddress.getText().toString().trim();
-        String postalCode = mEtPostalCode.getText().toString().trim();
-        String phoneNumber = mEtPhoneNumber.getText().toString().trim();
-        String town = mEtTown.getText().toString().trim();
-        String country = mEtCountry.getText().toString().trim();
-        String email = mEtEmail.getText().toString().trim();
+        String firstName = mEtFirstName.getText().toString();
+        String lastName = mEtLastName.getText().toString();
+        String address = mEtAddress.getText().toString();
+        String postalCode = mEtPostalCode.getText().toString();
+        String phoneNumber = mEtPhoneNumber.getText().toString();
+        String town = mEtTown.getText().toString();
+        String country = mEtCountry.getText().toString();
+        String email = mEtEmail.getText().toString();
 
         if (mValidator.isValidFirstName(firstName) && mValidator.isValidLastName(lastName)
                 && mValidator.isValidAddress(address) && mValidator.isValidPostalCode(postalCode)
