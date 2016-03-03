@@ -106,21 +106,25 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         parent.setContentInsetsAbsolute(0, 0);
     }
 
-    protected boolean isTablet() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        try {
-            if (this.getWindowManager() != null)
-                this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        } catch (NullPointerException e) {
-            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
-        } finally {
-            float yInches = metrics.heightPixels / metrics.ydpi;
-            float xInches = metrics.widthPixels / metrics.xdpi;
-            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-            return diagonalInches >= 6.5;
-        }
-
-    }
+//    private boolean isTablet() {
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        try {
+//            if (this.getWindowManager() != null)
+//                this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//        } catch (NullPointerException e) {
+//            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
+//        } finally {
+//            float yInches = metrics.heightPixels / metrics.ydpi;
+//            float xInches = metrics.widthPixels / metrics.xdpi;
+//            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+//            return diagonalInches >= 6.5;
+//        }
+//    }
+//
+//    protected  boolean isLaunchedAsTabletLandscape(){
+//        Configuration configuration = getResources().getConfiguration();
+//        return (isTablet() && (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE));
+//    }
 
 //    protected void setNoActionBarTheme() {
 //        themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
@@ -208,6 +212,20 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         }
     }
 
+    protected boolean isTablet() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        try {
+            if (this.getWindowManager() != null)
+                this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        } catch (NullPointerException e) {
+            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
+        } finally {
+            float yInches = metrics.heightPixels / metrics.ydpi;
+            float xInches = metrics.widthPixels / metrics.xdpi;
+            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+            return diagonalInches >= 6.5;
+        }
+    }
 
     protected void backtoConsumerCare() {
         finish();

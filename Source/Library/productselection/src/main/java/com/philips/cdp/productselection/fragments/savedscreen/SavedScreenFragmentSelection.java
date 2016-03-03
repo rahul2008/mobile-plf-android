@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -52,6 +53,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private CustomFontTextView mProductName = null;
     private CustomFontTextView mProductCtn = null;
     private ImageView mProductImage = null;
+    private RelativeLayout mRightPanelLayout = null;
+    private RelativeLayout mLeftPanelLayout = null;
 
     /**
      * setting Listeners & setting the values & controls to the inflated view's of the screen "fragment_saved_screen.xml"
@@ -73,6 +76,9 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         mProductName.setText(mUserSelectedProduct.getData().getProductTitle());
         mProductCtn.setText(mUserSelectedProduct.getData().getCtn());
         loadProductImage(mProductImage);
+
+        mLeftPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductList);
+        mRightPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductDetailsParent);
 
         mSettings.setOnClickListener(this);
         mRedirectingButton.setOnClickListener(this);
@@ -143,10 +149,10 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     @Override
     public void setViewParams(Configuration config) {
 
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isLaunchedAsTabletLandscape()) {
             mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
         }
-        else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
+        else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isLaunchedAsTabletLandscape()) {
             mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = (int) getActivity().getResources()
                     .getDimension(R.dimen.tablet_details_view_land_margin);
         }
@@ -156,7 +162,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
     @Override
     public String getActionbarTitle() {
-        if(isTablet()){
+        if(isLaunchedAsTabletLandscape()){
             return getResources().getString(R.string.Product_Title);
         }
         else{
@@ -191,9 +197,17 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 //                if (isConnectionAvailable()) {
 					Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
                             Constants.ACTION_VALUE_CHANGE_PRODUCT);
-                if (isTablet()) {
-//                    showFragment(new ProductSelectionListingTabletFragment());
+                if (isLaunchedAsTabletLandscape()) {
+                    setListViewRequiredInTablet(true);
                     replaceFragmentForTablet("SavedScreenFragmentSelection", new DetailedScreenFragmentSelection());
+
+//                    Configuration configuration = getResources().getConfiguration();
+//
+//                    if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//                        mLeftPanelLayout.setVisibility(View.VISIBLE);
+//                        mRightPanelLayout.setVisibility(View.GONE);
+//                    }
+
                 } else {
                     showFragment(new ProductSelectionListingFragment());
                 }
@@ -204,7 +218,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                     setPreference(mUserSelectedProduct.getData().getCtn());
                     ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                     clearBackStackHistory(getActivity());
-                    if (isTablet()) {
+                    if (isLaunchedAsTabletLandscape()) {
                         removeWelcomeScreen();
                     }
                 }

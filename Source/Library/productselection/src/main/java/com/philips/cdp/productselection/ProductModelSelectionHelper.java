@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 
@@ -40,6 +41,7 @@ public class ProductModelSelectionHelper {
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
     private ProgressDialog mProgressDialog = null;
+    private static boolean isTabletLandscape = false;
 
     /*
      * Initialize everything(resources, variables etc) required for product selection.
@@ -187,8 +189,21 @@ public class ProductModelSelectionHelper {
         }
     }
 
-    private boolean isTablet(FragmentActivity context) {
+    /*
+     *   Need this API @ activity level for Tablet Landscape GUI alignment.
+     *  While setting this boolean pls keep in mind that landscape status and
+     *   tablet status has to be set.
+    */
+    public void setLaunchedAsTabletLandscape(boolean tabletLandscape){
+        isTabletLandscape = tabletLandscape;
+    }
 
+    // Need this API @ activity level for Tablet Landscape GUI alignment.
+    public  boolean isLaunchedAsTabletLandscape(){
+        return isTabletLandscape;
+    }
+
+    private boolean isTablet(FragmentActivity context) {
         DisplayMetrics metrics = new DisplayMetrics();
         try {
             if (context.getWindowManager() != null)
@@ -201,7 +216,6 @@ public class ProductModelSelectionHelper {
             double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
             return diagonalInches >= 6.5;
         }
-
     }
 
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
@@ -231,7 +245,6 @@ public class ProductModelSelectionHelper {
             ProductSelectionLogger.d(TAG, "Setting Locale :  : " + mLocale.toString());
         }
     }
-
 
     public String getProductSelectionLibVersion() {
         return BuildConfig.VERSION_NAME;

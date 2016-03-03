@@ -70,7 +70,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
                     mUserSelectedProduct = (productList.get(position));
-                    if (!isTablet()) {
+                    if (!isLaunchedAsTabletLandscape()) {
                         DetailedScreenFragmentSelection detailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
                         detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
                         showFragment(detailedScreenFragmentSelection);
@@ -104,7 +104,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             productList.add(summaryList[i]);
         }
 
-        if (isTablet()) {
+        if (isLaunchedAsTabletLandscape()) {
             try {
                 mUserSelectedProduct = (summaryList[0]);
                 setListViewRequiredInTablet(true);
@@ -149,7 +149,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                 public void onSuccess(SummaryModel summaryModel) {
                     productList.add(summaryModel);
 
-                    if (isTablet() && productList.size() == 1) {
+                    if (!isLaunchedAsTabletLandscape() && productList.size() == 1) {
                         try {
                             mUserSelectedProduct = (productList.get(0));
                             ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
@@ -177,10 +177,8 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                             ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                             clearBackStackHistory(getActivity());
                         }
-
                     }
                 }
-
 
                 @Override
                 public void onFail(String errorMessage) {

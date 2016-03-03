@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
@@ -96,7 +97,11 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
 
         if (v.getId() == R.id.welcome_screen_parent_two) {
             if (isConnectionAvailable()) {
-                if (isTablet()) {
+                Configuration configuration = getResources().getConfiguration();
+                ProductModelSelectionHelper.getInstance().
+                        setLaunchedAsTabletLandscape (isTablet() && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE);
+
+                if (isLaunchedAsTabletLandscape()) {
                     showFragment(new ProductSelectionListingTabletFragment());
                 } else {
                     showFragment(new ProductSelectionListingFragment());

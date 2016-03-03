@@ -231,8 +231,11 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         }
     }
 
-    protected boolean isTablet() {
+    protected  boolean isLaunchedAsTabletLandscape(){
+        return ProductModelSelectionHelper.getInstance().isLaunchedAsTabletLandscape();
+    }
 
+    protected boolean isTablet() {
         DisplayMetrics metrics = new DisplayMetrics();
         try {
             if (getActivity().getWindowManager() != null)
@@ -245,7 +248,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
             return diagonalInches >= 6.5;
         }
-
     }
 
     protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {

@@ -2,8 +2,10 @@ package com.philips.cdp.productselection.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
@@ -26,10 +28,14 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
         setContentView(R.layout.activity_productselection_layout);
 
         animateThisScreen();
+
+        Configuration configuration = getResources().getConfiguration();
+        ProductModelSelectionHelper.getInstance().setLaunchedAsTabletLandscape
+                (isTablet() && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE);
         if (getCtnFromPreference()) {
             showFragment(new WelcomeScreenFragmentSelection());
             // isFirstTimeWelcomeScreenlaunch = false;
-        } else if (isTablet()) {
+        } else if (ProductModelSelectionHelper.getInstance().isLaunchedAsTabletLandscape()) {
             showFragment(new ProductSelectionListingTabletFragment());
         } else {
             showFragment(new ProductSelectionListingFragment());

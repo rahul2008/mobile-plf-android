@@ -32,13 +32,20 @@ dependencies {
     compile project(':productselection')
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile(group: 'com.philips.cdp', name: 'Tagging', version: '2.0.0', ext: 'aar')
+    compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.5.1')
     compile 'com.philips.cdp:uikitLib:2.0.0'
+    compile 'com.shamanland:fonticon:0.1.8'
+    compile(group:'adobeMobileLibrary', name:'adobeMobileLibrary', version:'4.5.1')
 }
 
 allprojects {
     repositories {
         maven {
             url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local"
         }
     }
 }
