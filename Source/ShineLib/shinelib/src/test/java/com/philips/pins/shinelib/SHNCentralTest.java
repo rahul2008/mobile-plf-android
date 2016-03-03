@@ -34,6 +34,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -161,6 +162,11 @@ public class SHNCentralTest extends RobolectricTest {
             DataMigrater createDataMigrater() {
                 return mockedDataMigrater;
             }
+
+            @Override
+            PersistentStorageFactory createPersistentStorageFactory(SharedPreferencesProvider sharedPreferencesProvider) {
+                return persistentStorageFactoryMock;
+            }
         };
     }
 
@@ -183,6 +189,18 @@ public class SHNCentralTest extends RobolectricTest {
     }
 
     @Test
+    public void whenCreatedWithCustomProviderAndMigrationIsNotRequestedThenContainsDataMustReturnTrue() throws SHNBluetoothHardwareUnavailableException {
+        SharedPreferencesProvider mockedSharedPreferencesProvider = mock(SharedPreferencesProvider.class);
+
+        reset(mockedDataMigrater);
+        doNothing().when(mockedDataMigrater).execute(any(Context.class), any(PersistentStorageFactory.class));
+
+        createSHNCentral(mockedSharedPreferencesProvider, false);
+
+        verify(mockedDataMigrater).execute(mockedContext, persistentStorageFactoryMock);
+    }
+
+    @Test
     public void whenCreatedWithNoCustomProviderThenExecuteIsNotCalled() throws SHNBluetoothHardwareUnavailableException {
         createSHNCentral(null, false);
         createSHNCentral(null, true);
@@ -192,7 +210,7 @@ public class SHNCentralTest extends RobolectricTest {
 
     @Test
     public void whenCreatedWithCustomProviderAndMigrationIsRequestedAndMigrationAlreadyRunThenExecuteIsNotCalledAgain() throws SHNBluetoothHardwareUnavailableException {
-        when(mockedSharedPreferencesMigrator.destinationContainsData()).thenReturn(true);
+        when(mockedSharedPreferencesMigrator.destinationPersistentStorageContainsData()).thenReturn(true);
         SharedPreferencesProvider mockedSharedPreferencesProvider = mock(SharedPreferencesProvider.class);
 
         createSHNCentral(mockedSharedPreferencesProvider, true);

@@ -12,7 +12,7 @@ public class SharedPreferencesMigrator {
         this.destinationFactory = destinationFactory;
     }
 
-    public boolean destinationContainsData() {
+    public boolean destinationPersistentStorageContainsData() {
         return destinationFactory.getPersistentStorage().contains(DataMigrater.MIGRATION_ID_KEY);
     }
 

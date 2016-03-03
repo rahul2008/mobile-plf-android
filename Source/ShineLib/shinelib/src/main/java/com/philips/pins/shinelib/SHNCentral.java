@@ -102,11 +102,11 @@ public class SHNCentral {
         this(handler, context, false, null, false);
     }
 
-    SHNCentral(Handler handler, Context context, Boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, Boolean migrateFromDefaultProviderToCustom) throws SHNBluetoothHardwareUnavailableException {
+    SHNCentral(Handler handler, Context context, boolean showPopupIfBLEIsTurnedOff, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
         BleUtilities.init(applicationContext);
 
-        persistentStorageFactory = setUpPersistentStorageFactory(context, customSharedPreferencesProvider, migrateFromDefaultProviderToCustom);
+        persistentStorageFactory = setUpPersistentStorageFactory(context, customSharedPreferencesProvider, migrateDataToCustomSharedPreferencesProvider);
 
         // The handler is used for callbacks to the usercode. When no handler is provided, the MainLoop a.k.a. UI Thread is used.
         if (handler == null) {
@@ -233,25 +233,27 @@ public class SHNCentral {
         }
     }
 
-    private PersistentStorageFactory setUpPersistentStorageFactory(Context context, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateFromDefaultProviderToCustom) {
+    private PersistentStorageFactory setUpPersistentStorageFactory(Context context, SharedPreferencesProvider customSharedPreferencesProvider, boolean migrateDataToCustomSharedPreferencesProvider) {
         PersistentStorageFactory defaultPersistentStorageFactory = createPersistentStorageFactory(defaultSharedpreferencesProvider);
 
         if (customSharedPreferencesProvider == null) {
-            migrateData(context, defaultSharedpreferencesProvider);
+            migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
             return defaultPersistentStorageFactory;
         } else {
             PersistentStorageFactory customPersistentStorageFactory = createPersistentStorageFactory(customSharedPreferencesProvider);
 
             SharedPreferencesMigrator sharedPreferencesMigrator = createSharedPreferencesMigrator(defaultPersistentStorageFactory, customPersistentStorageFactory);
-            if (!sharedPreferencesMigrator.destinationContainsData() && migrateFromDefaultProviderToCustom) {
-                migrateData(context, defaultSharedpreferencesProvider);
+            if (!sharedPreferencesMigrator.destinationPersistentStorageContainsData() && migrateDataToCustomSharedPreferencesProvider) {
+                migrateDataFromOldKeysToNewKeys(context, defaultSharedpreferencesProvider);
                 sharedPreferencesMigrator.execute();
+            } else {
+                migrateDataFromOldKeysToNewKeys(context, customSharedPreferencesProvider); // This call is needed to make the destinationPersistentStorageContainsData method return true after the first time creation with the same custom provider.
             }
             return customPersistentStorageFactory;
         }
     }
 
-    private void migrateData(Context context, SharedPreferencesProvider sharedPreferencesProvider) {
+    private void migrateDataFromOldKeysToNewKeys(Context context, SharedPreferencesProvider sharedPreferencesProvider) {
         DataMigrater dataMigrater = createDataMigrater();
         dataMigrater.execute(context, createPersistentStorageFactory(sharedPreferencesProvider));
     }

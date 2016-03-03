@@ -89,7 +89,7 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
 
     @Test
     public void shouldCallContainsWithMigrationKeyWhenDestinationContainsDataIsCalled() throws Exception {
-        sharedPreferencesMigrator.destinationContainsData();
+        sharedPreferencesMigrator.destinationPersistentStorageContainsData();
 
         verify(persistentStorageMock).contains(DataMigrater.MIGRATION_ID_KEY);
     }
