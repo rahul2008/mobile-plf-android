@@ -48,6 +48,7 @@
                     android:id="@+id/savedscreen_productimage"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/savedscreen_productcontainer_height"
+                    android:background="@drawable/navigation_image"
                     android:layout_margin="@dimen/savedscreen_product_image_margin"
                     android:layout_weight="6"
                     android:scaleType="fitXY" />

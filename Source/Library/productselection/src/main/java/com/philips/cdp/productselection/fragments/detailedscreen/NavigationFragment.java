@@ -64,7 +64,7 @@ public final class NavigationFragment extends Fragment {
         final int imageWidth = (int) (getResources().getDimension(R.dimen.productdetails_screen_image) / getResources().getDisplayMetrics().density) * 2;
         //imagepath = imagepath + "?wid=" + imageWidth + "&;";
         imagepath = imagepath + "?wid=" + imageWidth +
-                "&hei=" + imageWidth +
+                "&hei=" + (imageWidth / 100) * 70 +
                 "&fit=fit,1";
 
         final ImageRequest request = new ImageRequest(imagepath,
