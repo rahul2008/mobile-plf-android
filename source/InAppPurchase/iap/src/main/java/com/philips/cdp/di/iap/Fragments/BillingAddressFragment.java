@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -28,6 +27,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, InlineForms.Validator, TextWatcher {
 
     private Context mContext;
+    private PuiSwitch mSwitchBillingAddress;
     private EditText mEtFirstName;
     private EditText mEtLastName;
     private EditText mEtAddress;
@@ -51,7 +51,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         LinearLayout mSameAsBillingAddress = (LinearLayout) rootView.findViewById(R.id.same_as_shipping_ll);
         TextView mTvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-        PuiSwitch mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
+        mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
@@ -99,6 +99,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
                 if (isChecked) {
                     disableAllFields();
                     prePopulateShippingAddress();
+                    mBtnContinue.setEnabled(true);
                 } else {
                     clearAllFields();
                     mBtnContinue.setEnabled(false);
@@ -113,6 +114,10 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_address);
+        if (mSwitchBillingAddress.isChecked()) {
+            disableAllFields();
+            mBtnContinue.setEnabled(true);
+        }
     }
 
     private void prePopulateShippingAddress() {
@@ -221,9 +226,10 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         if (v == mBtnContinue) {
             if (Utility.isInternetConnected(mContext)) {
-                CartModelContainer.getInstance().setBillingAddressFields(mAddressFields);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mAddressFields);
                 addFragment(
-                        OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
             } else {
                 NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Network Error", "Please check the connection");
             }

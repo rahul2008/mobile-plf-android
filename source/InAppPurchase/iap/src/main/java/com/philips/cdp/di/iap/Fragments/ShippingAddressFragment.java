@@ -146,7 +146,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(boolean isSuccess) {
         if (isSuccess) {
             mPaymentController.getPaymentDetails();
-            CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
         } else {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), "OK", "Time-out", "Time out while hitting to server");
@@ -157,6 +156,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
             addFragment(
@@ -170,7 +170,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
-            bundle.putSerializable(IAPConstant.PAYMENT_FIELDS, (Serializable) mPaymentMethodsList);
+            bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
         }

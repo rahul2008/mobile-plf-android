@@ -41,8 +41,8 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
         mBtnCancel.setOnClickListener(this);
 
         Bundle bundle = getArguments();
-        if (bundle.containsKey(IAPConstant.PAYMENT_FIELDS)) {
-            mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(IAPConstant.PAYMENT_FIELDS);
+        if (bundle.containsKey(IAPConstant.PAYMENT_METHOD_LIST)) {
+            mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(IAPConstant.PAYMENT_METHOD_LIST);
         }
 
         mPaymentMethodsAdapter = new PaymentMethodsAdapter(getContext(), mPaymentMethodList);
