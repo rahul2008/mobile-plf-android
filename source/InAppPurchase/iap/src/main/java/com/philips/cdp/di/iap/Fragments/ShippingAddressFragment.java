@@ -156,7 +156,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mAddressFields);
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
@@ -166,7 +166,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, mAddressFields);
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mAddressFields);
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
