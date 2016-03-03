@@ -109,7 +109,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
             @Override
             public void onClick(final View v) {
                 Addresses addr = mAddresses.get(position);
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.ORDER_SUMMARY_FRAGMENT);
+                EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADD_DELIVERY_ADDRESS);
             }
         });
     }
