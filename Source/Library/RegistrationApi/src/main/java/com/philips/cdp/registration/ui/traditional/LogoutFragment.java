@@ -333,11 +333,13 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
     private void showLogoutSpinner() {
         mPbLogoutFromBegin.setVisibility(View.VISIBLE);
         mBtnLogOut.setEnabled(false);
+        mCbTerms.setEnabled(false);
     }
 
     private void hideLogoutSpinner() {
         mPbLogoutFromBegin.setVisibility(View.GONE);
         mBtnLogOut.setEnabled(true);
+        mCbTerms.setEnabled(true);
     }
 
     private void handleUiState() {
