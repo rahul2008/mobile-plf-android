@@ -82,5 +82,10 @@
     <string name="iap_check_connection">Please check the connection</string>
     <string name="iap_time_out">Time-out</string>
     <string name="iap_time_out_description">Time out while hitting to server</string>
+    <!-- Payment -->
+    <string name="iap_confirmation">Confirmation</string>
+    <string name="iap_thank_for_order">Thank you for your order</string>
+    <string name="iap_your_order_number">Your order number is</string>
+    <string name="iap_confirmation_email_msg">You will receive a confirmation e-mail shortly at %s</string>
 
 </resources>
