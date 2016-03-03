@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -19,7 +20,7 @@ public class ScanRequestTest {
     public static final String TEST_MAC_1 = "TEST_MAC_1";
     public static final String TEST_MAC_2 = "TEST_MAC_2";
 
-    public static final int TIMEOUT_1 = 111;
+    public static final long TIMEOUT_1 = 111;
 
     @Mock
     private SHNDeviceDefinitionInfo definitionInfoMock1;
@@ -61,7 +62,7 @@ public class ScanRequestTest {
     public void ShouldPostRunnableWithDelay_WhenStarted() {
         scanRequest.scanningStarted(scannerMock, handlerMock);
 
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), TIMEOUT_1);
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(TIMEOUT_1));
     }
 
     @Test
@@ -69,7 +70,7 @@ public class ScanRequestTest {
         Runnable runnable = captureTimeoutRunnable();
         runnable.run();
 
-        verify(scannerMock).startScanning(scanRequest);
+        verify(scannerMock).stopScanning(scanRequest);
     }
 
     @Test
@@ -84,7 +85,7 @@ public class ScanRequestTest {
 
     private Runnable captureTimeoutRunnable() {
         scanRequest.scanningStarted(scannerMock, handlerMock);
-        verify(handlerMock).postDelayed(runnableCaptor.capture(), TIMEOUT_1);
+        verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(TIMEOUT_1));
         return runnableCaptor.getValue();
     }
 }

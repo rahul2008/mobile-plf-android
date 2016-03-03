@@ -23,7 +23,7 @@ public class ScanRequest {
     private final boolean reportMoreThanOnce;
 
     @NonNull
-    private final int stopScanningAfterMS;
+    private final long stopScanningAfterMS;
 
     @NonNull
     private final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener;
@@ -33,7 +33,7 @@ public class ScanRequest {
     private SHNDeviceScannerInternal deviceScannerInternal;
     private Handler internalHandler;
 
-    public ScanRequest(@NonNull final List<SHNDeviceDefinitionInfo> deviceDefinitions, @NonNull final List<String> deviceMacAddresses, final boolean reportMoreThanOnce, final int stopScanningAfterMS, @NonNull final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
+    public ScanRequest(@NonNull final List<SHNDeviceDefinitionInfo> deviceDefinitions, @NonNull final List<String> deviceMacAddresses, final boolean reportMoreThanOnce, final long stopScanningAfterMS, @NonNull final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
         this.deviceDefinitions = deviceDefinitions;
         this.deviceMacAddresses = deviceMacAddresses;
         this.reportMoreThanOnce = reportMoreThanOnce;
