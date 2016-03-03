@@ -98,6 +98,7 @@ public class InlineForms extends LinearLayout {
     int mEnricher_red;
     int mDarkBlue;
     private Validator validator = null;
+    private String errorText =getResources().getString(R.string.invalid_email_format);
     private Set<Integer> set = new ConcurrentSkipListSet<Integer>();
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
         @Override
@@ -231,6 +232,8 @@ public class InlineForms extends LinearLayout {
     private View createNewErrorView() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View errorView = inflater.inflate(R.layout.uikit_input_text_inline_error, null, false);
+        TextView tv= (TextView)errorView.findViewById(R.id.error_text);
+        tv.setText(errorText);
         FrameLayout imageview = (FrameLayout) errorView.findViewById(R.id.error_image);
 
         imageview.setOnClickListener(new OnClickListener() {
@@ -336,7 +339,11 @@ public class InlineForms extends LinearLayout {
             Log.i(TAG, "After In Show Error the Set = " + set.toString());
         }
     }
+public void setErrorMessage(String text)
+{
+    errorText=text;
 
+}
     private void highLightErrorView(int indexofParent, int color) {
 
         /*

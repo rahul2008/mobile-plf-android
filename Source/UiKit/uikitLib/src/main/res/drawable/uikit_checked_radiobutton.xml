@@ -4,7 +4,7 @@
     <item>
         <shape android:shape="oval">
             <solid android:color="@android:color/transparent"/>
-            <stroke android:color="@android:color/white"
+            <stroke android:color="@color/uikit_white"
                 android:width="1dp"/>
             <size
                 android:width="20dp"
@@ -17,7 +17,7 @@
             <!-- transparent stroke = larger_circle_size - smaller_circle_size -->
             <stroke android:color="@android:color/transparent"
                 android:width="10dp"/>
-            <solid android:color="@android:color/white"/>
+            <solid android:color="@color/uikit_white"/>
             <size
                 android:width="10dp"
                 android:height="10dp"/>

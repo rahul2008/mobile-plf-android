@@ -107,10 +107,10 @@ public class HamburgerMenuDemo extends CatalogActivity {
         configureDrawer();
         loadSlideMenuItems();
         setHamburgerAdaptor();
+        hamburgerUtil = new HamburgerUtil(this, drawerListView);
+        hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
         setDrawerAdaptor();
-        if (savedInstanceState == null) {
-            displayView(1);
-        }
+        displayView(1);
 
         drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,9 +121,6 @@ public class HamburgerMenuDemo extends CatalogActivity {
                 }
             }
         });
-
-        hamburgerUtil = new HamburgerUtil(this, drawerListView);
-        hamburgerUtil.updateSmartFooter(footerView);
     }
 
     private void initViews() {
@@ -246,7 +243,7 @@ public class HamburgerMenuDemo extends CatalogActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        hamburgerUtil.updateSmartFooter(footerView);
+        hamburgerUtil.updateSmartFooter(footerView, hamburgerItems.size());
     }
 
     @Override

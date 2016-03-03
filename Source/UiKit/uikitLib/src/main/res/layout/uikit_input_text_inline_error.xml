@@ -35,7 +35,6 @@
         android:layout_toRightOf="@+id/error_image"
         android:fontFamily="fonts/centralesansbook.ttf"
         android:includeFontPadding="false"
-        android:text="@string/invalid_email_format"
         android:textColor="?attr/errortextcolorinlineforms"
         android:textSize="16sp" />
 

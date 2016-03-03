@@ -28,6 +28,7 @@ public class HamburgerUtil {
     private Context context;
     private ListView drawerListView;
     private View footerView;
+    private int itemCount;
 
     public HamburgerUtil(Context context, ListView drawerListView) {
         this.context = context;
@@ -40,15 +41,19 @@ public class HamburgerUtil {
      *
      * @param footerImageView - Instance of Footer view
      */
-    public void updateSmartFooter(final ImageView footerImageView) {
-        drawerListView.post(new Runnable() {
+    public void updateSmartFooter(final ImageView footerImageView, int itemCount) {
+        this.itemCount = itemCount;
+        int heightPixels = getDeviceHeightPixels();
+        int adapterTotalHeight = getAdaptorTotalHeight();
+        validateLogoView(heightPixels, adapterTotalHeight, footerImageView);
+        /*drawerListView.post(new Runnable() {
             @Override
             public void run() {
                 int heightPixels = getDeviceHeightPixels();
                 int adapterTotalHeight = getAdaptorTotalHeight();
                 validateLogoView(heightPixels, adapterTotalHeight, footerImageView);
             }
-        });
+        });*/
     }
 
     private void validateLogoView(final int deviceHeight, final int adapterTotalHeight, ImageView footerImageView) {
@@ -78,8 +83,9 @@ public class HamburgerUtil {
     @NonNull
     private RelativeLayout.LayoutParams getLayoutParams() {
         Resources resources = context.getResources();
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height));
-        lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) resources.getDimension(R.dimen.uikit_hamburger_logo_width), (int) resources.getDimension(R.dimen.uikit_hamburger_logo_height) +(int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
+
+     // lp.setMargins(0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_top_margin), 0, (int) resources.getDimension(R.dimen.uikit_hamburger_menu_logo_bottom_margin));
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         return lp;
     }
@@ -107,9 +113,9 @@ public class HamburgerUtil {
     }
 
     private int getAdaptorTotalHeight() {
-        if (drawerListView != null && drawerListView.getAdapter().getCount() != 0) {
+        if (itemCount != 0) {
             double listViewItemHeight = context.getResources().getDimension(R.dimen.uikit_hamburger_list_item_height);
-            return (int) (drawerListView.getAdapter().getCount() * listViewItemHeight);
+            return (int) (itemCount * listViewItemHeight);
         }
         return 0;
     }
