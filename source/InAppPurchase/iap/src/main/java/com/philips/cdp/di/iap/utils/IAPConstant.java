@@ -9,6 +9,11 @@ public class IAPConstant {
     public static final String EMPTY_CART_FRGMENT_REPLACED = "EMPTY_CART_FRGMENT_REPLACED";
     public static final String ORDER_SUMMARY_FRAGMENT = "ORDER_SUMMARY_FRAGMENT";
     public static final String SHIPPING_ADDRESS_FRAGMENT = "SHIPPING_ADDRESS_FRAGMENT";
+    public static final String PRODUCT_DETAIL_FRAGMENT = "PRODUCT_DETAIL_FRAGMENT ";
+    public static final String PRODUCT_TITLE = "PRODUCT_TITLE";
+    public static final String PRODUCT_CTN = "PRODUCT_CTN";
+    public static final String PRODUCT_PRICE = "PRODUCT_PRICE";
+    public static final String PRODUCT_OVERVIEW = "PRODUCT_OVERVIEW";
     public static Boolean BUTTON_STATE_CHANGED = false;
     public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
     public static final int IAP_SUCCESS = 0;

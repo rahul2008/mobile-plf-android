@@ -4,6 +4,7 @@
     <string name="loading_cart">Loading Cart</string>
     <string name="iap_please_wait">Please Wait</string>
     <string name="iap_shopping_cart">Shopping Cart</string>
+    <string name="iap_shopping_cart_item">Shopping Cart item</string>
     <string name="iap_get_cart_details">Getting Cart Details</string>
     <string name="iap_product_item_quantity">Quantity: </string>
     <string name="iap_delete">Delete</string>

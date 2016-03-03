@@ -21,8 +21,10 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
@@ -48,6 +50,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
     private android.support.v4.app.FragmentManager mFragmentManager;
+    private ShoppingCartData shoppingCartDataForProductDetailPage;
     //ShoppingCartData summary;
 
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager) {
@@ -243,13 +246,22 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         }
                         break;
                     case INFO:
-                        //Toast.makeText(mContext.getApplicationContext(), "Details Screen Not Implemented", Toast.LENGTH_SHORT).show();
+                        setTheProductDataForDisplayingInProductDetailPage(position);
                         break;
                     default:
                 }
             }
         });
         mPopupWindow.show();
+    }
+
+    private void setTheProductDataForDisplayingInProductDetailPage(int position) {
+        shoppingCartDataForProductDetailPage = mData.get(position);
+        EventHelper.getInstance().notifyEventOccurred(IAPConstant.PRODUCT_DETAIL_FRAGMENT);
+    }
+
+    public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage(){
+        return shoppingCartDataForProductDetailPage;
     }
 
     private void bindCountView(final View view, final int position) {

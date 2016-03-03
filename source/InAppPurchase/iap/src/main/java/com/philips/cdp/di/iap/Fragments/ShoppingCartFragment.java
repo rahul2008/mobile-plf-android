@@ -22,6 +22,7 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
@@ -53,6 +54,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(),getFragmentManager());
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
         View rootView = inflater.inflate(R.layout.shopping_cart_view, container, false);
         mListView = (ListView) rootView.findViewById(R.id.withouticon);
@@ -101,6 +103,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
     }
 
     @Override
@@ -138,6 +141,19 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.getBoolean(event));
         }
+        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
+            startProductDetailFragment();
+        }
+    }
+
+    private void startProductDetailFragment() {
+        ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.PRODUCT_TITLE,shoppingCartData.getProductTitle());
+        bundle.putString(IAPConstant.PRODUCT_CTN,shoppingCartData.getCtnNumber());
+        bundle.putString(IAPConstant.PRODUCT_PRICE, NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(shoppingCartData.getTotalPrice()));
+        bundle.putString(IAPConstant.PRODUCT_OVERVIEW,shoppingCartData.getMarketingTextHeader());
+        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
     @Override

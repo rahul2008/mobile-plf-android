@@ -32,6 +32,7 @@ import com.philips.cdp.di.iap.Fragments.ModalAlertDemoFragment;
 public class NetworkUtility {
 
     private static NetworkUtility mNetworkUtility;
+    private static ModalAlertDemoFragment mModalAlertDemoFragment;
 
     private boolean isOnline;
 
@@ -39,6 +40,7 @@ public class NetworkUtility {
         synchronized (NetworkUtility.class) {
             if (mNetworkUtility == null) {
                 mNetworkUtility = new NetworkUtility();
+                mModalAlertDemoFragment = new ModalAlertDemoFragment();
             }
         }
         return mNetworkUtility;
@@ -71,12 +73,17 @@ public class NetworkUtility {
     }
 
     public static void showErrorDialog(FragmentManager pFragmentManager, String pButtonText, String pErrorString, String pErrorDescription){
-        ModalAlertDemoFragment modalAlertDemoFragment = new ModalAlertDemoFragment();
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.MODEL_ALERT_BUTTON_TEXT,pButtonText);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_TEXT, pErrorString);
         bundle.putString(IAPConstant.MODEL_ALERT_ERROR_DESCRIPTION, pErrorDescription);
-        modalAlertDemoFragment.setArguments(bundle);
-        modalAlertDemoFragment.show(pFragmentManager, "dialog");
+        //In case Fragment is active already here exception is thrown
+        try {
+            mModalAlertDemoFragment.setArguments(bundle);
+            mModalAlertDemoFragment.show(pFragmentManager, "dialog");
+        }catch (Exception e){
+
+        }
+
     }
 }

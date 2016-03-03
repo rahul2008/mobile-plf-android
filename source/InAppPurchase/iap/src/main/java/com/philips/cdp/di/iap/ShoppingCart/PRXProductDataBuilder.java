@@ -14,11 +14,7 @@ import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
-import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
-import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
 import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -43,30 +39,6 @@ public class PRXProductDataBuilder {
         mDeliveryCostEntity = mCartData.getCarts().get(0).getDeliveryCost();
         mContext = context;
         mDataLoadListener = listener;
-
-        /*ProductAssetBuilder mProductAssetBuilder = new ProductAssetBuilder("","f");
-        mProductAssetBuilder.setmSectorCode("mSectorCode");
-        mProductAssetBuilder.setmLocale("mLocale");
-        mProductAssetBuilder.setmCatalogCode("mCatalogCode");
-
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(mContext);
-        mRequestManager.executeRequest(mProductAssetBuilder, new ResponseListener() {
-
-            @Override
-            public void onResponseSuccess(final ResponseData responseData) {
-                AssetModel model = (AssetModel)responseData;
-                Assets assets = model.getData().getAssets();
-                List<Asset> asset = assets.getAsset();
-                String s  = asset.get(0).getAsset();
-            }
-
-            @Override
-            public void onResponseError(final String s, final int i) {
-
-            }
-        });
-*/
     }
 
     public void build() {
@@ -97,8 +69,8 @@ public class PRXProductDataBuilder {
 
     private void updateSuccessData(final SummaryModel responseData, final String code, final DeliveryCostEntity deliveryCostEntity, final EntriesEntity entry) {
         ShoppingCartData cartItem = new ShoppingCartData(entry, deliveryCostEntity);
-        SummaryModel mAssetModel = responseData;
-        Data data = mAssetModel.getData();
+        SummaryModel mSummaryModel = responseData;
+        Data data = mSummaryModel.getData();
         cartItem.setImageUrl(data.getImageURL());
         cartItem.setProductTitle(data.getProductTitle());
         cartItem.setCtnNumber(code);
@@ -107,6 +79,7 @@ public class PRXProductDataBuilder {
         cartItem.setCurrency(entry.getTotalPrice().getCurrencyIso());
         cartItem.setTotalPriceWithTax(mCartData.getCarts().get(0).getTotalPriceWithTax().getValue());
         cartItem.setTotalItems(mCartData.getCarts().get(0).getTotalItems());
+        cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
         addWithNotify(cartItem);
     }
 
