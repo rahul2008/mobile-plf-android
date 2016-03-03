@@ -23,6 +23,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.payment.PaymentController;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -137,7 +138,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onCreateAddress(boolean isSuccess) {
         if (isSuccess) {
             mPaymentController.getPaymentDetails();
-            //   CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
+            CartModelContainer.getInstance().setShippingAddressFields(mAddressFields);
         } else {
             Utility.dismissProgressDialog();
             Toast.makeText(mContext, "Address not created successfully", Toast.LENGTH_SHORT).show();
