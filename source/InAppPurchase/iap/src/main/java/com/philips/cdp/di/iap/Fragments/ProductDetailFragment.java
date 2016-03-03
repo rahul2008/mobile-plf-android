@@ -86,7 +86,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment{
 
     @Override
     public void onBackPressed() {
-        finishActivity();
+
     }
 
 }

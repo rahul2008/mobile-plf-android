@@ -139,7 +139,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 holder.dots.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
-                        bindDeleteOrInfoPopUP(view);
+                        bindDeleteOrInfoPopUP(view,position);
                     }
                 });
 
@@ -219,7 +219,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         return convertView;
     }
 
-    private void bindDeleteOrInfoPopUP(final View view) {
+    private void bindDeleteOrInfoPopUP(final View view, final int selectedItem) {
         List<RowItem> rowItems = new ArrayList<RowItem>();
 
         String delete = mResources.getString(R.string.iap_delete);
@@ -238,7 +238,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         if (Utility.isInternetConnected(mContext)) {
                             if (!Utility.isProgressDialogShowing()) {
                                 Utility.showProgressDialog(mContext,mContext.getString(R.string.iap_deleting_item));
-                                mPresenter.deleteProduct(mData.get(position));
+                                mPresenter.deleteProduct(mData.get(selectedItem));
                                 mPopupWindow.dismiss();
                             }
                         }else{
@@ -246,7 +246,7 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         }
                         break;
                     case INFO:
-                        setTheProductDataForDisplayingInProductDetailPage(position);
+                        setTheProductDataForDisplayingInProductDetailPage(selectedItem);
                         break;
                     default:
                 }
