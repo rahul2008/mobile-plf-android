@@ -20,8 +20,6 @@ public class XCheckBox extends LinearLayout {
     }
 
     private View parentView;
-    private int baseColor;
-    private int backGroundColor;
     private RelativeLayout textLayoutParent;
     private TextView checkBoxText;
     private boolean isChecked = false;
@@ -44,9 +42,7 @@ public class XCheckBox extends LinearLayout {
     }
 
     private void initView(final Context context, Resources resources, final AttributeSet attrs) {
-        backGroundColor = context.getResources().getColor(R.color.reg_layout_bg);
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.reg_baseColor});
-        baseColor = typedArray.getColor(0, resources.getColor(R.color.reg_text_heading_one_color));//reg_text_heading_one_color/reg_check_box_color
         textLayoutParent = (RelativeLayout) parentView.findViewById(R.id.rl_x_checkbox);
 
         checkBoxText = (TextView) parentView.findViewById(R.id.reg_tv_checkbox);
@@ -78,28 +74,16 @@ public class XCheckBox extends LinearLayout {
         }
     }
 
-    public void setEnabled(boolean isChecked){
+    public void setEnabled(boolean isChecked) {
         textLayoutParent.setEnabled(isChecked);
     }
 
     private void changeBackGround() {
         GradientDrawable gradientDrawable = new GradientDrawable();
-        gradientDrawable.setStroke(2, baseColor);
-        gradientDrawable.setColor(backGroundColor);
+        gradientDrawable.setStroke(2, getResources().getColor(R.color.reg_check_box_border_color));
         textLayoutParent.setBackgroundDrawable(gradientDrawable);
     }
 
-    private void notifyDataSetChanged() {
-
-    }
-
-    public void setStrokeColor(int color) {
-        this.baseColor = color;
-    }
-
-    public void setFilledColor(int color) {
-        this.backGroundColor = color;
-    }
 
     public void setText(String text) {
         this.checkBoxText.setText(text);
@@ -113,14 +97,12 @@ public class XCheckBox extends LinearLayout {
         this.checkBoxText.setText(resId);
     }
 
-    public OnCheckedChangeListener getOnCheckedChangeListener() {
-        return onCheckedChangeListener;
-    }
 
     public void setOnCheckedChangeListener(final OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;
     }
-    public boolean isChecked(){
+
+    public boolean isChecked() {
         return isChecked;
     }
 }

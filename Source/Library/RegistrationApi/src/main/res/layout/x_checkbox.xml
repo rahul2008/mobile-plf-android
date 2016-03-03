@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/reg_layout_bg"
+    android:background="@android:color/transparent"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/reg_text_heading_one_color"
+            android:textColor="@color/reg_check_box_tick_color"
             android:text="@string/ic_reg_check"
             android:textSize="@dimen/reg_check_size"
             />
