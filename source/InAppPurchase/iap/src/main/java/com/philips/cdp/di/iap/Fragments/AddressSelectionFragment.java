@@ -270,7 +270,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, selectedAddress);
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
@@ -283,7 +283,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, selectedAddress);
+            bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
             bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);
