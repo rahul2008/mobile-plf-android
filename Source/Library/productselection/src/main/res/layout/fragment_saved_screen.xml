@@ -46,11 +46,10 @@
                 <ImageView
                     android:id="@+id/savedscreen_productimage"
                     android:layout_width="match_parent"
+                    android:layout_gravity="center"
                     android:layout_height="@dimen/savedscreen_productcontainer_height"
-                    android:background="@drawable/navigation_image"
                     android:layout_margin="@dimen/savedscreen_product_image_margin"
-                    android:layout_weight="6"
-                    android:scaleType="fitXY" />
+                    android:layout_weight="6" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -69,7 +68,6 @@
                         android:textColor="?attr/baseColor"
                         android:textSize="@dimen/title_text_size_small"
                         android:textStyle="bold"
-                        android:text="hhhhhi"
                         custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
 
@@ -108,12 +106,12 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:background="@drawable/green_tick"
                         android:foregroundGravity="right|center"
-                        android:scaleType="fitXY"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+                        android:scaleType="fitXY" />
 
                 </RelativeLayout>
 
