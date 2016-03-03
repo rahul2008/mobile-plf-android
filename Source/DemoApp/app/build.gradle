@@ -1,4 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+def coverageSourceDirs = [
+        '../app/src/main/java'
+]
 
 android {
     compileSdkVersion 23
@@ -111,4 +118,29 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
         xml.enabled = true
         html.enabled = false
     }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: '../app/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('../app/build/jacoco/testDebug.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
 }
