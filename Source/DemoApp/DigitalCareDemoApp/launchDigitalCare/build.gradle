@@ -56,16 +56,16 @@ android {
 
 dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.google.android.gms:play-services:6.1.+'
-    compile 'com.android.support:appcompat-v7:23+'
-    compile(group: 'com.google.code.gson', name: 'gson', version: '2.2.2')
-    compile 'com.philips.cdp:uikitLib:2.0.0'
-    compile 'com.mcxiaoke.volley:library:1.0.17'
-    compile(group: 'com.philips.cdp', name: 'prx', version: '1.0.1', ext: 'aar')
-    compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.5.1', ext: 'jar')
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '1.1.1', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'productselection', version: '1.0.3-rc.5', ext: 'aar')
-    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '3.0.3-rc.4', ext: 'aar')
+//   if (findProject(':digitalCare')) {
+//        compile project(':digitalCare')
+//    } else {
+//     //   compile 'com.philips.cdp:digitalCare:3.0.3.rc.4'
+//   }
+   compile 'com.android.support:appcompat-v7:23+'
+
+   compile(group: 'com.philips.cdp', name: 'digitalCare', version: '3.0.3-rc.4', ext: 'aar'){
+       transitive=true
+   }
 }
 
 

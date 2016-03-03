@@ -1,1 +1,11 @@
 include ':launchDigitalCare'
+
+//def localDigitalCareLibDir = '../Library/digitalCare'
+//if (new File(localDigitalCareLibDir).exists()) {
+//    println('Path Found');
+//    include ':digitalCare'
+//    project(':digitalCare').projectDir = new File(localDigitalCareLibDir)
+//}
+//else{
+//    println('Path NOT Found');
+//}
