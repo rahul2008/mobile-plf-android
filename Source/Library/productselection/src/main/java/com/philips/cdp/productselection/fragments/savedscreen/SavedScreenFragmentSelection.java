@@ -4,6 +4,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.CustomFontTextView;
+import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
+
+import java.util.List;
 
 /**
  * This class holds responsible to inflate the UI of the saved screen & reselecting the product to save &
@@ -163,7 +168,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
             if (v.getId() == R.id.savedscreen_button_settings) {
 //                if (isConnectionAvailable()) {
                 if (isTablet()) {
-                    showFragment(new ProductSelectionListingTabletFragment());
+//                    showFragment(new ProductSelectionListingTabletFragment());
+                    replaceFragmentForTablet("SavedScreenFragmentSelection", new DetailedScreenFragmentSelection());
                 } else {
                     showFragment(new ProductSelectionListingFragment());
                 }

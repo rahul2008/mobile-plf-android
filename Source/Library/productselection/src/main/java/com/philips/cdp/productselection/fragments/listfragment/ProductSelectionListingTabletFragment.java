@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -83,22 +85,71 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     }
 
     private void replaceFragmentForTablet() {
-        try {
+
+        List<Fragment> listFragment = getActivity().getSupportFragmentManager().getFragments();
+        for(int i = listFragment.size() - 1; i>=0; i--) {
+            Fragment fragment1 = listFragment.get(i);
+            ProductSelectionLogger.i("testing", "Container Screen : " + fragment1);
+        }
+
+//        try {
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
-            if(fragmentDetailsTablet != null) {
-                fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
+            Fragment fragSavedScreenTablet = getActivity().getSupportFragmentManager().findFragmentByTag("SavedScreenFragmentSelection");
+             ProductSelectionLogger.i("testing", "Details screen found  : " + fragmentDetailsTablet);
+
+//        FragmentManager manager = getActivity().getSupportFragmentManager();
+//        boolean fragmentPopped = manager.popBackStackImmediate("DetailedScreenFragmentSelection", 0);
+        try{
+            if(fragmentDetailsTablet != null){
+                fragmentTransaction.remove(fragmentDetailsTablet);
+                fragmentTransaction.commit();
             }
-
-            mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
-            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
-            fragmentTransaction.commitAllowingStateLoss();
-
-//            addDetailedScreenAtRight();
-        } catch (IllegalStateException e) {
-            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
-            e.printStackTrace();
         }
+        catch(IllegalStateException e){
+
+        }
+
+        try {
+            if (fragSavedScreenTablet != null) {
+                fragmentTransaction.remove(fragSavedScreenTablet);
+                fragmentTransaction.commit();
+            }
+        }catch(IllegalStateException e){
+        }
+
+
+                addDetailedScreenAtRight();
+
+        List<Fragment> listFragment1 = getActivity().getSupportFragmentManager().getFragments();
+        for(int i = listFragment1.size() - 1; i>=0; i--) {
+            Fragment fragment1 = listFragment1.get(i);
+            ProductSelectionLogger.i("testing", "Container Screen : " + fragment1);
+        }
+
+//        ProductSelectionLogger.i("testing", "Details screen pop out  : " + fragmentPopped);
+
+//
+//            try {
+//                if (fragmentDetailsTablet != null) {
+//                    fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
+//                    fragmentTransaction.commitAllowingStateLoss();
+//                }
+//            }catch (IllegalStateException e){
+//            }
+//
+//            try{
+//                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                    mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
+//                    ft.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
+////                    ft.addToBackStack("DetailedScreenFragmentSelection");
+//                    ft.commitAllowingStateLoss();
+//
+////            addDetailedScreenAtRight();
+//        } catch (IllegalStateException e) {
+//            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -123,7 +174,8 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.fragmentTabletProductList, new ProductSelectionListingFragment(mHandler), "ProductSelectionListingFragment");
-            fragmentTransaction.commitAllowingStateLoss();
+//            fragmentTransaction.addToBackStack("ProductSelectionListingFragment");
+            fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
@@ -136,7 +188,8 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
                     .getSupportFragmentManager().beginTransaction();
             mDetailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
             fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, mDetailedScreenFragmentSelection, "DetailedScreenFragmentSelection");
-            fragmentTransaction.commitAllowingStateLoss();
+//            fragmentTransaction.addToBackStack("DetailedScreenFragmentSelection");
+            fragmentTransaction.commit();
         } catch (IllegalStateException e) {
             ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
             e.printStackTrace();
