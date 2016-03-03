@@ -27,7 +27,11 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,7 +42,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private Calendar calendar;
     private int monthInt, mdateInt, year, month, day;
     private String mMonth, mDate;
-    private String[] mDisplayDate;
+    private String[] mEditDisplayDate;
+    private String mGetDeviceDate;
+    private Date mDisplayDate, mDeviceDate;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -56,7 +62,22 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             } else {
                 mDate = Integer.toString(mdateInt);
             }
-            purchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            calendar = Calendar.getInstance();
+            mGetDeviceDate = dateFormat.format(calendar.getTime());
+            mDisplayDate = new Date();
+            mDeviceDate = new Date();
+            try {
+                mDisplayDate = dateFormat.parse(arg1 + "-" + mMonth + "-" + mDate);
+                mDeviceDate = dateFormat.parse(mGetDeviceDate);
+                if (mDisplayDate.after(mDeviceDate)) {
+                    Log.d(TAG, " Response Data : " + "Error in Date");
+                } else {
+                    purchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -72,8 +93,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initEditText() {
-        Log.d(TAG, "MICRO SITE_ID : " + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-        regChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+        regChannel.setText("");
         serialNumber.setText("");
         purchaseDate.setText("");
         ctn.setText("");
@@ -136,7 +156,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.enter_ctn_number), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(ProductActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
-                registeredProduct(mUser.getAccessToken());
+                regChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
+                registerProduct(mUser.getAccessToken());
             }
         } else {
             Toast.makeText(ProductActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
@@ -178,10 +199,10 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
     public void onClickPurchaseDate(View view) {
         if (!purchaseDate.getText().toString().equalsIgnoreCase("")) {
-            mDisplayDate = purchaseDate.getText().toString().split("-");
-            year = Integer.parseInt(mDisplayDate[0]);
-            month = Integer.parseInt(mDisplayDate[1]) - 1;
-            day = Integer.parseInt(mDisplayDate[2]);
+            mEditDisplayDate = purchaseDate.getText().toString().split("-");
+            year = Integer.parseInt(mEditDisplayDate[0]);
+            month = Integer.parseInt(mEditDisplayDate[1]) - 1;
+            day = Integer.parseInt(mEditDisplayDate[2]);
         } else {
             calendar = Calendar.getInstance();
             year = calendar.get(Calendar.YEAR);
