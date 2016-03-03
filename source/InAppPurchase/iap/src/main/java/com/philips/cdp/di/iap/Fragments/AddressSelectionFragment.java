@@ -21,6 +21,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.ModelConstants;
@@ -264,20 +265,25 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            Addresses addr = retrieveSelectedAddress();
+            Addresses address = retrieveSelectedAddress();
+            AddressFields selectedAddress = prepareAddressFields(address);
+            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
+
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, prepareAddressFields(addr));
-            // CartModelContainer.getInstance().setShippingAddressFields(prepareAddressFields(addr));
+            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, selectedAddress);
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
             Toast.makeText(mContext, "Network Error", Toast.LENGTH_SHORT).show();
         } else if ((msg.obj instanceof PaymentMethods)) {
+            AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());
+            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
+
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, prepareAddressFields(retrieveSelectedAddress()));
+            bundle.putSerializable(IAPConstant.ADDRESS_FIELDS, selectedAddress);
             bundle.putSerializable(IAPConstant.PAYMENT_FIELDS, (Serializable) mPaymentMethodsList);
             addFragment(
                     PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), null);

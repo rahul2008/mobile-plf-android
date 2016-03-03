@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -221,9 +220,10 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         if (v == mBtnContinue) {
             if (Utility.isInternetConnected(mContext)) {
-                CartModelContainer.getInstance().setBillingAddressFields(mAddressFields);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mAddressFields);
                 addFragment(
-                        OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+                        OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
             } else {
                 NetworkUtility.getInstance().showNetworkError(mContext);
             }

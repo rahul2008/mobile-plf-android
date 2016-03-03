@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment {
     private RecyclerView mOrderListView;
     private OrderProductAdapter mAdapter;
     private ArrayList<ShoppingCartData> mShoppingCartDataList;
+    private AddressFields mBillingAddress;
+    private PaymentMethod mPaymentMethod;
 
     @Override
     public void onResume() {
@@ -42,6 +47,15 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
         IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "OrderSummaryFragment ");
+
+        Bundle bundle = getArguments();
+        if (bundle.containsKey(IAPConstant.BILLING_ADDRESS_FIELDS)) {
+            mBillingAddress = (AddressFields) bundle.getSerializable(IAPConstant.BILLING_ADDRESS_FIELDS);
+        }
+        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
+            mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
+        }
+
         setShoppingCartAdaptor(rootView);
         return rootView;
     }
@@ -53,7 +67,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment {
         mShoppingCartDataList = new ArrayList<ShoppingCartData>();
         mShoppingCartDataList = CartModelContainer.getInstance().getShoppingCartData();
         IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Shopping Cart list = " + mShoppingCartDataList);
-        mAdapter = new OrderProductAdapter(getContext(), mShoppingCartDataList);
+        mAdapter = new OrderProductAdapter(getContext(), mShoppingCartDataList, mBillingAddress, mPaymentMethod);
         mOrderListView.setAdapter(mAdapter);
     }
 

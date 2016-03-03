@@ -10,6 +10,7 @@ public class IAPConstant {
     public static final String ORDER_SUMMARY_FRAGMENT = "ORDER_SUMMARY_FRAGMENT";
     public static final String SHIPPING_ADDRESS_FRAGMENT = "SHIPPING_ADDRESS_FRAGMENT";
     public static final String SHOPPING_CART_LIST = "SHOPPING_CART_LIST";
+    public static final String BILLING_ADDRESS_FIELDS = "BILLING_ADDRESS_FIELDS";
     public static Boolean BUTTON_STATE_CHANGED = false;
     public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
     public static final int IAP_SUCCESS = 0;
