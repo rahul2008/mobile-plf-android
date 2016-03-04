@@ -63,7 +63,7 @@
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
 -keepattributes InnerClasses,Exceptions
--dontwarn com.philips.cdp.registration.**{*;}
+-dontwarn com.philips.cdp.registration.**
 
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
