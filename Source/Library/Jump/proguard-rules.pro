@@ -65,8 +65,8 @@
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
--keepattributes InnerClasses,Exceptions
 
+-keepattributes InnerClasses,Exceptions
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
 

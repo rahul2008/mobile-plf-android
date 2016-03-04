@@ -66,6 +66,9 @@
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
 
+#General inner classes
+-keepattributes InnerClasses,Exceptions
+
 #Hockey app and enabling excpetion catching
 -keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
 -renamesourcefileattribute SourceFile
