@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.model;
 import android.os.Message;
 
 import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductDataBuilder;
 import com.philips.cdp.di.iap.response.carts.Carts;
@@ -23,15 +24,22 @@ public class CartCurrentInfoRequest extends AbstractModel {
 
     @Override
     protected void onPostSuccess(Message msg) {
-        Carts cartData = (Carts) msg.obj;
-        if (cartData.getCarts().get(0).getEntries() == null) {
-            Message msgResult = Message.obtain(msg);
-            msgResult.obj = null;
-            mDataloadListener.onModelDataLoadFinished(msgResult);
-        } else {
-            PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,
-                    mDataloadListener);
-            builder.build();
+
+        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+            // TODO: 3/4/2016  
+        } else if (msg.obj instanceof Carts) {
+            Carts cartData = (Carts) msg.obj;
+            if (cartData.getCarts().get(0).getEntries() == null) {
+                Message msgResult = Message.obtain(msg);
+                msgResult.obj = null;
+                mDataloadListener.onModelDataLoadFinished(msgResult);
+            } else {
+                PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,
+                        mDataloadListener);
+                builder.build();
+            }
+        } else if (msg.obj instanceof VolleyError) {
+            // TODO: 3/4/2016  
         }
     }
 
