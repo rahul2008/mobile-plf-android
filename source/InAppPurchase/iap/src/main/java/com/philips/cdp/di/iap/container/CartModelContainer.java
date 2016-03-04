@@ -26,6 +26,16 @@ public class CartModelContainer {
     private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
 
+    public String getCartNumber() {
+        return cartNumber;
+    }
+
+    public void setCartNumber(final String cartNumber) {
+        this.cartNumber = cartNumber;
+    }
+
+    private String cartNumber;
+
     public ArrayList<ShoppingCartData> getShoppingCartData() {
         return mShoppingCartData;
     }
@@ -40,10 +50,6 @@ public class CartModelContainer {
 
     public void setShippingAddressFields(final AddressFields mShippingAddressFields) {
         this.mShippingAddressFields = mShippingAddressFields;
-    }
-
-    public String getCartNumber() {
-        return mShoppingCartData.get(0).getCartNumber();
     }
 
     public void setDeliveryAddress(final Addresses mDeliveryAddress) {

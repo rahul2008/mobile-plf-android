@@ -1,5 +1,6 @@
 package com.philips.cdp.di.iap.ShoppingCart;
 
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 
@@ -60,6 +61,7 @@ public class ShoppingCartData {
 
     public void setCartNumber(String cartNumber) {
         mCartNumber = cartNumber;
+        CartModelContainer.getInstance().setCartNumber(mCartNumber);
     }
 
     public int getEntryNumber() {
