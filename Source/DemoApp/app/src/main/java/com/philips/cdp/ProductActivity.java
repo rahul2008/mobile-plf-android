@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.philips.cdp.backend.ProdRegHelper;
+import com.philips.cdp.backend.ProdRegRequestInfo;
 import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -102,6 +103,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void registerProduct(final String accessToken) {
         PrxLogger.enablePrxLogger(true);
 
+        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(ctn.getText().toString(), serialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
+
         RegistrationRequest registrationRequest = new RegistrationRequest(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
         registrationRequest.setSector(Sector.B2C);
         registrationRequest.setCatalog(Catalog.CONSUMER);
@@ -111,6 +114,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         registrationRequest.setPurchaseDate(purchaseDate.getText().toString());
 
         ProdRegHelper prodRegHelper = new ProdRegHelper(this);
+        prodRegHelper.setLocale("en", "GB");
         prodRegHelper.registerProduct(this, registrationRequest, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {

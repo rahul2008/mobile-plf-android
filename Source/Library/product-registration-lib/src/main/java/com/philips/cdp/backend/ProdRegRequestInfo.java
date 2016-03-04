@@ -20,6 +20,14 @@ public class ProdRegRequestInfo {
         this.catalog = catalog;
     }
 
+    public Sector getSector() {
+        return sector;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
     public String getCtn() {
         return ctn;
     }

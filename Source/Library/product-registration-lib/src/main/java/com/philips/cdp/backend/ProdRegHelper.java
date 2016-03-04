@@ -29,6 +29,7 @@ public class ProdRegHelper {
     private Context mContext = null;
     private String TAG = getClass() + "";
     private String requestType;
+    private String locale;
 
     public ProdRegHelper(Context context) {
         this.mContext = context;
@@ -37,16 +38,16 @@ public class ProdRegHelper {
     public void cancelRequest(String requestTag) {
     }
 
-    public void registerProduct(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
+    public void registerProduct(final Context context, final PrxRequest registrationRequest, final ResponseListener listener) {
         requestType = ProdRegConstants.PRODUCT_REGISTRATION;
-        processMetadata(context, prxRequest, listener);
+        processMetadata(context, registrationRequest, listener);
     }
 
     protected void processMetadata(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
         RegistrationRequest registrationRequest = (RegistrationRequest) prxRequest;
         ProductMetaRequest productMetaDataBuilder = getProductMetaDataBuilder(registrationRequest);
         RequestManager mRequestManager = getRequestManager(context);
-        executeMetadataRequest(context, prxRequest, listener, productMetaDataBuilder, mRequestManager);
+        executeMetadataRequest(context, registrationRequest, listener, productMetaDataBuilder, mRequestManager);
     }
 
     private void executeMetadataRequest(final Context context, final PrxRequest prxRequest, final ResponseListener listener, final ProductMetaRequest productMetaDataBuilder, final RequestManager mRequestManager) {
@@ -190,4 +191,9 @@ public class ProdRegHelper {
                 break;
         }
     }
+
+    public void setLocale(final String language, final String countryCode) {
+        this.locale = language + "_" + countryCode;
+    }
+
 }

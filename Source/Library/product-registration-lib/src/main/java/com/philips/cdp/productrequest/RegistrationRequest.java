@@ -178,7 +178,7 @@ public class RegistrationRequest extends PrxRequest implements InjectAccessToken
 
     @Override
     public int getRequestType() {
-        return RequestType.POST;
+        return RequestType.POST.getValue();
     }
 
     @Override

@@ -39,7 +39,7 @@ public class ProductSummaryRequest extends PrxRequest {
 
     @Override
     public int getRequestType() {
-        return RequestType.GET;
+        return RequestType.GET.getValue();
     }
 
     @Override
