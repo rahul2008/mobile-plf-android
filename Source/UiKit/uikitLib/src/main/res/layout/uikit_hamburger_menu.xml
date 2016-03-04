@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/actionBarBackground"
+            android:background="?attr/uikit_actionBarBackground"
             android:elevation="@dimen/uikit_toolbar_elevation"
             android:gravity="center"
             app:contentInsetEnd="0dp"

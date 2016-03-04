@@ -1,5 +1,11 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+
+Version - 2.0.2                               Date:04-03-2015
+---------------------------------------------------------------
+
+1. [DE10386] Attribute " strokeColor , enableColor , checked , textValue " do not have prefix UIKIT and name collides with name of attrs in vertical apps, hence these are prefixed with “uikit_  “ .
+
 Version - 2.0.1                               Date:02-03-2015
 ---------------------------------------------------------------
 

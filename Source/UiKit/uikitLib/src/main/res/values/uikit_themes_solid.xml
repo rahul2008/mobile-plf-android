@@ -326,7 +326,7 @@
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Orange</item>
         <item name="springBoardDivider">@color/uikit_philips_light_orange</item>
         <item name="springBoardTextColor">@drawable/uikit_springboard_textselector_orange</item>
-        <item name="actionBarBackground">@drawable/uikit_grad_light_orange_background</item>
+        <item name="uikit_actionBarBackground">@drawable/uikit_grad_light_orange_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_orange</item>
         <item name="buttonStyle">@style/Button.Solid.BrightOrange</item>
@@ -381,7 +381,7 @@
         <item name="gradientColorForListSectionTitle">@drawable/uikit_listview_headers_gradient_aqua_theme</item>
         <item name="listDividerColor">@color/uikit_philips_list_divider_very_light_Aqua</item>
         <item name="springBoardTextColor">@drawable/uikit_spingboard_textselector_aqua</item>
-        <item name="actionBarBackground">@drawable/uikit_grad_light_aqua_background</item>
+        <item name="uikit_actionBarBackground">@drawable/uikit_grad_light_aqua_background</item>
         <item name="android:windowBackground">@color/uikit_philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/uikit_philips_dark_aqua</item>
         <item name="outlinedButtonStyle">@style/Button.OutlinedBrightAqua</item>
