@@ -29,7 +29,6 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
         testApplicationId "com.philips.cdp.androidTest"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
