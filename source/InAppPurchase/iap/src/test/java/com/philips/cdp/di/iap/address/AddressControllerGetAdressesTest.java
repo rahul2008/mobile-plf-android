@@ -148,13 +148,9 @@ public class AddressControllerGetAdressesTest {
     @Test
     public void verifyAddressISNotEmptyForGetAddresses() {
         mController = new AddressController(mContext, new AddressController.AddressListener() {
-            @Override
-            public void onFetchAddressSuccess(final Message msg) {
-                assertNotNull(msg);
-            }
 
             @Override
-            public void onFetchAddressFailure(final Message msg) {
+            public void onGetAddress(Message msg) {
 
             }
 
@@ -204,8 +200,9 @@ public class AddressControllerGetAdressesTest {
     @Test
     public void verifyAddressDeatilsGetAddresses() {
         mController = new AddressController(mContext, new AddressController.AddressListener() {
+
             @Override
-            public void onFetchAddressSuccess(final Message msg) {
+            public void onGetAddress(Message msg) {
                 assertNotNull(msg);
                 GetShippingAddressData result = (GetShippingAddressData) msg.obj;
                 Addresses addresses = result.getAddresses().get(0);
@@ -217,11 +214,6 @@ public class AddressControllerGetAdressesTest {
                 assertEquals("test", addresses.getTown());
                 assertEquals("PL", addresses.getCountry().getIsocode());
                 assertEquals("8796158590999", addresses.getId());
-            }
-
-            @Override
-            public void onFetchAddressFailure(final Message msg) {
-
             }
 
             @Override
@@ -270,12 +262,9 @@ public class AddressControllerGetAdressesTest {
     @Test
     public void verifyFetchAddressCallBackIsInvloked() {
         mController = new AddressController(mContext, new AddressController.AddressListener() {
-            @Override
-            public void onFetchAddressSuccess(final Message msg) {
-            }
 
             @Override
-            public void onFetchAddressFailure(final Message msg) {
+            public void onGetAddress(Message msg) {
                 assertNotNull(msg);
             }
 
@@ -304,11 +293,6 @@ public class AddressControllerGetAdressesTest {
 
             }
         }) {
-            // TODO: 21-02-2016 Avoid overriding because of UI screens
-            @Override
-            protected void showMessage(String message) {
-                //Avoid toast error.
-            }
         };
         setStoreAndDelegate();
 
