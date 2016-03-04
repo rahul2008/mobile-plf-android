@@ -445,7 +445,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     }
 
     private void launchProductSelectionActivityComponent() {
-        DigiCareLogger.i("testing", "Support -- Activity Invoke");
         if (mProductChangeButton != null) {
             mProductChangeButton.setClickable(false);
         }
