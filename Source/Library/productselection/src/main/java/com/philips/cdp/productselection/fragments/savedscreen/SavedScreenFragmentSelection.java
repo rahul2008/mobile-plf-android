@@ -161,15 +161,22 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     @Override
     public void setViewParams(Configuration config) {
 
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isLaunchedAsTabletLandscape()) {
-            mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
-            mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
+        if(isLaunchedAsTabletLandscape()){
+            if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
+            } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = (int) getActivity().getResources()
+                        .getDimension(R.dimen.tablet_details_view_land_margin);
+            }
         }
-        else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isLaunchedAsTabletLandscape()) {
-            mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = (int) getActivity().getResources()
-                    .getDimension(R.dimen.tablet_details_view_land_margin);
-            mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
+        else{
+            if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
+            } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginLand;
+            }
         }
+        mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
     }
 
     private void guiAlignmentTablet(Configuration config){
