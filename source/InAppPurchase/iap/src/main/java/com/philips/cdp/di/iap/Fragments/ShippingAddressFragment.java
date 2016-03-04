@@ -65,7 +65,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private List<PaymentMethod> mPaymentMethodsList;
 
-    private HashMap<String, String> addressFeilds = null;
+    private HashMap<String, String> mAddressFieldsHashmap = null;
+    private Addresses mAddresses;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -196,7 +197,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onCreateAddress(Message msg) {
         if (msg.obj instanceof Addresses) {
-            mPaymentController.getPaymentDetails();
+            mAddresses = (Addresses)msg.obj;
+            mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof VolleyError) {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
@@ -323,7 +325,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.LINE_1, mEtAddress.getText().toString());
         addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
-        addressHashMap.put(ModelConstants.ADDRESS_ID, addressFeilds.get(ModelConstants.ADDRESS_ID));
+        addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
         addressHashMap.put(ModelConstants.LINE_2, "");
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddress.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
@@ -332,26 +334,54 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private void updateFeilds() {
         Bundle bundle = getArguments();
-        addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-        if (null == addressFeilds) {
+        mAddressFieldsHashmap = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+        if (null == mAddressFieldsHashmap) {
             return;
         }
         mBtnContinue.setText(getString(R.string.iap_save));
         mBtnContinue.requestFocus();
-        mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
+        mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtFirstName.requestFocus();
-        mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
+        mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtLastName.requestFocus();
-        mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
+        mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtTown.requestFocus();
-        mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
+        mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtPostalCode.requestFocus();
-        mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
+        mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
         mEtCountry.requestFocus();
-        mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
+        mEtAddress.setText(mAddressFieldsHashmap.get(ModelConstants.DEFAULT_ADDRESS));
         mEtAddress.requestFocus();
-        mEtPhoneNumber.setText(addressFeilds.get(ModelConstants.PHONE_NUMBER));
+        mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_NUMBER));
         mEtPhoneNumber.requestFocus();
+    }
+
+    @Override
+    public void onSetDeliveryAddress(final Message msg) {
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            CartModelContainer.getInstance().setDeliveryAddress(mAddresses);
+            mAddressController.setDeliveryMode();
+        } else {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+    }
+
+    @Override
+    public void onSetDeliveryModes(final Message msg) {
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            mPaymentController.getPaymentDetails();
+        } else {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+    }
+
+    @Override
+    public void onGetDeliveryModes(final Message msg) {
+        //NOP
     }
 
     @Override
@@ -360,22 +390,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onSetDeliveryAddress(final Message msg) {
-        //NOP
-    }
-
-    @Override
     public void onGetDeliveryAddress(final Message msg) {
-        //NOP
-    }
-
-    @Override
-    public void onSetDeliveryModes(final Message msg) {
-        //NOP
-    }
-
-    @Override
-    public void onGetDeliveryModes(final Message msg) {
         //NOP
     }
 }
