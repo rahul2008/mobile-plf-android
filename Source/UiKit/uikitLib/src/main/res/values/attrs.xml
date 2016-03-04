@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="PhilipsUIKit">
-        <attr name="actionBarBackground" format="reference|color"/>
+        <attr name="uikit_actionBarBackground" format="reference|color"/>
         <attr name="outlinedButtonStyle" format="reference"/>
         <attr name="pickerOutlinedButtonStyle" format="reference"/>
         <attr name="pickerButtonStyle" format="reference"/>
@@ -93,8 +93,8 @@
         <attr name="errorBackground" format="reference"/>
     </declare-styleable>
 
-    <attr name="enableStroke" format="boolean"/>
-    <attr name="strokeColor" format="color" />
+    <attr name="uikit_enableStroke" format="boolean"/>
+    <attr name="uikit_strokeColor" format="color" />
 
     <declare-styleable name="VectorCompat">
         <attr name="vc_tintMode" format="enum">
@@ -193,8 +193,8 @@
     </declare-styleable>
 
     <declare-styleable name="UiKit_CheckBox">
-        <attr name="checked" format="boolean"/>
-        <attr name="textValue" format="string"/>
+        <attr name="uikit_checked" format="boolean"/>
+        <attr name="uikit_textValue" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="UiKit_ProgressSpinner">

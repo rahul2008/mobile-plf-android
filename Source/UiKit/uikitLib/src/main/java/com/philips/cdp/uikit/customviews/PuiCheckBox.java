@@ -58,8 +58,8 @@ public class PuiCheckBox extends LinearLayout {
         checkBoxTick = (TextView) parentView.findViewById(R.id.uikit_tick);
         typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.UiKit_CheckBox, 0, 0);
-        isChecked = typedArray.getBoolean(R.styleable.UiKit_CheckBox_checked, false);
-        text = typedArray.getString(R.styleable.UiKit_CheckBox_textValue);
+        isChecked = typedArray.getBoolean(R.styleable.UiKit_CheckBox_uikit_checked, false);
+        text = typedArray.getString(R.styleable.UiKit_CheckBox_uikit_textValue);
         checkBoxText.setText(text);
         typedArray.recycle();
         changeBackGround(resources);
