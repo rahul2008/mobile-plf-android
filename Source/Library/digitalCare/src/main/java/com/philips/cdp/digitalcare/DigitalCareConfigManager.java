@@ -1,10 +1,7 @@
 package com.philips.cdp.digitalcare;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
@@ -18,7 +15,6 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.launchertype.FragmentLauncher;
 import com.philips.cdp.productselection.launchertype.UiLauncher;
@@ -136,8 +132,8 @@ public class DigitalCareConfigManager {
         }
 
         if (mTaggingEnabled) {
-            if (mAppID == null || mAppID.equals("")) {
-                throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
+            if (mAppID == null || mAppID.equals("") || (mAppName==null) || (mAppName=="")|| (mPageName==null) || (mPageName=="") ){
+                throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
         DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");
@@ -193,8 +189,8 @@ public class DigitalCareConfigManager {
             throw new RuntimeException("Please initialise context,  and locale before Support page is invoked");
         }
         if (mTaggingEnabled) {
-            if (mAppID == null || mAppID.equals("")) {
-                throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
+            if (mAppID == null || mAppID.equals("") || (mAppName==null) || (mAppName=="")|| (mPageName==null) || (mPageName=="") ){
+                throw new RuntimeException("Please make sure to set the valid App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
         DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");
@@ -220,7 +216,7 @@ public class DigitalCareConfigManager {
      * @throws RuntimeException
      */
     public String getAppNameForTagging() throws RuntimeException {
-        return mAppID;
+        return mAppName;
     }
 
     /**
@@ -228,9 +224,9 @@ public class DigitalCareConfigManager {
      *
      * @param taggingEnabled True to enable & False to disable
      */
-    public void enableTagging(boolean taggingEnabled, String appId, String appName, String previousPageName) {
+    public void setAppTaggingInputs(boolean taggingEnabled, String appId, String appName, String launchingPageName) {
         mTaggingEnabled = taggingEnabled;
-        mPageName = previousPageName;
+        mPageName = launchingPageName;
         mAppName = appName;
         mAppID = appId;
     }
