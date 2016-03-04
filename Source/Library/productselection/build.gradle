@@ -3,6 +3,7 @@ apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven'
 
 buildscript {
     repositories {
