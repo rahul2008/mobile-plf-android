@@ -43,7 +43,7 @@ public class PaymentRequest extends AbstractModel {
         params.put(ModelConstants.ADDRESS_ID, deliveryAddress.getId());
         params.put(ModelConstants.FIRST_NAME, deliveryAddress.getFirstName());
         params.put(ModelConstants.LAST_NAME, deliveryAddress.getLastName());
-        params.put(ModelConstants.TITLE_CODE, deliveryAddress.getTitle());
+        params.put(ModelConstants.TITLE_CODE, deliveryAddress.getTitleCode());
         params.put(ModelConstants.COUNTRY_ISOCODE, deliveryAddress.getCountry().getIsocode());
         params.put(ModelConstants.LINE_1, deliveryAddress.getLine1());
         params.put(ModelConstants.LINE_2, deliveryAddress.getLine2());
