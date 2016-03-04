@@ -25,6 +25,7 @@
     <TextView
         android:id="@+id/tv_confirm_email"
         style="@style/tvTitle"
+        android:layout_marginLeft="@dimen/iap_shipping_address_margin_left"
         android:layout_marginTop="@dimen/iap_shipping_address_margin_top_bottom"/>
 
     <Button
