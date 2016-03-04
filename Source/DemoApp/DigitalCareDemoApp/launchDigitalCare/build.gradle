@@ -56,14 +56,7 @@ android {
 
 dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
-//   if (findProject(':digitalCare')) {
-//        compile project(':digitalCare')
-//    } else {
-//     //   compile 'com.philips.cdp:digitalCare:3.0.3.rc.4'
-//   }
-   compile 'com.android.support:appcompat-v7:23+'
-
-   compile(group: 'com.philips.cdp', name: 'digitalCare', version: '3.0.3-rc.4', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '3.0.3-rc.4', ext: 'aar'){
        transitive=true
    }
 }
