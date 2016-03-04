@@ -59,7 +59,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
     private static boolean isFirstTimeProductComponentlaunch = true;
-    private static boolean isProductSelectionFirstTime = true;
+    private static boolean isProductSelectionFirstTime;
     SharedPreferences prefs = null;
     ActivityLauncher uiLauncher = null;
     private LinearLayout mOptionParent = null;
@@ -545,6 +545,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
 
         for (int i = 0; i < titles.length(); i++) {
             createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mProductViewProductButton != null){
+            if(!mProductChangeButton.isClickable())
+                mProductChangeButton.setClickable(true);
         }
     }
 
