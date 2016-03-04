@@ -57,24 +57,24 @@
 -dontwarn android.support.**
 
 ##-keep public class pack.com.progard.** {*;}
+
 ##Registration API specific
-##General network
+
+##General and network
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
--dontwarn com.philips.cdp.registration.**
-
-
-#General inner classes
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
 -keepattributes InnerClasses,Exceptions
+
 
 #Hockey app and enabling excpetion catching
 -keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
--renamesourcefileattribute SourceFile
--keepattributes SourceFile,LineNumberTable
+
 
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
@@ -117,9 +117,6 @@
 }
 
 
-
-
-
 -keepclasseswithmembernames public class com.janrain.android.** {*;}
 -keepclasseswithmembernames public class com.janrain.android.Jump {*;}
 -keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
@@ -132,6 +129,7 @@
 
 #Registration API
 -keep class com.philips.cdp.registration.** {*;}
+-dontwarn com.philips.cdp.registration.**
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
