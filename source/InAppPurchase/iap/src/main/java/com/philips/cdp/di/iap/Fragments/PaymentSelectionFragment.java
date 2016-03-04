@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -113,7 +114,8 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
                     Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                     mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
                 } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
             }
         } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
@@ -134,8 +136,12 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onSetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
-        addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+        if (msg.obj instanceof VolleyError) {
+            //Handle Error
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
+            addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+        }
     }
 }

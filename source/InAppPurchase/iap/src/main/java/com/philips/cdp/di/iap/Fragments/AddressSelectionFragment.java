@@ -89,8 +89,16 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private void sendShippingAddressesRequest() {
         String msg = getContext().getString(R.string.iap_please_wait);
-        Utility.showProgressDialog(getContext(), msg);
-        mAddrController.getShippingAddresses();
+        if (!Utility.isProgressDialogShowing()) {
+            if (Utility.isInternetConnected(mContext)) {
+                Utility.showProgressDialog(getContext(), msg);
+                mAddrController.getShippingAddresses();
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            }
+        }
+
     }
 
     @Override
@@ -224,9 +232,18 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             //addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
-        } else if(event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
-            Utility.showProgressDialog(getContext(),getResources().getString(R.string.iap_please_wait));
-            mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+        } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
+            if (!Utility.isProgressDialogShowing()) {
+                if (Utility.isInternetConnected(mContext)) {
+                    Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
+                    mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+                } else {
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
+                            getString(R.string.iap_ok), getString(R.string.iap_network_error),
+                            getString(R.string.iap_check_connection));
+                }
+            }
+
         }
     }
 
@@ -242,13 +259,16 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void deleteShippingAddress() {
-        if (Utility.isInternetConnected(getContext())) {
-            if (!Utility.isProgressDialogShowing())
+        if (!Utility.isProgressDialogShowing()) {
+            if (Utility.isInternetConnected(mContext)) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
-            int pos = mAdapter.getOptionsClickPosition();
-            mAddrController.deleteAddress(mAddresses.get(pos).getId());
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                int pos = mAdapter.getOptionsClickPosition();
+                mAddrController.deleteAddress(mAddresses.get(pos).getId());
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
+                        getString(R.string.iap_ok), getString(R.string.iap_network_error),
+                        getString(R.string.iap_check_connection));
+            }
         }
     }
 
