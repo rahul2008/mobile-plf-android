@@ -16,4 +16,6 @@ public class RequestCode {
     public static final int GET_DELIVERY_MODE = 13;
     public static final int GET_PAYMENT_DETAILS = 14;
     public static final int SET_PAYMENT_DETAILS = 15;
+    public static final int PLACE_ORDER = 16;
+    public static final int MAKE_PAYMENT = 17;
 }

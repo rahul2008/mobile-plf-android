@@ -74,6 +74,7 @@ public class PRXProductDataBuilder {
         cartItem.setImageUrl(data.getImageURL());
         cartItem.setProductTitle(data.getProductTitle());
         cartItem.setCtnNumber(code);
+        cartItem.setCartNumber(mCartData.getCarts().get(0).getCode());
         cartItem.setQuantity(entry.getQuantity());
         cartItem.setTotalPrice(entry.getTotalPrice().getValue());
         cartItem.setCurrency(entry.getTotalPrice().getCurrencyIso());

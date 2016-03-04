@@ -89,8 +89,15 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     private void sendShippingAddressesRequest() {
         String msg = getContext().getString(R.string.iap_please_wait);
-        Utility.showProgressDialog(getContext(), msg);
-        mAddrController.getShippingAddresses();
+        if (!Utility.isProgressDialogShowing()) {
+            if (Utility.isInternetConnected(mContext)) {
+                Utility.showProgressDialog(getContext(), msg);
+                mAddrController.getShippingAddresses();
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            }
+        }
     }
 
     @Override
@@ -127,36 +134,37 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void onFetchAddressSuccess(final Message msg) {
-        if (msg.what == RequestCode.DELETE_ADDRESS) {
-            mAddresses.remove(mAdapter.getOptionsClickPosition());
-            mAdapter.setAddresses(mAddresses);
-            mAdapter.notifyDataSetChanged();
-        } else {
-            GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-            mAddresses = shippingAddresses.getAddresses();
-            mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
-            mAddressListView.setAdapter(mAdapter);
+    public void onGetAddress(Message msg) {
+        Utility.dismissProgressDialog();
+        if(msg.obj instanceof VolleyError){
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
+                    getString(R.string.iap_ok), getString(R.string.iap_time_out),
+                    getString(R.string.iap_time_out_description));
+            moveToShoppingCart();
+        }else{
+            if (msg.what == RequestCode.DELETE_ADDRESS) {
+                mAddresses.remove(mAdapter.getOptionsClickPosition());
+                mAdapter.setAddresses(mAddresses);
+                mAdapter.notifyDataSetChanged();
+            } else {
+                GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
+                mAddresses = shippingAddresses.getAddresses();
+                mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
+                mAddressListView.setAdapter(mAdapter);
+            }
+
         }
-        Utility.dismissProgressDialog();
     }
 
     @Override
-    public void onFetchAddressFailure(final Message msg) {
-        // TODO: 2/19/2016 Fix error case scenario
-        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
-        Utility.dismissProgressDialog();
-        moveToShoppingCart();
-    }
-
-    @Override
-    public void onCreateAddress(boolean isSuccess) {
+    public void onCreateAddress(Message msg) {
 
     }
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            CartModelContainer.getInstance().setDeliveryAddress(retrieveSelectedAddress());
             mAddrController.setDeliveryMode();
         } else {
             Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
@@ -224,9 +232,17 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             args.putBoolean(IAPConstant.IS_SECOND_USER, true);
             //addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
             addFragment(ShippingAddressFragment.createInstance(args, AnimationType.NONE), null);
-        } else if(event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
-            Utility.showProgressDialog(getContext(),getResources().getString(R.string.iap_please_wait));
-            mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+        } else if (event.equalsIgnoreCase(IAPConstant.ADD_DELIVERY_ADDRESS)) {
+            if (!Utility.isProgressDialogShowing()) {
+                if (Utility.isInternetConnected(mContext)) {
+                    Utility.showProgressDialog(getContext(), getResources().getString(R.string.iap_please_wait));
+                    mAddrController.setDeliveryAddress(retrieveSelectedAddress().getId());
+                } else {
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
+                            getString(R.string.iap_ok), getString(R.string.iap_network_error),
+                            getString(R.string.iap_check_connection));
+                }
+            }
         }
     }
 
@@ -242,13 +258,16 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     private void deleteShippingAddress() {
-        if (Utility.isInternetConnected(getContext())) {
-            if (!Utility.isProgressDialogShowing())
+        if (!Utility.isProgressDialogShowing()) {
+            if (Utility.isInternetConnected(mContext)) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_delete_address));
-            int pos = mAdapter.getOptionsClickPosition();
-            mAddrController.deleteAddress(mAddresses.get(pos).getId());
-        } else {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                int pos = mAdapter.getOptionsClickPosition();
+                mAddrController.deleteAddress(mAddresses.get(pos).getId());
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
+                        getString(R.string.iap_ok), getString(R.string.iap_network_error),
+                        getString(R.string.iap_check_connection));
+            }
         }
     }
 
@@ -258,7 +277,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         HashMap<String, String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
         addressHashMap.put(ModelConstants.LAST_NAME, address.getLastName());
-        addressHashMap.put(ModelConstants.TITLE_CODE, address.getTitle());
+        addressHashMap.put(ModelConstants.TITLE_CODE, address.getTitleCode());
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, address.getCountry().getIsocode());
         addressHashMap.put(ModelConstants.LINE_1, address.getLine1());
         addressHashMap.put(ModelConstants.LINE_2, address.getLine2());

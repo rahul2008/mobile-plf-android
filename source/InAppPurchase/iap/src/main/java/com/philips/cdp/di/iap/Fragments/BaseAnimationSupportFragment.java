@@ -11,6 +11,7 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPBackButtonListener;
@@ -33,6 +34,12 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         NONE,
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setBackButtonVisibility(View.VISIBLE);
+    }
+
     public void addFragment(BaseAnimationSupportFragment newFragment,
                             String newFragmentTag) {
 
@@ -43,6 +50,14 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
 
         IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
                 + newFragmentTag + ")");
+    }
+
+    public void replaceFragment(Fragment newFragment, String newFragmentTag) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.remove(this);
+        transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
+        transaction.commitAllowingStateLoss();
+
     }
 
     protected void setTitle(int resourceId) {

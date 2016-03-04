@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
@@ -26,12 +25,11 @@ import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.payment.PaymentController;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
@@ -44,7 +42,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
         TextWatcher {
-    private static final String TAG = ShippingAddressFragment.class.getName();
     private Context mContext;
 
     private EditText mEtFirstName;
@@ -68,7 +65,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private List<PaymentMethod> mPaymentMethodsList;
 
-    private HashMap<String, String> addressFeilds = null;
+    private HashMap<String, String> mAddressFieldsHashmap = null;
+    private Addresses mAddresses;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -121,38 +119,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onFetchAddressSuccess(Message msg) {
-        int requestCode = msg.what;
-        switch (requestCode) {
-            case RequestCode.UPDATE_ADDRESS:
-                addFragment
-                        (AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
-                break;
-        }
-    }
-
-    @Override
-    public void onFetchAddressFailure(final Message msg) {
-        int requestCode = msg.what;
-        switch (requestCode) {
-            case RequestCode.UPDATE_ADDRESS:
-                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
-                IAPLog.d(TAG, msg.obj.toString());
-                break;
-        }
-    }
-
-    @Override
-    public void onCreateAddress(boolean isSuccess) {
-        if (isSuccess) {
-            mPaymentController.getPaymentDetails();
-        } else {
-            Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
-        }
-    }
-
-    @Override
     public void onGetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
@@ -162,8 +128,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if ((msg.obj instanceof VolleyError)) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
-        }else if ((msg.obj instanceof PaymentMethods)) {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        } else if ((msg.obj instanceof PaymentMethods)) {
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             mPaymentMethodsList = mPaymentMethods.getPayments();
 
@@ -176,36 +143,12 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onSetPaymentDetails(Message msg) {
-
-    }
-
-    @Override
-    public void onSetDeliveryAddress(final Message msg) {
-        //NOP
-    }
-
-    @Override
-    public void onGetDeliveryAddress(final Message msg) {
-        //NOP
-    }
-
-    @Override
-    public void onSetDeliveryModes(final Message msg) {
-        //NOP
-    }
-
-    @Override
-    public void onGetDeliveryModes(final Message msg) {
-        //NOP
-    }
-
-    @Override
     public void onClick(final View v) {
 
         Utility.hideKeypad(mContext);
 
         if (v == mBtnContinue) {
+            //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
                 if (Utility.isInternetConnected(mContext)) {
                     if (!Utility.isProgressDialogShowing()) {
@@ -214,15 +157,17 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                         mAddressController.updateAddress(addressHashMap);
                     }
                 } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
-            } else {
+            } else {//Add new address
                 if (!Utility.isProgressDialogShowing()) {
                     if (Utility.isInternetConnected(mContext)) {
                         Utility.showProgressDialog(mContext, getString(R.string.iap_please_wait));
                         mAddressController.createAddress(mAddressFields);
                     } else {
-                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                                getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                     }
                 }
             }
@@ -234,6 +179,30 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 addFragment
                         (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }
+        }
+    }
+
+    @Override
+    public void onGetAddress(Message msg) {
+        Utility.dismissProgressDialog();
+        if (msg.obj instanceof VolleyError) {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        } else {
+            addFragment(AddressSelectionFragment.createInstance(new Bundle(),
+                    AnimationType.NONE), null);
+        }
+    }
+
+    @Override
+    public void onCreateAddress(Message msg) {
+        if (msg.obj instanceof Addresses) {
+            mAddresses = (Addresses)msg.obj;
+            mAddressController.setDeliveryAddress(mAddresses.getId());
+        } else if (msg.obj instanceof VolleyError) {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
     }
 
@@ -340,6 +309,13 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         setTitle(R.string.iap_address);
     }
 
+    public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
+        ShippingAddressFragment fragment = new ShippingAddressFragment();
+        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     private HashMap updateToHybrisTheFeilds() {
         HashMap<String, String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
@@ -349,7 +325,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.LINE_1, mEtAddress.getText().toString());
         addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
-        addressHashMap.put(ModelConstants.ADDRESS_ID, addressFeilds.get(ModelConstants.ADDRESS_ID));
+        addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
         addressHashMap.put(ModelConstants.LINE_2, "");
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddress.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
@@ -358,33 +334,63 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private void updateFeilds() {
         Bundle bundle = getArguments();
-        addressFeilds = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-        if (null == addressFeilds) {
-            IAPLog.d(IAPLog.SHIPPING_ADDRESS_FRAGMENT, "addressfeild is null = " + addressFeilds);
+        mAddressFieldsHashmap = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+        if (null == mAddressFieldsHashmap) {
             return;
         }
         mBtnContinue.setText(getString(R.string.iap_save));
         mBtnContinue.requestFocus();
-        mEtFirstName.setText(addressFeilds.get(ModelConstants.FIRST_NAME));
+        mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
         mEtFirstName.requestFocus();
-        mEtLastName.setText(addressFeilds.get(ModelConstants.LAST_NAME));
+        mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtLastName.requestFocus();
-        mEtTown.setText(addressFeilds.get(ModelConstants.TOWN));
+        mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtTown.requestFocus();
-        mEtPostalCode.setText(addressFeilds.get(ModelConstants.POSTAL_CODE));
+        mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtPostalCode.requestFocus();
-        mEtCountry.setText(addressFeilds.get(ModelConstants.COUNTRY_ISOCODE));
+        mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
         mEtCountry.requestFocus();
-        mEtAddress.setText(addressFeilds.get(ModelConstants.DEFAULT_ADDRESS));
+        mEtAddress.setText(mAddressFieldsHashmap.get(ModelConstants.DEFAULT_ADDRESS));
         mEtAddress.requestFocus();
-        mEtPhoneNumber.setText(addressFeilds.get(ModelConstants.PHONE_NUMBER));
+        mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_NUMBER));
         mEtPhoneNumber.requestFocus();
     }
 
-    public static ShippingAddressFragment createInstance(Bundle args, AnimationType animType) {
-        ShippingAddressFragment fragment = new ShippingAddressFragment();
-        args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onSetDeliveryAddress(final Message msg) {
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            CartModelContainer.getInstance().setDeliveryAddress(mAddresses);
+            mAddressController.setDeliveryMode();
+        } else {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+    }
+
+    @Override
+    public void onSetDeliveryModes(final Message msg) {
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            mPaymentController.getPaymentDetails();
+        } else {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+    }
+
+    @Override
+    public void onGetDeliveryModes(final Message msg) {
+        //NOP
+    }
+
+    @Override
+    public void onSetPaymentDetails(Message msg) {
+
+    }
+
+    @Override
+    public void onGetDeliveryAddress(final Message msg) {
+        //NOP
     }
 }

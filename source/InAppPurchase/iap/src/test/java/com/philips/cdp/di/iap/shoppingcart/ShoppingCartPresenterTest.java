@@ -2,6 +2,7 @@ package com.philips.cdp.di.iap.shoppingcart;
 
 import android.content.Context;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -35,22 +36,31 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ShoppingCartPresenterTest {
 
-    @Mock private NetworkController mNetworkController;
-    @Mock private HybrisDelegate mHybrisDelegate;
-    @Mock private ShoppingCartPresenter mPresenter;
-    @Mock private Context context;
-    @Mock private IAPJsonRequest mIAPJsonReq;
-    @Captor private ArgumentCaptor<RequestListener> mRequestListener;
-    @Mock private SSLSocketFactory mSocketFactory;
-    @Mock private Message mResultMessage;
+    @Mock
+    private NetworkController mNetworkController;
+    @Mock
+    private HybrisDelegate mHybrisDelegate;
+    @Mock
+    private ShoppingCartPresenter mPresenter;
+    @Mock
+    private Context context;
+    @Mock
+    private IAPJsonRequest mIAPJsonReq;
+    @Captor
+    private ArgumentCaptor<RequestListener> mRequestListener;
+    @Mock
+    private SSLSocketFactory mSocketFactory;
+    @Mock
+    private Message mResultMessage;
+    @Mock
+    private FragmentManager mFragmentManager;
 
     @Before
-    public void setUP(){
-        mPresenter = new ShoppingCartPresenter(context,null);
+    public void setUP() {
+        mPresenter = new ShoppingCartPresenter(context, null, mFragmentManager);
         mPresenter.setHybrisDelegate(mHybrisDelegate);
         when(mHybrisDelegate.getNetworkController(context)).thenReturn(mNetworkController);
         doNothing().when(mNetworkController).addToVolleyQueue(mIAPJsonReq);
-
     }
 
     @Test

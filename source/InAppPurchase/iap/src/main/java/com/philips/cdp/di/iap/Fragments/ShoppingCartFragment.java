@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
@@ -51,7 +52,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(),getFragmentManager());
+        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager());
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
@@ -76,7 +77,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     private void updateCartOnResume() {
-        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter,getFragmentManager());
+        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
         if (Utility.isInternetConnected(mContext)) {
             if (!Utility.isProgressDialogShowing()) {
                 Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
@@ -149,34 +150,32 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private void startProductDetailFragment() {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.PRODUCT_TITLE,shoppingCartData.getProductTitle());
-        bundle.putString(IAPConstant.PRODUCT_CTN,shoppingCartData.getCtnNumber());
+        bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
+        bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(IAPConstant.PRODUCT_PRICE, NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(shoppingCartData.getTotalPrice()));
-        bundle.putString(IAPConstant.PRODUCT_OVERVIEW,shoppingCartData.getMarketingTextHeader());
+        bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
     @Override
-    public void onFetchAddressSuccess(Message msg) {
+    public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
-
-        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            addFragment(
-                    ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+        if (msg.obj instanceof VolleyError) {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         } else {
-            addFragment(
-                    AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), "A");
+            if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+                addFragment(
+                        ShippingAddressFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            } else {
+                addFragment(
+                        AddressSelectionFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            }
         }
     }
 
     @Override
-    public void onFetchAddressFailure(Message msg) {
-        Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
-    }
-
-    @Override
-    public void onCreateAddress(boolean isSuccess) {
+    public void onCreateAddress(Message msg) {
         //NOP
     }
 
