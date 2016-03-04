@@ -1,22 +1,3 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in D:\AndroidTools\adt-bundle-windows-x86_64-20140321\sdk/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# Add any project specific keep options here:
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
-
 # This is a configuration file for ProGuard.
 # http://proguard.sourceforge.net/index.html#manual/usage.html
 
@@ -76,32 +57,79 @@
 -dontwarn android.support.**
 
 ##-keep public class pack.com.progard.** {*;}
+
 ##Registration API specific
-##General network
+
+##General and network
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+-keepattributes InnerClasses,Exceptions
+
 
 #Hockey app and enabling excpetion catching
 -keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
--renamesourcefileattribute SourceFile
--keepattributes SourceFile,LineNumberTable
+
 
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
 -keep public class com.philips.cdp.tagging.** {*;}
 
+
 #Janrain lib
 -keep public class com.janrain.android.** {*;}
+-keep  class com.janrain.android.Jump$* {*;}
+-keep class com.philips.cdp.registration.User$*{*;}
+-keep  class com.janrain.android.capture.Capture$* {*;}
+
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void init(android.content.Context);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static java.lang.String objectToString(java.io.Serializable);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static java.lang.Object stringToObject(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void migrateUserData(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static byte[] encrypt(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static byte[] decrypt(byte[]);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void generateSecretKey();
+}
+
+
+-keepclasseswithmembernames public class com.janrain.android.** {*;}
+-keepclasseswithmembernames public class com.janrain.android.Jump {*;}
+-keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
+-keepclasseswithmembernames public class com.janrain.android.TradSignInUi {*;}
+
+
 
 #Locale match
 -keep public class com.philips.cdp.localematch.** {*;}
 
 #Registration API
--keep public class com.philips.cdp.registration.** {*;}
+-keep class com.philips.cdp.registration.** {*;}
+-dontwarn com.philips.cdp.registration.**
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}

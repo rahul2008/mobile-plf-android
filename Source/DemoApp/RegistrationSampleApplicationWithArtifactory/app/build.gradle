@@ -42,10 +42,6 @@ dependencies {
         transitive = true
     }
 
-    compile(group:'com.philips.cdp', name:'registrationApi', version:'4.1.1-rc.6')
-
-    compile 'com.philips.cdp:registrationApi:4.1.1-rc.6'
-
 
 
 

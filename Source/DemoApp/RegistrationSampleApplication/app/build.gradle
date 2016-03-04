@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "4.0.0-rc.1"
+        versionName "5.0.0"
     }
 
     packagingOptions {
@@ -41,33 +41,20 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23+'
-    //For STANDARD and COPPA
-    //Dependant aars
-    compile(name: 'localeMatch-v1.1.0', ext: 'aar')
-    compile(name: 'jump-v5.0.1', ext: 'aar')
-    compile(name: 'registrationApi-v4.1.0', ext: 'aar')
-    compile(name: 'tagging-v1.0.0', ext: 'aar')
-    compile(name: 'ntpClient-v1.0.0', ext: 'aar')
 
+    compile(name: 'localeMatch', ext: 'aar')
+    compile(name: 'jump', ext: 'aar')
+    compile(name: 'registrationApi', ext: 'aar')
+    compile(name: 'tagging', ext: 'aar')
+    compile(name: 'ntpClient', ext: 'aar')
+    compile(name: 'hsdp', ext: 'aar')
 
-    //Dependant jars
-    compile files('libs/adobeMobileLibrary-v4.5.1.jar')
+    compile files('libs/jackson-annotations.jar')
+    compile files('libs/jackson-core.jar')
+    compile files('libs/jackson-databind.jar')
+    compile files('libs/adobeMobileLibrary.jar')
     compile files('libs/org.apache.http.legacy.jar')
 
-    //For HSDP CONFIGURATION
-    //Dependant aars
-    compile(name: 'localeMatch-v1.1.0', ext: 'aar')
-    compile(name: 'jump-v5.0.1', ext: 'aar')
-    compile(name: 'registrationApi-v4.1.0', ext: 'aar')
-    compile(name: 'tagging-v1.0.0', ext: 'aar')
-    compile(name: 'hsdp-v1.0.2', ext: 'aar')
-    compile(name: 'ntpClient-v1.0.0', ext: 'aar')
-
-    //Dependant jars
-    compile files('libs/adobeMobileLibrary-v4.5.1.jar')
-    compile files('libs/jackson-annotations-2.6.0.jar')
-    compile files('libs/jackson-core-2.6.1.jar')
-    compile files('libs/jackson-databind-2.6.1.jar')
 
 
 
