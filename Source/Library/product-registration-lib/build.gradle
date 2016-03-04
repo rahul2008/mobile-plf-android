@@ -1,13 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'jacoco'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-
-def coverageSourceDirs = [
-        '../app/src/main/java'
-]
 
 def libVersionNumber = '0.0.1'
 
@@ -34,6 +29,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testApplicationId "com.philips.cdp.androidTest"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
@@ -44,9 +40,16 @@ android {
         }
         debug {
             debuggable true
+            minifyEnabled false
+            shrinkResources true
             testCoverageEnabled true
         }
     }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -74,14 +77,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(':prx')
     compile project(':registrationApi')
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile "org.mockito:mockito-core:1.9.5"
     androidTestCompile project(':dexmaker-mockito-1.4')
     androidTestCompile project(':dexmaker-1.4')
     androidTestCompile project(':dexmaker-dx-1.4')
-}
-
-dependencies {
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile "org.mockito:mockito-core:1.9.5"
 }
 
 //maven configuration stuff required for artifactory plugin
@@ -125,7 +125,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/debug/com/philips/')
+    classes = fileTree('build/intermediates/classes/debug')
     source = fileTree('src/main/java')
     classpath = files()
 
@@ -145,7 +145,7 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     group 'verification'
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java/com')
+    source = fileTree('src/main/java')
 
     reports {
         xml.enabled = true
@@ -153,27 +153,3 @@ task pmd(type: Pmd, dependsOn: assembleDebug) {
     }
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../build/intermediates/classes',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/*$ViewInjector*.*',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../build/jacoco/testDebug.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-}
