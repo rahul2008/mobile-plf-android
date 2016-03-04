@@ -29,5 +29,6 @@ public enum SHNResult {
     SHNErrorUserConfigurationInvalid,
     SHNErrorUnsupportedDataType,
     SHNErrorProcedureAlreadyInProgress,
-    SHNErrorReceptionInterrupted
+    SHNErrorReceptionInterrupted,
+    SHNErrorBondLost
 }
