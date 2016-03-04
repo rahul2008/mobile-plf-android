@@ -34,6 +34,12 @@ public class PaymentConfirmationFragment extends BaseAnimationSupportFragment {
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_confirmation);
+        setBackButtonVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishActivity();
     }
 
     private void assignValues() {

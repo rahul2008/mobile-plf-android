@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,8 +83,20 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         return builder.toString();
     }
 
-    private Bundle createSuccessBundle() {
+    private Bundle createSuccessBundle(String url) {
+        String orderNum = "";
+        if(!TextUtils.isEmpty(url)) {
+            // TODO: 04-03-2016 Need to fix with proper logic
+            String[] temp = url.split("%5E");
+            if(temp != null && temp.length >2) {
+                temp = temp[2].split("-");
+                if(temp != null && temp.length >0) {
+                    orderNum = temp[0];
+                }
+            }
+        }
         Bundle bundle = new Bundle();
+        bundle.putString(ModelConstants.ORDER_NUMBER, orderNum);
         return bundle;
     }
 
@@ -93,7 +106,7 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
     }
 
     private void launchConfirmationScreen(Bundle bundle) {
-        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+        replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
     private class PaymentWebViewClient extends WebViewClient {
@@ -105,14 +118,14 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
 
         private boolean verifyResultCallBacks(String url) {
             boolean match = true;
-            if (url.contains(PAYMENT_SUCCESS_CALLBACK_URL)) {
-                launchConfirmationScreen(createSuccessBundle());
-            } else if (url.contains(PAYMENT_PENDING_CALLBACK_URL)) {
-                launchConfirmationScreen(createSuccessBundle());
-            } else if (url.contains(PAYMENT_FAILURE_CALLBACK_URL)) {
-                launchConfirmationScreen(createSuccessBundle());
-            } else if (url.contains(PAYMENT_CANCEL_CALLBACK_URL)) {
-                launchConfirmationScreen(createSuccessBundle());
+            if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
+                launchConfirmationScreen(createSuccessBundle(url));
+            } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
+                launchConfirmationScreen(createSuccessBundle(null));
+            } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
+                launchConfirmationScreen(createSuccessBundle(null));
+            } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
+                launchConfirmationScreen(createSuccessBundle(null));
             } else {
                 match = false;
             }
