@@ -49,13 +49,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mOrderListView.setLayoutManager(layoutManager);
-    }
-
-    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
         IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "OrderSummaryFragment ");
@@ -67,7 +60,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         mBtnPayNow.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
 
-      Bundle bundle = getArguments();
+        Bundle bundle = getArguments();
         if (bundle.containsKey(IAPConstant.BILLING_ADDRESS_FIELDS)) {
             mBillingAddress = (AddressFields) bundle.getSerializable(IAPConstant.BILLING_ADDRESS_FIELDS);
         }
@@ -75,19 +68,14 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
         }
 
-        setShoppingCartAdaptor(rootView);
-        return rootView;
-    }
-
-    private void setShoppingCartAdaptor(final View rootView) {
         mOrderListView = (RecyclerView) rootView.findViewById(R.id.order_summary);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
-        mShoppingCartDataList = new ArrayList<ShoppingCartData>();
         mShoppingCartDataList = CartModelContainer.getInstance().getShoppingCartData();
         IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Shopping Cart list = " + mShoppingCartDataList);
         mAdapter = new OrderProductAdapter(getContext(), mShoppingCartDataList, mBillingAddress, mPaymentMethod);
         mOrderListView.setAdapter(mAdapter);
+        return rootView;
     }
 
     public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {
@@ -123,7 +111,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
-        }else if (msg.obj instanceof VolleyError){
+        } else if (msg.obj instanceof VolleyError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
@@ -135,7 +123,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             PlaceOrder order = (PlaceOrder) msg.obj;
             String orderID = order.getCode();
             mPaymentController.makPayment(orderID);
-        }else if (msg.obj instanceof VolleyError){
+        } else if (msg.obj instanceof VolleyError) {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
