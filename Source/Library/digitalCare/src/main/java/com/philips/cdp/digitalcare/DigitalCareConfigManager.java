@@ -56,6 +56,7 @@ public class DigitalCareConfigManager {
     private ProductMenuListener mProductMenuListener = null;
     private SocialProviderListener mSocialProviderListener = null;
     private String mAppID = null;
+    private String mAppName = null;
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
     private ViewProductDetailsModel mProductDetailsModel = null;
@@ -209,13 +210,17 @@ public class DigitalCareConfigManager {
     }
 
     /**
-     * This method allows to set the TaggingID.
-     *
-     * @param appId APPID for the Tagging purpose
      * @throws RuntimeException
      */
-    public void setAppIdForTagging(String appId) throws RuntimeException {
-        mAppID = appId;
+    public String getAppIdForTagging() throws RuntimeException {
+        return mAppID;
+    }
+
+    /**
+     * @throws RuntimeException
+     */
+    public String getAppNameForTagging() throws RuntimeException {
+        return mAppID;
     }
 
     /**
@@ -223,27 +228,23 @@ public class DigitalCareConfigManager {
      *
      * @param taggingEnabled True to enable & False to disable
      */
-    public void enableTagging(boolean taggingEnabled) {
+    public void enableTagging(boolean taggingEnabled, String appId, String appName, String previousPageName) {
         mTaggingEnabled = taggingEnabled;
+        mPageName = previousPageName;
+        mAppName = appName;
+        mAppID = appId;
     }
 
-
-    /**
-     * Set the Page name for the Tagging.
-     *
-     * @param pageName PageName in String format
-     */
-    public void setCurrentPageNameForTagging(String pageName) {
-        mPageName = pageName;
+    public boolean isTaggingEnabled() {
+        return mTaggingEnabled;
     }
-
 
     /**
      * It returns the previously set Page name for tagging.
      *
      * @return mPageScreenpageName
      */
-    public String getVerticalPageNameForTagging() {
+    public String getPreviousPageNameForTagging() {
         return mPageName;
     }
 

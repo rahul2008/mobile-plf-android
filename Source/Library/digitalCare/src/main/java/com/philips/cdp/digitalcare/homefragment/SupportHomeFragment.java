@@ -177,9 +177,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             createMainMenu();
         }
         try {
-            if (DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging() != null && mIsFirstScreenLaunch) {
+            if (DigitalCareConfigManager.getInstance().getPreviousPageNameForTagging() != null && mIsFirstScreenLaunch) {
                 AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
-                        DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging());
+                        DigitalCareConfigManager.getInstance().getPreviousPageNameForTagging());
                 mIsFirstScreenLaunch = false;
             } else {
                 AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
@@ -417,11 +417,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
-        mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
-        /*
-         * TODO: This tagging can be passed from DigitalCare(Generic Data).
-         */
-        ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
+        mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(),
+                DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
+
+        /*Initialize product selection tagging*/
+        DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
+        ProductModelSelectionHelper.getInstance().initializeTagging(ccConfigManager.isTaggingEnabled(), ccConfigManager.getAppNameForTagging(),
+                ccConfigManager.getAppIdForTagging(), ccConfigManager.getPreviousPageNameForTagging());
 
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
@@ -450,10 +452,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(getActivity());
         mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getLanguage(), DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().getCountry());
-           /*
-         * TODO: This tagging can be passed from DigitalCare(Generic Data).
-         */
-        ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
+
+        /*Initialize product selection tagging*/
+        DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
+        ProductModelSelectionHelper.getInstance().initializeTagging(ccConfigManager.isTaggingEnabled(), ccConfigManager.getAppNameForTagging(),
+                ccConfigManager.getAppIdForTagging(), ccConfigManager.getPreviousPageNameForTagging());
 
         ActivityLauncher uiLauncher = (ActivityLauncher) DigitalCareConfigManager.getInstance().getUiLauncher();
         uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getmUiKitTheme());

@@ -70,7 +70,6 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
 
         DigitalCareConfigManager.getInstance().invokeDigitalCare(fragLauncher, productsSelection);
 
-
         try {
             initActionBar();
         } catch (ClassCastException e) {
