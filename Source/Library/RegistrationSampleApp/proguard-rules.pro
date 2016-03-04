@@ -79,6 +79,7 @@
 #Janrain lib
 -keep public class com.janrain.android.** {*;}
 -keep  class com.janrain.android.Jump$* {*;}
+-keep class com.philips.cdp.registration.User$*{*;}
 -keep  class com.janrain.android.capture.Capture$* {*;}
 
 
@@ -125,7 +126,7 @@
 -keep public class com.philips.cdp.localematch.** {*;}
 
 #Registration API
-#-keep public class com.philips.cdp.registration.**
+-keep class com.philips.cdp.registration.** {*;}
 
 #HSDP Lib
 -keep  class com.philips.dhpclient.** {*;}
