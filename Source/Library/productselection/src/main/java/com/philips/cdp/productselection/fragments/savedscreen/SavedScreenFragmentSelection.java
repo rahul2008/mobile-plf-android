@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -243,6 +244,23 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         }
     }
 
+    private void removeDetailsScreen(){
+        FragmentManager fragManager = getActivity().getSupportFragmentManager();
+        fragManager.popBackStack();
+        List<Fragment> listFragment = fragManager.getFragments();
+        for (int i = listFragment.size() - 1; i >= 0; i--) {
+            Fragment fragment = listFragment.get(i);
+
+            try {
+                if (fragment != null && (fragment instanceof DetailedScreenFragmentSelection)) {
+                    fragManager.popBackStack();
+                }
+            }catch (IllegalStateException e){
+            }
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         if (isConnectionAvailable()) {
@@ -258,7 +276,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                     guiAlignmentTablet(configuration);
 
                 } else {
-                    showFragment(new ProductSelectionListingFragment());
+                    removeDetailsScreen();
+//                    showFragment(new ProductSelectionListingFragment());
                 }
 //                }
             } else if (v.getId() == R.id.savedscreen_button_continue) {

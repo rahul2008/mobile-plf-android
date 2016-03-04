@@ -84,24 +84,17 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     List<Fragment> listFragment = getActivity().getSupportFragmentManager().getFragments();
      for (int i = listFragment.size() - 1; i >= 0; i--) {
           Fragment fragment1 = listFragment.get(i);
-//           ProductSelectionLogger.i("testing", "Container Screen : " + fragment1);
      }
 
-    //        try {
     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
     Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
     Fragment fragSavedScreenTablet = getActivity().getSupportFragmentManager().findFragmentByTag("SavedScreenFragmentSelection");
-//    ProductSelectionLogger.i("testing", "Details screen found  : " + fragmentDetailsTablet);
-
-    //        FragmentManager manager = getActivity().getSupportFragmentManager();
-    //        boolean fragmentPopped = manager.popBackStackImmediate("DetailedScreenFragmentSelection", 0);
     try {
         if (fragmentDetailsTablet != null) {
             fragmentTransaction.remove(fragmentDetailsTablet);
             fragmentTransaction.commit();
         }
     } catch (IllegalStateException e) {
-
     }
 
     try {
@@ -118,7 +111,6 @@ public class ProductSelectionListingTabletFragment extends ProductSelectionBaseF
     List<Fragment> listFragment1 = getActivity().getSupportFragmentManager().getFragments();
     for (int i = listFragment1.size() - 1; i >= 0; i--) {
         Fragment fragment1 = listFragment1.get(i);
-//        ProductSelectionLogger.i("testing", "Container Screen : " + fragment1);
     }
 
     //        ProductSelectionLogger.i("testing", "Details screen pop out  : " + fragmentPopped);
