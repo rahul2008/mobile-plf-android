@@ -41,7 +41,10 @@ public class NetworkConstants {
     public static final String SET_DELIVERY_MODE_URL = BASE_URL + CURRENT_CART + "/deliverymode";
     public static final String SET_DELIVERY_ADDRESS_URL = BASE_URL + CURRENT_CART + "/addresses/delivery";
     public static final String SET_PAYMENT_DETAILS_URL = BASE_URL + CURRENT_CART + "/paymentdetails";
-
+    /**
+     * Place Order
+     */
+    public static final String PLACE_ORDER_URL = BASE_URL + "/orders";
     /**
      * Prx data
      **/
@@ -53,5 +56,6 @@ public class NetworkConstants {
 
     public static final Locale STORE_LOCALE = Locale.US;
     public static final String EMPTY_RESPONSE = "";
+    public static final String PAYMENT_URL = BASE_URL + USER + "/orders/%s/pay";
 }
 

@@ -32,4 +32,5 @@ public class ModelConstants {
     public static final String PAYMENT_DETAILS_ID = "payment_details_id";
     public static final String WEBPAY_URL = "webpay_url";
     public static final String ORDER_NUMBER = "order_number";
+    public static final String CART_ID = "cartId";
 }

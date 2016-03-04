@@ -98,7 +98,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                         getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
             }
         }
-
     }
 
     @Override
@@ -165,6 +164,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            CartModelContainer.getInstance().setDeliveryAddress(retrieveSelectedAddress());
             mAddrController.setDeliveryMode();
         } else {
             Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
@@ -243,7 +243,6 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
                             getString(R.string.iap_check_connection));
                 }
             }
-
         }
     }
 
