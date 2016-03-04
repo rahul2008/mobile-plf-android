@@ -85,7 +85,7 @@ public final class NavigationFragment extends Fragment {
 
     }
 
-    private Bitmap getBlankThumbnail(int width) {
+    public Bitmap getBlankThumbnail(int width) {
         Bitmap imageBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
 
         imageBitmap.eraseColor(Color.BLACK);
