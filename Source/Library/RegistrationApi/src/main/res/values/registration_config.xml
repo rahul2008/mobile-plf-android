@@ -98,15 +98,15 @@
 
 
     <!-- Check box border color-->
-    <color name="reg_check_box_color">#E88200</color>
+    <!--<color name="reg_check_box_color">#E88200</color>-->
     <!-- Back arrow color-->
     <color name="reg_back_arrow_color">#FFFFFF</color>
 
     <!-- Check box border color -->
-    <color name="reg_check_box_border_color">#C4150C</color>
+    <color name="reg_check_box_border_color">#003377</color>
 
     <!-- Check box tick color -->
-    <color name="reg_check_box_tick_color">#C4150C</color>
+    <color name="reg_check_box_tick_color">#003377</color>
 
     <!-- Check error symbol  color -->
     <color name="reg_error_symbol_color">#E88200</color>
