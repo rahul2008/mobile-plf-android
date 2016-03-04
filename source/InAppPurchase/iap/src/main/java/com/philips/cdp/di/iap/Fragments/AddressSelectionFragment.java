@@ -134,26 +134,26 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void onFetchAddressSuccess(final Message msg) {
-        if (msg.what == RequestCode.DELETE_ADDRESS) {
-            mAddresses.remove(mAdapter.getOptionsClickPosition());
-            mAdapter.setAddresses(mAddresses);
-            mAdapter.notifyDataSetChanged();
-        } else {
-            GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-            mAddresses = shippingAddresses.getAddresses();
-            mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
-            mAddressListView.setAdapter(mAdapter);
-        }
+    public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
-    }
+        if(msg.obj instanceof VolleyError){
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
+                    getString(R.string.iap_ok), getString(R.string.iap_time_out),
+                    getString(R.string.iap_time_out_description));
+            moveToShoppingCart();
+        }else{
+            if (msg.what == RequestCode.DELETE_ADDRESS) {
+                mAddresses.remove(mAdapter.getOptionsClickPosition());
+                mAdapter.setAddresses(mAddresses);
+                mAdapter.notifyDataSetChanged();
+            } else {
+                GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
+                mAddresses = shippingAddresses.getAddresses();
+                mAdapter = new AddressSelectionAdapter(getContext(), mAddresses);
+                mAddressListView.setAdapter(mAdapter);
+            }
 
-    @Override
-    public void onFetchAddressFailure(final Message msg) {
-        // TODO: 2/19/2016 Fix error case scenario
-        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
-        Utility.dismissProgressDialog();
-        moveToShoppingCart();
+        }
     }
 
     @Override
