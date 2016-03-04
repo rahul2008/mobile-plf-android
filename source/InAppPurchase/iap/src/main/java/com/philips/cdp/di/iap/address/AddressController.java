@@ -20,7 +20,6 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
         void onFetchAddressFailure(Message msg);
 
-        void onCreateAddress(boolean isSuccess);
+        void onCreateAddress(Message msg);
 
         void onSetDeliveryAddress(Message msg);
 
@@ -145,7 +144,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 break;
             case RequestCode.CREATE_ADDRESS:
                 if (mAddressListener != null) {
-                    mAddressListener.onCreateAddress(true);
+                    mAddressListener.onCreateAddress(msg);
                 }
                 break;
 
@@ -193,7 +192,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 Utility.dismissProgressDialog();
                 break;
             case RequestCode.CREATE_ADDRESS: {
-                mAddressListener.onCreateAddress(false);
+                mAddressListener.onCreateAddress(msg);
                 break;
             }
             case RequestCode.GET_ADDRESS:

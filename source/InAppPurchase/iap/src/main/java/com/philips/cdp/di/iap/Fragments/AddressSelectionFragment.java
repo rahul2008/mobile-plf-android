@@ -150,7 +150,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     }
 
     @Override
-    public void onCreateAddress(boolean isSuccess) {
+    public void onCreateAddress(Message msg) {
 
     }
 

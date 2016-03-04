@@ -159,7 +159,7 @@ public class AddressControllerGetAdressesTest {
             }
 
             @Override
-            public void onCreateAddress(final boolean isSuccess) {
+            public void onCreateAddress(final Message msg) {
 
             }
 
@@ -225,7 +225,7 @@ public class AddressControllerGetAdressesTest {
             }
 
             @Override
-            public void onCreateAddress(final boolean isSuccess) {
+            public void onCreateAddress(final Message msg) {
 
             }
 
@@ -280,7 +280,7 @@ public class AddressControllerGetAdressesTest {
             }
 
             @Override
-            public void onCreateAddress(final boolean isSuccess) {
+            public void onCreateAddress(final Message msg) {
 
             }
 

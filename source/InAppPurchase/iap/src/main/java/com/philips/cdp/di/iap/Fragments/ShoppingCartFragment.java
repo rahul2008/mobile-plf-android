@@ -176,7 +176,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onCreateAddress(boolean isSuccess) {
+    public void onCreateAddress(Message msg) {
         //NOP
     }
 

@@ -26,6 +26,7 @@ import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.payment.PaymentController;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -143,10 +144,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onCreateAddress(boolean isSuccess) {
-        if (isSuccess) {
+    public void onCreateAddress(Message msg) {
+        if(msg.obj instanceof Addresses){
             mPaymentController.getPaymentDetails();
-        } else {
+        }else if (msg.obj instanceof VolleyError){
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         }
