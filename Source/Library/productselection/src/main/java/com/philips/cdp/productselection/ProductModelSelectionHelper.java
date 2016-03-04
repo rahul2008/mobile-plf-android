@@ -118,7 +118,7 @@ public class ProductModelSelectionHelper {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
         }
 
-        Activity mActivity = (Activity) mContext;
+        final Activity mActivity = (Activity) mContext;
         if (mProgressDialog == null)
             mProgressDialog = new ProgressDialog(mActivity, R.style.loaderTheme);
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
@@ -135,7 +135,7 @@ public class ProductModelSelectionHelper {
         prxWrapperCode.requestPrxSummaryList(new SummaryDataListener() {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
-                if (mProgressDialog != null && mProgressDialog.isShowing())
+                if (mProgressDialog != null && mProgressDialog.isShowing() && !mActivity.isFinishing())
                     mProgressDialog.cancel();
                 if (summaryModels.size() >= 1) {
                     SummaryModel[] ctnArray = new SummaryModel[summaryModels.size()];
