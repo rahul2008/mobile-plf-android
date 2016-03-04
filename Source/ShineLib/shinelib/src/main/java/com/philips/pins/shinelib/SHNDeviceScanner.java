@@ -96,4 +96,8 @@ public class SHNDeviceScanner {
             }
         });
     }
+
+    public SHNDeviceScannerInternal getShnDeviceScannerInternal() {
+        return shnDeviceScannerInternal;
+    }
 }

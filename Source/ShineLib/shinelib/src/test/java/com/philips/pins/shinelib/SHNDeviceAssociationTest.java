@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
+import com.philips.pins.shinelib.utility.BleScanRecord;
 import com.philips.pins.shinelib.utility.PersistentStorageCleaner;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import com.philips.pins.shinelib.utility.QuickTestConnection;
@@ -74,6 +75,9 @@ public class SHNDeviceAssociationTest {
 
     @Mock
     private PersistentStorageCleaner persistentStorageCleanerMock;
+
+    @Mock
+    private BleScanRecord bleScanRecordMock;
 
     @Captor
     private ArgumentCaptor<QuickTestConnection.Listener> quickTestConnectionListenerCaptor;
@@ -280,7 +284,7 @@ public class SHNDeviceAssociationTest {
         doReturn("MoonshineTest").when(mockedBluetoothDevice).getName();
 
         byte[] mockedScanRecord = new byte[]{0x00, 0x0A};
-        SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedBluetoothDevice, 321, mockedScanRecord, mockedSHNDeviceDefinitionInfo);
+        SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedBluetoothDevice, 321, mockedScanRecord, mockedSHNDeviceDefinitionInfo, bleScanRecordMock);
 
         // Call the device scanner listener
         scannerListenerArgumentCaptor.getValue().deviceFound(null, shnDeviceFoundInfo);
