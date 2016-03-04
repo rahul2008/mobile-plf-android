@@ -8,16 +8,14 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.response.carts.Carts;
-import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
-import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.ProductAssetBuilder;
-import com.philips.cdp.prxclient.prxdatabuilder.ProductSummaryBuilder;
-import com.philips.cdp.prxclient.prxdatamodels.summary.Data;
-import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
+import com.philips.cdp.prxclient.prxdatamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Assets;
+import com.philips.cdp.prxclient.prxdatamodels.assets.Data;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -26,22 +24,28 @@ import java.util.List;
 
 public class PRXProductAssetBuilder {
     private static final String TAG = PRXProductAssetBuilder.class.getSimpleName();
-    private AbstractModel.DataLoadListener mDataLoadListener;
+    private AssetListener mAssetListener;
     private Context mContext;
-    String CTN;
+    String mCTN;
+
+    public interface AssetListener {
+        void onFetchAssetSuccess(Message msg);
+
+        void onFetchAssetFailure(Message msg);
+    }
 
     public PRXProductAssetBuilder(Context context, String CTN,
-                                  AbstractModel.DataLoadListener listener) {
+                                  AssetListener listener) {
 
         mContext = context;
-        mDataLoadListener = listener;
+        mAssetListener = listener;
+        mCTN = CTN;
     }
 
     public void build() {
         PrxLogger.enablePrxLogger(true);
 
-            executeRequest(prepareAssetBuilder(CTN));
-
+        executeRequest(prepareAssetBuilder(mCTN));
     }
 
     private void executeRequest(final ProductAssetBuilder productAssetBuilder) {
@@ -50,7 +54,7 @@ public class PRXProductAssetBuilder {
         mRequestManager.executeRequest(productAssetBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                notifySuccess();
+                notifySuccess(responseData);
             }
 
             @Override
@@ -60,24 +64,41 @@ public class PRXProductAssetBuilder {
         });
     }
 
-    private void notifySuccess() {
+    private void notifySuccess(ResponseData responseData) {
+        AssetModel assetModel = (AssetModel) responseData;
+        Data data = assetModel.getData();
+        Assets assets = data.getAssets();
+        List<Asset> asset = assets.getAsset();
 
+        ArrayList<String> assetArray = fetchImageUrlsFromPRXAssets(asset);
+
+        Message result = Message.obtain();
+        result.obj = assetArray;
+        if (mAssetListener != null) {
+            mAssetListener.onFetchAssetSuccess(result);
+        }
+    }
+
+    public ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
+        ArrayList<String> mAssetsFromPRX = new ArrayList<>();
+
+        for (Asset asset : assets
+                ) {
+            boolean bool = asset.getExtension().equalsIgnoreCase("tif");
+
+            if (bool) {
+                mAssetsFromPRX.add(asset.getAsset());
+            }
+        }
+
+        return mAssetsFromPRX;
     }
 
     private void notifyError(final String error) {
         Message result = Message.obtain();
         result.obj = error;
-        if (mDataLoadListener != null) {
-            mDataLoadListener.onModelDataError(result);
-        }
-    }
-
-    private void addWithNotify(ShoppingCartData cartItem) {
-
-        if (mDataLoadListener != null) {
-            Message result = Message.obtain();
-            //result.obj = mCartItems;
-            mDataLoadListener.onModelDataLoadFinished(result);
+        if (mAssetListener != null) {
+            mAssetListener.onFetchAssetFailure(result);
         }
     }
 
