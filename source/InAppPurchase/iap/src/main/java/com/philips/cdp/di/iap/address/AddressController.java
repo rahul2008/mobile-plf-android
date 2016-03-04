@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.address;
 
 import android.content.Context;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CreateAddressRequest;
@@ -19,8 +18,6 @@ import com.philips.cdp.di.iap.model.UpdateAddressRequest;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.Utility;
 
 import java.util.HashMap;
 
@@ -30,12 +27,9 @@ public class AddressController implements AbstractModel.DataLoadListener {
     private AddressListener mAddressListener;
     private HybrisDelegate mDelegate;
     private Store mStore;
-    private static final String TAG = AddressController.class.getName();
 
     public interface AddressListener {
-        void onFetchAddressSuccess(Message msg);
-
-        void onFetchAddressFailure(Message msg);
+        void onGetAddress(Message msg);
 
         void onCreateAddress(Message msg);
 
@@ -59,6 +53,24 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);
     }
 
+    public void getShippingAddresses() {
+        GetAddressRequest model = new GetAddressRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
+    }
+
+    public void deleteAddress(String addressId) {
+        HashMap<String, String> query = new HashMap<>();
+        query.put(ModelConstants.ADDRESS_ID, addressId);
+
+        DeleteAddressRequest model = new DeleteAddressRequest(getStore(), query, this);
+        getHybrisDelegate().sendRequest(RequestCode.DELETE_ADDRESS, model, model);
+    }
+
+    public void updateAddress(HashMap<String, String> query) {
+        UpdateAddressRequest model = new UpdateAddressRequest(getStore(), query, this);
+        getHybrisDelegate().sendRequest(RequestCode.UPDATE_ADDRESS, model, model);
+    }
+
     public void setDeliveryAddress(String pAddressId) {
         if (null != pAddressId) {
             HashMap<String, String> params = new HashMap<>();
@@ -73,9 +85,51 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_MODE, model, model);
     }
 
+    @Override
+    public void onModelDataLoadFinished(Message msg) {
+        sendListener(msg);
+    }
+
+    @Override
+    public void onModelDataError(Message msg) {
+        sendListener(msg);
+    }
+
+    private void sendListener(Message msg) {
+        int requestCode = msg.what;
+
+        if (null == mAddressListener) return;
+
+        switch (requestCode) {
+            case RequestCode.DELETE_ADDRESS:
+                mAddressListener.onGetAddress(msg);
+                break;
+            case RequestCode.UPDATE_ADDRESS:
+                mAddressListener.onGetAddress(msg);
+                break;
+            case RequestCode.CREATE_ADDRESS:
+                mAddressListener.onCreateAddress(msg);
+                break;
+            case RequestCode.GET_ADDRESS:
+                mAddressListener.onGetAddress(msg);
+                break;
+            case RequestCode.SET_DELIVERY_ADDRESS:
+                mAddressListener.onSetDeliveryAddress(msg);
+                break;
+            case RequestCode.GET_DELIVERY_ADDRESS:
+                mAddressListener.onGetDeliveryAddress(msg);
+                break;
+            case RequestCode.SET_DELIVERY_MODE:
+                mAddressListener.onSetDeliveryModes(msg);
+                break;
+            case RequestCode.GET_DELIVERY_MODE:
+                mAddressListener.onGetDeliveryModes(msg);
+                break;
+        }
+    }
+
     private HashMap<String, String> getAddressHashMap(final AddressFields addressFields) {
         HashMap<String, String> params = new HashMap<>();
-        //Add all the payloads
         params.put(ModelConstants.FIRST_NAME, addressFields.getFirstName());
         params.put(ModelConstants.LAST_NAME, addressFields.getLastName());
         params.put(ModelConstants.TITLE_CODE, addressFields.getTitleCode());
@@ -87,6 +141,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         params.put(ModelConstants.PHONE_NUMBER, addressFields.getPhoneNumber());
         return params;
     }
+
 
     void setHybrisDelegate(HybrisDelegate delegate) {
         mDelegate = delegate;
@@ -108,113 +163,5 @@ public class AddressController implements AbstractModel.DataLoadListener {
             mStore = getHybrisDelegate().getStore();
         }
         return mStore;
-    }
-
-    public void deleteAddress(String addressId) {
-        HashMap<String, String> query = new HashMap<String, String>();
-        query.put(ModelConstants.ADDRESS_ID, addressId);
-
-        DeleteAddressRequest model = new DeleteAddressRequest(getStore(), query, this);
-        getHybrisDelegate().sendRequest(RequestCode.DELETE_ADDRESS, model, model);
-    }
-
-    public void updateAddress(HashMap<String, String> query) {
-
-        UpdateAddressRequest model = new UpdateAddressRequest(getStore(), query, this);
-        getHybrisDelegate().sendRequest(RequestCode.UPDATE_ADDRESS, model, model);
-    }
-
-    public void getShippingAddresses() {
-        GetAddressRequest model = new GetAddressRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
-    }
-
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-
-        int requestCode = msg.what;
-        switch (requestCode) {
-            case RequestCode.DELETE_ADDRESS:
-                mAddressListener.onFetchAddressSuccess(msg);
-                Utility.dismissProgressDialog();
-                break;
-            case RequestCode.UPDATE_ADDRESS:
-                mAddressListener.onFetchAddressSuccess(msg);
-                Utility.dismissProgressDialog();
-                break;
-            case RequestCode.CREATE_ADDRESS:
-                if (mAddressListener != null) {
-                    mAddressListener.onCreateAddress(msg);
-                }
-                break;
-
-            case RequestCode.GET_ADDRESS:
-                if (mAddressListener != null) {
-                    mAddressListener.onFetchAddressSuccess(msg);
-                }
-                break;
-            case RequestCode.SET_DELIVERY_ADDRESS:
-                if (null != mAddressListener) {
-                    mAddressListener.onSetDeliveryAddress(msg);
-                }
-                break;
-            case RequestCode.GET_DELIVERY_ADDRESS:
-                if (null != mAddressListener) {
-                    mAddressListener.onGetDeliveryAddress(msg);
-                }
-                break;
-            case RequestCode.SET_DELIVERY_MODE:
-                if (null != mAddressListener) {
-                    mAddressListener.onSetDeliveryModes(msg);
-                }
-                break;
-            case RequestCode.GET_DELIVERY_MODE:
-                if (null != mAddressListener) {
-                    mAddressListener.onGetDeliveryModes(msg);
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-        int requestCode = msg.what;
-        if (null == mAddressListener) return;
-        switch (requestCode) {
-            case RequestCode.DELETE_ADDRESS:
-                mAddressListener.onFetchAddressFailure(msg);
-                IAPLog.d(TAG, msg.obj.toString());
-                Utility.dismissProgressDialog();
-                break;
-            case RequestCode.UPDATE_ADDRESS:
-                mAddressListener.onFetchAddressFailure(msg);
-                IAPLog.d(TAG, msg.obj.toString());
-                Utility.dismissProgressDialog();
-                break;
-            case RequestCode.CREATE_ADDRESS: {
-                mAddressListener.onCreateAddress(msg);
-                break;
-            }
-            case RequestCode.GET_ADDRESS:
-                mAddressListener.onFetchAddressFailure(msg);
-                showMessage("Unable to get address");
-                break;
-            case RequestCode.SET_DELIVERY_ADDRESS:
-                mAddressListener.onSetDeliveryModes(msg);
-                break;
-            case RequestCode.GET_DELIVERY_ADDRESS:
-                mAddressListener.onGetDeliveryModes(msg);
-                break;
-            case RequestCode.SET_DELIVERY_MODE:
-                mAddressListener.onSetDeliveryModes(msg);
-                break;
-            case RequestCode.GET_DELIVERY_MODE:
-                mAddressListener.onGetDeliveryModes(msg);
-                break;
-        }
-    }
-
-    void showMessage(String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
 }
