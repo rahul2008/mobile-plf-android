@@ -430,8 +430,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
                     mProductChangeButton.setClickable(true);
                     updateSummaryData(summaryModel);
                 } else {
-                    mProductChangeButton.setClickable(true);
-                    mProductChangeButton.setVisibility(View.GONE);
+                    if (mProductChangeButton != null) {
+                        mProductChangeButton.setClickable(true);
+                        mProductChangeButton.setVisibility(View.GONE);
+                    }
                 }
             }
         });
@@ -461,11 +463,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
             @Override
             public void onProductModelSelected(SummaryModel summaryModel) {
                 if (summaryModel != null) {
-                    mProductChangeButton.setClickable(true);
-                    updateSummaryData(summaryModel);
+                    if (mProductChangeButton != null) {
+                        mProductChangeButton.setClickable(true);
+                        updateSummaryData(summaryModel);
+                    }
                 } else {
-                    mProductChangeButton.setClickable(true);
-                    mProductChangeButton.setVisibility(View.GONE);
+                    if (mProductChangeButton != null) {
+                        mProductChangeButton.setClickable(true);
+                        mProductChangeButton.setVisibility(View.GONE);
+                    }
                 }
             }
         });
