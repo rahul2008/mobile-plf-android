@@ -65,6 +65,8 @@
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
+-dontwarn com.philips.cdp.registration.**{*;}
+
 
 #General inner classes
 -keepattributes InnerClasses,Exceptions
