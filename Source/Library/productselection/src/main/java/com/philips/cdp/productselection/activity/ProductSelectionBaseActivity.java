@@ -1,5 +1,6 @@
 package com.philips.cdp.productselection.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -21,10 +22,13 @@ import android.widget.TextView;
 
 //import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
+import com.philips.cdp.tagging.Tagging;
 
 /**
  * ProductSelectionBaseActivity is the main container class which can contain Digital Care fragments.
@@ -37,34 +41,22 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     private static String TAG = ProductSelectionBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
-//    private static ThemeUtils themeUtils;
-    private int noActionBarTheme = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //this.setTheme(R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
+        UiLauncher uiLauncher = ProductModelSelectionHelper.getInstance().getLauncherType();
+        if (uiLauncher instanceof ActivityLauncher) {
+            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            this.setTheme(activityLauncher.getmUiKitTheme());
+        }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         ProductSelectionLogger.i(TAG, "onCreate");
         ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
 
-//        if (themeUtils == null) {
-//            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
-//                    Context.MODE_PRIVATE));
-//        }
-//        setTheme(themeUtils.getTheme());
         initActionBar();
     }
-
-//    protected ThemeUtils getUiKitThemeUtil(){
-//        if (themeUtils == null) {
-//            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
-//                    Context.MODE_PRIVATE));
-//        }
-//
-//        return themeUtils;
-//    }
 
     private void initActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
@@ -98,29 +90,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         parent.setContentInsetsAbsolute(0, 0);
     }
 
-    protected boolean isTablet() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        try {
-            if (this.getWindowManager() != null)
-                this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        }catch (NullPointerException e)
-        {
-            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
-        }finally {
-            float yInches = metrics.heightPixels / metrics.ydpi;
-            float xInches = metrics.widthPixels / metrics.xdpi;
-            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-            return diagonalInches >= 6.5;
-        }
-
-    }
-
-//    protected void setNoActionBarTheme() {
-//        themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
-//                Context.MODE_PRIVATE));
-//        noActionBarTheme = themeUtils.getNoActionBarTheme();
-//    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -130,11 +99,13 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Tagging.collectLifecycleData();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Tagging.pauseCollectingLifecycleData();
     }
 
     @Override
@@ -199,9 +170,22 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         }
     }
 
+    protected boolean isTablet() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        try {
+            if (this.getWindowManager() != null)
+                this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        } catch (NullPointerException e) {
+            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
+        } finally {
+            float yInches = metrics.heightPixels / metrics.ydpi;
+            float xInches = metrics.widthPixels / metrics.xdpi;
+            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+            return diagonalInches >= 6.5;
+        }
+    }
 
-    protected void backtoConsumerCare()
-    {
+    protected void backtoConsumerCare() {
         finish();
     }
 

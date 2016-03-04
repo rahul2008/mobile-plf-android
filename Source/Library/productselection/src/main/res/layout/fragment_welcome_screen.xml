@@ -50,12 +50,13 @@
                     android:id="@+id/welcome_screen_find_product_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/welcome_screen_find_product_search"
                     android:paddingLeft="@dimen/savedscreen_productcontainer_marigin"
                     android:text="@string/Select_Product_Find"
                     android:textColor="?attr/baseColor"
-                    android:textSize="@dimen/title_text_size_medium" />
+                    android:gravity="center"
+                    android:textSize="@dimen/title_text_size_medium"
+                    android:layout_alignBottom="@+id/welcome_screen_find_product_search"
+                    android:layout_centerHorizontal="true" />
             </RelativeLayout>
 <!--
 

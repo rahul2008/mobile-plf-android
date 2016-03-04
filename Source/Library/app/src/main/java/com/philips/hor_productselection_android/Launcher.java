@@ -1,6 +1,7 @@
 package com.philips.hor_productselection_android;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,9 +19,9 @@ import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.listeners.ProductModelSelectionListener;
+import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.productselection.prx.SummaryDataListener;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
@@ -39,12 +40,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     private static int RESULT_CODE_THEME_UPDATED = 1;
     private static ConsumerProductInfo productInfo = null;
     private final String TAG = Launcher.class.getSimpleName();
-    ProductModelSelectionHelper mProductSelectionHelper = null;
+    private ProductModelSelectionHelper mProductSelectionHelper = null;
     private Button mButtonActivity, mAdd = null;
     private Button mButtonFragment = null;
     private ImageButton mAddButton = null;
     private RecyclerView mRecyclerView = null;
-    private ProductModelSelectionHelper mConfigManager = null;
+//    private ProductModelSelectionHelper mConfigManager = null;
     private SampleAdapter adapter = null;
     private Button change_theme = null;
 
@@ -73,8 +74,8 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         touchHelper.attachToRecyclerView(mRecyclerView);
 
 
-        mConfigManager = ProductModelSelectionHelper.getInstance();
-        mConfigManager.initialize(this);
+//        mConfigManager = ProductModelSelectionHelper.getInstance();
+//        mConfigManager.initialize(this);
     }
 
     private void relaunchActivity() {
@@ -134,13 +135,19 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        //setCurrentOrientation API is requiered in order to achieve proper GUI on tablet.
+        Configuration configuration = getResources().getConfiguration();
+        ProductModelSelectionHelper.getInstance().setCurrentOrientation(configuration);
+
         switch (v.getId()) {
             case R.id.buttonActivity:
                 launchProductSelectionAsActivity();
+                ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.buttonFragment:
                 launchProductSelectionAsFragment();
+                ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.addimageButton:
@@ -176,7 +183,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
     private void launchProductSelectionAsActivity() {
 
-
         String[] ctnList = new String[mList.size()];
         for (int i = 0; i < mList.size(); i++) {
             ctnList[i] = mList.get(i);
@@ -190,9 +196,10 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         mProductSelectionHelper.initialize(this);
         mProductSelectionHelper.setLocale("en", "GB");
 
-        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED);
+        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
         uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-        ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
+       /* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
             @Override
             public void onSuccess(List<SummaryModel> summaryModels) {
 
@@ -202,8 +209,8 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                     Toast.makeText(Launcher.this, "Summary returned null", Toast.LENGTH_SHORT).show();
 
             }
-        });
-        ProductModelSelectionHelper.getInstance().setProductListener(new ProductModelSelectionListener() {
+        });*/
+        ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
                 if (productSummaryModel != null) {

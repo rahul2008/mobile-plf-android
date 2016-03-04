@@ -4,24 +4,33 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.CustomFontTextView;
+import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
-import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
+import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
+import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
+import com.philips.cdp.tagging.Tagging;
+
+import java.util.List;
 
 /**
  * This class holds responsible to inflate the UI of the saved screen & reselecting the product to save &
@@ -36,12 +45,18 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private Button mSettings = null;
     private Button mRedirectingButton = null;
     private LinearLayout mProductContainer = null;
+    private LinearLayout mProductContainerBelow = null;
+    private LinearLayout.LayoutParams mProductContainerBelowParams;
     private LinearLayout.LayoutParams mProductContainerParams;
     private LinearLayout mProductContainer1 = null;
     private LinearLayout.LayoutParams mProductContainerParams1;
     private CustomFontTextView mProductName = null;
     private CustomFontTextView mProductCtn = null;
     private ImageView mProductImage = null;
+    private RelativeLayout mRightPanelLayout = null;
+    private RelativeLayout mLeftPanelLayout = null;
+    private LinearLayout.LayoutParams mLeftPanelLayoutParams = null;
+    private LinearLayout.LayoutParams mRightPanelLayoutParams = null;
 
     /**
      * setting Listeners & setting the values & controls to the inflated view's of the screen "fragment_saved_screen.xml"
@@ -54,19 +69,35 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
         mProductContainer = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_one);
         mProductContainerParams = (LinearLayout.LayoutParams) mProductContainer.getLayoutParams();
+
+        mProductContainerBelow = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_parent);
+        mProductContainerBelowParams = (LinearLayout.LayoutParams) mProductContainerBelow.getLayoutParams();
+
         mProductContainer1 = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_two);
         mProductContainerParams1 = (LinearLayout.LayoutParams) mProductContainer1.getLayoutParams();
         mProductName.setText(mUserSelectedProduct.getData().getProductTitle());
         mProductCtn.setText(mUserSelectedProduct.getData().getCtn());
         loadProductImage(mProductImage);
 
+        /* These views are required for tablet design(GUI).*/
+        mLeftPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductList);
+        mRightPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductDetailsParent);
+
+        if(isLaunchedAsTabletLandscape()) {
+            mRightPanelLayoutParams = (LinearLayout.LayoutParams) mRightPanelLayout.getLayoutParams();
+            mLeftPanelLayoutParams = (LinearLayout.LayoutParams) mLeftPanelLayout.getLayoutParams();
+        }
+
         mSettings.setOnClickListener(this);
         mRedirectingButton.setOnClickListener(this);
 
         Configuration configuration = getResources().getConfiguration();
         setViewParams(configuration);
-    }
 
+
+        Tagging.trackPage(Constants.PAGE_CONFIRMATION_SCREEN, getPreviousName());
+        setPreviousPageName(Constants.PAGE_CONFIRMATION_SCREEN);
+    }
 
     /**
      * Inflating the View of the Screen "fragment_saved_screen.xmls"
@@ -79,9 +110,14 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //this is required for tablet flow.
+        if(isLaunchedAsTabletLandscape()){
+            setListViewRequiredInTablet(false);
+        }
+
         View view = inflater.inflate(R.layout.fragment_saved_screen, container, false);
         mSettings = (Button) view.findViewById(R.id.savedscreen_button_settings);
-        mRedirectingButton = (Button) view.findViewById(R.id.savedscreen_button_viewproductdetails);
+        mRedirectingButton = (Button) view.findViewById(R.id.savedscreen_button_continue);
         mProductName = (CustomFontTextView) view.findViewById(R.id.savedscreen_productname);
         mProductCtn = (CustomFontTextView) view.findViewById(R.id.savedscreen_productvariant);
         mProductImage = (ImageView) view.findViewById(R.id.savedscreen_productimage);
@@ -126,43 +162,137 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     @Override
     public void setViewParams(Configuration config) {
 
-//        if (config.orientation == Configuration.ORIENTATION_PORTRAIT && isTablet()) {
-//            ProductSelectionLogger.i(TAG, "setViewParams  : portrait");
-////            mProductContainerParams.leftMargin = mProductContainerParams.rightMargin = mPortraitTablet;
-////            mProductContainerParams1.leftMargin = mProductContainerParams1.rightMargin = mPortraitTablet;
-//        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet()) {
-//            // Control for Split Screen Margin
-//        }
-//        mProductContainer.setLayoutParams(mProductContainerParams);
+        if(isLaunchedAsTabletLandscape()){
+            if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
+            } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = (int) getActivity().getResources()
+                        .getDimension(R.dimen.tablet_details_view_land_margin);
+            }
+        }
+        else{
+            if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
+            } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginLand;
+            }
+        }
+        mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
+    }
+
+    private void guiAlignmentTablet(Configuration config){
+
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            View listViewSparator = ((View) getActivity().findViewById(R.id.listViewSeperator));
+            if (listViewSparator != null)
+                listViewSparator.setVisibility(View.GONE);
+//            Fragment fragmentTablet = getActivity().getSupportFragmentManager().findFragmentById(R.id.productListContainerTablet);
+//            fragmentTablet.
+
+            if(isListViewRequiredInTablet()) {
+                mLeftPanelLayout.setVisibility(View.VISIBLE);
+                mRightPanelLayout.setVisibility(View.GONE);
+                mLeftPanelLayoutParams.weight = 1.0f;
+                mRightPanelLayoutParams.weight = 0.0f;
+            }
+            else{
+                mLeftPanelLayoutParams.weight = 0.0f;
+                mRightPanelLayoutParams.weight = 1.0f;
+                mRightPanelLayout.setVisibility(View.VISIBLE);
+                mLeftPanelLayout.setVisibility(View.GONE);
+            }
+//            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = mLeftRightMarginPort;
+        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ((View) getActivity().findViewById(R.id.listViewSeperator)).setVisibility(View.VISIBLE);
+            mLeftPanelLayout.setVisibility(View.VISIBLE);
+            mRightPanelLayout.setVisibility(View.VISIBLE);
+            mRightPanelLayoutParams.weight = 0.60f;
+            mLeftPanelLayoutParams.weight = 0.39f;
+//            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = 0;
+        }
+        mRightPanelLayout.setLayoutParams(mRightPanelLayoutParams);
+        mLeftPanelLayout.setLayoutParams(mLeftPanelLayoutParams);
     }
 
     @Override
     public String getActionbarTitle() {
-        return getResources().getString(R.string.Confirmation_Title);
+        if(isLaunchedAsTabletLandscape()){
+            return getResources().getString(R.string.Product_Title);
+        }
+        else{
+            return getResources().getString(R.string.Confirmation_Title);
+        }
     }
 
-    @Override
-    public String setPreviousPageName() {
-        return null;
+    private void removeWelcomeScreen() {
+        ProductSelectionLogger.i("testing", "removeWelcomeScreen: ");
+        List<Fragment> fragmentList = getActivity().getSupportFragmentManager().getFragments();
+        for (int i = fragmentList.size() - 1; i >= 0; i--) {
+            Fragment frag = fragmentList.get(i);
+            ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen : " + frag);
+            if(frag instanceof WelcomeScreenFragmentSelection){
+                FragmentTransaction fragmentTransactionNew = getActivity().getSupportFragmentManager().beginTransaction();
+                if (frag != null) {
+                    try {
+//                        fragmentTransactionNew.remove(frag).commitAllowingStateLoss();
+                        getActivity().getSupportFragmentManager().popBackStack();
+                        ProductSelectionLogger.i("testing", "WelcomeScreenFragmentSelection Screen inside : ");
+                    }catch (IllegalStateException e){
+                    }
+                }
+            }
+        }
     }
+
+    private void removeDetailsScreen(){
+        FragmentManager fragManager = getActivity().getSupportFragmentManager();
+        fragManager.popBackStack();
+        List<Fragment> listFragment = fragManager.getFragments();
+        for (int i = listFragment.size() - 1; i >= 0; i--) {
+            Fragment fragment = listFragment.get(i);
+
+            try {
+                if (fragment != null && (fragment instanceof DetailedScreenFragmentSelection)) {
+                    fragManager.popBackStack();
+                }
+            }catch (IllegalStateException e){
+            }
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
         if (isConnectionAvailable()) {
             if (v.getId() == R.id.savedscreen_button_settings) {
 //                if (isConnectionAvailable()) {
-                if (isTablet()) {
-                    showFragment(new ProductSelectionListingTabletFragment());
+					Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                            Constants.ACTION_VALUE_CHANGE_PRODUCT);
+                if (isLaunchedAsTabletLandscape()) {
+                    setListViewRequiredInTablet(true);
+                    replaceFragmentForTablet("SavedScreenFragmentSelection", new DetailedScreenFragmentSelection());
+
+                    Configuration configuration = getResources().getConfiguration();
+                    guiAlignmentTablet(configuration);
+
                 } else {
-                    showFragment(new ProductSelectionListingFragment());
+                    removeDetailsScreen();
+//                    showFragment(new ProductSelectionListingFragment());
                 }
 //                }
-            } else if (v.getId() == R.id.savedscreen_button_viewproductdetails) {
-                if (isConnectionAvailable()) {
-                    ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+            } else if (v.getId() == R.id.savedscreen_button_continue) {
+					Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
+                            Constants.ACTION_VALUE_CONTINUE);
+                    setPreference(mUserSelectedProduct.getData().getCtn());
+                    ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                     clearBackStackHistory(getActivity());
+                    if (isLaunchedAsTabletLandscape()) {
+                        removeWelcomeScreen();
+                    }
+//                    if (!isLaunchedAsTabletLandscape()) {
+//                        removeProdSelectionScreens();
+//                    }
                 }
             }
         }
-    }
 }

@@ -3,6 +3,7 @@ package com.philips.cdp.productselection.fragments.homefragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.customview.NetworkAlertView;
+import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
+import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
 import com.philips.cdp.productselection.utils.NetworkReceiver;
@@ -30,6 +33,7 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -41,6 +45,9 @@ import java.util.Locale;
 public abstract class ProductSelectionBaseFragment extends Fragment implements
         NetworkStateListener {
 
+    private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+    private static final String USER_PREFERENCE = "user_product";
+    protected static SummaryModel mUserSelectedProduct = null;
     private static String TAG = ProductSelectionBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;
     private static int mContainerId = 0;
@@ -51,15 +58,15 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private static FragmentActivity mFragmentActivityContext = null;
     private static FragmentActivity mActivityContext = null;
     private static String FRAGMENT_TAG_NAME = "productselection";
+    private static Boolean mListViewRequired = true;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    protected static SummaryModel mUserSelectedProduct = null;
+    protected SharedPreferences prefs = null;
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
     private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private TextView mActionBarTitle = null;
-    private static Boolean mListViewRequired = true;
 
     public synchronized static void setStatus(boolean connection) {
         isConnectionAvailable = connection;
@@ -69,8 +76,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     public abstract String getActionbarTitle();
 
-    public abstract String setPreviousPageName();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnCreate on "
@@ -79,10 +84,10 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
         registerNetWorkReceiver();
-        setLocaleLanguage();
+        // setLocaleLanguage();
     }
 
-    private void setLocaleLanguage() {
+  /*  private void setLocaleLanguage() {
         Locale locale = ProductModelSelectionHelper.getInstance().getLocale();
         if (locale != null) {
             Locale.setDefault(locale);
@@ -91,6 +96,31 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             mFragmentActivityContext.getResources().updateConfiguration(config,
                     mFragmentActivityContext.getResources().getDisplayMetrics());
         }
+    }*/
+
+    protected boolean setPreference(String ctn) {
+
+        if (ctn != null && ctn != "") {
+            prefs = getActivity().getSharedPreferences(
+                    USER_PREFERENCE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(USER_SELECTED_PRODUCT_CTN, ctn);
+            editor.apply();
+            return true;
+        } else
+            return false;
+    }
+
+
+    protected boolean getCtnFromPreference() {
+        String ctn = null;
+        prefs = getActivity().getSharedPreferences(
+                USER_PREFERENCE, Context.MODE_PRIVATE);
+        ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        if (ctn != null && ctn != "")
+            return true;
+        else
+            return false;
     }
 
     private void registerNetWorkReceiver() {
@@ -160,7 +190,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         ProductSelectionLogger.i(ProductSelectionLogger.FRAGMENT, "OnDestroyView on "
                 + this.getClass().getSimpleName());
         super.onDestroyView();
-        mPreviousPageName = setPreviousPageName();
         hideKeyboard();
     }
 
@@ -202,8 +231,11 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         }
     }
 
-    protected boolean isTablet() {
+    protected  boolean isLaunchedAsTabletLandscape(){
+        return ProductModelSelectionHelper.getInstance().isLaunchedAsTabletLandscape();
+    }
 
+    protected boolean isTablet() {
         DisplayMetrics metrics = new DisplayMetrics();
         try {
             if (getActivity().getWindowManager() != null)
@@ -216,7 +248,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
             return diagonalInches >= 6.5;
         }
-
     }
 
     protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {
@@ -249,7 +280,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         ProductSelectionLogger.i(TAG, TAG + " : onConfigurationChanged ");
-        setLocaleLanguage();
+        // setLocaleLanguage();
         getAppName();
     }
 
@@ -313,8 +344,8 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         mUserSelectedProduct = summaryModel;
     }
 
-    public void removeFragmentByTag(String tag){
-        try{
+    public void removeFragmentByTag(String tag) {
+        try {
             FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
             Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag(tag);
@@ -325,7 +356,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         }
     }
 
-    public void addFragment(int containerViewId, Fragment fragment, String tag){
+    public void addFragment(int containerViewId, Fragment fragment, String tag) {
         try {
             FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
@@ -425,29 +456,77 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         return false;
     }
 
+    protected void replaceFragmentForTablet(String oldFragmentAdd, Fragment fragmentNew) {
+
+        List<Fragment> listFragment = getActivity().getSupportFragmentManager().getFragments();
+        for (int i = listFragment.size() - 1; i >= 0; i--) {
+            Fragment fragment1 = listFragment.get(i);
+            ProductSelectionLogger.i("testing", "Details Screen : " + fragment1);
+        }
+
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag(oldFragmentAdd);
+        ProductSelectionLogger.i("testing", "Saved screen found  : " + fragmentDetailsTablet);
+        try {
+            if (fragmentDetailsTablet != null) {
+                fragmentTransaction.remove(fragmentDetailsTablet);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        } catch (IllegalStateException e) {
+
+        }
+
+        try {
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.fragmentTabletProductDetailsParent, fragmentNew, "DetailedScreenFragmentSelection");
+            ft.commit();
+        } catch (IllegalStateException e) {
+        }
+    }
+
     protected boolean clearBackStackHistory(Context context) {
-        if (ProductModelSelectionHelper.getInstance().isLaunchedAsActivity())
+        if (ProductModelSelectionHelper.getInstance().isLaunchedAsActivity()) {
             if (context != null) {
                 Activity activity = (Activity) context;
                 activity.finish();
 
+            }
+        } else {
+            if (isLaunchedAsTabletLandscape()) {
+                try {
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragmentDetailsTablet = getActivity().getSupportFragmentManager().findFragmentByTag("ProductSelectionListingFragment");
+                    if (fragmentDetailsTablet != null) {
+                        fragmentTransaction.remove(fragmentDetailsTablet)/*.commit()*/;
+                    }
+
+                    Fragment fragmentConfirmTablet = getActivity().getSupportFragmentManager().findFragmentByTag("SavedScreenFragmentSelection");
+                    if (fragmentConfirmTablet != null) {
+                        fragmentTransaction.remove(fragmentConfirmTablet);
+                    }
+
+                    fragmentManager = mActivityContext.getSupportFragmentManager();
+                    fragmentManager.popBackStack();
+
+                    fragmentTransaction.commitAllowingStateLoss();
+                } catch (IllegalStateException e) {
+                    ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
+                    e.printStackTrace();
+                }
             } else {
-
-                if (!ProductModelSelectionHelper.getInstance().isLaunchedAsActivity()) {
-                    if (fragmentManager == null && mActivityContext != null) {
-                        fragmentManager = mActivityContext.getSupportFragmentManager();
-                    } else if (fragmentManager == null) {
-                        fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-                    }
-                    for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
-                        fragmentManager.popBackStack();
-                    }
-                } else {
-
+                if (fragmentManager != null && mActivityContext != null) {
+                    fragmentManager = mActivityContext.getSupportFragmentManager();
+                } else if (fragmentManager == null) {
+                    fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
+                }
+                for (int i = 1; i < fragmentManager.getFragments().size(); i++) {
+                    fragmentManager.popBackStack();
                 }
             }
+        }
         return false;
     }
+
 
     protected void hideKeyboard() {
         View view = getActivity().getCurrentFocus();
@@ -478,42 +557,40 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
      */
     private void setActionbarTitle() {
         if (mContainerId == 0) {
-               if(mActionBarTitle == null) {
-                   mActionBarTitle = (TextView) getActivity().findViewById(R.id.productselection_actionbarTitle);
-               }
-            String titleText = null;
-            if(getActionbarTitle() == null){
-                titleText = getResources().getString(R.string.Product_Title);
+            if (mActionBarTitle == null) {
+                mActionBarTitle = (TextView) getActivity().findViewById(R.id.productselection_actionbarTitle);
             }
-            else{
+            String titleText = null;
+            if (getActionbarTitle() == null) {
+                titleText = getResources().getString(R.string.Product_Title);
+            } else {
                 titleText = getActionbarTitle();
             }
             mActionBarTitle.setText(titleText);
         } else {
-              updateActionbar();
+            updateActionbar();
         }
     }
 
     private void updateActionbar() {
-        //TODO : pass the title value to vertical app.
-        ProductSelectionLogger.i("testing", "pass the title value to vertical app");
-//        if (this.getClass().getSimpleName()
-//                .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
-//        } else {
-//            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
-//        }
+        if (mActionbarUpdateListener != null)
+            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
+
     }
 
-    protected void setListViewRequiredInTablet(Boolean listViewRequired){
+    protected void setListViewRequiredInTablet(Boolean listViewRequired) {
         mListViewRequired = listViewRequired;
     }
 
-    protected Boolean isListViewRequiredInTablet(){
+    protected Boolean isListViewRequiredInTablet() {
         return mListViewRequired;
     }
 
     protected String getPreviousName() {
         return mPreviousPageName;
+    }
+
+    protected void setPreviousPageName(String pageName){
+        mPreviousPageName = pageName;
     }
 }

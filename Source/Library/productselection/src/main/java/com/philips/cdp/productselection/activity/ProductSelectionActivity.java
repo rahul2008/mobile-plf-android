@@ -1,7 +1,11 @@
 package com.philips.cdp.productselection.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingTabletFragment;
@@ -11,10 +15,12 @@ import com.philips.cdp.productselection.utils.Constants;
 
 public class ProductSelectionActivity extends ProductSelectionBaseActivity {
     private static final String TAG = ProductSelectionActivity.class.getSimpleName();
+    private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+    private static final String USER_PREFERENCE = "user_product";
     private static int mEnterAnimation = -1;
+    // private static boolean isFirstTimeWelcomeScreenlaunch = true;
     private static int mExitAnimation = -1;
-    private static boolean isFirstTimeWelcomeScreenlaunch = true;
-
+    private SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +28,29 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
         setContentView(R.layout.activity_productselection_layout);
 
         animateThisScreen();
-        if (isFirstTimeWelcomeScreenlaunch) {
+
+        Configuration configuration = getResources().getConfiguration();
+        ProductModelSelectionHelper.getInstance().setLaunchedAsTabletLandscape
+                (isTablet() && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE);
+        if (getCtnFromPreference()) {
             showFragment(new WelcomeScreenFragmentSelection());
-            isFirstTimeWelcomeScreenlaunch = false;
-        } else if (isTablet()) {
+            // isFirstTimeWelcomeScreenlaunch = false;
+        } else if (ProductModelSelectionHelper.getInstance().isLaunchedAsTabletLandscape()) {
             showFragment(new ProductSelectionListingTabletFragment());
         } else {
             showFragment(new ProductSelectionListingFragment());
         }
+    }
+
+    protected boolean getCtnFromPreference() {
+        String ctn = null;
+        prefs = getSharedPreferences(
+                USER_PREFERENCE, Context.MODE_PRIVATE);
+        ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
+        if (ctn != null && ctn != "")
+            return false;
+        else
+            return true;
     }
 
     private void animateThisScreen() {

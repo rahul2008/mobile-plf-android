@@ -34,6 +34,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:onClick="changeBackground"
+        android:visibility="gone"
         android:text="Change theme" />
 
 

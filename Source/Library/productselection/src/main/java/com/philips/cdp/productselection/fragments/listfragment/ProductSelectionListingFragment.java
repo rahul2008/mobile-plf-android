@@ -16,10 +16,15 @@ import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenF
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.prx.PrxSummaryDataListener;
 import com.philips.cdp.productselection.prx.PrxWrapper;
+import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.prxdatamodels.summary.SummaryModel;
+import com.philips.cdp.tagging.Tagging;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ProductSelectionListingFragment class is used to showcase all possible CTNs and its details.
@@ -65,7 +70,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
                     mUserSelectedProduct = (productList.get(position));
-                    if (!isTablet()) {
+                    if (!isLaunchedAsTabletLandscape()) {
                         DetailedScreenFragmentSelection detailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
                         detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
                         showFragment(detailedScreenFragmentSelection);
@@ -73,10 +78,20 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                         setListViewRequiredInTablet(false);
                         mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
                     }
-//                    showFragment(new DetailedScreenFragmentSelection());
+
+                    Map<String, Object> contextData = new HashMap<String, Object>();
+                    contextData.put(Constants.ACTION_NAME_SPECIAL_EVENT,
+                            Constants.ACTION_VALUE_PRODUCT_VIEW);
+                    contextData.put(Constants.ACTION_NAME_PRODUCTS, mUserSelectedProduct.getData().getProductTitle()
+                            + ":" + mUserSelectedProduct.getData().getCtn());
+
+                    Tagging.trackMultipleActions(Constants.ACTION_KEY_SEND_DATA, contextData);
                 }
             }
         });
+
+        Tagging.trackPage(Constants.PAGE_LIST_SCREEN, getPreviousName());
+        setPreviousPageName(Constants.PAGE_LIST_SCREEN);
     }
 
 
@@ -84,12 +99,12 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
         ProductSelectionLogger.d(TAG, "Summary List : " + summaryList.length);
         productList = new ArrayList<SummaryModel>();
-        ;
+
         for (int i = 0; i < summaryList.length; i++) {
             productList.add(summaryList[i]);
         }
 
-        if (isTablet()) {
+        if (isLaunchedAsTabletLandscape()) {
             try {
                 mUserSelectedProduct = (summaryList[0]);
                 setListViewRequiredInTablet(true);
@@ -104,7 +119,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             mProductListView.setAdapter(mProductAdapter);
             mProductAdapter.notifyDataSetChanged();
         } else
-            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
 
     }
 
@@ -134,10 +149,10 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                 public void onSuccess(SummaryModel summaryModel) {
                     productList.add(summaryModel);
 
-                    if (isTablet() && productList.size() == 1) {
+                    if (!isLaunchedAsTabletLandscape() && productList.size() == 1) {
                         try {
                             mUserSelectedProduct = (productList.get(0));
-                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                             setListViewRequiredInTablet(true);
                             mHandler.sendEmptyMessageDelayed(UPDATE_UI, 1000);
                         } catch (IndexOutOfBoundsException e) {
@@ -159,13 +174,11 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                                     mSummaryDialog.cancel();
                                 }
                         } else {
-                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                             clearBackStackHistory(getActivity());
                         }
-
                     }
                 }
-
 
                 @Override
                 public void onFail(String errorMessage) {
@@ -183,7 +196,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                                     mSummaryDialog.cancel();
                                 }
                         } else {
-                            ProductModelSelectionHelper.getInstance().getProductListener().onProductModelSelected(mUserSelectedProduct);
+                            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                             clearBackStackHistory(getActivity());
                         }
                     }
@@ -201,11 +214,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     @Override
     public void setViewParams(Configuration config) {
-    }
-
-    @Override
-    public String setPreviousPageName() {
-        return null;
     }
 
     @Override
