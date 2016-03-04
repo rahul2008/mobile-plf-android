@@ -41,8 +41,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     private static String TAG = ProductSelectionBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
-    //    private static ThemeUtils themeUtils;
-    private int noActionBarTheme = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +55,8 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
 
-//        if (themeUtils == null) {
-//            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
-//                    Context.MODE_PRIVATE));
-//        }
-//        setTheme(themeUtils.getTheme());
         initActionBar();
     }
-
-//    protected ThemeUtils getUiKitThemeUtil(){
-//        if (themeUtils == null) {
-//            themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name_multiproduct),
-//                    Context.MODE_PRIVATE));
-//        }
-//
-//        return themeUtils;
-//    }
 
     private void initActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
@@ -105,32 +89,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         Toolbar parent = (Toolbar) mCustomView.getParent();
         parent.setContentInsetsAbsolute(0, 0);
     }
-
-//    private boolean isTablet() {
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        try {
-//            if (this.getWindowManager() != null)
-//                this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        } catch (NullPointerException e) {
-//            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
-//        } finally {
-//            float yInches = metrics.heightPixels / metrics.ydpi;
-//            float xInches = metrics.widthPixels / metrics.xdpi;
-//            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-//            return diagonalInches >= 6.5;
-//        }
-//    }
-//
-//    protected  boolean isLaunchedAsTabletLandscape(){
-//        Configuration configuration = getResources().getConfiguration();
-//        return (isTablet() && (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE));
-//    }
-
-//    protected void setNoActionBarTheme() {
-//        themeUtils = new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name),
-//                Context.MODE_PRIVATE));
-//        noActionBarTheme = themeUtils.getNoActionBarTheme();
-//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
