@@ -66,14 +66,11 @@
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
 -keepattributes InnerClasses,Exceptions
-#Hockey app and enabling excpetion catching
--keepclassmembers class net.hockeyapp.android.UpdateFragment {*;}
+
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
 
-#Tagging lib and jar
--keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.cdp.tagging.** {*;}
+
 
 #Janrain lib
 -keep public class com.janrain.android.** {*;}
@@ -121,15 +118,8 @@
 
 
 
-#Locale match
--keep public class com.philips.cdp.localematch.** {*;}
 
 
-#HSDP Lib
--keep  class com.philips.dhpclient.** {*;}
--keep  class com.fasterxml.jackson.annotation.** {*;}
--keep  class com.fasterxml.jackson.core.** {*;}
--keep  class com.fasterxml.jackson.databind.** {*;}
 
 
 #GSM

@@ -75,8 +75,51 @@
 -keep public class com.adobe.mobile.** {*;}
 -keep public class com.philips.cdp.tagging.** {*;}
 
+
 #Janrain lib
-#-keep public class com.janrain.android.**
+-keep public class com.janrain.android.** {*;}
+-keep  class com.janrain.android.Jump$* {*;}
+-keep  class com.janrain.android.capture.Capture$* {*;}
+
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void init(android.content.Context);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static java.lang.String objectToString(java.io.Serializable);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static java.lang.Object stringToObject(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void migrateUserData(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static byte[] encrypt(java.lang.String);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static byte[] decrypt(byte[]);
+}
+
+-keep public class com.philips.cdp.security.SecureStorage {
+    public static void generateSecretKey();
+}
+
+
+
+
+
+-keepclasseswithmembernames public class com.janrain.android.** {*;}
+-keepclasseswithmembernames public class com.janrain.android.Jump {*;}
+-keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
+-keepclasseswithmembernames public class com.janrain.android.TradSignInUi {*;}
+
+
 
 #Locale match
 -keep public class com.philips.cdp.localematch.** {*;}
