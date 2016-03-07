@@ -43,7 +43,7 @@ public class ProdRegHelper {
     public void cancelRequest(String requestTag) {
     }
 
-    private void processMetadata(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
+    protected void processMetadata(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
         RegistrationRequest registrationRequest = (RegistrationRequest) prxRequest;
         ProductMetaRequest productMetaDataBuilder = getProductMetaDataBuilder(registrationRequest);
         RequestManager mRequestManager = getRequestManager(context);
@@ -88,12 +88,27 @@ public class ProdRegHelper {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             RegistrationRequest registrationDataBuilder = (RegistrationRequest) prxRequest;
             registrationDataBuilder.setRequiresSerialNumber(true);
+            if (registrationDataBuilder.getProductSerialNumber() == null || registrationDataBuilder.getProductSerialNumber().length() < 0) {
+                listener.onResponseError(mContext.getString(R.string.serial_number_not_entered), -1);
+                return false;
+            }
             if (!registrationDataBuilder.getProductSerialNumber().matches(data.getSerialNumberFormat())) {
                 listener.onResponseError(mContext.getString(R.string.serial_number_error), -1);
                 return false;
             }
         }
         return true;
+    }
+
+    private boolean processSerialNumber(final ProductData data, final ResponseListener listener, final ProdRegRequestInfo prodRegRequestInfo) {
+        if (prodRegRequestInfo.getSerialNumber() == null || prodRegRequestInfo.getSerialNumber().length() < 1) {
+            listener.onResponseError(mContext.getString(R.string.serial_number_not_entered), -1);
+            return true;
+        } else if (!prodRegRequestInfo.getSerialNumber().matches(data.getSerialNumberFormat())) {
+            listener.onResponseError(mContext.getString(R.string.serial_number_error), -1);
+            return true;
+        }
+        return false;
     }
 
     private boolean validatePurchaseDateFromMetadata(final ProductData data, final PrxRequest prxRequest, ResponseListener listener) {
