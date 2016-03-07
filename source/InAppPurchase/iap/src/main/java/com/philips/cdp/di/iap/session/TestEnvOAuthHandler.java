@@ -61,7 +61,8 @@ public class TestEnvOAuthHandler implements OAuthHandler {
 
             int responseCode = con.getResponseCode();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            InputStreamReader inputStreamReader = new InputStreamReader(con.getInputStream());
+            BufferedReader in = new BufferedReader(inputStreamReader);
             String inputLine;
             StringBuffer response = new StringBuffer();
 

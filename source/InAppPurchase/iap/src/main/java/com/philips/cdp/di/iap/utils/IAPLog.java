@@ -13,19 +13,14 @@ import android.util.Log;
 public class IAPLog {
     public final static String LOG = "InAppPurchase";
     public static final String FRAGMENT_LIFECYCLE = "FragmentLifecycle";
-    public static final String ANIMATION = "Animation";
     public static final String DEMOAPPACTIVITY = "DemoAppActivity";
-    public static final String SHOPPING_BASE_FRAGMENT = "ShoppingBaseFragment";
-    public static final String SHOPPINGCART_PRESENTER = "ShoppingCartPresenter";
     public static final String BASE_FRAGMENT_ACTIVITY = "IAPActivity";
     public static final String SHIPPING_ADDRESS_FRAGMENT = "ShippingAddressFragment";
 
     public static boolean isLoggingEnabled = true;
 
     public static String APP_SOURCE_VALUE = "Develop";
-    public static String SHOPPING_CART_FRAGMENT = "SHOPPING_CART_FRAGMENT";
-    public static String IAPHANDLER = "InAppHandler";
-    public static String ORDER_SUMMARY_FRAGMENT = "OrderSummaryFragment";
+    public static final String ORDER_SUMMARY_FRAGMENT = "OrderSummaryFragment";
 
     public static void enableLogging() {
         isLoggingEnabled = true;
