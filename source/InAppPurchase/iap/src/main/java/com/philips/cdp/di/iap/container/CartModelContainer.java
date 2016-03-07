@@ -14,6 +14,9 @@ public class CartModelContainer {
     private static CartModelContainer container;
     private Addresses mDeliveryAddress;
     private boolean isOrderPlaced;
+    private ArrayList<ShoppingCartData> mShoppingCartData;
+    private AddressFields mShippingAddressFields;
+    private String cartNumber;
 
     public static CartModelContainer getInstance() {
         synchronized (CartModelContainer.class) {
@@ -24,9 +27,6 @@ public class CartModelContainer {
         return container;
     }
 
-    private ArrayList<ShoppingCartData> mShoppingCartData;
-    private AddressFields mShippingAddressFields;
-
     public String getCartNumber() {
         return cartNumber;
     }
@@ -34,8 +34,6 @@ public class CartModelContainer {
     public void setCartNumber(final String cartNumber) {
         this.cartNumber = cartNumber;
     }
-
-    private String cartNumber;
 
     public ArrayList<ShoppingCartData> getShoppingCartData() {
         return mShoppingCartData;
@@ -71,5 +69,9 @@ public class CartModelContainer {
 
     public void resetApplicationFields() {
         setOrderPlaced(false);
+        cartNumber = null;
+        mDeliveryAddress = null;
+        mShoppingCartData = null;
+        mShippingAddressFields = null;
     }
 }
