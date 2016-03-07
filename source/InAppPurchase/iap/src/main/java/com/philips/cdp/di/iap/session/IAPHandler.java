@@ -122,23 +122,27 @@ public class IAPHandler {
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                Carts getCartData = (Carts) msg.obj;
-                if (null != getCartData) {
-                    int totalItems = getCartData.getCarts().get(0).getTotalItems();
-                    List<EntriesEntity> entries = getCartData.getCarts().get(0).getEntries();
-                    if (totalItems != 0 && null != entries) {
-                        boolean isProductAvailable = false;
-                        for (int i = 0; i < entries.size(); i++) {
-                            if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
-                                isProductAvailable = true;
-                                iapHandlerListner.onBuyNow();
-                                break;
+                if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+                    createCart(iapHandlerListner);
+                } else if (msg.obj instanceof Carts) {
+                    Carts getCartData = (Carts) msg.obj;
+                    if (null != getCartData) {
+                        int totalItems = getCartData.getCarts().get(0).getTotalItems();
+                        List<EntriesEntity> entries = getCartData.getCarts().get(0).getEntries();
+                        if (totalItems != 0 && null != entries) {
+                            boolean isProductAvailable = false;
+                            for (int i = 0; i < entries.size(); i++) {
+                                if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
+                                    isProductAvailable = true;
+                                    iapHandlerListner.onBuyNow();
+                                    break;
+                                }
                             }
-                        }
-                        if (!isProductAvailable)
+                            if (!isProductAvailable)
+                                addItemtoCart(ctnNumber, iapHandlerListner, true);
+                        } else {
                             addItemtoCart(ctnNumber, iapHandlerListner, true);
-                    } else {
-                        addItemtoCart(ctnNumber, iapHandlerListner, true);
+                        }
                     }
                 }
             }
