@@ -38,9 +38,9 @@ public class ProdRegHelper {
     public void cancelRequest(String requestTag) {
     }
 
-    public void registerProduct(final Context context, final PrxRequest registrationRequest, final ResponseListener listener) {
+    public void registerProduct(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
         requestType = ProdRegConstants.PRODUCT_REGISTRATION;
-        processMetadata(context, registrationRequest, listener);
+        processMetadata(context, prxRequest, listener);
     }
 
     protected void processMetadata(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
