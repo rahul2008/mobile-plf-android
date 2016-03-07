@@ -8,12 +8,10 @@ package com.philips.cdp.di.iap.session;
 import android.content.Context;
 import android.os.Message;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.model.CartAddProductRequest;
 import com.philips.cdp.di.iap.model.CartCreateRequest;
 import com.philips.cdp.di.iap.model.CartCurrentInfoRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -59,19 +57,16 @@ public class IAPHandler {
         delegate.sendRequest(RequestCode.ADD_TO_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                AddToCartData addToCartData = (AddToCartData) msg.obj;
+
                 if (isFromBuyNow)
                     iapHandlerListner.onBuyNow();
                 else
-                    iapHandlerListner.onAddItemToCart(addToCartData.getStatusCode());
+                    iapHandlerListner.onAddItemToCart(msg);
             }
 
             @Override
             public void onError(final Message msg) {
-                IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == addItemtoCart = onError");
-                VolleyError error = (VolleyError) msg.obj;
-                if (!isFromBuyNow)
-                    iapHandlerListner.onAddItemToCart(error.getLocalizedMessage());
+                iapHandlerListner.onAddItemToCart(msg);
             }
         });
     }
