@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class CartModelContainer {
     private static CartModelContainer container;
     private Addresses mDeliveryAddress;
+    private boolean isOrderPlaced;
 
     public static CartModelContainer getInstance() {
         synchronized (CartModelContainer.class) {
@@ -58,5 +59,17 @@ public class CartModelContainer {
 
     public Addresses getDeliveryAddress() {
         return mDeliveryAddress;
+    }
+
+    public void setOrderPlaced(final boolean pIsOrderPlaced) {
+        this.isOrderPlaced = pIsOrderPlaced;
+    }
+
+    public boolean isOrderPlaced() {
+        return isOrderPlaced;
+    }
+
+    public void resetApplicationFields() {
+        setOrderPlaced(false);
     }
 }

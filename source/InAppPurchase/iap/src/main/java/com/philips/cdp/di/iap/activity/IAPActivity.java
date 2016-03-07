@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.di.iap.Fragments.ShoppingCartFragment;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -83,6 +84,12 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
         Utility.hideKeypad(this);
         dispatchBackToFragments();
         super.onBackPressed();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        CartModelContainer.getInstance().resetApplicationFields();
     }
 
     @Override

@@ -41,11 +41,15 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private PaymentMethod mPaymentMethod;
     private Button mBtnPayNow, mBtnCancel;
     private PaymentController mPaymentController;
+    private String orderID;
 
     @Override
     public void onResume() {
         super.onResume();
         setTitle(R.string.iap_order_summary);
+        if (isOrderPlaced()) {
+            setBackButtonVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -87,19 +91,39 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isOrderPlaced()) {
+            finishActivity();
+        }
+    }
+
+    private boolean isOrderPlaced() {
+        return CartModelContainer.getInstance().isOrderPlaced();
+    }
+
+    @Override
     public void onClick(final View v) {
         if (v.getId() == R.id.btn_paynow) {
             if (!Utility.isProgressDialogShowing()) {
                 if (Utility.isInternetConnected(getContext())) {
                     Utility.showProgressDialog(getContext(), getString(R.string.iap_update_address));
-                    mPaymentController.placeOrder();
+                    if (!isOrderPlaced()) {
+                        mPaymentController.placeOrder();
+                    } else {
+                        mPaymentController.makPayment(orderID);
+                    }
                 } else {
                     NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                             getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
             }
-        } else if (v == mBtnCancel) {
-            addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+        } else if (v.getId() == R.id.btn_cancel) {
+            if (isOrderPlaced()) {
+                finishActivity();
+            } else {
+                addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            }
         }
     }
 
@@ -121,7 +145,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     public void onPlaceOrder(final Message msg) {
         if (msg.obj instanceof PlaceOrder) {
             PlaceOrder order = (PlaceOrder) msg.obj;
-            String orderID = order.getCode();
+            orderID = order.getCode();
+            CartModelContainer.getInstance().setOrderPlaced(true);
             mPaymentController.makPayment(orderID);
         } else if (msg.obj instanceof ServerError) {
             Utility.dismissProgressDialog();
