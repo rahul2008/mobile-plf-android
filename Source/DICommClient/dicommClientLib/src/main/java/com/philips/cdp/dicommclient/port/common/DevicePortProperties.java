@@ -10,6 +10,9 @@ public class DevicePortProperties {
     private String type;
     private String modelid;
     private String swversion;
+    private String serial;
+    private String ctn;
+    private boolean allowuploads;
 
     public String getName() {
         return name;
@@ -41,5 +44,29 @@ public class DevicePortProperties {
 
     public void setSwversion(String swversion) {
         this.swversion = swversion;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(final String serial) {
+        this.serial = serial;
+    }
+
+    public String getCtn() {
+        return ctn;
+    }
+
+    public void setCtn(final String ctn) {
+        this.ctn = ctn;
+    }
+
+    public boolean isAllowuploads() {
+        return allowuploads;
+    }
+
+    public void setAllowuploads(final boolean allowuploads) {
+        this.allowuploads = allowuploads;
     }
 }

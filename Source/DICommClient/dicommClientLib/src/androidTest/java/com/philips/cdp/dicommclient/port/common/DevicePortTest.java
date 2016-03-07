@@ -24,7 +24,10 @@ public class DevicePortTest extends MockitoTestCase {
             "   \"name\":\"testName\",\n" +
             "   \"type\":\"testType\",\n" +
             "   \"modelid\":\"testModelid\",\n" +
-            "   \"swversion\":\"testSwversion\"\n" +
+            "   \"swversion\":\"testSwversion\",\n" +
+            "   \"serial\":\"testSerial\",\n" +
+            "   \"ctn\":\"testCtn\",\n" +
+            "   \"allowuploads\":true\n" +
             "}";
 
     @Override
@@ -61,5 +64,8 @@ public class DevicePortTest extends MockitoTestCase {
         assertThat(properties.getType()).isEqualTo("testType");
         assertThat(properties.getModelid()).isEqualTo("testModelid");
         assertThat(properties.getSwversion()).isEqualTo("testSwversion");
+        assertThat(properties.getSerial()).isEqualTo("testSerial");
+        assertThat(properties.getCtn()).isEqualTo("testCtn");
+        assertThat(properties.isAllowuploads()).isTrue();
     }
 }
