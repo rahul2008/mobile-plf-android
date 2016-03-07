@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 public class WebPaymentFragment extends BaseAnimationSupportFragment {
     public final static String FRAGMENT_TAG = "WebPaymentFragment";
@@ -33,13 +34,21 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
     private WebView mPaymentWebView;
     private String mUrl;
 
+    private CircularLineProgressBar mProgress;
+    private boolean mShowProgressBar = true;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        mPaymentWebView = new WebView(getContext());
+        ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, null);
+
+        mPaymentWebView = (WebView) group.findViewById(R.id.wv_payment);
+        mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
+        mProgress.startAnimation(100);
         mPaymentWebView.setWebViewClient(new PaymentWebViewClient());
         mPaymentWebView.getSettings().setJavaScriptEnabled(true);
+
         mUrl = getPaymentURL();
-        return mPaymentWebView;
+        return group;
     }
 
     @Override
@@ -113,6 +122,15 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
 
             return verifyResultCallBacks(url);
+        }
+
+        @Override
+        public void onPageFinished(final WebView view, final String url) {
+            super.onPageFinished(view, url);
+                if(mProgress != null && mShowProgressBar) {
+                    mShowProgressBar = false;
+                    mProgress.setVisibility(View.GONE);
+                }
         }
 
         private boolean verifyResultCallBacks(String url) {
