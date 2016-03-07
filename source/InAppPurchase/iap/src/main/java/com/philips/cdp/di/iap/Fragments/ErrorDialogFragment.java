@@ -17,7 +17,7 @@ import org.w3c.dom.Text;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ModalAlertDemoFragment extends BlurDialogFragment {
+public class ErrorDialogFragment extends BlurDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

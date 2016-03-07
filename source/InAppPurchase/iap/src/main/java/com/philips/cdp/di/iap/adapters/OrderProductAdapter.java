@@ -83,10 +83,11 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mPaymentCardName.setText(mPaymentMethod.getCardNumber());
                 footerHolder.mPaymentCardHolderName.setText(mPaymentMethod.getAccountHolderName());
             }
-
-            footerHolder.mDeliveryPrice.setText(cartData.getDeliveryCost().getFormattedValue());
-            footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + cartData.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-            footerHolder.mTotalPrice.setText(String.valueOf(cartData.getTotalPriceWithTax()));
+            if (null != cartData && null != cartData.getDeliveryCost()) {
+                footerHolder.mDeliveryPrice.setText(cartData.getDeliveryCost().getFormattedValue());
+                footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + cartData.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+                footerHolder.mTotalPrice.setText(String.valueOf(cartData.getTotalPriceWithTax()));
+            }
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
             IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Size of ShoppingCarData is " + String.valueOf(getActualCount()));

@@ -71,12 +71,9 @@ public class NetworkController {
             public void onErrorResponse(final VolleyError error) {
                 IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error.getLocalizedMessage());
                 if (requestListener != null) {
-
-                    String errorString= new String(error.networkResponse.data);
-                    ServerError serverError = new Gson().fromJson(errorString, ServerError.class);
                     Message msg = Message.obtain();
                     msg.what = requestCode;
-                    msg.obj = serverError;
+                    msg.obj = new IAPNetworkError(error);
                     requestListener.onError(msg);
                 }
             }
