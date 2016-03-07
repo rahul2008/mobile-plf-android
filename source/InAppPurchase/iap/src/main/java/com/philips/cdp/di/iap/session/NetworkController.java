@@ -8,7 +8,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -71,7 +73,7 @@ public class NetworkController {
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
-                    msg.obj = error;
+                    msg.obj = new IAPNetworkError(error);
                     requestListener.onError(msg);
                 }
             }

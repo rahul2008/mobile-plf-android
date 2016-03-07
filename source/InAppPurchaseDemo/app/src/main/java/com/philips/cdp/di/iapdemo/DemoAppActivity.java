@@ -2,10 +2,10 @@ package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,10 +16,11 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.activity.IAPActivity;
+import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPHandlerListner;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 import net.hockeyapp.android.CrashManager;
@@ -31,7 +32,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
 
     IAPHandler mIapHandler;
     private EditText mUsername, mPassword;
-    private Button mSubmit;
     private TextView mCountText = null;
 
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
@@ -44,7 +44,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         setContentView(R.layout.demo_app_layout);
         mUsername = (EditText) findViewById(R.id.et_username);
         mPassword = (EditText) findViewById(R.id.et_userpassword);
-        mSubmit = (Button) findViewById(R.id.btn_submit);
+        Button mSubmit = (Button) findViewById(R.id.btn_submit);
         mSubmit.setOnClickListener(this);
         mIapHandler = new IAPHandler();
 
@@ -154,17 +154,19 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     }
 
     @Override
-    public void onAddItemToCart(final String responseStatus) {
-        if (responseStatus != null) {
-            if (responseStatus.equalsIgnoreCase("success")) {
+    public void onAddItemToCart(final Message msg) {
+        if (msg.obj instanceof AddToCartData) {
+            AddToCartData addToCartData = (AddToCartData) msg.obj;
+            if (addToCartData.getStatusCode().equalsIgnoreCase("success")) {
                 mIapHandler.getCartQuantity(this);
-            } else if (responseStatus.equalsIgnoreCase("noStock")) {
+            } else if (addToCartData.getStatusCode().equalsIgnoreCase("noStock")) {
                 Toast.makeText(this, getString(R.string.no_stock), Toast.LENGTH_SHORT).show();
                 Utility.dismissProgressDialog();
-            } else {
-                Toast.makeText(this, responseStatus, Toast.LENGTH_SHORT).show();
-                Utility.dismissProgressDialog();
             }
+        } else if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError)msg.obj;
+            Utility.dismissProgressDialog();
+            Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

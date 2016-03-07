@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -28,6 +27,7 @@ import com.philips.cdp.di.iap.payment.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -127,7 +127,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mAddressFields);
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
-        } else if ((msg.obj instanceof VolleyError)) {
+        } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         } else if ((msg.obj instanceof PaymentMethods)) {
@@ -185,7 +185,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
-        if (msg.obj instanceof VolleyError) {
+        if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         } else {
@@ -199,7 +199,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (msg.obj instanceof Addresses) {
             mAddresses = (Addresses)msg.obj;
             mAddressController.setDeliveryAddress(mAddresses.getId());
-        } else if (msg.obj instanceof VolleyError) {
+        } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));

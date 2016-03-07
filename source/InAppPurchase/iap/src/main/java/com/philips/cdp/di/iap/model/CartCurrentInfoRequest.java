@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.model;
 import android.os.Message;
 
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductDataBuilder;
 import com.philips.cdp.di.iap.response.carts.Carts;
@@ -38,8 +37,6 @@ public class CartCurrentInfoRequest extends AbstractModel {
                         mDataloadListener);
                 builder.build();
             }
-        } else if (msg.obj instanceof VolleyError) {
-            // TODO: 3/4/2016  
         }
     }
 
