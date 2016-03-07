@@ -57,7 +57,6 @@ public abstract class BaseAnimationSupportFragment extends Fragment implements I
         transaction.remove(this);
         transaction.replace(R.id.fl_mainFragmentContainer, newFragment, newFragmentTag);
         transaction.commitAllowingStateLoss();
-
     }
 
     protected void setTitle(int resourceId) {
