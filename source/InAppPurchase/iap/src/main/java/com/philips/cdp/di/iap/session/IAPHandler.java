@@ -15,7 +15,6 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,51 +35,23 @@ public class IAPHandler {
         //We register with app context to avoid any memory leaks
         mContext = context.getApplicationContext();
         HybrisDelegate.getInstance(mContext).initStore(mContext, userName, janRainID);
-        IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == initApp");
         mUserName = userName;
         mPassword = janRainID;
     }
 
-    public void launchIAP(String pStoreID, String pLanguage, String pCountry, int pThemeIndex) {
-        //launching ShowppingCarFragment
+    /*public void launchIAP(String pStoreID, String pLanguage, String pCountry, int pThemeIndex) {
+        //launching ShoppingCart Fragment
         IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == launchIAP");
-    }
-
-    public void addItemtoCart(String productCTN, final IAPHandlerListner iapHandlerListner, final boolean isFromBuyNow) {
-
-        //addToCart
-        IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == addItemtoCart");
-        HashMap<String, String> params = new HashMap<>();
-        params.put(ModelConstants.PRODUCT_CODE, productCTN);
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        CartAddProductRequest model = new CartAddProductRequest(delegate.getStore(), params, null);
-        delegate.sendRequest(RequestCode.ADD_TO_CART, model, new RequestListener() {
-            @Override
-            public void onSuccess(final Message msg) {
-
-                if (isFromBuyNow)
-                    iapHandlerListner.onBuyNow();
-                else
-                    iapHandlerListner.onAddItemToCart(msg);
-            }
-
-            @Override
-            public void onError(final Message msg) {
-                iapHandlerListner.onAddItemToCart(msg);
-            }
-        });
-    }
+    }*/
 
     public void getCartQuantity(final IAPHandlerListner iapHandlerListner) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
         model.setContext(mContext);
 
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                     createCart(iapHandlerListner);
                 } else {
@@ -95,7 +66,6 @@ public class IAPHandler {
                             }
                         }
                         iapHandlerListner.onGetCartQuantity(quantity);
-                        IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == getCartQuantity = " + quantity);
                     }
                 }
             }
@@ -113,28 +83,45 @@ public class IAPHandler {
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-                IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == createCart = onSuccess ");
                 iapHandlerListner.onGetCartQuantity(IAPConstant.IAP_SUCCESS);
             }
 
             @Override
             public void onError(final Message msg) {
-                IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == createCart = onError ");
                 iapHandlerListner.onGetCartQuantity(IAPConstant.IAP_ERROR);
+            }
+        });
+    }
+
+    public void addItemtoCart(String productCTN, final IAPHandlerListner iapHandlerListner, final boolean isFromBuyNow) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.PRODUCT_CODE, productCTN);
+        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+        CartAddProductRequest model = new CartAddProductRequest(delegate.getStore(), params, null);
+        delegate.sendRequest(RequestCode.ADD_TO_CART, model, new RequestListener() {
+            @Override
+            public void onSuccess(final Message msg) {
+                if (isFromBuyNow)
+                    iapHandlerListner.onBuyNow();
+                else
+                    iapHandlerListner.onAddItemToCart(msg);
+            }
+
+            @Override
+            public void onError(final Message msg) {
+                iapHandlerListner.onAddItemToCart(msg);
             }
         });
     }
 
     public void buyNow(final String ctnNumber, final IAPHandlerListner iapHandlerListner) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
         model.setContext(mContext);
 
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
-
                 Carts getCartData = (Carts) msg.obj;
                 if (null != getCartData) {
                     int totalItems = getCartData.getCarts().get(0).getTotalItems();
