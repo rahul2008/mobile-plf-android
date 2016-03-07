@@ -6,16 +6,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.philips.cdp.di.iap.Fragments.ProductDetailImageNavigationFragment;
-import com.philips.cdp.prxclient.prxdatamodels.assets.Asset;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ProductDetailImageAdaptor extends FragmentPagerAdapter {
+public class ImageAdaptor extends FragmentPagerAdapter {
     protected static ArrayList<String> mAssetsFromPRX;
     private Context mContext;
 
-    public ProductDetailImageAdaptor(FragmentManager fm, Context context) {
+    public ImageAdaptor(FragmentManager fm, Context context) {
         super(fm);
         mContext = context;
         mAssetsFromPRX = new ArrayList<>();
@@ -37,6 +35,6 @@ public class ProductDetailImageAdaptor extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return ProductDetailImageAdaptor.mAssetsFromPRX.get(position % mAssetsFromPRX.size());
+        return ImageAdaptor.mAssetsFromPRX.get(position % mAssetsFromPRX.size());
     }
 }

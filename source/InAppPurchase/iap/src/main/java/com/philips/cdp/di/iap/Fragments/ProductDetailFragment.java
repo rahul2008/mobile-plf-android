@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
-import com.philips.cdp.di.iap.adapters.ProductDetailImageAdaptor;
+import com.philips.cdp.di.iap.adapters.ImageAdaptor;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -28,7 +28,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     TextView mPrice;
     TextView mProductOverview;
     ArrayList<String> mAsset;
-    ProductDetailImageAdaptor mAdapter;
+    ImageAdaptor mAdapter;
     ViewPager mPager;
     Bundle mBundle;
 
@@ -52,7 +52,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mBundle = getArguments();
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mAdapter = new ProductDetailImageAdaptor(getFragmentManager(), getContext());
+        mAdapter = new ImageAdaptor(getFragmentManager(), getContext());
         mPager.setAdapter(mAdapter);
 
         final CircleIndicator mIndicator = (CircleIndicator) rootView.findViewById(R.id.indicator);

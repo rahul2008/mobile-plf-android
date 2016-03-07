@@ -14,19 +14,19 @@ import com.android.volley.toolbox.ImageLoader;
 
 /**
  * Custom implementation of Volley Request Queue
- */
-public class NetworkImageLoader {
+        */
+        public class NetworkImageLoader {
 
-    private static NetworkImageLoader mInstance;
-    private static Context mCtx;
-    private RequestQueue mRequestQueue;
-    private ImageLoader mImageLoader;
-    private LruCache<String, Bitmap> mMemoryCache;
+            private static NetworkImageLoader mInstance;
+            private static Context mCtx;
+            private RequestQueue mRequestQueue;
+            private ImageLoader mImageLoader;
+            private LruCache<String, Bitmap> mMemoryCache;
 
 
-    private NetworkImageLoader(Context context) {
-        mCtx = context;
-        mRequestQueue = getRequestQueue();
+            private NetworkImageLoader(Context context) {
+                mCtx = context;
+                mRequestQueue = getRequestQueue();
 
         // Get max available VM memory, exceeding this amount will throw an
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an

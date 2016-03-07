@@ -16,15 +16,13 @@ Revision History: version 1:
 
 package com.philips.cdp.di.iap.utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
-import com.philips.cdp.di.iap.Fragments.ModalAlertDemoFragment;
+import com.philips.cdp.di.iap.Fragments.ErrorDialogFragment;
 
 /**
  * @author Vinayak Udikeri
@@ -32,7 +30,7 @@ import com.philips.cdp.di.iap.Fragments.ModalAlertDemoFragment;
 public class NetworkUtility {
 
     private static NetworkUtility mNetworkUtility;
-    private static ModalAlertDemoFragment mModalAlertDemoFragment;
+    private static ErrorDialogFragment mModalAlertDemoFragment;
 
     private boolean isOnline;
 
@@ -40,7 +38,7 @@ public class NetworkUtility {
         synchronized (NetworkUtility.class) {
             if (mNetworkUtility == null) {
                 mNetworkUtility = new NetworkUtility();
-                mModalAlertDemoFragment = new ModalAlertDemoFragment();
+                mModalAlertDemoFragment = new ErrorDialogFragment();
             }
         }
         return mNetworkUtility;

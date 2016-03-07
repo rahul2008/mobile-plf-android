@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.ShoppingCart;
 import android.content.Context;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.RequestManager;
@@ -79,7 +78,7 @@ public class PRXProductAssetBuilder {
         }
     }
 
-    public ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
+    private ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
         ArrayList<String> mAssetsFromPRX = new ArrayList<>();
 
         for (Asset asset : assets

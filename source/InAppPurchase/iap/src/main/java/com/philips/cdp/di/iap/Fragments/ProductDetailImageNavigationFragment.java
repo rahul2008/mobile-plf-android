@@ -17,14 +17,14 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public final class ProductDetailImageNavigationFragment extends Fragment {
-    private String message = "???";
-    Context mContext;
-    ImageLoader mImageLoader;
-    NetworkImageView mImageView;
+    private String imageURL = "???";
+    private Context mContext;
+    private ImageLoader mImageLoader;
+    private NetworkImageView mImageView;
 
     public static ProductDetailImageNavigationFragment newInstance(String message, Context context) {
         ProductDetailImageNavigationFragment fragment = new ProductDetailImageNavigationFragment();
-        fragment.message = message;
+        fragment.imageURL = message;
         fragment.mContext = context;
         return fragment;
     }
@@ -33,7 +33,7 @@ public final class ProductDetailImageNavigationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if ((savedInstanceState != null) && savedInstanceState.containsKey(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL)) {
-            message = savedInstanceState.getString(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL);
+            imageURL = savedInstanceState.getString(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL);
         }
     }
 
@@ -54,10 +54,10 @@ public final class ProductDetailImageNavigationFragment extends Fragment {
         mImageLoader = NetworkImageLoader.getInstance(mContext)
                 .getImageLoader();
 
-        mImageLoader.get(message, ImageLoader.getImageListener(mImageView,
+        mImageLoader.get(imageURL, ImageLoader.getImageListener(mImageView,
                 R.drawable.toothbrush, android.R.drawable
                         .ic_dialog_alert));
-        mImageView.setImageUrl(message, mImageLoader);
+        mImageView.setImageUrl(imageURL, mImageLoader);
 
         mImageView.setImageResource(R.drawable.toothbrush);
     }
@@ -65,6 +65,6 @@ public final class ProductDetailImageNavigationFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL, message);
+        outState.putString(IAPConstant.PRODUCT_DETAIL_FRAGMENT_IMAGE_URL, imageURL);
     }
 }
