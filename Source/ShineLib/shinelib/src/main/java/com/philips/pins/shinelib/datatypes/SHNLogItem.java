@@ -12,9 +12,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by 310188215 on 07/05/15.
- */
 public class SHNLogItem {
 
     @NonNull
