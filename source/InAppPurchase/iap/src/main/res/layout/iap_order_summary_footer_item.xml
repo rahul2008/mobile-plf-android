@@ -151,7 +151,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
-                android:text="-1600"/>
+                android:text="0.0"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -192,7 +192,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
-                android:text="1299"/>
+                android:text="0.0"/>
         </RelativeLayout>
 
 
@@ -210,7 +210,7 @@
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
                 android:includeFontPadding="false"
-                android:text="Total(3 Items)"/>
+                android:text="Total(0 Items)"/>
 
             <TextView
                 android:id="@+id/tv_total_price"
@@ -218,7 +218,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
-                android:text="8500"/>
+                android:text="0.0"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -83,7 +83,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mPaymentCardName.setText(mPaymentMethod.getCardNumber());
                 footerHolder.mPaymentCardHolderName.setText(mPaymentMethod.getAccountHolderName());
             }
-            if (null != cartData) {
+            if (null != cartData && null != cartData.getDeliveryCost()) {
                 footerHolder.mDeliveryPrice.setText(cartData.getDeliveryCost().getFormattedValue());
                 footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + cartData.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
                 footerHolder.mTotalPrice.setText(String.valueOf(cartData.getTotalPriceWithTax()));
