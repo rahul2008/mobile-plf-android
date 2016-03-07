@@ -100,13 +100,12 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         return bundle;
     }
 
-    private Bundle createErrorBundle() {
-        Bundle bundle = new Bundle();
-        return bundle;
-    }
-
     private void launchConfirmationScreen(Bundle bundle) {
         replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+    }
+
+    private void goBackToOrderSummary() {
+        getFragmentManager().popBackStack();
     }
 
     private class PaymentWebViewClient extends WebViewClient {
@@ -121,11 +120,11 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
             if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
                 launchConfirmationScreen(createSuccessBundle(url));
             } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
-                launchConfirmationScreen(createSuccessBundle(null));
+                goBackToOrderSummary();
             } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
-                launchConfirmationScreen(createSuccessBundle(null));
+                goBackToOrderSummary();
             } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
-                launchConfirmationScreen(createSuccessBundle(null));
+                goBackToOrderSummary();
             } else {
                 match = false;
             }
