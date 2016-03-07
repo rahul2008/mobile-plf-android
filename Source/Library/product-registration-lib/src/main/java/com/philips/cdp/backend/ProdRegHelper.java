@@ -31,6 +31,11 @@ public class ProdRegHelper {
     private String requestType;
     private String locale;
 
+    /**
+     * <b> Helper class used to process product registration backend calls</b>
+     *
+     * @param context - Context of an Activity
+     */
     public ProdRegHelper(Context context) {
         this.mContext = context;
     }
@@ -38,12 +43,7 @@ public class ProdRegHelper {
     public void cancelRequest(String requestTag) {
     }
 
-    public void registerProduct(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
-        requestType = ProdRegConstants.PRODUCT_REGISTRATION;
-        processMetadata(context, prxRequest, listener);
-    }
-
-    protected void processMetadata(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
+    private void processMetadata(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
         RegistrationRequest registrationRequest = (RegistrationRequest) prxRequest;
         ProductMetaRequest productMetaDataBuilder = getProductMetaDataBuilder(registrationRequest);
         RequestManager mRequestManager = getRequestManager(context);
@@ -173,12 +173,6 @@ public class ProdRegHelper {
         }, mContext);
     }
 
-    public void getRegisteredProduct(final Context context, PrxRequest prxRequest, final ResponseListener listener) {
-        requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
-        RequestManager requestManager = getRequestManager(context);
-        requestManager.executeRequest(prxRequest, getLocalResponseListener(prxRequest, listener));
-    }
-
     private void validateRequests(final Context mContext, final PrxRequest prxRequest, final ResponseListener listener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
@@ -195,5 +189,31 @@ public class ProdRegHelper {
     public void setLocale(final String language, final String countryCode) {
         this.locale = language + "_" + countryCode;
     }
+
+    /**
+     * <b> API to register product</b>
+     *
+     * @param context    - Context of an activity
+     * @param prxRequest - PRX Request object
+     * @param listener   - Callback listener
+     */
+    public void registerProduct(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
+        requestType = ProdRegConstants.PRODUCT_REGISTRATION;
+        processMetadata(context, prxRequest, listener);
+    }
+
+    /**
+     * <b> API to get registered products</b>
+     *
+     * @param context    - Context of an activity
+     * @param prxRequest - PRX Request object
+     * @param listener   - Callback listener
+     */
+    public void getRegisteredProduct(final Context context, PrxRequest prxRequest, final ResponseListener listener) {
+        requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
+        RequestManager requestManager = getRequestManager(context);
+        requestManager.executeRequest(prxRequest, getLocalResponseListener(prxRequest, listener));
+    }
+
 
 }
