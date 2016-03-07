@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
@@ -17,6 +16,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.payment.PaymentController;
+import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
@@ -111,7 +111,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
-        } else if (msg.obj instanceof VolleyError) {
+        } else if (msg.obj instanceof ServerError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
@@ -123,7 +123,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             PlaceOrder order = (PlaceOrder) msg.obj;
             String orderID = order.getCode();
             mPaymentController.makPayment(orderID);
-        } else if (msg.obj instanceof VolleyError) {
+        } else if (msg.obj instanceof ServerError) {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));

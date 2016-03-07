@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -28,6 +27,7 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.payment.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
+import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.NetworkConstants;
@@ -136,7 +136,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
-        if(msg.obj instanceof VolleyError){
+        if(msg.obj instanceof ServerError){
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
                     getString(R.string.iap_ok), getString(R.string.iap_time_out),
                     getString(R.string.iap_time_out_description));
@@ -307,7 +307,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
             bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, selectedAddress);
             addFragment(
                     BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
-        } else if ((msg.obj instanceof VolleyError)) {
+        } else if ((msg.obj instanceof ServerError)) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = prepareAddressFields(retrieveSelectedAddress());

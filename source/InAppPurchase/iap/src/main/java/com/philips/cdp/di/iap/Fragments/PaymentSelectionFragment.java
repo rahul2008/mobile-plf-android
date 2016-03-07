@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.payment.PaymentController;
 import com.philips.cdp.di.iap.payment.PaymentMethodsAdapter;
+import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -136,7 +136,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
     @Override
     public void onSetPaymentDetails(Message msg) {
         Utility.dismissProgressDialog();
-        if (msg.obj instanceof VolleyError) {
+        if (msg.obj instanceof ServerError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         } else {
