@@ -107,7 +107,6 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     @Override
     public void onFetchAssetSuccess(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
-        Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_SHORT).show();
         mAsset = (ArrayList<String>)msg.obj;
         mAdapter.setAsset(mAsset);
         mPager.setAdapter(mAdapter);
