@@ -16,7 +16,7 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.response.error.ServerError;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -160,7 +160,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
-        if (msg.obj instanceof ServerError) {
+        if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
         } else {
