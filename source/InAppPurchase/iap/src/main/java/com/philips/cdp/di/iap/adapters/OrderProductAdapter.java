@@ -101,7 +101,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String price = cartData.getTotalPriceFormatedPrice();
             //String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
 
-            //orderProductHolder.mTvtotalPrice.setText(cartData.getCurrency() + " " + price);
+            orderProductHolder.mTvtotalPrice.setText(price);
             orderProductHolder.mTvtotalPrice.setTypeface(null, Typeface.BOLD);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
         }
