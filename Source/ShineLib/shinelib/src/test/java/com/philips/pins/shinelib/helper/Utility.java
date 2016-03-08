@@ -11,9 +11,8 @@ public class Utility {
         return mock(clazz, new Answer<Object>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                throw new RuntimeException("Function not stubbed");
+                throw new RuntimeException("Function not stubbed with doReturn(..).when(" + clazz.getSimpleName() + ")." + invocation.getMethod().getName() + "();");
             }
         });
     }
-
 }
