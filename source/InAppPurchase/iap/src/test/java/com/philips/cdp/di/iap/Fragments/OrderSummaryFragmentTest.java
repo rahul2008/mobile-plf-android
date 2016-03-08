@@ -15,8 +15,9 @@ import org.mockito.Mockito;
  * All rights reserved.
  */
 public class OrderSummaryFragmentTest extends TestCase {
+
     @Test
-    public void testDoNotCallSetTitleOrLeftMenuInOnCreate() {
+    public void testDoNotCallSetTitleInOnCreate() {
         Bundle mockBundle = Mockito.mock(Bundle.class);
         OrderSummaryFragment fragment = OrderSummaryFragment
                 .createInstance(mockBundle, BaseAnimationSupportFragment.AnimationType.NONE);
