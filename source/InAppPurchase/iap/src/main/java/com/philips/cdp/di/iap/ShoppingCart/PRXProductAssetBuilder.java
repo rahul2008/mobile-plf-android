@@ -47,7 +47,7 @@ public class PRXProductAssetBuilder {
         executeRequest(prepareAssetBuilder(mCTN));
     }
 
-    private void executeRequest(final ProductAssetBuilder productAssetBuilder) {
+    public void executeRequest(final ProductAssetBuilder productAssetBuilder) {
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(mContext);
         mRequestManager.executeRequest(productAssetBuilder, new ResponseListener() {
