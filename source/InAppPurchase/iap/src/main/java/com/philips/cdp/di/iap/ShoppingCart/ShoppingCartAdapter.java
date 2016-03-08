@@ -118,9 +118,9 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
 
                 holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
-                String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
+                //String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
 
-                holder.price.setText(cartData.getCurrency() + " " + price);
+                holder.price.setText(cartData.getTotalPriceFormatedPrice());
                 holder.price.setTypeface(null, Typeface.BOLD);
                 holder.valueOption.setText(cartData.getQuantity() + "");
 
@@ -180,8 +180,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         holder.description.setTypeface(null, Typeface.BOLD);
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
-                        String totalprice = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(data.getTotalPriceWithTax());
-                        holder.totoalcost.setText(data.getCurrency() + " " + totalprice);
+                       // String totalprice = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(data.getTotalPriceWithTax());
+                        holder.totoalcost.setText(data.getTotalPriceWithTaxFormatedPrice());
                         holder.totoalcost.setTypeface(null, Typeface.BOLD);
                     }
                 }

@@ -7,12 +7,13 @@ import java.util.List;
  * All rights reserved.
  */
 public class ProductEntity {
-
     private boolean availableForPickup;
     private String code;
-    private String name;
+
+    private DiscountPriceEntity discountPrice;
     private boolean purchasable;
-    private Stock stock;
+
+    private StockEntity stock;
     private String url;
 
     private List<CategoriesEntity> categories;
@@ -25,15 +26,15 @@ public class ProductEntity {
         return code;
     }
 
-    public String getName() {
-        return name;
+    public DiscountPriceEntity getDiscountPrice() {
+        return discountPrice;
     }
 
     public boolean isPurchasable() {
         return purchasable;
     }
 
-    public Stock getStock() {
+    public StockEntity getStock() {
         return stock;
     }
 

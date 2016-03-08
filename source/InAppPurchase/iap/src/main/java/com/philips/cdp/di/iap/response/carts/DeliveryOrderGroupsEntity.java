@@ -6,13 +6,13 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class DeliveryOrderGroupsEntity {
+class DeliveryOrderGroupsEntity {
 
-    private Price totalPriceWithTax;
+    private TotalPriceWithTaxEntity totalPriceWithTax;
 
     private List<EntriesEntity> entries;
 
-    public Price getTotalPriceWithTax() {
+    public TotalPriceWithTaxEntity getTotalPriceWithTax() {
         return totalPriceWithTax;
     }
 
@@ -20,3 +20,4 @@ public class DeliveryOrderGroupsEntity {
         return entries;
     }
 }
+

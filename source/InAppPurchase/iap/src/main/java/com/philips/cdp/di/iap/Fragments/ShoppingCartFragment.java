@@ -152,8 +152,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
         bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
-        bundle.putString(IAPConstant.PRODUCT_CURRENCY,shoppingCartData.getCurrency());
-        bundle.putString(IAPConstant.PRODUCT_PRICE, NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(shoppingCartData.getTotalPrice()));
+        bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormatedPrice());
         bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), null);
     }

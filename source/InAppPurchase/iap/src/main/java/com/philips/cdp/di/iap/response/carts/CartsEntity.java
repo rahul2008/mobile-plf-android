@@ -7,32 +7,40 @@ import java.util.List;
  * All rights reserved.
  */
 public class CartsEntity {
-
-    private String code;
-    private String guid;
-    private int totalItems;
-    private Price totalPrice;
-    private Price totalPriceWithTax;
-    private List<EntriesEntity> entries;
-
     private boolean calculated;
+    private String code;
+
+    private DeliveryAddressEntity deliveryAddress;
+
+    private DeliveryCostEntity deliveryCost;
     private int deliveryItemsQuantity;
+
+    private DeliveryModeEntity deliveryMode;
+    private String guid;
     private boolean net;
+
     private OrderDiscountsEntity orderDiscounts;
     private int pickupItemsQuantity;
+
     private ProductDiscountsEntity productDiscounts;
     private String site;
     private String store;
+
     private SubTotalEntity subTotal;
+
     private TotalDiscountsEntity totalDiscounts;
+    private int totalItems;
+
+    private TotalPriceEntity totalPrice;
+
+    private TotalPriceWithTaxEntity totalPriceWithTax;
+
     private TotalTaxEntity totalTax;
     private int totalUnitCount;
-    private List<DeliveryOrderGroupsEntity> deliveryOrderGroups;
-    private DeliveryCostEntity deliveryCost;
 
-    public DeliveryCostEntity getDeliveryCost() {
-        return deliveryCost;
-    }
+    private List<DeliveryOrderGroupsEntity> deliveryOrderGroups;
+
+    private List<EntriesEntity> entries;
 
     public boolean isCalculated() {
         return calculated;
@@ -42,8 +50,20 @@ public class CartsEntity {
         return code;
     }
 
+    public DeliveryAddressEntity getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public DeliveryCostEntity getDeliveryCost() {
+        return deliveryCost;
+    }
+
     public int getDeliveryItemsQuantity() {
         return deliveryItemsQuantity;
+    }
+
+    public DeliveryModeEntity getDeliveryMode() {
+        return deliveryMode;
     }
 
     public String getGuid() {
@@ -86,11 +106,11 @@ public class CartsEntity {
         return totalItems;
     }
 
-    public Price getTotalPrice() {
+    public TotalPriceEntity getTotalPrice() {
         return totalPrice;
     }
 
-    public Price getTotalPriceWithTax() {
+    public TotalPriceWithTaxEntity getTotalPriceWithTax() {
         return totalPriceWithTax;
     }
 

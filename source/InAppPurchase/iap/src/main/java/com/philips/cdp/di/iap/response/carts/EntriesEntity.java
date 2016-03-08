@@ -1,16 +1,20 @@
 package com.philips.cdp.di.iap.response.carts;
 
+import java.util.List;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 public class EntriesEntity {
 
+    private BasePriceEntity basePrice;
     private int entryNumber;
+
     private ProductEntity product;
     private int quantity;
-    private Price totalPrice;
-    private BasePriceEntity basePrice;
+
+    private TotalPriceEntity totalPrice;
     private boolean updateable;
 
     public BasePriceEntity getBasePrice() {
@@ -29,13 +33,11 @@ public class EntriesEntity {
         return quantity;
     }
 
-    public Price getTotalPrice() {
+    public TotalPriceEntity getTotalPrice() {
         return totalPrice;
     }
 
     public boolean isUpdateable() {
         return updateable;
     }
-
-
 }

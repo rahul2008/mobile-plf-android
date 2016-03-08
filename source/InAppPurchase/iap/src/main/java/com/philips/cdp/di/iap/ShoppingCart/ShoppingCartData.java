@@ -15,13 +15,15 @@ public class ShoppingCartData {
     private String mProductTitle;
     private String mImageURL;
     private int mQuantity;
-    private double mPrice;
-    private String mCurrency;
+
     private int mTotalItems;
     private int mEntryNumber;
     private String mCartNumber;
     private int mStockLevel;
     private DeliveryCostEntity mDeliveryCost;
+    private String mTotalPriceFormatedPrice ;
+    private String mTotalPriceWithTaxFormatedPrice;
+    private String mFormatedPrice;
 
     public String getMarketingTextHeader() {
         return mMarketingTextHeader;
@@ -33,15 +35,6 @@ public class ShoppingCartData {
 
     private String mMarketingTextHeader;
 
-    public double getTotalPriceWithTax() {
-        return mTotalPriceWithTax;
-    }
-
-    public void setTotalPriceWithTax(final double mTotalPriceWithTax) {
-        this.mTotalPriceWithTax = mTotalPriceWithTax;
-    }
-
-    private double mTotalPriceWithTax;
 
     public ShoppingCartData() {
     }
@@ -104,22 +97,6 @@ public class ShoppingCartData {
         return mQuantity;
     }
 
-    public void setTotalPrice(double price) {
-        mPrice = price;
-    }
-
-    public double getTotalPrice() {
-        return mPrice;
-    }
-
-    public void setCurrency(String currency) {
-        mCurrency = currency;
-    }
-
-    public String getCurrency() {
-        return mCurrency;
-    }
-
     public void setTotalItems(int totalItems) {
         mTotalItems = totalItems;
     }
@@ -143,11 +120,35 @@ public class ShoppingCartData {
                 "Product title =" + mProductTitle +
                 "Image URL =" + mImageURL +
                 "Quantity = " + mQuantity +
-                "Price = " + mPrice +
-                "Currnecy =" + mCurrency +
                 "Total Item" + mTotalItems +
                 "EntryNumber =" + mEntryNumber +
                 "CartNumber =" + mCartNumber +
                 "StockLevel" + mStockLevel;
+    }
+
+
+
+    public String getTotalPriceWithTaxFormatedPrice() {
+        return mTotalPriceWithTaxFormatedPrice;
+    }
+
+    public void setTotalPriceWithTaxFormatedPrice(String mTotalPriceWithTaxFormatedPrice) {
+        this.mTotalPriceWithTaxFormatedPrice = mTotalPriceWithTaxFormatedPrice;
+    }
+
+    public String getFormatedPrice() {
+        return mFormatedPrice;
+    }
+
+    public void setFormatedPrice(String mFormatedPrice) {
+        this.mFormatedPrice = mFormatedPrice;
+    }
+
+    public String getTotalPriceFormatedPrice() {
+        return mTotalPriceFormatedPrice;
+    }
+
+    public void setTotalPriceFormatedPrice(String mTotalPriceFormatedPrice) {
+        this.mTotalPriceFormatedPrice = mTotalPriceFormatedPrice;
     }
 }

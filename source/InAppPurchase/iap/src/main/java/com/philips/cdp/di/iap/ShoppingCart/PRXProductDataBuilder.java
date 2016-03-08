@@ -76,9 +76,9 @@ public class PRXProductDataBuilder {
         cartItem.setCtnNumber(code);
         cartItem.setCartNumber(mCartData.getCarts().get(0).getCode());
         cartItem.setQuantity(entry.getQuantity());
-        cartItem.setTotalPrice(entry.getTotalPrice().getValue());
-        cartItem.setCurrency(entry.getTotalPrice().getCurrencyIso());
-        cartItem.setTotalPriceWithTax(mCartData.getCarts().get(0).getTotalPriceWithTax().getValue());
+        cartItem.setFormatedPrice(entry.getBasePrice().getFormattedValue());
+        cartItem.setTotalPriceWithTaxFormatedPrice(mCartData.getCarts().get(0).getTotalPriceWithTax().getFormattedValue());
+        cartItem.setTotalPriceFormatedPrice(entry.getTotalPrice().getFormattedValue());
         cartItem.setTotalItems(mCartData.getCarts().get(0).getTotalItems());
         cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
         addWithNotify(cartItem);

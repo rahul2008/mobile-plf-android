@@ -4,7 +4,8 @@ package com.philips.cdp.di.iap.response.carts;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TotalTaxEntity {
+
+ public class TotalTaxEntity {
     private String currencyIso;
     private String formattedValue;
     private String priceType;
@@ -26,3 +27,4 @@ public class TotalTaxEntity {
         return value;
     }
 }
+

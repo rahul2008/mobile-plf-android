@@ -4,15 +4,16 @@ package com.philips.cdp.di.iap.response.carts;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class CategoriesEntity {
+public class DeliveryModeEntity {
     private String code;
-    private String url;
+
+    private DeliveryCostEntity deliveryCost;
 
     public String getCode() {
         return code;
     }
 
-    public String getUrl() {
-        return url;
+    public DeliveryCostEntity getDeliveryCost() {
+        return deliveryCost;
     }
 }

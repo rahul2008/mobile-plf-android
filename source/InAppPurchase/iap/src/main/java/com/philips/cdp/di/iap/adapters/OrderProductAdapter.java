@@ -87,7 +87,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
             footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-            footerHolder.mTotalPrice.setText(String.valueOf(getLastValidItem().getTotalPriceWithTax()));
+            //footerHolder.mTotalPrice.setText(String.valueOf(getLastValidItem().getTotalPriceWithTax()));
+            footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
             IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Size of ShoppingCarData is " + String.valueOf(getActualCount()));
@@ -97,9 +98,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .getImageLoader();
             orderProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
             orderProductHolder.mTvProductName.setText(cartData.getProductTitle());
-            String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
+            String price = cartData.getTotalPriceFormatedPrice();
+            //String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
 
-            orderProductHolder.mTvtotalPrice.setText(cartData.getCurrency() + " " + price);
+            orderProductHolder.mTvtotalPrice.setText(price);
             orderProductHolder.mTvtotalPrice.setTypeface(null, Typeface.BOLD);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
         }
