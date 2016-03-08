@@ -87,5 +87,6 @@
     <string name="iap_thank_for_order">Thank you for your order</string>
     <string name="iap_your_order_number">Your order number is</string>
     <string name="iap_confirmation_email_msg">You will receive a confirmation e-mail shortly at %s</string>
+    <string name="iap_get_image_url">getting images from server</string>
 
 </resources>

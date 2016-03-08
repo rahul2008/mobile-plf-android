@@ -16,6 +16,8 @@ import com.philips.cdp.di.iap.adapters.ImageAdaptor;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 
 import java.util.ArrayList;
@@ -71,15 +73,22 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private void populateViewFromBundle() {
         mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
         mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
-        mPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
+        mPrice.setText(mBundle.getString(IAPConstant.PRODUCT_CURRENCY) + " " + mBundle.getString(IAPConstant.PRODUCT_PRICE));
         mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
     }
 
     private void makeAssetRequest() {
-        String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
-        PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn,
-                this);
-        builder.build();
+        if(Utility.isInternetConnected(getContext())) {
+            if(!Utility.isProgressDialogShowing()) {
+                Utility.showProgressDialog(getContext(),getString(R.string.iap_get_image_url));
+                String ctn = mBundle.getString(IAPConstant.PRODUCT_CTN);
+                PRXProductAssetBuilder builder = new PRXProductAssetBuilder(mContext, ctn,
+                        this);
+                builder.build();
+            }
+        }else{
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),getString(R.string.iap_ok),getString(R.string.iap_network_error),getString(R.string.iap_check_connection));
+        }
     }
 
     @Override
@@ -111,11 +120,16 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         mAdapter.setAsset(mAsset);
         mPager.setAdapter(mAdapter);
         mPager.invalidate();
+        if(Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
     }
 
     @Override
     public void onFetchAssetFailure(final Message msg) {
-        IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT,"Failure");
-        Toast.makeText(getContext(),"FAILURE",Toast.LENGTH_SHORT).show();
+        IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
+        //Toast.makeText(getContext(),"FAILURE",Toast.LENGTH_SHORT).show();
+        if(Utility.isProgressDialogShowing())
+            Utility.dismissProgressDialog();
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),getString(R.string.iap_ok),getString(R.string.iap_time_out),getString(R.string.iap_time_out_description));
     }
 }
