@@ -9,15 +9,15 @@
     <RelativeLayout android:id="@+id/detail_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:paddingRight="12dp"
-                    android:paddingLeft="12dp"
         >
 
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
-        android:layout_height="198dp"
+        android:layout_height="@dimen/iap_image_height"
+        android:paddingBottom="@dimen/iap_image_bottom_margin"
+        android:layout_marginTop="@dimen/iap_image_top_margin"
         />
 
     <com.philips.cdp.uikit.customviews.CircleIndicator
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:padding="10dp"
+        android:padding="@dimen/iap_dots_padding"
         android:layout_below="@id/pager"
         />
 
@@ -34,11 +34,13 @@
               android:layout_height="wrap_content"
               android:id="@+id/product_description"
               android:layout_below="@id/indicator"
-              android:paddingTop="10dp"
-              android:paddingBottom="10dp"
+              android:paddingTop="@dimen/iap_product_detail_top_padding"
+              android:paddingBottom="@dimen/iap_product_detail_bottom_padding"
+              android:layout_marginLeft="@dimen/iap_product_detail_left_padding"
+              android:layout_marginRight="@dimen/iap_product_detail_right_padding"
               fontPath="fonts/centralesansbold.ttf"
               android:text="Philips Sonicare DiamondClean Sonic electric toothbrush"
-              android:textSize="24sp"
+              android:textSize="@dimen/iap_product_description"
               android:textColor="?attr/baseColor"
         />
 
@@ -47,11 +49,13 @@
               android:id="@+id/ctn"
               android:layout_alignParentLeft="true"
               android:layout_below="@id/product_description"
-              android:paddingBottom="10dp"
+              android:paddingBottom="@dimen/iap_product_detail_top_padding"
+              android:paddingRight="@dimen/iap_product_detail_right_padding"
               android:text="HX9332/05"
               android:textColor="@color/uikit_enricher4"
               fontPath="fonts/centralesansbold.ttf"
-              android:textSize="20sp"
+              android:textSize="@dimen/iap_product_ctn"
+              android:layout_marginLeft="@dimen/iap_product_detail_left_padding"
         />
 
     <TextView android:layout_width="wrap_content"
@@ -59,11 +63,12 @@
               android:id="@+id/individual_price"
               android:layout_alignParentRight="true"
               android:layout_below="@id/product_description"
-              android:paddingBottom="10dp"
+              android:paddingBottom="@dimen/iap_product_detail_top_padding"
               android:text="€14.99"
               fontPath="fonts/centralesansbold.ttf"
-              android:textSize="20sp"
+              android:textSize="@dimen/iap_product_ctn"
               android:textColor="?attr/baseColor"
+              android:layout_marginRight="@dimen/iap_product_detail_right_padding"
         />
 
     <TextView android:layout_width="fill_parent"
@@ -71,10 +76,11 @@
               android:id="@+id/product_overview"
               android:layout_below="@id/ctn"
               fontPath="fonts/centralesansbook.ttf"
-              android:textSize="16sp"
+              android:textSize="@dimen/iap_product_overview"
               android:textColor="?attr/baseColor"
               android:text="Sonicare's best whitening in our most elegant Philips Sonicare electric toothbrush. Switch to Sonicare.- Removes up to 7X more plaque.32w"
-              android:paddingBottom="5dp"
+              android:layout_marginLeft="@dimen/iap_product_detail_left_padding"
+              android:layout_marginRight="@dimen/iap_product_detail_right_padding"
         />
 </RelativeLayout>
     </ScrollView>

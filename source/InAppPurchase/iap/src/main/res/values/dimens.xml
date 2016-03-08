@@ -51,4 +51,17 @@
     <dimen name="iap_divider_height">1dp</dimen>
 
     <dimen name="iap_order_summary_margin_left">32dp</dimen>
+
+    <!-- Product Detail Dimens-->
+    <dimen name="iap_image_height">223dp</dimen>
+    <dimen name="iap_image_bottom_margin">12dp</dimen>
+    <dimen name="iap_image_top_margin">4dp</dimen>
+    <dimen name="iap_dots_padding">10dp</dimen>
+    <dimen name="iap_product_detail_top_padding">33dp</dimen>
+    <dimen name="iap_product_detail_bottom_padding">20dp</dimen>
+    <dimen name="iap_product_detail_left_padding">20dp</dimen>
+    <dimen name="iap_product_detail_right_padding">20dp</dimen>
+    <dimen name="iap_product_description">24sp</dimen>
+    <dimen name="iap_product_ctn">20sp</dimen>
+    <dimen name="iap_product_overview">16sp</dimen>
 </resources>
