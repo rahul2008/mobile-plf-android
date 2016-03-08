@@ -6,13 +6,14 @@
 package com.philips.cdp.dicommclient.port.common;
 
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
-import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
+import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 
+import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DevicePortTest extends MockitoTestCase {
+public class DevicePortTest extends RobolectricTest {
 
     @Mock
     private CommunicationStrategy communicationStrategyMock;
@@ -37,6 +38,7 @@ public class DevicePortTest extends MockitoTestCase {
         devicePort = new DevicePort(null, communicationStrategyMock);
     }
 
+    @Test
     public void test_ShouldReturnFalse_WhenIsResponseForThisPortIsCalledWithIncorrectData() throws Exception {
         assertThat(devicePort.isResponseForThisPort(null)).isFalse();
         assertThat(devicePort.isResponseForThisPort("")).isFalse();
@@ -45,10 +47,12 @@ public class DevicePortTest extends MockitoTestCase {
         assertThat(devicePort.isResponseForThisPort(validJson_incorrectContent)).isFalse();
     }
 
+    @Test
     public void test_ShouldReturnTrue_WhenIsResponseForThisPortIsCalledWithValidData() throws Exception {
         assertThat(devicePort.isResponseForThisPort(validData)).isTrue();
     }
 
+    @Test
     public void test_ShouldReturnNull_WhenProcessResponse_WithInvalidData() throws Exception {
         devicePort.processResponse(invalidJson);
         DevicePortProperties properties = devicePort.getPortProperties();
@@ -56,6 +60,7 @@ public class DevicePortTest extends MockitoTestCase {
         assertThat(properties).isNull();
     }
 
+    @Test
     public void test_ShouldReturnProperties_WhenProcessResponse_WithInvalidData() throws Exception {
         devicePort.processResponse(validData);
         DevicePortProperties properties = devicePort.getPortProperties();

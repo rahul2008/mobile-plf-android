@@ -5,26 +5,37 @@
 
 package com.philips.cdp.dicommclient.security;
 
+import android.annotation.SuppressLint;
+
+import com.philips.cdp.dicommclient.testutil.RobolectricTest;
+
+import org.junit.Test;
+
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
-import com.philips.cdp.dicommclient.security.ByteUtil;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
-import junit.framework.TestCase;
-import android.annotation.SuppressLint;
-
-public class ByteUtilTest extends TestCase {
+public class ByteUtilTest extends RobolectricTest {
 
     private String key = "173B7E0A9A54CB3E96A70237F6974940";
     public final static String DEVICE_ID = "deviceId";
     public final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
     String data = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
 
+    @Test
     public void testRandom() {
         assertNotSame(ByteUtil.generateRandomNum(), ByteUtil.generateRandomNum());
     }
 
     @SuppressLint("DefaultLocale")
+    @Test
     public void testByteToHex() {
         String testStr = new String("01144add4445aaa839812cccad").toUpperCase();
         String result = ByteUtil.bytesToCapitalizedHex(ByteUtil.hexToBytes(testStr));
@@ -35,6 +46,7 @@ public class ByteUtilTest extends TestCase {
         assertEquals(key, result2);
     }
 
+    @Test
     public void testBase64() {
         byte[] testData = new String(
                 "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2YgdGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGludWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRoZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=")
@@ -63,6 +75,7 @@ public class ByteUtilTest extends TestCase {
         assertTrue(Arrays.equals(testData2, result2));
     }
 
+    @Test
     public void testGetRandomBytes() {
         byte[] byteArr1 = ByteUtil.getRandomByteArray(2);
         byte[] byteArr2 = ByteUtil.getRandomByteArray(2);
@@ -71,6 +84,7 @@ public class ByteUtilTest extends TestCase {
         assertFalse(byteArr1[1] == byteArr2[1]);
     }
 
+    @Test
     public void testAddRandomBytesCaseOne() {
         String testStr = "Hello Security";
         byte[] testBytes = testStr.getBytes();
@@ -78,18 +92,21 @@ public class ByteUtilTest extends TestCase {
         assertEquals(testRandomBytes.length, testBytes.length + ByteUtil.RANDOM_BYTE_ARR_SIZE);
     }
 
+    @Test
     public void testAddRandomBytesCaseTwo() {
         byte[] testBytes = null;
         byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
         assertNull(testRandomBytes);
     }
 
+    @Test
     public void testAddRandomBytesCaseThree() {
         byte[] testBytes = data.getBytes();
         byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
         assertEquals(testRandomBytes.length, testBytes.length + ByteUtil.RANDOM_BYTE_ARR_SIZE);
     }
 
+    @Test
     public void testRemoveRandomBytesCaseOne() {
         String testStr = "Hello Security";
         byte[] testBytes = testStr.getBytes();
@@ -100,6 +117,7 @@ public class ByteUtilTest extends TestCase {
         assertEquals(testStr, testStr1);
     }
 
+    @Test
     public void testRemoveRandomBytesCaseTwo() {
         String testStr = "H";
         byte[] testBytes = testStr.getBytes();
@@ -108,6 +126,7 @@ public class ByteUtilTest extends TestCase {
         assertEquals(testStr, testStr1);
     }
 
+    @Test
     public void testRemoveRandomBytesCaseEmptyStr() {
         String testStr = "";
         byte[] testBytes = testStr.getBytes();
@@ -116,12 +135,14 @@ public class ByteUtilTest extends TestCase {
         assertEquals(testStr, testStr1);
     }
 
+    @Test
     public void testRemoveRandomBytesCaseThree() {
         byte[] testBytes = null;
         byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testBytes);
         assertNull(afterRemoveBytes);
     }
 
+    @Test
     public void testRemoveRandomBytesCaseFour() {
 
         byte[] testBytes = data.getBytes();

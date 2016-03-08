@@ -15,15 +15,21 @@ import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
-import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
+import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.testutil.TestAppliance;
 
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -31,7 +37,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class DiscoveryManagerTest extends MockitoTestCase {
+public class DiscoveryManagerTest extends RobolectricTest {
 
     private static final String APPLIANCE_IP_1 = "198.168.1.145";
     private static final String APPLIANCE_IP_2 = "198.168.1.120";
@@ -60,7 +66,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         mListener = mock(DiscoveryEventListener.class);
 
         mDiscoveryManager.addDiscoveryEventListener(mListener);
-//		
+//
 //		mDiscoveryManager.setDummyNetworkMonitorForTesting(mMockedNetworkMonitor);
     }
 
@@ -68,7 +74,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
     protected void tearDown() throws Exception {
         // Clean up resources
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), new TestApplianceFactory());
+        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         super.tearDown();
     }
 
@@ -88,9 +94,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
     }
 
     // ***** START TESTS FOR START/STOP METHODS *****
+    @Test
     public void testOnStartNoNetwork() {
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
+        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
         NetworkMonitor monitor = mock(NetworkMonitor.class);
 
@@ -106,9 +113,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
     }
 
+    @Test
     public void testOnStartMobile() {
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
+        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
         NetworkMonitor monitor = mock(NetworkMonitor.class);
 
@@ -124,9 +132,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
     }
 
+    @Test
     public void testOnStartWifi() {
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
+        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 
         NetworkMonitor monitor = mock(NetworkMonitor.class);
@@ -144,15 +153,14 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
     }
 
+    @Test
     public void testOnStop() {
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
+        DiscoveryManager.createSharedInstance(RuntimeEnvironment.application, mock(CppController.class), new TestApplianceFactory());
         SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
-        
 
         DiscoveryManager manager = DiscoveryManager.getInstance();
         manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
-        
 
         manager.stop();
         verify(ssdpHelper, never()).startDiscoveryAsync();
@@ -164,6 +172,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 // ***** STOP TESTS FOR START/STOP METHODS *****
 
     // ***** START TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
+    @Test
     public void testLostBackgroundAllAppliancesFound() {
         TestAppliance appliance1 = createLocalAppliance(false);
         TestAppliance appliance2 = createLocalAppliance2(false);
@@ -178,6 +187,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertLocal(appliance2);
     }
 
+    @Test
     public void testLostBackgroundNoAppliancesFound() {
         TestAppliance appliance1 = createLocalAppliance(false);
         TestAppliance appliance2 = createLocalAppliance2(false);
@@ -192,6 +202,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertDisconnected(appliance2);
     }
 
+    @Test
     public void testLostBackgroundNoAppliancesFoundPaired() {
         TestAppliance appliance1 = createLocalAppliance(true);
         TestAppliance appliance2 = createLocalAppliance2(true);
@@ -206,6 +217,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertDisconnected(appliance2);
     }
 
+    @Test
     public void testLostBackgroundNoAppliancesFoundPairedOnline() {
         TestAppliance appliance1 = createLocalAppliance(true);
         TestAppliance appliance2 = createLocalAppliance2(true);
@@ -220,6 +232,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertDisconnected(appliance2);
     }
 
+    @Test
     public void testLostBackgroundOneApplianceFound() {
         TestAppliance appliance1 = createLocalAppliance(false);
         TestAppliance appliance2 = createLocalAppliance2(false);
@@ -234,6 +247,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertLocal(appliance2);
     }
 
+    @Test
     public void testLostBackgroundOneApplianceFoundPaired() {
         TestAppliance appliance1 = createLocalAppliance(true);
         TestAppliance appliance2 = createLocalAppliance2(true);
@@ -248,6 +262,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertLocal(appliance2);
     }
 
+    @Test
     public void testLostBackgroundOneApplianceFoundPairedOnline() {
         TestAppliance appliance1 = createLocalAppliance(true);
         TestAppliance appliance2 = createLocalAppliance2(true);
@@ -262,6 +277,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertLocal(appliance2);
     }
 
+    @Test
     public void testLostBackgroundOneApplianceFoundOffline() {
         TestAppliance appliance1 = createDisconnectedAppliance(true);
         TestAppliance appliance2 = createDisconnectedAppliance2(true);
@@ -276,6 +292,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertDisconnected(appliance2);
     }
 
+    @Test
     public void testLostBackgroundOneApplianceFoundRemote() {
         TestAppliance appliance1 = createDisconnectedAppliance(true);
         TestAppliance appliance2 = createRemoteAppliance2(true);
@@ -300,13 +317,15 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         return capturedNetworkChangedCallback;
     }
 
+    @Test
     public void testDiscoveryManagerRegistersForNetworkMonitorCallbacks() {
         verify(mMockedNetworkMonitor, times(1)).setListener(any(NetworkChangedCallback.class));
     }
 
+    @Test
     public void testDiscoveryTimerWifiNoNetwork() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
-        
+
         NetworkChangedCallback capturedNetworkChangedCallback = captureNetworkChangedCallback();
         Handler discoveryHandler = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
         discoveryHandler.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
@@ -317,9 +336,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertFalse(discoveryHandler.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
     }
 
+    @Test
     public void testDiscoveryTimerWifiMobile() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
-        
+
         NetworkChangedCallback capturedNetworkChangedCallback = captureNetworkChangedCallback();
         Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
         discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
@@ -330,9 +350,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
     }
 
+    @Test
     public void testDiscoveryTimerNoNetworkWifi() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
-        
+
         NetworkChangedCallback capturedNetworkChangedCallback = captureNetworkChangedCallback();
         Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
 
@@ -344,9 +365,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
     }
 
+    @Test
     public void testDiscoveryTimerStartNoNetwork() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
-        
+
         NetworkMonitor monitor = mock(NetworkMonitor.class);
         when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
         mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
@@ -358,9 +380,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
     }
 
+    @Test
     public void testDiscoveryTimerStartMobile() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
-        
+
         NetworkMonitor monitor = mock(NetworkMonitor.class);
         when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
         mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
@@ -372,9 +395,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
     }
 
+    @Test
     public void testDiscoveryTimerStartWifi() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
-        
+
         NetworkMonitor monitor = mock(NetworkMonitor.class);
         when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
         mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
@@ -386,9 +410,10 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
     }
 
+    @Test
     public void testDiscoveryTimerStop() {
         mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
-        
+
         NetworkMonitor monitor = mock(NetworkMonitor.class);
         when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
         mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
@@ -405,6 +430,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
     }
 // ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 
+    @Test
     public void testAddListener() {
         DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
         mDiscoveryManager.addDiscoveryEventListener(listener);
@@ -414,6 +440,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         verify(listener, times(1)).onDiscoveredAppliancesListChanged();
     }
 
+    @Test
     public void testAddRemoveListener() {
         DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
         mDiscoveryManager.addDiscoveryEventListener(listener);
@@ -424,6 +451,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         verify(listener, never()).onDiscoveredAppliancesListChanged();
     }
 
+    @Test
     public void testRemoveNonAddedListener() {
         DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
         mDiscoveryManager.removeDiscoverEventListener(listener);
@@ -433,18 +461,21 @@ public class DiscoveryManagerTest extends MockitoTestCase {
         verify(listener, never()).onDiscoveredAppliancesListChanged();
     }
 
+    @Test
     public void testRemoveNullListener() {
         mDiscoveryManager.removeDiscoverEventListener(null);
 
         triggerOnDiscoveredDevicesListChanged();
     }
 
+    @Test
     public void testAddNullListener() {
         mDiscoveryManager.addDiscoveryEventListener(null);
 
         triggerOnDiscoveredDevicesListChanged();
     }
 
+    @Test
     public void testListenerCannotBeAddedTwice() {
         DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
         mDiscoveryManager.addDiscoveryEventListener(listener);

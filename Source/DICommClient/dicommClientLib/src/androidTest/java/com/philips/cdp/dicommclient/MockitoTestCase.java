@@ -1,9 +1,4 @@
-/*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
- */
-
-package com.philips.cdp.dicommclient.testutil;
+package com.philips.cdp.dicommclient;
 
 import android.test.InstrumentationTestCase;
 
