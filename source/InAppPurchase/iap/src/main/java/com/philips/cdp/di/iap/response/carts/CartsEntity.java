@@ -9,115 +9,36 @@ import java.util.List;
 public class CartsEntity {
     private boolean calculated;
     private String code;
-    /**
-     * country : {"isocode":"US"}
-     * firstName : Inder
-     * formattedAddress : line1, line2, bangalore, 12345
-     * id : 8799796592663
-     * lastName : test
-     * line1 : line1
-     * line2 : line2
-     * phone : 12345
-     * postalCode : 12345
-     * shippingAddress : true
-     * titleCode : mr
-     * town : bangalore
-     * visibleInAddressBook : true
-     */
 
     private DeliveryAddressEntity deliveryAddress;
-    /**
-     * currencyIso : USD
-     * formattedValue : $8.99
-     * priceType : BUY
-     * value : 8.99
-     */
 
     private DeliveryCostEntity deliveryCost;
     private int deliveryItemsQuantity;
-    /**
-     * code : standard-gross
-     * deliveryCost : {"currencyIso":"USD","formattedValue":"$8.99","priceType":"BUY","value":8.99}
-     */
 
     private DeliveryModeEntity deliveryMode;
     private String guid;
     private boolean net;
-    /**
-     * currencyIso : USD
-     * formattedValue : $0.00
-     * priceType : BUY
-     * value : 0
-     */
 
     private OrderDiscountsEntity orderDiscounts;
     private int pickupItemsQuantity;
-    /**
-     * currencyIso : USD
-     * formattedValue : $0.00
-     * priceType : BUY
-     * value : 0
-     */
 
     private ProductDiscountsEntity productDiscounts;
     private String site;
     private String store;
-    /**
-     * currencyIso : USD
-     * formattedValue : $1,702.97
-     * priceType : BUY
-     * value : 1702.97
-     */
 
     private SubTotalEntity subTotal;
-    /**
-     * currencyIso : USD
-     * formattedValue : $0.00
-     * priceType : BUY
-     * value : 0
-     */
 
     private TotalDiscountsEntity totalDiscounts;
     private int totalItems;
-    /**
-     * currencyIso : USD
-     * formattedValue : $1,711.96
-     * priceType : BUY
-     * value : 1711.96
-     */
 
     private TotalPriceEntity totalPrice;
-    /**
-     * currencyIso : USD
-     * formattedValue : $1,711.96
-     * priceType : BUY
-     * value : 1711.96
-     */
 
     private TotalPriceWithTaxEntity totalPriceWithTax;
-    /**
-     * currencyIso : USD
-     * formattedValue : $0.00
-     * priceType : BUY
-     * value : 0
-     */
 
     private TotalTaxEntity totalTax;
     private int totalUnitCount;
-    /**
-     * entries : [{"basePrice":{"currencyIso":"USD","formattedValue":"$400.00","priceType":"BUY","value":400},"entryNumber":0,"product":{"availableForPickup":false,"categories":[{"code":"Tuscany_Campaign","url":"/Tuscany-Category/c/Tuscany_Campaign"}],"code":"HX9042/64","discountPrice":{"currencyIso":"USD","value":400},"purchasable":true,"stock":{"stockLevel":937,"stockLevelStatus":"inStock"},"url":"/Tuscany-Category//p/HX9042_64"},"quantity":2,"totalPrice":{"currencyIso":"USD","formattedValue":"$800.00","priceType":"BUY","value":800},"updateable":true},{"basePrice":{"currencyIso":"USD","formattedValue":"$300.99","priceType":"BUY","value":300.99},"entryNumber":1,"product":{"availableForPickup":false,"categories":[{"code":"Tuscany_Campaign","url":"/Tuscany-Category/c/Tuscany_Campaign"}],"code":"HX8331/11","discountPrice":{"currencyIso":"USD","value":300.99},"purchasable":true,"stock":{"stockLevel":207,"stockLevelStatus":"inStock"},"url":"/Tuscany-Category//p/HX8331_11"},"quantity":3,"totalPrice":{"currencyIso":"USD","formattedValue":"$902.97","priceType":"BUY","value":902.97},"updateable":true}]
-     * totalPriceWithTax : {"currencyIso":"USD","formattedValue":"$1,702.97","priceType":"BUY","value":1702.97}
-     */
 
     private List<DeliveryOrderGroupsEntity> deliveryOrderGroups;
-    /**
-     * basePrice : {"currencyIso":"USD","formattedValue":"$400.00","priceType":"BUY","value":400}
-     * entryNumber : 0
-     * product : {"availableForPickup":false,"categories":[{"code":"Tuscany_Campaign","url":"/Tuscany-Category/c/Tuscany_Campaign"}],"code":"HX9042/64","discountPrice":{"currencyIso":"USD","value":400},"purchasable":true,"stock":{"stockLevel":937,"stockLevelStatus":"inStock"},"url":"/Tuscany-Category//p/HX9042_64"}
-     * quantity : 2
-     * totalPrice : {"currencyIso":"USD","formattedValue":"$800.00","priceType":"BUY","value":800}
-     * updateable : true
-     */
 
     private List<EntriesEntity> entries;
 

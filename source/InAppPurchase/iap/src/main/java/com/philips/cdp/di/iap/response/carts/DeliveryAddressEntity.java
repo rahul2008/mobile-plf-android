@@ -5,9 +5,6 @@ package com.philips.cdp.di.iap.response.carts;
  * All rights reserved.
  */
 public class DeliveryAddressEntity {
-    /**
-     * isocode : US
-     */
 
     private CountryEntity country;
     private String firstName;
@@ -74,6 +71,4 @@ public class DeliveryAddressEntity {
     public boolean isVisibleInAddressBook() {
         return visibleInAddressBook;
     }
-
-
 }

@@ -6,12 +6,6 @@ package com.philips.cdp.di.iap.response.carts;
  */
 public class DeliveryModeEntity {
     private String code;
-    /**
-     * currencyIso : USD
-     * formattedValue : $8.99
-     * priceType : BUY
-     * value : 8.99
-     */
 
     private DeliveryCostEntity deliveryCost;
 
@@ -22,6 +16,4 @@ public class DeliveryModeEntity {
     public DeliveryCostEntity getDeliveryCost() {
         return deliveryCost;
     }
-
-
 }

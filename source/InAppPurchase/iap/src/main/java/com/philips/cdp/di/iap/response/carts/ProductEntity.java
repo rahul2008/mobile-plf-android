@@ -9,24 +9,12 @@ import java.util.List;
 public class ProductEntity {
     private boolean availableForPickup;
     private String code;
-    /**
-     * currencyIso : USD
-     * value : 400
-     */
 
     private DiscountPriceEntity discountPrice;
     private boolean purchasable;
-    /**
-     * stockLevel : 937
-     * stockLevelStatus : inStock
-     */
 
     private StockEntity stock;
     private String url;
-    /**
-     * code : Tuscany_Campaign
-     * url : /Tuscany-Category/c/Tuscany_Campaign
-     */
 
     private List<CategoriesEntity> categories;
 
@@ -57,5 +45,4 @@ public class ProductEntity {
     public List<CategoriesEntity> getCategories() {
         return categories;
     }
-
 }
