@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
@@ -36,7 +37,6 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         PaymentController.MakePaymentListener {
     private RecyclerView mOrderListView;
     private OrderProductAdapter mAdapter;
-    private ArrayList<ShoppingCartData> mShoppingCartDataList;
     private AddressFields mBillingAddress;
     private PaymentMethod mPaymentMethod;
     private Button mBtnPayNow, mBtnCancel;
@@ -75,11 +75,31 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         mOrderListView = (RecyclerView) rootView.findViewById(R.id.order_summary);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderListView.setLayoutManager(layoutManager);
-        mShoppingCartDataList = CartModelContainer.getInstance().getShoppingCartData();
-        IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Shopping Cart list = " + mShoppingCartDataList);
-        mAdapter = new OrderProductAdapter(getContext(), mShoppingCartDataList, mBillingAddress, mPaymentMethod);
+        if (isOrderPlaced()) {
+            ArrayList<ShoppingCartData>  shoppingCartDataArrayList = CartModelContainer.getInstance().getShoppingCartData();
+            mAdapter = new OrderProductAdapter(getContext(), shoppingCartDataArrayList, mBillingAddress, mPaymentMethod);
+        } else {
+            mAdapter = new OrderProductAdapter(getContext(), new ArrayList<ShoppingCartData>(), mBillingAddress, mPaymentMethod);
+            updateCartOnResume();
+        }
         mOrderListView.setAdapter(mAdapter);
         return rootView;
+    }
+
+    private void updateCartOnResume() {
+        ShoppingCartPresenter presenter = new ShoppingCartPresenter(getContext(), mAdapter, getFragmentManager());
+        if (Utility.isInternetConnected(getContext())) {
+            if (!Utility.isProgressDialogShowing()) {
+                Utility.showProgressDialog(getContext(), getString(R.string.iap_get_cart_details));
+                updateCartDetails(presenter);
+            }
+        } else {
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok), getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+    }
+
+    private void updateCartDetails(ShoppingCartPresenter presenter) {
+        presenter.getCurrentCartDetails();
     }
 
     public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {

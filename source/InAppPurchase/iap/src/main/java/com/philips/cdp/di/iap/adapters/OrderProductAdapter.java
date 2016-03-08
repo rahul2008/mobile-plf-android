@@ -14,6 +14,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
@@ -29,7 +30,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ShoppingCartPresenter.LoadListener {
     private List<ShoppingCartData> mShoppingCartDataList;
     private Context mContext;
     private ShoppingCartData cartData;
@@ -69,6 +70,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        cartData = mShoppingCartDataList.get(position);
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
             AddressFields shippingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
@@ -83,15 +85,13 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mPaymentCardName.setText(mPaymentMethod.getCardNumber());
                 footerHolder.mPaymentCardHolderName.setText(mPaymentMethod.getAccountHolderName());
             }
-            if (null != cartData && null != cartData.getDeliveryCost()) {
-                footerHolder.mDeliveryPrice.setText(cartData.getDeliveryCost().getFormattedValue());
-                footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + cartData.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-                footerHolder.mTotalPrice.setText(String.valueOf(cartData.getTotalPriceWithTax()));
-            }
+            footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
+            footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
+            footerHolder.mTotalPrice.setText(String.valueOf(getLastValidItem().getTotalPriceWithTax()));
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
             IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Size of ShoppingCarData is " + String.valueOf(getActualCount()));
-            cartData = mShoppingCartDataList.get(position);
+
             String imageURL = cartData.getImageURL();
             ImageLoader mImageLoader = NetworkImageLoader.getInstance(mContext)
                     .getImageLoader();
@@ -103,6 +103,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             orderProductHolder.mTvtotalPrice.setTypeface(null, Typeface.BOLD);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
         }
+    }
+
+    private ShoppingCartData getLastValidItem() {
+        return mShoppingCartDataList.get(getActualCount() - 1);
     }
 
     @Override
@@ -120,7 +124,17 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return getActualCount() + 1;
+        if (mShoppingCartDataList.size() == 0) {
+            return 0;
+        } else {
+            return getActualCount() + 1;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+        mShoppingCartDataList = data;
+        notifyDataSetChanged();
     }
 
     public class OrderProductHolder extends RecyclerView.ViewHolder {

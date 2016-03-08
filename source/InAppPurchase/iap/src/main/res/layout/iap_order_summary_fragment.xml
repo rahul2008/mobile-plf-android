@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -31,28 +31,13 @@
             android:layout_below="@id/tv_select_address"
             android:background="?attr/listDividerColor"/>
 
-        <LinearLayout
-            android:id="@+id/InlineForms"
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_summary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
 
-
-            <LinearLayout
-                android:id="@+id/ll_order_summary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/order_summary"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </android.support.v7.widget.RecyclerView>
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/btn_paynow"

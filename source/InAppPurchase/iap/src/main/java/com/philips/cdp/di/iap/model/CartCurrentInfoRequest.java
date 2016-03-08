@@ -25,7 +25,7 @@ public class CartCurrentInfoRequest extends AbstractModel {
     protected void onPostSuccess(Message msg) {
 
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            // TODO: 3/4/2016  
+            mDataloadListener.onModelDataLoadFinished(msg);
         } else if (msg.obj instanceof Carts) {
             Carts cartData = (Carts) msg.obj;
             if (cartData.getCarts().get(0).getEntries() == null) {
