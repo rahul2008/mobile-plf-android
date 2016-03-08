@@ -7,15 +7,56 @@ import java.util.List;
  * All rights reserved.
  */
 public class ProductEntity {
-
     private boolean availableForPickup;
     private String code;
-    private String name;
+    /**
+     * currencyIso : USD
+     * value : 400
+     */
+
+    private DiscountPriceEntity discountPrice;
     private boolean purchasable;
-    private Stock stock;
+    /**
+     * stockLevel : 937
+     * stockLevelStatus : inStock
+     */
+
+    private StockEntity stock;
     private String url;
+    /**
+     * code : Tuscany_Campaign
+     * url : /Tuscany-Category/c/Tuscany_Campaign
+     */
 
     private List<CategoriesEntity> categories;
+
+    public void setAvailableForPickup(boolean availableForPickup) {
+        this.availableForPickup = availableForPickup;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setDiscountPrice(DiscountPriceEntity discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public void setPurchasable(boolean purchasable) {
+        this.purchasable = purchasable;
+    }
+
+    public void setStock(StockEntity stock) {
+        this.stock = stock;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setCategories(List<CategoriesEntity> categories) {
+        this.categories = categories;
+    }
 
     public boolean isAvailableForPickup() {
         return availableForPickup;
@@ -25,15 +66,15 @@ public class ProductEntity {
         return code;
     }
 
-    public String getName() {
-        return name;
+    public DiscountPriceEntity getDiscountPrice() {
+        return discountPrice;
     }
 
     public boolean isPurchasable() {
         return purchasable;
     }
 
-    public Stock getStock() {
+    public StockEntity getStock() {
         return stock;
     }
 
@@ -44,4 +85,5 @@ public class ProductEntity {
     public List<CategoriesEntity> getCategories() {
         return categories;
     }
+
 }

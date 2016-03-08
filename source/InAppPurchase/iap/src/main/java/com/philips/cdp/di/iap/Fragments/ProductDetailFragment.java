@@ -73,7 +73,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
     private void populateViewFromBundle() {
         mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
         mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
-        mPrice.setText(mBundle.getString(IAPConstant.PRODUCT_CURRENCY) + " " + mBundle.getString(IAPConstant.PRODUCT_PRICE));
+        mPrice.setText(mBundle.getString(IAPConstant.PRODUCT_PRICE));
         mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
     }
 

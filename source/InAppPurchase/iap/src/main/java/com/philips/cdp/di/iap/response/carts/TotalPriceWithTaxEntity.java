@@ -4,7 +4,7 @@ package com.philips.cdp.di.iap.response.carts;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class TotalDiscountsEntity {
+public class TotalPriceWithTaxEntity {
     private String currencyIso;
     private String formattedValue;
     private String priceType;
@@ -22,7 +22,7 @@ public class TotalDiscountsEntity {
         this.priceType = priceType;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
