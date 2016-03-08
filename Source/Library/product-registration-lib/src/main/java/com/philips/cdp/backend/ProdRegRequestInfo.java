@@ -15,7 +15,6 @@ public class ProdRegRequestInfo {
     private String accessToken;
     private String purchaseDate;
     private String locale;
-    private String registrationChannel;
 
     public ProdRegRequestInfo(String ctn, String serialNumber, Sector sector, Catalog catalog) {
         this.ctn = ctn;
@@ -62,14 +61,6 @@ public class ProdRegRequestInfo {
 
     public void setPurchaseDate(final String purchaseDate) {
         this.purchaseDate = purchaseDate;
-    }
-
-    public String getRegistrationChannel() {
-        return registrationChannel;
-    }
-
-    public void setRegistrationChannel(final String registrationChannel) {
-        this.registrationChannel = registrationChannel;
     }
 
 }

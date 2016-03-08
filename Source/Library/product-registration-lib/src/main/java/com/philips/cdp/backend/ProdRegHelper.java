@@ -12,8 +12,6 @@ import com.philips.cdp.model.ProductMetaData;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.prxclient.ErrorType;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
-import com.philips.cdp.prxclient.RequestManager;
-import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
@@ -42,13 +40,6 @@ public class ProdRegHelper {
     public void cancelRequest(String requestTag) {
     }
 
-    @NonNull
-    private RequestManager getRequestManager(final Context context) {
-        RequestManager mRequestManager = new RequestManager();
-        mRequestManager.init(context);
-        return mRequestManager;
-    }
-
     private boolean processSerialNumber(final ProductData data, final ResponseListener listener, ProdRegRequestInfo prodRegRequestInfo) {
         if (prodRegRequestInfo.getSerialNumber() == null || prodRegRequestInfo.getSerialNumber().length() < 1) {
             listener.onResponseError(mContext.getString(R.string.serial_number_not_entered), -1);
@@ -74,6 +65,7 @@ public class ProdRegHelper {
     }
 
     private void makeRegistrationRequest(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
+        prodRegRequestInfo.setAccessToken(new User(context).getAccessToken());
         UserProduct userProduct = new UserProduct();
         userProduct.registerProduct(context, prodRegRequestInfo, getLocalResponseListener(prodRegRequestInfo, listener));
     }
@@ -122,9 +114,7 @@ public class ProdRegHelper {
         user.refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
-                String response = user.getAccessToken();
-                prodRegRequestInfo.setAccessToken(response);
-                validateRequests(mContext, prodRegRequestInfo, listener);
+                retryRequests(mContext, prodRegRequestInfo, listener);
             }
 
             @Override
@@ -134,13 +124,13 @@ public class ProdRegHelper {
         }, mContext);
     }
 
-    private void validateRequests(final Context mContext, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
+    private void retryRequests(final Context mContext, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
         switch (requestType) {
             case ProdRegConstants.PRODUCT_REGISTRATION:
                 makeRegistrationRequest(mContext, prodRegRequestInfo, listener);
                 break;
             case ProdRegConstants.FETCH_REGISTERED_PRODUCTS:
-//                getRegisteredProduct(mContext, prodRegRequestInfo, listener);
+                getRegisteredProduct(mContext, prodRegRequestInfo, listener);
                 break;
             default:
                 break;
@@ -152,18 +142,6 @@ public class ProdRegHelper {
     }
 
     /**
-     * <b> API to register product</b>
-     *
-     * @param context    - Context of an activity
-     * @param prxRequest - PRX Request object
-     * @param listener   - Callback listener
-     */
-    public void registerProduct(final Context context, final PrxRequest prxRequest, final ResponseListener listener) {
-        requestType = ProdRegConstants.PRODUCT_REGISTRATION;
-//        processMetadata(context, prxRequest, listener);
-    }
-
-    /**
      * <b> API to get registered products</b>
      *
      * @param context    - Context of an activity
@@ -172,11 +150,19 @@ public class ProdRegHelper {
      */
     public void getRegisteredProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
         requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
+        prodRegRequestInfo.setAccessToken(new User(context).getAccessToken());
         prodRegRequestInfo.setLocale(this.locale);
         UserProduct userProduct = new UserProduct();
         userProduct.getRegisteredProducts(context, prodRegRequestInfo, getLocalResponseListener(prodRegRequestInfo, listener));
     }
 
+    /**
+     * <b> API to register product</b>
+     *
+     * @param context            - Context of an activity
+     * @param prodRegRequestInfo - PRX Request object
+     * @param listener           - Callback listener
+     */
     public void registerProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
         requestType = ProdRegConstants.PRODUCT_REGISTRATION;
         processMetadata(context, prodRegRequestInfo, listener);

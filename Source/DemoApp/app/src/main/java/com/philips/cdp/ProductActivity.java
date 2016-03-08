@@ -121,15 +121,13 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         ctn.setText("");
     }
 
-    private void registerProduct(final String accessToken) {
+    private void registerProduct() {
         PrxLogger.enablePrxLogger(true);
 
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(ctn.getText().toString(), serialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
         ProdRegHelper prodRegHelper = new ProdRegHelper(this);
         prodRegHelper.setLocale("en", "GB");
         prodRegRequestInfo.setPurchaseDate(purchaseDate.getText().toString());
-        prodRegRequestInfo.setRegistrationChannel(regChannel.getText().toString());
-        prodRegRequestInfo.setAccessToken(accessToken);
         final ResponseListener listener = new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -164,7 +162,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         };
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER);
         prodRegHelper.setLocale("en", "GB");
-        prodRegRequestInfo.setAccessToken(accessToken);
         prodRegHelper.getRegisteredProduct(this, prodRegRequestInfo, listener);
     }
 
@@ -177,7 +174,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             } else {
                 Toast.makeText(ProductActivity.this, "user signed in", Toast.LENGTH_SHORT).show();
                 regChannel.setText(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
-                registerProduct(mUser.getAccessToken());
+                registerProduct();
             }
         } else {
             Toast.makeText(ProductActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();

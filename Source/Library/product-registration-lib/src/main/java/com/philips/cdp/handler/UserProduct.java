@@ -6,10 +6,12 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.backend.PRXDataBuilderFactory;
 import com.philips.cdp.backend.PRXRequestType;
 import com.philips.cdp.backend.ProdRegRequestInfo;
+import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.productrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -35,7 +37,7 @@ public class UserProduct {
         final PRXDataBuilderFactory prxDataBuilderFactory = new PRXDataBuilderFactory();
         final PrxRequest prxRequest = prxDataBuilderFactory.createPRXBuilder(PRXRequestType.REGISTRATION, prodRegRequestInfo);
         RegistrationRequest registrationRequest = (RegistrationRequest) prxRequest;
-        registrationRequest.setRegistrationChannel(prodRegRequestInfo.getRegistrationChannel());
+        registrationRequest.setRegistrationChannel(ProdRegConstants.MICRO_SITE_ID + RegistrationConfiguration.getInstance().getPilConfiguration().getMicrositeId());
         registrationRequest.setmLocale(prodRegRequestInfo.getLocale());
         registrationRequest.setPurchaseDate(prodRegRequestInfo.getPurchaseDate());
         registrationRequest.setProductSerialNumber(prodRegRequestInfo.getSerialNumber());
