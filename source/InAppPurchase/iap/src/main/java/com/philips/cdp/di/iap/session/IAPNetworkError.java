@@ -36,4 +36,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             mServerError = new Gson().fromJson(errorString, ServerError.class);
         }
     }
+
+    public  ServerError getServerError() {
+        return mServerError;
+    }
+
 }
