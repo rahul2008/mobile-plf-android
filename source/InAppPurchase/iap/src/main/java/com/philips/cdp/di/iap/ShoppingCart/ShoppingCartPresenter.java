@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.container.CartModelContainer;
@@ -17,13 +18,13 @@ import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,16 +90,21 @@ public class ShoppingCartPresenter {
                 new AbstractModel.DataLoadListener() {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
-                        mProductData = (ArrayList<ShoppingCartData>) msg.obj;
-                        if (mProductData == null || mProductData.size() == 0) {
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
-                            Utility.dismissProgressDialog();
-                            return;
-                        }
 
-                        addShippingCostRowToTheList();
-                        refreshList(mProductData);
-                        CartModelContainer.getInstance().setShoppingCartData(mProductData);
+                        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+                            // TODO: 3/8/2016 - Spoorti 
+                        } else {
+                            mProductData = (ArrayList<ShoppingCartData>) msg.obj;
+                            if (mProductData == null || mProductData.size() == 0) {
+                                EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
+                                Utility.dismissProgressDialog();
+                                return;
+                            }
+
+                            addShippingCostRowToTheList();
+                            refreshList(mProductData);
+                            CartModelContainer.getInstance().setShoppingCartData(mProductData);
+                        }
                         Utility.dismissProgressDialog();
                     }
 
@@ -148,7 +154,7 @@ public class ShoppingCartPresenter {
 
             @Override
             public void onModelDataError(final Message msg) {
-                IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER , msg.obj.toString());
+                IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
                 NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
                 Utility.dismissProgressDialog();
             }

@@ -1,6 +1,6 @@
 package com.philips.cdp.di.iap.response.error;
 
-public class Errors {
+public class Error {
     private String message;
     private String reason;
     private String subject;
