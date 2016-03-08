@@ -7,10 +7,6 @@ package com.philips.cdp.di.iap.response.carts;
 class CountryEntity {
     private String isocode;
 
-    public void setIsocode(String isocode) {
-        this.isocode = isocode;
-    }
-
     public String getIsocode() {
         return isocode;
     }

@@ -30,34 +30,6 @@ public class ProductEntity {
 
     private List<CategoriesEntity> categories;
 
-    public void setAvailableForPickup(boolean availableForPickup) {
-        this.availableForPickup = availableForPickup;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setDiscountPrice(DiscountPriceEntity discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
-    public void setPurchasable(boolean purchasable) {
-        this.purchasable = purchasable;
-    }
-
-    public void setStock(StockEntity stock) {
-        this.stock = stock;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setCategories(List<CategoriesEntity> categories) {
-        this.categories = categories;
-    }
-
     public boolean isAvailableForPickup() {
         return availableForPickup;
     }

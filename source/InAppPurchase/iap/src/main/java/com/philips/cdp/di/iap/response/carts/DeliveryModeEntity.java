@@ -15,14 +15,6 @@ public class DeliveryModeEntity {
 
     private DeliveryCostEntity deliveryCost;
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setDeliveryCost(DeliveryCostEntity deliveryCost) {
-        this.deliveryCost = deliveryCost;
-    }
-
     public String getCode() {
         return code;
     }

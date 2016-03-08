@@ -23,58 +23,6 @@ public class DeliveryAddressEntity {
     private String town;
     private boolean visibleInAddressBook;
 
-    public void setCountry(CountryEntity country) {
-        this.country = country;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setFormattedAddress(String formattedAddress) {
-        this.formattedAddress = formattedAddress;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setLine1(String line1) {
-        this.line1 = line1;
-    }
-
-    public void setLine2(String line2) {
-        this.line2 = line2;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public void setShippingAddress(boolean shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
-    public void setTitleCode(String titleCode) {
-        this.titleCode = titleCode;
-    }
-
-    public void setTown(String town) {
-        this.town = town;
-    }
-
-    public void setVisibleInAddressBook(boolean visibleInAddressBook) {
-        this.visibleInAddressBook = visibleInAddressBook;
-    }
-
     public CountryEntity getCountry() {
         return country;
     }

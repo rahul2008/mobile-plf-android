@@ -8,14 +8,6 @@ public class StockEntity {
     private int stockLevel;
     private String stockLevelStatus;
 
-    public void setStockLevel(int stockLevel) {
-        this.stockLevel = stockLevel;
-    }
-
-    public void setStockLevelStatus(String stockLevelStatus) {
-        this.stockLevelStatus = stockLevelStatus;
-    }
-
     public int getStockLevel() {
         return stockLevel;
     }

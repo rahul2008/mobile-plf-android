@@ -8,14 +8,6 @@ public class CategoriesEntity {
     private String code;
     private String url;
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getCode() {
         return code;
     }
