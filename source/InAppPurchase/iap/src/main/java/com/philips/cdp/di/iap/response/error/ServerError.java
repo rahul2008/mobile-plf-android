@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ServerError {
 
-    private List<Errors> errors;
+    private List<Error> errors;
 
-    public List<Errors> getErrors() {
+    public List<Error> getErrors() {
         return errors;
     }
 
