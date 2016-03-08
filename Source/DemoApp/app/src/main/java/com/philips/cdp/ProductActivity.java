@@ -1,6 +1,5 @@
 package com.philips.cdp;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.backend.ProdRegHelper;
 import com.philips.cdp.backend.ProdRegRequestInfo;
+import com.philips.cdp.com.philips.cdp.Util;
 import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
@@ -22,8 +22,6 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import java.text.ParseException;
@@ -184,38 +182,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             Toast.makeText(ProductActivity.this, "user not signed in", Toast.LENGTH_SHORT).show();
             ProductLog.producrlog(ProductLog.ONCLICK, "On Click : User Registration");
-            RegistrationHelper.getInstance().getUserRegistrationListener().registerEventNotification(new UserRegistrationListener() {
-                @Override
-                public void onUserRegistrationComplete(final Activity activity) {
-                    activity.finish();
-                }
-
-                @Override
-                public void onPrivacyPolicyClick(final Activity activity) {
-
-                }
-
-                @Override
-                public void onTermsAndConditionClick(final Activity activity) {
-
-                }
-
-                @Override
-                public void onUserLogoutSuccess() {
-
-                }
-
-                @Override
-                public void onUserLogoutFailure() {
-
-                }
-
-                @Override
-                public void onUserLogoutSuccessWithInvalidAccessToken() {
-
-                }
-            });
             RegistrationLaunchHelper.launchRegistrationActivityWithAccountSettings(this);
+            Util.navigateFromUserRegistration();
         }
     }
 
