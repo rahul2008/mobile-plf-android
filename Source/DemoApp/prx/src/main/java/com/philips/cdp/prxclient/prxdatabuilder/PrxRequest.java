@@ -24,7 +24,10 @@ public abstract class PrxRequest {
     private String localeMatchResult;
 
     public String getLocaleMatchResult() {
-        return localeMatchResult;
+        if (localeMatchResult != null)
+            return localeMatchResult;
+        else
+            return getLocale();
     }
 
     public void setLocaleMatchResult(final String localeMatchResult) {

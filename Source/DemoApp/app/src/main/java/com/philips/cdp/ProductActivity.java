@@ -17,8 +17,6 @@ import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
-import com.philips.cdp.productrequest.RegisteredRequest;
-import com.philips.cdp.productrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -33,7 +31,32 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
+/**
+ * <b> Steps to register a product </b>
+ * <br></br>
+ * <pre>
+ *       RegistrationRequest registrationRequest = new RegistrationRequest("HC5410/83", "ww6bsdquca864kbt", "1344");
+ *       registrationRequest.setSector(Sector.B2C);
+ *       registrationRequest.setCatalog(Catalog.CONSUMER);
+ *       registrationRequest.setmLocale("en_GB");
+ *       registrationRequest.setmCatalogCode(mCatalogCode);
+ *
+ *       ProdRegHelper prodRegHelper = new ProdRegHelper(this);
+ *       prodRegHelper.setLocale("en", "GB");
+ *       prodRegHelper.registerProduct(this, registrationRequest, new ResponseListener() {
+ *           @Override
+ *            public void onResponseSuccess(ResponseData responseData) {
+ *            Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
+ *          }
+ *
+ *           @Override
+ *             public void onResponseError(String error, int code) {
+ *               Toast.makeText(ProductActivity.this, error, Toast.LENGTH_SHORT).show();
+ *           }
+ *         });
+ *
+ *  </pre>
+ */
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText regChannel, serialNumber, purchaseDate, ctn;
@@ -104,18 +127,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         PrxLogger.enablePrxLogger(true);
 
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(ctn.getText().toString(), serialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
-
-        RegistrationRequest registrationRequest = new RegistrationRequest(ctn.getText().toString(), accessToken, serialNumber.getText().toString());
-        registrationRequest.setSector(Sector.B2C);
-        registrationRequest.setCatalog(Catalog.CONSUMER);
-        registrationRequest.setmLocale(mLocale);
-        registrationRequest.setmCatalogCode(mCatalogCode);
-        registrationRequest.setRegistrationChannel(regChannel.getText().toString());
-        registrationRequest.setPurchaseDate(purchaseDate.getText().toString());
-
         ProdRegHelper prodRegHelper = new ProdRegHelper(this);
         prodRegHelper.setLocale("en", "GB");
-        prodRegHelper.registerProduct(this, registrationRequest, new ResponseListener() {
+        prodRegRequestInfo.setPurchaseDate(purchaseDate.getText().toString());
+        prodRegRequestInfo.setRegistrationChannel(regChannel.getText().toString());
+        prodRegRequestInfo.setAccessToken(accessToken);
+        final ResponseListener listener = new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
                 Toast.makeText(ProductActivity.this, "Product registered successfully", Toast.LENGTH_SHORT).show();
@@ -129,16 +146,13 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 Log.d(TAG, "Negative Response Data : " + error + " with error code : " + code);
                 Toast.makeText(ProductActivity.this, error, Toast.LENGTH_SHORT).show();
             }
-        });
+        };
+        prodRegHelper.registerProduct(this, prodRegRequestInfo, listener);
     }
 
     private void registeredProduct(final String accessToken) {
-        RegisteredRequest registeredRequest = new RegisteredRequest(accessToken);
-        registeredRequest.setSector(Sector.B2C);
-        registeredRequest.setCatalog(Catalog.CONSUMER);
-        registeredRequest.setmLocale("en_GB");
         ProdRegHelper prodRegHelper = new ProdRegHelper(this);
-        prodRegHelper.getRegisteredProduct(this, registeredRequest, new ResponseListener() {
+        final ResponseListener listener = new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 Log.d(TAG, responseData.toString());
@@ -149,7 +163,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             public void onResponseError(final String errorMessage, final int responseCode) {
                 Log.d(TAG, errorMessage);
             }
-        });
+        };
+        ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(null, null, Sector.B2C, Catalog.CONSUMER);
+        prodRegHelper.setLocale("en", "GB");
+        prodRegRequestInfo.setAccessToken(accessToken);
+        prodRegHelper.getRegisteredProduct(this, prodRegRequestInfo, listener);
     }
 
     @Override

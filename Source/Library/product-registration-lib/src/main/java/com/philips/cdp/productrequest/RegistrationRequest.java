@@ -36,8 +36,6 @@ public class RegistrationRequest extends PrxRequest implements InjectAccessToken
     private String Zip;
     private String state;
     private String country;
-    private boolean requiresPurchaseDate = false;
-    private boolean requiresSerialNumber = false;
 
     public RegistrationRequest(String ctn, String accessToken, final String serialNumber) {
         this.mCtn = ctn;
@@ -137,22 +135,6 @@ public class RegistrationRequest extends PrxRequest implements InjectAccessToken
         this.country = country;
     }
 
-    public boolean isRequiresPurchaseDate() {
-        return requiresPurchaseDate;
-    }
-
-    public void setRequiresPurchaseDate(boolean requiresPurchaseDate) {
-        this.requiresPurchaseDate = requiresPurchaseDate;
-    }
-
-    public boolean isRequiresSerialNumber() {
-        return requiresSerialNumber;
-    }
-
-    public void setRequiresSerialNumber(boolean requiresSerialNumber) {
-        this.requiresSerialNumber = requiresSerialNumber;
-    }
-
     public String getCtn() {
         return mCtn;
     }
@@ -199,12 +181,12 @@ public class RegistrationRequest extends PrxRequest implements InjectAccessToken
 
     private void validateSerialNumber(final Map<String, String> params) {
         final String productSerialNumber = getProductSerialNumber();
-        if (isRequiresSerialNumber() && productSerialNumber != null && productSerialNumber.length() > 0)
+        if (productSerialNumber != null && productSerialNumber.length() > 0)
             params.put(ProdRegConstants.PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
 
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
-        if (isRequiresPurchaseDate() && purchaseDate != null && purchaseDate.length() > 0)
+        if (purchaseDate != null && purchaseDate.length() > 0)
             params.put(ProdRegConstants.PURCHASE_DATE, purchaseDate);
     }
 
@@ -213,7 +195,7 @@ public class RegistrationRequest extends PrxRequest implements InjectAccessToken
                 .buildUpon()
                 .appendPath(getSector().name())
                 .appendPath(getLocaleMatchResult())
-                .appendPath(getCatalogCode())
+                .appendPath(getCatalog().name())
                 .appendPath("products")
                 .appendPath(mCtn + ".register.type.product")
                 .build();
