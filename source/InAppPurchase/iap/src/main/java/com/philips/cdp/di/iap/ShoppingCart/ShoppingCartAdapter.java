@@ -274,9 +274,13 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        if (!Utility.isProgressDialogShowing()) {
-                            Utility.showProgressDialog(mContext, "Updating Cart Details");
-                            mPresenter.updateProductQuantity(mData.get(position), newCount);
+                        if(Utility.isInternetConnected(mContext)) {
+                            if (!Utility.isProgressDialogShowing()) {
+                                Utility.showProgressDialog(mContext, "Updating Cart Details");
+                                mPresenter.updateProductQuantity(mData.get(position), newCount);
+                            }
+                        }else{
+                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager,mContext.getString(R.string.iap_ok),mContext.getString(R.string.iap_network_error),mContext.getString(R.string.iap_check_connection));
                         }
                     }
                 });
