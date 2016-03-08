@@ -55,7 +55,6 @@ public class PaymentRequest extends AbstractModel {
 
     @Override
     public String getTestUrl() {
-        //String format with cart No.
         return String.format(NetworkConstants.PAYMENT_URL, params.get(ModelConstants.ORDER_NUMBER));
     }
 }
