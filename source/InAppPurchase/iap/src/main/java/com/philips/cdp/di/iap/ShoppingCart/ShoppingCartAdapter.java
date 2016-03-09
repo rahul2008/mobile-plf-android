@@ -6,8 +6,8 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -31,8 +30,7 @@ import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
-import android.support.v4.app.FragmentManager;
-import java.text.NumberFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,21 +110,14 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 holder.from = (TextView) convertView.findViewById(R.id.from);
                 holder.price = (TextView) convertView.findViewById(R.id.price);
                 holder.dots = (ImageView) convertView.findViewById(R.id.dots);
-
-                FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.frame);
                 holder.imageUrl = imageURL;
-
-                holder.from.setText(mResources.getString(R.string.iap_product_item_quantity));
                 holder.nameOption.setText(cartData.getProductTitle());
-                //String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
 
                 holder.price.setText(cartData.getTotalPriceFormatedPrice());
-                holder.price.setTypeface(null, Typeface.BOLD);
                 holder.valueOption.setText(cartData.getQuantity() + "");
 
                 holder.quantityLayout = (ViewGroup) convertView.findViewById(R.id.quantity_count_layout);
 
-                //TODO: Fix it
                 ImageLoader mImageLoader;
                 // Instantiate the RequestQueue.
                 mImageLoader = NetworkImageLoader.getInstance(mContext)
@@ -149,40 +140,37 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                 break;
 
             case TYPE_SHIPPING_DETAILS:
-
-
                 convertView = mInflater.inflate(R.layout.shopping_cart_price, null);
 
                 holder.name = (TextView) convertView.findViewById(R.id.ifo);
                 holder.number = (TextView) convertView.findViewById(R.id.numberwithouticon);
-               // holder.on_off = (TextView) convertView.findViewById(R.id.medium);
                 holder.arrow = (ImageView) convertView.findViewById(R.id.arrowwithouticons);
                 holder.description = (TextView) convertView.findViewById(R.id.text_description_without_icons);
                 holder.totoalcost = (TextView) convertView.findViewById(R.id.totalcost);
+                holder.vat = (TextView) convertView.findViewById(R.id.vat);
+                holder.valtValue = (TextView)convertView.findViewById(R.id.vat_value);
+                holder.totalItems = (TextView) convertView.findViewById(R.id.totalItems);
 
                 if (position == mData.size() - 1) {
                     //Last Row
                     ShoppingCartData data = null;
                     if (mData.get(0) != null) {
                         data = mData.get(0);
-
-                        holder.name.setVisibility(View.VISIBLE);
-                        holder.name.setText("VAT");
+                        holder.name.setVisibility(View.GONE);
+                        holder.number.setVisibility(View.GONE);
+                        holder.vat.setVisibility(View.VISIBLE);
+                        holder.vat.setText("VAT");
 
                         //TODO: Fix count form server request
-                        holder.number.setVisibility(View.VISIBLE);
-                        holder.number.setText("0");
+                        holder.valtValue.setVisibility(View.VISIBLE);
+                        holder.valtValue.setText("$0");
 
-                        holder.description.setVisibility(View.VISIBLE);
-                        int totalItems = mData.size()-3;
+                        holder.totalItems.setVisibility(View.VISIBLE);
 
-                        holder.description.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " +mContext.getString(R.string.iap_items) + ")");
-                        holder.description.setTypeface(null, Typeface.BOLD);
+                        holder.totalItems.setText(mContext.getString(R.string.iap_total) + " (" + data.getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
 
                         holder.totoalcost.setVisibility(View.VISIBLE);
-                       // String totalprice = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(data.getTotalPriceWithTax());
                         holder.totoalcost.setText(data.getTotalPriceWithTaxFormatedPrice());
-                        holder.totoalcost.setTypeface(null, Typeface.BOLD);
                     }
                 }
                 if (position == mData.size() - 2) {
@@ -191,26 +179,22 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
                         //2nd Last Row
                         holder.name.setVisibility(View.VISIBLE);
                         holder.name.setText("Delivery via UPS Parcel");
-                        holder.name.setTypeface(null, Typeface.BOLD);
-
                         holder.number.setVisibility(View.VISIBLE);
 
                         if(null != data.getDeliveryCost()) {
                             holder.number.setText(data.getDeliveryCost().getFormattedValue());
                         }else{
-                            holder.number.setText("0.0");
+                            holder.number.setText("$0.0");
                         }
-                        holder.number.setTypeface(null, Typeface.BOLD);
 
                         holder.description.setVisibility(View.VISIBLE);
-                        holder.description.setText("Delivery is free when you spend USD 100 or more");
+                        holder.description.setText("Delivery is FREE when you spend $100 or more");
                     }
                 }
                 if (position == mData.size() - 3) {
                     //3rd Last Row
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("Redeem voucher");
-                    holder.name.setTypeface(null, Typeface.BOLD);
                     holder.arrow.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -305,7 +289,6 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
     private static class ViewHolder {
         TextView name;
         TextView number;
-       // TextView on_off;
         ImageView arrow;
         TextView description;
         TextView totoalcost;
@@ -317,5 +300,8 @@ public class ShoppingCartAdapter extends BaseAdapter implements ShoppingCartPres
         TextView price;
         String imageUrl;
         ViewGroup quantityLayout;
+        TextView vat;
+        TextView totalItems;
+        TextView valtValue;
     }
 }
