@@ -98,7 +98,7 @@ public class StaginglRegistrationSettings extends RegistrationSettings {
         try {
             Jump.reinitialize(mContext, jumpConfig);
         } catch (Exception e) {
-            if(e instanceof EOFException){
+            if(e instanceof RuntimeException){
                 Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE EOFException");
                 //clear flow file
                 mContext.deleteFile("jr_capture_flow");
