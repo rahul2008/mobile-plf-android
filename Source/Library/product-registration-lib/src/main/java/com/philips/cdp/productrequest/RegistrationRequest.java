@@ -20,7 +20,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegistrationRequest extends PrxRequest implements InjectAccessToken {
+public class RegistrationRequest extends PrxRequest {
 
     private String mCtn = null;
     private String accessToken;
@@ -37,10 +37,10 @@ public class RegistrationRequest extends PrxRequest implements InjectAccessToken
     private String state;
     private String country;
 
-    public RegistrationRequest(String ctn, String accessToken, final String serialNumber) {
+    public RegistrationRequest(String ctn, final String serialNumber, String accessToken) {
         this.mCtn = ctn;
-        this.accessToken = accessToken;
         this.productSerialNumber = serialNumber;
+        this.accessToken = accessToken;
     }
 
     public String getServerInfo() {
@@ -143,7 +143,6 @@ public class RegistrationRequest extends PrxRequest implements InjectAccessToken
         return accessToken;
     }
 
-    @Override
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }

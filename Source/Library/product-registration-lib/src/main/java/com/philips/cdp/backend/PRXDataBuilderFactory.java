@@ -11,26 +11,26 @@ import com.philips.cdp.prxclient.prxdatabuilder.PrxRequest;
  */
 public class PRXDataBuilderFactory {
 
-    public PrxRequest createPRXBuilder(PRXRequestType prxRequestType, ProdRegRequestInfo prodRegRequestInfo) {
+    public PrxRequest createPRXBuilder(PRXRequestType prxRequestType, ProdRegRequestInfo prodRegRequestInfo, final String accessToken) {
         switch (prxRequestType.getValue()) {
             case 0:
-                ProductMetaRequest productMetaRequest = new ProductMetaRequest(prodRegRequestInfo.getCtn(), prodRegRequestInfo.getAccessToken());
+                ProductMetaRequest productMetaRequest = new ProductMetaRequest(prodRegRequestInfo.getCtn());
                 productMetaRequest.setSector(prodRegRequestInfo.getSector());
                 productMetaRequest.setCatalog(prodRegRequestInfo.getCatalog());
                 productMetaRequest.setmLocale(prodRegRequestInfo.getLocale());
                 return productMetaRequest;
             case 1:
-                RegistrationRequest registrationRequest = new RegistrationRequest(prodRegRequestInfo.getCtn(), prodRegRequestInfo.getAccessToken(), prodRegRequestInfo.getSerialNumber());
+                RegistrationRequest registrationRequest = new RegistrationRequest(prodRegRequestInfo.getCtn(), prodRegRequestInfo.getSerialNumber(), accessToken);
                 registrationRequest.setSector(prodRegRequestInfo.getSector());
                 registrationRequest.setCatalog(prodRegRequestInfo.getCatalog());
                 registrationRequest.setmLocale(prodRegRequestInfo.getLocale());
                 return registrationRequest;
 
             case 2:
-                RegisteredRequest registeredRequest = new RegisteredRequest(prodRegRequestInfo.getAccessToken());
+                RegisteredRequest registeredRequest = new RegisteredRequest(accessToken);
                 registeredRequest.setSector(prodRegRequestInfo.getSector());
                 registeredRequest.setCatalog(prodRegRequestInfo.getCatalog());
-                registeredRequest.setmLocale("en_GB");
+                registeredRequest.setmLocale(prodRegRequestInfo.getLocale());
                 return registeredRequest;
             default:
                 break;

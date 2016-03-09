@@ -18,7 +18,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegisteredRequest extends PrxRequest implements InjectAccessToken {
+public class RegisteredRequest extends PrxRequest {
 
     private String accessToken;
 
@@ -28,11 +28,6 @@ public class RegisteredRequest extends PrxRequest implements InjectAccessToken {
 
     public String getAccessToken() {
         return accessToken;
-    }
-
-    @Override
-    public void setAccessToken(final String accessToken) {
-        this.accessToken = accessToken;
     }
 
     @Override

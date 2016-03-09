@@ -20,16 +20,10 @@ import java.util.Map;
  */
 public class ProductMetaRequest extends PrxRequest {
 
-    private final String accessToken;
     private String mCtn = null;
 
-    public ProductMetaRequest(String ctn, String accessToken) {
+    public ProductMetaRequest(String ctn) {
         this.mCtn = ctn;
-        this.accessToken = accessToken;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
     }
 
     @Override

@@ -12,7 +12,6 @@ public class ProdRegRequestInfo {
     private String ctn, serialNumber;
     private Sector sector;
     private Catalog catalog;
-    private String accessToken;
     private String purchaseDate;
     private String locale;
 
@@ -39,22 +38,6 @@ public class ProdRegRequestInfo {
         return serialNumber;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-
     public String getPurchaseDate() {
         return purchaseDate;
     }
@@ -63,4 +46,11 @@ public class ProdRegRequestInfo {
         this.purchaseDate = purchaseDate;
     }
 
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(final String locale) {
+        this.locale = locale;
+    }
 }

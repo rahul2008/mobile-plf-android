@@ -26,8 +26,11 @@ public class RequestManager {
     }
 
     public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
-        String[] locales = prxRequest.getLocale().split("_");
-        setLocale(locales[0], locales[1], prxRequest, listener);
+        if (prxRequest.getLocale() != null) {
+            String[] locales = prxRequest.getLocale().split("_");
+            setLocale(locales[0], locales[1], prxRequest, listener);
+        } else
+            makeRequest(prxRequest, listener);
     }
 
     public void cancelRequest(String requestTag) {
