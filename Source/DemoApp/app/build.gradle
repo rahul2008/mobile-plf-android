@@ -16,7 +16,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 23
         versionCode 2
-        versionName "1.1"
+        versionName "0.0.3"
         testApplicationId "com.philips.cdp.demo.androidTest"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
@@ -52,13 +52,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cdp.demo'
-            versionCode 1
-            versionName "1.0"
+            versionCode 2
+            versionName "0.0.3"
         }
         device {
             applicationId 'com.philips.cdp.demo'
-            versionCode 1
-            versionName "1.0"
+            versionCode 2
+            versionName "0.0.3"
         }
     }
 
