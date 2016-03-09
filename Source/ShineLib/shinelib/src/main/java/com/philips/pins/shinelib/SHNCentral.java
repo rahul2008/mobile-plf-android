@@ -22,7 +22,6 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTAdapter;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
-import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
@@ -141,7 +140,7 @@ public class SHNCentral {
             Timer.setHandler(handler);
         }
 
-        shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, new LeScanCallbackProxy(), shnDeviceDefinitions.getRegisteredDeviceDefinitions());
+        shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
         shnDeviceScanner = new SHNDeviceScanner(shnDeviceScannerInternal, internalHandler, userHandler);
 
         SHNDeviceWrapper.setHandlers(internalHandler, userHandler);

@@ -7,6 +7,7 @@ package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.framework.BleDeviceFoundInfo;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
@@ -19,9 +20,8 @@ public class SHNDeviceScannerInternal {
     private static final String TAG = SHNDeviceScannerInternal.class.getSimpleName();
     public static final long SCANNING_RESTART_INTERVAL_MS = 3000;
 
-    @NonNull
-    private final LeScanCallbackProxy leScanCallbackProxy;
-    private boolean scanning = false;
+    @Nullable
+    private LeScanCallbackProxy leScanCallbackProxy;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
     private Runnable restartScanningRunnable;
     private final SHNCentral shnCentral;
@@ -29,10 +29,9 @@ public class SHNDeviceScannerInternal {
     @NonNull
     private final List<ScanRequest> scanRequests = new ArrayList<>();
 
-    /* package */ SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final LeScanCallbackProxy leScanCallbackProxy, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
+    /* package */ SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         SHNDeviceFoundInfo.setSHNCentral(shnCentral);
         this.shnCentral = shnCentral;
-        this.leScanCallbackProxy = leScanCallbackProxy;
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
     }
 
@@ -41,33 +40,41 @@ public class SHNDeviceScannerInternal {
     }
 
     public boolean startScanning(@NonNull final ScanRequest scanRequest) {
-        boolean isScanning = !scanRequests.isEmpty();
-        scanRequests.add(scanRequest);
-
-        if (!isScanning) {
-            scanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
+        if (leScanCallbackProxy == null) {
+            leScanCallbackProxy = createLeScanCallbackProxy();
+            boolean scanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
 
             if (scanning) {
                 SHNLogger.i(TAG, "Started scanning");
                 startScanningRestartTimer();
             } else {
+                leScanCallbackProxy = null;
                 SHNLogger.e(TAG, "Error starting scanning");
             }
         }
 
-        scanRequest.scanningStarted(this, shnCentral.getInternalHandler());
+        if (leScanCallbackProxy != null) {
+            scanRequests.add(scanRequest);
+            scanRequest.scanningStarted(this, shnCentral.getInternalHandler());
+        }
 
-        return scanning;
+        return leScanCallbackProxy != null;
+    }
+
+    LeScanCallbackProxy createLeScanCallbackProxy() {
+        return new LeScanCallbackProxy();
     }
 
     private void startScanningRestartTimer() {
         restartScanningRunnable = new Runnable() {
             @Override
             public void run() {
-                leScanCallbackProxy.stopLeScan(leScanCallback);
-                startScanningRestartTimer();
-                if (!leScanCallbackProxy.startLeScan(leScanCallback, null)) {
-                    SHNLogger.w(TAG, "Error restarting scanning");
+                if (leScanCallbackProxy != null) {
+                    leScanCallbackProxy.stopLeScan(leScanCallback);
+                    startScanningRestartTimer();
+                    if (!leScanCallbackProxy.startLeScan(leScanCallback, null)) {
+                        SHNLogger.w(TAG, "Error restarting scanning");
+                    }
                 }
             }
         };
@@ -83,12 +90,12 @@ public class SHNDeviceScannerInternal {
     }
 
     public void stopScanning() {
-        if (scanning) {
-            scanning = false;
+        if (leScanCallbackProxy != null) {
 
             shnCentral.getInternalHandler().removeCallbacks(restartScanningRunnable);
             restartScanningRunnable = null;
             leScanCallbackProxy.stopLeScan(leScanCallback);
+            leScanCallbackProxy = null;
 
             for (final ScanRequest scanRequest : scanRequests) {
                 scanRequest.scanningStopped();

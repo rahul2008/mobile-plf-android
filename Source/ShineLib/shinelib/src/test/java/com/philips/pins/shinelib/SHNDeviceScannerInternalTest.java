@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
@@ -139,7 +140,7 @@ public class SHNDeviceScannerInternalTest {
         BleUtilities.init(mockedContext);
 
         leScanCallbackProxy = new LeScanCallbackProxy();
-        shnDeviceScannerInternal = new SHNDeviceScannerInternal(shnCentralMock, leScanCallbackProxy, testDeviceDefinitionInfos);
+        shnDeviceScannerInternal = new TestSHNDeviceScannerInternal(shnCentralMock, testDeviceDefinitionInfos);
     }
 
     @Test
@@ -351,5 +352,17 @@ public class SHNDeviceScannerInternalTest {
         shnDeviceScannerInternal.stopScanning(scanRequestMock2);
 
         verify(handlerMock).removeCallbacks(runnableCaptor.getValue());
+    }
+
+    private class TestSHNDeviceScannerInternal extends SHNDeviceScannerInternal{
+
+        TestSHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
+            super(shnCentral, registeredDeviceDefinitions);
+        }
+
+        @Override
+        LeScanCallbackProxy createLeScanCallbackProxy() {
+            return leScanCallbackProxy;
+        }
     }
 }
