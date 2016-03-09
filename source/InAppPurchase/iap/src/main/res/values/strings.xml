@@ -77,7 +77,8 @@
     <!--Order Sammary-->
     <string name="iap_order_summary">Summary</string>
     <string name="iap_pay_now">Pay now</string>
-
+    <string name="iap_deliver_via_parcel">Delivery via UPA Parcel</string>
+    <string name="iap_voucher">Claim voucher</string>
     <!--Payment-->
     <string name="iap_payment">Payment</string>
     <string name="iap_payment_method">Payment method</string>
@@ -97,5 +98,7 @@
     <string name="iap_your_order_number">Your order number is</string>
     <string name="iap_confirmation_email_msg">You will receive a confirmation e-mail shortly at %s</string>
     <string name="iap_get_image_url">getting images from server</string>
+
+
 
 </resources>

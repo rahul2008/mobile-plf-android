@@ -127,7 +127,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (v.getId() == R.id.btn_paynow) {
             if (!Utility.isProgressDialogShowing()) {
                 if (Utility.isInternetConnected(getContext())) {
-                    Utility.showProgressDialog(getContext(), getString(R.string.iap_update_address));
+                    Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
                     if (!isOrderPlaced()) {
                         mPaymentController.placeOrder();
                     } else {

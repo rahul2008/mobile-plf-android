@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelectionHolder> {
-    private final static String NEW_LINE = "\n";
-
     private Context mContext;
     private List<Addresses> mAddresses;
 
@@ -172,7 +170,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
 
     private void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
         if (!TextUtils.isEmpty(code)) {
-            sb.append(code).append(NEW_LINE);
+            sb.append(code).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
         }
     }
 

@@ -17,14 +17,20 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
+import com.philips.cdp.di.iap.response.carts.CountryEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -73,12 +79,11 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         cartData = mShoppingCartDataList.get(position);
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
-            //  AddressFields shippingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
             footerHolder.mShippingFirstName.setText(getLastValidItem().getDeliveryAddressEntity().getFirstName());
-            footerHolder.mShippingAddress.setText(getLastValidItem().getDeliveryAddressEntity().getLine1() + "\n" + getLastValidItem().getDeliveryAddressEntity().getLine1());
+            footerHolder.mShippingAddress.setText(Utility.createAddress(getLastValidItem().getDeliveryAddressEntity()));
             if (null != mBillingAddress) {
                 footerHolder.mBillingFirstName.setText(mBillingAddress.getFirstName());
-                footerHolder.mBillingAddress.setText(mBillingAddress.getLine1() + "\n" + mBillingAddress.getLine1());
+                footerHolder.mBillingAddress.setText(Utility.createAddress(mBillingAddress));
             }
             if (null != mPaymentMethod) {
                 footerHolder.mLLPaymentMode.setVisibility(View.VISIBLE);
@@ -87,7 +92,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
             footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
-            //footerHolder.mTotalPrice.setText(String.valueOf(getLastValidItem().getTotalPriceWithTax()));
             footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
@@ -99,7 +103,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             orderProductHolder.mNetworkImage.setImageUrl(imageURL, mImageLoader);
             orderProductHolder.mTvProductName.setText(cartData.getProductTitle());
             String price = cartData.getTotalPriceFormatedPrice();
-            //String price = NumberFormat.getNumberInstance(NetworkConstants.STORE_LOCALE).format(cartData.getTotalPrice());
 
             orderProductHolder.mTvtotalPrice.setText(price);
             orderProductHolder.mTvtotalPrice.setTypeface(null, Typeface.BOLD);
