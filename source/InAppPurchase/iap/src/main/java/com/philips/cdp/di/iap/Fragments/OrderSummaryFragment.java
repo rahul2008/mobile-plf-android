@@ -15,12 +15,12 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.controller.PaymentController;
-import com.philips.cdp.di.iap.response.error.ServerError;
+import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -160,7 +160,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
-        } else if (msg.obj instanceof ServerError) {
+        } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
@@ -184,7 +184,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             } else {
                 mPaymentController.makPayment(orderID);
             }
-        } else if (msg.obj instanceof ServerError) {
+        } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
