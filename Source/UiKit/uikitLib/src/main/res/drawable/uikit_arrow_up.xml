@@ -6,14 +6,14 @@
         android:viewportHeight="7"
         android:viewportWidth="13"
 
-        app:vc_viewportHeight="7"
-        app:vc_viewportWidth="13"
+        app:uikit_vc_viewportHeight="7"
+        app:uikit_vc_viewportWidth="13"
     >
 
     <path
         android:fillColor="@android:color/white"
         android:pathData="M 12.1 7 L 6.5 1.6 L 0.9 7 L 0 6.3 L 6.5 0 L 13 6.3 Z"
 
-        app:vc_fillColor="@android:color/white"
-        app:vc_pathData="M 12.1 7 L 6.5 1.6 L 0.9 7 L 0 6.3 L 6.5 0 L 13 6.3 Z"/>
+        app:uikit_vc_fillColor="@android:color/white"
+        app:uikit_vc_pathData="M 12.1 7 L 6.5 1.6 L 0.9 7 L 0 6.3 L 6.5 0 L 13 6.3 Z"/>
 </vector>

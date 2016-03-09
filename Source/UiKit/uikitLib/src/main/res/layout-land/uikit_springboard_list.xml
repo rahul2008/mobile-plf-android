@@ -9,7 +9,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/gradWindowBackground"
+        android:background="?attr/uikit_gradWindowBackground"
         android:isScrollContainer="true"
         android:orientation="vertical"
         android:paddingLeft="@dimen/springboard_list_left_margin"
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
             android:layout_height="match_parent"
         android:orientation="vertical"
-            app:opacityStyle="darker_color">
+            app:uikit_opacityStyle="darker_color">
 
 
             <LinearLayout
@@ -51,7 +51,7 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="11dp"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView1"
@@ -85,7 +85,7 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="14dp"
                     android:layout_marginTop="11dp"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -121,7 +121,7 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="11dp"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -156,7 +156,7 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="11dp"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -191,7 +191,7 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="11dp"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView5"
@@ -228,7 +228,7 @@
                     android:layout_marginLeft="33dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="11dp"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView6"

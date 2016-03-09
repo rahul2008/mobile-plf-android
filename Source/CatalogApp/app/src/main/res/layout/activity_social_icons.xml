@@ -136,7 +136,7 @@ android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/baseColor"
+        android:background="?attr/uikit_baseColor"
         android:orientation="horizontal">
 
         <com.shamanland.fonticon.FontIconView
@@ -193,7 +193,7 @@ android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/baseColor"
+        android:background="?attr/uikit_baseColor"
         android:orientation="horizontal">
         <com.shamanland.fonticon.FontIconView
             android:layout_width="wrap_content"

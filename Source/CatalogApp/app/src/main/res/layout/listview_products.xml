@@ -11,8 +11,8 @@
         android:id="@+id/listproduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:divider="?attr/listDividerColor"
+        android:divider="?attr/uikit_listDividerColor"
         android:dividerHeight="1dp"
-        android:listSelector="?attr/listSelectorBackground"></ListView>
+        android:listSelector="?attr/uikit_listSelectorBackground"></ListView>
 
 </RelativeLayout>

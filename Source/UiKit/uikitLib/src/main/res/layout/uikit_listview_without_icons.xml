@@ -21,7 +21,7 @@
         android:layout_marginTop="11dp"
         android:includeFontPadding="false"
         android:text="By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app."
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="16sp"
         android:visibility="gone" />
 
@@ -43,7 +43,7 @@
         android:layout_marginRight="19dp"
         android:layout_toLeftOf="@+id/arrowwithouticons"
         android:text="Medium"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="20sp"
         android:visibility="gone" />
 
@@ -60,7 +60,7 @@
         android:includeFontPadding="false"
         android:text="@string/uikit_fonticon_arrow_right"
         android:textAlignment="center"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="13sp"
         android:visibility="gone" />
 
@@ -75,7 +75,7 @@
         android:layout_toLeftOf="@id/medium"
         android:text="Version"
         android:layout_alignParentLeft="true"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="20sp" />
 
     <TextView
@@ -88,7 +88,7 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/arrowwithouticons"
         android:text="Medium"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="20sp"
         android:visibility="gone" />
 

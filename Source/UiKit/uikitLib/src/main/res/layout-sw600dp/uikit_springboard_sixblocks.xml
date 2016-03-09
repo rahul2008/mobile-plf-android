@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/gradWindowBackground">
+    android:background="?attr/uikit_gradWindowBackground">
 
     <TextView
         android:id="@+id/title_text"
@@ -34,7 +34,7 @@
             android:layout_marginBottom="@dimen/springboard_gridspacing"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            app:opacityStyle="darker_with_opacity">
+            app:uikit_opacityStyle="darker_with_opacity">
 
             <RelativeLayout
                 android:id="@+id/item1"
@@ -51,7 +51,7 @@
                     android:layout_height="53dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/image_margin_top"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView1"
@@ -83,7 +83,7 @@
                     android:layout_height="53dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/image_margin_top"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -110,7 +110,7 @@
             android:layout_marginBottom="@dimen/springboard_gridspacing"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            app:opacityStyle="darker_with_opacity">
+            app:uikit_opacityStyle="darker_with_opacity">
 
             <RelativeLayout
                 android:id="@+id/item3"
@@ -125,7 +125,7 @@
                     android:layout_height="53dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/image_margin_top"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -157,7 +157,7 @@
                     android:layout_height="53dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/image_margin_top"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -184,7 +184,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal"
 
-            app:opacityStyle="darker_with_opacity">
+            app:uikit_opacityStyle="darker_with_opacity">
 
             <RelativeLayout
                 android:id="@+id/item5"
@@ -201,7 +201,7 @@
                     android:layout_height="53dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/image_margin_top"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView5"
@@ -233,7 +233,7 @@
                     android:layout_height="53dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/image_margin_top"
-                    app:themeStyle="theme" />
+                    app:uikit_themeStyle="theme" />
 
                 <TextView
                     android:id="@+id/textView6"

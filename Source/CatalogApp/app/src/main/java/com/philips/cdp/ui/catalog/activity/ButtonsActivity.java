@@ -28,18 +28,18 @@ import com.philips.cdp.uikit.utils.FontIconUtils;
 /**
  *
  *     Different theme attributes can be used to apply button styles
- *     Avaialable attributes are <b>outlinedButtonStyle, outlinedButtonTransparentStyle,
+ *     Avaialable attributes are <b>uikit_outlinedButtonStyle, outlinedButtonTransparentStyle,
  *     springBoardButton, springBoardButtonWithIcon, springBoardButtonOutLined,
  *     springBoardButtonOutLinedWithIcon</b>.
  *     <p>
- *         Usage: <b>style="?attr/oneofbuttonStyles"</b>
+ *         Usage: <b>style="?attr/uikit_oneofbuttonStyles"</b>
  *     <br>
  *         Example:
  *              <pre>
  *                     &lt;Button
  *                          android:layout_width="wrap_content"
  *                          android:layout_height="wrap_content"
- *                          <b>style="?attr/springBoardButton"</b>/&gt;
+ *                          <b>style="?attr/uikit_springBoardButton"</b>/&gt;
  *                  </pre>
  *     </p>
  * <p>
@@ -68,7 +68,7 @@ import com.philips.cdp.uikit.utils.FontIconUtils;
  *                     &lt;com.philips.cdp.uikit.customviews.UIKitButton
  *                          android:layout_width="wrap_content"
  *                          android:layout_height="wrap_content"
- *                          style="?attr/springBoardButtonOutLinedWithIcon"/&gt;
+ *                          style="?attr/uikit_springBoardButtonOutLinedWithIcon"/&gt;
  *                  </pre>
  *     </p>
  *     For all the available styles please refer below files in aar file

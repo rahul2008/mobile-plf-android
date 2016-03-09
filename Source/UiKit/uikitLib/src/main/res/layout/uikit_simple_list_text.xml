@@ -11,7 +11,7 @@
         android:layout_height="53dp"
         android:layout_marginLeft="12dp"
         android:gravity="center"
-        android:textColor="?attr/darkerColor"
+        android:textColor="?attr/uikit_darkerColor"
         android:textSize="@dimen/popup_text_size" />
 
 </LinearLayout>

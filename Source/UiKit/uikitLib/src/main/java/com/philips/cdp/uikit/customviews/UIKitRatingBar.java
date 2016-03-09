@@ -51,7 +51,7 @@ public class UIKitRatingBar extends RatingBar {
     public UIKitRatingBar(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RatingBarView, 0, 0);
-        isBigStar = a.getBoolean(R.styleable.RatingBarView_isratingbarbig, true);
+        isBigStar = a.getBoolean(R.styleable.RatingBarView_uikit_isratingbarbig, true);
         a.recycle();
 
         if (isBigStar) {

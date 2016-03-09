@@ -299,7 +299,7 @@ public class TabUtils {
         enabledColor = ContextCompat.getColor(context, R.color.uikit_tab_text_enabled_color);
         //Selected Color
         TypedArray array = context.obtainStyledAttributes(R.styleable.PhilipsUIKit);
-        selectedColor = array.getColor(R.styleable.PhilipsUIKit_baseColor, 0);
+        selectedColor = array.getColor(R.styleable.PhilipsUIKit_uikit_baseColor, 0);
         array.recycle();
     }
 

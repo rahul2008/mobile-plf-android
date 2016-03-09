@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        inputText:errorText="@string/invalid_email_format"
-        inputText:hintText="@string/enter_text_here"
-        inputText:singleLine="true"/>
+        inputText:uikit_errorText="@string/invalid_email_format"
+        inputText:uikit_hintText="@string/enter_text_here"
+        inputText:uikit_singleLine="true"/>
 
     <com.philips.cdp.uikit.customviews.PuiEditText
         android:id="@+id/input_field_2"
@@ -24,9 +24,9 @@
         android:layout_below="@+id/input_field_1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        inputText:errorText="@string/invalid_email_format"
-        inputText:hintText="@string/enter_text_here"
-        inputText:singleLine="true"/>
+        inputText:uikit_errorText="@string/invalid_email_format"
+        inputText:uikit_hintText="@string/enter_text_here"
+        inputText:uikit_singleLine="true"/>
 
     <com.philips.cdp.uikit.customviews.PuiEditText
         android:id="@+id/input_field_disabled"
@@ -35,7 +35,7 @@
         android:layout_below="@+id/input_field_2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        inputText:enabled="false"
-        inputText:hintText="@string/enter_text_here"
-        inputText:singleLine="true"/>
+        inputText:uikit_enabled="false"
+        inputText:uikit_hintText="@string/enter_text_here"
+        inputText:uikit_singleLine="true"/>
 </RelativeLayout>

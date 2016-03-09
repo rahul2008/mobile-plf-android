@@ -17,13 +17,13 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:alpha="0.3"
-        android:background="?attr/veryLightColor" />
+        android:background="?attr/uikit_veryLightColor" />
     <View
         android:id="@+id/tab_divider_last"
         android:layout_width="@dimen/uikit_tab_divider_width"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:alpha="0.3"
-        android:background="?attr/veryLightColor"
+        android:background="?attr/uikit_veryLightColor"
         android:visibility="gone" />
 </RelativeLayout>

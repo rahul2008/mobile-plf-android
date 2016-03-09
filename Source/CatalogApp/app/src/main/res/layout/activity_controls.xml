@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        app:controlButtonHeight="44dp"
-        app:controlButtonWidth="42dp" />
+        app:uikit_controlButtonHeight="44dp"
+        app:uikit_controlButtonWidth="42dp" />
 
     <com.philips.cdp.uikit.customviews.StateControls
         android:id="@+id/controls0"
@@ -20,9 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        app:controlButtonHeight="44dp"
-        app:controlButtonWidth="42dp"
-        app:controlMultiChoice="true"/>
+        app:uikit_controlButtonHeight="44dp"
+        app:uikit_controlButtonWidth="42dp"
+        app:uikit_controlMultiChoice="true"/>
 
     <com.philips.cdp.uikit.customviews.StateControls
         android:id="@+id/controls1"
@@ -30,10 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        app:controlButtonHeight="44dp"
-        app:controlButtonWidth="143dp"
-        app:controlEntries="@array/controls_array2"
-        app:controlMultiChoice="true"/>
+        app:uikit_controlButtonHeight="44dp"
+        app:uikit_controlButtonWidth="143dp"
+        app:uikit_controlEntries="@array/controls_array2"
+        app:uikit_controlMultiChoice="true"/>
 
     <com.philips.cdp.uikit.customviews.StateControls
         android:id="@+id/controls2"
@@ -41,10 +41,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        app:controlButtonHeight="@dimen/uikit_controls_default_height"
-        app:controlButtonWidth="@dimen/uikit_controls_default_width"
-        app:controlEntries="@array/controls_array"
-        app:controlMultiChoice="true"/>
+        app:uikit_controlButtonHeight="@dimen/uikit_controls_default_height"
+        app:uikit_controlButtonWidth="@dimen/uikit_controls_default_width"
+        app:uikit_controlEntries="@array/controls_array"
+        app:uikit_controlMultiChoice="true"/>
 
 
 

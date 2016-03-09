@@ -83,7 +83,7 @@ public class ImageIndicator extends LinearLayout implements PageIndicator, onTou
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private void processAttributes(final Context context, final Resources resources) {
         distanceBetweenCircles = (int) resources.getDimension(R.dimen.uikit_dot_navigation_distance_between_circles);
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         themeBaseColor = a.getColor(0, resources.getColor(R.color.uikit_philips_blue));
     }
 

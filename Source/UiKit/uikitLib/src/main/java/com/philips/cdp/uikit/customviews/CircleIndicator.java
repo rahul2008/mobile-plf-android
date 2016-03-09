@@ -88,7 +88,7 @@ public class CircleIndicator extends LinearLayout implements PageIndicator, com.
         unSelectedCircleWidth = (int) resources.getDimension(R.dimen.uikit_dot_navigation_unselected_width);
         unSelectedCircleHeight = (int) resources.getDimension(R.dimen.uikit_dot_navigation_unselected_height);
         distanceBetweenCircles = (int) resources.getDimension(R.dimen.uikit_dot_navigation_distance_between_circles);
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.uikit_enableStroke, R.attr.uikit_strokeColor});
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor, R.attr.uikit_enableStroke, R.attr.uikit_strokeColor});
         themeBaseColor = a.getColor(0, resources.getColor(R.color.uikit_philips_blue));
         enableStrokeBackground = a.getBoolean(1, false);
         strokeColor = a.getColor(2, themeBaseColor);

@@ -118,7 +118,7 @@ public class UIKitListPopupWindow extends ListPopupWindow {
 
     private void setThemeDrawable() {
 
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor, R.attr.darkerColor});
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_veryLightColor, R.attr.uikit_darkerColor});
         ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue);
         mVerylightthemecolor = a.getColor(0, ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
         mDarkerColor = a.getColor(1, ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));

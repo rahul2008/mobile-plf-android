@@ -32,8 +32,8 @@ public class UIKitRadioButton extends AppCompatRadioButton {
     }
 
     private void initTintList() {
-        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.LightColor});
-        int baseColor = ar.getInt(0, R.attr.baseColor);
+        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor, R.attr.uikit_LightColor});
+        int baseColor = ar.getInt(0, R.attr.uikit_baseColor);
 
         int overlayColor = Color.argb(127, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor));
         ar.recycle();

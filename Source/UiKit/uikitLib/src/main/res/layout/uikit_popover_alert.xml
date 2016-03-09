@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-    android:background="?attr/notificationBarGradient"
+    android:background="?attr/uikit_notificationBarGradient"
     android:minHeight="@dimen/popover_info_layout_height">
 
     <TextView

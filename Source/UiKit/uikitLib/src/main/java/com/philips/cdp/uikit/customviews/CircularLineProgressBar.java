@@ -25,7 +25,7 @@ public class CircularLineProgressBar extends ProgressBar {
         context = c;
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.UiKit_ProgressSpinner, 0, 0);
-       int updateFrequency  = a.getInteger(R.styleable.UiKit_ProgressSpinner_duration, 250);
+       int updateFrequency  = a.getInteger(R.styleable.UiKit_ProgressSpinner_uikit_duration, 250);
         a.recycle();
         startAnimation(updateFrequency);
     }

@@ -62,7 +62,7 @@ public class UIKitButton extends AppCompatButton {
     }
 
     private void initTintList() {
-        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.darkerColor});
+        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor, R.attr.uikit_darkerColor});
         if (a != null) {
             int normalColor = a.getColor(0, Color.WHITE);
             int pressedColor = a.getColor(1, Color.WHITE);

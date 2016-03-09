@@ -3,11 +3,11 @@
     android:id="@+id/splash_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/splashGradient">
+    android:background="?attr/uikit_splashGradient">
 
     <TextView
         android:id="@+id/splash_title"
-        style="?attr/splashTitleStyle"
+        style="?attr/uikit_splashTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

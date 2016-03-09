@@ -150,7 +150,7 @@ public class HamburgerAdapter extends BaseAdapter {
     }
 
     private void setColors() {
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.veryLightColor, R.attr.brightColor, R.attr.baseColor});
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_veryLightColor, R.attr.uikit_brightColor, R.attr.uikit_baseColor});
         disabledColor = typedArray.getColor(0, -1);
         brightColor = typedArray.getColor(1, -1);
         baseColor = typedArray.getColor(2, -1);

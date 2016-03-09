@@ -3,12 +3,12 @@
     android:id="@+id/splash_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/gradWindowBackground"
+    android:background="?attr/uikit_gradWindowBackground"
     android:orientation="vertical">
 
     <Button
         android:id="@+id/show_modal_dialog"
-        style="?attr/outlinedButtonStyle"
+        style="?attr/uikit_outlinedButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

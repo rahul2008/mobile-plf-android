@@ -49,8 +49,8 @@ public class RangeSlider<T extends Number> extends RelativeLayout implements Ran
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekBar, 0, 0);
 
-        Number minValue = extractNumericValueFromAttributes(a,R.styleable.RangeSeekBar_absoluteMinValue,0);
-        Number maxValue = extractNumericValueFromAttributes(a,R.styleable.RangeSeekBar_absoluteMaxValue,100);
+        Number minValue = extractNumericValueFromAttributes(a,R.styleable.RangeSeekBar_uikit_absoluteMinValue,0);
+        Number maxValue = extractNumericValueFromAttributes(a,R.styleable.RangeSeekBar_uikit_absoluteMaxValue,100);
         setRangeValues(minValue, maxValue);
     }
 

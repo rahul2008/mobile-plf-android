@@ -224,7 +224,7 @@ public class InlineForms extends LinearLayout {
 
     private int getFocusedColor() {
         TypedArray array = getContext().obtainStyledAttributes(R.styleable.PhilipsUIKit);
-        int dividercolor = array.getColor(R.styleable.PhilipsUIKit_veryLightColor, 0);
+        int dividercolor = array.getColor(R.styleable.PhilipsUIKit_uikit_veryLightColor, 0);
         array.recycle();
         return dividercolor;
     }
@@ -427,7 +427,7 @@ public void setErrorMessage(String text)
     }
 
     private int getThemeColor() {
-        TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         int themeBaseColor = a.getColor(0, ContextCompat.getColor(getContext(), R.color.uikit_philips_blue));
         a.recycle();
         return themeBaseColor;

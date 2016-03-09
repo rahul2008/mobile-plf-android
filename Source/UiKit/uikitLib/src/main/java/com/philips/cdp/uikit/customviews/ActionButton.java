@@ -111,7 +111,7 @@ public class ActionButton extends ImageButton {
     private static final int CIRCLE = 1;
 
     public ActionButton(final Context context, final AttributeSet attrs) {
-        this(context, attrs, R.attr.actionButtonStyleRef);
+        this(context, attrs, R.attr.uikit_actionButtonStyleRef);
     }
 
     public ActionButton(Context context, AttributeSet attrs,
@@ -143,7 +143,7 @@ public class ActionButton extends ImageButton {
     private void setShadowing(Resources resources, TypedArray typedArray) {
         float shadowValue = 0;
 
-        if (typedArray.getBoolean(R.styleable.ActionButton_actionButtonShadow, false))
+        if (typedArray.getBoolean(R.styleable.ActionButton_uikit_actionButtonShadow, false))
             shadowValue = resources.getDimension(R.dimen.uikit_action_button_shadow_radius);
 
         setShadow(shadowValue);
@@ -155,7 +155,7 @@ public class ActionButton extends ImageButton {
     }
 
     private int getResID(final TypedArray typedArray) {
-        String resPath = typedArray.getString(R.styleable.ActionButton_actionButtonImageDrawable);
+        String resPath = typedArray.getString(R.styleable.ActionButton_uikit_actionButtonImageDrawable);
         if (resPath != null)
             return UikitUtils.getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
         else
@@ -166,7 +166,7 @@ public class ActionButton extends ImageButton {
     //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
     private GradientDrawable getShapeDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable;
-        int shapeValue = typedArray.getInt(R.styleable.ActionButton_actionButtonShape, SQUARE);
+        int shapeValue = typedArray.getInt(R.styleable.ActionButton_uikit_actionButtonShape, SQUARE);
         switch (shapeValue) {
             case SQUARE:
                 gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.uikit_square);
@@ -185,7 +185,7 @@ public class ActionButton extends ImageButton {
     //we need to support API lvl 14+, so cannot change to resources.getColor(): sticking with deprecated API for now
     private GradientDrawable getNormalStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
-        int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColor, resources.getColor(R.color.uikit_philips_bright_blue));
+        int color = typedArray.getColor(R.styleable.ActionButton_uikit_actionButtonBgColor, resources.getColor(R.color.uikit_philips_bright_blue));
         gradientDrawable.setColor(color);
         gradientDrawable.mutate();
         return gradientDrawable;
@@ -195,7 +195,7 @@ public class ActionButton extends ImageButton {
     //we need to support API lvl 14+, so cannot change to resources.getColor(): sticking with deprecated API for now
     private GradientDrawable getPressedStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
-        int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColorPressed, resources.getColor(R.color.uikit_philips_dark_blue));
+        int color = typedArray.getColor(R.styleable.ActionButton_uikit_actionButtonBgColorPressed, resources.getColor(R.color.uikit_philips_dark_blue));
         gradientDrawable.setColor(color);
         gradientDrawable.mutate();
         return gradientDrawable;
