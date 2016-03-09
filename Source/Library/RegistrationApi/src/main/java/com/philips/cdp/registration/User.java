@@ -828,7 +828,12 @@ public class User {
             signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
             Log.i("Signin ", "isEmailVerificationRequired + Value :" + signedIn);
         }
+
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
+            if(!RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+                throw new RuntimeException("Please set EmailVerificationRequired field as true");
+            }
+
             HsdpUser hsdpUser = new HsdpUser(context);
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
             Log.i("Signin ", "isHsdpFlow + Value :" + signedIn);
@@ -1112,6 +1117,7 @@ public class User {
                 hsdpUser.deleteFromDisk();
                 if (logoutHandler != null) {
                     logoutHandler.onLogoutSuccess();
+                    Jump.signOutCaptureUser(mContext);
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnUserLogoutSuccess();
                 }
@@ -1153,7 +1159,8 @@ public class User {
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
-        CaptureRecord.deleteFromDisk(mContext);
+        //CaptureRecord.deleteFromDisk(mContext);
+        Jump.signOutCaptureUser(mContext);
         mContext.deleteFile(DI_PROFILE_FILE);
     }
 

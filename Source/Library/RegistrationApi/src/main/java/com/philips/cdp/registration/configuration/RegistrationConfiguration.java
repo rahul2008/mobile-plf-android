@@ -158,7 +158,6 @@ public class RegistrationConfiguration {
         hsdpClientInfos.putAll(RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().getHsdpInfos());
         hsdpConfiguration.setHsdpInfos(hsdpClientInfos);
 
-
         return hsdpConfiguration;
     }
 

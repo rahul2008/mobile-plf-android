@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 
 public class XPassword extends RelativeLayout implements TextWatcher, OnClickListener,
@@ -224,10 +226,11 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
         if (validatePassword()) {
             showValidPasswordAlert();
         } else {
-
             if (mEtPassword.getText().toString().trim().length() == 0) {
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
                 setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
             } else {
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.WRONG_PASSWORD);
                 setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
             }
             showInvalidPasswordAlert();
@@ -239,6 +242,7 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
             showValidPasswordAlert();
         } else {
             if (mEtPassword.getText().toString().trim().length() == 0) {
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_PASSWORD);
                 setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
             }
             showInvalidPasswordAlert();
@@ -307,15 +311,15 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
     private void togglePasswordMask() {
         if(mEtPassword.getInputType()!=(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)){
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,true);
             mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
             mEtPassword.setSelection(mEtPassword.getText().length());
-
         }else{
+            AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.SHOW_PASSWORD,false);
             mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
             mEtPassword.setSelection(mEtPassword.getText().length());
         }
     }

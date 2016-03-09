@@ -311,20 +311,18 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
+        RLog.i(RLog.CALLBACK, " SignInAccountFragment : onLoginFailedWithError :"+userRegistrationFailureInfo.getErrorCode());
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
         hideSignInSpinner();
 
         mBtnSignInAccount.setEnabled(false);
         if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
-            //HSDP related error description
             scrollViewAutomatically(mRegError, mSvRootLayout);
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
             trackActionLoginError(userRegistrationFailureInfo.getErrorCode());
             scrollViewAutomatically(mRegError, mSvRootLayout);
         } else {
-            //Need to show password errors only
             scrollViewAutomatically(mRegError, mSvRootLayout);
             mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
             trackActionLoginError(userRegistrationFailureInfo.getError().code);
@@ -564,7 +562,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         mRegError.hideError();
 
-        if (mUser.getEmailVerificationStatus(getActivity())) {
+        if (mUser.getEmailVerificationStatus(getActivity()) || !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.isAvailableIn(mContext, mEmail)) {
                 launchWelcomeFragment();
             } else {

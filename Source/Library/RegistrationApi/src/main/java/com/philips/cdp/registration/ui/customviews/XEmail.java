@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 
 public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
@@ -148,7 +150,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 			handleEmail(hasFocus);
 			raiseUpdateUIEvent();
 			if(!hasFocus){
-			handleOnFocusChanges();}
+			handleOnFocusChanges();
+			}
 		}
 	}
 
@@ -202,8 +205,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 			mValidEmail = true;
 		} else {
 			if (mEtEmail.getText().toString().trim().length() == 0) {
+				AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_EMAIL);
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			} else {
+				AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.INVALID_EMAIL);
 				setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
 			}
 			showEmailIsInvalidAlert();

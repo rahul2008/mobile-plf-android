@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.apptagging.AppTagging;
+import com.philips.cdp.registration.apptagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 
 public class XUserName extends RelativeLayout implements TextWatcher, OnFocusChangeListener,
@@ -193,6 +195,7 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 			showValidUserNameAlert();
 		} else {
 			if (mEtUserName.getText().toString().trim().length() == 0) {
+				AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ALERT,AppTagingConstants.FIELD_CANNOT_EMPTY_NAME);
 				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 				showInvalidUserNameAlert();
 			}

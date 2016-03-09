@@ -20,6 +20,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.apptagging.AppTagging;
 import com.philips.cdp.registration.apptagging.AppTaggingPages;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -29,6 +30,7 @@ import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.tagging.Tagging;
 import com.philips.dhpclient.BuildConfig;
 
@@ -64,7 +66,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         if (bunble != null) {
             isAccountSettings = bunble.getBoolean(RegConstants.ACCOUNT_SETTINGS, true);
         }
-        System.out.println("isAccountSettings" + isAccountSettings);
+        RLog.d("RegistrationFragment", "isAccountSettings : "+isAccountSettings);
         super.onCreate(savedInstanceState);
     }
 
@@ -97,7 +99,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     @Override
     public void onPause() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onPause");
-
         super.onPause();
     }
 
@@ -133,13 +134,14 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             navigateToHome();
             trackPage(AppTaggingPages.HOME);
         } else {
-
-
             if (fragment instanceof AlmostDoneFragment) {
                 ((AlmostDoneFragment) (fragment)).clearUserData();
             }
             trackHandler();
             mFragmentManager.popBackStack();
+        }
+        if (fragment instanceof AccountActivationFragment) {
+            RegUtility.setCreateAccountStartTime(System.currentTimeMillis());
         }
         return false;
     }
@@ -198,22 +200,28 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
 
-        //account setting true or no
-        //if true follow bellow else cckech for sign in status and repave with wel come screen on sing els ehome
         if (isAccountSettings) {
             if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
                 AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
                 replaceWithLogoutFragment();
                 return;
             }
+            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+                AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
+                replaceWithLogoutFragment();
+                return;
+            }
+
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
             replaceWithHomeFragment();
         } else {
             if (mUser.isUserSignIn(mActivity.getApplicationContext()) && mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
                 AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
-                replaceWithLogoutFragment();
-                // replaceWithLogoutFragment();
-                //replace with welcome
+                replaceWithWelcomeFragment();
+                return;
+            }
+            if (mUser.isUserSignIn(mActivity.getApplicationContext()) && !RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+                AppTagging.trackFirstPage(AppTaggingPages.WELCOME);
                 replaceWithWelcomeFragment();
                 return;
             }
@@ -383,7 +391,6 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(accountActivationFragment);
     }
 
-
     public void addResetPasswordFragment() {
         ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();
         addFragment(resetPasswordFragment);
@@ -407,9 +414,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-
             UserRegistrationInitializer.getInstance().resetInitializationState();
-
         }
         if (!UserRegistrationInitializer.getInstance().isJanrainIntialized() && !UserRegistrationInitializer.getInstance().isJumpInitializationInProgress()) {
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
@@ -456,6 +461,4 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         }
         return true;
     }
-
-
 }

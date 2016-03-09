@@ -86,4 +86,20 @@ public class AppTagingConstants {
 
 	public static final String ALREADY_SIGN_IN_SOCIAL = "you have logged in with a social provider previously";
 
+	public static final String TOTAL_TIME_CREATE_ACCOUNT = "totalTimeInCreateAccount";
+
+	public static final String USER_ALERT = "userAlert";
+
+	public static final String INVALID_EMAIL = "Invalid email address";
+
+	public static final String WRONG_PASSWORD = "The password does not follow the password guidelines below.";
+
+	public static final String SHOW_PASSWORD = "showPassword";
+
+	public static final String FIELD_CANNOT_EMPTY_NAME = "firsName : field can not be empty";
+
+	public static final String FIELD_CANNOT_EMPTY_EMAIL = "emailAddress : field can not be empty";
+
+	public static final String FIELD_CANNOT_EMPTY_PASSWORD = "password : field can not be empty";
+
 }
