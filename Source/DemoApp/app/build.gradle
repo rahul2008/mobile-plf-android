@@ -79,7 +79,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile project(':product-registration-lib')
-    
     //    compile 'com.philips.cdp:product-registration-lib:0.0.1'
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile "org.mockito:mockito-core:1.9.5"
