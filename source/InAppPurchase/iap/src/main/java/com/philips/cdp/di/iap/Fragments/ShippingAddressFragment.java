@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -305,11 +304,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
 
         if (!result) {
+            mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError((EditText) editText);
-
-            int index = mInlineFormsParent.indexOfChild((ViewGroup) editText.getParent());
-            TextView errorView = (TextView) ((ViewGroup) mInlineFormsParent.getChildAt(index + 1)).getChildAt(1);
-            errorView.setText(errorMessage);
         } else {
             mInlineFormsParent.removeError(editText);
         }

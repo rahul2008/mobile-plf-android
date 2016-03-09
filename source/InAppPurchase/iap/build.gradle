@@ -143,7 +143,7 @@ dependencies {
     compile "com.google.code.gson:gson:2.2.4"
     compile(name: 'prx-release', ext: 'aar')
     //uikit lib
-    compile "com.philips.cdp:uikitLib:2.0.0"
+    compile "com.philips.cdp:uikitLib:2.0.2"
     // Tests
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-all:1.10.17"

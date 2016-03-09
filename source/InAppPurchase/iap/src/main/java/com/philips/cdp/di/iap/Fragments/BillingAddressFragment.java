@@ -302,11 +302,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         }
 
         if (!result) {
+            mInlineFormsParent.setErrorMessage(errorMessage);
             mInlineFormsParent.showError((EditText) editText);
-
-            int index = mInlineFormsParent.indexOfChild((ViewGroup) editText.getParent());
-            TextView errorView = (TextView) ((ViewGroup) mInlineFormsParent.getChildAt(index + 1)).getChildAt(1);
-            errorView.setText(errorMessage);
         } else {
             mInlineFormsParent.removeError(editText);
         }
