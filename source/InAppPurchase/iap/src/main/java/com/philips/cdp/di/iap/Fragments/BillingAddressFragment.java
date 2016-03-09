@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
@@ -30,7 +29,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private PuiSwitch mSwitchBillingAddress;
     private EditText mEtFirstName;
     private EditText mEtLastName;
-    private EditText mEtAddress;
+    private EditText mEtAddresslineOne;
+    private EditText mEtAddresslineTwo;
     private EditText mEtTown;
     private EditText mEtPostalCode;
     private EditText mEtCountry;
@@ -56,7 +56,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
-        mEtAddress = (EditText) rootView.findViewById(R.id.et_address);
+        mEtAddresslineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
+        mEtAddresslineTwo = (EditText) rootView.findViewById(R.id.et_address_line_two);
         mEtTown = (EditText) rootView.findViewById(R.id.et_town);
         mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
         mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
@@ -86,7 +87,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         mEtFirstName.addTextChangedListener(this);
         mEtLastName.addTextChangedListener(this);
-        mEtAddress.addTextChangedListener(this);
+        mEtAddresslineOne.addTextChangedListener(this);
+        mEtAddresslineTwo.addTextChangedListener(this);
         mEtTown.addTextChangedListener(this);
         mEtPostalCode.addTextChangedListener(this);
         mEtCountry.addTextChangedListener(this);
@@ -124,7 +126,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         if (mAddressFields != null) {
             mEtFirstName.setText(mAddressFields.getFirstName());
             mEtLastName.setText(mAddressFields.getLastName());
-            mEtAddress.setText(mAddressFields.getLine1());
+            mEtAddresslineOne.setText(mAddressFields.getLine1());
+            mEtAddresslineTwo.setText(mAddressFields.getLine2());
             mEtTown.setText(mAddressFields.getTown());
             mEtPostalCode.setText(mAddressFields.getPostalCode());
             mEtCountry.setText(mAddressFields.getCountryIsocode());
@@ -135,17 +138,19 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
     public void checkFields() {
 
-        String firstName = mEtFirstName.getText().toString().trim();
-        String lastName = mEtLastName.getText().toString().trim();
-        String address = mEtAddress.getText().toString().trim();
-        String postalCode = mEtPostalCode.getText().toString().trim();
-        String phoneNumber = mEtPhoneNumber.getText().toString().trim();
-        String town = mEtTown.getText().toString().trim();
-        String country = mEtCountry.getText().toString().trim();
-        String email = mEtEmail.getText().toString().trim();
+        String firstName = mEtFirstName.getText().toString();
+        String lastName = mEtLastName.getText().toString();
+        String addressLineOne = mEtAddresslineOne.getText().toString();
+        String addressLineTwo = mEtAddresslineTwo.getText().toString();
+        String postalCode = mEtPostalCode.getText().toString();
+        String phoneNumber = mEtPhoneNumber.getText().toString();
+        String town = mEtTown.getText().toString();
+        String country = mEtCountry.getText().toString();
+        String email = mEtEmail.getText().toString();
 
         if (mValidator.isValidFirstName(firstName) && mValidator.isValidLastName(lastName)
-                && mValidator.isValidAddress(address) && mValidator.isValidPostalCode(postalCode)
+                && mValidator.isValidAddress(addressLineOne) && mValidator.isValidAddress(addressLineTwo)
+                && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)) {
 
@@ -153,8 +158,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             mAddressFields.setLastName(lastName);
             mAddressFields.setTitleCode("mr");
             mAddressFields.setCountryIsocode(country);
-            mAddressFields.setLine1(address);
-            mAddressFields.setLine2("testline");
+            mAddressFields.setLine1(addressLineOne);
+            mAddressFields.setLine2(addressLineTwo);
             mAddressFields.setPostalCode(postalCode);
             mAddressFields.setTown(town);
             mAddressFields.setPhoneNumber(phoneNumber);
@@ -169,7 +174,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private void clearAllFields() {
         mEtFirstName.setText("");
         mEtLastName.setText("");
-        mEtAddress.setText("");
+        mEtAddresslineOne.setText("");
+        mEtAddresslineTwo.setText("");
         mEtTown.setText("");
         mEtPostalCode.setText("");
         mEtCountry.setText("");
@@ -183,7 +189,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         removeErrorInAllFields();
         mEtFirstName.setEnabled(false);
         mEtLastName.setEnabled(false);
-        mEtAddress.setEnabled(false);
+        mEtAddresslineOne.setEnabled(false);
+        mEtAddresslineTwo.setEnabled(false);
         mEtTown.setEnabled(false);
         mEtPostalCode.setEnabled(false);
         mEtCountry.setEnabled(false);
@@ -194,7 +201,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private void enableAllFields() {
         mEtFirstName.setEnabled(true);
         mEtLastName.setEnabled(true);
-        mEtAddress.setEnabled(true);
+        mEtAddresslineOne.setEnabled(true);
+        mEtAddresslineTwo.setEnabled(true);
         mEtTown.setEnabled(true);
         mEtPostalCode.setEnabled(true);
         mEtCountry.setEnabled(true);
@@ -205,7 +213,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private void removeErrorInAllFields() {
         mInlineFormsParent.removeError(mEtFirstName);
         mInlineFormsParent.removeError(mEtLastName);
-        mInlineFormsParent.removeError(mEtAddress);
+        mInlineFormsParent.removeError(mEtAddresslineOne);
+        mInlineFormsParent.removeError(mEtAddresslineTwo);
         mInlineFormsParent.removeError(mEtTown);
         mInlineFormsParent.removeError(mEtPostalCode);
         mInlineFormsParent.removeError(mEtCountry);
@@ -283,8 +292,12 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             result = mValidator.isValidEmail(mEtEmail.getText().toString());
             errorMessage = getResources().getString(R.string.iap_email_error);
         }
-        if (editText.getId() == R.id.et_address && !hasFocus) {
-            result = mValidator.isValidAddress(mEtAddress.getText().toString());
+        if (editText.getId() == R.id.et_address_line_one && !hasFocus) {
+            result = mValidator.isValidAddress(mEtAddresslineOne.getText().toString());
+            errorMessage = getResources().getString(R.string.iap_address_error);
+        }
+        if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
+            result = mValidator.isValidAddress(mEtAddresslineTwo.getText().toString());
             errorMessage = getResources().getString(R.string.iap_address_error);
         }
 

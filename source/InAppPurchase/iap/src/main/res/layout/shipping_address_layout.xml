@@ -52,7 +52,6 @@
 
         </LinearLayout>
 
-
         <com.philips.cdp.uikit.customviews.InlineForms
             android:id="@+id/InlineForms"
             android:layout_width="match_parent"
@@ -77,9 +76,9 @@
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapSentences"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_first_name_hint"
+                    android:inputType="textCapSentences"
                     android:maxLength="17" />
             </LinearLayout>
 
@@ -104,33 +103,58 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:inputType="textCapSentences"
                     android:hint="@string/iap_last_name_hint"
+                    android:inputType="textCapSentences"
                     android:maxLength="17" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_address"
+                android:id="@+id/ll_address_line_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_address"
+                    android:id="@+id/tv_address_line_one"
                     style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="@string/iap_address" />
+                    android:text="@string/iap_address_line_one" />
 
                 <EditText
-                    android:id="@+id/et_address"
+                    android:id="@+id/et_address_line_one"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:hint="@string/iap_address_line_one_hint"
                     android:inputType="textCapSentences"
-                    android:hint="@string/iap_address_hint"
+                    android:maxLength="35" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_address_line_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_address_line_two"
+                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/iap_address_line_two" />
+
+                <EditText
+                    android:id="@+id/et_address_line_two"
+                    style="@style/PhilipsTextInputLayoutStyleEnabled"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="@string/iap_address_line_two_hint"
+                    android:inputType="textCapSentences"
                     android:maxLength="35" />
             </LinearLayout>
 
@@ -152,10 +176,10 @@
                     android:id="@+id/et_town"
                     style="@style/PhilipsTextInputLayoutStyleEnabled"
                     android:layout_width="match_parent"
-                    android:inputType="textCapSentences"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:hint="@string/iap_town_hint" />
+                    android:hint="@string/iap_town_hint"
+                    android:inputType="textCapSentences" />
             </LinearLayout>
 
             <LinearLayout
@@ -178,8 +202,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:inputType="textCapSentences"
-                    android:hint="@string/iap_postal_code_hint" />
+                    android:hint="@string/iap_postal_code_hint"
+                    android:inputType="textCapSentences" />
             </LinearLayout>
 
             <LinearLayout
@@ -202,8 +226,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:inputType="textCapCharacters"
-                    android:hint="@string/iap_country_hint" />
+                    android:hint="@string/iap_country_hint"
+                    android:inputType="textCapCharacters" />
             </LinearLayout>
 
             <LinearLayout
