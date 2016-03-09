@@ -8,9 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -69,7 +67,9 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error.getLocalizedMessage());
+                IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
+                        .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
+                        requestListener.getClass().getSimpleName());
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
@@ -94,7 +94,8 @@ public class NetworkController {
                     }
 
                     requestListener.onSuccess(msg);
-                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg);
+                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onSuccess =" + msg +  " requestCode=" + requestCode + "in " +
+                            requestListener.getClass().getSimpleName());
                 }
             }
         };

@@ -128,7 +128,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             if (!Utility.isProgressDialogShowing()) {
                 if (Utility.isInternetConnected(getContext())) {
                     Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
-                    if (!isOrderPlaced()) {
+                    if (!isOrderPlaced() || paymentMethodAvailable()) {
                         mPaymentController.placeOrder();
                     } else {
                         mPaymentController.makPayment(orderID);
@@ -147,10 +147,15 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         }
     }
 
+    private boolean paymentMethodAvailable() {
+        return mPaymentMethod != null;
+    }
+
     @Override
     public void onMakePayment(final Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof MakePaymentData) {
+
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
@@ -161,13 +166,24 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         }
     }
 
+    private void launchConfirmationScreen(PlaceOrder details) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ModelConstants.ORDER_NUMBER, details.getCode());
+        replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
+    }
+
     @Override
     public void onPlaceOrder(final Message msg) {
         if (msg.obj instanceof PlaceOrder) {
             PlaceOrder order = (PlaceOrder) msg.obj;
             orderID = order.getCode();
             CartModelContainer.getInstance().setOrderPlaced(true);
-            mPaymentController.makPayment(orderID);
+            if (paymentMethodAvailable()) {
+                Utility.dismissProgressDialog();
+                launchConfirmationScreen((PlaceOrder) msg.obj);
+            } else {
+                mPaymentController.makPayment(orderID);
+            }
         } else if (msg.obj instanceof ServerError) {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
