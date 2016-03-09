@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.utils;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.location.Address;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -12,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.philips.cdp.di.iap.address.AddressFields;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.carts.CountryEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 
@@ -145,6 +147,15 @@ public class Utility {
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getTown());
             appendAddressWithNewLineIfNotNull(sb, ((AddressFields) addressObj).getPostalCode());
             String country = getCountryName(((AddressFields) addressObj).getCountryIsocode());
+            if (country != null) {
+                sb.append(country);
+            }
+        } else if (addressObj instanceof Addresses) {
+            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine1());
+            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getLine2());
+            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getTown());
+            appendAddressWithNewLineIfNotNull(sb, ((Addresses) addressObj).getPostalCode());
+            String country = getCountryName(((Addresses) addressObj).getCountry().getIsocode());
             if (country != null) {
                 sb.append(country);
             }

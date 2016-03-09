@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.EditDeletePopUP;
 import com.philips.cdp.uikit.customviews.UIKitRadioButton;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
@@ -60,7 +61,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
     public void onBindViewHolder(final AddressSelectionHolder holder, final int position) {
         Addresses address = mAddresses.get(position);
         holder.name.setText(address.getFirstName() + " " + address.getLastName());
-        holder.address.setText(createAddress(address));
+        holder.address.setText(Utility.createAddress(address));
         holder.options.setImageDrawable(mOptionsDrawable);
 
         //Handle the last item delete scenario
@@ -152,31 +153,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         return mOptionsClickPosition;
     }
 
-    String createAddress(final Addresses address) {
-        StringBuilder sb = new StringBuilder();
-
-        appendAddressWithNewLineIfNotNull(sb, address.getLine1());
-        appendAddressWithNewLineIfNotNull(sb, address.getLine2());
-        appendAddressWithNewLineIfNotNull(sb, address.getTown());
-        appendAddressWithNewLineIfNotNull(sb, address.getPostalCode());
-
-        //Don't add new line for last entry
-        String country = getCountryName(address.getCountry().getIsocode());
-        if (country != null) {
-            sb.append(country);
-        }
-        return sb.toString();
-    }
-
-    private void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
-        if (!TextUtils.isEmpty(code)) {
-            sb.append(code).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
-        }
-    }
-
-    private String getCountryName(String isoCode) {
-        return new Locale(Locale.getDefault().toString(), isoCode).getDisplayCountry();
-    }
 
     private void bindOptionsButton(View view, final int position) {
         view.setOnClickListener(new View.OnClickListener() {
