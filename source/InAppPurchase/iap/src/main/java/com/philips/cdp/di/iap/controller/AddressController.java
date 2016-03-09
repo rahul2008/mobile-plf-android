@@ -144,7 +144,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
 
-    void setHybrisDelegate(HybrisDelegate delegate) {
+    public void setHybrisDelegate(HybrisDelegate delegate) {
         mDelegate = delegate;
     }
 
@@ -155,7 +155,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         return mDelegate;
     }
 
-    void setStore(Store store) {
+    public void setStore(Store store) {
         mStore = store;
     }
 
