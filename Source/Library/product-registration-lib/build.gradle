@@ -76,6 +76,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(':prx')
     compile project(':registrationApi')
+	compile project(':HockeySDK-3.0.2')
+    compile project(':localeMatch')
+    compile project(':jump')
+	
+    compile files('libs/adobeMobileLibrary-v4.5.1.jar')
+    compile files('libs/org.apache.http.legacy.jar')
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile "org.mockito:mockito-core:1.9.5"
     androidTestCompile project(':dexmaker-mockito-1.4')
