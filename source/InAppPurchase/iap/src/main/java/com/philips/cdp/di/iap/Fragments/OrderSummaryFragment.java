@@ -16,7 +16,7 @@ import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.payment.PaymentController;
+import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;

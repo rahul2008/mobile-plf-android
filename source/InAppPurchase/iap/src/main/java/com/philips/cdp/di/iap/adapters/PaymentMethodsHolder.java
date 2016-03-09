@@ -1,4 +1,4 @@
-package com.philips.cdp.di.iap.payment;
+package com.philips.cdp.di.iap.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

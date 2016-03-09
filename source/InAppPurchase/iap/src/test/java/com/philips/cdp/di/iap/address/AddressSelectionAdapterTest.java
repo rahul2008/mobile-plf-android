@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 
 import org.junit.Before;
