@@ -5,7 +5,7 @@
 
     <TextView
         android:id="@+id/tv_order_summary"
-        fontPath="fonts/centralesansbold.ttf"
+        style="@style/iapCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/iap_selection_address_select_address_margint_bottom"
@@ -41,12 +41,13 @@
         android:layout_marginBottom="@dimen/iap_shipping_address_continue_margin_bottom"
         android:layout_marginLeft="@dimen/iap_shipping_address_cancel_button_margin_left_right"
         android:layout_marginRight="@dimen/iap_shipping_address_cancel_button_margin_left_right"
+        android:background="@color/uikit_philips_bright_orange"
         android:text="@string/iap_pay_now" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/order_summary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/divider"
-        android:layout_above="@id/btn_paynow"/>
+        android:layout_above="@id/btn_paynow"
+        android:layout_below="@id/divider" />
 </RelativeLayout>
