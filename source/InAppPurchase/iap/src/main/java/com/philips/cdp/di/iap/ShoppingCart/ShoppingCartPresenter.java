@@ -91,19 +91,19 @@ public class ShoppingCartPresenter {
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
 
-                        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                            // TODO: 3/8/2016 - Spoorti 
-                        } else {
+                        if (msg.obj instanceof ArrayList) {
                             mProductData = (ArrayList<ShoppingCartData>) msg.obj;
                             if (mProductData == null || mProductData.size() == 0) {
                                 EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
                                 Utility.dismissProgressDialog();
                                 return;
                             }
-
                             addShippingCostRowToTheList();
                             refreshList(mProductData);
                             CartModelContainer.getInstance().setShoppingCartData(mProductData);
+                        } else{
+                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRGMENT_REPLACED);
+                            Utility.dismissProgressDialog();
                         }
                         Utility.dismissProgressDialog();
                     }
