@@ -63,11 +63,6 @@
     <string name="iap_email_error">Please enter a valid email</string>
     <string name="iap_phone_error">Please enter a valid phone number</string>
 
-    <string-array name="salutation_arrays">
-        <item>mr</item>
-        <item>mrs</item>
-    </string-array>
-
     <!-- Address screen-->
     <string name="iap_add_new_address">Add a new address</string>
     <string name="iap_deliver_to_this_address">Deliver to this address</string>
