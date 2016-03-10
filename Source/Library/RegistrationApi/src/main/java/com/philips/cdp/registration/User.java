@@ -9,6 +9,7 @@ import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
+import com.philips.cdp.registration.com.philips.cdp.registartion.utils.Profile;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
@@ -44,16 +45,11 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class User {
@@ -145,7 +141,8 @@ public class User {
 
                         DIUserProfile diUserProfile = getUserInstance(mContext);
                         diUserProfile.setPassword(password);
-                        saveDIUserProfileToDisk(diUserProfile);
+                        Profile profile = new Profile(mContext);
+                        profile.saveDIUserProfileToDisk(diUserProfile);
                         traditionalLoginHandler.onLoginSuccess();
                     }
 
@@ -156,7 +153,7 @@ public class User {
                 }, mContext, mUpdateUserRecordHandler, emailAddress,
                 password);
 
-       loginTraditionalResultHandler.loginTraditionally(emailAddress,password);
+        loginTraditionalResultHandler.loginTraditionally(emailAddress, password);
 
     }
 
@@ -178,7 +175,6 @@ public class User {
             });
         }
     }
-
 
 
     // For Social SignIn Using Provider
@@ -205,101 +201,19 @@ public class User {
                                                String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
 
-        final DIUserProfile profile = new DIUserProfile();
-        profile.setGivenName(mGivenName);
-        profile.setEmail(mUserEmail);
-        profile.setPassword(password);
-        profile.setOlderThanAgeLimit(olderThanAgeLimit);
-        profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-        ABCD.getInstance().setmP(password);
-        final TraditionalRegistrationHandler traditionalRegistrationHandler = new TraditionalRegistrationHandler() {
-            @Override
-            public void onRegisterSuccess() {
-                saveDIUserProfileToDisk(profile);
-                traditionalRegisterHandler.onRegisterSuccess();
-            }
+        RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
 
-            @Override
-            public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                traditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
-            }
-        };
-
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                if (traditionalRegistrationHandler != null) {
-                    RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, registering user");
-                    registerNewUserUsingTraditional(profile, traditionalRegistrationHandler);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (traditionalRegistrationHandler != null) {
-                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                    userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                    userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_TRADITIONAL_FAILED_SERVER_ERROR);
-                    traditionalRegistrationHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
-                }
-
-            }
-        });
-
-        if (isJumpInitializated()) {
-            if (traditionalRegisterHandler != null) {
-                RLog.i(LOG_TAG, "Jump initialized, registering");
-                registerNewUserUsingTraditional(profile, traditionalRegistrationHandler);
-            }
-            return;
-
-        } else if (!isJumpInitializationInProgress()) {
-            RLog.i(LOG_TAG, "Jump not initialized, initializing");
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }
+        registerTraditional.registerUserInfoForTraditional(mGivenName, mUserEmail,
+                password, olderThanAgeLimit, isReceiveMarketingEmail);
 
     }
 
-    // For Traditional Registration
-    public void registerNewUserUsingTraditional(DIUserProfile diUserProfile,
-                                                TraditionalRegistrationHandler traditionalRegisterHandler) {
-
-        if (diUserProfile != null) {
-
-            mEmail = diUserProfile.getEmail();
-            mGivenName = diUserProfile.getGivenName();
-            mPassword = diUserProfile.getPassword();
-            mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
-            mReceiveMarketingEmails = diUserProfile.getReceiveMarketingEmail();
-
-            JSONObject newUser = new JSONObject();
-            try {
-                newUser.put(USER_EMAIL, mEmail).put(USER_GIVEN_NAME, mGivenName)
-                        .put(USER_PASSWORD, mPassword)
-                        .put(USER_OLDER_THAN_AGE_LIMIT, mOlderThanAgeLimit)
-                        .put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmails);
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, "On registerNewUserUsingTraditional,Caught JSON Exception");
-            }
-            RegisterTraditional traditionalRegisterResultHandler = new RegisterTraditional(
-                    traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
-
-            Jump.registerNewUser(newUser, null, traditionalRegisterResultHandler);
-        } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-            traditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
-        }
-    }
 
     // For Forgot password
 
     public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
         if (emailAddress != null) {
-            ForgotPassword forgotPasswordResultHandler = new ForgotPassword(mContext,forgotPasswordHandler);
+            ForgotPassword forgotPasswordResultHandler = new ForgotPassword(mContext, forgotPasswordHandler);
             forgotPasswordResultHandler.performForgotPassword(emailAddress);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
@@ -307,7 +221,6 @@ public class User {
 
             forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
         }
-
 
 
     }
@@ -693,7 +606,6 @@ public class User {
     }
 
 
-
     public boolean isUserSignIn(Context context) {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
@@ -914,7 +826,8 @@ public class User {
                 }
 
                 if (getEmailVerificationStatus(context)) {
-                    DIUserProfile userProfile = getDIUserProfileFromDisk();
+                    Profile profile = new Profile(mContext);
+                    DIUserProfile userProfile = profile.getDIUserProfileFromDisk();
                     HsdpUser hsdpUser = new HsdpUser(context);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
                     if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
@@ -1027,51 +940,13 @@ public class User {
     }
 
     private void logoutJanrainUser() {
-        deleteDIUserProfileFromDisk();
+        Profile profile = new Profile(mContext);
+        profile.deleteDIUserProfileFromDisk();
         CoppaConfiguration.clearConfiguration();
 
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
         CaptureRecord.deleteFromDisk(mContext);
-        mContext.deleteFile(DI_PROFILE_FILE);
-    }
-
-    private final String DI_PROFILE_FILE = "diProfile";
-
-    private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
-        try {
-            diUserProfile.setPassword(null);
-            FileOutputStream fos = mContext.openFileOutput(DI_PROFILE_FILE, 0);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            String objectPlainString = SecureStorage.objectToString(diUserProfile);
-            byte[] ectext = SecureStorage.encrypt(objectPlainString);
-            oos.writeObject(ectext);
-            oos.close();
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private DIUserProfile getDIUserProfileFromDisk() {
-        System.out.println("*********** getDIUserProfileFromDisk");
-        DIUserProfile diUserProfile = null;
-        try {
-            FileInputStream fis = mContext.openFileInput(DI_PROFILE_FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            byte[] enctText = (byte[]) ois.readObject();
-            byte[] decrtext = SecureStorage.decrypt(enctText);
-            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return diUserProfile;
-    }
-
-    private void deleteDIUserProfileFromDisk() {
-        mContext.deleteFile(DI_PROFILE_FILE);
     }
 }
