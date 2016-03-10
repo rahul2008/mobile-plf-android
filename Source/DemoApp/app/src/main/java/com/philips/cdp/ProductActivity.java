@@ -125,7 +125,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         PrxLogger.enablePrxLogger(true);
 
         ProdRegRequestInfo prodRegRequestInfo = new ProdRegRequestInfo(ctn.getText().toString(), serialNumber.getText().toString(), Sector.B2C, Catalog.CONSUMER);
-        ProdRegHelper prodRegHelper = new ProdRegHelper(this);
+        ProdRegHelper prodRegHelper = new ProdRegHelper();
         prodRegHelper.setLocale("en", "GB");
         prodRegRequestInfo.setPurchaseDate(purchaseDate.getText().toString());
         final ResponseListener listener = new ResponseListener() {
@@ -146,8 +146,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         prodRegHelper.registerProduct(this, prodRegRequestInfo, listener);
     }
 
-    private void registeredProduct(final String accessToken) {
-        ProdRegHelper prodRegHelper = new ProdRegHelper(this);
+    private void registeredProduct() {
+        ProdRegHelper prodRegHelper = new ProdRegHelper();
         final ResponseListener listener = new ResponseListener() {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {

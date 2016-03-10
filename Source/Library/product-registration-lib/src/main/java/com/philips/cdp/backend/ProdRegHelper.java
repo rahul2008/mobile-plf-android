@@ -1,32 +1,23 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.backend;
 
 import android.content.Context;
 
-import com.philips.cdp.core.ProdRegConstants;
 import com.philips.cdp.handler.Product;
 import com.philips.cdp.handler.UserProduct;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
+
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * <b> Helper class used to process product registration backend calls</b>
  */
 public class ProdRegHelper {
 
-    private Context mContext = null;
-    private String TAG = getClass() + "";
-    private String requestType;
     private String locale;
-
-    /**
-     * <b> Helper class used to process product registration backend calls</b>
-     *
-     * @param context - Context of an Activity
-     */
-    public ProdRegHelper(Context context) {
-        this.mContext = context;
-    }
 
     public void cancelRequest(String requestTag) {
     }
@@ -64,7 +55,6 @@ public class ProdRegHelper {
      * @param listener   - Callback listener
      */
     public void getRegisteredProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
-        requestType = ProdRegConstants.FETCH_REGISTERED_PRODUCTS;
         prodRegRequestInfo.setLocale(this.locale);
         UserProduct userProduct = new UserProduct();
         userProduct.getRegisteredProducts(context, prodRegRequestInfo, listener);
@@ -77,7 +67,6 @@ public class ProdRegHelper {
      * @param listener           - Callback listener
      */
     public void registerProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
-        requestType = ProdRegConstants.PRODUCT_REGISTRATION;
         processMetadata(context, prodRegRequestInfo, listener);
     }
 }
