@@ -126,7 +126,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return mShoppingCartDataList.size();
+        return mShoppingCartDataList.size()+1;
     }
 
     @Override
