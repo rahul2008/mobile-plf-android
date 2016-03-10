@@ -77,6 +77,8 @@ public class Product {
     private boolean validateSerialNumberFromMetadata(final ProductData data, final ProdRegRequestInfo prodRegRequestInfo, ResponseListener listener) {
         if (data.getRequiresSerialNumber().equalsIgnoreCase("true")) {
             if (processSerialNumber(data, listener, prodRegRequestInfo)) return false;
+        } else {
+            prodRegRequestInfo.setSerialNumber(null);
         }
         return true;
     }
@@ -101,7 +103,8 @@ public class Product {
                 listener.onResponseError(mContext.getString(R.string.date_format_error), -1);
                 return false;
             }
-        }
+        } else
+            prodRegRequestInfo.setPurchaseDate(null);
         return true;
     }
 }

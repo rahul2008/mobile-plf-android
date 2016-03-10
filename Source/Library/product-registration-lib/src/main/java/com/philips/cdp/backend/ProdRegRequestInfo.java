@@ -38,6 +38,10 @@ public class ProdRegRequestInfo {
         return serialNumber;
     }
 
+    public void setSerialNumber(final String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
     public String getPurchaseDate() {
         return purchaseDate;
     }
