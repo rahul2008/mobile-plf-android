@@ -123,6 +123,7 @@ public class PaymentSelectionFragment extends BaseAnimationSupportFragment
             if (getArguments().containsKey(IAPConstant.SHIPPING_ADDRESS_FIELDS)) {
                 bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS,
                         getArguments().getSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS));
+                bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
             }
             addFragment(BillingAddressFragment.createInstance(bundle, AnimationType.NONE), null);
         }

@@ -24,9 +24,12 @@
     <string name="iap_items"> items</string>
 
     <!-- Shipping address layout -->
+    <string name="iap_mr">Mr</string>
+    <string name="iap_mrs">Ms</string>
     <string name="iap_shipping_address">Shipping address</string>
     <string name="iap_billing_address">Billing address</string>
     <string name="iap_salutation">Salutation</string>
+    <string name="iap_salutation_none">None</string>
     <string name="iap_first_name">First name</string>
     <string name="iap_first_name_hint">Enter first name</string>
     <string name="iap_last_name">Last name</string>
