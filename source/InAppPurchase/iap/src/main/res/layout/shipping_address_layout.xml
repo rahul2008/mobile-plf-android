@@ -23,7 +23,8 @@
             android:gravity="center_horizontal"
             android:text="@string/iap_shipping_address"
             android:textColor="?attr/baseColor"
-            android:textSize="@dimen/iap_shipping_address_title_size" />
+            android:textSize="@dimen/iap_shipping_address_title_size"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/same_as_shipping_ll"
@@ -39,7 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:text="@string/iap_billing_address_is_same"
-                android:textColor="?attr/baseColor" />
+                android:textColor="?attr/baseColor"
+                android:textStyle="bold" />
 
             <com.philips.cdp.uikit.customviews.PuiSwitch
                 android:id="@+id/switch_billing_address"
@@ -106,6 +108,31 @@
                     android:hint="@string/iap_last_name_hint"
                     android:inputType="textCapSentences"
                     android:maxLength="17" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_salutation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_salutation"
+                    style="@style/PhilipsTextInputLayoutTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/iap_salutation" />
+
+                <EditText
+                    android:id="@+id/et_salutation"
+                    style="@style/PhilipsTextInputLayoutStyleEnabled"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:cursorVisible="false"
+                    android:editable="false"
+                    android:hint="@string/iap_salutation_none" />
             </LinearLayout>
 
             <LinearLayout
