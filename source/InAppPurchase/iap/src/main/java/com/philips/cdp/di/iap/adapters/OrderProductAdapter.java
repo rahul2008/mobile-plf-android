@@ -53,15 +53,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mPaymentMethod = pPaymentMethod;
     }
 
-    private int getActualCount() {
-        int count = 0;
-        for (ShoppingCartData data : mShoppingCartDataList) {
-            if (!TextUtils.isEmpty(data.getCtnNumber()))
-                count++;
-        }
-        return count;
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         if (viewType == TYPE_FOOTER) {
@@ -76,7 +67,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        cartData = mShoppingCartDataList.get(position);
+        if (mShoppingCartDataList.size() == 0) return;
         if (holder instanceof FooterOrderSummaryViewHolder) {
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
             footerHolder.mShippingFirstName.setText(getLastValidItem().getDeliveryAddressEntity().getFirstName());
@@ -91,7 +82,6 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.mPaymentCardHolderName.setText(mPaymentMethod.getAccountHolderName()
                         + "\nValid until "
                         + mPaymentMethod.getExpiryMonth() + " " + mPaymentMethod.getExpiryYear());
-
             }
             if (getLastValidItem().getDeliveryCost() != null) {
                 footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
@@ -102,8 +92,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
         } else {
             OrderProductHolder orderProductHolder = (OrderProductHolder) holder;
-            IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Size of ShoppingCarData is " + String.valueOf(getActualCount()));
-
+            IAPLog.d(IAPLog.ORDER_SUMMARY_FRAGMENT, "Size of ShoppingCarData is " + String.valueOf(mShoppingCartDataList.size()));
+            cartData = mShoppingCartDataList.get(position);
             String imageURL = cartData.getImageURL();
             ImageLoader mImageLoader = NetworkImageLoader.getInstance(mContext)
                     .getImageLoader();
@@ -118,7 +108,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private ShoppingCartData getLastValidItem() {
-        return mShoppingCartDataList.get(getActualCount() - 1);
+        return mShoppingCartDataList.get(mShoppingCartDataList.size() - 1);
     }
 
     @Override
@@ -131,16 +121,12 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private boolean isPositionFooter(int position) {
-        return position == getActualCount();
+        return position == mShoppingCartDataList.size();
     }
 
     @Override
     public int getItemCount() {
-        if (mShoppingCartDataList.size() == 0) {
-            return 0;
-        } else {
-            return getActualCount() + 1;
-        }
+        return mShoppingCartDataList.size();
     }
 
     @Override
