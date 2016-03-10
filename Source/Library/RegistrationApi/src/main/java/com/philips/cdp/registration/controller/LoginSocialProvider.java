@@ -1,6 +1,7 @@
 
 package com.philips.cdp.registration.controller;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.janrain.android.Jump;
@@ -12,16 +13,18 @@ import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
 
-public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
+public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler,JumpFlowDownloadStatusListener {
 
     private Context mContext;
 
@@ -112,5 +115,29 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 
         }
+    }
+    private Activity mActivity;
+    private String mProviderName;
+    public void loginSocial(final Activity activity,  final String providerName, final String mergeToken){
+        mActivity = activity;
+        mProviderName = providerName;
+        mMergeToken = mergeToken;
+        UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            Jump.showSignInDialog(activity, providerName, this, mergeToken);
+        }else if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
+        }
+    }
+
+    @Override
+    public void onFlowDownloadSuccess() {
+        Jump.showSignInDialog(mActivity, mProviderName, this, mMergeToken);
+        UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
+    }
+
+    @Override
+    public void onFlowDownloadFailure() {
+
     }
 }

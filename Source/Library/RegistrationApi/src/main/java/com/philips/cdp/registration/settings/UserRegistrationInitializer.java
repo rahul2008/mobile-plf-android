@@ -206,5 +206,15 @@ public class UserRegistrationInitializer {
                 flowFilter);
     }
 
+    public boolean isJumpInitializated() {
+
+        return !isJumpInitializationInProgress() && isJanrainIntialized();
+    }
+
+    public boolean isRegInitializationInProgress() {
+        return isJumpInitializationInProgress() && !isJanrainIntialized();
+
+    }
+
 
 }

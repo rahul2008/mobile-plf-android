@@ -120,8 +120,20 @@ public class User {
         mRegistrationHelper = UserRegistrationInitializer.getInstance();
     }
 
-    private void loginTraditionally(final String emailAddress, final String password,
-                                    final TraditionalLoginHandler traditionalLoginHandler) {
+
+    private boolean isJumpInitializated() {
+
+        return !mRegistrationHelper.isJumpInitializationInProgress() && mRegistrationHelper.isJanrainIntialized();
+    }
+
+    private boolean isJumpInitializationInProgress() {
+        return mRegistrationHelper.isJumpInitializationInProgress() && !mRegistrationHelper.isJanrainIntialized();
+
+    }
+
+    // For Traditional SignIn
+    public void loginUsingTraditional(final String emailAddress, final String password,
+                                      final TraditionalLoginHandler traditionalLoginHandler) {
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
             throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
         }
@@ -143,56 +155,9 @@ public class User {
                     }
                 }, mContext, mUpdateUserRecordHandler, emailAddress,
                 password);
-        Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
-                null);
 
+       loginTraditionalResultHandler.loginTraditionally(emailAddress,password);
 
-    }
-
-    private boolean isJumpInitializated() {
-
-        return !mRegistrationHelper.isJumpInitializationInProgress() && mRegistrationHelper.isJanrainIntialized();
-    }
-
-    private boolean isJumpInitializationInProgress() {
-        return mRegistrationHelper.isJumpInitializationInProgress() && !mRegistrationHelper.isJanrainIntialized();
-
-    }
-
-    // For Traditional SignIn
-    public void loginUsingTraditional(final String emailAddress, final String password,
-                                      final TraditionalLoginHandler traditionalLoginHandler) {
-
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, now performing traditional login");
-                if (traditionalLoginHandler != null) {
-                    loginTraditionally(emailAddress, password, traditionalLoginHandler);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (traditionalLoginHandler != null) {
-                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                    userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                    userRegistrationFailureInfo.setErrorCode(RegConstants.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR);
-                    traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-
-        if (isJumpInitializated()) {
-            loginTraditionally(emailAddress, password, traditionalLoginHandler);
-            mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            return;
-        } else if (!isJumpInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }
     }
 
     private void loginIntoHsdp(final String emailAddress, String password, final TraditionalLoginHandler traditionalLoginHandler) {
@@ -214,12 +179,16 @@ public class User {
         }
     }
 
-    private void loginUserWithSocialProvider(final Activity activity, final String providerName,
+
+
+    // For Social SignIn Using Provider
+    public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler, final String mergeToken) {
+
         if (providerName != null && activity != null) {
             LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
                     socialLoginHandler, mContext, mUpdateUserRecordHandler);
-            Jump.showSignInDialog(activity, providerName, loginSocialResultHandler, mergeToken);
+            loginSocialResultHandler.loginSocial(activity, providerName, mergeToken);
         } else {
             if (socialLoginHandler != null) {
                 UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
@@ -227,45 +196,7 @@ public class User {
                 socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
             }
         }
-    }
 
-    // For Social SignIn Using Provider
-    public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
-                                             final SocialProviderLoginHandler socialLoginHandler, final String mergeToken) {
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, now performing social login");
-                if (socialLoginHandler != null) {
-                    loginUserWithSocialProvider(activity, providerName, socialLoginHandler, mergeToken);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (socialLoginHandler != null) {
-                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                    userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                    userRegistrationFailureInfo.setErrorCode(RegConstants.SOCIAL_LOGIN_FAILED_SERVER_ERROR);
-                    socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-        if (isJumpInitializated()) {
-            RLog.i(LOG_TAG, "Jump  initialized ");
-            if (socialLoginHandler != null) {
-                loginUserWithSocialProvider(activity, providerName, socialLoginHandler, mergeToken);
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-            return;
-        } else if (!isJumpInitializationInProgress()) {
-            RLog.i(LOG_TAG, "Jump  not initialized, initializing again ");
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }
     }
 
     // moved app logic to set user info (traditional login) in diuserprofile to
@@ -366,10 +297,10 @@ public class User {
 
     // For Forgot password
 
-    private void performForgotPassword(String emailAddress, ForgotPasswordHandler forgotPasswordHandler) {
+    public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
         if (emailAddress != null) {
-            ForgotPassword forgotPasswordResultHandler = new ForgotPassword(forgotPasswordHandler);
-            Jump.performForgotPassword(emailAddress, forgotPasswordResultHandler);
+            ForgotPassword forgotPasswordResultHandler = new ForgotPassword(mContext,forgotPasswordHandler);
+            forgotPasswordResultHandler.performForgotPassword(emailAddress);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
@@ -377,39 +308,6 @@ public class User {
             forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
         }
 
-    }
-
-    public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, now performing forgot password");
-                if (forgotPasswordHandler != null) {
-                    performForgotPassword(emailAddress, forgotPasswordHandler);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (forgotPasswordHandler != null) {
-                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                    userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                    userRegistrationFailureInfo.setErrorCode(RegConstants.FORGOT_PASSWORD_FAILED_SERVER_ERROR);
-                    forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-        if (isJumpInitializated()) {
-            if (forgotPasswordHandler != null) {
-                performForgotPassword(emailAddress, forgotPasswordHandler);
-            }
-            return;
-        } else if (!isJumpInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }
 
 
     }
@@ -793,25 +691,7 @@ public class User {
         }
         return mEmailVerified;
     }
-/*
 
-    public boolean isUserSignIn(Context context) {
-
-        boolean signedIn = true;
-        if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
-            signedIn = signedIn && getEmailVerificationStatus(context);
-        }
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-            HsdpUser hsdpUser = new HsdpUser(context);
-
-            signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
-        }
-        if (RegistrationConfiguration.getInstance().getJanRainConfiguration() != null) {
-            signedIn = signedIn && getAccessToken()!=null;
-        }
-        return signedIn;
-    }
-*/
 
 
     public boolean isUserSignIn(Context context) {

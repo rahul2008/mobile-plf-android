@@ -11,17 +11,20 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
+public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler,JumpFlowDownloadStatusListener {
 
 
     private Context mContext;
@@ -41,6 +44,15 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         mUpdateUserRecordHandler = updateUserRecordHandler;
         mEmail = email;
         mPassword = password;
+    }
+
+    public void loginTraditionally(final String email, final String password) {
+        UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            Jump.performTraditionalSignIn(email, password, this, null);
+        }else if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
+        }
     }
 
     @Override
@@ -161,4 +173,14 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         return (String) jsonArray.get(0);
     }
 
+    @Override
+    public void onFlowDownloadSuccess() {
+        Jump.performTraditionalSignIn(mEmail, mPassword, this, null);
+        UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
+    }
+
+    @Override
+    public void onFlowDownloadFailure() {
+
+    }
 }
