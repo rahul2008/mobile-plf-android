@@ -360,6 +360,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (addr.getPhone() != null) {
             fields.setPhoneNumber(addr.getPhone());
         }
+        if(addr.getTitleCode() != null){
+            String titleCode = addr.getTitleCode();
+            fields.setTitleCode(titleCode.substring(0, 1).toUpperCase() + titleCode.substring(1));
+        }
 
         return fields;
     }

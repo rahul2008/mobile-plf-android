@@ -47,7 +47,7 @@ public class AddressFields implements Serializable {
     }
 
     public String getTitleCode() {
-        return "mr";
+        return titleCode;
     }
 
     public void setTitleCode(String titleCode) {
