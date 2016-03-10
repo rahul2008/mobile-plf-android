@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Message;
 
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;

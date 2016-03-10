@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.address;
+package com.philips.cdp.di.iap.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

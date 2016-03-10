@@ -30,7 +30,6 @@ public class CartCurrentInfoRequest extends AbstractModel {
             Carts cartData = (Carts) msg.obj;
             if (cartData.getCarts().get(0).getEntries() == null) {
                 Message msgResult = Message.obtain(msg);
-                msgResult.obj = null;
                 mDataloadListener.onModelDataLoadFinished(msgResult);
             } else {
                 PRXProductDataBuilder builder = new PRXProductDataBuilder(mContext, cartData,

@@ -15,12 +15,12 @@ import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.adapters.OrderProductAdapter;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.payment.PaymentController;
-import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
+import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -127,8 +127,8 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         if (v.getId() == R.id.btn_paynow) {
             if (!Utility.isProgressDialogShowing()) {
                 if (Utility.isInternetConnected(getContext())) {
-                    Utility.showProgressDialog(getContext(), getString(R.string.iap_update_address));
-                    if (!isOrderPlaced()) {
+                    Utility.showProgressDialog(getContext(), getString(R.string.iap_please_wait));
+                    if (!isOrderPlaced() || paymentMethodAvailable()) {
                         mPaymentController.placeOrder();
                     } else {
                         mPaymentController.makPayment(orderID);
@@ -147,18 +147,29 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
         }
     }
 
+    private boolean paymentMethodAvailable() {
+        return mPaymentMethod != null;
+    }
+
     @Override
     public void onMakePayment(final Message msg) {
         Utility.dismissProgressDialog();
         if (msg.obj instanceof MakePaymentData) {
+
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEBPAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null);
-        } else if (msg.obj instanceof ServerError) {
+        } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
+    }
+
+    private void launchConfirmationScreen(PlaceOrder details) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ModelConstants.ORDER_NUMBER, details.getCode());
+        replaceFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null);
     }
 
     @Override
@@ -167,8 +178,13 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             PlaceOrder order = (PlaceOrder) msg.obj;
             orderID = order.getCode();
             CartModelContainer.getInstance().setOrderPlaced(true);
-            mPaymentController.makPayment(orderID);
-        } else if (msg.obj instanceof ServerError) {
+            if (paymentMethodAvailable()) {
+                Utility.dismissProgressDialog();
+                launchConfirmationScreen((PlaceOrder) msg.obj);
+            } else {
+                mPaymentController.makPayment(orderID);
+            }
+        } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));

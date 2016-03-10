@@ -17,14 +17,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.address.AddressController;
+import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.address.AddressSelectionAdapter;
+import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.ModelConstants;
-import com.philips.cdp.di.iap.payment.PaymentController;
+import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:minHeight="85dp"
-              android:orientation="vertical"
-              android:paddingBottom="3dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="85dp"
+    android:orientation="vertical"
+    android:paddingBottom="3dp">
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/listDividerColor"/>
+        android:background="?attr/listDividerColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,24 +29,24 @@
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
-            android:text="@string/iap_shipping_address"/>
+            android:text="@string/iap_shipping_address" />
 
         <TextView
             android:id="@+id/tv_shipping_first_name"
             style="@style/tvTitle"
             android:layout_marginTop="5dp"
-            android:text="@string/iap_first_name"/>
+            android:text="@string/iap_first_name" />
 
         <TextView
             android:id="@+id/tv_shipping_address"
             style="@style/tvTitle"
-            android:text="@string/iap_address"/>
+            android:text="@string/iap_address" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/listDividerColor"/>
+        android:background="?attr/listDividerColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,24 +64,24 @@
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="10dp"
-            android:text="@string/iap_billing_address"/>
+            android:text="@string/iap_billing_address" />
 
         <TextView
             android:id="@+id/tv_billing_first_name"
             style="@style/tvTitle"
             android:layout_marginTop="5dp"
-            android:text="@string/iap_first_name"/>
+            android:text="@string/iap_first_name" />
 
         <TextView
             android:id="@+id/tv_billing_address"
             style="@style/tvTitle"
-            android:text="@string/iap_address"/>
+            android:text="@string/iap_address" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/listDividerColor"/>
+        android:background="?attr/listDividerColor" />
 
     <LinearLayout
         android:id="@+id/ll_payment_mode"
@@ -100,25 +100,63 @@
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="10dp"
-            android:text="@string/iap_payment_method"/>
+            android:text="@string/iap_payment_method" />
 
         <TextView
             android:id="@+id/tv_card_type"
             style="@style/tvTitle"
             android:layout_marginTop="5dp"
-            android:text="Master card"/>
+            android:text="Master card" />
 
         <TextView
             android:id="@+id/tv_card_holder_name"
             style="@style/tvTitle"
-            android:text="@string/iap_first_name"/>
+            android:text="@string/iap_first_name" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/listDividerColor"/>
+        android:background="?attr/listDividerColor" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/iap_shipping_address_margin_left"
+        android:layout_marginStart="@dimen/iap_shipping_address_margin_left"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_voucher"
+                style="@style/tvBoldTitle"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:text="@string/iap_voucher" />
+
+            <TextView
+                android:id="@+id/tv_voucher_price"
+                style="@style/tvBoldTitle"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/iap_divider_height"
+        android:background="?attr/listDividerColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -143,22 +181,22 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
-                android:text="Delivery via UPS parcel"/>
+                android:text="@string/iap_deliver_via_parcel" />
 
             <TextView
                 android:id="@+id/tv_delivery_price"
-                style="@style/tvTitle"
+                style="@style/tvBoldTitle"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
-                android:text="0.0"/>
+                android:text="0.0" />
         </RelativeLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/listDividerColor"/>
+        android:background="?attr/listDividerColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -175,16 +213,16 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/tv_vat"
-                style="@style/tvBoldTitle"
+                style="@style/tvTitle"
                 android:layout_alignParentLeft="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
                 android:includeFontPadding="false"
-                android:text="VAT"/>
+                android:text="VAT" />
 
             <TextView
                 android:id="@+id/tv_vat_price"
@@ -192,7 +230,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
-                android:text="0.0"/>
+                android:text="0.0"
+                android:textStyle="bold" />
         </RelativeLayout>
 
 
@@ -210,15 +249,15 @@
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
                 android:includeFontPadding="false"
-                android:text="Total(0 Items)"/>
+                android:text="Total(0 Items)" />
 
             <TextView
                 android:id="@+id/tv_total_price"
-                style="@style/tvTitle"
+                style="@style/tvBoldTitle"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
-                android:text="0.0"/>
+                android:text="0.0" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

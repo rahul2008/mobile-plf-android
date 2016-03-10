@@ -37,7 +37,7 @@ public class PlaceOrderRequest extends AbstractModel {
     @Override
     public Map<String, String> requestBody() {
         String cartNumber = CartModelContainer.getInstance().getCartNumber();
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(ModelConstants.CART_ID, cartNumber);
         return params;
     }

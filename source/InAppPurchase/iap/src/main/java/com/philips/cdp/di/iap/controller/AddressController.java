@@ -2,11 +2,12 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.iap.address;
+package com.philips.cdp.di.iap.controller;
 
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.CreateAddressRequest;
 import com.philips.cdp.di.iap.model.DeleteAddressRequest;
@@ -143,7 +144,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
 
-    void setHybrisDelegate(HybrisDelegate delegate) {
+    public void setHybrisDelegate(HybrisDelegate delegate) {
         mDelegate = delegate;
     }
 
@@ -154,7 +155,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         return mDelegate;
     }
 
-    void setStore(Store store) {
+    public void setStore(Store store) {
         mStore = store;
     }
 

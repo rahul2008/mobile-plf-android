@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 
 import org.junit.Before;
@@ -27,13 +28,13 @@ public class AddressSelectionAdapterTest {
     @Before
     public void setUP() {
         String addr = TestUtils.readFile(AddressSelectionAdapterTest.class, "one_addresses.txt");
-        GetShippingAddressData data = new Gson().fromJson(addr, GetShippingAddressData.class);
-        mAdapter = new AddressSelectionAdapter(mContext, data.getAddresses()) {
-            @Override
-            void initOptionsDrawable() {
-                //
-            }
-        };
+//        GetShippingAddressData data = new Gson().fromJson(addr, GetShippingAddressData.class);
+//        mAdapter = new AddressSelectionAdapter(mContext, data.getAddresses()) {
+//            @Override
+//            void initOptionsDrawable() {
+//                //
+//            }
+//        };
     }
 
     @Test

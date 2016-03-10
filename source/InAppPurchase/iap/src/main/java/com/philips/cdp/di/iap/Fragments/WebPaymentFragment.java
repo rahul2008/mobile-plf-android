@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.philips.cdp.di.iap.BuildConfig;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
 
 public class WebPaymentFragment extends BaseAnimationSupportFragment {
@@ -46,7 +48,8 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         mProgress.startAnimation(100);
         mPaymentWebView.setWebViewClient(new PaymentWebViewClient());
         mPaymentWebView.getSettings().setJavaScriptEnabled(true);
-
+        if (BuildConfig.DEBUG)
+            mPaymentWebView.setWebContentsDebuggingEnabled(true);
         mUrl = getPaymentURL();
         return group;
     }
@@ -94,12 +97,12 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
 
     private Bundle createSuccessBundle(String url) {
         String orderNum = "";
-        if(!TextUtils.isEmpty(url)) {
+        if (!TextUtils.isEmpty(url)) {
             // TODO: 04-03-2016 Need to fix with proper logic
             String[] temp = url.split("%5E");
-            if(temp != null && temp.length >2) {
+            if (temp != null && temp.length > 2) {
                 temp = temp[2].split("-");
-                if(temp != null && temp.length >0) {
+                if (temp != null && temp.length > 0) {
                     orderNum = temp[0];
                 }
             }
@@ -127,10 +130,10 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
         @Override
         public void onPageFinished(final WebView view, final String url) {
             super.onPageFinished(view, url);
-                if(mProgress != null && mShowProgressBar) {
-                    mShowProgressBar = false;
-                    mProgress.setVisibility(View.GONE);
-                }
+            if (mProgress != null && mShowProgressBar) {
+                mShowProgressBar = false;
+                mProgress.setVisibility(View.GONE);
+            }
         }
 
         private boolean verifyResultCallBacks(String url) {

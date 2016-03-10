@@ -33,4 +33,5 @@ public class IAPConstant {
     public static final String SELECTED_PAYMENT = "SELECTED_PAYMENT";
     public static final String PRODUCT_DETAIL_FRAGMENT_IMAGE_URL = "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL";
     public static final String PRODUCT_CURRENCY = "PRODUCT_CURRENCY";
+    public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
 }

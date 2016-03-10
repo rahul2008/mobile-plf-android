@@ -4,7 +4,7 @@ package com.philips.cdp.di.iap.response.carts;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-class CountryEntity {
+public class CountryEntity {
     private String isocode;
 
     public String getIsocode() {
