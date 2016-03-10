@@ -32,14 +32,14 @@
         android:text="@string/iap_checkout"
         />
 
-    <ListView
-        android:id="@+id/withouticon"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shopping_cart_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/checkout_btn"
         android:layout_alignParentTop="true"
         android:listSelector="@android:color/transparent"
         >
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

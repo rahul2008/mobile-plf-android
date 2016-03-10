@@ -3,16 +3,17 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartPresenter;
+import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
@@ -31,7 +32,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
     public ShoppingCartAdapter mAdapter;
-    public ListView mListView;
+    private RecyclerView mRecyclerView;
     private AddressController mAddressController;
     private Context mContext;
 
@@ -51,13 +52,17 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager());
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRGMENT_REPLACED), this);
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         IAPLog.d(IAPLog.FRAGMENT_LIFECYCLE, "ShoppingCartFragment onCreateView");
         View rootView = inflater.inflate(R.layout.shopping_cart_view, container, false);
-        mListView = (ListView) rootView.findViewById(R.id.withouticon);
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.shopping_cart_recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager());
         mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
@@ -95,7 +100,8 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     private void updateCartDetails(ShoppingCartPresenter presenter) {
         presenter.getCurrentCartDetails();
-        mListView.setAdapter(mAdapter);
+        mAdapter.setHasStableIds(true);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

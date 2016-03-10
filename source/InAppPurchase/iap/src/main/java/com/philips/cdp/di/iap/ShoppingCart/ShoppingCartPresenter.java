@@ -67,13 +67,13 @@ public class ShoppingCartPresenter {
         return mStore;
     }
 
-    //TODO: fix with TAG
+    /*//TODO: fix with TAG
     private void addShippingCostRowToTheList() {
         ShoppingCartData summary = new ShoppingCartData();
         mProductData.add(summary);
         mProductData.add(summary);
         mProductData.add(summary);
-    }
+    }*/
 
     public void refreshList(ArrayList<ShoppingCartData> data) {
         if (mLoadListener != null) {
@@ -98,7 +98,7 @@ public class ShoppingCartPresenter {
                                 Utility.dismissProgressDialog();
                                 return;
                             }
-                            addShippingCostRowToTheList();
+                            //addShippingCostRowToTheList();
                             refreshList(mProductData);
                             CartModelContainer.getInstance().setShoppingCartData(mProductData);
                         } else{

@@ -43,6 +43,120 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="iap_redeem_voucher">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:text">@string/iap_redeem_voucher</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textSize">@dimen/iap_redeem_vochur_text_size</item>
+        <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_right_arrow" parent="FontIcon.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:gravity">right</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:text">@string/uikit_fonticon_arrow_right</item>
+        <item name="android:textColor">?attr/listtextselector</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_delivery_via_ups">
+        <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_delivery_margin_bottom</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:text">@string/iap_delivery_via_ups</item>
+        <item name="android:textSize">@dimen/iap_redeem_vochur_text_size</item>14sp
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_delivery_price">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textSize">@dimen/iap_redeem_vochur_text_size</item>
+        <item name="android:text">$0</item>
+        <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_delivery_description">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/iap_delivery_description</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_vat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:text">@string/iap_vat</item>
+        <item name="android:textSize">@dimen/iap_shopping_cart_footer_vat_text_size</item>
+        <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_vat_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:text">$0</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textSize">@dimen/iap_shopping_cart_footer_vat_text_size</item>
+        <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_total_items">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/iap_shopping_cart_footer_total_size</item>
+        <item name="android:text">Total</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_image_margin_top</item>
+        <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
+    <style name="iap_total_cost">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:text">$something</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
+    </style>
+
     <style name="iapButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:enabled">false</item>
@@ -70,4 +184,13 @@
         <item name="android:layout_marginTop">@dimen/iap_shipping_address_margin_top_bottom</item>
     </style>
 
+    <dimen name="iap_shopping_cart_footer_min_height">52dp</dimen>
+    <dimen name="iap_redeem_vochur_text_size">16sp</dimen>
+    <dimen name="iap_shopping_cart_delivery_margin_bottom">7dp</dimen>
+    <dimen name="iap_shopping_cart_footer_vat_text_size">14sp</dimen>
+    <dimen name="iap_shopping_cart_footer_total_size">16sp</dimen>
+    <string name="iap_redeem_voucher">Redeem voucher</string>
+    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
+    <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
+    <string name="iap_vat">VAT</string>
 </resources>

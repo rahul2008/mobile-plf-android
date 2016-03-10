@@ -29,14 +29,14 @@
 
             <ImageView
                 android:id="@+id/dots"
-                android:layout_width="@dimen/iap_shopping_cart_dots_width"
-                android:layout_height="@dimen/iap_shopping_cart_dots_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/iap_shopping_cart_dots_margin_left"
                 android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
                 android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
                 android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
                 android:layout_gravity="right"
-                android:src="@drawable/dots"/>
+                />
         </FrameLayout>
 
         <TextView
@@ -95,11 +95,20 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text1Name"
             android:layout_toRightOf="@id/quantity_count_layout"
+            android:layout_alignBaseline="@id/quantity_count_layout"
             android:text="@string/out_of_stock"
+            android:layout_marginLeft="12dp"
             android:textColor="@android:color/holo_red_dark"
             android:visibility="gone"/>
 
-
     </RelativeLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/image"
+        android:background="?attr/listDividerColor"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
