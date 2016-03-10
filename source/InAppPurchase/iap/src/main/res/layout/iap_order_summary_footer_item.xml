@@ -33,7 +33,9 @@
 
         <TextView
             android:id="@+id/tv_shipping_first_name"
-            style="@style/tvTitle"
+            style="@style/iapCentralesansBoldFont"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/iap_first_name" />
 
@@ -68,7 +70,9 @@
 
         <TextView
             android:id="@+id/tv_billing_first_name"
-            style="@style/tvTitle"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/iapCentralesansBoldFont"
             android:layout_marginTop="5dp"
             android:text="@string/iap_first_name" />
 
@@ -148,8 +152,7 @@
                 style="@style/tvBoldTitle"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
-                />
+                android:layout_marginLeft="0dp" />
         </RelativeLayout>
     </LinearLayout>
 

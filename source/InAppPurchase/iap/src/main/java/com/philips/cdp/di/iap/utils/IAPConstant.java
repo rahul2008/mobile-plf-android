@@ -27,6 +27,7 @@ public class IAPConstant {
     public static final String PAYMENT_METHOD_LIST = "PAYMENT_METHOD_LIST";
     public static final String ADD_DELIVERY_ADDRESS = "ADD_DELIVERY_ADDRESS";
     public static final String SHIPPING_ADDRESS_FIELDS = "SHIPPING_ADDRESS_FIELDS";
+    public static final String FROM_PAYMENT_SELECTION = "FROM_PAYMENT_SELECTION";
     public static final String BILLING_ADDRESS_FIELDS = "BILLING_ADDRESS_FIELDS";
     public static final String USE_PAYMENT = "USE_PAYMENT";
     public static final String ADD_NEW_PAYMENT = "ADD_NEW_PAYMENT";

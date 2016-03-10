@@ -88,9 +88,16 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (null != mPaymentMethod) {
                 footerHolder.mLLPaymentMode.setVisibility(View.VISIBLE);
                 footerHolder.mPaymentCardName.setText(mPaymentMethod.getCardNumber());
-                footerHolder.mPaymentCardHolderName.setText(mPaymentMethod.getAccountHolderName());
+                footerHolder.mPaymentCardHolderName.setText(mPaymentMethod.getAccountHolderName()
+                        + "\nValid until "
+                        + mPaymentMethod.getExpiryMonth() + " " + mPaymentMethod.getExpiryYear());
+
             }
-            footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
+            if (getLastValidItem().getDeliveryCost() != null) {
+                footerHolder.mDeliveryPrice.setText(getLastValidItem().getDeliveryCost().getFormattedValue());
+            } else {
+                footerHolder.mDeliveryPrice.setText("0.0");
+            }
             footerHolder.mTotalPriceLable.setText(mContext.getString(R.string.iap_total) + " (" + getLastValidItem().getTotalItems() + " " + mContext.getString(R.string.iap_items) + ")");
             footerHolder.mTotalPrice.setText(getLastValidItem().getTotalPriceWithTaxFormatedPrice());
         } else {

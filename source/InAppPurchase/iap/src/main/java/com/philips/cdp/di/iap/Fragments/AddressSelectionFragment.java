@@ -116,7 +116,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onResume() {
         super.onResume();
-        setTitle(R.string.iap_shipping_address);
+        setTitle(R.string.iap_address);
     }
 
     @Override
@@ -136,12 +136,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
-        if(msg.obj instanceof IAPNetworkError){
+        if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),
                     getString(R.string.iap_ok), getString(R.string.iap_time_out),
                     getString(R.string.iap_time_out_description));
             moveToShoppingCart();
-        }else{
+        } else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
                 mAddresses.remove(mAdapter.getOptionsClickPosition());
                 mAdapter.setAddresses(mAddresses);
@@ -359,6 +359,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
         if (addr.getPhone() != null) {
             fields.setPhoneNumber(addr.getPhone());
+        }
+        if(addr.getTitleCode() != null){
+            String titleCode = addr.getTitleCode();
+            fields.setTitleCode(titleCode.substring(0, 1).toUpperCase() + titleCode.substring(1));
         }
 
         return fields;

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:gravity="center"
+    android:minHeight="52dp"
+    android:paddingBottom="@dimen/iap_shopping_cart_image_margin_top"
+    android:paddingLeft="@dimen/iap_shopping_cart_image_margin_top"
+    android:paddingRight="@dimen/iap_shopping_cart_image_margin_top"
+    android:paddingTop="@dimen/iap_shopping_cart_image_margin_top">
+
+    <ImageView
+        android:id="@+id/arrowwithouticons"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="-3dp"
+        android:src="@drawable/arrow"
+        android:textColor="?attr/baseColor"
+        android:textSize="13sp"
+        android:tint="?attr/baseColor"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/text_description_without_icons"
+        style="@style/iapCentralesansBookFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ifo"
+        android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_marginTop="@dimen/iap_shopping_cart_margin_bottom"
+        android:layout_toRightOf="@id/ifo"
+        android:includeFontPadding="false"
+        android:text="By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app."
+        android:textColor="?attr/baseColor"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/numberwithouticon"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/arrowwithouticons"
+        android:text="Medium"
+        android:textColor="?attr/baseColor"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/ifo"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/numberwithouticon"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_toLeftOf="@id/numberwithouticon"
+        android:includeFontPadding="false"
+        android:text="Version"
+        android:textColor="?attr/baseColor"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/vat_value"
+        style="@style/iapCentralesansBookFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/arrowwithouticons"
+        android:text="$0"
+        android:textColor="?attr/baseColor"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/vat"
+        style="@style/iapCentralesansBookFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/vat_value"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_toLeftOf="@id/vat_value"
+        android:includeFontPadding="false"
+        android:paddingBottom="@dimen/iap_shopping_cart_image_margin_top"
+        android:text="VAT"
+        android:textColor="?attr/baseColor"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/totalcost"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/vat_value"
+        android:layout_marginTop="@dimen/iap_shopping_cart_margin_bottom"
+        android:includeFontPadding="false"
+        android:text="By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app."
+        android:textColor="?attr/baseColor"
+        android:textSize="24sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/totalItems"
+        style="@style/iapCentralesansBoldFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/totalcost"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/vat"
+        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+        android:includeFontPadding="false"
+        android:text="Total"
+        android:textColor="?attr/baseColor"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

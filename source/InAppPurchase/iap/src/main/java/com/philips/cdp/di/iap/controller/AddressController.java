@@ -133,7 +133,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.FIRST_NAME, addressFields.getFirstName());
         params.put(ModelConstants.LAST_NAME, addressFields.getLastName());
-        params.put(ModelConstants.TITLE_CODE, addressFields.getTitleCode());
+        params.put(ModelConstants.TITLE_CODE, addressFields.getTitleCode().toLowerCase());
         params.put(ModelConstants.COUNTRY_ISOCODE, addressFields.getCountryIsocode());
         params.put(ModelConstants.LINE_1, addressFields.getLine1());
         params.put(ModelConstants.LINE_2, addressFields.getLine2());

@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,11 +20,14 @@ import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class BillingAddressFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, InlineForms.Validator, TextWatcher {
+        implements View.OnClickListener, InlineForms.Validator, TextWatcher,
+        SalutationDropDown.SalutationListener {
 
     private Context mContext;
     private PuiSwitch mSwitchBillingAddress;
@@ -36,6 +40,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private EditText mEtCountry;
     private EditText mEtEmail;
     private EditText mEtPhoneNumber;
+    private EditText mEtSalutation;
 
     private Button mBtnContinue;
     private Button mBtnCancel;
@@ -44,6 +49,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
     private InlineForms mInlineFormsParent;
     private Validator mValidator = null;
+
+    private Drawable imageArrow;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -63,6 +70,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
         mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
         mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
+        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
 
         mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
@@ -109,7 +117,28 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             }
         });
 
+        setImageArrow();
+        mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
+        mEtSalutation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bindSalutationDropDown(mEtSalutation);
+            }
+        });
+
         return rootView;
+    }
+
+    private void bindSalutationDropDown(View view) {
+        SalutationDropDown mSalutationDropDown = new SalutationDropDown(mContext, view, this);
+        mSalutationDropDown.show();
+    }
+
+    private void setImageArrow() {
+        imageArrow = VectorDrawable.create(mContext, R.drawable.iap_product_count_drop_down);
+        int width = (int) getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
+        int height = (int) getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
+        imageArrow.setBounds(0, 0, width, height);
     }
 
     @Override
@@ -126,6 +155,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         if (mAddressFields != null) {
             mEtFirstName.setText(mAddressFields.getFirstName());
             mEtLastName.setText(mAddressFields.getLastName());
+            mEtSalutation.setText(mAddressFields.getTitleCode());
             mEtAddresslineOne.setText(mAddressFields.getLine1());
             mEtAddresslineTwo.setText(mAddressFields.getLine2());
             mEtTown.setText(mAddressFields.getTown());
@@ -156,7 +186,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
             mAddressFields.setFirstName(firstName);
             mAddressFields.setLastName(lastName);
-            mAddressFields.setTitleCode("mr");
+            mAddressFields.setTitleCode(mEtSalutation.getText().toString());
             mAddressFields.setCountryIsocode(country);
             mAddressFields.setLine1(addressLineOne);
             mAddressFields.setLine2(addressLineTwo);
@@ -174,6 +204,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private void clearAllFields() {
         mEtFirstName.setText("");
         mEtLastName.setText("");
+        mEtSalutation.setText("");
         mEtAddresslineOne.setText("");
         mEtAddresslineTwo.setText("");
         mEtTown.setText("");
@@ -182,13 +213,16 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtEmail.setText("");
         mEtPhoneNumber.setText("");
         enableAllFields();
+        enableFocus();
         removeErrorInAllFields();
     }
 
     private void disableAllFields() {
         removeErrorInAllFields();
+        disableFocus();
         mEtFirstName.setEnabled(false);
         mEtLastName.setEnabled(false);
+        mEtSalutation.setEnabled(false);
         mEtAddresslineOne.setEnabled(false);
         mEtAddresslineTwo.setEnabled(false);
         mEtTown.setEnabled(false);
@@ -198,9 +232,23 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtPhoneNumber.setEnabled(false);
     }
 
+    private void disableFocus() {
+        mEtFirstName.setFocusable(false);
+        mEtLastName.setFocusable(false);
+        mEtSalutation.setFocusable(false);
+        mEtAddresslineOne.setFocusable(false);
+        mEtAddresslineTwo.setFocusable(false);
+        mEtTown.setFocusable(false);
+        mEtPostalCode.setFocusable(false);
+        mEtCountry.setFocusable(false);
+        mEtEmail.setFocusable(false);
+        mEtPhoneNumber.setFocusable(false);
+    }
+
     private void enableAllFields() {
         mEtFirstName.setEnabled(true);
         mEtLastName.setEnabled(true);
+        mEtSalutation.setEnabled(true);
         mEtAddresslineOne.setEnabled(true);
         mEtAddresslineTwo.setEnabled(true);
         mEtTown.setEnabled(true);
@@ -208,6 +256,29 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.setEnabled(true);
         mEtEmail.setEnabled(true);
         mEtPhoneNumber.setEnabled(true);
+    }
+
+    private void enableFocus() {
+        mEtFirstName.setFocusable(true);
+        mEtFirstName.setFocusableInTouchMode(true);
+        mEtLastName.setFocusable(true);
+        mEtLastName.setFocusableInTouchMode(true);
+        mEtSalutation.setFocusable(true);
+        mEtSalutation.setFocusableInTouchMode(true);
+        mEtAddresslineOne.setFocusable(true);
+        mEtAddresslineOne.setFocusableInTouchMode(true);
+        mEtAddresslineTwo.setFocusable(true);
+        mEtAddresslineTwo.setFocusableInTouchMode(true);
+        mEtTown.setFocusable(true);
+        mEtTown.setFocusableInTouchMode(true);
+        mEtPostalCode.setFocusable(true);
+        mEtPostalCode.setFocusableInTouchMode(true);
+        mEtCountry.setFocusable(true);
+        mEtCountry.setFocusableInTouchMode(true);
+        mEtEmail.setFocusable(true);
+        mEtEmail.setFocusableInTouchMode(true);
+        mEtPhoneNumber.setFocusable(true);
+        mEtPhoneNumber.setFocusableInTouchMode(true);
     }
 
     private void removeErrorInAllFields() {
@@ -239,8 +310,13 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             addFragment(
                     OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
         } else if (v == mBtnCancel) {
-            addFragment
-                    (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
+                    getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
+                getFragmentManager().popBackStack();
+            } else {
+                addFragment
+                        (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
+            }
         }
     }
 
@@ -314,5 +390,10 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onSalutationSelect(String salutation) {
+        mEtSalutation.setText(salutation);
     }
 }

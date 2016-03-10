@@ -24,9 +24,12 @@
     <string name="iap_items"> items</string>
 
     <!-- Shipping address layout -->
+    <string name="iap_mr">Mr</string>
+    <string name="iap_mrs">Ms</string>
     <string name="iap_shipping_address">Shipping address</string>
     <string name="iap_billing_address">Billing address</string>
     <string name="iap_salutation">Salutation</string>
+    <string name="iap_salutation_none">None</string>
     <string name="iap_first_name">First name</string>
     <string name="iap_first_name_hint">Enter first name</string>
     <string name="iap_last_name">Last name</string>
@@ -60,11 +63,6 @@
     <string name="iap_email_error">Please enter a valid email</string>
     <string name="iap_phone_error">Please enter a valid phone number</string>
 
-    <string-array name="salutation_arrays">
-        <item>mr</item>
-        <item>mrs</item>
-    </string-array>
-
     <!-- Address screen-->
     <string name="iap_add_new_address">Add a new address</string>
     <string name="iap_deliver_to_this_address">Deliver to this address</string>
@@ -75,7 +73,7 @@
     <string name="iap_delete_address">Deleting Shipping Address</string>
 
     <!--Order Sammary-->
-    <string name="iap_order_summary">Summary</string>
+    <string name="iap_order_summary">Order Summary</string>
     <string name="iap_pay_now">Pay now</string>
     <string name="iap_deliver_via_parcel">Delivery via UPA Parcel</string>
     <string name="iap_voucher">Claim voucher</string>

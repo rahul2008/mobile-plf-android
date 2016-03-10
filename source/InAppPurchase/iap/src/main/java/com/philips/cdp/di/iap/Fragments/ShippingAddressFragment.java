@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.Fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
@@ -33,7 +34,9 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.uikit.customviews.InlineForms;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -42,7 +45,7 @@ import java.util.List;
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
-        TextWatcher, AdapterView.OnItemSelectedListener {
+        TextWatcher, AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener {
     private Context mContext;
 
     private EditText mEtFirstName;
@@ -54,6 +57,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private EditText mEtCountry;
     private EditText mEtEmail;
     private EditText mEtPhoneNumber;
+    private EditText mEtSalutation;
 
     private Button mBtnContinue;
     private Button mBtnCancel;
@@ -69,6 +73,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
     private HashMap<String, String> mAddressFieldsHashmap = null;
     private Addresses mAddresses;
+    private Drawable imageArrow;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -84,6 +89,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
         mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
         mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
+        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
 
         mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
@@ -113,7 +119,28 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             updateFeilds();
         }
 
+        setImageArrow();
+        mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
+        mEtSalutation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bindSalutationDropDown(mEtSalutation);
+            }
+        });
+
         return rootView;
+    }
+
+    private void bindSalutationDropDown(View view) {
+        SalutationDropDown mSalutationDropDown = new SalutationDropDown(mContext, view, this);
+        mSalutationDropDown.show();
+    }
+
+    private void setImageArrow() {
+        imageArrow = VectorDrawable.create(mContext, R.drawable.iap_product_count_drop_down);
+        int width = (int) getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
+        int height = (int) getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
+        imageArrow.setBounds(0, 0, width, height);
     }
 
     @Override
@@ -201,14 +228,14 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onCreateAddress(Message msg) {
         if (msg.obj instanceof Addresses) {
-            mAddresses = (Addresses)msg.obj;
+            mAddresses = (Addresses) msg.obj;
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
 
-            IAPNetworkError iapNetworkError = (IAPNetworkError)msg.obj;
-            if(null != iapNetworkError.getServerError()){
-                for(int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++){
+            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+            if (null != iapNetworkError.getServerError()) {
+                for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
                     Error error = iapNetworkError.getServerError().getErrors().get(i);
                     showErrorFromServer(error);
                 }
@@ -219,8 +246,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
-    private void showErrorFromServer(Error error){
-        if(error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)){
+    private void showErrorFromServer(Error error) {
+        if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
             validate(mEtPostalCode, false);
         }
     }
@@ -245,7 +272,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
             mAddressFields.setFirstName(firstName);
             mAddressFields.setLastName(lastName);
-            mAddressFields.setTitleCode("mr");
+            mAddressFields.setTitleCode(mEtSalutation.getText().toString());
             mAddressFields.setCountryIsocode(country);
             mAddressFields.setLine1(addressLineOne);
             mAddressFields.setLine2(addressLineTwo);
@@ -427,5 +454,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onSalutationSelect(String salutation) {
+        mEtSalutation.setText(salutation);
     }
 }
