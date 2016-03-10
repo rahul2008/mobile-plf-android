@@ -22,31 +22,6 @@ public class ProdRegHelper {
     public void cancelRequest(String requestTag) {
     }
 
-    private void makeRegistrationRequest(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
-        UserProduct userProduct = new UserProduct();
-        userProduct.registerProduct(context, prodRegRequestInfo, listener);
-    }
-
-    public void setLocale(final String language, final String countryCode) {
-        this.locale = language + "_" + countryCode;
-    }
-
-    protected void processMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
-        Product product = new Product();
-        prodRegRequestInfo.setLocale(this.locale);
-        product.getProductMetadata(context, prodRegRequestInfo, new ResponseListener() {
-            @Override
-            public void onResponseSuccess(final ResponseData responseData) {
-                makeRegistrationRequest(context, prodRegRequestInfo, listener);
-            }
-
-            @Override
-            public void onResponseError(final String errorMessage, final int responseCode) {
-                listener.onResponseError(errorMessage, responseCode);
-            }
-        }, listener);
-    }
-
     /**
      * <b> API to get registered products</b>
      *
@@ -69,4 +44,37 @@ public class ProdRegHelper {
     public void registerProduct(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
         processMetadata(context, prodRegRequestInfo, listener);
     }
+
+    /**
+     * Api to set locale
+     *
+     * @param language    - language code of type String
+     * @param countryCode - country code of type String
+     */
+    public void setLocale(final String language, final String countryCode) {
+        this.locale = language + "_" + countryCode;
+    }
+
+    private void makeRegistrationRequest(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
+        UserProduct userProduct = new UserProduct();
+        userProduct.registerProduct(context, prodRegRequestInfo, listener);
+    }
+
+    protected void processMetadata(final Context context, final ProdRegRequestInfo prodRegRequestInfo, final ResponseListener listener) {
+        Product product = new Product();
+        prodRegRequestInfo.setLocale(this.locale);
+        product.getProductMetadata(context, prodRegRequestInfo, new ResponseListener() {
+            @Override
+            public void onResponseSuccess(final ResponseData responseData) {
+                makeRegistrationRequest(context, prodRegRequestInfo, listener);
+            }
+
+            @Override
+            public void onResponseError(final String errorMessage, final int responseCode) {
+                listener.onResponseError(errorMessage, responseCode);
+            }
+        }, listener);
+    }
+
+
 }
