@@ -137,7 +137,7 @@ public class SHNCentral {
 
         internalHandler = createInternalHandler();
         if (internalHandler != null) {
-            Timer.setHandler(handler);
+            Timer.setHandler(internalHandler);
         }
 
         shnDeviceScannerInternal = new SHNDeviceScannerInternal(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
