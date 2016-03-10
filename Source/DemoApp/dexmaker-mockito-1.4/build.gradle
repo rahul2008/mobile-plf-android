@@ -1,2 +1,0 @@
-configurations.create("default")
-artifacts.add("default", file('dexmaker-mockito-1.4.jar'))

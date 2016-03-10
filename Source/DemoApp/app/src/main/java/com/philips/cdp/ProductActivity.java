@@ -58,8 +58,6 @@ import java.util.Date;
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText regChannel, serialNumber, purchaseDate, ctn;
-    private String mLocale = "en_GB";
-    private String mCatalogCode = "CONSUMER";
     private String TAG = getClass().toString();
     private Calendar calendar;
     private int monthInt, mdateInt, year, month, day;
