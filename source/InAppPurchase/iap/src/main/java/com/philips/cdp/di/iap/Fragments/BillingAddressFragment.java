@@ -397,7 +397,9 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            validate(mEditText, false);
+            if (s.length() > 0) {
+                validate(mEditText, false);
+            }
         }
 
         public void afterTextChanged(Editable s) {
