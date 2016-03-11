@@ -2,9 +2,13 @@ package com.philips.cdp;
 
 import android.app.Application;
 
+import com.philips.cdp.demo.R;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.tagging.Tagging;
+
 import java.util.Locale;
 
 public class ProductRegistrationApplication extends Application {
@@ -14,22 +18,12 @@ public class ProductRegistrationApplication extends Application {
         super.onCreate();
         RLog.d("ProductReg", "ProductRegistrationApplication : onCreate");
         RLog.d("ProductReg", "ProductRegistrationApplication : Janrain initialization with locale : " + Locale.getDefault());
-//        Tagging.enableAppTagging(true);
-//        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
-//        Tagging.setLaunchingPageName("demoapp:home");
-        RegistrationHelper.getInstance().setCoppaFlow(false);
-        RegistrationHelper.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
-
-
-        initRegistration();
-
-
+        Tagging.enableAppTagging(true);
+        Tagging.setTrackingIdentifier("integratingApplicationAppsId");
+        Tagging.setLaunchingPageName("demoapp:home");
+        RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
+        RegistrationHelper.getInstance().initializeUserRegistration(this,
+                Locale.getDefault());
+        Tagging.init(RegistrationHelper.getInstance().getLocale(), this, getResources().getString(R.string.app_name));
     }
-
-    private void initRegistration() {
-        RegistrationHelper.getInstance().setLocale(Locale.getDefault());
-        RegistrationHelper.getInstance().intializeRegistrationSettings(this, Locale.getDefault());
-//        Tagging.init(Locale.getDefault(), this);
-    }
-
 }
