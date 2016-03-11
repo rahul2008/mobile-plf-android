@@ -405,7 +405,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         HashMap<String, String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
         addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
-        addressHashMap.put(ModelConstants.TITLE_CODE, "mr");
+        addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase());
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
         addressHashMap.put(ModelConstants.LINE_1, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.LINE_2, mEtAddressLineTwo.getText().toString());
@@ -430,6 +430,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtFirstName.requestFocus();
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtLastName.requestFocus();
+        mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
+        mEtSalutation.requestFocus();
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtTown.requestFocus();
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));

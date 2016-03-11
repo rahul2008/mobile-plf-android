@@ -277,7 +277,9 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         HashMap<String, String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
         addressHashMap.put(ModelConstants.LAST_NAME, address.getLastName());
-        addressHashMap.put(ModelConstants.TITLE_CODE, address.getTitleCode());
+        String titleCode = address.getTitleCode();
+        titleCode = titleCode.substring(0, 1).toUpperCase() + titleCode.substring(1);
+        addressHashMap.put(ModelConstants.TITLE_CODE, titleCode);
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, address.getCountry().getIsocode());
         addressHashMap.put(ModelConstants.LINE_1, address.getLine1());
         addressHashMap.put(ModelConstants.LINE_2, address.getLine2());
