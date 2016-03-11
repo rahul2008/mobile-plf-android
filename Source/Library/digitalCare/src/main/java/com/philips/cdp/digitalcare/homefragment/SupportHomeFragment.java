@@ -62,6 +62,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     private static boolean isProductSelectionFirstTime;
     SharedPreferences prefs = null;
     ActivityLauncher uiLauncher = null;
+    private boolean isfragmentFirstTimeVisited;
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
     private int ButtonMarginTop = 0;
@@ -91,13 +92,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DigiCareLogger.d(TAG, "OnCreate Method");
         isProductSelectionFirstTime = true;
+        isfragmentFirstTimeVisited = true;
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        DigiCareLogger.d(TAG, "onCreateView Method");
         mView = inflater.inflate(R.layout.fragment_support, container,
                 false);
         mIsFirstScreenLaunch = true;
@@ -126,16 +130,27 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
         } else
             createMainMenu();
 
+        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
         if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
-
             if (isProductSelectionFirstTime) {
-                launchProductSelectionComponent();
+
+                if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
+                    if (isfragmentFirstTimeVisited) {
+                        isfragmentFirstTimeVisited = false;
+                        launchProductSelectionComponent();
+                    }
+                } else {
+                    launchProductSelectionComponent();
+                }
             }
         }
 
         if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == "") {
             isFirstTimeProductComponentlaunch = false;
+            if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher)
+                isfragmentFirstTimeVisited = false;
             launchProductSelectionComponent();
+
         }
 
 
@@ -551,8 +566,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements IPrx
     @Override
     public void onResume() {
         super.onResume();
-        if (mProductViewProductButton != null){
-            if(!mProductChangeButton.isClickable())
+        if (mProductViewProductButton != null) {
+            if (!mProductChangeButton.isClickable())
                 mProductChangeButton.setClickable(true);
         }
     }
