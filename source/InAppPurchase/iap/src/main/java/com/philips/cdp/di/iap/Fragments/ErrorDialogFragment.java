@@ -42,7 +42,6 @@ public class ErrorDialogFragment extends BlurDialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
-                getActivity().finish();
             }
         };
     }
