@@ -428,6 +428,8 @@ System.out.println("UTC time " +utcTime);
                 "client_id", Jump.getCaptureClientId(),
                 "locale", Jump.getCaptureLocale()
         );
+        c.maybeAddParam("flow_version", Jump.getCaptureFlowVersion());
+        c.maybeAddParam("flow", Jump.getCaptureFlowName());
         c.fetchResponseAsJson(new FetchJsonCallback() {
             public void run(JSONObject response) {
                 if (response == null) {
@@ -462,6 +464,8 @@ System.out.println("UTC time " +utcTime);
                 "client_id", Jump.getCaptureClientId(),
                 "locale", Jump.getCaptureLocale()
         );
+        c.maybeAddParam("flow_version", Jump.getCaptureFlowVersion());
+        c.maybeAddParam("flow", Jump.getCaptureFlowName());
         c.fetchResponseAsJson(new FetchJsonCallback() {
             public void run(JSONObject response) {
                 if (response == null) {

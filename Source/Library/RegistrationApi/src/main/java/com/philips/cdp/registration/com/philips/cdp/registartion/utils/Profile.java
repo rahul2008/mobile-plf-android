@@ -2,7 +2,11 @@ package com.philips.cdp.registration.com.philips.cdp.registartion.utils;
 
 import android.content.Context;
 
+import com.janrain.android.capture.CaptureRecord;
+import com.janrain.android.engage.session.JRSession;
+import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.security.SecureStorage;
 
 import java.io.FileInputStream;
@@ -53,7 +57,18 @@ public class Profile {
         return diUserProfile;
     }
 
-    public void deleteDIUserProfileFromDisk() {
+
+    public void clearData() {
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        hsdpUser.deleteFromDisk();
         mContext.deleteFile(DI_PROFILE_FILE);
+        CoppaConfiguration.clearConfiguration();
+
+        if (JRSession.getInstance() != null) {
+            JRSession.getInstance().signOutAllAuthenticatedUsers();
+        }
+        CaptureRecord.deleteFromDisk(mContext);
+
     }
+
 }

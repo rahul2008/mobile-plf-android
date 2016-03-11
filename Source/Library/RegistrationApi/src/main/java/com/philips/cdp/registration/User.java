@@ -8,7 +8,6 @@ import com.janrain.android.Jump;
 import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
-import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.com.philips.cdp.registartion.utils.Profile;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
@@ -16,7 +15,7 @@ import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
 import com.philips.cdp.registration.controller.ForgotPassword;
 import com.philips.cdp.registration.controller.LoginSocialProvider;
 import com.philips.cdp.registration.controller.LoginTraditional;
-import com.philips.cdp.registration.controller.RefreshLoginSession;
+import com.philips.cdp.registration.controller.RefreshUserSession;
 import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.controller.ResendVerificationEmail;
 import com.philips.cdp.registration.controller.UpdateReceiveMarketingEmail;
@@ -229,75 +228,11 @@ public class User {
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler, final Context context) {
 
 
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, now performing forgot password");
-                refreshSession(refreshLoginSessionHandler, context);
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(-1);
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-        if (isJumpInitializated()) {
-            refreshSession(refreshLoginSessionHandler, context);
-            return;
-        } else if (!isJumpInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }
-
+        RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, context);
+        refreshUserSession.refreshUserSession();
 
     }
 
-    protected void refreshSession(final RefreshLoginSessionHandler refreshLoginSessionHandler, final Context context) {
-        CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
-        if (captureRecord == null) {
-            return;
-        }
-        captureRecord.refreshAccessToken(new RefreshLoginSession(new RefreshLoginSessionHandler() {
-            @Override
-            public void onRefreshLoginSessionSuccess() {
-                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-                    // refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
-                    refreshHsdpAccessToken(context, refreshLoginSessionHandler);
-                    return;
-                }
-                refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
-
-            }
-
-            @Override
-            public void onRefreshLoginSessionFailedWithError(int error) {
-                refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
-
-            }
-        }), context);
-    }
-
-    private void refreshHsdpAccessToken(Context context, final RefreshLoginSessionHandler refreshLoginSessionHandler) {
-        final HsdpUser hsdpUser = new HsdpUser(context);
-        hsdpUser.refreshToken(new RefreshLoginSessionHandler() {
-            @Override
-            public void onRefreshLoginSessionSuccess() {
-                refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
-            }
-
-            @Override
-            public void onRefreshLoginSessionFailedWithError(int error) {
-                if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
-                        || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-                    clearData();
-                    RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
-                }
-                refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
-            }
-        });
-    }
 
     private void resendMail(final String emailAddress, final ResendVerificationEmailHandler resendVerificationEmail) {
         if (emailAddress != null) {
@@ -361,8 +296,8 @@ public class User {
                     traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
                     password);
             loginTraditionalResultHandler.mergeTraditionally(emailAddress, password, mergeToken);
-           // Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
-                //    mergeToken);
+            // Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
+            //    mergeToken);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
@@ -376,7 +311,6 @@ public class User {
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                           final TraditionalLoginHandler traditionalLoginHandler) {
         mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
-
 
 
     }
@@ -483,8 +417,8 @@ public class User {
 
             ContinueSocialProviderLogin continueSocialProviderLogin = new ContinueSocialProviderLogin(
                     socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
-            continueSocialProviderLogin.registerNewUser(newUser,socialRegistrationToken);
-           // Jump.registerNewUser(newUser, socialRegistrationToken, continueSocialProviderLogin);
+            continueSocialProviderLogin.registerNewUser(newUser, socialRegistrationToken);
+            // Jump.registerNewUser(newUser, socialRegistrationToken, continueSocialProviderLogin);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
@@ -609,7 +543,8 @@ public class User {
             public void onRefreshLoginSessionFailedWithError(int error) {
                 if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-                    clearData();
+                    Profile profile = new Profile(mContext);
+                    profile.clearData();
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnLogoutSuccessWithInvalidAccessToken();
                 }
@@ -734,7 +669,8 @@ public class User {
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
             logoutHsdp(logoutHandler);
         } else {
-            logoutJanrainUser();
+            Profile profile = new Profile(mContext);
+            profile.clearData();
             if (logoutHandler != null) {
                 logoutHandler.onLogoutSuccess();
                 RegistrationHelper.getInstance().getUserRegistrationListener()
@@ -847,7 +783,8 @@ public class User {
         hsdpUser.logOut(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
-                logoutJanrainUser();
+                Profile profile = new Profile(mContext);
+                profile.clearData();
                 hsdpUser.deleteFromDisk();
                 if (logoutHandler != null) {
                     logoutHandler.onLogoutSuccess();
@@ -861,7 +798,8 @@ public class User {
 
                 if (responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-                    clearData();
+                    Profile profile = new Profile(mContext);
+                    profile.clearData();
                     if (logoutHandler != null) {
                         logoutHandler.onLogoutSuccess();
                         RegistrationHelper.getInstance().getUserRegistrationListener()
@@ -877,22 +815,5 @@ public class User {
                 }
             }
         });
-    }
-
-    public void clearData() {
-        HsdpUser hsdpUser = new HsdpUser(mContext);
-        hsdpUser.deleteFromDisk();
-        logoutJanrainUser();
-    }
-
-    private void logoutJanrainUser() {
-        Profile profile = new Profile(mContext);
-        profile.deleteDIUserProfileFromDisk();
-        CoppaConfiguration.clearConfiguration();
-
-        if (JRSession.getInstance() != null) {
-            JRSession.getInstance().signOutAllAuthenticatedUsers();
-        }
-        CaptureRecord.deleteFromDisk(mContext);
     }
 }

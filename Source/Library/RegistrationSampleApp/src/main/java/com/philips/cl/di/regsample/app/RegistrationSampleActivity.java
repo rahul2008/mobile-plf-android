@@ -38,6 +38,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private Button mBtnRegistrationWithOutAccountSettings;
     private Button mBtnHsdpRefreshAccessToken;
     private Button mBtnResendCoppaMail;
+    private Button mBtnRefresh;
     private Context mContext;
     private ProgressDialog mProgressDialog;
 
@@ -69,6 +70,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             mBtnResendCoppaMail.setVisibility(View.VISIBLE);
         }
         user = new User(mContext);
+        mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
+        mBtnRefresh.setOnClickListener(this);
     }
 
     @Override
@@ -130,6 +133,11 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 RegistrationLaunchHelper.launchRegistrationActivityWithOutAccountSettings(this);
                 break;
 
+            case R.id.btn_refresh_user:
+                RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Refresh User ");
+               handleRefreshAccessToken();
+                break;
+
             case R.id.btn_refresh_token:
                 if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
                     User user = new User(mContext);
@@ -157,6 +165,26 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 break;
         }
 
+    }
+
+    private void handleRefreshAccessToken() {
+
+      final  User user = new User(this);
+        if(user.isUserSignIn(this)){
+            user.refreshLoginSession(new RefreshLoginSessionHandler() {
+                @Override
+                public void onRefreshLoginSessionSuccess() {
+                    System.out.println("Access token : "+user.getAccessToken());
+                }
+
+                @Override
+                public void onRefreshLoginSessionFailedWithError(int error) {
+
+                }
+            },this);
+        }else{
+            Toast.makeText(this,"Plase login",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -3,7 +3,10 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
 
+import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -63,14 +66,20 @@ public class RegistrationApplication extends Application {
 		providers.put("US", values2);
 		providers.put("DEFAULT", values3);
 		RegistrationDynamicConfiguration.getInstance().getSignInProviders().setProviders(providers);
+		*/
+
+
+	/*	HSDPInfo hsdpInfo = new HSDPInfo();
+		hsdpInfo.setApplicationName("uGrowApp");
+		hsdpInfo.setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
+		hsdpInfo.setSecretId("f129b5a8-55f4-11e5-885d-feff819cdc9f");
+		hsdpInfo.setBaseURL("http://ugrow-userregistration15.cloud.pcftest.com");
+
+
 
 		//Configure HSDP
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setApplicationName("uGrowApp");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setSecret("f129b5a8-55f4-11e5-885d-feff819cdc9f");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setBaseURL("http://ugrow-userregistration15.cloud.pcftest.com");
-		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setEnvironment(Configuration.EVALUATION);*/
-
+		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING,hsdpInfo);
+*/
 
 
 
