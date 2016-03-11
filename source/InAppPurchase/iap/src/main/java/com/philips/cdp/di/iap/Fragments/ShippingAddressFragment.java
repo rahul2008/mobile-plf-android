@@ -12,6 +12,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -45,7 +46,7 @@ import java.util.List;
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
-        TextWatcher, AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener {
+        AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener {
     private Context mContext;
 
     private EditText mEtFirstName;
@@ -69,7 +70,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private InlineForms mInlineFormsParent;
     private Validator mValidator = null;
 
-    private List<PaymentMethod> mPaymentMethodsList;
+    private SalutationDropDown mSalutationDropDown;
 
     private HashMap<String, String> mAddressFieldsHashmap = null;
     private Addresses mAddresses;
@@ -104,15 +105,15 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mPaymentController = new PaymentController(mContext, this);
         mAddressFields = new AddressFields();
 
-        mEtFirstName.addTextChangedListener(this);
-        mEtLastName.addTextChangedListener(this);
-        mEtAddressLineOne.addTextChangedListener(this);
-        mEtAddressLineTwo.addTextChangedListener(this);
-        mEtTown.addTextChangedListener(this);
-        mEtPostalCode.addTextChangedListener(this);
-        mEtCountry.addTextChangedListener(this);
-        mEtEmail.addTextChangedListener(this);
-        mEtPhoneNumber.addTextChangedListener(this);
+        mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
+        mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
+        mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
+        mEtAddressLineTwo.addTextChangedListener(new IAPTextWatcher(mEtAddressLineTwo));
+        mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
+        mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
+        mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
+        mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
+        mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
 
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -121,19 +122,17 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
         setImageArrow();
         mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
-        mEtSalutation.setOnClickListener(new View.OnClickListener() {
+        mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
+
+        mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                bindSalutationDropDown(mEtSalutation);
+            public boolean onTouch(View v, MotionEvent event) {
+                mSalutationDropDown.show();
+                return false;
             }
         });
 
         return rootView;
-    }
-
-    private void bindSalutationDropDown(View view) {
-        SalutationDropDown mSalutationDropDown = new SalutationDropDown(mContext, view, this);
-        mSalutationDropDown.show();
     }
 
     private void setImageArrow() {
@@ -163,7 +162,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         } else if ((msg.obj instanceof PaymentMethods)) {
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
-            mPaymentMethodsList = mPaymentMethods.getPayments();
+            List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(IAPConstant.SHIPPING_ADDRESS_FIELDS, mAddressFields);
@@ -228,6 +227,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onCreateAddress(Message msg) {
         if (msg.obj instanceof Addresses) {
+            mBtnContinue.setEnabled(true);
             mAddresses = (Addresses) msg.obj;
             mAddressController.setDeliveryAddress(mAddresses.getId());
         } else if (msg.obj instanceof IAPNetworkError) {
@@ -239,21 +239,23 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                     Error error = iapNetworkError.getServerError().getErrors().get(i);
                     showErrorFromServer(error);
                 }
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
             }
-
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
     }
 
     private void showErrorFromServer(Error error) {
-        if (error.getSubject().equalsIgnoreCase(ModelConstants.POSTAL_CODE)) {
-            validate(mEtPostalCode, false);
+        if (error.getSubject().equalsIgnoreCase(ModelConstants.COUNTRY_ISOCODE)) {
+            String errorMessage = getResources().getString(R.string.iap_country_error);
+            mInlineFormsParent.setErrorMessage(errorMessage);
+            mInlineFormsParent.showError(mEtCountry);
+            mBtnContinue.setEnabled(false);
         }
     }
 
     public void checkFields() {
-
         String firstName = mEtFirstName.getText().toString();
         String lastName = mEtLastName.getText().toString();
         String addressLineOne = mEtAddressLineOne.getText().toString();
@@ -309,7 +311,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
-            mEtCountry.setText(mEtCountry.getText().toString().toUpperCase());
             result = mValidator.isValidCountry(mEtCountry.getText().toString());
             errorMessage = getResources().getString(R.string.iap_country_error);
         }
@@ -335,21 +336,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mInlineFormsParent.showError((EditText) editText);
         } else {
             mInlineFormsParent.removeError(editText);
+            checkFields();
         }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        checkFields();
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
     }
 
     @Override
@@ -363,6 +351,54 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onSetDeliveryAddress(final Message msg) {
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            CartModelContainer.getInstance().setDeliveryAddress(mAddresses);
+            mAddressController.setDeliveryMode();
+        } else {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+    }
+
+    @Override
+    public void onSetDeliveryModes(final Message msg) {
+        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+            mPaymentController.getPaymentDetails();
+        } else {
+            Utility.dismissProgressDialog();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+        }
+    }
+
+    @Override
+    public void onSalutationSelect(String salutation) {
+        mEtSalutation.setText(salutation);
+
+    }
+
+    private class IAPTextWatcher implements TextWatcher {
+
+        private EditText mEditText;
+
+        public IAPTextWatcher(EditText editText) {
+            mEditText = editText;
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            validate(mEditText, false);
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
     }
 
     private HashMap updateToHybrisTheFeilds() {
@@ -409,29 +445,6 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void onSetDeliveryAddress(final Message msg) {
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            CartModelContainer.getInstance().setDeliveryAddress(mAddresses);
-            mAddressController.setDeliveryMode();
-        } else {
-            Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-        }
-    }
-
-    @Override
-    public void onSetDeliveryModes(final Message msg) {
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            mPaymentController.getPaymentDetails();
-        } else {
-            Utility.dismissProgressDialog();
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-        }
-    }
-
-    @Override
     public void onGetDeliveryModes(final Message msg) {
         //NOP
     }
@@ -454,10 +467,5 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    @Override
-    public void onSalutationSelect(String salutation) {
-        mEtSalutation.setText(salutation);
     }
 }

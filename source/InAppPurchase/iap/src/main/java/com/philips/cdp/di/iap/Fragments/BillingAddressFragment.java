@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,7 +27,7 @@ import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class BillingAddressFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, InlineForms.Validator, TextWatcher,
+        implements View.OnClickListener, InlineForms.Validator,
         SalutationDropDown.SalutationListener {
 
     private Context mContext;
@@ -51,6 +52,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private Validator mValidator = null;
 
     private Drawable imageArrow;
+
+    private SalutationDropDown mSalutationDropDown;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -93,15 +96,15 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             mBtnContinue.setEnabled(true);
         }
 
-        mEtFirstName.addTextChangedListener(this);
-        mEtLastName.addTextChangedListener(this);
-        mEtAddresslineOne.addTextChangedListener(this);
-        mEtAddresslineTwo.addTextChangedListener(this);
-        mEtTown.addTextChangedListener(this);
-        mEtPostalCode.addTextChangedListener(this);
-        mEtCountry.addTextChangedListener(this);
-        mEtEmail.addTextChangedListener(this);
-        mEtPhoneNumber.addTextChangedListener(this);
+        mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
+        mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
+        mEtAddresslineOne.addTextChangedListener(new IAPTextWatcher(mEtAddresslineOne));
+        mEtAddresslineTwo.addTextChangedListener(new IAPTextWatcher(mEtAddresslineTwo));
+        mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
+        mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
+        mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
+        mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
+        mEtPhoneNumber.addTextChangedListener(new IAPTextWatcher(mEtPhoneNumber));
 
         mSwitchBillingAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -119,19 +122,18 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
 
         setImageArrow();
         mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
-        mEtSalutation.setOnClickListener(new View.OnClickListener() {
+        mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
+
+        mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                bindSalutationDropDown(mEtSalutation);
+            public boolean onTouch(View v, MotionEvent event) {
+                mSalutationDropDown.show();
+                return false;
             }
         });
 
-        return rootView;
-    }
 
-    private void bindSalutationDropDown(View view) {
-        SalutationDropDown mSalutationDropDown = new SalutationDropDown(mContext, view, this);
-        mSalutationDropDown.show();
+        return rootView;
     }
 
     private void setImageArrow() {
@@ -321,21 +323,6 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        checkFields();
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
-
-    @Override
     public void validate(View editText, boolean hasFocus) {
         boolean result = true;
         String errorMessage = null;
@@ -382,6 +369,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             mInlineFormsParent.showError((EditText) editText);
         } else {
             mInlineFormsParent.removeError(editText);
+            checkFields();
         }
     }
 
@@ -395,5 +383,24 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onSalutationSelect(String salutation) {
         mEtSalutation.setText(salutation);
+    }
+
+    private class IAPTextWatcher implements TextWatcher {
+
+        private EditText mEditText;
+
+        public IAPTextWatcher(EditText editText) {
+            mEditText = editText;
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            validate(mEditText, false);
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
     }
 }
