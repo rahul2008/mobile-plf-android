@@ -17,6 +17,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.model.ModelConstants;
+import com.philips.cdp.di.iap.response.error.*;
 import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
@@ -186,6 +187,24 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
             }
         } else if (msg.obj instanceof IAPNetworkError) {
             Utility.dismissProgressDialog();
+            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+            if (null != iapNetworkError.getServerError()) {
+                checkForOutOfStock(iapNetworkError);
+            } else {
+                NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                        getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+            }
+        }
+    }
+
+    private void checkForOutOfStock(final IAPNetworkError iapNetworkError) {
+        com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
+        String type = error.getType();
+        if(type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
+            String subject = error.getMessage();
+            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                    getString(R.string.iap_out_of_stock), subject);
+        }else {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         }
