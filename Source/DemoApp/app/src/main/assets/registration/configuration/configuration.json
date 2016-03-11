@@ -24,18 +24,15 @@
   "SigninProviders": {
     "NL": [
       "googleplus",
-      "facebook",
-      "twitter"
+      "facebook"
     ],
     "US": [
       "facebook",
-      "googleplus",
-      "twitter"
+      "googleplus"
     ],
     "default": [
       "facebook",
-      "googleplus",
-      "twitter"
+      "googleplus"
     ]
   }
 }
