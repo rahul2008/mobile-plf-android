@@ -76,13 +76,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(':prx')
-//    compile project(':registrationApi')
-//	compile project(':HockeySDK-3.0.2')
-//    compile project(':localeMatch')
-//    compile project(':jump')
-//    compile project(':adobeMobileLibrary-4.5.1')
-//    compile project(':org.apache.http.legacy')
-
 
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '5.0.0-rc.1')
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: "5.0.0-rc.1", ext:

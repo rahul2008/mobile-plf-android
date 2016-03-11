@@ -1,0 +1,2 @@
+include ':product-registration-lib'
+include ':prx'
