@@ -2,7 +2,6 @@ package com.philips.cdp.di.iap.ShoppingCart;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,15 +21,12 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.cdp.uikit.utils.RowItem;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +51,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int DELETE = 0;
     private static final int INFO = 1;
     private Drawable mOptionsDrawable;
+    OutOfStockListener mOutOfStock;
 
-    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager) {
+    public interface OutOfStockListener {
+        void onOutOfStock(boolean isOutOfStock);
+    }
+
+    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager, OutOfStockListener iOutOfStock) {
         mContext = context;
         mResources = context.getResources();
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -66,6 +66,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mFragmentManager = fragmentManager;
         setCountArrow(context);
         initOptionsDrawable();
+        mOutOfStock = iOutOfStock;
     }
 
     void initOptionsDrawable() {
@@ -113,13 +114,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        if(Utility.isInternetConnected(mContext)) {
+                        if (Utility.isInternetConnected(mContext)) {
                             if (!Utility.isProgressDialogShowing()) {
                                 Utility.showProgressDialog(mContext, "Updating Cart Details");
                                 mPresenter.updateProductQuantity(mData.get(position), newCount);
                             }
-                        }else{
-                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager,mContext.getString(R.string.iap_ok),mContext.getString(R.string.iap_network_error),mContext.getString(R.string.iap_check_connection));
+                        } else {
+                            NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
                         }
                     }
                 });
@@ -174,7 +175,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if(mData.size()==0)
             return;
-
         if (holder instanceof ShoppingCartProductHolder) {
             //Product Layout
             final ShoppingCartData cartData = mData.get(position);
@@ -184,6 +184,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartProductHolder.mIvOptions.setImageDrawable(mOptionsDrawable);
             shoppingCartProductHolder.mTvPrice.setText(cartData.getTotalPriceFormatedPrice());
             shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
+
+            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(),shoppingCartProductHolder);
 
             getNetworkImage(shoppingCartProductHolder, imageURL);
 
@@ -211,6 +213,21 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         shoppingCartFooter.mDeliveryPrice.setText("$0.0");
                     }
                 }
+        }
+    }
+
+    private void checkForOutOfStock(int pStockLevel, int pQuantity, ShoppingCartProductHolder pShoppingCartProductHolder) {
+        if(pStockLevel == 0){
+            pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
+            pShoppingCartProductHolder.mTvStock.setText(mResources.getString(R.string.iap_out_of_stock));
+            mOutOfStock.onOutOfStock(true);
+        }else if(pStockLevel < pQuantity){
+            pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
+            pShoppingCartProductHolder.mTvStock.setText("Only " + pStockLevel + " left");
+            mOutOfStock.onOutOfStock(true);
+        }else {
+            pShoppingCartProductHolder.mTvStock.setVisibility(View.GONE);
+            /*mOutOfStock.onOutOfStock(false);*/
         }
     }
 
@@ -244,14 +261,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return mData.size() + 1;
         }
     }
-
+/*
     @Override
     public long getItemId(final int position) {
         return position;
-    }
+    }*/
 
     @Override
     public void onLoadFinished(final ArrayList<ShoppingCartData> data) {
+        mOutOfStock.onOutOfStock(false);
         mData = data;
         notifyDataSetChanged();
     }
