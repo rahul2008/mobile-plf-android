@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SalutationDropDown {
 
-    public interface SalutationListener{
+    public interface SalutationListener {
         void onSalutationSelect(String salutation);
     }
 
@@ -58,11 +58,17 @@ public class SalutationDropDown {
 
 
     public void show() {
-        mPopUp.show();
+        if (!isShowing()) {
+            mPopUp.show();
+        }
     }
 
     public void dismiss() {
         mPopUp.dismiss();
+    }
+
+    public boolean isShowing() {
+        return mPopUp.isShowing();
     }
 
 }

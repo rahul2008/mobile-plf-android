@@ -254,6 +254,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:hint="@string/iap_country_hint"
+                    android:maxLength="2"
                     android:inputType="textCapCharacters" />
             </LinearLayout>
 
