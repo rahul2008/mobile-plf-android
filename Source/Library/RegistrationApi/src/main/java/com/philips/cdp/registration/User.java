@@ -360,8 +360,9 @@ public class User {
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
                     traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
                     password);
-            Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
-                    mergeToken);
+            loginTraditionalResultHandler.mergeTraditionally(emailAddress, password, mergeToken);
+           // Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
+                //    mergeToken);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
@@ -374,37 +375,9 @@ public class User {
     // For handling merge scenario
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                           final TraditionalLoginHandler traditionalLoginHandler) {
+        mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
 
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                if (traditionalLoginHandler != null) {
-                    RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier");
-                    mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
 
-            @Override
-            public void onFlowDownloadFailure() {
-                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (traditionalLoginHandler != null) {
-                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                    userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                    userRegistrationFailureInfo.setErrorCode(RegConstants.MERGE_TRADITIONAL_FAILED_SERVER_ERROR);
-                    traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-        if (isJumpInitializated()) {
-            if (traditionalLoginHandler != null) {
-                mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
-            }
-            return;
-        } else if (!isJumpInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }
 
     }
 
@@ -414,38 +387,10 @@ public class User {
                                           final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
                                           final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
 
-
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                if (socialProviderLoginHandler != null) {
-                    RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier");
-                    registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialProviderLoginHandler, socialRegistrationToken);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (socialProviderLoginHandler != null) {
-                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                    userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                    userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_SOCIAL_FAILED_SERVER_ERROR);
-                    socialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-
-        if (isJumpInitializated()) {
-            if (socialProviderLoginHandler != null) {
-                registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialProviderLoginHandler, socialRegistrationToken);
-            }
-            return;
-        } else if (!isJumpInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
+        if (socialProviderLoginHandler != null) {
+            registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialProviderLoginHandler, socialRegistrationToken);
         }
+
     }
 
     private void registerUserForSocial(final String givenName, final String displayName, final String familyName,
@@ -538,7 +483,8 @@ public class User {
 
             ContinueSocialProviderLogin continueSocialProviderLogin = new ContinueSocialProviderLogin(
                     socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
-            Jump.registerNewUser(newUser, socialRegistrationToken, continueSocialProviderLogin);
+            continueSocialProviderLogin.registerNewUser(newUser,socialRegistrationToken);
+           // Jump.registerNewUser(newUser, socialRegistrationToken, continueSocialProviderLogin);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);

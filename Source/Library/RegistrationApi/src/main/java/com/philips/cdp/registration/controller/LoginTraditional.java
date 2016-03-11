@@ -55,6 +55,15 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         }
     }
 
+    public void mergeTraditionally(final String email, final String password, final String token) {
+        UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            Jump.performTraditionalSignIn(email, password, this, token);
+        }else if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
+        }
+    }
+
     @Override
     public void onSuccess() {
         Jump.saveToDisk(mContext);
@@ -181,6 +190,13 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     @Override
     public void onFlowDownloadFailure() {
+        if (mTraditionalLoginHandler != null) {
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorCode(RegConstants.MERGE_TRADITIONAL_FAILED_SERVER_ERROR);
+            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+        }
+        UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
     }
 }
