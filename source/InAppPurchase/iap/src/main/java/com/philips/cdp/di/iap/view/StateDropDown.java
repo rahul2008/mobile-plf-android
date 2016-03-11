@@ -4,9 +4,16 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.gson.Gson;
+import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +25,11 @@ public class StateDropDown {
 
     UIKitListPopupWindow mPopUp;
     StateListener mStateListener;
+    Context mContext;
 
     public StateDropDown(Context context, View anchor, StateListener stateListener) {
         mStateListener = stateListener;
+        mContext = context;
         createPopUp(anchor, context);
     }
 
@@ -34,9 +43,18 @@ public class StateDropDown {
 
     private List<RowItem> createRowItems() {
         List<RowItem> rowItems = new ArrayList<>();
-        String[] desc = {"Karnataka", "Tamilnadu"};
-        rowItems.add(new RowItem(desc[0]));
-        rowItems.add(new RowItem(desc[1]));
+        try {
+            InputStream fromAsset = mContext.getResources().getAssets().open("USRegions.json");
+            Reader reader = new BufferedReader(new InputStreamReader(fromAsset));
+            RegionsList regionsList = new Gson().fromJson(reader, RegionsList.class);
+
+            for (int i = 0; i < regionsList.getRegions().size(); i++) {
+                rowItems.add(new RowItem(regionsList.getRegions().get(i).getName()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return rowItems;
     }
 

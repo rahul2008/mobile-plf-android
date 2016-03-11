@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -36,6 +37,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
+import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
@@ -46,19 +48,22 @@ import java.util.List;
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
-        AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener {
+        AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener,
+        StateDropDown.StateListener{
     private Context mContext;
 
+    private LinearLayout mlLState;
     private EditText mEtFirstName;
     private EditText mEtLastName;
+    private EditText mEtSalutation;
     private EditText mEtAddressLineOne;
     private EditText mEtAddressLineTwo;
     private EditText mEtTown;
     private EditText mEtPostalCode;
     private EditText mEtCountry;
+    private EditText mEtState;
     private EditText mEtEmail;
     private EditText mEtPhoneNumber;
-    private EditText mEtSalutation;
 
     private Button mBtnContinue;
     private Button mBtnCancel;
@@ -71,6 +76,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     private Validator mValidator = null;
 
     private SalutationDropDown mSalutationDropDown;
+    private StateDropDown mStateDropDown;
 
     private HashMap<String, String> mAddressFieldsHashmap = null;
     private Addresses mAddresses;
@@ -81,16 +87,18 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         View rootView = inflater.inflate(R.layout.shipping_address_layout, container, false);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
+        mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
+        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
         mEtAddressLineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
         mEtAddressLineTwo = (EditText) rootView.findViewById(R.id.et_address_line_two);
         mEtTown = (EditText) rootView.findViewById(R.id.et_town);
         mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
         mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
+        mEtState = (EditText) rootView.findViewById(R.id.et_state);
         mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
         mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
-        mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
 
         mBtnContinue = (Button) rootView.findViewById(R.id.btn_continue);
         mBtnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
@@ -123,11 +131,22 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         setImageArrow();
         mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
         mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
+        mEtState.setCompoundDrawables(null, null, imageArrow, null);
+        mStateDropDown = new StateDropDown(mContext, mEtState, this);
+
 
         mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mSalutationDropDown.show();
+                return false;
+            }
+        });
+
+        mEtState.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mStateDropDown.show();
                 return false;
             }
         });
@@ -313,6 +332,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (editText.getId() == R.id.et_country && !hasFocus) {
             result = mValidator.isValidCountry(mEtCountry.getText().toString());
             errorMessage = getResources().getString(R.string.iap_country_error);
+            showUSRegions();
         }
         if (editText.getId() == R.id.et_postal_code && !hasFocus) {
             result = mValidator.isValidPostalCode(mEtPostalCode.getText().toString());
@@ -380,6 +400,19 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     public void onSalutationSelect(String salutation) {
         mEtSalutation.setText(salutation);
 
+    }
+
+    @Override
+    public void onStateSelect(String state) {
+        mEtState.setText(state);
+    }
+
+    private void showUSRegions(){
+        if(mEtCountry.getText().toString().equals("US")){
+            mlLState.setVisibility(View.VISIBLE);
+        }else{
+            mlLState.setVisibility(View.GONE);
+        }
     }
 
     private class IAPTextWatcher implements TextWatcher {
