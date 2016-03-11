@@ -2,3 +2,4 @@ include ':app'
 include ':product-registration-lib'
 project(':product-registration-lib').projectDir = new File('../Library/product-registration-lib')
 include ':prx'
+project(':prx').projectDir = new File('../Library/prx')
