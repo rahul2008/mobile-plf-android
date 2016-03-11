@@ -181,7 +181,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         String email = mEtEmail.getText().toString();
 
         if (mValidator.isValidFirstName(firstName) && mValidator.isValidLastName(lastName)
-                && mValidator.isValidAddress(addressLineOne) && mValidator.isValidAddress(addressLineTwo)
+                && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)) {
@@ -360,8 +360,12 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             errorMessage = getResources().getString(R.string.iap_address_error);
         }
         if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
-            result = mValidator.isValidAddress(mEtAddresslineTwo.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_address_error);
+            if(mEtAddresslineTwo.getText().toString().trim().equals("")){
+                result = true;
+            }else {
+                result = mValidator.isValidAddress(mEtAddresslineTwo.getText().toString());
+                errorMessage = getResources().getString(R.string.iap_address_error);
+            }
         }
 
         if (!result) {

@@ -45,6 +45,8 @@
     <string name="iap_postal_code_hint">Enter ZIP/Postal code</string>
     <string name="iap_country">Country</string>
     <string name="iap_country_hint">Enter your country</string>
+    <string name="iap_state">State</string>
+    <string name="iap_state_hint">State</string>
     <string name="iap_email">Email</string>
     <string name="iap_email_hint">Enter your email</string>
     <string name="iap_phone">Phone</string>
