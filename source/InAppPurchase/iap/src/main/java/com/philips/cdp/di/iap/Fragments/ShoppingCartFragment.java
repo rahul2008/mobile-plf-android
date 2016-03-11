@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +28,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import java.util.ArrayList;
 
 public class ShoppingCartFragment extends BaseAnimationSupportFragment
-        implements View.OnClickListener, EventListener, AddressController.AddressListener {
+        implements View.OnClickListener, EventListener, AddressController.AddressListener, ShoppingCartAdapter.OutOfStockListener {
 
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
@@ -62,14 +63,14 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager());
+
         mCheckoutBtn = (Button) rootView.findViewById(R.id.checkout_btn);
         mCheckoutBtn.setOnClickListener(this);
         mContinuesBtn = (Button) rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
 
         mAddressController = new AddressController(getContext(), this);
-
+        mAdapter = new ShoppingCartAdapter(getContext(), new ArrayList<ShoppingCartData>(), getFragmentManager(),this);
         return rootView;
     }
 
@@ -100,7 +101,6 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
 
     private void updateCartDetails(ShoppingCartPresenter presenter) {
         presenter.getCurrentCartDetails();
-        mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -202,5 +202,17 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetDeliveryModes(final Message msg) {
 
+    }
+
+    @Override
+    public void onOutOfStock(boolean isOutOfStockReached) {
+        if(isOutOfStockReached) {
+            mCheckoutBtn.setEnabled(false);
+            mCheckoutBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.uikit_enricher4));
+        }
+        else {
+            mCheckoutBtn.setEnabled(true);
+            mCheckoutBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.uikit_philips_bright_orange));
+        }
     }
 }

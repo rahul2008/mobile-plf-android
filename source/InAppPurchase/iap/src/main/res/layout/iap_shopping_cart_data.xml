@@ -96,7 +96,6 @@
             android:layout_below="@+id/text1Name"
             android:layout_toRightOf="@id/quantity_count_layout"
             android:layout_alignBaseline="@id/quantity_count_layout"
-            android:text="@string/out_of_stock"
             android:layout_marginLeft="12dp"
             android:textColor="@android:color/holo_red_dark"
             android:visibility="gone"/>
