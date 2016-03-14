@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/tv_card_name"
-        fontPath="fonts/centralesansbold.ttf"
+        style="@style/iapCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/iap_selection_address_margin_left"
