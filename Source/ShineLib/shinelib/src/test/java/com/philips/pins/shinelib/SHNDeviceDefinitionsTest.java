@@ -39,6 +39,9 @@ public class SHNDeviceDefinitionsTest {
 
         testUUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x1809));
 
+        when(shnDeviceDefinitionInfoMock.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME);
+        when(shnDeviceDefinitionInfoMock1.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME_1);
+
         shnDeviceDefinitions = new SHNDeviceDefinitions();
     }
 
@@ -63,7 +66,6 @@ public class SHNDeviceDefinitionsTest {
 
     @Test
     public void whenGetSHNDeviceDefinitionInfoForDeviceTypeNameIsCalledThenRegisteredDefinitionIsReturned() throws Exception {
-        when(shnDeviceDefinitionInfoMock.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME);
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
 
         assertEquals(shnDeviceDefinitionInfoMock, shnDeviceDefinitions.getSHNDeviceDefinitionInfoForDeviceTypeName(TEST_DEVICE_TYPE_NAME));
@@ -71,7 +73,6 @@ public class SHNDeviceDefinitionsTest {
 
     @Test
     public void whenDeviceDefinitionIsNotRegisteredThenNullIsReturned() throws Exception {
-        when(shnDeviceDefinitionInfoMock.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME);
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
 
         assertNull(shnDeviceDefinitions.getSHNDeviceDefinitionInfoForDeviceTypeName(TEST_DEVICE_TYPE_NAME_1));
@@ -79,19 +80,13 @@ public class SHNDeviceDefinitionsTest {
 
     @Test(expected = IllegalStateException.class)
     public void whenRegisteredTwiceThenExceptionIsGenerated() throws Exception {
-        when(shnDeviceDefinitionInfoMock.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME);
-
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
     }
 
     @Test
-    public void canRegisterTwoDeviceDefinitionWithDifferentDeviceName() throws Exception {
-        when(shnDeviceDefinitionInfoMock.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME);
-        when(shnDeviceDefinitionInfoMock.useAdvertisedDataMatcher()).thenReturn(true);
+    public void canRegisterTwoDeviceDefinitionWithDifferentDeviceNameAndUUIDs() throws Exception {
         when(shnDeviceDefinitionInfoMock.getPrimaryServiceUUIDs()).thenReturn(new HashSet<UUID>());
-        when(shnDeviceDefinitionInfoMock1.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME_1);
-        when(shnDeviceDefinitionInfoMock1.useAdvertisedDataMatcher()).thenReturn(true);
         Set<UUID> uuid = new HashSet<>();
         uuid.add(testUUID);
         when(shnDeviceDefinitionInfoMock1.getPrimaryServiceUUIDs()).thenReturn(uuid);
@@ -104,21 +99,14 @@ public class SHNDeviceDefinitionsTest {
 
     @Test(expected = IllegalStateException.class)
     public void whenRegisteredWithSameUUIDThenExceptionIsGenerated() throws Exception {
-        when(shnDeviceDefinitionInfoMock.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME);
-        when(shnDeviceDefinitionInfoMock.useAdvertisedDataMatcher()).thenReturn(true);
-        when(shnDeviceDefinitionInfoMock1.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME_1);
-        when(shnDeviceDefinitionInfoMock1.useAdvertisedDataMatcher()).thenReturn(true);
-
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock1);
     }
 
     @Test
-    public void whenUseAdvertisedDataMatcherIsFalseThenUUIDiSNotChecked() throws Exception {
-        when(shnDeviceDefinitionInfoMock.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME);
-        when(shnDeviceDefinitionInfoMock.useAdvertisedDataMatcher()).thenReturn(false);
-        when(shnDeviceDefinitionInfoMock1.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME_1);
-        when(shnDeviceDefinitionInfoMock.useAdvertisedDataMatcher()).thenReturn(false);
+    public void whenUseAdvertisedDataMatcherIsTrueThenUUIDIsNotChecked() throws Exception {
+        when(shnDeviceDefinitionInfoMock.useAdvertisedDataMatcher()).thenReturn(true);
+        when(shnDeviceDefinitionInfoMock1.useAdvertisedDataMatcher()).thenReturn(true);
 
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock1);

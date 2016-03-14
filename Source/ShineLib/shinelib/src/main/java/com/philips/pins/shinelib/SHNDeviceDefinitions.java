@@ -24,7 +24,7 @@ public class SHNDeviceDefinitions {
             if (registeredDeviceDefinition.getDeviceTypeName().equals(shnDeviceDefinitionInfo.getDeviceTypeName())) {
                 throw new IllegalStateException("A SHNDeviceDefinition for DeviceTypeName: " + shnDeviceDefinitionInfo.getDeviceTypeName() + " is already registered");
             }
-            if (shnDeviceDefinitionInfo.useAdvertisedDataMatcher() && registeredDeviceDefinition.getPrimaryServiceUUIDs().equals(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs())) {
+            if (!shnDeviceDefinitionInfo.useAdvertisedDataMatcher() && registeredDeviceDefinition.getPrimaryServiceUUIDs().equals(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs())) {
                 throw new IllegalStateException("A SHNDeviceDefinition with the same Primary Service UUIDs is already registered");
             }
         }
