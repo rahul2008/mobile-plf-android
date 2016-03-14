@@ -52,6 +52,8 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     private Button mCancelButton;
     private Context mContext;
 
+    private boolean mIsAddressUpdateAfterDelivery;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.iap_address_selection, container, false);
@@ -135,6 +137,11 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
 
     @Override
     public void onGetAddress(Message msg) {
+        if (mIsAddressUpdateAfterDelivery) {
+            mIsAddressUpdateAfterDelivery = false;
+            return;
+        }
+
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
@@ -165,7 +172,10 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
     @Override
     public void onSetDeliveryAddress(final Message msg) {
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
-            CartModelContainer.getInstance().setDeliveryAddress(retrieveSelectedAddress());
+            Addresses selectedAddress = retrieveSelectedAddress();
+            CartModelContainer.getInstance().setDeliveryAddress(selectedAddress);
+            mIsAddressUpdateAfterDelivery = true;
+            mAddrController.setDefaultAddress(selectedAddress);
             mAddrController.setDeliveryMode();
         } else {
             Toast.makeText(getContext(), "Error in setting delivery address", Toast.LENGTH_SHORT).show();
