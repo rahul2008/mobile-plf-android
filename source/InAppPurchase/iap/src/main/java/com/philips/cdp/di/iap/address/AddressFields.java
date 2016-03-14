@@ -21,6 +21,11 @@ public class AddressFields implements Serializable {
     private String postalCode;
     private String town;
     private String phoneNumber;
+    private String state;
+
+    public String getState() {
+        return state;
+    }
 
     public String getEmail() {
         return email;

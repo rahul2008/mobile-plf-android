@@ -29,6 +29,7 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
+import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -287,10 +288,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         int pos = mAdapter.getOptionsClickPosition();
         Addresses address = mAddresses.get(pos);
         HashMap<String, String> addressHashMap = new HashMap<>();
-        addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
-        addressHashMap.put(ModelConstants.LAST_NAME, address.getLastName());
+
         String titleCode = address.getTitleCode();
         titleCode = titleCode.substring(0, 1).toUpperCase() + titleCode.substring(1);
+
+        addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
+        addressHashMap.put(ModelConstants.LAST_NAME, address.getLastName());
         addressHashMap.put(ModelConstants.TITLE_CODE, titleCode);
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, address.getCountry().getIsocode());
         addressHashMap.put(ModelConstants.LINE_1, address.getLine1());
@@ -300,6 +303,12 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, address.getLine1());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, address.getPhone());
+
+        if (address.getEmail() != null)
+            addressHashMap.put(ModelConstants.EMAIL_ADDRESS, address.getEmail());
+        else
+            addressHashMap.put(ModelConstants.EMAIL_ADDRESS, IAPHandler.getJanrainEmail());
+
         return addressHashMap;
     }
 
@@ -357,6 +366,16 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (addr.getLastName() != null) {
             fields.setLastName(addr.getLastName());
         }
+        if (addr.getTitleCode() != null) {
+            String titleCode = addr.getTitleCode();
+            fields.setTitleCode(titleCode.substring(0, 1).toUpperCase() + titleCode.substring(1));
+        }
+        if (addr.getLine1() != null) {
+            fields.setLine1(addr.getLine1());
+        }
+        if (addr.getLine2() != null) {
+            fields.setLine2(addr.getLine2());
+        }
         if (addr.getTown() != null) {
             fields.setTown(addr.getTown());
         }
@@ -366,18 +385,15 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         if (addr.getCountry().getIsocode() != null) {
             fields.setCountryIsocode(addr.getCountry().getIsocode());
         }
-        if (addr.getLine1() != null) {
-            fields.setLine1(addr.getLine1());
+
+        if (addr.getEmail() != null) {
+            fields.setEmail(addr.getEmail());
+        } else {
+            fields.setEmail(IAPHandler.getJanrainEmail()); // Since there is no email response from hybris
         }
-        if (addr.getLine2() != null) {
-            fields.setLine2(addr.getLine2());
-        }
+
         if (addr.getPhone() != null) {
             fields.setPhoneNumber(addr.getPhone());
-        }
-        if (addr.getTitleCode() != null) {
-            String titleCode = addr.getTitleCode();
-            fields.setTitleCode(titleCode.substring(0, 1).toUpperCase() + titleCode.substring(1));
         }
 
         return fields;
