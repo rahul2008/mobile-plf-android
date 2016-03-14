@@ -10,7 +10,6 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 public class Addresses {
     private Country country;
     private String firstName;
-    private String formattedAddress;
     private String id;
     private String lastName;
     private String line1;
@@ -20,6 +19,17 @@ public class Addresses {
     private boolean shippingAddress;
     private String titleCode;
     private String town;
+    private String email;
+    private String state;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getState() {
+        return state;
+    }
+
     private boolean visibleInAddressBook;
 
     public Country getCountry() {
@@ -28,10 +38,6 @@ public class Addresses {
 
     public String getFirstName() {
         return firstName;
-    }
-
-    public String getFormattedAddress() {
-        return formattedAddress;
     }
 
     public String getId() {
