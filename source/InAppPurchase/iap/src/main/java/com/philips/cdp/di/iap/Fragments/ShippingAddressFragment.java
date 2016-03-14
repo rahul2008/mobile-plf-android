@@ -31,6 +31,7 @@ import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
+import com.philips.cdp.di.iap.session.IAPHandler;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
@@ -113,6 +114,8 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mAddressController = new AddressController(mContext, this);
         mPaymentController = new PaymentController(mContext, this);
         mAddressFields = new AddressFields();
+
+        mEtEmail.setText(IAPHandler.getJanrainEmail());
 
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
@@ -462,6 +465,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
+        addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
         return addressHashMap;
     }
 
@@ -482,6 +486,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
         mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_NUMBER));
+        mEtEmail.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
 
         setRequestFocus();
     }
@@ -495,7 +500,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtTown.requestFocus();
         mEtPostalCode.requestFocus();
         mEtCountry.requestFocus();
-//        mEtEmail.requestFocus();
+        mEtEmail.requestFocus();
         mEtPhoneNumber.requestFocus();
     }
 

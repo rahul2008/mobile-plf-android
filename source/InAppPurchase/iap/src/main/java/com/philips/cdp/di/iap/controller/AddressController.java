@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
 import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
 import com.philips.cdp.di.iap.model.UpdateAddressRequest;
+import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.Store;
@@ -143,6 +144,25 @@ public class AddressController implements AbstractModel.DataLoadListener {
         return params;
     }
 
+    public void setDefaultAddress(Addresses address) {
+        updateAddress(getAddressesMap(address, Boolean.TRUE));
+    }
+
+    public HashMap getAddressesMap(Addresses addr, Boolean isDefaultAddress) {
+        HashMap<String, String> addressHashMap = new HashMap<>();
+        addressHashMap.put(ModelConstants.FIRST_NAME, addr.getFirstName());
+        addressHashMap.put(ModelConstants.LAST_NAME, addr.getLastName());
+        addressHashMap.put(ModelConstants.TITLE_CODE, addr.getTitleCode());
+        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, addr.getCountry().getIsocode());
+        addressHashMap.put(ModelConstants.LINE_1, addr.getLine1());
+        addressHashMap.put(ModelConstants.LINE_2, addr.getLine2());
+        addressHashMap.put(ModelConstants.POSTAL_CODE, addr.getPostalCode());
+        addressHashMap.put(ModelConstants.TOWN, addr.getTown());
+        addressHashMap.put(ModelConstants.ADDRESS_ID, addr.getId());
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, isDefaultAddress.toString());
+        addressHashMap.put(ModelConstants.PHONE_NUMBER, addr.getPhone());
+        return addressHashMap;
+    }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
         mDelegate = delegate;

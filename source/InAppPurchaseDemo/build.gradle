@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         mavenCentral()
         flatDir {
             dirs 'libs'
@@ -18,34 +19,21 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android'
+        }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-stage-local-android'
+        }
         jcenter()
         flatDir {
             dirs 'libs'
         }
-        maven {
-//            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local'
-            url 'http://130.145.245.193:8081/artifactory/simple/libs-release-local-android'
-        }
     }
-}
-
-allprojects {
-
-    ext.supportLibraryVer = '23.1.1'
-    ext.hockeySdkVer = '3.6.2'
-    ext.mockitoVer = '1.10.17'
-    ext.robolectricVer = '3.0'
-    ext.butterKnifeVer = '7.0.1'
-    ext.androidAssertJVer = '1.1.1'
-    ext.junitVer = '4.12'
-    ext.compileSdkVer = 23
-    ext.buildToolsVer = '23.0.2'
-    ext.minSdkVer = 19
-    ext.targetSdkVer = 22
-    ext.gsonVer = '2.2.4'
-    ext.volleyVer = '1.0.17'
-    ext.supportDesignVer = '23.1.1'
-    ext.uikitLibVer = '2.0.0'
 }
 
 task clean(type: Delete) {

@@ -12,7 +12,7 @@
         android:layout_marginLeft="@dimen/iap_selection_address_layout_margin"
         android:layout_marginTop="@dimen/iap_selection_address_select_address_margint_top"
         android:text="@string/iap_order_summary"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_selection_address_select_address_text_size" />
 
     <View
@@ -20,11 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/tv_order_summary"
-        android:background="?attr/listDividerColor" />
+        android:background="?attr/uikit_listDividerColor" />
 
     <Button
         android:id="@+id/btn_cancel"
-        style="?attr/outlinedButtonStyle"
+        style="?attr/uikit_outlinedButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
         android:layout_alignParentBottom="true"
