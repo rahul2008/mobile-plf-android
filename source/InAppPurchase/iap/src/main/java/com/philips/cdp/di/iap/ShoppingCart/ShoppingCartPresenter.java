@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.model.CartDeleteProductRequest;
 import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -112,7 +111,8 @@ public class ShoppingCartPresenter {
                     public void onModelDataError(final Message msg) {
                         IAPLog.e(IAPConstant.SHOPPING_CART_PRESENTER, "Error:" + msg.obj);
                         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                        NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
+                        NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
+                                mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
                         Utility.dismissProgressDialog();
                     }
                 });
@@ -155,7 +155,8 @@ public class ShoppingCartPresenter {
             @Override
             public void onModelDataError(final Message msg) {
                 IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
-                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_time_out), mContext.getString(R.string.iap_time_out_description));
+                NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
+                        mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
                 Utility.dismissProgressDialog();
             }
         });

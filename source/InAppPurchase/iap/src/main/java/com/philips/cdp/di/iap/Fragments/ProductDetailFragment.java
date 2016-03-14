@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.ShoppingCart.PRXProductAssetBuilder;
@@ -130,6 +129,7 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         //Toast.makeText(getContext(),"FAILURE",Toast.LENGTH_SHORT).show();
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
-        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(),getString(R.string.iap_ok),getString(R.string.iap_time_out),getString(R.string.iap_time_out_description));
+        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
     }
 }

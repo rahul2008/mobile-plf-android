@@ -33,6 +33,7 @@ import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -49,7 +50,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
         PaymentController.PaymentListener, InlineForms.Validator,
         AdapterView.OnItemSelectedListener, SalutationDropDown.SalutationListener,
-        StateDropDown.StateListener{
+        StateDropDown.StateListener {
     private Context mContext;
 
     private LinearLayout mlLState;
@@ -234,12 +235,22 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onGetAddress(Message msg) {
         Utility.dismissProgressDialog();
-        if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
-        } else {
-            addFragment(AddressSelectionFragment.createInstance(new Bundle(),
-                    AnimationType.NONE), null);
+        if (msg.what == RequestCode.UPDATE_ADDRESS) {
+            if (msg.obj instanceof IAPNetworkError) {
+                IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+                if (null != iapNetworkError.getServerError()) {
+                    for (int i = 0; i < iapNetworkError.getServerError().getErrors().size(); i++) {
+                        Error error = iapNetworkError.getServerError().getErrors().get(i);
+                        showErrorFromServer(error);
+                    }
+                } else {
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                }
+            } else {
+                addFragment(AddressSelectionFragment.createInstance(new Bundle(),
+                        AnimationType.NONE), null);
+            }
         }
     }
 
@@ -347,9 +358,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             errorMessage = getResources().getString(R.string.iap_address_error);
         }
         if (editText.getId() == R.id.et_address_line_two && !hasFocus) {
-            if(mEtAddressLineTwo.getText().toString().trim().equals("")){
+            if (mEtAddressLineTwo.getText().toString().trim().equals("")) {
                 result = true;
-            }else {
+            } else {
                 result = mValidator.isValidAddress(mEtAddressLineTwo.getText().toString());
                 errorMessage = getResources().getString(R.string.iap_address_error);
             }
@@ -411,10 +422,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtState.setText(state);
     }
 
-    private void showUSRegions(){
-        if(mEtCountry.getText().toString().equals("US")){
+    private void showUSRegions() {
+        if (mEtCountry.getText().toString().equals("US")) {
             mlLState.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mlLState.setVisibility(View.GONE);
         }
     }
@@ -461,6 +472,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (null == mAddressFieldsHashmap) {
             return;
         }
+        // TODO: 3/14/2016 - Spoorthi : Crashes here because of inline forms setbackgroundcolor
         mBtnContinue.setText(getString(R.string.iap_save));
         mBtnContinue.requestFocus();
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));

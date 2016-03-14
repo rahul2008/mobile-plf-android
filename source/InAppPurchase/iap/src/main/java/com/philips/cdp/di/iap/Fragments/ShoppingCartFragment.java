@@ -167,7 +167,7 @@ public class ShoppingCartFragment extends BaseAnimationSupportFragment
         Utility.dismissProgressDialog();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_time_out), getString(R.string.iap_time_out_description));
+                    getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
         } else {
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(
