@@ -45,9 +45,9 @@ public class TestEnvOAuthHandler implements OAuthHandler {
 
     // HTTP GET request
     private void sendOAuthRequest(final Context context) {
-
-        String url = NetworkConstants.HOST_URL + NetworkConstants.WEB_ROOT + NetworkConstants.OAUTH_TOKEN;
-
+        String url = NetworkConstants.HOST_URL + String.format(NetworkConstants.WEB_ROOT +
+                        "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret",
+                IAPHandler.getJanrainId());
         try {
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();

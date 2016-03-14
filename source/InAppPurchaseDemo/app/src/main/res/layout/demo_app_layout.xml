@@ -1,19 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
         android:id="@+id/demo_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Demo App"
+        android:text="E-Commerce Demo App"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 
     <FrameLayout
@@ -21,7 +21,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/demo_title"
-        android:orientation="vertical"></FrameLayout>
+        android:orientation="vertical" />
 
     <FrameLayout
         android:id="@+id/shoppingCart"
@@ -30,13 +30,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/cart_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/shopping_cart"/>
+            android:src="@drawable/shopping_cart" />
 
         <TextView
             android:id="@+id/count_txt"
@@ -44,10 +45,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:background="@drawable/count_badge"
-            android:visibility="gone"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:visibility="gone" />
 
 
     </FrameLayout>
@@ -58,65 +59,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/demo_title"
-        android:layout_marginTop="20dp"></ListView>
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/infotext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/product_list"
+        android:layout_centerHorizontal="true"
+        android:text="Press Back button once logged in from user registeration."
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/product_list"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            >
-
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|right"
-                android:text="User Name : "
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <EditText
-                android:id="@+id/et_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="User Name"
-                android:text="inapp@3"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            >
-
-            <TextView
-                android:id="@+id/userpassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password : "
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <EditText
-                android:id="@+id/et_userpassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:text="philips@123"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
 
         <Button
             android:id="@+id/btn_submit"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Submit"/>
+            android:text="Please register yourself before using App" />
     </LinearLayout>
+
+
 </RelativeLayout>

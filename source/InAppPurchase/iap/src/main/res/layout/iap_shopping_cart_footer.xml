@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/iap_tv_redeem_vochur"
-        android:background="?attr/listDividerColor" />
+        android:background="?attr/uikit_listDividerColor" />
 
     <TextView
         android:id="@+id/iap_tv_delivery_via_ups"
@@ -48,7 +48,7 @@
         android:id="@+id/iap_divider_bottom_delivery"
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
-        android:background="?attr/listDividerColor"
+        android:background="?attr/uikit_listDividerColor"
         android:layout_below="@id/iap_tv_delivery_description"/>
 
     <TextView
