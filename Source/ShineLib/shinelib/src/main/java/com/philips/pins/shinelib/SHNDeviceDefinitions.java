@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by 310188215 on 27/05/15.
- */
 public class SHNDeviceDefinitions {
     private static final String TAG = SHNDeviceDefinitions.class.getSimpleName();
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
@@ -23,11 +20,11 @@ public class SHNDeviceDefinitions {
     }
 
     public boolean add(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
-        for (SHNDeviceDefinitionInfo registeredDeviceDefinition: registeredDeviceDefinitions) {
+        for (SHNDeviceDefinitionInfo registeredDeviceDefinition : registeredDeviceDefinitions) {
             if (registeredDeviceDefinition.getDeviceTypeName().equals(shnDeviceDefinitionInfo.getDeviceTypeName())) {
                 throw new IllegalStateException("A SHNDeviceDefinition for DeviceTypeName: " + shnDeviceDefinitionInfo.getDeviceTypeName() + " is already registered");
             }
-            if (registeredDeviceDefinition.getPrimaryServiceUUIDs().equals(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs())) {
+            if (shnDeviceDefinitionInfo.useAdvertisedDataMatcher() && registeredDeviceDefinition.getPrimaryServiceUUIDs().equals(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs())) {
                 throw new IllegalStateException("A SHNDeviceDefinition with the same Primary Service UUIDs is already registered");
             }
         }
@@ -39,7 +36,7 @@ public class SHNDeviceDefinitions {
     }
 
     public SHNDeviceDefinitionInfo getSHNDeviceDefinitionInfoForDeviceTypeName(String deviceTypeName) {
-        for (SHNDeviceDefinitionInfo shnDeviceDefinitionInfo: registeredDeviceDefinitions) {
+        for (SHNDeviceDefinitionInfo shnDeviceDefinitionInfo : registeredDeviceDefinitions) {
             if (shnDeviceDefinitionInfo.getDeviceTypeName().equals(deviceTypeName)) {
                 return shnDeviceDefinitionInfo;
             }
