@@ -126,7 +126,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-            updateFeilds();
+            updateFields();
         }
 
         setImageArrow();
@@ -203,7 +203,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
                 if (Utility.isInternetConnected(mContext)) {
                     if (!Utility.isProgressDialogShowing()) {
                         Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
-                        HashMap<String, String> addressHashMap = updateToHybrisTheFeilds();
+                        HashMap<String, String> addressHashMap = addressPayload();
                         mAddressController.updateAddress(addressHashMap);
                     }
                 } else {
@@ -449,49 +449,53 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
-    private HashMap updateToHybrisTheFeilds() {
-        HashMap<String, String> addressHashMap = new HashMap<>();
+    private HashMap<String,String> addressPayload() {
+        HashMap<String,String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
         addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
-        addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase());
-        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
         addressHashMap.put(ModelConstants.LINE_1, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.LINE_2, mEtAddressLineTwo.getText().toString());
+        addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase());
+        addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
         addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
         addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
-        addressHashMap.put(ModelConstants.LINE_2, "");
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         return addressHashMap;
     }
 
-    private void updateFeilds() {
+    private void updateFields() {
         Bundle bundle = getArguments();
-        mAddressFieldsHashmap = (HashMap) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+        mAddressFieldsHashmap = (HashMap<String,String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
         if (null == mAddressFieldsHashmap) {
             return;
         }
-        // TODO: 3/14/2016 - Spoorthi : Crashes here because of inline forms setbackgroundcolor
         mBtnContinue.setText(getString(R.string.iap_save));
-        mBtnContinue.requestFocus();
+
         mEtFirstName.setText(mAddressFieldsHashmap.get(ModelConstants.FIRST_NAME));
-        mEtFirstName.requestFocus();
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
-        mEtLastName.requestFocus();
         mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
-        mEtSalutation.requestFocus();
-        mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
-        mEtTown.requestFocus();
-        mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
-        mEtPostalCode.requestFocus();
-        mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
-        mEtCountry.requestFocus();
         mEtAddressLineOne.setText(mAddressFieldsHashmap.get(ModelConstants.DEFAULT_ADDRESS));
-        mEtAddressLineOne.requestFocus();
         mEtAddressLineTwo.setText(mAddressFieldsHashmap.get(ModelConstants.LINE_2));
-        mEtAddressLineTwo.requestFocus();
+        mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
+        mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
+        mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
         mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_NUMBER));
+
+        setRequestFocus();
+    }
+
+    private void setRequestFocus(){
+        mEtFirstName.requestFocus();
+        mEtLastName.requestFocus();
+        mEtSalutation.requestFocus();
+        mEtAddressLineOne.requestFocus();
+        mEtAddressLineTwo.requestFocus();
+        mEtTown.requestFocus();
+        mEtPostalCode.requestFocus();
+        mEtCountry.requestFocus();
+//        mEtEmail.requestFocus();
         mEtPhoneNumber.requestFocus();
     }
 

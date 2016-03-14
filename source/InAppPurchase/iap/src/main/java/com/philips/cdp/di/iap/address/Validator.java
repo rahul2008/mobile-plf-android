@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 public class Validator {
 
     private static final String TOWN_PATTERN = "^[a-zA-Z\\s]{1,35}$";
-    private static final String FIRST_NAME = "^[a-zA-Z]{1,17}$";
-    private static final String LAST_NAME = "^[a-zA-Z]{1,17}$";
+    private static final String FIRST_NAME = "^[a-zA-Z ]{1,17}$";
+    private static final String LAST_NAME = "^[a-zA-Z ]{1,17}$";
     private static final String ADDRESS = "^[a-zA-Z0-9(.,#/\\-)_\\s]{1,35}$";
     private static final String POSTAL_CODE = "^[A-Z0-9]{1,10}$";
     private static final String COUNTRY = "^[A-Z]{2,2}$";

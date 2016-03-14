@@ -80,10 +80,9 @@ public class IAPActivity extends UiKitActivity implements IAPFragmentListener {
 
     @Override
     public void onBackPressed() {
-        IAPLog.d(IAPLog.LOG, "onBackPressed");
+        super.onBackPressed();
         Utility.hideKeypad(this);
         dispatchBackToFragments();
-        super.onBackPressed();
     }
 
     @Override
