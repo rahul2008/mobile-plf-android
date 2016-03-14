@@ -37,7 +37,7 @@
             android:paddingBottom="@dimen/iap_product_detail_bottom_padding"
             android:paddingTop="@dimen/iap_product_detail_top_padding"
             android:text="Philips Sonicare DiamondClean Sonic electric toothbrush"
-            android:textColor="?attr/baseColor"
+            android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/iap_product_description" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_marginRight="@dimen/iap_product_detail_right_padding"
             android:paddingBottom="@dimen/iap_product_detail_top_padding"
             android:text="€14.99"
-            android:textColor="?attr/baseColor"
+            android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/iap_product_ctn" />
 
         <TextView
@@ -73,12 +73,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ctn"
+            android:layout_marginBottom="@dimen/iap_product_detail_bottom_padding"
             android:layout_marginLeft="@dimen/iap_product_detail_left_padding"
             android:layout_marginRight="@dimen/iap_product_detail_right_padding"
             android:text="Sonicare's best whitening in our most elegant Philips Sonicare electric toothbrush. Switch to Sonicare.- Removes up to 7X more plaque.32w"
-            android:textColor="?attr/baseColor"
-            android:textSize="@dimen/iap_product_overview"
-            android:layout_marginBottom="@dimen/iap_product_detail_bottom_padding"
-            />
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="@dimen/iap_product_overview" />
     </RelativeLayout>
 </ScrollView>

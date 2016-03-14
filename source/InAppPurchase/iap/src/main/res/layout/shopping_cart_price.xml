@@ -18,9 +18,9 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="-3dp"
         android:src="@drawable/arrow"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="13sp"
-        android:tint="?attr/baseColor"
+        android:tint="?attr/uikit_baseColor"
         android:visibility="gone" />
 
 
@@ -37,7 +37,7 @@
         android:layout_toRightOf="@id/ifo"
         android:includeFontPadding="false"
         android:text="By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app."
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="14sp"
         android:visibility="gone" />
 
@@ -51,7 +51,7 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/arrowwithouticons"
         android:text="Medium"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="20sp"
         android:visibility="gone" />
 
@@ -68,7 +68,7 @@
         android:layout_toLeftOf="@id/numberwithouticon"
         android:includeFontPadding="false"
         android:text="Version"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="18sp" />
 
 
@@ -81,7 +81,7 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/arrowwithouticons"
         android:text="$0"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="14sp"
         android:visibility="gone" />
 
@@ -98,7 +98,7 @@
         android:includeFontPadding="false"
         android:paddingBottom="@dimen/iap_shopping_cart_image_margin_top"
         android:text="VAT"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="14sp"
         android:visibility="gone" />
 
@@ -113,7 +113,7 @@
         android:layout_marginTop="@dimen/iap_shopping_cart_margin_bottom"
         android:includeFontPadding="false"
         android:text="By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app."
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="24sp"
         android:visibility="gone" />
 
@@ -129,7 +129,7 @@
         android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
         android:includeFontPadding="false"
         android:text="Total"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="16sp"
         android:visibility="gone" />
 

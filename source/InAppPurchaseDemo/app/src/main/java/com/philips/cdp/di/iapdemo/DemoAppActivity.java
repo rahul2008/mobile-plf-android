@@ -22,38 +22,42 @@ import com.philips.cdp.di.iap.session.IAPHandlerListner;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 
-public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner {
+public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner, UserRegistrationListener {
 
     IAPHandler mIapHandler;
     private EditText mUsername, mPassword;
     private TextView mCountText = null;
-
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
-
+    FrameLayout mShoppingCart;
+    ListView mProductListView;
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
-        mUsername = (EditText) findViewById(R.id.et_username);
-        mPassword = (EditText) findViewById(R.id.et_userpassword);
+        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
         Button mSubmit = (Button) findViewById(R.id.btn_submit);
         mSubmit.setOnClickListener(this);
         mIapHandler = new IAPHandler();
 
         populateProduct();
 
-        FrameLayout mShoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
+        mShoppingCart = (FrameLayout) findViewById(R.id.shoppingCart);
         mShoppingCart.setOnClickListener(this);
 
-        ListView mProductListView = (ListView) findViewById(R.id.product_list);
+        mProductListView = (ListView) findViewById(R.id.product_list);
         ProductListAdapter mProductListAdapter = new ProductListAdapter(this, mProductArrayList);
         mProductListView.setAdapter(mProductListAdapter);
 
@@ -65,6 +69,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     @Override
     protected void onResume() {
         super.onResume();
+        mShoppingCart.setVisibility(View.VISIBLE);
+        mProductListView.setVisibility(View.VISIBLE);
         /** Should be commented for debug builds */
         final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
         CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
@@ -73,6 +79,25 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 return !IAPLog.isLoggingEnabled();
             }
         });
+
+        User user = new User(this);
+        if (user.isUserSignIn(this)) {
+            mIapHandler.initApp(this, user.getUserInstance(this).getEmail(), user.getAccessToken());
+            if (!(Utility.isProgressDialogShowing())) {
+                if (Utility.isInternetConnected(this)) {
+                    Utility.showProgressDialog(this, getString(R.string.loading_cart));
+                    mIapHandler.getCartQuantity(this);
+                } else {
+                    showNetworkError();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
     }
 
     private void populateProduct() {
@@ -123,17 +148,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 }
                 break;
             case R.id.btn_submit:
-                String username = mUsername.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
-                mIapHandler.initApp(this, username, password);
-                if (!(Utility.isProgressDialogShowing())) {
-                    if (Utility.isInternetConnected(this)) {
-                        Utility.showProgressDialog(this, getString(R.string.loading_cart));
-                        mIapHandler.getCartQuantity(this);
-                    } else {
-                        showNetworkError();
-                    }
-                }
+                IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
+                RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
             default:
                 break;
@@ -164,7 +180,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                 Utility.dismissProgressDialog();
             }
         } else if (msg.obj instanceof IAPNetworkError) {
-            IAPNetworkError error = (IAPNetworkError)msg.obj;
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
             Utility.dismissProgressDialog();
             Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -194,4 +210,36 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         alert.show();
     }
 
+    @Override
+    public void onUserRegistrationComplete(Activity activity) {
+        mShoppingCart.setVisibility(View.VISIBLE);
+        mProductListView.setVisibility(View.VISIBLE);
+        Toast.makeText(this, "Please press back ", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onPrivacyPolicyClick(Activity activity) {
+
+    }
+
+    @Override
+    public void onTermsAndConditionClick(Activity activity) {
+
+    }
+
+    @Override
+    public void onUserLogoutSuccess() {
+
+    }
+
+    @Override
+    public void onUserLogoutFailure() {
+
+    }
+
+    @Override
+    public void onUserLogoutSuccessWithInvalidAccessToken() {
+
+    }
 }

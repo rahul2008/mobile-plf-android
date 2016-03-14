@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/iap_selection_address_margin_left"
         android:layout_marginTop="@dimen/iap_selection_address_name_margin_top"
         android:includeFontPadding="false"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
     <LinearLayout
@@ -72,7 +72,7 @@
 
         <Button
             android:id="@+id/btn_new_address"
-            style="?attr/outlinedButtonStyle"
+            style="?attr/uikit_outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_deliver"
@@ -90,6 +90,6 @@
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/payment_options"
         android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-        android:background="?attr/listDividerColor" />
+        android:background="?attr/uikit_listDividerColor" />
 
 </RelativeLayout>

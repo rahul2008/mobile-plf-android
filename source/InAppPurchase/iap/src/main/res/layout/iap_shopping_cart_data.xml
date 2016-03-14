@@ -46,7 +46,7 @@
             android:layout_toLeftOf="@id/frame"
             android:includeFontPadding="false"
             android:text="€ 209,99"
-            android:textColor="?attr/baseColor"
+            android:textColor="?attr/uikit_baseColor"
             android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
             fontPath="fonts/centralesansbold.ttf"
             android:textSize="16sp"/>
@@ -85,7 +85,7 @@
                 android:layout_alignBaseline="@id/from"
                 android:layout_toRightOf="@id/from"
                 android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
-                android:textColor="?attr/baseColor"
+                android:textColor="?attr/uikit_baseColor"
                 android:textSize="14sp"/>
         </RelativeLayout>
 
@@ -107,7 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/image"
-        android:background="?attr/listDividerColor"
+        android:background="?attr/uikit_listDividerColor"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

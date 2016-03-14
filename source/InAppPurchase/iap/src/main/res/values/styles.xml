@@ -6,7 +6,7 @@
     <style name="tvTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/title</item>
         <item name="android:includeFontPadding">false</item>
     </style>
@@ -14,7 +14,7 @@
     <style name="tvBoldTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/title</item>
         <item name="android:includeFontPadding">false</item>
     </style>
@@ -34,9 +34,8 @@
     <style name="tvHeaderTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/header</item>
-        <item name="fontPath">fonts/centralesansbold.ttf</item>
 
         <item name="android:layout_marginLeft">@dimen/iap_shipping_address_margin_left</item>
         <item name="android:layout_marginTop">@dimen/iap_shipping_address_margin_top_bottom</item>
@@ -63,7 +62,7 @@
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/iap_redeem_vochur_text_size</item>
         <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
@@ -78,7 +77,7 @@
         <item name="android:gravity">right</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:text">@string/uikit_fonticon_arrow_right</item>
-        <item name="android:textColor">?attr/listtextselector</item>
+        <item name="android:textColor">?attr/uikit_listtextselector</item>
         <item name="android:textSize">13sp</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
@@ -89,8 +88,9 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
-        <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_delivery_margin_bottom</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_delivery_margin_bottom
+        </item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:text">@string/iap_delivery_via_ups</item>
         <item name="android:textSize">@dimen/iap_redeem_vochur_text_size</item>14sp
         <item name="android:layout_alignParentLeft">true</item>
@@ -102,7 +102,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/iap_redeem_vochur_text_size</item>
         <item name="android:text">$0</item>
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
@@ -114,7 +114,7 @@
         <item name="android:text">@string/iap_delivery_description</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_image_margin_top</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
@@ -124,7 +124,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:includeFontPadding">false</item>
@@ -139,7 +139,7 @@
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:text">$0</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:textSize">@dimen/iap_shopping_cart_footer_vat_text_size</item>
         <item name="android:layout_marginRight">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
@@ -151,7 +151,7 @@
         <item name="android:textSize">@dimen/iap_shopping_cart_footer_total_size</item>
         <item name="android:text">Total</item>
         <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:layout_marginBottom">@dimen/iap_shopping_cart_image_margin_top</item>
         <item name="android:layout_marginLeft">@dimen/iap_shopping_cart_image_margin_top</item>
     </style>
@@ -160,7 +160,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textColor">?attr/baseColor</item>
+        <item name="android:textColor">?attr/uikit_baseColor</item>
         <item name="android:text">$something</item>
         <item name="android:textSize">24sp</item>
         <item name="android:layout_alignParentRight">true</item>

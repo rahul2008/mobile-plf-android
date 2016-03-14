@@ -20,7 +20,7 @@
         android:layout_marginTop="@dimen/iap_selection_address_name_margin_top"
         android:includeFontPadding="false"
         android:text="Master Card"
-        android:textColor="?attr/baseColor"
+        android:textColor="?attr/uikit_baseColor"
         android:textSize="@dimen/iap_selection_address_text_size" />
 
     <TextView
@@ -68,7 +68,7 @@
 
         <Button
             android:id="@+id/btn_add_new_payment"
-            style="?attr/outlinedButtonStyle"
+            style="?attr/uikit_outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_selection_address_layout_margin_bottom"
@@ -84,6 +84,6 @@
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/ll_payment_options"
         android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-        android:background="?attr/listDividerColor" />
+        android:background="?attr/uikit_listDividerColor" />
 
 </RelativeLayout>
