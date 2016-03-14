@@ -57,19 +57,19 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     }
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         persistentStorage.clear();
         persistentStorage.put(CHANGE_INCREMENT_KEY, 0);
         incrementChangeIncrementAndNotifyModifiedListeners();
     }
 
     @Override
-    public ClockFormat getClockFormat() {
+    public synchronized ClockFormat getClockFormat() {
         return persistentStorage.get(CLOCK_FORMAT_KEY, DEFAULT_CLOCK_FORMAT);
     }
 
     @Override
-    public void setClockFormat(@NonNull final ClockFormat clockFormat) {
+    public synchronized void setClockFormat(@NonNull final ClockFormat clockFormat) {
         putValueIfChanged(CLOCK_FORMAT_KEY, clockFormat);
     }
 
@@ -84,12 +84,12 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
     }
 
     @Override
-    public String getIsoCountryCode() {
+    public synchronized String getIsoCountryCode() {
         return persistentStorage.get(ISO_COUNTRY_CODE_KEY, Locale.getDefault().getCountry());
     }
 
     @Override
-    public void setIsoCountryCode(final String isoCountryCode) {
+    public synchronized void setIsoCountryCode(final String isoCountryCode) {
         putValueIfChanged(ISO_COUNTRY_CODE_KEY, isoCountryCode);
     }
 
@@ -237,7 +237,7 @@ public class SHNUserConfigurationImpl extends Observable implements SHNUserConfi
         });
     }
 
-    public int getChangeIncrement() {
+    public synchronized int getChangeIncrement() {
         return persistentStorage.get(CHANGE_INCREMENT_KEY, 0);
     }
 }
