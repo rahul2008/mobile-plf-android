@@ -138,7 +138,7 @@ public class User {
                     @Override
                     public void onLoginSuccess() {
 
-                        DIUserProfile diUserProfile = getUserInstance(mContext);
+                        DIUserProfile diUserProfile = getUserInstance();
                         diUserProfile.setPassword(password);
                         Profile profile = new Profile(mContext);
                         profile.saveDIUserProfileToDisk(diUserProfile);
@@ -341,7 +341,7 @@ public class User {
             @Override
             public void onLoginSuccess() {
                 if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && getEmailVerificationStatus(mContext)) {
-                    DIUserProfile userProfile = getUserInstance(mContext);
+                    DIUserProfile userProfile = getUserInstance();
 
                     HsdpUser hsdpUser = new HsdpUser(mContext);
                     hsdpUser.socialLogin(userProfile.getEmail(), getAccessToken(), new SocialLoginHandler() {
@@ -429,10 +429,10 @@ public class User {
     }
 
     // For getting values from Captured and Saved Json object
-    public DIUserProfile getUserInstance(Context context) {
+    private DIUserProfile getUserInstance() {
         CaptureRecord captureRecord = Jump.getSignedInUser();
         if (captureRecord == null) {
-            captureRecord = CaptureRecord.loadFromDisk(context);
+            captureRecord = CaptureRecord.loadFromDisk(mContext);
         }
         if (captureRecord == null) {
             return null;
@@ -453,7 +453,6 @@ public class User {
             diUserProfile
                     .setReceiveMarketingEmail(captureRecord.getBoolean(USER_RECEIVE_MARKETING_EMAIL));
             diUserProfile.setJanrainUUID(captureRecord.getString(USER_JANRAIN_UUID));
-            //Get JSON String for user address to set his/her country code
             JSONObject userAddress = new JSONObject(captureRecord.getString(CONSUMER_PRIMARY_ADDRESS));
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(captureRecord.getString(CONSUMER_PREFERED_LANGUAGE));
@@ -816,4 +815,114 @@ public class User {
             }
         });
     }
+
+
+    public String getEmail() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getEmail();
+    }
+
+
+    public String getPassword() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getPassword();
+    }
+
+
+    public String getGivenName() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getGivenName();
+    }
+
+
+    public boolean getOlderThanAgeLimit() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return false;
+        }
+        return diUserProfile.getOlderThanAgeLimit();
+    }
+
+
+    public boolean getReceiveMarketingEmail() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return false;
+        }
+        return diUserProfile.getReceiveMarketingEmail();
+    }
+
+
+    public String getDisplayName() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getDisplayName();
+    }
+
+
+    public String getFamilyName() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getFamilyName();
+    }
+
+
+    public String getJanrainUUID() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getJanrainUUID();
+    }
+
+
+    public String getHsdpUUID() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getHsdpUUID();
+
+    }
+
+
+    public String getHsdpAccessToken() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getHsdpAccessToken();
+    }
+
+
+    public String getLanguageCode() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getLanguageCode();
+    }
+
+
+    public String getCountryCode() {
+        DIUserProfile diUserProfile = getUserInstance();
+        if (diUserProfile == null) {
+            return null;
+        }
+        return diUserProfile.getCountryCode();
+    }
+
 }

@@ -207,8 +207,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mTvContent.setVisibility(View.GONE);
         }
 
-        DIUserProfile userProfile = mUser.getUserInstance(mContext);
-        mEmailId = userProfile.getEmail();
+        mEmailId = mUser.getEmail();
 
         String email = getString(R.string.VerifyEmail_EmailSentto_lbltxt);
         email = String.format(email, mEmailId);

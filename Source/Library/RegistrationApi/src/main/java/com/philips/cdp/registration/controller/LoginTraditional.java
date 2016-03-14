@@ -24,7 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler,JumpFlowDownloadStatusListener {
+public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
 
     private Context mContext;
@@ -50,7 +50,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             Jump.performTraditionalSignIn(email, password, this, null);
-        }else if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+        } else if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }
@@ -59,7 +59,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             Jump.performTraditionalSignIn(email, password, this, token);
-        }else if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+        } else if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }
@@ -71,7 +71,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         user.buildCoppaConfiguration();
         if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationConfiguration.getInstance().isCoppaFlow()) {
             CoppaExtension coppaExtension = new CoppaExtension();
-            coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
+            coppaExtension.triggerSendCoppaMailAfterLogin(user.getEmail());
         }
         mUpdateUserRecordHandler.updateUserRecordLogin();
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
@@ -147,7 +147,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         }
     }
 
-    private void handleInvalidCredentials(CaptureApiError error,UserRegistrationFailureInfo userRegistrationFailureInfo) {
+    private void handleInvalidCredentials(CaptureApiError error, UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (null != error && null != error.error
                 && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
             try {

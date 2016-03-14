@@ -152,12 +152,12 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 break;
             case R.id.btn_resend_coppa_email:
                 User user = new User(mContext);
-                DIUserProfile userProfile = user.getUserInstance(mContext);
                 CoppaExtension coppaExtension = new CoppaExtension();
-                if (null != userProfile) {
+                String emailId= user.getEmail();
+                if (null != emailId) {
                     mProgressDialog.setMessage("sending...");
                     mProgressDialog.show();
-                    coppaExtension.resendCoppaEmailConsentForUserEmail(userProfile.getEmail(), this);
+                    coppaExtension.resendCoppaEmailConsentForUserEmail(emailId, this);
                 } else {
                     Toast.makeText(this, "Please login b4 going to resend coppa mail", Toast.LENGTH_LONG).show();
                 }
@@ -257,7 +257,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     @Override
     public void onRefreshLoginSessionSuccess() {
         dimissDialog();
-        RLog.d(RLog.HSDP, "RegistrationSampleActivity Access token: "+user.getUserInstance(mContext).getHsdpAccessToken());
+        RLog.d(RLog.HSDP, "RegistrationSampleActivity Access token: "+user.getHsdpAccessToken());
         showToast("Success to refresh hsdp access token");
     }
 

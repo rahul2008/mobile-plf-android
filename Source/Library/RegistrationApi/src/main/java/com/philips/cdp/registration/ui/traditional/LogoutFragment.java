@@ -60,8 +60,6 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     private ProgressBar mPbLogoutFromBegin;
 
-    private DIUserProfile userProfile;
-
     private ScrollView mSvRootLayout;
 
     private TextView mAccessAccountSettingsLink;
@@ -172,7 +170,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         //FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
         mCbTerms.setVisibility(view.VISIBLE);
-        mCbTerms.setChecked(mUser.getUserInstance(mContext).getReceiveMarketingEmail());
+        mCbTerms.setChecked(mUser.getReceiveMarketingEmail());
         mCbTerms.setOnCheckedChangeListener(this);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
@@ -188,11 +186,10 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
         RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink, getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
 
-        userProfile = mUser.getUserInstance(mContext);
-        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " + userProfile.getGivenName());
+        mTvWelcome.setText(getString(R.string.Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
 
         String email = getString(R.string.InitialSignedIn_SigninEmailText);
-        email = String.format(email, userProfile.getEmail());
+        email = String.format(email, mUser.getEmail());
         mTvSignInEmail.setText(email);
     }
 

@@ -447,11 +447,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             RegPreferenceUtility.storePreference(mContext, mEmail, true);
         } else {
             User user = new User(mContext);
-            DIUserProfile diUserProfile = user.getUserInstance(mContext);
-            String email = null;
-            if (diUserProfile != null) {
-                email = diUserProfile.getEmail();
-            }
+            String email = user.getEmail();
             if (email != null) {
                 RegPreferenceUtility.storePreference(mContext, email, true);
             }

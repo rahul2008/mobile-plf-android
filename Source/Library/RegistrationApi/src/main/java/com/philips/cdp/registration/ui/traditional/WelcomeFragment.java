@@ -51,15 +51,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private ProgressBar mPbLogout;
 
-    private DIUserProfile userProfile;
-
-    private ScrollView mSvRootLayout;
-
-    @Override
-    public void onAttach(Activity activity) {
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onAttach");
-        super.onAttach(activity);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +66,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         View view = inflater.inflate(R.layout.fragment_welcome, null);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         mUser = new User(mContext);
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         init(view);
         handleUiState();
         handleOrientation(view);
@@ -166,11 +156,10 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
 
 
-        userProfile = mUser.getUserInstance(mContext);
-        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + userProfile.getGivenName());
+        mTvWelcome.setText(getString(R.string.SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
 
         String email = getString(R.string.InitialSignedIn_SigninEmailText);
-        email = String.format(email, userProfile.getEmail());
+        email = String.format(email, mUser.getEmail());
         String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);

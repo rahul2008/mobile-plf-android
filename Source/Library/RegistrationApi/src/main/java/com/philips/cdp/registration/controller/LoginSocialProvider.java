@@ -24,7 +24,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
 
-public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler,JumpFlowDownloadStatusListener {
+public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
     private Context mContext;
 
@@ -45,17 +45,16 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
     public void onSuccess() {
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
-        DIUserProfile userProfile = user.getUserInstance(mContext);
         user.buildCoppaConfiguration();
 
         if (CoppaConfiguration.getCoppaCommunicationSentAt() != null && RegistrationConfiguration.getInstance().isCoppaFlow()) {
             CoppaExtension coppaExtension = new CoppaExtension();
-            coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
+            coppaExtension.triggerSendCoppaMailAfterLogin(user.getEmail());
         }
 
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
-            hsdpUser.socialLogin(userProfile.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
@@ -116,16 +115,18 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 
         }
     }
+
     private Activity mActivity;
     private String mProviderName;
-    public void loginSocial(final Activity activity,  final String providerName, final String mergeToken){
+
+    public void loginSocial(final Activity activity, final String providerName, final String mergeToken) {
         mActivity = activity;
         mProviderName = providerName;
         mMergeToken = mergeToken;
         UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             Jump.showSignInDialog(activity, providerName, this, mergeToken);
-        }else if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+        } else if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }
