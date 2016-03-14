@@ -16,6 +16,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -46,6 +47,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         mPassword = password;
     }
 
+
+
     public void loginTraditionally(final String email, final String password) {
         UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
         if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
@@ -74,7 +77,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             coppaExtension.triggerSendCoppaMailAfterLogin(user.getEmail());
         }
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
+        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
 
             HsdpUser login = new HsdpUser(mContext);
             login.login(mEmail, mPassword, new TraditionalLoginHandler() {
@@ -199,4 +202,25 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
     }
+
+
+    public void loginIntoHsdp() {
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
+        if (hsdpUserRecord == null) {
+            hsdpUser.login(mEmail, mPassword, new TraditionalLoginHandler() {
+                @Override
+                public void onLoginSuccess() {
+                    mTraditionalLoginHandler.onLoginSuccess();
+
+                }
+
+                @Override
+                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                }
+            });
+        }
+    }
+
 }

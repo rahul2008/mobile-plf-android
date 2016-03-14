@@ -152,25 +152,6 @@ public class User {
 
     }
 
-    private void loginIntoHsdp(final String emailAddress, String password, final TraditionalLoginHandler traditionalLoginHandler) {
-        HsdpUser hsdpUser = new HsdpUser(mContext);
-        HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-        if (hsdpUserRecord == null && getEmailVerificationStatus(mContext)) {
-            hsdpUser.login(emailAddress, password, new TraditionalLoginHandler() {
-                @Override
-                public void onLoginSuccess() {
-                    traditionalLoginHandler.onLoginSuccess();
-
-                }
-
-                @Override
-                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                }
-            });
-        }
-    }
-
 
     // For Social SignIn Using Provider
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
@@ -295,7 +276,7 @@ public class User {
         completeSocialProviderLogin(profile, new SocialProviderLoginHandler() {
             @Override
             public void onLoginSuccess() {
-                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && getEmailVerificationStatus(mContext)) {
+                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && getEmailVerificationStatus()) {
                     DIUserProfile userProfile = getUserInstance();
 
                     HsdpUser hsdpUser = new HsdpUser(mContext);
@@ -419,9 +400,9 @@ public class User {
     }
 
     // For checking email verification
-    public boolean getEmailVerificationStatus(Context context) {
+    public boolean getEmailVerificationStatus() {
         mEmailVerified = false;
-        CaptureRecord captured = CaptureRecord.loadFromDisk(context);
+        CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
 
         if (captured == null)
             return false;
@@ -666,13 +647,13 @@ public class User {
                     return;
                 }
 
-                if (getEmailVerificationStatus(context)) {
+                if (getEmailVerificationStatus()) {
                     Profile profile = new Profile(mContext);
                     DIUserProfile userProfile = profile.getDIUserProfileFromDisk();
                     HsdpUser hsdpUser = new HsdpUser(context);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
                     if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
-                        loginIntoHsdp(userProfile.getEmail(), ABCD.getInstance().getmP(), new TraditionalLoginHandler() {
+                        LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
                             @Override
                             public void onLoginSuccess() {
                                 ABCD.getInstance().setmP(null);
@@ -683,7 +664,8 @@ public class User {
                             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                                 handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
                             }
-                        });
+                        }, mContext, mUpdateUserRecordHandler, userProfile.getEmail(), ABCD.getInstance().getmP());
+                        loginTraditional.loginIntoHsdp();
                     } else {
                         handler.onRefreshUserSuccess();
                     }
