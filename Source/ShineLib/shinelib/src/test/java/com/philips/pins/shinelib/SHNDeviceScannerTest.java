@@ -1,5 +1,8 @@
 package com.philips.pins.shinelib;
 
+import android.os.Handler;
+import android.support.annotation.NonNull;
+
 import com.philips.pins.shinelib.helper.MockedHandler;
 
 import org.junit.Before;
@@ -15,9 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,13 +36,16 @@ public class SHNDeviceScannerTest {
     @Mock
     SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener;
 
+    @Mock
+    SHNInternalScanRequest SHNInternalScanRequestMock;
+
     @Captor
     ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> captureSHNDeviceScannerListener;
 
     private MockedHandler mockedUserHandler;
     private MockedHandler mockedInternalHandler;
 
-    private SHNDeviceScanner shnDeviceScanner;
+    private TestSHNDeviceScanner shnDeviceScanner;
 
     @Before
     public void setUp() {
@@ -52,8 +55,8 @@ public class SHNDeviceScannerTest {
         mockedUserHandler.enableImmediateExecuteOnPost(false);
         mockedInternalHandler.enableImmediateExecuteOnPost(false);
 
-        when(mockedSHNDeviceScannerInternal.startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong())).thenReturn(true);
-        shnDeviceScanner = new SHNDeviceScanner(mockedSHNDeviceScannerInternal, mockedInternalHandler.getMock(), mockedUserHandler.getMock());
+        when(mockedSHNDeviceScannerInternal.startScanning(SHNInternalScanRequestMock)).thenReturn(true);
+        shnDeviceScanner = new TestSHNDeviceScanner(mockedSHNDeviceScannerInternal, mockedInternalHandler.getMock(), mockedUserHandler.getMock());
     }
 
     @Test
@@ -71,13 +74,13 @@ public class SHNDeviceScannerTest {
 
         /* verify that it is posted on the internal handler, but not executed yet */
         assertEquals(1, mockedInternalHandler.getPostedExecutionCount());
-        verify(mockedSHNDeviceScannerInternal, never()).startScanning(isA(SHNDeviceScanner.SHNDeviceScannerListener.class), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        verify(mockedSHNDeviceScannerInternal, never()).startScanning(SHNInternalScanRequestMock);
         assertFalse(future.isDone());
 
         /* execute on the internal handler */
         mockedInternalHandler.executeFirstPostedExecution();
         assertEquals(0, mockedInternalHandler.getPostedExecutionCount());
-        verify(mockedSHNDeviceScannerInternal).startScanning(captureSHNDeviceScannerListener.capture(), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        verify(mockedSHNDeviceScannerInternal).startScanning(SHNInternalScanRequestMock);
         assertTrue(future.isDone());
 
         /* get the result */
@@ -88,11 +91,12 @@ public class SHNDeviceScannerTest {
     public void scannerCallbacksArePostedOnTheUserHandler() throws Exception {
         FutureTask<Boolean> future = shnDeviceScanner.startScanningWithFuture(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_TIMEOUT_MS);
         mockedInternalHandler.executeFirstPostedExecution();
-        verify(mockedSHNDeviceScannerInternal).startScanning(captureSHNDeviceScannerListener.capture(), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
+        verify(mockedSHNDeviceScannerInternal).startScanning(SHNInternalScanRequestMock);
+//        verify(mockedSHNDeviceScannerInternal).startScanning(captureSHNDeviceScannerListener.capture(), isA(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
 
         assertEquals(0, mockedUserHandler.getPostedExecutionCount());
 
-        SHNDeviceScanner.SHNDeviceScannerListener internalDeviceScannerListener = captureSHNDeviceScannerListener.getValue();
+        SHNDeviceScanner.SHNDeviceScannerListener internalDeviceScannerListener = shnDeviceScanner.testWrappedSHNDeviceScannerListener;
         assertNotNull(internalDeviceScannerListener);
 
         internalDeviceScannerListener.deviceFound(null, null);
@@ -109,7 +113,7 @@ public class SHNDeviceScannerTest {
 
     @Test
     public void startingScanningReturnsTheResultFromTheInternalScanner() throws ExecutionException, InterruptedException {
-        when(mockedSHNDeviceScannerInternal.startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong())).thenReturn(false);
+        when(mockedSHNDeviceScannerInternal.startScanning(SHNInternalScanRequestMock)).thenReturn(false);
         FutureTask<Boolean> future1 = shnDeviceScanner.startScanningWithFuture(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_TIMEOUT_MS);
         mockedInternalHandler.executeFirstPostedExecution();
         assertTrue(future1.isDone());
@@ -121,7 +125,21 @@ public class SHNDeviceScannerTest {
 
         assertEquals(0, mockedInternalHandler.getPostedExecutionCount());
 
+        /* stop scanning, before start has been called */
+        shnDeviceScanner.stopScanning();
+
+        /* verify that it is posted on the internal handler, but not executed yet */
+        assertEquals(1, mockedInternalHandler.getPostedExecutionCount());
+
+        /* verify that when executed stop is not called on the scanner, since it has not yet been started */
+        mockedInternalHandler.executeFirstPostedExecution();
+        verify(mockedSHNDeviceScannerInternal, never()).stopScanning(SHNInternalScanRequestMock);
+
         /* start scanning */
+        shnDeviceScanner.startScanningWithFuture(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, SCAN_TIMEOUT_MS);
+        mockedInternalHandler.executeFirstPostedExecution();
+
+        /* stop scanning, after start has been called */
         shnDeviceScanner.stopScanning();
 
         /* verify that it is posted on the internal handler, but not executed yet */
@@ -131,6 +149,27 @@ public class SHNDeviceScannerTest {
         /* execute on the internal handler */
         mockedInternalHandler.executeFirstPostedExecution();
         assertEquals(0, mockedInternalHandler.getPostedExecutionCount());
-        verify(mockedSHNDeviceScannerInternal).stopScanning();
+        verify(mockedSHNDeviceScannerInternal).stopScanning(SHNInternalScanRequestMock);
+    }
+
+
+    private class TestSHNDeviceScanner extends SHNDeviceScanner{
+        public ScannerSettingDuplicates testScannerSettingDuplicates;
+        public long testScanningAfterMS;
+        public SHNDeviceScannerListener testWrappedSHNDeviceScannerListener;
+
+        TestSHNDeviceScanner(final SHNDeviceScannerInternal shnDeviceScannerInternal, final Handler internalHandler, final Handler userHandler) {
+            super(shnDeviceScannerInternal, internalHandler, userHandler);
+        }
+
+        @NonNull
+        @Override
+        SHNInternalScanRequest createScanRequest(final ScannerSettingDuplicates scannerSettingDuplicates, final long stopScanningAfterMS, final SHNDeviceScannerListener wrappedSHNDeviceScannerListener) {
+            testScannerSettingDuplicates = scannerSettingDuplicates;
+            testScanningAfterMS = stopScanningAfterMS;
+            testWrappedSHNDeviceScannerListener = wrappedSHNDeviceScannerListener;
+
+            return SHNInternalScanRequestMock;
+        }
     }
 }

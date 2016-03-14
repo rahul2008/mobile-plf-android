@@ -11,10 +11,13 @@ import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.framework.BleDeviceFoundInfo;
 import com.philips.pins.shinelib.framework.LeScanCallbackProxy;
+import com.philips.pins.shinelib.utility.BleScanRecord;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class SHNDeviceScannerInternal {
     private static final String TAG = SHNDeviceScannerInternal.class.getSimpleName();
@@ -27,7 +30,7 @@ public class SHNDeviceScannerInternal {
     private final SHNCentral shnCentral;
 
     @NonNull
-    private final List<ScanRequest> scanRequests = new ArrayList<>();
+    private final List<SHNInternalScanRequest> shnInternalScanRequests = new ArrayList<>();
 
     /* package */ SHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         SHNDeviceFoundInfo.setSHNCentral(shnCentral);
@@ -36,10 +39,10 @@ public class SHNDeviceScannerInternal {
     }
 
     public boolean startScanning(@NonNull SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
-        return startScanning(new ScanRequest(registeredDeviceDefinitions, null, scannerSettingDuplicates == SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, (int) stopScanningAfterMS, shnDeviceScannerListener));
+        return startScanning(new SHNInternalScanRequest(registeredDeviceDefinitions, null, scannerSettingDuplicates == SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, (int) stopScanningAfterMS, shnDeviceScannerListener));
     }
 
-    public boolean startScanning(@NonNull final ScanRequest scanRequest) {
+    public boolean startScanning(@NonNull final SHNInternalScanRequest SHNInternalScanRequest) {
         if (leScanCallbackProxy == null) {
             leScanCallbackProxy = createLeScanCallbackProxy();
             boolean scanning = leScanCallbackProxy.startLeScan(leScanCallback, null);
@@ -54,8 +57,8 @@ public class SHNDeviceScannerInternal {
         }
 
         if (leScanCallbackProxy != null) {
-            scanRequests.add(scanRequest);
-            scanRequest.scanningStarted(this, shnCentral.getInternalHandler());
+            shnInternalScanRequests.add(SHNInternalScanRequest);
+            SHNInternalScanRequest.scanningStarted(this, shnCentral.getInternalHandler());
         }
 
         return leScanCallbackProxy != null;
@@ -81,10 +84,10 @@ public class SHNDeviceScannerInternal {
         shnCentral.getInternalHandler().postDelayed(restartScanningRunnable, SCANNING_RESTART_INTERVAL_MS);
     }
 
-    void stopScanning(final ScanRequest scanRequest) {
-        scanRequests.remove(scanRequest);
-        scanRequest.scanningStopped();
-        if (scanRequests.isEmpty()) {
+    public void stopScanning(final SHNInternalScanRequest shnInternalScanRequest) {
+        shnInternalScanRequests.remove(shnInternalScanRequest);
+        shnInternalScanRequest.scanningStopped();
+        if (shnInternalScanRequests.isEmpty()) {
             stopScanning();
         }
     }
@@ -97,11 +100,11 @@ public class SHNDeviceScannerInternal {
             leScanCallbackProxy.stopLeScan(leScanCallback);
             leScanCallbackProxy = null;
 
-            for (final ScanRequest scanRequest : scanRequests) {
-                scanRequest.scanningStopped();
+            for (final SHNInternalScanRequest shnInternalScanRequest : shnInternalScanRequests) {
+                shnInternalScanRequest.scanningStopped();
             }
 
-            scanRequests.clear();
+            shnInternalScanRequests.clear();
             SHNLogger.i(TAG, "Stopped scanning");
         }
     }
@@ -110,8 +113,11 @@ public class SHNDeviceScannerInternal {
         shnCentral.getInternalHandler().post(new Runnable() {
             @Override
             public void run() {
-                for (final ScanRequest scanRequest : scanRequests) {
-                    scanRequest.onScanResult(bleDeviceFoundInfo);
+                SHNDeviceFoundInfo deviceFoundInfo = convertToSHNDeviceFoundInfo(bleDeviceFoundInfo);
+                if (deviceFoundInfo != null) {
+                    for (final SHNInternalScanRequest shnInternalScanRequest : shnInternalScanRequests) {
+                        shnInternalScanRequest.onDeviceFound(deviceFoundInfo);
+                    }
                 }
             }
         });
@@ -123,4 +129,31 @@ public class SHNDeviceScannerInternal {
             postBleDeviceFoundInfoOnInternalThread(new BleDeviceFoundInfo(device, rssi, scanRecord));
         }
     };
+
+    private SHNDeviceFoundInfo convertToSHNDeviceFoundInfo(final @NonNull BleDeviceFoundInfo bleDeviceFoundInfo) {
+        BleScanRecord bleScanRecord = BleScanRecord.createNewInstance(bleDeviceFoundInfo.getScanRecord());
+        for (SHNDeviceDefinitionInfo shnDeviceDefinitionInfo : registeredDeviceDefinitions) {
+            boolean matched = doesDeviceDefinitionInfoSupportDevice(bleDeviceFoundInfo, bleScanRecord, shnDeviceDefinitionInfo);
+            if (matched) {
+                return new SHNDeviceFoundInfo(bleDeviceFoundInfo.getBluetoothDevice(), bleDeviceFoundInfo.getRssi(), bleDeviceFoundInfo.getScanRecord(), shnDeviceDefinitionInfo, bleScanRecord);
+            }
+        }
+        return null;
+    }
+
+    private boolean doesDeviceDefinitionInfoSupportDevice(final BleDeviceFoundInfo bleDeviceFoundInfo, final BleScanRecord bleScanRecord, final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
+        boolean matched = false;
+        if (shnDeviceDefinitionInfo.useAdvertisedDataMatcher()) {
+            matched = shnDeviceDefinitionInfo.matchesOnAdvertisedData(bleDeviceFoundInfo.getBluetoothDevice(), bleScanRecord, bleDeviceFoundInfo.getRssi());
+        } else {
+            Set<UUID> primaryServiceUUIDs = shnDeviceDefinitionInfo.getPrimaryServiceUUIDs();
+            for (UUID uuid : bleScanRecord.getUuids()) {
+                if (primaryServiceUUIDs.contains(uuid)) {
+                    matched = true;
+                    break;
+                }
+            }
+        }
+        return matched;
+    }
 }

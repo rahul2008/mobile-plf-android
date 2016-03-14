@@ -124,6 +124,7 @@ public class SHNDeviceAssociation {
             }
         }
     };
+    private SHNInternalScanRequest shnInternalScanRequest;
 
     public SHNDeviceAssociation(final @NonNull SHNCentral shnCentral, final @NonNull SHNDeviceScannerInternal shnDeviceScannerInternal, final @NonNull PersistentStorageFactory persistentStorageFactory) {
         this.shnCentral = shnCentral;
@@ -347,12 +348,17 @@ public class SHNDeviceAssociation {
 
     private void stopScanning() {
         scanStoppedIndicatesScanTimeout = false;
-        shnDeviceScannerInternal.stopScanning();
+        if (shnInternalScanRequest != null) {
+            shnDeviceScannerInternal.stopScanning(shnInternalScanRequest);
+            shnInternalScanRequest = null;
+        }
     }
 
     private void startScanning() {
+        stopScanning();
         scanStoppedIndicatesScanTimeout = true;
-        if (!shnDeviceScannerInternal.startScanning(shnDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, 90000l)) {
+        shnInternalScanRequest = new SHNInternalScanRequest(null, null, true, 90000l, shnDeviceScannerListener);
+        if (!shnDeviceScannerInternal.startScanning(shnInternalScanRequest)) {
             SHNLogger.e(TAG, "Could not start scanning (already scanning)");
             reportFailure(SHNResult.SHNErrorInvalidState);
         }

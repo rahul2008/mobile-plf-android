@@ -47,6 +47,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class SHNDeviceScannerInternalTest {
     private static final long STOP_SCANNING_AFTER_10_SECONDS = 10000l;
+    public static final String MOCKED_BLUETOOTH_DEVICE_NAME = "Mocked Bluetooth Device";
 
     @Mock
     private Context mockedContext;
@@ -64,10 +65,10 @@ public class SHNDeviceScannerInternalTest {
     private BluetoothAdapter bluetoothAdapterMock;
 
     @Mock
-    private ScanRequest scanRequestMock1;
+    private SHNInternalScanRequest internalScanRequestMock1;
 
     @Mock
-    private ScanRequest scanRequestMock2;
+    private SHNInternalScanRequest internalScanRequestMock2;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableCaptor;
@@ -101,11 +102,14 @@ public class SHNDeviceScannerInternalTest {
         doReturn(true).when(bluetoothAdapterMock).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
         doNothing().when(bluetoothAdapterMock).stopLeScan(any(BluetoothAdapter.LeScanCallback.class));
 
+        when(deviceMock.getDeviceTypeName()).thenReturn(MOCKED_BLUETOOTH_DEVICE_NAME);
+
+
         testDeviceDefinitionInfos = new ArrayList<>();
         testDeviceDefinitionInfos.add(new SHNDeviceDefinitionInfo() {
             @Override
             public String getDeviceTypeName() {
-                return null;
+                return MOCKED_BLUETOOTH_DEVICE_NAME;
             }
 
             @Override
@@ -245,6 +249,9 @@ public class SHNDeviceScannerInternalTest {
         BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
         doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
+//        when(mockedBluetoothDevice.get)
+
+//if (deviceDefinition.getDeviceTypeName().equals(deviceFoundInfo.getShnDevice().getDeviceTypeName()))
 
         leScanCallbackProxy.onLeScan(mockedBluetoothDevice, -50, new byte[]{0x03, 0x03, 0x0A, 0x18}); // advertisement of the primary uuid for the device info service
 
@@ -309,52 +316,52 @@ public class SHNDeviceScannerInternalTest {
 
     @Test
     public void whenScanningTwice_ThenBothScanRequestGetStartedMessage() {
-        shnDeviceScannerInternal.startScanning(scanRequestMock1);
-        shnDeviceScannerInternal.startScanning(scanRequestMock2);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock1);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
-        verify(scanRequestMock1).scanningStarted(shnDeviceScannerInternal, mockedHandler.getMock());
-        verify(scanRequestMock2).scanningStarted(shnDeviceScannerInternal, mockedHandler.getMock());
+        verify(internalScanRequestMock1).scanningStarted(shnDeviceScannerInternal, mockedHandler.getMock());
+        verify(internalScanRequestMock2).scanningStarted(shnDeviceScannerInternal, mockedHandler.getMock());
     }
 
     @Test
     public void whenScanningTwice_ThenWhenOneIsStoppedScanningItShouldBeInformed() {
-        shnDeviceScannerInternal.startScanning(scanRequestMock1);
-        shnDeviceScannerInternal.startScanning(scanRequestMock2);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock1);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
         Handler handlerMock = mockedHandler.getMock();
         verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS));
 
-        shnDeviceScannerInternal.stopScanning(scanRequestMock1);
-        verify(scanRequestMock1).scanningStopped();
+        shnDeviceScannerInternal.stopScanning(internalScanRequestMock1);
+        verify(internalScanRequestMock1).scanningStopped();
     }
 
     @Test
     public void whenScanningTwice_ThenWhenOneIsStoppedScanningShouldContinueForTheOther() {
-        shnDeviceScannerInternal.startScanning(scanRequestMock1);
-        shnDeviceScannerInternal.startScanning(scanRequestMock2);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock1);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
         Handler handlerMock = mockedHandler.getMock();
         verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS));
 
-        shnDeviceScannerInternal.stopScanning(scanRequestMock1);
-        verify(scanRequestMock1).scanningStopped();
+        shnDeviceScannerInternal.stopScanning(internalScanRequestMock1);
+        verify(internalScanRequestMock1).scanningStopped();
     }
 
     @Test
     public void whenScanningTwice_ThenWhenBothAreStoppedScanningShouldStop() {
-        shnDeviceScannerInternal.startScanning(scanRequestMock1);
-        shnDeviceScannerInternal.startScanning(scanRequestMock2);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock1);
+        shnDeviceScannerInternal.startScanning(internalScanRequestMock2);
 
         Handler handlerMock = mockedHandler.getMock();
         verify(handlerMock).postDelayed(runnableCaptor.capture(), eq(SHNDeviceScannerInternal.SCANNING_RESTART_INTERVAL_MS));
 
-        shnDeviceScannerInternal.stopScanning(scanRequestMock1);
-        shnDeviceScannerInternal.stopScanning(scanRequestMock2);
+        shnDeviceScannerInternal.stopScanning(internalScanRequestMock1);
+        shnDeviceScannerInternal.stopScanning(internalScanRequestMock2);
 
         verify(handlerMock).removeCallbacks(runnableCaptor.getValue());
     }
 
-    private class TestSHNDeviceScannerInternal extends SHNDeviceScannerInternal{
+    private class TestSHNDeviceScannerInternal extends SHNDeviceScannerInternal {
 
         TestSHNDeviceScannerInternal(@NonNull final SHNCentral shnCentral, @NonNull final List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
             super(shnCentral, registeredDeviceDefinitions);
