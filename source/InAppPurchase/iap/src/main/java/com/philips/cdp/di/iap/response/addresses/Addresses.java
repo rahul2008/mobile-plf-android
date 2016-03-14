@@ -5,6 +5,8 @@
 
 package com.philips.cdp.di.iap.response.addresses;
 
+import com.philips.cdp.di.iap.session.NetworkConstants;
+
 public class Addresses {
     private Country country;
     private String firstName;
@@ -45,6 +47,9 @@ public class Addresses {
     }
 
     public String getLine2() {
+        if (line2 == null) {
+            line2 = NetworkConstants.EMPTY_RESPONSE;
+        }
         return line2;
     }
 
@@ -61,6 +66,9 @@ public class Addresses {
     }
 
     public String getTitleCode() {
+        if (titleCode == null) {
+            titleCode = NetworkConstants.EMPTY_RESPONSE;
+        }
         return titleCode;
     }
 
