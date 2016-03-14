@@ -200,7 +200,7 @@ public class OrderSummaryFragment extends BaseAnimationSupportFragment implement
     private void checkForOutOfStock(final IAPNetworkError iapNetworkError) {
         com.philips.cdp.di.iap.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
         String type = error.getType();
-        if(type.equalsIgnoreCase("InsufficientStockLevelError")) {
+        if(type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
             NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);

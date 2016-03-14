@@ -77,6 +77,8 @@
             android:layout_marginRight="@dimen/iap_product_detail_right_padding"
             android:text="Sonicare's best whitening in our most elegant Philips Sonicare electric toothbrush. Switch to Sonicare.- Removes up to 7X more plaque.32w"
             android:textColor="?attr/baseColor"
-            android:textSize="@dimen/iap_product_overview" />
+            android:textSize="@dimen/iap_product_overview"
+            android:layout_marginBottom="@dimen/iap_product_detail_bottom_padding"
+            />
     </RelativeLayout>
 </ScrollView>
