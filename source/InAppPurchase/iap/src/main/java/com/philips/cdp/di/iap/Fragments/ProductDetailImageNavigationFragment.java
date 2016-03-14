@@ -44,7 +44,6 @@ public final class ProductDetailImageNavigationFragment extends Fragment {
         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         layout.setGravity(Gravity.CENTER);
         layout.addView(mImageView);
-
         return layout;
     }
 

@@ -113,7 +113,9 @@ public class ShoppingCartPresenter {
                         IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
                         NetworkUtility.getInstance().showErrorDialog(mFragmentManager, mContext.getString(R.string.iap_ok),
                                 mContext.getString(R.string.iap_network_error), mContext.getString(R.string.iap_check_connection));
-                        Utility.dismissProgressDialog();
+                        if(Utility.isProgressDialogShowing()) {
+                            Utility.dismissProgressDialog();
+                        }
                     }
                 });
         model.setContext(mContext);
