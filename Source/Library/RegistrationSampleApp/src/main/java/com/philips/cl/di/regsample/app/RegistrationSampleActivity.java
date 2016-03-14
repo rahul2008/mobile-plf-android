@@ -146,7 +146,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                     } else {
                         mProgressDialog.setMessage("Refreshing...");
                         mProgressDialog.show();
-                        user.refreshLoginSession(this,mContext);
+                        user.refreshLoginSession(this);
                     }
                 }
                 break;
@@ -181,7 +181,13 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
                 public void onRefreshLoginSessionFailedWithError(int error) {
 
                 }
-            },this);
+
+                @Override
+                public void onRefreshLoginSessionInProgress(String message) {
+                    System.out.println("Message "+message);
+                    showToast(message);
+                }
+            });
         }else{
             Toast.makeText(this,"Plase login",Toast.LENGTH_SHORT).show();
         }
@@ -270,5 +276,10 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             return;
         }
         showToast("Failed to refresh hsdp access token");
+    }
+
+    @Override
+    public void onRefreshLoginSessionInProgress(String message) {
+        showToast(message);
     }
 }

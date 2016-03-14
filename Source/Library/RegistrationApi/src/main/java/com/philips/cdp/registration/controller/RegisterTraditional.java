@@ -9,7 +9,7 @@ import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.ABCD;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.com.philips.cdp.registartion.utils.Profile;
+import com.philips.cdp.registration.utils.Profile;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;

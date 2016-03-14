@@ -22,6 +22,16 @@ import java.util.Locale;
 
 public class UserRegistrationInitializer {
 
+    private boolean mIsJumpInitializationInProgress;
+
+    private boolean mReceivedDownloadFlowSuccess;
+
+    private boolean mReceivedProviderFlowSuccess;
+
+    private boolean mJanrainIntialized = false;
+
+    private boolean isRefreshUserSessionInProgress = false;
+
     private static UserRegistrationInitializer mUserRegistrationInitializer;
 
     private UserRegistrationInitializer() {
@@ -45,12 +55,6 @@ public class UserRegistrationInitializer {
         this.mIsJumpInitializationInProgress = isInitializationInProgress;
     }
 
-    private boolean mIsJumpInitializationInProgress;
-    private boolean mReceivedDownloadFlowSuccess;
-    private boolean mReceivedProviderFlowSuccess;
-
-
-    private boolean mJanrainIntialized = false;
 
     public JumpFlowDownloadStatusListener getJumpFlowDownloadStatusListener() {
         return mJumpFlowDownloadStatusListener;
@@ -214,6 +218,14 @@ public class UserRegistrationInitializer {
     public boolean isRegInitializationInProgress() {
         return isJumpInitializationInProgress() && !isJanrainIntialized();
 
+    }
+
+    public boolean isRefreshUserSessionInProgress() {
+        return isRefreshUserSessionInProgress;
+    }
+
+    public void setRefreshUserSessionInProgress(boolean refreshUserSessionInProgress) {
+        isRefreshUserSessionInProgress = refreshUserSessionInProgress;
     }
 
 

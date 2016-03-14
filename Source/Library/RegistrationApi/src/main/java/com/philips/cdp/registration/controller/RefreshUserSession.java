@@ -4,7 +4,7 @@ package com.philips.cdp.registration.controller;
 import android.content.Context;
 
 import com.janrain.android.capture.CaptureRecord;
-import com.philips.cdp.registration.com.philips.cdp.registartion.utils.Profile;
+import com.philips.cdp.registration.utils.Profile;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
@@ -24,14 +24,19 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
         mRefreshLoginSessionHandler = refreshLoginSessionHandler;
         mContext = context;
     }
-    
+
 
     private void refreshSession() {
-        CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
-        if (captureRecord == null) {
-            return;
+        if(!UserRegistrationInitializer.getInstance().isRefreshUserSessionInProgress()) {
+            CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
+            if (captureRecord == null) {
+                return;
+            }
+            UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(true);
+            captureRecord.refreshAccessToken(new RefreshLoginSession(this), mContext);
+        }else{
+            mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress("Refresh already scheduled");
         }
-        captureRecord.refreshAccessToken(new RefreshLoginSession(this), mContext);
     }
 
     private void refreshHsdpAccessToken() {
@@ -39,11 +44,13 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
         hsdpUser.refreshToken(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
+                UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
                 mRefreshLoginSessionHandler.onRefreshLoginSessionSuccess();
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
+                UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
                 if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                     Profile profile = new Profile(mContext);
@@ -51,6 +58,11 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
                     RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
                 }
                 mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
+            }
+
+            @Override
+            public void onRefreshLoginSessionInProgress(String message) {
+                mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message);
             }
         });
     }
@@ -90,17 +102,23 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     @Override
     public void onRefreshLoginSessionSuccess() {
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-            // refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
             refreshHsdpAccessToken();
             return;
         }
+        UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
         mRefreshLoginSessionHandler.onRefreshLoginSessionSuccess();
 
     }
 
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
+        UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
         mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
 
+    }
+
+    @Override
+    public void onRefreshLoginSessionInProgress(String message) {
+        mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message);
     }
 }

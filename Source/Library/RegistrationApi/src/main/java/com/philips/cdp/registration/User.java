@@ -8,7 +8,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
-import com.philips.cdp.registration.com.philips.cdp.registartion.utils.Profile;
+import com.philips.cdp.registration.utils.Profile;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
@@ -48,8 +48,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.concurrent.ScheduledExecutorService;
 
 public class User {
 
@@ -106,8 +104,6 @@ public class User {
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
     private UserRegistrationInitializer mRegistrationHelper;
-
-    private ScheduledExecutorService mScheduledExecutorService;
 
     public User(Context context) {
         mContext = context;
@@ -225,11 +221,9 @@ public class User {
     }
 
     // For Refresh login Session
-    public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler, final Context context) {
-
-        RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, context);
+    public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
+        RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
         refreshUserSession.refreshUserSession();
-
     }
 
 
@@ -510,7 +504,12 @@ public class User {
                 }
                 updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(error);
             }
-        }, mContext);
+
+            @Override
+            public void onRefreshLoginSessionInProgress(String message) {
+
+            }
+        });
 
     }
 
@@ -715,7 +714,12 @@ public class User {
                             handler.onRefreshUserFailed(error);
                             return;
                         }
-                    }, context);
+
+                        @Override
+                        public void onRefreshLoginSessionInProgress(String message) {
+
+                        }
+                    });
                 }
                 handler.onRefreshUserFailed(0);
             }

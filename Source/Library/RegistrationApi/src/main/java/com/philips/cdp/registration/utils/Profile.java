@@ -1,4 +1,4 @@
-package com.philips.cdp.registration.com.philips.cdp.registartion.utils;
+package com.philips.cdp.registration.utils;
 
 import android.content.Context;
 
