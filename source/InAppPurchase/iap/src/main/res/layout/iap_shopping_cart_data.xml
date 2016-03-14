@@ -39,6 +39,8 @@
         <TextView
             android:id="@+id/price"
             style="@style/iapCentralesansBoldFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
             android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_toLeftOf="@id/frame"
@@ -51,6 +53,8 @@
         <TextView
             android:id="@+id/text1Name"
             style="@style/iapCentralesansBoldFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/price"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
@@ -75,6 +79,8 @@
             <TextView
                 android:id="@+id/from"
                 style="@style/iapCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/iap_shopping_cart_image_right"
                 android:includeFontPadding="false"
                 android:text="@string/iap_product_item_quantity"

@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.model.ModelConstants;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +38,13 @@ public class IAPHandler {
         HybrisDelegate.getInstance(mContext).initStore(mContext, janrainEmail, janRainID);
         mJanrainEmail = janrainEmail;
         mJanrainId = janRainID;
+
     }
 
-    /*public void launchIAP(String pStoreID, String pLanguage, String pCountry, int pThemeIndex) {
-        //launching ShoppingCart Fragment
-        IAPLog.i(IAPLog.IAPHANDLER, "IAPHandler == launchIAP");
-    }*/
+//    public void launchIAP(String pStoreID, String pLanguage, String pCountry, int pThemeIndex) {
+//        //launching ShoppingCart Fragment
+//        IAPLog.i(IAPLog.LOG, "IAPHandler == launchIAP");
+//    }
 
     public void getCartQuantity(final IAPHandlerListner iapHandlerListner) {
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
