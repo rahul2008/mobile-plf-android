@@ -314,7 +314,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         } else if (v == mBtnCancel) {
             if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
                     getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
-                getFragmentManager().popBackStack();
+                getFragmentManager().popBackStackImmediate();
             } else {
                 addFragment
                         (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);

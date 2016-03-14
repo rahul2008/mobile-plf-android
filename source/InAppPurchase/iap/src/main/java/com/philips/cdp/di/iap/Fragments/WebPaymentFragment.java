@@ -117,7 +117,7 @@ public class WebPaymentFragment extends BaseAnimationSupportFragment {
     }
 
     private void goBackToOrderSummary() {
-        getFragmentManager().popBackStack();
+        getFragmentManager().popBackStackImmediate();
     }
 
     private class PaymentWebViewClient extends WebViewClient {
