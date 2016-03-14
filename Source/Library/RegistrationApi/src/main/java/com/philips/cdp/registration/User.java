@@ -227,64 +227,25 @@ public class User {
     // For Refresh login Session
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler, final Context context) {
 
-
         RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, context);
         refreshUserSession.refreshUserSession();
 
     }
 
 
-    private void resendMail(final String emailAddress, final ResendVerificationEmailHandler resendVerificationEmail) {
-        if (emailAddress != null) {
-            ResendVerificationEmail resendVerificationEmailHandler = new ResendVerificationEmail(
-                    resendVerificationEmail);
-            Jump.resendEmailVerification(emailAddress, resendVerificationEmailHandler);
-        } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-
-            resendVerificationEmail
-                    .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
-        }
-
-    }
-
     // For Resend verification emails
     public void resendVerificationMail(final String emailAddress,
                                        final ResendVerificationEmailHandler resendVerificationEmail) {
 
-
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                if (resendVerificationEmail != null) {
-                    RLog.i(LOG_TAG, "Jump  initialized now after coming to this screen,  was in progress earlier, resending mail now");
-                    resendMail(emailAddress, resendVerificationEmail);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-                if (resendVerificationEmail != null) {
-                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                    userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.JanRain_Server_Connection_Failed));
-                    userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
-                    resendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-
-        if (isJumpInitializated()) {
-            if (resendVerificationEmail != null) {
-                resendMail(emailAddress, resendVerificationEmail);
-            }
-            return;
-        } else if (!isJumpInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
+        if (emailAddress != null) {
+            ResendVerificationEmail resendVerificationEmailHandler = new ResendVerificationEmail(mContext, resendVerificationEmail);
+            resendVerificationEmailHandler.resendVerificationMail(emailAddress);
+        } else {
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+            resendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
         }
+
 
     }
 
