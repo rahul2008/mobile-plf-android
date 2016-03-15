@@ -1,9 +1,11 @@
-package com.philips.cdp.model;
+package com.philips.cdp;
 
 import android.support.annotation.NonNull;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
+import com.philips.cdp.model.Data;
+import com.philips.cdp.model.ProductResponse;
 import com.philips.cdp.productrequest.RegistrationRequest;
 
 import org.json.JSONObject;
