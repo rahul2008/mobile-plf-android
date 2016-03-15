@@ -22,16 +22,18 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
+import com.philips.cdp.di.iap.view.StateDropDown;
 import com.philips.cdp.uikit.customviews.InlineForms;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 
 public class BillingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, InlineForms.Validator,
-        SalutationDropDown.SalutationListener {
+        SalutationDropDown.SalutationListener, StateDropDown.StateListener {
 
     private Context mContext;
     private PuiSwitch mSwitchBillingAddress;
+    private LinearLayout mlLState;
     private EditText mEtFirstName;
     private EditText mEtLastName;
     private EditText mEtAddresslineOne;
@@ -42,6 +44,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private EditText mEtEmail;
     private EditText mEtPhoneNumber;
     private EditText mEtSalutation;
+    private EditText mEtState;
 
     private Button mBtnContinue;
     private Button mBtnCancel;
@@ -54,6 +57,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     private Drawable imageArrow;
 
     private SalutationDropDown mSalutationDropDown;
+    private StateDropDown mStateDropDown;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -64,6 +68,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mSwitchBillingAddress = (PuiSwitch) rootView.findViewById(R.id.switch_billing_address);
         mInlineFormsParent = (InlineForms) rootView.findViewById(R.id.InlineForms);
 
+        mlLState = (LinearLayout) rootView.findViewById(R.id.ll_state);
         mEtFirstName = (EditText) rootView.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) rootView.findViewById(R.id.et_last_name);
         mEtAddresslineOne = (EditText) rootView.findViewById(R.id.et_address_line_one);
@@ -71,6 +76,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtTown = (EditText) rootView.findViewById(R.id.et_town);
         mEtPostalCode = (EditText) rootView.findViewById(R.id.et_postal_code);
         mEtCountry = (EditText) rootView.findViewById(R.id.et_country);
+        mEtState = (EditText) rootView.findViewById(R.id.et_state);
         mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
         mEtPhoneNumber = (EditText) rootView.findViewById(R.id.et_phone_number);
         mEtSalutation = (EditText) rootView.findViewById(R.id.et_salutation);
@@ -123,6 +129,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         setImageArrow();
         mEtSalutation.setCompoundDrawables(null, null, imageArrow, null);
         mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
+        mEtState.setCompoundDrawables(null, null, imageArrow, null);
+        mStateDropDown = new StateDropDown(mContext, mEtState, this);
 
         mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -132,6 +140,13 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             }
         });
 
+        mEtState.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mStateDropDown.show();
+                return false;
+            }
+        });
 
         return rootView;
     }
@@ -165,6 +180,13 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             mEtCountry.setText(mAddressFields.getCountryIsocode());
             mEtEmail.setText(mAddressFields.getEmail());
             mEtPhoneNumber.setText(mAddressFields.getPhoneNumber());
+
+            if(mAddressFields.getState() != null){
+                mEtState.setText(mAddressFields.getState());
+                mlLState.setVisibility(View.VISIBLE);
+            }else{
+                mlLState.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -197,6 +219,10 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
             mAddressFields.setPhoneNumber(phoneNumber);
             mAddressFields.setEmail(email);
 
+            if (mlLState.getVisibility() == View.VISIBLE) {
+                mAddressFields.setState(mEtState.getText().toString());
+            }
+
             mBtnContinue.setEnabled(true);
         } else {
             mBtnContinue.setEnabled(false);
@@ -214,6 +240,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.setText("");
         mEtEmail.setText("");
         mEtPhoneNumber.setText("");
+        mlLState.setVisibility(View.VISIBLE);
+        mEtState.setText("");
         enableAllFields();
         enableFocus();
         removeErrorInAllFields();
@@ -243,6 +271,9 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtTown.setFocusable(false);
         mEtPostalCode.setFocusable(false);
         mEtCountry.setFocusable(false);
+        if(mlLState.getVisibility() == View.VISIBLE){
+            mEtState.setFocusable(false);
+        }
         mEtEmail.setFocusable(false);
         mEtPhoneNumber.setFocusable(false);
     }
@@ -256,6 +287,7 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtTown.setEnabled(true);
         mEtPostalCode.setEnabled(true);
         mEtCountry.setEnabled(true);
+        mEtState.setEnabled(true);
         mEtEmail.setEnabled(true);
         mEtPhoneNumber.setEnabled(true);
     }
@@ -277,6 +309,8 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         mEtPostalCode.setFocusableInTouchMode(true);
         mEtCountry.setFocusable(true);
         mEtCountry.setFocusableInTouchMode(true);
+        mEtState.setFocusable(true);
+        mEtState.setFocusableInTouchMode(true);
         mEtEmail.setFocusable(true);
         mEtEmail.setFocusableInTouchMode(true);
         mEtPhoneNumber.setFocusable(true);
@@ -387,6 +421,11 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
     @Override
     public void onSalutationSelect(String salutation) {
         mEtSalutation.setText(salutation);
+    }
+
+    @Override
+    public void onStateSelect(String state) {
+        mEtState.setText(state);
     }
 
     private class IAPTextWatcher implements TextWatcher {
