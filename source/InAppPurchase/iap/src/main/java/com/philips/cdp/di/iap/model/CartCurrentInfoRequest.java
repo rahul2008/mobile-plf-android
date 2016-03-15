@@ -61,6 +61,6 @@ public class CartCurrentInfoRequest extends AbstractModel {
 
     @Override
     public String getTestUrl() {
-        return NetworkConstants.GET_CURRENT_CART_URL;
+        return store.getCurrentCartDetailsUrl();
     }
 }

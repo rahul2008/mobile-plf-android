@@ -7,8 +7,6 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.OAuthHandler;
-
 public class Store {
 
     private static final String HTTPS = "https://";
@@ -40,6 +38,8 @@ public class Store {
     private static final String SUFFIX_PLACE_ORDER = "/orders";
 
     private StoreConfiguration mStoreConfig;
+    private IAPUser mIAPUser;
+
     private String mModifyProductUrl;
     private String mPaymentDetailsUrl;
     private String mAddressDetailsUrl;
@@ -51,27 +51,14 @@ public class Store {
     private String mPlaceOrderUrl;
     private String mCreateCartUrl;
     private String mAddToCartUrl;
-    private String mJanRainID;
-    private String userName;
     private String mBaseURl;
     private String mCurrentCartUrl;
 
-    private OAuthHandler oAuthHandler;
-    private Context context;
     private String mOauthUrl;
-
-    public Store(Context context, final String hostPort, final String webRoot, final String userID,
-                 final String janRainID) {
-        this.context = context;
-        this.mJanRainID = janRainID;
-        this.userName = userID;
-        mStoreConfig = new StoreConfiguration(context);
-        mJanRainID = janRainID;
-        createBaseUrl(userID);
-        generateGenericUrls();
-    }
+    private String mGetCartUrl;
 
     public Store(Context context, IAPUser iapUser) {
+        mIAPUser = iapUser;
         mStoreConfig = new StoreConfiguration(context);
         createBaseUrl(iapUser.getJanRainEmail());
         createOauthUrl(iapUser.getJanRainID());
@@ -100,6 +87,7 @@ public class Store {
 
     protected void generateGenericUrls() {
         mCurrentCartUrl = mBaseURl.concat(SUFFIX_CURRENT_CART);
+        mGetCartUrl = mBaseURl.concat(SUFFIX_GET_CART);
         mCreateCartUrl = mBaseURl.concat(SUFFIX_CART_CREATE);
         mAddToCartUrl = mCurrentCartUrl.concat(SUFFIX_CART_ENTRIES);
         mPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS);
@@ -118,13 +106,17 @@ public class Store {
         return mOauthUrl;
     }
 
+    public String getJanRainEmail() {
+        return mIAPUser.getJanRainEmail();
+    }
+
     //Request Urls
-    public String getCurrentCartUrl() {
-        return mCurrentCartUrl;
+    public String getCurrentCartDetailsUrl() {
+        return mGetCartUrl;
     }
 
     public String getCreateCartUrl() {
-        return mBaseURl.concat(SUFFIX_CART_CREATE);
+        return mCreateCartUrl;
     }
 
     public String getAddToCartUrl() {
@@ -147,11 +139,11 @@ public class Store {
         return String.format(mAddressAlterUrl, addressID);
     }
 
-    public String getDeliveryModeUrl() {
+    public String getUpdateDeliveryModeUrl() {
         return mDeliveryModeUrl;
     }
 
-    public String getDeliveryAddressUrl() {
+    public String getUpdateDeliveryAddressUrl() {
         return mDeliveryAddressUrl;
     }
 

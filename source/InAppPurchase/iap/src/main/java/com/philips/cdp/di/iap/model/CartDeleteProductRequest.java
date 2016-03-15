@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 
 import java.util.HashMap;
@@ -45,6 +44,6 @@ public class CartDeleteProductRequest extends AbstractModel {
             throw new RuntimeException("Cart ID and Entry Number has to be supplied");
         }
         int entryNumber = Integer.parseInt(params.get(ModelConstants.ENTRY_CODE));
-        return String.format(NetworkConstants.DELETE_PRODUCT_URL, String.valueOf(entryNumber));
+        return store.getModifyProductUrl(String.valueOf(entryNumber));
     }
 }

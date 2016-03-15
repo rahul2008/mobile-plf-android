@@ -48,6 +48,6 @@ public class CartUpdateProductQuantityRequest extends AbstractModel {
             throw new RuntimeException("product code and quantity must be supplied");
         }
         String entrycode = params.get(ModelConstants.PRODUCT_ENTRYCODE);
-        return String.format(NetworkConstants.UPDATE_QUANTITY_URL, entrycode);
+        return store.getModifyProductUrl(entrycode);
     }
 }

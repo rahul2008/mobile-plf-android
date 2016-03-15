@@ -1,7 +1,6 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -42,6 +41,6 @@ public class SetDeliveryAddressRequest extends AbstractModel {
 
     @Override
     public String getTestUrl() {
-        return NetworkConstants.SET_DELIVERY_ADDRESS_URL;
+        return store.getUpdateDeliveryAddressUrl();
     }
 }

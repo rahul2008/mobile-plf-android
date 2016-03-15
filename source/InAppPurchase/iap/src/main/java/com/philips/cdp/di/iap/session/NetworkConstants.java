@@ -1,55 +1,10 @@
 package com.philips.cdp.di.iap.session;
 
-import com.philips.cdp.di.iap.container.CartModelContainer;
-
 import java.util.Locale;
 
 public class NetworkConstants {
 
-
-    //    public static final String OAUTH_TOKEN = "oauth/token?username=" + IAPHandler.getJanrainEmail() + "&password=" + IAPHandler.getJanrainId() + "&grant_type=password&client_id=mobile_android&client_secret=secret";
-    public static final String HOST_URL = "https://" + CartModelContainer.getInstance().getIapConfiguration().getHostport() + "/";
-    public static final String WEB_ROOT = "pilcommercewebservices/";
-    public static final String V2 = "v2/";
-    public static final String APP_CONFIG = CartModelContainer.getInstance().getIapConfiguration().getSite() + "/";
-    public static final String USER = "users/" + IAPHandler.getJanrainEmail() + "/";
-
-    public static final String BASE_URL = HOST_URL + WEB_ROOT + V2 + APP_CONFIG + USER;
-    public static final String CURRENT_CART = "carts/current";
     public static final String IAP_ASSET_URL = "IAP_ASSET_URL";
-
-   /* public static final String LOCALE = "en_US";
-    public static final String PROPOSITION_ID = "Tuscany2016";
-    public static final String CLIENT_ID = "mobile_android";
-    public static final String CLIENT_SECRET = "secret";*/
-
-    /**
-     * Cart Url
-     **/
-    public static final String GET_CURRENT_CART_URL = BASE_URL + "carts?fields=FULL";
-    public static final String CREATE_CART_URL = BASE_URL + "carts";
-    public static final String ADD_TO_CART_URL = BASE_URL + CURRENT_CART + "/entries";
-    public static final String DELETE_PRODUCT_URL = BASE_URL + CURRENT_CART + "/entries/%s";
-    public static final String UPDATE_QUANTITY_URL = BASE_URL + CURRENT_CART + "/entries/%s";
-
-    public static final String GET_PAYMENT_DETAILS_URL = BASE_URL + "paymentdetails";
-
-    /**
-     * Address Url
-     **/
-    public static final String ADDRESS_URL = BASE_URL + "addresses?fields=FULL";
-    /**
-     * Update Address Url
-     **/
-    public static final String UPDATE_OR_DELETE_ADDRESS_URL = BASE_URL + "addresses" + "/%s";
-    public static final String SET_DELIVERY_MODE_URL = BASE_URL + CURRENT_CART + "/deliverymode";
-    public static final String SET_DELIVERY_ADDRESS_URL = BASE_URL + CURRENT_CART + "/addresses/delivery";
-    public static final String SET_PAYMENT_DETAILS_URL = BASE_URL + CURRENT_CART + "/paymentdetails";
-    /**
-     * Place Order and Payment
-     */
-    public static final String PLACE_ORDER_URL = BASE_URL + "orders";
-    public static final String PAYMENT_URL = BASE_URL + "orders/%s/pay";
     /**
      * Prx data
      **/
@@ -62,4 +17,3 @@ public class NetworkConstants {
     public static final Locale STORE_LOCALE = Locale.US;
     public static final String EMPTY_RESPONSE = "";
 }
-
