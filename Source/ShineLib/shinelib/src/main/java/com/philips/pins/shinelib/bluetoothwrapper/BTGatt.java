@@ -63,10 +63,8 @@ public class BTGatt extends BluetoothGattCallback {
     }
 
     public void close() {
-        if (bluetoothGatt != null) {
-            bluetoothGatt.close();
-            bluetoothGatt = null;
-        }
+        bluetoothGatt.close();
+        bluetoothGatt = null;
     }
 
     public void disconnect() {
