@@ -161,7 +161,7 @@ public class NetworkController {
     }
 
     private HurlStack getTestEnvHurlStack(Context context) {
-       return new HurlStack(null, buildSslSocketFactory(context)) {
+       return new HurlStack(/*null, buildSslSocketFactory(context)*/) {
             @Override
             protected HttpURLConnection createConnection(final URL url) throws IOException {
                 HttpURLConnection connection = super.createConnection(url);

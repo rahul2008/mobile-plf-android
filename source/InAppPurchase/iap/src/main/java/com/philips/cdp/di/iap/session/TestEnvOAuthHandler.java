@@ -26,7 +26,6 @@ import java.security.cert.X509Certificate;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
@@ -52,12 +51,12 @@ public class TestEnvOAuthHandler implements OAuthHandler {
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
             con.setRequestMethod("POST");
-            con.setDoOutput(true);
+//            con.setDoOutput(true);
             con.setHostnameVerifier(hostnameVerifier);
 
             con.setRequestProperty("Authorization", "Basic bW9iaWxlX2FuZHJvaWQ6c2VjcmV0");
-            con.setSSLSocketFactory(buildSslSocketFactory(context));
-            con.setRequestProperty("Content-type", "application/json");
+//            con.setSSLSocketFactory(buildSslSocketFactory(context));
+//            con.setRequestProperty("Content-type", "application/json");
 
             int responseCode = con.getResponseCode();
 
@@ -85,7 +84,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     public SSLSocketFactory buildSslSocketFactory(Context context) {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            InputStream is = context.getResources().getAssets().open("test.crt");
+            InputStream is = context.getResources().getAssets().open("test.cer");
             InputStream caInput = new BufferedInputStream(is);
             Certificate ca;
             try {
@@ -146,13 +145,7 @@ public class TestEnvOAuthHandler implements OAuthHandler {
     public HostnameVerifier hostnameVerifier = new HostnameVerifier() {
         @Override
         public boolean verify(String hostname, SSLSession session) {
-            boolean result = false;
-            try {
-                result = session.getPeerCertificates()[0].equals(testCertificate);
-            } catch (SSLPeerUnverifiedException e) {
-                e.printStackTrace();
-            }
-            return result;
+            return hostname.contains("philips.com");
         }
     };
 }
