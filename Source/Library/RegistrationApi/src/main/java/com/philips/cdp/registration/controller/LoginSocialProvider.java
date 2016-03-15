@@ -52,7 +52,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
             coppaExtension.triggerSendCoppaMailAfterLogin(user.getEmail());
         }
 
-        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus(mContext)) {
+        if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && user.getEmailVerificationStatus()) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
             hsdpUser.socialLogin(user.getEmail(), user.getAccessToken(), new SocialLoginHandler() {
 

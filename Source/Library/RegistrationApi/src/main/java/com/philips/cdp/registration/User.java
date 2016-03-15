@@ -499,7 +499,12 @@ public class User {
             final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
             final boolean receiveMarketingEmail) {
 
-        mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
+        refreshReceiveMarketignEmail(updateReceiveMarketingEmail, receiveMarketingEmail);
+
+      /*  UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new UpdateReceiveMarketingEmail(updateReceiveMarketingEmail, mContext, receiveMarketingEmail);
+        updateReceiveMarketingEmailHandler.updateReceiveMarketingEmailStatus(receiveMarketingEmail);*/
+
+       /* mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
             @Override
             public void onFlowDownloadSuccess() {
                 if (updateReceiveMarketingEmail != null) {
@@ -526,30 +531,17 @@ public class User {
             return;
         } else if (!isJumpInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }
+        }*/
 
     }
 
     private void updateMarketingEmailAfterRefreshAccessToken(
             UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
             boolean receiveMarketingEmail) {
-        mCapturedData = CaptureRecord.loadFromDisk(mContext);
-        JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
-        UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new UpdateReceiveMarketingEmail(
-                updateReceiveMarketingEmail, mContext, receiveMarketingEmail);
-        if (mCapturedData != null) {
-            try {
-                mCapturedData.put(USER_RECEIVE_MARKETING_EMAIL, receiveMarketingEmail);
-                try {
-                    mCapturedData.synchronize(updateReceiveMarketingEmailHandler, originalUserInfo);
-                } catch (InvalidApidChangeException e) {
-                    Log.e(LOG_TAG,
-                            "On updateReceiveMarketingEmail,Caught InvalidApidChange Exception");
-                }
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, "On updateReceiveMarketingEmail,Caught JSON Exception");
-            }
-        }
+
+        UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new UpdateReceiveMarketingEmail(updateReceiveMarketingEmail, mContext, receiveMarketingEmail);
+        updateReceiveMarketingEmailHandler.updateMarketingEmailStatus(receiveMarketingEmail);
+
     }
 
     // For updating consumer interests

@@ -579,7 +579,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
                 AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
         User user = new User(mContext);
-        if (user.getEmailVerificationStatus(mContext)) {
+        if (user.getEmailVerificationStatus()) {
             launchWelcomeFragment();
         } else {
             launchAccountActivateFragment();

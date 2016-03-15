@@ -257,7 +257,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void updateActivationUIState() {
         hideActivateSpinner();
         mBtnActivate.setEnabled(true);
-        if (mUser.getEmailVerificationStatus(mContext)) {
+        if (mUser.getEmailVerificationStatus()) {
             mBtnResend.setVisibility(View.GONE);
             mEMailVerifiedError.hideError();
             mRegError.hideError();
