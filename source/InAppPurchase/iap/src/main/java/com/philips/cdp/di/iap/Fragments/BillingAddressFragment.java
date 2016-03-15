@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.address.Validator;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.SalutationDropDown;
 import com.philips.cdp.di.iap.view.StateDropDown;
@@ -208,21 +209,6 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phoneNumber)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)) {
 
-            mAddressFields.setFirstName(firstName);
-            mAddressFields.setLastName(lastName);
-            mAddressFields.setTitleCode(mEtSalutation.getText().toString());
-            mAddressFields.setCountryIsocode(country);
-            mAddressFields.setLine1(addressLineOne);
-            mAddressFields.setLine2(addressLineTwo);
-            mAddressFields.setPostalCode(postalCode);
-            mAddressFields.setTown(town);
-            mAddressFields.setPhoneNumber(phoneNumber);
-            mAddressFields.setEmail(email);
-
-            if (mlLState.getVisibility() == View.VISIBLE) {
-                mAddressFields.setState(mEtState.getText().toString());
-            }
-
             mBtnContinue.setEnabled(true);
         } else {
             mBtnContinue.setEnabled(false);
@@ -341,10 +327,18 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
         Utility.hideKeypad(mContext);
 
         if (v == mBtnContinue) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mAddressFields);
-            addFragment(
-                    OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+            setBillingAddressFields();
+            if(!Utility.isProgressDialogShowing()) {
+                if(Utility.isInternetConnected(mContext)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(IAPConstant.BILLING_ADDRESS_FIELDS, mAddressFields);
+                    addFragment(
+                            OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), null);
+                }else {
+                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
+                }
+            }
         } else if (v == mBtnCancel) {
             if (getArguments().containsKey(IAPConstant.FROM_PAYMENT_SELECTION) &&
                     getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
@@ -353,6 +347,23 @@ public class BillingAddressFragment extends BaseAnimationSupportFragment
                 addFragment
                         (ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), null);
             }
+        }
+    }
+
+    private void setBillingAddressFields() {
+        mAddressFields.setFirstName(mEtFirstName.getText().toString());
+        mAddressFields.setLastName(mEtLastName.getText().toString());
+        mAddressFields.setTitleCode(mEtSalutation.getText().toString());
+        mAddressFields.setCountryIsocode(mEtCountry.getText().toString());
+        mAddressFields.setLine1(mEtAddresslineOne.getText().toString());
+        mAddressFields.setLine2(mEtAddresslineTwo.getText().toString());
+        mAddressFields.setPostalCode(mEtPostalCode.getText().toString());
+        mAddressFields.setTown(mEtTown.getText().toString());
+        mAddressFields.setPhoneNumber(mEtPhoneNumber.getText().toString());
+        mAddressFields.setEmail(mEtEmail.getText().toString());
+
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mAddressFields.setState(mEtState.getText().toString());
         }
     }
 
