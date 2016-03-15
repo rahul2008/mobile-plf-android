@@ -50,6 +50,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         user.buildCoppaConfiguration();
+        saveDIUserProfileToDisk(mProfile);
         mUpdateUserRecordHandler.updateUserRecordRegister();
         mTraditionalRegisterHandler.onRegisterSuccess();
     }
