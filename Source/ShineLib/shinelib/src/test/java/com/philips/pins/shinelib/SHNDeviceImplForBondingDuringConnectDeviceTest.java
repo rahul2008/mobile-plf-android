@@ -511,4 +511,14 @@ public class SHNDeviceImplForBondingDuringConnectDeviceTest {
         mockedInternalHandler.executeFirstScheduledExecution();
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
     }
+
+    @Test
+    public void whenBondingIsFinishedInStateConnectedReadyTimerIsNotRestarted() {
+        getDeviceInConnectedState();
+
+        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDING, BluetoothDevice.BOND_NONE);
+        shnDevice.onBondStatusChanged(mockedBluetoothDevice, BluetoothDevice.BOND_BONDED, BluetoothDevice.BOND_BONDING);
+
+        assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+    }
 }

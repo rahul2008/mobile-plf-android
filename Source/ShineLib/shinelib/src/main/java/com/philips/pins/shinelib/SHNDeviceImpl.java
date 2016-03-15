@@ -319,7 +319,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
                             shnService.connectToBLELayer(gatt, bluetoothGattService);
                         }
                     }
-
                 } else {
                     SHNLogger.e(TAG, "onServicedDiscovered: error discovering services (status = '" + status + "'); disconnecting");
                     disconnect();
@@ -418,7 +417,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             if (bondState == BluetoothDevice.BOND_BONDING) {
                 connectTimer.stop();
             } else {
-                connectTimer.restart();
+                if (getState() != State.Connected) {
+                    connectTimer.restart();
+                }
             }
 
             if (internalState == InternalState.ConnectedWaitingUntilBonded) {
