@@ -2,6 +2,12 @@ package com.philips.cdp.backend;
 
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.handler.UserProduct;
+import com.philips.cdp.prxclient.response.ResponseListener;
+
+import org.junit.Test;
+import org.mockito.Mockito;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -15,13 +21,23 @@ public class ProdRegHelperTest extends InstrumentationTestCase {
         prodRegHelper = new ProdRegHelper();
     }
 
-    /*@Test
+   @Test
     public void testProcessMetadata() {
+       ProdRegRequestInfo prodRegRequestInfo = Mockito.mock(ProdRegRequestInfo.class);
+       ResponseListener listener = Mockito.mock(ResponseListener.class);
+       ProdRegHelper prodRegHelperMock = Mockito.mock(ProdRegHelper.class);
+       UserProduct userProduct=Mockito.mock(UserProduct.class);
+     //Process Metadata
+       prodRegHelperMock.processMetadata(getInstrumentation().getContext(), prodRegRequestInfo, listener);
+       Mockito.verify(prodRegHelperMock, Mockito.atLeast(1)).processMetadata(getInstrumentation().getContext(), prodRegRequestInfo, listener);
 
-        ProdRegRequestInfo prodRegRequestInfo = Mockito.mock(ProdRegRequestInfo.class);
-        ResponseListener listener = Mockito.mock(ResponseListener.class);
-        ProdRegHelper prodRegHelperMock = Mockito.mock(ProdRegHelper.class);
-        prodRegHelperMock.processMetadata(getInstrumentation().getContext(), prodRegRequestInfo, listener);
-        Mockito.verify(prodRegHelperMock, Mockito.atLeast(1)).processMetadata(getInstrumentation().getContext(), prodRegRequestInfo, listener);
-    }*/
+
+       //getting registered product
+       prodRegHelperMock.getRegisteredProduct(getInstrumentation().getContext(), prodRegRequestInfo, listener);
+       Mockito.verify(prodRegHelperMock, Mockito.atLeast(1)).getRegisteredProduct(getInstrumentation().getContext(), prodRegRequestInfo, listener);
+       Mockito.when(prodRegRequestInfo.getLocale()).thenReturn("en_GB");
+       userProduct.getRegisteredProducts(getInstrumentation().getContext(), prodRegRequestInfo, listener);
+   }
+
+
 }

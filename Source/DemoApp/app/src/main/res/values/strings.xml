@@ -4,4 +4,8 @@
     <string name="enter_ctn_number">Enter CTN number</string>
     <string name="user_registration">User Registration</string>
     <string name="product_registration">Product Registration</string>
+    <string name="past_year">1999</string>
+    <string name="past_date">31</string>
+    <string name="past_month">12</string>
+    <string name="past_purchase_date_error">error in date selection</string>
 </resources>

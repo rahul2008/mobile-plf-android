@@ -17,6 +17,7 @@ import com.philips.cdp.demo.R;
 import com.philips.cdp.localematch.enums.Catalog;
 import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.model.ProductResponse;
+import com.philips.cdp.model.RegisteredDataResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -64,7 +65,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private String mMonth, mDate;
     private String[] mEditDisplayDate;
     private String mGetDeviceDate;
-    private Date mDisplayDate, mDeviceDate;
+    private Date mDisplayDate, mDeviceDate, mPastdate;
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -90,10 +91,16 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             try {
                 mDisplayDate = dateFormat.parse(arg1 + "-" + mMonth + "-" + mDate);
                 mDeviceDate = dateFormat.parse(mGetDeviceDate);
-                if (mDisplayDate.after(mDeviceDate)) {
-                    Log.d(TAG, " Response Data : " + "Error in Date");
+                mPastdate = dateFormat.parse(getResources().getString(R.string.past_year) + "-" + getResources().getString(R.string.past_month) + "-" + getResources().getString(R.string.past_date));
+                if (mPastdate.before(mDisplayDate)) {
+                    if (mDisplayDate.after(mDeviceDate)) {
+                        Log.d(TAG, " Response Data : " + "Error in Date");
+                    } else {
+                        purchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
+                    }
                 } else {
-                    purchaseDate.setText(arg1 + "-" + mMonth + "-" + mDate);
+                    Toast.makeText(ProductActivity.this, getResources().getString(R.string.past_purchase_date_error), Toast.LENGTH_SHORT).show();
+
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -150,7 +157,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 Log.d(TAG, responseData.toString());
-                Toast.makeText(ProductActivity.this, responseData.toString(), Toast.LENGTH_SHORT).show();
+                RegisteredDataResponse registeredDataResponse = (RegisteredDataResponse) responseData;
+
+                Toast.makeText(ProductActivity.this, registeredDataResponse.getResults().toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
