@@ -63,8 +63,10 @@ public class BTGatt extends BluetoothGattCallback {
     }
 
     public void close() {
-        bluetoothGatt.close();
-        bluetoothGatt = null;
+        if (bluetoothGatt != null) {
+            bluetoothGatt.close();
+            bluetoothGatt = null;
+        }
     }
 
     public void disconnect() {
@@ -77,7 +79,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (bluetoothGatt.discoverServices()) {
+                if (bluetoothGatt != null && bluetoothGatt.discoverServices()) {
                     waitingForCompletion = true;
                 } else {
                     btGattCallback.onServicesDiscovered(BTGatt.this, BluetoothGatt.GATT_FAILURE);
@@ -90,14 +92,14 @@ public class BTGatt extends BluetoothGattCallback {
     }
 
     public List<BluetoothGattService> getServices() {
-        return bluetoothGatt.getServices();
+        return bluetoothGatt == null ? null : bluetoothGatt.getServices();
     }
 
     public void readCharacteristic(final BluetoothGattCharacteristic characteristic) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (bluetoothGatt.readCharacteristic(characteristic)) {
+                if (bluetoothGatt != null && bluetoothGatt.readCharacteristic(characteristic)) {
                     waitingForCompletion = true;
                 } else {
                     btGattCallback.onCharacteristicReadWithData(BTGatt.this, characteristic, BluetoothGatt.GATT_FAILURE, null);
@@ -113,7 +115,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (characteristic.setValue(data) && bluetoothGatt.writeCharacteristic(characteristic)) {
+                if (characteristic.setValue(data) && bluetoothGatt != null && bluetoothGatt.writeCharacteristic(characteristic)) {
                     waitingForCompletion = true;
                 } else {
                     btGattCallback.onCharacteristicWrite(BTGatt.this, characteristic, BluetoothGatt.GATT_FAILURE);
@@ -129,7 +131,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (bluetoothGatt.readDescriptor(descriptor)) {
+                if (bluetoothGatt != null && bluetoothGatt.readDescriptor(descriptor)) {
                     waitingForCompletion = true;
                 } else {
                     btGattCallback.onDescriptorReadWithData(BTGatt.this, descriptor, BluetoothGatt.GATT_FAILURE, null);
@@ -145,7 +147,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (descriptor.setValue(data) && bluetoothGatt.writeDescriptor(descriptor)) {
+                if (descriptor.setValue(data) && bluetoothGatt != null &&  bluetoothGatt.writeDescriptor(descriptor)) {
                     waitingForCompletion = true;
                 } else {
                     btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, BluetoothGatt.GATT_FAILURE);
@@ -158,7 +160,7 @@ public class BTGatt extends BluetoothGattCallback {
     }
 
     public boolean setCharacteristicNotification(BluetoothGattCharacteristic characteristic, boolean enable) {
-        return bluetoothGatt.setCharacteristicNotification(characteristic, enable);
+        return bluetoothGatt != null && bluetoothGatt.setCharacteristicNotification(characteristic, enable);
     }
 
     private void executeNextCommandIfAllowed() {
