@@ -162,16 +162,14 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         if (internalState != InternalState.Disconnected && internalState != InternalState.Disconnecting) {
             SHNLogger.i(TAG, "disconnect");
 
-            if (internalState == InternalState.Connecting) {
-                setInternalState(InternalState.Disconnected);
-            } else {
-                setInternalState(InternalState.Disconnecting);
-            }
+            setInternalState(InternalState.Disconnecting);
 
             connectTimer.stop();
             waitingUntilBondedTimer.stop();
             if (btGatt != null) {
                 btGatt.disconnect();
+            } else {
+                cleanUpAfterDisconnectOrError();
             }
         } else {
             SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");
@@ -258,27 +256,31 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         return "SHNDevice - " + btDevice.getName() + " [" + btDevice.getAddress() + "]";
     }
 
+    private void cleanUpAfterDisconnectOrError() {
+        if (btGatt != null) {
+            btGatt.disconnect();    // It's not a problem to call disconnect when already disconnected.
+            btGatt.close();
+            btGatt = null;
+        }
+        for (SHNService shnService : registeredServices.values()) {
+            shnService.disconnectFromBLELayer();
+        }
+        if (getState() == State.Connecting) {
+            shnDeviceListener.onFailedToConnect(SHNDeviceImpl.this, SHNResult.SHNErrorInvalidState);
+        }
+        setInternalState(InternalState.Disconnected);
+        shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
+        connectTimer.stop();
+        waitingUntilBondedTimer.stop();
+    }
+
     private BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
             SHNLogger.i(TAG, "BTGattCallback - onConnectionStateChange (newState = '" + bluetoothStateToString(newState) + "', status = " + status + ")");
 
             if (status != BluetoothGatt.GATT_SUCCESS || newState == BluetoothProfile.STATE_DISCONNECTED) {
-                if (btGatt != null) {
-                    btGatt.disconnect();    // It's not a problem to call disconnect when already disconnected.
-                    btGatt.close();
-                    btGatt = null;
-                }
-                for (SHNService shnService : registeredServices.values()) {
-                    shnService.disconnectFromBLELayer();
-                }
-                if (getState() == State.Connecting) {
-                    shnDeviceListener.onFailedToConnect(SHNDeviceImpl.this, SHNResult.SHNErrorInvalidState);
-                }
-                setInternalState(InternalState.Disconnected);
-                shnCentral.unregisterBondStatusListenerForAddress(SHNDeviceImpl.this, getAddress());
-                connectTimer.stop();
-                waitingUntilBondedTimer.stop();
+                cleanUpAfterDisconnectOrError();
             } else if (newState == BluetoothProfile.STATE_CONNECTED) {
                 if (shouldWaitUntilBonded()) {
                     setInternalState(InternalState.ConnectedWaitingUntilBonded);
