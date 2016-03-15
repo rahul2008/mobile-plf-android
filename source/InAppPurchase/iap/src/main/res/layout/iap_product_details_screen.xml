@@ -6,13 +6,13 @@
 
     <RelativeLayout
         android:id="@+id/detail_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/iap_image_height"
             android:layout_marginTop="@dimen/iap_image_top_margin"
             android:paddingBottom="@dimen/iap_image_bottom_margin" />

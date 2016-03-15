@@ -46,6 +46,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
@@ -462,7 +463,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
         addressHashMap.put(ModelConstants.LINE_1, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.LINE_2, mEtAddressLineTwo.getText().toString());
-        addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase());
+        addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase(Locale.getDefault()));
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
         addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
@@ -471,7 +472,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
 
-        if(mlLState.getVisibility() == View.VISIBLE) {
+        if (mlLState.getVisibility() == View.VISIBLE) {
             mAddressFields.setState(mEtState.getText().toString());
         }
 
@@ -519,7 +520,7 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.requestFocus();
         mEtEmail.requestFocus();
         mEtPhoneNumber.requestFocus();
-        if(mlLState.getVisibility() == View.VISIBLE){
+        if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.requestFocus();
         }
     }
