@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +22,6 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
@@ -33,24 +31,24 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.ArrayList;
 
-public class DemoAppActivity extends Activity implements View.OnClickListener, IAPHandlerListner, UserRegistrationListener {
+public class DemoAppActivity extends Activity implements View.OnClickListener,
+        IAPHandlerListner, UserRegistrationListener {
 
-    IAPHandler mIapHandler;
-    private EditText mUsername, mPassword;
+    private IAPHandler mIapHandler;
     private TextView mCountText = null;
     private ArrayList<ShoppingCartData> mProductArrayList = new ArrayList<>();
-    FrameLayout mShoppingCart;
-    ListView mProductListView;
+    private FrameLayout mShoppingCart;
+    private ListView mProductListView;
     private String[] mCatalogNumbers = {"HX8331/11", "HX8071/10", "HX9042/64"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.demo_app_layout);
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-        Button mSubmit = (Button) findViewById(R.id.btn_submit);
-        mSubmit.setOnClickListener(this);
-        mIapHandler = new IAPHandler();
+
+        Button register = (Button) findViewById(R.id.btn_register);
+        register.setOnClickListener(this);
 
         populateProduct();
 
@@ -63,14 +61,14 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
 
         mCountText = (TextView) findViewById(R.id.count_txt);
 
-        //  mIapHandler.initApp(this, username, password);
+        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+        mIapHandler = new IAPHandler();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mShoppingCart.setVisibility(View.VISIBLE);
-        mProductListView.setVisibility(View.VISIBLE);
+
         /** Should be commented for debug builds */
         final String HOCKEY_APP_ID = "dc402a11ae984bd18f99c07d9b4fe6a4";
         CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
@@ -82,6 +80,8 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
 
         User user = new User(this);
         if (user.isUserSignIn(this)) {
+            mShoppingCart.setVisibility(View.VISIBLE);
+            mProductListView.setVisibility(View.VISIBLE);
             mIapHandler.initApp(this, user.getUserInstance(this).getEmail(), user.getAccessToken());
             if (!(Utility.isProgressDialogShowing())) {
                 if (Utility.isInternetConnected(this)) {
@@ -147,7 +147,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
                     showNetworkError();
                 }
                 break;
-            case R.id.btn_submit:
+            case R.id.btn_register:
                 IAPLog.d(IAPLog.DEMOAPPACTIVITY, "DemoActivity : Registration");
                 RegistrationLaunchHelper.launchDefaultRegistrationActivity(this);
                 break;
@@ -193,7 +193,6 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
         startActivity(myIntent);
     }
 
-
     public void showNetworkError() {
         String alertTitle = "Network Error";
         String alertBody = "No network available. Please check your network settings and try again.";
@@ -214,8 +213,7 @@ public class DemoAppActivity extends Activity implements View.OnClickListener, I
     public void onUserRegistrationComplete(Activity activity) {
         mShoppingCart.setVisibility(View.VISIBLE);
         mProductListView.setVisibility(View.VISIBLE);
-        Toast.makeText(this, "Please press back ", Toast.LENGTH_SHORT).show();
-
+        activity.finish();
     }
 
     @Override
