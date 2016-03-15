@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -84,12 +85,21 @@ public class SHNDeviceDefinitionsTest {
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void whenRegisteredWithSameDeviceTypeNameThenExceptionIsGenerated() throws Exception {
+        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = mock(SHNDeviceDefinitionInfo.class);
+        when(shnDeviceDefinitionInfo.getDeviceTypeName()).thenReturn(TEST_DEVICE_TYPE_NAME);
+
+        shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
+        shnDeviceDefinitions.add(shnDeviceDefinitionInfo);
+    }
+
     @Test
     public void canRegisterTwoDeviceDefinitionWithDifferentDeviceNameAndUUIDs() throws Exception {
         when(shnDeviceDefinitionInfoMock.getPrimaryServiceUUIDs()).thenReturn(new HashSet<UUID>());
-        Set<UUID> uuid = new HashSet<>();
-        uuid.add(testUUID);
-        when(shnDeviceDefinitionInfoMock1.getPrimaryServiceUUIDs()).thenReturn(uuid);
+        Set<UUID> uuidHashSet = new HashSet<>();
+        uuidHashSet.add(testUUID);
+        when(shnDeviceDefinitionInfoMock1.getPrimaryServiceUUIDs()).thenReturn(uuidHashSet);
 
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock);
         shnDeviceDefinitions.add(shnDeviceDefinitionInfoMock1);
