@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.Store;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
@@ -41,26 +42,23 @@ public class NetworkController {
     RequestQueue hybirsVolleyQueue;
     Context context;
     private Store store;
-    String hostPort;
-    String webRoot;
     private OAuthHandler oAuthHandler;
 
-    public NetworkController(Context context, OAuthHandler oAuthHandler) {
+    public NetworkController(Context context) {
         this.context = context;
-        this.oAuthHandler = oAuthHandler;
+        initUserAndStore();
+        this.oAuthHandler = new TestEnvOAuthHandler(store.getOauthUrl());
         hybrisVolleyCreateConnection(context);
+    }
+
+    private void initUserAndStore() {
+        store = new Store(context, new IAPUser(context));
     }
 
     public void hybrisVolleyCreateConnection(Context context) {
         hybirsVolleyQueue = Volley.newRequestQueue(context,getTestEnvHurlStack(context));
     }
 
-    //Package level access
-
-    void initStore(Context context, String userName, String janRainID) {
-        store = new Store(context, hostPort, webRoot, userName, janRainID);
-        store.setAuthHandler(oAuthHandler);
-    }
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model, final
     RequestListener requestListener) {
@@ -172,7 +170,7 @@ public class NetworkController {
                             return hostname.contains("philips.com");
                         }
                     });
-                connection.setRequestProperty("Authorization", "Bearer " + store.getAuthToken());
+                connection.setRequestProperty("Authorization", "Bearer " + oAuthHandler.generateToken());
                 }
                 return connection;
             }

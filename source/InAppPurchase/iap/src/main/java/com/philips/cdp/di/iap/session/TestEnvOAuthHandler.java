@@ -35,20 +35,22 @@ import javax.net.ssl.X509TrustManager;
 public class TestEnvOAuthHandler implements OAuthHandler {
     static Certificate testCertificate;
     String access_token;
+    private String mOauthUrl;
+
+    public TestEnvOAuthHandler(String url) {
+        mOauthUrl = url;
+    }
 
     @Override
-    public String generateToken(final Context context, final String janRainID, final String userID) {
-        sendOAuthRequest(context);
+    public String generateToken() {
+        sendOAuthRequest();
         return access_token;
     }
 
     // HTTP GET request
-    private void sendOAuthRequest(final Context context) {
-        String url = NetworkConstants.HOST_URL + String.format(NetworkConstants.WEB_ROOT +
-                        "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret",
-                IAPHandler.getJanrainId());
+    private void sendOAuthRequest() {
         try {
-            URL obj = new URL(url);
+            URL obj = new URL(mOauthUrl);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
             con.setRequestMethod("POST");
 //            con.setDoOutput(true);

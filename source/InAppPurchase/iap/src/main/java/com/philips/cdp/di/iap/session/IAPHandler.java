@@ -18,7 +18,6 @@ import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.utils.IAPConfiguration;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,7 +42,6 @@ public class IAPHandler {
     public void initApp(Context context, String janrainEmail, String janRainID) {
         //We register with app context to avoid any memory leaks
         mContext = context.getApplicationContext();
-        HybrisDelegate.getInstance(mContext).initStore(mContext, janrainEmail, janRainID);
         mJanrainEmail = janrainEmail;
         mJanrainId = janRainID;
         loadConfigurationFromAsset();
