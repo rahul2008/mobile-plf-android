@@ -2,15 +2,18 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.store.Store;
+import com.philips.cdp.di.iap.utils.IAPConfiguration;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
@@ -40,6 +43,10 @@ public class GetPaymentDetailRequestTest {
     @Test
     public void testTestingUrilIsNotNull() {
         GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, null, null);
+        IAPConfiguration iapConfiguration = Mockito.mock(IAPConfiguration.class);
+        CartModelContainer.getInstance().setIapConfiguration(iapConfiguration);
+        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getHostport()).thenReturn("tst.pl.shop.philips.com");
+        Mockito.when(CartModelContainer.getInstance().getIapConfiguration().getSite()).thenReturn("US_Tuscany");
         assertNotNull(request.getTestUrl());
     }
 
