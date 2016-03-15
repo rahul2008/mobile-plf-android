@@ -16,6 +16,7 @@ public class NetworkConstants {
 
     public static final String BASE_URL = HOST_URL + WEB_ROOT + V2 + APP_CONFIG + USER;
     public static final String CURRENT_CART = "carts/current";
+    public static final String IAP_ASSET_URL = "IAP_ASSET_URL";
 
    /* public static final String LOCALE = "en_US";
     public static final String PROPOSITION_ID = "Tuscany2016";

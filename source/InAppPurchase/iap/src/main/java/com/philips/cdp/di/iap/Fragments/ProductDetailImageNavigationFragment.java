@@ -13,19 +13,19 @@ import android.widget.LinearLayout.LayoutParams;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
-public final class ProductDetailImageNavigationFragment extends Fragment {
+public final class ProductDetailImageNavigationFragment extends BaseAnimationSupportFragment {
     private String imageURL = "???";
-    private Context mContext;
+   // private Context mContext;
     private ImageLoader mImageLoader;
     private NetworkImageView mImageView;
 
-    public static ProductDetailImageNavigationFragment newInstance(String message, Context context) {
+    public static ProductDetailImageNavigationFragment newInstance() {
         ProductDetailImageNavigationFragment fragment = new ProductDetailImageNavigationFragment();
-        fragment.imageURL = message;
-        fragment.mContext = context;
+        //fragment.imageURL = message;
         return fragment;
     }
 
@@ -39,6 +39,10 @@ public final class ProductDetailImageNavigationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Bundle bundle = getArguments();
+        this.imageURL = bundle.getString(NetworkConstants.IAP_ASSET_URL);
+
         bindImageToViewPager();
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -50,7 +54,7 @@ public final class ProductDetailImageNavigationFragment extends Fragment {
     private void bindImageToViewPager() {
         mImageView = new NetworkImageView(getActivity());
         // Instantiate the RequestQueue.
-        mImageLoader = NetworkImageLoader.getInstance(mContext)
+        mImageLoader = NetworkImageLoader.getInstance(getContext())
                 .getImageLoader();
 
         mImageLoader.get(imageURL, ImageLoader.getImageListener(mImageView,
