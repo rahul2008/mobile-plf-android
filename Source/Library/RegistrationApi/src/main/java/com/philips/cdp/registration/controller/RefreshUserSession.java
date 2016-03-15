@@ -3,10 +3,11 @@ package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 
-import com.janrain.android.JumpConfig;
 import com.janrain.android.capture.CaptureRecord;
-import com.philips.cdp.registration.utils.Profile;
+import com.janrain.android.engage.session.JRSession;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.coppa.CoppaConfiguration;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -54,8 +55,8 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
                 UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
                 if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-                    Profile profile = new Profile(mContext);
-                    profile.clearData();
+
+                    clearData();
                     RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
                 }
                 mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
@@ -121,5 +122,18 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     @Override
     public void onRefreshLoginSessionInProgress(String message) {
         mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message);
+    }
+
+    //Added to avoid public access
+    private void clearData() {
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        hsdpUser.deleteFromDisk();
+        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
+        CoppaConfiguration.clearConfiguration();
+
+        if (JRSession.getInstance() != null) {
+            JRSession.getInstance().signOutAllAuthenticatedUsers();
+        }
+        CaptureRecord.deleteFromDisk(mContext);
     }
 }

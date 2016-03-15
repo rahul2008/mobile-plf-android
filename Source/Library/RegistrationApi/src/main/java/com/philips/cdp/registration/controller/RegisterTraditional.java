@@ -9,7 +9,6 @@ import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.ABCD;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.utils.Profile;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
@@ -201,7 +200,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onRegisterSuccess() {
-        Profile profile = new Profile(mContext);
+        User.Profile profile = new User.Profile(mContext);
         profile.saveDIUserProfileToDisk(mProfile);
         mTraditionalRegisterHandler.onRegisterSuccess();
     }

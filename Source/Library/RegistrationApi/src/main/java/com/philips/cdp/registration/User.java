@@ -8,6 +8,7 @@ import com.janrain.android.Jump;
 import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
+import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
@@ -41,11 +42,16 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.utils.Profile;
+import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class User {
 
@@ -124,8 +130,7 @@ public class User {
 
                         DIUserProfile diUserProfile = getUserInstance();
                         diUserProfile.setPassword(password);
-                        Profile profile = new Profile(mContext);
-                        profile.saveDIUserProfileToDisk(diUserProfile);
+                        saveDIUserProfileToDisk(diUserProfile);
                         traditionalLoginHandler.onLoginSuccess();
                     }
 
@@ -463,8 +468,7 @@ public class User {
             public void onRefreshLoginSessionFailedWithError(int error) {
                 if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-                    Profile profile = new Profile(mContext);
-                    profile.clearData();
+                    clearData();
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnLogoutSuccessWithInvalidAccessToken();
                 }
@@ -554,8 +558,7 @@ public class User {
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
             logoutHsdp(logoutHandler);
         } else {
-            Profile profile = new Profile(mContext);
-            profile.clearData();
+            clearData();
             if (logoutHandler != null) {
                 logoutHandler.onLogoutSuccess();
                 RegistrationHelper.getInstance().getUserRegistrationListener()
@@ -593,8 +596,7 @@ public class User {
                 }
 
                 if (getEmailVerificationStatus()) {
-                    Profile profile = new Profile(mContext);
-                    DIUserProfile userProfile = profile.getDIUserProfileFromDisk();
+                    DIUserProfile userProfile = getDIUserProfileFromDisk();
                     HsdpUser hsdpUser = new HsdpUser(mContext);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
                     if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
@@ -673,8 +675,7 @@ public class User {
         hsdpUser.logOut(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
-                Profile profile = new Profile(mContext);
-                profile.clearData();
+                clearData();
                 hsdpUser.deleteFromDisk();
                 if (logoutHandler != null) {
                     logoutHandler.onLogoutSuccess();
@@ -688,8 +689,7 @@ public class User {
 
                 if (responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
                         || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
-                    Profile profile = new Profile(mContext);
-                    profile.clearData();
+                    clearData();
                     if (logoutHandler != null) {
                         logoutHandler.onLogoutSuccess();
                         RegistrationHelper.getInstance().getUserRegistrationListener()
@@ -815,4 +815,55 @@ public class User {
         }
         return diUserProfile.getCountryCode();
     }
+
+
+
+
+    private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
+        try {
+            diUserProfile.setPassword(null);
+            FileOutputStream fos = mContext.openFileOutput(RegConstants.DI_PROFILE_FILE, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            String objectPlainString = SecureStorage.objectToString(diUserProfile);
+            byte[] ectext = SecureStorage.encrypt(objectPlainString);
+            oos.writeObject(ectext);
+            oos.close();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private DIUserProfile getDIUserProfileFromDisk() {
+        DIUserProfile diUserProfile = null;
+        try {
+            FileInputStream fis = mContext.openFileInput(RegConstants.DI_PROFILE_FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            byte[] enctText = (byte[]) ois.readObject();
+            byte[] decrtext = SecureStorage.decrypt(enctText);
+            diUserProfile = (DIUserProfile) SecureStorage.stringToObject(new String(decrtext));
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return diUserProfile;
+    }
+
+
+    private void clearData() {
+        HsdpUser hsdpUser = new HsdpUser(mContext);
+        hsdpUser.deleteFromDisk();
+        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
+        CoppaConfiguration.clearConfiguration();
+
+        if (JRSession.getInstance() != null) {
+            JRSession.getInstance().signOutAllAuthenticatedUsers();
+        }
+        CaptureRecord.deleteFromDisk(mContext);
+
+    }
+
+
 }

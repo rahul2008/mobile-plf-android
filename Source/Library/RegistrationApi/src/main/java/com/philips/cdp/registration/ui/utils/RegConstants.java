@@ -142,4 +142,6 @@ public class RegConstants {
 
     public static final String PHILIPS_LOGIN_URL = "https://www.philips.co.uk/myphilips/login.html";
 
+    public static final String DI_PROFILE_FILE = "diProfile";
+
 }
