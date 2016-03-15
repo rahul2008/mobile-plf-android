@@ -23,14 +23,16 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
             Utility.dismissProgressDialog();
             Toast.makeText(mContext, "Network timeout reached!", Toast.LENGTH_SHORT).show();
-        } else {
+            return;
+        } else if(error instanceof com.android.volley.ServerError){
+            setServerError(error);
+        }else{
             mVolleyError = error;
-            setServerError(mVolleyError);
-            Message msg = Message.obtain();
-            msg.what = requestCode;
-            msg.obj = this;
-            requestListener.onError(msg);
         }
+        Message msg = Message.obtain();
+        msg.what = requestCode;
+        msg.obj = this;
+        requestListener.onError(msg);
     }
 
     @Override
