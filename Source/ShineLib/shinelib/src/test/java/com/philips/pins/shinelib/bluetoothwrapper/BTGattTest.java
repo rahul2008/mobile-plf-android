@@ -77,13 +77,6 @@ public class BTGattTest {
     }
 
     @Test
-    public void whenBluetoothGattIsSetToNull_AndCloseIsCalled_ThenNoExceptionISGenerated(){
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.close();
-    }
-
-    @Test
     public void whenBluetoothGattIsSetToNull_AndDiscoverServicesIsCalled_ThenNoExceptionISGenerated() {
         btGatt.setBluetoothGatt(null);
 
