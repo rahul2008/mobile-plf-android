@@ -65,8 +65,6 @@ public class User {
 
     private JSONArray mConsumerInterestArray;
 
-    private CaptureRecord mCapturedData;
-
     private String USER_EMAIL = "email";
 
     private String USER_GIVEN_NAME = "givenName";
@@ -864,6 +862,5 @@ public class User {
         CaptureRecord.deleteFromDisk(mContext);
 
     }
-
 
 }

@@ -18,10 +18,14 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.security.SecureStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener, TraditionalRegistrationHandler {
 
@@ -200,8 +204,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onRegisterSuccess() {
-        User.Profile profile = new User.Profile(mContext);
-        profile.saveDIUserProfileToDisk(mProfile);
+        saveDIUserProfileToDisk(mProfile);
         mTraditionalRegisterHandler.onRegisterSuccess();
     }
 
@@ -209,4 +212,22 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
     }
+
+
+    //Added to avoid direct access
+    private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {
+        try {
+            diUserProfile.setPassword(null);
+            FileOutputStream fos = mContext.openFileOutput(RegConstants.DI_PROFILE_FILE, 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            String objectPlainString = SecureStorage.objectToString(diUserProfile);
+            byte[] ectext = SecureStorage.encrypt(objectPlainString);
+            oos.writeObject(ectext);
+            oos.close();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
