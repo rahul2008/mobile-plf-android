@@ -28,6 +28,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             setServerError(mVolleyError);
             Message msg = Message.obtain();
             msg.what = requestCode;
+            msg.obj = this;
             requestListener.onError(msg);
         }
     }
