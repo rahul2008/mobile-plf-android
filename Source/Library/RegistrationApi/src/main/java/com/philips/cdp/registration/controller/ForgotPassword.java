@@ -94,11 +94,14 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 
 	public void performForgotPassword(final String  emailAddress){
 		mEmailAddress = emailAddress;
-		UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-		if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+		if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+			UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+		}else {
 			Jump.performForgotPassword(emailAddress, this);
 			UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
-		}else if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+			return;
+		}
+		if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
 			RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
 		}
 	}

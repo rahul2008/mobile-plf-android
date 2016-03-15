@@ -100,14 +100,16 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 	private String mUserRegistrationToken;
 
 	private void registerNewUser(final JSONObject user, final String userRegistrationToken){
-		if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
-			UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-		}
 		mUser = user;
 		mUserRegistrationToken = userRegistrationToken;
-		if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+		if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+			UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+		} else {
 			Jump.registerNewUser(user, userRegistrationToken, this);
-		}else if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
+			return;
+
+		}
+		if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){
 			RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
 		}
 

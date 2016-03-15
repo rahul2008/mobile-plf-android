@@ -50,19 +50,26 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
 
     public void loginTraditionally(final String email, final String password) {
-        UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        }else{
             Jump.performTraditionalSignIn(email, password, this, null);
-        } else if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            return;
+        }
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }
 
     public void mergeTraditionally(final String email, final String password, final String token) {
-        UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        }
+        else {
             Jump.performTraditionalSignIn(email, password, this, token);
-        } else if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            return;
+        }
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }

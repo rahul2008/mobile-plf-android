@@ -99,6 +99,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 			UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
 		}else {
 			Jump.resendEmailVerification(emailAddress, this);
+			return;
 		}
 
 		if(!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()){

@@ -73,15 +73,14 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
 
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }
-
-        if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        } else{
             RLog.i(LOG_TAG, "Jump initialized, refreshUserSession");
 
             refreshSession();
             return;
 
-        } else if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+        }
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RLog.i(LOG_TAG, "Jump not initialized, initializing");
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }

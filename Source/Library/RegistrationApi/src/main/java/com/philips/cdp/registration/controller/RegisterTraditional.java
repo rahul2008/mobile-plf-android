@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.ABCD;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.dao.DIUserProfile;
@@ -127,15 +126,10 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         mProfile.setPassword(password);
         mProfile.setOlderThanAgeLimit(olderThanAgeLimit);
         mProfile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-        ABCD.getInstance().setmP(password);
-
 
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }
-
-
-        if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        } else {
             RLog.i(LOG_TAG, "Jump initialized, registering");
 
             if (mTraditionalRegisterHandler != null) {
@@ -144,7 +138,8 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             return;
 
 
-        } else if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+        }
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RLog.i(LOG_TAG, "Jump not initialized, initializing");
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }

@@ -123,10 +123,13 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
         mActivity = activity;
         mProviderName = providerName;
         mMergeToken = mergeToken;
-        UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        if (UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+            UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
+        }else{
             Jump.showSignInDialog(activity, providerName, this, mergeToken);
-        } else if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            return;
+        }
+        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
         }
     }

@@ -158,7 +158,7 @@ public class User {
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
 
         RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
-
+        ABCD.getInstance().setmP(password);
         registerTraditional.registerUserInfoForTraditional(mGivenName, mUserEmail,
                 password, olderThanAgeLimit, isReceiveMarketingEmail);
 
@@ -212,8 +212,7 @@ public class User {
                     traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
                     password);
             loginTraditionalResultHandler.mergeTraditionally(emailAddress, password, mergeToken);
-            // Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
-            //    mergeToken);
+
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
