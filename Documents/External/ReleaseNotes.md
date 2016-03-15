@@ -1,6 +1,6 @@
 PhilipsUIKit for Android Release Notes
 ======================================
-Version - 3.0.0                              Date:14-03-2015
+Version - 3.0.0                              Date:15-03-2015
 ---------------------------------------------------------------
 
 1. All the attributes have been prefixed with "uikit_" so that naming conflicts does not occur in vertical apps.
