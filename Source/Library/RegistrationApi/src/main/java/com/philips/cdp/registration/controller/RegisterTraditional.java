@@ -229,5 +229,5 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             e.printStackTrace();
         }
     }
-    
+
 }

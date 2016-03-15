@@ -11,7 +11,7 @@ import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
-import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
+import com.philips.cdp.registration.controller.RegisterSocial;
 import com.philips.cdp.registration.controller.ForgotPassword;
 import com.philips.cdp.registration.controller.LoginSocialProvider;
 import com.philips.cdp.registration.controller.LoginTraditional;
@@ -31,7 +31,6 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
@@ -55,9 +54,7 @@ import java.io.ObjectOutputStream;
 
 public class User {
 
-    private String mEmail, mGivenName, mPassword, mDisplayName;
-
-    private boolean mOlderThanAgeLimit, mReceiveMarketingEmails, mEmailVerified;
+    private boolean mEmailVerified;
 
     private Context mContext;
 
@@ -69,13 +66,7 @@ public class User {
 
     private String USER_GIVEN_NAME = "givenName";
 
-    private String USER_FAMILY_NAME = "familyName";
-
-    private String USER_PASSWORD = "password";
-
     private String USER_DISPLAY_NAME = "displayName";
-
-    private String USER_OLDER_THAN_AGE_LIMIT = "olderThanAgeLimit";
 
     private String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
 
@@ -105,12 +96,10 @@ public class User {
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-    private UserRegistrationInitializer mRegistrationHelper;
 
     public User(Context context) {
         mContext = context;
         mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
-        mRegistrationHelper = UserRegistrationInitializer.getInstance();
     }
 
 
@@ -249,111 +238,12 @@ public class User {
                                           final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
 
         if (socialProviderLoginHandler != null) {
-            registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialProviderLoginHandler, socialRegistrationToken);
+            RegisterSocial registerSocial = new RegisterSocial(socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
+            registerSocial.registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialRegistrationToken);
         }
 
     }
 
-    private void registerUserForSocial(final String givenName, final String displayName, final String familyName,
-                                       final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
-                                       final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
-        DIUserProfile profile = new DIUserProfile();
-        profile.setGivenName(givenName);
-        profile.setDisplayName(displayName);
-        profile.setFamilyName(familyName);
-        profile.setEmail(userEmail);
-        profile.setOlderThanAgeLimit(olderThanAgeLimit);
-        profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-        completeSocialProviderLogin(profile, new SocialProviderLoginHandler() {
-            @Override
-            public void onLoginSuccess() {
-                if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow() && getEmailVerificationStatus()) {
-                    DIUserProfile userProfile = getUserInstance();
-
-                    HsdpUser hsdpUser = new HsdpUser(mContext);
-                    hsdpUser.socialLogin(userProfile.getEmail(), getAccessToken(), new SocialLoginHandler() {
-
-                        @Override
-                        public void onLoginSuccess() {
-                            socialProviderLoginHandler.onLoginSuccess();
-                        }
-
-                        @Override
-                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                            socialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                        }
-                    });
-
-                } else {
-                    socialProviderLoginHandler.onLoginSuccess();
-                }
-            }
-
-            @Override
-            public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                socialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-            }
-
-            @Override
-            public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-                socialProviderLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord, socialRegistrationToken);
-            }
-
-            @Override
-            public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-                socialProviderLoginHandler.onLoginFailedWithMergeFlowError(mergeToken, existingProvider, conflictingIdentityProvider, conflictingIdpNameLocalized, existingIdpNameLocalized, emailId);
-            }
-
-            @Override
-            public void onContinueSocialProviderLoginSuccess() {
-                socialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
-            }
-
-            @Override
-            public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                socialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
-            }
-        }, socialRegistrationToken);
-    }
-
-    // For Two Step registration
-    public void completeSocialProviderLogin(DIUserProfile diUserProfile,
-                                            SocialProviderLoginHandler socialProviderLoginHandler, String socialRegistrationToken) {
-        String familyName = "";
-        if (diUserProfile != null) {
-
-            mEmail = diUserProfile.getEmail();
-            mGivenName = diUserProfile.getGivenName();
-            familyName = diUserProfile.getFamilyName();
-            mPassword = diUserProfile.getPassword();
-            mDisplayName = diUserProfile.getDisplayName();
-            mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
-            mReceiveMarketingEmails = diUserProfile.getReceiveMarketingEmail();
-
-            JSONObject newUser = new JSONObject();
-            try {
-                newUser.put(USER_EMAIL, mEmail).put(USER_GIVEN_NAME, mGivenName)
-                        .put(USER_FAMILY_NAME, familyName).put(USER_PASSWORD, mPassword)
-                        .put(USER_DISPLAY_NAME, mDisplayName)
-                        .put(USER_OLDER_THAN_AGE_LIMIT, mOlderThanAgeLimit)
-                        .put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmails);
-
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, "On completeSocialProviderLogin,Caught JSON Exception");
-            }
-
-            ContinueSocialProviderLogin continueSocialProviderLogin = new ContinueSocialProviderLogin(
-                    socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
-            continueSocialProviderLogin.registerNewUser(newUser, socialRegistrationToken);
-            // Jump.registerNewUser(newUser, socialRegistrationToken, continueSocialProviderLogin);
-        } else {
-            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-            userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-
-            socialProviderLoginHandler
-                    .onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
-        }
-    }
 
     // For getting values from Captured and Saved Json object
     private DIUserProfile getUserInstance() {
@@ -576,7 +466,7 @@ public class User {
         return captureRecord.getAccessToken();
     }
 
-    private void refreshandUpdateUser( final RefreshUserHandler handler) {
+    private void refreshandUpdateUser(final RefreshUserHandler handler) {
 
         if (Jump.getSignedInUser() == null) {
             handler.onRefreshUserFailed(0);
@@ -658,8 +548,8 @@ public class User {
      *
      * @param handler Callback mHandler
      */
-    public void refreshUser( final RefreshUserHandler handler) {
-        refreshandUpdateUser( handler);
+    public void refreshUser(final RefreshUserHandler handler) {
+        refreshandUpdateUser(handler);
     }
 
     public void buildCoppaConfiguration() {
@@ -813,8 +703,6 @@ public class User {
         }
         return diUserProfile.getCountryCode();
     }
-
-
 
 
     private void saveDIUserProfileToDisk(DIUserProfile diUserProfile) {

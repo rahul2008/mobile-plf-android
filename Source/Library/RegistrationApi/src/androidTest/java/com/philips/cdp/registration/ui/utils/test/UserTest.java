@@ -6,7 +6,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
+import com.philips.cdp.registration.controller.RegisterSocial;
 import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
@@ -82,7 +82,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<RegistrationActiv
 		Jump.SignInResultHandler mockJump = Mockito
 				.mock(Jump.SignInResultHandler.class);
 		mockJump.onSuccess();
-		ContinueSocialProviderLogin handler = new ContinueSocialProviderLogin(
+		RegisterSocial handler = new RegisterSocial(
 				socialRegHandler, getInstrumentation().getTargetContext(),
 				updateHandler);
 
