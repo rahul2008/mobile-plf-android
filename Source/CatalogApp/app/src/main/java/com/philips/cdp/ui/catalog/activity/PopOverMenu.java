@@ -25,7 +25,7 @@ import java.util.List;
  Example:
 
  <style name="PopOverImageStyle" parent="android:Widget.ListView.DropDown">
- <item name="android:tint">?attr/darkerColor</item>
+ <item name="android:tint">?attr/uikit_darkerColor</item>
  </style>
 
 
@@ -38,7 +38,7 @@ import java.util.List;
 
  <style name="PDropDownStyle" parent="android:Widget.ListView.DropDown">
  <item name="android:divider">@drawable/line</item>
- <item name="android:colorBackground">?attr/veryLightColor</item>
+ <item name="android:colorBackground">?attr/uikit_veryLightColor</item>
  </style>
 
 

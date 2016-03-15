@@ -30,13 +30,13 @@ public class CircularProgressbar extends ProgressBar {
     public CircularProgressbar(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
-        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.brightColor ,R.attr.LightColor});
-        baseColor = ar.getInt(0, R.attr.brightColor);
+        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_brightColor ,R.attr.uikit_LightColor});
+        baseColor = ar.getInt(0, R.attr.uikit_brightColor);
         ar.recycle();
         final TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.UIKitProgressBarCircular, 0, 0);
-        isGrayProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikitgrayprogress, false);
-        isWhiteProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikittransparentprogress, false);
-        isSmallProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikitcircularprogresssmall, false);
+        isGrayProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_grayprogress, false);
+        isWhiteProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_transparentprogress, false);
+        isSmallProgress = a.getBoolean(R.styleable.UIKitProgressBarCircular_uikit_circularprogresssmall, false);
         a.recycle();
         setProgressDrawable(getCircularProgressDrawable());
         setRotation((-getProgress() / 100f * 360f) - 90f); // to start rotation from 90 degree from the top

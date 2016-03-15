@@ -32,7 +32,7 @@
 
             <Button
                 android:id="@+id/outlined_button"
-                style="?attr/outlinedButtonStyle"
+                style="?attr/uikit_outlinedButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/theme_button"
@@ -42,7 +42,7 @@
 
             <Button
                 android:id="@+id/outlined_transparent_button"
-                style="?attr/outlinedButtonTransparentStyle"
+                style="?attr/uikit_outlinedButtonTransparentStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/outlined_button"
@@ -73,7 +73,7 @@
             <!-- Springboard buttons-->
             <Button
                 android:id="@+id/spButton"
-                style="?attr/springBoardButton"
+                style="?attr/uikit_springBoardButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/show_notification"
@@ -84,7 +84,7 @@
 
             <Button
                 android:id="@+id/spButtonIcon"
-                style="?attr/springBoardButtonWithIcon"
+                style="?attr/uikit_springBoardButtonWithIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/spButton"
@@ -96,7 +96,7 @@
 
             <Button
                 android:id="@+id/spButtonOutLined"
-                style="?attr/springBoardButtonOutLined"
+                style="?attr/uikit_springBoardButtonOutLined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/spButtonIcon"
@@ -108,7 +108,7 @@
 
             <com.philips.cdp.uikit.customviews.UIKitButton
                 android:id="@+id/spButtonOutlinedWithIcon"
-                style="?attr/springBoardButtonOutLinedWithIcon"
+                style="?attr/uikit_springBoardButtonOutLinedWithIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/spButtonOutLined"
@@ -126,7 +126,7 @@
         android:id="@+id/popover_alert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:popover_left_icon="@drawable/gear"
-        app:popover_right_icon="@drawable/apple"
-        app:popover_title_text="Uploading settings"/>
+        app:uikit_popover_left_icon="@drawable/gear"
+        app:uikit_popover_right_icon="@drawable/apple"
+        app:uikit_popover_title_text="Uploading settings"/>
 </RelativeLayout>

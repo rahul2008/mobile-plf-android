@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="390dp"
             android:layout_above="@+id/bottom_layout"
-            android:background="?attr/baseColor">
+            android:background="?attr/uikit_baseColor">
 
             <ImageView
                 android:id="@+id/cross"
@@ -54,7 +54,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="34dp"
                     android:text="Your title goes here"
-                    android:textColor="?attr/verydarkBaseColor"
+                    android:textColor="?attr/uikit_verydarkBaseColor"
                     android:textSize="28sp" />
 
                 <ImageView
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/cardImage"
                     android:text="12"
-                    android:textColor="?attr/verydarkBaseColor"
+                    android:textColor="?attr/uikit_verydarkBaseColor"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -84,7 +84,7 @@
                 android:layout_marginRight="33dp"
                 android:layout_marginTop="21dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, quis nostrud exercitation ullamco laboris nisi ut. Eiusmod tempor incididunt ut labore."
-                android:textColor="?attr/verydarkBaseColor"
+                android:textColor="?attr/uikit_verydarkBaseColor"
                 android:textSize="16sp" />
 
             <TextView
@@ -96,7 +96,7 @@
                 android:layout_marginLeft="33dp"
                 android:layout_marginTop="27dp"
                 android:text="Link dolor elit ›"
-                android:textColor="?attr/brightColor"
+                android:textColor="?attr/uikit_brightColor"
                 android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>

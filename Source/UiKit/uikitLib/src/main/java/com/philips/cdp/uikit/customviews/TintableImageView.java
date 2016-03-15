@@ -67,7 +67,7 @@ public class TintableImageView extends ImageView {
         initBaseColor();
         //Set the color style
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TintableImageView);
-        colorStyle = typedArray.getInt(R.styleable.TintableImageView_themeStyle, 0);
+        colorStyle = typedArray.getInt(R.styleable.TintableImageView_uikit_themeStyle, 0);
         typedArray.recycle();
     }
 
@@ -109,7 +109,7 @@ public class TintableImageView extends ImageView {
 
     private void initBaseColor() {
         TypedArray array = context.obtainStyledAttributes(R.styleable.PhilipsUIKit);
-        baseColor = array.getColor(R.styleable.PhilipsUIKit_baseColor, 0);
+        baseColor = array.getColor(R.styleable.PhilipsUIKit_uikit_baseColor, 0);
         array.recycle();
     }
 

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="9dp"
             android:text="@string/uikit_fonticon_cross"
-            android:textColor="?attr/erroriconcolorinlineforms"
+            android:textColor="?attr/uikit_erroriconcolorinlineforms"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
         android:layout_toRightOf="@+id/error_image"
         android:fontFamily="fonts/centralesansbook.ttf"
         android:includeFontPadding="false"
-        android:textColor="?attr/errortextcolorinlineforms"
+        android:textColor="?attr/uikit_errortextcolorinlineforms"
         android:textSize="16sp" />
 
 

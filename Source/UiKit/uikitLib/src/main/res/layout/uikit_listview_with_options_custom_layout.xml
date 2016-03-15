@@ -15,7 +15,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="5dp"
-            android:backgroundTint="?attr/baseColor" />
+            android:backgroundTint="?attr/uikit_baseColor" />
 
 
 <RelativeLayout
@@ -36,7 +36,7 @@
         android:includeFontPadding="false"
         android:scrollHorizontally="false"
         android:text="DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod. Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod. Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod."
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="16sp"
         />
 
@@ -51,7 +51,7 @@
         android:layout_toRightOf="@+id/from"
         android:includeFontPadding="false"
         android:text="€ 209,99*"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="16sp"
         />
 
@@ -66,7 +66,7 @@
         android:layout_toRightOf="@+id/image"
         android:includeFontPadding="false"
         android:text="from"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="10sp"
         />
 

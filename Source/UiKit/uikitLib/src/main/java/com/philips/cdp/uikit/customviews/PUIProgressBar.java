@@ -52,8 +52,8 @@ class PUIProgressBar extends ProgressBar {
         processAttributes();
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.UIKitProgressBar, 0, 0);
-        secondaryProgress = a.getBoolean(R.styleable.UIKitProgressBar_uikitsecondaryprogress, false);
-        whiteProgress = a.getBoolean(R.styleable.UIKitProgressBar_uikitwhiteprogress, false);
+        secondaryProgress = a.getBoolean(R.styleable.UIKitProgressBar_uikit_secondaryprogress, false);
+        whiteProgress = a.getBoolean(R.styleable.UIKitProgressBar_uikit_whiteprogress, false);
         init(context);
     }
 
@@ -68,7 +68,7 @@ class PUIProgressBar extends ProgressBar {
     }
 
     private void processAttributes() {
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.veryLightColor, R.attr.LightColor});
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor, R.attr.uikit_veryLightColor, R.attr.uikit_LightColor});
         themeBaseColor = a.getColor(0, ContextCompat.getColor(mContext, R.color.uikit_philips_blue));
         veryLightBaseColor = a.getColor(1, ContextCompat.getColor(mContext, R.color.uikit_philips_very_light_blue));
         lightBaseColor = a.getColor(2, ContextCompat.getColor(mContext, R.color.uikit_philips_light_blue));

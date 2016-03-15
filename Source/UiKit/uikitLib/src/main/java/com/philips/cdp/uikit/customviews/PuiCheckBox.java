@@ -51,7 +51,7 @@ public class PuiCheckBox extends LinearLayout {
 
     private void initView(final Context context, Resources resources, final AttributeSet attrs) {
         backGroundColor = Color.WHITE;
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         baseColor = typedArray.getColor(0, resources.getColor(R.color.uikit_philips_blue));
         textLayoutParent = (RelativeLayout) parentView.findViewById(R.id.uikit_checkbox_text_layout);
         checkBoxText = (TextView) parentView.findViewById(R.id.uikit_checkbox_text);

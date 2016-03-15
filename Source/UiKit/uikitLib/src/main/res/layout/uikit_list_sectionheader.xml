@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="33dp"
-    android:background="?attr/gradientColorForListSectionTitle">
+    android:background="?attr/uikit_gradientColorForListSectionTitle">
 <TextView
     android:id="@+id/sectionheader"
     android:layout_width="match_parent"
@@ -13,7 +13,7 @@
     android:includeFontPadding="false"
     android:layout_marginLeft="12dp"
     android:layout_centerVertical="true"
-    android:textColor="?attr/baseColor"
+    android:textColor="?attr/uikit_baseColor"
     fontPath="fonts/centralesansbook.ttf"
     android:layout_height="33dp" />
 </LinearLayout>

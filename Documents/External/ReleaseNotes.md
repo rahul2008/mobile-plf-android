@@ -1,5 +1,10 @@
 PhilipsUIKit for Android Release Notes
 ======================================
+Version - 3.0.0                              Date:15-03-2015
+---------------------------------------------------------------
+
+1. All the attributes have been prefixed with "uikit_" so that naming conflicts does not occur in vertical apps.
+2. [DE10522] Radio button not showing on some devices.
 
 Version - 2.0.2                               Date:04-03-2015
 ---------------------------------------------------------------

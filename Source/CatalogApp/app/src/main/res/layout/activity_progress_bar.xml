@@ -29,13 +29,13 @@
             android:layout_marginTop="30dp"
             android:indeterminate="false"
             android:indeterminateBehavior="repeat"
-            app:uikitsecondaryprogress="true" />
+            app:uikit_secondaryprogress="true" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="?attr/baseColor"
+            android:background="?attr/uikit_baseColor"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="40dp"
@@ -50,7 +50,7 @@
                 android:layout_marginTop="30dp"
                 android:indeterminate="false"
                 android:indeterminateBehavior="repeat"
-                app:uikitwhiteprogress="true" />
+                app:uikit_whiteprogress="true" />
 
             <com.philips.cdp.uikit.customviews.PUIProgressBar
                 android:id="@+id/whitesecondaryprogressbar"
@@ -59,8 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                app:uikitsecondaryprogress="true"
-                app:uikitwhiteprogress="true" />
+                app:uikit_secondaryprogress="true"
+                app:uikit_whiteprogress="true" />
         </LinearLayout>
 
         <com.philips.cdp.uikit.customviews.PUIProgressBar
@@ -90,7 +90,7 @@
                 android:minHeight="50dp"
                 android:minWidth="200dp"
                 android:progress="1"
-                app:uikittransparentprogress="true" />
+                app:uikit_transparentprogress="true" />
 
             <com.philips.cdp.uikit.customviews.CircularProgressbar
                 android:id="@+id/progressBar2"
@@ -105,7 +105,7 @@
                 android:minWidth="200dp"
                 android:progress="1"
                 android:visibility="visible"
-                app:uikitgrayprogress="true" />
+                app:uikit_grayprogress="true" />
 
             <com.philips.cdp.uikit.customviews.CircularProgressbar
                 android:id="@+id/progressBar3"
@@ -120,8 +120,8 @@
                 android:minHeight="50dp"
                 android:minWidth="200dp"
                 android:progress="1"
-                app:uikitcircularprogresssmall="true"
-                app:uikittransparentprogress="true" />
+                app:uikit_circularprogresssmall="true"
+                app:uikit_transparentprogress="true" />
 
             <com.philips.cdp.uikit.customviews.CircularProgressbar
                 android:id="@+id/progressBar4"
@@ -138,8 +138,8 @@
                 android:minWidth="200dp"
                 android:progress="1"
                 android:visibility="visible"
-                app:uikitcircularprogresssmall="true"
-                app:uikitgrayprogress="true" />
+                app:uikit_circularprogresssmall="true"
+                app:uikit_grayprogress="true" />
 
 
         </LinearLayout>
@@ -155,14 +155,14 @@
                 android:layout_height="86dp"
                 android:layout_below="@+id/progressBar1"
                 android:layout_marginLeft="23dp"
-                app:duration="50"
+                app:uikit_duration="50"
                 android:layout_marginTop="10dp" />
 
             <com.philips.cdp.uikit.customviews.CircularLineProgressBar
                 android:layout_width="43dp"
                 android:layout_height="43dp"
                 android:layout_below="@+id/progressBar1"
-                app:duration="500"
+                app:uikit_duration="500"
                 android:layout_marginLeft="23dp"
                 android:layout_marginTop="10dp" />
         </LinearLayout>

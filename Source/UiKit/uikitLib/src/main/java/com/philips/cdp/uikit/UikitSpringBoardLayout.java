@@ -30,7 +30,7 @@ import android.widget.LinearLayout;
  * Darker is just one shade darker of the current color
  * darker_with_opacity is one shade darker of current base color with opacity of 35 %
  *
- * @attr ref com.philips.cdp.uikit.R.attr.opacityStyle
+ * @attr ref com.philips.cdp.uikit.R.attr.uikit_opacityStyle
  *
  *
  */
@@ -53,16 +53,16 @@ public class UikitSpringBoardLayout extends LinearLayout {
         mContext = context;
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UikitSpringBoardLayout);
-        colorStyle = typedArray.getInt(R.styleable.UikitSpringBoardLayout_opacityStyle, 0);
+        colorStyle = typedArray.getInt(R.styleable.UikitSpringBoardLayout_uikit_opacityStyle, 0);
         typedArray.recycle();
 
-        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.darkerColor});
-        baseColor = ar.getInt(0, R.attr.baseColor);
+        TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor, R.attr.uikit_darkerColor});
+        baseColor = ar.getInt(0, R.attr.uikit_baseColor);
         if (colorStyle == 0) {
-            overlayColor = ar.getInt(1, R.attr.darkerColor);
+            overlayColor = ar.getInt(1, R.attr.uikit_darkerColor);
         } else {
 
-            overlayColor = ar.getInt(1, R.attr.darkerColor);
+            overlayColor = ar.getInt(1, R.attr.uikit_darkerColor);
             overlayColor = Color.argb(89, Color.red(overlayColor), Color.green(overlayColor), Color.blue(overlayColor));
         }
         selector = getBackgroundSelector();

@@ -63,11 +63,11 @@ public class StateControls extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.Controls, 0,
                 R.style.Controls_Style);
-        CharSequence[] texts = a.getTextArray(R.styleable.Controls_controlEntries);
-        count = a.getInt(R.styleable.Controls_controlCount, 0);
-        isMultipleChoice = a.getBoolean(R.styleable.Controls_controlMultiChoice, false);
-        buttonWidth = (int) a.getDimension(R.styleable.Controls_controlButtonWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-        buttonHeight = (int) a.getDimension(R.styleable.Controls_controlButtonHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
+        CharSequence[] texts = a.getTextArray(R.styleable.Controls_uikit_controlEntries);
+        count = a.getInt(R.styleable.Controls_uikit_controlCount, 0);
+        isMultipleChoice = a.getBoolean(R.styleable.Controls_uikit_controlMultiChoice, false);
+        buttonWidth = (int) a.getDimension(R.styleable.Controls_uikit_controlButtonWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+        buttonHeight = (int) a.getDimension(R.styleable.Controls_uikit_controlButtonHeight, ViewGroup.LayoutParams.WRAP_CONTENT);
         a.recycle();
 
         drawControls(texts, false);
@@ -247,7 +247,7 @@ public class StateControls extends LinearLayout {
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to getColor sticking with deprecated API for now
     private void init() {
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         baseColor = typedArray.getColor(0, -1);
         typedArray.recycle();
         setOrientation(LinearLayout.HORIZONTAL);

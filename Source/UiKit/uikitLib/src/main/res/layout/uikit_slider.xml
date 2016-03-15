@@ -26,7 +26,7 @@
             android:layout_marginBottom="@dimen/slider_textview_margin_bottom"
             android:lines="1"
             android:text="0"
-            android:textColor="?attr/baseColor"
+            android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/slider_text_size"
             />
     </FrameLayout>

@@ -102,7 +102,7 @@ public class BadgeView extends TextView {
     private void validateIsSmallView(AttributeSet attrs, Context context) {
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.notification_label, 0, 0);
-        isSmallSize = a.getBoolean(R.styleable.notification_label_notification_label_small, false);
+        isSmallSize = a.getBoolean(R.styleable.notification_label_uikit_notification_label_small, false);
         a.recycle();
     }
 

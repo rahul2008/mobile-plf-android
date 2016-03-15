@@ -62,7 +62,7 @@ public class UIKitButton extends AppCompatButton {
     }
 
     private void initTintList() {
-        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.baseColor, R.attr.darkerColor});
+        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor, R.attr.uikit_darkerColor});
         if (a != null) {
             int normalColor = a.getColor(0, Color.WHITE);
             int pressedColor = a.getColor(1, Color.WHITE);
@@ -97,8 +97,8 @@ public class UIKitButton extends AppCompatButton {
         Drawable wrappedDrawable = DrawableCompat.wrap(d).mutate();
         wrappedDrawable.setBounds(d.getBounds());
         if (wrappedDrawable instanceof DrawableWrapper) {
-            ((DrawableWrapper)wrappedDrawable).setTintList(mTintList);
-            ((DrawableWrapper)wrappedDrawable).setTintMode(PorterDuff.Mode.SRC_ATOP);
+            ((DrawableWrapper) wrappedDrawable).setCompatTintList(mTintList);
+            ((DrawableWrapper) wrappedDrawable).setCompatTintMode(PorterDuff.Mode.SRC_ATOP);
         } else {
             wrappedDrawable.setTintList(mTintList);
         }

@@ -10,7 +10,7 @@
         android:id="@+id/some"
         android:layout_width="match_parent"
         android:layout_height="198dp"
-        android:background="?attr/gradWindowBackground"/>
+        android:background="?attr/uikit_gradWindowBackground"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

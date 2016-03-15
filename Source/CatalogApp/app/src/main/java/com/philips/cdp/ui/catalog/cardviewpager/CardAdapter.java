@@ -33,7 +33,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TypedArray typedArray = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.verydarkBaseColor});
+        TypedArray typedArray = mContext.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_verydarkBaseColor});
         int color = typedArray.getColor(0, -1);
         typedArray.recycle();
 

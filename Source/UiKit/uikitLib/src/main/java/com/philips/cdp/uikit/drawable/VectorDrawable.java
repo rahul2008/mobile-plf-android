@@ -474,23 +474,23 @@ public class VectorDrawable extends Drawable {
         // Extract the theme attributes, if any.
 //        state.mThemeAttrs = a.extractThemeAttrs();
 
-        final int tintMode = a.getInt(R.styleable.VectorCompat_vc_tintMode, -1);
+        final int tintMode = a.getInt(R.styleable.VectorCompat_uikit_vc_tintMode, -1);
         if (tintMode != -1) {
             state.mTintMode = parseTintMode(tintMode, Mode.SRC_IN);
         }
 
-        final ColorStateList tint = a.getColorStateList(R.styleable.VectorCompat_vc_tint);
+        final ColorStateList tint = a.getColorStateList(R.styleable.VectorCompat_uikit_vc_tint);
         if (tint != null) {
             state.mTint = tint;
         }
 
         state.mAutoMirrored = a.getBoolean(
-                R.styleable.VectorCompat_vc_autoMirrored, state.mAutoMirrored);
+                R.styleable.VectorCompat_uikit_vc_autoMirrored, state.mAutoMirrored);
 
         pathRenderer.mViewportWidth = a.getFloat(
-                R.styleable.VectorCompat_vc_viewportWidth, pathRenderer.mViewportWidth);
+                R.styleable.VectorCompat_uikit_vc_viewportWidth, pathRenderer.mViewportWidth);
         pathRenderer.mViewportHeight = a.getFloat(
-                R.styleable.VectorCompat_vc_viewportHeight, pathRenderer.mViewportHeight);
+                R.styleable.VectorCompat_uikit_vc_viewportHeight, pathRenderer.mViewportHeight);
 
         if (pathRenderer.mViewportWidth <= 0) {
             throw new XmlPullParserException(a.getPositionDescription() +
@@ -1112,8 +1112,8 @@ public class VectorDrawable extends Drawable {
             mPivotY = a.getFloat(R.styleable.VectorCompatGroup_android_pivotY, mPivotY);
             mScaleX = a.getFloat(R.styleable.VectorCompatGroup_android_scaleX, mScaleX);
             mScaleY = a.getFloat(R.styleable.VectorCompatGroup_android_scaleY, mScaleY);
-            mTranslateX = a.getFloat(R.styleable.VectorCompatGroup_vc_translateX, mTranslateX);
-            mTranslateY = a.getFloat(R.styleable.VectorCompatGroup_vc_translateY, mTranslateY);
+            mTranslateX = a.getFloat(R.styleable.VectorCompatGroup_uikit_vc_translateX, mTranslateX);
+            mTranslateY = a.getFloat(R.styleable.VectorCompatGroup_uikit_vc_translateY, mTranslateY);
 
             final String groupName = a.getString(R.styleable.VectorCompatGroup_android_name);
             if (groupName != null) {
@@ -1325,7 +1325,7 @@ public class VectorDrawable extends Drawable {
                 mPathName = pathName;
             }
 
-            final String pathData = a.getString(R.styleable.VectorCompatClipPath_vc_pathData);
+            final String pathData = a.getString(R.styleable.VectorCompatClipPath_uikit_vc_pathData);
             if (pathData != null) {
                 mNodes = PathParser.createNodesFromPathData(pathData);
             }
@@ -1433,33 +1433,33 @@ public class VectorDrawable extends Drawable {
                 mPathName = pathName;
             }
 
-            final String pathData = a.getString(R.styleable.VectorCompatPath_vc_pathData);
+            final String pathData = a.getString(R.styleable.VectorCompatPath_uikit_vc_pathData);
             if (pathData != null) {
                 mNodes = PathParser.createNodesFromPathData(pathData);
             }
 
-            mFillColor =/* getColor(a, R.styleable.VectorCompatPath_vc_fillColor, theme);*/a.getColor(R.styleable.VectorCompatPath_vc_fillColor,
+            mFillColor =/* getColor(a, R.styleable.VectorCompatPath_vc_fillColor, theme);*/a.getColor(R.styleable.VectorCompatPath_uikit_vc_fillColor,
                     mFillColor);
-            mFillAlpha = a.getFloat(R.styleable.VectorCompatPath_vc_fillAlpha,
+            mFillAlpha = a.getFloat(R.styleable.VectorCompatPath_uikit_vc_fillAlpha,
                     mFillAlpha);
             mStrokeLineCap = getStrokeLineCap(a.getInt(
-                    R.styleable.VectorCompatPath_vc_strokeLineCap, -1), mStrokeLineCap);
+                    R.styleable.VectorCompatPath_uikit_vc_strokeLineCap, -1), mStrokeLineCap);
             mStrokeLineJoin = getStrokeLineJoin(a.getInt(
-                    R.styleable.VectorCompatPath_vc_strokeLineJoin, -1), mStrokeLineJoin);
+                    R.styleable.VectorCompatPath_uikit_vc_strokeLineJoin, -1), mStrokeLineJoin);
             mStrokeMiterlimit = a.getFloat(
-                    R.styleable.VectorCompatPath_vc_strokeMiterLimit, mStrokeMiterlimit);
-            mStrokeColor = a.getColor(R.styleable.VectorCompatPath_vc_strokeColor,
+                    R.styleable.VectorCompatPath_uikit_vc_strokeMiterLimit, mStrokeMiterlimit);
+            mStrokeColor = a.getColor(R.styleable.VectorCompatPath_uikit_vc_strokeColor,
                     mStrokeColor);
-            mStrokeAlpha = a.getFloat(R.styleable.VectorCompatPath_vc_strokeAlpha,
+            mStrokeAlpha = a.getFloat(R.styleable.VectorCompatPath_uikit_vc_strokeAlpha,
                     mStrokeAlpha);
-            mStrokeWidth = a.getFloat(R.styleable.VectorCompatPath_vc_strokeWidth,
+            mStrokeWidth = a.getFloat(R.styleable.VectorCompatPath_uikit_vc_strokeWidth,
                     mStrokeWidth);
-            mTrimPathEnd = a.getFloat(R.styleable.VectorCompatPath_vc_trimPathEnd,
+            mTrimPathEnd = a.getFloat(R.styleable.VectorCompatPath_uikit_vc_trimPathEnd,
                     mTrimPathEnd);
             mTrimPathOffset = a.getFloat(
-                    R.styleable.VectorCompatPath_vc_trimPathOffset, mTrimPathOffset);
+                    R.styleable.VectorCompatPath_uikit_vc_trimPathOffset, mTrimPathOffset);
             mTrimPathStart = a.getFloat(
-                    R.styleable.VectorCompatPath_vc_trimPathStart, mTrimPathStart);
+                    R.styleable.VectorCompatPath_uikit_vc_trimPathStart, mTrimPathStart);
         }
 
         @Override

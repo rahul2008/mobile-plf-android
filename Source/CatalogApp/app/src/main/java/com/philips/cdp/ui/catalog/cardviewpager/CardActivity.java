@@ -21,7 +21,7 @@ import com.philips.cdp.ui.catalog.activity.CatalogActivity;
  &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
  android:layout_width="match_parent"
  android:layout_height="match_parent"
- android:background="?attr/gradWindowBackground"
+ android:background="?attr/uikit_gradWindowBackground"
  android:gravity="center"
  android:orientation="vertical"&gt;
 

@@ -90,11 +90,11 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         } else {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekBar, 0, 0);
             setRangeValues(
-                    extractNumericValueFromAttributes(a, R.styleable.RangeSeekBar_absoluteMinValue, DEFAULT_MINIMUM),
-                    extractNumericValueFromAttributes(a, R.styleable.RangeSeekBar_absoluteMaxValue, DEFAULT_MAXIMUM));
+                    extractNumericValueFromAttributes(a, R.styleable.RangeSeekBar_uikit_absoluteMinValue, DEFAULT_MINIMUM),
+                    extractNumericValueFromAttributes(a, R.styleable.RangeSeekBar_uikit_absoluteMaxValue, DEFAULT_MAXIMUM));
             a.recycle();
 
-            TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+            TypedArray ar = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
             themebasecolor = ar.getColor(0, getResources().getColor(R.color.uikit_philips_blue));
             ar.recycle();
         }

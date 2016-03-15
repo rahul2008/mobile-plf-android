@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:isratingbarbig="true"/>
+        app:uikit_isratingbarbig="true"/>
 
     <com.philips.cdp.uikit.customviews.UIKitRatingBar
         android:id="@+id/ratingsmall"
@@ -27,6 +27,6 @@
         android:layout_alignLeft="@+id/ratingbig"
         android:layout_below="@+id/ratingbig"
         android:layout_marginTop="20dp"
-        app:isratingbarbig="false"/>
+        app:uikit_isratingbarbig="false"/>
 
 </RelativeLayout>

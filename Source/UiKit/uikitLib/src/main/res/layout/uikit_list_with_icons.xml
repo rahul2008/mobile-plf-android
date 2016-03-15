@@ -15,7 +15,7 @@
         android:layout_height="30dp"
         android:layout_centerVertical="true"
         android:visibility="gone"
-        app:themeStyle="inverted" />
+        app:uikit_themeStyle="inverted" />
 
     <TextView
         android:id="@+id/text"
@@ -27,7 +27,7 @@
         android:layout_toRightOf="@id/image"
         android:includeFontPadding="false"
         android:text="Eget Odeo"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="20sp" />
 
     <TextView
@@ -39,7 +39,7 @@
         android:layout_centerVertical="true"
         android:includeFontPadding="false"
         android:text="Eget Odeo"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="20sp"
         android:visibility="gone" />
 
@@ -66,7 +66,7 @@
         android:gravity="right"
         android:includeFontPadding="false"
         android:text="@string/uikit_fonticon_arrow_right"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="13sp"
         android:visibility="gone" />
 
@@ -82,7 +82,7 @@
         android:layout_toLeftOf="@id/arrow"
         android:includeFontPadding="false"
         android:text="Off"
-        android:textColor="?attr/listtextselector"
+        android:textColor="?attr/uikit_listtextselector"
         android:textSize="20sp"
         android:visibility="gone" />
 

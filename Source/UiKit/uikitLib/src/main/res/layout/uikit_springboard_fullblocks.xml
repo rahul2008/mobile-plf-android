@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
     android:clickable="true"
-    android:background="?attr/baseGradient"
+    android:background="?attr/uikit_baseGradient"
     android:orientation="vertical">
 
     <LinearLayout
@@ -35,7 +35,7 @@
                 android:duplicateParentState="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                app:themeStyle="theme" />
+                app:uikit_themeStyle="theme" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -47,7 +47,7 @@
                 android:duplicateParentState="true"
                 android:layout_marginTop="10dp"
                 android:text="TextView"
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -57,7 +57,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="?attr/springBoardDivider"
+            android:background="?attr/uikit_springBoardDivider"
             android:foregroundGravity="center|center_horizontal" />
 
         <LinearLayout
@@ -78,7 +78,7 @@
                 android:layout_marginTop="5dp"
                 android:duplicateParentState="true"
 
-                app:themeStyle="theme" />
+                app:uikit_themeStyle="theme" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -91,7 +91,7 @@
 
                 android:layout_marginTop="10dp"
                 android:text="TextView"
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -102,7 +102,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_centerHorizontal="true"
-        android:background="?attr/springBoardDivider"
+        android:background="?attr/uikit_springBoardDivider"
         android:foregroundGravity="center_vertical" />
 
     <LinearLayout
@@ -132,7 +132,7 @@
                 android:layout_marginTop="5dp"
                 android:duplicateParentState="true"
 
-                app:themeStyle="theme" />
+                app:uikit_themeStyle="theme" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -145,7 +145,7 @@
                 android:text="TextView"
                 android:duplicateParentState="true"
 
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -155,7 +155,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="?attr/springBoardDivider"
+            android:background="?attr/uikit_springBoardDivider"
             android:foregroundGravity="center|center_horizontal" />
 
         <LinearLayout
@@ -177,7 +177,7 @@
                 android:layout_marginTop="5dp"
                 android:duplicateParentState="true"
 
-                app:themeStyle="theme" />
+                app:uikit_themeStyle="theme" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -190,7 +190,7 @@
                 android:text="TextView"
                 android:duplicateParentState="true"
 
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -201,7 +201,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_centerHorizontal="true"
-        android:background="?attr/springBoardDivider" />
+        android:background="?attr/uikit_springBoardDivider" />
 
     <LinearLayout
         android:id="@+id/row_layout3"
@@ -232,7 +232,7 @@
                 android:layout_marginTop="5dp"
                 android:duplicateParentState="true"
 
-                app:themeStyle="theme" />
+                app:uikit_themeStyle="theme" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -246,7 +246,7 @@
                 android:text="TextView"
                 android:duplicateParentState="true"
 
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -256,7 +256,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="?attr/springBoardDivider" />
+            android:background="?attr/uikit_springBoardDivider" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -277,7 +277,7 @@
 
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="5dp"
-                app:themeStyle="theme" />
+                app:uikit_themeStyle="theme" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -291,7 +291,7 @@
                 android:text="TextView"
                 android:duplicateParentState="true"
 
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -301,7 +301,7 @@
         android:id="@+id/HorizonView3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/springBoardDivider" />
+        android:background="?attr/uikit_springBoardDivider" />
 
     <LinearLayout
         android:id="@+id/row_layout4"
@@ -331,7 +331,7 @@
                 android:layout_marginTop="5dp"
                 android:duplicateParentState="true"
 
-                app:themeStyle="theme" />
+                app:uikit_themeStyle="theme" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -344,7 +344,7 @@
                 android:text="TextView"
                 android:duplicateParentState="true"
 
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -354,7 +354,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="?attr/springBoardDivider"
+            android:background="?attr/uikit_springBoardDivider"
             android:foregroundGravity="center|center_horizontal" />
 
         <LinearLayout
@@ -377,7 +377,7 @@
                 android:duplicateParentState="true"
 
                 android:layout_marginTop="5dp"
-                app:themeStyle="theme" />
+                app:uikit_themeStyle="theme" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -390,7 +390,7 @@
                 android:text="TextView"
                 android:duplicateParentState="true"
 
-                android:textColor="?attr/springBoardTextColor"
+                android:textColor="?attr/uikit_springBoardTextColor"
                 android:textSize="16sp" />
 
         </LinearLayout>

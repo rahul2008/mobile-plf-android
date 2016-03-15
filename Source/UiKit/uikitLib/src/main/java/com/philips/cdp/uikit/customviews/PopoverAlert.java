@@ -79,10 +79,10 @@ public class PopoverAlert extends RelativeLayout {
         rightIconImageView = (ImageView) findViewById(R.id.uikit_popover_close_icon);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.popover_alert);
-        Drawable leftIcon = a.getDrawable(R.styleable.popover_alert_popover_left_icon);
-        Drawable rightIcon = a.getDrawable(R.styleable.popover_alert_popover_right_icon);
-        String titleString = (String) a.getText(R.styleable.popover_alert_popover_title_text);
-        float alpha = a.getFloat(R.styleable.popover_alert_popover_opacity,0.8f);
+        Drawable leftIcon = a.getDrawable(R.styleable.popover_alert_uikit_popover_left_icon);
+        Drawable rightIcon = a.getDrawable(R.styleable.popover_alert_uikit_popover_right_icon);
+        String titleString = (String) a.getText(R.styleable.popover_alert_uikit_popover_title_text);
+        float alpha = a.getFloat(R.styleable.popover_alert_uikit_popover_opacity,0.8f);
         a.recycle();
 
         setAlpha(alpha);

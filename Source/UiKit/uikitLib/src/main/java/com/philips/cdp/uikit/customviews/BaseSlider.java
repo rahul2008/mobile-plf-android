@@ -72,7 +72,7 @@ public class BaseSlider extends SeekBar {
     @SuppressWarnings("deprecation")
     //we need to support API lvl 14+, so cannot change to context.getColor(): sticking with deprecated API for now
     private void processAttributes() {
-        TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.baseColor});
+        TypedArray a = mcontext.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
         themeBaseColor = a.getColor(0, getResources().getColor(R.color.uikit_philips_blue));
         a.recycle();
         thumbStrokeWidth = (int) getResources().getDimension(R.dimen.slider_thumb_stroke_width);
