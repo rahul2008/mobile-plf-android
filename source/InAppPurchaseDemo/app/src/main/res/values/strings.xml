@@ -4,4 +4,7 @@
     <string name="add_to_cart">Add To Cart</string>
     <string name="no_stock">No Stock</string>
     <string name="please_wait">Please wait</string>
+    <string name="app_title">E-Commerce Demo App</string>
+    <string name="info_txt">Press Back button once logged in from user registeration.</string>
+    <string name="btn_text">Please register yourself before using App</string>
 </resources>

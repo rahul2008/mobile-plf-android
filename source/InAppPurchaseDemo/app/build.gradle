@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 22
         multiDexEnabled true
         generatedDensities = []
