@@ -64,7 +64,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         mProgressDialog = new ProgressDialog(RegistrationSampleActivity.this);
         mProgressDialog.setCancelable(false);
      //  if (RegistrationHelper.getInstance().isHsdpFlow()) {
-            mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
+            mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
       //  }
         if (RegistrationConfiguration.getInstance().isCoppaFlow()) {
             mBtnResendCoppaMail.setVisibility(View.VISIBLE);
