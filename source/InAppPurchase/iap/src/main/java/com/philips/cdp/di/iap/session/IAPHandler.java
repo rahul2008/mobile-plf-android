@@ -116,6 +116,7 @@ public class IAPHandler {
     }
 
     public void addItemtoCart(String productCTN, final IAPHandlerListner iapHandlerListner, final boolean isFromBuyNow) {
+        if (productCTN == null) return;
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.PRODUCT_CODE, productCTN);
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
@@ -137,6 +138,7 @@ public class IAPHandler {
     }
 
     public void buyNow(final String ctnNumber, final IAPHandlerListner iapHandlerListner) {
+        if (ctnNumber == null) return;
         HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         CartCurrentInfoRequest model = new CartCurrentInfoRequest(delegate.getStore(), null, null);
         model.setContext(mContext);
