@@ -117,8 +117,9 @@ public class ProductDetailFragment extends BaseAnimationSupportFragment implemen
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>)msg.obj;
         mAdapter.setAsset(mAsset);
-        mPager.setAdapter(mAdapter);
-        mPager.invalidate();
+        //mPager.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+        //mPager.invalidate();
         if(Utility.isProgressDialogShowing())
             Utility.dismissProgressDialog();
     }
