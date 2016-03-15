@@ -173,8 +173,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
             waitingUntilBondedTimer.stop();
             if (btGatt != null) {
                 btGatt.disconnect();
-            } else {
-                cleanUpAfterDisconnectOrError();
             }
         } else {
             SHNLogger.i(TAG, "ignoring 'disconnect' call; already disconnected or disconnecting");
