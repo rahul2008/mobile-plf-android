@@ -182,7 +182,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleActivate() {
         showActivateSpinner();
         mBtnActivate.setEnabled(false);
-       	mUser.refreshUser(mContext, this);
+       	mUser.refreshUser( this);
     }
 
     private void initUI(View view) {

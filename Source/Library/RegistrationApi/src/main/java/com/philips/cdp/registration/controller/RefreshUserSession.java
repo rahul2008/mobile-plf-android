@@ -3,6 +3,7 @@ package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 
+import com.janrain.android.JumpConfig;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.utils.Profile;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;

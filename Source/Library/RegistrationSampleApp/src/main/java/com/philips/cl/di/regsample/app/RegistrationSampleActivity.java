@@ -141,7 +141,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
             case R.id.btn_refresh_token:
                 if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
                     User user = new User(mContext);
-                    if (!user.isUserSignIn(mContext)) {
+                    if (!user.isUserSignIn()) {
                         Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
                     } else {
                         mProgressDialog.setMessage("Refreshing...");
@@ -170,7 +170,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     private void handleRefreshAccessToken() {
 
       final  User user = new User(this);
-        if(user.isUserSignIn(this)){
+        if(user.isUserSignIn()){
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {

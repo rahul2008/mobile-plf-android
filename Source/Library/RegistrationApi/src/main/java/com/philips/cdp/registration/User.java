@@ -8,7 +8,6 @@ import com.janrain.android.Jump;
 import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
-import com.philips.cdp.registration.utils.Profile;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.AddConsumerInterest;
 import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
@@ -25,7 +24,6 @@ import com.philips.cdp.registration.dao.ConsumerArray;
 import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
@@ -42,8 +40,8 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.utils.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,20 +105,10 @@ public class User {
 
     public User(Context context) {
         mContext = context;
-        mUpdateUserRecordHandler = new UpdateUserRecord(context);
+        mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
         mRegistrationHelper = UserRegistrationInitializer.getInstance();
     }
 
-
-    private boolean isJumpInitializated() {
-
-        return !mRegistrationHelper.isJumpInitializationInProgress() && mRegistrationHelper.isJanrainIntialized();
-    }
-
-    private boolean isJumpInitializationInProgress() {
-        return mRegistrationHelper.isJumpInitializationInProgress() && !mRegistrationHelper.isJanrainIntialized();
-
-    }
 
     // For Traditional SignIn
     public void loginUsingTraditional(final String emailAddress, final String password,
@@ -421,10 +409,10 @@ public class User {
     }
 
 
-    public boolean isUserSignIn(Context context) {
+    public boolean isUserSignIn() {
         CaptureRecord capturedRecord = Jump.getSignedInUser();
         if (capturedRecord == null) {
-            capturedRecord = CaptureRecord.loadFromDisk(context);
+            capturedRecord = CaptureRecord.loadFromDisk(mContext);
         }
         if (capturedRecord == null) {
             return false;
@@ -433,16 +421,13 @@ public class User {
         boolean signedIn = true;
         if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
             signedIn = signedIn && !capturedRecord.isNull(USER_EMAIL_VERIFIED);
-            Log.i("Signin ", "isEmailVerificationRequired + Value :" + signedIn);
         }
         if (RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
-            HsdpUser hsdpUser = new HsdpUser(context);
+            HsdpUser hsdpUser = new HsdpUser(mContext);
             signedIn = signedIn && hsdpUser.isHsdpUserSignedIn();
-            Log.i("Signin ", "isHsdpFlow + Value :" + signedIn);
         }
         if (RegistrationConfiguration.getInstance().getJanRainConfiguration() != null) {
             signedIn = signedIn && capturedRecord.getAccessToken() != null;
-            Log.i("Signin ", "getJanRainConfiguration + Value :" + signedIn);
         }
         return signedIn;
     }
@@ -500,38 +485,6 @@ public class User {
             final boolean receiveMarketingEmail) {
 
         refreshReceiveMarketignEmail(updateReceiveMarketingEmail, receiveMarketingEmail);
-
-      /*  UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new UpdateReceiveMarketingEmail(updateReceiveMarketingEmail, mContext, receiveMarketingEmail);
-        updateReceiveMarketingEmailHandler.updateReceiveMarketingEmailStatus(receiveMarketingEmail);*/
-
-       /* mRegistrationHelper.registerJumpFlowDownloadListener(new JumpFlowDownloadStatusListener() {
-            @Override
-            public void onFlowDownloadSuccess() {
-                if (updateReceiveMarketingEmail != null) {
-                    refreshReceiveMarketignEmail(updateReceiveMarketingEmail, receiveMarketingEmail);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-
-            }
-
-            @Override
-            public void onFlowDownloadFailure() {
-                if (updateReceiveMarketingEmail != null) {
-                    updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(RegConstants.UPDATE_MARKETING_EMAIL_FAILED_SERVER_ERROR);
-                }
-                mRegistrationHelper.unregisterJumpFlowDownloadListener();
-            }
-        });
-
-
-        if (isJumpInitializated()) {
-            if (updateReceiveMarketingEmail != null) {
-                refreshReceiveMarketignEmail(updateReceiveMarketingEmail, receiveMarketingEmail);
-            }
-            return;
-        } else if (!isJumpInitializationInProgress()) {
-            RegistrationHelper.getInstance().initializeUserRegistration(mContext, RegistrationHelper.getInstance().getLocale());
-        }*/
 
     }
 
@@ -622,7 +575,7 @@ public class User {
         return captureRecord.getAccessToken();
     }
 
-    private void refreshandUpdateUser(final Context context, final RefreshUserHandler handler) {
+    private void refreshandUpdateUser( final RefreshUserHandler handler) {
 
         if (Jump.getSignedInUser() == null) {
             handler.onRefreshUserFailed(0);
@@ -632,7 +585,7 @@ public class User {
 
             @Override
             public void onSuccess(JSONObject response) {
-                Jump.saveToDisk(context);
+                Jump.saveToDisk(mContext);
                 buildCoppaConfiguration();
                 if (!RegistrationConfiguration.getInstance().getHsdpConfiguration().isHsdpFlow()) {
                     handler.onRefreshUserSuccess();
@@ -642,7 +595,7 @@ public class User {
                 if (getEmailVerificationStatus()) {
                     Profile profile = new Profile(mContext);
                     DIUserProfile userProfile = profile.getDIUserProfileFromDisk();
-                    HsdpUser hsdpUser = new HsdpUser(context);
+                    HsdpUser hsdpUser = new HsdpUser(mContext);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
                     if (userProfile != null && null != userProfile.getEmail() && null != ABCD.getInstance().getmP() && hsdpUserRecord == null) {
                         LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
@@ -703,11 +656,10 @@ public class User {
     /**
      * Refresh User object and align with Server
      *
-     * @param context Application context
      * @param handler Callback mHandler
      */
-    public void refreshUser(final Context context, final RefreshUserHandler handler) {
-        refreshandUpdateUser(context, handler);
+    public void refreshUser( final RefreshUserHandler handler) {
+        refreshandUpdateUser( handler);
     }
 
     public void buildCoppaConfiguration() {
@@ -863,5 +815,4 @@ public class User {
         }
         return diUserProfile.getCountryCode();
     }
-
 }

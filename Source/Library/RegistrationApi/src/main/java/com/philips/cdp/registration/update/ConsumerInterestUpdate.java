@@ -137,7 +137,7 @@ public class ConsumerInterestUpdate {
                     JSONObject jsonObject = new JSONObject(resultString);
                     if ("ok".equals(jsonObject.opt("stat"))) {
                         User user = new User(mContext);
-                        user.refreshUser(mContext, new RefreshUserHandler() {
+                        user.refreshUser(new RefreshUserHandler() {
                             @Override
                             public void onRefreshUserSuccess() {
                                 updateConsumerInterestHandler.onUpdateConsumerInterestSuccess();
