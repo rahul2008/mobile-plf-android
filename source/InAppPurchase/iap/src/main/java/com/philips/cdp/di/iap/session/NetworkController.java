@@ -71,10 +71,7 @@ public class NetworkController {
                         .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
                         requestListener.getClass().getSimpleName());
                 if (requestListener != null) {
-                    Message msg = Message.obtain();
-                    msg.what = requestCode;
-                    msg.obj = new IAPNetworkError(error);
-                    requestListener.onError(msg);
+                    new IAPNetworkError(context, error, requestCode, requestListener);
                 }
             }
         };
