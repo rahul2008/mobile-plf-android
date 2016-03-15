@@ -51,23 +51,23 @@ public class ProductListAdapter extends BaseAdapter {
         }
 
         final ShoppingCartData currentProduct = getItem(position);
+        if (null != currentProduct && null != mContext) {
+            mViewHolder.name.setText(currentProduct.getCtnNumber());
 
-        mViewHolder.name.setText(currentProduct.getCtnNumber());
+            mViewHolder.addToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((DemoAppActivity) mContext).addToCart(currentProduct.getCtnNumber());
+                }
+            });
 
-        mViewHolder.addToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((DemoAppActivity) mContext).addToCart(currentProduct.getCtnNumber());
-            }
-        });
-
-        mViewHolder.buyNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((DemoAppActivity) mContext).buyNow(currentProduct.getCtnNumber());
-            }
-        });
-
+            mViewHolder.buyNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((DemoAppActivity) mContext).buyNow(currentProduct.getCtnNumber());
+                }
+            });
+        }
         return convertView;
     }
 

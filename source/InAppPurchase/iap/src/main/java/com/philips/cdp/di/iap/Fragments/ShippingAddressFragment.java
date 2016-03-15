@@ -46,6 +46,7 @@ import com.philips.cdp.uikit.drawable.VectorDrawable;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ShippingAddressFragment extends BaseAnimationSupportFragment
         implements View.OnClickListener, AddressController.AddressListener,
@@ -203,15 +204,15 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         if (v == mBtnContinue) {
             //Edit and save address
             if (mBtnContinue.getText().toString().equalsIgnoreCase(getString(R.string.iap_save))) {
-                if (Utility.isInternetConnected(mContext)) {
-                    if (!Utility.isProgressDialogShowing()) {
+                if (!Utility.isProgressDialogShowing()) {
+                    if (Utility.isInternetConnected(mContext)) {
                         Utility.showProgressDialog(mContext, getString(R.string.iap_update_address));
                         HashMap<String, String> addressHashMap = addressPayload();
                         mAddressController.updateAddress(addressHashMap);
+                    } else {
+                        NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
+                                getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                     }
-                } else {
-                    NetworkUtility.getInstance().showErrorDialog(getFragmentManager(), getString(R.string.iap_ok),
-                            getString(R.string.iap_network_error), getString(R.string.iap_check_connection));
                 }
             } else {//Add new address
                 if (!Utility.isProgressDialogShowing()) {
@@ -315,6 +316,10 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
             mAddressFields.setTown(town);
             mAddressFields.setPhoneNumber(phoneNumber);
             mAddressFields.setEmail(email);
+
+            if (mlLState.getVisibility() == View.VISIBLE) {
+                mAddressFields.setState(mEtState.getText().toString());
+            }
 
             mBtnContinue.setEnabled(true);
         } else {
@@ -452,13 +457,13 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         }
     }
 
-    private HashMap<String,String> addressPayload() {
-        HashMap<String,String> addressHashMap = new HashMap<>();
+    private HashMap<String, String> addressPayload() {
+        HashMap<String, String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, mEtFirstName.getText().toString());
         addressHashMap.put(ModelConstants.LAST_NAME, mEtLastName.getText().toString());
         addressHashMap.put(ModelConstants.LINE_1, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.LINE_2, mEtAddressLineTwo.getText().toString());
-        addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase());
+        addressHashMap.put(ModelConstants.TITLE_CODE, mEtSalutation.getText().toString().toLowerCase(Locale.getDefault()));
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, mEtCountry.getText().toString());
         addressHashMap.put(ModelConstants.POSTAL_CODE, mEtPostalCode.getText().toString());
         addressHashMap.put(ModelConstants.TOWN, mEtTown.getText().toString());
@@ -466,12 +471,17 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, mEtAddressLineOne.getText().toString());
         addressHashMap.put(ModelConstants.PHONE_NUMBER, mEtPhoneNumber.getText().toString());
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
+
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mAddressFields.setState(mEtState.getText().toString());
+        }
+
         return addressHashMap;
     }
 
     private void updateFields() {
         Bundle bundle = getArguments();
-        mAddressFieldsHashmap = (HashMap<String,String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+        mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
         if (null == mAddressFieldsHashmap) {
             return;
         }
@@ -488,10 +498,18 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtPhoneNumber.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_NUMBER));
         mEtEmail.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
 
+        if (mAddressFieldsHashmap.containsKey(ModelConstants.STATE) &&
+                mAddressFieldsHashmap.get(ModelConstants.STATE) != null) {
+            mEtState.setText(mAddressFieldsHashmap.get(ModelConstants.STATE));
+            mlLState.setVisibility(View.VISIBLE);
+        } else {
+            mlLState.setVisibility(View.GONE);
+        }
+
         setRequestFocus();
     }
 
-    private void setRequestFocus(){
+    private void setRequestFocus() {
         mEtFirstName.requestFocus();
         mEtLastName.requestFocus();
         mEtSalutation.requestFocus();
@@ -502,6 +520,9 @@ public class ShippingAddressFragment extends BaseAnimationSupportFragment
         mEtCountry.requestFocus();
         mEtEmail.requestFocus();
         mEtPhoneNumber.requestFocus();
+        if (mlLState.getVisibility() == View.VISIBLE) {
+            mEtState.requestFocus();
+        }
     }
 
     @Override

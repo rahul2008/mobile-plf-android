@@ -64,6 +64,7 @@ public class NetworkController {
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model, final
     RequestListener requestListener) {
+
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
@@ -71,10 +72,7 @@ public class NetworkController {
                         .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
                         requestListener.getClass().getSimpleName());
                 if (requestListener != null) {
-                    Message msg = Message.obtain();
-                    msg.what = requestCode;
-                    msg.obj = new IAPNetworkError(error);
-                    requestListener.onError(msg);
+                    new IAPNetworkError(context, error, requestCode, requestListener);
                 }
             }
         };

@@ -31,6 +31,10 @@ public class AddressFields implements Serializable {
         return email;
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

@@ -42,6 +42,7 @@ import com.philips.cdp.di.iap.view.EditDeletePopUP;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class AddressSelectionFragment extends BaseAnimationSupportFragment implements AddressController.AddressListener,
         EventListener, PaymentController.PaymentListener {
@@ -290,7 +291,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         HashMap<String, String> addressHashMap = new HashMap<>();
 
         String titleCode = address.getTitleCode();
-        titleCode = titleCode.substring(0, 1).toUpperCase() + titleCode.substring(1);
+        titleCode = titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1);
 
         addressHashMap.put(ModelConstants.FIRST_NAME, address.getFirstName());
         addressHashMap.put(ModelConstants.LAST_NAME, address.getLastName());
@@ -368,7 +369,7 @@ public class AddressSelectionFragment extends BaseAnimationSupportFragment imple
         }
         if (addr.getTitleCode() != null) {
             String titleCode = addr.getTitleCode();
-            fields.setTitleCode(titleCode.substring(0, 1).toUpperCase() + titleCode.substring(1));
+            fields.setTitleCode(titleCode.substring(0, 1).toUpperCase(Locale.getDefault()) + titleCode.substring(1));
         }
         if (addr.getLine1() != null) {
             fields.setLine1(addr.getLine1());

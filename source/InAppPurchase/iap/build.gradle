@@ -116,6 +116,7 @@ android {
             minifyEnabled false
             testCoverageEnabled true
         }
+
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -128,6 +129,9 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 

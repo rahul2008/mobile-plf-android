@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.container;
 import com.philips.cdp.di.iap.ShoppingCart.ShoppingCartData;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
+import com.philips.cdp.di.iap.utils.IAPConfiguration;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,16 @@ public class CartModelContainer {
     private ArrayList<ShoppingCartData> mShoppingCartData;
     private AddressFields mShippingAddressFields;
     private String cartNumber;
+
+    public IAPConfiguration getIapConfiguration() {
+        return iapConfiguration;
+    }
+
+    public void setIapConfiguration(IAPConfiguration iapConfiguration) {
+        this.iapConfiguration = iapConfiguration;
+    }
+
+    private IAPConfiguration iapConfiguration;
 
     public static CartModelContainer getInstance() {
         synchronized (CartModelContainer.class) {
