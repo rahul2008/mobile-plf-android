@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.philips.cdp.di.iap.Fragments.ProductDetailImageNavigationFragment;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ImageAdaptor extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         ProductDetailImageNavigationFragment productDetailImageNavigationFragment =  ProductDetailImageNavigationFragment.newInstance();
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.IAP_ASSET_URL,mAssetsFromPRX.get(position % mAssetsFromPRX.size()));
+        bundle.putString(NetworkConstants.IAP_ASSET_URL,mAssetsFromPRX.get(position % mAssetsFromPRX.size()));
         productDetailImageNavigationFragment.setArguments(bundle);
         return productDetailImageNavigationFragment;
     }

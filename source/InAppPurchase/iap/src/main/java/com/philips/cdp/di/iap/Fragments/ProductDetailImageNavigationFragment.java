@@ -13,6 +13,7 @@ import android.widget.LinearLayout.LayoutParams;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -40,7 +41,7 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle bundle = getArguments();
-        this.imageURL = bundle.getString(IAPConstant.IAP_ASSET_URL);
+        this.imageURL = bundle.getString(NetworkConstants.IAP_ASSET_URL);
 
         bindImageToViewPager();
         LinearLayout layout = new LinearLayout(getActivity());
