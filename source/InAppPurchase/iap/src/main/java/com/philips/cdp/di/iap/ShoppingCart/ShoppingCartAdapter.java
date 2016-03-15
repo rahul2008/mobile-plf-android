@@ -39,8 +39,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context mContext;
     private Resources mResources;
-    private ArrayList<ShoppingCartData> mData = new ArrayList<ShoppingCartData>();
-    private LayoutInflater mInflater;
+    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
     private ShoppingCartPresenter mPresenter;
     private Drawable countArrow;
     private UIKitListPopupWindow mPopupWindow;
@@ -60,7 +59,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData, android.support.v4.app.FragmentManager fragmentManager, OutOfStockListener iOutOfStock) {
         mContext = context;
         mResources = context.getResources();
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = shoppingCartData;
         mPresenter = new ShoppingCartPresenter(context, this,fragmentManager);
         mFragmentManager = fragmentManager;
@@ -131,7 +130,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void bindDeleteOrInfoPopUP(final View view, final int selectedItem) {
-        List<RowItem> rowItems = new ArrayList<RowItem>();
+        List<RowItem> rowItems = new ArrayList<>();
 
         String delete = mResources.getString(R.string.iap_delete);
         String info = mResources.getString(R.string.iap_info);
@@ -201,7 +200,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
-                ShoppingCartData data = null;
+                ShoppingCartData data;
                 if (mData.get(0) != null) {
                     data = mData.get(0);
 

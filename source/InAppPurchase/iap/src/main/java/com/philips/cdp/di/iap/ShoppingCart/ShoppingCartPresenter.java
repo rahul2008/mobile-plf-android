@@ -43,7 +43,7 @@ public class ShoppingCartPresenter {
 
     public ShoppingCartPresenter(Context context, LoadListener listener, android.support.v4.app.FragmentManager fragmentManager) {
         mContext = context;
-        mProductData = new ArrayList<ShoppingCartData>();
+        mProductData = new ArrayList<>();
         mLoadListener = listener;
         mFragmentManager = fragmentManager;
     }
