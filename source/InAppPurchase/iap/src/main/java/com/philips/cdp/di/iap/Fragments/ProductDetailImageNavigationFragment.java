@@ -1,8 +1,6 @@
 package com.philips.cdp.di.iap.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +17,11 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public final class ProductDetailImageNavigationFragment extends BaseAnimationSupportFragment {
     private String imageURL = "???";
-   // private Context mContext;
     private ImageLoader mImageLoader;
     private NetworkImageView mImageView;
 
     public static ProductDetailImageNavigationFragment newInstance() {
-        ProductDetailImageNavigationFragment fragment = new ProductDetailImageNavigationFragment();
-        //fragment.imageURL = message;
-        return fragment;
+        return new ProductDetailImageNavigationFragment();
     }
 
     @Override
@@ -39,7 +34,6 @@ public final class ProductDetailImageNavigationFragment extends BaseAnimationSup
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         Bundle bundle = getArguments();
         this.imageURL = bundle.getString(NetworkConstants.IAP_ASSET_URL);
 

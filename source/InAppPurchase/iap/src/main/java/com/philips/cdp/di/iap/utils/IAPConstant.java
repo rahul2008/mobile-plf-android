@@ -18,7 +18,6 @@ public class IAPConstant {
     public static final String PRODUCT_CTN = "PRODUCT_CTN";
     public static final String PRODUCT_PRICE = "PRODUCT_PRICE";
     public static final String PRODUCT_OVERVIEW = "PRODUCT_OVERVIEW";
-    public static final String SHOPPING_CART_LIST = "SHOPPING_CART_LIST";
     public static final String UPDATE_SHIPPING_ADDRESS_KEY = "UPDATE_SHIPPING_ADDRESS_KEY";
     public static final String MODEL_ALERT_BUTTON_TEXT = "MODEL_ALERT_BUTTON_TEXT";
     public static final String MODEL_ALERT_ERROR_TEXT = "MODEL_ALERT_ERROR_TEXT";
@@ -33,7 +32,6 @@ public class IAPConstant {
     public static final String ADD_NEW_PAYMENT = "ADD_NEW_PAYMENT";
     public static final String SELECTED_PAYMENT = "SELECTED_PAYMENT";
     public static final String PRODUCT_DETAIL_FRAGMENT_IMAGE_URL = "PRODUCT_DETAIL_FRAGMENT_IMAGE_URL";
-    public static final String PRODUCT_CURRENCY = "PRODUCT_CURRENCY";
     public final static String NEW_LINE_ESCAPE_CHARACTER = "\n";
     public static final String INSUFFICIENT_STOCK_LEVEL_ERROR = "InsufficientStockLevelError";
 }

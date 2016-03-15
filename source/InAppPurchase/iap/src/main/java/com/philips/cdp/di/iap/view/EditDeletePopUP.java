@@ -18,10 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditDeletePopUP {
-
-    private final int OPTION_EDIT = 0;
-    private final int OPTION_DELETE = 1;
-
     public static final String EVENT_EDIT = "event_edit";
     public static final String EVENT_DELETE = "event_delete";
 
@@ -30,6 +26,7 @@ public class EditDeletePopUP {
     AdapterView.OnItemClickListener mListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+            final int OPTION_EDIT = 0;
             String event = position == OPTION_EDIT ? EVENT_EDIT : EVENT_DELETE;
             EventHelper.getInstance().notifyEventOccurred(event);
             dismiss();
@@ -53,7 +50,7 @@ public class EditDeletePopUP {
     }
 
     private List<RowItem> createRowItems(Context context) {
-        List<RowItem> rowItems = new ArrayList<RowItem>();
+        List<RowItem> rowItems = new ArrayList<>();
         String edit = context.getResources().getString(R.string.iap_edit);
         String delete = context.getResources().getString(R.string.iap_delete);
         String[] desc = {edit, delete};
