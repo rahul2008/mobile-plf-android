@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.utility;
 
+import android.os.*;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -25,6 +26,13 @@ public class SHNLogger {
 
     public interface LoggerImplementation {
         void logLine(int priority, String tag, String msg, Throwable tr);
+    }
+
+    /**
+     *
+     */
+    public static void setLoggingHandler(Handler handler) {
+        ROOT_LOGGER.setLoggingHandler(handler);
     }
 
     /**
@@ -222,12 +230,29 @@ public class SHNLogger {
     private static class DelegatingLogger implements LoggerImplementation {
 
         private final List<LoggerImplementation> loggers = new ArrayList<>();
+        private Handler loggingHandler;
 
         @Override
         public void logLine(final int priority, final String tag, final String msg, final Throwable tr) {
-            for (final LoggerImplementation logger : loggers) {
-                logger.logLine(priority, tag, msg, tr);
+            if (loggingHandler != null) {
+                final String logMsg = String.format("[TID: %d] %s", android.os.Process.myTid(), msg);
+                for (final LoggerImplementation logger : loggers) {
+                    loggingHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            logger.logLine(priority, tag, logMsg, tr);
+                        }
+                    });
+                }
+            } else {
+                for (final LoggerImplementation logger : loggers) {
+                    logger.logLine(priority, tag, msg, tr);
+                }
             }
+        }
+
+        public void setLoggingHandler(Handler handler) {
+            loggingHandler = handler;
         }
     }
 

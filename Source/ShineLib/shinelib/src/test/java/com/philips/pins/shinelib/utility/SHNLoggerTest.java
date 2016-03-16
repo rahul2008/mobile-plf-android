@@ -2,6 +2,9 @@ package com.philips.pins.shinelib.utility;
 
 import android.util.Log;
 
+import com.philips.pins.shinelib.RobolectricTest;
+import com.philips.pins.shinelib.helper.MockedHandler;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -14,7 +17,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SHNLoggerTest {
+public class SHNLoggerTest extends RobolectricTest {
 
     @Mock
     SHNLogger.LoggerImplementation mockedImplementation1;
@@ -27,12 +30,15 @@ public class SHNLoggerTest {
 
     public static final String TEST_TAG = "This Is a Tag";
     public static final String TEST_MSG = "This is a message\n over two lines";
+    public static final String LOGGER_HANDLER_PREFIX = "[TID: 0] ";
+    public static final String TEST_MSG_ON_LOGGER_HANDLER = LOGGER_HANDLER_PREFIX + TEST_MSG;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
         SHNLogger.registerLogger(mockedImplementation1);
         SHNLogger.registerLogger(mockedImplementation2);
+        SHNLogger.setLoggingHandler(null);
     }
 
     private void verifyForwarded(int priority, String tag, String msg, Throwable tr) {
@@ -113,5 +119,19 @@ public class SHNLoggerTest {
     @Test
     public void ShouldBePossibleToCreateALogCatLogger() throws Exception {
         assertNotNull(new SHNLogger.LogCatLogger());
+    }
+
+    @Test
+    public void ShouldCallAllRegisteredLoggersViaTheLoggingHandler_When_WTF_LoggingFunctionIsCalled() throws Exception {
+        final MockedHandler mockedHandler = new MockedHandler();
+        SHNLogger.setLoggingHandler(mockedHandler.getMock());
+        SHNLogger.wtf(TEST_TAG, TEST_MSG);
+        verifyForwarded(Log.ASSERT, TEST_TAG, TEST_MSG_ON_LOGGER_HANDLER, null);
+
+        SHNLogger.wtf(TEST_TAG, TEST_MSG, mockedThrowable);
+        verifyForwarded(Log.ASSERT, TEST_TAG, TEST_MSG_ON_LOGGER_HANDLER, mockedThrowable);
+
+        SHNLogger.wtf(TEST_TAG, mockedThrowable);
+        verifyForwarded(Log.ASSERT, TEST_TAG, LOGGER_HANDLER_PREFIX, mockedThrowable);
     }
 }

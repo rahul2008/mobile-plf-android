@@ -26,6 +26,7 @@ import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.utility.DataMigrater;
 import com.philips.pins.shinelib.utility.LoggingExceptionHandler;
 import com.philips.pins.shinelib.utility.PersistentStorageFactory;
+import com.philips.pins.shinelib.utility.SHNLogger;
 import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
@@ -113,6 +114,8 @@ public class SHNCentral {
             handler = new Handler(Looper.getMainLooper());
         }
         this.userHandler = handler;
+
+        SHNLogger.setLoggingHandler(this.userHandler);
 
         // Check that the device supports BLE.
         if (!BleUtilities.deviceHasBle()) {
