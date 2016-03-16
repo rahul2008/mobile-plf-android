@@ -37,7 +37,7 @@
     <string name="iap_address_line_two_hint">(optional)</string>
     <string name="iap_town">Town/City</string>
     <string name="iap_town_hint">Enter your town or city</string>
-    <string name="iap_postal_code">Postal Code</string>
+    <string name="iap_postal_code">Postal code</string>
     <string name="iap_postal_code_hint">Enter ZIP/Postal code</string>
     <string name="iap_country">Country</string>
     <string name="iap_country_hint">Enter your country</string>
