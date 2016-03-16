@@ -16,6 +16,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.shamanland:fonticon:0.1.+'
+        classpath 'com.mcxiaoke.volley:library:1.0.+'
+        classpath 'com.google.code.gson:gson:2.2.+'
     }
 }
 //apply plugin: 'com.jfrog.artifactory-upload'
