@@ -20,11 +20,6 @@ public class CreateAddressRequest extends AbstractModel {
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(Object response) {
         return new Gson().fromJson(response.toString(), Addresses.class);
     }
@@ -50,7 +45,7 @@ public class CreateAddressRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         return store.getAddressDetailsUrl();
     }
 }

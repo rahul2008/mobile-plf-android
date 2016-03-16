@@ -37,8 +37,8 @@ public class DeleteAddressRequestTest extends TestCase {
 //    @Test
 //    public void testTestingUrilIsNotNull() {
 //        DeleteAddressRequest request = Mockito.mock(DeleteAddressRequest.class);
-//        Mockito.when(request.getTestUrl()).thenReturn(NetworkConstants.UPDATE_OR_DELETE_ADDRESS_URL);
-//        assertNotNull(request.getTestUrl());
+//        Mockito.when(request.getUrl()).thenReturn(NetworkConstants.UPDATE_OR_DELETE_ADDRESS_URL);
+//        assertNotNull(request.getUrl());
 //    }
 
     @Test

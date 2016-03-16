@@ -14,11 +14,6 @@ public class GetPaymentDetailRequest extends AbstractModel {
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(Object response) {
         return new Gson().fromJson(response.toString(), PaymentMethods.class);
     }
@@ -34,7 +29,7 @@ public class GetPaymentDetailRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         return store.getPaymentDetailsUrl();
     }
 }

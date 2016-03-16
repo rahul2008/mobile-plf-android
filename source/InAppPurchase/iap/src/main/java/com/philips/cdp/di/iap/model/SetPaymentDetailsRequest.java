@@ -14,11 +14,6 @@ public class SetPaymentDetailsRequest extends AbstractModel{
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(Object response) {
         return null;
     }
@@ -36,7 +31,7 @@ public class SetPaymentDetailsRequest extends AbstractModel{
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         return store.getPaymentDetailsUrl();
     }
 }

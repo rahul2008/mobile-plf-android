@@ -16,11 +16,6 @@ public class CartDeleteProductRequest extends AbstractModel {
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(final Object response) {
         return null;
     }
@@ -39,7 +34,7 @@ public class CartDeleteProductRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         if (params == null) {
             throw new RuntimeException("Cart ID and Entry Number has to be supplied");
         }

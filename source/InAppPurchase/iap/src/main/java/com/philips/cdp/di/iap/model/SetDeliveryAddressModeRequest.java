@@ -18,11 +18,6 @@ public class SetDeliveryAddressModeRequest extends AbstractModel {
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(final Object response) {
         return IAPConstant.IAP_SUCCESS;
     }
@@ -40,7 +35,7 @@ public class SetDeliveryAddressModeRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         return store.getUpdateDeliveryModeUrl();
     }
 }

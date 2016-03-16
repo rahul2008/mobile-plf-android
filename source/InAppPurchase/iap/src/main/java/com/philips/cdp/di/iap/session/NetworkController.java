@@ -11,7 +11,6 @@ import com.android.volley.toolbox.Volley;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.Store;
-import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
@@ -96,24 +95,13 @@ public class NetworkController {
             }
         };
 
-        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(), getTargetUrl(model),
+        IAPJsonRequest jsObjRequest = new IAPJsonRequest(model.getMethod(), model.getUrl(),
                 model.requestBody(), response, error);
         addToVolleyQueue(jsObjRequest);
     }
 
     public void addToVolleyQueue(final IAPJsonRequest jsObjRequest) {
         hybirsVolleyQueue.add(jsObjRequest);
-    }
-
-    /**
-     * @param model
-     * @return Url String
-     */
-    private String getTargetUrl(AbstractModel model) {
-        if (IAPConstant.TEST_MODE) {
-            return model.getTestUrl();
-        }
-        return model.getProductionUrl();
     }
 
     public SSLSocketFactory buildSslSocketFactory(Context context) {

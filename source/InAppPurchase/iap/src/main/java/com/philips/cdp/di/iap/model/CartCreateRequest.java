@@ -17,11 +17,6 @@ public class CartCreateRequest extends AbstractModel {
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(final Object response) {
         return new Gson().fromJson(response.toString(), CreateCartData.class);
     }
@@ -37,7 +32,7 @@ public class CartCreateRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         return store.getCreateCartUrl();
     }
 }

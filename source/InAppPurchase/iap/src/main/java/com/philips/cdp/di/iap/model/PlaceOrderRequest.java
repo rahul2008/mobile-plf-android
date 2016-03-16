@@ -19,11 +19,6 @@ public class PlaceOrderRequest extends AbstractModel {
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(final Object response) {
         return new Gson().fromJson(response.toString(), PlaceOrder.class);
     }
@@ -42,7 +37,7 @@ public class PlaceOrderRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         return store.getPlaceOrderUrl();
     }
 }

@@ -20,11 +20,6 @@ public class PaymentRequest extends AbstractModel {
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(final Object response) {
         return new Gson().fromJson(response.toString(), MakePaymentData.class);
     }
@@ -53,7 +48,7 @@ public class PaymentRequest extends AbstractModel {
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         return store.getSetPaymentUrl(params.get(ModelConstants.ORDER_NUMBER));
     }
 }

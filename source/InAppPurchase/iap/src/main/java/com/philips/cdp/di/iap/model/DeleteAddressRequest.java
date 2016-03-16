@@ -16,11 +16,6 @@ public class DeleteAddressRequest extends AbstractModel{
     }
 
     @Override
-    public String getProductionUrl() {
-        return null;
-    }
-
-    @Override
     public Object parseResponse(final Object response) {
         return null;
     }
@@ -36,7 +31,7 @@ public class DeleteAddressRequest extends AbstractModel{
     }
 
     @Override
-    public String getTestUrl() {
+    public String getUrl() {
         if (params == null || !params.containsKey(ModelConstants.ADDRESS_ID) ||
                 !params.containsKey(ModelConstants.ADDRESS_ID)) {
             throw new RuntimeException("Address Id must be specified");
