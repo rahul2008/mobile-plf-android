@@ -3,10 +3,7 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Application;
 
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationDynamicConfiguration;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -24,7 +21,7 @@ public class RegistrationApplication extends Application {
 		Tagging.enableAppTagging(true);
 		Tagging.setTrackingIdentifier("integratingApplicationAppsId");
 		Tagging.setLaunchingPageName("demoapp:home");
-		RegistrationConfiguration.getInstance().setCoppaFlow(true);
+		RegistrationConfiguration.getInstance().setCoppaFlow(false);
 		RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
 		initRegistration();
 		//	RegistrationHelper.getInstance().initializeUserRegistration(getApplicationContext(), Locale.getDefault());
@@ -81,13 +78,13 @@ public class RegistrationApplication extends Application {
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.STAGING,hsdpInfo);
 */
 
-		HSDPInfo hsdpInfo = new HSDPInfo();
+		/*HSDPInfo hsdpInfo = new HSDPInfo();
 		hsdpInfo.setApplicationName("uGrowApp");
 		hsdpInfo.setSharedId("f129afcc-55f4-11e5-885d-feff819cdc9f");
 		hsdpInfo.setSecretId("f129b5a8-55f4-11e5-885d-feff819cdc9f");
 		hsdpInfo.setBaseURL("https://newuser-registration-assembly15.cloud.pcftest.com");
 		RegistrationDynamicConfiguration.getInstance().getHsdpConfiguration().setHSDPInfo(Configuration.EVALUATION,hsdpInfo);
-
+*/
 		RegistrationHelper.getInstance().initializeUserRegistration(this, Locale.getDefault());
 		Tagging.init(Locale.getDefault(), this,"Philips Registration");
 	}
