@@ -142,3 +142,7 @@
 -keep class java.nio.**
 -keep class org.codehaus.**
 
+
+
+-keepattributes Signature
+-keepattributes InnerClasses,EnclosingMethod
